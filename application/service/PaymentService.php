@@ -214,7 +214,6 @@ class PaymentService
     public static function BuyPaymentList($params = [])
     {
         $data = self::PaymentList($params);
-
         $result = [];
         if(!empty($data))
         {
@@ -223,6 +222,7 @@ class PaymentService
                 // 根据终端类型筛选
                 if(in_array(APPLICATION_CLIENT_TYPE, $v['apply_terminal']))
                 {
+                    unset($v['config'], $v['element'], $v['apply_terminal'], $v['author'], $v['author_url'], $v['is_open_user'], $v['is_enable']);
                     $result[] = $v;
                 }
             }
@@ -237,11 +237,21 @@ class PaymentService
      * @version 1.0.0
      * @date    2018-09-19
      * @desc    description
-     * @param   [int]          $order_id [订单id]
+     * @param   [int]          $order_id    [订单id]
+     * @param   [int]          $payment_id  [支付方式id]
      */
-    public static function OrderPaymentName($order_id = 0)
+    public static function OrderPaymentName($order_id = 0, $payment_id = 0)
     {
-        return empty($order_id) ? null : Db::name('PayLog')->where(['order_id'=>intval($order_id)])->value('payment_name');
+        $name = null;
+        if(!empty($order_id))
+        {
+            $name = Db::name('PayLog')->where(['order_id'=>intval($order_id)])->value('payment_name');
+            if(empty($anme) && !empty($payment_id))
+            {
+                $name = Db::name('Payment')->where(['id'=>intval($payment_id)])->value('name');
+            }
+        }
+        return $name;
     }
 
     /**

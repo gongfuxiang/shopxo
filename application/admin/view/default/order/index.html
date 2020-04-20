@@ -7,7 +7,7 @@
 		<form class="am-form form-validation form-search" method="post" action="{{:MyUrl('admin/order/index')}}" request-type="form">
 			<div class="thin">
                 <div class="am-input-group am-input-group-sm am-fl so">
-                    <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="订单号/快递单号" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
+                    <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="订单号/快递单号/取货码/收件姓名电话" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
                     <span class="am-input-group-btn">
                         <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
                     </span>
@@ -75,6 +75,19 @@
                                 {{/foreach}}
                             </select>
                         </td>
+                        <td>
+                            <span>模式：</span>
+                            <select name="order_model" class="chosen-select" data-placeholder="订单模式...">
+                                <option value="-1">订单模式...</option>
+                                {{foreach $common_site_type_list as $v}}
+                                    {{if !isset($v['is_ext']) or $v['is_ext'] neq 1}}
+                                        <option value="{{$v.value}}" {{if isset($params['order_model']) and $params['order_model'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/if}}
+                                {{/foreach}}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="time">
                             <span>时间：</span>
                             <span>
@@ -85,9 +98,6 @@
                                 <input type="text" autocomplete="off" name="time_end" class="am-form-field am-input-sm am-radius Wdate" placeholder="结束时间" value="{{if !empty($params.time_end)}}{{$params.time_end}}{{/if}}" pattern="^[0-9]{4}-[0-9]{2}-[0-9]{2}$" data-validation-message="日期格式有误" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" /><i class="am-icon-calendar"></i>
                             </span>
                         </td>
-                    </tr>
-					<tr>
-                        <td></td>
                         <td>
                             <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
                             <a href="{{:MyUrl('admin/order/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
@@ -103,11 +113,11 @@
             <!-- 顶部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_order_top_operation</span>
+                    <span>plugins_view_admin_order_top_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_order_top_operation';
+                $hook_name = 'plugins_view_admin_order_top_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {
@@ -124,403 +134,437 @@
         <!-- top operation end -->
 
 		<!-- list start -->
-		<table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm">
-			<thead>
-				<tr>
-					<th class="am-hide-sm-only th-goods">基础信息</th>
-                    <th class="am-hide-md-down">用户信息</th>
-					<th class="am-hide-sm-only th-receive-address">地址信息</th>
-					<th class="am-hide-md-down">快递信息</th>
-					<th>订单状态</th>
-					<th>订单金额(元)</th>
-					<th class="am-hide-sm-only">扩展数据</th>
-					<th>更多</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				{{if !empty($data_list)}}
-					{{foreach $data_list as $v}}
-						<tr id="data-list-{{$v.id}}" {{if $v['pay_status'] eq 1 and $v['total_price'] gt $v['pay_price']}}class="am-danger"{{/if}}>
-							<td class="am-hide-sm-only">
-								<div class="am-padding-bottom-xs">
-                                    <strong>{{$v.order_no}}</strong>
-                                    <span class="am-badge am-badge-primary am-radius" title="订单模式">{{$v.order_model_name}}</span>
-                                    <span class="am-badge am-badge-secondary am-radius" title="客户端类型">{{$v.client_type_name}}</span>
-                                </div>
-                                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
-								{{foreach $v.items as $vs}}
-									<div class="goods-item">
-										<div class="base">
-											<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
-												<img src="{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
-											</a>
-											<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
-										</div>
-										<div class="other">
-											<span class="am-fl am-text-xs">
-												{{if !empty($vs.spec_text)}}
-													{{$vs.spec_text}}
-												{{/if}}
-											</span>
-                                            {{if $vs['returned_quantity'] gt 0 or $vs['refund_price'] gt 0}}
-                                                <span class="am-text-danger am-fr am-margin-left-sm">已退 {{$vs.returned_quantity}} / {{$vs.refund_price}}</span>
-                                            {{/if}}
-                                            <span class="am-fr">{{$vs.price}}x{{$vs.buy_number}}</span>
-										</div>
-									</div>
+        <div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm">
+            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last">
+    			<thead>
+    				<tr>
+    					<th class="am-grid-lg">基础信息</th>
+                        <th class="am-grid-sm">用户信息</th>
+    					<th class="am-grid-sm">地址信息</th>
+    					<th>订单状态</th>
+    					<th class="am-grid-sm">订单金额(元)</th>
+                        <th class="am-grid-sm">快递信息</th>
+    					<th class="am-grid-sm">扩展数据</th>
+    					<th class="am-text-center">更多</th>
+    					<th class="am-text-center">操作</th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				{{if !empty($data_list)}}
+    					{{foreach $data_list as $v}}
+    						<tr id="data-list-{{$v.id}}" {{if $v['pay_status'] eq 1 and $v['total_price'] gt $v['pay_price']}}class="am-danger"{{/if}}>
+    							<td class="am-text-middle">
+    								<div class="am-padding-bottom-xs">
+                                        <strong>{{$v.order_no}}</strong>
+                                        <span class="am-badge am-badge-primary am-radius" title="订单模式">{{$v.order_model_name}}</span>
+                                        <span class="am-badge am-badge-secondary am-radius" title="客户端类型">{{$v.client_type_name}}</span>
+                                    </div>
                                     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
-								{{/foreach}}
-								<div class="goods-item">{{$v.describe}}</div>
-							</td>
-                            <td class="user-info am-hide-md-down">
-                                {{if !empty($v['user'])}}
-                                    <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
-                                    <ul class="user-base">
-                                        <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
-                                        <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
-                                        <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
-                                        <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
-                                    </ul>
-                                {{else /}}
-                                    用户信息异常
-                                {{/if}}
-                            </td>
-							<td class="am-hide-sm-only">
-                                {{if in_array($v['order_model'], [0,2])}}
-    								{{$v.address_data.name}}<br />
-    								{{$v.address_data.tel}}<br />
-    								{{$v.address_data.province_name}}<br />
-    								{{$v.address_data.city_name}}<br />
-    								{{$v.address_data.county_name}}<br />
-    								{{$v.address_data.address}}
-                                {{else /}}
-                                    <span class="cr-ddd">无信息</span>
-                                {{/if}}
-							</td>
-							<td class="am-hide-md-down">
-								{{if empty($v['express_name'])}}
-									<span class="cr-ddd">未填写</span>
-								{{else /}}
-									{{$v.express_name}}<br />{{$v.express_number}}
-								{{/if}}
-							</td>
-							<td>
-								<span class="block">{{$v.status_name}}</span>
-								
-								{{if $v['pay_status'] eq 1}}
-									<span class="block am-text-success am-text-xs">{{$v.pay_status_name}}</span>
-								{{elseif $v['pay_status'] gt 1 /}}
-									<span class="block am-text-danger am-text-xs">{{$v.pay_status_name}}</span>
-								{{else /}}
-									<span class="block am-text-xs">{{$v.pay_status_name}}</span>
-								{{/if}}
-								{{if $v['user_is_delete_time'] neq 0}}
-									<span class="block am-text-warning am-text-xs">用户已删除</span>
-								{{/if}}
-							</td>
-							<td>
-								金额：{{$v.price}}<br />
-								增加：{{$v.increase_price}}<br />
-								优惠：{{$v.preferential_price}}<br />
-								总价：{{$v.total_price}}<br />
-								支付：{{$v.pay_price}}<br />
-                                退款：{{if $v['refund_price'] gt 0}}<span class="am-text-danger">{{$v.refund_price}}</span>{{else /}}{{$v.refund_price}}{{/if}}
-							</td>
-							<td class="am-hide-sm-only">
-								{{if empty($v['extension_data'])}}
-									<span class="cr-ddd">无</span>
-								{{else /}}
-									{{foreach $v.extension_data as $extk=>$ext}}
-										{{if $extk gt 0}}<br />{{/if}}
-										{{$ext.name}} [{{$ext.tips}}]
-									{{/foreach}}
-								{{/if}}
-							</td>
-							<td>
-								<span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
-								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
-									<div class="am-popup-inner">
-										<div class="am-popup-hd">
-											<h4 class="am-popup-title">详情内容</h4>
-											<span data-am-modal-close class="am-close">&times;</span>
-										</div>
-										<div class="am-popup-bd">
-											<dl class="dl-content">
-												<dt>订单号</dt>
-												<dd>
-                                                    {{if empty($v['order_no'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.order_no}}{{/if}}
-                                                </dd>
-
-                                                <dt>订单模式</dt>
-                                                <dd>
-                                                    {{if empty($v['order_model_name'])}}
-                                                        <span class="cr-ddd">未知</span>
-                                                    {{else /}}
-                                                        <span class="am-badge am-badge-primary am-radius" title="订单模式">{{$v.order_model_name}}</span>
-                                                    {{/if}}
-                                                </dd>
-
-                                                <dt>客户端类型</dt>
-                                                <dd>
-                                                    {{if empty($v['client_type_name'])}}
-                                                        <span class="cr-ddd">未知</span>
-                                                    {{else /}}
-                                                        <span class="am-badge am-badge-secondary am-radius" title="客户端类型">{{$v.client_type_name}}</span>
-                                                    {{/if}}
-                                                </dd>
-
-												<dt>基础信息</dt>
-												<dd>
-													{{foreach $v.items as $vs}}
-														<div class="goods-item">
-															<div class="base">
-																<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
-																	<img src="{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images am-hide-sm-only" />
-																</a>
-																<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} >{{$vs.title}}</a>
-															</div>
-															<div class="other">
-                                                                <span class="am-fl am-text-xs">
-                                                                    型号：
-                                                                    {{if !empty($vs.model)}}
-                                                                        {{$vs.model}}
-                                                                    {{/if}}
-                                                                </span>
-																<span class="am-fl am-text-xs">
-																	规格：
-																	{{if !empty($vs.spec_text)}}
-																		{{$vs.spec_text}}
-																	{{/if}}
-																</span>
-																<span class="am-fl am-text-xs">
-																	重量：{{$vs.spec_weight}}
-																</span>
-																<span class="am-fl am-text-xs">
-																	编码：{{$vs.spec_coding}}
-																</span>
-                                                                {{if $vs['returned_quantity'] gt 0 or $vs['refund_price'] gt 0}}
-                                                                    <span class="am-text-danger am-fr am-margin-left-sm">已退 {{$vs.returned_quantity}} / {{$vs.refund_price}}</span>
-                                                                {{/if}}
-																<span class="am-fr">{{$vs.price}}x{{$vs.buy_number}}</span>
-															</div>
-														</div>
-													{{/foreach}}
-													<div class="goods-item">{{$v.describe}}</div>
-												</dd>
-
-                                                <dt>用户信息</dt>
-                                                <dd class="user-info">
-                                                    {{if !empty($v['user'])}}
-                                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
-                                                        <ul class="user-base">
-                                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
-                                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
-                                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
-                                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
-                                                        </ul>
-                                                    {{else /}}
-                                                        用户信息异常
-                                                    {{/if}}
-                                                </dd>
-
-                                                {{if in_array($v['order_model'], [0,2])}}
-    												<dt>地址信息</dt>
-    												<dd>
-    													{{if !empty($v['address_data'])}}
-    														{{$v.address_data.name}}<br />
-                                                            {{$v.address_data.tel}}<br />
-                                                            {{$v.address_data.province_name}}
-                                                            {{$v.address_data.city_name}}
-                                                            {{$v.address_data.county_name}}
-                                                            {{$v.address_data.address}}
-    													{{else /}}
-                                                            <span class="cr-ddd">无信息</span>
-    													{{/if}}
-    												</dd>
+    								{{foreach $v.items as $vs}}
+    									<div class="goods-item am-padding-vertical-xs">
+    										<div class="base">
+    											<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
+    												<img src="{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images" />
+    											</a>
+    											<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} class="am-nowrap-initial">{{$vs.title}}</a>
+    										</div>
+    										<div class="other">
+    											<span class="am-fl am-text-xs am-nowrap-initial">
+    												{{if !empty($vs.spec_text)}}
+    													{{$vs.spec_text}}
+    												{{/if}}
+    											</span>
+                                                {{if $vs['returned_quantity'] gt 0 or $vs['refund_price'] gt 0}}
+                                                    <span class="am-text-danger am-fr am-margin-left-sm">已退 {{$vs.returned_quantity}} / {{$vs.refund_price}}</span>
                                                 {{/if}}
+                                                <span class="am-fr">{{$vs.price}}x{{$vs.buy_number}}</span>
+    										</div>
+    									</div>
+                                        <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
+    								{{/foreach}}
+    								<div class="goods-item">{{$v.describe}}</div>
+    							</td>
+                                <td class="am-text-middle user-info">
+                                    {{if !empty($v['user'])}}
+                                        <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                        <ul class="user-base">
+                                            <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                            <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                            <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                            <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                        </ul>
+                                    {{else /}}
+                                        用户信息异常
+                                    {{/if}}
+                                </td>
+    							<td class="am-text-middle">
+                                    {{if in_array($v['order_model'], [0,2])}}
+        								{{$v.address_data.name}}<br />
+        								{{$v.address_data.tel}}<br />
+        								{{$v.address_data.province_name}}<br />
+        								{{$v.address_data.city_name}}<br />
+        								{{$v.address_data.county_name}}<br />
+        								{{$v.address_data.address}}
+                                    {{else /}}
+                                        <span class="cr-ddd">无信息</span>
+                                    {{/if}}
+    							</td>
+    							<td class="am-text-middle">
+    								<span class="block">{{$v.status_name}}</span>
+    								
+    								{{if $v['pay_status'] eq 1}}
+    									<span class="block am-text-success am-text-xs">{{$v.pay_status_name}}</span>
+    								{{elseif $v['pay_status'] gt 1 /}}
+    									<span class="block am-text-danger am-text-xs">{{$v.pay_status_name}}</span>
+    								{{else /}}
+    									<span class="block am-text-xs">{{$v.pay_status_name}}</span>
+    								{{/if}}
+                                    {{if !empty($v['is_under_line_text'])}}
+                                        <span class="block am-text-danger am-text-xs">{{$v.is_under_line_text}}</p>
+                                    {{/if}}
+    								{{if $v['user_is_delete_time'] neq 0}}
+    									<span class="block am-text-warning am-text-xs">用户已删除</span>
+    								{{/if}}
+    							</td>
+    							<td class="am-text-middle">
+    								金额：{{$v.price}}<br />
+    								增加：{{$v.increase_price}}<br />
+    								优惠：{{$v.preferential_price}}<br />
+    								总价：{{$v.total_price}}<br />
+    								支付：{{$v.pay_price}}<br />
+                                    退款：{{if $v['refund_price'] gt 0}}<span class="am-text-danger">{{$v.refund_price}}</span>{{else /}}{{$v.refund_price}}{{/if}}
+    							</td>
+                                <td class="am-text-middle">
+                                    {{if empty($v['express_name'])}}
+                                        <span class="cr-ddd">未填写</span>
+                                    {{else /}}
+                                        {{$v.express_name}}<br />{{$v.express_number}}
+                                    {{/if}}
+                                </td>
+    							<td class="am-text-middle">
+    								{{if empty($v['extension_data'])}}
+    									<span class="cr-ddd">无</span>
+    								{{else /}}
+    									{{foreach $v.extension_data as $extk=>$ext}}
+    										{{if $extk gt 0}}<br />{{/if}}
+    										{{$ext.name}} [{{$ext.tips}}]
+    									{{/foreach}}
+    								{{/if}}
+    							</td>
+    							<td class="am-text-middle">
+    								<p class="am-text-center xo-cursor-pr">
+                                        <i class="am-icon-caret-down"></i>
+                                        <span data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                    </p>
+    								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
+    									<div class="am-popup-inner">
+    										<div class="am-popup-hd">
+    											<h4 class="am-popup-title">详情内容</h4>
+    											<span data-am-modal-close class="am-close">&times;</span>
+    										</div>
+    										<div class="am-popup-bd">
+    											<dl class="dl-content">
+    												<dt>订单号</dt>
+    												<dd>
+                                                        {{if empty($v['order_no'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.order_no}}{{/if}}
+                                                    </dd>
 
-                                                {{if $v['order_model'] eq 2}}
-                                                    <dt>取货信息</dt>
+                                                    <dt>订单模式</dt>
                                                     <dd>
-                                                        {{if !empty($v['extraction_data'])}}
-                                                            <p>
-                                                                <span>取货码：</span>
-                                                                {{if empty($v['extraction_data']['code'])}}
-                                                                    <span class="am-text-danger">取货码不存在、请联系管理员</span>
-                                                                {{else /}}
-                                                                    <span class="am-badge am-badge-success am-radius">{{$v.extraction_data.code}}</span>
-                                                                {{/if}}
-                                                            </p>
-                                                            {{if !empty($v['extraction_data']['images'])}}
-                                                                <p class="am-margin-top-xs">
-                                                                    <img class="am-img-thumbnail" src="{{$v.extraction_data.images}}" alt="取货码" />
-                                                                </p>
-                                                            {{/if}}
+                                                        {{if empty($v['order_model_name'])}}
+                                                            <span class="cr-ddd">未知</span>
                                                         {{else /}}
-                                                            <span class="cr-ddd">无信息</span>
+                                                            <span class="am-badge am-badge-primary am-radius" title="订单模式">{{$v.order_model_name}}</span>
                                                         {{/if}}
                                                     </dd>
-                                                {{/if}}
 
-                                                {{if $v['order_model'] eq 3}}
-                                                    <dt>密钥信息</dt>
+                                                    <dt>客户端类型</dt>
                                                     <dd>
-                                                        <ul class="am-list am-margin-bottom-0 fictitious-container">
-                                                            {{foreach $v.items as $goods}}
-                                                                <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
-                                                                    <div class="am-u-sm-2 am-list-thumb">
-                                                                        <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-radius" />
-                                                                    </div>
-                                                                    <div class="am-u-sm-10 am-list-item-text">
-                                                                        {{if empty($goods['fictitious_goods_value'])}}
-                                                                            <span>未配置数据</span>
-                                                                        {{else /}}
-                                                                            {{$goods.fictitious_goods_value|raw}}
-                                                                        {{/if}}
-                                                                    </div>
-                                                                </li>
-                                                            {{/foreach}}
-                                                        </ul>
+                                                        {{if empty($v['client_type_name'])}}
+                                                            <span class="cr-ddd">未知</span>
+                                                        {{else /}}
+                                                            <span class="am-badge am-badge-secondary am-radius" title="客户端类型">{{$v.client_type_name}}</span>
+                                                        {{/if}}
                                                     </dd>
-                                                {{/if}}
 
-												<dt>快递信息</dt>
-												<dd>{{if empty($v['express_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.express_name}}<br />{{$v.express_number}}{{/if}}</dd>
+    												<dt>基础信息</dt>
+    												<dd>
+    													{{foreach $v.items as $vs}}
+    														<div class="goods-item">
+    															<div class="base">
+    																<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}">
+    																	<img src="{{$vs['images']}}" class="am-img-thumbnail am-radius goods-images" />
+    																</a>
+    																<a href="{{:MyUrl('index/goods/index', ['id'=>$vs['goods_id']])}}" target="_blank" title="{{$vs.title}}" {{if !empty($vs['title_color'])}} style="color:{{$vs.title_color}};" {{/if}} class="am-nowrap-initial">{{$vs.title}}</a>
+    															</div>
+    															<div class="other">
+                                                                    {{if !empty($vs['model'])}}
+                                                                        <span class="am-fl am-text-xs">
+                                                                            型号：{{$vs.model}}
+                                                                        </span>
+                                                                    {{/if}}
+                                                                    {{if !empty($vs['spec_text'])}}
+        																<span class="am-fl am-text-xs">
+        																    规格：{{$vs.spec_text}}
+        																</span>
+                                                                    {{/if}}
+                                                                    {{if !empty($vs['spec_weight']) and $vs['spec_weight'] gt 0}}
+        																<span class="am-fl am-text-xs">
+        																	重量：{{$vs.spec_weight}}
+        																</span>
+                                                                    {{/if}}
+                                                                    {{if !empty($vs['spec_coding'])}}
+        																<span class="am-fl am-text-xs">
+        																	编码：{{$vs.spec_coding}}
+        																</span>
+                                                                    {{/if}}
+                                                                    {{if $vs['returned_quantity'] gt 0 or $vs['refund_price'] gt 0}}
+                                                                        <span class="am-text-danger am-fr am-margin-left-sm">已退 {{$vs.returned_quantity}} / {{$vs.refund_price}}</span>
+                                                                    {{/if}}
+    																<span class="am-fr">{{$vs.price}}x{{$vs.buy_number}}</span>
+    															</div>
+                                                                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
+    														</div>
+    													{{/foreach}}
+    													<div class="goods-item">{{$v.describe}}</div>
+    												</dd>
 
-												<dt>支付状态</dt>
-												<dd>{{if empty($v['pay_status_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_status_name}}{{/if}}</dd>
+                                                    <dt>用户信息</dt>
+                                                    <dd class="user-info">
+                                                        {{if !empty($v['user'])}}
+                                                            <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                                                            <ul class="user-base">
+                                                                <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
+                                                                <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
+                                                                <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
+                                                                <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
+                                                            </ul>
+                                                        {{else /}}
+                                                            用户信息异常
+                                                        {{/if}}
+                                                    </dd>
 
-												<dt>订单状态</dt>
-												<dd>{{if empty($v['status_name'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.status_name}}{{/if}}</dd>
+                                                    {{if in_array($v['order_model'], [0,2])}}
+        												<dt>地址信息</dt>
+        												<dd>
+        													{{if !empty($v['address_data'])}}
+        														{{$v.address_data.name}}<br />
+                                                                {{$v.address_data.tel}}<br />
+                                                                {{$v.address_data.province_name}}
+                                                                {{$v.address_data.city_name}}
+                                                                {{$v.address_data.county_name}}
+                                                                {{$v.address_data.address}}
+        													{{else /}}
+                                                                <span class="cr-ddd">无信息</span>
+        													{{/if}}
+        												</dd>
+                                                    {{/if}}
 
-												<dt>支付方式</dt>
-												<dd>{{if empty($v['payment_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.payment_name}}{{/if}}</dd>
+                                                    {{if $v['order_model'] eq 2}}
+                                                        <dt>取货信息</dt>
+                                                        <dd>
+                                                            {{if !empty($v['extraction_data'])}}
+                                                                <p>
+                                                                    <span>取货码：</span>
+                                                                    {{if empty($v['extraction_data']['code'])}}
+                                                                        <span class="am-text-danger">取货码不存在、请联系管理员</span>
+                                                                    {{else /}}
+                                                                        <span class="am-badge am-badge-success am-radius">{{$v.extraction_data.code}}</span>
+                                                                    {{/if}}
+                                                                </p>
+                                                                {{if !empty($v['extraction_data']['images'])}}
+                                                                    <p class="am-margin-top-xs">
+                                                                        <img class="am-img-thumbnail" src="{{$v.extraction_data.images}}" alt="取货码" />
+                                                                    </p>
+                                                                {{/if}}
+                                                            {{else /}}
+                                                                <span class="cr-ddd">无信息</span>
+                                                            {{/if}}
+                                                        </dd>
+                                                    {{/if}}
 
-												<dt>用户备注</dt>
-												<dd>{{if empty($v['user_note'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.user_note}}{{/if}}</dd>
+                                                    {{if $v['order_model'] eq 3}}
+                                                        <dt>密钥信息</dt>
+                                                        <dd>
+                                                            <ul class="am-list am-margin-bottom-0 fictitious-container">
+                                                                {{foreach $v.items as $goods}}
+                                                                    <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-left">
+                                                                        <div class="am-u-sm-2 am-list-thumb">
+                                                                            <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-radius" />
+                                                                        </div>
+                                                                        <div class="am-u-sm-10 am-list-item-text">
+                                                                            {{if empty($goods['fictitious_goods_value'])}}
+                                                                                <span>未配置数据</span>
+                                                                            {{else /}}
+                                                                                {{$goods.fictitious_goods_value|raw}}
+                                                                            {{/if}}
+                                                                        </div>
+                                                                    </li>
+                                                                {{/foreach}}
+                                                            </ul>
+                                                        </dd>
+                                                    {{/if}}
 
-												<dt>订单金额(元)</dt>
-												<dd>
-													{{if empty($v['price'])}}
-														<span class="cr-ddd">未填写</span>
-													{{else /}}
-														金额：{{$v.price}}<br />
-														增加：{{$v.increase_price}}<br />
-														优惠：{{$v.preferential_price}}<br />
-														总价：{{$v.total_price}}<br />
-														支付：{{$v.pay_price}}<br />
-                                                        退款：{{if $v['refund_price'] gt 0}}<span class="am-text-danger">{{$v.refund_price}}</span>{{else /}}{{$v.refund_price}}{{/if}}
-													{{/if}}
-												</dd>
+    												<dt>快递信息</dt>
+    												<dd>{{if empty($v['express_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.express_name}}<br />{{$v.express_number}}{{/if}}</dd>
 
-												<dt>扩展数据</dt>
-												<dd>
-													{{if empty($v['extension_data'])}}
-														<span class="cr-ddd">无</span>
-													{{else /}}
-														{{foreach $v.extension_data as $extk=>$ext}}
-															{{if $extk gt 0}}<br />{{/if}}
-															{{$ext.name}} [{{$ext.tips}}]
-														{{/foreach}}
-													{{/if}}
-												</dd>
+    												<dt>支付状态</dt>
+    												<dd>{{if empty($v['pay_status_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_status_name}}{{/if}}</dd>
 
-                                                <dt>购买总数</dt>
-                                                <dd>{{if empty($v['buy_number_count'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.buy_number_count}}{{/if}}</dd>
+    												<dt>订单状态</dt>
+    												<dd>{{if empty($v['status_name'])}}<span class="cr-ddd">未设置</span>{{else /}}{{$v.status_name}}{{/if}}</dd>
 
-                                                <dt>退货总数</dt>
-                                                <dd>{{if empty($v['returned_quantity'])}}<span class="cr-ddd">未退货</span>{{else /}}{{$v.returned_quantity}}{{/if}}</dd>
+    												<dt>支付方式</dt>
+    												<dd>{{if empty($v['payment_name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.payment_name}}{{/if}}</dd>
 
-                                                <dt>退款金额</dt>
-                                                <dd>{{if empty($v['refund_price']) or $v['refund_price'] elt 0.00}}<span class="cr-ddd">未退款</span>{{else /}}<span class="am-text-danger">{{$v.refund_price}}{{/if}}</span></dd>
+    												<dt>用户备注</dt>
+    												<dd>{{if empty($v['user_note'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.user_note}}{{/if}}</dd>
 
-                                                {{if $v['order_model'] eq 2}}
-                                                    <dt>自提取货码</dt>
-                                                    <dd>{{if empty($v['extraction_code'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.extraction_code}}{{/if}}</dd>
-                                                {{/if}}
+    												<dt>订单金额(元)</dt>
+    												<dd>
+    													{{if empty($v['price'])}}
+    														<span class="cr-ddd">未填写</span>
+    													{{else /}}
+    														金额：{{$v.price}}<br />
+    														增加：{{$v.increase_price}}<br />
+    														优惠：{{$v.preferential_price}}<br />
+    														总价：{{$v.total_price}}<br />
+    														支付：{{$v.pay_price}}<br />
+                                                            退款：{{if $v['refund_price'] gt 0}}<span class="am-text-danger">{{$v.refund_price}}</span>{{else /}}{{$v.refund_price}}{{/if}}
+    													{{/if}}
+    												</dd>
 
-                                                <dt>确认时间</dt>
-                                                <dd>{{if empty($v['confirm_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.confirm_time}}{{/if}}</dd>
+    												<dt>扩展数据</dt>
+    												<dd>
+    													{{if empty($v['extension_data'])}}
+    														<span class="cr-ddd">无</span>
+    													{{else /}}
+    														{{foreach $v.extension_data as $extk=>$ext}}
+    															{{if $extk gt 0}}<br />{{/if}}
+    															{{$ext.name}} [{{$ext.tips}}]
+    														{{/foreach}}
+    													{{/if}}
+    												</dd>
 
-                                                <dt>支付时间</dt>
-                                                <dd>{{if empty($v['pay_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_time}}{{/if}}</dd>
+                                                    <dt>购买总数</dt>
+                                                    <dd>{{if empty($v['buy_number_count'])}}<span class="cr-ddd">未知</span>{{else /}}{{$v.buy_number_count}}{{/if}}</dd>
 
-                                                <dt>发货时间</dt>
-                                                <dd>{{if empty($v['delivery_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.delivery_time}}{{/if}}</dd>
+                                                    <dt>退货总数</dt>
+                                                    <dd>{{if empty($v['returned_quantity'])}}<span class="cr-ddd">未退货</span>{{else /}}{{$v.returned_quantity}}{{/if}}</dd>
 
-                                                <dt>完成时间</dt>
-                                                <dd>{{if empty($v['collect_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.collect_time}}{{/if}}</dd>
+                                                    <dt>退款金额</dt>
+                                                    <dd>{{if empty($v['refund_price']) or $v['refund_price'] elt 0.00}}<span class="cr-ddd">未退款</span>{{else /}}<span class="am-text-danger">{{$v.refund_price}}{{/if}}</span></dd>
 
-                                                <dt>取消时间</dt>
-                                                <dd>{{if empty($v['cancel_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.cancel_time}}{{/if}}</dd>
+                                                    {{if $v['order_model'] eq 2}}
+                                                        <dt>自提取货码</dt>
+                                                        <dd>{{if empty($v['extraction_code'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.extraction_code}}{{/if}}</dd>
+                                                    {{/if}}
 
-                                                <dt>关闭时间</dt>
-                                                <dd>{{if empty($v['close_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.close_time}}{{/if}}</dd>
+                                                    <dt>确认时间</dt>
+                                                    <dd>{{if empty($v['confirm_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.confirm_time}}{{/if}}</dd>
 
-												<dt>创建时间</dt>
-												<dd>{{$v.add_time}}</dd>
+                                                    <dt>支付时间</dt>
+                                                    <dd>{{if empty($v['pay_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.pay_time}}{{/if}}</dd>
 
-                                                <dt>更新时间</dt>
-                                                <dd>{{$v.upd_time}}</dd>
-											</dl>
-										</div>
-									</div>
-								</div>
-							</td>
-							<td class="view-operation">
-								{{if in_array($v['status'], [0])}}
-									<button class="am-btn am-btn-primary am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/confirm')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 确认</button>
-								{{/if}}
-								{{if in_array($v['status'], [0,1])}}
-									<button class="am-btn am-btn-warning am-btn-xs am-radius am-icon-paint-brush am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="取消后无法恢复，确定继续吗？"> 取消</button>
-									{{if in_array($v['status'], [1])}}
-                                        <button class="am-btn am-btn-success am-btn-xs am-radius am-icon-paypal am-btn-block submit-pay" data-id="{{$v.id}}" data-payment-id="{{$v.payment_id}}" data-am-modal="{target: '#order-pay-popup'}"> 支付</button>
-                                    {{/if}}
-								{{/if}}
-								{{if $v['status'] eq 2}}
-                                    {{if $v['order_model'] eq 2}}
-                                        <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check am-btn-block submit-take" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 200, height: 160}"> 取货</button>
-                                    {{else /}}
-									   <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-send-o am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}"> 发货</button>
-                                    {{/if}}
-								{{/if}}
-								{{if $v['status'] eq 3}}
-									<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-check-circle-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！"> 收货</button>
-								{{/if}}
-								{{if in_array($v['status'], [5,6])}}
-									<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="删除后无法恢复，确定继续吗？"> 删除</button>
-								{{/if}}
+                                                    <dt>发货时间</dt>
+                                                    <dd>{{if empty($v['delivery_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.delivery_time}}{{/if}}</dd>
 
-                                <!-- 订单列表操作钩子 -->
-                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                                    <div class="plugins-tag">
-                                        <span>plugins_view_admin_order_list_operation</span>
-                                    </div>
-                                {{/if}}
-                                {{php}}
-                                    $hook_name = 'plugins_view_admin_order_list_operation';
-                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
-                                    if(!empty($hook_data) && is_array($hook_data))
-                                    {
-                                        foreach($hook_data as $hook)
-                                        {
-                                            if(is_string($hook) || is_int($hook))
+                                                    <dt>完成时间</dt>
+                                                    <dd>{{if empty($v['collect_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.collect_time}}{{/if}}</dd>
+
+                                                    <dt>取消时间</dt>
+                                                    <dd>{{if empty($v['cancel_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.cancel_time}}{{/if}}</dd>
+
+                                                    <dt>关闭时间</dt>
+                                                    <dd>{{if empty($v['close_time'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.close_time}}{{/if}}</dd>
+
+    												<dt>创建时间</dt>
+    												<dd>{{$v.add_time}}</dd>
+
+                                                    <dt>更新时间</dt>
+                                                    <dd>{{$v.upd_time}}</dd>
+    											</dl>
+    										</div>
+    									</div>
+    								</div>
+    							</td>
+    							<td class="am-operate-grid">
+                                    <div class="am-scrollable-vertical">
+        								{{if in_array($v['status'], [0])}}
+        									<button class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/confirm')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！">
+                                                <i class="am-icon-check-circle-o"></i>
+                                                <span>确认</span>
+                                            </button>
+        								{{/if}}
+        								{{if in_array($v['status'], [0,1])}}
+        									<button class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/cancel')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="取消后无法恢复，确定继续吗？">
+                                                <i class="am-icon-paint-brush"></i>
+                                                <span>取消</span>
+                                            </button>
+        									{{if in_array($v['status'], [1])}}
+                                                <button class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-pay" data-id="{{$v.id}}" data-payment-id="{{$v.payment_id}}" data-am-modal="{target: '#order-pay-popup'}">
+                                                    <i class="am-icon-paypal"></i>
+                                                    <span>支付</span>
+                                                </button>
+                                            {{/if}}
+        								{{/if}}
+        								{{if $v['status'] eq 2}}
+                                            {{if $v['order_model'] eq 2}}
+                                                <button class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-take" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 200, height: 160}">
+                                                    <i class="am-icon-check"></i>
+                                                    <span>取货</span>
+                                                </button>
+                                            {{else /}}
+        									   <button class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$v.id}}" data-user-id="{{$v.user_id}}" data-express-id="{{$v.express_id}}" data-am-modal="{target: '#order-delivery-popup'}">
+                                                    <i class="am-icon-send-o"></i>
+                                                    <span>发货</span>
+                                                </button>
+                                            {{/if}}
+        								{{/if}}
+        								{{if $v['status'] eq 3}}
+        									<button class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/collect')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！">
+                                                <i class="am-icon-check-circle-o"></i>
+                                                <span>收货</span>
+                                            </button>
+        								{{/if}}
+        								{{if in_array($v['status'], [5,6])}}
+        									<button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/delete')}}" data-id="{{$v.id}}" data-value="{{$v.user_id}}" data-view="delete" data-msg="删除后无法恢复，确定继续吗？">
+                                                <i class="am-icon-trash-o"></i>
+                                                <span>删除</span>
+                                            </button>
+        								{{/if}}
+
+                                        <!-- 订单列表操作钩子 -->
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                            <div class="plugins-tag">
+                                                <span>plugins_view_admin_order_list_operate</span>
+                                            </div>
+                                        {{/if}}
+                                        {{php}}
+                                            $hook_name = 'plugins_view_admin_order_list_operate';
+                                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
+                                            if(!empty($hook_data) && is_array($hook_data))
                                             {
-                                                echo htmlspecialchars_decode($hook);
+                                                foreach($hook_data as $hook)
+                                                {
+                                                    if(is_string($hook) || is_int($hook))
+                                                    {
+                                                        echo htmlspecialchars_decode($hook);
+                                                    }
+                                                }
                                             }
-                                        }
-                                    }
-                                {{/php}}
-							</td>
-						</tr>
-					{{/foreach}}
-				{{/if}}
-			</tbody>
-		</table>
-		{{if empty($data_list)}}
-            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-        {{/if}}
+                                        {{/php}}
+                                    </div>
+    							</td>
+    						</tr>
+    					{{/foreach}}
+    				{{/if}}
+    			</tbody>
+    		</table>
+    		{{if empty($data_list)}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+            {{/if}}
+        </div>
 		<!-- list end -->
 
         <!-- bottom operation start -->
@@ -528,11 +572,11 @@
             <!-- 底部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_order_bottom_operation</span>
+                    <span>plugins_view_admin_order_bottom_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_order_bottom_operation';
+                $hook_name = 'plugins_view_admin_order_bottom_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {
@@ -579,9 +623,7 @@
 				</div>
 				<div class="am-popup-bd">
 	                <form class="am-form form-validation-delivery delivery-form" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
-	                    <!-- 支付方式 -->
 	                    <div class="business-item">
-	                        <h3>选择快递</h3>
 	                        {{if !empty($express_list)}}
 	                            <ul class="express-list" data-type="express">
 	                                {{foreach $express_list as $express}}
@@ -602,11 +644,12 @@
 	                        {{/if}}
 	                    </div>
 
-	                    <div class="am-form-group">
-							<label>快递单号</label>
-							<input type="text" autocomplete="off" name="express_number" placeholder="快递单号" minlength="1" data-validation-message="请填写快递单号" class="am-radius" required />
-	                    </div>
-	                    <div class="am-form-group am-form-group-refreshing">
+                        <div class="am-margin-top-sm">
+    						<label>快递单号</label>
+    						<input type="text" autocomplete="off" name="express_number" placeholder="快递单号" minlength="1" data-validation-message="请填写快递单号" class="am-radius" required />
+                        </div>
+	                    
+	                    <div class="am-margin-top-lg">
 	                        <input type="hidden" name="id" value="0" />
 	                        <input type="hidden" name="express_id" value="0" />
 	                        <input type="hidden" name="user_id" value="0" />
@@ -626,9 +669,7 @@
                 </div>
                 <div class="am-popup-bd">
                 	<form class="am-form form-validation-pay pay-form" action="{{:MyUrl('admin/order/pay')}}" method="POST" request-type="ajax-reload">
-                        <!-- 支付方式 -->
                         <div class="business-item">
-                            <h3>选择支付</h3>
                             {{if !empty($buy_payment_list)}}
                                 <ul class="payment-list" data-type="payment">
                                     {{foreach $buy_payment_list as $payment}}
@@ -646,7 +687,7 @@
                                 <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
                             {{/if}}
                         </div>
-                        <div class="am-form-group am-form-group-refreshing">
+                        <div class="am-margin-top-sm">
                             <input type="hidden" name="id" value="0" />
                             <input type="hidden" name="payment_id" value="0" />
                             <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>

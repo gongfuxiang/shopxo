@@ -11,7 +11,6 @@
 namespace app\api\controller;
 
 use app\service\UeditorService;
-use app\service\ResourcesService;
 
 /**
  * 附件上传
@@ -48,12 +47,7 @@ class Ueditor extends Common
      */
     public function Index()
     {
-        $ret = UeditorService::Run($this->data_request);
-        if($ret['code'] == 0 && !empty($ret['data']['url']))
-        {
-            $ret['data']['url'] = ResourcesService::AttachmentPathViewHandle(ResourcesService::AttachmentPathHandle($ret['data']['url']));
-        }
-        return $ret;
+        return UeditorService::Run($this->data_request);
     }
 }
 ?>

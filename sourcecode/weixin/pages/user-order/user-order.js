@@ -234,33 +234,49 @@ Page({
       success: res => {
         wx.hideLoading();
         if (res.data.code == 0) {
-          // 是否在线支付,非在线支付则支付成功
-          if (res.data.data.is_online_pay == 0) {
-            // 数据设置
-            self.order_item_pay_success_handle(index);
+          // 支付方式类型
+          switch (res.data.data.is_payment_type) {
+            // 正常线上支付
+            case 0 :
+              wx.requestPayment({
+                timeStamp: res.data.data.data.timeStamp,
+                nonceStr: res.data.data.data.nonceStr,
+                package: res.data.data.data.package,
+                signType: res.data.data.data.signType,
+                paySign: res.data.data.data.paySign,
+                success: function (res) {
+                  // 数据设置
+                  self.order_item_pay_success_handle(index);
 
-            app.showToast("支付成功", "success");
-          } else {
-            wx.requestPayment({
-              timeStamp: res.data.data.data.timeStamp,
-              nonceStr: res.data.data.data.nonceStr,
-              package: res.data.data.data.package,
-              signType: res.data.data.data.signType,
-              paySign: res.data.data.data.paySign,
-              success: function(res) {
-                // 数据设置
-                self.order_item_pay_success_handle(index);
+                  // 跳转支付页面
+                  wx.navigateTo({
+                    url: "/pages/paytips/paytips?code=9000&total_price=" +
+                      self.data.data_list[index]['total_price']
+                  });
+                },
+                fail: function (res) {
+                  app.showToast('支付失败');
+                }
+              });
+              break;
 
-                // 跳转支付页面
-                wx.navigateTo({
-                  url: "/pages/paytips/paytips?code=9000&total_price=" +
-                    self.data.data_list[index]['total_price']
-                });
-              },
-              fail: function (res) {
-                app.showToast('支付失败');
-              }
-            });
+            // 线下支付
+            case 1 :
+              var temp_data_list = self.data.data_list;
+              temp_data_list[index]['is_under_line'] = 1;
+              self.setData({ data_list: temp_data_list });
+              app.alert({ msg: res.data.msg, is_show_cancel: 0});
+              break;
+
+            // 钱包支付
+            case 2 :
+              self.order_item_pay_success_handle(index);
+              app.showToast('支付成功', 'success');
+              break;
+
+            // 默认
+            default :
+              app.showToast('支付类型有误');
           }
         } else {
           app.showToast(res.data.msg);
@@ -268,7 +284,7 @@ Page({
       },
       fail: () => {
         wx.hideLoading();
-        app.showToast("服务器请求出错");
+        app.showToast('服务器请求出错');
       }
     });
   },

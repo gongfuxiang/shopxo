@@ -266,14 +266,12 @@ class Order extends Common
         $this->assign('to_title', '我的订单');
 
         // 状态
+        $this->assign('msg', $ret['msg']);
         if($ret['code'] == 0)
         {
-            $this->assign('msg', '支付成功');
             return $this->fetch('public/tips_success');
-        } else {
-            $this->assign('msg', $ret['msg']);
-            return $this->fetch('public/tips_error');
         }
+        return $this->fetch('public/tips_error');
     }
 
     /**

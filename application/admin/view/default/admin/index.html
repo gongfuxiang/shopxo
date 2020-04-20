@@ -30,7 +30,7 @@
                 			<span>权限：</span>
 							<select name="role_id" class="chosen-select" data-placeholder="权限组...">
 								<option value="-1">权限组...</option>
-								{{foreach $role as $v}}
+								{{foreach $role_list as $v}}
 									<option value="{{$v.id}}" {{if isset($params['role_id']) and $params['role_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 								{{/foreach}}
 							</select>
@@ -74,60 +74,68 @@
 		<!-- operation end -->
 
 		<!-- list start -->
-		<table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm">
-			<thead>
-				<tr>
-					<th>管理员</th>
-					<th>性别</th>
-					<th>登录次数</th>
-					<th>手机号码</th>
-					<th class="am-hide-sm-only">权限组</th>
-					<th class="am-hide-sm-only">最后登录时间</th>
-					<th class="am-hide-sm-only">创建时间</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				{{if !empty($data)}}
-					{{foreach $data as $v}}
-						<tr id="data-list-{{$v.id}}">
-							<td>{{$v.username}}</td>
-							<td>{{:lang('common_gender_list')[$v['gender']]['name']}}</td>
-							<td>{{$v.login_total}}</td>
-							<td>{{if empty($v['mobile'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.mobile}}{{/if}}</td>
-							<td class="am-hide-sm-only">{{$v.role_name}}</td>
-							<td class="am-hide-sm-only">
-								{{if $v['login_total'] eq 0}}
-									未登录
-								{{else /}}
-									{{:date('Y-m-d H:i:s', $v['login_time'])}}
-								{{/if}}
-							</td>
-							<td class="am-hide-sm-only">{{:date('Y-m-d H:i:s', $v['add_time'])}}</td>
-							<td>
-								{{if $v['id'] eq 1}}
-									<span class="cr-ccc">不可操作</span>
-								{{else /}}
-									<a href="{{:MyUrl('admin/admin/saveinfo', array('id'=>$v['id']))}}">
-										<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit" > 编辑</button>
-									</a>
-									{{if $v['id'] neq $admin['id']}}
-										<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/admin/delete')}}" data-id="{{$v.id}}"> 删除</button>
-									{{/if}}
-								{{/if}}
-							</td>
-						</tr>
-					{{/foreach}}
-				{{/if}}
-			</tbody>
-		</table>
-        {{if empty($data)}}
-            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-        {{/if}}
+		<div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm">
+            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last">
+    			<thead>
+    				<tr>
+    					<th>管理员</th>
+    					<th>性别</th>
+    					<th>登录次数</th>
+    					<th>手机号码</th>
+    					<th>权限组</th>
+    					<th>最后登录时间</th>
+    					<th>创建时间</th>
+    					<th class="am-text-center" data-width="170">操作</th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				{{if !empty($data_list)}}
+    					{{foreach $data_list as $v}}
+    						<tr id="data-list-{{$v.id}}">
+    							<td>{{$v.username}}</td>
+    							<td class="am-text-middle">{{:lang('common_gender_list')[$v['gender']]['name']}}</td>
+    							<td class="am-text-middle">{{$v.login_total}}</td>
+    							<td class="am-text-middle">{{if empty($v['mobile'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.mobile}}{{/if}}</td>
+    							<td class="am-text-middle">{{$v.role_name}}</td>
+    							<td class="am-text-middle">
+    								{{if $v['login_total'] eq 0}}
+    									未登录
+    								{{else /}}
+    									{{:date('Y-m-d H:i:s', $v['login_time'])}}
+    								{{/if}}
+    							</td>
+    							<td class="am-text-middle">{{:date('Y-m-d H:i:s', $v['add_time'])}}</td>
+    							<td class="am-operate-grid" data-width="170">
+                                    <div class="am-scrollable-vertical">
+        								{{if $v['id'] eq 1}}
+        									<span class="cr-ccc">不可操作</span>
+        								{{else /}}
+        									<a class="am-btn am-btn-secondary am-btn-xs am-radius" href="{{:MyUrl('admin/admin/saveinfo', array('id'=>$v['id']))}}">
+                                                <i class="am-icon-edit"></i>
+                                                <span>编辑</span>
+        									</a>
+        									{{if $v['id'] neq $admin['id']}}
+        										<button class="am-btn am-btn-danger am-btn-xs am-radius submit-delete" data-url="{{:MyUrl('admin/admin/delete')}}" data-id="{{$v.id}}">
+                                                    <i class="am-icon-trash-o"></i>
+                                                    <span>删除</span>
+                                                </button>
+        									{{/if}}
+        								{{/if}}
+                                    </div>
+    							</td>
+    						</tr>
+    					{{/foreach}}
+    				{{/if}}
+    			</tbody>
+    		</table>
+            {{if empty($data_list)}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+            {{/if}}
+        </div>
 		<!-- list end -->
 
 		<!-- page start -->
-		{{if !empty($data)}}
+		{{if !empty($data_list)}}
 			{{$page_html|raw}}
 		{{/if}}
 		<!-- page end -->

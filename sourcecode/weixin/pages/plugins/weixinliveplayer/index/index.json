@@ -1,0 +1,7 @@
+{
+  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "直播",
+  "usingComponents": {
+    "component-banner": "/components/slider/slider"
+  }
+}

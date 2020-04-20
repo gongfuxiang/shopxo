@@ -47,6 +47,7 @@ class NavigationService
         // 缓存没数据则从数据库重新读取,顶部菜单
         if(empty($header))
         {
+            // 获取导航数据
             $header = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>0))->order('sort')->select());
             if(!empty($header))
             {
@@ -55,6 +56,7 @@ class NavigationService
                     $v['items'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
                 }
             }
+
             // 大导航钩子
             $hook_name = 'plugins_service_navigation_header_handle';
             Hook::listen($hook_name, [
@@ -91,7 +93,46 @@ class NavigationService
             cache(config('shopxo.cache_common_home_nav_footer_key'), $footer);
         }
 
-        //print_r($header);
+        // 中间大导航添加首页导航
+        array_unshift($header, [
+            'id'                    => 0,
+            'pid'                   => 0,
+            'name'                  => '首页',
+            'url'                   => __MY_URL__,
+            'data_type'             => 'system',
+            'is_show'               => 1,
+            'is_new_window_open'    => 0,
+            'items'                 => [],
+        ]);
+
+        // 选中处理
+        if(!empty($header))
+        {
+            foreach($header as &$v)
+            {
+                $v['active'] = ($v['url'] == __MY_VIEW_URL__) ? 1 : 0;
+                if($v['active'] == 0 && !empty($v['items']))
+                {
+                    $status = false;
+                    foreach($v['items'] as &$vs)
+                    {
+                        if($vs['url'] == __MY_VIEW_URL__)
+                        {
+                            $vs['active'] = 1;
+                            $status = true;
+                        } else {
+                            $vs['active'] = 0;
+                        }
+                    }
+
+                    // 当子元素被选中则父级也选中
+                    if($status)
+                    {
+                        $v['active'] = 1;
+                    }
+                }
+            }
+        }
 
         return [
             'header' => $header,

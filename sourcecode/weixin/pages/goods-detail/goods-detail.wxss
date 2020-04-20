@@ -1,5 +1,5 @@
 .goods-photo .swiper-item, swiper {
-    height: 65vh !important;
+    height: 55vh !important;
     display: block;
 }
 
@@ -241,12 +241,12 @@
 }
 .goods-video video {
   width: 100%;
-  height: 65vh;
+  height: 55vh;
 }
 .goods-video-submit {
   position: absolute;
   left: 30rpx;
-  top: calc(65vh - 110rpx);
+  top: calc(55vh - 110rpx);
   z-index: 2;
 }
 .goods-video-submit image {

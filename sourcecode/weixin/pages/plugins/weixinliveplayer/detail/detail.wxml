@@ -1,0 +1,47 @@
+<view wx:if="{{detail != null}}" class="detail">
+  <!-- 封面图片 -->
+  <image wx:if="{{(detail || null) != null && (detail.share_img || null) != null}}" class="banner wh-auto dis-block" src="{{detail.share_img}}" mode="widthFix" bindtap="detail_images_view_event" data-value="{{detail.share_img}}" />
+
+  <!-- 标题 -->
+  <view class="name">{{detail.name}}</view>
+
+  <!-- 基础信息 -->
+  <view class="bg-white base">
+    <view class="item">
+      <image class="item-icon dis-block fl" src="/images/plugins/weixinliveplayer/detail-status-icon.png" mode="widthFix" />
+      <text class="cr-888">直播状态</text>
+      <view class="fr more status-{{detail.status}}">{{detail.status_name}}</view>
+    </view>
+    <view class="item br-t item-time">
+      <image class="item-icon dis-block fl" src="/images/plugins/weixinliveplayer/detail-time-icon.png" mode="widthFix" />
+      <text class="cr-888">开播时间</text>
+      <view class="fr time">
+        <view class="start-time">{{detail.start_time}}</view>
+        <view class="end-time">{{detail.end_time}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 导航 -->
+  <view class="nav wh-auto">
+    <button type="primary" class="share-friend-submit fl" hover-class="none" open-type="share" hover-class="none">
+      <image class="item-icon" src="/images/plugins/weixinliveplayer/nav-share-friend-icon.png" mode="widthFix" />
+      <text>分享</text>
+    </button>
+    <button type="primary" class="share-poster-submit fl" hover-class="none" bindtap="share_poster_event">
+      <image class="item-icon" src="/images/plugins/weixinliveplayer/nav-share-poster-icon.png" mode="widthFix" />
+      <text>海报</text>
+    </button>
+    <button type="default" class="player-submit fr" hover-class="none" bindtap="player_event">
+      <image class="item-icon" src="/images/plugins/weixinliveplayer/nav-player-icon.png" mode="widthFix" />
+      <text>进入直播</text>
+    </button>
+  </view>
+
+  <import src="/pages/common/bottom_line.wxml" />
+  <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
+</view>
+<view wx:else>
+  <import src="/pages/common/nodata.wxml" />
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>

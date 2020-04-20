@@ -1012,10 +1012,10 @@ class UserService
         }
 
         // 是否开启图片验证码
-        $verify_params = array(
-                'key_prefix' => 'login',
-                'expire_time' => MyC('common_verify_expire_time'),
-            );
+        $verify_params = [
+            'key_prefix' => 'login',
+            'expire_time' => MyC('common_verify_expire_time'),
+        ];
         $verify = self::IsImaVerify($params, $verify_params, MyC('home_user_login_img_verify_state'));
         if($verify['code'] != 0)
         {
@@ -1064,6 +1064,12 @@ class UserService
             );
         if(Db::name('User')->where(['id'=>$user['id']])->update($data) !== false)
         {
+            // 清除图片验证码
+            if(isset($verify) && isset($verify['data']) && is_object($verify['data']))
+            {
+                $verify['data']->Remove();
+            }
+
             return self::UserLoginHandle($user['id'], $params);
         }
         return DataReturn('登录失效，请重新登录', -100);
@@ -1166,28 +1172,54 @@ class UserService
             return $ret;
         }
 
+        // 是否需要审核
+        $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
+
+        // 用户数据
+        $salt = GetNumberCode(6);
+        $data = [
+            'upd_time'      => time(),
+            'salt'          => $salt,
+            'pwd'           => LoginPwdEncryption($params['pwd'], $salt),
+            'status'        => ($common_register_is_enable_audit == 1) ? 3 : 0,
+        ];
+
         // 验证码校验
-        $verify_params = array(
-                'key_prefix' => 'reg',
-                'expire_time' => MyC('common_verify_expire_time'),
-            );
-        if($params['type'] == 'sms')
+        $verify_params = [
+            'key_prefix' => 'reg_'.md5($params['accounts']),
+            'expire_time' => MyC('common_verify_expire_time'),
+        ];
+
+        // 账户类型
+        switch($params['type'])
         {
-            $obj = new \base\Sms($verify_params);
-        } else if($params['type'] == 'email') {
-            $obj = new \base\Email($verify_params);
-        } else if($params['type'] == 'username')
-        {
-            // 是否开启图片验证码
-            $verify_params['key_prefix'] = 'images_verify_reg';
-            $verify = self::IsImaVerify($params, $verify_params, MyC('home_user_register_img_verify_state'));
-            if($verify['code'] != 0)
-            {
-                return $verify;
-            }
+            // 短信
+            case 'sms' :
+                $data['mobile'] = $params['accounts'];
+                $obj = new \base\Sms($verify_params);
+                break;
+
+            // 邮箱
+            case 'email' :
+                $data['email'] = $params['accounts'];
+                $obj = new \base\Email($verify_params);
+                break;
+
+            // 默认 账号
+             default :
+                $data['username'] = $params['accounts'];
+                // 是否开启图片验证码
+                // images_verify_reg 由前端图片验证码传递的 type 一致
+                $verify_params['key_prefix'] = 'images_verify_reg';
+                $verify = self::IsImaVerify($params, $verify_params, MyC('home_user_register_img_verify_state'));
+                if($verify['code'] != 0)
+                {
+                    return $verify;
+                }
         }
 
         // 验证码校验
+        // sms, email
         if(isset($obj) && is_object($obj))
         {
             // 是否已过期
@@ -1200,26 +1232,6 @@ class UserService
             {
                 return DataReturn('验证码错误', -11);
             }
-        }
-
-        // 是否需要审核
-        $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
-
-        // 用户数据
-        $salt = GetNumberCode(6);
-        $data = [
-            'upd_time'      => time(),
-            'salt'          => $salt,
-            'pwd'           => LoginPwdEncryption($params['pwd'], $salt),
-            'status'        => ($common_register_is_enable_audit == 1) ? 3 : 0,
-        ];
-        if($params['type'] == 'sms')
-        {
-            $data['mobile'] = $params['accounts'];
-        } else if($params['type'] == 'email') {
-            $data['email'] = $params['accounts'];
-        } else {
-            $data['username'] = $params['accounts'];
         }
 
         // 数据添加
@@ -1389,12 +1401,12 @@ class UserService
             return DataReturn('暂时关闭用户注册');
         }
 
-        // 验证码公共基础参数
-        $verify_params = array(
-                'key_prefix' => 'reg',
-                'expire_time' => MyC('common_verify_expire_time'),
-                'time_interval' =>  MyC('common_verify_time_interval'),
-            );
+        // 验证码基础参数
+        $verify_params = [
+            'key_prefix' => 'reg',
+            'expire_time' => MyC('common_verify_expire_time'),
+            'time_interval' =>  MyC('common_verify_time_interval'),
+        ];
 
         // 是否开启图片验证码
         $verify = self::IsImaVerify($params, $verify_params, MyC('home_img_verify_state'));
@@ -1410,23 +1422,34 @@ class UserService
             return $ret;
         }
 
+        // 验证码基础参数 key
+        $verify_params['key_prefix'] = 'reg_'.md5($params['accounts']);
+
         // 发送验证码
         $code = GetNumberCode(4);
-        if($params['type'] == 'sms')
+        switch($params['type'])
         {
-            $obj = new \base\Sms($verify_params);
-            $status = $obj->SendCode($params['accounts'], $code, MyC('home_sms_user_reg'));
-        } else if($params['type'] == 'email') {
-            $obj = new \base\Email($verify_params);
-            $email_param = array(
-                    'email'     =>  $params['accounts'],
-                    'content'   =>  MyC('home_email_user_reg'),
-                    'title'     =>  MyC('home_site_name').' - 用户注册',
-                    'code'      =>  $code,
-                );
-            $status = $obj->SendHtml($email_param);
-        } else {
-            return DataReturn('该类型不支持验证码发送', -2);
+            // 短信
+            case 'sms' :
+                $obj = new \base\Sms($verify_params);
+                $status = $obj->SendCode($params['accounts'], $code, MyC('home_sms_user_reg'));
+                break;
+
+            // 邮箱
+            case 'email' :
+                $obj = new \base\Email($verify_params);
+                $email_params = array(
+                        'email'     =>  $params['accounts'],
+                        'content'   =>  MyC('home_email_user_reg'),
+                        'title'     =>  MyC('home_site_name').' - 用户注册',
+                        'code'      =>  $code,
+                    );
+                $status = $obj->SendHtml($email_params);
+                break;
+
+            // 默认
+            default :
+                return DataReturn('该类型不支持验证码发送', -2);
         }
         
         // 状态
@@ -1460,12 +1483,12 @@ class UserService
             return DataReturn('参数错误', -10);
         }
 
-        // 验证码公共基础参数
-        $verify_params = array(
-                'key_prefix' => 'forget',
-                'expire_time' => MyC('common_verify_expire_time'),
-                'time_interval' =>  MyC('common_verify_time_interval'),
-            );
+        // 验证码基础参数
+        $verify_params = [
+            'key_prefix' => 'forget',
+            'expire_time' => MyC('common_verify_expire_time'),
+            'time_interval' =>  MyC('common_verify_time_interval'),
+        ];
 
         // 是否开启图片验证码
         $verify = self::IsImaVerify($params, $verify_params, MyC('home_img_verify_state'));
@@ -1474,42 +1497,50 @@ class UserService
             return $verify;
         }
 
-        // 账户是否存在
+        // 账户是否存在，并返回账户格式类型
         $ret = self::UserForgetAccountsCheck($params['accounts']);
         if($ret['code'] != 0)
         {
             return $ret;
         }
 
+        // 验证码基础参数 key
+        $verify_params['key_prefix'] = 'forget_'.md5($params['accounts']);
+
         // 验证码
         $code = GetNumberCode(4);
 
-        // 手机
-        if($ret['data'] == 'mobile')
+        // 账户字段类型
+        switch($ret['data'])
         {
-            $obj = new \base\Sms($verify_params);
-            $status = $obj->SendCode($params['accounts'], $code, MyC('home_sms_user_forget_pwd'));
+            // 手机
+            case 'mobile' :
+                $obj = new \base\Sms($verify_params);
+                $status = $obj->SendCode($params['accounts'], $code, MyC('home_sms_user_forget_pwd'));
+                break;
 
-        // 邮箱
-        } else if($ret['data'] == 'email')
-        {
-            $obj = new \base\Email($verify_params);
-            $email_param = array(
+            // 邮箱
+            case 'email' :
+                $obj = new \base\Email($verify_params);
+                $email_params = [
                     'email'     =>  $params['accounts'],
                     'content'   =>  MyC('home_email_user_forget_pwd'),
                     'title'     =>  MyC('home_site_name').' - '.'密码找回',
                     'code'      =>  $code,
-                );
-            $status = $obj->SendHtml($email_param);
-        } else {
-            return DataReturn('手机/邮箱格式有误', -1);
+                ];
+                $status = $obj->SendHtml($email_params);
+                break;
+
+            // 默认
+            default :
+                return DataReturn('手机/邮箱格式有误', -1);
         }
 
         // 状态
         if($status)
         {
-            // 清除验证码
-            if(isset($verify['data']) && is_object($verify['data']))
+            // 清除图片验证码
+            if(isset($verify) && isset($verify['data']) && is_object($verify['data']))
             {
                 $verify['data']->Remove();
             }
@@ -1591,18 +1622,28 @@ class UserService
         }
 
         // 验证码校验
-        $verify_params = array(
-                'key_prefix' => 'forget',
-                'expire_time' => MyC('common_verify_expire_time'),
-                'time_interval' =>  MyC('common_verify_time_interval'),
-            );
-        if($ret['data'] == 'mobile')
+        $verify_params = [
+            'key_prefix' => 'forget_'.md5($params['accounts']),
+            'expire_time' => MyC('common_verify_expire_time'),
+            'time_interval' =>  MyC('common_verify_time_interval'),
+        ];
+        switch($ret['data'])
         {
-            $obj = new \base\Sms($verify_params);
-        } else if($ret['data'] == 'email')
-        {
-            $obj = new \base\Email($verify_params);
+            // 手机
+            case 'mobile' :
+                $obj = new \base\Sms($verify_params);
+                break;
+
+            // 邮箱
+            case 'email' :
+                $obj = new \base\Email($verify_params);
+                break;
+
+            // 默认
+            default :
+                return DataReturn('手机/邮箱格式有误', -1);
         }
+        
         // 是否已过期
         if(!$obj->CheckExpire())
         {
@@ -1625,6 +1666,8 @@ class UserService
         $ret = SafetyService::UserLoginPwdUpdate($params['accounts'], $user['id'], $params['pwd']);
         if($ret['code'] != 0)
         {
+            // 清除验证码
+            $obj->Remove();
             return DataReturn('操作成功', 0);
         }
         return $ret;
@@ -1986,10 +2029,10 @@ class UserService
         }
 
         // 验证码校验
-        $verify_params = array(
-                'key_prefix' => 'bind',
-                'expire_time' => MyC('common_verify_expire_time')
-            );
+        $verify_params = [
+            'key_prefix' => 'bind_'.md5($params['mobile']),
+            'expire_time' => MyC('common_verify_expire_time')
+        ];
         $obj = new \base\Sms($verify_params);
 
         // 是否已过期
@@ -2097,9 +2140,8 @@ class UserService
             // 清除验证码
             $obj->Remove();
             return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user_id));
-        } else {
-            return DataReturn('绑定失败', -100);
         }
+        return DataReturn('绑定失败', -100);
     }
 
     /**
@@ -2134,11 +2176,11 @@ class UserService
         }
 
         // 验证码公共基础参数
-        $verify_params = array(
-                'key_prefix' => 'bind',
-                'expire_time' => MyC('common_verify_expire_time'),
-                'time_interval' => MyC('common_verify_time_interval'),
-            );
+        $verify_params = [
+            'key_prefix' => 'bind_'.md5($params['mobile']),
+            'expire_time' => MyC('common_verify_expire_time'),
+            'time_interval' => MyC('common_verify_time_interval'),
+        ];
 
         // 发送验证码
         $obj = new \base\Sms($verify_params);
@@ -2149,9 +2191,8 @@ class UserService
         if($status)
         {
             return DataReturn('发送成功', 0);
-        } else {
-            return DataReturn('发送失败'.'['.$obj->error.']', -100);
         }
+        return DataReturn('发送失败'.'['.$obj->error.']', -100);
     }
 
     /**

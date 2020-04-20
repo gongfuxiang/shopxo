@@ -479,7 +479,7 @@ ul {margin-top:0;}
  */
 .menu-mini-container-tips{position:absolute;left:63px;top:0;padding:0 10px;width:auto;height:35px;line-height:35px;text-align:center;color:#fff;background-color:#01bcd4;-webkit-box-shadow:0 0 5px rgba(0,0,0,.2);-moz-box-shadow:0 0 5px rgba(0,0,0,.2);box-shadow:0 0 5px rgba(0,0,0,.2);font-weight:700;display:none;z-index:1001;}
 .menu-mini-container-tips span{font-size:12px}
-.menu-mini-container-tips .mui-mbar-tab-tip,.menu-mini-container-popup .mui-mbar-tab-tip{position:absolute;width:16px;height:16px;line-height:16px;text-align:center;font-size:16px;font-family:"\5b8b\4f53";top:10px;left:-11px;z-index:0;color:#01bcd4;}
+.menu-mini-container-tips .mui-mbar-tab-tip,.menu-mini-container-popup .mui-mbar-tab-tip{position:absolute;width:16px;height:16px;line-height:16px;text-align:center;font-size:16px;font-family:"\5b8b\4f53";top:10px;left:-10px;z-index:0;color:#01bcd4;}
 
 /**
  * mini子菜单

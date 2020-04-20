@@ -1,0 +1,73 @@
+/*
+ * 导航
+ */
+.nav {
+  padding: 20rpx 10rpx;
+  position: relative;
+  border-bottom: 1px solid #eee;
+}
+.nav .title {
+  font-size: 32rpx;
+}
+.nav .more {
+  position: absolute;
+  top: 22rpx;
+  right: 10rpx;
+  color: #888;
+  padding-right: 15px;
+}
+
+/**
+ * 数据列表
+ */
+.data-list .item {
+  overflow: hidden;
+  padding: 20rpx 10rpx;
+  position: relative;
+}
+.data-list .item image {
+    width: 160rpx;
+    height: 160rpx !important;
+}
+.data-list .item .base {
+  width: calc(100% - 190rpx);
+  text-align: left;
+  padding: 0 10rpx 0 20rpx;
+}
+.data-list .item .base .name {
+  font-size: 32rpx;
+}
+.data-list .item .base .time {
+  margin-top: 25rpx;
+}
+.data-list .item .base .time-title {
+  width: 60rpx;
+  background: #7ad2ff;
+  color: #fff;
+  text-align: center;
+  padding: 10rpx;
+  line-height: 30rpx;
+  border-radius: 6rpx;
+  margin-right: 10rpx;
+}
+.data-list .item .base .start-time {
+  color: #5eb95e;
+}
+.data-list .item .base .end-time {
+  color: #dd514c;
+}
+.data-list .item .base .status {
+  position: absolute;
+  right: 10rpx;
+  bottom: 20rpx;
+  color: #999;
+}
+.data-list .item .base .status-0 {
+  color: #0e90d2;
+}
+.data-list .item .base .status-1 {
+  color: #5eb95e;
+}
+.data-list .item .base .status-2 {
+  color: #F37B1D;
+}

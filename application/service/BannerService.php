@@ -42,18 +42,28 @@ class BannerService
             $platform = 'h5';
         }
 
-        // 获取banner数据
-        $banner = Db::name('Slide')->field('name,images_url,event_value,event_type,bg_color')->where(['platform'=>$platform, 'is_enable'=>1])->order('sort asc,id asc')->select();
-        if(!empty($banner))
+        // 缓存
+        $key = config('shopxo.cache_banner_list_key').$platform;
+        $data = cache($key);
+
+        if(empty($data))
         {
-            foreach($banner as &$v)
+            // 获取banner数据
+            $data = Db::name('Slide')->field('name,images_url,event_value,event_type,bg_color')->where(['platform'=>$platform, 'is_enable'=>1])->order('sort asc,id asc')->select();
+            if(!empty($data))
             {
-                $v['images_url_old'] = $v['images_url'];
-                $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
-                $v['event_value'] = empty($v['event_value']) ? null : $v['event_value'];
+                foreach($data as &$v)
+                {
+                    $v['images_url_old'] = $v['images_url'];
+                    $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
+                    $v['event_value'] = empty($v['event_value']) ? null : $v['event_value'];
+                }
             }
+
+            // 存储缓存
+            cache($key, $data, 3600*24);
         }
-        return $banner;
+        return $data;
     }
 }
 ?>

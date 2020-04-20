@@ -108,6 +108,49 @@ class ResourcesService
     }
 
     /**
+     * 相对路径文件新增
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-04-16
+     * @desc    description
+     * @param   [string]          $value        [相对路径文件 /static 开头]
+     * @param   [string]          $path_type    [文件存储路径]
+     */
+    public static function AttachmentPathAdd($value, $path_type)
+    {
+        // 文件是否存在
+        $file = ROOT.'public'.$value;
+        if(!file_exists($file))
+        {
+            return DataReturn('文件不存在', -1);
+        }
+
+        // 配置信息
+        $config = config('ueditor.');
+
+        // 文件信息
+        $info = pathinfo($file);
+        $title = empty($info['basename']) ? substr(strrchr($file, '/'), 1) : $info['basename'];
+        $ext = strtolower(strrchr($file, '.'));
+        $type = in_array($ext, $config['imageAllowFiles']) ? 'image' : (in_array($ext, $config['videoAllowFiles']) ? 'video' : 'file');
+
+        // 添加文件
+        $data = [
+            "url"       => $value,
+            "path"      => $file,
+            "title"     => $title,
+            "original"  => $title,
+            "ext"       => $ext,
+            "size"      => filesize($file),
+            'type'      => $type,
+            "hash"      => hash_file('sha256', $file, false),
+            'path_type' => $path_type,
+        ];
+        return self::AttachmentAdd($data);
+    }
+
+    /**
      * 附件添加
      * @author   Devil
      * @blog     http://gong.gg/
@@ -197,6 +240,9 @@ class ResourcesService
                 'attachment_id' => $attachment_id,
             ]);
 
+            $params['id'] = $attachment_id;
+            $params['url'] = self::AttachmentPathViewHandle($data['url']);
+            $params['add_time'] = date('Y-m-d H:i:s', $data['add_time']);
             return DataReturn('添加成功', 0, $params);
         }
 
@@ -267,7 +313,7 @@ class ResourcesService
                 }
             }
         }
-        return DataReturn('操作成功', 0, $data);
+        return DataReturn('success', 0, $data);
     }
 
     /**

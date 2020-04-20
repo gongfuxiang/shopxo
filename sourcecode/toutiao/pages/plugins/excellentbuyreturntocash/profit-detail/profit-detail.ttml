@@ -1,0 +1,24 @@
+<view tt:if="{{detail != null}}">
+  <view tt:if="{{detail_list.length > 0}}" class="panel-item">
+    <view class="panel-content bg-white">
+      <view tt:for="{{detail_list}}" tt:key="item" class="item br-b oh">
+        <view class="title fl cr-888">{{item.name}}</view>
+        <view class="content cr-666 fl br-l">{{item.value}}</view>
+      </view>
+    </view>
+  </view>
+
+  <import src="/pages/common/bottom_line.wxml" />
+  <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
+</view>
+
+<view tt:if="{{detail == null}}">
+  <import src="/pages/common/nodata.wxml" />
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+
+  <view class="nav-back tc wh-auto">
+    <navigator open-type="navigateBack" hover-class="none">
+      <button type="default" size="mini" class="cr-888 br" hover-class="none">返回</button>
+    </navigator>
+  </view>
+</view>

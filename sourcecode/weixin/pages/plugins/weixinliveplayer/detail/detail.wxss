@@ -1,0 +1,92 @@
+/**
+ * 内容
+ */
+.detail {
+  padding-bottom: 100rpx;
+}
+.name {
+  font-size: 32rpx;
+  line-height: 44rpx;
+  font-weight: 500;
+  padding: 15rpx 10rpx;
+}
+.base {
+  overflow: hidden;
+  position: relative;
+  padding: 15rpx 10rpx 0 10rpx;
+}
+.base .item {
+  line-height: 38rpx;
+  padding: 20rpx 0;
+}
+.base .item .item-icon {
+  width: 35rpx;
+  height: 35rpx;
+  vertical-align: middle;
+  margin-right: 10rpx;
+}
+.base .item .more {
+  color: #999;
+}
+.base .item .status-0 {
+  color: #0e90d2;
+}
+.base .item .status-1 {
+  color: #5eb95e;
+}
+.base .item .status-2 {
+  color: #F37B1D;
+}
+.base .item-time {
+  line-height: 75rpx;
+}
+.base .item-time .item-icon {
+  margin-top: 20rpx;
+}
+.base .item-time .time {
+  line-height: 38rpx;
+}
+.base .item-time .start-time {
+  color: #5eb95e;
+}
+.base .item-time .end-time {
+  color: #dd514c;
+}
+
+/**
+ * 导航
+ */
+.nav {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+  height: 100rpx;
+}
+.nav button {
+  height: 100% !important;
+  border-radius: 0;
+  font-size: 32rpx;
+  line-height: 100rpx;
+  color: #fff;
+}
+.nav button image {
+  width: 32rpx;
+  height: 32rpx !important;
+  vertical-align: middle;
+  margin-right: 10rpx;
+}
+.nav button.share-friend-submit,
+.nav button.share-poster-submit {
+  width: 30%;
+}
+.nav button.share-friend-submit {
+  background: #1bad18;
+}
+.nav button.share-poster-submit {
+  background: #6367f0;
+}
+.nav button.player-submit {
+  width: 40%;
+  background: #d2364c;
+}

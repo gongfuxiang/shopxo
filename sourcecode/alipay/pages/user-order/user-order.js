@@ -220,6 +220,7 @@ Page({
 
   // 支付方法
   pay_handle(order_id, index) {
+    var self = this;
     // 加载loding
     my.showLoading({ content: "请求中..." });
 
@@ -235,38 +236,50 @@ Page({
       success: res => {
         my.hideLoading();
         if (res.data.code == 0) {
-          // 是否在线支付,非在线支付则支付成功
-          if (res.data.data.is_online_pay == 0) {
-            var temp_data_list = this.data.data_list;
-            temp_data_list[index]['status'] = 2;
-            temp_data_list[index]['status_name'] = '待发货';
-            this.setData({ data_list: temp_data_list });
-            app.showToast('支付成功', 'success');
-          } else {
-            my.tradePay({
-              tradeNO: res.data.data.data,
-              success: res => {
-                // 数据设置
-                if (res.resultCode == 9000) {
-                  var temp_data_list = this.data.data_list;
-                  temp_data_list[index]['status'] = 2;
-                  temp_data_list[index]['status_name'] = '待发货';
-                  this.setData({ data_list: temp_data_list });
-                
-                  // 跳转支付页面
-                  my.navigateTo({
-                    url:
-                      "/pages/paytips/paytips?code=9000&total_price=" +
-                      this.data.data_list[index]['total_price']
-                  });
-                } else {
-                  app.showToast('支付失败');
+          // 支付方式类型
+          switch (res.data.data.is_payment_type) {
+            // 正常线上支付
+            case 0 :
+              my.tradePay({
+                tradeNO: res.data.data.data,
+                success: res => {
+                  if (res.resultCode == 9000) {
+                    // 数据设置
+                    self.order_item_pay_success_handle(index);
+                  
+                    // 跳转支付页面
+                    my.navigateTo({
+                      url:
+                        "/pages/paytips/paytips?code=9000&total_price=" +
+                        self.data.data_list[index]['total_price']
+                    });
+                  } else {
+                    app.showToast('支付失败');
+                  }
+                },
+                fail: res => {
+                  app.showToast('唤起支付模块失败');
                 }
-              },
-              fail: res => {
-                app.showToast('唤起支付模块失败');
-              }
-            });
+              });
+              break;
+
+            // 线下支付
+            case 1 :
+              var temp_data_list = self.data.data_list;
+              temp_data_list[index]['is_under_line'] = 1;
+              self.setData({ data_list: temp_data_list });
+              app.alert({ msg: res.data.msg, is_show_cancel: 0});
+              break;
+
+            // 钱包支付
+            case 2 :
+              self.order_item_pay_success_handle(index);
+              app.showToast('支付成功', 'success');
+              break;
+
+            // 默认
+            default :
+              app.showToast('支付类型有误');
           }
         } else {
           app.showToast(res.data.msg);
@@ -277,6 +290,32 @@ Page({
         app.showToast('服务器请求出错');
       }
     });
+  },
+
+  // 支付成功数据设置
+  order_item_pay_success_handle(index) {
+    // 数据设置
+    var temp_data_list = this.data.data_list;
+    switch (parseInt(temp_data_list[index]['order_model'])) {
+      // 销售模式
+      case 0:
+        temp_data_list[index]['status'] = 2;
+        temp_data_list[index]['status_name'] = '待发货';
+        break;
+
+      // 自提模式
+      case 2:
+        temp_data_list[index]['status'] = 2;
+        temp_data_list[index]['status_name'] = '待取货';
+        break;
+
+      // 虚拟模式
+      case 3:
+        temp_data_list[index]['status'] = 3;
+        temp_data_list[index]['status_name'] = '待收货';
+        break;
+    }
+    this.setData({ data_list: temp_data_list });
   },
 
   // 取消

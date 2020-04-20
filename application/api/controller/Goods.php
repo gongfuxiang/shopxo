@@ -218,8 +218,7 @@ class Goods extends Common
     {
         // 开始处理
         $params = $this->data_post;
-        $data = GoodsService::GoodsCategory($params);
-        return DataReturn('success', 0, $data);
+        return DataReturn('success', 0, GoodsService::GoodsCategoryAll($params));
     }
 
     /**

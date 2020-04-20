@@ -1,12 +1,4 @@
 /**
  * 编辑/添加页面
  */
-.colorpicker-submit img { width: 18px; height: 18px; }
-
-/**
- * 列表
- */
-@media only screen and (max-width: 641px) {
-	.view-operation button { margin: 2px 0px; }
-}
-.td-title { width: 30%; }
+.colorpicker-submit img { width: 16px; height: 16px; }

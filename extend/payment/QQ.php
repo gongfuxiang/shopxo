@@ -293,7 +293,7 @@ class QQ
             'notify_url'        => $notify_url,
             'out_trade_no'      => $params['order_no'].GetNumberCode(6),
             'fee_type'          => 'CNY',
-            'total_fee'         => intval($params['total_price']*100),
+            'total_fee'         => (int) (($params['total_price']*1000)/10),
             'spbill_create_ip'  => GetClientIP(),
             'trade_type'        => $trade_type,
             'attach'            => empty($params['attach']) ? '订单号：'.$params['order_no'] : $params['attach'],
@@ -414,7 +414,7 @@ class QQ
             'nonce_str'         => md5(time().rand().$params['order_no']),
             'transaction_id'    => $params['trade_no'],
             'out_refund_no'     => $params['order_no'].GetNumberCode(6),
-            'refund_fee'        => intval($params['refund_price']*100),
+            'refund_fee'        => (int) (($params['refund_price']*1000)/10),
             'op_user_id'        => $this->config['op_user_id'],
             'op_user_passwd'    => md5($this->config['op_user_passwd']),
         ];

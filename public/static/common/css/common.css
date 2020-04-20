@@ -1,8 +1,9 @@
 /**
  * 公共
  */
-.none {display:none !important;}
-.block {display:block !important;}
+ul { list-style: none; }
+.none { display:none !important; }
+.block { display:block !important; }
 
 /* 没数据 */
 .table-no {text-align:center;padding:30px 0;background:#FFF !important; color: #888; }
@@ -251,6 +252,8 @@ ul.plug-file-upload-view-video li {
 .am-checkbox, .am-radio, .am-checkbox-inline, .am-radio-inline {
     font-size: 12px;
     padding-left: 18px;
+    min-width: 18px;
+    min-height: 18px;
 }
 .am-ucheck-icons {
     line-height: 18px;
@@ -272,6 +275,14 @@ button.colorpicker-submit:active {
     background-image: none;
     -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.15);
     box-shadow: inset 0 3px 5px rgba(255, 255, 255, 0.15);
+}
+button.colorpicker-submit {
+    padding-right: 10px;
+}
+button.colorpicker-submit img {
+    width: 14px;
+    height: 14px;
+    float: right;
 }
 
 
@@ -312,6 +323,9 @@ button.colorpicker-submit:active {
 /**
  * 自定义辅助类
  */
+.xo-cursor-pr {
+    cursor: pointer;
+}
 @media only screen and (max-width: 641px) {
     /* 水平方向内边距 */
     .xo-padding-horizontal-md-xs {
@@ -400,4 +414,92 @@ button.colorpicker-submit:active {
     -webkit-box-orient: vertical;
     line-height: 18px;
     height: 35px;
+}
+
+/**
+ * 公共加载页面view
+ */
+.am-page-loading {
+    opacity: 1;
+    background: #f5f5f5;
+    display: block;
+}
+
+/**
+ * 表格样式
+ */
+.am-table-scrollable-horizontal {
+    border: 1px solid #ddd;
+}
+.am-table-scrollable-horizontal .am-table {
+    border-collapse: collapse;
+    border: 0;
+    margin: 0;
+}
+.am-table-scrollable-horizontal .am-table > thead > tr > th,
+.am-table-scrollable-horizontal .am-table > tbody > tr > th,
+.am-table-scrollable-horizontal .am-table > tfoot > tr > th,
+.am-table-scrollable-horizontal .am-table > thead > tr > td,
+.am-table-scrollable-horizontal .am-table > tbody > tr > td,
+.am-table-scrollable-horizontal .am-table > tfoot > tr > td {
+    padding: 12px;
+    line-height: 20px;
+}
+.am-table-scrollable-horizontal .am-table .am-nowrap-initial {
+    white-space: initial;
+}
+.am-table-scrollable-horizontal .am-table tr th:first-child,
+.am-table-scrollable-horizontal .am-table tr td:first-child {
+    border-left: 0;
+}
+.am-table-scrollable-horizontal .am-table tr th {
+    background: #e8e6e6;
+    min-width: 100px;
+}
+.am-table-scrollable-horizontal .am-table tr th.am-grid-lg {
+    min-width: 350px;
+}
+.am-table-scrollable-horizontal .am-table tr th.am-grid-sm {
+    min-width: 200px;
+}
+.am-table-scrollable-horizontal .am-table tr th.am-grid-xs {
+    min-width: 150px;
+}
+.am-table-scrollable-horizontal .am-table tr .am-operate-grid {
+    width: 100px;
+    padding: 0;
+}
+.am-table-scrollable-horizontal .am-table tr .am-operate-grid .am-scrollable-vertical {
+    height: 45px;
+    padding: 10px 15px;
+    resize: none;
+    overflow-x: hidden;
+}
+.am-table-scrollable-horizontal .am-table-td-fixed-first th:first-child,
+.am-table-scrollable-horizontal .am-table-td-fixed-first td:first-child,
+.am-table-scrollable-horizontal .am-table-td-fixed-last th:last-child,
+.am-table-scrollable-horizontal .am-table-td-fixed-last td:last-child {
+    position: absolute;
+    width: 100px;
+    height: auto;
+    text-align: center;
+    z-index: 2;
+}
+.am-table-scrollable-horizontal .am-table-td-fixed-first td:first-child,
+.am-table-scrollable-horizontal .am-table-td-fixed-last td:last-child {
+    background: #fff;
+}
+.am-table-scrollable-horizontal .am-table-td-fixed-first th:first-child,
+.am-table-scrollable-horizontal .am-table-td-fixed-first td:first-child {
+    -webkit-box-shadow: 5px 0px 10px rgba(136, 136, 136, 0.3);
+    -moz-box-shadow: 5px 0px 10px rgba(136, 136, 136, 0.3);
+    box-shadow: 5px 0px 10px rgba(136, 136, 136, 0.3);
+    left: 0;
+}
+.am-table-scrollable-horizontal .am-table-td-fixed-last th:last-child,
+.am-table-scrollable-horizontal .am-table-td-fixed-last td:last-child {
+    -webkit-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
+    -moz-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
+    box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
+    right: 0;
 }

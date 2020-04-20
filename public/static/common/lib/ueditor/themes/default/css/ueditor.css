@@ -1172,7 +1172,7 @@ div.edui-box {
 /* 弹出对话框按钮和对话框大小 */
 .edui-default .edui-dialog {
     position: absolute;
-    z-index: 1210 !important;
+    z-index: 1210;
 }
 
 .edui-dialog div{
@@ -1306,7 +1306,7 @@ div.edui-box {
     filter: alpha(opacity = 30);
     background-color: #ccc;
     position: absolute;
-    z-index: 1200 !important;
+    z-index: 1200;
 }
 
 .edui-default .edui-dialog-dragmask {
@@ -1575,7 +1575,7 @@ div.edui-box {
     margin-right: 1px;
     font-size: 12px;
     line-height: 14px;
-    height: 14px;
+    height: 20px;
     border: 1px solid #333;
     padding: 3px 5px;
     cursor: pointer;

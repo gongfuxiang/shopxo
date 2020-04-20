@@ -61,8 +61,6 @@
     margin: 10px 0;
     height: 36px;
     line-height: 18px;
-    font-weight: 300;
-    color: #b3b3b3;
 }
 .content ul.am-gallery-bordered li .operation {
     border-top: 1px dashed #eee;

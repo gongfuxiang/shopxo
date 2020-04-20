@@ -297,7 +297,6 @@ function FromInit(form_name)
 
 					// 错误信息
 					var msg = $editor_tag.data('validationMessage') || $editor_tag.getValidationMessage(validity);
-					console.log(msg);
 					Prompt(msg);
 				}
 			}
@@ -778,7 +777,7 @@ function ModalLoad(url, title, tag, class_tag)
 	var html = '<div class="am-popup popup-iframe '+class_tag+'" id="'+tag+'">';
 		html += '<div class="am-popup-inner">';
 	    html += '<div class="am-popup-hd">';
-	    html += '<h4 class="am-popup-title">'+(title || '温馨提示')+'</h4>';
+	    html += '<h4 class="am-popup-title">'+(title || '详情')+'</h4>';
 	    html += '<span data-am-modal-close class="am-close">&times;</span>';
 		html += '</div>';
 	    html += '<iframe src="'+url+'" width="100%" height="100%"></iframe>';
@@ -1548,10 +1547,154 @@ function MapInit(lng, lat, level, point, is_dragend)
     }
 }
 
+/**
+ * 表格容器处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-02-29
+ * @desc    description
+ */
+function TableContainerInit()
+{
+	if($('.am-table-scrollable-horizontal').length > 0)
+	{
+		// th
+		$('.am-table-scrollable-horizontal thead tr').each(function(k, v)
+	    {        
+	        // 第一列
+	        if($(this).parents('.am-table').hasClass('am-table-td-fixed-first'))
+	        {
+	        	$(this).find('th:first').css('left', $(this).parents('.am-table').offset().left);
+
+	        	// 第一列自定义宽度->默认宽度,设置第二列 padding-left
+	        	var first_width = $(this).find('th').first().data('width') || $(this).find('th').first().innerWidth();
+	        	if(first_width > 0)
+	        	{
+		        	$(this).find('th').eq(1).css('min-width', (($(this).find('th').eq(1).data('width') || 0)+first_width)+'px');
+	        		$(this).find('th').eq(1).css('padding-left', (first_width+10)+'px');
+	        	}
+	        }
+
+	        // 最后一列
+	        if($(this).parents('.am-table').hasClass('am-table-td-fixed-last'))
+	        {
+	        	var $obj = $(this).parents('.am-table-scrollable-horizontal');
+				var width = $(document.body).width();
+				var left = $obj.offset().left;
+				var right = width-$obj.width()-left-1;
+	        	$(this).find('th:last').css('right', right);
+
+	        	// 最后一列自定义宽度->默认宽度,设置倒数第二列 padding-right
+	        	var last_width = $(this).find('th').last().data('width') || $(this).find('th').last().innerWidth();
+	        	if(last_width > 0)
+	        	{
+	        		$(this).find('th').eq(-2).css('min-width', (($(this).find('th').eq(-2).data('width') || 0)+last_width)+'px');
+	        		$(this).find('th').eq(-2).css('padding-right', (last_width+10)+'px');
+	        	}
+	        }
+	        
+	        // 是否自定义宽高
+	        $(this).find('th').each(function(ks, vs)
+	        {
+	        	var width = $(this).data('width') || 0;
+		        if(width > 0)
+		        {
+		        	$(this).css('width', width+'px');
+		        }
+		        var height = $(this).data('height') || 0;
+		        if(height > 0)
+		        {
+		        	$(this).css('height', height+'px');
+		        }
+	        });
+	    });
+
+	    // td
+		$('.am-table-scrollable-horizontal tbody tr').each(function(k, v)
+	    {
+	    	// 容器
+	        var height = $(this).height() || 0;
+
+	        // 自定义高度,仅大于默认高度的时候有效
+	        var z_height = $(this).data('height') || 0;
+	        if(z_height > height)
+	        {
+	        	height = z_height;
+	        }
+	        if(height > 0)
+	        {
+	            $(this).find('td').css('height', height+'px');
+
+		        // 第一列
+		        if($(this).parents('.am-table').hasClass('am-table-td-fixed-first'))
+		        {
+		        	$(this).find('td:first').css('left', $(this).parents('.am-table').offset().left);
+
+		        	// 第一列自定义宽度->默认宽度,设置第二列 padding-left
+		        	var first_width = $(this).find('td').first().data('width') || $(this).find('td').first().innerWidth();
+		        	if(first_width > 0)
+		        	{
+		        		$(this).find('td').eq(1).css('padding-left', (first_width+10)+'px');
+		        	}
+		        }
+
+		        // 最后一列
+		        if($(this).parents('.am-table').hasClass('am-table-td-fixed-last'))
+		        {
+					var $obj = $(this).parents('.am-table-scrollable-horizontal');
+					var width = $(document.body).width();
+					var left = $obj.offset().left;
+					var right = width-$obj.width()-left-1;
+		        	$(this).find('td:last').css('right', right);
+
+		        	// 最后一列自定义宽度->默认宽度,设置倒数第二列 padding-right
+		        	var last_width = $(this).find('td').last().data('width') || $(this).find('td').last().innerWidth();
+		        	if(last_width > 0)
+		        	{
+		        		$(this).find('td').eq(-2).css('padding-right', (last_width+10)+'px');
+		        	}
+		        }
+
+		        // 操作栏下容器高度
+	        	if($(this).find('td.am-operate-grid .am-scrollable-vertical').length > 0)
+	        	{
+	        		$(this).find('td.am-operate-grid .am-scrollable-vertical').css('height', (height-1)+'px');
+	        	}
+
+	        	// 是否自定义宽高
+		        $(this).find('td').each(function(ks, vs)
+		        {
+		        	var width = $(this).data('width') || 0;
+			        if(width > 0)
+			        {
+			        	$(this).css('width', width+'px');
+			        }
+			        var height = $(this).data('height') || 0;
+			        if(height > 0)
+			        {
+			        	$(this).css('height', height+'px');
+			        }
+		        });
+	        }
+	    });
+    }
+}
+
 
 // 公共数据操作
 $(function()
 {
+	// 浏览器窗口实时事件
+    $(window).resize(function()
+    {
+    	// 表格初始化
+    	TableContainerInit();
+    });
+
+    // 表格初始化
+    TableContainerInit();
+
 	// 全屏操作
 	$('.fullscreen-event').on('click', function()
 	{
@@ -2218,5 +2361,15 @@ $(function()
 			$more_where.removeClass('none');
 		}
 	});
+
+	/**
+	 * 页面加载 loading
+	 */
+	 if($('.am-page-loading').length > 0)
+	 {
+	 	setTimeout(function() {
+	        $('.am-page-loading').fadeOut(500);
+	    }, 300);
+	 }
 
 });

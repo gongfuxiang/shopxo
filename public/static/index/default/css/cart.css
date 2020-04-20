@@ -23,6 +23,7 @@ strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2
 .selected-tips { margin-right: 15px; }
 .cart-nav label { font-weight: 500; margin: 0;  }
 .cart-nav input[type="checkbox"] { vertical-align: inherit; }
+.cart-nav .nav-delete-submit { vertical-align: middle; }
 
 @media only screen and (min-width:640px)  {
     .cart-content table tr .base { width: 30%; }

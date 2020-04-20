@@ -14,15 +14,3 @@
 	.list-submit, .find-submit { display: none; }
 	.list-find li:hover .find-submit, .tree-list li:hover .list-submit { display: block !important; }
 }
-
-/**
- * 角色列表
- */
-.power-text { width: 45%; }
-
-/**
- * 角色添加/编辑
- */
-@media only screen and (max-width: 641px) {
-    .role-list .submit-delete { margin-top: 5px; display: block !important; }
-}

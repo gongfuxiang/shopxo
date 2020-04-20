@@ -1,7 +1,0 @@
-/**
- * 列表
- */
-@media only screen and (max-width: 321px) {
-	.view-operation button { margin: 2px 0px; }
-}
-.event-value { max-width: 260px; word-wrap: break-word; word-break: break-all; }

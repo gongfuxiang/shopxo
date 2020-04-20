@@ -87,22 +87,25 @@ class OrderService
             return DataReturn('支付方式有误', -1);
         }
 
-        // 更新订单支付方式
+        // 更新订单支付方式信息
         if(!empty($params['payment_id']) && $params['payment_id'] != $order['payment_id'])
         {
-            Db::name('Order')->where(['id'=>$order['id']])->update(['payment_id'=>$payment_id, 'upd_time'=>time()]);
+            Db::name('Order')->where(['id'=>$order['id']])->update([
+                'payment_id'    => $payment_id,
+                'is_under_line' => in_array($payment[0]['payment'], config('shopxo.under_line_list')) ? 1 : 0,
+                'upd_time'      => time(),
+            ]);
         }
 
-        // 金额为0直接支付成功
+        // 金额为0、走直接支付成功
         if($order['total_price'] <= 0.00)
         {
-            // 非线上支付处理
             $params['user']['user_name_view'] = '用户-'.$params['user']['user_name_view'];
-            $pay_result = self::OrderPaymentUnderLine([
+            $pay_result = self::OrderDirectSuccess([
                 'order'     => $order,
                 'payment'   => $payment[0],
                 'user'      => $params['user'],
-                'subject'   => $params,
+                'params'    => $params,
             ]);
             if($pay_result['code'] == 0)
             {
@@ -190,7 +193,7 @@ class OrderService
         $ret = (new $pay_name($payment[0]['config']))->Pay($pay_data);
         if(isset($ret['code']) && $ret['code'] == 0)
         {
-            // 非线上支付处理
+            // 线下支付处理
             if(in_array($payment[0]['payment'], config('shopxo.under_line_list')))
             {
                 $params['user']['user_name_view'] = '用户-'.$params['user']['user_name_view'];
@@ -203,17 +206,31 @@ class OrderService
                 if($pay_result['code'] != 0)
                 {
                     return $pay_result;
+                } else {
+                    $ret['msg'] = $pay_result['msg'];
                 }
             }
 
             // 支付信息返回
             $ret['data'] = [
-                // 是否为在线支付类型
-                'is_online_pay' => ($payment[0]['payment'] == 'WalletPay' || in_array($payment[0]['payment'], config('shopxo.under_line_list'))) ? 0 : 1,
+                // 支付类型(0正常线上支付、1线下支付、2钱包支付)
+                'is_payment_type'   => 0,
 
                 // 支付模块处理数据
-                'data'          => $ret['data'],
+                'data'              => $ret['data'],
             ];
+
+            // 是否线下支付
+            if(in_array($payment[0]['payment'], config('shopxo.under_line_list')))
+            {
+                $ret['data']['is_payment_type'] = 1;
+            } else {
+                // 是否钱包支付
+                if($payment[0]['payment'] == 'WalletPay')
+                {
+                    $ret['data']['is_payment_type'] = 2;
+                }
+            }
 
             return $ret;
         }
@@ -278,28 +295,29 @@ class OrderService
             return DataReturn('支付方式有误', -1);
         }
 
-        // 非线上支付处理
-        return self::OrderPaymentUnderLine([
+        // 线下支付处理
+        return self::OrderPaymentUnderLineSuccess([
             'order'     => $order,
             'payment'   => $payment[0],
             'user'      => $params['user'],
-            'subject'   => $params,
+            'params'    => $params,
         ]);
     }
 
     /**
-     * [OrderPaymentUnderLine 线下支付处理]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-10-05T22:40:57+0800
+     * 订单金额为小于等于0直接成功
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-04-07
+     * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private static function OrderPaymentUnderLine($params = [])
+    private static function OrderDirectSuccess($params = [])
     {
         if(!empty($params['order']) && !empty($params['payment']) && !empty($params['user']))
         {
-            if(in_array($params['payment']['payment'], config('shopxo.under_line_list')) || $params['order']['total_price'] <= 0.00)
+            if($params['order']['total_price'] <= 0.00)
             {
                 // 支付处理
                 $pay_params = [
@@ -313,11 +331,64 @@ class OrderService
                     ],
                 ];
                 return self::OrderPayHandle($pay_params);
-            } else {
-                return DataReturn('仅线下支付方式处理', -1);
             }
+            return DataReturn('订单金额有误、请正常发起支付', -1);
         }
-        return DataReturn('无需处理', 0);
+        return DataReturn('支付传参有误', -1);
+    }
+
+    /**
+     * 线下支付方式、直接支付成功
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-04-07
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    private static function OrderPaymentUnderLineSuccess($params = [])
+    {
+        if(!empty($params['order']) && !empty($params['payment']) && !empty($params['user']))
+        {
+            if(in_array($params['payment']['payment'], config('shopxo.under_line_list')))
+            {
+                // 支付处理
+                $pay_params = [
+                    'order'     => $params['order'],
+                    'payment'   => $params['payment'],
+                    'pay'       => [
+                        'trade_no'      => '',
+                        'subject'       => isset($params['params']['subject']) ? $params['params']['subject'] : '订单支付',
+                        'buyer_user'    => $params['user']['user_name_view'],
+                        'pay_price'     => $params['order']['total_price'],
+                    ],
+                ];
+                return self::OrderPayHandle($pay_params);
+            }
+            return DataReturn('仅线下支付方式处理', -1);
+        }
+        return DataReturn('支付传参有误', -1);
+    }
+
+    /**
+     * 线下支付处理
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-10-05T22:40:57+0800
+     * @param   [array]          $params [输入参数]
+     */
+    private static function OrderPaymentUnderLine($params = [])
+    {
+        if(!empty($params['order']) && !empty($params['payment']) && !empty($params['user']))
+        {
+            if(in_array($params['payment']['payment'], config('shopxo.under_line_list')))
+            {
+                return DataReturn('提交成功、待管理员确认', 0);
+            }
+            return DataReturn('仅线下支付方式处理', -1);
+        }
+        return DataReturn('支付传参有误', -1);
     }
 
     /**
@@ -370,8 +441,8 @@ class OrderService
             $where = ['order_no'=>$ret['data']['out_trade_no'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
             $order = Db::name('Order')->where($where)->find();
 
-            // 非线上支付处理
-            self::OrderPaymentUnderLine([
+            // 线下支付方式处理
+            return self::OrderPaymentUnderLine([
                 'order'     => $order,
                 'payment'   => $payment[0],
                 'user'      => $params['user'],
@@ -506,15 +577,20 @@ class OrderService
         $detail = '订单支付成功，金额'.PriceBeautify($params['order']['total_price']).'元';
         MessageService::MessageAdd($params['order']['user_id'], '订单支付', $detail, 1, $params['order']['id']);
 
-        // 更新订单状态
-        $upd_data = array(
+        // 订单更新数据
+        $upd_data = [
             'status'        => 2,
             'pay_status'    => 1,
             'pay_price'     => $pay_price,
             'payment_id'    => $params['payment']['id'],
             'pay_time'      => time(),
             'upd_time'      => time(),
-        );
+        ];
+
+        // 是否线下支付
+        $upd_data['is_under_line'] = in_array($params['payment']['payment'], config('shopxo.under_line_list')) ? 1 : 0;
+
+        // 更新订单状态
         if(Db::name('Order')->where(['id'=>$params['order']['id']])->update($upd_data))
         {
             // 添加状态日志
@@ -605,9 +681,41 @@ class OrderService
             }
         }
 
+        // 关键字
         if(!empty($params['keywords']))
         {
-            $where[] = ['order_no|express_number', 'like', '%'.$params['keywords'] . '%'];
+            // 查询状态
+            $keywords_status = false;
+
+            // 订单表查询
+            $oids = Db::name('Order')->where([['order_no|express_number', '=', $params['keywords']]])->column('id');
+            if(!empty($oids))
+            {
+                $where[] = ['id', 'in', $oids];
+                $keywords_status = true;
+            }
+
+            // 取货码查询
+            if($keywords_status === false && strlen(intval($params['keywords'])) == 4)
+            {
+                $oid = Db::name('OrderExtractionCode')->where(['code'=>$params['keywords']])->value('order_id');
+                if(!empty($oid))
+                {
+                    $where[] = ['id', '=', $oid];
+                    $keywords_status = true;
+                }
+            }
+
+            // 收件姓名电话查询
+            if($keywords_status === false)
+            {
+                $oids = Db::name('OrderAddress')->where([['name|tel', '=', $params['keywords']]])->column('order_id');
+                if(!empty($oids))
+                {
+                    $where[] = ['id', 'in', $oids];
+                    $keywords_status = true;
+                }
+            }
         }
 
         // 是否更多条件
@@ -625,6 +733,10 @@ class OrderService
             if(isset($params['pay_status']) && $params['pay_status'] > -1)
             {
                 $where[] = ['pay_status', '=', intval($params['pay_status'])];
+            }
+            if(isset($params['order_model']) && $params['order_model'] > -1)
+            {
+                $where[] = ['order_model', '=', intval($params['order_model'])];
             }
             if(!empty($params['client_type']))
             {
@@ -742,7 +854,7 @@ class OrderService
                     // 自提模式 添加订单取货码
                     if($v['order_model'] == 2)
                     {
-                        $v['extraction_data'] = self::OrdersExtractionData($v['id']);
+                        $v['extraction_data'] = self::OrdersExtractionData($v['id'], $v['user_id']);
                     }
                 }
 
@@ -771,7 +883,10 @@ class OrderService
                 $v['express_name'] = ExpressService::ExpressName($v['express_id']);
 
                 // 支付方式
-                $v['payment_name'] = ($v['status'] <= 1) ? null : PaymentService::OrderPaymentName($v['id']);
+                $v['payment_name'] = PaymentService::OrderPaymentName($v['id'], $v['payment_id']);
+
+                // 线下支付 icon 名称
+                $v['is_under_line_text'] = ($v['is_under_line'] == 1) ? '线下支付' : null;
 
                 // 创建时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -882,7 +997,7 @@ class OrderService
             }
         }
 
-        return DataReturn('处理成功', 0, $data);
+        return DataReturn('success', 0, $data);
     }
 
     /**
@@ -892,19 +1007,49 @@ class OrderService
      * @version 1.0.0
      * @date    2019-11-26
      * @desc    description
-     * @param   [int]          $order_id [订单id]
+     * @param   [int]          $order_id    [订单id]
+     * @param   [int]          $user_id     [用户id]
      */
-    private static function OrdersExtractionData($order_id)
+    private static function OrdersExtractionData($order_id, $user_id)
     {
+        // 必须返回的内容格式
         $result = [
             'code'      => null,
             'images'    => null,
         ];
+
+        // 获取取货码
         $code = Db::name('OrderExtractionCode')->where(['order_id'=>$order_id])->value('code');
         if(!empty($code))
         {
             $result['code'] = $code;
-            $result['images'] = MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($code))]);
+
+            // 生成二维码参数
+            $qrcode_params = [
+                'content'   => $code,
+                'root_path' => ROOT.'public',
+                'path'      => DS.'download'.DS.'order'.DS.'extraction_ode'.DS,
+                'filename'  => $user_id.'_'.$order_id.'.png',
+            ];
+
+            // 图片不存在则去生成二维码图片并保存至目录
+            $file = $qrcode_params['root_path'].$qrcode_params['path'].$qrcode_params['filename'];
+            if(!file_exists($file))
+            {
+                $ret = (new \base\Qrcode())->Create($qrcode_params);
+                if($ret['code'] == 0)
+                {
+                    $result['images'] = $qrcode_params['path'].$qrcode_params['filename'];
+                }
+            } else {
+                $result['images'] = $qrcode_params['path'].$qrcode_params['filename'];
+            }
+
+            // 展示地址处理
+            if(!empty($result['images']))
+            {
+                $result['images'] = ResourcesService::AttachmentPathViewHandle($result['images']);
+            }
         }
         return $result;
     }
@@ -1593,7 +1738,7 @@ class OrderService
             ];
         }
             
-        return DataReturn('处理成功', 0, $result);
+        return DataReturn('success', 0, $result);
     }
 
     /**
@@ -1622,14 +1767,14 @@ class OrderService
         }
 
         // 获取订单商品
-        $order_detail = Db::name('OrderDetail')->field('goods_id,buy_number')->where(['order_id'=>$params['order_id']])->select();
+        $order_detail = Db::name('OrderDetail')->field('id,goods_id,title,buy_number')->where(['order_id'=>$params['order_id']])->select();
         if(!empty($order_detail))
         {
             foreach($order_detail as $v)
             {
-                if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->setInc('sales_count', $v['buy_number']))
+                if(Db::name('Goods')->where(['id'=>$v['goods_id']])->setInc('sales_count', $v['buy_number']) === false)
                 {
-                    return DataReturn('订单商品销量增加失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                    return DataReturn('订单商品销量增加失败['.$v['title'].']', -10);
                 }
             }
             return DataReturn('操作成功', 0);

@@ -247,7 +247,7 @@ class IntegralService
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $field = 'ui.*,u.username,u.nickname,u.mobile,u.gender';
+        $field = 'ui.*,u.username,u.nickname,u.mobile,u.email,u.gender';
         $order_by = empty($params['order_by']) ? 'ui.id desc' : $params['order_by'];
 
         // 获取数据列表

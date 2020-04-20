@@ -13,7 +13,7 @@
 if(version_compare(PHP_VERSION,'5.6.0','<'))  die('PHP版本最低 5.6.0');
 
 // 系统版本
-define('APPLICATION_VERSION', 'v1.8.0');
+define('APPLICATION_VERSION', 'v1.8.1');
 
 // 定义系统目录分隔符
 define('DS', '/');
@@ -43,7 +43,7 @@ define('__MY_VIEW_URL__', substr(__MY_URL__, 0, -1).$request_url);
 define('ROOT_PATH', str_replace('\\', DS, dirname(__FILE__)).DS);
 
 // 系统根目录 去除public
-define('ROOT', str_replace('public'.DS, '', ROOT_PATH));
+define('ROOT', substr(ROOT_PATH, 0, -7));
 
 // 定义应用目录
 define('APP_PATH', ROOT.'application'.DS);

@@ -67,7 +67,7 @@
                             <p class="line-price">{{$price_symbol}}{{$goods.price}}</p>
                         </td>
                         <td class="number">
-                            <div class="am-input-group am-input-group-sm stock-tag" data-inventory="{{$goods.inventory}}" data-price="{{$goods.price}}" data-ajax-url="{{:MyUrl('index/cart/Stock')}}">
+                            <div class="am-input-group am-input-group-sm stock-tag" data-inventory="{{$goods.inventory}}" data-price="{{$goods.price}}" data-ajax-url="{{:MyUrl('index/cart/stock')}}">
                                 <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="min">-</span>
                                 <input type="number" class="am-form-field" value="{{$goods.stock}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} />
                                 <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="add">+</span>
@@ -94,7 +94,7 @@
                     <input type="checkbox" value="1" data-am-ucheck />
                     <span class="el-text">全选</span>
                 </label>
-                <a href="javascript:;" class="am-margin-left-sm submit-ajax" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$base.ids}}" data-view="reload" data-msg="清空后不可恢复、确认操作吗？">清空</a>
+                <a href="javascript:;" class="am-margin-left-sm nav-delete-submit submit-ajax" data-url="{{:MyUrl('index/cart/delete')}}" data-id="0" data-view="reload" data-msg="删除后不可恢复、确认操作吗？">删除</a>
             </div>
             <div class="am-fr nav-right">
                 <form action="{{:MyUrl('index/buy/index')}}" method="post">

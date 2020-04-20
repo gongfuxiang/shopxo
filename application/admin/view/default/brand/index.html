@@ -73,11 +73,11 @@
             <!-- 顶部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_brand_top_operation</span>
+                    <span>plugins_view_admin_brand_top_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_brand_top_operation';
+                $hook_name = 'plugins_view_admin_brand_top_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {
@@ -94,139 +94,150 @@
         <!-- top operation end -->
 
         <!-- list start -->
-        <table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm">
-            <thead>
-                <tr>
-                    <th>名称</th>
-                    <th class="am-hide-sm-only">LOGO</th>
-                    <th class="am-hide-sm-only">品牌分类</th>
-                    <th class="am-hide-sm-only">官网地址</th>
-                    <th>是否启用</th>
-                    <th>更多</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{if !empty($data_list)}}
-                    {{foreach $data_list as $v}}
-                        <tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
-                            <td>{{$v.name}}</td>
-                            <td class="am-hide-sm-only">
-                                {{if !empty($v['logo'])}}
-                                    <a href="{{$v['logo']}}" target="_blank">
-                                        <img src="{{$v['logo']}}" class="am-radius" width="100" />
-                                    </a>
-                                {{else /}}
-                                    <span class="cr-ddd">暂无图片</span>
-                                {{/if}}
-                            </td>
-                            <td class="am-hide-sm-only">{{$v.brand_category_name}}</td>
-                            <td class="am-hide-sm-only">
-                                {{$v.website_url}}
-                                {{if !empty($v['website_url'])}}
-                                    <a href="{{$v.website_url}}" target="_blank">
-                                        <i class="am-icon-external-link"></i>
-                                    </a>
-                                {{/if}}
-                            </td>
-                            <td>
-                                <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/brand/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
-                            </td>
-                            <td>
-                                <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
-                                <div class="am-popup am-radius" id="my-popup{{$v.id}}">
-                                    <div class="am-popup-inner">
-                                        <div class="am-popup-hd">
-                                            <h4 class="am-popup-title">详情内容</h4>
-                                            <span data-am-modal-close
-                                            class="am-close">&times;</span>
-                                        </div>
-                                        <div class="am-popup-bd">
-                                            <dl class="dl-content">
-                                                <dt>名称</dt>
-                                                <dd>{{$v.name}}</dd>
+        <div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm">
+            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last">
+                <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th class="am-grid-sm">LOGO</th>
+                        <th>品牌分类</th>
+                        <th class="am-grid-sm">官网地址</th>
+                        <th class="am-text-center">是否启用</th>
+                        <th class="am-text-center">更多</th>
+                        <th class="am-text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{if !empty($data_list)}}
+                        {{foreach $data_list as $v}}
+                            <tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}}class="am-active"{{/if}}>
+                                <td class="am-text-middle">{{$v.name}}</td>
+                                <td class="am-text-middle">
+                                    {{if !empty($v['logo'])}}
+                                        <a href="{{$v['logo']}}" target="_blank">
+                                            <img src="{{$v['logo']}}" class="am-radius" width="100" />
+                                        </a>
+                                    {{else /}}
+                                        <span class="cr-ddd">暂无图片</span>
+                                    {{/if}}
+                                </td>
+                                <td class="am-text-middle">{{$v.brand_category_name}}</td>
+                                <td class="am-text-middle">
+                                    {{$v.website_url}}
+                                    {{if !empty($v['website_url'])}}
+                                        <a href="{{$v.website_url}}" target="_blank">
+                                            <i class="am-icon-external-link"></i>
+                                        </a>
+                                    {{/if}}
+                                </td>
+                                <td class="am-text-middle am-text-center">
+                                    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/brand/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
+                                </td>
+                                <td class="am-text-middle">
+                                    <p class="am-text-center xo-cursor-pr">
+                                        <i class="am-icon-caret-down"></i>
+                                        <span data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
+                                    </p>
+                                    <div class="am-popup am-radius" id="my-popup{{$v.id}}">
+                                        <div class="am-popup-inner">
+                                            <div class="am-popup-hd">
+                                                <h4 class="am-popup-title">详情内容</h4>
+                                                <span data-am-modal-close
+                                                class="am-close">&times;</span>
+                                            </div>
+                                            <div class="am-popup-bd">
+                                                <dl class="dl-content">
+                                                    <dt>名称</dt>
+                                                    <dd>{{$v.name}}</dd>
 
-                                                <dt>LOGO</dt>
-                                                <dd>
-                                                    {{if !empty($v['logo'])}}
-                                                        <a href="{{$v['logo']}}" target="_blank">
-                                                            <img src="{{$v['logo']}}" class="am-radius" width="100" />
-                                                        </a>
-                                                    {{else /}}
-                                                        <span class="cr-ddd">暂无图片</span>
-                                                    {{/if}}
-                                                </dd>
+                                                    <dt>LOGO</dt>
+                                                    <dd>
+                                                        {{if !empty($v['logo'])}}
+                                                            <a href="{{$v['logo']}}" target="_blank">
+                                                                <img src="{{$v['logo']}}" class="am-radius" width="100" />
+                                                            </a>
+                                                        {{else /}}
+                                                            <span class="cr-ddd">暂无图片</span>
+                                                        {{/if}}
+                                                    </dd>
 
-                                                <dt>品牌分类</dt>
-                                                <dd>{{$v.brand_category_name}}</dd>
+                                                    <dt>品牌分类</dt>
+                                                    <dd>{{$v.brand_category_name}}</dd>
 
-                                                <dt>官网地址</dt>
-                                                <dd>
-                                                    {{$v.website_url}}
-                                                    {{if !empty($v['website_url'])}}
-                                                        <a href="{{$v.website_url}}" target="_blank">
-                                                            <i class="am-icon-external-link"></i>
-                                                        </a>
-                                                    {{/if}}
-                                                </dd>
+                                                    <dt>官网地址</dt>
+                                                    <dd>
+                                                        {{$v.website_url}}
+                                                        {{if !empty($v['website_url'])}}
+                                                            <a href="{{$v.website_url}}" target="_blank">
+                                                                <i class="am-icon-external-link"></i>
+                                                            </a>
+                                                        {{/if}}
+                                                    </dd>
 
-                                                <dt>是否启用</dt>
-                                                <dd>{{$v.is_enable_text}}</dd>
+                                                    <dt>是否启用</dt>
+                                                    <dd>{{$v.is_enable_text}}</dd>
 
-                                                <dt>SEO标题</dt>
-                                                <dd>{{$v.seo_title}}</dd>
+                                                    <dt>SEO标题</dt>
+                                                    <dd>{{$v.seo_title}}</dd>
 
-                                                <dt>SEO关键字</dt>
-                                                <dd>{{$v.seo_keywords}}</dd>
+                                                    <dt>SEO关键字</dt>
+                                                    <dd>{{$v.seo_keywords}}</dd>
 
-                                                <dt>SEO描述</dt>
-                                                <dd>{{$v.seo_desc}}</dd>
+                                                    <dt>SEO描述</dt>
+                                                    <dd>{{$v.seo_desc}}</dd>
 
-                                                <dt>创建时间</dt>
-                                                <dd>{{$v.add_time_time}}</dd>
+                                                    <dt>创建时间</dt>
+                                                    <dd>{{$v.add_time_time}}</dd>
 
-                                                <dt>更新时间</dt>
-                                                <dd>{{$v.upd_time_time}}</dd>
-                                            </dl>
+                                                    <dt>更新时间</dt>
+                                                    <dd>{{$v.upd_time_time}}</dd>
+                                                </dl>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="view-operation">
-                                <a href="{{:MyUrl('admin/brand/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
-                                    <button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit"> 编辑</button>
-                                </a>
-                                <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/brand/Delete')}}" data-id="{{$v.id}}"> 删除</button>
+                                </td>
+                                <td class="am-operate-grid">
+                                    <div class="am-scrollable-vertical">
+                                        <a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/brand/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
+                                            <i class="am-icon-edit"></i>
+                                            <span>编辑</span>
+                                        </a>
+                                        <button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/brand/delete')}}" data-id="{{$v.id}}">
+                                            <i class="am-icon-trash-o"></i>
+                                            <span>删除</span>
+                                        </button>
 
-                                <!-- 品牌列表操作钩子 -->
-                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                                    <div class="plugins-tag">
-                                        <span>plugins_view_admin_brand_list_operation</span>
-                                    </div>
-                                {{/if}}
-                                {{php}}
-                                    $hook_name = 'plugins_view_admin_brand_list_operation';
-                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
-                                    if(!empty($hook_data) && is_array($hook_data))
-                                    {
-                                        foreach($hook_data as $hook)
-                                        {
-                                            if(is_string($hook) || is_int($hook))
+                                        <!-- 品牌列表操作钩子 -->
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                            <div class="plugins-tag">
+                                                <span>plugins_view_admin_brand_list_operate</span>
+                                            </div>
+                                        {{/if}}
+                                        {{php}}
+                                            $hook_name = 'plugins_view_admin_brand_list_operate';
+                                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
+                                            if(!empty($hook_data) && is_array($hook_data))
                                             {
-                                                echo htmlspecialchars_decode($hook);
+                                                foreach($hook_data as $hook)
+                                                {
+                                                    if(is_string($hook) || is_int($hook))
+                                                    {
+                                                        echo htmlspecialchars_decode($hook);
+                                                    }
+                                                }
                                             }
-                                        }
-                                    }
-                                {{/php}}
-                            </td>
-                        </tr>
-                    {{/foreach}}
-                {{/if}}
-            </tbody>
-        </table>
-        {{if empty($data_list)}}
-            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-        {{/if}}
+                                        {{/php}}
+                                    </div>
+                                </td>
+                            </tr>
+                        {{/foreach}}
+                    {{/if}}
+                </tbody>
+            </table>
+            {{if empty($data_list)}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+            {{/if}}
+        </div>
         <!-- list end -->
 
         <!-- bottom operation start -->
@@ -234,11 +245,11 @@
             <!-- 底部操作钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                 <div class="plugins-tag">
-                    <span>plugins_view_admin_brand_bottom_operation</span>
+                    <span>plugins_view_admin_brand_bottom_operate</span>
                 </div>
             {{/if}}
             {{php}}
-                $hook_name = 'plugins_view_admin_brand_bottom_operation';
+                $hook_name = 'plugins_view_admin_brand_bottom_operate';
                 $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
                 if(!empty($hook_data) && is_array($hook_data))
                 {

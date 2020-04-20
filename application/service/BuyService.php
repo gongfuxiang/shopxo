@@ -15,6 +15,7 @@ use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\ResourcesService;
+use app\service\PaymentService;
 use app\service\ConfigService;
 
 /**
@@ -27,7 +28,7 @@ use app\service\ConfigService;
 class BuyService
 {
     /**
-     * 购物车添加
+     * 购物车添加/更新
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -35,7 +36,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function CartAdd($params = [])
+    public static function CartSave($params = [])
     {
         // 请求参数
         $p = [
@@ -103,6 +104,15 @@ class BuyService
             }
         }
 
+        // 数量
+        $stock = ($goods['buy_max_number'] > 0 && $params['stock'] > $goods['buy_max_number']) ? $goods['buy_max_number'] : $params['stock'];
+
+        // 库存
+        if($stock > $goods['inventory'])
+        {
+            return DataReturn('库存不足', -1);
+        }
+
         // 添加购物车
         $data = [
             'user_id'       => $params['user']['id'],
@@ -111,7 +121,7 @@ class BuyService
             'images'        => $goods['images'],
             'original_price'=> $goods_base['data']['spec_base']['original_price'],
             'price'         => $goods_base['data']['spec_base']['price'],
-            'stock'         => intval($params['stock']),
+            'stock'         => $stock,
             'spec'          => empty($spec) ? '' : json_encode($spec),
         ];
 
@@ -132,6 +142,10 @@ class BuyService
             {
                 $data['stock'] = $goods['inventory'];
             }
+            if($goods['buy_max_number'] > 0 && $data['stock'] > $goods['buy_max_number'])
+            {
+                $data['stock'] = $goods['buy_max_number'];
+            }
             if(Db::name('Cart')->where($where)->update($data))
             {
                 return DataReturn('加入成功', 0, self::UserCartTotal($params));
@@ -150,7 +164,7 @@ class BuyService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private static function GoodsSpecificationsHandle($params = [])
+    public static function GoodsSpecificationsHandle($params = [])
     {
         $spec = '';
         if(!empty($params['spec']))
@@ -194,7 +208,7 @@ class BuyService
         $where['c.user_id'] = $params['user']['id'];
 
         $field = 'c.*, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number, g.model';
-        $data = Db::name('Cart')->alias('c')->join(['__GOODS__'=>'g'], 'g.id=c.goods_id')->where($where)->field($field)->order('c.id desc')->select();
+        $data = Db::name('Cart')->alias('c')->leftJoin(['__GOODS__'=>'g'], 'g.id=c.goods_id')->where($where)->field($field)->order('c.id desc')->select();
 
         // 数据处理
         if(!empty($data))
@@ -358,14 +372,34 @@ class BuyService
             return $ret;
         }
 
-        // 更新
+        // 条件
         $where = [
             'id'        => intval($params['id']),
             'goods_id'  => intval($params['goods_id']),
             'user_id'   => intval($params['user']['id']),
         ];
+
+        // 数量
+        $stock = intval($params['stock']);
+
+        // 获取购物车数据
+        $cart = Db::name('Cart')->where($where)->select();
+        if(empty($cart))
+        {
+            return DataReturn('请先加入购物车', -1);
+        }
+        $cart[0]['stock'] = $stock;
+
+        // 商品校验
+        $check = self::BuyGoodsCheck(['goods'=>$cart]);
+        if($check['code'] != 0)
+        {
+            return $check;
+        }
+
+        // 更新数据
         $data = [
-            'stock'     => intval($params['stock']),
+            'stock'     => $stock,
             'upd_time'  => time(),
         ];
         if(Db::name('Cart')->where($where)->update($data))
@@ -726,10 +760,10 @@ class BuyService
             }
 
             // 返回数据再次处理，防止插件处理不够完善
-            $result['base']['total_price'] = PriceNumberFormat($result['base']['total_price']);
-            $result['base']['actual_price'] = PriceNumberFormat($result['base']['actual_price']);
-            $result['base']['preferential_price'] = PriceNumberFormat($result['base']['preferential_price']);
-            $result['base']['increase_price'] = PriceNumberFormat($result['base']['increase_price']);
+            $result['base']['total_price'] = ($result['base']['total_price'] <= 0) ? 0.00 : PriceNumberFormat($result['base']['total_price']);
+            $result['base']['actual_price'] = ($result['base']['actual_price'] <= 0) ? 0.00 : PriceNumberFormat($result['base']['actual_price']);
+            $result['base']['preferential_price'] = ($result['base']['preferential_price'] <= 0) ? 0.00 : PriceNumberFormat($result['base']['preferential_price']);
+            $result['base']['increase_price'] = ($result['base']['increase_price'] <= 0) ? 0.00 : PriceNumberFormat($result['base']['increase_price']);
 
             return DataReturn('操作成功', 0, $result);
         }
@@ -766,7 +800,11 @@ class BuyService
         foreach($params['goods'] as $v)
         {
             // 获取商品信息
-            $goods = Db::name('Goods')->find($v['goods_id']);
+            $goods = Db::name('Goods')->field('id,title,price,is_shelves,inventory,buy_min_number,buy_max_number')->find($v['goods_id']);
+            if(empty($goods))
+            {
+                return DataReturn('['.$v['goods_id'].']商品不存在', -1);
+            }
 
             // 规格
             $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>isset($v['spec']) ? $v['spec'] : []]);
@@ -779,25 +817,21 @@ class BuyService
             }
 
             // 基础判断
-            if(empty($goods))
-            {
-                return DataReturn('['.$v['goods_id'].']商品不存在', -1);
-            }
             if($goods['is_shelves'] != 1)
             {
-                return DataReturn('['.$v['goods_id'].']商品已下架', -1);
+                return DataReturn('商品已下架['.$goods['title'].']', -1);
             }
             if($v['stock'] > $goods['inventory'])
             {
-                return DataReturn('['.$v['goods_id'].']购买数量超过商品库存数量['.$v['stock'].'>'.$goods['inventory'].']', -1);
+                return DataReturn('购买数量超过商品库存数量['.$goods['title'].']['.$v['stock'].'>'.$goods['inventory'].']', -1);
             }
             if($goods['buy_min_number'] > 1 && $v['stock'] < $goods['buy_min_number'])
             {
-                return DataReturn('['.$v['goods_id'].']低于商品起购数量['.$v['stock'].'<'.$goods['buy_min_number'].']', -1);
+                return DataReturn('低于商品起购数量['.$goods['title'].']['.$v['stock'].'<'.$goods['buy_min_number'].']', -1);
             }
-            if($goods['buy_max_number'] > 1 && $v['stock'] > $goods['buy_max_number'])
+            if($goods['buy_max_number'] > 0 && $v['stock'] > $goods['buy_max_number'])
             {
-                return DataReturn('['.$v['goods_id'].']超过商品限购数量['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
+                return DataReturn('超过商品限购数量['.$goods['title'].']['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
             }
         }
 
@@ -874,7 +908,7 @@ class BuyService
             return $buy;
         }
         $check = self::BuyGoodsCheck(['goods'=>$buy['data']['goods']]);
-        if(!isset($check['code']) || $check['code'] != 0)
+        if($check['code'] != 0)
         {
             return $check;
         }
@@ -891,6 +925,20 @@ class BuyService
             }
         }
 
+        // 支付方式
+        $payment_id = 0;
+        $is_under_line = 0;
+        if(!empty($params['payment_id']))
+        {
+            $payment = PaymentService::PaymentList(['where'=>['id'=>intval($params['payment_id'])]]);
+            if(empty($payment[0]))
+            {
+                return DataReturn('支付方式有误', -1);
+            }
+            $payment_id = $payment[0]['id'];
+            $is_under_line = in_array($payment[0]['payment'], config('shopxo.under_line_list')) ? 1 : 0;
+        }
+
         // 订单主信息
         $order = [
             'order_no'              => date('YmdHis').GetNumberCode(6),
@@ -902,10 +950,11 @@ class BuyService
             'price'                 => ($buy['data']['base']['total_price'] <= 0.00) ? 0.00 : $buy['data']['base']['total_price'],
             'total_price'           => ($buy['data']['base']['actual_price'] <= 0.00) ? 0.00 : $buy['data']['base']['actual_price'],
             'extension_data'        => empty($buy['data']['extension_data']) ? '' : json_encode($buy['data']['extension_data']),
-            'payment_id'            => isset($params['payment_id']) ? intval($params['payment_id']) : 0,
+            'payment_id'            => $payment_id,
             'buy_number_count'      => array_sum(array_column($buy['data']['goods'], 'stock')),
             'client_type'           => (APPLICATION_CLIENT_TYPE == 'pc' && IsMobile()) ? 'h5' : APPLICATION_CLIENT_TYPE,
             'order_model'           => $site_model,
+            'is_under_line'         => $is_under_line,
             'add_time'              => time(),
         ];
         if($order['status'] == 1)

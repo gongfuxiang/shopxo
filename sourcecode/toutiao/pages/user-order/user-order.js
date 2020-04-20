@@ -234,40 +234,51 @@ Page({
       success: res => {
         tt.hideLoading();
         if (res.data.code == 0) {
-          // 是否在线支付,非在线支付则支付成功
-          if (res.data.data.is_online_pay == 0) {
-            var temp_data_list = this.data.data_list;
-            temp_data_list[index]['status'] = 2;
-            temp_data_list[index]['status_name'] = '待发货';
-            this.setData({ data_list: temp_data_list });
+          // 支付方式类型
+          switch (res.data.data.is_payment_type) {
+            // 正常线上支付
+            case 0 :
+              tt.pay({
+                orderInfo: res.data.data.order_info,
+                service: res.data.data.service,
+                success(res) {
+                  if (res.code == 0) {
+                    // 数据设置
+                    self.order_item_pay_success_handle(index);
 
-            app.showToast("支付成功", "success");
-          } else {
-            tt.pay({
-              orderInfo: res.data.data.order_info,
-              service: res.data.data.service,
-              success(res) {
-                if (res.code == 0) {
-                  // 数据设置
-                  var temp_data_list = self.data.data_list;
-                  temp_data_list[index]['status'] = 2;
-                  temp_data_list[index]['status_name'] = '待发货';
-                  self.setData({ data_list: temp_data_list });
-
-                  // 跳转支付页面
-                  wx.navigateTo({
-                    url: "/pages/paytips/paytips?code=9000&total_price=" +
-                      self.data.data_list[index]['total_price']
-                  });
-                } else {
-                  app.showToast('支付失败');
+                    // 跳转支付页面
+                    wx.navigateTo({
+                      url: "/pages/paytips/paytips?code=9000&total_price=" +
+                        self.data.data_list[index]['total_price']
+                    });
+                  } else {
+                    app.showToast('支付失败');
+                  }
+                },
+                fail(res) {
+                  console.log(res, 'pay-fail')
+                  app.showToast('调起收银台失败-'+res.data.code);
                 }
-              },
-              fail(res) {
-                console.log(res, 'pay-fail')
-                app.showToast('调起收银台失败-'+res.data.code);
-              }
-            });
+              });
+              break;
+
+            // 线下支付
+            case 1 :
+              var temp_data_list = self.data.data_list;
+              temp_data_list[index]['is_under_line'] = 1;
+              self.setData({ data_list: temp_data_list });
+              app.alert({ msg: res.data.msg, is_show_cancel: 0});
+              break;
+
+            // 钱包支付
+            case 2 :
+              self.order_item_pay_success_handle(index);
+              app.showToast('支付成功', 'success');
+              break;
+
+            // 默认
+            default :
+              app.showToast('支付类型有误');
           }
         } else {
           app.showToast(res.data.msg);

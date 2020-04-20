@@ -17,59 +17,77 @@
 		<!-- operation end -->
 
 		<!-- list start -->
-		<table class="am-table am-table-striped am-table-hover am-text-middle am-margin-top-sm">
-			<thead>
-				<tr>
-					<th>导航名称</th>
-					<th>导航数据类型</th>
-					<th>状态</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				{{if !empty($data_list)}}
-					{{foreach $data_list as $v}}
-						<tr id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="am-active"{{/if}}>
-							<td>{{$v.name}}
-								<a href="{{$v.url}}" target="_blank">
-									<i class="am-icon-external-link"></i>
-								</a>
-							</td>
-							<td>{{:lang('common_nav_type_list')[$v['data_type']]}}</td>
-							<td>
-								<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/navigation/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
-							</td>
-							<td>
-								<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#nav-{{$v.data_type}}-save-win'}" data-json='{{:json_encode($v)}}' data-tag="nav-{{$v.data_type}}-save-win"> 编辑</button>
-								<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/navigation/delete')}}" data-id="{{$v.id}}"> 删除</button>
-							</td>
-						</tr>
-						{{if !empty($v['items'])}}
-							{{foreach $v.items as $vs}}
-								<tr id="data-list-{{$vs.id}}" {{if $vs['is_show'] eq 0}}class="am-active"{{/if}}>
-									<td class="p-l-30">{{$vs.name}}
-										<a href="{{$vs.url}}" target="_blank">
-											<i class="am-icon-external-link"></i>
-										</a>
-									</td>
-									<td>{{:lang('common_nav_type_list')[$vs['data_type']]}}</td>
-									<td>
-										<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $vs['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/navigation/statusupdate')}}" data-id="{{$vs.id}}" data-state="{{$vs['is_show']}}" data-is-update-status="1"></a>
-									</td>
-									<td>
-										<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: '#nav-{{$vs.data_type}}-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="nav-{{$vs.data_type}}-save-win"> 编辑</button>
-										<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('admin/navigation/delete')}}" data-id="{{$vs.id}}"> 删除</button>
-									</td>
-								</tr>
-							{{/foreach}}
-						{{/if}}
-					{{/foreach}}
-				{{/if}}
-			</tbody>
-		</table>
-		{{if empty($data_list)}}
-            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-        {{/if}}
+		<div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm am-margin-bottom-sm">
+            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last">
+				<thead>
+					<tr>
+						<th class="am-grid-lg">导航名称</th>
+						<th>导航数据类型</th>
+						<th class="am-text-center">状态</th>
+						<th class="am-text-center" data-width="170">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{if !empty($data_list)}}
+						{{foreach $data_list as $v}}
+							<tr id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="am-active"{{/if}}>
+								<td class="am-text-middle">{{$v.name}}
+									<a href="{{$v.url}}" target="_blank">
+										<i class="am-icon-external-link"></i>
+									</a>
+								</td>
+								<td class="am-text-middle">{{:lang('common_nav_type_list')[$v['data_type']]}}</td>
+								<td class="am-text-middle am-text-center">
+									<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/navigation/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
+								</td>
+								<td class="am-operate-grid" data-width="170">
+                                    <div class="am-scrollable-vertical">
+										<button class="am-btn am-btn-secondary am-btn-xs am-radius submit-edit" data-am-modal="{target: '#nav-{{$v.data_type}}-save-win'}" data-json='{{:json_encode($v)}}' data-tag="nav-{{$v.data_type}}-save-win">
+											<i class="am-icon-edit"></i>
+											<span>编辑</span>
+										</button>
+										<button class="am-btn am-btn-danger am-btn-xs am-radius submit-delete" data-url="{{:MyUrl('admin/navigation/delete')}}" data-id="{{$v.id}}">
+											<i class="am-icon-trash-o"></i>
+											<span>删除</span>
+										</button>
+									</div>
+								</td>
+							</tr>
+							{{if !empty($v['items'])}}
+								{{foreach $v.items as $vs}}
+									<tr id="data-list-{{$vs.id}}" {{if $vs['is_show'] eq 0}}class="am-active"{{/if}}>
+										<td class="p-l-30">{{$vs.name}}
+											<a href="{{$vs.url}}" target="_blank">
+												<i class="am-icon-external-link"></i>
+											</a>
+										</td>
+										<td class="am-text-middle">{{:lang('common_nav_type_list')[$vs['data_type']]}}</td>
+										<td class="am-text-middle am-text-center">
+											<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $vs['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/navigation/statusupdate')}}" data-id="{{$vs.id}}" data-state="{{$vs['is_show']}}" data-is-update-status="1"></a>
+										</td>
+										<td class="am-operate-grid" data-width="170">
+                                    		<div class="am-scrollable-vertical">
+												<button class="am-btn am-btn-secondary am-btn-xs am-radius submit-edit" data-am-modal="{target: '#nav-{{$vs.data_type}}-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="nav-{{$vs.data_type}}-save-win">
+													<i class="am-icon-edit"></i>
+													<span>编辑</span>
+												</button>
+												<button class="am-btn am-btn-danger am-btn-xs am-radius submit-delete" data-url="{{:MyUrl('admin/navigation/delete')}}" data-id="{{$vs.id}}">
+													<i class="am-icon-trash-o"></i>
+													<span>删除</span>
+												</button>
+											</div>
+										</td>
+									</tr>
+								{{/foreach}}
+							{{/if}}
+						{{/foreach}}
+					{{/if}}
+				</tbody>
+			</table>
+			{{if empty($data_list)}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+            {{/if}}
+		</div>
 		<!-- list end -->
 
 		<!-- custom save win start -->

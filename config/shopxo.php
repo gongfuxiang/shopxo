@@ -48,6 +48,15 @@ return [
     // 用户缓存信息
     'cache_user_info'                       => 'cache_user_info_',
 
+    // 首页楼层缓存信息
+    'cache_goods_floor_list_key'            => 'cache_goods_floor_list_data',
+
+    // 轮播缓存信息
+    'cache_banner_list_key'                 => 'cache_banner_list_data_',
+
+    // 导航缓存信息
+    'cache_navigation_key'                  => 'cache_navigation_data_',
+
     // 附件host, 数据库图片地址以/static/...开头
     'attachment_host'                       => defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',
 

@@ -59,18 +59,16 @@ class GoodsService
         // 从缓存获取
         $key = config('shopxo.cache_goods_category_key');
         $data = cache($key);
-        if(!empty($data))
+
+        if(empty($data))
         {
-            return $data;
+            // 获取分类
+            $params['where'] = ['pid'=>0, 'is_enable'=>1];
+            $data = self::GoodsCategory($params);
+
+            // 存储缓存
+            cache($key, $data, 3600*24);
         }
-
-        // 获取分类
-        $params['where'] = ['pid'=>0, 'is_enable'=>1];
-        $data = self::GoodsCategory($params);
-
-        // 存储缓存
-        cache($key, $data);
-
         return $data;
     }
 
@@ -178,19 +176,30 @@ class GoodsService
      */
     public static function HomeFloorList($params = [])
     {
-        // 商品大分类
-        $params['where'] = ['pid'=>0, 'is_home_recommended'=>1, 'is_enable'=>1];
-        $goods_category = self::GoodsCategory($params);
-        if(!empty($goods_category))
+        // 缓存
+        $key = config('shopxo.cache_goods_floor_list_key');
+        $data = cache($key);
+
+        if(empty($data))
         {
-            foreach($goods_category as &$v)
+            // 商品大分类
+            $params['where'] = ['pid'=>0, 'is_home_recommended'=>1, 'is_enable'=>1];
+            $data = self::GoodsCategory($params);
+            if(!empty($data))
             {
-                $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
-                $goods = self::CategoryGoodsList(['where'=>['gci.category_id'=>$category_ids, 'g.is_home_recommended'=>1, 'g.is_shelves'=>1], 'm'=>0, 'n'=>8, 'field'=>'g.*']);
-                $v['goods'] = $goods['data'];
+                // 根据分类获取楼层商品
+                foreach($data as &$v)
+                {
+                    $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
+                    $goods = self::CategoryGoodsList(['where'=>['gci.category_id'=>$category_ids, 'g.is_home_recommended'=>1, 'g.is_shelves'=>1], 'm'=>0, 'n'=>8, 'field'=>'g.*']);
+                    $v['goods'] = $goods['data'];
+                }
             }
+
+            // 存储缓存
+            cache($key, $data, 3600*24);
         }
-        return $goods_category;
+        return $data;
     }
 
     /**
@@ -220,7 +229,7 @@ class GoodsService
                 $data = array_merge($data, $temp);
             }
         }
-        $data = empty($data) ? $ids : array_merge($ids, $data);
+        $data = empty($data) ? $ids : array_unique(array_merge($ids, $data));
         return $data;
     }
 

@@ -1730,7 +1730,7 @@ function ParamsChecked($data, $params)
                 {
                     return '验证相等未定义';
                 }
-                if(!isset($data[$v['key_name']]) || $data[$v['key_name']] == $v['checked_data'])
+                if(!isset($data[$v['key_name']]) || $data[$v['key_name']] != $v['checked_data'])
                 {
                     return $v['error_msg'];
                 }

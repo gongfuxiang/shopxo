@@ -364,7 +364,7 @@ class Weixin
             'openid'            => ($trade_type == 'JSAPI') ? $openid : '',
             'out_trade_no'      => $params['order_no'].GetNumberCode(6),
             'spbill_create_ip'  => GetClientIP(),
-            'total_fee'         => intval($params['total_price']*100),
+            'total_fee'         => (int) (($params['total_price']*1000)/10),
             'trade_type'        => $trade_type,
             'attach'            => empty($params['attach']) ? $params['site_name'].'-'.$params['name'] : $params['attach'],
             'sign_type'         => 'MD5',
@@ -513,8 +513,8 @@ class Weixin
             'sign_type'         => 'MD5',
             'transaction_id'    => $params['trade_no'],
             'out_refund_no'     => $params['order_no'].GetNumberCode(6),
-            'total_fee'         => intval($params['pay_price']*100),
-            'refund_fee'        => intval($params['refund_price']*100),
+            'total_fee'         => (int) (($params['pay_price']*1000)/10),
+            'refund_fee'        => (int) (($params['refund_price']*1000)/10),
             'refund_desc'       => $refund_reason,            
         ];
         $data['sign'] = $this->GetSign($data);

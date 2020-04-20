@@ -92,6 +92,9 @@ class Order extends Common
         // 支付状态
         $this->assign('common_order_pay_status', lang('common_order_pay_status'));
 
+        // 订单模式
+        $this->assign('common_site_type_list', lang('common_site_type_list'));
+
         // 快递公司
         $this->assign('express_list', ExpressService::ExpressList());
 

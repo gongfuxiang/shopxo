@@ -82,21 +82,41 @@ class Sms
         $signature = base64_encode ( hash_hmac ( 'sha1', $stringToSign, $accessKeySecret . '&', true ) );
         return $signature;
     }
-    /**
-     * @param unknown $mobile            
-     * @param unknown $verify_code            
-     *
-     */
-    public function SendCode($mobile, $code, $template_code) {
-    	// 是否频繁操作
-		if(!$this->IntervalTimeCheck())
-		{
-			$this->error = '防止造成骚扰，请勿频繁发送';
-			return false;
-		}
 
+    /**
+     * 短信发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-04-02
+     * @desc    description
+     * @param   [string]            $mobile        [手机号码，多个以 英文逗号 , 分割]
+     * @param   [string|array]      $code          [变量code（单个直接传入 code 即可，多个传入数组）]
+     * @param   [string]            $template_code [模板 id]
+     * @param   [boolean]           $sign_name     [自定义签名，默认使用基础配置的签名]
+     */
+    public function SendCode($mobile, $code, $template_code, $sign_name = '')
+    {
+    	// 单个验证码需要校验是否频繁
+        if(is_string($code))
+        {
+            // 是否频繁操作
+            if(!$this->IntervalTimeCheck())
+            {
+                $this->error = '防止造成骚扰，请勿频繁发送';
+                return false;
+            }
+            $codes = ['code'=>$code];
+        } else {
+            $codes = $code;
+        }
+
+        // 签名
+        $SignName = empty($sign_name) ? $this->signName : $sign_name;
+
+        // 请求参数
         $params = array (   //此处作了修改
-                'SignName' => $this->signName,
+                'SignName' => $SignName,
                 'Format' => 'JSON',
                 'Version' => '2017-05-25',
                 'AccessKeyId' => $this->accessKeyId,
@@ -107,7 +127,7 @@ class Sms
                 'Action' => 'SendSms',
                 'TemplateCode' => $template_code,
                 'PhoneNumbers' => $mobile,
-                'TemplateParam' => '{"code":"' . $code . '"}'
+                'TemplateParam' => json_encode($codes, JSON_UNESCAPED_UNICODE),
         );
         //print_r($params);die;
         // 计算签名并把签名结果加入请求参数
@@ -132,7 +152,10 @@ class Sms
         }
 
         // 种session
-        $this->KindofSession($code);
+        if(is_string($code))
+        {
+            $this->KindofSession($code);
+        }
 
         return true;
     }

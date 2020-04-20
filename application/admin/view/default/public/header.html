@@ -48,6 +48,10 @@
     var __price_symbol__ = '{{$price_symbol}}';
 </script>
 <body>
+{{if $module_name.$controller_name.$action_name neq 'adminindexindex'}}
+    {{include file="public/page_loading" /}}
+{{/if}}
+
 <!-- 公共顶部钩子 -->
 {{if !empty($plugins_admin_view_common_top_data) and is_array($plugins_admin_view_common_top_data) and (!isset($is_header) or $is_header eq 1)}}
 	{{foreach $plugins_admin_view_common_top_data as $hook}}

@@ -1,6 +1,13 @@
 $(function()
 {
-    // 计算选择的商品总数和总价
+    /**
+     * 计算选择的商品总数和总价
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-03-21
+     * @desc    description
+     */
     function CartBaseTotal()
     {
         var total_stock = 0;
@@ -17,9 +24,11 @@ $(function()
                 ids.push($(this).val());
             }
         });
+        ids = ids.toString() || 0;
         $('.cart-nav .selected-tips strong').text(total_stock);
         $('.cart-nav .nav-total-price').text(__price_symbol__+FomatFloat(total_price));
         $('.cart-nav input[name="ids"]').val(ids.toString() || 0);
+        $('.cart-nav .nav-delete-submit').attr('data-id', ids);
     }
 
     /**
@@ -48,8 +57,6 @@ $(function()
         {
             stock = 1;
         }
-        self.parents('.stock-tag').find('input').val(stock);
-        self.parents('tr').find('.total-price-content').text(__price_symbol__+FomatFloat(stock*price, 2));
 
         // 开启进度条
         $.AMUI.progress.start();
@@ -66,6 +73,9 @@ $(function()
                 $.AMUI.progress.done();
                 if(result.code == 0)
                 {
+                    self.parents('.stock-tag').find('input').val(stock);
+                    self.parents('tr').find('.total-price-content').text(__price_symbol__+FomatFloat(stock*price, 2));
+                    
                     PromptCenter(result.msg, 'success');
 
                     // 数量更新
@@ -94,6 +104,7 @@ $(function()
         CardNumberUpdate($(this), temp_stock);
     });
 
+    // 输入事件
     $('.stock-tag input[type="number"]').on('blur', function()
     {
         var stock = $(this).val() || null;

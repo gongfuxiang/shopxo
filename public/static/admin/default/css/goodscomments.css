@@ -1,28 +1,11 @@
 /**
- * 公共
- */
-.content-right table.am-table td.user-info,
-.content-right table.am-table td.goods-info,
-.content-right table.am-table td.content-info {
-    width: 20%;
-}
-@media only screen and (max-width: 641px) {
-    .content-right table.am-table td.content-info {
-        width: 45%;
-    }
-}
-
-/**
  * 用户信息
  */
 .content-right .user-info img {
     max-width: 35px;
     max-height: 35px;
-    margin: 0 5px 2px 0;
 }
-.content-right ul {
-    list-style: none;
-    padding: 0;
+.content-right .user-info p {
     margin: 0;
 }
 
@@ -37,25 +20,10 @@
     height: 55px;
     margin: 2px 5px 0px 0;
 }
-.content-right .goods-info p {
-    margin: 3px 0 0 0;
-}
 
 /**
  * 列表
  */
-.content-right table.am-table .reply-content {
-    max-width: 100%;
-    max-height: 130px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
-.content-right table.am-table .reply-content p {
-    margin: 5px 0 0 0;
-}
-.content-right table.am-table .view-operation {
-    width: 85px;
-}
 .content-right table.am-table .am-slider {
     width: 100px;
     max-height: 108px;
@@ -63,7 +31,9 @@
     box-shadow: none;
     -webkit-box-shadow: none;
 }
-
+.content-right table.am-table .reply-content {
+    max-height: 80px;
+}
 
 /**
  * 编辑

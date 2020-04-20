@@ -47,7 +47,7 @@ class AdminService
                 $v['role_name'] = Db::name('Role')->where(['id'=>$v['role_id']])->value('name');
             }
         }
-        return $data;
+        return DataReturn('处理成功', 0, $data);
     }
 
     /**
@@ -118,7 +118,8 @@ class AdminService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
-        return Db::name('Role')->field($field)->where($where)->select();
+        $data = Db::name('Role')->field($field)->where($where)->select();
+        return DataReturn('处理成功', 0, $data);
     }
 
     /**

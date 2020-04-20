@@ -1,12 +1,9 @@
 /**
  * 列表
  */
-@media only screen and (max-width: 321px) {
-	.view-operation button { margin: 2px 0px; }
+table.am-table .nav-icon-circle {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
 }
-.nav-icon-circle { width: 50px; height: 50px; text-align: center; line-height: 50px; }
-
-/**
- * 覆盖插件
- */
-ul.plug-file-upload-view li { background-color: #eee; }

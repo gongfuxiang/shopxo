@@ -111,13 +111,13 @@ function CartAdd(e)
             {
                 if($(this).find('.sku-line.selected').length == 0)
                 {
-                    $(this).addClass('attr-not-active');
+                    $(this).addClass('sku-not-active');
                 }
             });
             PromptCenter('请选择规格');
             return false;
         } else {
-            $('.iteminfo_parameter .sku-items').removeClass('attr-not-active');
+            $('.iteminfo_parameter .sku-items').removeClass('sku-not-active');
             $('.theme-signin-left .sku-items li.selected').each(function(k, v)
             {
                 spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
@@ -423,7 +423,7 @@ $(function() {
                     return false;
                 }
                 $(this).addClass('selected').siblings('li').removeClass('selected');
-                $(this).parents('.sku-items').removeClass('attr-not-active');
+                $(this).parents('.sku-items').removeClass('sku-not-active');
 
                 // 去掉元素之后的禁止
                 if(index < length)
@@ -608,12 +608,11 @@ $(function() {
         {
             number = inventory;
         }
-        if(number <= 1)
+        if(number <= 1 || isNaN(number))
         {
-            number = 1;
+            number = min;
         }
         $sotck.val(number);
-        console.log(number)
     });
 
     //数量增加操作

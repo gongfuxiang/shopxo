@@ -152,7 +152,7 @@ class BaiduMini
         $data = [
             'dealId'            => $this->config['dealid'],
             'appKey'            => $this->config['appkey'],
-            'totalAmount'       => intval($params['total_price']*100),
+            'totalAmount'       => (int) (($params['total_price']*1000)/10),
             'tpOrderId'         => $params['order_no'],
             'dealTitle'         => $params['name'],
             'signFieldsRange'   => 1,

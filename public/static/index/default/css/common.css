@@ -662,9 +662,19 @@ ul.am-dropdown-content > .am-active > a:focus,
     font-weight: 600;
     vertical-align: middle;
 }
-.shop-navigation .am-nav > li > a:hover, .shop-navigation .am-nav > li > a:focus {
+.shop-navigation .am-nav > li > a:after {
+    bottom: -3px;
+}
+.shop-navigation .am-nav > li > a:hover,
+.shop-navigation .am-nav > li > a:focus,
+.shop-navigation .am-nav > li > a.active {
     background-color: transparent;
     color: #d2354c;
+}
+.shop-navigation .am-nav > li ul.am-dropdown-content > li > a.active {
+    text-decoration: none;
+    color: #d2354c;
+    background-color: #fff5f6;
 }
 .shop-navigation .wap-logo {
     max-width: 100px;
@@ -681,10 +691,14 @@ ul.am-dropdown-content > .am-active > a:focus,
         padding: 0 5px;
     }
     .shop-navigation .am-topbar-nav > li > a {
-        line-height: 40px;
+        line-height: 37px;
     }
-    .shop-navigation .am-topbar-nav > li > a:hover:after {
+    .shop-navigation .am-topbar-nav > li > a:hover:after,
+    .shop-navigation .am-topbar-nav > li > a.active:after {
         border-bottom-color: #d2354c;
+    }
+    .shop-navigation .am-topbar-nav > li > a.active:after {
+        opacity: 1;
     }
     .shop-navigation .am-topbar-collapse {
         margin-left: 150px;
