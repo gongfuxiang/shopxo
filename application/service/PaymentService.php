@@ -149,7 +149,7 @@ class PaymentService
     private static function DataAnalysis($data)
     {
         return [
-            'name'          => isset($data['base']['name']) ? htmlentities($data['base']['name']) : $payment,
+            'name'          => isset($data['base']['name']) ? htmlentities($data['base']['name']) : '',
             'version'       => isset($data['base']['version']) ? htmlentities($data['base']['version']) : '',
             'apply_version' => isset($data['base']['apply_version']) ? htmlentities($data['base']['apply_version']) : '',
             'desc'          => isset($data['base']['desc']) ? $data['base']['desc'] : '',
