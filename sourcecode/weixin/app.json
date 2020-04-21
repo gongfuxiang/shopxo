@@ -114,12 +114,7 @@
     "request": 10000,
     "downloadFile": 10000
   },
-  "plugins": {
-    "live-player-plugin": {
-      "version": "1.0.5",
-      "provider": "wx2b03c6e691cd7370"
-    }
-  },
+  "plugins": {},
   "debug": true,
   "sitemapLocation": "sitemap.json"
 }

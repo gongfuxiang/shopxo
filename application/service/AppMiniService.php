@@ -215,9 +215,8 @@ class AppMiniService
      */
     private static function ExtendHandleWeixin($new_dir)
     {
-        // 是否开启好物推荐功能
-        $common_app_is_good_thing = MyC('common_app_is_good_thing', 0);
-        if($common_app_is_good_thing == 1)
+        // 启用好物推荐
+        if(MyC('common_app_is_good_thing', 0) == 1)
         {
             // app.json
             $file = $new_dir.DS.'app.json';
@@ -246,6 +245,26 @@ class AppMiniService
                 }
             }
         }
+
+        // 启用直播
+        if(MyC('common_app_weixin_liveplayer', 0) == 1)
+        {
+            // app.json
+            $file = $new_dir.DS.'app.json';
+            $data = json_decode(file_get_contents($file), true);
+            if(is_array($data) && isset($data['plugins']))
+            {
+                $data['plugins']['live-player-plugin'] = [
+                    'version'   => '1.0.5',
+                    'provider'  => 'wx2b03c6e691cd7370',
+                ];
+                if(file_put_contents($file, JsonFormat($data)) === false)
+                {
+                    return DataReturn('直播配置失败', -50);
+                }
+            }
+        }
+
         return DataReturn('配置成功', 0);
     }
 

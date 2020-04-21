@@ -19,6 +19,15 @@
             </div>
 
             <div class="am-form-group">
+                <label>{{$data.common_app_weixin_liveplayer.name}}<span class="am-form-group-label-tips">{{$data.common_app_weixin_liveplayer.describe}}</span></label>
+                <select name="{{$data.common_app_weixin_liveplayer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_weixin_liveplayer.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_app_weixin_liveplayer']['value']) and $data['common_app_weixin_liveplayer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
                 <label>{{$data.common_app_is_poster_share.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_poster_share.describe}}</span></label>
                 <select name="{{$data.common_app_is_poster_share.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_poster_share.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}
