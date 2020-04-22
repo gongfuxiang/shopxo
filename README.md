@@ -26,7 +26,7 @@
 
 ### 源代码平台
 * Github：https://github.com/gongfuxiang/shopxo
-* 码云/开源中国：https://gitee.com/gongfuxiang/shopxo
+* 码云/开源中国：https://gitee.com/zongzhige/shopxo
 * 腾讯云开发者：https://dev.tencent.com/u/gongfuxiang/p/shopxo/git
 
 ### 部分功能特点
@@ -213,7 +213,7 @@ QQ小程序
 非常欢迎您对ShopXO的开发作出贡献！
 你可以选择以下方式向ShopXO贡献：
 - [Github - 发布issue进行问题反馈和建议](https://github.com/gongfuxiang/shopxo/pulls)
-- [码云/开源中国 - 发布issue进行问题反馈和建议](https://gitee.com/gongfuxiang/shopxo/pulls)
+- [码云/开源中国 - 发布issue进行问题反馈和建议](https://gitee.com/zongzhige/shopxo/pulls)
 - 通过Pull Request提交修复
 - 完善我们的文档和例子
 
