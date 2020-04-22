@@ -1730,6 +1730,18 @@ function ParamsChecked($data, $params)
                 {
                     return '验证相等未定义';
                 }
+                if(!isset($data[$v['key_name']]) || $data[$v['key_name']] == $v['checked_data'])
+                {
+                    return $v['error_msg'];
+                }
+                break;
+
+            // 不相等
+            case 'neq' :
+                if(!isset($v['checked_data']))
+                {
+                    return '验证相等未定义';
+                }
                 if(!isset($data[$v['key_name']]) || $data[$v['key_name']] != $v['checked_data'])
                 {
                     return $v['error_msg'];
