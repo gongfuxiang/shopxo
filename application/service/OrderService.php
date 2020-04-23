@@ -193,24 +193,6 @@ class OrderService
         $ret = (new $pay_name($payment[0]['config']))->Pay($pay_data);
         if(isset($ret['code']) && $ret['code'] == 0)
         {
-            // 线下支付处理
-            if(in_array($payment[0]['payment'], config('shopxo.under_line_list')))
-            {
-                $params['user']['user_name_view'] = '用户-'.$params['user']['user_name_view'];
-                $pay_result = self::OrderPaymentUnderLine([
-                    'order'     => $order,
-                    'payment'   => $payment[0],
-                    'user'      => $params['user'],
-                    'subject'   => $params,
-                ]);
-                if($pay_result['code'] != 0)
-                {
-                    return $pay_result;
-                } else {
-                    $ret['msg'] = $pay_result['msg'];
-                }
-            }
-
             // 支付信息返回
             $ret['data'] = [
                 // 支付类型(0正常线上支付、1线下支付、2钱包支付)
@@ -371,27 +353,6 @@ class OrderService
     }
 
     /**
-     * 线下支付处理
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-10-05T22:40:57+0800
-     * @param   [array]          $params [输入参数]
-     */
-    private static function OrderPaymentUnderLine($params = [])
-    {
-        if(!empty($params['order']) && !empty($params['payment']) && !empty($params['user']))
-        {
-            if(in_array($params['payment']['payment'], config('shopxo.under_line_list')))
-            {
-                return DataReturn('提交成功、待管理员确认', 0);
-            }
-            return DataReturn('仅线下支付方式处理', -1);
-        }
-        return DataReturn('支付传参有误', -1);
-    }
-
-    /**
      * 支付同步处理
      * @author   Devil
      * @blog    http://gong.gg/
@@ -442,12 +403,10 @@ class OrderService
             $order = Db::name('Order')->where($where)->find();
 
             // 线下支付方式处理
-            return self::OrderPaymentUnderLine([
-                'order'     => $order,
-                'payment'   => $payment[0],
-                'user'      => $params['user'],
-                'params'    => $params,
-            ]);
+            if(in_array($payment_name, config('shopxo.under_line_list')))
+            {
+                return DataReturn('提交成功、待管理员确认', 0);
+            }
         }
         return $ret;
     }
