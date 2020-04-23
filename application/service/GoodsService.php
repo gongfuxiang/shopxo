@@ -179,7 +179,6 @@ class GoodsService
         // 缓存
         $key = config('shopxo.cache_goods_floor_list_key');
         $data = cache($key);
-
         if(empty($data))
         {
             // 商品大分类
@@ -190,14 +189,36 @@ class GoodsService
                 // 根据分类获取楼层商品
                 foreach($data as &$v)
                 {
+                    // 获取分类ids
                     $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
-                    $goods = self::CategoryGoodsList(['where'=>['gci.category_id'=>$category_ids, 'g.is_home_recommended'=>1, 'g.is_shelves'=>1], 'm'=>0, 'n'=>8, 'field'=>'g.*']);
-                    $v['goods'] = $goods['data'];
+
+                    // 获取商品ids
+                    $where = [
+                        'gci.category_id'       => $category_ids,
+                        'g.is_home_recommended' => 1,
+                        'g.is_shelves'          => 1,
+                    ];
+                    $v['goods_ids'] = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->group('g.id')->order('g.id desc')->limit(8)->column('g.id');
+                    $v['goods'] = [];
                 }
             }
 
             // 存储缓存
             cache($key, $data, 3600*24);
+        }
+
+        // 商品读取、商品不缓存、商品价格会根据用户等级可能会不一样
+        if(!empty($data) && is_array($data))
+        {
+            // 根据分类获取楼层商品
+            foreach($data as &$v)
+            {
+                if(!empty($v['goods_ids']) && is_array($v['goods_ids']))
+                {
+                    $res = self::GoodsList(['where'=>['id'=>$v['goods_ids'], 'is_home_recommended'=>1, 'is_shelves'=>1], 'm'=>0, 'n'=>8, 'field'=>'*']);
+                    $v['goods'] = $res['data'];
+                }
+            }
         }
         return $data;
     }
