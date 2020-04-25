@@ -1,0 +1,41 @@
+version: '3'
+services:
+    web:
+        image: nginx
+        volumes:
+            - "./etc/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+            - "../:/var/www/html" # shopxo代码挂载在nginx里面
+            - "./etc/nginx/default.template.conf:/etc/nginx/conf.d/default.template"
+        ports:
+            - "10000:80"
+            - "3000:443"
+        environment:
+            - NGINX_HOST=${NGINX_HOST} # 可以设置nginx的域名
+        command: /bin/sh -c "envsubst '$$NGINX_HOST' < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+        restart: always
+        depends_on:
+            - php
+            - mysqldb
+    php:
+        image: nanoninja/php-fpm:7.4.4
+        restart: always
+        volumes:
+            - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
+            - "../:/var/www/html"
+    
+    mysqldb:
+        image: mysql:5.7
+        container_name: mysql
+        restart: always
+        env_file:
+            - ".env"
+        environment:
+            - MYSQL_DATABASE=yourdb
+            - MYSQL_ROOT_PASSWORD=yourpasswd
+            - MYSQL_USER=youruser
+            - MYSQL_PASSWORD=yourpasswd
+        ports:
+            - "10001:3306"
+        volumes:
+            - "/data/shopxo_db:/var/lib/mysql" # mysql数据库持久化配置
+            - "./etc/db/my.cnf:/etc/mysql/my.cnf" # 修改mysql配置,首页统计
