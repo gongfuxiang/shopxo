@@ -735,7 +735,7 @@ class OrderAftersaleService
         }
 
         // 更新数据
-        if(Db::name('OrderAftersale')->where($where)->update())
+        if(Db::name('OrderAftersale')->where($where)->update($data))
         {
             // 订单售后单确认成功钩子
             $hook_name = 'plugins_service_order_aftersale_confirm_end';
