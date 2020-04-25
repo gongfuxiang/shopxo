@@ -1,0 +1,30 @@
+sudo: required
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.18.0
+
+services:
+  - docker
+
+before_install:
+  - sudo apt update
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose --version
+
+before_script:
+  - sudo make docker-start
+  - sleep 2m
+
+script:
+  - sudo make apidoc
+  - sudo make gen-certs
+  - sudo make mysql-dump
+  - sudo make mysql-restore
+  - sudo make phpmd
+  - sudo make test
+
+after_script:
+  - sudo make docker-stop
