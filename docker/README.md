@@ -13,10 +13,12 @@
 
 3. 克隆代码并且修改shopxo文件夹权限
   - git clone git@github.com:gongfuxiang/shopxo.git
-  - sudo chmod -R 777 shopxo
+  - sudo chmod -R 777 shopxo 
 
 4. 用docker-compose 运行项目包括数据库,如果不想用容器里面的数据库可以单独配置数据库
   - cd shopxo
   - docker-compose up 
+  - 访问 localhost:10000 
 
-5. 
+5. 如果使用容器里面的数据库,可以将数据库的地址设置为容器名称 利用docker网络访问数据库
+
