@@ -255,7 +255,7 @@ class AppMiniService
             if(is_array($data) && isset($data['plugins']))
             {
                 $data['plugins']['live-player-plugin'] = [
-                    'version'   => '1.0.5',
+                    'version'   => '1.0.7',
                     'provider'  => 'wx2b03c6e691cd7370',
                 ];
                 if(file_put_contents($file, JsonFormat($data)) === false)
