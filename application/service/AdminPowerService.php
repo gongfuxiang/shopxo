@@ -478,6 +478,7 @@ class AdminPowerService
                     }
 
                     // 权限列表
+                    $is_show_parent = $v['is_show'];
                     if(!empty($items))
                     {
                         foreach($items as $ks=>$vs)
@@ -491,10 +492,16 @@ class AdminPowerService
                                 unset($items[$ks]);
                             }
                         }
+
+                        // 如果存在子级数据，但是子级无显示项、则父级也不显示
+                        if(empty($items))
+                        {
+                            $is_show_parent = 0;
+                        }
                     }
 
                     // 是否显示视图
-                    if($v['is_show'] == 1)
+                    if($is_show_parent == 1)
                     {
                         // 子级
                         $admin_left_menu[$k]['items'] = $items;
