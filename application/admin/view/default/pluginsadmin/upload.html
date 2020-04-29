@@ -9,7 +9,7 @@
         
         <!-- form start -->
         <form class="am-form form-validation view-save am-margin-top-sm" action="{{:MyUrl('admin/pluginsadmin/upload')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/pluginsadmin/index')}}" enctype="multipart/form-data">
-            <div class="am-form-group am-form-file">
+            <div class="am-padding-xs am-form-file">
                 <button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
                 <i class="am-icon-cloud-upload"></i> 选择文件</button>
                 <input type="file" name="file" class="file-event" data-tips-tag="#form-file-tips" data-validation-message="请选择需要上传的文件" accept=".zip" multiple required />
