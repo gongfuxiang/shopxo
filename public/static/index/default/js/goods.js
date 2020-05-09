@@ -677,11 +677,14 @@ $(function() {
 // 浏览器窗口实时事件
 $(window).resize(function()
 {
-    // 规格显示/隐藏处理
-    if($(window).width() < 1025)
+    if($(document.activeElement).attr('id') != 'text_box')
     {
-        PoptitClose();
-    } else {
-        PoptitPcShow();
+        // 规格显示/隐藏处理
+        if($(window).width() < 1025)
+        {
+            PoptitClose();
+        } else {
+            PoptitPcShow();
+        }
     }
 });
