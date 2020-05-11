@@ -565,7 +565,7 @@ class Query
                         $seq = (ord(substr($type($value), 0, 1)) % $rule['num']) + 1;
                     } else {
                         // 按照字段的首字母的值分表
-                        $seq = (ord($value{0}) % $rule['num']) + 1;
+                        $seq = (ord($value[0]) % $rule['num']) + 1;
                     }
             }
             return $this->getTable() . '_' . $seq;
