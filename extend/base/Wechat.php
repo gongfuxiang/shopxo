@@ -260,7 +260,7 @@ class Wechat
         $res = curl_exec($curl);
         if($is_parsing === true)
         {
-            return json_decode($reponse, true);
+            return json_decode($res, true);
         }
         return $res;
     }
