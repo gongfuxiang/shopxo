@@ -139,7 +139,7 @@ class User extends Common
         if(empty($user))
         {
             $this->data_post['nick_name'] = isset($this->data_post['nickName']) ? $this->data_post['nickName'] : '';
-            $this->data_post['gender'] = empty($this->data_post['gender']) ? 0 : ($this->data_post['gender'] == 'f') ? 1 : 2;
+            $this->data_post['gender'] = empty($this->data_post['gender']) ? 0 : (($this->data_post['gender'] == 'f') ? 1 : 2);
             return UserService::AuthUserProgram($this->data_post, 'alipay_openid');
         } else {
             return DataReturn('授权成功', 0, $user);
@@ -225,7 +225,7 @@ class User extends Common
             {
                 $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
                 $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
-                $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 2) ? 1 : 2;
+                $result['gender'] = empty($result['gender']) ? 0 : (($result['gender'] == 2) ? 1 : 2);
                 $result['weixin_unionid'] = isset($result['unionId']) ? $result['unionId'] : '';
                 $result['openid'] = $result['openId'];
                 $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
@@ -318,7 +318,7 @@ class User extends Common
             {
                 $result['nick_name'] = isset($result['data']['nickname']) ? $result['data']['nickname'] : '';
                 $result['avatar'] = isset($result['data']['headimgurl']) ? $result['data']['headimgurl'] : '';
-                $result['gender'] = empty($result['data']['sex']) ? 0 : ($result['data']['sex'] == 2) ? 1 : 2;
+                $result['gender'] = empty($result['data']['sex']) ? 0 : (($result['data']['sex'] == 2) ? 1 : 2);
                 $result['openid'] = $result['data']['openid'];
                 $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
                 return UserService::AuthUserProgram($result, 'baidu_openid');
@@ -400,7 +400,7 @@ class User extends Common
             {
                 $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
                 $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
-                $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 2) ? 1 : 2;
+                $result['gender'] = empty($result['gender']) ? 0 : (($result['gender'] == 2) ? 1 : 2);
                 $result['openid'] = $this->data_post['openid'];
                 $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
                 return UserService::AuthUserProgram($result, 'toutiao_openid');
@@ -488,7 +488,7 @@ class User extends Common
             {
                 $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
                 $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
-                $result['gender'] = empty($result['gender']) ? 0 : ($result['gender'] == 2) ? 1 : 2;
+                $result['gender'] = empty($result['gender']) ? 0 : (($result['gender'] == 2) ? 1 : 2);
                 $result['qq_unionid'] = isset($result['unionId']) ? $result['unionId'] : '';
                 $result['openid'] = $result['openId'];
                 $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
