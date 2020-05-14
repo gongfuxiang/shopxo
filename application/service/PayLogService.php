@@ -68,7 +68,7 @@ class PayLogService
      */
     public static function PayLogTypeList($params = [])
     {
-        $data = Db::name('PayLog')->field('payment AS id, payment_name AS name')->group('payment')->select();
+        $data = Db::name('PayLog')->field('any_value(payment) AS id, any_value(payment_name) AS name')->group('payment')->select();
         return DataReturn('处理成功', 0, $data);
     }
     
