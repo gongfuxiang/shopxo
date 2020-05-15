@@ -442,17 +442,20 @@ class StatisticalService
         {
             $data = [];
         } else {
-            $data = Db::name('OrderDetail')->field('any_value(title) AS name,sum(buy_number) AS value')->where('order_id', 'IN', $order_ids)->group('goods_id')->order('value desc')->limit(10)->select();
+            $data = Db::name('OrderDetail')->field('goods_id, sum(buy_number) AS value')->where('order_id', 'IN', $order_ids)->group('goods_id')->order('value desc')->limit(10)->select();
         }
 
         if(!empty($data))
         {
             foreach($data as &$v)
             {
+                // 获取商品名称（这里不一次性读取、为了兼容 mysql 5.7+版本）
+                $v['name'] = Db::name('OrderDetail')->where('goods_id', $v['goods_id'])->value('title');
                 if(mb_strlen($v['name'], 'utf-8') > 12)
                 {
                     $v['name'] = mb_substr($v['name'], 0, 12, 'utf-8').'...';
                 }
+                unset($v['goods_id']);
             }
         }
 
@@ -463,6 +466,5 @@ class StatisticalService
         ];
         return DataReturn('处理成功', 0, $result);
     }
-
 }
 ?>
