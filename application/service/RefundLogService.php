@@ -72,7 +72,7 @@ class RefundLogService
      */
     public static function RefundLogTypeList($params = [])
     {
-        $data = Db::name('RefundLog')->field('payment AS id, payment_name AS name')->group('payment')->select();
+        $data = Db::name('RefundLog')->field('any_value(payment) AS id, any_value(payment_name) AS name')->group('payment')->select();
         return DataReturn('处理成功', 0, $data);
     }
     
