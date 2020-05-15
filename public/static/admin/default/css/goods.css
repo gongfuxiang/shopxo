@@ -1,13 +1,20 @@
 /**
  * 列表
  */
-.goods-list.am-table .goods-images {
+.goods .goods-images {
     width:60px;
     height:60px;
     float:left;
     margin-right:5px;
 }
-.goods-list.am-table dl img {
+.goods {
+    overflow: hidden;
+}
+
+/**
+ * 详情
+ */
+.dl-content img {
     max-width: 100%;
 }
 

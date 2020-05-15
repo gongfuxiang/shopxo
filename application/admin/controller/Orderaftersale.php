@@ -54,7 +54,6 @@ class Orderaftersale extends Common
     {
         // 参数
         $params = input();
-        $params['admin'] = $this->admin;
         $params['user_type'] = 'admin';
 
         // 分页
@@ -91,6 +90,38 @@ class Orderaftersale extends Common
         $this->assign('common_order_aftersale_type_list', lang('common_order_aftersale_type_list'));
         $this->assign('common_order_aftersale_status_list', lang('common_order_aftersale_status_list'));
         $this->assign('common_order_aftersale_refundment_list', lang('common_order_aftersale_refundment_list'));
+
+        // 参数
+        $this->assign('params', $params);
+        return $this->fetch();
+    }
+
+    /**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        // 参数
+        $params = input();
+        $params['user_type'] = 'admin';
+
+        // 条件
+        $where = OrderAftersaleService::OrderAftersaleListWhere($params);
+
+        // 获取列表
+        $data_params = array(
+            'm'         => 0,
+            'n'         => 1,
+            'where'     => $where,
+            'is_public' => 0,
+        );
+        $ret = OrderAftersaleService::OrderAftersaleList($data_params);
+        $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+        $this->assign('data', $data);
 
         // 参数
         $this->assign('params', $params);

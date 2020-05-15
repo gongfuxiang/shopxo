@@ -1,10 +1,10 @@
 /**
- * 列表
+ * 商品列表
  */
-.am-table .goods-images { width: 60px; height: 60px; float: left; margin-right: 5px; }
-.am-table .goods-item,
-.am-table .goods-item .base,
-.am-table .goods-item .other { overflow: hidden; }
+.goods-images { width: 60px; height: 60px; float: left; margin-right: 5px; }
+.goods-item,
+.goods-item .base,
+.goods-item .other { overflow: hidden; }
 
 /**
  * 业务弹窗
@@ -28,10 +28,10 @@
 /**
  * 用户信息
  */
-.content-right .user-info img {
-    max-width: 35px;
-    max-height: 35px;
-    margin: 0 5px 2px 0;
+.user-info img {
+  max-width: 35px;
+  max-height: 35px;
+  margin: 0 5px 2px 0;
 }
 
 /**

@@ -1,0 +1,114 @@
+{{include file="public/header" /}}
+
+<!-- content start  -->
+<div class="am-padding-sm">
+    {{if !empty($data)}}
+        <dl class="dl-content">
+            <dt>商品信息</dt>
+            <dd>
+                <div class="goods-detail">
+                    <a href="{{$data.order_data.items.goods_url}}" target="_blank">
+                        <img src="{{$data.order_data.items.images}}" class="am-img-thumbnail am-radius" />
+                    </a>
+                    <div class="goods-base">
+                        <a href="{{$data.order_data.items.goods_url}}" target="_blank" class="am-nowrap-initial am-text-truncate-2 goods-title">{{$data.order_data.items.title}}</a>
+                        {{if !empty($data.order_data.items.spec)}}
+                            <ul class="goods-spec am-margin-top-xs">
+                                {{foreach $data.order_data.items.spec as $spec}}
+                                    <li>{{$spec.type}}：{{$spec.value}}</li>
+                                {{/foreach}}
+                            </ul>
+                        {{/if}}
+                    </div>
+                </div>
+                {{if $data.order_data.items.original_price gt 0}}
+                    <p class="original-price">{{$price_symbol}}{{$data.order_data.items.original_price}}</p>
+                {{/if}}
+                <p class="line-price">{{$price_symbol}}{{$data.order_data.items.price}} x {{$data.order_data.items.buy_number}}</p>
+            </dd>
+
+            <dt>用户信息</dt>
+            <dd class="user-info">
+                {{if !empty($data['user'])}}
+                    <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
+                    <ul class="user-base">
+                        <li>名称：{{if empty($data['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.username}}{{/if}}</li>
+                        <li>昵称：{{if empty($data['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.nickname}}{{/if}}</li>
+                        <li>手机：{{if empty($data['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.mobile}}{{/if}}</li>
+                        <li>邮箱：{{if empty($data['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$data.user.email}}{{/if}}</li>
+                    </ul>
+                {{else /}}
+                    用户信息异常
+                {{/if}}
+            </dd>
+
+            <dt>申请信息</dt>
+            <dd>
+                类型：{{$data.type_text}}<br />
+                原因：{{$data.reason}}<br />
+                数量：{{$data.number}}<br />
+                金额：<span class="am-text-danger">{{$price_symbol}}{{$data.price}}</span><br />
+                说明：{{$data.msg}}<br />
+                时间：{{$data.apply_time_time}}
+            </dd>
+
+            <dt>凭证</dt>
+            <dd>
+                {{if !empty($data['images'])}}
+                    {{foreach $data.images as $img}}
+                        <a href="{{$img}}" target="_blank">
+                            <img src="{{$img}}" class="am-img-thumbnail" width="80" height="80" />
+                        </a>
+                    {{/foreach}}
+                {{/if}}
+            </dd>
+
+            <dt>状态</dt>
+            <dd>
+                <p>{{$data.status_text}}</p>
+                {{if $data['status'] eq 3 and !empty($data['refundment_text'])}}
+                    <span class="am-badge am-badge-success am-margin-top-xs">{{$data.refundment_text}}</span>
+                {{/if}}
+            </dd>
+            <dt>拒绝原因</dt>
+            <dd class="am-text-danger">{{$data.refuse_reason}}</dd>
+
+            <dt>快递信息</dt>
+            <dd>
+                {{if $data['type'] eq 1 and in_array($data['status'], [2,3])}}
+                    快递：{{$data.express_name}}<br />
+                    单号：{{$data.express_number}}<br />
+                    时间：{{$data.delivery_time_time}}
+                {{/if}}
+            </dd>
+
+            <dt>申请时间</dt>
+            <dd>{{$data.apply_time_time}}</dd>
+
+            <dt>确认时间</dt>
+            <dd>{{$data.confirm_time_time}}</dd>
+
+            <dt>退货时间</dt>
+            <dd>{{$data.delivery_time_time}}</dd>
+
+            <dt>审核时间</dt>
+            <dd>{{$data.audit_time_time}}</dd>
+
+            <dt>取消时间</dt>
+            <dd>{{$data.cancel_time_time}}</dd>
+
+            <dt>添加时间</dt>
+            <dd>{{$data.add_time_time}}</dd>
+
+            <dt>更新时间</dt>
+            <dd>{{$data.upd_time_time}}</dd>
+        </dl>
+    {{else /}}
+        <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+    {{/if}}
+</div>
+<!-- content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

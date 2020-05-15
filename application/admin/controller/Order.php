@@ -53,7 +53,6 @@ class Order extends Common
     {
         // 参数
         $params = input();
-        $params['admin'] = $this->admin;
         $params['user_type'] = 'admin';
 
         // 分页
@@ -82,6 +81,7 @@ class Order extends Common
             'n'         => $number,
             'where'     => $where,
             'is_public' => 0,
+            'user_type' => 'admin',
         );
         $data = OrderService::OrderList($data_params);
         $this->assign('data_list', $data['data']);
@@ -112,6 +112,39 @@ class Order extends Common
 
         // 平台
         $this->assign('common_platform_type', lang('common_platform_type'));
+
+        // 参数
+        $this->assign('params', $params);
+        return $this->fetch();
+    }
+
+    /**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        // 参数
+        $params = input();
+        $params['user_type'] = 'admin';
+
+        // 条件
+        $where = OrderService::OrderListWhere($params);
+
+        // 获取列表
+        $data_params = array(
+            'm'         => 0,
+            'n'         => 1,
+            'where'     => $where,
+            'is_public' => 0,
+            'user_type' => 'admin',
+        );
+        $ret = OrderService::OrderList($data_params);
+        $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+        $this->assign('data', $data);
 
         // 参数
         $this->assign('params', $params);

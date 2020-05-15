@@ -390,9 +390,9 @@ class OrderAftersaleService
         $data = Db::name('OrderAftersale')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $common_order_aftersale_type_list = lang('common_order_aftersale_type_list');
-            $common_order_aftersale_status_list = lang('common_order_aftersale_status_list');
-            $common_order_aftersale_refundment_list = lang('common_order_aftersale_refundment_list');
+            $type_list = lang('common_order_aftersale_type_list');
+            $status_list = lang('common_order_aftersale_status_list');
+            $refundment_list = lang('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
                 // 订单商品
@@ -409,13 +409,13 @@ class OrderAftersaleService
                 }
 
                 // 类型
-                $v['type_text'] = $common_order_aftersale_type_list[$v['type']]['name'];
+                $v['type_text'] = array_key_exists($v['type'], $type_list) ? $type_list[$v['type']]['name'] : '';
 
                 // 状态
-                $v['status_text'] = $common_order_aftersale_status_list[$v['status']]['name'];
+                $v['status_text'] = array_key_exists($v['status'], $status_list) ? $status_list[$v['status']]['name'] : '';
 
                 // 退款方式
-                $v['refundment_text'] = $common_order_aftersale_refundment_list[$v['refundment']]['name'];
+                $v['refundment_text'] = array_key_exists($v['refundment'], $refundment_list) ? $refundment_list[$v['refundment']]['name'] : '';
 
                 // 图片
                 if(!empty($v['images']))

@@ -54,7 +54,7 @@ class Goods extends Common
 	public function Index()
 	{
 		// 参数
-		$params = input();
+        $params = input();
 
 		// 条件
 		$where = GoodsService::GetAdminIndexWhere($params);
@@ -75,13 +75,12 @@ class Goods extends Common
 
 		// 获取数据列表
 		$data_params = [
-			'where'				=> $where,
-			'm'					=> $page->GetPageStarNumber(),
-			'n'					=> $number,
-			'is_category'		=> 1,
-			'is_admin_access'	=> 1,
-		];
-		$ret = GoodsService::GoodsList($data_params);
+            'where'         => $where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $number,
+            'is_category'   => 1,
+        ];
+        $ret = GoodsService::GoodsList($data_params);
 
 		// 商品分类
 		$this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
@@ -102,6 +101,40 @@ class Goods extends Common
 	}
 
 	/**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        // 参数
+        $params = input();
+
+        // 条件
+        $where = GoodsService::GetAdminIndexWhere($params);
+
+        // 获取列表
+        $data_params = array(
+            'm'             => 0,
+            'n'             => 1,
+            'where'         => $where,
+            'is_category'   => 1,
+        );
+        $ret = GoodsService::GoodsList($data_params);
+        $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+        $this->assign('data', $data);
+
+        // 是否上下架
+        $this->assign('common_is_shelves_list', lang('common_is_shelves_list'));
+
+        // 参数
+        $this->assign('params', $params);
+        return $this->fetch();
+    }
+
+	/**
 	 * [SaveInfo 商品添加/编辑页面]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
@@ -117,8 +150,12 @@ class Goods extends Common
 		$data = [];
 		if(!empty($params['id']))
 		{
+			// 条件
+        	$where = GoodsService::GetAdminIndexWhere($params);
+
+        	// 获取数据
 			$data_params = [
-				'where'				=> ['id'=>$params['id']],
+				'where'				=> $where,
 				'm'					=> 0,
 				'n'					=> 1,
 				'is_photo'			=> 1,
@@ -165,6 +202,7 @@ class Goods extends Common
 		$this->assign('editor_path_type', 'goods');
 
 		// 数据
+		unset($params['id']);
 		$this->assign('data', $data);
 		$this->assign('params', $params);
 		return $this->fetch();

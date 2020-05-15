@@ -892,52 +892,19 @@ class OrderService
                 // 订单详情
                 if($is_items == 1)
                 {
-                    $items = Db::name('OrderDetail')->where(['order_id'=>$v['id']])->select();
-                    if(!empty($items))
-                    {
-                        foreach($items as &$vs)
-                        {
-                            // 商品信息
-                            $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
-                            $vs['goods_url'] = MyUrl('index/goods/index', ['id'=>$vs['goods_id']]);
-                            $vs['total_price'] = $vs['buy_number']*$vs['price'];
-
-                            // 规格
-                            if(!empty($vs['spec']))
-                            {
-                                $vs['spec'] = json_decode($vs['spec'], true);
-                                if(!empty($vs['spec']) && is_array($vs['spec']))
-                                {
-                                    $vs['spec_text'] = implode('，', array_map(function($spec)
-                                    {
-                                        return $spec['type'].':'.$spec['value'];
-                                    }, $vs['spec']));
-                                }
-                            } else {
-                                $vs['spec'] = null;
-                                $vs['spec_text'] = null;
-                            }
-
-                            // 虚拟销售商品 - 虚拟信息处理
-                            if($v['order_model'] == 3 && $v['pay_status'] == 1 && in_array($v['status'], [3,4]))
-                            {
-                                $vs['fictitious_goods_value'] = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>$vs['id']])->value('value');
-                            }
-
-                            // 是否获取最新一条售后信息
-                            if($is_orderaftersale == 1)
-                            {
-                                $orderaftersale = Db::name('OrderAftersale')->where(['order_detail_id'=>$vs['id']])->order('id desc')->find();
-                                $vs['orderaftersale'] = $orderaftersale;
-                                $vs['orderaftersale_btn_text'] = self::OrderAftersaleStatusBtnText($v['status'], $orderaftersale);
-                            }
-                        }
-                    }
+                    $items = self::OrderItemList($v['id'], $v['order_model'], $v['status'], $v['pay_status'], $is_orderaftersale);
                     $v['items'] = $items;
                     $v['items_count'] = count($items);
 
                     // 描述
                     $v['describe'] = '共'.$v['buy_number_count'].'件 合计:'.config('shopxo.price_symbol').$v['total_price'].'元';
+                }
+
+                // 管理员读取
+                if($user_type == 'admin')
+                {
+                    // 获取最新一条售后订单
+                    $v['aftersale_first'] = self::OrderAftersaleFirst($v['id']);
                 }
 
                 // 订单处理后钩子
@@ -957,6 +924,91 @@ class OrderService
         }
 
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 订单最新一条售后
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-05-15
+     * @desc    description
+     * @param   [int]          $order_id     [订单 id]
+     */
+    public static function OrderAftersaleFirst($order_id)
+    {
+        $data = Db::name('OrderAftersale')->where(['order_id'=>$order_id])->field('status,type,number,price,reason,msg')->order('id desc')->find();
+        if(!empty($data))
+        {
+            $type_list = lang('common_order_aftersale_type_list');
+            $status_list = lang('common_order_aftersale_status_list');
+
+            // 类型
+            $data['type_text'] = array_key_exists($data['type'], $type_list) ? $type_list[$data['type']]['name'] : '';
+
+            // 状态
+            $data['status_text'] = array_key_exists($data['status'], $status_list) ? $status_list[$data['status']]['name'] : '';
+        }
+        return $data;
+    }
+
+    /**
+     * 订单详情列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-05-15
+     * @desc    description
+     * @param   [int]          $order_id            [订单 id]
+     * @param   [int]          $order_model         [订单模式]
+     * @param   [int]          $status              [订单状态]
+     * @param   [int]          $pay_status          [支付状态]
+     * @param   [int]          $is_orderaftersale   [是否读取订单售后（0否, 1是）]
+     */
+    public static function OrderItemList($order_id, $order_model, $status, $pay_status, $is_orderaftersale = 0)
+    {
+        $items = Db::name('OrderDetail')->where(['order_id'=>$order_id])->select();
+        if(!empty($items))
+        {
+            foreach($items as &$vs)
+            {
+                // 商品信息
+                $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
+                $vs['goods_url'] = MyUrl('index/goods/index', ['id'=>$vs['goods_id']]);
+                $vs['total_price'] = $vs['buy_number']*$vs['price'];
+
+                // 规格
+                if(!empty($vs['spec']))
+                {
+                    $vs['spec'] = json_decode($vs['spec'], true);
+                    if(!empty($vs['spec']) && is_array($vs['spec']))
+                    {
+                        $vs['spec_text'] = implode('，', array_map(function($spec)
+                        {
+                            return $spec['type'].':'.$spec['value'];
+                        }, $vs['spec']));
+                    }
+                } else {
+                    $vs['spec'] = null;
+                    $vs['spec_text'] = null;
+                }
+
+                // 虚拟销售商品 - 虚拟信息处理
+                if($order_model == 3 && $pay_status == 1 && in_array($status, [3,4]))
+                {
+                    $vs['fictitious_goods_value'] = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>$vs['id']])->value('value');
+                }
+
+                // 是否获取最新一条售后信息
+                if($is_orderaftersale == 1)
+                {
+                    $orderaftersale = Db::name('OrderAftersale')->where(['order_detail_id'=>$vs['id']])->order('id desc')->find();
+                    $vs['orderaftersale'] = $orderaftersale;
+                    $vs['orderaftersale_btn_text'] = self::OrderAftersaleStatusBtnText($status, $orderaftersale);
+                }
+            }
+        }
+        return $items;
     }
 
     /**

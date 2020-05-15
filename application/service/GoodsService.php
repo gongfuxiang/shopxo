@@ -979,6 +979,12 @@ class GoodsService
             ['is_delete_time', '=', 0],
         ];
 
+        // id
+        if(!empty($params['id']))
+        {
+            $where[] = ['id', '=', intval($params['id'])];
+        }
+
         // 模糊
         if(!empty($params['keywords']))
         {

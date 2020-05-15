@@ -146,7 +146,6 @@
     					<th>库存数量</th>
     					<th>商品型号</th>
     					<th>品牌</th>
-    					<th class="am-text-center">更多</th>
     					<th class="am-text-center">操作</th>
     				</tr>
     			</thead>
@@ -156,13 +155,15 @@
     						<tr id="data-list-{{$v.id}}" {{if $v['is_shelves'] eq 0}}class="am-active"{{/if}}>
     							<td class="am-text-middle">{{$v.id}}</td>
     							<td class="am-text-middle">
-    								<a href="{{$v.goods_url}}" target="_blank" title="{{$v.title}}">
-    									<img src="{{$v['images']}}" class="am-img-thumbnail am-radius goods-images" />
-    								</a>
-    								<a href="{{$v.goods_url}}" target="_blank" title="{{$v.title}}" {{if !empty($v['title_color'])}} style="color:{{$v.title_color}};" {{/if}} class="am-nowrap-initial">{{$v.title}}</a>
-                                    {{if !empty($v['simple_desc'])}}
-                                        <p class="am-text-danger am-nowrap-initial">{{$v.simple_desc}}</p>
-                                    {{/if}}
+                                    <div class="goods">
+        								<a href="{{$v.goods_url}}" target="_blank" title="{{$v.title}}">
+        									<img src="{{$v['images']}}" class="am-img-thumbnail am-radius goods-images" />
+        								</a>
+        								<a href="{{$v.goods_url}}" target="_blank" title="{{$v.title}}" {{if !empty($v['title_color'])}} style="color:{{$v.title_color}};" {{/if}} class="am-nowrap-initial">{{$v.title}}</a>
+                                        {{if !empty($v['simple_desc'])}}
+                                            <p class="am-text-danger am-nowrap-initial">{{$v.simple_desc}}</p>
+                                        {{/if}}
+                                    </div>
     							</td>
     							<td class="am-text-middle">
     								{{$v.price}}
@@ -179,98 +180,12 @@
     							<td class="am-text-middle">{{$v.inventory}} {{$v.inventory_unit}}</td>
     							<td class="am-text-middle">{{$v.model}}</td>
     							<td class="am-text-middle">{{$v.brand_name}}</td>
-    							<td class="am-text-middle">
-                                    <p class="am-text-center xo-cursor-pr">
-                                        <i class="am-icon-caret-down"></i>
-                                        <span data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
-                                    </p>
-    								<div class="am-popup am-radius" id="my-popup{{$v.id}}">
-    									<div class="am-popup-inner">
-    										<div class="am-popup-hd">
-    											<h4 class="am-popup-title">详情内容</h4>
-    											<span data-am-modal-close
-    											class="am-close">&times;</span>
-    										</div>
-    										<div class="am-popup-bd">
-    											<dl class="dl-content">
-    												<dt>标题名称</dt>
-    												<dd class="am-nowrap-initial">{{$v.title}}</dd>
-
-                                                    <dt>商品简述</dt>
-                                                    <dd class="am-nowrap-initial">{{$v.simple_desc}}</dd>
-
-    												<dt>销售价格(元)</dt>
-    												<dd>
-    													{{$v.price}}
-    													{{if !empty($v['original_price']) and $v['original_price'] gt 0}}
-    														<br /><span class="am-badge am-radius">原价 {{$v.original_price}}</span>
-    													{{/if}}
-    												</dd>
-
-    												<dt>上下架</dt>
-    												<dd>{{:lang('common_is_shelves_list')[$v['is_shelves']]['name']}}</dd>
-
-    												<dt>库存数量</dt>
-    												<dd>{{$v.inventory}} {{$v.inventory_unit}}</dd>
-
-    												<dt>最低起购数量</dt>
-    												<dd>{{$v.buy_min_number}} {{$v.inventory_unit}}</dd>
-
-    												<dt>单次最大购买数量</dt>
-    												<dd>{{if $v['buy_max_number'] eq 0}}<span class="cr-ddd">不限</span>{{else /}}{{$v.buy_max_number}} {{$v.inventory_unit}}{{/if}}</dd>
-
-    												<dt>商品型号</dt>
-    												<dd>{{$v.model}}</dd>
-
-    												<dt>品牌</dt>
-    												<dd>{{$v.brand_name}}</dd>
-
-    												<dt>生产地</dt>
-    												<dd>{{$v.place_origin_name}}</dd>
-
-    												<dt>商品分类</dt>
-    												<dd>{{$v.category_text}}</dd>
-
-    												<dt>购买赠送积分</dt>
-    												<dd>{{$v.give_integral}}</dd>
-
-    												<dt>扣减库存</dt>
-    												<dd>{{:lang('common_is_text_list')[$v['is_deduction_inventory']]['name']}}</dd>
-
-    												<dt>访问次数</dt>
-    												<dd>{{$v.access_count}}</dd>
-
-                                                    <dt>电脑端详情</dt>
-                                                    <dd>
-                                                        <div class="am-scrollable-vertical am-nowrap-initial">{{$v.content_web|raw}}</div>
-                                                    </dd>
-
-                                                    <dt>虚拟商品展示数据</dt>
-                                                    <dd>
-                                                        <div class="am-scrollable-vertical am-nowrap-initial">{{$v.fictitious_goods_value|raw}}</div>
-                                                    </dd>
-
-                                                    <dt>SEO标题</dt>
-                                                    <dd>{{$v.seo_title}}</dd>
-
-                                                    <dt>SEO关键字</dt>
-                                                    <dd>{{$v.seo_keywords}}</dd>
-
-                                                    <dt>SEO描述</dt>
-                                                    <dd>{{$v.seo_desc}}</dd>
-
-    												<dt>创建时间</dt>
-    												<dd>{{$v.add_time}}</dd>
-
-    												<dt>更新时间</dt>
-    												<dd>{{$v.upd_time}}</dd>
-    											</dl>
-    										</div>
-    									</div>
-    								</div>
-    							</td>
     							<td class="am-operate-grid">
                                     <div class="am-scrollable-vertical">
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/goods/detail', ['id'=>$v['id']])}}">
+                                            <i class="am-icon-eye"></i>
+                                            <span>详情</span>
+                                        </button>
     									<a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/goods/saveinfo', array_merge($params, ['id'=>$v['id']]))}}">
                                             <i class="am-icon-edit"></i>
                                             <span>编辑</span>

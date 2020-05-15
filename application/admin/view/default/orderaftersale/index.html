@@ -107,7 +107,6 @@
                         <th class="am-grid-sm">凭证</th>
                         <th>状态</th>
                         <th class="am-grid-sm">快递信息</th>
-                        <th class="am-text-center">更多</th>
                         <th class="am-text-center">操作</th>
                     </tr>
                 </thead>
@@ -196,176 +195,64 @@
                                         时间：{{$v.delivery_time_time}}
                                     {{/if}}
                                 </td>
-                                <td class="am-text-middle">
-                                    <p class="am-text-center xo-cursor-pr">
-                                        <i class="am-icon-caret-down"></i>
-                                        <span data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
-                                    </p>
-                                    <div class="am-popup am-radius" id="my-popup{{$v.id}}">
-                                        <div class="am-popup-inner">
-                                            <div class="am-popup-hd">
-                                                <h4 class="am-popup-title">详情内容</h4>
-                                                <span data-am-modal-close
-                                                class="am-close">&times;</span>
-                                            </div>
-                                            <div class="am-popup-bd">
-                                                <dl class="dl-content">
-                                                    <dt>商品信息</dt>
-                                                    <dd>
-                                                        <div class="goods-detail">
-                                                            <a href="{{$v.order_data.items.goods_url}}" target="_blank">
-                                                                <img src="{{$v.order_data.items.images}}" class="am-img-thumbnail am-radius" />
-                                                            </a>
-                                                            <div class="goods-base">
-                                                                <a href="{{$v.order_data.items.goods_url}}" target="_blank" class="am-nowrap-initial am-text-truncate-2 goods-title">{{$v.order_data.items.title}}</a>
-                                                                {{if !empty($v.order_data.items.spec)}}
-                                                                    <ul class="goods-spec am-margin-top-xs">
-                                                                        {{foreach $v.order_data.items.spec as $spec}}
-                                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
-                                                                        {{/foreach}}
-                                                                    </ul>
-                                                                {{/if}}
-                                                            </div>
-                                                        </div>
-                                                        {{if $v.order_data.items.original_price gt 0}}
-                                                            <p class="original-price">{{$price_symbol}}{{$v.order_data.items.original_price}}</p>
-                                                        {{/if}}
-                                                        <p class="line-price">{{$price_symbol}}{{$v.order_data.items.price}} x {{$v.order_data.items.buy_number}}</p>
-                                                    </dd>
-
-                                                    <dt>用户信息</dt>
-                                                    <dd class="user-info">
-                                                        {{if !empty($v['user'])}}
-                                                            <img src="{{$v.user.avatar}}" alt="{{$v.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
-                                                            <ul class="user-base">
-                                                                <li>名称：{{if empty($v['user']['username'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.username}}{{/if}}</li>
-                                                                <li>昵称：{{if empty($v['user']['nickname'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.nickname}}{{/if}}</li>
-                                                                <li>手机：{{if empty($v['user']['mobile'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.mobile}}{{/if}}</li>
-                                                                <li>邮箱：{{if empty($v['user']['email'])}}<span class="cr-ccc">未填写</span>{{else /}}{{$v.user.email}}{{/if}}</li>
-                                                            </ul>
-                                                        {{else /}}
-                                                            用户信息异常
-                                                        {{/if}}
-                                                    </dd>
-
-                                                    <dt>申请信息</dt>
-                                                    <dd>
-                                                        类型：{{$v.type_text}}<br />
-                                                        原因：{{$v.reason}}<br />
-                                                        数量：{{$v.number}}<br />
-                                                        金额：<span class="am-text-danger">{{$price_symbol}}{{$v.price}}</span><br />
-                                                        说明：{{$v.msg}}<br />
-                                                        时间：{{$v.apply_time_time}}
-                                                    </dd>
-
-                                                    <dt>凭证</dt>
-                                                    <dd>
-                                                        {{if !empty($v['images'])}}
-                                                            {{foreach $v.images as $img}}
-                                                                <a href="{{$img}}" target="_blank">
-                                                                    <img src="{{$img}}" class="am-img-thumbnail" width="80" height="80" />
-                                                                </a>
-                                                            {{/foreach}}
-                                                        {{/if}}
-                                                    </dd>
-
-                                                    <dt>状态</dt>
-                                                    <dd>
-                                                        <p>{{$v.status_text}}</p>
-                                                        {{if $v['status'] eq 3 and !empty($v['refundment_text'])}}
-                                                            <span class="am-badge am-badge-success am-margin-top-xs">{{$v.refundment_text}}</span>
-                                                        {{/if}}
-                                                    </dd>
-                                                    <dt>拒绝原因</dt>
-                                                    <dd class="am-text-danger">{{$v.refuse_reason}}</dd>
-
-                                                    <dt>快递信息</dt>
-                                                    <dd>
-                                                        {{if $v['type'] eq 1 and in_array($v['status'], [2,3])}}
-                                                            快递：{{$v.express_name}}<br />
-                                                            单号：{{$v.express_number}}<br />
-                                                            时间：{{$v.delivery_time_time}}
-                                                        {{/if}}
-                                                    </dd>
-
-                                                    <dt>申请时间</dt>
-                                                    <dd>{{$v.apply_time_time}}</dd>
-
-                                                    <dt>确认时间</dt>
-                                                    <dd>{{$v.confirm_time_time}}</dd>
-
-                                                    <dt>退货时间</dt>
-                                                    <dd>{{$v.delivery_time_time}}</dd>
-
-                                                    <dt>审核时间</dt>
-                                                    <dd>{{$v.audit_time_time}}</dd>
-
-                                                    <dt>取消时间</dt>
-                                                    <dd>{{$v.cancel_time_time}}</dd>
-
-                                                    <dt>添加时间</dt>
-                                                    <dd>{{$v.add_time_time}}</dd>
-
-                                                    <dt>更新时间</dt>
-                                                    <dd>{{$v.upd_time_time}}</dd>
-                                                </dl>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
                                 <td class="am-operate-grid">
                                     <div class="am-scrollable-vertical">
-                                    {{if $v['status'] eq 0 and $v['type'] eq 1}}
-                                        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/orderaftersale/confirm')}}" data-id="{{$v.id}}" data-view="reload">
-                                            <i class="am-icon-check"></i>
-                                            <span>确认</span>
+                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/orderaftersale/detail', ['id'=>$v['id']])}}">
+                                            <i class="am-icon-eye"></i>
+                                            <span>详情</span>
                                         </button>
-                                    {{/if}}
-                                    {{if $v['status'] eq 2}}
-                                        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-audit" data-json='{{:str_replace("'", '', json_encode($v))}}'>
-                                            <i class="am-icon-gavel"></i>
-                                            <span>审核</span>
-                                        </button>
-                                    {{/if}}
-                                    {{if in_array($v['status'], [0,2])}}
-                                        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-refuse" data-json='{{:str_replace("'", '', json_encode($v))}}'>
-                                            <i class="am-icon-warning"></i>
-                                            <span>拒绝</span>
-                                        </button>
-                                    {{/if}}
-                                    {{if in_array($v['status'], [1,2])}}
-                                        <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('admin/orderaftersale/cancel')}}" data-id="{{$v.id}}" data-view="reload">
-                                            <i class="am-icon-paint-brush"></i>
-                                            <span>取消</span>
-                                        </button>
-                                    {{/if}}
-                                    {{if in_array($v['status'], [4,5])}}
-                                        <button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/orderaftersale/delete')}}" data-id="{{$v.id}}">
-                                            <i class="am-icon-trash-o"></i>
-                                            <span>删除</span>
-                                        </button>
-                                    {{/if}}
+                                        {{if $v['status'] eq 0 and $v['type'] eq 1}}
+                                            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/orderaftersale/confirm')}}" data-id="{{$v.id}}" data-view="reload">
+                                                <i class="am-icon-check"></i>
+                                                <span>确认</span>
+                                            </button>
+                                        {{/if}}
+                                        {{if $v['status'] eq 2}}
+                                            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-audit" data-json='{{:str_replace("'", '', json_encode($v))}}'>
+                                                <i class="am-icon-gavel"></i>
+                                                <span>审核</span>
+                                            </button>
+                                        {{/if}}
+                                        {{if in_array($v['status'], [0,2])}}
+                                            <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-refuse" data-json='{{:str_replace("'", '', json_encode($v))}}'>
+                                                <i class="am-icon-warning"></i>
+                                                <span>拒绝</span>
+                                            </button>
+                                        {{/if}}
+                                        {{if in_array($v['status'], [1,2])}}
+                                            <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('admin/orderaftersale/cancel')}}" data-id="{{$v.id}}" data-view="reload">
+                                                <i class="am-icon-paint-brush"></i>
+                                                <span>取消</span>
+                                            </button>
+                                        {{/if}}
+                                        {{if in_array($v['status'], [4,5])}}
+                                            <button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/orderaftersale/delete')}}" data-id="{{$v.id}}">
+                                                <i class="am-icon-trash-o"></i>
+                                                <span>删除</span>
+                                            </button>
+                                        {{/if}}
 
-                                    <!-- 订单售后列表操作钩子 -->
-                                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                                        <div class="plugins-tag">
-                                            <span>plugins_view_admin_orderaftersale_list_operate</span>
-                                        </div>
-                                    {{/if}}
-                                    {{php}}
-                                        $hook_name = 'plugins_view_admin_orderaftersale_list_operate';
-                                        $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
-                                        if(!empty($hook_data) && is_array($hook_data))
-                                        {
-                                            foreach($hook_data as $hook)
+                                        <!-- 订单售后列表操作钩子 -->
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                            <div class="plugins-tag">
+                                                <span>plugins_view_admin_orderaftersale_list_operate</span>
+                                            </div>
+                                        {{/if}}
+                                        {{php}}
+                                            $hook_name = 'plugins_view_admin_orderaftersale_list_operate';
+                                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true, 'id'=>$v['id'], 'data'=>$v]);
+                                            if(!empty($hook_data) && is_array($hook_data))
                                             {
-                                                if(is_string($hook) || is_int($hook))
+                                                foreach($hook_data as $hook)
                                                 {
-                                                    echo htmlspecialchars_decode($hook);
+                                                    if(is_string($hook) || is_int($hook))
+                                                    {
+                                                        echo htmlspecialchars_decode($hook);
+                                                    }
                                                 }
                                             }
-                                        }
-                                    {{/php}}
+                                        {{/php}}
+                                    </div>
                                 </td>
                             </tr>
                         {{/foreach}}

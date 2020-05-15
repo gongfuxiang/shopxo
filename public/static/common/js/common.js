@@ -1586,11 +1586,18 @@ function TableContainerInit()
 	        	$(this).find('>th:last').css('right', right);
 
 	        	// 最后一列自定义宽度->默认宽度,设置倒数第二列 padding-right
-	        	var last_width = $(this).find('>th').last().data('width') || $(this).find('>th').last().innerWidth();
+	        	var last_width = parseInt($(this).find('>th').last().attr('data-width') || $(this).find('>th').last().innerWidth());
 	        	if(last_width > 0)
 	        	{
-	        		$(this).find('>th').eq(-2).css('min-width', (($(this).find('>th').eq(-2).data('width') || 0)+last_width)+'px');
+	        		// 倒数第二个元素的宽度、默认读取属性宽度
+	        		var last_width2 = parseInt($(this).find('>th').eq(-2).attr('data-width') || $(this).find('>th').eq(-2).innerWidth());
+	        		// 设置宽度、倒数第二个元素的宽度+最后一个元素的宽度
+	        		$(this).find('>th').eq(-2).css('min-width', last_width2+last_width+'px');
+					// 设置宽度、最后一个元素的宽度+10
 	        		$(this).find('>th').eq(-2).css('padding-right', (last_width+10)+'px');
+	        		// 设置属性数据
+	        		$(this).find('>th').eq(-2).attr('data-width', last_width2);
+	        		$(this).find('>th').last().attr('data-width', last_width);
 	        	}
 	        }
 	        
@@ -1649,9 +1656,10 @@ function TableContainerInit()
 		        	$(this).find('>td:last').css('right', right);
 
 		        	// 最后一列自定义宽度->默认宽度,设置倒数第二列 padding-right
-		        	var last_width = $(this).find('>td').last().data('width') || $(this).find('>td').last().innerWidth();
+		        	var last_width = parseInt($(this).find('>td').last().attr('data-width') || $(this).find('>td').last().innerWidth());
 		        	if(last_width > 0)
 		        	{
+						// 设置宽度、最后一个元素的宽度+10
 		        		$(this).find('>td').eq(-2).css('padding-right', (last_width+10)+'px');
 		        	}
 		        }
@@ -1694,6 +1702,16 @@ $(function()
 
     // 表格初始化
     TableContainerInit();
+
+    /**
+	 * 页面加载 loading
+	 */
+	if($('.am-page-loading').length > 0)
+	{
+		setTimeout(function() {
+		    $('.am-page-loading').fadeOut(500);
+		}, 300);
+	}
 
 	// 全屏操作
 	$('.fullscreen-event').on('click', function()
@@ -2362,14 +2380,16 @@ $(function()
 		}
 	});
 
-	/**
-	 * 页面加载 loading
-	 */
-	 if($('.am-page-loading').length > 0)
-	 {
-	 	setTimeout(function() {
-	        $('.am-page-loading').fadeOut(500);
-	    }, 300);
-	 }
+	// 加载 loading popup 弹层
+    $(document).on('click', '.submit-popup', function()
+    {
+    	var url = $(this).data('url') || null;
+    	if(url == null)
+    	{
+    		Prompt('url未配置');
+    		return false;
+    	}
+        ModalLoad(url);
+    });
 
 });
