@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\service;
+namespace app\form;
 
 use think\Db;
 
@@ -33,18 +33,75 @@ class GoodsForm
      */
     public function Table($params = [])
     {
-        $data = [
-            [
-                // 标题名称
-                'label'         => '商品信息',
-                // 展示数据类型(field 字段取值, file 文件引入内容, status 状态操作, )
-                'view_type'     => 'field',
-                // 展示数据的 key名称
-                'view_key'      => 'title',
-                // 内容位置(left 居左, center 居中, right 居右)默认 left
-                'align'         => 'left',
-                // 格子大小(lg 350px, sm 200px, xs 150px)默认空(100px)
-                'grid_size'     => 'lg',
+        return [
+            // 基础配置
+            'base' => [
+                'key_field'     => 'id',
+                'status_field'  => 'is_shelves',
+            ],
+            // 表单配置
+            'form' => [
+                [
+                    'label'         => '商品ID',
+                    'view_type'     => 'field',
+                    'view_key'      => 'id',
+                ],
+                [
+                    'label'         => '商品信息',
+                    'view_type'     => 'module',
+                    'view_key'      => 'goods/module/info',
+                    'grid_size'     => 'lg',
+                ],
+                [
+                    'label'         => '销售价格(元)',
+                    'view_type'     => 'field',
+                    'view_key'      => 'price',
+                ],
+                [
+                    'label'         => '原价(元)',
+                    'view_type'     => 'field',
+                    'view_key'      => 'original_price',
+                ],
+                [
+                    'label'         => '库存数量',
+                    'view_type'     => 'field',
+                    'view_key'      => ['inventory', 'inventory_unit'],
+                    'view_key_join' => ' ',
+                ],
+                [
+                    'label'         => '上下架',
+                    'view_type'     => 'status',
+                    'view_key'      => 'is_shelves',
+                    'key_field'     => 'id',
+                    'post_url'      => MyUrl('admin/goods/statusshelves'),
+                    'is_form_su'    => 1,
+                    'align'         => 'center',
+                ],
+                [
+                    'label'         => '首页推荐',
+                    'view_type'     => 'status',
+                    'view_key'      => 'is_home_recommended',
+                    'key_field'     => 'id',
+                    'post_url'      => MyUrl('admin/goods/statushomerecommended'),
+                    'align'         => 'center',
+                ],
+                [
+                    'label'         => '商品型号',
+                    'view_type'     => 'field',
+                    'view_key'      => 'model',
+                ],
+                [
+                    'label'         => '品牌',
+                    'view_type'     => 'field',
+                    'view_key'      => 'brand_name',
+                ],
+                [
+                    'label'         => '操作',
+                    'view_type'     => 'operate',
+                    'view_key'      => 'goods/module/operate',
+                    'align'         => 'center',
+                    'fixed'         => 'right',
+                ],
             ],
         ];
     }

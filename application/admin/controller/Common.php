@@ -33,6 +33,24 @@ class Common extends Controller
 	// 左边权限菜单
 	protected $left_menu;
 
+    // 当前操作名称
+    protected $module_name;
+    protected $controller_name;
+    protected $action_name;
+
+    // 输入参数 post
+    protected $data_post;
+
+    // 输入参数 get
+    protected $data_get;
+
+    // 输入参数 request
+    protected $data_request;
+
+    // 分页信息
+    protected $page;
+    protected $page_size;
+
 	/**
      * 构造方法
      * @author   Devil
@@ -47,6 +65,11 @@ class Common extends Controller
 
 		// 系统初始化
         $this->SystemInit();
+
+        // 输入参数
+        $this->data_post = input('post.');
+        $this->data_get = input('get.');
+        $this->data_request = input();
 
 		// 管理员信息
 		$this->admin = session('admin');
@@ -92,6 +115,23 @@ class Common extends Controller
 
         // 公共底部钩子
         $this->assign('plugins_admin_view_common_bottom_data', Hook::listen('plugins_admin_view_common_bottom', ['hook_name'=>'plugins_admin_view_common_bottom', 'is_backend'=>true, 'admin'=>$this->admin]));
+
+        // 公共钩子名称动态处理
+        $current = 'plugins_view_admin_'.$this->controller_name;
+        // 内容外部顶部
+        $this->assign('hook_name_content_top', $current.'_content_top');
+        // 内容外部底部
+        $this->assign('hook_name_content_bottom', $current.'_content_bottom');
+        // 内容内部顶部
+        $this->assign('hook_name_content_inside_top', $current.'_content_inside_top');
+        // 内容内部底部
+        $this->assign('hook_name_content_inside_bottom', $current.'_content_inside_bottom');
+        // 表格列表顶部操作
+        $this->assign('hook_name_form_top_operate', $current.'_top_operate');
+        // 表格列表底部操作
+        $this->assign('hook_name_form_bottom_operate', $current.'_bottom_operate');
+        // 表格列表后面操作栏
+        $this->assign('hook_name_form_list_operate', $current.'_list_operate');
     }
 
 	/**
@@ -145,25 +185,31 @@ class Common extends Controller
         $this->assign('default_theme', $default_theme);
 
         // 当前操作名称
-        $module_name = strtolower(request()->module());
-        $controller_name = strtolower(request()->controller());
-        $action_name = strtolower(request()->action());
+        $this->module_name = strtolower(request()->module());
+        $this->controller_name = strtolower(request()->controller());
+        $this->action_name = strtolower(request()->action());
 
         // 当前操作名称
-        $this->assign('module_name', $module_name);
-        $this->assign('controller_name', $controller_name);
-        $this->assign('action_name', $action_name);
+        $this->assign('module_name', $this->module_name);
+        $this->assign('controller_name', $this->controller_name);
+        $this->assign('action_name', $this->action_name);
+
+        // 分页信息
+        $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
+        $this->page_size = MyC('admin_page_number', 10, true);
+        $this->assign('page', $this->page);
+        $this->assign('page_size', $this->page_size);
 
         // 价格符号
         $this->assign('price_symbol', config('shopxo.price_symbol'));
 
 		// 控制器静态文件状态css,js
-        $module_css = $module_name.DS.$default_theme.DS.'css'.DS.$controller_name;
-        $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$action_name.'.css') ? '.'.$action_name.'.css' : '.css';
+        $module_css = $this->module_name.DS.$default_theme.DS.'css'.DS.$this->controller_name;
+        $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$this->action_name.'.css') ? '.'.$this->action_name.'.css' : '.css';
         $this->assign('module_css', file_exists(ROOT_PATH.'static'.DS.$module_css) ? $module_css : '');
 
-        $module_js = $module_name.DS.$default_theme.DS.'js'.DS.$controller_name;
-        $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$action_name.'.js') ? '.'.$action_name.'.js' : '.js';
+        $module_js = $this->module_name.DS.$default_theme.DS.'js'.DS.$this->controller_name;
+        $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$this->action_name.'.js') ? '.'.$this->action_name.'.js' : '.js';
         $this->assign('module_js', file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '');
 
 		// 权限菜单
@@ -180,6 +226,12 @@ class Common extends Controller
 
         // 默认不加载百度地图api
         $this->assign('is_load_baidu_map_api', 0);
+
+        // 动态表格处理
+        $obj = new \app\form\GoodsForm();
+        $table = $obj->Table();
+        $this->assign('form_table', $table);
+        //print_r($table);
 	}
 
 	/**

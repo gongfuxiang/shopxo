@@ -54,7 +54,7 @@ class Goods extends Common
 	public function Index()
 	{
 		// 参数
-        $params = input();
+        $params = $this->data_request;
 
 		// 条件
 		$where = GoodsService::GetAdminIndexWhere($params);
@@ -63,12 +63,11 @@ class Goods extends Common
 		$total = GoodsService::GoodsTotal($where);
 
 		// 分页
-		$number = MyC('admin_page_number', 10, true);
 		$page_params = array(
-				'number'	=>	$number,
+				'number'	=>	$this->page_size,
 				'total'		=>	$total,
 				'where'		=>	$params,
-				'page'		=>	isset($params['page']) ? intval($params['page']) : 1,
+				'page'		=>	$this->page,
 				'url'		=>	MyUrl('admin/goods/index'),
 			);
 		$page = new \base\Page($page_params);
@@ -77,7 +76,7 @@ class Goods extends Common
 		$data_params = [
             'where'         => $where,
             'm'             => $page->GetPageStarNumber(),
-            'n'             => $number,
+            'n'             => $this->page_size,
             'is_category'   => 1,
         ];
         $ret = GoodsService::GoodsList($data_params);

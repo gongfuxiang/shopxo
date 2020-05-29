@@ -176,6 +176,9 @@ class GoodsService
      */
     public static function HomeFloorList($params = [])
     {
+        // 商品数量
+        $goods_count = 8;
+
         // 缓存
         $key = config('shopxo.cache_goods_floor_list_key');
         $data = cache($key);
@@ -198,7 +201,7 @@ class GoodsService
                         'g.is_home_recommended' => 1,
                         'g.is_shelves'          => 1,
                     ];
-                    $v['goods_ids'] = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->group('g.id')->order('g.id desc')->limit(8)->column('g.id');
+                    $v['goods_ids'] = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->group('g.id')->order('g.id desc')->limit($goods_count)->column('g.id');
                     $v['goods'] = [];
                 }
             }
@@ -215,7 +218,7 @@ class GoodsService
             {
                 if(!empty($v['goods_ids']) && is_array($v['goods_ids']))
                 {
-                    $res = self::GoodsList(['where'=>['id'=>$v['goods_ids'], 'is_home_recommended'=>1, 'is_shelves'=>1], 'm'=>0, 'n'=>8, 'field'=>'*']);
+                    $res = self::GoodsList(['where'=>['id'=>$v['goods_ids'], 'is_home_recommended'=>1, 'is_shelves'=>1], 'm'=>0, 'n'=>$goods_count, 'field'=>'*']);
                     $v['goods'] = $res['data'];
                 }
             }

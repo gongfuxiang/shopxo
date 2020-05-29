@@ -12,6 +12,36 @@
 // 应用公共文件
 
 /**
+ * 模块视图动态加载方法
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-05-25
+ * @desc    description
+ * @param   [string]          $template [视图路径]
+ * @param   [mixed]           $params   [参数数据]
+ */
+function ModuleInclude($template, $params = [])
+{
+    // 应用控制器
+    $module = '\app\module\ViewInclude';
+    if(!class_exists($module))
+    {
+        return '模块视图控制器未定义['.$module.']';
+    }
+
+    // 调用方法
+    $action = 'Run';
+    $obj = new $module();
+    if(!method_exists($obj, $action))
+    {
+        return '模块视图方法未定义['.$module.'->'.$action.'()]';
+    }
+
+    return $obj->Run($template, $params);
+}
+
+/**
  * 钩子返回数据处理，是否存在错误
  * @author  Devil
  * @blog    http://gong.gg/

@@ -230,7 +230,7 @@
                             {{if !empty($floor['goods'])}}
                                 {{foreach $floor.goods as $goods_key=>$goods}}
                                     <div class="goods-items">
-                                        <a href="{{$goods.goods_url}}" target="_blank" class="am-block">
+                                        <a href="{{$goods.goods_url}}" target="_blank" class="am-block am-text-center">
                                             <!-- 首页楼层商品内部顶部钩子 -->
                                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                                                 <div class="plugins-tag">
