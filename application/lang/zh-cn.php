@@ -189,8 +189,8 @@ return array(
 
     // 是否上架/下架
     'common_is_shelves_list'                    =>  array(
-            0 => array('id' => 0, 'name' => '已下架'),
-            1 => array('id' => 1, 'name' => '已上架', 'checked' => true),
+            0 => array('id' => 0, 'name' => '下架'),
+            1 => array('id' => 1, 'name' => '上架', 'checked' => true),
         ),
 
     // 是否

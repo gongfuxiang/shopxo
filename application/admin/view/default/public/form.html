@@ -22,7 +22,7 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <div class="content">
+    <div class="content form-table-content">
         <!-- content inside top hook -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
             <div class="plugins-tag">
@@ -48,8 +48,13 @@
         <!-- form end -->
 
         <!-- top operate start -->
-        <div class="am-g am-margin-top-sm">
+        <div class="am-g am-margin-top-sm form-table-operate-top">
             {{block name="form_operate_top"}}
+                <!-- 公共操作 -->
+                <a href="{{:MyUrl('admin/goods/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm am-icon-filter"> 重置</a>
+                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example am-icon-search" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}"> 搜索</button>
+
+                <!-- 钩子 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                     <div class="plugins-tag">
                         <span>plugins_view_admin_goods_top_operate</span>
@@ -89,10 +94,91 @@
                                     {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
                                     {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
                                     {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
+                                    {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
                                 ">{{if isset($t['label'])}}{{$t.label}}{{/if}}</th>
                             {{/foreach}}
                         {{/if}}
                     </tr>
+                    {{if isset($form_table['base']) and isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
+                        <tr class="form-table-search">
+                            {{foreach $form_table['form'] as $t}}
+                                <td class="
+                                    {{if !isset($t['is_middle']) or $t['is_middle'] eq 1}}am-text-middle {{/if}}
+                                    {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
+                                    {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
+                                    {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
+                                    {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
+                                ">
+                                    {{if !empty($t['search_config']) and !empty($t['search_config']['form_type']) and !empty($t['search_config']['form_name'])}}
+                                        {{switch $t.search_config.form_type}}
+                                            {{case input}}
+                                                <!-- 输入 -->
+                                                <input type="text" class="am-form-field am-radius" autocomplete="off" name="{{$t.search_config.form_name}}" placeholder="{{if empty($t['search_config']['placeholder'])}}请输入{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}" />
+                                            {{/case}}
+                                            {{case select}}
+                                                <!-- 选择 -->
+                                                <select name="{{$t.search_config.form_name}}" class="chosen-select am-text-left" data-placeholder="{{if empty($t['search_config']['placeholder'])}}请选择{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}" {{if isset($t['search_config']['is_multiple']) and $t['search_config']['is_multiple'] eq 1}}multiple{{/if}}>
+                                                    {{if isset($t['search_config']['is_seat_select']) and $t['search_config']['is_seat_select'] eq 1 and (!isset($t['search_config']['is_multiple']) or $t['search_config']['is_multiple'] neq 1)}}
+                                                        <option value="{{if isset($t['search_config']['seat_select_value'])}}{{$t.search_config.seat_select_value}}{{/if}}">
+                                                            {{if empty($t['search_config']['seat_select_text'])}}{{if empty($t['search_config']['placeholder'])}}请选择{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}{{else /}}{{$t.search_config.seat_select_text}}{{/if}}
+                                                        </option>
+                                                    {{/if}}
+                                                    {{if !empty($t['search_config']['data']) and is_array($t['search_config']['data'])}}
+                                                        {{foreach $t['search_config']['data'] as $v}}
+                                                            <option value="{{if empty($t['search_config']['data_key'])}}{{if isset($v['id'])}}{{$v.id}}{{/if}}{{else /}}{{if isset($v[$t['search_config']['data_key']])}}{{$v[$t['search_config']['data_key']]}}{{/if}}{{/if}}" >
+                                                                {{if empty($t['search_config']['data_name'])}}
+                                                                    {{if isset($v['name'])}}
+                                                                        {{$v.name}}
+                                                                    {{/if}}
+                                                                {{else /}}
+                                                                    {{if isset($v[$t['search_config']['data_name']])}}
+                                                                        {{$v[$t['search_config']['data_name']]}}
+                                                                    {{/if}}
+                                                                {{/if}}
+                                                            </option>
+                                                        {{/foreach}}
+                                                    {{/if}}
+                                                </select>
+                                            {{/case}}
+                                            {{case section}}
+                                                <!-- 区间 -->
+                                                <div class="form-table-search-section">
+                                                    <input type="number" step="0.01" class="am-form-field am-radius am-inline-block" autocomplete="off" name="{{$t.search_config.form_name}}[]" placeholder="最小" />
+                                                    <span>-</span>
+                                                    <input type="number" step="0.01" class="am-form-field am-radius am-inline-block" autocomplete="off" name="{{$t.search_config.form_name}}[]" placeholder="最大" />
+                                                </div>
+                                            {{/case}}
+                                            {{case datetime}}
+                                                <div class="form-table-search-section form-table-search-time">
+                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-{{$t.search_config.form_name}}" name="{{$t.search_config.form_name}}[]" placeholder="开始" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$t.search_config.form_name}}\');}'})" autocomplete="off" />
+                                                    <span>-</span>
+                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-{{$t.search_config.form_name}}" name="{{$t.search_config.form_name}}[]" placeholder="结束" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$t.search_config.form_name}}\');}'})" autocomplete="off" />
+                                                </div>
+                                            {{/case}}
+                                            {{case date}}
+                                                <div class="form-table-search-section form-table-search-time">
+                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-{{$t.search_config.form_name}}" name="{{$t.search_config.form_name}}[]" placeholder="开始" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$t.search_config.form_name}}\',{d:-1});}'})" autocomplete="off" />
+                                                    <span>-</span>
+                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-{{$t.search_config.form_name}}" name="{{$t.search_config.form_name}}[]" placeholder="结束" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$t.search_config.form_name}}\',{d:+1});}'})" autocomplete="off" />
+                                                </div>
+                                            {{/case}}
+                                            {{case time}}
+                                                <div class="form-table-search-section form-table-search-time">
+                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start" name="{{$t.search_config.form_name}}[]" placeholder="开始" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'HH:mm:ss'})" autocomplete="off" />
+                                                    <span>-</span>
+                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end" name="{{$t.search_config.form_name}}[]" placeholder="结束" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'HH:mm:ss'})" autocomplete="off" />
+                                                </div>
+                                            {{/case}}
+                                            {{case module}}
+                                                    <!-- 从模块加载自定义模块数据 -->
+                                                    {{:ModuleInclude($t['search_config']['form_name'], isset($t['search_config']['data']) ? $t['search_config']['data'] : [], isset($params) ? $params : [])}}
+                                                {{/case}}
+                                        {{/switch}}
+                                    {{/if}}
+                                </td>
+                            {{/foreach}}
+                        </tr>
+                    {{/if}}
                 </thead>
                 <tbody>
                     {{if !empty($data_list) and !empty($form_table['form']) and !empty($form_table['base']) and !empty($form_table['base']['key_field'])}}
@@ -141,7 +227,7 @@
                                                 {{/case}}
                                                 {{case module}}
                                                     <!-- 从模块加载自定义模块数据 -->
-                                                    {{:ModuleInclude($t['view_key'], $data_list[$i])}}
+                                                    {{:ModuleInclude($t['view_key'], $data_list[$i], isset($params) ? $params : [])}}
                                                 {{/case}}
                                                 {{case status}}
                                                     <!-- 数据状态操作按钮组件 -->

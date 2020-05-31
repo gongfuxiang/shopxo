@@ -1,0 +1,18 @@
+<!-- 商品基础信息 -->
+{{if !empty($module_data)}}
+    <select class="am-radius chosen-select" multiple name="category_id" data-placeholder="商品分类...">
+        {{foreach $module_data as $v}}
+            <option value="{{$v.id}}" {{if !empty($module_params['category_id']) and $v['id'] eq $module_params['category_id']}}selected{{/if}}>{{$v.name}}</option>
+            {{if !empty($v['items'])}}
+                {{foreach $v.items as $vs}}
+                    <option style="padding-left: 15px;" value="{{$vs.id}}" {{if !empty($module_params['category_id']) and $vs['id'] eq $module_params['category_id']}}selected{{/if}}>{{$vs.name}}</option>
+                    {{if !empty($vs['items'])}}
+                        {{foreach $vs.items as $vss}}
+                            <option style="padding-left: 30px;" value="{{$vss.id}}" {{if !empty($module_params['category_id']) and $vss['id'] eq $module_params['category_id']}}selected{{/if}}>{{$vss.name}}</option>
+                        {{/foreach}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        {{/foreach}}
+    </select>
+{{/if}}

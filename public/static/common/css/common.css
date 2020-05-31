@@ -426,7 +426,7 @@ button.colorpicker-submit img {
 }
 
 /**
- * 表格样式
+ * 表格-基础样式
  */
 .am-table-scrollable-horizontal {
     border: 1px solid #ddd;
@@ -445,6 +445,8 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table > tfoot > tr > td {
     padding: 12px;
     line-height: 20px;
+    min-width: 150px;
+    max-width: 150px;
 }
 .am-table-scrollable-horizontal .am-table .am-nowrap-initial {
     white-space: initial;
@@ -461,13 +463,13 @@ button.colorpicker-submit img {
     min-width: 350px;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-sm {
-    min-width: 200px;
+    min-width: 250px;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-xs {
-    min-width: 150px;
+    min-width: 200px;
 }
 .am-table-scrollable-horizontal .am-table tr .am-operate-grid {
-    width: 100px;
+    min-width: 120px;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-right {
@@ -478,7 +480,7 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table tr td.am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr td.am-grid-fixed-right {
     height: auto;
-    z-index: 2;
+    z-index: 1011;
     position: sticky;
     background: #fff;
 }
@@ -501,4 +503,44 @@ button.colorpicker-submit img {
     -webkit-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
     -moz-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
     box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
+}
+
+/**
+ * 表格-相关样式
+ */
+.form-table-operate-top > .am-btn:not(:last-child) {
+    margin-right: 10px;
+}
+
+/**
+ * 表格-搜索条件
+ */
+.form-table-search {
+    background: #eee;
+}
+.form-table-search td {
+    padding: 8px  !important;
+}
+.form-table-search-section input {
+    width: calc(50% - 8px);
+}
+.form-table-search-time > i {
+    position: absolute;
+    margin: 4px 0px 0px -15px;
+}
+
+
+/**
+ * 下拉选择器
+ */
+.chosen-container-multi .chosen-choices li.search-choice {
+    margin: 3px 3px 3px 0;
+    padding: 2px 13px 1px 2px;
+}
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+    margin: 0;
+}
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+    top: 2px;
+    right: 0px;
 }
