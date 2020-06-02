@@ -51,6 +51,12 @@ class Common extends Controller
     protected $page;
     protected $page_size;
 
+    // 动态表格
+    protected $form_table;
+    protected $form_where;
+    protected $form_params;
+    protected $form_error;
+
 	/**
      * 构造方法
      * @author   Devil
@@ -83,6 +89,9 @@ class Common extends Controller
 
 		// 视图初始化
 		$this->ViewInit();
+
+        // 动态表格初始化
+        $this->FormTableInit();
 
         // 公共钩子初始化
         $this->CommonPluginsInit();
@@ -226,13 +235,40 @@ class Common extends Controller
 
         // 默认不加载百度地图api
         $this->assign('is_load_baidu_map_api', 0);
-
-        // 动态表格处理
-        $obj = new \app\form\GoodsForm();
-        $table = $obj->Table();
-        $this->assign('form_table', $table);
-        //print_r($table);
 	}
+
+    /**
+     * 动态表格初始化
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-02
+     * @desc    description
+     */
+    public function FormTableInit()
+    {
+        // 当前操作名称
+        $module = request()->module();
+        $controller = request()->controller();
+
+        // 数据处理
+        $res = FormTableLoad($controller, $module, $this->data_request);
+        if($res['code'] == 0)
+        {
+            $this->form_table = $res['data']['table'];
+            $this->form_where = $res['data']['where'];
+            $this->form_params = $res['data']['params'];
+
+            $this->assign('form_table', $this->form_table);
+            $this->assign('form_params', $this->form_params);
+        } else {
+            $this->form_error = $res['msg'];
+            $this->assign('form_error', $this->form_error);
+        }
+
+
+//print_r($this->data_request);die;
+    }
 
 	/**
 	 * [IsPower 是否有权限]

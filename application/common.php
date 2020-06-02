@@ -12,6 +12,45 @@
 // 应用公共文件
 
 /**
+ * 模块动态表格加载方法
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-06-02
+ * @desc    description
+ * @param   [string]          $name     [模块名称]
+ * @param   [string]          $group    [模块组(admin,index)]
+ * @param   [mixed]           $params   [参数数据]
+ */
+function FormTableLoad($name, $group = 'admin', $params = [])
+{
+    // 模块
+    $module = '\app\\'.$group.'\form\\'.$name;
+    if(!class_exists($module))
+    {
+        return DataReturn('动态表格模块未定义['.$module.']', -1);
+    }
+
+    // 调用方法
+    $action = 'Run';
+    $obj = new $module();
+    if(!method_exists($obj, $action))
+    {
+        return DataReturn('动态表格方法未定义['.$module.'->'.$action.'()]', -1);
+    }
+    $table = $obj->$action($params);
+
+    // 处理数据
+    $res = (new app\module\FormHandle())->Run($table, $params);
+    $data = [
+        'table'     => $table,
+        'where'     => $res['where'],
+        'params'    => $res['params'],
+    ];
+    return DataReturn('success', 0, $data);
+}
+
+/**
  * 模块视图动态加载方法
  * @author  Devil
  * @blog    http://gong.gg/

@@ -43,273 +43,273 @@
             }
         {{/php}}
 
-        <!-- form start -->
-        {{block name="search_form"}}{{/block}}
-        <!-- form end -->
+        <!-- form -->
+        {{if !empty($form_table) and !empty($form_table['base']) and !empty($form_table['form']) and is_array($form_table['base']) and is_array($form_table['form'])}}
+            <form class="form-validation-search" method="post" action="{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1 and !empty($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" request-type="jump" request-value="{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1 and !empty($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}">
+                <!-- top operate start -->
+                <div class="am-g form-table-operate-top">
+                    {{block name="form_operate_top"}}
+                        <!-- 公共操作 -->
+                        <a href="{{:MyUrl('admin/goods/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm am-icon-filter"> 重置</a>
+                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example am-icon-search" data-am-loading="{loadingText:' 搜索中...'}"> 搜索</button>
 
-        <!-- top operate start -->
-        <div class="am-g am-margin-top-sm form-table-operate-top">
-            {{block name="form_operate_top"}}
-                <!-- 公共操作 -->
-                <a href="{{:MyUrl('admin/goods/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm am-icon-filter"> 重置</a>
-                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example am-icon-search" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}"> 搜索</button>
-
-                <!-- 钩子 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                    <div class="plugins-tag">
-                        <span>plugins_view_admin_goods_top_operate</span>
-                    </div>
-                {{/if}}
-                {{php}}
-                    $hook_name = 'plugins_view_admin_goods_top_operate';
-                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
-                    if(!empty($hook_data) && is_array($hook_data))
-                    {
-                        foreach($hook_data as $hook)
-                        {
-                            if(is_string($hook) || is_int($hook))
-                            {
-                                echo htmlspecialchars_decode($hook);
-                            }
-                        }
-                    }
-                {{/php}}
-            {{/block}}
-        </div>
-        <!-- top operate end -->
-
-        <!-- list start -->
-        <div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm">
-            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap">
-                <thead>
-                    <tr>
-                        {{if !empty($form_table['form'])}}
-                            {{foreach $form_table['form'] as $t}}
-                                <!-- 1. 上下居中 -->
-                                <!-- 2. 格子大小 -->
-                                <!-- 3. 内容位置居（左|中|右） -->
-                                <!-- 4. 格子是否固定（left|right 左|右） -->
-                                <th class="
-                                    {{if !isset($t['is_middle']) or $t['is_middle'] eq 1}}am-text-middle {{/if}}
-                                    {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
-                                    {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
-                                    {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
-                                    {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
-                                ">{{if isset($t['label'])}}{{$t.label}}{{/if}}</th>
-                            {{/foreach}}
+                        <!-- 钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_admin_goods_top_operate</span>
+                            </div>
                         {{/if}}
-                    </tr>
-                    {{if isset($form_table['base']) and isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
-                        <tr class="form-table-search">
-                            {{foreach $form_table['form'] as $t}}
-                                <td class="
-                                    {{if !isset($t['is_middle']) or $t['is_middle'] eq 1}}am-text-middle {{/if}}
-                                    {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
-                                    {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
-                                    {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
-                                    {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
-                                ">
-                                    {{if !empty($t['search_config']) and !empty($t['search_config']['form_type']) and !empty($t['search_config']['form_name'])}}
-                                        {{switch $t.search_config.form_type}}
-                                            {{case input}}
-                                                <!-- 输入 -->
-                                                <input type="text" class="am-form-field am-radius" autocomplete="off" name="{{$t.search_config.form_name}}" placeholder="{{if empty($t['search_config']['placeholder'])}}请输入{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}" />
-                                            {{/case}}
-                                            {{case select}}
-                                                <!-- 选择 -->
-                                                <select name="{{$t.search_config.form_name}}" class="chosen-select am-text-left" data-placeholder="{{if empty($t['search_config']['placeholder'])}}请选择{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}" {{if isset($t['search_config']['is_multiple']) and $t['search_config']['is_multiple'] eq 1}}multiple{{/if}}>
-                                                    {{if isset($t['search_config']['is_seat_select']) and $t['search_config']['is_seat_select'] eq 1 and (!isset($t['search_config']['is_multiple']) or $t['search_config']['is_multiple'] neq 1)}}
-                                                        <option value="{{if isset($t['search_config']['seat_select_value'])}}{{$t.search_config.seat_select_value}}{{/if}}">
-                                                            {{if empty($t['search_config']['seat_select_text'])}}{{if empty($t['search_config']['placeholder'])}}请选择{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}{{else /}}{{$t.search_config.seat_select_text}}{{/if}}
-                                                        </option>
-                                                    {{/if}}
-                                                    {{if !empty($t['search_config']['data']) and is_array($t['search_config']['data'])}}
-                                                        {{foreach $t['search_config']['data'] as $v}}
-                                                            <option value="{{if empty($t['search_config']['data_key'])}}{{if isset($v['id'])}}{{$v.id}}{{/if}}{{else /}}{{if isset($v[$t['search_config']['data_key']])}}{{$v[$t['search_config']['data_key']]}}{{/if}}{{/if}}" >
-                                                                {{if empty($t['search_config']['data_name'])}}
-                                                                    {{if isset($v['name'])}}
-                                                                        {{$v.name}}
-                                                                    {{/if}}
-                                                                {{else /}}
-                                                                    {{if isset($v[$t['search_config']['data_name']])}}
-                                                                        {{$v[$t['search_config']['data_name']]}}
-                                                                    {{/if}}
-                                                                {{/if}}
-                                                            </option>
-                                                        {{/foreach}}
-                                                    {{/if}}
-                                                </select>
-                                            {{/case}}
-                                            {{case section}}
-                                                <!-- 区间 -->
-                                                <div class="form-table-search-section">
-                                                    <input type="number" step="0.01" class="am-form-field am-radius am-inline-block" autocomplete="off" name="{{$t.search_config.form_name}}[]" placeholder="最小" />
-                                                    <span>-</span>
-                                                    <input type="number" step="0.01" class="am-form-field am-radius am-inline-block" autocomplete="off" name="{{$t.search_config.form_name}}[]" placeholder="最大" />
-                                                </div>
-                                            {{/case}}
-                                            {{case datetime}}
-                                                <div class="form-table-search-section form-table-search-time">
-                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-{{$t.search_config.form_name}}" name="{{$t.search_config.form_name}}[]" placeholder="开始" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$t.search_config.form_name}}\');}'})" autocomplete="off" />
-                                                    <span>-</span>
-                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-{{$t.search_config.form_name}}" name="{{$t.search_config.form_name}}[]" placeholder="结束" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$t.search_config.form_name}}\');}'})" autocomplete="off" />
-                                                </div>
-                                            {{/case}}
-                                            {{case date}}
-                                                <div class="form-table-search-section form-table-search-time">
-                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-{{$t.search_config.form_name}}" name="{{$t.search_config.form_name}}[]" placeholder="开始" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$t.search_config.form_name}}\',{d:-1});}'})" autocomplete="off" />
-                                                    <span>-</span>
-                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-{{$t.search_config.form_name}}" name="{{$t.search_config.form_name}}[]" placeholder="结束" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$t.search_config.form_name}}\',{d:+1});}'})" autocomplete="off" />
-                                                </div>
-                                            {{/case}}
-                                            {{case time}}
-                                                <div class="form-table-search-section form-table-search-time">
-                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start" name="{{$t.search_config.form_name}}[]" placeholder="开始" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'HH:mm:ss'})" autocomplete="off" />
-                                                    <span>-</span>
-                                                    <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end" name="{{$t.search_config.form_name}}[]" placeholder="结束" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'HH:mm:ss'})" autocomplete="off" />
-                                                </div>
-                                            {{/case}}
-                                            {{case module}}
-                                                    <!-- 从模块加载自定义模块数据 -->
-                                                    {{:ModuleInclude($t['search_config']['form_name'], isset($t['search_config']['data']) ? $t['search_config']['data'] : [], isset($params) ? $params : [])}}
-                                                {{/case}}
-                                        {{/switch}}
-                                    {{/if}}
-                                </td>
-                            {{/foreach}}
-                        </tr>
-                    {{/if}}
-                </thead>
-                <tbody>
-                    {{if !empty($data_list) and !empty($form_table['form']) and !empty($form_table['base']) and !empty($form_table['base']['key_field'])}}
-                        <!-- 处理数据数量小于默认数量 -->
-                        {{for start="0" end="(count($data_list) < $page_size ? count($data_list) : $page_size)"}}
-                            <!-- 1. tr 主键id名称 -->
-                            <!-- 2. 是否黄色选中class -->
-                            <tr {{if !empty($form_table['base'])}}
-                                    id="data-list-{{if isset($data_list[$i][$form_table['base']['key_field']])}}{{$data_list[$i][$form_table['base']['key_field']]}}{{/if}}"
-                                    {{if !empty($form_table['base']['status_field']) and isset($data_list[$i][$form_table['base']['status_field']]) and $data_list[$i][$form_table['base']['status_field']] eq 0}}class="am-active"{{/if}}
-                                {{/if}}>
+                        {{php}}
+                            $hook_name = 'plugins_view_admin_goods_top_operate';
+                            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
+                            if(!empty($hook_data) && is_array($hook_data))
+                            {
+                                foreach($hook_data as $hook)
+                                {
+                                    if(is_string($hook) || is_int($hook))
+                                    {
+                                        echo htmlspecialchars_decode($hook);
+                                    }
+                                }
+                            }
+                        {{/php}}
+                    {{/block}}
+                </div>
+                <!-- top operate end -->
+
+                <!-- list start -->
+                <div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm">
+                    <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap">
+                        <thead>
+                            <tr>
                                 {{foreach $form_table['form'] as $t}}
                                     <!-- 1. 上下居中 -->
                                     <!-- 2. 格子大小 -->
                                     <!-- 3. 内容位置居（左|中|右） -->
                                     <!-- 4. 格子是否固定（left|right 左|右） -->
-                                    <!-- 5. 是否操作列 -->
-                                    <td class="
+                                    <th class="
                                         {{if !isset($t['is_middle']) or $t['is_middle'] eq 1}}am-text-middle {{/if}}
                                         {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
                                         {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
                                         {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
                                         {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
-                                    ">
-                                        {{if isset($data_list[$i]) and !empty($t['view_type']) and !empty($t['view_key'])}}
-                                            <!-- 数据匹配 -->
-                                            {{switch $t.view_type}}
-                                                {{case field}}
-                                                    <!-- 如果字段为数组则处理多个字段拼接数据 -->
-                                                    {{if is_array($t['view_key'])}}
-                                                        {{foreach $t['view_key'] as $fk=>$fv}}
-                                                            {{if isset($data_list[$i][$fv])}}
-                                                                {{$data_list[$i][$fv]}}
-                                                                <!-- 多个字段拼接数据的的拼接字符 -->
-                                                                {{if isset($t['view_key_join']) and $fk lt count($t['view_key'])-1}}
-                                                                    {{$t.view_key_join|raw}}
-                                                                {{/if}}
-                                                            {{/if}}
-                                                        {{/foreach}}
-                                                    {{else /}}
-                                                        <!-- 非数组则直接取值 -->
-                                                        {{if isset($data_list[$i][$t['view_key']])}}
-                                                            {{$data_list[$i][$t['view_key']]|raw}}
-                                                        {{/if}}
-                                                    {{/if}}
-                                                {{/case}}
-                                                {{case module}}
-                                                    <!-- 从模块加载自定义模块数据 -->
-                                                    {{:ModuleInclude($t['view_key'], $data_list[$i], isset($params) ? $params : [])}}
-                                                {{/case}}
-                                                {{case status}}
-                                                    <!-- 数据状态操作按钮组件 -->
-                                                    {{if !empty($t['key_field']) and !empty($t['post_url'])}}
-                                                        <a href="javascript:;"
-                                                            class="am-icon-btn am-icon-check submit-state {{if $data_list[$i][$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
-                                                            data-url="{{$t.post_url}}"
-                                                            data-id="{{if isset($data_list[$i][$t['key_field']])}}{{$data_list[$i][$t['key_field']]}}{{/if}}"
-                                                            data-state="{{$data_list[$i][$t['view_key']]}}"
-                                                            data-is-update-status="{{if isset($t['is_form_su'])}}{{$t.is_form_su}}{{else /}}0{{/if}}"
-                                                        ></a>
-                                                    {{/if}}
-                                                {{/case}}
-                                                {{case operate}}
-                                                    <!-- 是否操作列 -->
-                                                    <!-- 模块数据 -->
-                                                    {{:ModuleInclude($t['view_key'], $data_list[$i])}}
-
-                                                    <!-- 列表操作钩子 -->
-                                                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                                                        <div class="plugins-tag">
-                                                            <span>{{$hook_name_form_list_operate}}</span>
-                                                        </div>
-                                                    {{/if}}
-                                                    {{php}}
-                                                        $hook_data = Hook::listen($hook_name_form_list_operate, [
-                                                            'hook_name'     => $hook_name_form_list_operate,
-                                                            'is_backend'    => true,
-                                                            'id'            => isset($data_list[$i][$form_table['base']['key_field']]) ? $data_list[$i][$form_table['base']['key_field']] : 0,
-                                                            'data'          => $data_list[$i],
-                                                        ]);
-                                                        if(!empty($hook_data) && is_array($hook_data))
-                                                        {
-                                                            foreach($hook_data as $hook)
-                                                            {
-                                                                if(is_string($hook) || is_int($hook))
-                                                                {
-                                                                    echo htmlspecialchars_decode($hook);
-                                                                }
-                                                            }
-                                                        }
-                                                    {{/php}}
-                                                {{/case}}
-                                            {{/switch}}
-                                        {{/if}}
-                                    </td>
+                                    ">{{if isset($t['label'])}}{{$t.label}}{{/if}}</th>
                                 {{/foreach}}
                             </tr>
-                        {{/for}}
-                    {{/if}}
-                </tbody>
-            </table>
-            {{if empty($data_list)}}
-                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-            {{/if}}
-        </div>
-        <!-- list end -->
 
-        <!-- bottom operate start -->
-        <div class="am-g am-margin-top-sm">
-            {{block name="form_operate_bottom"}}
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                    <div class="plugins-tag">
-                        <span>{{$hook_name_form_bottom_operate}}</span>
-                    </div>
-                {{/if}}
-                {{php}}
-                    $hook_data = Hook::listen($hook_name_form_bottom_operate, ['hook_name'=>$hook_name_form_bottom_operate, 'is_backend'=>true]);
-                    if(!empty($hook_data) && is_array($hook_data))
-                    {
-                        foreach($hook_data as $hook)
-                        {
-                            if(is_string($hook) || is_int($hook))
+                            <!-- search -->
+                            {{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
+                                <tr class="form-table-search">
+                                    {{foreach $form_table['form'] as $k=>$t}}
+                                        <td class="
+                                            {{if !isset($t['is_middle']) or $t['is_middle'] eq 1}}am-text-middle {{/if}}
+                                            {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
+                                            {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
+                                            {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
+                                            {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
+                                        ">
+                                            {{if !empty($t['search_config']) and !empty($t['search_config']['form_type']) and !empty($t['search_config']['form_name'])}}
+                                                {{switch $t.search_config.form_type}}
+                                                    {{case input}}
+                                                        <!-- 输入 -->
+                                                        <input type="text" class="am-form-field am-radius" autocomplete="off" name="fp{{$k}}" value="{{if !empty($form_params) and isset($form_params['fp'.$k])}}{{$form_params['fp'.$k]}}{{/if}}" placeholder="{{if empty($t['search_config']['placeholder'])}}请输入{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}" />
+                                                    {{/case}}
+                                                    {{case select}}
+                                                        <!-- 选择 -->
+                                                        <select name="fp{{$k}}" class="chosen-select am-text-left" data-placeholder="{{if empty($t['search_config']['placeholder'])}}请选择{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}" {{if isset($t['search_config']['is_multiple']) and $t['search_config']['is_multiple'] eq 1}}multiple{{/if}}>
+                                                            {{if isset($t['search_config']['is_seat_select']) and $t['search_config']['is_seat_select'] eq 1 and (!isset($t['search_config']['is_multiple']) or $t['search_config']['is_multiple'] neq 1)}}
+                                                                <option value="{{if isset($t['search_config']['seat_select_value'])}}{{$t.search_config.seat_select_value}}{{/if}}">
+                                                                    {{if empty($t['search_config']['seat_select_text'])}}{{if empty($t['search_config']['placeholder'])}}请选择{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}{{else /}}{{$t.search_config.seat_select_text}}{{/if}}
+                                                                </option>
+                                                            {{/if}}
+                                                            {{if !empty($t['search_config']['data']) and is_array($t['search_config']['data'])}}
+                                                                {{foreach $t['search_config']['data'] as $v}}
+                                                                    <option value="{{if isset($t['search_config']['data_key']) and isset($v[$t['search_config']['data_key']])}}{{$v[$t['search_config']['data_key']]}}{{/if}}" {{if !empty($form_params) and isset($form_params['fp'.$k]) and is_array($form_params['fp'.$k]) and isset($t['search_config']['data_key']) and  in_array($v[$t['search_config']['data_key']], $form_params['fp'.$k])}}selected{{/if}}>
+                                                                        {{if isset($t['search_config']['data_name']) and isset($v[$t['search_config']['data_name']])}}
+                                                                            {{$v[$t['search_config']['data_name']]}}
+                                                                        {{/if}}
+                                                                    </option>
+                                                                {{/foreach}}
+                                                            {{/if}}
+                                                        </select>
+                                                    {{/case}}
+                                                    {{case section}}
+                                                        <!-- 区间 -->
+                                                        <div class="form-table-search-section">
+                                                            <input type="number" class="am-form-field am-radius am-inline-block" autocomplete="off" name="fp{{$k}}_min" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_min'])}}{{$form_params['fp'.$k.'_min']}}{{/if}}" {{if isset($t['search_config']['is_point']) and $t['search_config']['is_point'] eq 1}}step="0.01"{{/if}} min="0" placeholder="最小" />
+                                                            <span>-</span>
+                                                            <input type="number" class="am-form-field am-radius am-inline-block" autocomplete="off" name="fp{{$k}}_max" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_max'])}}{{$form_params['fp'.$k.'_max']}}{{/if}}" {{if isset($t['search_config']['is_point']) and $t['search_config']['is_point'] eq 1}}step="0.01"{{/if}} min="0" placeholder="最大" />
+                                                        </div>
+                                                    {{/case}}
+                                                    {{case datetime}}
+                                                        <div class="form-table-search-section form-table-search-time">
+                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-fp{{$k}}" name="fp{{$k}}_start" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_start'])}}{{$form_params['fp'.$k.'_start']}}{{/if}}" placeholder="开始" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',maxDate:'#F{$dp.$D(\'form-table-search-time-end-fp{{$k}}\');}'})" autocomplete="off" />
+                                                            <span>-</span>
+                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-fp{{$k}}" name="fp{{$k}}_end" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_end'])}}{{$form_params['fp'.$k.'_end']}}{{/if}}" placeholder="结束" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',minDate:'#F{$dp.$D(\'form-table-search-time-start-fp{{$k}}\');}'})" autocomplete="off" />
+                                                        </div>
+                                                    {{/case}}
+                                                    {{case date}}
+                                                        <div class="form-table-search-section form-table-search-time">
+                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-fp{{$k}}" name="fp{{$k}}_start" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_start'])}}{{$form_params['fp'.$k.'_start']}}{{/if}}" placeholder="开始" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'form-table-search-time-end-fp{{$k}}\',{d:-1});}'})" autocomplete="off" />
+                                                            <span>-</span>
+                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-fp{{$k}}" name="fp{{$k}}_end" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_end'])}}{{$form_params['fp'.$k.'_end']}}{{/if}}" placeholder="结束" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'form-table-search-time-start-fp{{$k}}\',{d:+1});}'})" autocomplete="off" />
+                                                        </div>
+                                                    {{/case}}
+                                                    {{case module}}
+                                                        <!-- 从模块加载自定义模块数据 -->
+                                                        {{if !empty($t['search_config']['template'])}}
+                                                            {{if isset($t['search_config']['data'])}}
+                                                                {{:ModuleInclude($t['search_config']['template'], ['data'=>$t['search_config']['data'], 'form_name_key'=>'fp'.$k, 'params'=>isset($form_params) ? $form_params : []])}}
+                                                            {{else /}}
+                                                                {{:ModuleInclude($t['search_config']['template'], ['data'=>[], 'form_name_key'=>'fp'.$k, 'params'=>isset($form_params) ? $form_params : []])}}
+                                                            {{/if}}
+                                                        {{/if}}
+                                                    {{/case}}
+                                                {{/switch}}
+                                            {{/if}}
+                                        </td>
+                                    {{/foreach}}
+                                </tr>
+                            {{/if}}
+                        </thead>
+                        <tbody>
+                            {{if !empty($data_list) and !empty($form_table['base']['key_field'])}}
+                                <!-- 处理数据数量小于默认数量 -->
+                                {{for start="0" end="(count($data_list) < $page_size ? count($data_list) : $page_size)"}}
+                                    <!-- 1. tr 主键id名称 -->
+                                    <!-- 2. 是否黄色选中class -->
+                                    <tr
+                                        {{if !empty($form_table['base']['key_field']) and isset($data_list[$i][$form_table['base']['key_field']])}}
+                                            id="data-list-{{$data_list[$i][$form_table['base']['key_field']]}}"
+                                        {{/if}}
+                                        {{if !empty($form_table['base']['status_field']) and isset($data_list[$i][$form_table['base']['status_field']]) and $data_list[$i][$form_table['base']['status_field']] eq 0}}
+                                            class="am-active"
+                                        {{/if}}
+                                    >
+                                        {{foreach $form_table['form'] as $t}}
+                                            <!-- 1. 上下居中 -->
+                                            <!-- 2. 格子大小 -->
+                                            <!-- 3. 内容位置居（左|中|右） -->
+                                            <!-- 4. 格子是否固定（left|right 左|右） -->
+                                            <!-- 5. 是否操作列 -->
+                                            <td class="
+                                                {{if !isset($t['is_middle']) or $t['is_middle'] eq 1}}am-text-middle {{/if}}
+                                                {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
+                                                {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
+                                                {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
+                                                {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
+                                            ">
+                                                {{if isset($data_list[$i]) and !empty($t['view_type']) and !empty($t['view_key'])}}
+                                                    <!-- 数据匹配 -->
+                                                    {{switch $t.view_type}}
+                                                        {{case field}}
+                                                            <!-- 如果字段为数组则处理多个字段拼接数据 -->
+                                                            {{if is_array($t['view_key'])}}
+                                                                {{foreach $t['view_key'] as $fk=>$fv}}
+                                                                    {{if isset($data_list[$i][$fv])}}
+                                                                        {{$data_list[$i][$fv]}}
+                                                                        <!-- 多个字段拼接数据的的拼接字符 -->
+                                                                        {{if isset($t['view_key_join']) and $fk lt count($t['view_key'])-1}}
+                                                                            {{$t.view_key_join|raw}}
+                                                                        {{/if}}
+                                                                    {{/if}}
+                                                                {{/foreach}}
+                                                            {{else /}}
+                                                                <!-- 非数组则直接取值 -->
+                                                                {{if isset($data_list[$i][$t['view_key']])}}
+                                                                    {{$data_list[$i][$t['view_key']]|raw}}
+                                                                {{/if}}
+                                                            {{/if}}
+                                                        {{/case}}
+                                                        {{case module}}
+                                                            <!-- 从模块加载自定义模块数据 -->
+                                                            {{:ModuleInclude($t['view_key'], $data_list[$i], isset($params) ? $params : [])}}
+                                                        {{/case}}
+                                                        {{case status}}
+                                                            <!-- 数据状态操作按钮组件 -->
+                                                            {{if !empty($t['key_field']) and !empty($t['post_url'])}}
+                                                                <a href="javascript:;"
+                                                                    class="am-icon-btn am-icon-check submit-state {{if $data_list[$i][$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
+                                                                    data-url="{{$t.post_url}}"
+                                                                    data-id="{{if isset($data_list[$i][$t['key_field']])}}{{$data_list[$i][$t['key_field']]}}{{/if}}"
+                                                                    data-state="{{$data_list[$i][$t['view_key']]}}"
+                                                                    data-is-update-status="{{if isset($t['is_form_su'])}}{{$t.is_form_su}}{{else /}}0{{/if}}"
+                                                                ></a>
+                                                            {{/if}}
+                                                        {{/case}}
+                                                        {{case operate}}
+                                                            <!-- 是否操作列 -->
+                                                            <!-- 模块数据 -->
+                                                            {{:ModuleInclude($t['view_key'], $data_list[$i])}}
+
+                                                            <!-- 列表操作钩子 -->
+                                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                                <div class="plugins-tag">
+                                                                    <span>{{$hook_name_form_list_operate}}</span>
+                                                                </div>
+                                                            {{/if}}
+                                                            {{php}}
+                                                                $hook_data = Hook::listen($hook_name_form_list_operate, [
+                                                                    'hook_name'     => $hook_name_form_list_operate,
+                                                                    'is_backend'    => true,
+                                                                    'id'            => isset($data_list[$i][$form_table['base']['key_field']]) ? $data_list[$i][$form_table['base']['key_field']] : 0,
+                                                                    'data'          => $data_list[$i],
+                                                                ]);
+                                                                if(!empty($hook_data) && is_array($hook_data))
+                                                                {
+                                                                    foreach($hook_data as $hook)
+                                                                    {
+                                                                        if(is_string($hook) || is_int($hook))
+                                                                        {
+                                                                            echo htmlspecialchars_decode($hook);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            {{/php}}
+                                                        {{/case}}
+                                                    {{/switch}}
+                                                {{/if}}
+                                            </td>
+                                        {{/foreach}}
+                                    </tr>
+                                {{/for}}
+                            {{/if}}
+                        </tbody>
+                    </table>
+                    {{if empty($data_list)}}
+                        <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                    {{/if}}
+                </div>
+                <!-- list end -->
+
+                <!-- bottom operate start -->
+                <div class="am-g am-margin-top-sm form-table-operate-bottom">
+                    {{block name="form_operate_bottom"}}
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            <div class="plugins-tag">
+                                <span>{{$hook_name_form_bottom_operate}}</span>
+                            </div>
+                        {{/if}}
+                        {{php}}
+                            $hook_data = Hook::listen($hook_name_form_bottom_operate, ['hook_name'=>$hook_name_form_bottom_operate, 'is_backend'=>true]);
+                            if(!empty($hook_data) && is_array($hook_data))
                             {
-                                echo htmlspecialchars_decode($hook);
+                                foreach($hook_data as $hook)
+                                {
+                                    if(is_string($hook) || is_int($hook))
+                                    {
+                                        echo htmlspecialchars_decode($hook);
+                                    }
+                                }
                             }
-                        }
-                    }
-                {{/php}}
-            {{/block}}
-        </div>
-        <!-- bottom operate end -->
+                        {{/php}}
+                    {{/block}}
+                </div>
+                <!-- bottom operate end -->
+            </form>
+        {{else /}}
+            <div class="table-no"><i class="am-icon-warning"></i> {{if empty($form_error)}}动态表格配置有误{{else /}}{{$form_error}}{{/if}}</div>
+        {{/if}}
 
         <!-- page start -->
         {{block name="form_page"}}

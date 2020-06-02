@@ -364,7 +364,13 @@ function FromInit(form_name)
 				var method = $form.attr('method') || null;
 				var request_type = $form.attr('request-type') || null;
 				var request_value = $form.attr('request-value') || null;
-				var ajax_all = ['ajax-reload', 'ajax-url', 'ajax-fun', 'sync'];
+				// 以 ajax 开头的都会先请求再处理
+				// ajax-reload  请求完成后刷新页面
+				// ajax-url 	请求完成后调整到指定的请求值
+				// ajax-fun 	请求完成后调用指定方法
+				// sync 		不发起请求、直接同步调用指定的方法
+				// jump 		不发起请求、拼接数据参数跳转到指定 url 地址
+				var request_handle = ['ajax-reload', 'ajax-url', 'ajax-fun', 'sync', 'jump'];
 
 				// 是form表单直接通过
 				if(request_type == 'form')
@@ -373,7 +379,7 @@ function FromInit(form_name)
 				}
 
 				// 参数校验
-				if(ajax_all.indexOf(request_type) == -1)
+				if(request_handle.indexOf(request_type) == -1)
 				{
 	            	$button.button('reset');
 	            	Prompt('表单[类型]参数配置有误');
@@ -401,6 +407,19 @@ function FromInit(form_name)
             		return false;
 				}
 
+				// 拼接参数跳转
+				if(request_type == 'jump')
+				{
+					var params = GetFormVal(form_name, true);
+					for(var i in params)
+					{
+						request_value = UrlFieldReplace(i, encodeURIComponent(params[i]), request_value)
+					}
+					window.location.href = request_value;
+					return false;
+				}
+
+				// 请求 url http类型
 				if(action == null || method == null)
 				{
 	            	$button.button('reset');
@@ -476,6 +495,8 @@ function FromInit(form_name)
 }
 // 默认初始化一次,默认标签[form.form-validation]
 FromInit('form.form-validation');
+// 公共列表 form 搜索条件
+FromInit('form.form-validation-search');
 
 /**
  * [FormDataFill 表单数据填充]

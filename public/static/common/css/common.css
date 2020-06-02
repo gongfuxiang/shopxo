@@ -528,19 +528,3 @@ button.colorpicker-submit img {
     position: absolute;
     margin: 4px 0px 0px -15px;
 }
-
-
-/**
- * 下拉选择器
- */
-.chosen-container-multi .chosen-choices li.search-choice {
-    margin: 3px 3px 3px 0;
-    padding: 2px 13px 1px 2px;
-}
-.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
-    margin: 0;
-}
-.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
-    top: 2px;
-    right: 0px;
-}

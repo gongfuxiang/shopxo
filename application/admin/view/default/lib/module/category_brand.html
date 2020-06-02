@@ -1,0 +1,13 @@
+<!-- 分类下品牌 -->
+{{if !empty($module_data['data']) && !empty($module_data['form_name_key'])}}
+    <select class="am-radius chosen-select" multiple name="{{$module_data.form_name_key}}" data-placeholder="品牌...">
+        {{foreach $module_data.data as $v}}
+            <optgroup label="{{$v.name}}">
+                {{if !empty($v['items'])}}
+                    {{foreach $v.items as $vs}}
+                        <option style="padding-left: 15px;" value="{{$vs.id}}" {{if !empty($module_data['params']) and !empty($module_data['params'][$module_data['form_name_key']]) and is_array($module_data['params'][$module_data['form_name_key']]) and in_array($vs['id'], $module_data['params'][$module_data['form_name_key']])}}selected{{/if}}>{{$vs.name}}</option>
+                    {{/foreach}}
+                {{/if}}
+        {{/foreach}}
+    </select>
+{{/if}}

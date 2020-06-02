@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\form;
+namespace app\admin\form;
 
 use think\Db;
 use app\service\GoodsService;
@@ -16,17 +16,17 @@ use app\service\RegionService;
 use app\service\BrandService;
 
 /**
- * 商品表单
+ * 商品动态表单
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2020-05-16
  * @desc    description
  */
-class GoodsForm
+class Goods
 {
     /**
-     * 表单
+     * 入口
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -34,7 +34,7 @@ class GoodsForm
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
-    public function Table($params = [])
+    public function Run($params = [])
     {
         return [
             // 基础配置
@@ -42,6 +42,8 @@ class GoodsForm
                 'key_field'     => 'id',
                 'status_field'  => 'is_shelves',
                 'is_search'     => 1,
+                'search_url'    => MyUrl('admin/goods/index'),
+                
             ],
             // 表单配置
             'form' => [
@@ -58,31 +60,9 @@ class GoodsForm
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'title|simple_desc|seo_title|seo_keywords|seo_keywords',
+                        'where_type'        => 'like',
                         'placeholder'       => '请输入名称/简述/SEO信息'
                     ],
-
-                    // 'search_config' => [
-                    //     // input, select, datetime, date, time, section
-                    //     'form_type'         => 'select',
-                    //     // 表单字段名称
-                    //     'form_name'         => 'category_id',
-                    //     // 提示信息
-                    //     'placeholder'       => '商品分类...',
-                    //     // 是否开启占位选择框
-                    //     'is_seat_select'    => 1,
-                    //     // 选择占位值（默认空）
-                    //     'seat_select_value' => '',
-                    //     // 选择占位文本（默认 placeholder 值）
-                    //     'seat_select_text'  => '商品分类...',
-                    //     // 条件数据
-                    //     'data'              => [],
-                    //     // 数据 key 字段名称（默认取 id）
-                    //     'data_key'          => 'id',
-                    //     // 数据 name 字段名称（默认取 name）
-                    //     'data_name'         => 'name',
-                    //     // 数据默认选中值
-                    //     'default'           => '',
-                    // ],
                 ],
                 [
                     'label'         => '销售价格(元)',
@@ -91,6 +71,7 @@ class GoodsForm
                     'search_config' => [
                         'form_type'         => 'section',
                         'form_name'         => 'min_price',
+                        'is_point'          => 1,
                     ],
                 ],
                 [
@@ -99,8 +80,9 @@ class GoodsForm
                     'view_key'      => 'original_price',
                     'search_config' => [
                         // 表单字段名称
-                        'form_name'         => 'min_original_price',
                         'form_type'         => 'section',
+                        'form_name'         => 'min_original_price',
+                        'is_point'          => 1,
                     ],
                 ],
                 [
@@ -124,6 +106,7 @@ class GoodsForm
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'is_shelves',
+                        'where_type'        => 'in',
                         'data'              => lang('common_is_shelves_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
@@ -140,6 +123,7 @@ class GoodsForm
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'is_home_recommended',
+                        'where_type'        => 'in',
                         'data'              => lang('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
@@ -153,6 +137,7 @@ class GoodsForm
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'model',
+                        'where_type'        => 'like',
                     ],
                 ],
                 [
@@ -161,7 +146,9 @@ class GoodsForm
                     'view_key'      => 'category_text',
                     'search_config' => [
                         'form_type'         => 'module',
-                        'form_name'         => 'lib/module/goods_category',
+                        'template'          => 'lib/module/goods_category',
+                        'form_name'         => 'category_id',
+                        'where_type'        => 'in',
                         'data'              => GoodsService::GoodsCategoryAll(),
                     ],
                 ],
@@ -170,12 +157,13 @@ class GoodsForm
                     'view_type'     => 'field',
                     'view_key'      => 'brand_name',
                     'search_config' => [
-                        'form_type'         => 'select',
+                        'form_type'         => 'module',
+                        'template'          => 'lib/module/category_brand',
                         'form_name'         => 'brand_id',
                         'data'              => BrandService::CategoryBrand(),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
-                        'is_seat_select'    => 1,
+                        'where_type'        => 'in',
                     ],
                 ],
                 [
@@ -193,63 +181,6 @@ class GoodsForm
                     'view_key'      => 'goods/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * 条件
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-05-16
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public function Search($params = [])
-    {
-        return [
-            // 基础配置
-            'base'      => [
-                'url'       => MyUrl('admin/goods/index'),
-                'method'    => 'POST',
-                'is_more'   => 1,
-            ],
-
-            // 大搜索框
-            'search'    => [
-                'placeholder'       => '标题/型号',
-                'submit_text'       => '搜索一下',
-                'loading_text'      => '搜索中哦...',
-                'form_name'         => 'keywords',
-
-
-            ],
-
-            // 更多条件
-            'more'  => [
-                [
-                    // 标题名称
-                    'label'             => '分类',
-                    // 表单字段名称
-                    'form_name'         => 'category_id',
-                    // select, input
-                    'form_type'         => 'select',
-                    // 提示信息
-                    'placeholder'       => '商品分类...',
-                    // 是否开启占位选择框
-                    'is_seat_select'    => 1,
-                    // 选择占位值
-                    'seat_select_value' => '',
-                    // 数据
-                    'data'              => [],
-                    // 数据 key 字段名称
-                    'data_key'          => 'id',
-                    // 数据 name 字段名称
-                    'data_name'         => 'name',
-                    // 数据默认选中值
-                    'default'           => '',
                 ],
             ],
         ];
