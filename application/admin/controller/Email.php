@@ -90,7 +90,7 @@ class Email extends Common
 		// 验证码公共基础参数
 		$verify_param = array(
 				'expire_time' => MyC('common_verify_expire_time'),
-				'time_interval'	=>	MyC('common_verify_time_interval'),
+				'interval_time'	=>	MyC('common_verify_interval_time'),
 			);
 
 		$obj = new \base\Email($verify_param);

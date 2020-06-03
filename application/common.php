@@ -11,6 +11,50 @@
 
 // 应用公共文件
 
+
+/**
+ * 缓存安全验证次数处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-06-03
+ * @desc    description
+ * @param   [string]          $key          [缓存 key]
+ * @param   [int]             $type         [操作类型（0清除, 1验证）]
+ * @param   [int]             $expire_time  [过期时间（默认30秒+30秒）]
+ */
+function SecurityPreventViolence($key, $type = 1, $expire_time = 30)
+{
+    // 安全缓存 key
+    $mkey = md5($key.'_security_prevent_violence');
+
+    // 清除缓存返
+    if($type == 0)
+    {
+        cache($mkey, null);
+        return true;
+    }
+
+    // 验证并增加次数
+    $count = intval(cache($mkey))+1;
+    $max = config('shopxo.security_prevent_violence_max');
+    $status = false;
+    if($count <= $max)
+    {
+        cache($mkey, $count, $expire_time+30);
+        $status = true;
+    }
+
+    // 验证达到次数限制则清除验证信息
+    if($count > $max)
+    {
+        cache($key, null);
+        cache($mkey, null);
+    }
+
+    return $status;
+}
+
 /**
  * 模块动态表格加载方法
  * @author  Devil

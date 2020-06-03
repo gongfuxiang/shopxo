@@ -8,14 +8,14 @@
         <!-- table nav end -->
 
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'imagesverify'])}}" enctype="multipart/form-data">
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'verify'])}}" enctype="multipart/form-data">
             <div class="am-form-group">
                 <label>{{$data.common_verify_expire_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_expire_time.describe}}</span></label>
                 <input type="number" name="{{$data.common_verify_expire_time.only_tag}}" placeholder="{{$data.common_verify_expire_time.name}}" data-validation-message="{{$data.common_verify_expire_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_expire_time.value}}"{{/if}} required />
             </div>
             <div class="am-form-group">
-                <label>{{$data.common_verify_time_interval.name}}<span class="am-form-group-label-tips">{{$data.common_verify_time_interval.describe}}</span></label>
-                <input type="number" name="{{$data.common_verify_time_interval.only_tag}}" placeholder="{{$data.common_verify_time_interval.name}}" data-validation-message="{{$data.common_verify_time_interval.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_time_interval.value}}"{{/if}} required />
+                <label>{{$data.common_verify_interval_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_interval_time.describe}}</span></label>
+                <input type="number" name="{{$data.common_verify_interval_time.only_tag}}" placeholder="{{$data.common_verify_interval_time.name}}" data-validation-message="{{$data.common_verify_interval_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_interval_time.value}}"{{/if}} required />
             </div>
             <div class="am-form-group">
                 <label>{{$data.home_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_img_verify_state.describe}}</span></label>

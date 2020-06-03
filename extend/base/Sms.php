@@ -248,15 +248,20 @@ class Sms
 	 */
 	public function CheckCorrect($code = '')
 	{
-		$data = cache($this->key_code);
-		if(!empty($data))
-		{
-			if(empty($code) && isset($_POST['code']))
-			{
-				$code = trim($_POST['code']);
-			}
-			return ($data['code'] == $code);
-		}
+        // 安全验证
+        if(SecurityPreventViolence($this->key_code, 1, $this->expire_time))
+        {
+            // 验证是否正确
+            $data = cache($this->key_code);
+            if(!empty($data))
+            {
+                if(empty($code) && isset($_POST['code']))
+                {
+                    $code = trim($_POST['code']);
+                }
+                return ($data['code'] == $code);
+            }
+        }
 		return false;
 	}
 
@@ -271,6 +276,7 @@ class Sms
 	public function Remove()
 	{
 		cache($this->key_code, null);
+        SecurityPreventViolence($this->key_code, 0);
 	}
 
 	/**

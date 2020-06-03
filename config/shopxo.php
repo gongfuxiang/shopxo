@@ -90,5 +90,8 @@ return [
 
     // 价格符号
     'price_symbol'                          => '￥',
+
+    // 验证码最大验证次数,防止暴力破解
+    'security_prevent_violence_max'         => 6,
 ];
 ?>

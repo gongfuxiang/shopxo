@@ -1405,7 +1405,7 @@ class UserService
         $verify_params = [
             'key_prefix' => 'reg',
             'expire_time' => MyC('common_verify_expire_time'),
-            'time_interval' =>  MyC('common_verify_time_interval'),
+            'interval_time' =>  MyC('common_verify_interval_time'),
         ];
 
         // 是否开启图片验证码
@@ -1487,7 +1487,7 @@ class UserService
         $verify_params = [
             'key_prefix' => 'forget',
             'expire_time' => MyC('common_verify_expire_time'),
-            'time_interval' =>  MyC('common_verify_time_interval'),
+            'interval_time' =>  MyC('common_verify_interval_time'),
         ];
 
         // 是否开启图片验证码
@@ -1625,7 +1625,7 @@ class UserService
         $verify_params = [
             'key_prefix' => 'forget_'.md5($params['accounts']),
             'expire_time' => MyC('common_verify_expire_time'),
-            'time_interval' =>  MyC('common_verify_time_interval'),
+            'interval_time' =>  MyC('common_verify_interval_time'),
         ];
         switch($ret['data'])
         {
@@ -1664,10 +1664,13 @@ class UserService
 
         // 密码修改
         $ret = SafetyService::UserLoginPwdUpdate($params['accounts'], $user['id'], $params['pwd']);
-        if($ret['code'] != 0)
+        if($ret['code'] == 0)
         {
             // 清除验证码
-            $obj->Remove();
+            if(isset($obj) && is_object($obj))
+            {
+                $obj->Remove();
+            }
             return DataReturn('操作成功', 0);
         }
         return $ret;
@@ -2179,7 +2182,7 @@ class UserService
         $verify_params = [
             'key_prefix' => 'bind_'.md5($params['mobile']),
             'expire_time' => MyC('common_verify_expire_time'),
-            'time_interval' => MyC('common_verify_time_interval'),
+            'interval_time' => MyC('common_verify_interval_time'),
         ];
 
         // 发送验证码

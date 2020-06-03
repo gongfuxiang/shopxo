@@ -38,8 +38,12 @@ class FormHandle
         $p = [];
         if(!empty($data['form']))
         {
-            foreach($data['form'] as $k=>$v)
+            foreach($data['form'] as $k=>&$v)
             {
+                // 基础数据处理
+                
+                
+                // 条件处理
                 if(isset($v['search_config']) && !empty($v['search_config']['form_type']) && !empty($v['search_config']['form_name']))
                 {
                     $key = 'fp'.$k;
@@ -136,8 +140,8 @@ class FormHandle
             }
         }
         return [
-            'where' => $w,
-            'params' => $p,
+            'where'     => $w,
+            'params'    => $p,
         ];
     }
 }

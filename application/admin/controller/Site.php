@@ -150,7 +150,7 @@ class Site extends Common
 				break;
 
 			// 图片验证码
-			case 'imagesverify' :
+			case 'verify' :
 				$field_list[] = 'common_images_verify_rules';
 				break;
 

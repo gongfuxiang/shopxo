@@ -125,7 +125,7 @@ class SafetyService
                 return $ret;
             }
 
-            return DataReturn('修改成功');
+            return DataReturn('修改成功', 0);
         }
         return DataReturn('修改失败', -100);
     }
@@ -231,7 +231,7 @@ class SafetyService
         $img_verify_params = array(
                 'key_prefix' => 'safety',
                 'expire_time' => MyC('common_verify_expire_time'),
-                'time_interval' =>  MyC('common_verify_time_interval'),
+                'interval_time' =>  MyC('common_verify_interval_time'),
             );
 
         // 是否开启图片验证码
@@ -245,7 +245,7 @@ class SafetyService
         $verify_params = array(
                 'key_prefix' => md5('safety_'.$accounts),
                 'expire_time' => MyC('common_verify_expire_time'),
-                'time_interval' =>  MyC('common_verify_time_interval'),
+                'interval_time' =>  MyC('common_verify_interval_time'),
             );
         $code = GetNumberCode(4);
         if($params['type'] == 'sms')
