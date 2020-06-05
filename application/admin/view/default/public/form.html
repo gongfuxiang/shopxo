@@ -93,7 +93,21 @@
                                         {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
                                         {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
                                         {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
-                                    ">{{if isset($t['label'])}}{{$t.label}}{{/if}}</th>
+                                    "
+                                    style="
+                                        {{if !empty($t['width'])}}
+                                            min-width: {{$t.width}}px;
+                                        {{/if}}
+                                    "
+                                    >
+                                        {{switch $t.view_type}}
+                                            {{case checkbox}}
+                                                <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs form-table-operate-checkbox-submit" data-value="{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}1{{else /}}0{{/if}}" data-checked-text="{{$t.checked_text}}" data-not-checked-text="{{$t.not_checked_text}}" {{if empty($data_list)}}disabled{{/if}}>{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}{{$t.checked_text}}{{else /}}{{$t.not_checked_text}}{{/if}}</button>
+                                            {{/case}}
+                                            {{default /}}
+                                                {{if isset($t['label'])}}{{$t.label}}{{/if}}
+                                        {{/switch}}
+                                    </th>
                                 {{/foreach}}
                             </tr>
 
@@ -107,16 +121,22 @@
                                             {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
                                             {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
                                             {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
-                                        ">
+                                        "
+                                        style="
+                                            {{if !empty($t['width'])}}
+                                                min-width: {{$t.width}}px;
+                                            {{/if}}
+                                        "
+                                        >
                                             {{if !empty($t['search_config']) and !empty($t['search_config']['form_type']) and !empty($t['search_config']['form_name'])}}
                                                 {{switch $t.search_config.form_type}}
                                                     {{case input}}
                                                         <!-- 输入 -->
-                                                        <input type="text" class="am-form-field am-radius" autocomplete="off" name="fp{{$k}}" value="{{if !empty($form_params) and isset($form_params['fp'.$k])}}{{$form_params['fp'.$k]}}{{/if}}" placeholder="{{if empty($t['search_config']['placeholder'])}}请输入{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}" />
+                                                        <input type="text" class="am-form-field am-radius" autocomplete="off" name="{{$t.form_key}}" value="{{if !empty($form_params) and isset($form_params[$t['form_key']])}}{{$form_params[$t['form_key']]}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder'])}}{{$t.search_config.placeholder}}{{/if}}" />
                                                     {{/case}}
                                                     {{case select}}
                                                         <!-- 选择 -->
-                                                        <select name="fp{{$k}}" class="chosen-select am-text-left" data-placeholder="{{if empty($t['search_config']['placeholder'])}}请选择{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}" {{if isset($t['search_config']['is_multiple']) and $t['search_config']['is_multiple'] eq 1}}multiple{{/if}}>
+                                                        <select name="{{$t.form_key}}" class="chosen-select am-text-left" data-placeholder="{{if isset($t['search_config']['placeholder'])}}{{$t.search_config.placeholder}}{{/if}}" {{if isset($t['search_config']['is_multiple']) and $t['search_config']['is_multiple'] eq 1}}multiple{{/if}}>
                                                             {{if isset($t['search_config']['is_seat_select']) and $t['search_config']['is_seat_select'] eq 1 and (!isset($t['search_config']['is_multiple']) or $t['search_config']['is_multiple'] neq 1)}}
                                                                 <option value="{{if isset($t['search_config']['seat_select_value'])}}{{$t.search_config.seat_select_value}}{{/if}}">
                                                                     {{if empty($t['search_config']['seat_select_text'])}}{{if empty($t['search_config']['placeholder'])}}请选择{{if !empty($t['label'])}}{{$t.label}}{{/if}}{{else /}}{{$t.search_config.placeholder}}{{/if}}{{else /}}{{$t.search_config.seat_select_text}}{{/if}}
@@ -124,7 +144,7 @@
                                                             {{/if}}
                                                             {{if !empty($t['search_config']['data']) and is_array($t['search_config']['data'])}}
                                                                 {{foreach $t['search_config']['data'] as $v}}
-                                                                    <option value="{{if isset($t['search_config']['data_key']) and isset($v[$t['search_config']['data_key']])}}{{$v[$t['search_config']['data_key']]}}{{/if}}" {{if !empty($form_params) and isset($form_params['fp'.$k]) and is_array($form_params['fp'.$k]) and isset($t['search_config']['data_key']) and  in_array($v[$t['search_config']['data_key']], $form_params['fp'.$k])}}selected{{/if}}>
+                                                                    <option value="{{if isset($t['search_config']['data_key']) and isset($v[$t['search_config']['data_key']])}}{{$v[$t['search_config']['data_key']]}}{{/if}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and is_array($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and  in_array($v[$t['search_config']['data_key']], $form_params[$t['form_key']])}}selected{{/if}}>
                                                                         {{if isset($t['search_config']['data_name']) and isset($v[$t['search_config']['data_name']])}}
                                                                             {{$v[$t['search_config']['data_name']]}}
                                                                         {{/if}}
@@ -136,32 +156,32 @@
                                                     {{case section}}
                                                         <!-- 区间 -->
                                                         <div class="form-table-search-section">
-                                                            <input type="number" class="am-form-field am-radius am-inline-block" autocomplete="off" name="fp{{$k}}_min" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_min'])}}{{$form_params['fp'.$k.'_min']}}{{/if}}" {{if isset($t['search_config']['is_point']) and $t['search_config']['is_point'] eq 1}}step="0.01"{{/if}} min="0" placeholder="最小" />
+                                                            <input type="number" class="am-form-field am-radius am-inline-block" autocomplete="off" name="{{$t.form_key}}_min" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_min'])}}{{$form_params[$t['form_key'].'_min']}}{{/if}}" {{if isset($t['search_config']['is_point']) and $t['search_config']['is_point'] eq 1}}step="0.01"{{/if}} min="0" placeholder="{{if isset($t['search_config']['placeholder_min'])}}{{$t.search_config.placeholder_min}}{{/if}}" />
                                                             <span>-</span>
-                                                            <input type="number" class="am-form-field am-radius am-inline-block" autocomplete="off" name="fp{{$k}}_max" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_max'])}}{{$form_params['fp'.$k.'_max']}}{{/if}}" {{if isset($t['search_config']['is_point']) and $t['search_config']['is_point'] eq 1}}step="0.01"{{/if}} min="0" placeholder="最大" />
+                                                            <input type="number" class="am-form-field am-radius am-inline-block" autocomplete="off" name="{{$t.form_key}}_max" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_max'])}}{{$form_params[$t['form_key'].'_max']}}{{/if}}" {{if isset($t['search_config']['is_point']) and $t['search_config']['is_point'] eq 1}}step="0.01"{{/if}} min="0" placeholder="{{if isset($t['search_config']['placeholder_max'])}}{{$t.search_config.placeholder_max}}{{/if}}" />
                                                         </div>
                                                     {{/case}}
                                                     {{case datetime}}
                                                         <div class="form-table-search-section form-table-search-time">
-                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-fp{{$k}}" name="fp{{$k}}_start" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_start'])}}{{$form_params['fp'.$k.'_start']}}{{/if}}" placeholder="开始" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',maxDate:'#F{$dp.$D(\'form-table-search-time-end-fp{{$k}}\');}'})" autocomplete="off" />
+                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-{{$t.form_key}}" name="{{$t.form_key}}_start" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_start'])}}{{$form_params[$t['form_key'].'_start']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_start'])}}{{$t.search_config.placeholder_start}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$t.form_key}}\');}'})" autocomplete="off" />
                                                             <span>-</span>
-                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-fp{{$k}}" name="fp{{$k}}_end" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_end'])}}{{$form_params['fp'.$k.'_end']}}{{/if}}" placeholder="结束" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',minDate:'#F{$dp.$D(\'form-table-search-time-start-fp{{$k}}\');}'})" autocomplete="off" />
+                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-{{$t.form_key}}" name="{{$t.form_key}}_end" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}}{{$form_params[$t['form_key'].'_end']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_end'])}}{{$t.search_config.placeholder_end}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd H:mm:ss',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$t.form_key}}\');}'})" autocomplete="off" />
                                                         </div>
                                                     {{/case}}
                                                     {{case date}}
                                                         <div class="form-table-search-section form-table-search-time">
-                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-fp{{$k}}" name="fp{{$k}}_start" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_start'])}}{{$form_params['fp'.$k.'_start']}}{{/if}}" placeholder="开始" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'form-table-search-time-end-fp{{$k}}\',{d:-1});}'})" autocomplete="off" />
+                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-start-{{$t.form_key}}" name="{{$t.form_key}}_start" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_start'])}}{{$form_params[$t['form_key'].'_start']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_start'])}}{{$t.search_config.placeholder_start}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',maxDate:'#F{$dp.$D(\'form-table-search-time-end-{{$t.form_key}}\',{d:-1});}'})" autocomplete="off" />
                                                             <span>-</span>
-                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-fp{{$k}}" name="fp{{$k}}_end" value="{{if !empty($form_params) and isset($form_params['fp'.$k.'_end'])}}{{$form_params['fp'.$k.'_end']}}{{/if}}" placeholder="结束" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'form-table-search-time-start-fp{{$k}}\',{d:+1});}'})" autocomplete="off" />
+                                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-{{$t.form_key}}" name="{{$t.form_key}}_end" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}}{{$form_params[$t['form_key'].'_end']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_end'])}}{{$t.search_config.placeholder_end}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$t.form_key}}\',{d:+1});}'})" autocomplete="off" />
                                                         </div>
                                                     {{/case}}
                                                     {{case module}}
                                                         <!-- 从模块加载自定义模块数据 -->
                                                         {{if !empty($t['search_config']['template'])}}
                                                             {{if isset($t['search_config']['data'])}}
-                                                                {{:ModuleInclude($t['search_config']['template'], ['data'=>$t['search_config']['data'], 'form_name_key'=>'fp'.$k, 'params'=>isset($form_params) ? $form_params : []])}}
+                                                                {{:ModuleInclude($t['search_config']['template'], ['data'=>$t['search_config']['data'], 'form_name_key'=>$t['form_key'], 'params'=>isset($form_params) ? $form_params : []])}}
                                                             {{else /}}
-                                                                {{:ModuleInclude($t['search_config']['template'], ['data'=>[], 'form_name_key'=>'fp'.$k, 'params'=>isset($form_params) ? $form_params : []])}}
+                                                                {{:ModuleInclude($t['search_config']['template'], ['data'=>[], 'form_name_key'=>$t['form_key'], 'params'=>isset($form_params) ? $form_params : []])}}
                                                             {{/if}}
                                                         {{/if}}
                                                     {{/case}}
@@ -179,7 +199,7 @@
                                     <!-- 1. tr 主键id名称 -->
                                     <!-- 2. 是否黄色选中class -->
                                     <tr
-                                        {{if !empty($form_table['base']['key_field']) and isset($data_list[$i][$form_table['base']['key_field']])}}
+                                        {{if isset($data_list[$i][$form_table['base']['key_field']])}}
                                             id="data-list-{{$data_list[$i][$form_table['base']['key_field']]}}"
                                         {{/if}}
                                         {{if !empty($form_table['base']['status_field']) and isset($data_list[$i][$form_table['base']['status_field']]) and $data_list[$i][$form_table['base']['status_field']] eq 0}}
@@ -192,13 +212,19 @@
                                             <!-- 3. 内容位置居（左|中|右） -->
                                             <!-- 4. 格子是否固定（left|right 左|右） -->
                                             <!-- 5. 是否操作列 -->
-                                            <td class="
+                                            <td class="am-nowrap-initial
                                                 {{if !isset($t['is_middle']) or $t['is_middle'] eq 1}}am-text-middle {{/if}}
                                                 {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
                                                 {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
                                                 {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
                                                 {{if !empty($t['view_type']) and $t['view_type'] eq 'operate'}}am-operate-grid {{/if}}
-                                            ">
+                                            "
+                                            style="
+                                                {{if !empty($t['width'])}}
+                                                    min-width: {{$t.width}}px;
+                                                {{/if}}
+                                            "
+                                            >
                                                 {{if isset($data_list[$i]) and !empty($t['view_type']) and !empty($t['view_key'])}}
                                                     <!-- 数据匹配 -->
                                                     {{switch $t.view_type}}
@@ -266,6 +292,24 @@
                                                                     }
                                                                 }
                                                             {{/php}}
+                                                        {{/case}}
+                                                        {{case checkbox}}
+                                                            {{if isset($data_list[$i][$form_table['base']['key_field']])}}
+                                                                <div class="form-table-operate-checkbox">
+                                                                    <label class="am-checkbox am-secondary am-checkbox-inline">
+                                                                        <input type="checkbox" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if !empty($form_params) and isset($form_params[$t['view_key']]) and in_array($data_list[$i][$form_table['base']['key_field']], $form_params[$t['view_key']])}}checked{{/if}} data-am-ucheck />
+                                                                    </label>
+                                                                </div>
+                                                            {{/if}}
+                                                        {{/case}}
+                                                        {{case radio}}
+                                                            {{if isset($data_list[$i][$form_table['base']['key_field']])}}
+                                                                <div class="form-table-operate-radio">
+                                                                    <label class="am-radio am-secondary am-radio-inline">
+                                                                        <input type="radio" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if !empty($form_params) and isset($form_params[$t['view_key']]) and $form_params[$t['view_key']] eq $data_list[$i][$form_table['base']['key_field']]}}checked{{/if}} data-am-ucheck />
+                                                                    </label>
+                                                                </div>
+                                                            {{/if}}
                                                         {{/case}}
                                                     {{/switch}}
                                                 {{/if}}

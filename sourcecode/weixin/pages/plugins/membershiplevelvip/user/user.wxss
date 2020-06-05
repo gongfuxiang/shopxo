@@ -9,6 +9,7 @@
 }
 .head-item {
   padding-bottom: 30rpx;
+  width: 165rpx;
 }
 .head-item .avatar {
   padding: 10rpx;

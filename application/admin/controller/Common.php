@@ -14,6 +14,7 @@ use think\facade\Hook;
 use think\Controller;
 use app\service\AdminPowerService;
 use app\service\ConfigService;
+use app\module\FormHandleModule;
 
 /**
  * 管理员公共控制器
@@ -247,27 +248,25 @@ class Common extends Controller
      */
     public function FormTableInit()
     {
-        // 当前操作名称
-        $module = request()->module();
-        $controller = request()->controller();
-
-        // 数据处理
-        $res = FormTableLoad($controller, $module, $this->data_request);
-        if($res['code'] == 0)
+        // 获取表格模型
+        $module = FormModulePath($this->data_request);
+        if(!empty($module))
         {
-            $this->form_table = $res['data']['table'];
-            $this->form_where = $res['data']['where'];
-            $this->form_params = $res['data']['params'];
+            // 调用表格处理
+            $res = (new FormHandleModule())->Run($module, $this->data_request);
+            if($res['code'] == 0)
+            {
+                $this->form_table = $res['data']['table'];
+                $this->form_where = $res['data']['where'];
+                $this->form_params = $res['data']['params'];
 
-            $this->assign('form_table', $this->form_table);
-            $this->assign('form_params', $this->form_params);
-        } else {
-            $this->form_error = $res['msg'];
-            $this->assign('form_error', $this->form_error);
+                $this->assign('form_table', $this->form_table);
+                $this->assign('form_params', $this->form_params);
+            } else {
+                $this->form_error = $res['msg'];
+                $this->assign('form_error', $this->form_error);
+            }
         }
-
-
-//print_r($this->data_request);die;
     }
 
 	/**

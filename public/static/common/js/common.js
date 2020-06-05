@@ -1632,15 +1632,25 @@ function TableContainerInit()
 // 公共数据操作
 $(function()
 {
-	// 浏览器窗口实时事件
-    $(window).resize(function()
-    {
-    	// 表格初始化
-    	TableContainerInit();
-    });
-
     // 表格初始化
     TableContainerInit();
+
+    // 表格复选框操作 全选/反选
+    $('.form-table-operate-checkbox-submit').on('click', function()
+    {
+    	var value = parseInt($(this).attr('data-value')) || 0;
+        if(value == 1)
+        {
+        	var not_checked_text = $(this).data('not-checked-text') || '全选';
+            $(this).text(not_checked_text);
+            $('.form-table-operate-checkbox').find('input[type="checkbox"]').uCheck('uncheck');
+        } else {
+            var checked_text = $(this).data('checked-text') || '反选';
+            $(this).text(checked_text);
+            $('.form-table-operate-checkbox').find('input[type="checkbox"]').uCheck('check');
+        }
+        $(this).attr('data-value', value == 1 ? 0 : 1);
+    });
 
     /**
 	 * 页面加载 loading

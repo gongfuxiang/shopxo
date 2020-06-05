@@ -57,10 +57,10 @@ class Goods extends Common
         $params = $this->data_request;
 
 		// 条件
-		$where = GoodsService::GetAdminIndexWhere($params);
+		//$where = GoodsService::GetAdminIndexWhere($params);
 
 		// 总数
-		$total = GoodsService::GoodsTotal($where);
+		$total = GoodsService::GoodsTotal($this->form_where);
 
 		// 分页
 		$page_params = array(
@@ -74,7 +74,7 @@ class Goods extends Common
 
 		// 获取数据列表
 		$data_params = [
-            'where'         => $where,
+            'where'         => $this->form_where,
             'm'             => $page->GetPageStarNumber(),
             'n'             => $this->page_size,
             'is_category'   => 1,

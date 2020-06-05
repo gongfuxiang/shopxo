@@ -25,6 +25,11 @@ use app\service\BrandService;
  */
 class Goods
 {
+    // 基础条件
+    public $condition_base = [
+        ['is_delete_time', '=', 0],
+    ];
+
     /**
      * 入口
      * @author  Devil
@@ -43,14 +48,32 @@ class Goods
                 'status_field'  => 'is_shelves',
                 'is_search'     => 1,
                 'search_url'    => MyUrl('admin/goods/index'),
-                
             ],
             // 表单配置
             'form' => [
                 [
+                    'view_type'         => 'checkbox',
+                    'is_checked'        => 0,
+                    'checked_text'      => '反选',
+                    'not_checked_text'  => '全选',
+                    'align'             => 'center',
+                    'width'             => 80,
+                ],
+                [
+                    'view_type'         => 'radio',
+                    'align'             => 'center',
+                    'width'             => 50,
+                ],
+                [
                     'label'         => '商品ID',
                     'view_type'     => 'field',
                     'view_key'      => 'id',
+                    'width'         => 80,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'form_name'         => 'id',
+                        'where_type'        => '=',
+                    ],
                 ],
                 [
                     'label'         => '商品信息',
@@ -61,7 +84,7 @@ class Goods
                         'form_type'         => 'input',
                         'form_name'         => 'title|simple_desc|seo_title|seo_keywords|seo_keywords',
                         'where_type'        => 'like',
-                        'placeholder'       => '请输入名称/简述/SEO信息'
+                        'placeholder'       => '请输入商品名称/简述/SEO信息'
                     ],
                 ],
                 [
@@ -99,7 +122,6 @@ class Goods
                     'label'         => '上下架',
                     'view_type'     => 'status',
                     'view_key'      => 'is_shelves',
-                    'key_field'     => 'id',
                     'post_url'      => MyUrl('admin/goods/statusshelves'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
@@ -117,7 +139,6 @@ class Goods
                     'label'         => '首页推荐',
                     'view_type'     => 'status',
                     'view_key'      => 'is_home_recommended',
-                    'key_field'     => 'id',
                     'post_url'      => MyUrl('admin/goods/statushomerecommended'),
                     'align'         => 'center',
                     'search_config' => [
@@ -147,8 +168,9 @@ class Goods
                     'search_config' => [
                         'form_type'         => 'module',
                         'template'          => 'lib/module/goods_category',
-                        'form_name'         => 'category_id',
+                        'form_name'         => 'id',
                         'where_type'        => 'in',
+                        'where_custom'      => 'WhereValueGoodsCategory',
                         'data'              => GoodsService::GoodsCategoryAll(),
                     ],
                 ],
@@ -184,5 +206,37 @@ class Goods
                 ],
             ],
         ];
+    }
+
+    /**
+     * 商品分类条件处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-03
+     * @desc    description
+     * @param   [string]          $name     [字段名称]
+     * @param   [array]           $params   [输入参数]
+     */
+    public function WhereValueGoodsCategory($value, $params = [])
+    {
+        if(!empty($value))
+        {
+            // 是否为数组
+            if(!is_array($value))
+            {
+                $value = [$value];
+            }
+
+            // 获取分类下的所有分类 id
+            $category_ids = GoodsService::GoodsCategoryItemsIds($value, 1);
+
+            // 获取商品 id
+            $goods_ids = Db::name('GoodsCategoryJoin')->where(['category_id'=>$category_ids])->column('goods_id');
+
+            // 避免空条件造成无效的错觉
+            return empty($goods_ids) ? [0] : $goods_ids;
+        }
+        return $value;
     }
 }

@@ -528,3 +528,11 @@ button.colorpicker-submit img {
     position: absolute;
     margin: 4px 0px 0px -15px;
 }
+
+/**
+ * 表格-复选框/单选框
+ */
+.form-table-operate-radio .am-radio,
+.form-table-operate-checkbox .am-checkbox {
+    margin-top: 0;
+}

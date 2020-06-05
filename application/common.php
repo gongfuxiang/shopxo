@@ -21,7 +21,7 @@
  * @desc    description
  * @param   [string]          $key          [缓存 key]
  * @param   [int]             $type         [操作类型（0清除, 1验证）]
- * @param   [int]             $expire_time  [过期时间（默认30秒+30秒）]
+ * @param   [int]             $expire_time  [过期时间（默认30秒）]
  */
 function SecurityPreventViolence($key, $type = 1, $expire_time = 30)
 {
@@ -41,7 +41,7 @@ function SecurityPreventViolence($key, $type = 1, $expire_time = 30)
     $status = false;
     if($count <= $max)
     {
-        cache($mkey, $count, $expire_time+30);
+        cache($mkey, $count, $expire_time);
         $status = true;
     }
 
@@ -56,42 +56,32 @@ function SecurityPreventViolence($key, $type = 1, $expire_time = 30)
 }
 
 /**
- * 模块动态表格加载方法
+ * 获取动态表格 form 路径
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
- * @date    2020-06-02
+ * @date    2020-06-05
  * @desc    description
- * @param   [string]          $name     [模块名称]
- * @param   [string]          $group    [模块组(admin,index)]
- * @param   [mixed]           $params   [参数数据]
+ * @param   [array]           $params [输入参数]
  */
-function FormTableLoad($name, $group = 'admin', $params = [])
+function FormModulePath($params = [])
 {
-    // 模块
-    $module = '\app\\'.$group.'\form\\'.$name;
-    if(!class_exists($module))
+    // 参数变量
+    $path = '';
+    $controller = request()->controller();    
+
+    // 是否插件调用
+    if($controller == 'Plugins')
     {
-        return DataReturn('动态表格模块未定义['.$module.']', -1);
+        if(!empty($params['pluginsname']) && !empty($params['pluginscontrol']))
+        {
+            $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.ucfirst($params['pluginscontrol']);
+        }
+    } else {
+        $path = '\app\\'.request()->module().'\form\\'.$controller;
     }
 
-    // 调用方法
-    $action = 'Run';
-    $obj = new $module();
-    if(!method_exists($obj, $action))
-    {
-        return DataReturn('动态表格方法未定义['.$module.'->'.$action.'()]', -1);
-    }
-    $table = $obj->$action($params);
-
-    // 处理数据
-    $res = (new app\module\FormHandle())->Run($table, $params);
-    $data = [
-        'table'     => $table,
-        'where'     => $res['where'],
-        'params'    => $res['params'],
-    ];
-    return DataReturn('success', 0, $data);
+    return $path;
 }
 
 /**
@@ -107,7 +97,7 @@ function FormTableLoad($name, $group = 'admin', $params = [])
 function ModuleInclude($template, $params = [])
 {
     // 应用控制器
-    $module = '\app\module\ViewInclude';
+    $module = '\app\module\ViewIncludeModule';
     if(!class_exists($module))
     {
         return '模块视图控制器未定义['.$module.']';

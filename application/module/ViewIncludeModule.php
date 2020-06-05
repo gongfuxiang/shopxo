@@ -20,7 +20,7 @@ use think\Controller;
  * @date    2020-05-25
  * @desc    description
  */
-class ViewInclude extends Controller
+class ViewIncludeModule extends Controller
 {
     /**
      * 构造方法
