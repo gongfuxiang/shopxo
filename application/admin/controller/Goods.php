@@ -11,7 +11,6 @@
 namespace app\admin\controller;
 
 use think\facade\Hook;
-use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\RegionService;
 use app\service\BrandService;
@@ -53,12 +52,6 @@ class Goods extends Common
      */
 	public function Index()
 	{
-		// 参数
-        $params = $this->data_request;
-
-		// 条件
-		//$where = GoodsService::GetAdminIndexWhere($params);
-
 		// 总数
 		$total = GoodsService::GoodsTotal($this->form_where);
 
@@ -66,7 +59,7 @@ class Goods extends Common
 		$page_params = array(
 				'number'	=>	$this->page_size,
 				'total'		=>	$total,
-				'where'		=>	$params,
+				'where'		=>	$this->data_request,
 				'page'		=>	$this->page,
 				'url'		=>	MyUrl('admin/goods/index'),
 			);
@@ -81,19 +74,7 @@ class Goods extends Common
         ];
         $ret = GoodsService::GoodsList($data_params);
 
-		// 商品分类
-		$this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
-
-		// 品牌分类
-		$this->assign('brand_list', BrandService::CategoryBrand());
-
-		// 是否上下架
-		$this->assign('common_is_shelves_list', lang('common_is_shelves_list'));
-
-		// 是否首页推荐
-		$this->assign('common_is_text_list', lang('common_is_text_list'));
-
-		$this->assign('params', $params);
+		$this->assign('params', $this->data_request);
 		$this->assign('page_html', $page->GetPageHtml());
 		$this->assign('data_list', $ret['data']);
 		return $this->fetch();

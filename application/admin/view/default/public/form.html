@@ -50,8 +50,19 @@
                 <div class="am-g form-table-operate-top">
                     {{block name="form_operate_top"}}
                         <!-- 公共操作 -->
-                        <a href="{{:MyUrl('admin/goods/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm am-icon-filter"> 重置</a>
-                        <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example am-icon-search" data-am-loading="{loadingText:' 搜索中...'}"> 搜索</button>
+                        <!-- 是否开启删除操作 -->
+                        {{if isset($form_table['base']['is_delete']) and $form_table['base']['is_delete'] eq 1}}
+                            <button
+                                type="button"
+                                class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o form-table-operate-top-delete-submit"
+                                data-url="{{if isset($form_table['base']['delete_url'])}}{{$form_table.base.delete_url}}{{/if}}"
+                                data-form="{{if isset($form_table['base']['delete_form'])}}{{$form_table.base.delete_form}}{{/if}}"
+                                data-key="{{if isset($form_table['base']['delete_key'])}}{{$form_table.base.delete_key}}{{/if}}"
+                                data-confirm-title="{{if isset($form_table['base']['confirm_title'])}}{{$form_table.base.confirm_title}}{{/if}}"
+                                data-confirm-msg="{{if isset($form_table['base']['confirm_msg'])}}{{$form_table.base.confirm_msg}}{{/if}}"
+                                data-timeout="{{if isset($form_table['base']['timeout'])}}{{$form_table.base.timeout}}{{/if}}"
+                            > 删除</button>
+                        {{/if}}
 
                         <!-- 钩子 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
@@ -73,13 +84,19 @@
                                 }
                             }
                         {{/php}}
+
+                        <!-- 是否开启搜索操作 公共搜索操作放在最后面 -->
+                        {{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
+                            <a href="{{if isset($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" class="am-btn am-btn-warning am-radius am-btn-sm am-icon-filter"> 重置</a>
+                            <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example am-icon-search" data-am-loading="{loadingText:' 搜索中...'}"> 搜索</button>
+                        {{/if}}
                     {{/block}}
                 </div>
                 <!-- top operate end -->
 
                 <!-- list start -->
                 <div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm">
-                    <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap">
+                    <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap form-table-data-list">
                         <thead>
                             <tr>
                                 {{foreach $form_table['form'] as $t}}
@@ -243,7 +260,14 @@
                                                             {{else /}}
                                                                 <!-- 非数组则直接取值 -->
                                                                 {{if isset($data_list[$i][$t['view_key']])}}
-                                                                    {{$data_list[$i][$t['view_key']]|raw}}
+                                                                    <!-- 是否指定数据转换 -->
+                                                                    {{if !empty($t['view_data']) and is_array($t['view_data']) and isset($t['view_data'][$data_list[$i][$t['view_key']]])}}
+                                                                        {{$t['view_data'][$data_list[$i][$t['view_key']]]}}
+
+                                                                    <!-- 直接展示数据 -->
+                                                                    {{else /}}
+                                                                        {{$data_list[$i][$t['view_key']]|raw}}
+                                                                    {{/if}}
                                                                 {{/if}}
                                                             {{/if}}
                                                         {{/case}}
@@ -297,7 +321,7 @@
                                                             {{if isset($data_list[$i][$form_table['base']['key_field']])}}
                                                                 <div class="form-table-operate-checkbox">
                                                                     <label class="am-checkbox am-secondary am-checkbox-inline">
-                                                                        <input type="checkbox" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if !empty($form_params) and isset($form_params[$t['view_key']]) and in_array($data_list[$i][$form_table['base']['key_field']], $form_params[$t['view_key']])}}checked{{/if}} data-am-ucheck />
+                                                                        <input type="checkbox" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
                                                                     </label>
                                                                 </div>
                                                             {{/if}}
@@ -306,7 +330,7 @@
                                                             {{if isset($data_list[$i][$form_table['base']['key_field']])}}
                                                                 <div class="form-table-operate-radio">
                                                                     <label class="am-radio am-secondary am-radio-inline">
-                                                                        <input type="radio" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if !empty($form_params) and isset($form_params[$t['view_key']]) and $form_params[$t['view_key']] eq $data_list[$i][$form_table['base']['key_field']]}}checked{{/if}} data-am-ucheck />
+                                                                        <input type="radio" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
                                                                     </label>
                                                                 </div>
                                                             {{/if}}
@@ -362,6 +386,10 @@
             {{/if}}
         {{/block}}
         <!-- page end -->
+
+        <!-- extend start -->
+        {{block name="form_extend"}}{{/block}}
+        <!-- extend end -->
 
         <!-- content inside top hook -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}

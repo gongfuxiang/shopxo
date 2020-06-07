@@ -1,17 +1,4 @@
 /**
- * 列表
- */
-.goods .goods-images {
-    width:60px;
-    height:60px;
-    float:left;
-    margin-right:5px;
-}
-.goods {
-    overflow: hidden;
-}
-
-/**
  * 详情
  */
 .dl-content img {

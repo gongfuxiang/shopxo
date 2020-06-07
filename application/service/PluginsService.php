@@ -241,7 +241,7 @@ class PluginsService
 
         // 调用方法
         $action = ucfirst($action);
-        $obj = new $plugins();
+        $obj = new $plugins($params);
         if(!method_exists($obj, $action))
         {
             return DataReturn('应用方法未定义['.$action.']', -1);

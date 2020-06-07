@@ -27,13 +27,9 @@ class Common extends Controller
 	// 用户信息
 	protected $user;
 
-    // 输入参数 post
+    // 输入参数 post|get|request
     protected $data_post;
-
-    // 输入参数 get
     protected $data_get;
-
-    // 输入参数 request
     protected $data_request;
 
 	/**
@@ -48,13 +44,13 @@ class Common extends Controller
     {
         parent::__construct();
 
-        // 系统运行开始
-        SystemService::SystemBegin();
-
         // 输入参数
         $this->data_post = input('post.');
         $this->data_get = input('get.');
         $this->data_request = input();
+
+        // 系统运行开始
+        SystemService::SystemBegin();
 
         // 系统初始化
         $this->SystemInit();

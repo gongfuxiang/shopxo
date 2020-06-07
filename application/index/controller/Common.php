@@ -12,6 +12,7 @@ namespace app\index\controller;
 
 use think\facade\Hook;
 use think\Controller;
+use app\module\FormHandleModule;
 use app\service\SystemService;
 use app\service\GoodsService;
 use app\service\NavigationService;
@@ -44,6 +45,26 @@ class Common extends Controller
     // 请求参数
     protected $params;
 
+    // 当前操作名称
+    protected $module_name;
+    protected $controller_name;
+    protected $action_name;
+
+    // 输入参数 post|get|request
+    protected $data_post;
+    protected $data_get;
+    protected $data_request;
+
+    // 分页信息
+    protected $page;
+    protected $page_size;
+
+    // 动态表格
+    protected $form_table;
+    protected $form_where;
+    protected $form_params;
+    protected $form_error;
+
     /**
      * 构造方法
      * @author   Devil
@@ -55,6 +76,11 @@ class Common extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        // 输入参数
+        $this->data_post = input('post.');
+        $this->data_get = input('get.');
+        $this->data_request = input();
 
         // 系统初始化
         $this->SystemInit();
@@ -73,6 +99,9 @@ class Common extends Controller
 
         // 视图初始化
         $this->ViewInit();
+
+        // 动态表格初始化
+        $this->FormTableInit();
 
         // 公共钩子初始化
         $this->CommonPluginsInit();
@@ -148,10 +177,7 @@ class Common extends Controller
      * @desc    description
      */
     private function SystemInit()
-    {
-        // 公共参数
-        $this->params = input();
-        
+    {        
         // 配置信息初始化
         ConfigService::ConfigInit();
         
@@ -162,9 +188,9 @@ class Common extends Controller
         }
 
         // 推荐人
-        if(!empty($this->params['referrer']))
+        if(!empty($this->data_request['referrer']))
         {
-            session('share_referrer_id', $this->params['referrer']);
+            session('share_referrer_id', $this->data_request['referrer']);
         }
     }
 
@@ -211,7 +237,7 @@ class Common extends Controller
     public function ViewInit()
     {
         // 公共参数
-        $this->assign('params', $this->params);
+        $this->assign('params', $this->data_request);
 
         // 价格符号
         $this->assign('price_symbol', config('shopxo.price_symbol'));
@@ -317,6 +343,37 @@ class Common extends Controller
 
         // 默认不加载百度地图api
         $this->assign('is_load_baidu_map_api', 0);
+    }
+
+    /**
+     * 动态表格初始化
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-02
+     * @desc    description
+     */
+    public function FormTableInit()
+    {
+        // 获取表格模型
+        $module = FormModulePath($this->data_request);
+        if(!empty($module))
+        {
+            // 调用表格处理
+            $res = (new FormHandleModule())->Run($module, $this->data_request);
+            if($res['code'] == 0)
+            {
+                $this->form_table = $res['data']['table'];
+                $this->form_where = $res['data']['where'];
+                $this->form_params = $res['data']['params'];
+
+                $this->assign('form_table', $this->form_table);
+                $this->assign('form_params', $this->form_params);
+            } else {
+                $this->form_error = $res['msg'];
+                $this->assign('form_error', $this->form_error);
+            }
+        }
     }
 
     /**

@@ -32,12 +32,6 @@ class Plugins extends Common
     public function __construct()
     {
         parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
     }
     
     /**
@@ -50,7 +44,7 @@ class Plugins extends Common
     public function Index()
     {
         // 参数
-        $params = input();
+        $params = $this->GetClassVars();
 
         // 请求参数校验
         $p = [
@@ -70,7 +64,7 @@ class Plugins extends Common
                 'error_msg'         => '应用操作方法有误',
             ],
         ];
-        $ret = ParamsChecked($params, $p);
+        $ret = ParamsChecked($params['data_request'], $p);
         if($ret !== true)
         {
             if(IS_AJAX)
@@ -83,9 +77,10 @@ class Plugins extends Common
         }
 
         // 应用名称/控制器/方法
-        $pluginsname = $params['pluginsname'];
-        $pluginscontrol = strtolower($params['pluginscontrol']);
-        $pluginsaction = strtolower($params['pluginsaction']);
+        $pluginsname = $params['data_request']['pluginsname'];
+        $pluginscontrol = strtolower($params['data_request']['pluginscontrol']);
+        $pluginsaction = strtolower($params['data_request']['pluginsaction']);
+        unset($params['data_request']['pluginsname'], $params['data_request']['pluginscontrol'], $params['data_request']['pluginsaction']);
 
         // 视图初始化
         $this->PluginsViewInit($pluginsname, $pluginscontrol, $pluginsaction);
@@ -108,6 +103,28 @@ class Plugins extends Common
             $this->assign('msg', $ret['msg']);
             return $this->fetch();
         }
+    }
+
+    /**
+     * 获取类属性数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-07
+     * @desc    description
+     */
+    public function GetClassVars()
+    {
+        $data = [];
+        $vers = get_class_vars(get_class());
+        foreach($vers as $k=>$v)
+        {
+            if(property_exists($this, $k))
+            {
+                $data[$k] = $this->$k;
+            }
+        }
+        return $data;
     }
 
     /**

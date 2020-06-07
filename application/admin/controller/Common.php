@@ -12,9 +12,9 @@ namespace app\admin\controller;
 
 use think\facade\Hook;
 use think\Controller;
+use app\module\FormHandleModule;
 use app\service\AdminPowerService;
 use app\service\ConfigService;
-use app\module\FormHandleModule;
 
 /**
  * 管理员公共控制器
@@ -39,13 +39,9 @@ class Common extends Controller
     protected $controller_name;
     protected $action_name;
 
-    // 输入参数 post
+    // 输入参数 post|get|request
     protected $data_post;
-
-    // 输入参数 get
     protected $data_get;
-
-    // 输入参数 request
     protected $data_request;
 
     // 分页信息
@@ -70,13 +66,13 @@ class Common extends Controller
     {
         parent::__construct();
 
-		// 系统初始化
-        $this->SystemInit();
-
         // 输入参数
         $this->data_post = input('post.');
         $this->data_get = input('get.');
         $this->data_request = input();
+
+		// 系统初始化
+        $this->SystemInit();
 
 		// 管理员信息
 		$this->admin = session('admin');
@@ -204,6 +200,12 @@ class Common extends Controller
         $this->assign('controller_name', $this->controller_name);
         $this->assign('action_name', $this->action_name);
 
+        // 管理员
+        $this->assign('admin', $this->admin);
+
+        // 权限菜单
+        $this->assign('left_menu', $this->left_menu);
+
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
         $this->page_size = MyC('admin_page_number', 10, true);
@@ -221,12 +223,6 @@ class Common extends Controller
         $module_js = $this->module_name.DS.$default_theme.DS.'js'.DS.$this->controller_name;
         $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$this->action_name.'.js') ? '.'.$this->action_name.'.js' : '.js';
         $this->assign('module_js', file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '');
-
-		// 权限菜单
-		$this->assign('left_menu', $this->left_menu);
-
-		// 用户
-		$this->assign('admin', $this->admin);
 
 		// 图片host地址
 		$this->assign('attachment_host', config('shopxo.attachment_host'));

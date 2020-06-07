@@ -44,6 +44,9 @@ class Plugins extends Common
      */
     public function Index()
     {
+        // 参数
+        $params = $this->GetClassVars();
+
         // 请求参数校验
         $p = [
             [
@@ -69,12 +72,13 @@ class Plugins extends Common
         }
 
         // 应用名称/控制器/方法
-        $pluginsname = $this->data_request['pluginsname'];
-        $pluginscontrol = strtolower($this->data_request['pluginscontrol']);
-        $pluginsaction = strtolower($this->data_request['pluginsaction']);
+        $pluginsname = $params['data_request']['pluginsname'];
+        $pluginscontrol = strtolower($params['data_request']['pluginscontrol']);
+        $pluginsaction = strtolower($params['data_request']['pluginsaction']);
+        unset($params['data_request']['pluginsname'], $params['data_request']['pluginscontrol'], $params['data_request']['pluginsaction']);
 
         // 调用
-        $ret = PluginsService::PluginsControlCall($pluginsname, $pluginscontrol, $pluginsaction, 'api', $this->data_request);
+        $ret = PluginsService::PluginsControlCall($pluginsname, $pluginscontrol, $pluginsaction, 'api', $params);
         if($ret['code'] == 0)
         {
             return $ret['data'];
@@ -82,6 +86,28 @@ class Plugins extends Common
 
         // 调用失败
         return $ret;
+    }
+
+    /**
+     * 获取类属性数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-07
+     * @desc    description
+     */
+    public function GetClassVars()
+    {
+        $data = [];
+        $vers = get_class_vars(get_class());
+        foreach($vers as $k=>$v)
+        {
+            if(property_exists($this, $k))
+            {
+                $data[$k] = $this->$k;
+            }
+        }
+        return $data;
     }
 }
 ?>

@@ -64,7 +64,7 @@ class FormHandleModule
 
         // 获取表格配置数据
         $this->form_data = $this->module_obj->$action($this->out_params);
-        if(empty($this->form_data['base']) || empty($this->form_data['form']))
+        if(empty($this->form_data['base']) || !is_array($this->form_data['base']) || empty($this->form_data['form']) || !is_array($this->form_data['form']))
         {
             return DataReturn('表格配置有误['.$module.'][base|form]', -1);
         }
@@ -78,8 +78,11 @@ class FormHandleModule
         // 基础条件
         $this->BaseWhereHandle();
 
-        // 表格处理数据
+        // 表格数据处理
         $this->FormDataHandle();
+
+        // 基础数据结尾处理
+        $this->FormBaseLastHandle();
 
         // 数据返回
         $data = [
@@ -100,264 +103,317 @@ class FormHandleModule
      */
     public function FormDataHandle()
     {
-        if(!empty($this->form_data['form']))
+        foreach($this->form_data['form'] as $k=>&$v)
         {
-            foreach($this->form_data['form'] as $k=>&$v)
+            // 基础处理
+            if(!empty($v['view_type']))
             {
-                // 基础处理
-                if(!empty($v['view_type']))
+                switch($v['view_type'])
                 {
-                    switch($v['view_type'])
-                    {
 
-                        // 状态操作
+                    // 状态操作
+                    // 复选框
+                    // 单选框
+                    case 'status' :
+                    case 'checkbox' :
+                    case 'radio' :
+                        // 未指定唯一字段名称则使用基础中的唯一字段
+                        if(empty($v['key_field']))
+                        {
+                            $v['key_field'] = $this->form_data['base']['key_field'];
+                        }
+
                         // 复选框
+                        if($v['view_type'] == 'checkbox')
+                        {
+                            // 选择/未选中文本
+                            if(empty($v['checked_text']))
+                            {
+                                $v['checked_text'] = '反选';
+                            }
+                            if(empty($v['not_checked_text']))
+                            {
+                                $v['not_checked_text'] = '全选';
+                            }
+
+                            // 是否选中 默认否
+                            $v['is_checked'] = isset($v['is_checked']) ? intval($v['is_checked']) : 0;
+
+                            // view key 默认 form_ids_checkbox
+                            if(empty($v['view_key']))
+                            {
+                                $v['view_key'] = 'form_checkbox_value';
+                            }
+                        }
+
                         // 单选框
-                        case 'status' :
-                        case 'checkbox' :
-                        case 'radio' :
-                            // 未指定唯一字段名称则使用基础中的唯一字段
-                            if(empty($v['key_field']))
+                        if($v['view_type'] == 'radio')
+                        {
+                            // 单选标题
+                            if(empty($v['label']))
                             {
-                                $v['key_field'] = $this->form_data['base']['key_field'];
+                                $v['label'] = '单选';
                             }
 
-                            // 复选框
-                            if($v['view_type'] == 'checkbox')
+                            // view key 默认 form_ids_radio
+                            if(empty($v['view_key']))
                             {
-                                // 选择/未选中文本
-                                if(empty($v['checked_text']))
-                                {
-                                    $v['checked_text'] = '反选';
-                                }
-                                if(empty($v['not_checked_text']))
-                                {
-                                    $v['not_checked_text'] = '全选';
-                                }
-
-                                // 是否选中 默认否
-                                $v['is_checked'] = isset($v['is_checked']) ? intval($v['is_checked']) : 0;
-
-                                // view key 默认 form_ids_checkbox
-                                if(empty($v['view_key']))
-                                {
-                                    $v['view_key'] = 'form_checkbox_value';
-                                }
-
-                                // 提交参数处理
-                                if(isset($this->out_params[$v['view_key']]))
-                                {
-                                    $value = urldecode($this->out_params[$v['view_key']]);
-                                    if(!is_array($value))
-                                    {
-                                        $value = explode(',', $value);
-                                    }
-                                    $this->where_params[$v['view_key']] = $value;
-                                }
+                                $v['view_key'] = 'form_radio_value';
                             }
-
-                            // 单选框
-                            if($v['view_type'] == 'radio')
-                            {
-                                // 单选标题
-                                if(empty($v['label']))
-                                {
-                                    $v['label'] = '单选';
-                                }
-
-                                // view key 默认 form_ids_radio
-                                if(empty($v['view_key']))
-                                {
-                                    $v['view_key'] = 'form_radio_value';
-                                }
-
-                                // 提交参数处理
-                                if(isset($this->out_params[$v['view_key']]))
-                                {
-                                    $value = urldecode($this->out_params[$v['view_key']]);
-                                    $this->where_params[$v['view_key']] = $value;
-                                }
-                            }
-                            break;
-                    }
+                        }
+                        break;
                 }
-                
+            }
+            
 
-                // 条件处理
-                if(!empty($v['search_config']) && !empty($v['search_config']['form_type']) && !empty($v['search_config']['form_name']))
+            // 条件处理
+            if(!empty($v['search_config']) && !empty($v['search_config']['form_type']) && !empty($v['search_config']['form_name']))
+            {
+                // 基础数据处理
+                // 显示名称
+                $label = empty($v['label']) ? '' : $v['label'];
+
+                // 唯一 formkey
+                $form_key = 'fp'.$k;
+                $v['form_key'] = $form_key;
+
+                // 根据组件类型处理
+                switch($v['search_config']['form_type'])
                 {
-                    // 基础数据处理
-                    // 显示名称
-                    $label = empty($v['label']) ? '' : $v['label'];
+                    // 单个输入
+                    case 'input' :
+                        // 提示信息处理
+                        if(empty($v['search_config']['placeholder']))
+                        {
+                            $v['search_config']['placeholder'] = '请输入'.$label;
+                        }
+                        break;
 
-                    // 唯一 formkey
-                    $form_key = 'fp'.$k;
-                    $v['form_key'] = $form_key;
+                    // 选择
+                    case 'select' :
+                        // 提示信息处理
+                        if(empty($v['search_config']['placeholder']))
+                        {
+                            $v['search_config']['placeholder'] = '请选择'.$label;
+                        }
 
-                    // 根据组件类型处理
-                    switch($v['search_config']['form_type'])
+                        // 选择数据 key=>name
+                        if(empty($v['search_config']['data_key']))
+                        {
+                            $v['search_config']['data_key'] = 'id';
+                        }
+                        if(empty($v['search_config']['data_name']))
+                        {
+                            $v['search_config']['data_key'] = 'name';
+                        }
+                        break;
+
+                    // 区间
+                    case 'section' :
+                        // 提示信息处理
+                        if(empty($v['search_config']['placeholder_min']))
+                        {
+                            $v['search_config']['placeholder_min'] = '最小值';
+                        }
+                        if(empty($v['search_config']['placeholder_max']))
+                        {
+                            $v['search_config']['placeholder_max'] = '最大值';
+                        }
+                        break;
+
+                    // 时间
+                    case 'datetime' :
+                    case 'date' :
+                        // 提示信息处理
+                        if(empty($v['search_config']['placeholder_start']))
+                        {
+                            $v['search_config']['placeholder_start'] = '开始';
+                        }
+                        if(empty($v['search_config']['placeholder_end']))
+                        {
+                            $v['search_config']['placeholder_end'] = '结束';
+                        }
+                        break;
+                }
+
+                // 搜索条件数据处理
+                // 表单字段名称
+                $name = $v['search_config']['form_name'];
+                // 条件类型
+                $type = isset($v['search_config']['where_type']) ? $v['search_config']['where_type'] : $v['search_config']['form_type'];
+                // 是否自定义条件处理方法
+                $custom = isset($v['search_config']['where_custom']) ? $v['search_config']['where_custom'] : '';
+                // 根据条件类型处理
+                switch($type)
+                {
+                    // 单个值
+                    case '=' :
+                    case '<' :
+                    case '>' :
+                    case '<=' :
+                    case '>=' :
+                    case 'like' :
+                        if(array_key_exists($form_key, $this->out_params) && $this->out_params[$form_key] !== null && $this->out_params[$form_key] !== '')
+                        {
+                            // 参数值
+                            $value = urldecode($this->out_params[$form_key]);
+                            $this->where_params[$form_key] = $value;
+
+                            // 条件值处理
+                            $value = $this->WhereValueHandle($value, $custom);
+
+                            // 是否 like 条件
+                            if($type == 'like')
+                            {
+                                $value = '%'.$value.'%';
+                            }
+
+                            // 条件
+                            $this->where[] = [$name, $type, $value];
+                        }
+                        break;
+
+                    // in
+                    case 'in' :
+                        if(array_key_exists($form_key, $this->out_params) && $this->out_params[$form_key] !== null && $this->out_params[$form_key] !== '')
+                        {
+                            // 参数值
+                            $value = urldecode($this->out_params[$form_key]);
+                            if(!is_array($value))
+                            {
+                                $value = explode(',', $value);
+                            }
+                            $this->where_params[$form_key] = $value;
+
+                            // 条件
+                            $this->where[] = [$name, $type, $this->WhereValueHandle($value, $custom)];
+                        }
+                        break;
+
+                    // 区间值
+                    case 'section' :
+                        $key_min = $form_key.'_min';
+                        $key_max = $form_key.'_max';
+                        if(array_key_exists($key_min, $this->out_params) && $this->out_params[$key_min] !== null && $this->out_params[$key_min] !== '')
+                        {
+                            // 参数值
+                            $value = urldecode($this->out_params[$key_min]);
+                            $this->where_params[$key_min] = $value;
+
+                            // 条件
+                            $this->where[] = [$name, '>=', $this->WhereValueHandle($value, $custom, ['is_min'=>1])];
+                        }
+                        if(array_key_exists($key_max, $this->out_params) && $this->out_params[$key_max] !== null && $this->out_params[$key_max] !== '')
+                        {
+                            // 参数值
+                            $value = urldecode($this->out_params[$key_max]);
+                            $this->where_params[$key_max] = $value;
+
+                            // 条件
+                            $this->where[] = [$name, '<=', $this->WhereValueHandle($value, $custom, ['is_end'=>1])];
+                        }
+                        break;
+
+                    // 时间
+                    case 'datetime' :
+                    case 'date' :
+                        $key_start = $form_key.'_start';
+                        $key_end = $form_key.'_end';
+                        if(array_key_exists($key_start, $this->out_params) && $this->out_params[$key_start] !== null && $this->out_params[$key_start] !== '')
+                        {
+                            // 参数值
+                            $value = urldecode($this->out_params[$key_start]);
+                            $this->where_params[$key_start] = $value;
+
+                            // 条件
+                            $this->where[] = [$name, '>=', $this->WhereValueHandle(strtotime($value), $custom, ['is_start'=>1])];
+                        }
+                        if(array_key_exists($key_end, $this->out_params) && $this->out_params[$key_end] !== null && $this->out_params[$key_end] !== '')
+                        {
+                            // 参数值
+                            $value = urldecode($this->out_params[$key_end]);
+                            $this->where_params[$key_end] = $value;
+
+                            // 条件
+                            $this->where[] = [$name, '<=', $this->WhereValueHandle(strtotime($value), $custom, ['is_end'=>1])];
+
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
+     * 基础数据结尾处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-06
+     * @desc    description
+     */
+    public function FormBaseLastHandle()
+    {
+        // 异步请求超时时间
+        if(empty($this->form_data['base']['timeout']))
+        {
+            $this->form_data['base']['timeout'] = 30000;
+        }
+
+        // 是否开启删除
+        if(isset($this->form_data['base']['is_delete']) && $this->form_data['base']['is_delete'] == 1)
+        {
+            // 是否指定选择列字段名称
+            // 默认一（第一个复选框）
+            // 默认二（第一个单选框）
+            if(empty($this->form_data['base']['delete_form']))
+            {
+                // 所有 form 类型
+                $form_type = array_column($this->form_data['form'], 'view_type');
+                if(!empty($form_type))
+                {
+                    // 是否存在复选框
+                    if(in_array('checkbox', $form_type))
                     {
-                        // 单个输入
-                        case 'input' :
-                            // 提示信息处理
-                            if(empty($v['search_config']['placeholder']))
-                            {
-                                $v['search_config']['placeholder'] = '请输入'.$label;
-                            }
-                            break;
-
-                        // 选择
-                        case 'select' :
-                            // 提示信息处理
-                            if(empty($v['search_config']['placeholder']))
-                            {
-                                $v['search_config']['placeholder'] = '请选择'.$label;
-                            }
-
-                            // 选择数据 key=>name
-                            if(empty($v['search_config']['data_key']))
-                            {
-                                $v['search_config']['data_key'] = 'id';
-                            }
-                            if(empty($v['search_config']['data_name']))
-                            {
-                                $v['search_config']['data_key'] = 'name';
-                            }
-                            break;
-
-                        // 区间
-                        case 'section' :
-                            // 提示信息处理
-                            if(empty($v['search_config']['placeholder_min']))
-                            {
-                                $v['search_config']['placeholder_min'] = '最小值';
-                            }
-                            if(empty($v['search_config']['placeholder_max']))
-                            {
-                                $v['search_config']['placeholder_max'] = '最大值';
-                            }
-                            break;
-
-                        // 时间
-                        case 'datetime' :
-                        case 'date' :
-                            // 提示信息处理
-                            if(empty($v['search_config']['placeholder_start']))
-                            {
-                                $v['search_config']['placeholder_start'] = '开始';
-                            }
-                            if(empty($v['search_config']['placeholder_end']))
-                            {
-                                $v['search_config']['placeholder_end'] = '结束';
-                            }
-                            break;
+                        $index = array_search('checkbox', $form_type);
+                        if($index !== false)
+                        {
+                            $this->form_data['base']['delete_form'] = $this->form_data['form'][$index]['view_key'];
+                        }
                     }
 
-                    // 搜索条件数据处理
-                    // 表单字段名称
-                    $name = $v['search_config']['form_name'];
-                    // 条件类型
-                    $type = isset($v['search_config']['where_type']) ? $v['search_config']['where_type'] : $v['search_config']['form_type'];
-                    // 是否自定义条件处理方法
-                    $custom = isset($v['search_config']['where_custom']) ? $v['search_config']['where_custom'] : '';
-                    // 根据条件类型处理
-                    switch($type)
+                    // 是否存在单选框
+                    if(empty($this->form_data['base']['delete_form']) && in_array('radio', $form_type))
                     {
-                        // 单个值
-                        case '=' :
-                        case '<' :
-                        case '>' :
-                        case '<=' :
-                        case '>=' :
-                        case 'like' :
-                            if(array_key_exists($form_key, $this->out_params) && $this->out_params[$form_key] !== null && $this->out_params[$form_key] !== '')
-                            {
-                                // 参数值
-                                $value = urldecode($this->out_params[$form_key]);
-                                $this->where_params[$form_key] = $value;
-
-                                // 条件值处理
-                                $value = $this->WhereValueHandle($value, $custom);
-
-                                // 是否 like 条件
-                                if($type == 'like')
-                                {
-                                    $value = '%'.$value.'%';
-                                }
-
-                                // 条件
-                                $this->where[] = [$name, $type, $value];
-                            }
-                            break;
-
-                        // in
-                        case 'in' :
-                            if(array_key_exists($form_key, $this->out_params) && $this->out_params[$form_key] !== null && $this->out_params[$form_key] !== '')
-                            {
-                                // 参数值
-                                $value = urldecode($this->out_params[$form_key]);
-                                if(!is_array($value))
-                                {
-                                    $value = explode(',', $value);
-                                }
-                                $this->where_params[$form_key] = $value;
-
-                                // 条件
-                                $this->where[] = [$name, $type, $this->WhereValueHandle($value, $custom)];
-                            }
-                            break;
-
-                        // 区间值
-                        case 'section' :
-                            $key_min = $form_key.'_min';
-                            $key_max = $form_key.'_max';
-                            if(array_key_exists($key_min, $this->out_params) && $this->out_params[$key_min] !== null && $this->out_params[$key_min] !== '')
-                            {
-                                // 参数值
-                                $value = urldecode($this->out_params[$key_min]);
-                                $this->where_params[$key_min] = $value;
-
-                                // 条件
-                                $this->where[] = [$name, '>=', $this->WhereValueHandle($value, $custom, ['is_min'=>1])];
-                            }
-                            if(array_key_exists($key_max, $this->out_params) && $this->out_params[$key_max] !== null && $this->out_params[$key_max] !== '')
-                            {
-                                // 参数值
-                                $value = urldecode($this->out_params[$key_max]);
-                                $this->where_params[$key_max] = $value;
-
-                                // 条件
-                                $this->where[] = [$name, '<=', $this->WhereValueHandle($value, $custom, ['is_end'=>1])];
-                            }
-                            break;
-
-                        // 时间
-                        case 'datetime' :
-                        case 'date' :
-                            $key_start = $form_key.'_start';
-                            $key_end = $form_key.'_end';
-                            if(array_key_exists($key_start, $this->out_params) && $this->out_params[$key_start] !== null && $this->out_params[$key_start] !== '')
-                            {
-                                // 参数值
-                                $value = urldecode($this->out_params[$key_start]);
-                                $this->where_params[$key_start] = $value;
-
-                                // 条件
-                                $this->where[] = [$name, '>=', $this->WhereValueHandle(strtotime($value), $custom, ['is_start'=>1])];
-                            }
-                            if(array_key_exists($key_end, $this->out_params) && $this->out_params[$key_end] !== null && $this->out_params[$key_end] !== '')
-                            {
-                                // 参数值
-                                $value = urldecode($this->out_params[$key_end]);
-                                $this->where_params[$key_end] = $value;
-
-                                // 条件
-                                $this->where[] = [$name, '<=', $this->WhereValueHandle(strtotime($value), $custom, ['is_end'=>1])];
-
-                            }
-                            break;
+                        $index = array_search('radio', $form_type);
+                        if($index !== false)
+                        {
+                            $this->form_data['base']['delete_form'] = $this->form_data['form'][$index]['view_key'];
+                        }
                     }
                 }
+
+                // 未匹配到则默认 ids
+                if(empty($this->form_data['base']['delete_form']))
+                {
+                    $this->form_data['base']['delete_form'] = 'ids';
+                }
+            }
+
+            // 提交数据的字段名称
+            if(empty($this->form_data['base']['delete_key']))
+            {
+                $this->form_data['base']['delete_key'] = $this->form_data['base']['delete_form'];
+            }
+
+            // 确认框信息 标题/描述
+            if(empty($this->form_data['base']['confirm_title']))
+            {
+                $this->form_data['base']['confirm_title'] = '温馨提示';
+            }
+            if(empty($this->form_data['base']['confirm_msg']))
+            {
+                $this->form_data['base']['confirm_msg'] = '删除后不可恢复、确认操作吗？';
             }
         }
     }

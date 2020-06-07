@@ -56,16 +56,16 @@ class Search extends Common
             $this->ParamsInit();
 
             // 品牌列表
-            $this->assign('brand_list', BrandService::CategoryBrandList(['category_id'=>$this->params['category_id'], 'keywords'=>$this->params['wd']]));
+            $this->assign('brand_list', BrandService::CategoryBrandList(['category_id'=>$this->data_request['category_id'], 'keywords'=>$this->data_request['wd']]));
 
             // 商品分类
-            $this->assign('category_list', SearchService::GoodsCategoryList(['category_id'=>$this->params['category_id']]));
+            $this->assign('category_list', SearchService::GoodsCategoryList(['category_id'=>$this->data_request['category_id']]));
 
             // 筛选价格区间
             $this->assign('screening_price_list', SearchService::ScreeningPriceList(['field'=>'id,name']));
 
             // 参数
-            $this->assign('params', $this->params);
+            $this->assign('params', $this->data_request);
 
             // seo
             $this->SetSeo();
@@ -86,10 +86,10 @@ class Search extends Common
      */
     private function SetSeo()
     {
-        $seo_title = $this->params['wd'];
-        if(!empty($this->params['category_id']))
+        $seo_title = $this->data_request['wd'];
+        if(!empty($this->data_request['category_id']))
         {
-            $category = GoodsService::GoodsCategoryRow(['id'=>$this->params['category_id'], 'field'=>'name,seo_title,seo_keywords,seo_desc']);
+            $category = GoodsService::GoodsCategoryRow(['id'=>$this->data_request['category_id'], 'field'=>'name,seo_title,seo_keywords,seo_desc']);
             if(!empty($category))
             {
                 $seo_title = empty($category['seo_title']) ? $category['name'] : $category['seo_title'];
@@ -118,23 +118,23 @@ class Search extends Common
     private function ParamsInit()
     {
         // 品牌id
-        $this->params['brand_id'] = isset($this->params['brand_id']) ? intval($this->params['brand_id']) : 0;
+        $this->data_request['brand_id'] = isset($this->data_request['brand_id']) ? intval($this->data_request['brand_id']) : 0;
 
         // 分类id
-        $this->params['category_id'] = isset($this->params['category_id']) ? intval($this->params['category_id']) : 0;
+        $this->data_request['category_id'] = isset($this->data_request['category_id']) ? intval($this->data_request['category_id']) : 0;
 
         // 筛选价格id
-        $this->params['screening_price_id'] = isset($this->params['screening_price_id']) ? intval($this->params['screening_price_id']) : 0;
+        $this->data_request['screening_price_id'] = isset($this->data_request['screening_price_id']) ? intval($this->data_request['screening_price_id']) : 0;
 
         // 搜索关键字
-        $this->params['wd'] = empty($this->params['wd']) ? '' : (IS_AJAX ? trim($this->params['wd']) : AsciiToStr($this->params['wd']));
+        $this->data_request['wd'] = empty($this->data_request['wd']) ? '' : (IS_AJAX ? trim($this->data_request['wd']) : AsciiToStr($this->data_request['wd']));
 
         // 排序方式
-        $this->params['order_by_field'] = empty($this->params['order_by_field']) ? 'default' : $this->params['order_by_field'];
-        $this->params['order_by_type'] = empty($this->params['order_by_type']) ? 'desc' : $this->params['order_by_type'];
+        $this->data_request['order_by_field'] = empty($this->data_request['order_by_field']) ? 'default' : $this->data_request['order_by_field'];
+        $this->data_request['order_by_type'] = empty($this->data_request['order_by_type']) ? 'desc' : $this->data_request['order_by_type'];
 
         // 用户信息
-        $this->params['user_id'] = isset($this->user['id']) ? $this->user['id'] : 0;
+        $this->data_request['user_id'] = isset($this->user['id']) ? $this->user['id'] : 0;
     }
 
     /**
@@ -157,11 +157,11 @@ class Search extends Common
         $this->ParamsInit();
 
         // 获取商品列表
-        $this->params['keywords'] = $this->params['wd'];
-        $ret = SearchService::GoodsList($this->params);
+        $this->data_request['keywords'] = $this->data_request['wd'];
+        $ret = SearchService::GoodsList($this->data_request);
 
         // 搜索记录
-        SearchService::SearchAdd($this->params);
+        SearchService::SearchAdd($this->data_request);
 
         // 无数据直接返回
         if(empty($ret['data']['data']) || $ret['code'] != 0)

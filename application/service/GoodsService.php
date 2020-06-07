@@ -1790,43 +1790,48 @@ class GoodsService
     public static function GoodsDelete($params = [])
     {
         // 参数是否有误
-        if(empty($params['id']))
+        if(empty($params['ids']))
         {
             return DataReturn('商品id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
         }
 
         // 开启事务
         Db::startTrans();
 
         // 删除商品
-        if(Db::name('Goods')->delete(intval($params['id'])))
+        if(Db::name('Goods')->where(['id'=>$params['ids']])->delete())
         {
             // 商品规格
-            if(Db::name('GoodsSpecType')->where(['goods_id'=>intval($params['id'])])->delete() === false)
+            if(Db::name('GoodsSpecType')->where(['goods_id'=>$params['ids']])->delete() === false)
             {
                 Db::rollback();
                 return DataReturn('规格类型删除失败', -100);
             }
-            if(Db::name('GoodsSpecValue')->where(['goods_id'=>intval($params['id'])])->delete() === false)
+            if(Db::name('GoodsSpecValue')->where(['goods_id'=>$params['ids']])->delete() === false)
             {
                 Db::rollback();
                 return DataReturn('规格值删除失败', -100);
             }
-            if(Db::name('GoodsSpecBase')->where(['goods_id'=>intval($params['id'])])->delete() === false)
+            if(Db::name('GoodsSpecBase')->where(['goods_id'=>$params['ids']])->delete() === false)
             {
                 Db::rollback();
                 return DataReturn('规格基础删除失败', -100);
             }
 
             // 相册
-            if(Db::name('GoodsPhoto')->where(['goods_id'=>intval($params['id'])])->delete() === false)
+            if(Db::name('GoodsPhoto')->where(['goods_id'=>$params['ids']])->delete() === false)
             {
                 Db::rollback();
                 return DataReturn('相册删除失败', -100);
             }
 
             // app内容
-            if(Db::name('GoodsContentApp')->where(['goods_id'=>intval($params['id'])])->delete() === false)
+            if(Db::name('GoodsContentApp')->where(['goods_id'=>$params['ids']])->delete() === false)
             {
                 Db::rollback();
                 return DataReturn('相册删除失败', -100);

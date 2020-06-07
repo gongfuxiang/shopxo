@@ -847,17 +847,24 @@ function FomatFloat(value, pos)
  */
 function DataDelete(e)
 {
+	// 参数获取
 	var id = e.attr('data-id');
+	var key = e.attr('data-key') || 'id';
 	var url = e.attr('data-url');
 	var view = e.attr('data-view') || 'delete';
 	var value = e.attr('data-value') || null;
 	var ext_delete_tag = e.attr('data-ext-delete-tag') || null;
 
+	// 参数校验
 	if((id || null) == null || (url || null) == null)
 	{
 		Prompt('参数配置有误');
 		return false;
 	}
+
+	// 请求数据
+	var data = {};
+		data[key] = id;
 
 	// 请求删除数据
 	$.ajax({
@@ -865,7 +872,7 @@ function DataDelete(e)
 		type:'POST',
 		dataType:"json",
 		timeout:e.attr('data-timeout') || 30000,
-		data:{"id":id},
+		data:data,
 		success:function(result)
 		{
 			if(result.code == 0)
@@ -973,11 +980,17 @@ function ConfirmDataDelete(e)
  */
 function AjaxRequest(e)
 {
+	// 参数
 	var id = e.attr('data-id');
+	var key = e.attr('data-key') || 'id';
 	var field = e.attr('data-field') || '';
 	var value = e.attr('data-value') || '';
 	var url = e.attr('data-url');
 	var view = e.attr('data-view') || '';
+
+	// 请求数据
+	var data = {"value": value, "field": field};
+		data[key] = id;
 
 	// ajax
 	$.ajax({
@@ -985,7 +998,7 @@ function AjaxRequest(e)
 		type:'POST',
 		dataType:"json",
 		timeout:e.attr('data-timeout') || 30000,
-		data:{"id":id, "value": value, "field": field},
+		data:data,
 		success:function(result)
 		{
 			if(result.code == 0)
@@ -1650,6 +1663,103 @@ $(function()
             $('.form-table-operate-checkbox').find('input[type="checkbox"]').uCheck('check');
         }
         $(this).attr('data-value', value == 1 ? 0 : 1);
+    });
+
+    // 表格公共删除操作
+    $('.form-table-operate-top-delete-submit').on('click', function()
+    {
+    	// 请求 url
+    	var url = $(this).data('url') || null;
+    	if(url == null)
+    	{
+    		Prompt('url参数有误');
+    		return false;
+    	}
+
+    	// form name 名称
+    	var form = $(this).data('form') || null;
+    	if(form == null)
+    	{
+    		Prompt('form参数有误');
+    		return false;
+    	}
+
+    	// 获取复选框选中的值
+		var values = [];
+		$(document).find('input[name="'+form+'"]').each(function(key, tmp)
+		{
+			if($(this).is(':checked'))
+			{
+				values.push(tmp.value);
+			}
+		});
+
+		// 获取单选框的值
+		if(values.length <= 0)
+		{
+			var val = $('input[name="'+form+'"]:checked').val();
+			if(val != undefined)
+			{
+				values.push(val);
+			}
+		}
+
+		// 是否有选择的数据
+		if(values.length <= 0)
+		{
+			Prompt('请先选中数据');
+			return false;
+		}
+
+		// 提交字段名称|超时时间|标题|描述
+		var key = $(this).data('key') || form;
+		var timeout = $(this).data('timeout') || 30000;
+		var title = $(this).data('confirm-title') || '温馨提示';
+		var msg = $(this).data('confirm-msg') || '删除后不可恢复、确认操作吗？';
+
+		// 再次确认
+		AMUI.dialog.confirm({
+			title: title,
+			content: msg,
+			onConfirm: function(result)
+			{
+				// 数组转对象
+				var data = {};
+					data[key] = {};
+				for(var i in values)
+				{
+					data[key][i] = values[i];
+				}
+
+				// ajax请求操作
+				$.ajax({
+					url: url,
+					type: 'POST',
+					dataType: "json",
+					timeout: timeout,
+					data: data,
+					success: function(result)
+					{
+						if(result.code == 0)
+						{
+							// 成功则删除数据列表
+							Prompt(result.msg, 'success');
+							for(var i in values)
+							{
+								$('#data-list-'+values[i]).remove();
+							}
+						} else {
+							Prompt(result.msg);
+						}
+					},
+					error: function(xhr, type)
+					{
+						Prompt('网络异常出错');
+					}
+				});
+			},
+			onCancel: function(){}
+		});
     });
 
     /**

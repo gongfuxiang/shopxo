@@ -48,6 +48,9 @@ class Goods
                 'status_field'  => 'is_shelves',
                 'is_search'     => 1,
                 'search_url'    => MyUrl('admin/goods/index'),
+                'is_delete'     => 1,
+                'delete_url'    => MyUrl('admin/goods/delete'),
+                'delete_key'    => 'ids',
             ],
             // 表单配置
             'form' => [
@@ -60,15 +63,10 @@ class Goods
                     'width'             => 80,
                 ],
                 [
-                    'view_type'         => 'radio',
-                    'align'             => 'center',
-                    'width'             => 50,
-                ],
-                [
                     'label'         => '商品ID',
                     'view_type'     => 'field',
                     'view_key'      => 'id',
-                    'width'         => 80,
+                    'width'         => 120,
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'id',
@@ -186,6 +184,20 @@ class Goods
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'where_type'        => 'in',
+                    ],
+                ],
+                [
+                    'label'         => '生产地',
+                    'view_type'     => 'field',
+                    'view_key'      => 'place_origin_name',
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'form_name'         => 'place_origin',
+                        'data'              => RegionService::RegionItems(['pid'=>0]),
+                        'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'where_type'        => 'in',
+                        'is_multiple'       => 1,
                     ],
                 ],
                 [
