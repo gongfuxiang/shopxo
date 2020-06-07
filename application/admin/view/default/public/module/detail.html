@@ -1,0 +1,97 @@
+{{include file="public/header" /}}
+
+<!-- content top hook -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>{{$hook_name_detail_top}}</span>
+    </div>
+{{/if}}
+{{php}}
+    $hook_data = Hook::listen($hook_name_detail_top, ['hook_name'=>$hook_name_detail_top, 'is_backend'=>true]);
+    if(!empty($hook_data) && is_array($hook_data))
+    {
+        foreach($hook_data as $hook)
+        {
+            if(is_string($hook) || is_int($hook))
+            {
+                echo htmlspecialchars_decode($hook);
+            }
+        }
+    }
+{{/php}}
+
+<!-- content start  -->
+<div class="am-padding-sm">
+    <!-- content inside top hook -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>{{$hook_name_detail_inside_top}}</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_data = Hook::listen($hook_name_detail_inside_top, ['hook_name'=>$hook_name_detail_inside_top, 'is_backend'=>true]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+
+    {{if !empty($data)}}
+        {{block name="detail_data"}}{{/block}}
+    {{else /}}
+        {{block name="detail_not_data"}}
+            <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+        {{/block}}
+    {{/if}}
+
+    <!-- content inside top hook -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>{{$hook_name_detail_inside_bottom}}</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_data = Hook::listen($hook_name_detail_inside_bottom, ['hook_name'=>$hook_name_detail_inside_bottom, 'is_backend'=>true]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+</div>
+<!-- content end  -->
+
+<!-- content bottom hook -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>{{$hook_name_detail_bottom}}</span>
+    </div>
+{{/if}}
+{{php}}
+    $hook_data = Hook::listen($hook_name_detail_bottom, ['hook_name'=>$hook_name_detail_bottom, 'is_backend'=>true]);
+    if(!empty($hook_data) && is_array($hook_data))
+    {
+        foreach($hook_data as $hook)
+        {
+            if(is_string($hook) || is_int($hook))
+            {
+                echo htmlspecialchars_decode($hook);
+            }
+        }
+    }
+{{/php}}
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -1,8 +1,9 @@
-{{include file="public/header" /}}
+<!-- 继承公共的 detail -->
+{{extend name="public/module/detail" /}}
 
-<!-- content start  -->
-<div class="am-padding-sm">
-    {{if !empty($data)}}
+<!-- 详情内容  -->
+{{if !empty($data)}}
+    {{block name="detail_data"}}
         <dl class="dl-content">
             <dt>订单号</dt>
             <dd>
@@ -237,12 +238,5 @@
             <dt>更新时间</dt>
             <dd>{{$data.upd_time}}</dd>
         </dl>
-    {{else /}}
-        <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-    {{/if}}
-</div>
-<!-- content end  -->
-        
-<!-- footer start -->
-{{include file="public/footer" /}}
-<!-- footer end -->
+    {{/block}}
+{{/if}}

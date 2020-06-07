@@ -89,28 +89,28 @@ class Goods extends Common
      */
     public function Detail()
     {
-        // 参数
-        $params = input();
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['is_delete_time', '=', 0],
+                ['id', '=', intval($this->data_request['id'])],
+            ];
 
-        // 条件
-        $where = GoodsService::GetAdminIndexWhere($params);
+            // 获取列表
+            $data_params = array(
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+                'is_category'   => 1,
+            );
+            $ret = GoodsService::GoodsList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
 
-        // 获取列表
-        $data_params = array(
-            'm'             => 0,
-            'n'             => 1,
-            'where'         => $where,
-            'is_category'   => 1,
-        );
-        $ret = GoodsService::GoodsList($data_params);
-        $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-        $this->assign('data', $data);
-
-        // 是否上下架
-        $this->assign('common_is_shelves_list', lang('common_is_shelves_list'));
-
-        // 参数
-        $this->assign('params', $params);
+            // 是否上下架
+            $this->assign('common_is_shelves_list', lang('common_is_shelves_list'));
+        }
         return $this->fetch();
     }
 

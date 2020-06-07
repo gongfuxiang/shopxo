@@ -122,7 +122,7 @@ class Common extends Controller
         // 公共底部钩子
         $this->assign('plugins_admin_view_common_bottom_data', Hook::listen('plugins_admin_view_common_bottom', ['hook_name'=>'plugins_admin_view_common_bottom', 'is_backend'=>true, 'admin'=>$this->admin]));
 
-        // 公共钩子名称动态处理
+        // 公共表格钩子名称动态处理
         $current = 'plugins_view_admin_'.$this->controller_name;
         // 内容外部顶部
         $this->assign('hook_name_content_top', $current.'_content_top');
@@ -138,6 +138,16 @@ class Common extends Controller
         $this->assign('hook_name_form_bottom_operate', $current.'_bottom_operate');
         // 表格列表后面操作栏
         $this->assign('hook_name_form_list_operate', $current.'_list_operate');
+
+        // 公共详情页面钩子名称动态处理
+        // 内容外部顶部
+        $this->assign('hook_name_detail_top', $current.'_detail_top');
+        // 内容外部底部
+        $this->assign('hook_name_detail_bottom', $current.'_detail_bottom');
+        // 内容内部顶部
+        $this->assign('hook_name_detail_inside_top', $current.'_detail_inside_top');
+        // 内容内部底部
+        $this->assign('hook_name_detail_inside_bottom', $current.'_detail_inside_bottom');
     }
 
 	/**

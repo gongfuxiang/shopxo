@@ -166,6 +166,33 @@ class Common extends Controller
 
         // 底部导航上面钩子
         $this->assign('plugins_view_common_footer_top_data', Hook::listen('plugins_view_common_footer_top', ['hook_name'=>'plugins_view_common_footer_top', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 公共表格钩子名称动态处理
+        $current = 'plugins_view_index_'.$this->controller_name;
+        // 内容外部顶部
+        $this->assign('hook_name_content_top', $current.'_content_top');
+        // 内容外部底部
+        $this->assign('hook_name_content_bottom', $current.'_content_bottom');
+        // 内容内部顶部
+        $this->assign('hook_name_content_inside_top', $current.'_content_inside_top');
+        // 内容内部底部
+        $this->assign('hook_name_content_inside_bottom', $current.'_content_inside_bottom');
+        // 表格列表顶部操作
+        $this->assign('hook_name_form_top_operate', $current.'_top_operate');
+        // 表格列表底部操作
+        $this->assign('hook_name_form_bottom_operate', $current.'_bottom_operate');
+        // 表格列表后面操作栏
+        $this->assign('hook_name_form_list_operate', $current.'_list_operate');
+
+        // 公共详情页面钩子名称动态处理
+        // 内容外部顶部
+        $this->assign('hook_name_detail_top', $current.'_detail_top');
+        // 内容外部底部
+        $this->assign('hook_name_detail_bottom', $current.'_detail_bottom');
+        // 内容内部顶部
+        $this->assign('hook_name_detail_inside_top', $current.'_detail_inside_top');
+        // 内容内部底部
+        $this->assign('hook_name_detail_inside_bottom', $current.'_detail_inside_bottom');
     }
 
     /**
