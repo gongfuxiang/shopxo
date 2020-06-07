@@ -1,0 +1,13 @@
+<!-- 支付状态 -->
+{{if !empty($module_data)}}
+    {{if $module_data['pay_status'] eq 1}}
+        <p class="am-text-success">{{$module_data.pay_status_name}}</p>
+    {{elseif $module_data['pay_status'] gt 1 /}}
+        <p class="am-text-danger">{{$module_data.pay_status_name}}</p>
+    {{else /}}
+        <p>{{$module_data.pay_status_name}}</p>
+    {{/if}}
+    {{if !empty($module_data['is_under_line_text'])}}
+        <p class="am-text-warning">{{$module_data.is_under_line_text}}</p>
+    {{/if}}
+{{/if}}

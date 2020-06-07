@@ -1,0 +1,13 @@
+<!-- 地址信息 -->
+{{if !empty($module_data)}}
+    {{if in_array($module_data['order_model'], [0,2]) and !empty($module_data['address_data'])}}
+        {{$module_data.address_data.name}}<br />
+        {{$module_data.address_data.tel}}<br />
+        {{$module_data.address_data.province_name}}<br />
+        {{$module_data.address_data.city_name}}<br />
+        {{$module_data.address_data.county_name}}<br />
+        {{$module_data.address_data.address}}
+    {{else /}}
+        <span class="cr-ddd">无信息</span>
+    {{/if}}
+{{/if}}

@@ -1,0 +1,8 @@
+<!-- 最新售后信息 -->
+{{if !empty($module_data) and !empty($module_data['aftersale_first'])}}
+    <p>状态：{{$module_data.aftersale_first.status_text}}</p>
+    <p>类型：{{$module_data.aftersale_first.type_text}}</p>
+    <p>金额：<strong class="am-text-danger">{{$module_data.aftersale_first.price}}</strong></p>
+    <p>数量：{{$module_data.aftersale_first.number}}</p>
+    <p>原因：{{$module_data.aftersale_first.reason}}</p>
+{{/if}}

@@ -1,0 +1,48 @@
+<!-- 操作栏 -->
+<button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/order/detail', ['id'=>$module_data['id']])}}">
+    <i class="am-icon-eye"></i>
+    <span>详情</span>
+</button>
+{{if in_array($module_data['status'], [0])}}
+    <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/confirm')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！">
+        <i class="am-icon-check-circle-o"></i>
+        <span>确认</span>
+    </button>
+{{/if}}
+{{if in_array($module_data['status'], [0,1])}}
+    <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/cancel')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="取消后无法恢复，确定继续吗？">
+        <i class="am-icon-paint-brush"></i>
+        <span>取消</span>
+    </button>
+    {{if in_array($module_data['status'], [1])}}
+        <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-pay" data-id="{{$module_data.id}}" data-payment-id="{{$module_data.payment_id}}" data-am-modal="{target: '#order-pay-popup'}">
+            <i class="am-icon-paypal"></i>
+            <span>支付</span>
+        </button>
+    {{/if}}
+{{/if}}
+{{if $module_data['status'] eq 2}}
+    {{if $module_data['order_model'] eq 2}}
+        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-take" data-id="{{$module_data.id}}" data-user-id="{{$module_data.user_id}}" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 200, height: 160}">
+            <i class="am-icon-check"></i>
+            <span>取货</span>
+        </button>
+    {{else /}}
+       <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$module_data.id}}" data-user-id="{{$module_data.user_id}}" data-express-id="{{$module_data.express_id}}" data-am-modal="{target: '#order-delivery-popup'}">
+            <i class="am-icon-send-o"></i>
+            <span>发货</span>
+        </button>
+    {{/if}}
+{{/if}}
+{{if $module_data['status'] eq 3}}
+    <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/collect')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！">
+        <i class="am-icon-check-circle-o"></i>
+        <span>收货</span>
+    </button>
+{{/if}}
+{{if in_array($module_data['status'], [5,6])}}
+    <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/delete')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="delete" data-msg="删除后无法恢复，确定继续吗？">
+        <i class="am-icon-trash-o"></i>
+        <span>删除</span>
+    </button>
+{{/if}}

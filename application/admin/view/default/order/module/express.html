@@ -1,0 +1,5 @@
+<!-- 快递信息 -->
+{{if !empty($module_data) and !empty($module_data['express_name'])}}
+    <p>快递：{{$module_data.express_name}}</p>
+    <p>单号：{{$module_data.express_number}}</p>
+{{/if}}

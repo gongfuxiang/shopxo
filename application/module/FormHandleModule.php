@@ -164,181 +164,189 @@ class FormHandleModule
                         break;
                 }
             }
-            
 
             // 条件处理
-            if(!empty($v['search_config']) && !empty($v['search_config']['form_type']) && !empty($v['search_config']['form_name']))
+            if(!empty($v['search_config']) && !empty($v['search_config']['form_type']))
             {
-                // 基础数据处理
-                // 显示名称
-                $label = empty($v['label']) ? '' : $v['label'];
-
-                // 唯一 formkey
-                $form_key = 'fp'.$k;
-                $v['form_key'] = $form_key;
-
-                // 根据组件类型处理
-                switch($v['search_config']['form_type'])
+                // 搜索 key 未指定则使用显示数据的字段名称
+                if(empty($v['search_config']['form_name']))
                 {
-                    // 单个输入
-                    case 'input' :
-                        // 提示信息处理
-                        if(empty($v['search_config']['placeholder']))
-                        {
-                            $v['search_config']['placeholder'] = '请输入'.$label;
-                        }
-                        break;
-
-                    // 选择
-                    case 'select' :
-                        // 提示信息处理
-                        if(empty($v['search_config']['placeholder']))
-                        {
-                            $v['search_config']['placeholder'] = '请选择'.$label;
-                        }
-
-                        // 选择数据 key=>name
-                        if(empty($v['search_config']['data_key']))
-                        {
-                            $v['search_config']['data_key'] = 'id';
-                        }
-                        if(empty($v['search_config']['data_name']))
-                        {
-                            $v['search_config']['data_key'] = 'name';
-                        }
-                        break;
-
-                    // 区间
-                    case 'section' :
-                        // 提示信息处理
-                        if(empty($v['search_config']['placeholder_min']))
-                        {
-                            $v['search_config']['placeholder_min'] = '最小值';
-                        }
-                        if(empty($v['search_config']['placeholder_max']))
-                        {
-                            $v['search_config']['placeholder_max'] = '最大值';
-                        }
-                        break;
-
-                    // 时间
-                    case 'datetime' :
-                    case 'date' :
-                        // 提示信息处理
-                        if(empty($v['search_config']['placeholder_start']))
-                        {
-                            $v['search_config']['placeholder_start'] = '开始';
-                        }
-                        if(empty($v['search_config']['placeholder_end']))
-                        {
-                            $v['search_config']['placeholder_end'] = '结束';
-                        }
-                        break;
+                    $v['search_config']['form_name'] = isset($v['view_key']) ? $v['view_key'] : '';
                 }
 
-                // 搜索条件数据处理
-                // 表单字段名称
-                $name = $v['search_config']['form_name'];
-                // 条件类型
-                $type = isset($v['search_config']['where_type']) ? $v['search_config']['where_type'] : $v['search_config']['form_type'];
-                // 是否自定义条件处理方法
-                $custom = isset($v['search_config']['where_custom']) ? $v['search_config']['where_custom'] : '';
-                // 根据条件类型处理
-                switch($type)
+                // 基础数据处理
+                if(!empty($v['search_config']['form_name']))
                 {
-                    // 单个值
-                    case '=' :
-                    case '<' :
-                    case '>' :
-                    case '<=' :
-                    case '>=' :
-                    case 'like' :
-                        if(array_key_exists($form_key, $this->out_params) && $this->out_params[$form_key] !== null && $this->out_params[$form_key] !== '')
-                        {
-                            // 参数值
-                            $value = urldecode($this->out_params[$form_key]);
-                            $this->where_params[$form_key] = $value;
+                    // 显示名称
+                    $label = empty($v['label']) ? '' : $v['label'];
 
-                            // 条件值处理
-                            $value = $this->WhereValueHandle($value, $custom);
+                    // 唯一 formkey
+                    $form_key = 'fp'.$k;
+                    $v['form_key'] = $form_key;
 
-                            // 是否 like 条件
-                            if($type == 'like')
+                    // 根据组件类型处理
+                    switch($v['search_config']['form_type'])
+                    {
+                        // 单个输入
+                        case 'input' :
+                            // 提示信息处理
+                            if(empty($v['search_config']['placeholder']))
                             {
-                                $value = '%'.$value.'%';
+                                $v['search_config']['placeholder'] = '请输入'.$label;
+                            }
+                            break;
+
+                        // 选择
+                        case 'select' :
+                            // 提示信息处理
+                            if(empty($v['search_config']['placeholder']))
+                            {
+                                $v['search_config']['placeholder'] = '请选择'.$label;
                             }
 
-                            // 条件
-                            $this->where[] = [$name, $type, $value];
-                        }
-                        break;
-
-                    // in
-                    case 'in' :
-                        if(array_key_exists($form_key, $this->out_params) && $this->out_params[$form_key] !== null && $this->out_params[$form_key] !== '')
-                        {
-                            // 参数值
-                            $value = urldecode($this->out_params[$form_key]);
-                            if(!is_array($value))
+                            // 选择数据 key=>name
+                            if(empty($v['search_config']['data_key']))
                             {
-                                $value = explode(',', $value);
+                                $v['search_config']['data_key'] = 'id';
                             }
-                            $this->where_params[$form_key] = $value;
+                            if(empty($v['search_config']['data_name']))
+                            {
+                                $v['search_config']['data_key'] = 'name';
+                            }
+                            break;
 
-                            // 条件
-                            $this->where[] = [$name, $type, $this->WhereValueHandle($value, $custom)];
-                        }
-                        break;
+                        // 区间
+                        case 'section' :
+                            // 提示信息处理
+                            if(empty($v['search_config']['placeholder_min']))
+                            {
+                                $v['search_config']['placeholder_min'] = '最小值';
+                            }
+                            if(empty($v['search_config']['placeholder_max']))
+                            {
+                                $v['search_config']['placeholder_max'] = '最大值';
+                            }
+                            break;
 
-                    // 区间值
-                    case 'section' :
-                        $key_min = $form_key.'_min';
-                        $key_max = $form_key.'_max';
-                        if(array_key_exists($key_min, $this->out_params) && $this->out_params[$key_min] !== null && $this->out_params[$key_min] !== '')
-                        {
-                            // 参数值
-                            $value = urldecode($this->out_params[$key_min]);
-                            $this->where_params[$key_min] = $value;
+                        // 时间
+                        case 'datetime' :
+                        case 'date' :
+                            // 提示信息处理
+                            if(empty($v['search_config']['placeholder_start']))
+                            {
+                                $v['search_config']['placeholder_start'] = '开始';
+                            }
+                            if(empty($v['search_config']['placeholder_end']))
+                            {
+                                $v['search_config']['placeholder_end'] = '结束';
+                            }
+                            break;
+                    }
 
-                            // 条件
-                            $this->where[] = [$name, '>=', $this->WhereValueHandle($value, $custom, ['is_min'=>1])];
-                        }
-                        if(array_key_exists($key_max, $this->out_params) && $this->out_params[$key_max] !== null && $this->out_params[$key_max] !== '')
-                        {
-                            // 参数值
-                            $value = urldecode($this->out_params[$key_max]);
-                            $this->where_params[$key_max] = $value;
+                    // 搜索条件数据处理
+                    // 表单字段名称
+                    $name = $v['search_config']['form_name'];
+                    // 条件类型
+                    $type = isset($v['search_config']['where_type']) ? $v['search_config']['where_type'] : $v['search_config']['form_type'];
+                    // 是否自定义条件处理方法
+                    $custom = isset($v['search_config']['where_custom']) ? $v['search_config']['where_custom'] : '';
+                    // 根据条件类型处理
+                    switch($type)
+                    {
+                        // 单个值
+                        case '=' :
+                        case '<' :
+                        case '>' :
+                        case '<=' :
+                        case '>=' :
+                        case 'like' :
+                            if(array_key_exists($form_key, $this->out_params) && $this->out_params[$form_key] !== null && $this->out_params[$form_key] !== '')
+                            {
+                                // 参数值
+                                $value = urldecode($this->out_params[$form_key]);
+                                $this->where_params[$form_key] = $value;
 
-                            // 条件
-                            $this->where[] = [$name, '<=', $this->WhereValueHandle($value, $custom, ['is_end'=>1])];
-                        }
-                        break;
+                                // 条件值处理
+                                $value = $this->WhereValueHandle($value, $custom);
 
-                    // 时间
-                    case 'datetime' :
-                    case 'date' :
-                        $key_start = $form_key.'_start';
-                        $key_end = $form_key.'_end';
-                        if(array_key_exists($key_start, $this->out_params) && $this->out_params[$key_start] !== null && $this->out_params[$key_start] !== '')
-                        {
-                            // 参数值
-                            $value = urldecode($this->out_params[$key_start]);
-                            $this->where_params[$key_start] = $value;
+                                // 是否 like 条件
+                                if($type == 'like')
+                                {
+                                    $value = '%'.$value.'%';
+                                }
 
-                            // 条件
-                            $this->where[] = [$name, '>=', $this->WhereValueHandle(strtotime($value), $custom, ['is_start'=>1])];
-                        }
-                        if(array_key_exists($key_end, $this->out_params) && $this->out_params[$key_end] !== null && $this->out_params[$key_end] !== '')
-                        {
-                            // 参数值
-                            $value = urldecode($this->out_params[$key_end]);
-                            $this->where_params[$key_end] = $value;
+                                // 条件
+                                $this->where[] = [$name, $type, $value];
+                            }
+                            break;
 
-                            // 条件
-                            $this->where[] = [$name, '<=', $this->WhereValueHandle(strtotime($value), $custom, ['is_end'=>1])];
+                        // in
+                        case 'in' :
+                            if(array_key_exists($form_key, $this->out_params) && $this->out_params[$form_key] !== null && $this->out_params[$form_key] !== '')
+                            {
+                                // 参数值
+                                $value = urldecode($this->out_params[$form_key]);
+                                if(!is_array($value))
+                                {
+                                    $value = explode(',', $value);
+                                }
+                                $this->where_params[$form_key] = $value;
 
-                        }
-                        break;
+                                // 条件
+                                $this->where[] = [$name, $type, $this->WhereValueHandle($value, $custom)];
+                            }
+                            break;
+
+                        // 区间值
+                        case 'section' :
+                            $key_min = $form_key.'_min';
+                            $key_max = $form_key.'_max';
+                            if(array_key_exists($key_min, $this->out_params) && $this->out_params[$key_min] !== null && $this->out_params[$key_min] !== '')
+                            {
+                                // 参数值
+                                $value = urldecode($this->out_params[$key_min]);
+                                $this->where_params[$key_min] = $value;
+
+                                // 条件
+                                $this->where[] = [$name, '>=', $this->WhereValueHandle($value, $custom, ['is_min'=>1])];
+                            }
+                            if(array_key_exists($key_max, $this->out_params) && $this->out_params[$key_max] !== null && $this->out_params[$key_max] !== '')
+                            {
+                                // 参数值
+                                $value = urldecode($this->out_params[$key_max]);
+                                $this->where_params[$key_max] = $value;
+
+                                // 条件
+                                $this->where[] = [$name, '<=', $this->WhereValueHandle($value, $custom, ['is_end'=>1])];
+                            }
+                            break;
+
+                        // 时间
+                        case 'datetime' :
+                        case 'date' :
+                            $key_start = $form_key.'_start';
+                            $key_end = $form_key.'_end';
+                            if(array_key_exists($key_start, $this->out_params) && $this->out_params[$key_start] !== null && $this->out_params[$key_start] !== '')
+                            {
+                                // 参数值
+                                $value = urldecode($this->out_params[$key_start]);
+                                $this->where_params[$key_start] = $value;
+
+                                // 条件
+                                $this->where[] = [$name, '>=', $this->WhereValueHandle(strtotime($value), $custom, ['is_start'=>1])];
+                            }
+                            if(array_key_exists($key_end, $this->out_params) && $this->out_params[$key_end] !== null && $this->out_params[$key_end] !== '')
+                            {
+                                // 参数值
+                                $value = urldecode($this->out_params[$key_end]);
+                                $this->where_params[$key_end] = $value;
+
+                                // 条件
+                                $this->where[] = [$name, '<=', $this->WhereValueHandle(strtotime($value), $custom, ['is_end'=>1])];
+
+                            }
+                            break;
+                    }
                 }
             }
         }

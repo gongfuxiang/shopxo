@@ -66,7 +66,7 @@ class Goods
                     'label'         => '商品ID',
                     'view_type'     => 'field',
                     'view_key'      => 'id',
-                    'width'         => 120,
+                    'width'         => 105,
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'id',
