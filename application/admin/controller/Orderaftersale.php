@@ -130,7 +130,7 @@ class Orderaftersale extends Common
             return $this->error('非法访问');
         }
 
-        $params = input();
+        $params = $this->data_request;
         return OrderAftersaleService::AftersaleConfirm($params);
     }
 
@@ -150,7 +150,7 @@ class Orderaftersale extends Common
             return $this->error('非法访问');
         }
 
-        $params = input();
+        $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         return OrderAftersaleService::AftersaleAudit($params);
@@ -172,7 +172,7 @@ class Orderaftersale extends Common
             return $this->error('非法访问');
         }
 
-        $params = input();
+        $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         return OrderAftersaleService::AftersaleRefuse($params);
@@ -194,7 +194,7 @@ class Orderaftersale extends Common
             return $this->error('非法访问');
         }
 
-        $params = input();
+        $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         return OrderAftersaleService::AftersaleCancel($params);
@@ -216,7 +216,7 @@ class Orderaftersale extends Common
             return $this->error('非法访问');
         }
 
-        $params = input();
+        $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         return OrderAftersaleService::AftersaleDelete($params);

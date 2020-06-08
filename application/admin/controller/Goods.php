@@ -124,7 +124,7 @@ class Goods extends Common
 	public function SaveInfo()
 	{
 		// 参数
-		$params = input();
+		$params = $this->data_request;
 
 		// 商品信息
 		$data = [];
@@ -204,7 +204,7 @@ class Goods extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return GoodsService::GoodsSave($params);
 	}
@@ -225,7 +225,7 @@ class Goods extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return GoodsService::GoodsDelete($params);
 	}
@@ -246,7 +246,7 @@ class Goods extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		$params['field'] = 'is_shelves';
 		return GoodsService::GoodsStatusUpdate($params);
@@ -268,7 +268,7 @@ class Goods extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		$params['field'] = 'is_home_recommended';
 		return GoodsService::GoodsStatusUpdate($params);

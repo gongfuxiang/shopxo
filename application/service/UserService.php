@@ -322,6 +322,7 @@ class UserService
             'weixin_unionid'        => isset($params['weixin_unionid']) ? $params['weixin_unionid'] :  '',
             'weixin_web_openid'     => isset($params['weixin_web_openid']) ? $params['weixin_web_openid'] :  '',
             'birthday'              => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
+            'referrer'              => empty($params['referrer']) ? 0 : intval($params['referrer']),
             'upd_time'              => time(),
         ];
 
@@ -395,26 +396,23 @@ class UserService
      */
     public static function UserDelete($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '删除id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
+        // 参数是否有误
+        if(empty($params['ids']))
         {
-            return DataReturn($ret, -1);
+            return DataReturn('商品id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
         }
            
         // 删除操作
-        if(Db::name('User')->delete(intval($params['id'])))
+        if(Db::name('User')->where(['id'=>$params['ids']])->delete())
         {
             return DataReturn('删除成功');
         }
-        return DataReturn('删除失败或资源不存在', -100);
+        return DataReturn('删除失败', -100);
     }
 
     /**

@@ -135,7 +135,7 @@ class Order extends Common
         }
 
         // 删除操作
-        $params = input();
+        $params = $this->data_request;
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
@@ -159,7 +159,7 @@ class Order extends Common
         }
 
         // 取消操作
-        $params = input();
+        $params = $this->data_request;
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
@@ -182,7 +182,7 @@ class Order extends Common
         }
 
         // 发货操作
-        $params = input();
+        $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         return OrderService::OrderDelivery($params);
@@ -204,7 +204,7 @@ class Order extends Common
         }
 
         // 收货操作
-        $params = input();
+        $params = $this->data_request;
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
@@ -227,7 +227,7 @@ class Order extends Common
         }
 
         // 订单确认
-        $params = input();
+        $params = $this->data_request;
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
@@ -244,7 +244,7 @@ class Order extends Common
      */
     public function Pay()
     {
-        $params = input();
+        $params = $this->data_request;
         $params['user'] = $this->admin;
         $params['user']['user_name_view'] = '管理员'.'-'.$this->admin['username'];
         return OrderService::AdminPay($params);

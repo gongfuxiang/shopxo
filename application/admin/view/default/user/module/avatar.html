@@ -1,0 +1,8 @@
+<!-- 用户头像信息 -->
+{{if !empty($module_data)}}
+    {{if !empty($module_data['avatar'])}}
+        <img src="{{$module_data['avatar']}}" class="am-img-thumbnail am-radius" width="80" height="80" />
+    {{else /}}
+        <span class="cr-ddd">暂无头像</span>
+    {{/if}}
+{{/if}}

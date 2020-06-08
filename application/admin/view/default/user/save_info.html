@@ -83,6 +83,11 @@
 			{{include file="lib/user_status" /}}
 
 			<div class="am-form-group">
+				<label>邀请用户ID</label>
+				<input type="number" placeholder="邀请用户ID" name="referrer" data-validation-message="请输入邀请用户ID" min="0" class="am-radius" {{if !empty($data)}} value="{{$data.referrer}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
 				<label>登录密码</label>
 				<input type="text" placeholder="登录密码" name="pwd" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="登录密码格式 6~18 个字符之间" class="am-radius" value="" />
 			</div>

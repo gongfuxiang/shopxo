@@ -100,7 +100,6 @@ class Goods
                     'view_type'     => 'field',
                     'view_key'      => 'original_price',
                     'search_config' => [
-                        // 表单字段名称
                         'form_type'         => 'section',
                         'form_name'         => 'min_original_price',
                         'is_point'          => 1,

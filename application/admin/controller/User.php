@@ -51,48 +51,64 @@ class User extends Common
      */
 	public function Index()
 	{
-		// 参数
-		$params = input();
-
-		// 条件
-		$where = UserService::UserListWhere($params);
-
 		// 总数
-		$total = UserService::UserTotal($where);
+		$total = UserService::UserTotal($this->form_where);
 
 		// 分页
-		$number = MyC('admin_page_number', 10, true);
-		$page_params = array(
-				'number'	=>	$number,
-				'total'		=>	$total,
-				'where'		=>	$params,
-				'page'		=>	isset($params['page']) ? intval($params['page']) : 1,
-				'url'		=>	MyUrl('admin/user/index'),
-			);
+		$page_params = [
+			'number'	=>	$this->page_size,
+			'total'		=>	$total,
+			'where'		=>	$this->data_request,
+			'page'		=>	$this->page,
+			'url'		=>	MyUrl('admin/user/index'),
+		];
 		$page = new \base\Page($page_params);
 
-		// 获取管理员列表
+		// 获取数据列表
 		$data_params = [
-			'where'		=> $where,
-			'm'			=> $page->GetPageStarNumber(),
-			'n'			=> $number,
-		];
-		$data = UserService::UserList($data_params);
-
-		// 性别
-		$this->assign('common_gender_list', lang('common_gender_list'));
-
-		// 用户状态
-		$this->assign('common_user_status_list', lang('common_user_status_list'));
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+        ];
+		$ret = UserService::UserList($data_params);
 
 		// Excel地址
-		$this->assign('excel_url', MyUrl('admin/user/excelexport', $params));
+		$this->assign('excel_url', MyUrl('admin/user/excelexport', $this->data_request));
 
-		$this->assign('params', $params);
+		$this->assign('params', $this->data_request);
 		$this->assign('page_html', $page->GetPageHtml());
-		$this->assign('data_list', $data['data']);
+		$this->assign('data_list', $ret['data']);
 		return $this->fetch();
 	}
+
+	/**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
+
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+            ];
+            $ret = UserService::UserList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
+        return $this->fetch();
+    }
 
 	/**
 	 * [ExcelExport excel文件导出]
@@ -104,7 +120,7 @@ class User extends Common
 	public function ExcelExport()
 	{
 		// 条件
-		$where = UserService::UserListWhere(input('post.'));
+		$where = UserService::UserListWhere($this->data_post);
 
 		$data_params = [
 			'where'		=> $where,
@@ -128,7 +144,7 @@ class User extends Common
 	public function SaveInfo()
 	{
 		// 参数
-		$params = input();
+		$params = $this->data_request;
 
 		// 用户编辑
 		$data = [];
@@ -188,7 +204,7 @@ class User extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return UserService::UserSave($params);
 	}
@@ -209,7 +225,7 @@ class User extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return UserService::UserDelete($params);
 	}
