@@ -52,47 +52,35 @@ class Orderaftersale extends Common
      */
     public function Index()
     {
-        // 参数
-        $params = input();
-        $params['user_type'] = 'admin';
-
-        // 分页
-        $number = MyC('admin_page_number', 10, true);
-
-        // 条件
-        $where = OrderAftersaleService::OrderAftersaleListWhere($params);
-
-        // 获取总数
-        $total = OrderAftersaleService::OrderAftersaleTotal($where);
+        // 总数
+        $total = OrderAftersaleService::OrderAftersaleTotal($this->form_where);
 
         // 分页
         $page_params = array(
-                'number'    =>  $number,
+                'number'    =>  $this->page_size,
                 'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
+                'where'     =>  $this->data_request,
+                'page'      =>  $this->page,
                 'url'       =>  MyUrl('admin/orderaftersale/index'),
             );
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
-        // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-            'is_public' => 0,
-        );
-        $data = OrderAftersaleService::OrderAftersaleList($data_params);
-        $this->assign('data_list', $data['data']);
+        // 获取数据列表
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+            'is_public'     => 0,
+        ];
+        $ret = OrderAftersaleService::OrderAftersaleList($data_params);
 
         // 静态数据
-        $this->assign('common_order_aftersale_type_list', lang('common_order_aftersale_type_list'));
-        $this->assign('common_order_aftersale_status_list', lang('common_order_aftersale_status_list'));
         $this->assign('common_order_aftersale_refundment_list', lang('common_order_aftersale_refundment_list'));
 
         // 参数
-        $this->assign('params', $params);
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
         return $this->fetch();
     }
 
@@ -105,26 +93,24 @@ class Orderaftersale extends Common
      */
     public function Detail()
     {
-        // 参数
-        $params = input();
-        $params['user_type'] = 'admin';
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
 
-        // 条件
-        $where = OrderAftersaleService::OrderAftersaleListWhere($params);
-
-        // 获取列表
-        $data_params = array(
-            'm'         => 0,
-            'n'         => 1,
-            'where'     => $where,
-            'is_public' => 0,
-        );
-        $ret = OrderAftersaleService::OrderAftersaleList($data_params);
-        $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-        $this->assign('data', $data);
-
-        // 参数
-        $this->assign('params', $params);
+            // 获取列表
+            $data_params = array(
+                'm'         => 0,
+                'n'         => 1,
+                'where'     => $where,
+                'is_public' => 0,
+            );
+            $ret = OrderAftersaleService::OrderAftersaleList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
         return $this->fetch();
     }
 

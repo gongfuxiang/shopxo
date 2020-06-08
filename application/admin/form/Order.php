@@ -44,7 +44,6 @@ class Order
             // 基础配置
             'base' => [
                 'key_field'     => 'id',
-                'status_field'  => 'is_shelves',
                 'is_search'     => 1,
                 'search_url'    => MyUrl('admin/order/index'),
             ],

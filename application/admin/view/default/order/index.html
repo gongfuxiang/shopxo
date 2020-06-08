@@ -1,2 +1,110 @@
 <!-- 继承公共的 form -->
 {{extend name="public/module/form" /}}
+
+<!-- 扩展 -->
+{{block name="form_extend"}}
+    <!-- 取货弹窗 -->
+    <div class="am-modal am-modal-no-btn" tabindex="-1" id="order-take-modal">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">
+                <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+            </div>
+            <div class="am-modal-bd">
+                <form class="am-form form-validation-take take-form" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
+                    <div class="am-form-group am-form-group-refreshing am-margin-bottom-0">
+                        <label>取货码</label>
+                        <input type="text" autocomplete="off" name="extraction_code" placeholder="取货码" minlength="4" maxlength="4" data-validation-message="请填写4位数取货码" class="am-radius" required />
+                    </div>
+                    <div class="am-form-group am-form-group-refreshing">
+                        <input type="hidden" name="id" value="0" />
+                        <input type="hidden" name="user_id" value="0" />
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 发货弹窗 -->
+    <div class="am-popup" id="order-delivery-popup">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title">发货操作</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <div class="am-popup-bd">
+                <form class="am-form form-validation-delivery delivery-form" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
+                    <div class="business-item">
+                        {{if !empty($express_list)}}
+                            <ul class="express-list" data-type="express">
+                                {{foreach $express_list as $express}}
+                                    {{if $express.is_enable eq 1}}
+                                        <li class="express-items-{{$express.id}}" data-value="{{$express.id}}">
+                                            {{if !empty($express.icon)}}
+                                                <img src="{{$express.icon}}" />
+                                            {{/if}}
+                                            <span>{{$express.name}}</span>
+                                            <i class="icon-active"></i>
+                                        </li>
+                                    {{/if}}
+                                {{/foreach}}
+                            </ul>
+                        {{/if}}
+                        {{if empty($express_list)}}
+                            <div class="table-no"><i class="am-icon-warning"></i> 没有快递方式</div>
+                        {{/if}}
+                    </div>
+
+                    <div class="am-margin-top-sm">
+                        <label>快递单号</label>
+                        <input type="text" autocomplete="off" name="express_number" placeholder="快递单号" minlength="1" data-validation-message="请填写快递单号" class="am-radius" required />
+                    </div>
+                    
+                    <div class="am-margin-top-lg">
+                        <input type="hidden" name="id" value="0" />
+                        <input type="hidden" name="express_id" value="0" />
+                        <input type="hidden" name="user_id" value="0" />
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 支付弹窗 -->
+    <div class="am-popup" id="order-pay-popup">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title">支付操作</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <div class="am-popup-bd">
+                <form class="am-form form-validation-pay pay-form" action="{{:MyUrl('admin/order/pay')}}" method="POST" request-type="ajax-reload">
+                    <div class="business-item">
+                        {{if !empty($buy_payment_list)}}
+                            <ul class="payment-list" data-type="payment">
+                                {{foreach $buy_payment_list as $payment}}
+                                    <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
+                                        {{if !empty($payment.logo)}}
+                                            <img src="{{$payment.logo}}" />
+                                        {{/if}}
+                                        <span>{{$payment.name}}</span>
+                                        <i class="icon-active"></i>
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                        {{/if}}
+                        {{if empty($buy_payment_list)}}
+                            <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
+                        {{/if}}
+                    </div>
+                    <div class="am-margin-top-sm">
+                        <input type="hidden" name="id" value="0" />
+                        <input type="hidden" name="payment_id" value="0" />
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{{/block}}

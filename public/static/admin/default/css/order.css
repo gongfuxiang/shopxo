@@ -18,15 +18,6 @@
 }
 
 /**
- * 用户信息
- */
-.user-info img {
-  max-width: 35px;
-  max-height: 35px;
-  margin: 0 5px 2px 0;
-}
-
-/**
  * 虚拟销售-密钥信息
  */
 .fictitious-container {

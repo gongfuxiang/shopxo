@@ -1,41 +1,13 @@
 /**
  * 商品列表
  */
-.goods-detail img { width: 60px; height: 60px; position: absolute; left: 0; }
-.goods-detail { position: relative; min-height: 65px; overflow: hidden; }
-.goods-title { max-height: 36px; height: auto; }
-.goods-base {float: left; top: 0; margin-left: 65px; }
 .goods-spec li { color: #888; line-height: 16px; }
 .original-price { color: #9c9c9c; text-decoration: line-through; }
 
 /**
- * 用户信息
- */
-.user-info img {
-    max-width: 35px;
-    max-height: 35px;
-    margin: 0 5px 2px 0;
-}
-
-/**
  * 列表
  */
-@media only screen and (min-width:640px) {
-    table.am-table tr .row-goods { width: 25%; }
-    table.am-table tr .row-user-info { width: 15%; }
-    table.am-table tr .row-apply { width: 25%; }
-    table.am-table tr .row-more { width: 80px; }
-    table.am-table tr .row-operation { width: 85px; }
-}
-@media only screen and (max-width:640px) {
-    table.am-table tr .row-apply { width: 50%; }
-    table.am-table tr .row-operation, table.am-table tr .row-more { width: 75px; }
-}
-
 table.am-table .am-slider {
-    width: 100px;
-    max-height: 108px;
-    overflow: hidden;
     box-shadow: none;
     -webkit-box-shadow: none;
 }
