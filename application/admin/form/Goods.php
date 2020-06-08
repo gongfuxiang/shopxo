@@ -125,7 +125,6 @@ class Goods
                     'align'         => 'center',
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'is_shelves',
                         'where_type'        => 'in',
                         'data'              => lang('common_is_shelves_list'),
                         'data_key'          => 'id',
@@ -141,7 +140,6 @@ class Goods
                     'align'         => 'center',
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'is_home_recommended',
                         'where_type'        => 'in',
                         'data'              => lang('common_is_text_list'),
                         'data_key'          => 'id',

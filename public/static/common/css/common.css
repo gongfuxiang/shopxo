@@ -6,7 +6,7 @@ ul { list-style: none; }
 .block { display:block !important; }
 
 /* 没数据 */
-.table-no {text-align:center;padding:30px 0;background:#FFF !important; color: #888; }
+.table-no {text-align:center;padding:115px 0;background:#FFF !important; color: #888; }
 
 /* 公共dl样式 */
 .dl-content dt { float: left; padding-left: 5px; overflow: hidden; clear: left;  

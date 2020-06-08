@@ -7,9 +7,9 @@
         <dl class="dl-content">
             <dt>标题名称</dt>
             <dd>
-                <div class="goods">
+                <div class="am-nbfc">
                     <a href="{{$data.goods_url}}" target="_blank" title="{{$data.title}}">
-                        <img src="{{$data['images']}}" class="am-img-thumbnail am-radius goods-images" />
+                        <img src="{{$data['images']}}" class="am-img-thumbnail am-radius am-margin-right-xs am-fl" width="60" height="60" />
                     </a>
                     <a href="{{$data.goods_url}}" target="_blank" title="{{$data.title}}" {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} class="am-nowrap-initial">{{$data.title}}</a>
                 </div>

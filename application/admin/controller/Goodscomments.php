@@ -49,47 +49,63 @@ class Goodscomments extends Common
      */
     public function Index()
     {
-        // 参数
-        $params = input();
+        // 总数
+        $total = GoodsCommentsService::GoodsCommentsTotal($this->form_where);
 
         // 分页
-        $number = MyC('admin_page_number', 10, true);
-
-        // 条件
-        $where = GoodsCommentsService::GoodsCommentsListWhere($params);
-
-        // 获取总数
-        $total = GoodsCommentsService::GoodsCommentsTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/goodscomments/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('admin/goodscomments/index'),
+        ];
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-            'is_public' => 0,
-        );
-        $data = GoodsCommentsService::GoodsCommentsList($data_params);
-        $this->assign('data_list', $data['data']);
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+            'is_public'     => 0,
+        ];
+        $ret = GoodsCommentsService::GoodsCommentsList($data_params);
 
-        // 静态数据
-        $this->assign('common_is_show_list', lang('common_is_show_list'));
-        $this->assign('common_is_text_list', lang('common_is_text_list'));
-        $this->assign('common_goods_comments_rating_list', lang('common_goods_comments_rating_list'));
-        $this->assign('common_goods_rating_business_type_list', lang('common_goods_rating_business_type_list'));
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
+        return $this->fetch();
+    }
 
-        // 参数
-        $this->assign('params', $params);
+    /**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
+
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+                'is_category'   => 1,
+            ];
+            $ret = GoodsCommentsService::GoodsCommentsList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+
+            $this->assign('common_goods_comments_rating_list', lang('common_goods_comments_rating_list'));
+        }
         return $this->fetch();
     }
 
@@ -125,7 +141,7 @@ class Goodscomments extends Common
         $this->assign('common_is_show_list', lang('common_is_show_list'));
         $this->assign('common_is_text_list', lang('common_is_text_list'));
         $this->assign('common_goods_comments_rating_list', lang('common_goods_comments_rating_list'));
-        $this->assign('common_goods_rating_business_type_list', lang('common_goods_rating_business_type_list'));
+        $this->assign('common_goods_comments_business_type_list', lang('common_goods_comments_business_type_list'));
 
         // 参数
         unset($params['id']);

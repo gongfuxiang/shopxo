@@ -1,0 +1,4 @@
+<!-- 评论内容 -->
+{{if !empty($module_data) and !empty($module_data['content'])}}
+    <div class="am-scrollable-vertical am-nowrap-initial reply-content">{{$module_data.content|raw}}</div>
+{{/if}}

@@ -55,23 +55,23 @@ class Order extends Common
         $total = OrderService::OrderTotal($this->form_where);
 
         // 分页
-        $page_params = array(
-                'number'    =>  $this->page_size,
-                'total'     =>  $total,
-                'where'     =>  $this->data_request,
-                'page'      =>  $this->page,
-                'url'       =>  MyUrl('admin/order/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('admin/order/index'),
+        ];
         $page = new \base\Page($page_params);
 
         // 获取列表
-        $data_params = array(
+        $data_params = [
             'm'         => $page->GetPageStarNumber(),
             'n'         => $this->page_size,
             'where'     => $this->form_where,
             'is_public' => 0,
             'user_type' => 'admin',
-        );
+        ];
         $ret = OrderService::OrderList($data_params);
 
         // 发起支付 - 支付方式

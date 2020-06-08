@@ -1,0 +1,4 @@
+<!-- 评分 -->
+{{if !empty($module_data) and isset($module_data['rating'])}}
+    <span class="am-badge am-radius {{if !empty($module_data['rating_badge'])}}am-badge-{{$module_data.rating_badge}}{{/if}}">{{$module_data.rating_text}}</span>
+{{/if}}

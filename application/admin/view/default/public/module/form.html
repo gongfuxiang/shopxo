@@ -283,6 +283,7 @@
                                                                     data-url="{{$t.post_url}}"
                                                                     data-id="{{if isset($data_list[$i][$t['key_field']])}}{{$data_list[$i][$t['key_field']]}}{{/if}}"
                                                                     data-state="{{$data_list[$i][$t['view_key']]}}"
+                                                                    data-field="{{$t.view_key}}"
                                                                     data-is-update-status="{{if isset($t['is_form_su'])}}{{$t.is_form_su}}{{else /}}0{{/if}}"
                                                                 ></a>
                                                             {{/if}}

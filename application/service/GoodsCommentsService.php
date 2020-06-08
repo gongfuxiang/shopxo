@@ -204,7 +204,7 @@ class GoodsCommentsService
         {
             $common_is_text_list = lang('common_is_text_list');
             $common_goods_comments_rating_list = lang('common_goods_comments_rating_list');
-            $common_goods_rating_business_type_list = lang('common_goods_rating_business_type_list');
+            $common_goods_comments_business_type_list = lang('common_goods_comments_business_type_list');
             foreach($data as &$v)
             {
                 // 用户信息
@@ -245,7 +245,7 @@ class GoodsCommentsService
                 $v['goods'] = isset($ret['data'][0]) ? $ret['data'][0] : [];
 
                 // 业务类型
-                $v['business_type_text'] = array_key_exists($v['business_type'], $common_goods_rating_business_type_list) ? $common_goods_rating_business_type_list[$v['business_type']] : null;
+                $v['business_type_text'] = array_key_exists($v['business_type'], $common_goods_comments_business_type_list) ? $common_goods_comments_business_type_list[$v['business_type']]['name'] : null;
                 $msg = null;
                 switch($v['business_type'])
                 {
@@ -257,6 +257,7 @@ class GoodsCommentsService
 
                 // 评分
                 $v['rating_text'] = $common_goods_comments_rating_list[$v['rating']]['name'];
+                $v['rating_badge'] = $common_goods_comments_rating_list[$v['rating']]['badge'];
 
                 // 是否
                 $v['is_reply_text'] = isset($common_is_text_list[$v['is_reply']]) ? $common_is_text_list[$v['is_reply']]['name'] : '';
@@ -484,26 +485,23 @@ class GoodsCommentsService
      */
     public static function GoodsCommentsDelete($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
+        // 参数是否有误
+        if(empty($params['ids']))
         {
-            return DataReturn($ret, -1);
+            return DataReturn('操作id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
         }
 
         // 开始删除
-        if(Db::name('GoodsComments')->where(['id'=>intval($params['id'])])->delete())
+        if(Db::name('GoodsComments')->where(['id'=>$params['ids']])->delete())
         {
             return DataReturn('删除成功', 0);
         }
-        return DataReturn('删除失败或数据不存在', -100);
+        return DataReturn('删除失败', -100);
     }
 
     /**
