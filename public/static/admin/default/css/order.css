@@ -1,12 +1,4 @@
 /**
- * 商品列表
- */
-.goods-images { width: 60px; height: 60px; float: left; margin-right: 5px; }
-.goods-item,
-.goods-item .base,
-.goods-item .other { overflow: hidden; }
-
-/**
  * 业务弹窗
  */
 .business-item h3 { border-bottom: 3px solid #e3e3e3; margin:5px 0 0 0; font-size: 14px;font-weight: 700; }

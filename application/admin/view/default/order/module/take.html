@@ -3,7 +3,7 @@
     <p>
         <span>取货码：</span>
         {{if empty($module_data['extraction_data']['code'])}}
-            <span class="am-text-danger">取货码不存在、请联系管理员</span>
+            <span class="am-text-danger">无</span>
         {{else /}}
             <span class="am-badge am-badge-success am-radius">{{$module_data.extraction_data.code}}</span>
         {{/if}}

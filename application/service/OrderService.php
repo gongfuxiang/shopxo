@@ -853,7 +853,7 @@ class OrderService
                 $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
 
                 // 更新时间
-                $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
+                $v['upd_time'] = empty($v['upd_time']) ? null : date('Y-m-d H:i:s', $v['upd_time']);
 
                 // 确认时间
                 $v['confirm_time'] = empty($v['confirm_time']) ? null : date('Y-m-d H:i:s', $v['confirm_time']);

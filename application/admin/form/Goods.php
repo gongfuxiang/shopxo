@@ -16,7 +16,7 @@ use app\service\RegionService;
 use app\service\BrandService;
 
 /**
- * 商品动态表单
+ * 商品动态表格
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -164,12 +164,12 @@ class Goods
                     'view_type'     => 'field',
                     'view_key'      => 'category_text',
                     'search_config' => [
-                        'form_type'         => 'module',
-                        'template'          => 'lib/module/goods_category',
-                        'form_name'         => 'id',
-                        'where_type'        => 'in',
-                        'where_custom'      => 'WhereValueGoodsCategory',
-                        'data'              => GoodsService::GoodsCategoryAll(),
+                        'form_type'             => 'module',
+                        'template'              => 'lib/module/goods_category',
+                        'form_name'             => 'id',
+                        'where_type'            => 'in',
+                        'where_handle_custom'   => 'WhereValueGoodsCategory',
+                        'data'                  => GoodsService::GoodsCategoryAll(),
                     ],
                 ],
                 [
@@ -206,7 +206,14 @@ class Goods
                     'view_key'      => 'add_time',
                     'search_config' => [
                         'form_type'         => 'datetime',
-                        'form_name'         => 'add_time',
+                    ],
+                ],
+                [
+                    'label'         => '更新时间',
+                    'view_type'     => 'field',
+                    'view_key'      => 'upd_time',
+                    'search_config' => [
+                        'form_type'         => 'datetime',
                     ],
                 ],
                 [
@@ -227,7 +234,7 @@ class Goods
      * @version 1.0.0
      * @date    2020-06-03
      * @desc    description
-     * @param   [string]          $name     [字段名称]
+     * @param   [array]           $value    [条件值]
      * @param   [array]           $params   [输入参数]
      */
     public function WhereValueGoodsCategory($value, $params = [])
@@ -241,14 +248,15 @@ class Goods
             }
 
             // 获取分类下的所有分类 id
-            $category_ids = GoodsService::GoodsCategoryItemsIds($value, 1);
+            $cids = GoodsService::GoodsCategoryItemsIds($value, 1);
 
             // 获取商品 id
-            $goods_ids = Db::name('GoodsCategoryJoin')->where(['category_id'=>$category_ids])->column('goods_id');
+            $ids = Db::name('GoodsCategoryJoin')->where(['category_id'=>$cids])->column('goods_id');
 
             // 避免空条件造成无效的错觉
-            return empty($goods_ids) ? [0] : $goods_ids;
+            return empty($ids) ? [0] : $ids;
         }
         return $value;
     }
 }
+?>

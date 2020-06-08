@@ -98,12 +98,12 @@ class Goods extends Common
             ];
 
             // 获取列表
-            $data_params = array(
+            $data_params = [
                 'm'             => 0,
                 'n'             => 1,
                 'where'         => $where,
                 'is_category'   => 1,
-            );
+            ];
             $ret = GoodsService::GoodsList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
             $this->assign('data', $data);

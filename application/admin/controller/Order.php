@@ -51,52 +51,28 @@ class Order extends Common
      */
     public function Index()
     {
-        // 参数
-        $params = input();
-        $params['user_type'] = 'admin';
-
-        // 分页
-        $number = MyC('admin_page_number', 10, true);
-
-        // 条件
-        $where = OrderService::OrderListWhere($params);
-
-        // 获取总数
-        $total = OrderService::OrderTotal($where);
+        // 总数
+        $total = OrderService::OrderTotal($this->form_where);
 
         // 分页
         $page_params = array(
-                'number'    =>  $number,
+                'number'    =>  $this->page_size,
                 'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
+                'where'     =>  $this->data_request,
+                'page'      =>  $this->page,
                 'url'       =>  MyUrl('admin/order/index'),
             );
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
         $data_params = array(
             'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
+            'n'         => $this->page_size,
+            'where'     => $this->form_where,
             'is_public' => 0,
             'user_type' => 'admin',
         );
-        $data = OrderService::OrderList($data_params);
-        $this->assign('data_list', $data['data']);
-
-        // 状态
-        $this->assign('common_order_admin_status', lang('common_order_admin_status'));
-
-        // 支付状态
-        $this->assign('common_order_pay_status', lang('common_order_pay_status'));
-
-        // 订单模式
-        $this->assign('common_site_type_list', lang('common_site_type_list'));
-
-        // 快递公司
-        $this->assign('express_list', ExpressService::ExpressList());
+        $ret = OrderService::OrderList($data_params);
 
         // 发起支付 - 支付方式
         $pay_where = [
@@ -104,17 +80,10 @@ class Order extends Common
         ];
         $this->assign('buy_payment_list', PaymentService::BuyPaymentList($pay_where));
 
-        // 支付方式
-        $this->assign('payment_list', PaymentService::PaymentList());
-
-        // 评价状态
-        $this->assign('common_comments_status_list', lang('common_comments_status_list'));
-
-        // 平台
-        $this->assign('common_platform_type', lang('common_platform_type'));
-
         // 参数
-        $this->assign('params', $params);
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
         return $this->fetch();
     }
 
@@ -127,27 +96,26 @@ class Order extends Common
      */
     public function Detail()
     {
-        // 参数
-        $params = input();
-        $params['user_type'] = 'admin';
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['is_delete_time', '=', 0],
+                ['id', '=', intval($this->data_request['id'])],
+            ];
 
-        // 条件
-        $where = OrderService::OrderListWhere($params);
-
-        // 获取列表
-        $data_params = array(
-            'm'         => 0,
-            'n'         => 1,
-            'where'     => $where,
-            'is_public' => 0,
-            'user_type' => 'admin',
-        );
-        $ret = OrderService::OrderList($data_params);
-        $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-        $this->assign('data', $data);
-
-        // 参数
-        $this->assign('params', $params);
+            // 获取列表
+            $data_params = [
+                'm'         => 0,
+                'n'         => 1,
+                'where'     => $where,
+                'is_public' => 0,
+                'user_type' => 'admin',
+            ];
+            $ret = OrderService::OrderList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
         return $this->fetch();
     }
 
