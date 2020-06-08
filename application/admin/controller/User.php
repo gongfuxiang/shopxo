@@ -119,11 +119,9 @@ class User extends Common
 	 */
 	public function ExcelExport()
 	{
-		// 条件
-		$where = UserService::UserListWhere($this->data_post);
-
+        // 获取数据列表
 		$data_params = [
-			'where'		=> $where,
+			'where'		=> $this->form_where,
 			'm'			=> 0,
 			'n'			=> 0,
 		];

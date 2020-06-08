@@ -169,50 +169,6 @@ class UserService
     }
 
     /**
-     * 用户列表条件
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-10T22:16:29+0800
-     * @param    [array]          $params [输入参数]
-     */
-    public static function UserListWhere($params = [])
-    {
-        $where = [];
-        if(!empty($params['keywords']))
-        {
-            $where[] =['username|nickname|mobile', 'like', '%'.$params['keywords'].'%'];
-        }
-
-        // 是否更多条件
-        if(isset($params['is_more']) && $params['is_more'] == 1)
-        {
-            // 性别
-            if(isset($params['gender']) && $params['gender'] > -1)
-            {
-                $where[] = ['gender', '=', intval($params['gender'])];
-            }
-
-            // 状态
-            if(isset($params['status']) && $params['status'] > -1)
-            {
-                $where[] = ['status', '=', intval($params['status'])];
-            }
-
-            // 时间
-            if(!empty($params['time_start']))
-            {
-                $where[] = ['add_time', '>', strtotime($params['time_start'])];
-            }
-            if(!empty($params['time_end']))
-            {
-                $where[] = ['add_time', '<', strtotime($params['time_end'])];
-            }
-        }
-        return $where;
-    }
-
-    /**
      * 用户总数
      * @author   Devil
      * @blog     http://gong.gg/
