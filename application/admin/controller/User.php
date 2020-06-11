@@ -75,6 +75,7 @@ class User extends Common
 		// Excel地址
 		$this->assign('excel_url', MyUrl('admin/user/excelexport', $this->data_request));
 
+        // 基础参数赋值
 		$this->assign('params', $this->data_request);
 		$this->assign('page_html', $page->GetPageHtml());
 		$this->assign('data_list', $ret['data']);

@@ -42,55 +42,30 @@ class AdminService
         $data = Db::name('Admin')->where($where)->field($field)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
+            // 获取当前用户角色名称
+            $roles =  Db::name('Role')->where('id', 'in', array_column($data, 'role_id'))->column('name', 'id');
+
+            // 数据处理
+            $common_gender_list = lang('common_gender_list');
+            $common_admin_status_list = lang('common_admin_status_list');
             foreach($data as &$v)
             {
-                $v['role_name'] = Db::name('Role')->where(['id'=>$v['role_id']])->value('name');
+                // 所在角色组
+                $v['role_name'] = isset($roles[$v['role_id']]) ? $roles[$v['role_id']] : '';
+
+                // 性别
+                $v['gender_text'] = isset($common_gender_list[$v['gender']]) ? $common_gender_list[$v['gender']]['name'] : '';
+
+                // 状态
+                $v['status_text'] = isset($common_admin_status_list[$v['status']]) ? $common_admin_status_list[$v['status']]['name'] : '';
+
+                // 时间
+                $v['login_time'] = empty($v['login_time']) ? '' : date('Y-m-d H:i:s', $v['login_time']);
+                $v['add_time'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
             }
         }
         return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 管理员列表条件
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-10T22:16:29+0800
-     * @param    [array]          $params [输入参数]
-     */
-    public static function AdminListWhere($params = [])
-    {
-        $where = [];
-        if(!empty($params['keywords']))
-        {
-            $where[] = ['username|mobile', 'like', '%'.$params['keywords'].'%'];
-        }
-
-        // 是否更多条件
-        if(isset($params['is_more']) && $params['is_more'] == 1)
-        {
-            if(isset($params['role_id']) && $params['role_id'] > -1)
-            {
-                $where[] = ['role_id', '=', intval($params['role_id'])];
-            }
-
-            // 等值
-            if(isset($params['gender']) && $params['gender'] > -1)
-            {
-                $where[] = ['gender', '=', intval($params['gender'])];
-            }
-
-            if(!empty($params['time_start']))
-            {
-                $where[] = ['add_time', '>', strtotime($params['time_start'])];
-            }
-            if(!empty($params['time_end']))
-            {
-                $where[] = ['add_time', '<', strtotime($params['time_end'])];
-            }
-        }
-        
-        return $where;
     }
 
     /**
@@ -151,6 +126,12 @@ class AdminService
                 'key_name'          => 'gender',
                 'checked_data'      => [0,1,2],
                 'error_msg'         => '性别值范围不正确',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'status',
+                'checked_data'      => array_column(lang('common_admin_status_list'), 'value'),
+                'error_msg'         => '状态值范围不正确',
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -221,6 +202,7 @@ class AdminService
             'login_pwd'     => LoginPwdEncryption($params['login_pwd'], $salt),
             'mobile'        => isset($params['mobile']) ? $params['mobile'] : '',
             'gender'        => intval($params['gender']),
+            'status'        => intval($params['status']),
             'role_id'       => intval($params['role_id']),
             'add_time'      => time(),
         ];
@@ -277,6 +259,7 @@ class AdminService
         $data = [
             'mobile'        => isset($params['mobile']) ? $params['mobile'] : '',
             'gender'        => intval($params['gender']),
+            'status'        => intval($params['status']),
             'upd_time'      => time(),
         ];
 
@@ -316,26 +299,29 @@ class AdminService
      */
     public static function AdminDelete($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '删除id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
+        // 参数是否有误
+        if(empty($params['ids']))
         {
-            return DataReturn($ret, -1);
+            return DataReturn('商品id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
+        }
+
+        // 是否包含删除超级管理员
+        if(in_array(1, $params['ids']))
+        {
+            return DataReturn('超级管理员不可删除', -1);
         }
            
         // 删除操作
-        if(Db::name('Admin')->delete(intval($params['id'])))
+        if(Db::name('Admin')->where(['id'=>$params['ids']])->delete())
         {
             return DataReturn('删除成功');
         }
-        return DataReturn('删除失败或资源不存在', -100);
+        return DataReturn('删除失败', -100);
     }
 
     /**

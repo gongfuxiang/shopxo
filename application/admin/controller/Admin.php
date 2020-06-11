@@ -50,48 +50,31 @@ class Admin extends Common
 		// 权限校验
 		$this->IsPower();
 
-		// 参数
-		$params = input();
-
-		// 条件
-		$where = AdminService::AdminListWhere($params);
-
 		// 总数
-		$total = AdminService::AdminTotal($where);
+		$total = AdminService::AdminTotal($this->form_where);
 
 		// 分页
-		$number = MyC('admin_page_number', 10, true);
-		$page_params = array(
-				'number'	=>	$number,
-				'total'		=>	$total,
-				'where'		=>	$params,
-				'page'		=>	isset($params['page']) ? intval($params['page']) : 1,
-				'url'		=>	MyUrl('admin/admin/index'),
-			);
+		$page_params = [
+			'number'	=>	$this->page_size,
+			'total'		=>	$total,
+			'where'		=>	$this->data_request,
+			'page'		=>	$this->page,
+			'url'		=>	MyUrl('admin/admin/index'),
+		];
 		$page = new \base\Page($page_params);
-		$this->assign('page_html', $page->GetPageHtml());
 
-		// 获取管理员列表
+		// 获取数据列表
 		$data_params = [
-			'where'		=> $where,
-			'm'			=> $page->GetPageStarNumber(),
-			'n'			=> $number,
-		];
-		$data = AdminService::AdminList($data_params);
-		$this->assign('data_list', $data['data']);
-		
-		// 角色
-		$role_params = [
-			'where'		=> ['is_enable'=>1],
-			'field'		=> 'id,name',
-		];
-		$role = AdminService::RoleList($role_params);
-		$this->assign('role_list', $role['data']);
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+        ];
+		$ret = AdminService::AdminList($data_params);
 
-		// 性别
-		$this->assign('common_gender_list', lang('common_gender_list'));
-
-		$this->assign('params', $params);
+		// 基础参数赋值
+		$this->assign('params', $this->data_request);
+		$this->assign('page_html', $page->GetPageHtml());
+		$this->assign('data_list', $ret['data']);
 		return $this->fetch();
 	}
 
@@ -108,7 +91,7 @@ class Admin extends Common
 		$this->IsLogin();
 
 		// 参数
-		$params = input();
+		$params = $this->data_request;
 
 		// 不是操作自己的情况下
 		if(!isset($params['id']) || $params['id'] != $this->admin['id'])
@@ -144,6 +127,7 @@ class Admin extends Common
 
 		$this->assign('id', isset($params['id']) ? $params['id'] : 0);
 		$this->assign('common_gender_list', lang('common_gender_list'));
+		$this->assign('common_admin_status_list', lang('common_admin_status_list'));
 
 		// 管理员编辑页面钩子
         $hook_name = 'plugins_view_admin_admin_save';
@@ -181,7 +165,7 @@ class Admin extends Common
 		$this->IsLogin();
 
 		// 参数
-		$params = input('post.');
+		$params = $this->data_post;
 
 		// 不是操作自己的情况下
 		if(!isset($params['id']) || $params['id'] != $this->admin['id'])
@@ -217,7 +201,7 @@ class Admin extends Common
 		$this->IsPower();
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return AdminService::AdminDelete($params);
 	}
@@ -264,7 +248,7 @@ class Admin extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		return AdminService::Login($params);
 	}
 

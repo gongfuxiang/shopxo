@@ -74,6 +74,7 @@ class Goods extends Common
         ];
         $ret = GoodsService::GoodsList($data_params);
 
+        // 基础参数赋值
 		$this->assign('params', $this->data_request);
 		$this->assign('page_html', $page->GetPageHtml());
 		$this->assign('data_list', $ret['data']);

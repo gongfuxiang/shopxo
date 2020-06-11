@@ -246,6 +246,12 @@ class PluginsService
         {
             return DataReturn('应用方法未定义['.$action.']', -1);
         }
+
+        // 调用方法仅传递请求参数
+        if(isset($params['data_request']))
+        {
+            $params = $params['data_request'];
+        }
         return DataReturn('验证成功', 0, $obj->$action($params));
     }
 }

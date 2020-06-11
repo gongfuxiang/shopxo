@@ -350,6 +350,12 @@ return array(
             4 => array('value' => 4, 'name' => '销售+自提', 'is_ext' => 1),
         ),
 
+    // 管理员状态
+    'common_admin_status_list'               =>  array(
+            0 => array('value' => 0, 'name' => '正常', 'checked' => true),
+            1 => array('value' => 1, 'name' => '无效'),
+        ),
+
 
     // 色彩值
     'common_color_list'                 =>  array(

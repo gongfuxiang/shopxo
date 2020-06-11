@@ -578,96 +578,113 @@
 							{{/if}}
 							{{if !empty($v['element'])}}
 								{{foreach $v.element as $element}}
-									<div class="am-form-group">
-										<label class="block">{{$element.title}}{{if !empty($element['desc'])}}<span class="am-form-group-label-tips">{{$element.desc}}</span>{{/if}}</label>
-										{{switch element.element}}
-											{{case input}}
-												{{if in_array($element['type'], ['radio', 'checkbox']) and !empty($element['element_data']) and is_array($element['element_data'])}}
-													{{foreach $element.element_data as $element_data_key=>$element_data}}
-														<label class="{{if isset($element['is_block']) and $element['is_block'] eq 1}}am-{{$element.type}}{{else /}}am-{{$element.type}}-inline{{/if}}">
+									{{if !empty($element['name'])}}
+										<div class="am-form-group">
+											{{if !empty($element['title']) or !empty($element['desc'])}}
+												<label class="block">
+													{{if !empty($element['title'])}}
+														{{$element.title}}
+													{{/if}}
+													{{if !empty($element['desc'])}}
+														<span class="am-form-group-label-tips">{{$element.desc}}</span>
+													{{/if}}
+												</label>
+											{{/if}}
+											{{switch element.element}}
+												{{case input}}
+													{{if isset($element['type'])}}
+														{{if in_array($element['type'], ['radio', 'checkbox']) and !empty($element['element_data']) and is_array($element['element_data'])}}
+															{{foreach $element.element_data as $element_data_key=>$element_data}}
+																<label class="{{if isset($element['is_block']) and $element['is_block'] eq 1}}am-{{$element.type}}{{else /}}am-{{$element.type}}-inline{{/if}}">
+																	<input
+																		type="{{$element.type}}"
+																		name="{{$element.name}}"
+																		value="{{$element_data.value}}"
+
+																		{{if isset($data['config'][$element['name']]) and in_array($element_data['value'], explode(',', $data['config'][$element['name']]))}} checked{{/if}}
+
+																		{{if isset($element['minchecked']) and $element['type'] eq 'checkbox'}} minchecked="{{$element.minchecked}}"{{/if}}
+
+																		{{if isset($element['maxchecked']) and $element['type'] eq 'checkbox'}} maxchecked="{{$element.maxchecked}}"{{/if}}
+
+																		{{if isset($element['message'])}} data-validation-message="{{$element.message}}"{{/if}}
+
+																		{{if $element_data_key eq 0 and isset($element['is_required']) and $element['is_required'] eq 1}}required{{/if}}
+																		data-am-ucheck />
+																		{{$element_data.name}}
+																</label>
+															{{/foreach}}
+														{{else /}}
 															<input
+																class="am-radius"
 																type="{{$element.type}}"
 																name="{{$element.name}}"
-																value="{{$element_data.value}}"
+																value="{{if isset($data['config'][$element['name']])}}{{$data['config'][$element['name']]}}{{else /}}{{if isset($element['default'])}}{{$element.default}}{{/if}}{{/if}}"
 
-																{{if isset($data['config'][$element['name']]) and in_array($element_data['value'], explode(',', $data['config'][$element['name']]))}} checked{{/if}}
-
-																{{if isset($element['minchecked']) and $element['type'] eq 'checkbox'}} minchecked="{{$element.minchecked}}"{{/if}}
-
-																{{if isset($element['maxchecked']) and $element['type'] eq 'checkbox'}} maxchecked="{{$element.maxchecked}}"{{/if}}
+																{{if isset($element['placeholder'])}} placeholder="{{$element.placeholder}}"{{/if}}
 
 																{{if isset($element['message'])}} data-validation-message="{{$element.message}}"{{/if}}
 
-																{{if $element_data_key eq 0 and isset($element['is_required']) and $element['is_required'] eq 1}}required{{/if}}
-																data-am-ucheck />
-																{{$element_data.name}}
-														</label>
-													{{/foreach}}
-												{{else /}}
-													<input
+																{{if isset($element['is_required']) and $element['is_required'] eq 1}} required{{/if}}
+																/>
+														{{/if}}
+													{{else /}}
+														<p class="am-text-danger">element input-type 配置有误</p>
+													{{/if}}
+												{{/case}}
+												{{case select}}
+													{{if !empty($element['element_data']) and is_array($element['element_data'])}}
+														<select
+															class="chosen-select am-radius"
+															name="{{$element.name}}"
+
+															{{if isset($element['message'])}} data-validation-message="{{$element.message}}"{{/if}}
+
+															{{if !empty($element['placeholder'])}} data-placeholder="{{$element.placeholder}}"{{/if}}
+
+															{{if isset($element['is_multiple']) and $element['is_multiple'] eq 1}}
+																multiple
+																{{if isset($element['minchecked'])}} minchecked="{{$element.minchecked}}"{{/if}}
+																{{if isset($element['maxchecked'])}} maxchecked="{{$element.maxchecked}}"{{/if}}
+															{{/if}}
+
+															{{if isset($element['is_required']) and $element['is_required'] eq 1}}required{{/if}}
+														>
+														{{if !isset($element['is_multiple']) or $element['is_multiple'] neq 1}}
+															{{if !empty($element['placeholder'])}}
+																<option value="">{{$element.placeholder}}</option>
+															{{/if}}
+														{{/if}}
+															{{foreach $element.element_data as $element_data_key=>$element_data}}
+																<option
+																	value="{{$element_data.value}}"
+																	{{if isset($data['config'][$element['name']]) and in_array($element_data['value'], explode(',', $data['config'][$element['name']]))}}selected{{/if}}
+																	>{{$element_data.name}}</option>
+															{{/foreach}}
+														</select>
+													{{/if}}
+												{{/case}}
+												{{case textarea}}
+													<textarea
 														class="am-radius"
-														type="{{$element.type}}"
 														name="{{$element.name}}"
-														value="{{if isset($data['config'][$element['name']])}}{{$data['config'][$element['name']]}}{{else /}}{{if isset($element['default'])}}{{$element.default}}{{/if}}{{/if}}"
+
+														{{if isset($element['rows'])}} rows="{{$element.rows}}"{{/if}}
 
 														{{if isset($element['placeholder'])}} placeholder="{{$element.placeholder}}"{{/if}}
 
-														{{if isset($element['message'])}} data-validation-message="{{$element.message}}"{{/if}}
-
-														{{if isset($element['is_required']) and $element['is_required'] eq 1}} required{{/if}}
-														/>
-												{{/if}}
-											{{/case}}
-											{{case select}}
-												{{if !empty($element['element_data']) and is_array($element['element_data'])}}
-													<select
-														class="chosen-select am-radius"
-														name="{{$element.name}}"
-
-														{{if isset($element['message'])}} data-validation-message="{{$element.message}}"{{/if}}
-
-														{{if !empty($element['placeholder'])}} data-placeholder="{{$element.placeholder}}"{{/if}}
-
-														{{if isset($element['is_multiple']) and $element['is_multiple'] eq 1}}
-															multiple
-															{{if isset($element['minchecked'])}} minchecked="{{$element.minchecked}}"{{/if}}
-															{{if isset($element['maxchecked'])}} maxchecked="{{$element.maxchecked}}"{{/if}}
+														{{if isset($element['is_required']) and $element['is_required'] eq 1}}
+															{{if isset($element['minlength'])}} minlength="{{$element.minlength}}"{{/if}}
+															{{if isset($element['maxlength'])}} maxlength="{{$element.maxlength}}"{{/if}}
+															required
 														{{/if}}
-
-														{{if isset($element['is_required']) and $element['is_required'] eq 1}}required{{/if}}
-													>
-													{{if !isset($element['is_multiple']) or $element['is_multiple'] neq 1}}
-														{{if !empty($element['placeholder'])}}
-															<option value="">{{$element.placeholder}}</option>
-														{{/if}}
-													{{/if}}
-														{{foreach $element.element_data as $element_data_key=>$element_data}}
-															<option
-																value="{{$element_data.value}}"
-																{{if isset($data['config'][$element['name']]) and in_array($element_data['value'], explode(',', $data['config'][$element['name']]))}}selected{{/if}}
-																>{{$element_data.name}}</option>
-														{{/foreach}}
-													</select>
-												{{/if}}
-											{{/case}}
-											{{case textarea}}
-												<textarea
-													class="am-radius"
-													name="{{$element.name}}"
-
-													{{if isset($element['rows'])}} rows="{{$element.rows}}"{{/if}}
-
-													{{if isset($element['placeholder'])}} placeholder="{{$element.placeholder}}"{{/if}}
-
-													{{if isset($element['is_required']) and $element['is_required'] eq 1}}
-														{{if isset($element['minlength'])}} minlength="{{$element.minlength}}"{{/if}}
-														{{if isset($element['maxlength'])}} maxlength="{{$element.maxlength}}"{{/if}}
-														required
-													{{/if}}
-												>{{if isset($data['config'][$element['name']])}}{{$data['config'][$element['name']]}}{{else /}}{{if isset($element['default'])}}{{$element.default}}{{/if}}{{/if}}</textarea>
-											{{/case}}
-										{{/switch}}
-									</div>
+													>{{if isset($data['config'][$element['name']])}}{{$data['config'][$element['name']]}}{{else /}}{{if isset($element['default'])}}{{$element.default}}{{/if}}{{/if}}</textarea>
+												{{/case}}
+											{{/switch}}
+										</div>
+									{{else /}}
+										<p class="am-text-danger">element form-name 配置有误</p>
+									{{/if}}
 								{{/foreach}}
 							{{/if}}
 						</div>

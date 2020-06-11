@@ -58,9 +58,38 @@ class Controller
      * 构造方法
      * @access public
      */
-    public function __construct(App $app = null)
+    /*public function __construct(App $app = null)
     {
         $this->app     = $app ?: Container::get('app');
+        $this->request = $this->app['request'];
+        $this->view    = $this->app['view'];
+
+        // 控制器初始化
+        $this->initialize();
+
+        $this->registerMiddleware();
+
+        // 前置操作方法 即将废弃
+        foreach ((array) $this->beforeActionList as $method => $options) {
+            is_numeric($method) ?
+            $this->beforeAction($options) :
+            $this->beforeAction($method, $options);
+        }
+    }*/
+
+    /**
+     * 构造方法
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-11
+     * @desc    description
+     * @param   [type]          $app [description]
+     */
+    public function __construct($app = null)
+    {
+        // 实例化控制器，构造方法参数可传非对象数据
+        $this->app     = is_object($app) ? $app : Container::get('app');
         $this->request = $this->app['request'];
         $this->view    = $this->app['view'];
 

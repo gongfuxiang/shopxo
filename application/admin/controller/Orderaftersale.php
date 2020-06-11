@@ -77,7 +77,7 @@ class Orderaftersale extends Common
         // 静态数据
         $this->assign('common_order_aftersale_refundment_list', lang('common_order_aftersale_refundment_list'));
 
-        // 参数
+        // 基础参数赋值
         $this->assign('params', $this->data_request);
         $this->assign('page_html', $page->GetPageHtml());
         $this->assign('data_list', $ret['data']);

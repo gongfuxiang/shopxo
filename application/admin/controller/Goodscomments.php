@@ -71,6 +71,7 @@ class Goodscomments extends Common
         ];
         $ret = GoodsCommentsService::GoodsCommentsList($data_params);
 
+        // 基础参数赋值
         $this->assign('params', $this->data_request);
         $this->assign('page_html', $page->GetPageHtml());
         $this->assign('data_list', $ret['data']);

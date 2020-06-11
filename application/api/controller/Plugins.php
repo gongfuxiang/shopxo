@@ -65,7 +65,7 @@ class Plugins extends Common
                 'error_msg'         => '应用操作方法有误',
             ],
         ];
-        $ret = ParamsChecked($this->data_request, $p);
+        $ret = ParamsChecked($params['data_request'], $p);
         if($ret !== true)
         {
             return DataReturn($ret, -5000);

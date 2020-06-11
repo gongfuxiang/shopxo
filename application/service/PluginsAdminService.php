@@ -557,6 +557,12 @@ use think\Controller;
  */
 class Admin extends Controller
 {
+    // 构造方法
+    public function __construct(\$params = [])
+    {
+        parent::__construct();
+    }
+
     // 后台管理入口
     public function index(\$params = [])
     {
@@ -621,6 +627,12 @@ use think\Controller;
  */
 class Index extends Controller
 {
+    // 构造方法
+    public function __construct(\$params = [])
+    {
+        parent::__construct();
+    }
+
     // 前端页面入口
     public function index(\$params = [])
     {

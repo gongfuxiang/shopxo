@@ -64,7 +64,7 @@ class Plugins extends Common
                 'error_msg'         => '应用操作方法有误',
             ],
         ];
-        $ret = ParamsChecked($params, $p);
+        $ret = ParamsChecked($params['data_request'], $p);
         if($ret !== true)
         {
             if(IS_AJAX)
