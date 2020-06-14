@@ -92,9 +92,10 @@ function FormModulePath($params = [])
  * @date    2020-05-25
  * @desc    description
  * @param   [string]          $template [视图路径]
- * @param   [mixed]           $params   [参数数据]
+ * @param   [mixed]           $data     [参数数据]
+ * @param   [mixed]           $params   [额外参数]
  */
-function ModuleInclude($template, $params = [])
+function ModuleInclude($template, $data = [], $params = [])
 {
     // 应用控制器
     $module = '\app\module\ViewIncludeModule';
@@ -111,7 +112,7 @@ function ModuleInclude($template, $params = [])
         return '模块视图方法未定义['.$module.'->'.$action.'()]';
     }
 
-    return $obj->Run($template, $params);
+    return $obj->Run($template, $data, $params);
 }
 
 /**

@@ -161,6 +161,22 @@ class FormHandleModule
                                 $v['view_key'] = 'form_radio_value';
                             }
                         }
+
+                        // 复选+单选
+                        if(in_array($v['view_type'], ['checkbox', 'radio']))
+                        {
+                            // 是否部分不显示控件
+                            // 数据处理成为数组
+                            if(isset($v['not_show_data']) && !is_array($v['not_show_data']))
+                            {
+                                $v['not_show_data'] = explode(',', $v['not_show_data']);
+                            }
+                            // 数据 key 字段默认主键 id [base->key_field]
+                            if(!empty($v['not_show_data']) && empty($v['not_show_key']))
+                            {
+                                $v['not_show_key'] = $this->form_data['base']['key_field'];
+                            }
+                        }
                         break;
                 }
             }

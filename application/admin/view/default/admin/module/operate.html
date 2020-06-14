@@ -1,15 +1,18 @@
 <!-- 操作栏 -->
-{{if $module_data['id'] eq 1}}
-    <span class="cr-ccc">不可操作</span>
-{{else /}}
+<button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/admin/detail', ['id'=>$module_data['id']])}}">
+    <i class="am-icon-eye"></i>
+    <span>详情</span>
+</button>
+<!-- 非管理员不能操作 -->
+{{if $module_data['id'] neq 1 or $module_data['id'] eq $admin['id']}}
     <a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/admin/saveinfo', array('id'=>$module_data['id']))}}">
         <i class="am-icon-edit"></i>
         <span>编辑</span>
     </a>
-    {{if $module_data['id'] neq $admin['id']}}
-        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/admin/delete')}}" data-id="{{$module_data.id}}" data-key="ids">
-            <i class="am-icon-trash-o"></i>
-            <span>删除</span>
-        </button>
-    {{/if}}
+{{/if}}
+{{if $module_data['id'] neq 1 and $module_data['id'] neq $admin['id']}}
+    <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/admin/delete')}}" data-id="{{$module_data.id}}" data-key="ids">
+        <i class="am-icon-trash-o"></i>
+        <span>删除</span>
+    </button>
 {{/if}}

@@ -40,7 +40,6 @@ class Admin
             // 基础配置
             'base' => [
                 'key_field'     => 'id',
-                'status_field'  => 'status',
                 'is_search'     => 1,
                 'search_url'    => MyUrl('admin/admin/index'),
                 'is_delete'     => 1,
@@ -55,10 +54,9 @@ class Admin
                     'checked_text'      => '反选',
                     'not_checked_text'  => '全选',
                     'align'             => 'center',
+                    'not_show_data'     => [1],
+                    'not_show_key'      => 'id',
                     'width'             => 80,
-                    'is_not_show'       => 1,
-                    'not_data'          => [1],
-                    'not_key'           => 'id',
                 ],
                 [
                     'label'         => '管理员',

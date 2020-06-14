@@ -166,7 +166,7 @@ class IntegralService
     }
 
     /**
-     * 订单商品积分赠送
+     * 订单商品积分赠送（已丢弃）
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

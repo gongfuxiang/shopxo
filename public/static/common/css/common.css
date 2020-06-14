@@ -11,7 +11,8 @@ ul { list-style: none; }
 /* 公共dl样式 */
 .dl-content dt { float: left; padding-left: 5px; overflow: hidden; clear: left;  
         width: 120px; }
-.dl-content dd { border-bottom: 1px solid #efefef; padding-left: 120px; }
+.dl-content dd { padding-left: 120px; }
+.dl-content dd:not(:last-child) { border-bottom: 1px solid #efefef; }
 .dl-content dt, .dl-content dd { font-weight: normal !important; text-align: left; margin-top: 0px; line-height: 20px; min-height: 40px; padding-top: 10px; padding-bottom: 10px; }
 
 /**
@@ -59,6 +60,35 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view, .content-app-ite
 #common-prompt.prompt-center { top: calc(50% - 15px); }
 #common-prompt.prompt-top { top: 0; }
 #common-prompt.prompt-bottom { bottom: 0; }
+
+/**
+ * 弹窗iframe
+ */
+.popup-iframe-not-title {
+    padding: 25px;
+    background: transparent;
+}
+.popup-iframe-not-title .am-popup-inner {
+    padding-top: 0;
+    background: #fff;
+}
+.popup-iframe-not-title .am-popup-inner .am-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    opacity: 1;
+    background: #767676;
+    color: #fff;
+    border: 3px solid #f4f4f4;
+    width: 32px;
+    height: 32px;
+}
+.popup-iframe-not-title .am-popup-inner .am-close:hover {
+    background: #2f8ded;
+}
 
 /**
  * iframe

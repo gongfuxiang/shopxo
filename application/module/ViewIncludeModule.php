@@ -45,11 +45,13 @@ class ViewIncludeModule extends Controller
      * @desc    description
      * @param   [string]          $template [模板地址]
      * @param   [mixed]           $data     [请求数据]
+     * @param   [mixed]           $params   [额外参数]
      * @return  [string]                    [模板内容]
      */
-    public function Run($template, $data = [])
+    public function Run($template, $data = [], $params = [])
     {
         $this->assign('module_data', $data);
+        $this->assign('module_params', $params);
         return $this->fetch($template);
     }
 }

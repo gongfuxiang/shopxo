@@ -795,15 +795,25 @@ function ModalLoad(url, title, tag, class_tag)
 		$('#'+tag).remove();
 	}
 
-	var html = '<div class="am-popup popup-iframe '+class_tag+'" id="'+tag+'">';
+	// 是否存在标题
+	if((title || null) != null)
+	{
+		var html = '<div class="am-popup popup-iframe '+class_tag+'" id="'+tag+'">';
 		html += '<div class="am-popup-inner">';
-	    html += '<div class="am-popup-hd">';
-	    html += '<h4 class="am-popup-title">'+(title || '详情')+'</h4>';
-	    html += '<span data-am-modal-close class="am-close">&times;</span>';
-		html += '</div>';
-	    html += '<iframe src="'+url+'" width="100%" height="100%"></iframe>';
-		html += '</div>';
-		html += '</div>';
+		html += '<div class="am-popup-hd">';
+	    html += '<h4 class="am-popup-title">'+title+'</h4>';
+	    html += '<span data-am-modal-close class="am-close am-icon-times"></span>';
+	    html += '</div>';
+	} else {
+		var html = '<div class="am-popup popup-iframe popup-iframe-not-title '+class_tag+'" id="'+tag+'">';
+		html += '<div class="am-popup-inner">';
+		html += '<span data-am-modal-close class="am-close am-close-alt am-icon-times am-close-spin"></span>';
+	}
+
+	// 弹窗内容
+    html += '<iframe src="'+url+'" width="100%" height="100%"></iframe>';
+	html += '</div>';
+	html += '</div>';
 	$('body').append(html);
 	$('#'+tag).modal();
 }
@@ -1767,9 +1777,7 @@ $(function()
 	 */
 	if($('.am-page-loading').length > 0)
 	{
-		setTimeout(function() {
-		    $('.am-page-loading').fadeOut(500);
-		}, 300);
+		$('.am-page-loading').fadeOut(500);
 	}
 
 	// 全屏操作

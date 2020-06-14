@@ -1164,7 +1164,6 @@ class GoodsService
             'model'                     => $params['model'],
             'place_origin'              => isset($params['place_origin']) ? intval($params['place_origin']) : 0,
             'inventory_unit'            => $params['inventory_unit'],
-            'give_integral'             => intval($params['give_integral']),
             'buy_min_number'            => max(1, isset($params['buy_min_number']) ? intval($params['buy_min_number']) : 1),
             'buy_max_number'            => isset($params['buy_max_number']) ? intval($params['buy_max_number']) : 0,
             'is_deduction_inventory'    => isset($params['is_deduction_inventory']) ? intval($params['is_deduction_inventory']) : 0,

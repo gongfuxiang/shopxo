@@ -42,8 +42,75 @@
         }
     {{/php}}
 
+    <!-- data -->
     {{if !empty($data)}}
-        {{block name="detail_data"}}{{/block}}
+        {{block name="detail_data"}}
+            {{if !empty($form_table) and !empty($form_table['form']) and is_array($form_table['form'])}}
+                {{if !empty($form_table['base']) and !empty($form_table['base']['detail_title'])}}
+                    <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">{{$form_table.base.detail_title}}</div>
+                    <div class="am-panel-bd">
+                {{/if}}
+                <dl class="dl-content">
+                    {{foreach $form_table.form as $t}}
+                        {{if isset($t['label']) and isset($t['view_type']) and in_array($t['view_type'], ['field', 'module', 'status']) and (!isset($t['is_detail']) or $t['is_detail'] eq 1)}}
+                            <dt><strong>{{$t.label}}</strong></dt>
+                            <dd>
+                                {{switch $t.view_type}}
+                                    {{case field}}
+                                        <!-- 如果字段为数组则处理多个字段拼接数据 -->
+                                        {{if is_array($t['view_key'])}}
+                                            {{foreach $t['view_key'] as $fk=>$fv}}
+                                                {{if isset($data[$fv])}}
+                                                    {{$data[$fv]}}
+                                                    <!-- 多个字段拼接数据的的拼接字符 -->
+                                                    {{if isset($t['view_key_join']) and $fk lt count($t['view_key'])-1}}
+                                                        {{$t.view_key_join|raw}}
+                                                    {{/if}}
+                                                {{/if}}
+                                            {{/foreach}}
+                                        {{else /}}
+                                            <!-- 非数组则直接取值 -->
+                                            {{if isset($data[$t['view_key']])}}
+                                                <!-- 是否指定数据转换 -->
+                                                {{if !empty($t['view_data']) and is_array($t['view_data']) and isset($t['view_data'][$data[$t['view_key']]])}}
+                                                    {{$t['view_data'][$data[$t['view_key']]]}}
+
+                                                <!-- 直接展示数据 -->
+                                                {{else /}}
+                                                    {{$data[$t['view_key']]|raw}}
+                                                {{/if}}
+                                            {{/if}}
+                                        {{/if}}
+                                    {{/case}}
+                                    {{case module}}
+                                        <!-- 从模块加载自定义模块数据 -->
+                                        {{:ModuleInclude($t['view_key'], $data, ['form_request_type'=>'detail'])}}
+                                    {{/case}}
+                                    {{case status}}
+                                        <!-- 数据状态操作按钮组件 -->
+                                        {{if !empty($t['key_field']) and !empty($t['post_url'])}}
+                                            <a href="javascript:;"
+                                                class="am-icon-btn am-icon-check submit-state {{if $data[$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
+                                                data-url="{{$t.post_url}}"
+                                                data-id="{{if isset($data[$t['key_field']])}}{{$data[$t['key_field']]}}{{/if}}"
+                                                data-state="{{$data[$t['view_key']]}}"
+                                                data-field="{{$t.view_key}}"
+                                                data-is-update-status="{{if isset($t['is_form_su'])}}{{$t.is_form_su}}{{else /}}0{{/if}}"
+                                            ></a>
+                                        {{/if}}
+                                    {{/case}}
+                                {{/switch}}
+                            </dd>
+                        {{/if}}
+                    {{/foreach}}
+                </dl>
+                {{if !empty($form_table['base']) and !empty($form_table['base']['detail_title'])}}
+                    </div>
+                    </div>
+                {{/if}}
+            {{/if}}
+        {{/block}}
     {{else /}}
         {{block name="detail_not_data"}}
             <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>

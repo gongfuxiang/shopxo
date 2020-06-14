@@ -51,6 +51,7 @@ class Goods
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/goods/delete'),
                 'delete_key'    => 'ids',
+                'detail_title'  => '基础信息',
             ],
             // 表单配置
             'form' => [
@@ -69,7 +70,6 @@ class Goods
                     'width'         => 105,
                     'search_config' => [
                         'form_type'         => 'input',
-                        'form_name'         => 'id',
                         'where_type'        => '=',
                     ],
                 ],
@@ -106,7 +106,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '库存数量',
+                    'label'         => '库存总量',
                     'view_type'     => 'field',
                     'view_key'      => ['inventory', 'inventory_unit'],
                     'view_key_join' => ' ',
@@ -119,7 +119,7 @@ class Goods
                     'label'         => '上下架',
                     'view_type'     => 'status',
                     'view_key'      => 'is_shelves',
-                    'post_url'      => MyUrl('admin/goods/statusshelves'),
+                    'post_url'      => MyUrl('admin/goods/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
                     'search_config' => [
@@ -135,7 +135,22 @@ class Goods
                     'label'         => '首页推荐',
                     'view_type'     => 'status',
                     'view_key'      => 'is_home_recommended',
-                    'post_url'      => MyUrl('admin/goods/statushomerecommended'),
+                    'post_url'      => MyUrl('admin/goods/statusupdate'),
+                    'align'         => 'center',
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'where_type'        => 'in',
+                        'data'              => lang('common_is_text_list'),
+                        'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => '扣减库存',
+                    'view_type'     => 'status',
+                    'view_key'      => 'is_deduction_inventory',
+                    'post_url'      => MyUrl('admin/goods/statusupdate'),
                     'align'         => 'center',
                     'search_config' => [
                         'form_type'         => 'select',
@@ -152,7 +167,6 @@ class Goods
                     'view_key'      => 'model',
                     'search_config' => [
                         'form_type'         => 'input',
-                        'form_name'         => 'model',
                         'where_type'        => 'like',
                     ],
                 ],
@@ -195,6 +209,30 @@ class Goods
                         'data_name'         => 'name',
                         'where_type'        => 'in',
                         'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => '单次最低起购数量',
+                    'view_type'     => 'field',
+                    'view_key'      => 'buy_min_number',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
+                ],
+                [
+                    'label'         => '单次最大购买数量',
+                    'view_type'     => 'field',
+                    'view_key'      => 'buy_max_number',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
+                ],
+                [
+                    'label'         => '访问次数',
+                    'view_type'     => 'field',
+                    'view_key'      => 'access_count',
+                    'search_config' => [
+                        'form_type'         => 'section',
                     ],
                 ],
                 [

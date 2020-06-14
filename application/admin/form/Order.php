@@ -46,6 +46,7 @@ class Order
                 'key_field'     => 'id',
                 'is_search'     => 1,
                 'search_url'    => MyUrl('admin/order/index'),
+                'detail_title'  => '基础信息',
             ],
             // 表单配置
             'form' => [
@@ -74,6 +75,7 @@ class Order
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/info',
                     'grid_size'     => 'lg',
+                    'is_detail'     => 0,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
@@ -102,6 +104,7 @@ class Order
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/address',
                     'grid_size'     => 'sm',
+                    'is_detail'     => 0,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
@@ -115,6 +118,7 @@ class Order
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/take',
                     'width'         => 125,
+                    'is_detail'     => 0,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
@@ -228,6 +232,14 @@ class Order
                     ],
                 ],
                 [
+                    'label'         => '购买总数',
+                    'view_type'     => 'field',
+                    'view_key'      => 'buy_number_count',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
+                ],
+                [
                     'label'         => '增加金额(元)',
                     'view_type'     => 'field',
                     'view_key'      => 'increase_price',
@@ -257,6 +269,16 @@ class Order
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => '用户备注',
+                    'view_type'     => 'field',
+                    'view_key'      => 'user_note',
+                    'width'         => 120,
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'where_type'        => 'like',
                     ],
                 ],
                 [
@@ -298,6 +320,54 @@ class Order
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/aftersale',
                     'grid_size'     => 'sm',
+                ],
+                [
+                    'label'         => '确认时间',
+                    'view_type'     => 'field',
+                    'view_key'      => 'confirm_time',
+                    'search_config' => [
+                        'form_type'         => 'datetime',
+                    ],
+                ],
+                [
+                    'label'         => '支付时间',
+                    'view_type'     => 'field',
+                    'view_key'      => 'pay_time',
+                    'search_config' => [
+                        'form_type'         => 'datetime',
+                    ],
+                ],
+                [
+                    'label'         => '发货时间',
+                    'view_type'     => 'field',
+                    'view_key'      => 'delivery_time',
+                    'search_config' => [
+                        'form_type'         => 'datetime',
+                    ],
+                ],
+                [
+                    'label'         => '完成时间',
+                    'view_type'     => 'field',
+                    'view_key'      => 'collect_time',
+                    'search_config' => [
+                        'form_type'         => 'datetime',
+                    ],
+                ],
+                [
+                    'label'         => '取消时间',
+                    'view_type'     => 'field',
+                    'view_key'      => 'cancel_time',
+                    'search_config' => [
+                        'form_type'         => 'datetime',
+                    ],
+                ],
+                [
+                    'label'         => '关闭时间',
+                    'view_type'     => 'field',
+                    'view_key'      => 'close_time',
+                    'search_config' => [
+                        'form_type'         => 'datetime',
+                    ],
                 ],
                 [
                     'label'         => '创建时间',

@@ -1,94 +1,53 @@
-<!-- 继承公共的 detail -->
+<!-- 继承公共的 form -->
 {{extend name="public/module/detail" /}}
 
-<!-- 详情内容  -->
-{{if !empty($data)}}
-    {{block name="detail_data"}}
-        <dl class="dl-content">
-            <dt>标题名称</dt>
-            <dd>
-                <div class="am-nbfc">
-                    <a href="{{$data.goods_url}}" target="_blank" title="{{$data.title}}">
-                        <img src="{{$data['images']}}" class="am-img-thumbnail am-radius am-margin-right-xs am-fl" width="60" height="60" />
-                    </a>
-                    <a href="{{$data.goods_url}}" target="_blank" title="{{$data.title}}" {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} class="am-nowrap-initial">{{$data.title}}</a>
+<!-- 重写数据模块 -->
+{{block name="detail_data"}}
+    <!-- 父级内容 -->
+    {__block__}
+    
+    <!-- 电脑端详情 -->
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd">电脑端详情</div>
+        <div class="am-panel-bd">
+            <div class="am-scrollable-vertical am-nowrap-initial">
+                {{$data.content_web|raw}}
+            </div>
+        </div>
+    </div>
+
+    <!-- 虚拟商品展示数据 -->
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd">虚拟商品展示数据</div>
+        <div class="am-panel-bd">
+            {{if !empty($data['fictitious_goods_value'])}}
+                <div class="am-scrollable-vertical am-nowrap-initial">
+                    {{$data.fictitious_goods_value|raw}}
                 </div>
-            </dd>
+            {{else /}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+            {{/if}}
+        </div>
+    </div>
 
-            <dt>商品简述</dt>
-            <dd class="am-nowrap-initial">{{$data.simple_desc}}</dd>
+    <!-- SEO信息 -->
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd">SEO信息</div>
+        <div class="am-panel-bd">
+            {{if !empty($data)}}
+                <dl class="dl-content">
+                    <dt>SEO标题</dt>
+                    <dd>{{$data.seo_title}}</dd>
 
-            <dt>销售价格(元)</dt>
-            <dd>
-                {{$data.price}}
-                {{if !empty($data['original_price']) and $data['original_price'] gt 0}}
-                    <br /><span class="am-badge am-radius">原价 {{$data.original_price}}</span>
-                {{/if}}
-            </dd>
+                    <dt>SEO关键字</dt>
+                    <dd>{{$data.seo_keywords}}</dd>
 
-            <dt>上下架</dt>
-            <dd>{{$common_is_shelves_list[$data['is_shelves']]['name']}}</dd>
-
-            <dt>库存数量</dt>
-            <dd>{{$data.inventory}} {{$data.inventory_unit}}</dd>
-
-            <dt>最低起购数量</dt>
-            <dd>{{$data.buy_min_number}} {{$data.inventory_unit}}</dd>
-
-            <dt>单次最大购买数量</dt>
-            <dd>
-                {{if $data['buy_max_number'] eq 0}}
-                    <span class="cr-ddd">不限</span>
-                {{else /}}
-                    {{$data.buy_max_number}} {{$data.inventory_unit}}
-                {{/if}}
-            </dd>
-
-            <dt>商品型号</dt>
-            <dd>{{$data.model}}</dd>
-
-            <dt>品牌</dt>
-            <dd>{{$data.brand_name}}</dd>
-
-            <dt>生产地</dt>
-            <dd>{{$data.place_origin_name}}</dd>
-
-            <dt>商品分类</dt>
-            <dd>{{$data.category_text}}</dd>
-
-            <dt>购买赠送积分</dt>
-            <dd>{{$data.give_integral}}</dd>
-
-            <dt>扣减库存</dt>
-            <dd>{{:lang('common_is_text_list')[$data['is_deduction_inventory']]['name']}}</dd>
-
-            <dt>访问次数</dt>
-            <dd>{{$data.access_count}}</dd>
-
-            <dt>电脑端详情</dt>
-            <dd>
-                <div class="am-scrollable-vertical am-nowrap-initial">{{$data.content_web|raw}}</div>
-            </dd>
-
-            <dt>虚拟商品展示数据</dt>
-            <dd>
-                <div class="am-scrollable-vertical am-nowrap-initial">{{$data.fictitious_goods_value|raw}}</div>
-            </dd>
-
-            <dt>SEO标题</dt>
-            <dd>{{$data.seo_title}}</dd>
-
-            <dt>SEO关键字</dt>
-            <dd>{{$data.seo_keywords}}</dd>
-
-            <dt>SEO描述</dt>
-            <dd>{{$data.seo_desc}}</dd>
-
-            <dt>创建时间</dt>
-            <dd>{{$data.add_time}}</dd>
-
-            <dt>更新时间</dt>
-            <dd>{{$data.upd_time}}</dd>
-        </dl>
-    {{/block}}
-{{/if}}
+                    <dt>SEO描述</dt>
+                    <dd>{{$data.seo_desc}}</dd>
+                </dl>
+            {{else /}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+            {{/if}}
+        </div>
+    </div>
+{{/block}}

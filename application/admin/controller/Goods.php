@@ -108,9 +108,6 @@ class Goods extends Common
             $ret = GoodsService::GoodsList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
             $this->assign('data', $data);
-
-            // 是否上下架
-            $this->assign('common_is_shelves_list', lang('common_is_shelves_list'));
         }
         return $this->fetch();
     }
@@ -232,13 +229,13 @@ class Goods extends Common
 	}
 
 	/**
-	 * [StatusShelves 上下架状态更新]
+	 * 状态更新
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-01-12T22:23:06+0800
 	 */
-	public function StatusShelves()
+	public function StatusUpdate()
 	{
 		// 是否ajax
 		if(!IS_AJAX)
@@ -249,29 +246,6 @@ class Goods extends Common
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		$params['field'] = 'is_shelves';
-		return GoodsService::GoodsStatusUpdate($params);
-	}
-
-	/**
-	 * [StatusHomeRecommended 是否首页推荐状态更新]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-01-12T22:23:06+0800
-	 */
-	public function StatusHomeRecommended()
-	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
-		$params = $this->data_post;
-		$params['admin'] = $this->admin;
-		$params['field'] = 'is_home_recommended';
 		return GoodsService::GoodsStatusUpdate($params);
 	}
 }

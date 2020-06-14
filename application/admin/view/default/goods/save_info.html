@@ -130,10 +130,6 @@
 					<input type="text" name="inventory_unit" placeholder="库存单位" minlength="1" maxlength="6" data-validation-message="库存单位格式 1~6 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.inventory_unit}}"{{/if}} required />
 				</div>
 				<div class="am-form-group">
-					<label>购买赠送积分</label>
-					<input type="number" name="give_integral" placeholder="购买赠送积分" max="100000000" data-validation-message="购买赠送积分 0~100000000" class="am-radius" value="{{if empty($data)}}0{{else /}}{{$data.give_integral}}{{/if}}" required />
-				</div>
-				<div class="am-form-group">
 					<label>最低起购数量<span class="am-form-group-label-tips">默认数值 1</span></label>
 					<input type="number" name="buy_min_number" placeholder="最低起购数量" min="1" max="100000000" data-validation-message="最低起购数量 1~100000000" class="am-radius" value="{{if empty($data)}}1{{else /}}{{$data.buy_min_number}}{{/if}}" required />
 				</div>
