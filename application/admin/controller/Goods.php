@@ -129,7 +129,10 @@ class Goods extends Common
 		if(!empty($params['id']))
 		{
 			// 条件
-        	$where = GoodsService::GetAdminIndexWhere($params);
+            $where = [
+                ['is_delete_time', '=', 0],
+                ['id', '=', intval($params['id'])],
+            ];
 
         	// 获取数据
 			$data_params = [

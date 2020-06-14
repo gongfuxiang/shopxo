@@ -10,11 +10,10 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use think\facade\Hook;
 use app\service\AdminPowerService;
 
 /**
- * 权限管理
+ * 权限菜单管理
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -63,13 +62,13 @@ class Power extends Common
 	}
 
 	/**
-	 * [PowerSave 权限添加/编辑]
+	 * [Save 权限添加/编辑]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2016-12-13T21:41:03+0800
 	 */
-	public function PowerSave()
+	public function Save()
 	{
 		// 是否ajax
 		if(!IS_AJAX)
@@ -78,19 +77,19 @@ class Power extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return AdminPowerService::PowerSave($params);
 	}
 
 	/**
-	 * [PowerDelete 权限删除]
+	 * [Delete 权限删除]
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2016-12-14T21:40:29+0800
 	 */
-	public function PowerDelete()
+	public function Delete()
 	{
 		// 是否ajax
 		if(!IS_AJAX)
@@ -99,137 +98,9 @@ class Power extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return AdminPowerService::PowerDelete($params);
-	}
-
-	/**
-	 * [Role 角色组列表]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-14T21:37:02+0800
-	 */
-	public function Role()
-	{
-		$data_params = [
-			'field'	=> 'id,name,is_enable,add_time',
-		];
-		$data = AdminPowerService::RoleList($data_params);
-
-		$this->assign('data_list', $data);
-		return $this->fetch();
-	}
-
-	/**
-	 * [RoleSaveInfo 角色组添加/编辑页面]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-14T21:37:02+0800
-	 */
-	public function RoleSaveInfo()
-	{
-		// 参数
-		$params = input();
-
-		// 角色组
-		$data = [];
-		if(!empty($params['id']))
-		{
-			$data_params = [
-				'where'	=> ['id'=>intval($params['id'])],
-			];
-			$ret = AdminPowerService::RoleList($data_params);
-			if(!empty($ret[0]['id']))
-			{
-				$data = $ret[0];
-
-				// 权限关联数据
-				$params['role_id'] =  $ret[0]['id'];
-			}
-		}
-
-		// 菜单列表
-		$power = AdminPowerService::RolePowerEditData($params);
-		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
-		$this->assign('power', $power);
-
-		// 角色编辑页面钩子
-        $hook_name = 'plugins_view_admin_power_role_save';
-        $this->assign($hook_name.'_data', Hook::listen($hook_name,
-        [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'role_id'      	=> isset($params['id']) ? $params['id'] : 0,
-            'data'          => &$data,
-            'params'        => &$params,
-        ]));
-
-        // 数据
-        $this->assign('data', $data);
-        $this->assign('params', $params);
-		return $this->fetch();
-	}
-
-	/**
-	 * [RoleSave 角色组添加/编辑]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-14T21:37:02+0800
-	 */
-	public function RoleSave()
-	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			$this->error('非法访问');
-		}
-
-		// 开始操作
-		return AdminPowerService::RoleSave(input('post.'));
-	}
-
-	/**
-	 * [RoleDelete 角色删除]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-15T11:03:30+0800
-	 */
-	public function RoleDelete()
-	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			$this->error('非法访问');
-		}
-
-		// 开始操作
-		return AdminPowerService::RoleDelete(input('post.'));
-	}
-
-	/**
-	 * [RoleStatusUpdate 角色状态更新]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-01-12T22:23:06+0800
-	 */
-	public function RoleStatusUpdate()
-	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
-		$params = input('post.');
-		$params['admin'] = $this->admin;
-		return AdminPowerService::RoleStatusUpdate($params);
 	}
 }
 ?>

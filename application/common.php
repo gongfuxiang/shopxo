@@ -68,7 +68,8 @@ function FormModulePath($params = [])
 {
     // 参数变量
     $path = '';
-    $controller = request()->controller();    
+    $controller = request()->controller();
+    $action = request()->action();
 
     // 是否插件调用
     if($controller == 'Plugins')
@@ -81,7 +82,10 @@ function FormModulePath($params = [])
         $path = '\app\\'.request()->module().'\form\\'.$controller;
     }
 
-    return $path;
+    return [
+        'module'    => $path,
+        'action'    => $action,
+    ];
 }
 
 /**

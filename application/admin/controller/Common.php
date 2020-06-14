@@ -255,21 +255,21 @@ class Common extends Controller
     public function FormTableInit()
     {
         // 获取表格模型
-        $module = FormModulePath($this->data_request);
-        if(!empty($module))
+        $data = FormModulePath($this->data_request);
+        if(!empty($data))
         {
             // 调用表格处理
-            $res = (new FormHandleModule())->Run($module, $this->data_request);
-            if($res['code'] == 0)
+            $ret = (new FormHandleModule())->Run($data['module'], $data['action'], $this->data_request);
+            if($ret['code'] == 0)
             {
-                $this->form_table = $res['data']['table'];
-                $this->form_where = $res['data']['where'];
-                $this->form_params = $res['data']['params'];
+                $this->form_table = $ret['data']['table'];
+                $this->form_where = $ret['data']['where'];
+                $this->form_params = $ret['data']['params'];
 
                 $this->assign('form_table', $this->form_table);
                 $this->assign('form_params', $this->form_params);
             } else {
-                $this->form_error = $res['msg'];
+                $this->form_error = $ret['msg'];
                 $this->assign('form_error', $this->form_error);
             }
         }

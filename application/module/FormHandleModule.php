@@ -41,9 +41,10 @@ class FormHandleModule
      * @date    2020-06-02
      * @desc    description
      * @param   [string]          $module     [模块位置]
+     * @param   [string]          $action     [模块方法（默认 Run 方法，可自动匹配控制器方法名）]
      * @param   [mixed]           $params     [参数数据]
      */
-    public function Run($module, $params = [])
+    public function Run($module, $action = 'Run', $params = [])
     {
         // 参数
         $this->out_params = $params;
@@ -54,12 +55,16 @@ class FormHandleModule
             return DataReturn('表格模块未定义['.$module.']', -1);
         }
 
-        // 调用方法
-        $action = 'Run';
+        // 指定方法检测
         $this->module_obj = new $module();
         if(!method_exists($this->module_obj, $action))
         {
-            return DataReturn('表格方法未定义['.$module.'->'.$action.'()]', -1);
+            // 默认方法检测
+            $action = 'Run';
+            if(!method_exists($this->module_obj, $action))
+            {
+                return DataReturn('表格方法未定义['.$module.'->'.$action.'()]', -1);
+            }
         }
 
         // 获取表格配置数据
