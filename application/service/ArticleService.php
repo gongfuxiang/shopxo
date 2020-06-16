@@ -35,13 +35,14 @@ class ArticleService
     public static function ArticleList($params)
     {
         $where = empty($params['where']) ? [] : $params['where'];
-        $field = empty($params['field']) ? 'a.*' : $params['field'];
+        $field = empty($params['field']) ? '*' : $params['field'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
-        $data = Db::name('Article')->alias('a')->join(['__ARTICLE_CATEGORY__'=>'ac'], 'a.article_category_id=ac.id')->field($field)->where($where)->order('a.id desc')->limit($m, $n)->select();
+        $data = Db::name('Article')->field($field)->where($where)->order('id desc')->limit($m, $n)->select();
         if(!empty($data))
         {
+            $names = Db::name('ArticleCategory')->where(['id'=>array_column($data, 'article_category_id')])->column('name', 'id');
             $common_is_enable_tips = lang('common_is_enable_tips');
             foreach($data as &$v)
             {
@@ -51,13 +52,7 @@ class ArticleService
                 // 分类名称
                 if(isset($v['article_category_id']))
                 {
-                    $v['article_category_name'] = Db::name('ArticleCategory')->where(['id'=>$v['article_category_id']])->value('name');
-                }
-
-                // 是否启用
-                if(isset($v['is_enable']))
-                {
-                    $v['is_enable_text'] = $common_is_enable_tips[$v['is_enable']]['name'];
+                    $v['article_category_name'] = isset($names[$v['article_category_id']]) ? $names[$v['article_category_id']] : '';
                 }
 
                 // 内容
@@ -80,15 +75,14 @@ class ArticleService
                     }
                 }
 
+                // 时间
                 if(isset($v['add_time']))
                 {
-                    $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                    $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                    $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
                 }
                 if(isset($v['upd_time']))
                 {
-                    $v['upd_time_time'] = date('Y-m-d H:i:s', $v['upd_time']);
-                    $v['upd_time_date'] = date('Y-m-d', $v['upd_time']);
+                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
                 }
             }
         }
@@ -105,59 +99,7 @@ class ArticleService
      */
     public static function ArticleTotal($where)
     {
-        return (int) Db::name('Article')->alias('a')->join(['__ARTICLE_CATEGORY__'=>'ac'], 'a.article_category_id=ac.id')->where($where)->count();
-    }
-
-    /**
-     * 列表条件
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function ArticleListWhere($params = [])
-    {
-        $where = [];
-
-        if(!empty($params['keywords']))
-        {
-            $where[] = ['a.title', 'like', '%'.$params['keywords'].'%'];
-        }
-
-        // 是否更多条件
-        if(isset($params['is_more']) && $params['is_more'] == 1)
-        {
-            // 等值
-            if(isset($params['is_enable']) && $params['is_enable'] > -1)
-            {
-                $where[] = ['a.is_enable', '=', intval($params['is_enable'])];
-            }
-            if(isset($params['article_category_id']) && $params['article_category_id'] > -1)
-            {
-                $where[] = ['a.article_category_id', '=', intval($params['article_category_id'])];
-            }
-            if(isset($params['is_home_recommended']) && $params['is_home_recommended'] > -1)
-            {
-                $where[] = ['a.is_home_recommended', '=', intval($params['is_home_recommended'])];
-            }
-            if(isset($params['access_count']) && $params['access_count'] > -1)
-            {
-                $where[] = ['a.access_count', '>', intval($params['access_count'])];
-            }
-
-            if(!empty($params['time_start']))
-            {
-                $where[] = ['a.add_time', '>', strtotime($params['time_start'])];
-            }
-            if(!empty($params['time_end']))
-            {
-                $where[] = ['a.add_time', '<', strtotime($params['time_end'])];
-            }
-        }
-
-        return $where;
+        return (int) Db::name('Article')->where($where)->count();
     }
 
     /**
@@ -229,7 +171,7 @@ class ArticleService
         $content = isset($params['content']) ? htmlspecialchars_decode($params['content']) : '';
 
         // 数据
-        $images = self::MatchContentImage($content);
+        $images = ResourcesService::RichTextMatchContentImage($content, 'article');
         $data = [
             'title'                 => $params['title'],
             'title_color'           => empty($params['title_color']) ? '' : $params['title_color'],
@@ -275,26 +217,6 @@ class ArticleService
             }
             return DataReturn('编辑失败', -100); 
         }
-    }
-
-    /**
-     * 正则匹配文章图片
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-01-22T18:06:53+0800
-     * @param    [string]         $content [文章内容]
-     * @return   [array]                   [文章图片数组（一维）]
-     */
-    private static function MatchContentImage($content)
-    {
-        if(!empty($content))
-        {
-            $pattern = '/<img.*?src=[\'|\"](\/static\/upload\/article\/image\/.*?[\.gif|\.jpg|\.jpeg|\.png|\.bmp])[\'|\"].*?[\/]?>/';
-            preg_match_all($pattern, $content, $match);
-            return empty($match[1]) ? [] : $match[1];
-        }
-        return array();
     }
 
     /**
@@ -376,27 +298,24 @@ class ArticleService
      */
     public static function ArticleDelete($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
+        // 参数是否有误
+        if(empty($params['ids']))
         {
-            return DataReturn($ret, -1);
+            return DataReturn('商品id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
         }
 
         // 删除操作
-        if(Db::name('Article')->where(['id'=>$params['id']])->delete())
+        if(Db::name('Article')->where(['id'=>$params['ids']])->delete())
         {
             return DataReturn('删除成功');
         }
 
-        return DataReturn('删除失败或资源不存在', -100);
+        return DataReturn('删除失败', -100);
     }
 
     /**
@@ -435,11 +354,11 @@ class ArticleService
         }
 
         // 数据更新
-        if(Db::name('Article')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state'])]))
+        if(Db::name('Article')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
             return DataReturn('编辑成功');
         }
-        return DataReturn('编辑失败或数据未改变', -100);
+        return DataReturn('编辑失败', -100);
     }
 
     /**

@@ -41,7 +41,7 @@ class CustomView extends Common
 	}
 
 	/**
-     * [Index 文章列表]
+     * [Index 列表]
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,55 +49,62 @@ class CustomView extends Common
      */
 	public function Index()
 	{
-		// 参数
-        $params = input();
+        // 总数
+        $total = CustomViewService::CustomViewTotal($this->form_where);
 
         // 分页
-        $number = MyC('admin_page_number', 10, true);
-
-        // 条件
-        $where = CustomViewService::CustomViewListWhere($params);
-
-        // 获取总数
-        $total = CustomViewService::CustomViewTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/customview/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('admin/customview/index'),
+        ];
         $page = new \base\Page($page_params);
+
+        // 获取数据列表
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+        ];
+        $ret = CustomViewService::CustomViewList($data_params);
+
+		// 基础参数赋值
+        $this->assign('params', $this->data_request);
         $this->assign('page_html', $page->GetPageHtml());
-
-        // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-            'field'     => '*',
-        );
-        $data = CustomViewService::CustomViewList($data_params);
-        $this->assign('data_list', $data['data']);
-
-		// 是否启用
-		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
-
-		// 是否包含头部
-		$this->assign('common_is_header_list', lang('common_is_header_list'));
-
-		// 是否包含尾部
-		$this->assign('common_is_footer_list', lang('common_is_footer_list'));
-
-		// 是否满屏
-		$this->assign('common_is_full_screen_list', lang('common_is_full_screen_list'));
-
-		// 参数
-        $this->assign('params', $params);
+        $this->assign('data_list', $ret['data']);
         return $this->fetch();
 	}
+
+    /**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
+
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+            ];
+            $ret = CustomViewService::CustomViewList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
+        return $this->fetch();
+    }
 
 	/**
 	 * [SaveInfo 添加/编辑页面]
@@ -109,34 +116,28 @@ class CustomView extends Common
 	public function SaveInfo()
 	{
 		// 参数
-		$params = input();
+		$params = $this->data_request;
 
 		// 数据
         $data = [];
 		if(!empty($params['id']))
 		{
 			// 获取列表
-	        $data_params = array(
+	        $data_params = [
 	            'm'        => 0,
 	            'n'        => 1,
 	            'where'    => ['id'=>intval($params['id'])],
 	            'field'    => '*',
-	        );
+	        ];
 	        $ret = CustomViewService::CustomViewList($data_params);
 	        $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
 		}
         $this->assign('data', $data);
 
-		// 是否启用
+		// 静态资源
 		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
-
-		// 是否包含头部
 		$this->assign('common_is_header_list', lang('common_is_header_list'));
-
-		// 是否包含尾部
 		$this->assign('common_is_footer_list', lang('common_is_footer_list'));
-
-		// 是否满屏
 		$this->assign('common_is_full_screen_list', lang('common_is_full_screen_list'));
 
 		return $this->fetch();
@@ -158,7 +159,7 @@ class CustomView extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return CustomViewService::CustomViewSave($params);
 	}
 
@@ -178,7 +179,7 @@ class CustomView extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         $params['user_type'] = 'admin';
         return CustomViewService::CustomViewDelete($params);
 	}
@@ -199,7 +200,7 @@ class CustomView extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return CustomViewService::CustomViewStatusUpdate($params);
 	}
 }

@@ -50,53 +50,63 @@ class Article extends Common
      */
 	public function Index()
 	{
-		// 参数
-        $params = input();
+		// 总数
+        $total = ArticleService::ArticleTotal($this->form_where);
 
         // 分页
-        $number = MyC('admin_page_number', 10, true);
-
-        // 条件
-        $where = ArticleService::ArticleListWhere($params);
-
-        // 获取总数
-        $total = ArticleService::ArticleTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/article/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('admin/article/index'),
+        ];
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $data_params = array(
-            'm'     => $page->GetPageStarNumber(),
-            'n'     => $number,
-            'where' => $where,
-            'field' => 'a.*',
-        );
-        $data = ArticleService::ArticleList($data_params);
-        $this->assign('data_list', $data['data']);
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+        ];
+        $ret = ArticleService::ArticleList($data_params);
 
-        // 是否启用
-		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
-
-		// 是否
-        $this->assign('common_is_text_list', lang('common_is_text_list'));
-
-        // 文章分类
-        $article_category = ArticleService::ArticleCategoryList(['field'=>'id,name']);
-        $this->assign('article_category_list', $article_category['data']);
-
-        // 参数
-        $this->assign('params', $params);
+        // 基础参数赋值
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
         return $this->fetch();
 	}
+
+    /**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
+
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+                'is_category'   => 1,
+            ];
+            $ret = ArticleService::ArticleList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
+        return $this->fetch();
+    }
 
 	/**
 	 * [SaveInfo 文章添加/编辑页面]
@@ -108,7 +118,7 @@ class Article extends Common
 	public function SaveInfo()
 	{
 		// 参数
-        $params = input();
+        $params = $this->data_request;
 
         // 数据
         $data = [];
@@ -118,8 +128,7 @@ class Article extends Common
             $data_params = array(
                 'm'     => 0,
                 'n'     => 1,
-                'where' => ['a.id'=>intval($params['id'])],
-                'field' => 'a.*',
+                'where' => ['id'=>intval($params['id'])],
             );
             $ret = ArticleService::ArticleList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
@@ -168,7 +177,7 @@ class Article extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return ArticleService::ArticleSave($params);
 	}
 
@@ -188,7 +197,7 @@ class Article extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         $params['admin'] = $this->admin;
         return ArticleService::ArticleDelete($params);
 	}
@@ -209,31 +218,8 @@ class Article extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         $params['admin'] = $this->admin;
-        $params['field'] = 'is_enable';
-        return ArticleService::ArticleStatusUpdate($params);
-	}
-
-	/**
-	 * [StatusHomeRecommended 是否首页推荐状态更新]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-01-12T22:23:06+0800
-	 */
-	public function StatusHomeRecommended()
-	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
-        $params = input();
-        $params['admin'] = $this->admin;
-        $params['field'] = 'is_home_recommended';
         return ArticleService::ArticleStatusUpdate($params);
 	}
 }

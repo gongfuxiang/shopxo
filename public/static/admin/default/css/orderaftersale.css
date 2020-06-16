@@ -3,11 +3,3 @@
  */
 .goods-spec li { color: #888; line-height: 16px; }
 .original-price { color: #9c9c9c; text-decoration: line-through; }
-
-/**
- * 列表
- */
-table.am-table .am-slider {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-}

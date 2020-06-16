@@ -10,15 +10,17 @@
 // +----------------------------------------------------------------------
 namespace app\admin\form;
 
+use app\service\LinkService;
+
 /**
- * 角色管理动态表格
+ * 友情链接动态表格
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
- * @date    2020-06-11
+ * @date    2020-06-16
  * @desc    description
  */
-class Role
+class Link
 {
     // 基础条件
     public $condition_base = [];
@@ -28,7 +30,7 @@ class Role
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-06-11
+     * @date    2020-06-16
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
@@ -40,11 +42,10 @@ class Role
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/role/index'),
+                'search_url'    => MyUrl('admin/link/index'),
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/role/delete'),
+                'delete_url'    => MyUrl('admin/link/delete'),
                 'delete_key'    => 'ids',
-                'detail_title'  => '基础信息',
             ],
             // 表单配置
             'form' => [
@@ -54,34 +55,74 @@ class Role
                     'checked_text'      => '反选',
                     'not_checked_text'  => '全选',
                     'align'             => 'center',
-                    'not_show_data'     => [1],
-                    'not_show_key'      => 'id',
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '角色名称',
+                    'label'         => '名称',
+                    'view_type'     => 'module',
+                    'view_key'      => 'link/module/info',
+                    'grid_size'     => 'sm',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'form_name'         => 'name',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => 'url地址',
+                    'view_type'     => 'module',
+                    'view_key'      => 'link/module/url',
+                    'grid_size'     => 'lg',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'form_name'         => 'url',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => '描述',
                     'view_type'     => 'field',
-                    'view_key'      => 'name',
+                    'view_key'      => 'describe',
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
                     ],
                 ],
                 [
-                    'label'         => '状态',
+                    'label'         => '是否启用',
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
-                    'post_url'      => MyUrl('admin/role/statusupdate'),
+                    'post_url'      => MyUrl('admin/link/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => lang('common_is_text_list'),
+                        'data'              => lang('common_is_enable_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
+                ],
+                [
+                    'label'         => '是否新窗口打开',
+                    'view_type'     => 'status',
+                    'view_key'      => 'is_new_window_open',
+                    'post_url'      => MyUrl('admin/link/statusupdate'),
+                    'align'         => 'center',
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'where_type'        => 'in',
+                        'data'              => lang('common_is_new_window_open_list'),
+                        'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => '排序',
+                    'view_type'     => 'field',
+                    'view_key'      => 'sort',
                 ],
                 [
                     'label'         => '创建时间',
@@ -102,7 +143,7 @@ class Role
                 [
                     'label'         => '操作',
                     'view_type'     => 'operate',
-                    'view_key'      => 'role/module/operate',
+                    'view_key'      => 'link/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],

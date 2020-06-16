@@ -1,314 +1,251 @@
-{{include file="public/header" /}}
+<!-- table nav start -->
+{{block name="form_navigation"}}
+	{{include file="navigation/nav" /}}
+{{/block}}
+<!-- table nav end -->
 
-<!-- right content start  -->
-<div class="content-right">
-	<div class="content">
-		<!-- table nav start -->
-		{{include file="navigation/nav" /}}
-		<!-- table nav end -->
+<!-- 继承公共的 form -->
+{{extend name="public/module/form" /}}
 
-		<!-- operation start -->
-		<div class="am-g">
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-custom-save-win'}" data-tag="nav-custom-save-win"> 自定义</button>
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-article-save-win'}" data-tag="nav-article-save-win"> 文章</button>
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-customview-save-win'}" data-tag="nav-customview-save-win"> 自定义页面</button>
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#nav-goods_category-save-win'}" data-tag="nav-goods_category-save-win"> 商品分类</button>
-		</div>
-		<!-- operation end -->
-
-		<!-- list start -->
-		<div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm am-margin-bottom-sm">
-            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last">
-				<thead>
-					<tr>
-						<th class="am-grid-lg">导航名称</th>
-						<th>导航数据类型</th>
-						<th class="am-text-center">状态</th>
-						<th class="am-text-center" data-width="170">操作</th>
-					</tr>
-				</thead>
-				<tbody>
-					{{if !empty($data_list)}}
-						{{foreach $data_list as $v}}
-							<tr id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="am-active"{{/if}}>
-								<td class="am-text-middle">{{$v.name}}
-									<a href="{{$v.url}}" target="_blank">
-										<i class="am-icon-external-link"></i>
-									</a>
-								</td>
-								<td class="am-text-middle">{{:lang('common_nav_type_list')[$v['data_type']]}}</td>
-								<td class="am-text-middle am-text-center">
-									<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/navigation/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_show']}}" data-is-update-status="1"></a>
-								</td>
-								<td class="am-operate-grid" data-width="170">
-                                    <div class="am-scrollable-vertical">
-										<button class="am-btn am-btn-secondary am-btn-xs am-radius submit-edit" data-am-modal="{target: '#nav-{{$v.data_type}}-save-win'}" data-json='{{:json_encode($v)}}' data-tag="nav-{{$v.data_type}}-save-win">
-											<i class="am-icon-edit"></i>
-											<span>编辑</span>
-										</button>
-										<button class="am-btn am-btn-danger am-btn-xs am-radius submit-delete" data-url="{{:MyUrl('admin/navigation/delete')}}" data-id="{{$v.id}}">
-											<i class="am-icon-trash-o"></i>
-											<span>删除</span>
-										</button>
-									</div>
-								</td>
-							</tr>
-							{{if !empty($v['items'])}}
-								{{foreach $v.items as $vs}}
-									<tr id="data-list-{{$vs.id}}" {{if $vs['is_show'] eq 0}}class="am-active"{{/if}}>
-										<td class="p-l-30">{{$vs.name}}
-											<a href="{{$vs.url}}" target="_blank">
-												<i class="am-icon-external-link"></i>
-											</a>
-										</td>
-										<td class="am-text-middle">{{:lang('common_nav_type_list')[$vs['data_type']]}}</td>
-										<td class="am-text-middle am-text-center">
-											<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $vs['is_show'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/navigation/statusupdate')}}" data-id="{{$vs.id}}" data-state="{{$vs['is_show']}}" data-is-update-status="1"></a>
-										</td>
-										<td class="am-operate-grid" data-width="170">
-                                    		<div class="am-scrollable-vertical">
-												<button class="am-btn am-btn-secondary am-btn-xs am-radius submit-edit" data-am-modal="{target: '#nav-{{$vs.data_type}}-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="nav-{{$vs.data_type}}-save-win">
-													<i class="am-icon-edit"></i>
-													<span>编辑</span>
-												</button>
-												<button class="am-btn am-btn-danger am-btn-xs am-radius submit-delete" data-url="{{:MyUrl('admin/navigation/delete')}}" data-id="{{$vs.id}}">
-													<i class="am-icon-trash-o"></i>
-													<span>删除</span>
-												</button>
-											</div>
-										</td>
-									</tr>
-								{{/foreach}}
-							{{/if}}
-						{{/foreach}}
-					{{/if}}
-				</tbody>
-			</table>
-			{{if empty($data_list)}}
-                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-            {{/if}}
-		</div>
-		<!-- list end -->
-
-		<!-- custom save win start -->
-		<div class="am-popup am-radius" id="nav-custom-save-win">
-			<div class="am-popup-inner">
-				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="自定义导航添加" data-edit-title="自定义导航编辑">自定义导航添加</h4>
-					<span data-am-modal-close class="am-close">&times;</span>
-				</div>
-				<div class="am-popup-bd">
-					<!-- form start -->
-					<form class="am-form form-validation" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
-						<div class="am-form-group">
-							<label>导航级别</label>
-							<select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
-								<option value="">一级栏目...</option>
-								{{foreach $nav_header_pid_list as $v}}
-									<option value="{{$v.id}}">{{$v.name}}</option>
-								{{/foreach}}
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>导航名称</label>
-							<input type="text" placeholder="导航名称" name="name" minlength="2" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" required />
-						</div>
-						<div class="am-form-group">
-							<label>url地址<span class="am-form-group-label-tips">带http://或https://</span></label>
-							<input type="url" placeholder="url地址" name="url"  data-validation-message="url格式有误" class="am-radius" required />
-						</div>
-						<div class="am-form-group">
-							<label>顺序</label>
-							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
-						</div>
-						{{include file="lib/is_show" /}}
-						{{include file="lib/is_new_window_open" /}}
-						<div class="am-form-group am-form-group-refreshing">
-							<input type="hidden" name="id" />
-							<input type="hidden" name="data_type" value="custom" />
-							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
-						</div>
-					</form>
-					<!-- form end -->
-				</div>
-			</div>
-		</div>
-		<!-- custom save win end -->
-
-		<!-- article save win start -->
-		<div class="am-popup am-radius" id="nav-article-save-win">
-			<div class="am-popup-inner">
-				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="文章导航添加" data-edit-title="文章导航编辑">文章导航添加</h4>
-					<span data-am-modal-close class="am-close">&times;</span>
-				</div>
-				<div class="am-popup-bd">
-					<!-- form start -->
-					<form class="am-form form-validation-article" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
-						<div class="am-form-group">
-							<label>导航级别</label>
-							<select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
-								<option value="">一级栏目...</option>
-								{{foreach $nav_header_pid_list as $v}}
-									<option value="{{$v.id}}">{{$v.name}}</option>
-								{{/foreach}}
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>文章</label>
-							<select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="文章选择有误" required>
-								<option value="">请选择...</option>
-								{{foreach $article_list as $v}}
-									<optgroup label="{{$v.name}}">
-										{{if !empty($v['items'])}}
-											{{foreach $v.items as $vs}}
-												<option value="{{$vs.id}}">{{$vs.title}}</option>
-											{{/foreach}}
-										{{/if}}
-									</optgroup>
-								{{/foreach}}
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>导航名称<span class="am-form-group-label-tips">默认文章名称</span></label>
-							<input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
-						</div>
-						<div class="am-form-group">
-							<label>顺序</label>
-							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
-						</div>
-						{{include file="lib/is_show" /}}
-						{{include file="lib/is_new_window_open" /}}
-						<div class="am-form-group am-form-group-refreshing">
-							<input type="hidden" name="id" />
-							<input type="hidden" name="data_type" value="article" />
-							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
-						</div>
-					</form>
-					<!-- form end -->
-				</div>
-			</div>
-		</div>
-		<!-- article save win end -->
-
-		<!-- customview save win start -->
-		<div class="am-popup am-radius" id="nav-customview-save-win">
-			<div class="am-popup-inner">
-				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="自定义页面导航添加" data-edit-title="自定义页面导航编辑">自定义页面导航添加</h4>
-					<span data-am-modal-close
-					class="am-close">&times;</span>
-					</div>
-				<div class="am-popup-bd">
-					<!-- form start -->
-					<form class="am-form form-validation-customview" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
-						<div class="am-form-group">
-							<label>导航级别</label>
-							<select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
-								<option value="">一级栏目...</option>
-								{{foreach $nav_header_pid_list as $v}}
-									<option value="{{$v.id}}">{{$v.name}}</option>
-								{{/foreach}}
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>自定义页面</label>
-							<select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="自定义页面选择有误" required>
-								<option value="">请选择...</option>
-								{{foreach $customview_list as $v}}
-									<option value="{{$v.id}}">{{$v.title}}</option>
-								{{/foreach}}
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>导航名称<span class="am-form-group-label-tips">默认自定义页面名称</span></label>
-							<input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
-						</div>
-						<div class="am-form-group">
-							<label>顺序</label>
-							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
-						</div>
-						{{include file="lib/is_show" /}}
-						{{include file="lib/is_new_window_open" /}}
-						<div class="am-form-group am-form-group-refreshing">
-							<input type="hidden" name="id" />
-							<input type="hidden" name="data_type" value="customview" />
-							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
-						</div>
-					</form>
-					<!-- form end -->
-				</div>
-			</div>
-		</div>
-		<!-- customview save win end -->
-
-		<!-- goods_category save win start -->
-		<div class="am-popup am-radius" id="nav-goods_category-save-win">
-			<div class="am-popup-inner">
-				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="商品分类导航添加" data-edit-title="商品分类导航编辑">商品分类导航添加</h4>
-					<span data-am-modal-close class="am-close">&times;</span>
-				</div>
-				<div class="am-popup-bd">
-					<!-- form start -->
-					<form class="am-form form-validation-goods_category" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
-						<div class="am-form-group">
-							<label>导航级别</label>
-							<select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
-								<option value="">一级栏目...</option>
-								{{foreach $nav_header_pid_list as $v}}
-									<option value="{{$v.id}}">{{$v.name}}</option>
-								{{/foreach}}
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>商品分类</label>
-							<select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="商品分类选择有误" required>
-								<option value="">请选择...</option>
-								{{foreach $goods_category_list as $v}}
-									<option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>一级 - {{$v.name}}</option>
-									{{if !empty($v['items'])}}
-										{{foreach $v.items as $vs}}
-											<option style="padding-left: 30px;" value="{{$vs.id}}" {{if !empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])}}selected{{/if}}>二级 - {{$vs.name}}</option>
-											{{if !empty($vs['items'])}}
-												{{foreach $vs.items as $vss}}
-													<option style="padding-left: 60px;" value="{{$vss.id}}" {{if !empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])}}selected{{/if}}>三级 - {{$vss.name}}</option>
-												{{/foreach}}
-											{{/if}}
-										{{/foreach}}
-									{{/if}}
-								{{/foreach}}
-							</select>
-						</div>
-						<div class="am-form-group">
-							<label>导航名称<span class="am-form-group-label-tips">默认商品分类名称</span></label>
-							<input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
-						</div>
-						<div class="am-form-group">
-							<label>顺序</label>
-							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
-						</div>
-						{{include file="lib/is_show" /}}
-						{{include file="lib/is_new_window_open" /}}
-						<div class="am-form-group am-form-group-refreshing">
-							<input type="hidden" name="id" />
-							<input type="hidden" name="data_type" value="goods_category" />
-							<input type="hidden" name="nav_type" value="{{$nav_type}}" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
-						</div>
-					</form>
-					<!-- form end -->
-				</div>
-			</div>
-		</div>
-		<!-- goods_category save win end -->
+<!-- 表单顶部操作栏 -->
+{{block name="form_operate_top"}}
+	<div class="am-dropdown am-margin-right-sm" data-am-dropdown>
+		<button class="am-btn am-btn-secondary am-radius am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle>新增 <span class="am-icon-caret-down"></span></button>
+		<ul class="am-dropdown-content">
+			<li>
+				<button type="button" class="am-btn am-btn-link am-btn-xs am-btn-block am-text-left am-padding-horizontal-sm am-icon-plus submit-add" data-am-modal="{target: '#nav-custom-save-win'}" data-tag="nav-custom-save-win"> 自定义</button>
+			</li>
+			<li>
+			    <button type="button" class="am-btn am-btn-link am-btn-xs am-btn-block am-text-left am-padding-horizontal-sm am-icon-plus submit-add" data-am-modal="{target: '#nav-article-save-win'}" data-tag="nav-article-save-win"> 文章</button>
+			   </li>
+			<li>
+			    <button type="button" class="am-btn am-btn-link am-btn-xs am-btn-block am-text-left am-padding-horizontal-sm am-icon-plus submit-add" data-am-modal="{target: '#nav-customview-save-win'}" data-tag="nav-customview-save-win"> 自定义页面</button>
+			   </li>
+			<li>
+			    <button type="button" class="am-btn am-btn-link am-btn-xs am-btn-block am-text-left am-padding-horizontal-sm am-icon-plus submit-add" data-am-modal="{target: '#nav-goods_category-save-win'}" data-tag="nav-goods_category-save-win"> 商品分类</button>
+			</li>
+		</ul>
 	</div>
-</div>
-<!-- right content end  -->
 
-<!-- footer start -->
-{{include file="public/footer" /}}
-<!-- footer end -->
+    <!-- 父级内容 -->
+    {__block__}
+{{/block}}
+
+<!-- 扩展 -->
+{{block name="form_extend"}}
+    <!-- custom save win start -->
+    <div class="am-popup am-radius" id="nav-custom-save-win">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title" data-add-title="自定义导航添加" data-edit-title="自定义导航编辑">自定义导航添加</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <div class="am-popup-bd">
+                <!-- form start -->
+                <form class="am-form form-validation" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+                    <div class="am-form-group">
+                        <label>导航级别</label>
+                        <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+                            <option value="">一级栏目...</option>
+                            {{foreach $nav_header_pid_list as $v}}
+                                <option value="{{$v.id}}">{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>导航名称</label>
+                        <input type="text" placeholder="导航名称" name="name" minlength="2" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" required />
+                    </div>
+                    <div class="am-form-group">
+                        <label>url地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+                        <input type="url" placeholder="url地址" name="url"  data-validation-message="url格式有误" class="am-radius" required />
+                    </div>
+                    <div class="am-form-group">
+                        <label>顺序</label>
+                        <input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+                    </div>
+                    {{include file="lib/is_show" /}}
+                    {{include file="lib/is_new_window_open" /}}
+                    <div class="am-form-group am-form-group-refreshing">
+                        <input type="hidden" name="id" />
+                        <input type="hidden" name="data_type" value="custom" />
+                        <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                    </div>
+                </form>
+                <!-- form end -->
+            </div>
+        </div>
+    </div>
+    <!-- custom save win end -->
+
+    <!-- article save win start -->
+    <div class="am-popup am-radius" id="nav-article-save-win">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title" data-add-title="文章导航添加" data-edit-title="文章导航编辑">文章导航添加</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <div class="am-popup-bd">
+                <!-- form start -->
+                <form class="am-form form-validation-article" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+                    <div class="am-form-group">
+                        <label>导航级别</label>
+                        <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+                            <option value="">一级栏目...</option>
+                            {{foreach $nav_header_pid_list as $v}}
+                                <option value="{{$v.id}}">{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>文章</label>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="文章选择有误" required>
+                            <option value="">请选择...</option>
+                            {{foreach $article_list as $v}}
+                                <optgroup label="{{$v.name}}">
+                                    {{if !empty($v['items'])}}
+                                        {{foreach $v.items as $vs}}
+                                            <option value="{{$vs.id}}">{{$vs.title}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </optgroup>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>导航名称<span class="am-form-group-label-tips">默认文章名称</span></label>
+                        <input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
+                    </div>
+                    <div class="am-form-group">
+                        <label>顺序</label>
+                        <input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+                    </div>
+                    {{include file="lib/is_show" /}}
+                    {{include file="lib/is_new_window_open" /}}
+                    <div class="am-form-group am-form-group-refreshing">
+                        <input type="hidden" name="id" />
+                        <input type="hidden" name="data_type" value="article" />
+                        <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                    </div>
+                </form>
+                <!-- form end -->
+            </div>
+        </div>
+    </div>
+    <!-- article save win end -->
+
+    <!-- customview save win start -->
+    <div class="am-popup am-radius" id="nav-customview-save-win">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title" data-add-title="自定义页面导航添加" data-edit-title="自定义页面导航编辑">自定义页面导航添加</h4>
+                <span data-am-modal-close
+                class="am-close">&times;</span>
+                </div>
+            <div class="am-popup-bd">
+                <!-- form start -->
+                <form class="am-form form-validation-customview" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+                    <div class="am-form-group">
+                        <label>导航级别</label>
+                        <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+                            <option value="">一级栏目...</option>
+                            {{foreach $nav_header_pid_list as $v}}
+                                <option value="{{$v.id}}">{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>自定义页面</label>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="自定义页面选择有误" required>
+                            <option value="">请选择...</option>
+                            {{foreach $customview_list as $v}}
+                                <option value="{{$v.id}}">{{$v.title}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>导航名称<span class="am-form-group-label-tips">默认自定义页面名称</span></label>
+                        <input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
+                    </div>
+                    <div class="am-form-group">
+                        <label>顺序</label>
+                        <input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+                    </div>
+                    {{include file="lib/is_show" /}}
+                    {{include file="lib/is_new_window_open" /}}
+                    <div class="am-form-group am-form-group-refreshing">
+                        <input type="hidden" name="id" />
+                        <input type="hidden" name="data_type" value="customview" />
+                        <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                    </div>
+                </form>
+                <!-- form end -->
+            </div>
+        </div>
+    </div>
+    <!-- customview save win end -->
+
+    <!-- goods_category save win start -->
+    <div class="am-popup am-radius" id="nav-goods_category-save-win">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title" data-add-title="商品分类导航添加" data-edit-title="商品分类导航编辑">商品分类导航添加</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <div class="am-popup-bd">
+                <!-- form start -->
+                <form class="am-form form-validation-goods_category" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+                    <div class="am-form-group">
+                        <label>导航级别</label>
+                        <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
+                            <option value="">一级栏目...</option>
+                            {{foreach $nav_header_pid_list as $v}}
+                                <option value="{{$v.id}}">{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>商品分类</label>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="商品分类选择有误" required>
+                            <option value="">请选择...</option>
+                            {{foreach $goods_category_list as $v}}
+                                <option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>一级 - {{$v.name}}</option>
+                                {{if !empty($v['items'])}}
+                                    {{foreach $v.items as $vs}}
+                                        <option style="padding-left: 30px;" value="{{$vs.id}}" {{if !empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])}}selected{{/if}}>二级 - {{$vs.name}}</option>
+                                        {{if !empty($vs['items'])}}
+                                            {{foreach $vs.items as $vss}}
+                                                <option style="padding-left: 60px;" value="{{$vss.id}}" {{if !empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])}}selected{{/if}}>三级 - {{$vss.name}}</option>
+                                            {{/foreach}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>导航名称<span class="am-form-group-label-tips">默认商品分类名称</span></label>
+                        <input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
+                    </div>
+                    <div class="am-form-group">
+                        <label>顺序</label>
+                        <input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+                    </div>
+                    {{include file="lib/is_show" /}}
+                    {{include file="lib/is_new_window_open" /}}
+                    <div class="am-form-group am-form-group-refreshing">
+                        <input type="hidden" name="id" />
+                        <input type="hidden" name="data_type" value="goods_category" />
+                        <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                    </div>
+                </form>
+                <!-- form end -->
+            </div>
+        </div>
+    </div>
+    <!-- goods_category save win end -->
+{{/block}}

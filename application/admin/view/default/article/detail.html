@@ -6,13 +6,13 @@
     <!-- 父级内容 -->
     {__block__}
     
-    <!-- 电脑端详情 -->
+    <!-- 详情内容 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">电脑端详情</div>
+        <div class="am-panel-hd">详情内容</div>
         <div class="am-panel-bd">
-            {{if !empty($data['content_web'])}}
+            {{if !empty($data['content'])}}
                 <div class="am-scrollable-vertical am-nowrap-initial">
-                    {{$data.content_web|raw}}
+                    {{$data.content|raw}}
                 </div>
             {{else /}}
                 <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
@@ -20,13 +20,28 @@
         </div>
     </div>
 
-    <!-- 虚拟商品展示数据 -->
+    <!-- 详情图片 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">虚拟商品展示数据</div>
+        <div class="am-panel-hd">详情图片</div>
         <div class="am-panel-bd">
-            {{if !empty($data['fictitious_goods_value'])}}
-                <div class="am-scrollable-vertical am-nowrap-initial">
-                    {{$data.fictitious_goods_value|raw}}
+            {{if !empty($data['images'])}}
+                <div data-am-widget="slider" class="am-slider am-slider-default" data-am-slider='{"controlNav":false}'>
+                    <ul class="am-slides">
+                        {{foreach $data.images as $ik=>$iv}}
+                            <li>
+                                <a href="{{$iv}}" target="_blank">
+                                    <img src="{{$iv}}" />
+                                </a>
+                                <div class="am-slider-desc">
+                                    <div class="am-slider-counter">
+                                        <strong class="am-text-lg">{{$ik+1}}</strong>
+                                        <span class="am-margin-right-sm">/{{:count($data['images'])}}</span>
+                                        <span>{{$iv}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        {{/foreach}}
+                    </ul>
                 </div>
             {{else /}}
                 <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>

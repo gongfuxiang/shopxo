@@ -10,11 +10,6 @@
 // +----------------------------------------------------------------------
 namespace app\admin\form;
 
-use think\Db;
-use app\service\GoodsService;
-use app\service\RegionService;
-use app\service\BrandService;
-
 /**
  * 用户动态表格
  * @author  Devil

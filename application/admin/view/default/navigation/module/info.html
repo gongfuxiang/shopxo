@@ -1,0 +1,9 @@
+<!-- 商品基础信息 -->
+{{if !empty($module_data)}}
+    <div {{if $module_data['pid'] gt 0}}class="am-padding-left-lg am-margin-left-lg"{{/if}} title="{{$module_data.name}}">
+        <span>{{$module_data.name}}</span>
+        <a href="{{$module_data.url}}" target="_blank">
+            <i class="am-icon-external-link"></i>
+        </a>
+    </div>
+{{/if}}

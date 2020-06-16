@@ -10,15 +10,17 @@
 // +----------------------------------------------------------------------
 namespace app\admin\form;
 
+use app\service\ArticleService;
+
 /**
- * 角色管理动态表格
+ * 文章动态表格
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
- * @date    2020-06-11
+ * @date    2020-06-16
  * @desc    description
  */
-class Role
+class Article
 {
     // 基础条件
     public $condition_base = [];
@@ -28,7 +30,7 @@ class Role
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-06-11
+     * @date    2020-06-16
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
@@ -40,9 +42,9 @@ class Role
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/role/index'),
+                'search_url'    => MyUrl('admin/article/index'),
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/role/delete'),
+                'delete_url'    => MyUrl('admin/article/delete'),
                 'delete_key'    => 'ids',
                 'detail_title'  => '基础信息',
             ],
@@ -54,25 +56,64 @@ class Role
                     'checked_text'      => '反选',
                     'not_checked_text'  => '全选',
                     'align'             => 'center',
-                    'not_show_data'     => [1],
-                    'not_show_key'      => 'id',
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '角色名称',
+                    'label'         => '标题',
+                    'view_type'     => 'module',
+                    'view_key'      => 'article/module/info',
+                    'grid_size'     => 'sm',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'form_name'         => 'title',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => '跳转url地址',
                     'view_type'     => 'field',
-                    'view_key'      => 'name',
+                    'view_key'      => 'jump_url',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
                     ],
                 ],
                 [
-                    'label'         => '状态',
+                    'label'         => '分类',
+                    'view_type'     => 'field',
+                    'view_key'      => 'article_category_name',
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'form_name'         => 'article_category_id',
+                        'where_type'        => 'in',
+                        'data'              => $this->ArticleCategoryList(),
+                        'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => '是否启用',
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
-                    'post_url'      => MyUrl('admin/role/statusupdate'),
+                    'post_url'      => MyUrl('admin/article/statusupdate'),
                     'is_form_su'    => 1,
+                    'align'         => 'center',
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'where_type'        => 'in',
+                        'data'              => lang('common_is_enable_list'),
+                        'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => '首页推荐',
+                    'view_type'     => 'status',
+                    'view_key'      => 'is_home_recommended',
+                    'post_url'      => MyUrl('admin/article/statusupdate'),
                     'align'         => 'center',
                     'search_config' => [
                         'form_type'         => 'select',
@@ -81,6 +122,22 @@ class Role
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => '图片数量',
+                    'view_type'     => 'field',
+                    'view_key'      => 'images_count',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
+                ],
+                [
+                    'label'         => '访问次数',
+                    'view_type'     => 'field',
+                    'view_key'      => 'access_count',
+                    'search_config' => [
+                        'form_type'         => 'section',
                     ],
                 ],
                 [
@@ -102,12 +159,26 @@ class Role
                 [
                     'label'         => '操作',
                     'view_type'     => 'operate',
-                    'view_key'      => 'role/module/operate',
+                    'view_key'      => 'article/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
             ],
         ];
+    }
+
+    /**
+     * 获取文章分类列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-11
+     * @desc    description
+     */
+    public function ArticleCategoryList()
+    {
+        $res = ArticleService::ArticleCategoryList(['field'=>'id,name']);
+        return $res['data'];
     }
 }
 ?>

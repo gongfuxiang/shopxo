@@ -44,7 +44,7 @@ class Navigation extends Common
 		$this->IsPower();
 
 		// 导航类型
-		$this->nav_type = input('nav_type', 'header');
+		$this->nav_type = empty($this->data_request['nav_type']) ? 'header' : $this->data_request['nav_type'];
 	}
 
 	/**
@@ -57,7 +57,10 @@ class Navigation extends Common
 	public function Index()
 	{
 		// 获取导航列表
-		$this->assign('data_list', NavigationService::NavList(['nav_type'=>$this->nav_type]));
+        $where = $this->form_where;
+        $where[] = ['nav_type', '=', $this->nav_type];
+        $ret = NavigationService::NavList(['where'=>$where]);
+		$this->assign('data_list', $ret['data']);
 
 		// 一级分类
 		$this->assign('nav_header_pid_list', NavigationService::LevelOneNav(['nav_type'=>$this->nav_type]));
@@ -98,12 +101,10 @@ class Navigation extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         $params['nav_type'] = $this->nav_type;
         return NavigationService::NavSave($params);
 	}
-
-	
 
 	/**
 	 * [Delete 删除]
@@ -121,7 +122,7 @@ class Navigation extends Common
 		}
 
 		// 开始处理
-        $params = input();
+        $params = $this->data_request;
         return NavigationService::NavDelete($params);
 	}
 
@@ -141,7 +142,7 @@ class Navigation extends Common
 		}
 
 		// 开始处理
-        $params = input();
+        $params = $this->data_request;
         return NavigationService::NavStatusUpdate($params);
 	}
 }

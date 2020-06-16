@@ -45,47 +45,58 @@ class Article extends Common
 	public function Index()
 	{
 		// 获取文章
-		$id = input('id');
+		if(empty($this->data_request['id']))
+        {
+            $this->assign('msg', '文章ID有误');
+            return $this->fetch('public/tips_error');
+        }
+
+        // 获取数据
+        $id = intval($this->data_request['id']);
 		$params = [
-			'where' => ['a.is_enable'=>1, 'a.id'=>$id],
-			'field' => 'a.id,a.title,a.title_color,a.jump_url,a.content,a.access_count,a.article_category_id,seo_title,seo_keywords,seo_desc,a.add_time',
-			'm' => 0,
-			'n' => 1,
+			'where'  => [
+                'is_enable' => 1,
+                'id'        => $id,
+            ],
+			'field'  => 'id,title,title_color,jump_url,content,access_count,article_category_id,seo_title,seo_keywords,seo_desc,add_time',
+			'm'      => 0,
+			'n'      => 1,
 		];
-		$article = ArticleService::ArticleList($params);
-		if(!empty($article['data'][0]))
+		$ret = ArticleService::ArticleList($params);
+		if(!empty($ret['data'][0]))
 		{
 			// 访问统计
 			ArticleService::ArticleAccessCountInc(['id'=>$id]);
 
 			// 是否外部链接
-			if(!empty($article['data'][0]['jump_url']))
+			if(!empty($ret['data'][0]['jump_url']))
 			{
-				return redirect($article['data'][0]['jump_url']);
+				return redirect($ret['data'][0]['jump_url']);
 			}
 
-			// 获取分类和文字
+			// 获取分类
 			$article_category_content = ArticleService::ArticleCategoryListContent();
             $this->assign('category_list', $article_category_content['data']);
 
             // seo
-            $seo_title = empty($article['data'][0]['seo_title']) ? $article['data'][0]['title'] : $article['data'][0]['seo_title'];
+            $seo_title = empty($ret['data'][0]['seo_title']) ? $ret['data'][0]['title'] : $ret['data'][0]['seo_title'];
             $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($seo_title, 2));
-            if(!empty($article['data'][0]['seo_keywords']))
+            if(!empty($ret['data'][0]['seo_keywords']))
             {
-                $this->assign('home_seo_site_keywords', $article['data'][0]['seo_keywords']);
+                $this->assign('home_seo_site_keywords', $ret['data'][0]['seo_keywords']);
             }
-            if(!empty($article['data'][0]['seo_desc']))
+            if(!empty($ret['data'][0]['seo_desc']))
             {
-                $this->assign('home_seo_site_description', $article['data'][0]['seo_desc']);
+                $this->assign('home_seo_site_description', $ret['data'][0]['seo_desc']);
             }
 
-			$this->assign('article', $article['data'][0]);
+			$this->assign('article', $ret['data'][0]);
 			return $this->fetch();
-		} else {
-			$this->assign('msg', '文章不存在或已删除');
-			return $this->fetch('public/tips_error');
 		}
+
+        // 无数据
+		$this->assign('msg', '文章不存在或已删除');
+		return $this->fetch('public/tips_error');
 	}
 }
 ?>

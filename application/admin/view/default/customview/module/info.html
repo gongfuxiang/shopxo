@@ -1,0 +1,4 @@
+<!-- 标题信息 -->
+{{if !empty($module_data)}}
+    <a href="{{:MyUrl('index/customview/index', ['id'=>$module_data['id']])}}" target="_blank" title="{{$module_data.title}}">{{$module_data.title}}</a>
+{{/if}}

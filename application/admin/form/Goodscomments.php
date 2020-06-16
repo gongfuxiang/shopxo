@@ -115,7 +115,7 @@ class Goodscomments
                     'label'         => '评论图片',
                     'view_type'     => 'module',
                     'view_key'      => 'goodscomments/module/images',
-                    'width'         => 140,
+                    'is_list'       => 0,
                 ],
                 [
                     'label'         => '评分',

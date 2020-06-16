@@ -167,7 +167,7 @@ class Orderaftersale
                     'label'         => '凭证',
                     'view_type'     => 'module',
                     'view_key'      => 'orderaftersale/module/voucher',
-                    'width'         => 140,
+                    'is_list'        => 0,
                 ],
                 [
                     'label'         => '快递公司',

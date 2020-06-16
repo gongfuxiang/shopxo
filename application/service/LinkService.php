@@ -35,6 +35,15 @@ class LinkService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $data = Db::name('Link')->where($where)->order('sort asc')->select();
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                // 时间
+                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+            }
+        }
         return DataReturn('处理成功', 0, $data);
     }
 
@@ -133,27 +142,24 @@ class LinkService
      */
     public static function LinkDelete($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
+        // 参数是否有误
+        if(empty($params['ids']))
         {
-            return DataReturn($ret, -1);
+            return DataReturn('操作id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
         }
 
         // 删除操作
-        if(Db::name('Link')->where(['id'=>$params['id']])->delete())
+        if(Db::name('Link')->where(['id'=>$params['ids']])->delete())
         {
             return DataReturn('删除成功');
         }
 
-        return DataReturn('删除失败或资源不存在', -100);
+        return DataReturn('删除失败', -100);
     }
 
     /**
@@ -174,6 +180,11 @@ class LinkService
                 'error_msg'         => '操作id有误',
             ],
             [
+                'checked_type'      => 'empty',
+                'key_name'          => 'field',
+                'error_msg'         => '未指定操作字段',
+            ],
+            [
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
@@ -187,11 +198,11 @@ class LinkService
         }
 
         // 数据更新
-        if(Db::name('Link')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
+        if(Db::name('Link')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
             return DataReturn('编辑成功');
         }
-        return DataReturn('编辑失败或数据未改变', -100);
+        return DataReturn('编辑失败', -100);
     }
 }
 ?>

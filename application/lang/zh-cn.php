@@ -205,14 +205,6 @@ return array(
             1 => array('id' => 1, 'name' => '是'),
         ),
 
-    // 导航数据类型
-    'common_nav_type_list'              =>  array(
-            'custom'            =>  '自定义',
-            'article'           =>  '文章',
-            'customview'        =>  '自定义页面',
-            'goods_category'    =>  '商品分类',
-        ),
-
     // 是否含头部
     'common_is_header_list'         =>  array(
             0 => array('id' => 0, 'name' => '否'),
@@ -237,6 +229,14 @@ return array(
     'common_comments_status_list'       =>  array(
             0 => array('value' => 0, 'name' => '待评价'),
             1 => array('value' => 1, 'name' => '已评价'),
+        ),
+
+    // 导航数据类型
+    'common_nav_type_list'              =>  array(
+            'custom' => array('value'=>'custom', 'name'=>'自定义'),
+            'article' => array('value'=>'article', 'name'=>'文章'),
+            'customview' => array('value'=>'customview', 'name'=>'自定义页面'),
+            'goods_category' => array('value'=>'goods_category', 'name'=>'商品分类'),
         ),
 
     // 搜索框下热门关键字类型

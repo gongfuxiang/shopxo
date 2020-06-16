@@ -11,14 +11,14 @@
 namespace app\admin\form;
 
 /**
- * 角色管理动态表格
+ * 导航动态表格
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
- * @date    2020-06-11
+ * @date    2020-06-15
  * @desc    description
  */
-class Role
+class Navigation
 {
     // 基础条件
     public $condition_base = [];
@@ -28,23 +28,26 @@ class Role
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-06-11
+     * @date    2020-06-15
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
     public function Run($params = [])
     {
+        // 导航类型
+        $nav_type = empty($params['nav_type']) ? 'header' : trim($params['nav_type']);
+
+        // 配置信息
         return [
             // 基础配置
             'base' => [
                 'key_field'     => 'id',
-                'status_field'  => 'is_enable',
+                'status_field'  => 'is_show',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/role/index'),
+                'search_url'    => MyUrl('admin/navigation/index', ['nav_type'=>$nav_type]),
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/role/delete'),
+                'delete_url'    => MyUrl('admin/navigation/delete'),
                 'delete_key'    => 'ids',
-                'detail_title'  => '基础信息',
             ],
             // 表单配置
             'form' => [
@@ -54,34 +57,68 @@ class Role
                     'checked_text'      => '反选',
                     'not_checked_text'  => '全选',
                     'align'             => 'center',
-                    'not_show_data'     => [1],
-                    'not_show_key'      => 'id',
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '角色名称',
-                    'view_type'     => 'field',
-                    'view_key'      => 'name',
+                    'label'         => '导航名称',
+                    'view_type'     => 'module',
+                    'view_key'      => 'navigation/module/info',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
+                        'form_name'         => 'name',
                         'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => '导航数据类型',
+                    'view_type'     => 'field',
+                    'view_key'      => 'data_type_text',
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'form_name'         => 'data_type',
+                        'where_type'        => 'in',
+                        'data'              => lang('common_nav_type_list'),
+                        'data_key'          => 'value',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
                     ],
                 ],
                 [
                     'label'         => '状态',
                     'view_type'     => 'status',
-                    'view_key'      => 'is_enable',
-                    'post_url'      => MyUrl('admin/role/statusupdate'),
+                    'view_key'      => 'is_show',
+                    'post_url'      => MyUrl('admin/navigation/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => lang('common_is_text_list'),
+                        'data'              => lang('common_is_show_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
+                ],
+                [
+                    'label'         => '新窗口打开',
+                    'view_type'     => 'status',
+                    'view_key'      => 'is_new_window_open',
+                    'post_url'      => MyUrl('admin/navigation/statusupdate'),
+                    'align'         => 'center',
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'where_type'        => 'in',
+                        'data'              => lang('common_is_new_window_open_list'),
+                        'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => '排序',
+                    'view_type'     => 'field',
+                    'view_key'      => 'sort',
                 ],
                 [
                     'label'         => '创建时间',
@@ -102,7 +139,7 @@ class Role
                 [
                     'label'         => '操作',
                     'view_type'     => 'operate',
-                    'view_key'      => 'role/module/operate',
+                    'view_key'      => 'navigation/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],

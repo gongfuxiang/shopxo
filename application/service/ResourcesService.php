@@ -538,5 +538,26 @@ class ResourcesService
         ];
         return str_replace($search, $replace, $content);
     }
+
+    /**
+     * 正则匹配富文本图片
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-16
+     * @desc    description
+     * @param   [string]          $content [内容]
+     * @param   [string]          $type    [模块名称]
+     */
+    public static function RichTextMatchContentImage($content, $type)
+    {
+        if(!empty($content))
+        {
+            $pattern = '/<img.*?src=[\'|\"](\/static\/upload\/images\/'.$type.'\/image\/.*?[\.gif|\.jpg|\.jpeg|\.png|\.bmp])[\'|\"].*?[\/]?>/';
+            preg_match_all($pattern, self::AttachmentPathHandle($content), $match);
+            return empty($match[1]) ? [] : $match[1];
+        }
+        return [];
+    }
 }
 ?>

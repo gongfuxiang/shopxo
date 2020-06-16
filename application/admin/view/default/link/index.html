@@ -1,103 +1,51 @@
-{{include file="public/header" /}}
+<!-- 继承公共的 form -->
+{{extend name="public/module/form" /}}
 
-<!-- right content start  -->
-<div class="content-right">
-	<div class="content">
-		<!-- operation start -->
-		<div class="am-g">
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#data-save-win'}"> 新增</button>
-		</div>
-		<!-- operation end -->
+<!-- 表单顶部操作栏 -->
+{{block name="form_operate_top"}}
+    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#data-save-win'}"> 新增</button>
+    <!-- 父级内容 -->
+    {__block__}
+{{/block}}
 
-		<!-- list start -->
-		<div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm am-margin-bottom-sm">
-            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last">
-				<thead>
-					<tr>
-						<th class="am-grid-sm">名称</th>
-						<th class="am-grid-sm">描述</th>
-						<th class="am-text-center">状态</th>
-						<th class="am-text-center" data-width="170">操作</th>
-					</tr>
-				</thead>
-				<tbody>
-					{{if !empty($data_list)}}
-						{{foreach $data_list as $v}}
-							<tr id="data-list-{{$v.id}}" {{if $v['is_enable'] eq 0}} class="am-active"{{/if}}>
-								<td class="am-text-middle am-nowrap-initial">{{$v.name}}
-									<a href="{{$v.url}}" target="_blank">
-										<i class="am-icon-external-link"></i>
-									</a>
-								</td>
-								<td class="am-text-middle am-nowrap-initial">{{$v.describe}}</td>
-								<td class="am-text-middle am-text-center">
-									<a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/link/statusupdate')}}" data-id="{{$v.id}}" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
-								</td>
-								<td class="am-operate-grid" data-width="170">
-                                    <div class="am-scrollable-vertical">
-										<button class="am-btn am-btn-secondary am-btn-xs am-radius submit-edit" data-am-modal="{target: '#data-save-win'}" data-json='{{:json_encode($v)}}'>
-											<i class="am-icon-edit"></i>
-											<span>编辑</span>
-										</button>
-										<button class="am-btn am-btn-danger am-btn-xs am-radius submit-delete" data-url="{{:MyUrl('admin/link/delete')}}" data-id="{{$v.id}}">
-											<i class="am-icon-trash-o"></i>
-											<span>删除</span>
-										</button>
-									</div>
-								</td>
-							</tr>
-						{{/foreach}}
-					{{/if}}
-				</tbody>
-			</table>
-			{{if empty($data_list)}}
-                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-            {{/if}}
-		</div>
-		<!-- list end -->
-
-		<!-- save win start -->
-		<div class="am-popup am-radius" id="data-save-win">
-			<div class="am-popup-inner">
-				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="友情链接添加" data-edit-title="友情链接编辑">友情链接添加</h4>
-					<span data-am-modal-close class="am-close">&times;</span>
-				</div>
-				<div class="am-popup-bd">
-					<!-- form start -->
-					<form class="am-form form-validation" action="{{:MyUrl('admin/link/Save')}}" method="POST" request-type="ajax-reload" request-value="">
-						<div class="am-form-group">
-							<label>名称</label>
-							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
-						</div>
-						<div class="am-form-group">
-							<label>链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
-							<input type="url" placeholder="链接地址" name="url"  data-validation-message="链接地址格式有误" class="am-radius" required />
-						</div>
-						<div class="am-form-group">
-							<label>顺序</label>
-							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
-						</div>
-						{{include file="lib/is_new_window_open" /}}
-						{{include file="lib/enable" /}}
-						<div class="am-form-group am-form-success">
-							<label>描述</label>
-							<textarea rows="3" maxlength="60" name="describe" class="am-radius" placeholder="描述" data-validation-message="描述不能大于60个字符"></textarea>
-						</div>
-						<div class="am-form-group am-form-group-refreshing">
-							<input type="hidden" name="id" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
-						</div>
-					</form>
-					<!-- form end -->
-				</div>
+<!-- 扩展 -->
+{{block name="form_extend"}}
+	<!-- save win start -->
+	<div class="am-popup am-radius" id="data-save-win">
+		<div class="am-popup-inner">
+			<div class="am-popup-hd">
+				<h4 class="am-popup-title" data-add-title="友情链接添加" data-edit-title="友情链接编辑">友情链接添加</h4>
+				<span data-am-modal-close class="am-close">&times;</span>
+			</div>
+			<div class="am-popup-bd">
+				<!-- form start -->
+				<form class="am-form form-validation" action="{{:MyUrl('admin/link/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<div class="am-form-group">
+						<label>名称</label>
+						<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
+					</div>
+					<div class="am-form-group">
+						<label>链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+						<input type="url" placeholder="链接地址" name="url"  data-validation-message="链接地址格式有误" class="am-radius" required />
+					</div>
+					<div class="am-form-group">
+						<label>顺序</label>
+						<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+					</div>
+					{{include file="lib/is_new_window_open" /}}
+					{{include file="lib/enable" /}}
+					<div class="am-form-group am-form-success">
+						<label>描述</label>
+						<textarea rows="3" maxlength="60" name="describe" class="am-radius" placeholder="描述" data-validation-message="描述不能大于60个字符"></textarea>
+					</div>
+					<div class="am-form-group am-form-group-refreshing">
+						<input type="hidden" name="id" />
+						<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+					</div>
+				</form>
+				<!-- form end -->
 			</div>
 		</div>
-		<!-- save win end -->
 	</div>
-</div>
-<!-- right content end  -->
-
-<!-- footer start -->
-{{include file="public/footer" /}}
-<!-- footer end -->
+	<!-- save win end -->
+{{/block}}

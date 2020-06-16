@@ -41,56 +41,18 @@ class NavigationService
         $header = cache(config('shopxo.cache_common_home_nav_header_key'));
         $footer = cache(config('shopxo.cache_common_home_nav_footer_key'));
 
-        // 导航模型
-        $field = array('id', 'pid', 'name', 'url', 'value', 'data_type', 'is_new_window_open');
-
         // 缓存没数据则从数据库重新读取,顶部菜单
         if(empty($header))
         {
             // 获取导航数据
-            $header = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>0))->order('sort')->select());
-            if(!empty($header))
-            {
-                foreach($header as &$v)
-                {
-                    $v['items'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'header', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
-                }
-            }
-
-            // 大导航钩子
-            $hook_name = 'plugins_service_navigation_header_handle';
-            Hook::listen($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'params'        => &$params,
-                'header'        => &$header,
-            ]);
- 
-            cache(config('shopxo.cache_common_home_nav_header_key'), $header);
+            $header = self::NavDataAll('header');
         }
 
         // 底部导航
         if(empty($footer))
         {
-            $footer = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1, 'pid'=>0))->order('sort')->select());
-            if(!empty($footer))
-            {
-                foreach($footer as &$v)
-                {
-                    $v['items'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>'footer', 'is_show'=>1, 'pid'=>$v['id']))->order('sort')->select());
-                }
-            }
-
-            // 底部导航钩子
-            $hook_name = 'plugins_service_navigation_footer_handle';
-            Hook::listen($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'params'        => &$params,
-                'footer'        => &$footer,
-            ]);
-
-            cache(config('shopxo.cache_common_home_nav_footer_key'), $footer);
+            // 获取导航数据
+            $footer = self::NavDataAll('footer');
         }
 
         // 中间大导航添加首页导航
@@ -141,6 +103,58 @@ class NavigationService
     }
 
     /**
+     * 获取导航数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-15
+     * @desc    description
+     * @param   [string]          $nav_type [导航类型（header, footer）]
+     */
+    public static function NavDataAll($nav_type)
+    {
+        // 指定字段
+        $field = array('id', 'pid', 'name', 'url', 'value', 'data_type', 'is_new_window_open');
+
+        // 获取导航数据
+        $data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>$nav_type, 'is_show'=>1, 'pid'=>0))->order('sort')->select());
+        if(!empty($data))
+        {
+            // 获取子数据
+            $items = [];
+            $ids = array_column($data, 'id');
+            $items_data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>$nav_type, 'is_show'=>1, 'pid'=>$ids))->order('sort')->select());
+            if(!empty($items_data))
+            {
+                foreach($items_data as $it)
+                {
+                    $items[$it['pid']][] = $it;
+                }
+            }
+
+            // 数据组合
+            foreach($data as &$v)
+            {
+                $v['items'] = isset($items[$v['id']]) ? $items[$v['id']] : [];
+            }
+        }
+
+        // 大导航钩子
+        $hook_name = 'plugins_service_navigation_'.$nav_type.'_handle';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+            $nav_type       => &$data,
+        ]);
+
+        // 缓存
+        cache(config('shopxo.cache_common_home_nav_'.$nav_type.'_key'), $data);
+        return $data;
+    }
+
+    /**
      * [NavDataDealWith 导航数据处理]
      * @author   Devil
      * @blog     http://gong.gg/
@@ -186,22 +200,67 @@ class NavigationService
      * @version 1.0.0
      * @date    2018-12-18
      * @desc    description
-     * @param   [array]          $params [输入参数]
+     * @param   [array]          $params  [输入参数]
      */
     public static function NavList($params = [])
     {
-        if(empty($params['nav_type']))
-        {
-            return [];
-        }
+        // 导航条件
+        $where = empty($params['where']) ? [] : $params['where'];
+        $where1 = $where;
+        $where1[] = ['pid', '=', 0];
 
-        $field = 'id,pid,name,url,value,data_type,sort,is_show,is_new_window_open';
-        $data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(['nav_type'=>$params['nav_type'], 'pid'=>0])->order('sort')->select());
+        $field = '*';
+        $data = self::NavigationHandle(self::NavDataDealWith(Db::name('Navigation')->field($field)->where($where1)->order('sort')->select()));
         if(!empty($data))
         {
+            // 子级数据
+            $items = [];
+            $where2 = $where;
+            $where2[] = ['pid', 'in', array_column($data, 'id')];
+            $items_data =  self::NavigationHandle(self::NavDataDealWith(Db::name('Navigation')->field($field)->where($where2)->order('sort')->select()));
+            if(!empty($items_data))
+            {
+                foreach($items_data as $it)
+                {
+                    $items[$it['pid']][] = $it;
+                }
+            }
+
+            // 数据处理
+            foreach($data as $k=>$v)
+            {
+                // 数据类型
+                if(isset($items[$v['id']]))
+                {
+                    array_splice($data, $k+1, 0, $items[$v['id']]);
+                }
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-15
+     * @desc    description
+     * @param   [array]          $data [导航数据]
+     */
+    public static function NavigationHandle($data)
+    {
+        if(!empty($data) && is_array($data))
+        {
+            $nav_type_list = lang('common_nav_type_list');
             foreach($data as &$v)
             {
-                $v['items'] = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(['nav_type'=>$params['nav_type'], 'pid'=>$v['id']])->order('sort')->select());
+                // 数据类型
+                $v['data_type_text'] = isset($nav_type_list[$v['data_type']]) ? $nav_type_list[$v['data_type']]['name'] : '';
+
+                // 时间
+                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
             }
         }
         return $data;
@@ -232,7 +291,7 @@ class NavigationService
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-07T21:58:19+0800
-     * @param   [array]          $params [输入参数]
+     * @param    [array]          $params [输入参数]
      */
     public static function NavSave($params = [])
     {
@@ -364,7 +423,7 @@ class NavigationService
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2017-02-05T20:12:30+0800
-     * @param   [array]          $params [输入参数]
+     * @param    [array]          $params [输入参数]
      */
     public static function NacDataSave($params = [])
     {
@@ -446,25 +505,22 @@ class NavigationService
      */
     public static function NavDelete($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
+        // 参数是否有误
+        if(empty($params['ids']))
         {
-            return DataReturn($ret, -1);
+            return DataReturn('操作id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
         }
 
         // 启动事务
         Db::startTrans();
 
         // 删除操作
-        if(Db::name('Navigation')->where(['id'=>$params['id']])->delete() !== false && Db::name('Navigation')->where(['pid'=>$params['id']])->delete() !== false)
+        if(Db::name('Navigation')->where(['id'=>$params['ids']])->delete() !== false && Db::name('Navigation')->where(['pid'=>$params['ids']])->delete() !== false)
         {
             // 提交事务
             Db::commit();
@@ -478,8 +534,7 @@ class NavigationService
 
         // 回滚事务
         Db::rollback();
-
-        return DataReturn('删除失败或资源不存在', -100);
+        return DataReturn('删除失败', -100);
     }
 
     /**
@@ -500,6 +555,11 @@ class NavigationService
                 'error_msg'         => '操作id有误',
             ],
             [
+                'checked_type'      => 'empty',
+                'key_name'          => 'field',
+                'error_msg'         => '未指定操作字段',
+            ],
+            [
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
@@ -513,7 +573,7 @@ class NavigationService
         }
 
         // 数据更新
-        if(Db::name('Navigation')->where(['id'=>intval($params['id'])])->update(['is_show'=>intval($params['state'])]))
+        if(Db::name('Navigation')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
             // 清除缓存
             cache(config('shopxo.cache_common_home_nav_header_key'), null);
@@ -521,7 +581,7 @@ class NavigationService
 
             return DataReturn('编辑成功');
         }
-        return DataReturn('编辑失败或数据未改变', -100);
+        return DataReturn('编辑失败', -100);
     }
 
     /**

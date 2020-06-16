@@ -43,15 +43,29 @@ class AdminRoleService
         $data = Db::name('Role')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
+            // 获取对应权限数据
+            $powers = [];
+            $ids = array_column($data, 'id');
+            $powers_data = Db::name('Role')->alias('r')->join(['__ROLE_POWER__'=>'rp'], 'rp.role_id = r.id')->join(['__POWER__'=>'p'], 'rp.power_id = p.id')->where(['r.id'=>$ids])->field('rp.role_id, rp.power_id, p.name')->select();
+            if(!empty($powers_data))
+            {
+                foreach($powers_data as $p)
+                {
+                    $powers[$p['role_id']][] = $p['name'];
+                }
+            }
+            // 是否存在超级管理角色组
+            // 超级管理员数据库中并没存储关联关系，所以这里直接读取全部权限菜单
+            if(in_array(1, $ids))
+            {
+                $powers[1] = Db::name('Power')->column('name');
+            }
+            
+            // 循环处理数据
             foreach($data as &$v)
             {
-                // 关联查询权限和角色数据
-                if($v['id'] == 1)
-                {
-                    $v['items'] = Db::name('Power')->column('name');
-                } else {
-                    $v['items'] = Db::name('Role')->alias('r')->join(['__ROLE_POWER__'=>'rp'], 'rp.role_id = r.id')->join(['__POWER__'=>'p'], 'rp.power_id = p.id')->where(array('r.id'=>$v['id']))->column('p.name');
-                }
+                // 对应权限数据
+                $v['items'] = array_key_exists($v['id'], $powers) ? $powers[$v['id']] : [];
 
                 // 时间
                 $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);

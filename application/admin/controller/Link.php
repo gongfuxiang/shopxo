@@ -50,8 +50,8 @@ class Link extends Common
 	public function Index()
 	{
 		// 获取导航列表
-		$data = LinkService::LinkList();
-		$this->assign('data_list', $data['data']);
+		$ret = LinkService::LinkList(['where'=>$this->form_where]);
+		$this->assign('data_list', $ret['data']);
 
 		// 是否新窗口打开
 		$this->assign('common_is_new_window_open_list', lang('common_is_new_window_open_list'));
@@ -78,7 +78,7 @@ class Link extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return LinkService::LinkSave($params);
 	}
 
@@ -98,7 +98,7 @@ class Link extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         $params['user_type'] = 'admin';
         return LinkService::LinkDelete($params);
 	}
@@ -119,7 +119,7 @@ class Link extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return LinkService::LinkStatusUpdate($params);
 	}
 }

@@ -1,0 +1,4 @@
+<!-- 标题信息 -->
+{{if !empty($module_data)}}
+    <a href="{{:MyUrl('index/article/index', ['id'=>$module_data['id']])}}" target="_blank" title="{{$module_data.title}}" {{if !empty($module_data['title_color'])}}style="color:{{$module_data.title_color}};"{{/if}}>{{$module_data.title}}</a>
+{{/if}}
