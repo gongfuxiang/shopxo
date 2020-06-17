@@ -49,50 +49,61 @@ class Slide extends Common
      */
     public function Index()
     {
-        // 参数
-        $params = input();
+        // 总数
+        $total = SlideService::SlideTotal($this->form_where);
 
         // 分页
-        $number = MyC('admin_page_number', 10, true);
-
-        // 条件
-        $where = SlideService::SlideListWhere($params);
-
-        // 获取总数
-        $total = SlideService::SlideTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/slide/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('admin/slide/index'),
+        ];
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-            'field'     => '*',
-        );
-        $data = SlideService::SlideList($data_params);
-        $this->assign('data_list', $data['data']);
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+        ];
+        $ret = SlideService::SlideList($data_params);
 
-        // 是否启用
-        $this->assign('common_is_enable_list', lang('common_is_enable_list'));
+        // 基础参数赋值
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
+        return $this->fetch();
+    }
 
-        // 所属平台
-        $this->assign('common_platform_type', lang('common_platform_type'));
+    /**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
 
-        // 事件类型
-        $this->assign('common_app_event_type', lang('common_app_event_type'));
-
-        // 参数
-        $this->assign('params', $params);
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+                'is_category'   => 1,
+            ];
+            $ret = SlideService::SlideList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
         return $this->fetch();
     }
 
@@ -106,39 +117,32 @@ class Slide extends Common
     public function SaveInfo()
     {
         // 参数
-        $params = input();
+        $params = $this->data_request;
 
         // 数据
         $data = [];
         if(!empty($params['id']))
         {
             // 获取列表
-            $data_params = array(
+            $data_params = [
                 'm'         => 0,
                 'n'         => 1,
                 'where'     => ['id'=>intval($params['id'])],
                 'field'     => '*',
-            );
+            ];
             $ret = SlideService::SlideList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
-        $this->assign('data', $data);
 
-        // 是否启用
+        // 静态资源
         $this->assign('common_is_enable_list', lang('common_is_enable_list'));
-
-        // 所属平台
         $this->assign('common_platform_type', lang('common_platform_type'));
-
-        // 事件类型
         $this->assign('common_app_event_type', lang('common_app_event_type'));
 
-        // 参数
-        $this->assign('params', $params);
-
-        // 编辑器文件存放地址
+        // 数据
         $this->assign('editor_path_type', 'slide');
-
+        $this->assign('params', $params);
+        $this->assign('data', $data);
         return $this->fetch();
     }
 
@@ -158,7 +162,7 @@ class Slide extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return SlideService::SlideSave($params);
     }
 
@@ -178,7 +182,7 @@ class Slide extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return SlideService::SlideDelete($params);
     }
 
@@ -198,7 +202,7 @@ class Slide extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return SlideService::SlideStatusUpdate($params);
     }
 }

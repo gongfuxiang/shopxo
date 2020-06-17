@@ -90,7 +90,7 @@ Page({
   player_event(e) {
     var params = encodeURIComponent(JSON.stringify({type: 'detail'}));
     wx.navigateTo({
-      url: `plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id=${this.data.detail.id}&custom_params=${params}`
+      url: `plugin-private://wx2b03c6e691cd7370/pages/live-player-plugin?room_id=${this.data.detail.roomid}&custom_params=${params}`
     });
   },
 

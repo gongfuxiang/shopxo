@@ -38,7 +38,7 @@ class SlideService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
-        $data = Db::name('Slide')->field($field)->where($where)->order('sort asc')->limit($m, $n)->select();
+        $data = Db::name('Slide')->field($field)->where($where)->order('id desc,sort asc')->limit($m, $n)->select();
         if(!empty($data))
         {
             $common_platform_type = lang('common_platform_type');
@@ -74,13 +74,11 @@ class SlideService
                 // 时间
                 if(isset($v['add_time']))
                 {
-                    $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                    $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                    $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
                 }
                 if(isset($v['upd_time']))
                 {
-                    $v['upd_time_time'] = date('Y-m-d H:i:s', $v['upd_time']);
-                    $v['upd_time_date'] = date('Y-m-d', $v['upd_time']);
+                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
                 }
             }
         }
@@ -99,54 +97,6 @@ class SlideService
     public static function SlideTotal($where = [])
     {
         return (int) Db::name('Slide')->where($where)->count();
-    }
-
-    /**
-     * 列表条件
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function SlideListWhere($params = [])
-    {
-        $where = [];
-
-        if(!empty($params['keywords']))
-        {
-            $where[] = ['name', 'like', '%'.$params['keywords'].'%'];
-        }
-
-        // 是否更多条件
-        if(isset($params['is_more']) && $params['is_more'] == 1)
-        {
-            // 等值
-            if(isset($params['is_enable']) && $params['is_enable'] > -1)
-            {
-                $where[] = ['is_enable', '=', intval($params['is_enable'])];
-            }
-            if(isset($params['event_type']) && $params['event_type'] > -1)
-            {
-                $where[] = ['event_type', '=', intval($params['event_type'])];
-            }
-            if(!empty($params['platform']))
-            {
-                $where[] = ['platform', '=', $params['platform']];
-            }
-
-            if(!empty($params['time_start']))
-            {
-                $where[] = ['add_time', '>', strtotime($params['time_start'])];
-            }
-            if(!empty($params['time_end']))
-            {
-                $where[] = ['add_time', '<', strtotime($params['time_end'])];
-            }
-        }
-
-        return $where;
     }
 
     /**
@@ -251,27 +201,24 @@ class SlideService
      */
     public static function SlideDelete($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
+        // 参数是否有误
+        if(empty($params['ids']))
         {
-            return DataReturn($ret, -1);
+            return DataReturn('商品id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
         }
 
         // 删除操作
-        if(Db::name('Slide')->where(['id'=>$params['id']])->delete())
+        if(Db::name('Slide')->where(['id'=>$params['ids']])->delete())
         {
             return DataReturn('删除成功');
         }
 
-        return DataReturn('删除失败或资源不存在', -100);
+        return DataReturn('删除失败', -100);
     }
 
     /**
@@ -292,6 +239,11 @@ class SlideService
                 'error_msg'         => '操作id有误',
             ],
             [
+                'checked_type'      => 'empty',
+                'key_name'          => 'field',
+                'error_msg'         => '未指定操作字段',
+            ],
+            [
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
@@ -305,11 +257,11 @@ class SlideService
         }
 
         // 数据更新
-        if(Db::name('Slide')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
+        if(Db::name('Slide')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
            return DataReturn('编辑成功');
         }
-        return DataReturn('编辑失败或数据未改变', -100);
+        return DataReturn('编辑失败', -100);
     }
 }
 ?>

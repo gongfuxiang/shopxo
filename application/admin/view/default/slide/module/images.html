@@ -1,0 +1,10 @@
+<!-- 商品基础信息 -->
+{{if !empty($module_data)}}
+    <div {{if !empty($module_data['bg_color'])}}style="background-color:{{$module_data.bg_color}};"{{/if}}>
+        {{if !empty($module_data['images_url'])}}
+            <a href="{{$module_data['images_url']}}" target="_blank">
+                <img src="{{$module_data['images_url']}}" class="am-radius" width="100" height="60" />
+            </a>
+        {{/if}}
+    </div>
+{{/if}}
