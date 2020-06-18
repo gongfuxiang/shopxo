@@ -51,9 +51,10 @@ class Payment extends Common
 	public function Index()
 	{
         // 插件列表
-        $this->assign('data_list', PaymentService::PlugPaymentList());
+        $ret = PaymentService::PlugPaymentList();
+        $this->assign('data_list', $ret['data']);
 
-        // 不删除的支付方式
+        // 不能删除的支付方式
         $this->assign('cannot_deleted_list', PaymentService::$cannot_deleted_list);
 
         // 适用平台
@@ -75,7 +76,7 @@ class Payment extends Common
     public function SaveInfo()
     {
         // 参数
-        $params = input();
+        $params = $this->data_request;
 
         // 商品信息
         if(!empty($params['id']))
@@ -121,7 +122,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::PaymentUpdate(input());
+        return PaymentService::PaymentUpdate($this->data_request);
 	}
 
 	/**
@@ -140,7 +141,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::PaymentStatusUpdate(input());
+        return PaymentService::PaymentStatusUpdate($this->data_request);
     }
 
     /**
@@ -160,7 +161,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::Install(input());
+        return PaymentService::Install($this->data_request);
     }
 
     /**
@@ -180,7 +181,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::Uninstall(input());
+        return PaymentService::Uninstall($this->data_request);
     }
 
     /**
@@ -200,7 +201,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::Delete(input());
+        return PaymentService::Delete($this->data_request);
     }
 
     /**
@@ -220,7 +221,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::Upload(input());
+        return PaymentService::Upload($this->data_request);
     }
 }
 ?>

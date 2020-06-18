@@ -1,171 +1,49 @@
-{{include file="public/header" /}}
+<!-- 继承公共的 form -->
+{{extend name="public/module/form" /}}
 
-<!-- right content start  -->
-<div class="content-right">
-    <div class="content">
-        <!-- operation start -->
-        <div class="am-g">
-            <a href="javascript:;" class="am-btn am-btn-secondary am-btn-xs am-icon-cloud-upload am-radius" data-am-modal="{target: '#payment-upload-win'}"> 上传</a>
-            <a class="am-margin-left-sm" href="{{$store_payment_url}}" target="_blank">更多支付插件下载 <i class="am-icon-external-link"></i></a>
-        </div>
-        <!-- operation end -->
+<!-- 表单顶部操作栏 -->
+{{block name="form_operate_top"}}
+    <button type="button" class="am-btn am-btn-secondary am-btn-xs am-icon-cloud-upload am-radius" data-am-modal="{target: '#payment-upload-win'}"> 上传</button>
+    <a class="am-margin-left-sm" href="{{$store_payment_url}}" target="_blank">更多支付插件下载 <i class="am-icon-external-link"></i></a>
+    <!-- 父级内容 -->
+    {__block__}
+{{/block}}
 
-        <!-- list start -->
-        <div class="am-scrollable-horizontal am-table-scrollable-horizontal am-margin-top-sm am-margin-bottom-sm">
-            <table class="am-table am-table-striped am-table-hover am-table-bordered am-text-nowrap am-table-td-fixed-last">
-                <thead>
-                    <tr>
-                        <th>名称</th>
-                        <th>LOGO</th>
-                        <th>适用版本</th>
-                        <th>适用终端</th>
-                        <th>作者</th>
-                        <th class="am-grid-lg">描述</th>
-                        <th class="am-text-center">是否启用</th>
-                        <th class="am-text-center">用户开放</th>
-                        <th class="am-text-center">操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{if !empty($data_list)}}
-                        {{foreach $data_list as $v}}
-                            <tr id="data-list-{{$v.payment}}" {{if $v['is_install'] eq 0}}class="am-disabled"{{elseif $v['is_enable'] eq 0 /}}class="am-active"{{/if}} >
-                                <td class="am-text-middle">
-                                    {{$v.name}}
-                                    {{if !empty($v['version'])}}
-                                        <p>
-                                            <span class="am-badge am-badge-secondary am-radius">v {{$v.version}}</span>
-                                        </p>
-                                    {{/if}}
-                                </td>
-                                <td class="am-text-middle">
-                                    {{if !empty($v['logo'])}}
-                                        <a href="{{$v['logo']}}" target="_blank">
-                                            <img src="{{$v['logo']}}" class="am-radius" width="100" />
-                                        </a>
-                                    {{else /}}
-                                        <span class="cr-ddd">暂无LOGO</span>
-                                    {{/if}}
-                                </td>
-                                <td class="am-text-middle">
-                                    {{if empty($v['apply_version'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.apply_version}}{{/if}}
-                                </td>
-                                <td class="am-text-middle">
-                                    {{if !empty($v['apply_terminal'])}}
-                                        {{foreach $v.apply_terminal as $terminal_k=>$terminal_v}}
-                                            {{$common_platform_type[$terminal_v]['name']}}
-                                            {{if $terminal_k LT count($v['apply_terminal'])-1}}<br />{{/if}}
-                                        {{/foreach}}
-                                    {{else /}}
-                                        <span class="cr-ddd">未填写</span>
-                                    {{/if}}
-                                </td>
-                                <td class="am-text-middle">
-                                    {{if empty($v['author'])}}
-                                        <span class="cr-ddd">未填写</span>
-                                    {{else /}}
-                                        {{$v.author}}
-                                        {{if !empty($v['author_url'])}}
-                                            <a href="{{$v.author_url}}" target="_blank">
-                                                <i class="am-icon-external-link"></i>
-                                            </a>
-                                        {{/if}}
-                                    {{/if}}
-                                </td>
-                                <td class="am-text-middle am-nowrap-initial">
-                                    {{if empty($v['desc'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.desc|raw}}{{/if}}
-                                </td>
-                                <td class="am-text-middle am-text-center">
-                                    {{if $v['is_install'] eq 1}}
-                                        <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-field="is_enable" data-state="{{$v['is_enable']}}" data-is-update-status="1"></a>
-                                    {{else /}}
-                                        <span class="cr-ddd">未安装</span>
-                                    {{/if}}
-                                </td>
-                                <td class="am-text-middle am-text-center">
-                                    {{if $v['is_install'] eq 1}}
-                                        <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_open_user'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/payment/StatusUpdate')}}" data-id="{{$v.payment}}" data-field="is_open_user" data-state="{{$v['is_open_user']}}"></a>
-                                    {{else /}}
-                                        <span class="cr-ddd">未安装</span>
-                                    {{/if}}
-                                </td>
-                                <td class="am-operate-grid">
-                                    <div class="am-scrollable-vertical">
-                                        {{if $v['is_install'] eq 0}}
-                                            <button class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/payment/install')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="安装进行中、确认操作吗？">
-                                                <i class="am-icon-cubes"></i>
-                                                <span>安装</span>
-                                            </button>
-
-                                            {{if !in_array($v['payment'], $cannot_deleted_list)}}
-                                                <button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/payment/delete')}}" data-id="{{$v.payment}}">
-                                                    <i class="am-icon-trash-o"></i>
-                                                    <span>删除</span>
-                                                </button>
-                                            {{/if}}
-                                        {{else /}}
-                                            <a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/payment/saveinfo', array('id'=>$v['id']))}}">
-                                                <i class="am-icon-edit"></i>
-                                                <span>编辑</span>
-                                            </a>
-
-                                            <button class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/payment/uninstall')}}" data-id="{{$v.payment}}" data-view="reload" data-msg="卸载后不可恢复、确认操作吗？">
-                                                <i class="am-icon-remove"></i>
-                                                <span>卸载</span>
-                                            </button>
-                                        {{/if}}
-                                    </div>
-                                </td>
-                            </tr>
-                        {{/foreach}}
-                    {{/if}}
-                </tbody>
-            </table>
-            {{if empty($data_list)}}
-                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-            {{/if}}
-        </div>
-        <!-- list end -->
-
-        <!-- upload start -->
-        <div class="am-popup am-radius" id="payment-upload-win">
-            <div class="am-popup-inner">
-                <div class="am-popup-hd">
-                    <h4 class="am-popup-title">上传</h4>
-                    <span data-am-modal-close class="am-close">&times;</span>
-                </div>
-                <div class="am-popup-bd">
-                    <!-- win form start -->
-                    <form class="am-form form-validation" action="{{:MyUrl('admin/payment/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
-                        <div class="am-alert am-radius am-alert-tips m-t-0" data-am-alert>
-                            <p class="am-margin-top-sm">
-                                1 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay<br />
-                                2 类必须定义三个方法<br />
-                                &nbsp;&nbsp;&nbsp; 2.1 Config 配置方法<br />
-                                &nbsp;&nbsp;&nbsp; 2.2 Pay 支付方法<br />
-                                &nbsp;&nbsp;&nbsp; 2.3 Respond 回调方法<br />
-                                &nbsp;&nbsp;&nbsp; 2.4 Refund 退款方法（可选）
-                            </p>
-                            <p class="cr-red">PS：以上条件不满足则无法查看插件，将插件放入.zip压缩包中、支持一个压缩中包含多个支付插件</p>
-                        </div>
-                        <div class="am-form-group am-form-file">
-                            <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> 选择文件</button>
-                            <input type="file" name="file" class="file-event" data-tips-tag="#form-payment-tips" data-validation-message="请选择需要上传的文件" accept=".zip" multiple required />
-                            <div id="form-payment-tips" class="am-margin-top-xs"></div>
-                        </div>
-                        <div class="am-form-group am-form-group-refreshing">
-                            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
-                        </div>
-                    </form>
-                    <!-- win form end -->
-                </div>
+<!-- 扩展 -->
+{{block name="form_extend"}}
+    <!-- upload start -->
+    <div class="am-popup am-radius" id="payment-upload-win">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title">上传</h4>
+                <span data-am-modal-close class="am-close">&times;</span>
+            </div>
+            <div class="am-popup-bd">
+                <!-- win form start -->
+                <form class="am-form form-validation" action="{{:MyUrl('admin/payment/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+                    <div class="am-alert am-radius am-alert-tips m-t-0" data-am-alert>
+                        <p class="am-margin-top-sm">
+                            1 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay<br />
+                            2 类必须定义三个方法<br />
+                            &nbsp;&nbsp;&nbsp; 2.1 Config 配置方法<br />
+                            &nbsp;&nbsp;&nbsp; 2.2 Pay 支付方法<br />
+                            &nbsp;&nbsp;&nbsp; 2.3 Respond 回调方法<br />
+                            &nbsp;&nbsp;&nbsp; 2.4 Refund 退款方法（可选）
+                        </p>
+                        <p class="cr-red">PS：以上条件不满足则无法查看插件，将插件放入.zip压缩包中、支持一个压缩中包含多个支付插件</p>
+                    </div>
+                    <div class="am-form-group am-form-file">
+                        <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> 选择文件</button>
+                        <input type="file" name="file" class="file-event" data-tips-tag="#form-payment-tips" data-validation-message="请选择需要上传的文件" accept=".zip" multiple required />
+                        <div id="form-payment-tips" class="am-margin-top-xs"></div>
+                    </div>
+                    <div class="am-form-group am-form-group-refreshing">
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                    </div>
+                </form>
+                <!-- win form end -->
             </div>
         </div>
-        <!-- upload end -->
     </div>
-</div>
-<!-- right content end  -->
-        
-<!-- footer start -->
-{{include file="public/footer" /}}
-<!-- footer end -->
+    <!-- upload end -->
+{{/block}}

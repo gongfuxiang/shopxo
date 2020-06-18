@@ -1,0 +1,3 @@
+{{if !empty($module_data) and isset($module_data['is_install']) and $module_data['is_install'] eq 1}}
+    <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $module_data['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/payment/statusupdate')}}" data-id="{{$module_data.payment}}" data-field="is_enable" data-state="{{$module_data['is_enable']}}" data-is-update-status="1"></a>
+{{/if}}

@@ -82,7 +82,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .score-container .am-progress { width: calc(100% - 105px); margin-bottom: 0; margin-top: 18px; line-height: 2rem; text-align: center; }
 
 /*详情*/
-.detail-content img { max-width: 100%; }
+.detail-content img { max-width: 100%; height: auto; }
 
 @media only screen and (min-width:640px) {
     .theme-span{height:0px;background:#fff ;}

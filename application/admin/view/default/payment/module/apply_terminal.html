@@ -1,0 +1,6 @@
+<!-- 适配平台 -->
+{{if !empty($module_data['apply_terminal']) and is_array($module_data['apply_terminal'])}}
+    {{foreach $module_data.apply_terminal as $terminal_k=>$terminal_v}}
+        <p>{{$common_platform_type[$terminal_v]['name']}}</p>
+    {{/foreach}}
+{{/if}}

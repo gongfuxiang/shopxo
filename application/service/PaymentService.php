@@ -77,6 +77,7 @@ class PaymentService
         {
             if($dh = opendir(self::$payment_dir))
             {
+                $common_platform_type = lang('common_platform_type');
                 while(($temp_file = readdir($dh)) !== false)
                 {
                     if(substr($temp_file, 0, 1) != '.')
@@ -99,10 +100,24 @@ class PaymentService
                                 $temp['id'] = $db_config[0]['id'];
                                 $temp['name'] = $db_config[0]['name'];
                                 $temp['logo'] = $db_config[0]['logo'];
-                                $temp['apply_terminal'] = $db_config[0]['apply_terminal'];
                                 $temp['config'] = $db_config[0]['config'];
                                 $temp['is_enable'] = $db_config[0]['is_enable'];
                                 $temp['is_open_user'] = $db_config[0]['is_open_user'];
+
+                                // 支付平台类型
+                                $apply_terminal_names = [];
+                                if(!empty($db_config[0]['apply_terminal']) && is_array($db_config[0]['apply_terminal']))
+                                {
+                                    foreach($common_platform_type as $platform_type)
+                                    {
+                                        if(in_array($platform_type['value'], $db_config[0]['apply_terminal']))
+                                        {
+                                            $apply_terminal_names[] = $platform_type['name'];
+                                        }
+                                    }
+                                }
+                                $temp['apply_terminal_names'] = $apply_terminal_names;
+                                $temp['apply_terminal'] = $db_config[0]['apply_terminal'];
                             }
                             $data[] = $temp;
                         }
@@ -111,7 +126,7 @@ class PaymentService
                 closedir($dh);
             }
         }
-        return $data;
+        return DataReturn('success', 0, $data);
     }
 
     /**

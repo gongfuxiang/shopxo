@@ -102,6 +102,7 @@ class Slide
                     'label'         => '事件值',
                     'view_type'     => 'field',
                     'view_key'      => 'event_value',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
