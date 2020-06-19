@@ -35,6 +35,7 @@ return array (
   'plugins_css' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\freightfee\\Hook',
   ),
   'plugins_service_users_center_left_menu_handle' => 
   array (
@@ -83,6 +84,14 @@ return array (
   'plugins_view_goods_detail_base_bottom' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_buy_handle' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
+  ),
+  'plugins_view_goods_detail_title' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
   ),
 );
 ?>

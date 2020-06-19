@@ -1719,7 +1719,7 @@ class GoodsService
         // 参数是否有误
         if(empty($params['ids']))
         {
-            return DataReturn('商品id有误', -1);
+            return DataReturn('操作id有误', -1);
         }
         // 是否数组
         if(!is_array($params['ids']))

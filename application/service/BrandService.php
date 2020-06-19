@@ -45,6 +45,14 @@ class BrandService
         $data = Db::name('Brand')->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
+            // 分类名称
+            $cnames = [];
+            $cids = array_column($data, 'brand_category_id');
+            if(!empty($cids))
+            {
+                $cnames = Db::name('BrandCategory')->where(['id'=>$cids])->column('name', 'id');
+            }
+
             $common_is_enable_tips = lang('common_is_enable_tips');
             foreach($data as &$v)
             {
@@ -57,7 +65,7 @@ class BrandService
                 // 分类名称
                 if(isset($v['brand_category_id']))
                 {
-                    $v['brand_category_name'] = Db::name('BrandCategory')->where(['id'=>$v['brand_category_id']])->value('name');
+                    $v['brand_category_name'] = isset($cnames[$v['brand_category_id']]) ? $cnames[$v['brand_category_id']] : '';
                 }
 
                 // logo
@@ -70,13 +78,11 @@ class BrandService
                 // 时间
                 if(isset($v['add_time']))
                 {
-                    $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                    $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                    $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
                 }
                 if(isset($v['upd_time']))
                 {
-                    $v['upd_time_time'] = date('Y-m-d H:i:s', $v['upd_time']);
-                    $v['upd_time_date'] = date('Y-m-d', $v['upd_time']);
+                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
                 }
             }
         }
@@ -94,50 +100,6 @@ class BrandService
     public static function BrandTotal($where)
     {
         return (int) Db::name('Brand')->where($where)->count();
-    }
-
-    /**
-     * 列表条件
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function BrandListWhere($params = [])
-    {
-        $where = [];
-
-        if(!empty($params['keywords']))
-        {
-            $where[] = ['name', 'like', '%'.$params['keywords'].'%'];
-        }
-
-        // 是否更多条件
-        if(isset($params['is_more']) && $params['is_more'] == 1)
-        {
-            // 等值
-            if(isset($params['is_enable']) && $params['is_enable'] > -1)
-            {
-                $where[] = ['is_enable', '=', intval($params['is_enable'])];
-            }
-            if(isset($params['brand_category_id']) && $params['brand_category_id'] > -1)
-            {
-                $where[] = ['brand_category_id', '=', intval($params['brand_category_id'])];
-            }
-
-            if(!empty($params['time_start']))
-            {
-                $where[] = ['add_time', '>', strtotime($params['time_start'])];
-            }
-            if(!empty($params['time_end']))
-            {
-                $where[] = ['add_time', '<', strtotime($params['time_end'])];
-            }
-        }
-
-        return $where;
     }
 
     /**
@@ -365,27 +327,24 @@ class BrandService
      */
     public static function BrandDelete($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
+        // 参数是否有误
+        if(empty($params['ids']))
         {
-            return DataReturn($ret, -1);
+            return DataReturn('操作id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
         }
 
         // 删除操作
-        if(Db::name('Brand')->where(['id'=>$params['id']])->delete())
+        if(Db::name('Brand')->where(['id'=>$params['ids']])->delete())
         {
             return DataReturn('删除成功');
         }
 
-        return DataReturn('删除失败或资源不存在', -100);
+        return DataReturn('删除失败', -100);
     }
 
     /**
@@ -406,6 +365,11 @@ class BrandService
                 'error_msg'         => '操作id有误',
             ],
             [
+                'checked_type'      => 'empty',
+                'key_name'          => 'field',
+                'error_msg'         => '未指定操作字段',
+            ],
+            [
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
@@ -419,11 +383,11 @@ class BrandService
         }
 
         // 数据更新
-        if(Db::name('Brand')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
+        if(Db::name('Brand')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-            return DataReturn('编辑成功');
+            return DataReturn('操作成功');
         }
-        return DataReturn('编辑失败或数据未改变', -100);
+        return DataReturn('操作失败', -100);
     }
 
     /**

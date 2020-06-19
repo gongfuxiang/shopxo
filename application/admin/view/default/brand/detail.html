@@ -1,0 +1,29 @@
+<!-- 继承公共的 form -->
+{{extend name="public/module/detail" /}}
+
+<!-- 重写数据模块 -->
+{{block name="detail_data"}}
+    <!-- 父级内容 -->
+    {__block__}
+
+    <!-- SEO信息 -->
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd">SEO信息</div>
+        <div class="am-panel-bd">
+            {{if !empty($data)}}
+                <dl class="dl-content">
+                    <dt>SEO标题</dt>
+                    <dd>{{$data.seo_title}}</dd>
+
+                    <dt>SEO关键字</dt>
+                    <dd>{{$data.seo_keywords}}</dd>
+
+                    <dt>SEO描述</dt>
+                    <dd>{{$data.seo_desc}}</dd>
+                </dl>
+            {{else /}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+            {{/if}}
+        </div>
+    </div>
+{{/block}}

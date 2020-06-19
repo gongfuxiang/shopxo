@@ -59,8 +59,8 @@ class Index extends Common
 
         // 新闻
         $params = [
-            'where' => ['a.is_enable'=>1, 'a.is_home_recommended'=>1],
-            'field' => 'a.id,a.title,a.title_color,ac.name AS category_name',
+            'where' => ['is_enable'=>1, 'is_home_recommended'=>1],
+            'field' => 'id,title,title_color,article_category_id',
             'm' => 0,
             'n' => 9,
         ];

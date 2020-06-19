@@ -93,7 +93,9 @@
                     {{foreach $article_list as $article}}
                         <li>
                             <a href="{{$article.url}}" target="_blank">
-                                <span>[{{$article.category_name}}]</span>
+                                {{if isset($article['article_category_name'])}}
+                                    <span>[{{$article.article_category_name}}]</span>
+                                {{/if}}
                                 <span {{if !empty($article.title_color)}}style="color:{{$article.title_color}};"{{/if}} >{{$article.title}}</span>
                             </a>
                         </li>

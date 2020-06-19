@@ -99,7 +99,6 @@ class Article extends Common
                 'm'             => 0,
                 'n'             => 1,
                 'where'         => $where,
-                'is_category'   => 1,
             ];
             $ret = ArticleService::ArticleList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
