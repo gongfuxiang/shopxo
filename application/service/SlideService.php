@@ -37,8 +37,8 @@ class SlideService
         $field = empty($params['field']) ? '*' : $params['field'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-
-        $data = Db::name('Slide')->field($field)->where($where)->order('id desc,sort asc')->limit($m, $n)->select();
+        $order_by = 'sort asc,id desc';
+        $data = Db::name('Slide')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
             $common_platform_type = lang('common_platform_type');

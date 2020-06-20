@@ -113,17 +113,16 @@ class NavigationService
      */
     public static function NavDataAll($nav_type)
     {
-        // 指定字段
-        $field = array('id', 'pid', 'name', 'url', 'value', 'data_type', 'is_new_window_open');
-
         // 获取导航数据
-        $data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>$nav_type, 'is_show'=>1, 'pid'=>0))->order('sort')->select());
+        $field = 'id,pid,name,url,value,data_type,is_new_window_open';
+        $order_by = 'sort asc,id desc';
+        $data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>$nav_type, 'is_show'=>1, 'pid'=>0))->order($order_by)->select());
         if(!empty($data))
         {
             // 获取子数据
             $items = [];
             $ids = array_column($data, 'id');
-            $items_data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>$nav_type, 'is_show'=>1, 'pid'=>$ids))->order('sort')->select());
+            $items_data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>$nav_type, 'is_show'=>1, 'pid'=>$ids))->order($order_by)->select());
             if(!empty($items_data))
             {
                 foreach($items_data as $it)

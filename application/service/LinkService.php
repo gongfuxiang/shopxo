@@ -34,14 +34,21 @@ class LinkService
     public static function LinkList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
-        $data = Db::name('Link')->where($where)->order('sort asc')->select();
+        $order_by = 'sort asc,id desc';
+        $data = Db::name('Link')->where($where)->order($order_by)->select();
         if(!empty($data))
         {
             foreach($data as &$v)
             {
                 // 时间
-                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+                if(isset($v['add_time']))
+                {
+                    $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                }
+                if(isset($v['upd_time']))
+                {
+                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+                }
             }
         }
         return DataReturn('处理成功', 0, $data);

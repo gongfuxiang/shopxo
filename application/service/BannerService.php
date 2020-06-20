@@ -49,7 +49,9 @@ class BannerService
         if(empty($data))
         {
             // 获取banner数据
-            $data = Db::name('Slide')->field('name,images_url,event_value,event_type,bg_color')->where(['platform'=>$platform, 'is_enable'=>1])->order('sort asc,id asc')->select();
+            $field = 'name,images_url,event_value,event_type,bg_color';
+            $order_by = 'sort asc,id desc';
+            $data = Db::name('Slide')->field($field)->where(['platform'=>$platform, 'is_enable'=>1])->order($order_by)->select();
             if(!empty($data))
             {
                 foreach($data as &$v)

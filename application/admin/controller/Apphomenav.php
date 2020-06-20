@@ -49,53 +49,60 @@ class AppHomeNav extends Common
      */
     public function Index()
     {
-        // 参数
-        $params = input();
+        // 总数
+        $total = AppHomeNavService::AppHomeNavTotal($this->form_where);
 
         // 分页
-        $number = MyC('admin_page_number', 10, true);
-
-        // 条件
-        $where = AppHomeNavService::AppHomeNavListWhere($params);
-
-        // 获取总数
-        $total = AppHomeNavService::AppHomeNavTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/apphomenav/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('admin/apphomenav/index'),
+        ];
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $data_params = array(
-            'm'     => $page->GetPageStarNumber(),
-            'n'     => $number,
-            'where' => $where,
-            'field' => '*',
-        );
-        $data = AppHomeNavService::AppHomeNavList($data_params);
-        $this->assign('data_list', $data['data']);
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+        ];
+        $ret = AppHomeNavService::AppHomeNavList($data_params);
 
-        // 是否启用
-        $this->assign('common_is_enable_list', lang('common_is_enable_list'));
+        // 基础参数赋值
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
+        return $this->fetch();
+    }
 
-        // 是否
-        $this->assign('common_is_text_list', lang('common_is_text_list'));
+    /**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
 
-        // 所属平台
-        $this->assign('common_platform_type', lang('common_platform_type'));
-
-        // app事件类型
-        $this->assign('common_app_event_type', lang('common_app_event_type'));
-
-        // 参数
-        $this->assign('params', $params);
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+            ];
+            $ret = AppHomeNavService::AppHomeNavList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
         return $this->fetch();
     }
 
@@ -109,7 +116,7 @@ class AppHomeNav extends Common
     public function SaveInfo()
     {
         // 参数
-        $params = input();
+        $params = $this->data_request;
 
         // 数据
         $data = [];
@@ -127,10 +134,8 @@ class AppHomeNav extends Common
         }
         $this->assign('data', $data);
 
-        // 所属平台
+        // 静态数据
         $this->assign('common_platform_type', lang('common_platform_type'));
-
-        // app事件类型
         $this->assign('common_app_event_type', lang('common_app_event_type'));
 
         // 参数
@@ -158,7 +163,7 @@ class AppHomeNav extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return AppHomeNavService::AppHomeNavSave($params);
     }
 
@@ -178,7 +183,7 @@ class AppHomeNav extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         $params['user_type'] = 'admin';
         return AppHomeNavService::AppHomeNavDelete($params);
     }
@@ -199,7 +204,7 @@ class AppHomeNav extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return AppHomeNavService::AppHomeNavStatusUpdate($params);
     }
 }
