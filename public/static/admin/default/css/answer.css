@@ -4,22 +4,3 @@
 .content-right table.am-table .reply-content {
     max-height: 80px;
 }
-
-/**
- * 用户信息
- */
-.content-right .user-info img {
-    max-width: 35px;
-    max-height: 35px;
-    margin: 0 5px 2px 0;
-}
-
-/**
- * 编辑
- */
-.content-right .am-alert p.title {
-    font-weight: 700;
-    font-size: 14px;
-    margin: 0 0 5px 0;
-    color: #888;
-}

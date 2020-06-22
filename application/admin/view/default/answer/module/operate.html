@@ -1,0 +1,15 @@
+<!-- 操作栏 -->
+<a href="{{:MyUrl('admin/answer/saveinfo', array_merge($params, ['id'=>$module_data['id']]))}}" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block">
+    <i class="am-icon-edit"></i>
+    <span>编辑</span>
+</a>
+{{if $module_data['is_reply'] eq 0}}
+    <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-reply" data-am-modal="{target: '#my-popup-reply'}" data-json='{{:str_replace("'", '', json_encode($module_data))}}'>
+        <i class="am-icon-gavel"></i>
+        <span>回复</span>
+    </button>
+{{/if}}
+<button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/answer/delete')}}" data-id="{{$module_data.id}}" data-key="ids">
+    <i class="am-icon-trash-o"></i>
+    <span>删除</span>
+</button>

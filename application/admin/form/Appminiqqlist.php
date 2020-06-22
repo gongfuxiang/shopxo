@@ -11,14 +11,14 @@
 namespace app\admin\form;
 
 /**
- * 支付宝小程序管理动态表格
+ * QQ小程序管理动态表格
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2020-06-22
  * @desc    description
  */
-class Appminialipaylist
+class Appminiqqlist
 {
     // 基础条件
     public $condition_base = [];
@@ -39,7 +39,7 @@ class Appminialipaylist
             'base' => [
                 'key_field'     => 'name',
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/appminialipaylist/delete'),
+                'delete_url'    => MyUrl('admin/appminiqqlist/delete'),
                 'delete_key'    => 'ids',
             ],
             // 表单配置
@@ -76,7 +76,7 @@ class Appminialipaylist
                 [
                     'label'         => '操作',
                     'view_type'     => 'operate',
-                    'view_key'      => 'appminialipaylist/module/operate',
+                    'view_key'      => 'appminiqqlist/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],

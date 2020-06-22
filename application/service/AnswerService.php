@@ -57,8 +57,6 @@ class AnswerService
         $data = Db::name('Answer')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $common_is_show_list = lang('common_is_show_list');
-            $common_gender_list = lang('common_gender_list');
             foreach($data as &$v)
             {
                 // 用户信息
@@ -76,45 +74,29 @@ class AnswerService
                     }
                 }
 
-                // 是否显示
-                if(isset($v['is_show']))
-                {
-                    $v['is_show_text'] = $common_is_show_list[$v['is_show']]['name'];
-                }
-
                 // 内容
-                if(!empty($v['content']))
+                if(!empty($v['content']) && APPLICATION == 'web')
                 {
                     $v['content'] = str_replace("\n", '<br />', $v['content']);
                 }
 
                 // 回复内容
-                if(!empty($v['reply']))
+                if(!empty($v['reply']) && APPLICATION == 'web')
                 {
                     $v['reply'] = str_replace("\n", '<br />', $v['reply']);
                 }
 
                 // 回复时间
-                if(isset($v['reply_time']))
-                {
-                    $reply_time = $v['reply_time'];
-                    $v['reply_time'] = empty($reply_time) ? '' : date('Y-m-d H:i:s', $reply_time);
-                    $v['reply_time_date'] = empty($reply_time) ? '' : date('Y-m-d', $reply_time);
-                }
+                $v['reply_time_time'] = empty($v['reply_time']) ? null : date('Y-m-d H:i:s', $v['reply_time']);
+                $v['reply_time_date'] = empty($v['reply_time']) ? null : date('Y-m-d', $v['reply_time']);
 
-                // 创建时间
-                if(isset($v['add_time']))
-                {
-                    $add_time = $v['add_time'];
-                    $v['add_time'] = empty($add_time) ? '' : date('Y-m-d H:i:s', $add_time);
-                    $v['add_time_date'] = empty($add_time) ? '' : date('Y-m-d', $add_time);
-                }
+                // 评论时间
+                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
 
                 // 更新时间
-                if(isset($v['upd_time']))
-                {
-                    $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
-                }
+                $v['upd_time_time'] = empty($v['upd_time']) ? null : date('Y-m-d H:i:s', $v['upd_time']);
+                $v['upd_time_date'] = empty($v['upd_time']) ? null : date('Y-m-d', $v['upd_time']);
             }
         }
         return DataReturn('处理成功', 0, $data);
@@ -287,7 +269,7 @@ class AnswerService
         $p = [
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'id',
+                'key_name'          => 'ids',
                 'error_msg'         => '操作id有误',
             ],
             [
@@ -302,9 +284,15 @@ class AnswerService
             return DataReturn($ret, -1);
         }
 
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
+        }
+
         // 条件
         $where = [
-            'id'    => intval($params['id']),
+            'id'    => $params['ids'],
         ];
 
         // 用户类型
@@ -322,7 +310,7 @@ class AnswerService
         {
             return DataReturn('删除成功', 0);
         }
-        return DataReturn('删除失败或数据不存在', -1);
+        return DataReturn('删除失败', -1);
     }
 
     /**
@@ -404,6 +392,11 @@ class AnswerService
                 'error_msg'         => '操作id有误',
             ],
             [
+                'checked_type'      => 'empty',
+                'key_name'          => 'field',
+                'error_msg'         => '字段有误',
+            ],
+            [
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
@@ -417,11 +410,11 @@ class AnswerService
         }
 
         // 数据更新
-        if(Db::name('Answer')->where(['id'=>intval($params['id'])])->update(['is_show'=>intval($params['state'])]))
+        if(Db::name('Answer')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-            return DataReturn('编辑成功');
+           return DataReturn('编辑成功');
         }
-        return DataReturn('编辑失败或数据未改变', -100);
+        return DataReturn('编辑失败', -100);
     }
 
     /**

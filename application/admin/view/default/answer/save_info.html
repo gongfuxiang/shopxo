@@ -16,7 +16,7 @@
                 <a href="{{:MyUrl('admin/answer/index', $params)}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
             </legend>
             <div class="am-alert am-alert-secondary user-info" data-am-alert>
-                <p class="title">用户信息</p>
+                <p class="am-text-lg">用户信息</p>
                 {{if !empty($data['user'])}}
                     <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left" />
                     <ul class="user-base">

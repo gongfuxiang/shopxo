@@ -49,47 +49,68 @@ class Answer extends Common
      */
 	public function Index()
 	{
-		// 参数
-        $params = input();
+		// 总数
+        $total = AnswerService::AnswerTotal($this->form_where);
 
         // 分页
-        $number = MyC('admin_page_number', 10, true);
-
-        // 条件
-        $where = AnswerService::AnswerListWhere($params);
-
-        // 获取总数
-        $total = AnswerService::AnswerTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/answer/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('admin/answer/index'),
+        ];
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-            'is_public' => 0,
-        );
-        $data = AnswerService::AnswerList($data_params);
-        $this->assign('data_list', $data['data']);
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+            'is_public'     => 0,
+        ];
+        $ret = AnswerService::AnswerList($data_params);
 
 		// 静态数据
 		$this->assign('common_is_show_list', lang('common_is_show_list'));
         $this->assign('common_is_text_list', lang('common_is_text_list'));
 
-		// 参数
-        $this->assign('params', $params);
+		// 基础参数赋值
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
         return $this->fetch();
 	}
+
+     /**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
+
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+                'is_public'     => 0,
+            ];
+            $ret = AnswerService::AnswerList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
+        return $this->fetch();
+    }
 
     /**
      * [SaveInfo 添加/编辑页面]
@@ -101,7 +122,7 @@ class Answer extends Common
     public function SaveInfo()
     {
         // 参数
-        $params = input();
+        $params = $this->data_request;
 
         // 数据
         $data = [];
@@ -160,7 +181,7 @@ class Answer extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return AnswerService::AnswerSave($params);
     }
 
@@ -180,7 +201,7 @@ class Answer extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         $params['user_type'] = 'admin';
         return AnswerService::AnswerDelete($params);
 	}
@@ -201,7 +222,7 @@ class Answer extends Common
 		}
 
 		// 开始处理
-        $params = input();
+        $params = $this->data_request;
         return AnswerService::AnswerReply($params);
 	}
 
@@ -221,7 +242,7 @@ class Answer extends Common
 		}
 
 		// 开始处理
-        $params = input();
+        $params = $this->data_request;
         return AnswerService::AnswerStatusUpdate($params);
 	}
 }

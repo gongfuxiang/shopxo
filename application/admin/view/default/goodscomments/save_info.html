@@ -10,7 +10,7 @@
                 <a href="{{:MyUrl('admin/goodscomments/index', $params)}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
             </legend>
             <div class="am-alert am-alert-secondary goods-info" data-am-alert>
-                <p class="title">商品信息</p>
+                <p class="am-text-lg">商品信息</p>
                 {{if !empty($data['goods'])}}
                     <div class="base am-nbfc">
                         <a href="{{$data.goods.goods_url}}" target="_blank">
@@ -25,7 +25,7 @@
             </div>
 
             <div class="am-alert am-alert-secondary user-info" data-am-alert>
-                <p class="title">用户信息</p>
+                <p class="am-text-lg">用户信息</p>
                 {{if !empty($data['user'])}}
                     <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
                     <ul class="user-base">

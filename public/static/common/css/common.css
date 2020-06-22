@@ -501,6 +501,10 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table tr .am-operate-grid {
     min-width: 120px;
 }
+.am-table-scrollable-horizontal .am-table tr .am-grid-auto {
+    min-width: auto;
+    max-width: none;
+}
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-right {
     height: auto;

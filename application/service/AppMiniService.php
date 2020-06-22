@@ -74,7 +74,7 @@ class AppMiniService
                         $file_path = self::$new_path.DS.$temp_file;
                         $url = __MY_PUBLIC_URL__.'download'.DS.'sourcecode'.DS.self::$application_name.DS.$temp_file;
                         $result[] = [
-                            'name'  => $temp_file,
+                            'name'  => (substr($temp_file, -4) === '.zip') ? substr($temp_file, 0, strlen($temp_file)-4) : $temp_file,
                             'url'   => substr($url, -4) == '.zip' ? $url : '',
                             'size'  => FileSizeByteToUnit(filesize($file_path)),
                             'time'  => date('Y-m-d H:i:s', filectime($file_path)),
@@ -84,7 +84,7 @@ class AppMiniService
                 closedir($dh);
             }
         }
-        return $result;
+        return DataReturn('success', 0, $result);
     }
 
     /**
@@ -224,7 +224,7 @@ class AppMiniService
             if(is_array($data) && isset($data['plugins']))
             {
                 $data['plugins']['goodsSharePlugin'] = [
-                    'version'   => '4.0.1',
+                    'version'   => MyC('common_app_is_good_thing_ver', '4.0.1', true),
                     'provider'  => 'wx56c8f077de74b07c',
                 ];
                 if(file_put_contents($file, JsonFormat($data)) === false)
@@ -255,7 +255,7 @@ class AppMiniService
             if(is_array($data) && isset($data['plugins']))
             {
                 $data['plugins']['live-player-plugin'] = [
-                    'version'   => '1.0.7',
+                    'version'   => MyC('common_app_weixin_liveplayer_ver', '1.0.18', true),
                     'provider'  => 'wx2b03c6e691cd7370',
                 ];
                 if(file_put_contents($file, JsonFormat($data)) === false)
@@ -279,40 +279,63 @@ class AppMiniService
      */
     public static function Delete($params = [])
     {
-        // 参数
-        if(empty($params['id']))
+        // 参数是否有误
+        if(empty($params['ids']))
         {
-            return DataReturn('操作id不能为空', -10);
+            return DataReturn('操作id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
         }
 
         // 初始化
         self::Init($params);
 
-        // 目录处理
-        $suffix = '';
-        if(substr($params['id'], -4) === '.zip')
+        // 循环操作
+        $sucs = 0;
+        $fail = 0;
+        foreach($params['ids'] as $id)
         {
-            $name = substr($params['id'], 0, strlen($params['id'])-4);
-            $suffix = '.zip';
-        } else {
-            $name = $params['id'];
+            // 目录处理
+            $suffix = '';
+            if(substr($id, -4) === '.zip')
+            {
+                $name = substr($id, 0, strlen($id)-4);
+                $suffix = '.zip';
+            } else {
+                $name = $id;
+            }
+
+            // 防止路径回溯
+            $path_name = self::$new_path.DS.htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($id)));
+            $path_zip = $path_name.'.zip';
+
+            // 删除包
+            $statusz = \base\FileUtil::UnlinkFile($path_zip);
+            $statusf = \base\FileUtil::UnlinkDir($path_name);
+            if($statusz || $statusf)
+            {
+                $sucs++;
+            } else {
+                $fail++;
+            }
         }
 
-        // 防止路径回溯
-        $path = self::$new_path.DS.htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($name))).$suffix;
-
-        // 删除压缩包
-        if($suffix == '.zip')
-        {
-            $status = \base\FileUtil::UnlinkFile($path);
-        } else {
-            $status = \base\FileUtil::UnlinkDir($path);
-        }
-        if($status)
+        // 成功
+        if($sucs == count($params['ids']))
         {
             return DataReturn('删除成功');
         }
-        return DataReturn('删除失败或资源不存在', -100);
+
+        // 失败
+        if($fail == count($params['ids']))
+        {
+            return DataReturn('删除失败', -100);
+        }
+
+        return DataReturn('成功['.$sucs.'],失败['.$fail.']');
     }
 }
 ?>

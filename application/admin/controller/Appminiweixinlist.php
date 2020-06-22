@@ -45,7 +45,7 @@ class AppMiniWeixinList extends Common
 		$this->IsPower();
 
 		// 参数
-		$this->params = input();
+		$this->params = $this->data_request;
 		$this->params['application_name'] = 'weixin';
 	}
 
@@ -58,7 +58,8 @@ class AppMiniWeixinList extends Common
      */
 	public function Index()
 	{
-		$this->assign('data_list', AppMiniService::DataList($this->params));
+		$ret = AppMiniService::DataList($this->params);
+		$this->assign('data_list', $ret['data']);
 		return $this->fetch();
 	}
 
