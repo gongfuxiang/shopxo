@@ -41,7 +41,7 @@
 8. 钱包（用户钱包，在线充值，提现）
 9. 微信小程序直播（直播卖货、海报分享）
 10. 多端小程序（微信、支付宝、百度、头条/抖音、QQ）
-等等...   更多查看应用商店 [https://store.shopxo.net/](https://store.shopxo.net/)
+等等...   更多查看应用商店 https://store.shopxo.net/
 ~~~
 
 # 系统特性
