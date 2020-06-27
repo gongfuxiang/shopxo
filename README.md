@@ -25,9 +25,9 @@
 * 官方2群：641730223
 
 ### 源代码平台
+* 码云：https://gitee.com/zongzhige/shopxo
 * Github：https://github.com/gongfuxiang/shopxo
-* 码云/开源中国：https://gitee.com/zongzhige/shopxo
-* 腾讯云开发者：https://dev.tencent.com/u/gongfuxiang/p/shopxo/git
+* Coding：https://zongzhige.coding.net/public/shopxo/shopxo/git
 
 ### 部分功能特点
 ~~~
