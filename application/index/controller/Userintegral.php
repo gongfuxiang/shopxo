@@ -59,7 +59,7 @@ class UserIntegral extends Common
         $where = IntegralService::UserIntegralLogListWhere($params);
 
         // 获取总数
-        $total = IntegralService::UserIntegralLogTotal($where);
+        $total = IntegralService::IntegralLogTotal($where);
 
         // 分页
         $page_params = array(
@@ -78,7 +78,7 @@ class UserIntegral extends Common
             'n'         => $number,
             'where'     => $where,
         );
-        $data = IntegralService::UserIntegralLogList($data_params);
+        $data = IntegralService::IntegralLogList($data_params);
         $this->assign('data_list', $data['data']);
 
         // 操作类型

@@ -51,7 +51,7 @@ define('APP_PATH', ROOT.'application'.DS);
 // 请求应用 [web, app] 默认web(ios|android|小程序 均为app)
 define('APPLICATION', empty($_REQUEST['application']) ? 'web' : trim($_REQUEST['application']));
 
-// 请求客户端 [pc, h5, ios, android, alipay, weixin, baidu] 默认pc(目前系统为自适应,h5需自行校验)
+// 请求客户端 [pc, h5, ios, android, alipay, weixin, baidu, toutiao, qq] 默认pc(目前系统为自适应,h5需自行校验)
 define('APPLICATION_CLIENT_TYPE', empty($_REQUEST['application_client_type']) ? 'pc' : trim($_REQUEST['application_client_type']));
 
 // 是否ajax

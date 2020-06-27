@@ -71,6 +71,64 @@ class IntegralService
     }
 
     /**
+     * 列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function IntegralLogList($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
+        $field = '*';
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
+
+        // 获取数据列表
+        $data = Db::name('UserIntegralLog')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
+        if(!empty($data))
+        {
+            $integral_log_type_list = lang('common_integral_log_type_list');
+            foreach($data as &$v)
+            {
+                // 用户信息
+                if(isset($v['user_id']))
+                {
+                    if(isset($params['is_public']) && $params['is_public'] == 0)
+                    {
+                        $v['user'] = UserService::GetUserViewInfo($v['user_id']);
+                    }
+                }
+
+                // 操作类型
+                $v['type_text'] = $integral_log_type_list[$v['type']]['name'];
+
+                // 时间
+                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 总数
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function IntegralLogTotal($where = [])
+    {
+        return (int) Db::name('UserIntegralLog')->where($where)->count();
+    }
+
+    /**
      * 前端积分列表条件
      * @author   Devil
      * @blog    http://gong.gg/
@@ -115,54 +173,6 @@ class IntegralService
         }
 
         return $where;
-    }
-
-    /**
-     * 用户积分日志总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function UserIntegralLogTotal($where = [])
-    {
-        return (int) Db::name('UserIntegralLog')->where($where)->count();
-    }
-
-    /**
-     * 积分日志列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function UserIntegralLogList($params = [])
-    {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
-        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
-
-        // 获取数据列表
-        $data = Db::name('UserIntegralLog')->where($where)->limit($m, $n)->order($order_by)->select();
-        if(!empty($data))
-        {
-            $common_integral_log_type_list = lang('common_integral_log_type_list');
-            foreach($data as &$v)
-            {
-                // 操作类型
-                $v['type_name'] = $common_integral_log_type_list[$v['type']]['name'];
-
-                // 时间
-                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
-            }
-        }
-        return DataReturn('处理成功', 0, $data);
     }
 
     /**
@@ -231,104 +241,6 @@ class IntegralService
             return DataReturn('操作成功', 0);
         }
         return DataReturn('没有需要操作的数据', 0);
-    }
-
-    /**
-     * 后台管理员列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function AdminIntegralList($params = [])
-    {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
-        $field = 'ui.*,u.username,u.nickname,u.mobile,u.email,u.gender';
-        $order_by = empty($params['order_by']) ? 'ui.id desc' : $params['order_by'];
-
-        // 获取数据列表
-        $data = Db::name('UserIntegralLog')->alias('ui')->join(['__USER__'=>'u'], 'u.id=ui.user_id')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
-        if(!empty($data))
-        {
-            $common_integral_log_type_list = lang('common_integral_log_type_list');
-            $common_gender_list = lang('common_gender_list');
-            foreach($data as &$v)
-            {
-                // 操作类型
-                $v['type_text'] = $common_integral_log_type_list[$v['type']]['name'];
-
-                // 性别
-                $v['gender_text'] = $common_gender_list[$v['gender']]['name'];
-
-                // 时间
-                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
-            }
-        }
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 后台积分总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function AdminIntegralTotal($where = [])
-    {
-        return (int) Db::name('UserIntegralLog')->alias('ui')->join(['__USER__'=>'u'], 'u.id=ui.user_id')->where($where)->count();
-    }
-
-    /**
-     * 后台积分列表条件
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function AdminIntegralListWhere($params = [])
-    {
-        $where = [];
-        
-        // 关键字
-        if(!empty($params['keywords']))
-        {
-            $where[] = ['ui.msg|u.username|u.nickname|u.mobile', 'like', '%'.$params['keywords'].'%'];
-        }
-
-        // 是否更多条件
-        if(isset($params['is_more']) && $params['is_more'] == 1)
-        {
-            // 等值
-            if(isset($params['type']) && $params['type'] > -1)
-            {
-                $where[] = ['ui.type', '=', intval($params['type'])];
-            }
-            if(isset($params['gender']) && $params['gender'] > -1)
-            {
-                $where[] = ['u.gender', '=', intval($params['gender'])];
-            }
-
-            if(!empty($params['time_start']))
-            {
-                $where[] = ['ui.add_time', '>', strtotime($params['time_start'])];
-            }
-            if(!empty($params['time_end']))
-            {
-                $where[] = ['ui.add_time', '<', strtotime($params['time_end'])];
-            }
-        }
-
-        return $where;
     }
 }
 ?>

@@ -19,6 +19,7 @@ use app\service\RegionService;
 use app\service\ExpressService;
 use app\service\ResourcesService;
 use app\service\PayLogService;
+use app\service\UserService;
 
 /**
  * 订单服务层

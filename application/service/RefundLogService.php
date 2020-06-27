@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use app\service\UserService;
 
 /**
  * 退款日志服务层
@@ -72,12 +73,12 @@ class RefundLogService
      */
     public static function RefundLogTypeList($params = [])
     {
-        $data = Db::name('RefundLog')->field('payment AS id, payment_name AS name')->group('id')->select();
+        $data = Db::name('RefundLog')->field('payment as id, payment_name as name')->group('payment,payment_name')->select();
         return DataReturn('处理成功', 0, $data);
     }
     
     /**
-     * 后台管理员列表
+     * 列表
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -85,31 +86,36 @@ class RefundLogService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AdminRefundLogList($params = [])
+    public static function RefundLogList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $field = 'r.*,u.username,u.nickname,u.mobile,u.email,u.gender';
-        $order_by = empty($params['order_by']) ? 'r.id desc' : $params['order_by'];
+        $field = '*';
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
 
         // 获取数据列表
-        $data = Db::name('RefundLog')->alias('r')->join(['__USER__'=>'u'], 'u.id=r.user_id')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('RefundLog')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $common_business_type_list = lang('common_business_type_list');
-            $common_gender_list = lang('common_gender_list');
-            $common_order_aftersale_refundment_list = lang('common_order_aftersale_refundment_list');
+            $business_type_list = lang('common_business_type_list');
+            $refundment_list = lang('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
-                // 业务类型
-                $v['business_type_name'] = $common_business_type_list[$v['business_type']]['name'];
+                // 用户信息
+                if(isset($v['user_id']))
+                {
+                    if(isset($params['is_public']) && $params['is_public'] == 0)
+                    {
+                        $v['user'] = UserService::GetUserViewInfo($v['user_id']);
+                    }
+                }
 
-                // 性别
-                $v['gender_text'] = $common_gender_list[$v['gender']]['name'];
+                // 业务类型
+                $v['business_type_text'] = $business_type_list[$v['business_type']]['name'];
 
                 // 退款方式
-                $v['refundment_text'] = $common_order_aftersale_refundment_list[$v['refundment']]['name'];
+                $v['refundment_text'] = $refundment_list[$v['refundment']]['name'];
 
                 // 时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -120,7 +126,7 @@ class RefundLogService
     }
 
     /**
-     * 后台总数
+     * 总数
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -128,101 +134,9 @@ class RefundLogService
      * @desc    description
      * @param   [array]          $where [条件]
      */
-    public static function AdminRefundLogTotal($where = [])
+    public static function RefundLogTotal($where = [])
     {
-        return (int) Db::name('RefundLog')->alias('r')->join(['__USER__'=>'u'], 'u.id=r.user_id')->where($where)->count();
-    }
-
-    /**
-     * 后台列表条件
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function AdminRefundLogListWhere($params = [])
-    {
-        $where = [];
-        
-        // 关键字
-        if(!empty($params['keywords']))
-        {
-            $where[] = ['r.trade_no|u.username|u.nickname|u.mobile', 'like', '%'.$params['keywords'].'%'];
-        }
-
-        // 是否更多条件
-        if(isset($params['is_more']) && $params['is_more'] == 1)
-        {
-            // 等值
-            if(isset($params['business_type']) && $params['business_type'] > -1)
-            {
-                $where[] = ['r.business_type', '=', intval($params['business_type'])];
-            }
-            if(!empty($params['pay_type']))
-            {
-                $where[] = ['r.payment', '=', $params['pay_type']];
-            }
-            if(isset($params['gender']) && $params['gender'] > -1)
-            {
-                $where[] = ['u.gender', '=', intval($params['gender'])];
-            }
-
-            if(!empty($params['price_start']))
-            {
-                $where[] = ['r.pay_price', '>', PriceNumberFormat($params['price_start'])];
-            }
-            if(!empty($params['price_end']))
-            {
-                $where[] = ['r.pay_price', '<', PriceNumberFormat($params['price_end'])];
-            }
-
-            if(!empty($params['time_start']))
-            {
-                $where[] = ['r.add_time', '>', strtotime($params['time_start'])];
-            }
-            if(!empty($params['time_end']))
-            {
-                $where[] = ['r.add_time', '<', strtotime($params['time_end'])];
-            }
-        }
-
-        return $where;
-    }
-
-    /**
-     * 删除
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-12-18
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function RefundLogDelete($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 删除操作
-        if(Db::name('RefundLog')->where(['id'=>$params['id']])->delete())
-        {
-            return DataReturn('删除成功');
-        }
-
-        return DataReturn('删除失败或资源不存在', -100);
+        return (int) Db::name('RefundLog')->where($where)->count();
     }
 }
 ?>

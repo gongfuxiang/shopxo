@@ -74,7 +74,7 @@ class Goodscomments
                 [
                     'label'         => '用户信息',
                     'view_type'     => 'module',
-                    'view_key'      => 'goodscomments/module/user',
+                    'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'             => 'input',

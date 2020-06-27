@@ -11,16 +11,17 @@
 namespace app\admin\form;
 
 use think\Db;
+use app\service\RefundLogService;
 
 /**
- * 问答动态表格
+ * 退款日志动态表格
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
- * @date    2020-06-08
+ * @date    2020-06-27
  * @desc    description
  */
-class Answer
+class Refundlog
 {
     // 基础条件
     public $condition_base = [];
@@ -30,7 +31,7 @@ class Answer
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-06-08
+     * @date    2020-06-27
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
@@ -40,23 +41,11 @@ class Answer
             // 基础配置
             'base' => [
                 'key_field'     => 'id',
-                'status_field'  => 'is_show',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/answer/index'),
-                'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/answer/delete'),
-                'delete_key'    => 'ids',
+                'search_url'    => MyUrl('admin/refundlog/index'),
             ],
             // 表单配置
             'form' => [
-                [
-                    'view_type'         => 'checkbox',
-                    'is_checked'        => 0,
-                    'checked_text'      => '反选',
-                    'not_checked_text'  => '全选',
-                    'align'             => 'center',
-                    'width'             => 80,
-                ],
                 [
                     'label'         => '用户信息',
                     'view_type'     => 'module',
@@ -72,117 +61,110 @@ class Answer
                     ],
                 ],
                 [
-                    'label'         => '联系人',
-                    'view_type'     => 'field',
-                    'view_key'      => 'name',
-                    'search_config' => [
-                        'form_type'         => 'input',
-                        'where_type'        => 'like',
-                    ],
-                ],
-                [
-                    'label'         => '联系电话',
-                    'view_type'     => 'field',
-                    'view_key'      => 'tel',
-                    'search_config' => [
-                        'form_type'         => 'input',
-                        'where_type'        => 'like',
-                    ],
-                ],
-                [
-                    'label'         => '内容',
+                    'label'         => '支付方式',
                     'view_type'     => 'module',
-                    'view_key'      => 'answer/module/content',
-                    'grid_size'     => 'lg',
-                    'search_config' => [
-                        'form_type'         => 'input',
-                        'form_name'         => 'content',
-                        'where_type'        => 'like',
-                    ],
-                ],
-                [
-                    'label'         => '回复内容',
-                    'view_type'     => 'module',
-                    'view_key'      => 'answer/module/reply',
-                    'grid_size'     => 'lg',
-                    'search_config' => [
-                        'form_type'         => 'input',
-                        'form_name'         => 'reply',
-                        'where_type'        => 'like',
-                    ],
-                ],
-                [
-                    'label'         => '是否显示',
-                    'view_type'     => 'status',
-                    'view_key'      => 'is_show',
-                    'post_url'      => MyUrl('admin/answer/statusupdate'),
-                    'is_form_su'    => 1,
-                    'align'         => 'center',
+                    'view_key'      => 'refundlog/module/payment',
                     'search_config' => [
                         'form_type'         => 'select',
+                        'form_name'         => 'payment',
                         'where_type'        => 'in',
-                        'data'              => lang('common_is_show_list'),
+                        'data'              => $this->RefundLogTypeList(),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
                 ],
                 [
-                    'label'         => '是否回复',
-                    'view_type'     => 'status',
-                    'view_key'      => 'is_reply',
-                    'post_url'      => MyUrl('admin/answer/statusupdate'),
-                    'align'         => 'center',
+                    'label'         => '业务类型',
+                    'view_type'     => 'field',
+                    'view_key'      => 'business_type_text',
                     'search_config' => [
                         'form_type'         => 'select',
+                        'form_name'         => 'business_type',
                         'where_type'        => 'in',
-                        'data'              => lang('common_is_text_list'),
+                        'data'              => lang('common_business_type_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
                 ],
                 [
-                    'label'         => '回复时间',
+                    'label'         => '业务订单id',
                     'view_type'     => 'field',
-                    'view_key'      => 'reply_time_time',
+                    'view_key'      => 'order_id',
                     'search_config' => [
-                        'form_type'         => 'datetime',
-                        'form_name'         => 'reply_time',
+                        'form_type'         => 'input',
+                        'where_type'        => '=',
                     ],
                 ],
                 [
-                    'label'         => '访问次数',
+                    'label'         => '支付平台交易号',
                     'view_type'     => 'field',
-                    'view_key'      => 'access_count',
+                    'view_key'      => 'trade_no',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => '支付平台用户帐号',
+                    'view_type'     => 'field',
+                    'view_key'      => 'buyer_user',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => '退款方式',
+                    'view_type'     => 'field',
+                    'view_key'      => 'refundment_text',
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'form_name'         => 'refundment',
+                        'where_type'        => 'in',
+                        'data'              => lang('common_order_aftersale_refundment_list'),
+                        'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => '退款金额',
+                    'view_type'     => 'field',
+                    'view_key'      => 'refund_price',
                     'search_config' => [
                         'form_type'         => 'section',
+                        'is_point'          => 1,
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => '订单支付金额',
+                    'view_type'     => 'field',
+                    'view_key'      => 'pay_price',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                        'is_point'          => 1,
+                    ],
+                ],
+                [
+                    'label'         => '描述',
+                    'view_type'     => 'field',
+                    'view_key'      => 'msg',
+                    'grid_size'     => 'sm',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => '退款时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'add_time',
                     ],
-                ],
-                [
-                    'label'         => '更新时间',
-                    'view_type'     => 'field',
-                    'view_key'      => 'upd_time_time',
-                    'search_config' => [
-                        'form_type'         => 'datetime',
-                        'form_name'         => 'upd_time',
-                    ],
-                ],
-                [
-                    'label'         => '操作',
-                    'view_type'     => 'operate',
-                    'view_key'      => 'answer/module/operate',
-                    'align'         => 'center',
-                    'fixed'         => 'right',
                 ],
             ],
         ];
@@ -193,7 +175,7 @@ class Answer
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-06-08
+     * @date    2020-06-27
      * @desc    description
      * @param   [string]          $value    [条件值]
      * @param   [array]           $params   [输入参数]
@@ -212,26 +194,17 @@ class Answer
     }
 
     /**
-     * 基础信息条件处理
+     * 支付方式类型
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-06-08
+     * @date    2020-06-27
      * @desc    description
-     * @param   [string]          $value    [条件值]
-     * @param   [array]           $params   [输入参数]
      */
-    public function WhereValueBaseInfo($value, $params = [])
+    public function RefundLogTypeList()
     {
-        if(!empty($value))
-        {
-            // 获取商品评论关联的商品 id
-            $ids = Db::name('answer')->alias('gc')->join(['__GOODS__'=>'g'], 'gc.goods_id=g.id')->where('title|model', 'like', '%'.$value.'%')->column('gc.id');
-
-            // 避免空条件造成无效的错觉
-            return empty($ids) ? [0] : $ids;
-        }
-        return $value;
+        $ret = RefundLogService::RefundLogTypeList();
+        return empty($ret['data']) ? [] : $ret['data'];
     }
 }
 ?>

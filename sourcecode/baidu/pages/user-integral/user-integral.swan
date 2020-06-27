@@ -3,7 +3,7 @@
     <view class="data-card bg-white br-b" s-for="item, index in data_list">
       <view class="data-box oh">
       <import src="/pages/common/nodata.swan" />
-        <text class="data-title">{{item.type_name}}</text>
+        <text class="data-title">{{item.type_text}}</text>
         <text class="data-time fr">{{item.add_time_time}}</text>
       </view>
       <view class="data-value">

@@ -49,52 +49,33 @@ class PayLog extends Common
      */
 	public function Index()
 	{
-		// 参数
-        $params = input();
-        $params['user'] = $this->admin;
-        $params['user_type'] = 'admin';
+        // 总数
+        $total = PayLogService::PayLogTotal($this->form_where);
 
         // 分页
-        $number = MyC('admin_page_number', 10, true);
-
-        // 条件
-        $where = PayLogService::AdminPayLogListWhere($params);
-
-        // 获取总数
-        $total = PayLogService::AdminPayLogTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/paylog/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('admin/paylog/index'),
+        ];
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-        );
-        $data = PayLogService::AdminPayLogList($data_params);
-        $this->assign('data_list', $data['data']);
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+            'is_public'     => 0,
+            'user_type'     => 'admin',
+        ];
+        $ret = PayLogService::PayLogList($data_params);
 
-		// 性别
-		$this->assign('common_gender_list', lang('common_gender_list'));
-
-		// 业务类型
-		$this->assign('common_business_type_list', lang('common_business_type_list'));
-
-		// 支付日志类型
-		$pay_type_list = PayLogService::PayLogTypeList($params);
-		$this->assign('common_pay_type_list', $pay_type_list['data']);
-
-		// 参数
-        $this->assign('params', $params);
+        // 基础参数赋值
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
         return $this->fetch();
 	}
 }

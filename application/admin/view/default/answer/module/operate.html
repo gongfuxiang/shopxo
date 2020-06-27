@@ -1,4 +1,8 @@
 <!-- 操作栏 -->
+<button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/answer/detail', ['id'=>$module_data['id']])}}">
+    <i class="am-icon-eye"></i>
+    <span>详情</span>
+</button>
 <a href="{{:MyUrl('admin/answer/saveinfo', array_merge($params, ['id'=>$module_data['id']]))}}" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block">
     <i class="am-icon-edit"></i>
     <span>编辑</span>

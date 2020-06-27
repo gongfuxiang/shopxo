@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use app\service\UserService;
 
 /**
  * 消息服务层
@@ -173,9 +174,10 @@ class MessageService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
+        $field = '*';
 
         // 获取数据列表
-        $data = Db::name('Message')->where($where)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('Message')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
             $common_business_type_list = lang('common_business_type_list');
@@ -183,14 +185,26 @@ class MessageService
             $common_message_type_list = lang('common_message_type_list');
             foreach($data as &$v)
             {
+                // 用户信息
+                if(isset($v['user_id']))
+                {
+                    if(isset($params['is_public']) && $params['is_public'] == 0)
+                    {
+                        $v['user'] = UserService::GetUserViewInfo($v['user_id']);
+                    }
+                }
+
                 // 消息类型
-                $v['type_name'] = $common_message_type_list[$v['type']]['name'];
+                $v['type_text'] = $common_message_type_list[$v['type']]['name'];
 
                 // 是否已读
-                $v['is_read_name'] = $common_is_read_list[$v['is_read']]['name'];
+                $v['is_read_text'] = $common_is_read_list[$v['is_read']]['name'];
 
                 // 业务类型
-                $v['business_type_name'] = $common_business_type_list[$v['business_type']]['name'];
+                $v['business_type_text'] = $common_business_type_list[$v['business_type']]['name'];
+
+                // 用户是否已删除
+                $v['user_is_delete_time_text'] = ($v['user_is_delete_time'] == 0) ? '否' : '是';
 
                 // 时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
@@ -232,134 +246,6 @@ class MessageService
     }
 
     /**
-     * 后台管理员列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function AdminMessageList($params = [])
-    {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
-        $field = 'm.*,u.username,u.nickname,u.mobile,u.email,u.gender';
-        $order_by = empty($params['order_by']) ? 'm.id desc' : $params['order_by'];
-
-        // 获取数据列表
-        $data = Db::name('Message')->alias('m')->join(['__USER__'=>'u'], 'u.id=m.user_id')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
-        if(!empty($data))
-        {
-            $common_business_type_list = lang('common_business_type_list');
-            $common_is_read_list = lang('common_is_read_list');
-            $common_message_type_list = lang('common_message_type_list');
-            $common_gender_list = lang('common_gender_list');
-            foreach($data as &$v)
-            {
-                // 消息类型
-                $v['type_name'] = $common_message_type_list[$v['type']]['name'];
-
-                // 是否已读
-                $v['is_read_name'] = $common_is_read_list[$v['is_read']]['name'];
-
-                // 业务类型
-                $v['business_type_name'] = $common_business_type_list[$v['business_type']]['name'];
-
-                // 用户是否已删除
-                $v['user_is_delete_time_name'] = ($v['user_is_delete_time'] == 0) ? '否' : '是';
-
-                // 性别
-                $v['gender_text'] = $common_gender_list[$v['gender']]['name'];
-
-                // 时间
-                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
-            }
-        }
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 后台消息总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function AdminMessageTotal($where = [])
-    {
-        return (int) Db::name('Message')->alias('m')->join(['__USER__'=>'u'], 'u.id=m.user_id')->where($where)->count();
-    }
-
-    /**
-     * 后台消息列表条件
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function AdminMessageListWhere($params = [])
-    {
-        $where = [
-            ['m.is_delete_time', '=', 0],
-        ];
-        
-        // 关键字
-        if(!empty($params['keywords']))
-        {
-            $where[] = ['m.title|m.detail|u.username|u.nickname|u.mobile', 'like', '%'.$params['keywords'].'%'];
-        }
-
-        // 是否更多条件
-        if(isset($params['is_more']) && $params['is_more'] == 1)
-        {
-            // 等值
-            if(isset($params['business_type']) && $params['business_type'] > -1)
-            {
-                $where[] = ['m.business_type', '=', intval($params['business_type'])];
-            }
-            if(isset($params['type']) && $params['type'] > -1)
-            {
-                $where[] = ['m.type', '=', intval($params['type'])];
-            }
-            if(isset($params['is_read']) && $params['is_read'] > -1)
-            {
-                $where[] = ['m.is_read', '=', intval($params['is_read'])];
-            }
-            if(isset($params['gender']) && $params['gender'] > -1)
-            {
-                $where[] = ['u.gender', '=', intval($params['gender'])];
-            }
-            if(isset($params['user_is_delete_time']) && $params['user_is_delete_time'] > -1)
-            {
-                if(intval($params['user_is_delete_time']) == 0)
-                {
-                    $where[] = ['m.user_is_delete_time', '=', 0];
-                } else {
-                    $where[] = ['m.user_is_delete_time', '>', 0];
-                }
-            }
-
-            if(!empty($params['time_start']))
-            {
-                $where[] = ['m.add_time', '>', strtotime($params['time_start'])];
-            }
-            if(!empty($params['time_end']))
-            {
-                $where[] = ['m.add_time', '<', strtotime($params['time_end'])];
-            }
-        }
-
-        return $where;
-    }
-
-    /**
      * 删除
      * @author   Devil
      * @blog    http://gong.gg/
@@ -370,27 +256,24 @@ class MessageService
      */
     public static function MessageDelete($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
+        // 参数是否有误
+        if(empty($params['ids']))
         {
-            return DataReturn($ret, -1);
+            return DataReturn('操作id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
         }
 
         // 删除操作
-        if(Db::name('Message')->where(['id'=>$params['id']])->delete())
+        if(Db::name('Message')->where(['id'=>$params['ids']])->delete())
         {
             return DataReturn('删除成功');
         }
 
-        return DataReturn('删除失败或资源不存在', -100);
+        return DataReturn('删除失败', -100);
     }
 }
 ?>

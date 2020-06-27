@@ -82,7 +82,7 @@ class Answer extends Common
         return $this->fetch();
 	}
 
-     /**
+    /**
      * 详情
      * @author   Devil
      * @blog     http://gong.gg/

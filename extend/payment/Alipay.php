@@ -455,7 +455,7 @@ class Alipay
         }
 
         //submit按钮控件请不要含有name属性
-        $html .= "<input type='submit' value='ok' style='display:none;''></form>";
+        $html .= "<input type='submit' value='ok' style='display:none;'></form>";
         
         $html .= "<script>document.forms['alipaysubmit'].submit();</script>";
         

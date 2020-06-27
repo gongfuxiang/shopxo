@@ -1,0 +1,14 @@
+<!-- 用户信息 -->
+{{if !empty($module_data)}}
+    {{if !empty($module_data['user'])}}
+        <img src="{{$module_data.user.avatar}}" alt="{{$module_data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
+        <ul class="user-base">
+            <li>名称：{{if empty($module_data['user']['username'])}}<span class="cr-ccc">无</span>{{else /}}{{$module_data.user.username}}{{/if}}</li>
+            <li>昵称：{{if empty($module_data['user']['nickname'])}}<span class="cr-ccc">无</span>{{else /}}{{$module_data.user.nickname}}{{/if}}</li>
+            <li>手机：{{if empty($module_data['user']['mobile'])}}<span class="cr-ccc">无</span>{{else /}}{{$module_data.user.mobile}}{{/if}}</li>
+            <li>邮箱：{{if empty($module_data['user']['email'])}}<span class="cr-ccc">无</span>{{else /}}{{$module_data.user.email}}{{/if}}</li>
+        </ul>
+    {{else /}}
+        用户信息异常
+    {{/if}}
+{{/if}}

@@ -164,20 +164,19 @@ class PaymentService
     private static function DataAnalysis($data)
     {
         return [
-            'name'          => isset($data['base']['name']) ? htmlentities($data['base']['name']) : '',
-            'version'       => isset($data['base']['version']) ? htmlentities($data['base']['version']) : '',
-            'apply_version' => isset($data['base']['apply_version']) ? htmlentities($data['base']['apply_version']) : '',
-            'desc'          => isset($data['base']['desc']) ? $data['base']['desc'] : '',
-            'author'        => isset($data['base']['author']) ? htmlentities($data['base']['author']) : '',
-            'author_url'    => isset($data['base']['author_url']) ? htmlentities($data['base']['author_url']) : '',
-            'element'       => isset($data['element']) ? $data['element'] : [],
-
-            'logo'          => '',
-            'is_enable'     => 0,
-            'is_open_user'  => 0,
-            'is_install'    => 0,
-            'apply_terminal'=> empty($data['base']['apply_terminal']) ? array_column(lang('common_platform_type'), 'value') : $data['base']['apply_terminal'],
-            'config'        => '',
+            'name'                  => isset($data['base']['name']) ? htmlentities($data['base']['name']) : '',
+            'version'               => isset($data['base']['version']) ? htmlentities($data['base']['version']) : '',
+            'apply_version'         => isset($data['base']['apply_version']) ? htmlentities($data['base']['apply_version']) : '',
+            'desc'                  => isset($data['base']['desc']) ? $data['base']['desc'] : '',
+            'author'                => isset($data['base']['author']) ? htmlentities($data['base']['author']) : '',
+            'author_url'            => isset($data['base']['author_url']) ? htmlentities($data['base']['author_url']) : '',
+            'element'               => isset($data['element']) ? $data['element'] : [],
+            'logo'                  => '',
+            'is_enable'             => 0,
+            'is_open_user'          => 0,
+            'is_install'            => 0,
+            'apply_terminal'        => empty($data['base']['apply_terminal']) ? array_column(lang('common_platform_type'), 'value') : $data['base']['apply_terminal'],
+            'config'                => '',
         ];
     }
 
@@ -202,7 +201,7 @@ class PaymentService
             $where['is_open_user'] = intval($params['is_open_user']);
         }
 
-        $data = Db::name('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal,element,is_enable,is_open_user')->order('sort asc')->select();
+        $data = Db::name('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal_old,element,is_enable,is_open_user')->order('sort asc')->select();
         if(!empty($data) && is_array($data))
         {
             foreach($data as &$v)
@@ -212,6 +211,7 @@ class PaymentService
                 $v['element'] = empty($v['element']) ? '' : json_decode($v['element'], true);
                 $v['config'] = empty($v['config']) ? '' : json_decode($v['config'], true);
                 $v['apply_terminal'] = empty($v['apply_terminal']) ? '' : json_decode($v['apply_terminal'], true);
+                $v['apply_terminal_old'] = empty($v['apply_terminal_old']) ? '' : json_decode($v['apply_terminal_old'], true);
             }
         }
         return $data;
@@ -551,9 +551,11 @@ class PaymentService
         if($config !== false)
         {
             $data = self::DataAnalysis($config);
+            $apply_terminal = empty($data['apply_terminal']) ? '' : json_encode($data['apply_terminal']);
             $data['payment'] = $payment;
             $data['element'] = empty($data['element']) ? '' : json_encode($data['element']);
-            $data['apply_terminal'] = empty($data['apply_terminal']) ? '' : json_encode($data['apply_terminal']);
+            $data['apply_terminal_old'] = $apply_terminal;
+            $data['apply_terminal'] = $apply_terminal;
             $data['sort'] = 0;
             $data['add_time'] = time();
 

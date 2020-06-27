@@ -49,56 +49,66 @@ class Message extends Common
      */
 	public function Index()
 	{
-		// 参数
-        $params = input();
-        $params['user'] = $this->admin;
-        $params['user_type'] = 'admin';
+		// 总数
+        $total = MessageService::MessageTotal($this->form_where);
 
         // 分页
-        $number = MyC('admin_page_number', 10, true);
-
-        // 条件
-        $where = MessageService::AdminMessageListWhere($params);
-
-        // 获取总数
-        $total = MessageService::AdminMessageTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/message/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('admin/message/index'),
+        ];
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-        );
-        $data = MessageService::AdminMessageList($data_params);
-        $this->assign('data_list', $data['data']);
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+            'is_public'     => 0,
+            'user_type'     => 'admin',
+        ];
+        $ret = MessageService::MessageList($data_params);
 
-		// 性别
-		$this->assign('common_gender_list', lang('common_gender_list'));
-
-		// 消息类型
-		$this->assign('common_message_type_list', lang('common_message_type_list'));
-
-		// 是否已读
-		$this->assign('common_is_read_list', lang('common_is_read_list'));
-
-        // 是否
-        $this->assign('common_is_text_list', lang('common_is_text_list'));
-
-		// 参数
-        $this->assign('params', $params);
+        // 基础参数赋值
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
         return $this->fetch();
 	}
+
+    /**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
+
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+                'is_public'     => 0,
+                'user_type'     => 'admin',
+            ];
+            $ret = MessageService::MessageList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
+        return $this->fetch();
+    }
 
 	/**
 	 * [Delete 消息删除]
@@ -116,7 +126,7 @@ class Message extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         $params['admin'] = $this->admin;
         return MessageService::MessageDelete($params);
 	}

@@ -1,0 +1,11 @@
+<!-- 支付方式 -->
+{{if !empty($module_data)}}
+    {{if isset($module_data['payment_name'])}}
+        <p>{{$module_data.payment_name}}</p>
+    {{/if}}
+    {{if isset($module_data['payment'])}}
+        <p>
+            <span class="am-badge am-radius">{{$module_data.payment}}</span>
+        </p>
+    {{/if}}
+{{/if}}
