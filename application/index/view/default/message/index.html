@@ -107,10 +107,10 @@
                             {{foreach $data_list as $v}}
                                 <tr>
                                     <td class="am-hide-sm-only">{{$v.title}}</td>
-                                    <td class="am-hide-sm-only">{{$v.type_name}}</td>
-                                    <td class="am-hide-sm-only">{{$v.business_type_name}}</td>
+                                    <td class="am-hide-sm-only">{{$v.type_text}}</td>
+                                    <td class="am-hide-sm-only">{{$v.business_type_text}}</td>
                                     <td>{{$v.detail}}</td>
-                                    <td class="am-hide-sm-only">{{$v.is_read_name}}</td>
+                                    <td class="am-hide-sm-only">{{$v.is_read_text}}</td>
                                     <td class="am-hide-md-down">{{$v.add_time_time}}</td>
                                     <td>
                                         <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
@@ -127,16 +127,16 @@
                                                         <dd>{{$v.title}}</dd>
 
                                                         <dt>类型</dt>
-                                                        <dd>{{$v.type_name}}</dd>
+                                                        <dd>{{$v.type_text}}</dd>
 
                                                         <dt>业务</dt>
-                                                        <dd>{{$v.business_type_name}}</dd>
+                                                        <dd>{{$v.business_type_text}}</dd>
 
                                                         <dt>详情</dt>
                                                         <dd>{{$v.detail}}</dd>
 
                                                         <dt>状态</dt>
-                                                        <dd>{{$v.is_read_name}}</dd>
+                                                        <dd>{{$v.is_read_text}}</dd>
 
                                                         <dt>时间</dt>
                                                         <dd>{{$v.add_time_time}}</dd>

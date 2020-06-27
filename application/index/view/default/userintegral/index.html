@@ -96,7 +96,7 @@
                         {{if !empty($data_list)}}
                             {{foreach $data_list as $v}}
                                 <tr>
-                                    <td>{{$v.type_name}}</td>
+                                    <td>{{$v.type_text}}</td>
                                     <td class="am-hide-sm-only">{{$v.msg}}</td>
                                     <td>{{$v.original_integral}}</td>
                                     <td>{{$v.new_integral}}</td>
@@ -113,7 +113,7 @@
                                                 <div class="am-popup-bd">
                                                     <dl class="dl-content">
                                                         <dt>操作类型</dt>
-                                                        <dd>{{$v.type_name}}</dd>
+                                                        <dd>{{$v.type_text}}</dd>
 
                                                         <dt>描述</dt>
                                                         <dd>{{$v.msg}}</dd>
