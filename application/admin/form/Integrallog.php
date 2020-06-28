@@ -74,6 +74,14 @@ class Integrallog
                     ],
                 ],
                 [
+                    'label'         => '操作积分',
+                    'view_type'     => 'field',
+                    'view_key'      => 'operation_integral',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
+                ],
+                [
                     'label'         => '原始积分',
                     'view_type'     => 'field',
                     'view_key'      => 'original_integral',
@@ -116,6 +124,13 @@ class Integrallog
                         'form_type'         => 'datetime',
                         'form_name'         => 'add_time',
                     ],
+                ],
+                [
+                    'label'         => '操作',
+                    'view_type'     => 'operate',
+                    'view_key'      => 'integrallog/module/operate',
+                    'align'         => 'center',
+                    'fixed'         => 'right',
                 ],
             ],
         ];

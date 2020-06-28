@@ -210,32 +210,34 @@ class NavigationService
 
         $field = '*';
         $data = self::NavigationHandle(self::NavDataDealWith(Db::name('Navigation')->field($field)->where($where1)->order('sort')->select()));
+        $result = [];
         if(!empty($data))
         {
-            // 子级数据
-            $items = [];
+            // 子级数据组合
             $where2 = $where;
             $where2[] = ['pid', 'in', array_column($data, 'id')];
-            $items_data =  self::NavigationHandle(self::NavDataDealWith(Db::name('Navigation')->field($field)->where($where2)->order('sort')->select()));
+            $items_data = self::NavigationHandle(self::NavDataDealWith(Db::name('Navigation')->field($field)->where($where2)->order('sort')->select()));
+            $items_group = [];
             if(!empty($items_data))
             {
-                foreach($items_data as $it)
+                foreach($items_data as $tv)
                 {
-                    $items[$it['pid']][] = $it;
+                    $items_group[$tv['pid']][] = $tv;
                 }
             }
 
-            // 数据处理
-            foreach($data as $k=>$v)
+            // 数据集合
+            foreach($data as $dv)
             {
-                // 数据类型
-                if(isset($items[$v['id']]))
+                $result[] = $dv;
+                if(!empty($items_group) && array_key_exists($dv['id'], $items_group))
                 {
-                    array_splice($data, $k+1, 0, $items[$v['id']]);
+                    $result = array_merge($result, $items_group[$dv['id']]);
                 }
             }
         }
-        return DataReturn('处理成功', 0, $data);
+
+        return DataReturn('处理成功', 0, $result);
     }
 
     /**

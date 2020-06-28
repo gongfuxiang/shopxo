@@ -130,8 +130,17 @@
 					<input type="text" name="inventory_unit" placeholder="库存单位" minlength="1" maxlength="6" data-validation-message="库存单位格式 1~6 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.inventory_unit}}"{{/if}} required />
 				</div>
 				<div class="am-form-group">
+                    <label>购买赠送积分比例<span class="am-form-group-label-tips">按照商品金额比例乘以数量的比例进行发放</span></label>
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="number" name="give_integral" placeholder="购买赠送积分" min="0" max="100" data-validation-message="购买赠送积分比例 0~100 的数字" class="am-form-field am-radius" {{if !empty($data['give_integral'])}} value="{{$data.give_integral}}"{{/if}} />
+                        <span class="am-input-group-btn">
+                            <button type="button" class="am-btn am-btn-default am-radius">%</button>
+                        </span>
+                    </div>
+                </div>
+				<div class="am-form-group">
 					<label>最低起购数量<span class="am-form-group-label-tips">默认数值 1</span></label>
-					<input type="number" name="buy_min_number" placeholder="最低起购数量" min="1" max="100000000" data-validation-message="最低起购数量 1~100000000" class="am-radius" value="{{if empty($data)}}1{{else /}}{{$data.buy_min_number}}{{/if}}" required />
+					<input type="number" name="buy_min_number" placeholder="最低起购数量" min="1" max="100000000" data-validation-message="最低起购数量 1~100000000" class="am-radius" value="{{if empty($data) or empty($data['buy_min_number'])}}1{{else /}}{{$data.buy_min_number}}{{/if}}" required />
 				</div>
 				<div class="am-form-group">
 					<label>单次最大购买数量<span class="am-form-group-label-tips">单次最大数值 100000000, 小于等于0或空则不限</span></label>

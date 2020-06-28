@@ -11,6 +11,7 @@
 namespace app\module;
 
 use think\Controller;
+use think\facade\Hook;
 
 /**
  * 动态表格处理
@@ -78,6 +79,20 @@ class FormHandleModule
         if(empty($this->form_data['base']['key_field']))
         {
             return DataReturn('表格唯一字段配置有误['.$module.']base->[key_field]', -1);
+        }
+
+        // 钩子
+        $hv = explode('\\', $module);
+        if(isset($hv[2]) && isset($hv[4]) && in_array($hv[2], config('shopxo.module_form_hook_group')))
+        {
+            // 动态钩子名称 plugins_module_form_group_controller_action
+            $hook_name = 'plugins_module_form_'.strtolower($hv[2]).'_'.strtolower($hv[4]).'_'.strtolower($action);
+            Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => $this->out_params,
+                'data'          => &$this->form_data,
+            ]);
         }
 
         // 基础条件

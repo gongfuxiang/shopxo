@@ -78,5 +78,36 @@ class RefundLog extends Common
         $this->assign('data_list', $ret['data']);
         return $this->fetch();
     }
+
+    /**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-05T08:21:54+0800
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
+
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+                'is_public'     => 0,
+                'user_type'     => 'admin',
+            ];
+            $ret = RefundLogService::RefundLogList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
+        return $this->fetch();
+    }
 }
 ?>

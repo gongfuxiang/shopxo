@@ -222,7 +222,7 @@
                         <tbody>
                             {{if !empty($data_list) and !empty($form_table['base']['key_field'])}}
                                 <!-- 处理数据数量小于默认数量 -->
-                                {{for start="0" end="(count($data_list) < $page_size ? count($data_list) : $page_size)"}}
+                                {{for start="0" end="count($data_list)"}}
                                     <!-- 1. tr 主键id名称 -->
                                     <!-- 2. 是否黄色选中class -->
                                     <tr
@@ -257,6 +257,11 @@
                                                         <!-- 数据匹配 -->
                                                         {{switch $t.view_type}}
                                                             {{case field}}
+                                                                <!-- 前后固定拼接的值 前面 -->
+                                                                {{if isset($t['view_join_first'])}}
+                                                                    <span>{{$t.view_join_first}}</span>
+                                                                {{/if}}
+
                                                                 <!-- 如果字段为数组则处理多个字段拼接数据 -->
                                                                 {{if is_array($t['view_key'])}}
                                                                     {{foreach $t['view_key'] as $fk=>$fv}}
@@ -280,6 +285,10 @@
                                                                             {{$data_list[$i][$t['view_key']]|raw}}
                                                                         {{/if}}
                                                                     {{/if}}
+                                                                {{/if}}
+                                                                <!-- 前后固定拼接的值 后面 -->
+                                                                {{if isset($t['view_join_last'])}}
+                                                                    <span>{{$t.view_join_last}}</span>
                                                                 {{/if}}
                                                             {{/case}}
                                                             {{case module}}

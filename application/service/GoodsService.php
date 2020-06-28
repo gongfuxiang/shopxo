@@ -1084,6 +1084,9 @@ class GoodsService
         $content_web = empty($params['content_web']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content_web']), 'add');
         $fictitious_goods_value = empty($params['fictitious_goods_value']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['fictitious_goods_value']), 'add');
 
+        // 赠送积分
+        $give_integral = max(0, (isset($params['give_integral']) && $params['give_integral'] <= 100) ? intval($params['give_integral']) : 0);
+
         // 基础数据
         $data = [
             'title'                     => $params['title'],
@@ -1092,6 +1095,7 @@ class GoodsService
             'model'                     => $params['model'],
             'place_origin'              => isset($params['place_origin']) ? intval($params['place_origin']) : 0,
             'inventory_unit'            => $params['inventory_unit'],
+            'give_integral'             => $give_integral,
             'buy_min_number'            => max(1, isset($params['buy_min_number']) ? intval($params['buy_min_number']) : 1),
             'buy_max_number'            => isset($params['buy_max_number']) ? intval($params['buy_max_number']) : 0,
             'is_deduction_inventory'    => isset($params['is_deduction_inventory']) ? intval($params['is_deduction_inventory']) : 0,

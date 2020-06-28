@@ -31,40 +31,29 @@ class IntegralService
      * @datetime 2018-05-18T16:51:12+0800
      * @param    [int]                   $user_id           [用户id]
      * @param    [int]                   $original_integral [原始积分]
-     * @param    [int]                   $new_integral      [最新积分]
+     * @param    [int]                   $operation_integral[操作积分]
      * @param    [string]                $msg               [操作原因]
      * @param    [int]                   $type              [操作类型（0减少, 1增加）]
      * @param    [int]                   $operation_id      [操作人员id]
      * @return   [boolean]                                  [成功true, 失败false]
      */
-    public static function UserIntegralLogAdd($user_id, $original_integral, $new_integral, $msg = '', $type = 0, $operation_id = 0)
+    public static function UserIntegralLogAdd($user_id, $original_integral, $operation_integral, $msg = '', $type = 0, $operation_id = 0)
     {
         $data = array(
-            'user_id'           => intval($user_id),
-            'original_integral' => intval($original_integral),
-            'new_integral'      => intval($new_integral),
-            'msg'               => $msg,
-            'type'              => intval($type),
-            'operation_id'      => intval($operation_id),
-            'add_time'          => time(),
+            'user_id'               => intval($user_id),
+            'original_integral'     => intval($original_integral),
+            'operation_integral'    => intval($operation_integral),
+            'msg'                   => $msg,
+            'type'                  => intval($type),
+            'operation_id'          => intval($operation_id),
+            'add_time'              => time(),
         );
+        $data['new_integral'] = ($data['type'] == 1) ? $data['original_integral']+$data['operation_integral'] : $data['original_integral']-$data['operation_integral'];
         if(Db::name('UserIntegralLog')->insertGetId($data) > 0)
         {
             $type_msg = lang('common_integral_log_type_list')[$type]['name'];
-            $integral = ($data['type'] == 0) ? $data['original_integral']-$data['new_integral'] : $data['new_integral']-$data['original_integral'];
-            $detail = $msg.'积分'.$type_msg.$integral;
+            $detail = $msg.'积分'.$type_msg.$operation_integral;
             MessageService::MessageAdd($user_id, '积分变动', $detail);
-
-            // 用户登录数据更新防止数据存储session不同步展示
-            if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
-            {
-                $user = UserService::LoginUserInfo();
-                if(isset($user['id']) && $user['id'] == $user_id)
-                {
-                    UserService::UserLoginRecord($user_id);
-                }
-            }
-            
             return true;
         }
         return false;
@@ -176,7 +165,7 @@ class IntegralService
     }
 
     /**
-     * 订单商品积分赠送（已丢弃）
+     * 订单商品积分赠送
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -208,39 +197,109 @@ class IntegralService
         }
         if(!in_array($order['status'], [4]))
         {
-            return DataReturn('当前订单状态不允许操作['.$params['order_id'].'-'.$order['status'].']', 0);
+            return DataReturn('当前订单状态不允许操作，未完成', 0);
         }
 
         // 获取用户信息
-        $user = Db::name('User')->field('id')->find(intval($order['user_id']));
+        $user = Db::name('User')->field('id')->find($order['user_id']);
         if(empty($user))
         {
             return DataReturn('用户不存在或已删除，中止操作', 0);
         }
 
         // 获取订单商品
-        $goods_all = Db::name('OrderDetail')->where(['order_id'=>$params['order_id']])->column('goods_id');
-        if(!empty($goods_all))
+        $order_detail = Db::name('OrderDetail')->where(['order_id'=>$params['order_id']])->field('goods_id,total_price')->select();
+        if(!empty($order_detail))
         {
-            foreach($goods_all as $goods_id)
-            {
-                $give_integral = Db::name('Goods')->where(['id'=>$goods_id])->value('give_integral');
-                if(!empty($give_integral))
-                {
-                    // 用户积分添加
-                    $user_integral = Db::name('User')->where(['id'=>$user['id']])->value('integral');
-                    if(!Db::name('User')->where(['id'=>$user['id']])->setInc('integral', $give_integral))
-                    {
-                        return DataReturn('用户积分赠送失败['.$params['order_id'].'-'.$goods_id.']', -10);
-                    }
+            // 获取赠送积分的商品
+            $goods_give = Db::name('Goods')->where(['id'=>array_column($order_detail, 'goods_id')])->column('give_integral', 'id');
 
-                    // 积分日志
-                    self::UserIntegralLogAdd($user['id'], $user_integral, $user_integral+$give_integral, '订单商品完成赠送', 1);
+            // 循环发放
+            foreach($order_detail as $dv)
+            {
+                if(array_key_exists($dv['goods_id'], $goods_give))
+                {
+                    $give_rate = $goods_give[$dv['goods_id']];
+                    if($give_rate > 0 && $give_rate <= 100)
+                    {
+                        // 实际赠送积分
+                        $give_integral = intval(($give_rate/100)*$dv['total_price']);
+                        if($give_integral >= 1)
+                        {
+                            // 用户积分添加
+                            $user_integral = Db::name('User')->where(['id'=>$user['id']])->value('integral');
+                            if(!Db::name('User')->where(['id'=>$user['id']])->setInc('integral', $give_integral))
+                            {
+                                return DataReturn('用户积分赠送失败['.$params['order_id'].'-'.$goods_id.']', -10);
+                            }
+
+                            // 积分日志
+                            self::UserIntegralLogAdd($user['id'], $user_integral, $give_integral, '订单商品完成赠送', 1);
+                        }
+                    }
                 }
             }
             return DataReturn('操作成功', 0);
         }
         return DataReturn('没有需要操作的数据', 0);
+    }
+
+    /**
+     * 订单商品积分释放
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-28
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderGoodsIntegralRollback($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_detail_id',
+                'error_msg'         => '订单详情id有误',
+            ]
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 订单详情
+        $order_detail = Db::name('OrderDetail')->field('id,user_id,order_id,goods_id,total_price,refund_price')->find(intval($params['order_detail_id']));
+        if(empty($order_detail))
+        {
+            return DataReturn('订单详情不存在或已删除，中止操作', 0);
+        }
+
+        // 获取用户信息
+        $user = Db::name('User')->field('id,integral')->find($order_detail['user_id']);
+        if(empty($user))
+        {
+            return DataReturn('用户不存在或已删除，中止操作', 0);
+        }
+
+        // 获取商品相关信息
+        $give_rate = Db::name('Goods')->where(['id'=>$order_detail['goods_id']])->value('give_integral');
+        if($give_rate > 0 && $give_rate <= 100)
+        {
+            $give_integral = intval(($give_rate/100)*$order_detail['refund_price']);
+            if($give_integral >= 1)
+            {
+                // 用户积分添加
+                if(!Db::name('User')->where(['id'=>$user['id']])->setDec('integral', $give_integral))
+                {
+                    return DataReturn('用户积分释放失败['.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -10);
+                }
+
+                // 积分日志
+                self::UserIntegralLogAdd($user['id'], $user['integral'], $give_integral, '订单商品发生售后收回', 0);
+            }
+        }
     }
 }
 ?>

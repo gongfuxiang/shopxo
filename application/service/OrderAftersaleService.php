@@ -17,6 +17,7 @@ use app\service\ResourcesService;
 use app\service\RefundLogService;
 use app\service\OrderService;
 use app\service\MessageService;
+use app\service\IntegralService;
 use app\plugins\wallet\service\WalletService;
 
 /**
@@ -966,8 +967,16 @@ class OrderAftersaleService
             if($ret['code'] != 0)
             {
                 Db::rollback();
-                return DataReturn($ret['msg'], -10);
+                return $ret;
             }
+        }
+
+        // 积分释放
+        $ret = IntegralService::OrderGoodsIntegralRollback(['order_detail_id'=>$aftersale['order_detail_id']]);
+        if($ret['code'] != 0)
+        {
+            Db::rollback();
+            return $ret;
         }
 
         // 消息通知

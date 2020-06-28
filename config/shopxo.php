@@ -93,5 +93,8 @@ return [
 
     // 验证码最大验证次数,防止暴力破解
     'security_prevent_violence_max'         => 6,
+
+    // 动态表格可加入钩子组
+    'module_form_hook_group'                => ['admin', 'index', 'api'],
 ];
 ?>

@@ -80,6 +80,9 @@ class Order extends Common
         ];
         $this->assign('buy_payment_list', PaymentService::BuyPaymentList($pay_where));
 
+        // 快递公司
+        $this->assign('express_list', ExpressService::ExpressList());
+
         // 基础参数赋值
         $this->assign('params', $this->data_request);
         $this->assign('page_html', $page->GetPageHtml());

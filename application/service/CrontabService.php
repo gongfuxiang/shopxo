@@ -14,6 +14,7 @@ use think\Db;
 use app\service\OrderService;
 use app\service\BuyService;
 use app\service\MessageService;
+use app\service\IntegralService;
 
 /**
  * 定时任务服务层
@@ -120,20 +121,25 @@ class CrontabService
                 Db::startTrans();
                 if(Db::name('Order')->where(['id'=>$v['id'], 'status'=>3])->update($upd_data))
                 {
-                    // 订单商品销量增加
-                    $ret = OrderService::GoodsSalesCountInc(['order_id'=>$v['id']]);
+                    // 订单商品积分赠送
+                    $ret = IntegralService::OrderGoodsIntegralGiving(['order_id'=>$v['id']]);
                     if($ret['code'] == 0)
                     {
-                        // 用户消息
-                        MessageService::MessageAdd($v['user_id'], '订单收货', '订单自动收货成功', 1, $v['id']);
+                        // 订单商品销量增加
+                        $ret = OrderService::GoodsSalesCountInc(['order_id'=>$v['id']]);
+                        if($ret['code'] == 0)
+                        {
+                            // 用户消息
+                            MessageService::MessageAdd($v['user_id'], '订单收货', '订单自动收货成功', 1, $v['id']);
 
-                        // 订单状态日志
-                        OrderService::OrderHistoryAdd($v['id'], $upd_data['status'], $v['status'], '自动收货', 0, '系统');
+                            // 订单状态日志
+                            OrderService::OrderHistoryAdd($v['id'], $upd_data['status'], $v['status'], '自动收货', 0, '系统');
 
-                        // 提交事务
-                        Db::commit();
-                        $sucs++;
-                        continue;
+                            // 提交事务
+                            Db::commit();
+                            $sucs++;
+                            continue;
+                        }
                     }
                 }
                 // 事务回滚

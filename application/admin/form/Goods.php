@@ -212,6 +212,15 @@ class Goods
                     ],
                 ],
                 [
+                    'label'         => '购买赠送积分比例',
+                    'view_type'     => 'field',
+                    'view_key'      => 'give_integral',
+                    'view_join_last'=> '%',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
+                ],
+                [
                     'label'         => '单次最低起购数量',
                     'view_type'     => 'field',
                     'view_key'      => 'buy_min_number',

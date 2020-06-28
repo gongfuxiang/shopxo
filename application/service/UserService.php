@@ -329,13 +329,15 @@ class UserService
             if(($data['integral'] > 0 && empty($user)) || (isset($user['integral']) && $user['integral'] != $data['integral']))
             {
                 $integral_type = 1;
-                $integral = 0;
-                if(isset($user['integral']))
+                $old_integral = 0;
+                $opt_integral = 0;
+                if(!empty($params['id']))
                 {
+                    $old_integral = $user['integral'];
                     $integral_type = ($user['integral'] > $data['integral']) ? 0 : 1;
-                    $integral = $user['integral'];
+                    $opt_integral = ($integral_type == 1) ? $data['integral']-$user['integral'] : $user['integral']-$data['integral'];
                 }
-                IntegralService::UserIntegralLogAdd($user_id, $integral, $data['integral'], '管理员操作', $integral_type, $params['admin']['id']);
+                IntegralService::UserIntegralLogAdd($user_id, $old_integral, $opt_integral, '管理员操作', $integral_type, $params['admin']['id']);
             }
             return DataReturn('操作成功', 0);
         }

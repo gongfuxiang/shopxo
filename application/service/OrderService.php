@@ -1447,6 +1447,15 @@ class OrderService
         ];
         if(Db::name('Order')->where($where)->update($upd_data))
         {
+            // 订单商品积分赠送
+            $ret = IntegralService::OrderGoodsIntegralGiving(['order_id'=>$order['id']]);
+            if($ret['code'] != 0)
+            {
+                // 事务回滚
+                Db::rollback();
+                return DataReturn($ret['msg'], -10);
+            }
+
             // 订单商品销量增加
             $ret = self::GoodsSalesCountInc(['order_id'=>$order['id']]);
             if($ret['code'] != 0)

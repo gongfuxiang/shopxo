@@ -151,6 +151,13 @@ class Paylog
                         'form_name'         => 'add_time',
                     ],
                 ],
+                [
+                    'label'         => '操作',
+                    'view_type'     => 'operate',
+                    'view_key'      => 'paylog/module/operate',
+                    'align'         => 'center',
+                    'fixed'         => 'right',
+                ],
             ],
         ];
     }
