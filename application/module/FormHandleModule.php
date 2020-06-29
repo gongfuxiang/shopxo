@@ -57,7 +57,7 @@ class FormHandleModule
         }
 
         // 指定方法检测
-        $this->module_obj = new $module();
+        $this->module_obj = new $module($this->out_params);
         if(!method_exists($this->module_obj, $action))
         {
             // 默认方法检测

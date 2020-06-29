@@ -3,11 +3,11 @@
 <!-- content start -->
 <div class="account-pages">
 	<div class="wrapper-page">
-		<div class="text-center">
-            <span class="logo fw-70">ShopXO</span>
+		<div class="am-text-center">
+            <span class="logo">ShopXO</span>
         </div>
-        <div class="m-t-40 card-box admin-login">
-            <div class="panel-body">
+        <div class="am-margin-top-lg admin-login">
+            <div class="am-padding-sm">
             	<form class="am-form form-validation" action="{{:MyUrl('admin/admin/login')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/index/index')}}">
             		<div class="am-g">
             			<div class="am-form-group am-form-group-refreshing">
@@ -20,7 +20,7 @@
                         	<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'登录中...'}">登录</button>
                         </div>
                         
-                        <div class="am-form-group am-form-group-refreshing">
+                        <div class="am-form-group am-form-group-refreshing am-text-left am-margin-bottom-0">
                         	<a href="javascript:;" class="text-muted" data-am-popover="{theme: 'danger sm', content: '请联系管理员重置密码', trigger: 'hover focus'}">忘记密码?</a>
                         </div>
             		</div>
@@ -30,6 +30,13 @@
 	</div>
 </div>
 <!-- content end -->
+
+<!-- 随机背景图片 -->
+<div class="bg-slides">
+    {{for start="1" end="11"}}
+        <div class="bg-slides-item" style="background-image:url('{{$attachment_host}}/static/admin/default/images/login/{{$i}}.jpg');{{if $i neq 1}}display:none;{{/if}}"></div>
+    {{/for}}
+</div>
 
 <!-- 插件扩展数据 start -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

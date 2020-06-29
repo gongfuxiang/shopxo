@@ -81,10 +81,11 @@ class IntegralLog extends Common
 
     /**
      * 详情
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-08-05T08:21:54+0800
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-29
+     * @desc    description
      */
     public function Detail()
     {

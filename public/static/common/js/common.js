@@ -1628,8 +1628,7 @@ function TableContainerInit()
 			if(right == undefined)
 			{
 				var left = $(this).offset().left;
-				var width = $(this).width();
-				var right = parent_width-left-width-parent_left-4;
+					right = parent_width-left-width+parent_left;
 				if(right < 0)
 				{
 					right = 0;

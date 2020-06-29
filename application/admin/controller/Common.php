@@ -259,7 +259,9 @@ class Common extends Controller
         if(!empty($data))
         {
             // 调用表格处理
-            $ret = (new FormHandleModule())->Run($data['module'], $data['action'], $this->data_request);
+            $params = $this->data_request;
+            $params['system_admin'] = $this->admin;
+            $ret = (new FormHandleModule())->Run($data['module'], $data['action'], $params);
             if($ret['code'] == 0)
             {
                 $this->form_table = $ret['data']['table'];

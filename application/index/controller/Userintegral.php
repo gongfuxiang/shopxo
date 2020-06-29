@@ -48,49 +48,68 @@ class UserIntegral extends Common
      */
     public function Index()
     {
-        // 参数
-        $params = input();
-        $params['user'] = $this->user;
+        // 总数
+        $total = IntegralService::IntegralLogTotal($this->form_where);
 
         // 分页
-        $number = 10;
-
-        // 条件
-        $where = IntegralService::UserIntegralLogListWhere($params);
-
-        // 获取总数
-        $total = IntegralService::IntegralLogTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('index/userintegral/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('admin/userintegral/index'),
+        ];
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-        );
-        $data = IntegralService::IntegralLogList($data_params);
-        $this->assign('data_list', $data['data']);
-
-        // 操作类型
-        $this->assign('common_integral_log_type_list', lang('common_integral_log_type_list'));
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+        ];
+        $ret = IntegralService::IntegralLogList($data_params);
 
         // 浏览器名称
         $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('我的积分', 1));
 
-        // 参数
-        $this->assign('params', $params);
+        // 基础参数赋值
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
         return $this->fetch();
     }
 
+    /**
+     * 详情
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-29
+     * @desc    description
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
+
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+            ];
+            $ret = IntegralService::IntegralLogList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
+
+        $this->assign('is_header', 0);
+        $this->assign('is_footer', 0);
+        return $this->fetch();
+    }
 }
 ?>

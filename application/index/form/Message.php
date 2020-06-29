@@ -8,31 +8,48 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\admin\form;
+namespace app\index\form;
 
 use think\Db;
 
 /**
- * 消息管理动态表格
+ * 用户消息动态表格
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
- * @date    2020-06-26
+ * @date    2020-06-29
  * @desc    description
  */
 class Message
 {
     // 基础条件
     public $condition_base = [
-        ['is_delete_time', '=', 0],
+        ['user_is_delete_time', '=', 0],
     ];
+
+    /**
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-29
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function __construct($params = [])
+    {
+        // 用户信息
+        if(!empty($params['system_user']))
+        {
+            $this->condition_base[] = ['user_id', '=', $params['system_user']['id']];
+        }
+    }
 
     /**
      * 入口
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-06-26
+     * @date    2020-06-29
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
@@ -43,35 +60,10 @@ class Message
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/message/index'),
-                'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/message/delete'),
-                'delete_key'    => 'ids',
+                'search_url'    => MyUrl('index/message/index'),
             ],
             // 表单配置
             'form' => [
-                [
-                    'view_type'         => 'checkbox',
-                    'is_checked'        => 0,
-                    'checked_text'      => '反选',
-                    'not_checked_text'  => '全选',
-                    'align'             => 'center',
-                    'width'             => 80,
-                ],
-                [
-                    'label'         => '用户信息',
-                    'view_type'     => 'module',
-                    'view_key'      => 'lib/module/user',
-                    'grid_size'     => 'sm',
-                    'search_config' => [
-                        'form_type'             => 'input',
-                        'form_name'             => 'user_id',
-                        'where_type'            => 'like',
-                        'where_type_custom'     => 'in',
-                        'where_handle_custom'   => 'WhereValueUserInfo',
-                        'placeholder'           => '请输入用户名/昵称/手机/邮箱',
-                    ],
-                ],
                 [
                     'label'         => '消息类型',
                     'view_type'     => 'field',
@@ -120,7 +112,7 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '是否已读',
+                    'label'         => '状态',
                     'view_type'     => 'field',
                     'view_key'      => 'is_read_text',
                     'search_config' => [
@@ -134,12 +126,7 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '用户是否删除',
-                    'view_type'     => 'field',
-                    'view_key'      => 'user_is_delete_time_text',
-                ],
-                [
-                    'label'         => '发送时间',
+                    'label'         => '时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
                     'search_config' => [
@@ -156,29 +143,6 @@ class Message
                 ],
             ],
         ];
-    }
-
-    /**
-     * 用户信息条件处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-06-26
-     * @desc    description
-     * @param   [string]          $value    [条件值]
-     * @param   [array]           $params   [输入参数]
-     */
-    public function WhereValueUserInfo($value, $params = [])
-    {
-        if(!empty($value))
-        {
-            // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
-
-            // 避免空条件造成无效的错觉
-            return empty($ids) ? [0] : $ids;
-        }
-        return $value;
     }
 }
 ?>

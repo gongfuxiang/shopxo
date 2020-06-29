@@ -187,9 +187,6 @@ a:focus {outline:0;text-decoration:none;}
 /* =============   Extras============= *//* Table type box */
 .table-box {display:table;height:100%;width:100%;}
 .table-box .table-detail {display:table-cell;vertical-align:middle;}
-/* Card Box */
-.card-box {padding:20px;box-shadow:0 0px 8px 0 rgba(0,0,0,0.06),0 1px 0px 0 rgba(0,0,0,0.02);-webkit-border-radius:5px;border-radius:5px;-moz-border-radius:5px;background-clip:padding-box;margin-bottom:20px;background-color:#ffffff;}
-.card-box .card-drop {color:#98a6ad;font-size:20px;line-height:1px;padding:0px 5px;display:inline-block;}
 /* Grid page */
 .grid-structure .grid-container {background-color:#f4f8fb;margin-bottom:10px;padding:10px 20px;}
 /* Demo only */

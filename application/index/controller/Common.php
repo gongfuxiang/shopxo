@@ -295,6 +295,12 @@ class Common extends Controller
         $this->assign('controller_name', $controller_name);
         $this->assign('action_name', $action_name);
 
+        // 分页信息
+        $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
+        $this->page_size = MyC('admin_page_number', 10, true);
+        $this->assign('page', $this->page);
+        $this->assign('page_size', $this->page_size);
+
         // 控制器静态文件状态css,js
         $module_css = $module_name.DS.$default_theme.DS.'css'.DS.$controller_name;
         $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$action_name.'.css') ? '.'.$action_name.'.css' : '.css';
@@ -387,7 +393,9 @@ class Common extends Controller
         if(!empty($data))
         {
             // 调用表格处理
-            $ret = (new FormHandleModule())->Run($data['module'], $data['action'], $this->data_request);
+            $params = $this->data_request;
+            $params['system_user'] = $this->user;
+            $ret = (new FormHandleModule())->Run($data['module'], $data['action'], $params);
             if($ret['code'] == 0)
             {
                 $this->form_table = $ret['data']['table'];
