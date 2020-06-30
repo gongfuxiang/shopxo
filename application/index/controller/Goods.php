@@ -13,6 +13,8 @@ namespace app\index\controller;
 use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\GoodsCommentsService;
+use app\service\GoodsBrowseService;
+use app\service\GoodsFavorService;
 use app\service\SeoService;
 
 /**
@@ -62,14 +64,14 @@ class Goods extends Common
             return $this->fetch('/public/tips_error');
         } else {
             // 当前登录用户是否已收藏
-            $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
+            $ret_favor = GoodsFavorService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
             $ret['data'][0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
             // 商品评价总数
             $ret['data'][0]['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
 
             // 商品收藏总数
-            $ret['data'][0]['favor_count'] = GoodsService::GoodsFavorTotal(['goods_id'=>$goods_id]);
+            $ret['data'][0]['favor_count'] = GoodsFavorService::GoodsFavorTotal(['goods_id'=>$goods_id]);
 
             // 钩子
             $this->PluginsHook($goods_id, $ret['data'][0]);
@@ -100,7 +102,7 @@ class Goods extends Common
             GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
 
             // 用户商品浏览
-            GoodsService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
+            GoodsBrowseService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
 
             // 左侧商品 看了又看
             $params = [
@@ -284,7 +286,7 @@ class Goods extends Common
         // 开始处理
         $params = input('post.');
         $params['user'] = $this->user;
-        return GoodsService::GoodsFavor($params);
+        return GoodsFavorService::GoodsFavorCancel($params);
     }
 
     /**

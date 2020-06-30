@@ -501,24 +501,24 @@ ul.am-dropdown-content > .am-active > a:focus,
 }
 
 .am-btn-secondary {
-    color: #f77076 !important;
-    background-color: #ffe2e5;
-    border-color: #facbd0;
+    color: #F44336 !important;
+    background-color: #fddedc;
+    border-color: #ffc3bf;
 }
 .am-btn-secondary:hover, .am-btn-secondary:focus {
-    background-color: #f77076;
+    background-color: #F44336;
 }
 .am-btn-secondary:hover, .am-btn-secondary:focus, .am-btn-secondary:active, .am-btn-secondary.am-active, .am-dropdown.am-active .am-btn-secondary.am-dropdown-toggle {
     color: #fff !important;
-    border-color: #f77076;
+    border-color: #F44336;
 }
 .am-btn-secondary.am-disabled, .am-btn-secondary[disabled], fieldset[disabled] .am-btn-secondary, .am-btn-secondary.am-disabled:hover, .am-btn-secondary[disabled]:hover, fieldset[disabled] .am-btn-secondary:hover, .am-btn-secondary.am-disabled:focus, .am-btn-secondary[disabled]:focus, fieldset[disabled] .am-btn-secondary:focus, .am-btn-secondary.am-disabled:active, .am-btn-secondary[disabled]:active, fieldset[disabled] .am-btn-secondary:active, .am-btn-secondary.am-disabled.am-active, .am-btn-secondary[disabled].am-active, fieldset[disabled] .am-btn-secondary.am-active {
-    background-color: #ffe2e5;
-    border-color: #ffe2e5;
+    background-color: #fddedc;
+    border-color: #fddedc;
 }
 .am-btn-secondary:active, .am-btn-secondary.am-active, .am-dropdown.am-active .am-btn-secondary.am-dropdown-toggle {
     background-image: none;
-    background-color: #f77076;
+    background-color: #F44336;
 }
 
 .am-btn-primary {

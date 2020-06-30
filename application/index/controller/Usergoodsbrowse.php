@@ -11,7 +11,7 @@
 namespace app\index\controller;
 
 use app\service\SeoService;
-use app\service\GoodsService;
+use app\service\GoodsBrowseService;
 
 /**
  * 用户商品浏览
@@ -39,63 +39,85 @@ class UserGoodsBrowse extends Common
     }
     
     /**
-     * 商品浏览列表
-     * @author   Devil
+     * 列表
+     * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2018-10-09
+     * @date    2020-06-30
      * @desc    description
      */
     public function Index()
     {
-        // 参数
-        $params = input();
-        $params['user'] = $this->user;
+        // 总数
+        $total = GoodsBrowseService::GoodsBrowseTotal($this->form_where);
 
         // 分页
-        $number = 10;
-
-        // 条件
-        $where = GoodsService::UserGoodsBrowseListWhere($params);
-
-        // 获取总数
-        $total = GoodsService::GoodsBrowseTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('index/usergoodsbrowse/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('index/usergoodsbrowse/index'),
+        ];
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-        );
-        $data = GoodsService::GoodsBrowseList($data_params);
-        $this->assign('data_list', $data['data']);
-        $this->assign('ids', empty($data['data']) ? '' : implode(',', array_column($data['data'], 'id')));
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+        ];
+        $ret = GoodsBrowseService::GoodsBrowseList($data_params);
 
         // 浏览器名称
         $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('我的足迹', 1));
 
-        // 参数
-        $this->assign('params', $params);
+        // 基础参数赋值
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
         return $this->fetch();
     }
 
     /**
-     * 商品浏览删除
-     * @author   Devil
+     * 详情
+     * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2018-09-14
+     * @date    2020-06-30
+     * @desc    description
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['b.id', '=', intval($this->data_request['id'])],
+            ];
+
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+            ];
+            $ret = GoodsBrowseService::GoodsBrowseList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
+
+        $this->assign('is_header', 0);
+        $this->assign('is_footer', 0);
+        return $this->fetch();
+    }
+
+    /**
+     * 删除
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-30
      * @desc    description
      */
     public function Delete()
@@ -103,13 +125,13 @@ class UserGoodsBrowse extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error('非法访问');
+            return $this->error('非法访问');
         }
 
         // 开始处理
-        $params = input('post.');
+        $params = $this->data_post;
         $params['user'] = $this->user;
-        return GoodsService::GoodsBrowseDelete($params);
+        return GoodsBrowseService::GoodsBrowseDelete($params);
     }
 }
 ?>

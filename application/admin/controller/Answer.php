@@ -71,10 +71,6 @@ class Answer extends Common
         ];
         $ret = AnswerService::AnswerList($data_params);
 
-		// 静态数据
-		$this->assign('common_is_show_list', lang('common_is_show_list'));
-        $this->assign('common_is_text_list', lang('common_is_text_list'));
-
 		// 基础参数赋值
         $this->assign('params', $this->data_request);
         $this->assign('page_html', $page->GetPageHtml());
@@ -84,10 +80,11 @@ class Answer extends Common
 
     /**
      * 详情
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-08-05T08:21:54+0800
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-30
+     * @desc    description
      */
     public function Detail()
     {

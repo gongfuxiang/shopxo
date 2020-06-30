@@ -22,17 +22,18 @@ use app\service\SeoService;
  */
 class UserIntegral extends Common
 {
-    /**
-     * [_initialize 前置操作-继承公共前置方法]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
+   /**
+     * 构造方法
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-30
+     * @desc    description
      */
-    public function _initialize()
+    public function __construct()
     {
         // 调用父类前置方法
-        parent::_initialize();
+        parent::__construct();
 
         // 是否登录
         $this->IsLogin();

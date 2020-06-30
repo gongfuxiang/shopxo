@@ -1,0 +1,12 @@
+<!-- 商品基础信息 -->
+{{if !empty($module_data)}}
+    <div class="am-nbfc">
+        <a href="{{$module_data.goods_url}}" target="_blank" title="{{$module_data.title}}">
+            <img src="{{$module_data['images']}}" class="am-img-thumbnail am-radius am-margin-right-xs am-fl" width="60" height="60" />
+        </a>
+        <a href="{{$module_data.goods_url}}" target="_blank" title="{{$module_data.title}}" {{if !empty($module_data['title_color'])}} style="color:{{$module_data.title_color}};" {{/if}} class="am-nowrap-initial">{{$module_data.title}}</a>
+        {{if !empty($module_data['simple_desc'])}}
+            <p class="am-text-danger am-nowrap-initial">{{$module_data.simple_desc}}</p>
+        {{/if}}
+    </div>
+{{/if}}

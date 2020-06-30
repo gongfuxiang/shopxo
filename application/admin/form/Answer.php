@@ -210,28 +210,5 @@ class Answer
         }
         return $value;
     }
-
-    /**
-     * 基础信息条件处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-06-08
-     * @desc    description
-     * @param   [string]          $value    [条件值]
-     * @param   [array]           $params   [输入参数]
-     */
-    public function WhereValueBaseInfo($value, $params = [])
-    {
-        if(!empty($value))
-        {
-            // 获取商品评论关联的商品 id
-            $ids = Db::name('answer')->alias('gc')->join(['__GOODS__'=>'g'], 'gc.goods_id=g.id')->where('title|model', 'like', '%'.$value.'%')->column('gc.id');
-
-            // 避免空条件造成无效的错觉
-            return empty($ids) ? [0] : $ids;
-        }
-        return $value;
-    }
 }
 ?>

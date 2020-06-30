@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\GoodsService;
+use app\service\GoodsFavorService;
 
 /**
  * 用户商品收藏
@@ -55,10 +55,10 @@ class UserGoodsFavor extends Common
         $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
 
         // 条件
-        $where = GoodsService::UserGoodsFavorListWhere($params);
+        $where = GoodsFavorService::UserGoodsFavorListWhere($params);
 
         // 获取总数
-        $total = GoodsService::GoodsFavorTotal($where);
+        $total = GoodsFavorService::GoodsFavorTotal($where);
         $page_total = ceil($total/$number);
         $start = intval(($page-1)*$number);
 
@@ -68,7 +68,7 @@ class UserGoodsFavor extends Common
             'n'         => $number,
             'where'     => $where,
         );
-        $data = GoodsService::GoodsFavorList($data_params);
+        $data = GoodsFavorService::GoodsFavorList($data_params);
 
         // 返回数据
         $result = [
@@ -91,7 +91,7 @@ class UserGoodsFavor extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return GoodsService::GoodsFavor($params);
+        return GoodsFavorService::GoodsFavorCancel($params);
     }
 }
 ?>

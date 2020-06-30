@@ -1,183 +1,44 @@
-{{include file="public/header" /}}
+<!-- 继承公共的 form -->
+{{extend name="public/module/user_form" /}}
 
-<!-- header top nav -->
-{{include file="public/header_top_nav" /}}
+<!-- 表单顶部操作栏 -->
+{{block name="form_operate_top"}}
+    <a href="javascript:;" type="button" class="am-btn am-btn-success am-radius am-btn-xs am-icon-plus" data-am-modal="{target: '#plugins-answers-popup-ask'}"> 新增</a>
+    <!-- 父级内容 -->
+    {__block__}
+{{/block}}
 
-<!-- search -->
-{{include file="public/nav_search" /}}
-
-<!-- header nav -->
-{{include file="public/header_nav" /}}
-
-<!-- goods category -->
-{{include file="public/goods_category" /}}
-
-<!-- content -->
-<div class="am-container user-main">
-
-    <!-- user menu start -->
-    {{include file="public/user_menu" /}}
-    <!-- user menu end -->
-
-    <!-- content start -->
-    <div class="user-content">
-        <div class="user-content-body">
-            <form class="am-form form-validation form-search" method="post" action="{{:MyUrl('index/answer/index')}}" request-type="form">
-                <div class="thin">
-                    <div class="am-input-group am-input-group-sm am-fl so">
-                        <input type="text" autocomplete="off" name="keywords" class="am-radius" placeholder="其实搜索很简单 ^_^！" value="{{if !empty($params.keywords)}}{{$params.keywords}}{{/if}}" />
-                        <span class="am-input-group-btn">
-                            <button class="am-btn am-btn-default am-radius" type="submit" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
-                        </span>
+<!-- 扩展 -->
+{{block name="form_extend"}}
+    <!-- 新增问答弹窗 -->
+    <div class="am-popup" id="plugins-answers-popup-ask">
+        <div class="am-popup-inner">
+            <div class="am-popup-hd">
+                <h4 class="am-popup-title">提问/留言</h4>
+                <span data-am-modal-close class="am-close">&times;</span></div>
+            <div class="am-popup-bd">
+                <form class="am-form form-validation-plugins-answer-ask view-save" action="{{:MyUrl('index/answer/save')}}" method="POST" request-type="ajax-reload">
+                    <div class="am-form-group">
+                        <label>昵称
+                            <span class="am-form-group-label-tips-must">必填</span></label>
+                        <input type="text" name="name" placeholder="昵称" minlength="1" maxlength="30" data-validation-message="昵称格式 1~30 个字符之间" class="am-radius" required /></div>
+                    <div class="am-form-group">
+                        <label>电话
+                            <span class="am-form-group-label-tips">选填</span></label>
+                        <input type="text" name="tel" placeholder="电话" data-validation-message="请填写电话" class="am-radius" /></div>
+                    <div class="am-form-group">
+                        <label>标题
+                            <span class="am-form-group-label-tips-must">必填</span></label>
+                        <input type="text" name="title" placeholder="标题" minlength="1" maxlength="60" data-validation-message="标题格式 1~60 个字符之间" class="am-radius" required /></div>
+                    <div class="am-form-group">
+                        <label>内容
+                            <span class="am-form-group-label-tips-must">必填</span></label>
+                        <textarea class="am-radius am-validate" name="content" rows="5" minlength="5" maxlength="1000" placeholder="内容至少5个字" data-validation-message="内容格式 5~1000 个字符之间" required></textarea>
                     </div>
-                    <label class="am-fl thin_sub more-submit">
-                        更多筛选条件
-                        {{if isset($params['is_more']) and $params['is_more'] eq 1}}
-                            <input type="checkbox" name="is_more" value="1" id="is_more" checked />
-                            <i class="am-icon-angle-up"></i>
-                        {{else /}}
-                            <input type="checkbox" name="is_more" value="1" id="is_more" />
-                            <i class="am-icon-angle-down"></i>
-                        {{/if}}
-                    </label>
-                </div>
-                <table class="so-list more-where {{if !isset($params['is_more'])}}none{{/if}}">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <span>显示：</span>
-                                <select name="is_show" class="chosen-select" data-placeholder="是否显示...">
-                                    <option value="-1">是否显示...</option>
-                                    {{if !empty($common_is_show_list)}}
-                                        {{foreach $common_is_show_list as $v}}
-                                            <option value="{{$v.id}}" {{if isset($params['is_show']) and $params['is_show'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                                        {{/foreach}}
-                                    {{/if}}
-                                </select>
-                            </td>
-                            <td>
-                                <span>状态：</span>
-                                <select name="is_reply" class="chosen-select" data-placeholder="是否回复...">
-                                    <option value="-1">是否回复...</option>
-                                    {{if !empty($common_is_text_list)}}
-                                        {{foreach $common_is_text_list as $v}}
-                                            <option value="{{$v.id}}" {{if isset($params['is_reply']) and $params['is_reply'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                                        {{/foreach}}
-                                    {{/if}}
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example" data-am-loading="{spinner:'circle-o-notch', loadingText:'搜索中...'}">搜索</button>
-                                <a href="{{:MyUrl('index/answer/index')}}" class="am-btn am-btn-warning am-radius am-btn-sm reset-submit">清除条件</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-
-            <!-- 列表 -->
-            <div class="data-list am-margin-top-sm">
-                <table class="am-table am-table-striped">
-                    <thead>
-                        <tr>
-                            <th>姓名</th>
-                            <th class="am-hide-sm-only">电话</th>
-                            <th>标题</th>
-                            <th class="am-hide-sm-only">内容</th>
-                            <th class="am-hide-sm-only">回复</th>
-                            <th class="am-hide-md-down">回复时间</th>
-                            <th class="am-hide-md-down">时间</th>
-                            <th>更多</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {{if !empty($data_list)}}
-                            {{foreach $data_list as $v}}
-                                <tr id="data-list-{{$v.id}}">
-                                    <td>{{$v.name}}</td>
-                                    <td class="am-hide-sm-only">{{$v.tel}}</td>
-                                    <td>{{$v.title}}</td>
-                                    <td class="am-hide-sm-only reply-content">{{$v.content|raw}}</td>
-                                    <td class="am-hide-sm-only reply-content">
-                                        {{if $v['is_reply'] eq 1}}
-                                            {{$v.reply|raw}}
-                                        {{else /}}
-                                            <span class="gray-text">未回复</span>
-                                        {{/if}}
-                                    </td>
-                                    <td class="am-hide-md-down">{{$v.reply_time}}</td>
-                                    <td class="am-hide-md-down">{{$v.add_time}}</td>
-                                    <td>
-                                        <span class="am-icon-caret-down c-p" data-am-modal="{target: '#my-popup{{$v.id}}'}"> 查看更多</span>
-                                        <div class="am-popup am-radius" id="my-popup{{$v.id}}">
-                                            <div class="am-popup-inner">
-                                                <div class="am-popup-hd">
-                                                    <h4 class="am-popup-title">详情内容</h4>
-                                                    <span data-am-modal-close
-                                                    class="am-close">&times;</span>
-                                                </div>
-                                                <div class="am-popup-bd">
-                                                    <dl class="dl-content">
-                                                        <dt>姓名</dt>
-                                                        <dd>{{if empty($v['name'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.name}}{{/if}}</dd>
-
-                                                        <dt>电话</dt>
-                                                        <dd>{{if empty($v['tel'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.tel}}{{/if}}</dd>
-
-                                                        <dt>标题</dt>
-                                                        <dd>{{if empty($v['title'])}}<span class="cr-ddd">未填写</span>{{else /}}{{$v.title}}{{/if}}</dd>
-
-                                                        <dt>内容</dt>
-                                                        <dd>{{$v.content|raw}}</dd>
-
-                                                        <dt>回复内容</dt>
-                                                        <dd>
-                                                            {{if $v['is_reply'] eq 1}}
-                                                                {{$v.reply|raw}}
-                                                            {{else /}}
-                                                                <span class="gray-text">未回复</span>
-                                                            {{/if}}
-                                                        </dd>
-
-                                                        <dt>回复时间</dt>
-                                                        <dd>{{if empty($v['reply_time'])}}<span class="cr-ddd">未回复</span>{{else /}}{{$v.reply_time}}{{/if}}</dd>
-
-                                                        <dt>创建时间</dt>
-                                                        <dd>{{$v.add_time}}</dd>
-
-                                                        <dt>更新时间</dt>
-                                                        <dd>{{$v.upd_time}}</dd>
-                                                    </dl>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="view-operation">
-                                        <button class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block am-icon-trash-o submit-delete" data-url="{{:MyUrl('index/answer/delete')}}" data-id="{{$v.id}}"> 删除</button>
-                                    </td>
-                                </tr>
-                            {{/foreach}}
-                        {{/if}}
-                    </tbody>
-                </table>
-
-                {{if empty($data_list)}}
-                    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
-                {{/if}}
+                    <div class="am-form-group am-form-group-refreshing">
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">提交</button></div>
+                </form>
             </div>
-
-            <!-- 分页 -->
-            {{if !empty($data_list)}}
-                {{$page_html|raw}}
-            {{/if}}
         </div>
     </div>
-    <!-- content end -->
-</div>
-
-<!-- footer start -->
-{{include file="public/footer" /}}
-<!-- footer end -->
+{{/block}}

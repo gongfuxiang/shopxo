@@ -1,6 +1,6 @@
 /**
  * 列表
  */
-.content-right table.am-table .reply-content {
+.form-table-content table.am-table .reply-content {
     max-height: 80px;
 }

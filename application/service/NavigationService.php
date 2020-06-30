@@ -16,6 +16,7 @@ use app\service\BuyService;
 use app\service\MessageService;
 use app\service\OrderService;
 use app\service\GoodsService;
+use app\service\GoodsBrowseService;
 
 /**
  * 导航服务层
@@ -641,7 +642,7 @@ class NavigationService
                 'items'     => [
                     [
                         'name'  => '商品收藏',
-                        'url'   => MyUrl('index/userfavor/goods'),
+                        'url'   => MyUrl('index/usergoodsfavor/index'),
                     ],
                 ],
             ],
@@ -833,8 +834,8 @@ class NavigationService
                     ],
                     [
                         'name'      =>  '我的收藏',
-                        'url'       =>  MyUrl('index/userfavor/goods'),
-                        'contains'  =>  ['indexuserfavorgoods'],
+                        'url'       =>  MyUrl('index/usergoodsfavor/index'),
+                        'contains'  =>  ['indexusergoodsfavorindex'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-heart-o',
                         'is_system' =>  1,
@@ -1029,7 +1030,7 @@ class NavigationService
 
             // 我的足迹总数
             $where = ['user_id'=>$params['user']['id']];
-            $user_goods_browse_count = GoodsService::GoodsBrowseTotal($where);
+            $user_goods_browse_count = GoodsBrowseService::GoodsBrowseTotal($where);
 
             // 用户积分
             $user_integral = isset($params['user']['integral']) ? $params['user']['integral'] : 0;

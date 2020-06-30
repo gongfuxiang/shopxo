@@ -15,6 +15,7 @@ use app\service\BuyService;
 use app\service\PluginsService;
 use app\service\GoodsCommentsService;
 use app\service\ResourcesService;
+use app\service\GoodsFavorService;
 
 /**
  * 商品
@@ -84,7 +85,7 @@ class Goods extends Common
         }
 
         // 当前登录用户是否已收藏
-        $ret_favor = GoodsService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
+        $ret_favor = GoodsFavorService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
         $ret['data'][0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
         // 商品评价总数
@@ -163,7 +164,7 @@ class Goods extends Common
         // 开始操作
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return GoodsService::GoodsFavor($params);
+        return GoodsFavorService::GoodsFavorCancel($params);
     }
 
     /**

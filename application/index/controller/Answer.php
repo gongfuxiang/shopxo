@@ -23,16 +23,17 @@ use app\service\AnswerService;
 class Answer extends Common
 {
     /**
-     * [_initialize 前置操作-继承公共前置方法]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
+     * 构造方法
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-30
+     * @desc    description
      */
-    public function _initialize()
+    public function __construct()
     {
         // 调用父类前置方法
-        parent::_initialize();
+        parent::__construct();
 
         // 是否登录
         $this->IsLogin();
@@ -48,71 +49,83 @@ class Answer extends Common
      */
     public function Index()
     {
-        // 参数
-        $params = input();
-        $params['user'] = $this->user;
+        // 总数
+        $total = AnswerService::AnswerTotal($this->form_where);
 
         // 分页
-        $number = 10;
-
-        // 条件
-        $where = AnswerService::AnswerListWhere($params);
-
-        // 获取总数
-        $total = AnswerService::AnswerTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('admin/answer/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('index/answer/index'),
+        ];
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
         // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-        );
-        $data = AnswerService::AnswerList($data_params);
-        $this->assign('data_list', $data['data']);
-
-        // 静态数据
-        $this->assign('common_is_show_list', lang('common_is_show_list'));
-        $this->assign('common_is_text_list', lang('common_is_text_list'));
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+        ];
+        $ret = AnswerService::AnswerList($data_params);
 
         // 浏览器名称
         $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('问答/留言', 1));
 
-        // 参数
-        $this->assign('params', $params);
+        // 基础参数赋值
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
         return $this->fetch();
     }
 
     /**
-     * 问答删除
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-15T11:03:30+0800
+     * 详情
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-30
+     * @desc    description
      */
-    public function Delete()
+    public function Detail()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
+        if(!empty($this->data_request['id']))
         {
-            return $this->error('非法访问');
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
+
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+            ];
+            $ret = AnswerService::AnswerList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
         }
 
-        // 开始处理
-        $params = input();
-        $params['user_type'] = 'user';
+        $this->assign('is_header', 0);
+        $this->assign('is_footer', 0);
+        return $this->fetch();
+    }
+
+    /**
+     * 问答/提问保存
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-30
+     * @desc    description
+     */
+    public function Save()
+    {
+        $params = $this->data_post;
         $params['user'] = $this->user;
-        return AnswerService::AnswerDelete($params);
+        return AnswerService::AnswerSave($params);
     }
 }
 ?>
