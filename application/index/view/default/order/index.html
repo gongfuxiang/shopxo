@@ -192,7 +192,7 @@
                                     {{/if}}
                                 </td>
                                 <td class="row-number">
-                                    <a href="{{:MyUrl('index/orderaftersale/aftersale', ['oid'=>$order['id'], 'did'=>$goods['id']])}}" target="_blank">
+                                    <a href="{{:MyUrl('index/orderaftersale/detail', ['oid'=>$order['id'], 'did'=>$goods['id']])}}" target="_blank">
                                         {{if !empty($goods['orderaftersale_btn_text'])}}
                                             {{if empty($goods['orderaftersale'])}}
                                                 {{$goods.orderaftersale_btn_text}}

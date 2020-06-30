@@ -1,0 +1,18 @@
+<!-- 操作栏 -->
+<a href="{{:MyUrl('admin/orderaftersale/detail', ['oid'=>$module_data['order_id'], 'did'=>$module_data['order_detail_id']])}}" target="_blank" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block">
+    <i class="am-icon-eye"></i>
+    <span>详情</span>
+</a>
+
+{{if $module_data['status'] eq 1 and $module_data['type'] eq 1}}
+    <a href="{{:MyUrl('index/orderaftersale/detail', ['oid'=>$module_data['order_id'], 'did'=>$module_data['order_detail_id'], 'isautodelivery'=>1])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">
+        <i class="am-icon-send"></i>
+        <span>退货</span>
+    </a>
+{{/if}}
+{{if !in_array($module_data['status'], [3,5])}}
+    <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/orderaftersale/cancel')}}" data-id="{{$module_data.id}}" data-view="reload">
+        <i class="am-icon-paint-brush"></i>
+        <span>取消</span>
+    </button>
+{{/if}}

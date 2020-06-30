@@ -1,0 +1,21 @@
+<!-- 凭证 -->
+{{if !empty($module_data) and !empty($module_data['images'])}}
+    <div data-am-widget="slider" class="am-slider am-slider-default" data-am-slider='{"controlNav":false}'>
+        <ul class="am-slides">
+            {{foreach $module_data.images as $ik=>$iv}}
+                <li>
+                    <a href="{{$iv}}" target="_blank">
+                        <img src="{{$iv}}" />
+                    </a>
+                    <div class="am-slider-desc">
+                        <div class="am-slider-counter">
+                            <strong class="am-text-lg">{{$ik+1}}</strong>
+                            <span class="am-margin-right-sm">/{{:count($module_data['images'])}}</span>
+                            <span>{{$iv}}</span>
+                        </div>
+                    </div>
+                </li>
+            {{/foreach}}
+        </ul>
+    </div>
+{{/if}}

@@ -8,16 +8,16 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\admin\form;
+namespace app\index\form;
 
 use think\Db;
 
 /**
- * 订单售后动态表格
+ * 用户订单售后动态表格
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
- * @date    2020-06-08
+ * @date    2020-06-30
  * @desc    description
  */
 class Orderaftersale
@@ -26,11 +26,28 @@ class Orderaftersale
     public $condition_base = [];
 
     /**
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-29
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function __construct($params = [])
+    {
+        // 用户信息
+        if(!empty($params['system_user']))
+        {
+            $this->condition_base[] = ['user_id', '=', $params['system_user']['id']];
+        }
+    }
+
+    /**
      * 入口
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-06-08
+     * @date    2020-06-30
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
@@ -67,20 +84,6 @@ class Orderaftersale
                         'where_type_custom'     => 'in',
                         'where_handle_custom'   => 'WhereValueBaseInfo',
                         'placeholder'           => '请输入商品名称/型号',
-                    ],
-                ],
-                [
-                    'label'         => '用户信息',
-                    'view_type'     => 'module',
-                    'view_key'      => 'lib/module/user',
-                    'grid_size'     => 'sm',
-                    'search_config' => [
-                        'form_type'             => 'input',
-                        'form_name'             => 'user_id',
-                        'where_type'            => 'like',
-                        'where_type_custom'     => 'in',
-                        'where_handle_custom'   => 'WhereValueUserInfo',
-                        'placeholder'           => '请输入用户名/昵称/手机/邮箱',
                     ],
                 ],
                 [
@@ -163,12 +166,6 @@ class Orderaftersale
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
-                ],
-                [
-                    'label'         => '凭证',
-                    'view_type'     => 'module',
-                    'view_key'      => 'orderaftersale/module/voucher',
-                    'is_list'        => 0,
                 ],
                 [
                     'label'         => '快递公司',
@@ -254,34 +251,11 @@ class Orderaftersale
     }
 
     /**
-     * 用户信息条件处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-06-08
-     * @desc    description
-     * @param   [string]          $value    [条件值]
-     * @param   [array]           $params   [输入参数]
-     */
-    public function WhereValueUserInfo($value, $params = [])
-    {
-        if(!empty($value))
-        {
-            // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
-
-            // 避免空条件造成无效的错觉
-            return empty($ids) ? [0] : $ids;
-        }
-        return $value;
-    }
-
-    /**
      * 基础信息条件处理
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-06-08
+     * @date    2020-06-30
      * @desc    description
      * @param   [string]          $value    [条件值]
      * @param   [array]           $params   [输入参数]

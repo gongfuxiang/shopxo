@@ -39,7 +39,7 @@ class Orderaftersale extends Common
     }
 
     /**
-     * 订单列表
+     * 列表
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -48,67 +48,51 @@ class Orderaftersale extends Common
      */
     public function Index()
     {
-        // 参数
-        $params = input();
-        $params['user'] = $this->user;
-        $params['user_type'] = 'user';
+        // 总数
+        $total = OrderAftersaleService::OrderAftersaleTotal($this->form_where);
 
         // 分页
-        $number = 10;
-
-        // 条件
-        $where = OrderAftersaleService::OrderAftersaleListWhere($params);
-
-        // 获取总数
-        $total = OrderAftersaleService::OrderAftersaleTotal($where);
-
-        // 分页
-        $page_params = array(
-                'number'    =>  $number,
-                'total'     =>  $total,
-                'where'     =>  $params,
-                'page'      =>  isset($params['page']) ? intval($params['page']) : 1,
-                'url'       =>  MyUrl('index/orderaftersale/index'),
-            );
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('index/orderaftersale/index'),
+        ];
         $page = new \base\Page($page_params);
-        $this->assign('page_html', $page->GetPageHtml());
 
-        // 获取列表
-        $data_params = array(
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $number,
-            'where'     => $where,
-        );
-        $data = OrderAftersaleService::OrderAftersaleList($data_params);
-        $this->assign('data_list', $data['data']);
-
-        // 静态数据
-        $this->assign('common_order_aftersale_type_list', lang('common_order_aftersale_type_list'));
-        $this->assign('common_order_aftersale_status_list', lang('common_order_aftersale_status_list'));
-        $this->assign('common_order_aftersale_refundment_list', lang('common_order_aftersale_refundment_list'));
+        // 获取数据列表
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+            'is_public'     => 0,
+        ];
+        $ret = OrderAftersaleService::OrderAftersaleList($data_params);
 
         // 浏览器名称
         $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单售后', 1));
 
-        // 参数
-        $this->assign('params', $params);
+        // 基础参数赋值
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
         return $this->fetch();
     }
 
     /**
-     * 售后页面
+     * 详情
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2019-05-21
      * @desc    description
      */
-    public function Aftersale()
+    public function Detail()
     {
         // 参数
-        $params = input();
-        $order_id = isset($params['oid']) ? intval($params['oid']) : 0;
-        $order_detail_id = isset($params['did']) ? intval($params['did']) : 0;
+        $order_id = isset($this->data_request['oid']) ? intval($this->data_request['oid']) : 0;
+        $order_detail_id = isset($this->data_request['did']) ? intval($this->data_request['did']) : 0;
         $ret = OrderAftersaleService::OrdferGoodsRow($order_id, $order_detail_id, $this->user['id']);
         if($ret['code'] == 0)
         {
@@ -155,7 +139,8 @@ class Orderaftersale extends Common
             // 编辑器文件存放地址
             $this->assign('editor_path_type', 'order_aftersale-'.$this->user['id'].'-'.$order_id.'-'.$order_detail_id);
 
-            $this->assign('params', $params);
+            $this->assign('aftersale_search_keywords_name', 'fp0');
+            $this->assign('params', $this->data_request);
             return $this->fetch();
         } else {
             $this->assign('msg', $ret['msg']);
@@ -180,7 +165,7 @@ class Orderaftersale extends Common
             return $this->fetch('public/tips_error');
         }
         
-        $params = input();
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return OrderAftersaleService::AftersaleCreate($params);
     }
@@ -202,7 +187,7 @@ class Orderaftersale extends Common
             return $this->fetch('public/tips_error');
         }
 
-        $params = input();
+        $params = $this->data_request;
         $params['user'] = $this->user;
         return OrderAftersaleService::AftersaleDelivery($params);
     }
@@ -224,7 +209,7 @@ class Orderaftersale extends Common
             return $this->fetch('public/tips_error');
         }
 
-        $params = input('post.');
+        $params = $this->data_post;
         $params['user'] = $this->user;
         return OrderAftersaleService::AftersaleCancel($params);
     }

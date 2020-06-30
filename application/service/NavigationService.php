@@ -828,7 +828,7 @@ class NavigationService
                         'name'      =>  '订单售后',
                         'url'       =>  MyUrl('index/orderaftersale/index'),
                         'is_show'   =>  1,
-                        'contains'  =>  ['indexorderaftersaleindex', 'indexorderaftersaleaftersale'],
+                        'contains'  =>  ['indexorderaftersaleindex', 'indexorderaftersaledetail'],
                         'icon'      =>  'am-icon-puzzle-piece',
                         'is_system' =>  1,
                     ],

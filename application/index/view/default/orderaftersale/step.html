@@ -3,7 +3,7 @@
     {{if !empty($step_data['step0'])}}
         {{foreach $step_data.step0 as $step}}
             <li class="am-text-truncate {{if $step.is_active eq 1}} selected{{/if}} {{if $step.is_end eq 1}} selected-end{{/if}}">
-                <span class="number">{{$step.number}}</span>
+                <span class="number am-badge am-round">{{$step.number}}</span>
                 <span class="text">{{$step.name}}</span>
                 {{if $step.is_caret eq 1}}
                     <i class="am-icon-caret-right"></i>
@@ -21,7 +21,7 @@
     {{if !empty($step_data['step1'])}}
         {{foreach $step_data.step1 as $step}}
             <li class="am-text-truncate {{if $step.is_active eq 1}} selected{{/if}} {{if $step.is_end eq 1}} selected-end{{/if}}">
-                <span class="number">{{$step.number}}</span>
+                <span class="number am-badge am-round">{{$step.number}}</span>
                 <span class="text">{{$step.name}}</span>
                 {{if $step.is_caret eq 1}}
                     <i class="am-icon-caret-right"></i>

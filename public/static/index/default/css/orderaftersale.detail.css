@@ -1,43 +1,4 @@
 /**
- * 商品列表
- */
-.goods-detail img { width: 80px; height: 80px; position: absolute; border: 1px solid #eee; left: 0; top: 0; }
-.goods-detail { position: relative; min-height: 80px; }
-.goods-title { display: block; max-height: 36px; overflow: hidden; text-overflow: ellipsis; }
-.goods-title:hover { text-decoration: underline; }
-.goods-base {float: left; top: 0; margin-left: 85px; }
-.goods-attr { margin-top: 5px;  }
-.goods-attr li { color: #888; line-height: 16px; }
-.original-price, .line-price { font-family: Verdana,Tahoma,arial; }
-.original-price { color: #9c9c9c; text-decoration: line-through; }
-.line-price { color: #3c3c3c; font-weight: 700; }
-.am-table { margin-bottom: 10px; }
-.am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
-.am-table > thead > tr > th { border-bottom: 1px solid #f7f7f7; }
-@media only screen and (min-width:640px)  {
-    .user-content-body table tr .row-base { width: 60%; }
-    .user-content-body table tr .row-price { width: 40%; }
-}  
-@media only screen and (max-width:640px) {
-    .user-content-body table tr .row-base { width: 60%; }
-    .user-content-body table tr .row-price { width: 40%; }
-}
-
-/**
- * 列表
- */
-.user-content-body .order-base-panel {
-    -webkit-box-shadow: none;
-    box-shadow: none;
-}
-.user-content-body .order-base-panel .am-panel-bd {
-    padding-top: 5px;
-}
-.user-content-body .order-base-panel .am-alert-secondary {
-    margin-bottom: 0;
-}
-
-/**
  * 类型
  */
 .user-content-body .aftersale-type .items-align {
@@ -111,8 +72,6 @@
     background: #e1e1e1;
 }
 .aftersale-step li .number {
-    padding: 2px 6px;
-    border-radius: 50px;
     font-weight: 700;
     background: #fff;
     color: #b4b4b4;
