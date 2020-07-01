@@ -681,4 +681,11 @@ $(function()
             initialFrameHeight : 100
         });
     }
+
+    // 规格选中状态
+    $(document).on('click', '.specifications-table tr', function()
+    {
+        $('.specifications-table tr').removeClass('am-primary');
+        $(this).addClass('am-primary');
+    });
 });

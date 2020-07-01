@@ -53,7 +53,7 @@ class Ipay88
             'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc','h5'], // 适用终端 默认全部
-            'desc'          => '适用PC+H5， <a href="http://www.ipay88.com" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'desc'          => '适用PC+H5，马来西亚用户量最大的在线支付服务商，可以处理多达26种货币，包括MYR，AUD，EUR，SGD，USD，THB，RMB。<a href="https://www.ipay88.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];
@@ -227,6 +227,19 @@ class Ipay88
         $data['pay_price']      = isset($data['Amount']) ? $data['Amount'] : 0;   // 本系统发起支付的 - 总价
 
         return $data;
+    }
+
+    /**
+     * 自定义成功返回内容
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-01
+     * @desc    description
+     */
+    public function SuccessReturn()
+    {
+        return 'RECEIVEOK';
     }
 }
 ?>

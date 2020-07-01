@@ -70,6 +70,10 @@ class UserIntegral extends Common
         ];
         $ret = IntegralService::IntegralLogList($data_params);
 
+        // 用户积分
+        $user_integral_data = IntegralService::UserIntegral($this->user['id']);
+        $this->assign('user_integral_data', $user_integral_data['data']);
+
         // 浏览器名称
         $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('我的积分', 1));
 

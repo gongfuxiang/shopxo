@@ -301,5 +301,20 @@ class IntegralService
             }
         }
     }
+
+    /**
+     * 用户积分
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-01
+     * @desc    description
+     * @param   [int]          $user_id [用户 id]
+     */
+    public static function UserIntegral($user_id)
+    {
+        $data = Db::name('User')->where(['id'=>$user_id])->field('integral,locking_integral')->find();
+        return DataReturn('success', 0, $data);
+    }
 }
 ?>

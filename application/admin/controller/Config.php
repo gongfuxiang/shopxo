@@ -49,8 +49,9 @@ class Config extends Common
      */
 	public function Index()
 	{
-		// csv
+		// 静态数据
 		$this->assign('common_excel_charset_list', lang('common_excel_charset_list'));
+		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
 
 		// 配置信息
 		$this->assign('data', ConfigService::ConfigList());

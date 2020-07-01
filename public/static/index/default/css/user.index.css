@@ -74,6 +74,7 @@ ul.order-base li span.am-badge{position: absolute; top: -7px; left: 55%;}
 .various .line-price{color: #d2364c; font-weight: 700; font-family: Verdana,Tahoma,arial; }
 .various .goods-browse-list .am-gallery-item img {width: 80%;}
 .various .am-gallery-overlay .am-gallery-desc{display: block; position: absolute; right: 0; top: 0; background-color: #d2364c; color: #fff; padding: 0 5px;}
+.various .table-no { padding: 30px 0; }
 
 /**
  * PC

@@ -13,9 +13,22 @@
 					{{/foreach}}
 				</select>
 			</div>
+
 			<div class="am-form-group">
-				<label>{{$data.admin_page_number.name}}<span class="am-form-group-label-tips">{{$data.admin_page_number.describe}}</span></label>
-				<input type="number" name="{{$data.admin_page_number.only_tag}}" placeholder="{{$data.admin_page_number.name}}" pattern="{{:lang('common_regex_page_number')}}" data-validation-message="{{$data.admin_page_number.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.admin_page_number.value}}"{{/if}} required />
+				<label>{{$data.admin_login_info_bg_images_rand.name}}</label>
+				<select name="{{$data.admin_login_info_bg_images_rand.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_login_info_bg_images_rand.error_tips}}" required>
+					{{foreach $common_is_enable_list as $v}}
+						<option value="{{$v.id}}" {{if isset($data['admin_login_info_bg_images_rand']['value']) and $data['admin_login_info_bg_images_rand']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+					{{/foreach}}
+				</select>
+				<div class="am-alert am-alert-warning" data-am-alert>
+                    <p>背景图片位置[ public/static/admin/default/images/login ]目录下</p>
+                </div>
+			</div>
+
+			<div class="am-form-group">
+				<label>{{$data.common_page_size.name}}<span class="am-form-group-label-tips">{{$data.common_page_size.describe}}</span></label>
+				<input type="number" name="{{$data.common_page_size.only_tag}}" placeholder="{{$data.common_page_size.name}}" pattern="{{:lang('common_regex_page_number')}}" data-validation-message="{{$data.common_page_size.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_page_size.value}}"{{/if}} required />
 			</div>
 			<div class="am-form-group">
 				<label>{{$data.common_spec_add_max_number.name}}<span class="am-form-group-label-tips">{{$data.common_spec_add_max_number.describe}}</span></label>

@@ -19,6 +19,7 @@ use app\service\SeoService;
 use app\service\MessageService;
 use app\service\NavigationService;
 use app\service\GoodsBrowseService;
+use app\service\GoodsFavorService;
 
 /**
  * 用户
@@ -114,15 +115,15 @@ class User extends Common
         $this->assign('cart_list', $cart_list['data']);
 
         // 收藏商品
-        $params = array_merge($_POST, $_GET);
-        $params['user'] = $this->user;
-        $where = GoodsService::UserGoodsFavorListWhere($params);
         $favor_params = array(
             'm'         => 0,
-            'n'         => 8,
-            'where'     => $where,
+            'n'         => 6,
+            'where'     => [
+                ['g.is_delete_time', '=', 0],
+                ['f.user_id', '=', $this->user['id']],
+            ],
         );
-        $favor = GoodsService::GoodsFavorList($favor_params);
+        $favor = GoodsFavorService::GoodsFavorList($favor_params);
         $this->assign('goods_favor_list', $favor['data']);
 
         // 我的足迹

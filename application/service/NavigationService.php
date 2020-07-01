@@ -17,6 +17,8 @@ use app\service\MessageService;
 use app\service\OrderService;
 use app\service\GoodsService;
 use app\service\GoodsBrowseService;
+use app\service\GoodsFavorService;
+use app\service\IntegralService;
 
 /**
  * 导航服务层
@@ -1013,27 +1015,24 @@ class NavigationService
      */
     public static function UserCenterMiniNavigation($params = [])
     {
-        if(empty($params['user']))
+        $user_order_count = 0;
+        $user_goods_favor_count = 0;
+        $user_goods_browse_count = 0;
+        $user_integral = 0;
+        if(!empty($params['user']))
         {
-            $user_order_count = 0;
-            $user_goods_favor_count = 0;
-            $user_goods_browse_count = 0;
-            $user_integral = 0;
-        } else {
             // 订单总数
             $where = ['user_id'=>$params['user']['id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
             $user_order_count = OrderService::OrderTotal($where);
 
-            // 商品收藏总数
+            // 商品收藏/我的足迹总数
             $where = ['user_id'=>$params['user']['id']];
-            $user_goods_favor_count = GoodsService::GoodsFavorTotal($where);
-
-            // 我的足迹总数
-            $where = ['user_id'=>$params['user']['id']];
+            $user_goods_favor_count = GoodsFavorService::GoodsFavorTotal($where);
             $user_goods_browse_count = GoodsBrowseService::GoodsBrowseTotal($where);
 
             // 用户积分
-            $user_integral = isset($params['user']['integral']) ? $params['user']['integral'] : 0;
+            $user_integral_data = IntegralService::UserIntegral($params['user']['id']);
+            $user_integral = (isset($user_integral_data['data']) && isset($user_integral_data['data']['integral'])) ? $user_integral_data['data']['integral'] : 0;
         }
         
         // 列表

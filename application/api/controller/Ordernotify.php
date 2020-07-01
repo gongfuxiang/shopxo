@@ -61,18 +61,11 @@ class OrderNotify extends Common
      */
     private function SuccessReturn()
     {
-        // 根据支付方式处理成功返回结果
-        $content = 'success';
-        switch(PAYMENT_TYPE)
-        {
-            // 百度
-            case 'BaiduMini' :
-                $content = '{"errno":0,"msg":"success","data":{"isConsumed":2}}';
-                break;
-        }
+        // 支付插件是否自定义返回内容
+        $this->ContentReturn('SuccessReturn');
 
-        // 默认success
-        exit($content);
+        // 结束输出
+        die('success');
     }
 
     /**
@@ -85,18 +78,33 @@ class OrderNotify extends Common
      */
     private function ErrorReturn()
     {
-        // 根据支付方式处理异步返回结果
-        $content = 'error';
-        switch(PAYMENT_TYPE)
-        {
-            // 百度，当处理失败也处理成功消费，需管理员手工处理订单状态或者走其它方式进行处理退款操作
-            case 'BaiduMini' :
-                $content = '{"errno":0,"msg":"success","data":{"isConsumed":2}}';
-                break;
-        }
+        // 支付插件是否自定义返回内容
+        $this->ContentReturn('ErrorReturn');
 
-        // 默认error
-        exit($content);
+        // 结束输出
+        die('error');
+    }
+
+    /**
+     * 输出支付插件自定义内容
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-01
+     * @desc    description
+     * @param   [string]          $action [操作方法]
+     */
+    private function ContentReturn($action)
+    {
+        $payment = 'payment\\'.PAYMENT_TYPE;
+        if(class_exists($payment))
+        {
+            $payment_obj = new $payment();
+            if(method_exists($payment_obj, $action))
+            {
+                die($payment_obj->$action());
+            }
+        }
     }
 }
 ?>

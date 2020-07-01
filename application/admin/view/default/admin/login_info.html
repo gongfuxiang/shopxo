@@ -9,7 +9,7 @@
         <div class="am-margin-top-lg admin-login">
             <div class="am-padding-sm">
             	<form class="am-form form-validation" action="{{:MyUrl('admin/admin/login')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/index/index')}}">
-            		<div class="am-g">
+            		<div class="am-g am-padding-top-sm">
             			<div class="am-form-group am-form-group-refreshing">
 					      <input type="text" placeholder="用户名" name="username" pattern="{{:lang('common_regex_username')}}" data-validation-message="用户名格式 5~18 个字符（可以是字母数字下划线）" class="am-radius" required />
 					    </div>
@@ -32,11 +32,15 @@
 <!-- content end -->
 
 <!-- 随机背景图片 -->
-<div class="bg-slides">
-    {{for start="1" end="11"}}
-        <div class="bg-slides-item" style="background-image:url('{{$attachment_host}}/static/admin/default/images/login/{{$i}}.jpg');{{if $i neq 1}}display:none;{{/if}}"></div>
-    {{/for}}
-</div>
+{{if MyC('admin_login_info_bg_images_rand') eq 1}}
+    <div class="bg-slides">
+        {{for start="1" end="11"}}
+            {{if file_exists(ROOT.'public/static/admin/default/images/login/'.$i.'.jpg')}}
+                <div class="bg-slides-item" style="background-image:url('{{$attachment_host}}/static/admin/default/images/login/{{$i}}.jpg');{{if $i neq 1}}display:none;{{/if}}"></div>
+            {{/if}}
+        {{/for}}
+    </div>
+{{/if}}
 
 <!-- 插件扩展数据 start -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

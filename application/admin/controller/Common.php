@@ -218,7 +218,7 @@ class Common extends Controller
 
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
-        $this->page_size = MyC('admin_page_number', 10, true);
+        $this->page_size = MyC('common_page_size', 10, true);
         $this->assign('page', $this->page);
         $this->assign('page_size', $this->page_size);
 

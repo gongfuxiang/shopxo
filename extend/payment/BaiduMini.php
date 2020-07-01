@@ -310,5 +310,31 @@ class BaiduMini
         openssl_free_key($pubkey);
         return $result;
     }
+
+    /**
+     * 自定义成功返回内容
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-01
+     * @desc    description
+     */
+    public function SuccessReturn()
+    {
+        return '{"errno":0,"msg":"success","data":{"isConsumed":2}}';
+    }
+
+    /**
+     * 自定义失败返回内容
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-01
+     * @desc    description
+     */
+    public function ErrorReturn()
+    {
+        return '{"errno": 0,"msg": "success","data": {"isErrorOrder": 1,"isConsumed": 2}';
+    }
 }
 ?>

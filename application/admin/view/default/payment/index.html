@@ -22,15 +22,16 @@
                 <!-- win form start -->
                 <form class="am-form form-validation" action="{{:MyUrl('admin/payment/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
                     <div class="am-alert am-radius am-alert-tips m-t-0" data-am-alert>
-                        <p class="am-margin-top-sm">
-                            1 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay<br />
-                            2 类必须定义三个方法<br />
-                            &nbsp;&nbsp;&nbsp; 2.1 Config 配置方法<br />
-                            &nbsp;&nbsp;&nbsp; 2.2 Pay 支付方法<br />
-                            &nbsp;&nbsp;&nbsp; 2.3 Respond 回调方法<br />
-                            &nbsp;&nbsp;&nbsp; 2.4 Refund 退款方法（可选）
-                        </p>
-                        <p class="cr-red">PS：以上条件不满足则无法查看插件，将插件放入.zip压缩包中、支持一个压缩中包含多个支付插件</p>
+                        <p>1 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay</p>
+                        <p>2 类必须定义的方法</p>
+                        <p class="am-margin-left-lg">2.1 Config 配置方法</p>
+                        <p class="am-margin-left-lg">2.2 Pay 支付方法</p>
+                        <p class="am-margin-left-lg">2.3 Respond 回调方法</p>
+                        <p class="am-margin-left-lg">2.4 Refund 退款方法（可选）</p>
+                        <p>3 可自定义输出内容方法</p>
+                        <p class="am-margin-left-lg">3.1 SuccessReturn 支付成功（可选）</p>
+                        <p class="am-margin-left-lg">3.2 ErrorReturn 支付失败（可选）</p>
+                        <p class="am-margin-top-xs cr-red">PS：以上条件不满足则无法查看插件，将插件放入.zip压缩包中上传、支持一个压缩中包含多个支付插件</p>
                     </div>
                     <div class="am-form-group am-form-file">
                         <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> 选择文件</button>

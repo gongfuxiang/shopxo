@@ -184,7 +184,7 @@
 					<span class="business-operations-submit quick-spec-title-add">+快捷操作</span>
 					<span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created">生成规格</span>
 					<div class="goods-specifications business-form-group" {{if empty($data['spec_base'])}}style="display: none;"{{/if}}>
-						<table class="am-table am-table-bordered am-table-centered">
+						<table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover">
 							<thead>
 								<tr>
 									<th class="spec-quick-th-title">规格名</th>
@@ -282,7 +282,7 @@
 					</div>
 
 					<!-- 规格列表 -->
-					<table class="am-table am-table-bordered am-table-centered specifications-table am-margin-bottom-sm">
+					<table class="am-table am-table-bordered am-table-centered specifications-table am-margin-bottom-sm am-table-striped am-table-hover">
 						<thead class="title-nav">
 							<tr>
 								{{if !empty($specifications['type'])}}
