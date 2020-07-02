@@ -366,10 +366,10 @@ class AdminService
         }
 
         // 获取管理员
-        $admin = Db::name('Admin')->field('id,username,login_pwd,login_salt,mobile,login_total,role_id')->where(['username'=>$params['username']])->find();
+        $admin = Db::name('Admin')->field('id,username,login_pwd,login_salt,mobile,login_total,role_id')->where(['username'=>$params['username'], 'status'=>0])->find();
         if(empty($admin))
         {
-            return DataReturn('管理员不存在', -2);
+            return DataReturn('账户异常', -2);
         }
 
         // 密码校验

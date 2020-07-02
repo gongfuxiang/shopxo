@@ -38,6 +38,9 @@
 			<div class="am-form-group">
 				<label>{{$data.common_baidu_map_ak.name}}<span class="am-form-group-label-tips">{{$data.common_baidu_map_ak.describe}}</span></label>
 				<input type="text" name="{{$data.common_baidu_map_ak.only_tag}}" placeholder="{{$data.common_baidu_map_ak.describe}}" data-validation-message="{{$data.common_baidu_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_baidu_map_ak.value}}"{{/if}} />
+				<div class="am-alert am-alert-warning" data-am-alert>
+                	请到百度地图开放平台申请，<a href="https://ask.shopxo.net/article/142" target="_blank">查看配置教程 <i class="am-icon-external-link"></i></a>
+                </div>
 			</div>
 			<div class="am-form-group am-form-group-refreshing">
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>

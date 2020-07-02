@@ -86,6 +86,21 @@ class Goods
                     ],
                 ],
                 [
+                    'label'         => '商品类型',
+                    'view_type'     => 'field',
+                    'view_key'      => 'site_type',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_site_type_list'),
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'where_type'        => 'in',
+                        'data'              => lang('common_site_type_list'),
+                        'data_key'          => 'value',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
                     'label'         => '销售价格(元)',
                     'view_type'     => 'field',
                     'view_key'      => 'price',

@@ -160,11 +160,12 @@ class Order
                 [
                     'label'         => '订单模式',
                     'view_type'     => 'field',
-                    'view_key'      => 'order_model_name',
+                    'view_key'      => 'order_model',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_site_type_list'),
                     'width'         => 120,
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'order_model',
                         'where_type'        => 'in',
                         'data'              => lang('common_site_type_list'),
                         'data_key'          => 'value',
@@ -175,11 +176,12 @@ class Order
                 [
                     'label'         => '来源',
                     'view_type'     => 'field',
-                    'view_key'      => 'client_type_name',
+                    'view_key'      => 'client_type',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_platform_type'),
                     'width'         => 120,
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'client_type',
                         'where_type'        => 'in',
                         'data'              => lang('common_platform_type'),
                         'data_key'          => 'value',

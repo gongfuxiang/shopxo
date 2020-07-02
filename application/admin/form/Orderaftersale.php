@@ -86,11 +86,12 @@ class Orderaftersale
                 [
                     'label'         => '状态',
                     'view_type'     => 'field',
-                    'view_key'      => 'status_text',
+                    'view_key'      => 'status',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_order_aftersale_status_list'),
                     'width'         => 120,
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'status',
                         'where_type'        => 'in',
                         'data'              => lang('common_order_aftersale_status_list'),
                         'data_key'          => 'value',
@@ -101,11 +102,12 @@ class Orderaftersale
                 [
                     'label'         => '申请类型',
                     'view_type'     => 'field',
-                    'view_key'      => 'type_text',
+                    'view_key'      => 'type',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_order_aftersale_type_list'),
                     'width'         => 120,
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'type',
                         'where_type'        => 'in',
                         'data'              => lang('common_order_aftersale_type_list'),
                         'data_key'          => 'value',
@@ -152,11 +154,12 @@ class Orderaftersale
                 [
                     'label'         => '退款类型',
                     'view_type'     => 'field',
-                    'view_key'      => 'refundment_text',
+                    'view_key'      => 'refundment',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_order_aftersale_refundment_list'),
                     'width'         => 120,
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'refundment',
                         'where_type'        => 'in',
                         'data'              => lang('common_order_aftersale_refundment_list'),
                         'data_key'          => 'value',

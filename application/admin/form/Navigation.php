@@ -73,10 +73,11 @@ class Navigation
                 [
                     'label'         => '导航数据类型',
                     'view_type'     => 'field',
-                    'view_key'      => 'data_type_text',
+                    'view_key'      => 'data_type',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_nav_type_list'),
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'data_type',
                         'where_type'        => 'in',
                         'data'              => lang('common_nav_type_list'),
                         'data_key'          => 'value',

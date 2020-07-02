@@ -70,10 +70,11 @@ class Admin
                 [
                     'label'         => '状态',
                     'view_type'     => 'field',
-                    'view_key'      => 'status_text',
+                    'view_key'      => 'status',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_admin_status_list'),
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'status',
                         'where_type'        => 'in',
                         'data'              => lang('common_admin_status_list'),
                         'data_key'          => 'value',
@@ -84,10 +85,11 @@ class Admin
                 [
                     'label'         => '性别',
                     'view_type'     => 'field',
-                    'view_key'      => 'gender_text',
+                    'view_key'      => 'gender',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_gender_list'),
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'gender',
                         'where_type'        => 'in',
                         'data'              => lang('common_gender_list'),
                         'data_key'          => 'id',

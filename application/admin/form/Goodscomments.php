@@ -88,11 +88,12 @@ class Goodscomments
                 [
                     'label'         => '业务类型',
                     'view_type'     => 'field',
-                    'view_key'      => 'business_type_text',
+                    'view_key'      => 'business_type',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_goods_comments_business_type_list'),
                     'width'         => 120,
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'business_type',
                         'where_type'        => 'in',
                         'data'              => lang('common_goods_comments_business_type_list'),
                         'data_key'          => 'value',

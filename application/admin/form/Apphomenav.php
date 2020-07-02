@@ -67,10 +67,11 @@ class Apphomenav
                 [
                     'label'         => '所属平台',
                     'view_type'     => 'field',
-                    'view_key'      => 'platform_text',
+                    'view_key'      => 'platform',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_platform_type'),
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'platform',
                         'where_type'        => 'in',
                         'data'              => lang('common_platform_type'),
                         'data_key'          => 'value',
@@ -87,11 +88,12 @@ class Apphomenav
                 [
                     'label'         => '事件类型',
                     'view_type'     => 'field',
-                    'view_key'      => 'event_type_text',
+                    'view_key'      => 'event_type',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_app_event_type'),
                     'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'event_type',
                         'where_type'        => 'in',
                         'data'              => lang('common_app_event_type'),
                         'data_key'          => 'value',

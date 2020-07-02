@@ -658,6 +658,13 @@ class GoodsService
                 'error_msg'         => '请填写有效的最低起购数量',
             ],
             [
+                'checked_type'      => 'in',
+                'key_name'          => 'site_type',
+                'checked_data'      => array_merge([-1], array_column(lang('common_site_type_list'), 'value')),
+                'is_checked'        => 2,
+                'error_msg'         => '商品型号格式 最多30个字符',
+            ],
+            [
                 'checked_type'      => 'length',
                 'key_name'          => 'seo_title',
                 'checked_data'      => '100',
@@ -753,7 +760,8 @@ class GoodsService
             'seo_desc'                  => empty($params['seo_desc']) ? '' : $params['seo_desc'],
             'is_exist_many_spec'        => empty($specifications['data']['title']) ? 0 : 1,
             'spec_base'                 => empty($specifications_base['data']) ? '' : json_encode($specifications_base['data']),
-            'fictitious_goods_value'       => $fictitious_goods_value,
+            'fictitious_goods_value'    => $fictitious_goods_value,
+            'site_type'                 => isset($params['site_type']) ? $params['site_type'] : -1,
         ];
 
         // 商品保存处理钩子

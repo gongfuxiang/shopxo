@@ -146,6 +146,22 @@
 					<label>单次最大购买数量<span class="am-form-group-label-tips">单次最大数值 100000000, 小于等于0或空则不限</span></label>
 					<input type="number" name="buy_max_number" placeholder="单次最大购买数量" min="0" max="100000000" data-validation-message="单次最大购买数量 1~100000000" class="am-radius" {{if !empty($data['buy_max_number'])}} value="{{$data.buy_max_number}}"{{/if}} />
 				</div>
+				<div class="am-form-group">
+					<label>商品类型</label>
+					<div class="am-alert am-alert-warning am-radius am-margin-top-0" data-am-alert>
+					    <p>1. 当前系统配置的站点类型为[ <strong class="am-text-danger">{{$common_site_type_list[$common_site_type]['name']}}</strong> ]</p>
+					    <p>2. 如果商品类型未配置则跟随系统配置的站点类型</p>
+					    <p>3. 当设置的商品类型不在系统设置的站点类型包含的时候，商品加入购物车功能将失效</p>
+					</div>
+					<select name="site_type" class="am-radius chosen-select am-margin-top-xs" data-placeholder="可选择..." data-validation-message="请选择商品类型">
+						<option value="-1">可选择...</option>
+						{{if !empty($common_site_type_list)}}
+							{{foreach $common_site_type_list as $v}}
+								<option value="{{$v.value}}" {{if isset($data['site_type']) and $v['value'] eq $data['site_type']}}selected{{/if}}>{{$v.name}}</option>
+							{{/foreach}}
+						{{/if}}
+					</select>
+				</div>
 				<div class="am-form-group am-form-file">
 					<label class="block">首页推荐图片<span class="am-form-group-label-tips">留空则取相册第一张图</span></label>
 					<ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="home_recommended_images" data-max-number="1" data-dialog-type="images">

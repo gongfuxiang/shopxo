@@ -58,6 +58,11 @@
                             <dd>
                                 {{switch $t.view_type}}
                                     {{case field}}
+                                        <!-- 前后固定拼接的值 前面 -->
+                                        {{if isset($t['view_join_first'])}}
+                                            <span>{{$t.view_join_first}}</span>
+                                        {{/if}}
+
                                         <!-- 如果字段为数组则处理多个字段拼接数据 -->
                                         {{if is_array($t['view_key'])}}
                                             {{foreach $t['view_key'] as $fk=>$fv}}
@@ -70,17 +75,31 @@
                                                 {{/if}}
                                             {{/foreach}}
                                         {{else /}}
-                                            <!-- 非数组则直接取值 -->
+                                            <!-- 是否存在数据 key -->
                                             {{if isset($data[$t['view_key']])}}
                                                 <!-- 是否指定数据转换 -->
-                                                {{if !empty($t['view_data']) and is_array($t['view_data']) and isset($t['view_data'][$data[$t['view_key']]])}}
-                                                    {{$t['view_data'][$data[$t['view_key']]]}}
+                                                {{if !empty($t['view_data']) and is_array($t['view_data'])}}
+                                                    <!-- 不存在数组中则不显示 -->
+                                                    {{if isset($t['view_data'][$data[$t['view_key']]])}}
+                                                        <!-- 是否指定二维数组key取值 -->
+                                                        {{if !empty($t['view_data_key'])}}
+                                                            {{if isset($t['view_data'][$data[$t['view_key']]][$t['view_data_key']])}}
+                                                                {{$t['view_data'][$data[$t['view_key']]][$t['view_data_key']]}}
+                                                            {{/if}}
+                                                        {{else /}}
+                                                            {{$t['view_data'][$data[$t['view_key']]]}}
+                                                        {{/if}}
+                                                    {{/if}}
 
                                                 <!-- 直接展示数据 -->
                                                 {{else /}}
                                                     {{$data[$t['view_key']]|raw}}
                                                 {{/if}}
                                             {{/if}}
+                                        {{/if}}
+                                        <!-- 前后固定拼接的值 后面 -->
+                                        {{if isset($t['view_join_last'])}}
+                                            <span>{{$t.view_join_last}}</span>
                                         {{/if}}
                                     {{/case}}
                                     {{case module}}

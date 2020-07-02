@@ -168,6 +168,11 @@ class Goods extends Common
 		$goods_spec_extends = GoodsService::GoodsSpecificationsExtends($params);
 		$this->assign('goods_specifications_extends', $goods_spec_extends['data']);
 
+        // 站点类型
+        $this->assign('common_site_type_list', lang('common_site_type_list'));
+        // 当前系统设置的站点类型
+        $this->assign('common_site_type', MyC('common_site_type', 0, true));
+
 		// 商品编辑页面钩子
 		$hook_name = 'plugins_view_admin_goods_save';
         $this->assign($hook_name.'_data', Hook::listen($hook_name,

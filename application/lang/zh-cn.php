@@ -353,7 +353,8 @@ return array(
     // 管理员状态
     'common_admin_status_list'               =>  array(
             0 => array('value' => 0, 'name' => '正常', 'checked' => true),
-            1 => array('value' => 1, 'name' => '无效'),
+            1 => array('value' => 1, 'name' => '暂停'),
+            2 => array('value' => 2, 'name' => '已离职'),
         ),
 
 

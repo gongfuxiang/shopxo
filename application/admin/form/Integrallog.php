@@ -62,10 +62,11 @@ class Integrallog
                 [
                     'label'         => '操作类型',
                     'view_type'     => 'field',
-                    'view_key'      => 'type_text',
+                    'view_key'      => 'type',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_integral_log_type_list'),
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'type',
                         'where_type'        => 'in',
                         'data'              => lang('common_integral_log_type_list'),
                         'data_key'          => 'id',

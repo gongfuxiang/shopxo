@@ -174,8 +174,18 @@
                                                     <!-- 非数组则直接取值 -->
                                                     {{if isset($data_list[$i][$t['view_key']])}}
                                                         <!-- 是否指定数据转换 -->
-                                                        {{if !empty($t['view_data']) and is_array($t['view_data']) and isset($t['view_data'][$data_list[$i][$t['view_key']]])}}
-                                                            {{$t['view_data'][$data_list[$i][$t['view_key']]]}}
+                                                        {{if !empty($t['view_data']) and is_array($t['view_data'])}}
+                                                            <!-- 不存在数组中则不显示 -->
+                                                            {{if isset($t['view_data'][$data_list[$i][$t['view_key']]])}}
+                                                                <!-- 是否指定二维数组key取值 -->
+                                                                {{if !empty($t['view_data_key'])}}
+                                                                    {{if isset($t['view_data'][$data_list[$i][$t['view_key']]][$t['view_data_key']])}}
+                                                                        {{$t['view_data'][$data_list[$i][$t['view_key']]][$t['view_data_key']]}}
+                                                                    {{/if}}
+                                                                {{else /}}
+                                                                    {{$t['view_data'][$data_list[$i][$t['view_key']]]}}
+                                                                {{/if}}
+                                                            {{/if}}
 
                                                         <!-- 直接展示数据 -->
                                                         {{else /}}

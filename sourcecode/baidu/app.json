@@ -89,6 +89,5 @@
     "request": 10000,
     "downloadFile": 10000
   },
-  "debug": true,
-  "sitemapLocation": "sitemap.json"
+  "debug": true
 }

@@ -67,10 +67,11 @@ class Message
                 [
                     'label'         => '消息类型',
                     'view_type'     => 'field',
-                    'view_key'      => 'type_text',
+                    'view_key'      => 'type',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_message_type_list'),
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'type',
                         'where_type'        => 'in',
                         'data'              => lang('common_message_type_list'),
                         'data_key'          => 'id',
@@ -81,10 +82,11 @@ class Message
                 [
                     'label'         => '业务类型',
                     'view_type'     => 'field',
-                    'view_key'      => 'business_type_text',
+                    'view_key'      => 'business_type',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_business_type_list'),
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'business_type',
                         'where_type'        => 'in',
                         'data'              => lang('common_business_type_list'),
                         'data_key'          => 'id',
@@ -114,10 +116,11 @@ class Message
                 [
                     'label'         => '状态',
                     'view_type'     => 'field',
-                    'view_key'      => 'is_read_text',
+                    'view_key'      => 'is_read',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_is_read_list'),
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'is_read',
                         'where_type'        => 'in',
                         'data'              => lang('common_is_read_list'),
                         'data_key'          => 'id',
