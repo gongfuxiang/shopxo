@@ -15,6 +15,7 @@ Page({
     common_app_is_online_service: 0,
 
     // 限时秒杀插件
+    plugins_limitedtimediscount_is_valid: 0,
     plugins_limitedtimediscount_data: null,
     plugins_limitedtimediscount_timer_title: '距离结束',
     plugins_limitedtimediscount_is_show_time: true,
@@ -58,6 +59,7 @@ Page({
             data_list_loding_status: data.data_list.length == 0 ? 0 : 3,
             common_app_is_online_service: data.common_app_is_online_service || 0,
             plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
+            plugins_limitedtimediscount_is_valid: ((data.plugins_limitedtimediscount_data || null) != null && (data.plugins_limitedtimediscount_data.is_valid || 0) == 1) ? 1 : 0,
           });
 
           // 导航购物车处理
@@ -70,7 +72,7 @@ Page({
           }
 
           // 限时秒杀倒计时
-          if (this.data.plugins_limitedtimediscount_data != null && (this.data.plugins_limitedtimediscount_data.is_valid || 0) == 1)
+          if (this.data.plugins_limitedtimediscount_is_valid == 1)
           {
             this.plugins_limitedtimediscount_countdown();
           }

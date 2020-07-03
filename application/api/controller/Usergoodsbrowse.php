@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\GoodsService;
+use app\service\GoodsBrowseService;
 
 /**
  * 用户商品浏览
@@ -56,10 +56,10 @@ class UserGoodsBrowse extends Common
         $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
 
         // 条件
-        $where = GoodsService::UserGoodsBrowseListWhere($params);
+        $where = GoodsBrowseService::UserGoodsBrowseListWhere($params);
 
         // 获取总数
-        $total = GoodsService::GoodsBrowseTotal($where);
+        $total = GoodsBrowseService::GoodsBrowseTotal($where);
         $page_total = ceil($total/$number);
         $start = intval(($page-1)*$number);
 
@@ -69,7 +69,7 @@ class UserGoodsBrowse extends Common
             'n'         => $number,
             'where'     => $where,
         );
-        $data = GoodsService::GoodsBrowseList($data_params);
+        $data = GoodsBrowseService::GoodsBrowseList($data_params);
         
         // 返回数据
         $result = [
@@ -92,7 +92,7 @@ class UserGoodsBrowse extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return GoodsService::GoodsBrowseDelete($params);
+        return GoodsBrowseService::GoodsBrowseDelete($params);
     }
 }
 ?>

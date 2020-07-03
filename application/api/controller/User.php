@@ -16,6 +16,9 @@ use app\service\GoodsService;
 use app\service\MessageService;
 use app\service\AppCenterNavService;
 use app\service\BuyService;
+use app\service\GoodsFavorService;
+use app\service\GoodsBrowseService;
+use app\service\IntegralService;
 
 /**
  * 用户
@@ -518,11 +521,11 @@ class User extends Common
 
         // 商品收藏总数
         $where = ['user_id'=>$this->user['id']];
-        $user_goods_favor_count = GoodsService::GoodsFavorTotal($where);
+        $user_goods_favor_count = GoodsFavorService::GoodsFavorTotal($where);
 
         // 商品浏览总数
         $where = ['user_id'=>$this->user['id']];
-        $user_goods_browse_count = GoodsService::GoodsBrowseTotal($where);
+        $user_goods_browse_count = GoodsBrowseService::GoodsBrowseTotal($where);
 
         // 未读消息总数
         $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
@@ -531,9 +534,13 @@ class User extends Common
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1, 'is_aftersale'=>1]);
 
+        // 用户积分
+        $user_integral_data = IntegralService::UserIntegral($params['user']['id']);
+        $user_integral = (isset($user_integral_data['data']) && isset($user_integral_data['data']['integral'])) ? $user_integral_data['data']['integral'] : 0;
+
         // 初始化数据
         $result = array(
-            'integral'                          => (int) $this->user['integral'],
+            'integral'                          => $user_integral,
             'avatar'                            => $this->user['avatar'],
             'nickname'                          => $this->user['nickname'],
             'username'                          => $this->user['username'],

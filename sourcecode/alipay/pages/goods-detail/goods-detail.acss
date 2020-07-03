@@ -340,8 +340,8 @@
 }
 
 /*
- * 展示型
+ * 示型、商品独立类型 操作按钮100%宽度
  */
-.goods-buy-nav .exhibition-mode button {
+.goods-buy-nav .buy-nav-submit-full button {
   width: 100%;
 }

@@ -95,7 +95,7 @@ class User extends Common
         $this->assign('common_message_total', $common_message_total);
 
         // 获取进行中的订单列表
-        $params = array_merge($_POST, $_GET);
+        $params = $this->data_request;
         $params['user'] = $this->user;
         $params['is_more'] = 1;
         $params['status'] = [1,2,3,4];

@@ -67,7 +67,7 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://shopxo.com/',
+     request_url: 'http://shopxo.com/',
     // request_url: 'http://dev.shopxo.net/',
 
     // 基础信息
@@ -75,7 +75,8 @@ App({
     application_describe: "{{application_describe}}",
 
     // 价格符号
-    price_symbol: "{{price_symbol}}"
+    price_symbol: "{{price_symbol}}",
+    price_symbol: "￥",
   },
 
   /**

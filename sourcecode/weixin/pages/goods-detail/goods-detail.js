@@ -41,6 +41,7 @@ Page({
     common_app_is_online_service: 0,
 
     // 限时秒杀插件
+    plugins_limitedtimediscount_is_valid: 0,
     plugins_limitedtimediscount_data: null,
     plugins_limitedtimediscount_is_show_time: true,
     plugins_limitedtimediscount_time_millisecond: 0,
@@ -70,6 +71,7 @@ Page({
 
     // 站点模式
     common_site_type: 0,
+    is_goods_site_type_consistent: 0,
     customer_service_tel: null,
 
     // 优惠劵领取
@@ -151,6 +153,7 @@ Page({
               common_app_is_online_service: data.common_app_is_online_service || 0,
 
               plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
+              plugins_limitedtimediscount_is_valid: ((data.plugins_limitedtimediscount_data || null) != null && (data.plugins_limitedtimediscount_data.is_valid || 0) == 1) ? 1 : 0,
 
               common_app_is_good_thing: data.common_app_is_good_thing || 0,
               'share_product.item_code': data.goods.id.toString(),
@@ -167,7 +170,8 @@ Page({
             });
 
             // 限时秒杀倒计时
-            if (this.data.plugins_limitedtimediscount_data != null && (this.data.plugins_limitedtimediscount_data.is_valid || 0) == 1) {
+            if (this.data.plugins_limitedtimediscount_is_valid == 1)
+            {
               this.plugins_limitedtimediscount_countdown();
             }
 

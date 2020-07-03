@@ -118,7 +118,7 @@ class NavigationService
     {
         // 获取导航数据
         $field = 'id,pid,name,url,value,data_type,is_new_window_open';
-        $order_by = 'sort asc,id desc';
+        $order_by = 'sort asc,id asc';
         $data = self::NavDataDealWith(Db::name('Navigation')->field($field)->where(array('nav_type'=>$nav_type, 'is_show'=>1, 'pid'=>0))->order($order_by)->select());
         if(!empty($data))
         {
@@ -212,14 +212,15 @@ class NavigationService
         $where1[] = ['pid', '=', 0];
 
         $field = '*';
-        $data = self::NavigationHandle(self::NavDataDealWith(Db::name('Navigation')->field($field)->where($where1)->order('sort')->select()));
+        $order_by = 'sort asc,id asc';
+        $data = self::NavigationHandle(self::NavDataDealWith(Db::name('Navigation')->field($field)->where($where1)->order($order_by)->select()));
         $result = [];
         if(!empty($data))
         {
             // 子级数据组合
             $where2 = $where;
             $where2[] = ['pid', 'in', array_column($data, 'id')];
-            $items_data = self::NavigationHandle(self::NavDataDealWith(Db::name('Navigation')->field($field)->where($where2)->order('sort')->select()));
+            $items_data = self::NavigationHandle(self::NavDataDealWith(Db::name('Navigation')->field($field)->where($where2)->order($order_by)->select()));
             $items_group = [];
             if(!empty($items_data))
             {

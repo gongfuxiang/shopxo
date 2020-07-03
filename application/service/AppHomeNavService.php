@@ -34,7 +34,7 @@ class AppHomeNavService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'sort asc,id desc' : trim($params['order_by']);
+        $order_by = empty($params['order_by']) ? 'sort asc,id asc' : trim($params['order_by']);
 
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
@@ -287,7 +287,7 @@ class AppHomeNavService
         {
             // 获取导航数据
             $field = 'id,name,images_url,event_value,event_type,bg_color,is_need_login';
-            $order_by = 'sort asc,id desc';
+            $order_by = 'sort asc,id asc';
             $data = Db::name('AppHomeNav')->field($field)->where(['platform'=>$platform, 'is_enable'=>1])->order($order_by)->select();
             if(!empty($data))
             {

@@ -34,7 +34,7 @@ class AppCenterNavService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
+        $order_by = empty($params['order_by']) ? 'sort asc, id asc' : trim($params['order_by']);
 
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
@@ -277,7 +277,7 @@ class AppCenterNavService
     {
         $client_type = (APPLICATION_CLIENT_TYPE == 'pc') ? (IsMobile() ? 'h5' : 'pc') : APPLICATION_CLIENT_TYPE;
         $field = 'id,name,images_url,event_value,event_type,desc';
-        $order_by = 'sort asc,id desc';
+        $order_by = 'sort asc,id asc';
         $data = Db::name('AppCenterNav')->field($field)->where(['platform'=>$client_type, 'is_enable'=>1])->order($order_by)->select();
         if(!empty($data))
         {

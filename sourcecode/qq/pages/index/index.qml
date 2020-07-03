@@ -19,7 +19,7 @@
 <component-icon-nav prop-data="{{navigation}}"></component-icon-nav>
 
 <!-- 限时秒杀 -->
-<view qq:if="{{common_app_is_limitedtimediscount == 1}}">
+<view qq:if="{{plugins_limitedtimediscount_is_valid == 1}}">
   <import src="/pages/lib/limitedtimediscount/home.qml" />
   <template is="limitedtimediscount" data="{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_timer_title: plugins_limitedtimediscount_timer_title, price_symbol: price_symbol}}"></template>
 </view>

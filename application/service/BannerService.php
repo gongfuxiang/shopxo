@@ -50,7 +50,7 @@ class BannerService
         {
             // 获取banner数据
             $field = 'name,images_url,event_value,event_type,bg_color';
-            $order_by = 'sort asc,id desc';
+            $order_by = 'sort asc,id asc';
             $data = Db::name('Slide')->field($field)->where(['platform'=>$platform, 'is_enable'=>1])->order($order_by)->select();
             if(!empty($data))
             {

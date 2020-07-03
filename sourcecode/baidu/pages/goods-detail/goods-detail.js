@@ -40,7 +40,7 @@ Page({
     common_app_is_online_service: 0,
 
     // 限时秒杀插件
-    common_app_is_limitedtimediscount: 0,
+    plugins_limitedtimediscount_is_valid: 0,
     plugins_limitedtimediscount_data: null,
     plugins_limitedtimediscount_is_show_time: true,
     plugins_limitedtimediscount_time_millisecond: 0,
@@ -55,6 +55,7 @@ Page({
 
     // 站点类型
     common_site_type: 0,
+    is_goods_site_type_consistent: 0,
     customer_service_tel: null,
 
     // 优惠劵领取
@@ -130,14 +131,16 @@ Page({
               common_is_goods_detail_show_photo: data.common_is_goods_detail_show_photo || 0,
               common_app_is_online_service: data.common_app_is_online_service || 0,
 
-              common_app_is_limitedtimediscount: data.common_app_is_limitedtimediscount || 0,
               plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
+              plugins_limitedtimediscount_is_valid: ((data.plugins_limitedtimediscount_data || null) != null && (data.plugins_limitedtimediscount_data.is_valid || 0) == 1) ? 1 : 0,
+
               plugins_coupon_data: data.plugins_coupon_data || null,
               quick_nav_cart_count: data.common_cart_total || 0,
             });
 
             // 限时秒杀倒计时
-            if (this.data.common_app_is_limitedtimediscount == 1 && this.data.plugins_limitedtimediscount_data != null) {
+            if (this.data.plugins_limitedtimediscount_is_valid == 1)
+            {
               this.plugins_limitedtimediscount_countdown();
             }
 
@@ -171,6 +174,7 @@ Page({
               nav_submit_text: nav_submit_text,
               nav_submit_is_disabled: nav_submit_is_disabled,
               common_site_type: common_site_type,
+              is_goods_site_type_consistent: data.is_goods_site_type_consistent || 0,
               customer_service_tel: data.customer_service_tel || null,
             });
 

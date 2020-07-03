@@ -312,7 +312,7 @@
             </div>
 
             <!-- 购买导航 -->
-            <div class="buy-nav {{if $common_site_type eq 1}} exhibition-nav{{/if}} {{if isset($is_goods_site_type_consistent) and $is_goods_site_type_consistent neq 1 and $common_site_type neq 1}} site-type-not-consistent-nav{{/if}}">
+            <div class="buy-nav {{if $common_site_type eq 1}}exhibition-nav{{else /}}{{if isset($is_goods_site_type_consistent) and $is_goods_site_type_consistent neq 1}}site-type-not-consistent-nav{{/if}}{{/if}}">
                 {{if !empty($goods.is_shelves)}}
                     {{if $goods['inventory'] gt 0}}
                         <div class="buy-nav-opt">
