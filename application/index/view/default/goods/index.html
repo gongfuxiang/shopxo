@@ -312,7 +312,7 @@
             </div>
 
             <!-- 购买导航 -->
-            <div class="buy-nav {{if $common_site_type eq 1}}exhibition-nav{{/if}}">
+            <div class="buy-nav {{if $common_site_type eq 1}} exhibition-nav{{/if}} {{if isset($is_goods_site_type_consistent) and $is_goods_site_type_consistent neq 1 and $common_site_type neq 1}} site-type-not-consistent-nav{{/if}}">
                 {{if !empty($goods.is_shelves)}}
                     {{if $goods['inventory'] gt 0}}
                         <div class="buy-nav-opt">
@@ -352,8 +352,8 @@
                             {{/if}}
                         </div>
 
-                        <!-- 站点模式 1 展示型 -->
                         {{if $common_site_type eq 1}}
+                            <!-- 站点模式 1 展示型 -->
                             <div class="submit">
                                 <div class="clearfix tb-btn tb-btn-basket" data-type="cart"  data-ajax-url="{{:MyUrl('index/Cart/Save')}}">
                                     <a href="{{if empty($common_customer_store_tel)}}javascript:;{{else /}}tel:{{$common_customer_store_tel}}{{/if}}">
@@ -362,18 +362,22 @@
                                 </div>
                             </div>
 
-                        <!-- 销售型,自提点,虚拟销售 -->
                         {{else /}}
+                            <!-- 销售型,自提点,虚拟销售 -->
                             <div class="submit">
                                 <div class="clearfix tb-btn tb-btn-buy buy-event login-event buy-submit" data-type="buy">
                                     <button title="点此按钮到下一步确认购买信息" href="javascript:;" type="button">{{if $common_order_is_booking eq 1}}立即预约{{else /}}立即购买{{/if}}</button>
                                 </div>
                             </div>
-                            <div class="submit">
-                                <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart"  data-ajax-url="{{:MyUrl('index/Cart/Save')}}">
-                                    <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
+
+                            {{if isset($is_goods_site_type_consistent) and $is_goods_site_type_consistent eq 1}}
+                                <!-- 商品类型是否与系统类型一致 -->
+                                <div class="submit">
+                                    <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart"  data-ajax-url="{{:MyUrl('index/Cart/Save')}}">
+                                        <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
+                                    </div>
                                 </div>
-                            </div>
+                            {{/if}}
 
                             <!-- 购买表单 -->
                             <form action="{{:MyUrl('index/buy/index')}}" method="post" class="buy-form">

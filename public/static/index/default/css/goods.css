@@ -402,7 +402,7 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
 
     /*购物*/
     .tb-btn-buy{margin-left:50px;margin-right:20px;}
-    .buy-nav .buy-nav-opt {margin-left: 283px;}
+    .buy-nav .buy-nav-opt {margin-left: 285px;}
     .buy-nav .buy-nav-opt .nav-icon:not(:last-child) {margin-right: 15px;}
 }
 
@@ -460,6 +460,15 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
     .am-footer { padding-bottom: 35px; }
 }
 
+
+/* 商品类型与系统类型不一致 */
+.site-type-not-consistent-nav div.submit { width: 60%; }
+@media only screen and (min-width:641px) {
+    .site-type-not-consistent-nav .buy-nav-opt { margin-left: 120px; }
+}
+@media only screen and (min-width:1025px) {
+    .site-type-not-consistent-nav .buy-nav-opt { margin-left: 170px; }
+}
 
 /* 展示模式 */
 .exhibition-nav div.submit { width: 60%; }

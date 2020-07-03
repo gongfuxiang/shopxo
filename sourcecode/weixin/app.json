@@ -115,5 +115,6 @@
     "downloadFile": 10000
   },
   "plugins": {},
-  "debug": true
+  "debug": true,
+  "sitemapLocation": "sitemap.json"
 }

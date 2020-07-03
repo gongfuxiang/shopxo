@@ -73,11 +73,16 @@ class Buy extends Common
             // 参数
             $params = array_merge(input(), $data);
             $params['user'] = $this->user;
-            $ret = BuyService::BuyTypeGoodsList($params);
+            $buy_ret = BuyService::BuyTypeGoodsList($params);
 
             // 商品校验
-            if(isset($ret['code']) && $ret['code'] == 0)
+            if(isset($buy_ret['code']) && $buy_ret['code'] == 0)
             {
+                // 基础信息
+                $buy_base = $buy_ret['data']['base'];
+                $buy_goods = $buy_ret['data']['goods'];
+                $buy_extension_data = $buy_ret['data']['extension_data'];
+
                 // 用户地址
                 $address = UserService::UserAddressList(['user'=>$this->user]);
                 $this->assign('user_address_list', $address['data']);
@@ -85,25 +90,28 @@ class Buy extends Common
                 // 支付方式
                 $this->assign('payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
+                // 公共销售模式
+                $this->assign('common_site_type', $buy_base['common_site_type']);
+
                 // 地址选中处理
                 // 防止选中id不存在地址列表中
                 // 如果默认没有则表示不存在地址列表中
-                if(isset($params['address_id']) && empty($ret['data']['base']['address']))
+                if(isset($params['address_id']) && empty($buy_base['address']))
                 {
                     unset($params['address_id']);
                 }
  
                 // 页面数据
-                $this->assign('base', $ret['data']['base']);
-                $this->assign('goods_list', $ret['data']['goods']);
-                $this->assign('extension_data', $ret['data']['extension_data']);
+                $this->assign('base', $buy_base);
+                $this->assign('goods_list', $buy_goods);
+                $this->assign('extension_data', $buy_extension_data);
                 $this->assign('params', $params);
 
                 // 加载百度地图api
                 $this->assign('is_load_baidu_map_api', 1);
 
                 // 钩子
-                $this->PluginsHook($ret['data'], $params);
+                $this->PluginsHook($buy_ret['data'], $params);
 
                 return $this->fetch();
             } else {

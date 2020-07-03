@@ -53,11 +53,16 @@ class Buy extends Common
         // 获取商品列表
         $params = $this->data_post;
         $params['user'] = $this->user;
-        $ret = BuyService::BuyTypeGoodsList($params);
+        $buy_ret = BuyService::BuyTypeGoodsList($params);
 
         // 商品校验
-        if(isset($ret['code']) && $ret['code'] == 0)
+        if(isset($buy_ret['code']) && $buy_ret['code'] == 0)
         {
+            // 基础信息
+            $buy_base = $buy_ret['data']['base'];
+            $buy_goods = $buy_ret['data']['goods'];
+            $buy_extension_data = $buy_ret['data']['extension_data'];
+
             // 支付方式
             $payment_list = PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]);
 
@@ -66,17 +71,17 @@ class Buy extends Common
 
             // 数据返回组装
             $result = [
-                'goods_list'                => $ret['data']['goods'],
+                'goods_list'                => $buy_goods,
                 'payment_list'              => $payment_list,
-                'base'                      => $ret['data']['base'],
-                'extension_data'            => $ret['data']['extension_data'],
+                'base'                      => $buy_base,
+                'extension_data'            => $buy_extension_data,
                 'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
-                'common_site_type'          => (int) MyC('common_site_type', 0, true),
+                'common_site_type'          => (int) $buy_base['common_site_type'],
             ];
 
             // 优惠劵
             $ret = PluginsService::PluginsControlCall(
-                    'coupon', 'coupon', 'buy', 'api', ['order_goods'=>$ret['data']['goods'], 'coupon_id'=>$coupon_id]);
+                    'coupon', 'coupon', 'buy', 'api', ['order_goods'=>$buy_goods, 'coupon_id'=>$coupon_id]);
             if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
             {
                 $result['plugins_coupon_data'] = $ret['data']['data'];

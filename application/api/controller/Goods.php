@@ -16,6 +16,7 @@ use app\service\PluginsService;
 use app\service\GoodsCommentsService;
 use app\service\ResourcesService;
 use app\service\GoodsFavorService;
+use app\service\GoodsBrowseService;
 
 /**
  * 商品
@@ -75,39 +76,50 @@ class Goods extends Common
             return DataReturn('商品不存在或已删除', -1);
         }
 
+        // 商品信息
+        $goods = $ret['data'][0];
+
         // 商品详情处理
         if($is_use_mobile_detail == 1)
         {
-            unset($ret['data'][0]['content_web']);
+            unset($goods['content_web']);
         } else {
             // 标签处理，兼容小程序rich-text
-            $ret['data'][0]['content_web'] = ResourcesService::ApMiniRichTextContentHandle($ret['data'][0]['content_web']);
+            $goods['content_web'] = ResourcesService::ApMiniRichTextContentHandle($goods['content_web']);
         }
 
         // 当前登录用户是否已收藏
         $ret_favor = GoodsFavorService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
-        $ret['data'][0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
+        $goods['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
         // 商品评价总数
-        $ret['data'][0]['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
+        $goods['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
 
         // 商品访问统计
         GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
 
         // 用户商品浏览
-        GoodsService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
+        GoodsBrowseService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
 
         // 商品所属分类名称
         $category = GoodsService::GoodsCategoryNames($goods_id);
-        $ret['data'][0]['category_names'] = $category['data'];
+        $goods['category_names'] = $category['data'];
+
+        // 站点模式
+        // 商品销售模式
+        $ret = GoodsService::GoodsSalesModelType($goods_id, $goods['site_type']);
+        $common_site_type = $ret['data'];
+
+        // 商品类型是否一致
+        $ret = GoodsService::IsGoodsSiteTypeConsistent($goods_id, $goods['site_type']);
+        $is_goods_site_type_consistent = ($ret['code'] == 0) ? 1 : 0;
 
         // 数据返回
         $result = [
-            'goods'                             => $ret['data'][0],
+            'goods'                             => $goods,
             'common_order_is_booking'           => (int) MyC('common_order_is_booking'),
             'common_app_is_use_mobile_detail'   => $is_use_mobile_detail,
             'common_app_is_online_service'      => (int) MyC('common_app_is_online_service'),
-            'common_app_is_limitedtimediscount' => (int) MyC('common_app_is_limitedtimediscount'),
             'common_app_is_good_thing'          => (int) MyC('common_app_is_good_thing'),
             'common_app_is_poster_share'        => (int) MyC('common_app_is_poster_share'),
             'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
@@ -115,8 +127,9 @@ class Goods extends Common
             'common_is_goods_detail_show_photo' => MyC('common_is_goods_detail_show_photo', 0, true),
 
             // 站点模式
-            'common_site_type'                  => (int) MyC('common_site_type', 0, true),
+            'common_site_type'                  => (int) $common_site_type,
             'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
+            'is_goods_site_type_consistent'     => $is_goods_site_type_consistent,
         ];
 
         // 支付宝小程序在线客服
@@ -127,14 +140,11 @@ class Goods extends Common
         }
 
         // 限时秒杀
-        if($result['common_app_is_limitedtimediscount'] == 1)
+        $ret = PluginsService::PluginsControlCall(
+            'limitedtimediscount', 'index', 'goods', 'api', ['goods_id'=>$goods_id]);
+        if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
         {
-            $ret = PluginsService::PluginsControlCall(
-                'limitedtimediscount', 'index', 'goods', 'api', ['goods_id'=>$goods_id]);
-            if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
-            {
-                $result['plugins_limitedtimediscount_data'] = $ret['data']['data'];
-            }
+            $result['plugins_limitedtimediscount_data'] = $ret['data']['data'];
         }
 
         // 优惠券

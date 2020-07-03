@@ -11,6 +11,57 @@
 
 // 应用公共文件
 
+/**
+ * 商品销售模式
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-07-02
+ * @desc    description
+ * @param   [int]          $site_type [商品类型]
+ * @return  [int]                     [销售模式]
+ */
+function GoodsSalesModelType($site_type)
+{
+    return ($site_type == -1) ? MyC('common_site_type', 0, true) : $site_type;
+}
+
+/**
+ * 商品类型是否与站点类型一致
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-07-02
+ * @desc    description
+ * @param   [int]          $site_type [商品类型]
+ * @return  [int]                     [一致 1 | 不一致 0]
+ */
+function IsGoodsSiteTypeConsistent($site_type)
+{
+    // 是否已设置
+    if($site_type == -1)
+    {
+        return 1;
+    }
+
+    // 系统站点类型
+    $common_site_type = MyC('common_site_type', 0, true);
+
+    // 是否一致
+    if($common_site_type == $site_type)
+    {
+        return 1;
+    }
+
+    // 系统是否为 销售+自提,包含其中
+    if($common_site_type == 4 && in_array($site_type, [0, 2]))
+    {
+        return 1;
+    }
+
+    // 不一致
+    return 0;
+}
 
 /**
  * 缓存安全验证次数处理

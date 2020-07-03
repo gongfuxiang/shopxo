@@ -1,6 +1,15 @@
 <!-- 继承公共的 form -->
 {{extend name="public/module/form" /}}
 
+<!-- 公共导航容器 -->
+{{block name="form_navigation"}}
+    <!-- 仅超级管理员显示的温馨提示 -->
+    <div class="am-alert am-alert-danger" data-am-alert>
+        <button type="button" class="am-close">&times;</button>
+        <p>超级管理员默认拥有所有权限，不可更改。</p>
+    </div>
+{{/block}}
+
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
     <a href="{{:MyUrl('admin/role/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>

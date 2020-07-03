@@ -30,7 +30,7 @@
   <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
 
   <!-- 限时秒杀 -->
-  <view wx:if="{{common_app_is_limitedtimediscount == 1 && plugins_limitedtimediscount_data != null}}">
+  <view wx:if="{{plugins_limitedtimediscount_data != null && (plugins_limitedtimediscount_data.is_valid || 0) == 1}}">
     <import src="/pages/lib/limitedtimediscount/goods-detail.wxml" />
     <template is="limitedtimediscount" data="{{plugins_limitedtimediscount_data: plugins_limitedtimediscount_data, plugins_limitedtimediscount_is_show_time: plugins_limitedtimediscount_is_show_time, plugins_limitedtimediscount_time_millisecond: plugins_limitedtimediscount_time_millisecond}}"></template>
   </view>
@@ -135,7 +135,7 @@
       <image src="{{goods_favor_icon}}" mode="scaleToFill" />
       <text class="dis-block cr-888">{{goods_favor_text}}</text>
     </view>
-    <view class="fr {{common_site_type == 1 ? 'exhibition-mode' : ''}}">
+    <view class="fr {{(common_site_type == 1 || ((is_goods_site_type_consistent || 0) != 1 && common_site_type != 1)) ? 'buy-nav-submit-full' : ''}}">
       <!-- 站点模式 1 展示型 -->
       <block wx:if="{{common_site_type == 1}}">
         <button class="bg-main fl" type="default" bindtap="exhibition_submit_event" hover-class="none">{{nav_submit_text}}</button>
@@ -143,7 +143,7 @@
 
       <!-- 销售型,自提点,虚拟销售 -->
       <block wx:else>
-        <button class="bg-warning fl" type="default" bindtap="cart_submit_event" hover-class="none" disabled="{{nav_submit_is_disabled}}">加入购物车</button>
+        <button wx:if="{{(is_goods_site_type_consistent || 0) == 1}}" class="bg-warning fl" type="default" bindtap="cart_submit_event" hover-class="none" disabled="{{nav_submit_is_disabled}}">加入购物车</button>
         <button class="bg-main fl" type="default" bindtap="buy_submit_event" hover-class="none" disabled="{{nav_submit_is_disabled}}">{{nav_submit_text}}</button>
       </block>
     </view>

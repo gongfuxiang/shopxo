@@ -83,6 +83,13 @@ class BuyService
             return DataReturn('商品不存在或已删除', -2);
         }
 
+        // 是否支持购物车操作
+        $ret = GoodsService::IsGoodsSiteTypeConsistent($goods_id, $goods['site_type']);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 规格处理
         $spec = self::GoodsSpecificationsHandle($params);
 
@@ -207,7 +214,7 @@ class BuyService
         $where = (!empty($params['where']) && is_array($params['where'])) ? $params['where'] : [];
         $where['c.user_id'] = $params['user']['id'];
 
-        $field = 'c.*, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number, g.model';
+        $field = 'c.*, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number, g.model, g.site_type';
         $data = Db::name('Cart')->alias('c')->leftJoin(['__GOODS__'=>'g'], 'g.id=c.goods_id')->where($where)->field($field)->order('c.id desc')->select();
 
         // 数据处理
@@ -263,6 +270,12 @@ class BuyService
                 {
                     $v['is_error'] = 1;
                     $v['error_msg'] = '商品已下架';
+                }
+                $ret = GoodsService::IsGoodsSiteTypeConsistent($v['goods_id'], $v['site_type']);
+                if(empty($v['error_msg']) && $ret['code'] != 0)
+                {
+                    $v['is_error'] = 1;
+                    $v['error_msg'] = $ret['msg'];
                 }
             }
         }
@@ -391,10 +404,10 @@ class BuyService
         $cart[0]['stock'] = $stock;
 
         // 商品校验
-        $check = self::BuyGoodsCheck(['goods'=>$cart]);
-        if($check['code'] != 0)
+        $ret = self::BuyGoodsCheck(['goods'=>$cart]);
+        if($ret['code'] != 0)
         {
-            return $check;
+            return $ret;
         }
 
         // 更新数据
@@ -647,8 +660,18 @@ class BuyService
             $goods = $ret['data'];
 
             // 站点模式 0销售, 2自提, 4销售+自提, 则其它正常模式
+            $user_site_model = isset($params['site_model']) ? intval($params['site_model']) : 0;
             $common_site_type = MyC('common_site_type', 0, true);
-            $site_model = ($common_site_type == 4) ? (isset($params['site_model']) ? intval($params['site_model']) : 0) : $common_site_type;
+            $site_model = ($common_site_type == 4) ? $user_site_model : $common_site_type;
+
+            // 商品销售模式
+            // 商品小于等于1则使用商品的类型
+            if(count($goods) <= 1 && isset($goods[0]) && isset($goods[0]['goods_id']))
+            {
+                $ret = GoodsService::GoodsSalesModelType($goods[0]['goods_id']);
+                $common_site_type = $ret['data'];
+                $site_model = ($ret['data'] == 4) ? $user_site_model : $ret['data'];
+            }
 
             // 数据处理
             $address = null;
@@ -717,8 +740,11 @@ class BuyService
                 // 自提地址列表
                 'extraction_address'    => $extraction_address,
 
-                // 站点模式
+                // 当前使用的站点模式
                 'site_model'            => $site_model,
+
+                // 公共站点模式
+                'common_site_type'      => $common_site_type,
             ];
 
             // 扩展展示数据
@@ -787,6 +813,11 @@ class BuyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'goods',
+                'error_msg'         => '商品信息为空',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'goods',
                 'error_msg'         => '商品信息有误',
             ]
         ];
@@ -796,14 +827,47 @@ class BuyService
             return DataReturn($ret, -1);
         }
 
+        // 商品总数
+        $count = count($params['goods']);
+
+        // 提交订单则需要存在多个商品的时候校验
+        // 是否需要校验商品类型
+        $is_check_goods_site_type = (!isset($params['is_buy']) || $params['is_buy'] != 1 ||  ($count > 1 && $params['is_buy'] == 1));
+
         // 数据校验
         foreach($params['goods'] as $v)
         {
             // 获取商品信息
-            $goods = Db::name('Goods')->field('id,title,price,is_shelves,inventory,buy_min_number,buy_max_number')->find($v['goods_id']);
+            $goods = Db::name('Goods')->field('id,title,price,is_shelves,inventory,buy_min_number,buy_max_number,site_type')->find($v['goods_id']);
             if(empty($goods))
             {
-                return DataReturn('['.$v['goods_id'].']商品不存在', -1);
+                return DataReturn('商品不存在['.$v['title'].']', -1);
+            }
+
+            // 基础判断
+            if($goods['is_shelves'] != 1)
+            {
+                return DataReturn('商品已下架['.$goods['title'].']', -1);
+            }
+
+            // 限购
+            if($goods['buy_min_number'] > 1 && $v['stock'] < $goods['buy_min_number'])
+            {
+                return DataReturn('低于商品起购数量['.$goods['title'].']['.$v['stock'].'<'.$goods['buy_min_number'].']', -1);
+            }
+            if($goods['buy_max_number'] > 0 && $v['stock'] > $goods['buy_max_number'])
+            {
+                return DataReturn('超过商品限购数量['.$goods['title'].']['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
+            }
+
+            // 是否支持购物车操作
+            if($is_check_goods_site_type)
+            {
+                $ret = GoodsService::IsGoodsSiteTypeConsistent($goods['id'], $goods['site_type']);
+                if($ret['code'] != 0)
+                {
+                    return DataReturn($ret['msg'].'['.$v['title'].']', $ret['code']);
+                }
             }
 
             // 规格
@@ -816,22 +880,10 @@ class BuyService
                 return $goods_base;
             }
 
-            // 基础判断
-            if($goods['is_shelves'] != 1)
-            {
-                return DataReturn('商品已下架['.$goods['title'].']', -1);
-            }
+            // 库存
             if($v['stock'] > $goods['inventory'])
             {
                 return DataReturn('购买数量超过商品库存数量['.$goods['title'].']['.$v['stock'].'>'.$goods['inventory'].']', -1);
-            }
-            if($goods['buy_min_number'] > 1 && $v['stock'] < $goods['buy_min_number'])
-            {
-                return DataReturn('低于商品起购数量['.$goods['title'].']['.$v['stock'].'<'.$goods['buy_min_number'].']', -1);
-            }
-            if($goods['buy_max_number'] > 0 && $v['stock'] > $goods['buy_max_number'])
-            {
-                return DataReturn('超过商品限购数量['.$goods['title'].']['.$v['stock'].'>'.$goods['buy_max_number'].']', -1);
             }
         }
 
@@ -857,7 +909,8 @@ class BuyService
         }
 
         // 销售+自提, 用户自选站点类型
-        $site_model = ($common_site_type == 4) ? (isset($params['site_model']) ? intval($params['site_model']) : 0) : $common_site_type;
+        $user_site_model = isset($params['site_model']) ? intval($params['site_model']) : 0;
+        $site_model = ($common_site_type == 4) ? $user_site_model : $common_site_type;
 
         // 请求参数
         $p = [
@@ -907,10 +960,18 @@ class BuyService
         {
             return $buy;
         }
-        $check = self::BuyGoodsCheck(['goods'=>$buy['data']['goods']]);
+        $check = self::BuyGoodsCheck(['goods'=>$buy['data']['goods'], 'is_buy'=>1]);
         if($check['code'] != 0)
         {
             return $check;
+        }
+
+        // 商品销售模式
+        // 商品小于等于1则使用商品的类型
+        if(count($buy['data']['goods']) <= 1 && isset($buy['data']['goods'][0]) && isset($buy['data']['goods'][0]['goods_id']))
+        {
+            $ret = GoodsService::GoodsSalesModelType($buy['data']['goods'][0]['goods_id']);
+            $site_model = ($ret['data'] == 4) ? $user_site_model : $ret['data'];
         }
 
         // 销售型,自提点,销售+自提 地址处理
@@ -937,6 +998,17 @@ class BuyService
             }
             $payment_id = $payment[0]['id'];
             $is_under_line = in_array($payment[0]['payment'], config('shopxo.under_line_list')) ? 1 : 0;
+        }
+
+        // 是否仅一个商品并且商品自定义类型
+        if(count($buy['data']['goods']) == 1)
+        {
+            $ret = GoodsService::IsGoodsSiteTypeConsistent($buy['data']['goods'][0]['goods_id']);
+            if($ret['code'] != 0)
+            {
+                // 是否为销售+自提
+                $site_model = ($ret['data'] == 4) ? $user_site_model : $ret['data'];
+            }
         }
 
         // 订单主信息

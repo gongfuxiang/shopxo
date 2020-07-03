@@ -73,14 +73,14 @@
                                 <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="add">+</span>
                             </div>
                             {{if $goods['is_error'] eq 1 and !empty($goods['error_msg'])}}
-                                <p class="am-text-danger">{{$goods.error_msg}}</p>
+                                <p class="am-text-danger am-margin-top-xs">{{$goods.error_msg}}</p>
                             {{/if}}
                         </td>
                         <td class="total-price am-hide-sm-only">
                             <strong class="total-price-content">{{$price_symbol}}{{$goods.total_price}}</strong>
                         </td>
                         <td class="operation">
-                            <a href="javascript:;" class="submit-delete" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$goods.id}}" data-view="fun" data-value="ViewDeleteBack">删除</a>
+                            <a href="javascript:;" class="am-text-danger submit-delete" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$goods.id}}" data-view="fun" data-value="ViewDeleteBack">删除</a>
                         </td>
                     </tr>
                 {{/foreach}}

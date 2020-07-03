@@ -48,7 +48,7 @@ class Goods extends Common
      */
     public function Index()
     {
-        $goods_id = input('id');
+        $goods_id = isset($this->data_request['id']) ? $this->data_request['id'] : 0;
         $params = [
             'where' => [
                 'id'                => $goods_id,
@@ -63,32 +63,35 @@ class Goods extends Common
             $this->assign('msg', '资源不存在或已被删除');
             return $this->fetch('/public/tips_error');
         } else {
+            // 商品信息
+            $goods = $ret['data'][0];
+
             // 当前登录用户是否已收藏
             $ret_favor = GoodsFavorService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
-            $ret['data'][0]['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
+            $goods['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
 
             // 商品评价总数
-            $ret['data'][0]['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
+            $goods['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
 
             // 商品收藏总数
-            $ret['data'][0]['favor_count'] = GoodsFavorService::GoodsFavorTotal(['goods_id'=>$goods_id]);
+            $goods['favor_count'] = GoodsFavorService::GoodsFavorTotal(['goods_id'=>$goods_id]);
 
             // 钩子
-            $this->PluginsHook($goods_id, $ret['data'][0]);
+            $this->PluginsHook($goods_id, $goods);
 
             // 商品数据
-            $this->assign('goods', $ret['data'][0]);
+            $this->assign('goods', $goods);
 
             // seo
-            $seo_title = empty($ret['data'][0]['seo_title']) ? $ret['data'][0]['title'] : $ret['data'][0]['seo_title'];
+            $seo_title = empty($goods['seo_title']) ? $goods['title'] : $goods['seo_title'];
             $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle($seo_title, 2));
-            if(!empty($ret['data'][0]['seo_keywords']))
+            if(!empty($goods['seo_keywords']))
             {
-                $this->assign('home_seo_site_keywords', $ret['data'][0]['seo_keywords']);
+                $this->assign('home_seo_site_keywords', $goods['seo_keywords']);
             }
-            if(!empty($ret['data'][0]['seo_desc']))
+            if(!empty($goods['seo_desc']))
             {
-                $this->assign('home_seo_site_description', $ret['data'][0]['seo_desc']);
+                $this->assign('home_seo_site_description', $goods['seo_desc']);
             }
 
             // 二维码
@@ -136,6 +139,14 @@ class Goods extends Common
 
             // 是否商品详情页展示相册
             $this->assign('common_is_goods_detail_show_photo', MyC('common_is_goods_detail_show_photo', 0, true));
+
+            // 商品销售模式
+            $ret = GoodsService::GoodsSalesModelType($goods_id, $goods['site_type']);
+            $this->assign('common_site_type', $ret['data']);
+
+            // 商品类型是否一致
+            $ret = GoodsService::IsGoodsSiteTypeConsistent($goods_id, $goods['site_type']);
+            $this->assign('is_goods_site_type_consistent', ($ret['code'] == 0) ? 1 : 0);
 
             return $this->fetch();
         }

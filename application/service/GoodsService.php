@@ -2030,5 +2030,61 @@ class GoodsService
 
         return DataReturn('获取成功', 0, $data);
     }
+
+    /**
+     * 商品类型校验
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-03
+     * @desc    description
+     * @param   [int]          $goods_id  [商品 id]
+     * @param   [int]          $site_type [商品类型]
+     */
+    public static function IsGoodsSiteTypeConsistent($goods_id, $site_type = null)
+    {
+        // 是否已指定商品类型
+        if($site_type === null)
+        {
+            $site_type = Db::name('Goods')->where(['id'=>$goods_id])->value('site_type');
+        }
+        
+        // 商品类型与当前系统的类型是否一致包含其中
+        if(IsGoodsSiteTypeConsistent($site_type) == 1)
+        {
+            return DataReturn('success', 0, $site_type);
+        }
+
+        // 是否展示型商品
+        if($site_type == 1)
+        {
+            return DataReturn('仅展示', -1, $site_type);
+        }
+
+        // 仅可单独购买
+        return DataReturn('仅单独购买', -1, $site_type);
+    }
+
+    /**
+     * 商品销售默认类型
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-03
+     * @desc    description
+     * @param   [int]          $goods_id  [商品 id]
+     * @param   [int]          $site_type [商品类型]
+     */
+    public static function GoodsSalesModelType($goods_id, $site_type = null)
+    {
+        // 是否已指定商品类型
+        if($site_type === null)
+        {
+            $site_type = Db::name('Goods')->where(['id'=>$goods_id])->value('site_type');
+        }
+
+        // 匹配商品销售模式
+        return DataReturn('success', 0, GoodsSalesModelType($site_type));
+    }
 }
 ?>

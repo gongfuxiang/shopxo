@@ -3,6 +3,15 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
+		<!-- 温馨提示 -->
+		<div class="am-alert am-alert-danger" data-am-alert>
+			<button type="button" class="am-close">&times;</button>
+			<p>1. 非专业技术人员请勿操作该页面数据、操作失误可能会导致权限菜单错乱。</p>
+			<p>2. 权限菜单分为[ 使用、操作 ]两种类型，使用菜单一般开启显示，操作菜单必须隐藏。</p>
+			<p>3. 如果出现权限菜单错乱，可以重新覆盖[ {{:config('database.prefix')}}power ]数据表的数据恢复。</p>
+			<p>4. [ 超级管理员、admin账户 ]默认拥有所有权限，不可更改。</p>
+		</div>
+
 		<!-- operation start -->
 		<div class="am-g">
 			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#power-save-win'}"> 新增</button>
