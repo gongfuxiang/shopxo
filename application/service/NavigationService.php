@@ -231,13 +231,21 @@ class NavigationService
             }
 
             // 数据集合
-            foreach($data as $dv)
+            if(!empty($items_group))
             {
-                $result[] = $dv;
-                if(!empty($items_group) && array_key_exists($dv['id'], $items_group))
+                foreach($data as $dv)
                 {
-                    $result = array_merge($result, $items_group[$dv['id']]);
+                    if(array_key_exists($dv['id'], $items_group))
+                    {
+                        $dv['is_sub_data'] = 1;
+                        $result[] = $dv;
+                        $result = array_merge($result, $items_group[$dv['id']]);
+                    } else {
+                        $result[] = $dv;
+                    }
                 }
+            } else {
+                $result = $data;
             }
         }
 

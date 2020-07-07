@@ -776,18 +776,41 @@ class OrderService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
-        $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
-        $is_orderaftersale = isset($params['is_orderaftersale']) ? intval($params['is_orderaftersale']) : 0;
-        $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
 
         // 获取订单
         $data = Db::name('Order')->where($where)->limit($m, $n)->order($order_by)->select();
+        
+        // 数据处理
+        return self::OrderDataHandle($data, $params);
+    }
+
+    /**
+     * 订单数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-05
+     * @desc    description
+     * @param   [array]          $data [订单数据]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderDataHandle($data, $params = [])
+    {
+        $result = [];
         if(!empty($data))
         {
+            // 其它额外处理
+            $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
+            $is_orderaftersale = isset($params['is_orderaftersale']) ? intval($params['is_orderaftersale']) : 0;
+            $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
+
+            // 静态数据
             $order_status_list = lang('common_order_user_status');
             $order_pay_status = lang('common_order_pay_status');
             $common_platform_type = lang('common_platform_type');
             $common_site_type_list = lang('common_site_type_list');
+
+            // 循环处理数据
             foreach($data as &$v)
             {
                 // 订单处理前钩子

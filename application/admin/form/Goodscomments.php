@@ -60,7 +60,7 @@ class Goodscomments
                 [
                     'label'         => '基础信息',
                     'view_type'     => 'module',
-                    'view_key'      => 'goodscomments/module/info',
+                    'view_key'      => 'goodscomments/module/goods',
                     'grid_size'     => 'lg',
                     'search_config' => [
                         'form_type'             => 'input',

@@ -73,7 +73,7 @@ class Order
                 [
                     'label'         => '基础信息',
                     'view_type'     => 'module',
-                    'view_key'      => 'order/module/info',
+                    'view_key'      => 'order/module/goods',
                     'grid_size'     => 'lg',
                     'is_detail'     => 0,
                     'search_config' => [

@@ -290,7 +290,8 @@ class GoodsService
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field($field)->where($where)->group('g.id')->order($order_by)->limit($m, $n)->select();
         
-        return self::GoodsDataHandle($params, $data);
+        // 数据处理
+        return self::GoodsDataHandle($data, $params);
     }
 
     /**
@@ -299,10 +300,10 @@ class GoodsService
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-12-08T23:16:42+0800
-     * @param    [array]                   $params [输入参数]
      * @param    [array]                   $data   [商品列表]
+     * @param    [array]                   $params [输入参数]
      */
-    public static function GoodsDataHandle($params, $data)
+    public static function GoodsDataHandle($data, $params = [])
     {
         if(!empty($data))
         {
@@ -473,7 +474,7 @@ class GoodsService
                 }
             }
         }
-        return DataReturn('处理成功', 0, $data);
+        return DataReturn('success', 0, $data);
     }
 
     /**
@@ -606,7 +607,7 @@ class GoodsService
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $data = Db::name('Goods')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         
-        return self::GoodsDataHandle($params, $data);
+        return self::GoodsDataHandle($data, $params);
     }
 
     /**

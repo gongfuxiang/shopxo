@@ -58,7 +58,7 @@ class Orderaftersale
                 [
                     'label'         => '基础信息',
                     'view_type'     => 'module',
-                    'view_key'      => 'orderaftersale/module/info',
+                    'view_key'      => 'orderaftersale/module/goods',
                     'grid_size'     => 'lg',
                     'search_config' => [
                         'form_type'             => 'input',

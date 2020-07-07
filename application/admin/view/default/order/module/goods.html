@@ -1,6 +1,6 @@
-<!-- 订单基础信息 -->
+<!-- 订单商品信息 -->
 {{if !empty($module_data) and !empty($module_data['items'])}}
-    {{foreach $module_data.items as $key=>$item}}
+    {{foreach $module_data.items as $item}}
         <div class="am-nbfc am-padding-vertical-xs">
             <div class="base am-nbfc">
                 <a href="{{:MyUrl('index/goods/index', ['id'=>$item['goods_id']])}}" target="_blank" title="{{$item.title}}">
@@ -21,21 +21,6 @@
             </div>
         </div>
         <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
-        {{if $key eq 0}}
-            {{if !isset($module_params['form_request_type']) or $module_params['form_request_type'] neq 'detail'}}
-                {{php}}break;{{/php}}
-            {{/if}}
-        {{/if}}
     {{/foreach}}
     <div class="am-margin-top-sm">{{$module_data.describe}}</div>
-    {{if count($module_data.items) gt 1}}
-        {{if !isset($module_params['form_request_type']) or $module_params['form_request_type'] neq 'detail'}}
-            <div class="am-text-center">
-                <button type="button" class="am-btn am-btn-link am-btn-xs am-radius submit-popup" data-url="{{:MyUrl('admin/order/detail', ['id'=>$module_data['id']])}}">
-                    <i class="am-icon-caret-down"></i>
-                    <span>查看更多</span>
-                </button>
-            </div>
-        {{/if}}
-    {{/if}}
 {{/if}}

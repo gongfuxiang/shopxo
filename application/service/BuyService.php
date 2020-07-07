@@ -987,17 +987,16 @@ class BuyService
         }
 
         // 支付方式
-        $payment_id = 0;
-        $is_under_line = 0;
+        $payment = [];
         if(!empty($params['payment_id']))
         {
-            $payment = PaymentService::PaymentList(['where'=>['id'=>intval($params['payment_id'])]]);
-            if(empty($payment[0]))
+            $pay_ret = PaymentService::PaymentList(['where'=>['id'=>intval($params['payment_id'])]]);
+            if(empty($pay_ret[0]))
             {
                 return DataReturn('支付方式有误', -1);
+            } else {
+                $payment = $pay_ret[0];
             }
-            $payment_id = $payment[0]['id'];
-            $is_under_line = in_array($payment[0]['payment'], config('shopxo.under_line_list')) ? 1 : 0;
         }
 
         // 是否仅一个商品并且商品自定义类型
@@ -1011,25 +1010,84 @@ class BuyService
             }
         }
 
-        // 订单主信息
+        // 订单信息处理
         $order = [
-            'order_no'              => date('YmdHis').GetNumberCode(6),
-            'user_id'               => $params['user']['id'],
-            'user_note'             => isset($params['user_note']) ? str_replace(['"', "'"], '', strip_tags($params['user_note'])) : '',
-            'status'                => (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1,
             'preferential_price'    => ($buy['data']['base']['preferential_price'] <= 0.00) ? 0.00 : $buy['data']['base']['preferential_price'],
             'increase_price'        => ($buy['data']['base']['increase_price'] <= 0.00) ? 0.00 : $buy['data']['base']['increase_price'],
             'price'                 => ($buy['data']['base']['total_price'] <= 0.00) ? 0.00 : $buy['data']['base']['total_price'],
             'total_price'           => ($buy['data']['base']['actual_price'] <= 0.00) ? 0.00 : $buy['data']['base']['actual_price'],
             'extension_data'        => empty($buy['data']['extension_data']) ? '' : json_encode($buy['data']['extension_data']),
-            'payment_id'            => $payment_id,
-            'buy_number_count'      => array_sum(array_column($buy['data']['goods'], 'stock')),
-            'client_type'           => (APPLICATION_CLIENT_TYPE == 'pc' && IsMobile()) ? 'h5' : APPLICATION_CLIENT_TYPE,
-            'order_model'           => $site_model,
-            'is_under_line'         => $is_under_line,
-            'add_time'              => time(),
         ];
-        if($order['status'] == 1)
+
+        // 添加订单处理
+        return self::OrderInsertHandle($order, $buy['data']['goods'], $address, $params['user'], $payment, $site_model, $params);
+    }
+
+    public static function OrderInsertHandle($order, $goods, $address, $user, $payment, $site_model, $params = [])
+    {
+        // 订单信息处理
+        // 订单号没有则自动生成
+        if(!isset($order['order_no']))
+        {
+            $order['order_no'] = date('YmdHis').GetNumberCode(6);
+        }
+
+        // 订单模式
+        if(!isset($order['order_model']))
+        {
+            $order['order_model'] = $site_model;
+        }
+
+        // 订单状态
+        if(!isset($order['status']))
+        {
+            $order['status'] = (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1;
+        }
+        
+        // 用户 id
+        if(!isset($order['user_id']) && !empty($user['id']))
+        {
+            $order['user_id'] = $user['id'];
+        }
+
+        // 订单商品数量
+        if(!isset($order['buy_number_count']))
+        {
+            $order['buy_number_count'] = array_sum(array_column($goods, 'stock'));
+        }
+
+        // 订单备注
+        if(!isset($order['user_note']))
+        {
+            $order['user_note'] = isset($params['user_note']) ? str_replace(['"', "'"], '', strip_tags($params['user_note'])) : '';
+        }
+
+        // 订单支付方式
+        if(!isset($order['payment_id']))
+        {
+            $order['payment_id'] = empty($payment['id']) ? 0 : $payment['id'];
+        }
+
+        // 是否线下支付
+        if(!isset($order['is_under_line']))
+        {
+            $order['is_under_line'] = (isset($payment['payment']) && in_array($payment['payment'], config('shopxo.under_line_list'))) ? 1 : 0;
+        }
+
+        // 客户端类型
+        if(!isset($order['client_type']))
+        {
+            $order['client_type'] = (APPLICATION_CLIENT_TYPE == 'pc' && IsMobile()) ? 'h5' : APPLICATION_CLIENT_TYPE;
+        }
+        
+        // 时间
+        if(!isset($order['add_time']))
+        {
+            $order['add_time'] = time();
+        }
+
+        // 确认时间
+        if(isset($order['status']) && $order['status'] == 1)
         {
             $order['confirm_time'] = time();
         }
@@ -1040,9 +1098,13 @@ class BuyService
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'order'         => &$order,
-            'goods'         => &$buy['data']['goods'],
+            'goods'         => &$goods,
+            'address'       => &$address,
+            'site_model'    => $site_model,
+            'payment'       => $payment,
+            'payment_id'    => isset($order['payment_id']) ? $order['payment_id'] : 0,
+            'is_under_line' => isset($order['is_under_line']) ? $order['is_under_line'] : 0,
             'params'        => $params,
-            
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {
@@ -1056,13 +1118,13 @@ class BuyService
         $order_id = Db::name('Order')->insertGetId($order);
         if($order_id > 0)
         {
-            foreach($buy['data']['goods'] as $k=>$v)
+            foreach($goods as $k=>$v)
             {
                 // 添加订单详情数据,data返回自增id
-                $detail_ret = self::OrderDetailInsert($order_id, $params['user']['id'], $v);
+                $detail_ret = self::OrderDetailInsert($order_id, $user['id'], $v);
                 if($detail_ret['code'] == 0)
                 {
-                    $buy['data']['goods'][$k]['id'] = $detail_ret['data'];
+                    $goods[$k]['id'] = $detail_ret['data'];
                 } else {
                     Db::rollback();
                     return $ret;
@@ -1071,7 +1133,7 @@ class BuyService
                 // 订单模式 - 虚拟信息添加
                 if($site_model == 3)
                 {
-                    $ret = self::OrderFictitiousValueInsert($order_id, $detail_ret['data'], $params['user']['id'], $v['goods_id']);
+                    $ret = self::OrderFictitiousValueInsert($order_id, $detail_ret['data'], $user['id'], $v['goods_id']);
                     if($ret['code'] != 0)
                     {
                         Db::rollback();
@@ -1087,7 +1149,7 @@ class BuyService
                 // 添加订单(收货|取货)地址
                 if(!empty($address))
                 {
-                    $ret = self::OrderAddressInsert($order_id, $params['user']['id'], $address);
+                    $ret = self::OrderAddressInsert($order_id, $user['id'], $address);
                     if($ret['code'] != 0)
                     {
                         Db::rollback();
@@ -1098,7 +1160,7 @@ class BuyService
                 // 自提模式 添加订单取货码
                 if($site_model == 2)
                 {
-                    $ret = self::OrderExtractionCcodeInsert($order_id, $params['user']['id']);
+                    $ret = self::OrderExtractionCcodeInsert($order_id, $user['id']);
                     if($ret['code'] != 0)
                     {
                         Db::rollback();
@@ -1130,8 +1192,12 @@ class BuyService
             'is_backend'    => true,
             'order_id'      => $order_id,
             'order'         => $order,
-            'goods'         => $buy['data']['goods'],
+            'goods'         => $goods,
             'address'       => $address,
+            'site_model'    => $site_model,
+            'payment'       => $payment,
+            'payment_id'    => isset($order['payment_id']) ? $order['payment_id'] : 0,
+            'is_under_line' => isset($order['is_under_line']) ? $order['is_under_line'] : 0,
             'params'        => $params,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
@@ -1157,8 +1223,12 @@ class BuyService
             'is_backend'    => true,
             'order_id'      => $order_id,
             'order'         => $order,
-            'goods'         => $buy['data']['goods'],
+            'goods'         => $goods,
             'address'       => $address,
+            'site_model'    => $site_model,
+            'payment'       => $payment,
+            'payment_id'    => isset($order['payment_id']) ? $order['payment_id'] : 0,
+            'is_under_line' => isset($order['is_under_line']) ? $order['is_under_line'] : 0,
             'params'        => $params,
         ]);
 
