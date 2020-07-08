@@ -11,7 +11,7 @@
  Target Server Version : 50729
  File Encoding         : utf-8
 
- Date: 07/08/2020 19:43:07 PM
+ Date: 07/08/2020 23:20:27 PM
 */
 
 SET NAMES utf8mb4;
@@ -632,7 +632,7 @@ CREATE TABLE `s_goods_spec_base` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   KEY `attribute_type_id` (`price`)
-) ENGINE=InnoDB AUTO_INCREMENT=835 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='商品规格基础';
+) ENGINE=InnoDB AUTO_INCREMENT=835 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格基础';
 
 -- ----------------------------
 --  Records of `s_goods_spec_base`
@@ -653,7 +653,7 @@ CREATE TABLE `s_goods_spec_type` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=265 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='商品规格类型';
+) ENGINE=InnoDB AUTO_INCREMENT=265 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格类型';
 
 -- ----------------------------
 --  Records of `s_goods_spec_type`
@@ -675,7 +675,7 @@ CREATE TABLE `s_goods_spec_value` (
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`),
   KEY `goods_spec_base_id` (`goods_spec_base_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1580 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='商品规格值';
+) ENGINE=InnoDB AUTO_INCREMENT=1580 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格值';
 
 -- ----------------------------
 --  Records of `s_goods_spec_value`
@@ -1739,7 +1739,7 @@ CREATE TABLE `s_user_address` (
 --  Records of `s_user_address`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_user_address` VALUES ('1', '1', '', 'Devil', '13222222222', '1', '37', '567', 'aerwqrer', '0.0000000000', '0.0000000000', '0', '0', '1592558860', '0'), ('2', '3', '', 'devil', '13222222222', '1', '37', '567', 'address', '0.0000000000', '0.0000000000', '0', '0', '1593773179', '0');
+INSERT INTO `s_user_address` VALUES ('1', '1', '', 'Devil', '13222222222', '1', '37', '567', 'aerwqrer', '116.4002440000', '39.9255600000', '0', '0', '1592558860', '1594215571'), ('2', '3', '', 'devil', '13222222222', '1', '37', '567', 'address', '0.0000000000', '0.0000000000', '0', '0', '1593773179', '0');
 COMMIT;
 
 -- ----------------------------
@@ -1799,7 +1799,7 @@ CREATE TABLE `s_warehouse` (
 --  Records of `s_warehouse`
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_warehouse` VALUES ('2', '苏州A仓库', '苏州仓', '44', '1', '龚福祥', '17666666655', '9', '155', '1936', '川沙新镇华川家园111号', '121.7206910000', '31.1884090000', '1', '0', '1594207406', '1594208439');
+INSERT INTO `s_warehouse` VALUES ('2', '苏州A仓库', '苏州仓', '44', '1', '龚福祥', '17666666655', '9', '155', '1936', '川沙新镇华川家园111号', '121.7206910000', '31.1884090000', '1', '0', '1594207406', '1594218399');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
