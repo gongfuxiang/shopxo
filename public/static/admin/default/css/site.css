@@ -29,25 +29,6 @@ ul.home_site_user_register_bg_images-images-view li {
 /**
  * 地址添加/编辑
  */
-.region-linkage .chosen-select {
-    display: -webkit-inline-box;
-    width: calc(33.3% - 3px) !important;
-}
-.region-linkage .chosen-select .chosen-single {
-    width: 100%;
-}
-.address-detail {
-    margin-bottom: 0;
-}
-#map {
-    width: calc(100% - 10px);
-    height: 250px;
-    padding: 0 !important;
-    margin: 0 5px 20px 5px;
-}
-.address-detail, #map {
-    border-bottom: 0 !important;
-}
 .address-list .edit-submit,
 .address-list .delete-submit {
     cursor: pointer;

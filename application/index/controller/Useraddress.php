@@ -69,15 +69,18 @@ class UserAddress extends Common
         $this->assign('is_header', 0);
         $this->assign('is_footer', 0);
         
-        if(input())
+        $data = [];
+        if(!empty($this->data_request))
         {
-            $params = input();
+            $params = $this->data_request;
             $params['user'] = $this->user;
-            $data = UserService::UserAddressRow($params);
-            $this->assign('data', $data['data']);
-        } else {
-            $this->assign('data', []);
+            $ret = UserService::UserAddressRow($params);
+            $data = $ret['data'];
         }
+
+        // 加载百度地图api
+        $this->assign('is_load_baidu_map_api', 1);
+        $this->assign('data', $data);
         return $this->fetch();
     }
 

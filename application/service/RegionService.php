@@ -61,11 +61,14 @@ class RegionService
      */
     public static function RegionNode($params = [])
     {
+        // 数据参数
         $field = empty($params['field']) ? 'id,name,level,letters' : $params['field'];
         $where = empty($params['where']) ? [] : $params['where'];
-        $where['is_enable'] = 1;
+        $order_by = empty($params['order_by']) ? 'sort asc,id asc' : trim($params['order_by']);
 
-        return Db::name('Region')->where($where)->field($field)->order('sort asc,id asc')->select();
+        // 基础条件
+        $where['is_enable'] = 1;
+        return Db::name('Region')->where($where)->field($field)->order($order_by)->select();
     }
 
     /**

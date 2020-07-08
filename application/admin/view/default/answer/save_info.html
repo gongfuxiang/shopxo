@@ -6,13 +6,7 @@
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/answer/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/answer/index', $params)}}" enctype="multipart/form-data">
             <legend>
-                <span class="am-text-default">
-                    {{if empty($data['id'])}}
-                        问答添加
-                    {{else /}}
-                        问答编辑
-                    {{/if}}
-                </span>
+                <span class="am-text-default">问答{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
                 <a href="{{:MyUrl('admin/answer/index', $params)}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
             </legend>
             <div class="am-alert am-alert-secondary user-info" data-am-alert>

@@ -570,3 +570,22 @@ button.colorpicker-submit img {
 .form-table-operate-checkbox .am-checkbox {
     margin-top: 0;
 }
+
+/**
+ * 公共联动地区组件样式
+ */
+.region-linkage .chosen-select {
+    display: -webkit-inline-box;
+    width: calc(33.3% - 3px) !important;
+}
+.region-linkage .chosen-select .chosen-single {
+    width: 100%;
+}
+
+/**
+ * 默认地图宽高
+ */
+#map {
+    width: 100%;
+    height: 250px;
+}

@@ -6,13 +6,7 @@
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/slide/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/slide/index', $params)}}" enctype="multipart/form-data">
 			<legend>
-				<span class="am-text-default">
-					{{if empty($data['id'])}}
-						轮播添加
-					{{else /}}
-						轮播编辑
-					{{/if}}
-				</span>
+				<span class="am-text-default">轮播{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
 				<a href="{{:MyUrl('admin/slide/index', $params)}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">

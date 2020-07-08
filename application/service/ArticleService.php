@@ -36,14 +36,14 @@ class ArticleService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
-        $data = Db::name('Article')->field($field)->where($where)->order('id desc')->limit($m, $n)->select();
+        $data = Db::name('Article')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
-            $names = Db::name('ArticleCategory')->where(['id'=>array_column($data, 'article_category_id')])->column('name', 'id');
-            $common_is_enable_tips = lang('common_is_enable_tips');
+            $category_names = Db::name('ArticleCategory')->where(['id'=>array_column($data, 'article_category_id')])->column('name', 'id');
             foreach($data as &$v)
             {
                 // url
@@ -52,7 +52,7 @@ class ArticleService
                 // 分类名称
                 if(isset($v['article_category_id']))
                 {
-                    $v['article_category_name'] = isset($names[$v['article_category_id']]) ? $names[$v['article_category_id']] : '';
+                    $v['article_category_name'] = isset($category_names[$v['article_category_id']]) ? $category_names[$v['article_category_id']] : '';
                 }
 
                 // 内容

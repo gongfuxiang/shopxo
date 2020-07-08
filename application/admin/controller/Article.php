@@ -133,9 +133,6 @@ class Article extends Common
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
 
-		// 是否启用
-		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
-
 		// 文章分类
         $article_category = ArticleService::ArticleCategoryList(['field'=>'id,name']);
         $this->assign('article_category_list', $article_category['data']);

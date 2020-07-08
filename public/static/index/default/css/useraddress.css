@@ -100,17 +100,3 @@ ul.address-list li .user-base {
 .my-content {
     padding: 15px 10px;
 }
-
-.region-linkage .chosen-select {
-    display: -webkit-inline-box;
-    width: calc(33.3% - 3px) !important;
-}
-
-.region-linkage .chosen-select .chosen-single {
-    width: 100%;
-}
-
-#map {
-    width: 100%;
-    height: 250px;
-}
