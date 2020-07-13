@@ -65,7 +65,7 @@ class Orderaftersale
                         'form_name'             => 'id',
                         'where_type'            => 'like',
                         'where_type_custom'     => 'in',
-                        'where_handle_custom'   => 'WhereValueBaseInfo',
+                        'where_handle_custom'   => 'WhereGoodsInfo',
                         'placeholder'           => '请输入商品名称/型号',
                     ],
                 ],
@@ -280,7 +280,7 @@ class Orderaftersale
     }
 
     /**
-     * 基础信息条件处理
+     * 商品信息条件处理
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -289,12 +289,12 @@ class Orderaftersale
      * @param   [string]          $value    [条件值]
      * @param   [array]           $params   [输入参数]
      */
-    public function WhereValueBaseInfo($value, $params = [])
+    public function WhereGoodsInfo($value, $params = [])
     {
         if(!empty($value))
         {
             // 获取订单详情搜索的订单售后 id
-            $ids = Db::name('OrderAftersale')->alias('oa')->join(['__ORDER_DETAIL__'=>'od'], 'oa.order_detail_id=od.id')->where('title|model', 'like', '%'.$value.'%')->column('oa.id');
+            $ids = Db::name('OrderAftersale')->alias('oa')->join(['__ORDER_DETAIL__'=>'od'], 'oa.order_detail_id=od.id')->where('od.title|od.model', 'like', '%'.$value.'%')->column('oa.id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

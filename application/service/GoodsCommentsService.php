@@ -202,9 +202,30 @@ class GoodsCommentsService
         $data = Db::name('GoodsComments')->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
+            // 获取商品信息
+            $goods_params = [
+                'where' => [
+                    'id'                => array_unique(array_column($data, 'goods_id')),
+                    'is_delete_time'    => 0,
+                ],
+                'field'  => 'id,title,images,price,min_price',
+            ];
+            $ret = GoodsService::GoodsList($goods_params);
+            $goods = [];
+            if(!empty($ret['data']))
+            {
+                foreach($ret['data'] as $g)
+                {
+                    $goods[$g['id']] = $g;
+                }
+            }
+
+            // 静态数据
             $common_is_text_list = lang('common_is_text_list');
-            $common_goods_comments_rating_list = lang('common_goods_comments_rating_list');
-            $common_goods_comments_business_type_list = lang('common_goods_comments_business_type_list');
+            $comments_rating_list = lang('common_goods_comments_rating_list');
+            $comments_business_type_list = lang('common_goods_comments_business_type_list');
+
+            // 数据处理
             foreach($data as &$v)
             {
                 // 用户信息
@@ -233,19 +254,11 @@ class GoodsCommentsService
                     }
                 }
 
-                // 获取商品信息
-                $goods_params = [
-                    'where' => [
-                        'id'                => $v['goods_id'],
-                        'is_delete_time'    => 0,
-                    ],
-                    'field'  => 'id,title,images,price,min_price',
-                ];
-                $ret = GoodsService::GoodsList($goods_params);
-                $v['goods'] = isset($ret['data'][0]) ? $ret['data'][0] : [];
+                // 商品信息
+                $v['goods'] = isset($goods[$v['goods_id']]) ? $goods[$v['goods_id']] : [];
 
                 // 业务类型
-                $v['business_type_text'] = array_key_exists($v['business_type'], $common_goods_comments_business_type_list) ? $common_goods_comments_business_type_list[$v['business_type']]['name'] : null;
+                $v['business_type_text'] = array_key_exists($v['business_type'], $comments_business_type_list) ? $comments_business_type_list[$v['business_type']]['name'] : null;
                 $msg = null;
                 switch($v['business_type'])
                 {
@@ -256,8 +269,8 @@ class GoodsCommentsService
                 $v['msg'] = empty($msg) ? null : $msg;
 
                 // 评分
-                $v['rating_text'] = $common_goods_comments_rating_list[$v['rating']]['name'];
-                $v['rating_badge'] = $common_goods_comments_rating_list[$v['rating']]['badge'];
+                $v['rating_text'] = $comments_rating_list[$v['rating']]['name'];
+                $v['rating_badge'] = $comments_rating_list[$v['rating']]['badge'];
 
                 // 是否
                 $v['is_reply_text'] = isset($common_is_text_list[$v['is_reply']]) ? $common_is_text_list[$v['is_reply']]['name'] : '';

@@ -128,8 +128,17 @@ return array(
             'h5'     => array('value' => 'h5', 'name' => 'H5手机网站'),
             'ios' => array('value' => 'ios', 'name' => '苹果APP'),
             'android' => array('value' => 'android', 'name' => '安卓APP'),
-            'alipay' => array('value' => 'alipay', 'name' => '支付宝小程序'),
             'weixin' => array('value' => 'weixin', 'name' => '微信小程序'),
+            'alipay' => array('value' => 'alipay', 'name' => '支付宝小程序'),
+            'baidu' => array('value' => 'baidu', 'name' => '百度小程序'),
+            'toutiao' => array('value' => 'toutiao', 'name' => '头条小程序'),
+            'qq' => array('value' => 'qq', 'name' => 'QQ小程序'),
+        ),
+
+    // 小程序平台
+    'common_appmini_type'          =>  array(
+            'weixin' => array('value' => 'weixin', 'name' => '微信小程序'),
+            'alipay' => array('value' => 'alipay', 'name' => '支付宝小程序'),
             'baidu' => array('value' => 'baidu', 'name' => '百度小程序'),
             'toutiao' => array('value' => 'toutiao', 'name' => '头条小程序'),
             'qq' => array('value' => 'qq', 'name' => 'QQ小程序'),

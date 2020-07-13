@@ -1,12 +1,24 @@
 <!-- 地址信息 -->
 {{if !empty($module_data)}}
     {{if in_array($module_data['order_model'], [0,2]) and !empty($module_data['address_data'])}}
-        {{$module_data.address_data.name}}<br />
-        {{$module_data.address_data.tel}}<br />
-        {{$module_data.address_data.province_name}}<br />
-        {{$module_data.address_data.city_name}}<br />
-        {{$module_data.address_data.county_name}}<br />
-        {{$module_data.address_data.address}}
+        <div>
+            {{if !empty($module_data['address_data']['alias'])}}
+                <span class="am-badge am-badge-secondary am-radius">{{$module_data.address_data.alias}}</span>
+            {{/if}}
+            <span>{{$module_data.address_data.name}}</span>
+        </div>
+        <div>{{$module_data.address_data.tel}}</div>
+        <div class="am-margin-top-xs">
+            <span>{{$module_data.address_data.province_name}}</span>
+            <span>{{$module_data.address_data.city_name}}</span>
+            <span>{{$module_data.address_data.county_name}}</span>
+            <span>{{$module_data.address_data.address}}</span>
+            {{if isset($module_data['address_data']['lng']) and isset($module_data['address_data']['lat']) and $module_data.address_data.lng gt 0 and $module_data.address_data.lat gt 0}}
+                <div class="am-margin-top-xs">
+                    <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$module_data.address_data.lng}}" data-lat="{{$module_data.address_data.lat}}"> 查看位置</button>
+                </div>
+            {{/if}}
+        </div>
     {{else /}}
         <span class="cr-ddd">无信息</span>
     {{/if}}

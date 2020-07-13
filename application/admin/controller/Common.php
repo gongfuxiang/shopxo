@@ -286,22 +286,18 @@ class Common extends Controller
 	 */
 	protected function IsPower()
 	{
+
 		// 不需要校验权限的方法
-		$unwanted_power = array('getnodeson');
-		if(!in_array(strtolower(request()->action()), $unwanted_power))
-		{
-			// 角色组权限列表校验
-			$power = empty($this->power) ? [] : $this->power;
-            if(!in_array(strtolower(request()->controller().'_'.request()->action()), $power))
-			{
-                if(IS_AJAX)
-                {
-                    exit(json_encode(DataReturn('无权限', -1000)));
-                } else {
-                    return $this->error('无权限');
-                }
-			}
-		}
+		$unwanted_power = ['getnodeson'];
+        if(!AdminIsPower(null, null, $unwanted_power))
+        {
+            if(IS_AJAX)
+            {
+                exit(json_encode(DataReturn('无权限', -1000)));
+            } else {
+                return $this->error('无权限');
+            }
+        }
 	}
 
     /**

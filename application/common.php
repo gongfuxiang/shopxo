@@ -12,6 +12,70 @@
 // 应用公共文件
 
 /**
+ * 后台管理权限校验方法
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-07-12
+ * @desc    description
+ * @param   [string]          $controller     [控制器（默认读取当前）]
+ * @param   [string]          $action         [方法（默认读取当前）]
+ * @param   [array]           $unwanted_power [不校验权限的方法（默认空）]
+ */
+function AdminIsPower($controller = null, $action = null, $unwanted_power = [])
+{
+    // 控制器/方法
+    $controller = strtolower(empty($controller) ? request()->controller() : $controller);
+    $action = strtolower(empty($action) ? request()->action() : $action);
+
+    // 管理员
+    $admin = session('admin');
+    if(!empty($admin))
+    {
+        // 不需要校验权限的方法
+        if(!empty($unwanted_power) && in_array($action, $unwanted_power))
+        {
+            return true;
+        }
+
+        // 权限
+        // 角色组权限列表校验
+        $power = isset($admin['id']) ? cache(config('cache_admin_power_key').$admin['id']) : [];
+        if(!empty($power) && is_array($power) && in_array($controller.'_'.$action, $power))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * 获取数组字段名称
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-07-12
+ * @desc    description
+ * @param   [array]          $data [数组（一维或二维数组）]
+ */
+function ArrayKeys($data)
+{
+    if(is_array($data))
+    {
+        // 是否二维数组
+        if(isset($data[0]) && is_array($data[0]))
+        {
+            return array_keys($data[0]);
+        }
+
+        // 一维数组
+        return array_keys($data);
+    }
+    return [];
+}
+
+/**
  * 商品销售模式
  * @author  Devil
  * @blog    http://gong.gg/

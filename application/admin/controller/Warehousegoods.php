@@ -1,0 +1,220 @@
+<?php
+// +----------------------------------------------------------------------
+// | ShopXO 国内领先企业级B2C免费开源电商系统
+// +----------------------------------------------------------------------
+// | Copyright (c) 2011~2019 http://shopxo.net All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: Devil
+// +----------------------------------------------------------------------
+namespace app\admin\controller;
+
+use think\facade\Hook;
+use app\service\WarehouseGoodsService;
+
+/**
+ * 仓库商品管理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-07-11
+ * @desc    description
+ */
+class WarehouseGoods extends Common
+{
+    /**
+     * 构造方法
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-11
+     * @desc    description
+     */
+    public function __construct()
+    {
+        // 调用父类前置方法
+        parent::__construct();
+
+        // 登录校验
+        $this->IsLogin();
+
+        // 权限校验
+        $this->IsPower();
+    }
+
+    /**
+     * 列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-11
+     * @desc    description
+     */
+    public function Index()
+    {
+        // 总数
+        $total = WarehouseGoodsService::WarehouseGoodsTotal($this->form_where);
+
+        // 分页
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('admin/warehousegoods/index'),
+        ];
+        $page = new \base\Page($page_params);
+
+        // 获取数据列表
+        $data_params = [
+            'where'         => $this->form_where,
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+        ];
+        $ret = WarehouseGoodsService::WarehouseGoodsList($data_params);
+
+        // 基础参数赋值
+        $this->assign('params', $this->data_request);
+        $this->assign('page_html', $page->GetPageHtml());
+        $this->assign('data_list', $ret['data']);
+        return $this->fetch();
+    }
+
+    /**
+     * 详情
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @date     2020-07-11
+     */
+    public function Detail()
+    {
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['id', '=', intval($this->data_request['id'])],
+            ];
+
+            // 获取列表
+            $data_params = [
+                'm'             => 0,
+                'n'             => 1,
+                'where'         => $where,
+            ];
+            $ret = WarehouseGoodsService::WarehouseGoodsList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $this->assign('data', $data);
+        }
+        return $this->fetch();
+    }
+
+    /**
+     * 文章添加/编辑页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-11
+     * @desc    description
+     */
+    public function SaveInfo()
+    {
+        // 参数
+        $params = $this->data_request;
+
+        // 数据
+        $data = [];
+        if(!empty($params['id']))
+        {
+            // 获取列表
+            $data_params = array(
+                'where' => ['id'=>intval($params['id'])],
+            );
+            $ret = WarehouseGoodsService::WarehouseList($data_params);
+            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
+        }
+
+        // 文章编辑页面钩子
+        $hook_name = 'plugins_view_admin_warehouse_goods_save';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+        [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'warehouse_id'  => isset($params['id']) ? $params['id'] : 0,
+            'data'          => &$data,
+            'params'        => &$params,
+        ]));
+
+        // 数据
+        $this->assign('data', $data);
+        $this->assign('params', $params);
+        return $this->fetch();
+    }
+
+    /**
+     * 文章添加/编辑
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-11
+     * @desc    description
+     */
+    public function Save()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = $this->data_request;
+        return WarehouseGoodsService::WarehouseSave($params);
+    }
+
+    /**
+     * 删除
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-11
+     * @desc    description
+     */
+    public function Delete()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = $this->data_request;
+        $params['admin'] = $this->admin;
+        return WarehouseGoodsService::WarehouseGoodsDelete($params);
+    }
+
+    /**
+     * 状态更新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-11
+     * @desc    description
+     */
+    public function StatusUpdate()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = $this->data_request;
+        $params['admin'] = $this->admin;
+        return WarehouseGoodsService::WarehouseGoodsStatusUpdate($params);
+    }
+}
+?>

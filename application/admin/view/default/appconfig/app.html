@@ -62,15 +62,6 @@
             </div>
 
             <div class="am-form-group">
-                <label>{{$data.common_app_is_limitedtimediscount.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_limitedtimediscount.describe}}</span></label>
-                <select name="{{$data.common_app_is_limitedtimediscount.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_limitedtimediscount.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_app_is_limitedtimediscount']['value']) and $data['common_app_is_limitedtimediscount']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
                 <label>{{$data.common_app_is_head_vice_nav.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_head_vice_nav.describe}}</span></label>
                 <select name="{{$data.common_app_is_head_vice_nav.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_head_vice_nav.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}

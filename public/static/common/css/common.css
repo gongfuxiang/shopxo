@@ -62,17 +62,31 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view, .content-app-ite
 #common-prompt.prompt-bottom { bottom: 0; }
 
 /**
- * 弹窗iframe
+ * 默认地图宽高
  */
-.popup-iframe-not-title {
+#map {
+    width: 100%;
+    height: 250px;
+}
+.map-popup #map {
+    height: 100%;
+}
+
+/**
+ * 弹窗
+ */
+.am-popup .am-popup-bd {
+    height: 100%;
+}
+.popup-not-title {
     padding: 25px;
     background: transparent;
 }
-.popup-iframe-not-title .am-popup-inner {
+.popup-not-title .am-popup-inner {
     padding-top: 0;
     background: #fff;
 }
-.popup-iframe-not-title .am-popup-inner .am-close {
+.popup-not-title .am-popup-inner .am-close {
     position: absolute;
     right: 10px;
     top: 10px;
@@ -85,10 +99,12 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view, .content-app-ite
     border: 3px solid #f4f4f4;
     width: 32px;
     height: 32px;
+    z-index: 1;
 }
-.popup-iframe-not-title .am-popup-inner .am-close:hover {
+.popup-not-title .am-popup-inner .am-close:hover {
     background: #f22a30;
 }
+
 
 /**
  * iframe
@@ -580,12 +596,4 @@ button.colorpicker-submit img {
 }
 .region-linkage .chosen-select .chosen-single {
     width: 100%;
-}
-
-/**
- * 默认地图宽高
- */
-#map {
-    width: 100%;
-    height: 250px;
 }

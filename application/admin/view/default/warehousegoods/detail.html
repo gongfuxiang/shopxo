@@ -1,0 +1,16 @@
+<!-- 继承公共的 form -->
+{{extend name="public/module/detail" /}}
+
+<!-- 重写数据模块 -->
+{{block name="detail_data"}}
+    <!-- 父级内容 -->
+    {__block__}
+    
+    <!-- 规格 -->
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd">规格</div>
+        <div class="am-panel-bd">
+            hello
+        </div>
+    </div>
+{{/block}}

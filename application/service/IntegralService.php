@@ -193,7 +193,7 @@ class IntegralService
         $order = Db::name('Order')->field('id,user_id,status')->find(intval($params['order_id']));
         if(empty($order))
         {
-            return DataReturn('订单不存在或已删除，中止操作', 0);
+            return DataReturn('订单不存在或已删除，终止操作', 0);
         }
         if(!in_array($order['status'], [4]))
         {
@@ -204,7 +204,7 @@ class IntegralService
         $user = Db::name('User')->field('id')->find($order['user_id']);
         if(empty($user))
         {
-            return DataReturn('用户不存在或已删除，中止操作', 0);
+            return DataReturn('用户不存在或已删除，终止操作', 0);
         }
 
         // 获取订单商品
@@ -259,6 +259,11 @@ class IntegralService
         $p = [
             [
                 'checked_type'      => 'empty',
+                'key_name'          => 'order_id',
+                'error_msg'         => '订单id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
                 'key_name'          => 'order_detail_id',
                 'error_msg'         => '订单详情id有误',
             ]
@@ -269,18 +274,25 @@ class IntegralService
             return DataReturn($ret, -1);
         }
 
+        // 订单是否存在完成状态（订单赠送积分的条件是完成赠送）
+        $order_status_history = Db::name('OrderStatusHistory')->where(['order_id'=>intval($params['order_id'])])->column('new_status');
+        if(empty($order_status_history) || !in_array(4, $order_status_history))
+        {
+            return DataReturn('订单状态有误或未存在完成状态，终止操作', 0);
+        }
+
         // 订单详情
         $order_detail = Db::name('OrderDetail')->field('id,user_id,order_id,goods_id,total_price,refund_price')->find(intval($params['order_detail_id']));
         if(empty($order_detail))
         {
-            return DataReturn('订单详情不存在或已删除，中止操作', 0);
+            return DataReturn('订单详情不存在或已删除，终止操作', 0);
         }
 
         // 获取用户信息
         $user = Db::name('User')->field('id,integral')->find($order_detail['user_id']);
         if(empty($user))
         {
-            return DataReturn('用户不存在或已删除，中止操作', 0);
+            return DataReturn('用户不存在或已删除，终止操作', 0);
         }
 
         // 获取商品相关信息

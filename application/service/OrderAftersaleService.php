@@ -972,7 +972,7 @@ class OrderAftersaleService
         }
 
         // 积分释放
-        $ret = IntegralService::OrderGoodsIntegralRollback(['order_detail_id'=>$aftersale['order_detail_id']]);
+        $ret = IntegralService::OrderGoodsIntegralRollback(['order_id'=>$order['data']['id'], 'order_detail_id'=>$aftersale['order_detail_id']]);
         if($ret['code'] != 0)
         {
             Db::rollback();

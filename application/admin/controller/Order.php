@@ -83,6 +83,9 @@ class Order extends Common
         // 快递公司
         $this->assign('express_list', ExpressService::ExpressList());
 
+        // 加载百度地图api
+        $this->assign('is_load_baidu_map_api', 1);
+
         // 基础参数赋值
         $this->assign('params', $this->data_request);
         $this->assign('page_html', $page->GetPageHtml());

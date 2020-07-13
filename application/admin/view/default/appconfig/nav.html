@@ -5,10 +5,4 @@
     <li {{if $nav_type eq 'app'}}class="am-active"{{/if}} data-type="app">
         <a href="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'app'])}}">APP/小程序</a>
     </li>
-    <li {{if $nav_type eq 'weixinmini'}}class="am-active"{{/if}} data-type="weixinmini">
-        <a href="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'weixinmini'])}}">微信小程序</a>
-    </li>
-    <li {{if $nav_type eq 'alipaymini'}}class="am-active"{{/if}} data-type="alipaymini">
-        <a href="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'alipaymini'])}}">支付宝小程序</a>
-    </li>
 </ul>

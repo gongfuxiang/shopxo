@@ -789,33 +789,12 @@ function CheckVideo()
  */
 function ModalLoad(url, title, tag, class_tag)
 {
-	tag = tag || 'common-popup-modal';
-	if($('#'+tag).length > 0)
-	{
-		$('#'+tag).remove();
-	}
-
-	// 是否存在标题
-	if((title || null) != null)
-	{
-		var html = '<div class="am-popup popup-iframe '+class_tag+'" id="'+tag+'">';
-		html += '<div class="am-popup-inner">';
-		html += '<div class="am-popup-hd">';
-	    html += '<h4 class="am-popup-title">'+title+'</h4>';
-	    html += '<span data-am-modal-close class="am-close am-icon-times"></span>';
-	    html += '</div>';
-	} else {
-		var html = '<div class="am-popup popup-iframe popup-iframe-not-title '+class_tag+'" id="'+tag+'">';
-		html += '<div class="am-popup-inner">';
-		html += '<span data-am-modal-close class="am-close am-close-alt am-icon-times am-close-spin"></span>';
-	}
-
-	// 弹窗内容
-    html += '<iframe src="'+url+'" width="100%" height="100%"></iframe>';
-	html += '</div>';
-	html += '</div>';
-	$('body').append(html);
-	$('#'+tag).modal();
+	class_tag = class_tag || '';
+	AMUI.dialog.popup({
+		title: title || '',
+		content: '<iframe src="'+url+'" width="100%" height="100%"></iframe>',
+		class: ' popup-iframe '+class_tag
+	});
 }
 
 /**
@@ -2456,6 +2435,26 @@ $(function()
     		return false;
     	}
         ModalLoad(url);
+    });
+
+    // 地图弹窗
+    $(document).on('click', '.submit-map-popup', function()
+    {
+    	// 参数
+    	var lng = $(this).data('lng') || null;
+    	var lat = $(this).data('lat') || null;
+    	if(lng == null || lat == null)
+    	{
+    		Prompt('坐标有误');
+    		return false;
+    	}
+
+    	// 弹窗
+    	AMUI.dialog.popup({
+			content: '<div id="map" data-level="17"></div>',
+			class: 'map-popup'
+		});
+		MapInit(lng, lat, null, null, false);
     });
 
 });

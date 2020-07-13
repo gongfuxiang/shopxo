@@ -129,19 +129,30 @@ dialog.actions = function(options) {
 
 dialog.popup = function(options) {
   options = options || {};
-  options.title = options.title || '标题';
+  options.title = options.title || null;
   options.content = options.content || '正文';
+  options.class = options.class || '';
   options.onClose = options.onClose || function() {
     };
 
   var html = [];
-  html.push('<div class="am-popup">');
-  html.push('<div class="am-popup-inner">');
-  html.push('<div class="am-popup-hd">');
-  html.push('<h4 class="am-popup-title">' + options.title + '</h4>');
-  html.push('<span data-am-modal-close  class="am-close">&times;</span>');
-  html.push('</div>');
-  html.push('<div class="am-popup-bd">' + options.content + '</div>');
+
+  // 是否存在标题
+  if(options.title != null)
+  {
+    html.push('<div class="am-popup '+options.class+'">');
+    html.push('<div class="am-popup-inner">');
+    html.push('<div class="am-popup-hd">');
+    html.push('<h4 class="am-popup-title">' + options.title + '</h4>');
+    html.push('<span data-am-modal-close  class="am-close">&times;</span>');
+    html.push('</div>');
+    html.push('<div class="am-popup-bd">' + options.content + '</div>');
+  } else {
+    html.push('<div class="am-popup '+options.class+' popup-not-title">');
+    html.push('<div class="am-popup-inner">');
+    html.push('<span data-am-modal-close class="am-close am-close-alt am-icon-times am-close-spin"></span>');
+    html.push(options.content);
+  }
   html.push('</div> ');
   html.push('</div>');
   return $(html.join('')).appendTo('body').modal()
