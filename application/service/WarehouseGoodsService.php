@@ -191,15 +191,15 @@ class WarehouseGoodsService
                     Db::rollback();
                     return $ret;
                 }
+            } else {
+                Db::rollback();
+                return DataReturn('第'.$index.'删除失败', -100);
             }
-
-            // 提交事务
-            Db::commit();
-            return DataReturn('删除成功', 0);
         }
 
-        Db::rollback();
-        return DataReturn('删除失败', -100);
+        // 提交事务
+        Db::commit();
+        return DataReturn('删除成功', 0);
     }
 
     /**
