@@ -596,23 +596,31 @@ class GoodsService
        
         // 规格值
         $value = Db::name('GoodsSpecValue')->where($where)->field('goods_spec_base_id,value')->select();
+        $group = [];
         if(!empty($value))
         {
-            $group = [];
             foreach($value as $v)
             {
-                $group[$v['goods_spec_base_id']][] = $v['value'];
+                // 不存在则添加
+                if(!isset($group[$v['goods_spec_base_id']]))
+                {
+                    $group[$v['goods_spec_base_id']] = [];
+                    $group[$v['goods_spec_base_id']]['base_id'] = $v['goods_spec_base_id'];
+                }
+
+                // 多个规格组合
+                $group[$v['goods_spec_base_id']]['value'][] = $v['value'];
             }
-            $value = [];
-            foreach($group as $v)
+            foreach($group as &$gv)
             {
-                $value[] = implode(',', $v);
+                $gv['value'] = implode(',', $gv['value']);
             }
+            sort($group);
         }
         
          return [
             'title' => $title,
-            'value' => $value,
+            'value' => $group,
          ];
     }
 

@@ -161,12 +161,44 @@ class WarehouseGoodsService
             $params['ids'] = explode(',', $params['ids']);
         }
 
-        // 删除操作
-        if(Db::name('WarehouseGoods')->where(['id'=>$params['ids']])->delete())
+        // 启动事务
+        Db::startTrans();
+
+        // 循环处理删除
+        foreach($params['ids'] as $k=>$id)
         {
-            return DataReturn('删除成功');
+            // 位置
+            $index = $k+1;
+
+            // 获取数据
+            $warehouse_goods = Db::name('WarehouseGoods')->where(['id'=>intval($id)])->find();
+            if(empty($warehouse_goods))
+            {
+                return DataReturn('第'.$index.'条数据不存在', -1);
+            }
+
+            // 删除仓库商品和仓库商品规格数据
+            $where = [
+                'goods_id'      => $warehouse_goods['goods_id'],
+                'warehouse_id'  => $warehouse_goods['warehouse_id'],
+            ];
+            if(Db::name('WarehouseGoods')->where($where)->delete() && Db::name('WarehouseGoodsSpec')->where($where)->delete() !== false)
+            {
+                // 同步商品库存
+                $ret = self::GoodsSpecInventorySync($warehouse_goods['goods_id']);
+                if($ret['code'] != 0)
+                {
+                    Db::rollback();
+                    return $ret;
+                }
+            }
+
+            // 提交事务
+            Db::commit();
+            return DataReturn('删除成功', 0);
         }
 
+        Db::rollback();
         return DataReturn('删除失败', -100);
     }
 
@@ -206,11 +238,38 @@ class WarehouseGoodsService
             return DataReturn($ret, -1);
         }
 
-        // 数据更新
-        if(Db::name('WarehouseGoods')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
+        // 获取数据
+        $where = ['id'=>intval($params['id'])];
+        $warehouse_goods = Db::name('WarehouseGoods')->where($where)->find();
+        if(empty($warehouse_goods))
         {
-            return DataReturn('编辑成功');
+            return DataReturn('数据不存在', -1);
         }
+
+        // 启动事务
+        Db::startTrans();
+
+        // 数据更新
+        if(Db::name('WarehouseGoods')->where($where)->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
+        {
+            // 状态更新
+            if($params['field'] == 'is_enable')
+            {
+                // 同步商品库存
+                $ret = self::GoodsSpecInventorySync($warehouse_goods['goods_id']);
+                if($ret['code'] != 0)
+                {
+                    Db::rollback();
+                    return $ret;
+                }
+            }
+
+            // 提交事务
+            Db::commit();
+            return DataReturn('编辑成功', 0);
+        }
+
+        Db::rollback();
         return DataReturn('编辑失败', -100);
     }
 
@@ -384,6 +443,9 @@ class WarehouseGoodsService
             return DataReturn($ret, -1);
         }
 
+        // 启动事务
+        Db::startTrans();
+
         // 删除仓库商品和仓库商品规格数据
         $where = [
             'goods_id'      => intval($params['goods_id']),
@@ -391,8 +453,20 @@ class WarehouseGoodsService
         ];
         if(Db::name('WarehouseGoods')->where($where)->delete() !== false && Db::name('WarehouseGoodsSpec')->where($where)->delete() !== false)
         {
+            // 同步商品库存
+            $ret = self::GoodsSpecInventorySync($params['goods_id']);
+            if($ret['code'] != 0)
+            {
+                Db::rollback();
+                return $ret;
+            }
+
+            // 提交事务
+            Db::commit();
             return DataReturn('删除成功', 0);
         }
+
+        Db::rollback();
         return DataReturn('删除失败', -100);
     }
 
@@ -437,7 +511,8 @@ class WarehouseGoodsService
         if(!empty($res['value']) && is_array($res['value']))
         {
             // 获取当前配置的库存
-            foreach($res['value'] as $v)
+            $spec = array_column($res['value'], 'value');
+            foreach($spec as $v)
             {
                 $arr = explode(',', $v);
                 $inventory_spec[] = [
@@ -603,9 +678,6 @@ class WarehouseGoodsService
             }
         }
 
-        // 库存总数
-        $inventory_total = array_sum(array_column($data, 'inventory'));
-
         // 启动事务
         Db::startTrans();
         
@@ -622,7 +694,7 @@ class WarehouseGoodsService
 
         // 仓库商品更新
         Db::name('WarehouseGoods')->where(['id'=>$warehouse_goods['id']])->update([
-            'inventory' => $inventory_total,
+            'inventory' => array_sum(array_column($data, 'inventory')),
             'upd_time'  => time(),
         ]);
 
@@ -636,64 +708,60 @@ class WarehouseGoodsService
             }
         }
 
-        // 原始数据扣除库存
-        if(!empty($data_old))
+        // 同步商品库存
+        $ret = self::GoodsSpecInventorySync($warehouse_goods['goods_id']);
+        if($ret['code'] != 0)
         {
-            foreach($data_old as $v)
-            {
-                // 商品规格
-                $spec  = ($v['spec'] == 'default') ? '' : json_decode($v['spec'], true);
-                $base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$spec]);
-                if($base['code'] == 0)
-                {
-                    // 扣除规格操作
-                    $status = Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->setDec('inventory', $v['inventory']);
-                    if($status === false)
-                    {
-                        Db::rollback();
-                        return DataReturn('规格库存扣减失败', -10);
-                    }
-                    if($status > 0)
-                    {
-                        // 如果规格更新成功则更新商品库存
-                        if(Db::name('Goods')->where(['id'=>$v['goods_id']])->setDec('inventory', $v['inventory']) === false)
-                        {
-                            Db::rollback();
-                            return DataReturn('商品库存扣减失败', -11);
-                        }
-                    }
-                }
-            }
-        }
-        
-        // 增加库存
-        if(!empty($data))
-        {
-            // 增加商品库存
-            if(!Db::name('Goods')->where(['id'=>$warehouse_goods['goods_id']])->setInc('inventory', $inventory_total))
-            {
-                Db::rollback();
-                return DataReturn('商品库存增加失败', -20);
-            }
-
-            // 增加商品规格库存
-            foreach($data as $v)
-            {
-                $spec  = ($v['spec'] == 'default') ? '' : json_decode($v['spec'], true);
-                $base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$spec]);
-                if($base['code'] == 0)
-                {
-                    if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->setInc('inventory', $v['inventory']))
-                    {
-                        Db::rollback();
-                        return DataReturn('规格库存增加失败', -21);
-                    }
-                }
-            }
+            Db::rollback();
+            return $ret;
         }
 
         // 提交事务
         Db::commit();
+        return DataReturn('更新成功', 0);
+    }
+
+    /**
+     * 商品规格库存同步
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-16
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     */
+    public static function GoodsSpecInventorySync($goods_id)
+    {
+        // 获取商品实际规格
+        $res = GoodsService::GoodsSpecificationsActual($goods_id);
+        if(empty($res['value']))
+        {
+            $res['value'][] = 'default';
+        }
+        $inventory_total = 0;
+
+        // 商品规格库存
+        foreach($res['value'] as $v)
+        {
+            $inventory = self::GoodsSpecInventory($goods_id, str_replace(',', '', $v['value']));
+
+            if(Db::name('GoodsSpecBase')->where(['id'=>$v['base_id'], 'goods_id'=>$goods_id])->update(['inventory'=>$inventory]) === false)
+            {
+                return DataReturn('商品规格库存同步失败', -20);
+            }
+            $inventory_total += $inventory;
+        }
+
+        // 商品库存
+        $data = [
+            'inventory' => $inventory_total,
+            'upd_time'  => time(),
+        ];
+        if(!Db::name('Goods')->where(['id'=>$goods_id])->update($data))
+        {
+            return DataReturn('商品库存同步失败', -21);
+        }
+
         return DataReturn('更新成功', 0);
     }
 
@@ -705,10 +773,18 @@ class WarehouseGoodsService
      * @date    2020-07-16
      * @desc    description
      * @param   [int]          $goods_id [商品id]
-     * @param   [string]       $spec_str [规格值（无则 default）]
+     * @param   [string]       $spec_str [规格值，如 套餐一白色16G（无则 default）]
      */
     public static function GoodsSpecInventory($goods_id, $spec_str = 'default')
     {
+        // 获取商品仓库
+        // 仓库商品是否有效
+        $warehouse_ids = Db::name('WarehouseGoods')->where(['goods_id'=>$goods_id, 'is_enable'=>1])->column('warehouse_id');
+        if(empty($warehouse_ids))
+        {
+            return 0;
+        }
+
         // 无规格则使用 default 默认
         if(empty($spec_str))
         {
@@ -717,8 +793,9 @@ class WarehouseGoodsService
 
         // 获取商品规格库存
         $where = [
-            'goods_id'  => $goods_id,
-            'md5_key'   => md5($spec_str),
+            'warehouse_id'  => $warehouse_ids,
+            'goods_id'      => $goods_id,
+            'md5_key'       => md5($spec_str),
         ];
         return (int) Db::name('WarehouseGoodsSpec')->where($where)->sum('inventory');
     }
