@@ -8,9 +8,33 @@
     
     <!-- 规格 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">规格</div>
+        <div class="am-panel-hd">规格库存</div>
         <div class="am-panel-bd">
-            hello
+            {{if !empty($spec)}}
+                <table class="am-table am-table-striped am-table-hover form-inventory-container">
+                    <thead>
+                        <tr>
+                            <th>规格</th>
+                            <th>库存</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{foreach $spec as $v}}
+                            <tr>
+                                <td>{{$v.name}}</td>
+                                <td>
+                                {{if empty($v['inventory'])}}
+                                    <span class="am-text-grey">无</span>
+                                {{else /}}
+                                    {{$v.inventory}}
+                                {{/if}}
+                            </tr>
+                        {{/foreach}}
+                    </tbody>
+                </table>
+            {{else /}}
+                <div class="table-no"><i class="am-icon-warning"></i> 无规格库存数据</div>
+            {{/if}}
         </div>
     </div>
 {{/block}}

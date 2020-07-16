@@ -784,10 +784,9 @@ function CheckVideo()
  * @desc    description
  * @param   {[string]}        url   	[加载url]
  * @param   {[string]}        title 	[标题]
- * @param   {[string]}        tag   	[指定id标记]
  * @param   {[string]}        class_tag [指定class]
  */
-function ModalLoad(url, title, tag, class_tag)
+function ModalLoad(url, title, class_tag)
 {
 	class_tag = class_tag || '';
 	AMUI.dialog.popup({
@@ -1283,7 +1282,6 @@ function MobileBrowserEnvironment()
  */
 function PageLibrary(total, number, page, sub_number)
 {
-	if((total || null) == null) return '';
 	if((page || null) == null) page = 1;
 	if((number || null) == null) number = 15;
 	if((sub_number || null) == null) sub_number = 2;
@@ -1295,41 +1293,39 @@ function PageLibrary(total, number, page, sub_number)
 	var html = '<ul class="am-pagination am-pagination-centered pagelibrary"><li ';
 		html += (page > 1) ? '' : 'class="am-disabled"';
 		page_x = page-1;
-		html += '><a data-page="'+page_x+'" class="am-radius">&laquo;</a></li>';
+		html += '><a href="javascript:;" data-page="'+page_x+'" class="am-radius">&laquo;</a></li>';
 
 		var html_before = '';
 		var html_after = '';
-		var html_page = '<li class="am-active"><a class="am-radius">'+page+'</a></li>';
+		var html_page = '<li class="am-active"><a href="javascript:;" data-is-active="1" class="am-radius">'+page+'</a></li>';
 		if(sub_number > 0)
 		{
-			/* 前按钮 */
+			// 前按钮
 			if(page > 1)
 			{
 				total = (page-sub_number < 1) ? 1 : page-sub_number;
 				for(var i=page-1; i>=total; i--)
 				{
-					html_before = '<li><a data-page="'+i+'" class="am-radius">'+i+'</a></li>'+html_before;
+					html_before = '<li><a href="javascript:;" data-page="'+i+'" class="am-radius">'+i+'</a></li>'+html_before;
 				}
 			}
 
-			/* 后按钮 */
+			// 后按钮
 			if(page_total > page)
 			{
 				total = (page+sub_number > page_total) ? page_total : page+sub_number;
 				for(var i=page+1; i<=total; i++)
 				{
-					html_after += '<li><a data-page="'+i+'" class="am-radius">'+i+'</a></li>';
-
+					html_after += '<li><a href="javascript:;" data-page="'+i+'" class="am-radius">'+i+'</a></li>';
 				}
 			}
 		}
 
 		html += html_before+html_page+html_after;
-
 		html += '<li';
 		html += (page > 0 && page < page_total) ? '' : ' class="am-disabled"';
 		page_y = page+1;
-		html += '><a data-page="'+page_y+'" class="am-radius">&raquo;</a></li></ul>';
+		html += '><a href="javascript:;" data-page="'+page_y+'" class="am-radius">&raquo;</a></li></ul>';
 	return html;
 }
 
@@ -2434,7 +2430,13 @@ $(function()
     		Prompt('url未配置');
     		return false;
     	}
-        ModalLoad(url);
+
+    	// 基础参数
+    	var title = $(this).data('title') || '';
+    	var class_tag = $(this).data('class') || '';
+
+    	// 调用弹窗方法
+        ModalLoad(url, title, class_tag);
     });
 
     // 地图弹窗

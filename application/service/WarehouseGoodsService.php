@@ -21,7 +21,7 @@ use app\service\UserService;
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
- * @date    2020-07-07
+ * @date    2020-07-11
  * @desc    description
  */
 class WarehouseGoodsService
@@ -43,6 +43,21 @@ class WarehouseGoodsService
         $n = isset($params['n']) ? intval($params['n']) : 10;
         $order_by = 'id desc';
         $data = Db::name('WarehouseGoods')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
+        
+        return DataReturn('处理成功', 0, self::DataHandle($data));
+    }
+
+    /**
+     * 数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-16
+     * @desc    description
+     * @param   [array]          $data [需要处理的数据]
+     */
+    public static function DataHandle($data)
+    {
         if(!empty($data))
         {
             // 字段列表
@@ -107,7 +122,7 @@ class WarehouseGoodsService
                 }
             }
         }
-        return DataReturn('处理成功', 0, $data);
+        return $data;
     }
 
     /**
@@ -129,7 +144,7 @@ class WarehouseGoodsService
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2018-12-18
+     * @date    2018-07-11
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
@@ -160,7 +175,7 @@ class WarehouseGoodsService
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-07-07
+     * @date    2020-07-11
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
@@ -197,6 +212,515 @@ class WarehouseGoodsService
             return DataReturn('编辑成功');
         }
         return DataReturn('编辑失败', -100);
+    }
+
+    /**
+     * 商品搜索
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-13
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsSearchList($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'warehouse_id',
+                'error_msg'         => '仓库id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 返回数据
+        $result = [
+            'page_total'    => 0,
+            'page_size'     => 20,
+            'page'          => max(1, isset($params['page']) ? intval($params['page']) : 1),
+            'total'         => 0,
+            'data'          => [],
+        ];
+
+        // 条件
+        $where = [
+            ['g.is_delete_time', '=', 0],
+            ['g.is_shelves', '=', 1]
+        ];
+
+        // 关键字
+        if(!empty($params['keywords']))
+        {
+            $where[] = ['g.title', 'like', '%'.$params['keywords'].'%'];
+        }
+
+        // 分类id
+        if(!empty($params['category_id']))
+        {
+            $category_ids = GoodsService::GoodsCategoryItemsIds([$params['category_id']], 1);
+            $category_ids[] = $params['category_id'];
+            $where[] = ['gci.category_id', 'in', $category_ids];
+        }
+
+        // 获取商品总数
+        $result['total'] = GoodsService::CategoryGoodsTotal($where);
+
+        // 获取商品列表
+        if($result['total'] > 0)
+        {
+            // 基础参数
+            $field = 'g.id,g.title,g.images';
+            $order_by = 'g.id desc';
+
+            // 分页计算
+            $m = intval(($result['page']-1)*$result['page_size']);
+            $goods = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$result['page_size'], 'field'=>$field, 'order_by'=>$order_by]);
+            $result['data'] = $goods['data'];
+            $result['page_total'] = ceil($result['total']/$result['page_size']);
+            // 数据处理
+            if(!empty($result['data']) && is_array($result['data']))
+            {
+                // 获取仓库商品
+                $warehouse_goods_ids = Db::name('WarehouseGoods')->where(['goods_id'=>array_column($result['data'], 'id')])->column('goods_id');
+                if(!empty($warehouse_goods_ids))
+                {
+                    foreach($result['data'] as &$v)
+                    {
+                        // 是否已添加
+                        $v['is_exist'] = in_array($v['id'], $warehouse_goods_ids) ? 1 : 0;
+                    }
+                }
+            }
+        }
+        return DataReturn('处理成功', 0, $result);
+    }
+
+    /**
+     * 仓库商品添加
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-14
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function WarehouseGoodsAdd($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'warehouse_id',
+                'error_msg'         => '仓库id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'goods_id',
+                'error_msg'         => '商品id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 存在则校验状态并且启用
+        // 不存在添加
+        $where = [
+            'goods_id'      => intval($params['goods_id']),
+            'warehouse_id'  => intval($params['warehouse_id']),
+        ];
+        $warehouse_goods = Db::name('WarehouseGoods')->where($where)->find();
+        if(empty($warehouse_goods))
+        {
+            $data = [
+                'warehouse_id'  => intval($params['warehouse_id']),
+                'goods_id'      => intval($params['goods_id']),
+                'is_enable'     => 1,
+                'add_time'      => time(),
+            ];
+            if(Db::name('WarehouseGoods')->insertGetId($data) <= 0)
+            {
+                return DataReturn('添加失败', -100);
+            }
+        }
+        return DataReturn('添加成功', 0);
+    }
+
+    /**
+     * 仓库商品删除
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-14
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function WarehouseGoodsDel($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'warehouse_id',
+                'error_msg'         => '仓库id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'goods_id',
+                'error_msg'         => '商品id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 删除仓库商品和仓库商品规格数据
+        $where = [
+            'goods_id'      => intval($params['goods_id']),
+            'warehouse_id'  => intval($params['warehouse_id']),
+        ];
+        if(Db::name('WarehouseGoods')->where($where)->delete() !== false && Db::name('WarehouseGoodsSpec')->where($where)->delete() !== false)
+        {
+            return DataReturn('删除成功', 0);
+        }
+        return DataReturn('删除失败', -100);
+    }
+
+    /**
+     * 仓库商品库存数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-15
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function WarehouseGoodsInventoryData($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '数据id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取仓库商品
+        $where = [
+            'id'    => intval($params['id']),
+        ];
+        $warehouse_goods = Db::name('WarehouseGoods')->where($where)->find();
+        if(empty($warehouse_goods))
+        {
+            return DataReturn('无相关商品数据', -1);
+        }
+
+        // 获取商品规格
+        $res = GoodsService::GoodsSpecificationsActual($warehouse_goods['goods_id']);
+        $inventory_spec = [];
+        if(!empty($res['value']) && is_array($res['value']))
+        {
+            // 获取当前配置的库存
+            foreach($res['value'] as $v)
+            {
+                $arr = explode(',', $v);
+                $inventory_spec[] = [
+                    'name'      => implode(' / ', $arr),
+                    'spec'      => json_encode(self::GoodsSpecMuster($v, $res['title'])),
+                    'md5_key'   => md5(implode('', $arr)),
+                    'inventory' => 0,
+                ];
+            }
+        } else {
+            $str = 'default';
+            $inventory_spec[] = [
+                'name'      => '默认规格',
+                'spec'      => $str,
+                'md5_key'   => md5($str),
+                'inventory' => 0,
+            ];
+        }
+
+        // 获取库存
+        $keys = array_column($inventory_spec, 'md5_key');
+        $where = [
+            'md5_key'               => $keys,
+            'warehouse_goods_id'    => $warehouse_goods['id'],
+            'warehouse_id'          => $warehouse_goods['warehouse_id'],
+            'goods_id'              => $warehouse_goods['goods_id'],
+        ];
+        $inventory_data = Db::name('WarehouseGoodsSpec')->where($where)->column('inventory', 'md5_key');
+        if(!empty($inventory_data))
+        {
+            foreach($inventory_spec as &$v)
+            {
+                if(array_key_exists($v['md5_key'], $inventory_data))
+                {
+                    $v['inventory'] = $inventory_data[$v['md5_key']];
+                }
+            }
+        }
+
+        // 返回数据
+        $result = [
+            'data'  => $warehouse_goods,
+            'spec'  => $inventory_spec,
+        ];
+        return DataReturn('success', 0, $result);        
+    }
+
+    /**
+     * 规格值组合
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-16
+     * @desc    description
+     * @param   [string]         $spec_str   [规格字打错，英文逗号分割]
+     * @param   [array]          $spec_title [规格类型名称]
+     */
+    public static function GoodsSpecMuster($spec_str, $spec_title)
+    {
+        $result = [];
+        $arr = explode(',', $spec_str);
+        if(count($arr) == count($spec_title))
+        {
+            foreach($arr as $k=>$v)
+            {
+                $result[] = [
+                    'type'  => $spec_title[$k],
+                    'value' => $v,
+                ];
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 仓库商品库存保存
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-15
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function WarehouseGoodsInventorySave($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '数据id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'specifications_inventory',
+                'error_msg'         => '库存数据有误',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'specifications_inventory',
+                'error_msg'         => '库存数据有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'specifications_md5_key',
+                'error_msg'         => '库存唯一值有误',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'specifications_md5_key',
+                'error_msg'         => '库存唯一值有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'specifications_spec',
+                'error_msg'         => '库存规格有误',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'specifications_spec',
+                'error_msg'         => '库存规格有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取仓库商品
+        $where = [
+            'id'    => intval($params['id']),
+        ];
+        $warehouse_goods = Db::name('WarehouseGoods')->where($where)->find();
+        if(empty($warehouse_goods))
+        {
+            return DataReturn('无相关商品数据', -1);
+        }
+
+        // 数据组装
+        $inventory = [];
+        $spec_value = [];
+        $md5_key = [];
+        $data = [];
+        foreach($params['specifications_spec'] as $k=>$v)
+        {
+            // 规格值,md5key,库存 必须存在
+            if(!empty($v) && array_key_exists($k, $params['specifications_md5_key']) && array_key_exists($k, $params['specifications_inventory']))
+            {
+                $inventory = intval($params['specifications_inventory'][$k]);
+                if($inventory > 0)
+                {
+                    $data[] = [
+                        'warehouse_goods_id'    => $warehouse_goods['id'],
+                        'warehouse_id'          => $warehouse_goods['warehouse_id'],
+                        'goods_id'              => $warehouse_goods['goods_id'],
+                        'md5_key'               => $params['specifications_md5_key'][$k],
+                        'spec'                  => htmlspecialchars_decode($v),
+                        'inventory'             => $inventory,
+                        'add_time'              => time(),
+                    ];
+                }
+            }
+        }
+
+        // 库存总数
+        $inventory_total = array_sum(array_column($data, 'inventory'));
+
+        // 启动事务
+        Db::startTrans();
+        
+        // 获取原始数据
+        $where = [
+            'warehouse_goods_id'    => $warehouse_goods['id'],
+            'warehouse_id'          => $warehouse_goods['warehouse_id'],
+            'goods_id'              => $warehouse_goods['goods_id'],
+        ];
+        $data_old = Db::name('WarehouseGoodsSpec')->where($where)->select();
+
+        // 删除原有数据
+        Db::name('WarehouseGoodsSpec')->where($where)->delete();
+
+        // 仓库商品更新
+        Db::name('WarehouseGoods')->where(['id'=>$warehouse_goods['id']])->update([
+            'inventory' => $inventory_total,
+            'upd_time'  => time(),
+        ]);
+
+        // 添加数据
+        if(!empty($data))
+        {
+            if(Db::name('WarehouseGoodsSpec')->insertAll($data) < count($data))
+            {
+                Db::rollback();
+                return DataReturn('规格库存添加失败', -100);
+            }
+        }
+
+        // 原始数据扣除库存
+        if(!empty($data_old))
+        {
+            foreach($data_old as $v)
+            {
+                // 商品规格
+                $spec  = ($v['spec'] == 'default') ? '' : json_decode($v['spec'], true);
+                $base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$spec]);
+                if($base['code'] == 0)
+                {
+                    // 扣除规格操作
+                    $status = Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->setDec('inventory', $v['inventory']);
+                    if($status === false)
+                    {
+                        Db::rollback();
+                        return DataReturn('规格库存扣减失败', -10);
+                    }
+                    if($status > 0)
+                    {
+                        // 如果规格更新成功则更新商品库存
+                        if(Db::name('Goods')->where(['id'=>$v['goods_id']])->setDec('inventory', $v['inventory']) === false)
+                        {
+                            Db::rollback();
+                            return DataReturn('商品库存扣减失败', -11);
+                        }
+                    }
+                }
+            }
+        }
+        
+        // 增加库存
+        if(!empty($data))
+        {
+            // 增加商品库存
+            if(!Db::name('Goods')->where(['id'=>$warehouse_goods['goods_id']])->setInc('inventory', $inventory_total))
+            {
+                Db::rollback();
+                return DataReturn('商品库存增加失败', -20);
+            }
+
+            // 增加商品规格库存
+            foreach($data as $v)
+            {
+                $spec  = ($v['spec'] == 'default') ? '' : json_decode($v['spec'], true);
+                $base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$spec]);
+                if($base['code'] == 0)
+                {
+                    if(!Db::name('GoodsSpecBase')->where(['id'=>$base['data']['spec_base']['id'], 'goods_id'=>$v['goods_id']])->setInc('inventory', $v['inventory']))
+                    {
+                        Db::rollback();
+                        return DataReturn('规格库存增加失败', -21);
+                    }
+                }
+            }
+        }
+
+        // 提交事务
+        Db::commit();
+        return DataReturn('更新成功', 0);
+    }
+
+    /**
+     * 根据商品id和规格获取库存
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-16
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     * @param   [string]       $spec_str [规格值（无则 default）]
+     */
+    public static function GoodsSpecInventory($goods_id, $spec_str = 'default')
+    {
+        // 无规格则使用 default 默认
+        if(empty($spec_str))
+        {
+            $spec_str = 'default';
+        }
+
+        // 获取商品规格库存
+        $where = [
+            'goods_id'  => $goods_id,
+            'md5_key'   => md5($spec_str),
+        ];
+        return (int) Db::name('WarehouseGoodsSpec')->where($where)->sum('inventory');
     }
 }
 ?>

@@ -98,7 +98,7 @@ class Warehouse extends Common
     }
 
     /**
-     * 文章添加/编辑页面
+     * 添加/编辑页面
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -122,7 +122,7 @@ class Warehouse extends Common
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
 
-        // 文章编辑页面钩子
+        // 编辑页面钩子
         $hook_name = 'plugins_view_admin_warehouse_save';
         $this->assign($hook_name.'_data', Hook::listen($hook_name,
         [
@@ -146,7 +146,7 @@ class Warehouse extends Common
     }
 
     /**
-     * 文章添加/编辑
+     * 添加/编辑
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

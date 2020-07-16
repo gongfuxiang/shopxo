@@ -12,6 +12,50 @@
 // 应用公共文件
 
 /**
+ * 笛卡尔积生成规格
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-07-15
+ * @desc    description
+ * @param   [array]          $arr1 [要进行笛卡尔积的二维数组]
+ * @param   [array]          $arr2 [最终实现的笛卡尔积组合,可不传]
+ */
+function SpecCartesian($arr1, $arr2 = [])
+{
+    $result = [];
+    if(!empty($arr1))
+    {
+        // 去除第一个元素
+        $first = array_splice($arr1, 0, 1);
+
+        // 判断是否是第一次进行拼接
+        if(count($arr2) > 0)
+        {
+            foreach($arr2 as $v)
+            {
+                foreach($first[0] as $vs)
+                {
+                    $result[] = $v.','.$vs;
+                }
+            }
+        } else {
+            foreach($first[0] as $vs)
+            {
+                $result[] = $vs;
+            }
+        }
+
+        // 递归进行拼接
+        if(count($arr1) > 0)
+        {
+            $result = SpecCartesian($arr1, $result);
+        }
+    }
+    return $result;
+}
+
+/**
  * 后台管理权限校验方法
  * @author  Devil
  * @blog    http://gong.gg/

@@ -12,6 +12,8 @@ namespace app\admin\controller;
 
 use think\facade\Hook;
 use app\service\WarehouseGoodsService;
+use app\service\WarehouseService;
+use app\service\GoodsService;
 
 /**
  * 仓库商品管理
@@ -74,6 +76,19 @@ class WarehouseGoods extends Common
         ];
         $ret = WarehouseGoodsService::WarehouseGoodsList($data_params);
 
+        // 有效仓库列表
+        $data_params = [
+            'field'     => 'id,name',
+            'where'     => [
+                'is_enable' => 1,
+            ],
+        ];
+        $warehouse = WarehouseService::WarehouseList($data_params);
+        $this->assign('warehouse_list', $warehouse['data']);
+
+        // 商品分类
+        $this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
+
         // 基础参数赋值
         $this->assign('params', $this->data_request);
         $this->assign('page_html', $page->GetPageHtml());
@@ -90,35 +105,42 @@ class WarehouseGoods extends Common
      */
     public function Detail()
     {
+        $data = [];
+        $spec = [];
         if(!empty($this->data_request['id']))
         {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
+            // 获取规格库存
+            $ret = WarehouseGoodsService::WarehouseGoodsInventoryData(['id'=>intval($this->data_request['id'])]);
+            if($ret['code'] == 0)
+            {
+                // 规格
+                if(!empty($ret['data']['spec']))
+                {
+                    $spec = $ret['data']['spec'];
+                }
 
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-            ];
-            $ret = WarehouseGoodsService::WarehouseGoodsList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            $this->assign('data', $data);
+                // 详情数据
+                if(!empty($ret['data']['data']))
+                {
+                    $ret = WarehouseGoodsService::DataHandle([$ret['data']['data']]);
+                    $data = $ret[0];
+                }
+            }
         }
+        $this->assign('spec', $spec);
+        $this->assign('data', $data);
         return $this->fetch();
     }
 
     /**
-     * 文章添加/编辑页面
+     * 库存编辑页面
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2020-07-11
      * @desc    description
      */
-    public function SaveInfo()
+    public function InventoryInfo()
     {
         // 参数
         $params = $this->data_request;
@@ -127,24 +149,9 @@ class WarehouseGoods extends Common
         $data = [];
         if(!empty($params['id']))
         {
-            // 获取列表
-            $data_params = array(
-                'where' => ['id'=>intval($params['id'])],
-            );
-            $ret = WarehouseGoodsService::WarehouseList($data_params);
-            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
+            $ret = WarehouseGoodsService::WarehouseGoodsInventoryData($params);
+            $data = empty($ret['data']) ? [] : $ret['data'];
         }
-
-        // 文章编辑页面钩子
-        $hook_name = 'plugins_view_admin_warehouse_goods_save';
-        $this->assign($hook_name.'_data', Hook::listen($hook_name,
-        [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'warehouse_id'  => isset($params['id']) ? $params['id'] : 0,
-            'data'          => &$data,
-            'params'        => &$params,
-        ]));
 
         // 数据
         $this->assign('data', $data);
@@ -153,14 +160,14 @@ class WarehouseGoods extends Common
     }
 
     /**
-     * 文章添加/编辑
+     * 库存编辑
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2020-07-11
      * @desc    description
      */
-    public function Save()
+    public function InventorySave()
     {
         // 是否ajax请求
         if(!IS_AJAX)
@@ -170,7 +177,7 @@ class WarehouseGoods extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return WarehouseGoodsService::WarehouseSave($params);
+        return WarehouseGoodsService::WarehouseGoodsInventorySave($params);
     }
 
     /**
@@ -215,6 +222,74 @@ class WarehouseGoods extends Common
         $params = $this->data_request;
         $params['admin'] = $this->admin;
         return WarehouseGoodsService::WarehouseGoodsStatusUpdate($params);
+    }
+
+    /**
+     * 商品搜索
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-13
+     * @desc    description
+     */
+    public function GoodsSearch()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 搜索数据
+        $ret = WarehouseGoodsService::GoodsSearchList($this->data_request);
+        if($ret['code'] == 0)
+        {
+            $this->assign('data', $ret['data']['data']);
+            $ret['data']['data'] = $this->fetch();
+        }
+        return $ret;
+    }
+
+    /**
+     * 仓库商品添加
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-14
+     * @desc    description
+     */
+    public function GoodsAdd()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = $this->data_request;
+        return WarehouseGoodsService::WarehouseGoodsAdd($params);
+    }
+
+    /**
+     * 仓库商品删除
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-14
+     * @desc    description
+     */
+    public function GoodsDel()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = $this->data_request;
+        return WarehouseGoodsService::WarehouseGoodsDel($params);
     }
 }
 ?>

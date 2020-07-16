@@ -105,6 +105,14 @@ class Warehousegoods
                     ],
                 ],
                 [
+                    'label'         => '总库存',
+                    'view_type'     => 'field',
+                    'view_key'      => 'inventory',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
+                ],
+                [
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',

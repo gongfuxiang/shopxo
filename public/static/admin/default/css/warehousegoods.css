@@ -1,0 +1,58 @@
+/**
+ * 商品添加-搜索列表
+ */
+.goods-add-container {
+    height: 100%;
+}
+.forth-selection-container select.forth-selection-form-category {
+    display: -webkit-inline-box;
+}
+.forth-selection-container .forth-selection-form-category, .forth-selection-container .chosen-container, .forth-selection-container .forth-selection-form-keywords {
+    width: calc(33% - 32px) !important;
+}
+.forth-selection-container .chosen-container, .forth-selection-container .forth-selection-form-keywords {
+    display: -webkit-inline-box !important;
+}
+.forth-selection-container .chosen-single {
+    width: 100%;
+}
+.forth-selection-container .search-submit {
+    width: 87px;
+}
+.goods-list-container {
+    height: calc(100% - 92px);
+    border: 1px solid #eee;
+}
+.goods-list-container .am-gallery-bordered .am-gallery-title {
+    margin-top: 5px;
+}
+.goods-list-container ul li {
+    position: relative;
+    cursor: pointer;
+}
+.goods-list-container ul li:hover .am-gallery-item {
+    -webkit-box-shadow: 0 0 6px #3cb4f1;
+    box-shadow: 0 0 6px #3cb4f1;
+}
+.goods-list-container .icon-submit-container {
+    position: absolute;
+    right: 15px;
+    bottom: 47px;
+}
+.goods-list-container .icon-submit-container .am-icon-btn {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 20px;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+.goods-list-container .am-icon-btn.am-success:hover {
+    background: #4CAF50;
+}
+.goods-list-container .am-icon-btn.am-danger:hover {
+    background: #F44336;
+}
+.goods-page-container {
+    height: 40px;
+}

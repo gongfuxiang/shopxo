@@ -15,6 +15,7 @@ use think\facade\Hook;
 use app\service\ResourcesService;
 use app\service\BrandService;
 use app\service\RegionService;
+use app\service\WarehouseGoodsService;
 
 /**
  * 商品服务层
@@ -446,7 +447,7 @@ class GoodsService
                 // 获取规格
                 if($is_spec && !empty($v['id']))
                 {
-                    $v['specifications'] = self::GoodsSpecifications(['goods_id'=>$v['id']]);
+                    $v['specifications'] = self::GoodsSpecifications($v['id']);
                 }
 
                 // 获取app内容
@@ -504,18 +505,18 @@ class GoodsService
     }
 
     /**
-     * 获取商品属性
-     * @author   Devil
+     * 获取商品规格
+     * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2018-08-29
+     * @date    2020-07-16
      * @desc    description
-     * @param   [array]          $params [输入参数]
+     * @param   [int]           $goods_id [商品id]
      */
-    public static function GoodsSpecifications($params = [])
+    public static function GoodsSpecifications($goods_id)
     {
         // 条件
-        $where = ['goods_id'=>$params['goods_id']];
+        $where = ['goods_id'=>$goods_id];
 
         // 规格类型
         $choose = Db::name('GoodsSpecType')->where($where)->order('id asc')->select();
@@ -539,7 +540,7 @@ class GoodsService
                 foreach($choose[0]['value'] as &$temp_spec)
                 {
                     $temp_spec_params = [
-                        'id'    => $params['goods_id'],
+                        'id'    => $goods_id,
                         'spec'  => [
                             ['type' => $choose[0]['name'], 'value' => $temp_spec['name']]
                         ],
@@ -554,6 +555,65 @@ class GoodsService
             }
         }
         return ['choose'=>$choose];
+    }
+
+    /**
+     * 商品规格简洁的数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-15
+     * @desc    description
+     * @param   [array]          $data [规格数据]
+     */
+    public static function GoodsSpecificationsConcise($data)
+    {
+        $result = [];
+        if(!empty($data))
+        {
+            foreach($data as $v)
+            {
+                $result[] = array_column($v['value'], 'name');
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 获取商品当前实际存在的规格
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-16
+     * @desc    description
+     * @param   [int]           $goods_id [商品id]
+     */
+    public static function GoodsSpecificationsActual($goods_id)
+    {
+        // 规格名称
+        $where = ['goods_id'=>$goods_id];
+        $title = Db::name('GoodsSpecType')->where($where)->column('name');
+       
+        // 规格值
+        $value = Db::name('GoodsSpecValue')->where($where)->field('goods_spec_base_id,value')->select();
+        if(!empty($value))
+        {
+            $group = [];
+            foreach($value as $v)
+            {
+                $group[$v['goods_spec_base_id']][] = $v['value'];
+            }
+            $value = [];
+            foreach($group as $v)
+            {
+                $value[] = implode(',', $v);
+            }
+        }
+        
+         return [
+            'title' => $title,
+            'value' => $value,
+         ];
     }
 
     /**
@@ -903,7 +963,7 @@ class GoodsService
         $images = [];
 
         // 基础字段数据字段长度
-        $base_count = 7;
+        $base_count = 6;
 
         // 规格值
         foreach($params as $k=>$v)
@@ -1291,7 +1351,7 @@ class GoodsService
         {
             // 基础字段
             $count = count($data['data'][0]);
-            $temp_key = ['price', 'inventory', 'weight', 'coding', 'barcode', 'original_price', 'extends'];
+            $temp_key = ['price', 'weight', 'coding', 'barcode', 'original_price', 'extends'];
             $key_count = count($temp_key);
 
             // 等于key总数则只有一列基础规格
@@ -1305,6 +1365,10 @@ class GoodsService
                 {
                     $temp_data[$temp_key[$i]] = $data['data'][0][$i];
                 }
+
+                // 获取仓库规格库存
+                $temp_data['inventory'] = WarehouseGoodsService::GoodsSpecInventory($goods_id);
+
                 // 规格基础添加
                 if(Db::name('GoodsSpecBase')->insertGetId($temp_data) <= 0)
                 {
@@ -1336,6 +1400,9 @@ class GoodsService
                             $temp_data[$temp_key[$i-$base_start]] = $v[$i];
                         }
                     }
+
+                    // 获取仓库规格库存
+                    $temp_data['inventory'] = WarehouseGoodsService::GoodsSpecInventory($goods_id, implode('', array_column($temp_value, 'value')));
                     
                     // 规格基础添加
                     $base_id = Db::name('GoodsSpecBase')->insertGetId($temp_data);

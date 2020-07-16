@@ -597,3 +597,10 @@ button.colorpicker-submit img {
 .region-linkage .chosen-select .chosen-single {
     width: 100%;
 }
+
+/**
+ * 文字颜色
+ */
+.am-text-grey {
+    color: #c3c3c3;
+}

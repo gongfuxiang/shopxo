@@ -429,7 +429,6 @@ $(function()
 
         // 获取基础值
         var price = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_price').val() || '';
-        var number = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_number').val() || '';
         var weight = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_weight').val() || '';
         var coding = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_coding').val() || '';
         var barcode = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_barcode').val() || '';
@@ -451,11 +450,10 @@ $(function()
             if(count >= data_length)
             {
                 $(this).find('td').eq(index).find('input').val(price);
-                $(this).find('td').eq(index+1).find('input').val(number);
-                $(this).find('td').eq(index+2).find('input').val(weight);
-                $(this).find('td').eq(index+3).find('input').val(coding);
-                $(this).find('td').eq(index+4).find('input').val(barcode);
-                $(this).find('td').eq(index+5).find('input').val(original_price);
+                $(this).find('td').eq(index+1).find('input').val(weight);
+                $(this).find('td').eq(index+2).find('input').val(coding);
+                $(this).find('td').eq(index+3).find('input').val(barcode);
+                $(this).find('td').eq(index+4).find('input').val(original_price);
             }
         });
         $spec_popup_all_operation.modal('close');
@@ -671,7 +669,6 @@ $(function()
             onCancel: function(){}
         });
     });
-
 
     // 虚拟商品编辑器初始化
     if($('#goods-fictitious-container').length > 0)

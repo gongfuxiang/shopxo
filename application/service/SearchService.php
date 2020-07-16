@@ -123,11 +123,11 @@ class SearchService
             {
                 $order_by = 'g.'.$params['order_by_field'].' '.$params['order_by_type'];
             } else {
-                $order_by = 'g.access_count desc, g.sales_count desc';
+                $order_by = 'g.access_count desc, g.sales_count desc, g.add_time desc';
             }
             
             // 分页计算
-            $page = intval(input('page', 1));
+            $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
             $n = 20;
             $m = intval(($page-1)*$n);
             $goods = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$n, 'order_by'=>$order_by]);

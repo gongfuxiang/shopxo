@@ -1,0 +1,42 @@
+{{if !empty($goods)}}
+    <div class="am-margin-bottom-sm" data-old-price="{{$goods.price}}">
+        <strong class="am-text-danger am-text-lg goods-price">{{$price_symbol}}{{$goods.price}}</strong>
+        {{if !empty($goods['original_price']) and $goods['original_price'] gt 0}}
+            <span class="am-margin-left-xs goods-original-price" data-old-price="{{$goods.original_price}}">{{$price_symbol}}{{$goods.original_price}}</span>
+        {{/if}}
+    </div>
+    <div class="goods-spec am-margin-top-sm" data-id="{{$goods.id}}">
+        {{if !empty($goods['specifications']['choose'])}}
+            {{foreach $goods.specifications.choose as $key=>$spec}}
+                {{if !empty($spec['value'])}}
+                    <div class="spec-options sku-items">
+                        <div class="spec-title">{{$spec.name}}</div>
+                        <ul>
+                            {{foreach $spec.value as $keys=>$specs}}
+                                <li class="sku-line {{if !empty($specs['images'])}} sku-line-images{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs.name}}" {{if !empty($specs['images'])}} data-type-images="{{$specs.images}}"{{/if}}>
+                                    {{if !empty($specs['images'])}}
+                                        <img src="{{$specs.images}}" />
+                                    {{/if}}
+                                    {{$specs.name}}<i></i>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    </div>
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+    </div>
+    <div class="am-margin-top-sm">
+        <div class="spec-title number">库存</div>
+        <div class="inventory-number am-margin-top-sm">
+            <div class="am-input-group am-input-group-sm inventory-container">
+                <button class="am-input-group-label" id="min" type="button">-</button>
+                <input type="number" class="am-form-field" value="0" id="inventory-value" />
+                <button class="am-input-group-label" id="add" type="button">+</button>
+            </div>
+            <span class="inventory-unit">{{$goods.inventory_unit}}</span>
+        </div>
+    </div>
+{{else /}}
+    <div class="table-no"><i class="am-icon-warning"></i> 没有相关商品</div>
+{{/if}}

@@ -247,10 +247,6 @@
 									<input type="text" placeholder="价格" class="am-radius popup_all_price" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" />
 								</div>
 								<div class="am-form-group">
-									<label class="block">库存</label>
-									<input type="number" placeholder="库存" class="am-radius popup_all_number" min="0" max="100000000" pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$" data-validation-message="库存数量 0~100000000" />
-								</div>
-								<div class="am-form-group">
 									<label class="block">重量</label>
 									<input type="number" placeholder="重量" class="am-radius popup_all_weight" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" />
 								</div>
@@ -308,10 +304,6 @@
 									<i class="am-icon-edit"></i>
 								</th>
 								<th>
-									<span>库存</span>
-									<i class="am-icon-edit"></i>
-								</th>
-								<th>
 									<span>重量(kg)</span>
 									<i class="am-icon-edit"></i>
 								</th>
@@ -336,9 +328,6 @@
 								<tr class="line-0" data-line-tag=".line-0">
 									<td class="value-start">
 										<input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" required />
-									</td>
-									<td>
-										<input type="number" name="specifications_number[]" placeholder="库存" class="am-radius" min="0" max="100000000" pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$" data-validation-message="库存数量 0~100000000" required />
 									</td>
 									<td>
 										<input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" />
@@ -377,9 +366,6 @@
 												{{case base}}
 													<td class="value-start">
 														<input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" value="{{$v.data.price}}" required />
-													</td>
-													<td>
-														<input type="number" name="specifications_number[]" placeholder="库存" class="am-radius" min="0" max="100000000" data-validation-message="库存数量 0~100000000" value="{{$v.data.inventory}}" required />
 													</td>
 													<td>
 														<input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" value="{{if $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}" />

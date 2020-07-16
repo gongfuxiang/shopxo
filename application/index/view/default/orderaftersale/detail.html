@@ -112,7 +112,7 @@
                     <!-- 拒绝/关闭 -->
                     {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] eq 5}}
                         <div class="am-alert am-alert-warning">
-                            {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$aftersale_search_keywords_name=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
+                            {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_name=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
                         </div>
                     {{/if}}
 
@@ -149,7 +149,7 @@
                         {{case 0|1|2}}
                             {{if $new_aftersale_data['status'] eq 1 and $new_aftersale_data['type'] eq 1}}
                                 <div class="am-alert">
-                                    {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$aftersale_search_keywords_name=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
+                                    {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_name=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
                                     <button type="button" class="am-btn am-btn-primary am-radius am-margin-left-sm orderaftersale-delivery-submit" data-am-modal="{target: '#popup-orderaftersale-delivery'}" data-is-auto-delivery="{{if isset($params['isautodelivery'])}}{{$params.isautodelivery}}{{else /}}0{{/if}}">立即退货</button>
                                 </div>
                                 <div class="am-alert am-alert-warning">
@@ -159,14 +159,14 @@
                                 {{include file="orderaftersale/delivery" /}}
                             {{else /}}
                                 <div class="am-alert">
-                                    {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$aftersale_search_keywords_name=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
+                                    {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_name=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
                                 </div>
                             {{/if}}
                         {{/case}}
 
                         {{case 3|4}}
                             <div class="am-alert {{if $new_aftersale_data['status'] eq 3}} am-alert-success{{else /}} am-alert-danger{{/if}}">
-                                {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$aftersale_search_keywords_name=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
+                                {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_name=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
                             </div>
                         {{/case}}
                     {{/switch}}

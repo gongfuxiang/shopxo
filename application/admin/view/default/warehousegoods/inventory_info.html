@@ -1,0 +1,68 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        {{if !empty($data['spec'])}}
+            <!-- form start -->
+            <form class="am-form form-validation" action="{{:MyUrl('admin/warehousegoods/inventorysave')}}" method="POST" request-type="ajax-fun" request-value="ViewModalBack">
+                <table class="am-table am-table-striped am-table-hover form-inventory-container">
+                    <thead>
+                        <tr>
+                            <th>规格</th>
+                            <th>库存</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{foreach $data.spec as $v}}
+                            <tr>
+                                <td>{{$v.name}}</td>
+                                <td>
+                                    <input type="number" name="specifications_inventory[]" value="{{if !empty($v['inventory'])}}{{$v.inventory}}{{/if}}" placeholder="库存" class="am-radius" min="0" max="100000000" pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$" data-validation-message="库存数量 0~100000000" />
+                                    <input type="hidden" name="specifications_md5_key[]" value="{{$v.md5_key}}" />
+                                    <input type="hidden" name="specifications_spec[]" value="{{$v.spec}}" />
+                                </td>
+                            </tr>
+                        {{/foreach}}
+                    </tbody>
+                </table>
+                <div class="form-inventory-submit">
+                    <input type="hidden" name="id" {{if !empty($data['data'])}} value="{{$data.data.id}}"{{/if}} />
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                </div>
+            </form>
+            <!-- form end -->
+        {{else /}}
+            <div class="table-no"><i class="am-icon-warning"></i> 无规格数据</div>
+        {{/if}}
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+
+<script type="text/javascript">
+// 返回处理
+function ViewModalBack(e)
+{
+    $(function()
+    {
+        if(e.code == 0)
+        {
+            $.AMUI.progress.done();
+            Prompt(e.msg, 'success');
+            setTimeout(function()
+            {
+                // 关闭弹窗
+                $(window.parent.document).find('.warehouse-goods-popup .am-close').trigger('click');
+            }, 1500);
+        } else {
+            $('form.form-validation').find('button[type="submit"]').button('reset');
+            $.AMUI.progress.done();
+            Prompt(e.msg);
+        }
+    });
+}
+</script>

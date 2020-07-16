@@ -1,0 +1,13 @@
+.form-inventory-container {
+    margin-bottom: 80px;
+}
+.form-inventory-submit {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    height: 70px;
+    padding: 20px 10px;
+    border-top: 1px solid #eee;
+}
