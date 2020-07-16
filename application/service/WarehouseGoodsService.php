@@ -523,6 +523,7 @@ class WarehouseGoodsService
                 ];
             }
         } else {
+            // 没有规格则处理默认规格 default
             $str = 'default';
             $inventory_spec[] = [
                 'name'      => '默认规格',
@@ -736,7 +737,11 @@ class WarehouseGoodsService
         $res = GoodsService::GoodsSpecificationsActual($goods_id);
         if(empty($res['value']))
         {
-            $res['value'][] = 'default';
+            // 没有规格则读取默认规格数据
+            $res['value'][] = [
+                'base_id'   => Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->value('id'),
+                'value'     => 'default',
+            ];
         }
         $inventory_total = 0;
 

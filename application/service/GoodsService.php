@@ -618,10 +618,10 @@ class GoodsService
             sort($group);
         }
         
-         return [
+        return [
             'title' => $title,
             'value' => $group,
-         ];
+        ];
     }
 
     /**
