@@ -54,7 +54,7 @@
 						<input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
 						<input type="text" name="title" placeholder="标题名称" minlength="2" maxlength="60" data-validation-message="标题名称格式 2~60 个字符" class="am-form-field am-radius" {{if !empty($data)}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
 						<span class="am-input-group-btn">
-							<button class="am-btn am-btn-default am-btn-xs colorpicker-submit" type="button" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']">
+							<button type="button" class="am-btn am-btn-default am-btn-xs colorpicker-submit" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']">
 								<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
 							</button>
 						</span>
@@ -263,8 +263,8 @@
 									<input type="text" placeholder="原价" class="am-radius popup_all_original_price" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的原价" />
 								</div>
 								<div class="am-form-group am-form-group-refreshing am-text-center">
-									<button class="am-btn am-btn-warning am-radius am-btn-sm am-margin-right-lg" type="button" data-am-modal-close>取消</button>
-									<button class="am-btn am-btn-secondary am-radius am-btn-sm am-margin-left-lg" type="button">确认</button>
+									<button type="button" class="am-btn am-btn-warning am-radius am-btn-sm am-margin-right-lg" data-am-modal-close>取消</button>
+									<button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-margin-left-lg">确认</button>
 								</div>
 							</div>
 						</div>
@@ -280,7 +280,7 @@
 								<div class="am-input-group am-input-group-sm">
 									<input type="text" class="am-form-field" placeholder="批量设置的值" />
 									<span class="am-input-group-btn">
-										<button class="am-btn am-btn-default" type="button">确认</button>
+										<button type="button" class="am-btn am-btn-default">确认</button>
 									</span>
 								</div>
 							</div>

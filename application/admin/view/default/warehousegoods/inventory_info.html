@@ -10,7 +10,21 @@
                     <thead>
                         <tr>
                             <th>规格</th>
-                            <th>库存</th>
+                            <th>
+                                <span>库存</span>
+                                <!-- 批量设置 -->
+                                <div class="am-dropdown" id="inventory-dropdown" data-am-dropdown>
+                                    <a href="javascript:;" class="am-icon-edit am-dropdown-toggle"></a>
+                                    <div class="am-dropdown-content">
+                                        <div class="am-input-group am-input-group-sm">
+                                            <input type="text" class="am-form-field" placeholder="批量设置的值" />
+                                            <span class="am-input-group-btn">
+                                                <button type="button" class="am-btn am-btn-default inventory-all-submit">确认</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>

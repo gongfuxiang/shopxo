@@ -1,3 +1,6 @@
+/**
+ * 布局基础样式
+ */
 .form-inventory-container {
     margin-bottom: 80px;
 }
@@ -10,4 +13,11 @@
     height: 70px;
     padding: 20px 10px;
     border-top: 1px solid #eee;
+}
+
+/**
+ * 批量设置库存
+ */
+#inventory-dropdown .am-dropdown-content {
+    width: 200px;
 }
