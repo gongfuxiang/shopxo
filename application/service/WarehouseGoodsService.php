@@ -11,7 +11,6 @@
 namespace app\service;
 
 use think\Db;
-use think\facade\Hook;
 use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\UserService;
@@ -346,7 +345,7 @@ class WarehouseGoodsService
             if(!empty($result['data']) && is_array($result['data']))
             {
                 // 获取仓库商品
-                $warehouse_goods_ids = Db::name('WarehouseGoods')->where(['goods_id'=>array_column($result['data'], 'id')])->column('goods_id');
+                $warehouse_goods_ids = Db::name('WarehouseGoods')->where(['warehouse_id'=>intval($params['warehouse_id']), 'goods_id'=>array_column($result['data'], 'id')])->column('goods_id');
                 if(!empty($warehouse_goods_ids))
                 {
                     foreach($result['data'] as &$v)
@@ -748,7 +747,7 @@ class WarehouseGoodsService
         // 商品规格库存
         foreach($res['value'] as $v)
         {
-            $inventory = self::GoodsSpecInventory($goods_id, str_replace(',', '', $v['value']));
+            $inventory = self::WarehouseGoodsSpecInventory($goods_id, str_replace(',', '', $v['value']));
 
             if(Db::name('GoodsSpecBase')->where(['id'=>$v['base_id'], 'goods_id'=>$goods_id])->update(['inventory'=>$inventory]) === false)
             {
@@ -780,7 +779,7 @@ class WarehouseGoodsService
      * @param   [int]          $goods_id [商品id]
      * @param   [string]       $spec_str [规格值，如 套餐一白色16G（无则 default）]
      */
-    public static function GoodsSpecInventory($goods_id, $spec_str = 'default')
+    public static function WarehouseGoodsSpecInventory($goods_id, $spec_str = 'default')
     {
         // 获取商品仓库
         // 仓库商品是否有效
@@ -790,17 +789,18 @@ class WarehouseGoodsService
             return 0;
         }
 
-        // 无规格则使用 default 默认
-        if(empty($spec_str))
+        // 检查仓库是否启用
+        $warehouse_ids = Db::name('Warehouse')->where(['id'=>$warehouse_ids, 'is_enable'=>1, 'is_delete_time'=>0])->column('id');
+        if(empty($warehouse_ids))
         {
-            $spec_str = 'default';
+            return 0;
         }
 
         // 获取商品规格库存
         $where = [
             'warehouse_id'  => $warehouse_ids,
             'goods_id'      => $goods_id,
-            'md5_key'       => md5($spec_str),
+            'md5_key'       => md5(empty($spec_str) ? 'default' : $spec_str),
         ];
         return (int) Db::name('WarehouseGoodsSpec')->where($where)->sum('inventory');
     }

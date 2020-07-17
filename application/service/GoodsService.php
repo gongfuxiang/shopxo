@@ -1375,7 +1375,7 @@ class GoodsService
                 }
 
                 // 获取仓库规格库存
-                $temp_data['inventory'] = WarehouseGoodsService::GoodsSpecInventory($goods_id);
+                $temp_data['inventory'] = WarehouseGoodsService::WarehouseGoodsSpecInventory($goods_id);
 
                 // 规格基础添加
                 if(Db::name('GoodsSpecBase')->insertGetId($temp_data) <= 0)

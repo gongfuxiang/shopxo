@@ -20,7 +20,7 @@ use think\Db;
  * @date    2020-06-30
  * @desc    description
  */
-class GoodsBrowse
+class Goodsbrowse
 {
     // 基础条件
     public $condition_base = [];

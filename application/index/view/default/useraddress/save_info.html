@@ -5,23 +5,23 @@
     <!-- form start -->
     <form class="am-form form-validation" method="post" action="{{:MyUrl('index/useraddress/save')}}" request-type="ajax-fun" request-value="ViewModalBack">
         <div class="am-form-group">
-            <label>姓名</label>
+            <label>姓名<span class="am-form-group-label-tips-must">必填</span></label>
             <input type="text" name="name" placeholder="姓名" minlength="2" maxlength="16" data-validation-message="姓名格式 2~16 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
         </div>
         <div class="am-form-group">
-            <label>电话</label>
+            <label>电话<span class="am-form-group-label-tips-must">必填</span></label>
             <input type="text" name="tel" placeholder="电话" minlength="6" maxlength="30" data-validation-message="电话格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.tel}}"{{/if}} required />
         </div>
 
         {{include file="lib/region_linkage" /}}
         <div class="am-form-group">
-            <label>详细地址</label>
+            <label>详细地址<span class="am-form-group-label-tips-must">必填</span></label>
             <div class="am-input-group am-input-group-sm">
                 <input type="hidden" name="lng" id="form-lng" {{if !empty($data)}} value="{{$data.lng}}"{{/if}} />
                 <input type="hidden" name="lat" id="form-lat" {{if !empty($data)}} value="{{$data.lat}}"{{/if}} />
                 <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} required />
                 <span class="am-input-group-btn">
-                    <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit"><span class="am-icon-map-marker"></span> 定位</button>
+                    <button type="button" class="am-btn am-btn-default am-radius" type="button" id="map-location-submit"><span class="am-icon-map-marker"></span> 定位</button>
                 </span>
             </div>
             <div id="map" data-level="17" class="am-margin-top-xs"></div>
@@ -29,7 +29,7 @@
         
 
         <div class="am-form-group">
-            <label>别名</label>
+            <label>别名<span class="am-form-group-label-tips">选填</span></label>
             <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.alias}}"{{/if}} />
         </div>
         <div class="am-form-group">

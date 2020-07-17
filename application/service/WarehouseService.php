@@ -11,8 +11,8 @@
 namespace app\service;
 
 use think\Db;
-use think\facade\Hook;
 use app\service\RegionService;
+use app\service\WarehouseGoodsService;
 
 /**
  * 仓库服务层
@@ -203,12 +203,28 @@ class WarehouseService
             $params['ids'] = explode(',', $params['ids']);
         }
 
+        // 启动事务
+        Db::startTrans();
+
         // 删除操作
-        if(Db::name('Warehouse')->where(['id'=>$params['ids']])->delete())
+        if(Db::name('Warehouse')->where(['id'=>$params['ids']])->update(['is_delete_time'=>time(), 'upd_time'=>time()]))
         {
+            foreach($params['ids'] as $warehouse_id)
+            {
+                $ret = self::WarehouseGoodsInventorySync($warehouse_id);
+                if($ret['code'] != 0)
+                {
+                    Db::rollback();
+                    return $ret;
+                }
+            }
+
+            // 提交事务
+            Db::commit();
             return DataReturn('删除成功');
         }
 
+        Db::rollback();
         return DataReturn('删除失败', -100);
     }
 
@@ -248,12 +264,58 @@ class WarehouseService
             return DataReturn($ret, -1);
         }
 
+        // 启动事务
+        Db::startTrans();
+
         // 数据更新
         if(Db::name('Warehouse')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
+            // 状态更新
+            if($params['field'] == 'is_enable')
+            {
+                $ret = self::WarehouseGoodsInventorySync(intval($params['id']));
+                if($ret['code'] != 0)
+                {
+                    Db::rollback();
+                    return $ret;
+                }
+            }
+
+            // 提交事务
+            Db::commit();
             return DataReturn('编辑成功');
         }
+
+        Db::rollback();
         return DataReturn('编辑失败', -100);
+    }
+
+    /**
+     * 仓库商品库存同步
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-17
+     * @desc    description
+     * @param   [int]          $warehouse_id [仓库id]
+     */
+    public static function WarehouseGoodsInventorySync($warehouse_id)
+    {
+        // 获取仓库商品
+        $goods_ids = Db::name('WarehouseGoods')->where(['warehouse_id'=>$warehouse_id])->column('goods_id');
+        if(!empty($goods_ids))
+        {
+            // 同步商品库存
+            foreach($goods_ids as $goods_id)
+            {
+                $ret = WarehouseGoodsService::GoodsSpecInventorySync($goods_id);
+                if($ret['code'] != 0)
+                {
+                    return $ret;
+                }
+            }
+        }
+        return DataReturn('处理成功', 0);
     }
 }
 ?>
