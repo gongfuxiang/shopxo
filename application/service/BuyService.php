@@ -17,6 +17,7 @@ use app\service\UserService;
 use app\service\ResourcesService;
 use app\service\PaymentService;
 use app\service\ConfigService;
+use app\service\OrderSplitService;
 
 /**
  * 购买服务层
@@ -710,6 +711,13 @@ class BuyService
                 }
             }
 
+            // 订单拆分
+            $order_split = OrderSplitService::Run(['goods'=>$goods]);
+            if($order_split['code'] != 0)
+            {
+                return $order_split;
+            }
+
             // 商品/基础信息
             $total_price = empty($goods) ? 0 : array_sum(array_column($goods, 'total_price'));
             $base = [
@@ -767,7 +775,7 @@ class BuyService
 
             // 返回数据
             $result = [
-                'goods'             => $goods,
+                'goods'             => $order_split['data'],
                 'base'              => $base,
                 'extension_data'    => $extension_data,
             ];

@@ -50,9 +50,9 @@ class Buy extends Common
      */
     public function Index()
     {
-        if(input('post.'))
+        if($this->data_post)
         {
-            session('buy_post_data', $_POST);
+            session('buy_post_data', $this->data_post);
             return redirect(MyUrl('index/buy/index'));
         } else {
             // 站点类型，是否开启了展示型
@@ -82,7 +82,7 @@ class Buy extends Common
                 $buy_base = $buy_ret['data']['base'];
                 $buy_goods = $buy_ret['data']['goods'];
                 $buy_extension_data = $buy_ret['data']['extension_data'];
-
+print_r($buy_goods);die;
                 // 用户地址
                 $address = UserService::UserAddressList(['user'=>$this->user]);
                 $this->assign('user_address_list', $address['data']);

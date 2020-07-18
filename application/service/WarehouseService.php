@@ -39,11 +39,32 @@ class WarehouseService
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'level desc, id desc' : trim($params['order_by']);
         $data = Db::name('Warehouse')->field($field)->where($where)->order($order_by)->select();
+        return DataReturn('处理成功', 0, self::DataHandle($data));
+    }
+
+    /**
+     * 数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-18
+     * @desc    description
+     * @param   [array]          $data [仓库数据]
+     */
+    public static function DataHandle($data)
+    {
         if(!empty($data))
         {
-            // 地区数据
-            $ids = array_unique(array_merge(array_column($data, 'province'), array_column($data, 'city'), array_column($data, 'county')));
-            $region = Db::name('Region')->where(['id'=>$ids])->column('name', 'id');
+            // 字段列表
+            $keys = ArrayKeys($data);
+
+            // 获取商品信息
+            if(in_array('province', $keys) && in_array('city', $keys) && in_array('county', $keys))
+            {
+                // 地区数据
+                $ids = array_unique(array_merge(array_column($data, 'province'), array_column($data, 'city'), array_column($data, 'county')));
+                $region = Db::name('Region')->where(['id'=>$ids])->column('name', 'id');
+            }
 
             // 循环处理数据
             foreach($data as &$v)
@@ -73,7 +94,7 @@ class WarehouseService
                 }
             }
         }
-        return DataReturn('success', 0, $data);
+        return $data;
     }
 
     /**
