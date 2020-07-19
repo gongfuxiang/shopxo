@@ -1,7 +1,9 @@
 const app = getApp();
 Page({
   data: {
-    form_submit_loading: false
+    data_list_loding_status: 1,
+    data_list_loding_msg: '处理错误',
+    form_submit_loading: false,
   },
 
   onLoad() {},
@@ -22,6 +24,12 @@ Page({
         });
         return false;
       }
+
+      // 开启表单
+      this.setData({data_list_loding_status: 0});
+    } else {
+      // 提示错误
+      this.setData({data_list_loding_status: 2, data_list_loding_msg: '用户未登录'});
     }
   },
 

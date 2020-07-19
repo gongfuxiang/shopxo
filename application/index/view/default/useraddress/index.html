@@ -32,10 +32,10 @@
                             <div class="address-left">
                                 <div class="user-base">
                                     {{if !empty($address.alias)}}
-                                        <span class="am-badge am-badge-danger am-radius">{{$address.alias}}</span>
+                                        <span class="am-badge am-badge-secondary-plain am-radius">{{$address.alias}}</span>
                                     {{/if}}
                                     {{if isset($address['is_default']) and $address['is_default'] eq 1}}
-                                        <span class="am-badge am-badge-success am-radius">默认</span>
+                                        <span class="am-badge am-badge-success-plain am-radius">默认</span>
                                     {{/if}}
                                     <span class="address-detail">   
                                         <span class="user">{{$address.name}}</span>

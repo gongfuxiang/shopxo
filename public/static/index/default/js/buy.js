@@ -147,9 +147,9 @@ $(function()
         }
 
         $extraction_map_container.show();
-        MapInit(lng, lat, null, null, false);
+        MapInit(lng, lat, null, null, false, 'extraction-map');
     });
-    $extraction_map_container.find('.map-inner .am-close').on('click', function()
+    $extraction_map_container.find('.am-close').on('click', function()
     {
         $extraction_map_container.hide();
     });

@@ -11,7 +11,6 @@
 namespace app\service;
 
 use think\Db;
-use think\facade\Hook;
 use app\service\WarehouseService;
 
 /**
@@ -103,30 +102,46 @@ class OrderSplitService
             // 商品仓库分组
             if(!empty($warehouse))
             {
-                $goods = [];
                 foreach($warehouse as $w)
                 {
                     // 是否还存在未分配的数量
                     if($v['stock'] > 0)
                     {
-                        // 追加商品并减除数量
-                        $goods[] = $v;
+                        // 赋值数据
+                        $temp_v = $v;
+
+                        // 购买数量计算
+                        if($temp_v['stock'] > $w['inventory'])
+                        {
+                            $temp_v['stock'] = $w['inventory'];
+                        }
+
+                        // 总价计算
+                        $temp_v['total_price'] = $temp_v['price']*$temp_v['stock'];
+
+                        // 减除数量
                         $v['stock'] -= $w['inventory'];
 
                         // 是否第一次赋值
                         if(!array_key_exists($w['id'], $result))
                         {
+                            // 仓库
                             $warehouse_handle = WarehouseService::DataHandle([$w]);
                             $result[$w['id']] = $warehouse_handle[0];
                             $result[$w['id']]['goods_items'] = [];
                             unset($result[$w['id']]['is_default'], $result[$w['id']]['level'], $result[$w['id']]['inventory']);
+
+                            // 订单基础信息
+                            $result[$w['id']]['items_total_price'] = 0;
+                            $result[$w['id']]['items_stock_total'] = 0;
                         }
 
                         // 商品归属到仓库下
-                        if(!empty($goods))
-                        {
-                            $result[$w['id']]['goods_items'] = array_merge($result[$w['id']]['goods_items'], $goods);
-                        }
+                        $result[$w['id']]['goods_items'] = array_merge($result[$w['id']]['goods_items'], [$temp_v]);
+
+                        // 基础信息
+                        $result[$w['id']]['items_total_price'] += $temp_v['total_price'];
+                        $result[$w['id']]['items_stock_total'] += $temp_v['stock'];
                     } else {
                         break;
                     }
@@ -141,13 +156,22 @@ class OrderSplitService
                 {
                     if(!array_key_exists($warehouse_default['id'], $result))
                     {
+                        // 仓库
                         $warehouse_handle = WarehouseService::DataHandle([$warehouse_default]);
                         $result[$warehouse_default['id']] = $warehouse_handle[0];
                         $result[$warehouse_default['id']]['goods_items'] = [];
+
+                        // 订单基础信息
+                        $result[$warehouse_default['id']]['items_total_price'] = 0;
+                        $result[$warehouse_default['id']]['items_stock_total'] = 0;
                     }
 
                     // 商品归属到仓库下
                     $result[$warehouse_default['id']]['goods_items'][] = $v;
+
+                    // 基础信息
+                    $result[$warehouse_default['id']]['items_total_price'] += $temp_v['total_price'];
+                    $result[$warehouse_default['id']]['items_stock_total'] += $temp_v['stock'];
                 }
             }
         }

@@ -86,7 +86,7 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view, .content-app-ite
     padding-top: 0;
     background: #fff;
 }
-.popup-not-title .am-popup-inner .am-close {
+.popup-not-title .am-close {
     position: absolute;
     right: 10px;
     top: 10px;
@@ -101,7 +101,7 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view, .content-app-ite
     height: 32px;
     z-index: 1;
 }
-.popup-not-title .am-popup-inner .am-close:hover {
+.popup-not-title .am-close:hover {
     background: #f22a30;
 }
 
@@ -603,4 +603,38 @@ button.colorpicker-submit img {
  */
 .am-text-grey {
     color: #c3c3c3;
+}
+
+/**
+ * 小微章-镂空
+ */
+.am-badge-default-plain {
+    border: 1px solid #999;
+    background: transparent;
+    color: #999;
+}
+.am-badge-primary-plain {
+    border: 1px solid #0e90d2;
+    background: transparent;
+    color: #0e90d2;
+}
+.am-badge-secondary-plain {
+    border: 1px solid #3bb4f2;
+    background: transparent;
+    color: #3bb4f2;
+}
+.am-badge-success-plain {
+    border: 1px solid #5eb95e;
+    background: transparent;
+    color: #5eb95e;
+}
+.am-badge-warning-plain {
+    border: 1px solid #F37B1D;
+    background: transparent;
+    color: #F37B1D;
+}
+.am-badge-danger-plain {
+    border: 1px solid #dd514c;
+    background: transparent;
+    color: #dd514c;
 }

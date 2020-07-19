@@ -71,7 +71,7 @@ class Buy extends Common
             }
 
             // 参数
-            $params = array_merge(input(), $data);
+            $params = array_merge($this->data_request, $data);
             $params['user'] = $this->user;
             $buy_ret = BuyService::BuyTypeGoodsList($params);
 
@@ -82,7 +82,7 @@ class Buy extends Common
                 $buy_base = $buy_ret['data']['base'];
                 $buy_goods = $buy_ret['data']['goods'];
                 $buy_extension_data = $buy_ret['data']['extension_data'];
-print_r($buy_goods);die;
+
                 // 用户地址
                 $address = UserService::UserAddressList(['user'=>$this->user]);
                 $this->assign('user_address_list', $address['data']);
@@ -103,7 +103,7 @@ print_r($buy_goods);die;
  
                 // 页面数据
                 $this->assign('base', $buy_base);
-                $this->assign('goods_list', $buy_goods);
+                $this->assign('buy_goods', $buy_goods);
                 $this->assign('extension_data', $buy_extension_data);
                 $this->assign('params', $params);
 

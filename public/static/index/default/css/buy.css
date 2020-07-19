@@ -39,12 +39,16 @@ ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; ve
 }
 
 /*运费、留言、扩展数据*/
-.buy-message {padding:0px 5px}
 .td.td-oplist .pay-logis,.td.td-bonus select{position:absolute;top:6px;right:0;}
-.memo-input{width:calc(100% - 64px);border: 1px solid #ccc;padding: 5px;outline:none;border-radius: 2px;}
+.memo-input {width:calc(100% - 55px);border: 1px solid #ccc;padding: 5px;outline:none;border-radius: 2px;}
+@media only screen and (max-width: 1025px) {
+  .buy-message {
+    padding: 0 5px;
+  }
+}
 
 /*合计*/
-.buy-point-discharge{font-size:14px ;font-weight: 700;padding:10px 5px;text-align: right;}
+.buy-point-discharge{font-size:14px ;font-weight: 700;}
 .box{float:left;width:70%;height:40px ;line-height:40px ;font-size: 14px;text-align: right;padding-right:10px ;}
 .pay-address{display: none;}
 .nav-buy .btn-go{float:left;width:30%;color:#fff ;background:#d2364c ;text-align: center;height:40px ;line-height:40px ;font-size: 14px; border: 0; }
@@ -74,6 +78,9 @@ ul.address-list, .business-item ul { overflow: hidden; }
 .link-list .mobile-address ul.address-list li .address-left { width: 100%; }
 .link-list .mobile-address ul.address-list li .address-right { display: none; }
 
+/*留言*/ 
+.buy-message .order-extra {border:1px solid #ddd; overflow: hidden;padding: 15px 10px;}
+
 @media only screen and (min-width:640px) {
   /*地址操作*/
   .address { padding: 0 1px 0 5px; }
@@ -81,7 +88,6 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .address .control h3{ display: -webkit-inline-box; border: none;margin-top:20px; }
   .am-form-content {margin-left:75px;}   
   .am-form-label {width:60px;float: left;}
-  .link-list{ margin:10px; }
   .link-list h3 {padding-bottom:5px;}
 
   /*业务*/
@@ -90,9 +96,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .business-item ul li:hover, ul.address-list li:hover { border:1px solid #d2364c; box-shadow: 0px 0 0px 1px #d2364c; }
 
    /*留言*/ 
-  .buy-message{border:1px solid #eee; overflow: hidden;padding: 10px; margin: 0 5px;}
-  .order-extra{border: none;float: left;width: 60%;}
-  .memo-input{min-width:280px ;width:80%; }
+  .buy-message .memo-input {min-width:280px ;max-width:60%; }
 
   /*带个人信息的结算*/
   .box ,.nav-buy .btn-go{float:right;width:auto;height:auto;padding:10px 10px;}
@@ -107,9 +111,8 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .nav-buy .btn-go {display: block;padding: 0 26px;height: 36px;font: 400 18px/36px arial;font-size: 18px;background-color: #d2364c;color: #fff;text-align: center;cursor: pointer;outline: 0; z-index:999;}
   .base-real-pay {line-height: 16px;margin: 0px 0px 10px;position: relative;}
   .base-real-pay .g_price span {font-size: 26px;}
-  .price .nav-total-price {color: #d2364c;font: 700 26px tahoma;}
+  .price .nav-total-price {font: 700 26px tahoma;}
   .order-nav .buy-footer-address .buy-line-title {color: #404040;font-weight: 700;}
-  .link-list{margin:0px auto;}
   /*地址管理*/
   .address ul{margin-top: 10px; padding: 1px;}
   ul.address-list li{display:block; width: calc(33% - 5px);height: 130px;float: left;margin:0 10px 10px 0 ;padding:10px;border: 1px solid #e5e5e5;}
@@ -125,7 +128,6 @@ ul.address-list, .business-item ul { overflow: hidden; }
 }
 
 @media only screen and (min-width:1025px) {
-  .link-list{ margin:0; }
   ul.address-list li { width: calc(25% - 8px); }
   ul.address-list li:nth-child(4n) { margin-right: 0; }
   ul.address-list li:nth-child(3n) { margin-right: 10px; }
@@ -136,8 +138,6 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .business-item ul li:nth-child(4n) { margin-right: 10px; }
   .business-item ul { padding: 10px 1px 0 1px; }
   .link-list h3 { padding: 0 0 5px 0; }
-  .buy-message { margin: 0; }
-  .buy-point-discharge { padding: 10px 0px; }
 
   /*扩展数据*/
   .buy-extension-data { margin: 10px 0 0 0; }
@@ -145,9 +145,7 @@ ul.address-list, .business-item ul { overflow: hidden; }
 
 @media only screen and (max-width:640px) {
   .cart-content table tr .base { width: 100%; }
-
-  .address { margin-top: 10px; }
-  .address, .buy-message { border-top: 1px solid #eee; }
+  .address { margin-top: 10px; border-top: 1px solid #eee; }
   .address .control { display: none; }
   .address-default {background: url(../images/buy-peraddress.png) repeat-x; background-position: bottom; }
   ul.address-list li { padding: 5px; min-height: 60px; overflow: hidden; }
@@ -155,7 +153,6 @@ ul.address-list, .business-item ul { overflow: hidden; }
 
   .business-item ul li { width: calc(50% - 6px); }
   .business-item ul li:nth-child(2n) { margin-right: 0; }
-  .buy-message { padding-top: 10px; }
   .pay-confirm em { font-size: 12px; }
   .pay-confirm .nav-total-price { color: #d2364c; font-weight: 700; }
   .order-nav { background: #f5f5f5; z-index: 100; }
@@ -175,13 +172,10 @@ ul.address-list, .business-item ul { overflow: hidden; }
 .goods-attr { margin-top: 5px;  }
 .goods-attr li { color: #888; line-height: 16px; }
 .original-price, .line-price { font-family: Verdana,Tahoma,arial; }
-.original-price { color: #9c9c9c; text-decoration: line-through; }
-.line-price { color: #3c3c3c; }
-.line-price, strong.total-price-content { font-weight: 700; font-family: Verdana,Tahoma,arial; }
-strong.total-price-content { color: #d2364c; font-size: 16px; }
+.original-price { color: #999; text-decoration: line-through; }
 .am-table { margin-bottom: 10px; }
-.am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
-.am-table > thead > tr > th { border-bottom: 1px solid #f7f7f7; }
+.am-table > tbody > tr > td { border-top: 1px solid #eee; }
+.am-table > thead > tr > th { border-bottom: 1px solid #f5f5f5; }
 
 @media only screen and (min-width:640px)  {
     .cart-content table tr .base { width: 40%; }
@@ -189,6 +183,11 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
     .cart-content table tr .number { width: 20%; }
     .cart-content table tr .total-price { width: 20%; }
     .cart-content { margin-top: 20px; }
+}
+@media only screen and (max-width:640px)  {
+  .goods-detail {
+    margin-bottom: 5px;
+  }
 }
 
 
@@ -257,28 +256,29 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
   left: 0;
   background: rgba(0, 0, 0, 0.3);
   z-index: 1001;
-  padding: 10%;
+  padding: 50px;
   width: 100%;
   height: 100%;
   display: none;
 }
-.extraction-address-map-container .map-title {
-  font-weight: bold;
-  font-size: 16px;
-  color: #333;
+.extraction-address-map-container .am-close {
+    position: absolute;
+    right: 35px;
+    top: 35px;
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    opacity: 1;
+    background: #767676;
+    color: #fff;
+    border: 3px solid #f4f4f4;
+    width: 32px;
+    height: 32px;
+    z-index: 1;
 }
-.extraction-address-map-container .map-inner {
-  height: 43px;
-  line-height: 43px;
-  background: #fff;
-  border-bottom: 1px solid #dedede;
-}
-.extraction-address-map-container .map-inner .am-close {
-  margin: 9px 9px 0 0;
-}
-#map {
+#extraction-map {
   width: 100%;
-  height: calc(100% - 43px);
+  height: 100%;
 }
 
 /**
@@ -296,4 +296,35 @@ strong.total-price-content { color: #d2364c; font-size: 16px; }
     margin-left: 0;
     margin-right: 0;
   }
+}
+
+/**
+ * 商品分组列表
+ */
+@media only screen and (max-width: 1025px) {
+  .goods-group-list {
+    padding: 0 5px;
+  }
+}
+
+/**
+ * 无数据提示
+ */
+.link-list .table-no {
+  padding: 50px 0;
+}
+
+/**
+ * 面板
+ */
+.link-list .am-panel {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+/**
+ * 查看地图
+ */
+.link-list .am-badge-default:hover {
+  background: #666;
 }

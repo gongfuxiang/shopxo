@@ -1514,12 +1514,17 @@ function TreeFormInit()
  * @param   {[int]}        		level 		[层级]
  * @param   {[object]}        	point 		[中心对象]
  * @param   {[boolean]}        	is_dragend 	[标注是否可拖拽]
+ * @param   {[string]}        	mapid 	    [地图id（默认 map）]
  */
-function MapInit(lng, lat, level, point, is_dragend)
+function MapInit(lng, lat, level, point, is_dragend, mapid)
 {
 	// 百度地图API功能
-    var map = new BMap.Map("map", {enableMapClick:false});
-    level = level || $('#map').data('level') || 16;
+	if((mapid || null) == null)
+	{
+		mapid = 'map';
+	}
+    var map = new BMap.Map(mapid, {enableMapClick:false});
+    level = level || $('#'+mapid).data('level') || 16;
     point = point || (new BMap.Point(lng || 116.400244, lat || 39.92556));
     map.centerAndZoom(point, level);
 
@@ -2451,10 +2456,15 @@ $(function()
     		return false;
     	}
 
+    	// 基础参数
+    	var title = $(this).data('title') || '';
+    	var class_tag = $(this).data('class') || '';
+
     	// 弹窗
     	AMUI.dialog.popup({
+    		title: title,
 			content: '<div id="map" data-level="17"></div>',
-			class: 'map-popup'
+			class: 'map-popup '+class_tag
 		});
 		MapInit(lng, lat, null, null, false);
     });
