@@ -81,7 +81,6 @@ class Buy extends Common
                 // 基础信息
                 $buy_base = $buy_ret['data']['base'];
                 $buy_goods = $buy_ret['data']['goods'];
-                $buy_extension_data = $buy_ret['data']['extension_data'];
 
                 // 用户地址
                 $address = UserService::UserAddressList(['user'=>$this->user]);
@@ -104,7 +103,6 @@ class Buy extends Common
                 // 页面数据
                 $this->assign('base', $buy_base);
                 $this->assign('buy_goods', $buy_goods);
-                $this->assign('extension_data', $buy_extension_data);
                 $this->assign('params', $params);
 
                 // 加载百度地图api
@@ -173,8 +171,8 @@ class Buy extends Common
                 'params'        => $params,
             ]));
 
-        // 订单确认页面商品底部钩子
-        $hook_name = 'plugins_view_buy_goods_bottom';
+        // 订单确认页面分组商品底部钩子
+        $hook_name = 'plugins_view_buy_group_goods_bottom';
         $this->assign($hook_name.'_data', Hook::listen($hook_name,
             [
                 'hook_name'     => $hook_name,

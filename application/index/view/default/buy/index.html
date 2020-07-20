@@ -273,6 +273,27 @@
                                 {{/if}}
                             </div>
                             <div class="am-panel-bd">
+                                <!-- 分组商品顶部钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_buy_group_goods_inside_top</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_buy_group_goods_inside_top';
+                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+
                                 <!-- 商品明细 -->
                                 {{if !empty($v['goods_items'])}}
                                     <table class="am-table">
@@ -331,8 +352,43 @@
                                     <div class="table-no"><i class="am-icon-warning"></i> 没有商品</div>
                                 {{/if}}
 
-                                <!-- 含运费小计 -->
+                                <!-- 商品分割线 -->
                                 <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
+
+                                <!-- 分组商品底部钩子 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_buy_group_goods_inside_bottom</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_buy_group_goods_inside_bottom';
+                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+
+                                <!-- 扩展展示数据 -->
+                                {{if !empty($v['extension_data'])}}
+                                    <ul class="buy-extension-data am-padding-xs am-margin-bottom-sm">
+                                        {{foreach $v['extension_data'] as $ext}}
+                                            <li>
+                                                <span class="extension-items-name">{{$ext.name}}</span>
+                                                <span class="am-fr extension-items-tips">{{$ext.tips}}</span>
+                                            </li>
+                                        {{/foreach}}
+                                    </ul>
+                                {{/if}}
+
+                                <!-- 含运费小计 -->
                                 <div class="buy-point-discharge am-text-right">
                                     <p>
                                         合计 <span class="price"><strong>{{$price_symbol}}</strong><strong class="total-price-content am-text-lg">{{$v.items_total_price}}</strong></span>
@@ -347,14 +403,14 @@
             {{/if}}
         </div>
 
-        <!-- 订单确认页面商品底部钩子 -->
+        <!-- 订单确认页面分组商品底部钩子 -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
             <div class="plugins-tag">
-                <span>plugins_view_buy_goods_bottom</span>
+                <span>plugins_view_buy_group_goods_bottom</span>
             </div>
         {{/if}}
-        {{if !empty($plugins_view_buy_goods_bottom_data) and is_array($plugins_view_buy_goods_bottom_data)}}
-            {{foreach $plugins_view_buy_goods_bottom_data as $hook}}
+        {{if !empty($plugins_view_buy_group_goods_bottom_data) and is_array($plugins_view_buy_group_goods_bottom_data)}}
+            {{foreach $plugins_view_buy_group_goods_bottom_data as $hook}}
                 {{if is_string($hook) or is_int($hook)}}
                     {{$hook|raw}}
                 {{/if}}
@@ -381,18 +437,6 @@
                     {{$hook|raw}}
                 {{/if}}
             {{/foreach}}
-        {{/if}}
-
-        <!-- 扩展展示数据 -->
-        {{if !empty($extension_data)}}
-            <ul class="buy-extension-data">
-                {{foreach $extension_data as $ext}}
-                    <li>
-                        <span class="extension-items-name">{{$ext.name}}</span>
-                        <span class="am-fr extension-items-tips">{{$ext.tips}}</span>
-                    </li>
-                {{/foreach}}
-            </ul>
         {{/if}}
 
         <!-- 订单确认页面订单确认信息顶部钩子 -->

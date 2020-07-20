@@ -54,8 +54,8 @@ class OrderSplitService
         }
 
         // 商品仓库集合
-        $warehouse_goods = self::GoodsWarehouseAggregate($params['goods']);
-        return DataReturn('操作成功', 0, $warehouse_goods);
+        $data = self::GoodsWarehouseAggregate($params['goods']);
+        return DataReturn('操作成功', 0, $data);
     }
 
     /**
@@ -69,21 +69,30 @@ class OrderSplitService
      */
     public static function GoodsWarehouseAggregate($data)
     {
+        // 仓库组扩展展示数据
+        // name 名称
+        // price 金额
+        // type 类型（0减少, 1增加）
+        // tips 提示信息
+        // business 业务类型（内容格式不限）
+        // ext 扩展数据（内容格式不限）
+        // $extension_data = [
+            // [
+            //     'name'       => '感恩节9折',
+            //     'price'      => 23,
+            //     'type'       => 0,
+            //     'tips'       => '-￥23元',
+            //     'business'   => null,
+            //     'ext'        => null,
+            // ],
+        // ];
+
+        // 数据分组
         $result = [];
         foreach($data as $v)
         {
             // 不存在规格则使用默认
-            if(empty($v['spec']))
-            {
-                $spec = [
-                    [
-                        'type'  => '默认规格',
-                        'value' => 'default',
-                    ]
-                ];
-            } else {
-                $spec = $v['spec'];
-            }
+            $spec = empty($v['spec']) ? [['type' => '默认规格','value' => 'default']] : $v['spec'];
 
             // 获取商品库存
             $where = [
@@ -128,6 +137,16 @@ class OrderSplitService
                             // 仓库
                             $warehouse_handle = WarehouseService::DataHandle([$w]);
                             $result[$w['id']] = $warehouse_handle[0];
+                            $result[$w['id']]['extension_data'] = [
+                                [
+                                    'name'       => '感恩节9折',
+                                    'price'      => 23,
+                                    'type'       => 0,
+                                    'tips'       => '-￥23元',
+                                    'business'   => null,
+                                    'ext'        => null,
+                                ],
+                            ];
                             $result[$w['id']]['goods_items'] = [];
                             unset($result[$w['id']]['is_default'], $result[$w['id']]['level'], $result[$w['id']]['inventory']);
 
@@ -159,6 +178,7 @@ class OrderSplitService
                         // 仓库
                         $warehouse_handle = WarehouseService::DataHandle([$warehouse_default]);
                         $result[$warehouse_default['id']] = $warehouse_handle[0];
+                        $result[$warehouse_default['id']]['extension_data'] = [];
                         $result[$warehouse_default['id']]['goods_items'] = [];
 
                         // 订单基础信息

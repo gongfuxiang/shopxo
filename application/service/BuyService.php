@@ -712,7 +712,7 @@ class BuyService
             }
 
             // 订单拆分
-            $order_split = OrderSplitService::Run(['goods'=>$goods]);
+            $order_split = OrderSplitService::Run(['goods'=>$goods, 'params'=>$params]);
             if($order_split['code'] != 0)
             {
                 return $order_split;
@@ -755,29 +755,10 @@ class BuyService
                 'common_site_type'      => $common_site_type,
             ];
 
-            // 扩展展示数据
-            // name 名称
-            // price 金额
-            // type 类型（0减少, 1增加）
-            // tips 提示信息
-            // business 业务类型（内容格式不限）
-            // ext 扩展数据（内容格式不限）
-            $extension_data = [
-                // [
-                //     'name'       => '感恩节9折',
-                //     'price'      => 23,
-                //     'type'       => 0,
-                //     'tips'       => '-￥23元',
-                //     'business'   => null,
-                //     'ext'        => null,
-                // ],
-            ];
-
             // 返回数据
             $result = [
                 'goods'             => $order_split['data'],
                 'base'              => $base,
-                'extension_data'    => $extension_data,
             ];
 
             // 生成订单数据处理钩子
