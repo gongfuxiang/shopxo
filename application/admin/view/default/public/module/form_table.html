@@ -204,7 +204,7 @@
                                             {{/case}}
                                             {{case status}}
                                                 <!-- 数据状态操作按钮组件 -->
-                                                {{if !empty($t['key_field']) and !empty($t['post_url'])}}
+                                                {{if !empty($t['key_field']) and !empty($t['post_url']) and !empty($data_list[$i][$t['key_field']])}}
                                                     <a href="javascript:;"
                                                         class="am-icon-btn am-icon-check submit-state {{if $data_list[$i][$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
                                                         data-url="{{$t.post_url}}"
@@ -245,6 +245,15 @@
                                                     }
                                                 {{/php}}
                                             {{/case}}
+                                            {{case radio}}
+                                                {{if isset($data_list[$i][$form_table['base']['key_field']])}}
+                                                    <div class="form-table-operate-radio">
+                                                        <label class="am-radio am-secondary am-radio-inline">
+                                                            <input type="radio" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
+                                                        </label>
+                                                    </div>
+                                                {{/if}}
+                                            {{/case}}
                                             {{case checkbox}}
                                                 {{if isset($data_list[$i][$form_table['base']['key_field']])}}
                                                     <!-- 是否配置指定数据不显示控件 -->
@@ -255,15 +264,6 @@
                                                             </label>
                                                         </div>
                                                     {{/if}}
-                                                {{/if}}
-                                            {{/case}}
-                                            {{case radio}}
-                                                {{if isset($data_list[$i][$form_table['base']['key_field']])}}
-                                                    <div class="form-table-operate-radio">
-                                                        <label class="am-radio am-secondary am-radio-inline">
-                                                            <input type="radio" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
-                                                        </label>
-                                                    </div>
                                                 {{/if}}
                                             {{/case}}
                                         {{/switch}}
