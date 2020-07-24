@@ -192,15 +192,15 @@
                                     {{/if}}
                                 </td>
                                 <td class="row-number">
-                                    <a href="{{:MyUrl('index/orderaftersale/detail', ['oid'=>$order['id'], 'did'=>$goods['id']])}}" target="_blank">
-                                        {{if !empty($goods['orderaftersale_btn_text'])}}
+                                    {{if ($order['is_can_launch_aftersale'] eq 1 or !empty($goods['orderaftersale'])) and !empty($goods['orderaftersale_btn_text'])}}
+                                        <a href="{{:MyUrl('index/orderaftersale/detail', ['oid'=>$order['id'], 'did'=>$goods['id']])}}" target="_blank">
                                             {{if empty($goods['orderaftersale'])}}
                                                 {{$goods.orderaftersale_btn_text}}
                                             {{else /}}
                                                 <span class="{{if $goods['orderaftersale']['status'] eq 3}}am-text-success{{else /}}am-text-secondary{{/if}}">{{$goods.orderaftersale_btn_text}}</span>
                                             {{/if}}
-                                        {{/if}}
-                                    </a>
+                                        </a>
+                                    {{/if}}
                                 </td>
                                 {{if $keys eq 0}}
                                     <td class="row-total-price am-hide-sm-only" rowspan="{{$order.items_count}}">

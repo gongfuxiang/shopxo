@@ -24,6 +24,16 @@
                 <input type="text" name="{{$data.home_order_aftersale_return_goods_address.only_tag}}" placeholder="{{$data.home_order_aftersale_return_goods_address.name}}" data-validation-message="{{$data.home_order_aftersale_return_goods_address.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_order_aftersale_return_goods_address.value}}"{{/if}} />
             </div>
 
+            <div class="am-form-group">
+                <label>{{$data.home_order_aftersale_return_launch_day.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_return_launch_day.describe}}</span></label>
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" min="0" name="{{$data.home_order_aftersale_return_launch_day.only_tag}}" placeholder="{{$data.home_order_aftersale_return_launch_day.name}}" data-validation-message="{{$data.home_order_aftersale_return_launch_day.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_order_aftersale_return_launch_day.value}}"{{/if}} />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="button">天</button>
+                  </span>
+                </div>
+            </div>
+
             <div class="am-form-group am-form-group-refreshing">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>

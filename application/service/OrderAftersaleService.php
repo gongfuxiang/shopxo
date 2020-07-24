@@ -141,6 +141,12 @@ class OrderAftersaleService
             return $order;
         }
 
+        // 订单是否可发起售后
+        if($order['data']['is_can_launch_aftersale'] != 1)
+        {
+            return DataReturn('订单已过售后期，请联系客服处理', -1);
+        }
+
         // 当前是否存在进行中
         $where = [
             ['order_id', '=', intval($params['order_id'])],
@@ -1558,6 +1564,29 @@ class OrderAftersaleService
         ];
         
         return ['step0'=>$step0, 'step1'=>$step1];
+    }
+
+    /**
+     * 订单是否可发起售后
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-24
+     * @desc    description
+     * @param   [int]          $collect_time [收货时间]
+     */
+    public static function OrderIsCanLaunchAftersale($collect_time)
+    {
+        // 未收货
+        if(empty($collect_time))
+        {
+            return 1;
+        }
+
+        // 是否超出限制时间
+        $launch_day = intval(MyC('home_order_aftersale_return_launch_day', 30, true));
+        $end_time = $collect_time+($launch_day*86400);
+        return ($end_time >= time()) ? 1 : 0;
     }
 }
 ?>

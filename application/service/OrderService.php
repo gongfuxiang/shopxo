@@ -20,6 +20,7 @@ use app\service\ExpressService;
 use app\service\ResourcesService;
 use app\service\PayLogService;
 use app\service\UserService;
+use app\service\OrderAftersaleService;
 
 /**
  * 订单服务层
@@ -870,6 +871,9 @@ class OrderService
 
                 // 线下支付 icon 名称
                 $v['is_under_line_text'] = ($v['is_under_line'] == 1) ? '线下支付' : null;
+
+                // 是否可发起售后
+                $v['is_can_launch_aftersale'] = OrderAftersaleService::OrderIsCanLaunchAftersale($v['collect_time']);
 
                 // 创建时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);

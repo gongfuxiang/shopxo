@@ -712,35 +712,60 @@ class BuyService
             }
 
             // 订单拆分
-            $order_split = OrderSplitService::Run(['goods'=>$goods, 'params'=>$params]);
+            $order_split = OrderSplitService::Run([
+                'site_model'            => $site_model,
+                'common_site_type'      => $common_site_type,
+                'address'               => $address,
+                'extraction_address'    => $extraction_address,
+                'goods'                 => $goods,
+                'params'                => $params,
+            ]);
             if($order_split['code'] != 0)
             {
                 return $order_split;
             }
 
-            // 商品/基础信息
-            $total_price = empty($goods) ? 0 : array_sum(array_column($goods, 'total_price'));
+            // 订单总计基础信息字段处理
+            $base_fields = [
+                'total_price'           => 0,
+                'actual_price'          => 0,
+                'preferential_price'    => 0,
+                'increase_price'        => 0,
+                'goods_count'           => 0,
+                'spec_weight_total'     => 0,
+                'buy_count'             => 0,
+            ];
+            if(!empty($order_split['data']))
+            {
+                $order_base = array_column($order_split['data'], 'order_base');
+                foreach($base_fields as $field=>$value)
+                {
+                    $base_fields[$field] = array_sum(array_column($order_base, $field));
+                }
+            }
+
+            // 订单总计基础信息组合
             $base = [
                 // 总价
-                'total_price'           => $total_price,
+                'total_price'           => $base_fields['total_price'],
 
                 // 订单实际支付金额(已减去优惠金额, 已加上增加金额)
-                'actual_price'          => $total_price,
+                'actual_price'          => $base_fields['actual_price'],
 
                 // 优惠金额
-                'preferential_price'    => 0.00,
+                'preferential_price'    => $base_fields['preferential_price'],
 
                 // 增加金额
-                'increase_price'        => 0.00,
+                'increase_price'        => $base_fields['increase_price'],
 
                 // 商品数量
-                'goods_count'           => count($goods),
+                'goods_count'           => $base_fields['goods_count'],
 
                 // 规格重量总计
-                'spec_weight_total'     => empty($goods) ? 0 : array_sum(array_map(function($v) {return $v['spec_weight']*$v['stock'];}, $goods)),
+                'spec_weight_total'     => $base_fields['spec_weight_total'],
 
                 // 购买总数
-                'buy_count'             => empty($goods) ? 0 : array_sum(array_column($goods, 'stock')),
+                'buy_count'             => $base_fields['buy_count'],
 
                 // 默认地址
                 'address'               => $address,
@@ -766,7 +791,7 @@ class BuyService
             $ret = HookReturnHandle(Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
-                'params'        => &$params,
+                'params'        => $params,
                 'data'          => &$result,
             ]));
             if(isset($ret['code']) && $ret['code'] != 0)
@@ -774,7 +799,7 @@ class BuyService
                 return $ret;
             }
 
-            // 返回数据再次处理，防止插件处理不够完善
+            // 返回数据再次处理，防止钩子插件处理不够完善
             $result['base']['total_price'] = ($result['base']['total_price'] <= 0) ? 0.00 : PriceNumberFormat($result['base']['total_price']);
             $result['base']['actual_price'] = ($result['base']['actual_price'] <= 0) ? 0.00 : PriceNumberFormat($result['base']['actual_price']);
             $result['base']['preferential_price'] = ($result['base']['preferential_price'] <= 0) ? 0.00 : PriceNumberFormat($result['base']['preferential_price']);
@@ -876,7 +901,7 @@ class BuyService
             }
         }
 
-        return DataReturn('操作成功', 0);
+        return DataReturn('校验成功', 0);
     }
 
     /**
@@ -942,6 +967,20 @@ class BuyService
             return $ret;
         }
 
+        // 支付方式
+        $payment_id = 0;
+        $is_under_line = 0;
+        if(!empty($params['payment_id']))
+        {
+            $payment = PaymentService::PaymentList(['where'=>['id'=>intval($params['payment_id'])]]);
+            if(empty($payment[0]))
+            {
+                return DataReturn('支付方式有误', -1);
+            }
+            $payment_id = $payment[0]['id'];
+            $is_under_line = in_array($payment[0]['payment'], config('shopxo.under_line_list')) ? 1 : 0;
+        }
+
         // 清单商品
         $params['is_order_submit'] = 1;
         $buy = self::BuyTypeGoodsList($params);
@@ -949,297 +988,218 @@ class BuyService
         {
             return $buy;
         }
-        $check = self::BuyGoodsCheck(['goods'=>$buy['data']['goods'], 'is_buy'=>1]);
-        if($check['code'] != 0)
-        {
-            return $check;
-        }
 
-        // 商品销售模式
-        // 商品小于等于1则使用商品的类型
-        if(count($buy['data']['goods']) <= 1 && isset($buy['data']['goods'][0]) && isset($buy['data']['goods'][0]['goods_id']))
-        {
-            $ret = GoodsService::GoodsSalesModelType($buy['data']['goods'][0]['goods_id']);
-            $site_model = ($ret['data'] == 4) ? $user_site_model : $ret['data'];
-        }
 
-        // 销售型,自提点,销售+自提 地址处理
-        $address = [];
-        if(in_array($site_model, [0,2]))
-        {
-            if(empty($buy['data']['base']['address']))
-            {
-                return DataReturn('地址有误', -1);
-            } else {
-                $address = $buy['data']['base']['address'];
-            }
-        }
+        // 用户留言
+        $user_note = empty($params['user_note']) ? '' : str_replace(['"', "'"], '', strip_tags($params['user_note']));
 
-        // 支付方式
-        $payment = [];
-        if(!empty($params['payment_id']))
-        {
-            $pay_ret = PaymentService::PaymentList(['where'=>['id'=>intval($params['payment_id'])]]);
-            if(empty($pay_ret[0]))
-            {
-                return DataReturn('支付方式有误', -1);
-            } else {
-                $payment = $pay_ret[0];
-            }
-        }
+        // 订单默认状态
+        $status = (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1;
 
-        // 是否仅一个商品并且商品自定义类型
-        if(count($buy['data']['goods']) == 1)
-        {
-            $ret = GoodsService::IsGoodsSiteTypeConsistent($buy['data']['goods'][0]['goods_id']);
-            if($ret['code'] != 0)
-            {
-                // 是否为销售+自提
-                $site_model = ($ret['data'] == 4) ? $user_site_model : $ret['data'];
-            }
-        }
-
-        // 订单信息处理
-        $order = [
-            'preferential_price'    => ($buy['data']['base']['preferential_price'] <= 0.00) ? 0.00 : $buy['data']['base']['preferential_price'],
-            'increase_price'        => ($buy['data']['base']['increase_price'] <= 0.00) ? 0.00 : $buy['data']['base']['increase_price'],
-            'price'                 => ($buy['data']['base']['total_price'] <= 0.00) ? 0.00 : $buy['data']['base']['total_price'],
-            'total_price'           => ($buy['data']['base']['actual_price'] <= 0.00) ? 0.00 : $buy['data']['base']['actual_price'],
-            'extension_data'        => empty($buy['data']['extension_data']) ? '' : json_encode($buy['data']['extension_data']),
-        ];
-
-        // 添加订单处理
-        return self::OrderInsertHandle($order, $buy['data']['goods'], $address, $params['user'], $payment, $site_model, $params);
-    }
-
-    public static function OrderInsertHandle($order, $goods, $address, $user, $payment, $site_model, $params = [])
-    {
-        // 订单信息处理
-        // 订单号没有则自动生成
-        if(!isset($order['order_no']))
-        {
-            $order['order_no'] = date('YmdHis').GetNumberCode(6);
-        }
-
-        // 订单模式
-        if(!isset($order['order_model']))
-        {
-            $order['order_model'] = $site_model;
-        }
-
-        // 订单状态
-        if(!isset($order['status']))
-        {
-            $order['status'] = (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1;
-        }
-        
-        // 用户 id
-        if(!isset($order['user_id']) && !empty($user['id']))
-        {
-            $order['user_id'] = $user['id'];
-        }
-
-        // 订单商品数量
-        if(!isset($order['buy_number_count']))
-        {
-            $order['buy_number_count'] = array_sum(array_column($goods, 'stock'));
-        }
-
-        // 订单备注
-        if(!isset($order['user_note']))
-        {
-            $order['user_note'] = isset($params['user_note']) ? str_replace(['"', "'"], '', strip_tags($params['user_note'])) : '';
-        }
-
-        // 订单支付方式
-        if(!isset($order['payment_id']))
-        {
-            $order['payment_id'] = empty($payment['id']) ? 0 : $payment['id'];
-        }
-
-        // 是否线下支付
-        if(!isset($order['is_under_line']))
-        {
-            $order['is_under_line'] = (isset($payment['payment']) && in_array($payment['payment'], config('shopxo.under_line_list'))) ? 1 : 0;
-        }
-
-        // 客户端类型
-        if(!isset($order['client_type']))
-        {
-            $order['client_type'] = (APPLICATION_CLIENT_TYPE == 'pc' && IsMobile()) ? 'h5' : APPLICATION_CLIENT_TYPE;
-        }
-        
-        // 时间
-        if(!isset($order['add_time']))
-        {
-            $order['add_time'] = time();
-        }
-
-        // 确认时间
-        if(isset($order['status']) && $order['status'] == 1)
-        {
-            $order['confirm_time'] = time();
-        }
-
-        // 订单添加前钩子
-        $hook_name = 'plugins_service_buy_order_insert_begin';
-        $ret = HookReturnHandle(Hook::listen($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'order'         => &$order,
-            'goods'         => &$goods,
-            'address'       => &$address,
-            'site_model'    => $site_model,
-            'payment'       => $payment,
-            'payment_id'    => isset($order['payment_id']) ? $order['payment_id'] : 0,
-            'is_under_line' => isset($order['is_under_line']) ? $order['is_under_line'] : 0,
-            'params'        => $params,
-        ]));
-        if(isset($ret['code']) && $ret['code'] != 0)
-        {
-            return $ret;
-        }
+        // 订单来源
+        $client_type = (APPLICATION_CLIENT_TYPE == 'pc' && IsMobile()) ? 'h5' : APPLICATION_CLIENT_TYPE;
 
         // 开始事务
         Db::startTrans();
 
-        // 订单添加
-        $order_id = Db::name('Order')->insertGetId($order);
-        if($order_id > 0)
+        // 循环处理
+        $order_ids = [];
+        foreach($buy['data']['goods'] as $v)
         {
-            foreach($goods as $k=>$v)
+            // 商品销售模式
+            // 商品小于等于1则使用商品的类型
+            if($v['order_base']['goods_count'] == 1)
             {
-                // 添加订单详情数据,data返回自增id
-                $detail_ret = self::OrderDetailInsert($order_id, $user['id'], $v);
-                if($detail_ret['code'] == 0)
-                {
-                    $goods[$k]['id'] = $detail_ret['data'];
-                } else {
-                    Db::rollback();
-                    return $ret;
-                }
-
-                // 订单模式 - 虚拟信息添加
-                if($site_model == 3)
-                {
-                    $ret = self::OrderFictitiousValueInsert($order_id, $detail_ret['data'], $user['id'], $v['goods_id']);
-                    if($ret['code'] != 0)
-                    {
-                        Db::rollback();
-                        return $ret;
-                    }
-                }
+                $ret = GoodsService::GoodsSalesModelType($v['goods_items'][0]['goods_id']);
+                $site_model = ($ret['data'] == 4) ? $user_site_model : $ret['data'];
             }
 
-            // 订单模式处理
-            // 销售型模式,自提模式,销售+自提
+            // 商品校验
+            $check = self::BuyGoodsCheck(['goods'=>$v['goods_items'], 'is_buy'=>1]);
+            if($check['code'] != 0)
+            {
+                return $check;
+            }
+
+            // 销售型,自提点,销售+自提 地址处理
+            $address = [];
             if(in_array($site_model, [0,2]))
             {
-                // 添加订单(收货|取货)地址
-                if(!empty($address))
+                if(empty($v['order_base']['address']))
                 {
-                    $ret = self::OrderAddressInsert($order_id, $user['id'], $address);
-                    if($ret['code'] != 0)
-                    {
-                        Db::rollback();
-                        return $ret;
-                    }
-                }
-
-                // 自提模式 添加订单取货码
-                if($site_model == 2)
-                {
-                    $ret = self::OrderExtractionCcodeInsert($order_id, $user['id']);
-                    if($ret['code'] != 0)
-                    {
-                        Db::rollback();
-                        return $ret;
-                    }
+                    return DataReturn('地址有误', -1);
+                } else {
+                    $address = $v['order_base']['address'];
                 }
             }
-        } else {
-            Db::rollback();
-            return DataReturn('订单添加失败', -1);
-        }
 
-        // 库存扣除
-        if($order['status'] == 1)
-        {
-            $ret = self::OrderInventoryDeduct(['order_id'=>$order_id, 'order_data'=>$order]);
-            if($ret['code'] != 0)
+            // 订单主信息
+            $order = [
+                'order_no'              => date('YmdHis').GetNumberCode(6),
+                'user_id'               => $params['user']['id'],
+                'user_note'             => $user_note,
+                'status'                => $status,
+                'preferential_price'    => ($v['order_base']['preferential_price'] <= 0.00) ? 0.00 : $v['order_base']['preferential_price'],
+                'increase_price'        => ($v['order_base']['increase_price'] <= 0.00) ? 0.00 : $v['order_base']['increase_price'],
+                'price'                 => ($v['order_base']['total_price'] <= 0.00) ? 0.00 : $v['order_base']['total_price'],
+                'total_price'           => ($v['order_base']['actual_price'] <= 0.00) ? 0.00 : $v['order_base']['actual_price'],
+                'extension_data'        => empty($v['order_base']['extension_data']) ? '' : json_encode($v['order_base']['extension_data']),
+                'payment_id'            => $payment_id,
+                'buy_number_count'      => $v['order_base']['buy_count'],
+                'client_type'           => $client_type,
+                'order_model'           => $site_model,
+                'is_under_line'         => $is_under_line,
+                'add_time'              => time(),
+            ];
+            if($order['status'] == 1)
+            {
+                $order['confirm_time'] = time();
+            }
+
+            // 订单添加前钩子
+            $hook_name = 'plugins_service_buy_order_insert_begin';
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data'          => $v,
+                'order'         => &$order,
+                'goods'         => &$v['goods_items'],
+                'params'        => $params,
+                
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 订单添加
+            $order_id = Db::name('Order')->insertGetId($order);
+            if($order_id > 0)
+            {
+                foreach($v['goods_items'] as $k=>$v)
+                {
+                    // 添加订单详情数据,data返回自增id
+                    $detail_ret = self::OrderDetailInsert($order_id, $params['user']['id'], $v);
+                    if($detail_ret['code'] == 0)
+                    {
+                        $v['goods_items'][$k]['id'] = $detail_ret['data'];
+                    } else {
+                        Db::rollback();
+                        return $ret;
+                    }
+
+                    // 订单模式 - 虚拟信息添加
+                    if($site_model == 3)
+                    {
+                        $ret = self::OrderFictitiousValueInsert($order_id, $detail_ret['data'], $params['user']['id'], $v['goods_id']);
+                        if($ret['code'] != 0)
+                        {
+                            Db::rollback();
+                            return $ret;
+                        }
+                    }
+                }
+
+                // 订单模式处理
+                // 销售型模式,自提模式,销售+自提
+                if(in_array($site_model, [0,2]))
+                {
+                    // 添加订单(收货|取货)地址
+                    if(!empty($address))
+                    {
+                        $ret = self::OrderAddressInsert($order_id, $params['user']['id'], $address);
+                        if($ret['code'] != 0)
+                        {
+                            Db::rollback();
+                            return $ret;
+                        }
+                    }
+
+                    // 自提模式 添加订单取货码
+                    if($site_model == 2)
+                    {
+                        $ret = self::OrderExtractionCcodeInsert($order_id, $params['user']['id']);
+                        if($ret['code'] != 0)
+                        {
+                            Db::rollback();
+                            return $ret;
+                        }
+                    }
+                }
+            } else {
+                Db::rollback();
+                return DataReturn('订单添加失败', -1);
+            }
+
+            // 库存扣除
+            if($order['status'] == 1)
+            {
+                $ret = self::OrderInventoryDeduct(['order_id'=>$order_id, 'order_data'=>$order]);
+                if($ret['code'] != 0)
+                {
+                    // 事务回滚
+                    Db::rollback();
+                    return DataReturn($ret['msg'], -10);
+                }
+            }
+
+            // 订单添加成功钩子
+            $hook_name = 'plugins_service_buy_order_insert_end';
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'order_id'      => $order_id,
+                'order'         => $order,
+                'data'          => $v,
+                'goods'         => $v['goods_items'],
+                'address'       => $address,
+                'params'        => $params,
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
             {
                 // 事务回滚
                 Db::rollback();
-                return DataReturn($ret['msg'], -10);
+                return $ret;
             }
+
+            // 订单id集合
+            $order_ids[] = $order_id;
         }
 
-        // 订单添加成功钩子
-        $hook_name = 'plugins_service_buy_order_insert_end';
-        $ret = HookReturnHandle(Hook::listen($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'order_id'      => $order_id,
-            'order'         => $order,
-            'goods'         => $goods,
-            'address'       => $address,
-            'site_model'    => $site_model,
-            'payment'       => $payment,
-            'payment_id'    => isset($order['payment_id']) ? $order['payment_id'] : 0,
-            'is_under_line' => isset($order['is_under_line']) ? $order['is_under_line'] : 0,
-            'params'        => $params,
-        ]));
-        if(isset($ret['code']) && $ret['code'] != 0)
-        {
-            // 事务回滚
-            Db::rollback();
-            return $ret;
-        }
-
-        // 订单提交成功
+        // 订单全部提交成功
         Db::commit();
-
-        // 删除购物车
-        self::BuyCartDelete($params);
-
-        // 获取数据库订单信息
-        $order = Db::name('Order')->find($order_id);
 
         // 订单添加成功钩子, 不校验返回值
         $hook_name = 'plugins_service_buy_order_insert_success';
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
-            'order_id'      => $order_id,
-            'order'         => $order,
-            'goods'         => $goods,
-            'address'       => $address,
-            'site_model'    => $site_model,
-            'payment'       => $payment,
-            'payment_id'    => isset($order['payment_id']) ? $order['payment_id'] : 0,
-            'is_under_line' => isset($order['is_under_line']) ? $order['is_under_line'] : 0,
+            'order_ids'     => $order_ids,
             'params'        => $params,
         ]);
 
+        // 删除购物车
+        self::BuyCartDelete($params);
+
         // 返回信息
         $result = [
-            'order'     => $order,
+            'order_ids' => $order_ids,
             'jump_url'  => MyUrl('index/order/index'),
         ];
 
 
         // 获取订单信息
-        switch($order['status'])
+        switch($status)
         {
             // 预约成功
             case 0 :
                 $msg = '预约成功';
                 break;
 
-            // 提交成功
+            // 提交成功,进入合并支付
             case 1 :
                 $msg = '提交成功';
-                $result['jump_url'] = MyUrl('index/order/pay', ['id'=>$order_id]);
+                $result['jump_url'] = MyUrl('index/order/pay', ['ids'=>implode(',', $order_ids)]);
                 break;
 
             // 默认操作成功

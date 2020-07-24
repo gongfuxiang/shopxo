@@ -180,7 +180,7 @@ fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
 /*价格*/
 .tb-detail-price{text-align: left; position: relative;}
 .tb-detail-price .price em {font-family: arial;}
-.tb-detail-price .original-price-value {text-decoration:line-through; font-size:14px; }
+.tb-detail-price .original-price-value {text-decoration:line-through; font-size:14px; color: #999; }
 .iteminfo_mktprice {padding-top: 10px;}
 .iteminfo_mktprice em, .goods-price { color:#c00;}
 .tb-detail-price dd {display: inline-block;}
@@ -205,7 +205,7 @@ fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
 .goods-video-submit-close { font-size: 60px; color: #999; cursor: pointer; }
 .goods-video-submit-start:hover,
 .goods-video-submit-close:hover { color: #666; }
-.goods-video-submit-close { z-index: 4; width: 50px; height: 50px; line-height: 48px; text-align: center; padding: 0; border: 2px solid #999; border-radius: 1000px; }
+.goods-video-submit-close { z-index: 4; width: 50px; height: 50px; line-height: 35px; text-align: center; padding: 0; border: 2px solid #999; border-radius: 1000px; }
 
 /* 视频 放大镜 */
 .box .goods-video-submit-start { left: 1px; bottom: 85px; z-index: 2; padding: 10px 10px 2px 10px; }

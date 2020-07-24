@@ -342,7 +342,7 @@
                                                         {{$goods.stock}} {{$goods.inventory_unit}}
                                                     </td>
                                                     <td class="total-price am-hide-sm-only">
-                                                        <strong>{{$price_symbol}}</strong><strong class="total-price-content">{{$goods.total_price}}</strong>
+                                                        <span>{{$price_symbol}}</span><strong class="total-price-content">{{$goods.total_price}}</strong>
                                                     </td>
                                                 </tr>
                                             {{/foreach}}
@@ -377,9 +377,9 @@
                                 {{/php}}
 
                                 <!-- 扩展展示数据 -->
-                                {{if !empty($v['extension_data'])}}
+                                {{if !empty($v['order_base']['extension_data'])}}
                                     <ul class="buy-extension-data am-padding-xs am-margin-bottom-sm">
-                                        {{foreach $v['extension_data'] as $ext}}
+                                        {{foreach $v['order_base']['extension_data'] as $ext}}
                                             <li>
                                                 <span class="extension-items-name">{{$ext.name}}</span>
                                                 <span class="am-fr extension-items-tips">{{$ext.tips}}</span>
@@ -390,9 +390,12 @@
 
                                 <!-- 含运费小计 -->
                                 <div class="buy-point-discharge am-text-right">
-                                    <p>
-                                        合计 <span class="price"><strong>{{$price_symbol}}</strong><strong class="total-price-content am-text-lg">{{$v.items_total_price}}</strong></span>
-                                    </p>
+                                    {{if $v['order_base']['total_price'] neq $v['order_base']['actual_price']}}
+                                        <span class="original-price am-margin-right-xs">{{$price_symbol}}{{$v.order_base.total_price}}</span>
+                                    {{/if}}
+                                    <span>
+                                        合计 <span class="price"><span>{{$price_symbol}}</span><strong class="total-price-content line-price am-text-sm">{{$v.order_base.actual_price}}</strong></span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -458,10 +461,9 @@
             <div class="pay-confirm">
                 <div class="box">
                     <div class="base-real-pay">
-                        <em>实付款：</em>
+                        <em>实付款 :</em>
                         <span class="price">
-                            <strong>{{$price_symbol}}</strong>
-                            <strong class="nav-total-price">{{$base.actual_price}}</strong>
+                            <span>{{$price_symbol}}</span><strong class="nav-total-price">{{$base.actual_price}}</strong>
                         </span>
                     </div>
 
@@ -469,7 +471,7 @@
                     {{if in_array($common_site_type, [0,2,4]) and !empty($base['address'])}}
                         <div class="pay-address">
                             <div class="buy-footer-address">
-                                <span class="buy-line-title">联系人：</span> 
+                                <span class="buy-line-title">联系人 :</span> 
                                 <span class="buy-user">
                                     {{if !empty($base['address'])}}
                                         {{$base.address.name}}
@@ -486,7 +488,7 @@
                                 </span>
                             </div>
                             <div class="buy-footer-address">
-                                <span class="buy-line-title buy-line-title-type">地址：</span>
+                                <span class="buy-line-title buy-line-title-type">地址 :</span>
                                 <span class="buy-address-detail">
                                     {{if !empty($base['address'])}}
                                         {{$base.address.province_name}} {{$base.address.city_name}} {{$base.address.county_name}} {{$base.address.address}}

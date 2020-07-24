@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\WarehouseService;
 
 /**
@@ -54,8 +55,171 @@ class OrderSplitService
         }
 
         // 商品仓库集合
-        $data = self::GoodsWarehouseAggregate($params['goods']);
+        $warehouse_goods = self::GoodsWarehouseAggregate($params['goods']);
+
+        // 分组商品基础处理
+        $data = self::GroupGoodsBaseHandle($warehouse_goods, $params);
+
+        // 生成订单仓库分组商品数据处理钩子
+        $hook_name = 'plugins_service_buy_group_goods_handle';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'data'          => &$data,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 根据扩展数据重新计算金额
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                // 是否存在扩展数据
+                if(!empty($v['order_base']['extension_data']))
+                {
+                    // 扩展数据金额计算
+                    $ext = self::ExtensionDataPriceHandle($v['order_base']['extension_data']);
+
+                    // 增加/减少
+                    $v['order_base']['increase_price'] = PriceNumberFormat($v['order_base']['increase_price']+$ext['inc']);
+                    $v['order_base']['preferential_price'] = PriceNumberFormat($v['order_base']['preferential_price']+$ext['dec']);
+
+                    // 实际金额/总额处理
+                    $v['order_base']['actual_price'] = PriceNumberFormat(($v['order_base']['actual_price']+$ext['inc'])-$ext['dec']);
+                    $v['order_base']['total_price'] = PriceNumberFormat($v['order_base']['total_price']);
+
+                }
+            }
+        }
+
+        // 返回数据
         return DataReturn('操作成功', 0, $data);
+    }
+
+    /**
+     * 扩展数据解析金额
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-23
+     * @desc    description
+     * @param   [array]          $data [扩展数据]
+     */
+    public static function ExtensionDataPriceHandle($data)
+    {
+        $inc = 0;
+        $dec = 0;
+        if(!empty($data))
+        {
+            if(!is_array($data))
+            {
+                $data = json_decode($data, true);
+            }
+            foreach($data as $v)
+            {
+                if(isset($v['type']) && isset($v['price']) && $v['price'] > 0)
+                {
+                    switch($v['type'])
+                    {
+                        // 减
+                        case 0 :
+                            $dec += $v['price'];
+                            break;
+
+                        // 加
+                        case 1 :
+                            $inc += $v['price'];
+                            break;
+                    }
+                }
+            }
+        }
+        return [
+            'inc'   => $inc,
+            'dec'   => $dec,
+        ];
+    }
+
+    /**
+     * 分组商品基础处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-23
+     * @desc    description
+     * @param   [array]          $data      [分组商品]
+     * @param   [array]          $params    [输入参数]
+     */
+    public static function GroupGoodsBaseHandle($data, $params)
+    {
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                // 当前仓库的商品总价
+                $total_price = PriceNumberFormat(array_sum(array_column($v['goods_items'], 'total_price')));
+
+                // 订单基础信息
+                $v['order_base'] = [
+                    // 总价
+                    'total_price'           => $total_price,
+
+                    // 订单实际支付金额(已减去优惠金额, 已加上增加金额)
+                    'actual_price'          => $total_price,
+
+                    // 优惠金额
+                    'preferential_price'    => 0.00,
+
+                    // 增加金额
+                    'increase_price'        => 0.00,
+
+                    // 商品总数
+                    'goods_count'           => count($v['goods_items']),
+
+                    // 规格重量总计
+                    'spec_weight_total'     => array_sum(array_map(function($v) {return $v['spec_weight']*$v['stock'];}, $v['goods_items'])),
+
+                    // 购买总数
+                    'buy_count'             => array_sum(array_column($v['goods_items'], 'stock')),
+
+                    // 默认地址
+                    'address'               => $params['address'],
+
+                    // 自提地址列表
+                    'extraction_address'    => $params['extraction_address'],
+
+                    // 当前使用的站点模式
+                    'site_model'            => $params['site_model'],
+
+                    // 公共站点模式
+                    'common_site_type'      => $params['common_site_type'],
+
+                    // 仓库组扩展展示数据
+                    // name 名称
+                    // price 金额
+                    // type 类型（0减少, 1增加）
+                    // tips 提示信息
+                    // business 业务类型（内容格式不限）
+                    // ext 扩展数据（内容格式不限）
+                    // $extension_data = [
+                        // [
+                        //     'name'       => '感恩节9折',
+                        //     'price'      => 23,
+                        //     'type'       => 0,
+                        //     'tips'       => '-￥23元',
+                        //     'business'   => null,
+                        //     'ext'        => null,
+                        // ],
+                    // ];
+                    'extension_data'        => [],
+                ];
+            }
+        }
+        return $data;
     }
 
     /**
@@ -69,24 +233,6 @@ class OrderSplitService
      */
     public static function GoodsWarehouseAggregate($data)
     {
-        // 仓库组扩展展示数据
-        // name 名称
-        // price 金额
-        // type 类型（0减少, 1增加）
-        // tips 提示信息
-        // business 业务类型（内容格式不限）
-        // ext 扩展数据（内容格式不限）
-        // $extension_data = [
-            // [
-            //     'name'       => '感恩节9折',
-            //     'price'      => 23,
-            //     'type'       => 0,
-            //     'tips'       => '-￥23元',
-            //     'business'   => null,
-            //     'ext'        => null,
-            // ],
-        // ];
-
         // 数据分组
         $result = [];
         foreach($data as $v)
@@ -126,7 +272,7 @@ class OrderSplitService
                         }
 
                         // 总价计算
-                        $temp_v['total_price'] = $temp_v['price']*$temp_v['stock'];
+                        $temp_v['total_price'] = PriceNumberFormat($temp_v['price']*$temp_v['stock']);
 
                         // 减除数量
                         $v['stock'] -= $w['inventory'];
@@ -137,30 +283,12 @@ class OrderSplitService
                             // 仓库
                             $warehouse_handle = WarehouseService::DataHandle([$w]);
                             $result[$w['id']] = $warehouse_handle[0];
-                            $result[$w['id']]['extension_data'] = [
-                                [
-                                    'name'       => '感恩节9折',
-                                    'price'      => 23,
-                                    'type'       => 0,
-                                    'tips'       => '-￥23元',
-                                    'business'   => null,
-                                    'ext'        => null,
-                                ],
-                            ];
                             $result[$w['id']]['goods_items'] = [];
                             unset($result[$w['id']]['is_default'], $result[$w['id']]['level'], $result[$w['id']]['inventory']);
-
-                            // 订单基础信息
-                            $result[$w['id']]['items_total_price'] = 0;
-                            $result[$w['id']]['items_stock_total'] = 0;
                         }
 
                         // 商品归属到仓库下
                         $result[$w['id']]['goods_items'] = array_merge($result[$w['id']]['goods_items'], [$temp_v]);
-
-                        // 基础信息
-                        $result[$w['id']]['items_total_price'] += $temp_v['total_price'];
-                        $result[$w['id']]['items_stock_total'] += $temp_v['stock'];
                     } else {
                         break;
                     }
@@ -178,20 +306,11 @@ class OrderSplitService
                         // 仓库
                         $warehouse_handle = WarehouseService::DataHandle([$warehouse_default]);
                         $result[$warehouse_default['id']] = $warehouse_handle[0];
-                        $result[$warehouse_default['id']]['extension_data'] = [];
                         $result[$warehouse_default['id']]['goods_items'] = [];
-
-                        // 订单基础信息
-                        $result[$warehouse_default['id']]['items_total_price'] = 0;
-                        $result[$warehouse_default['id']]['items_stock_total'] = 0;
                     }
 
                     // 商品归属到仓库下
                     $result[$warehouse_default['id']]['goods_items'][] = $v;
-
-                    // 基础信息
-                    $result[$warehouse_default['id']]['items_total_price'] += $temp_v['total_price'];
-                    $result[$warehouse_default['id']]['items_stock_total'] += $temp_v['stock'];
                 }
             }
         }

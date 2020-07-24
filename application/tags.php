@@ -36,7 +36,7 @@ return array (
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
   ),
-  'plugins_service_buy_handle' => 
+  'plugins_service_buy_group_goods_handle' => 
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
   ),

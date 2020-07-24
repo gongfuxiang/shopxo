@@ -206,7 +206,7 @@ $(function()
                 } else {
                     Prompt(result.msg);
                 }
-                $('.select .title-tips strong').text(result.data.total);
+                $('.select .title-tips strong').text(result.data.total || 0);
             },
             error:function(xhr, type)
             {

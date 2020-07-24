@@ -48,7 +48,6 @@ ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; ve
 }
 
 /*合计*/
-.buy-point-discharge{font-size:14px ;font-weight: 700;}
 .box{float:left;width:70%;height:40px ;line-height:40px ;font-size: 14px;text-align: right;padding-right:10px ;}
 .pay-address{display: none;}
 .nav-buy .btn-go{float:left;width:30%;color:#fff ;background:#d2364c ;text-align: center;height:40px ;line-height:40px ;font-size: 14px; border: 0; }
@@ -111,7 +110,6 @@ ul.address-list, .business-item ul { overflow: hidden; }
   .base-real-pay {line-height: 16px;margin: 0px 0px 10px;position: relative;}
   .base-real-pay .g_price span {font-size: 26px;}
   .price .nav-total-price {font: 700 26px tahoma;}
-  .order-nav .buy-footer-address .buy-line-title {color: #404040;font-weight: 700;}
   /*地址管理*/
   .address ul{margin-top: 10px; padding: 1px;}
   ul.address-list li{display:block; width: calc(33% - 5px);height: 130px;float: left;margin:0 10px 10px 0 ;padding:10px;border: 1px solid #e5e5e5;}
@@ -167,7 +165,6 @@ ul.address-list, .business-item ul { overflow: hidden; }
 .goods-base { float: left; top: 0; margin-left: 85px; }
 .goods-attr { margin-top: 5px;  }
 .goods-attr li { color: #888; line-height: 16px; }
-.original-price, .line-price { font-family: Verdana,Tahoma,arial; }
 .original-price { color: #999; text-decoration: line-through; }
 .am-table { margin-bottom: 10px; }
 .am-table > tbody > tr > td { border-top: 1px solid #eee; }
