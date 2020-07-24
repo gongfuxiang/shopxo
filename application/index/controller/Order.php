@@ -146,28 +146,34 @@ class Order extends Common
      */
     public function Comments()
     {
-        // 参数
-        $params = input();
-        $params['user'] = $this->user;
-        $params['user_type'] = 'user';
+        $data = [];
+        if(!empty($this->data_request['id']))
+        {
+            // 条件
+            $where = [
+                ['is_delete_time', '=', 0],
+                ['user_is_delete_time', '=', 0],
+                ['id', '=', intval($this->data_request['id'])],
+                ['user_id', '=', $this->user['id']],
+            ];
 
-        // 条件
-        $where = OrderService::OrderListWhere($params);
-
-        // 获取列表
-        $data_params = array(
-            'm'         => 0,
-            'n'         => 1,
-            'where'     => $where,
-        );
-        $data = OrderService::OrderList($data_params);
-        if(!empty($data['data'][0]))
+            // 获取列表
+            $data_params = [
+                'm'         => 0,
+                'n'         => 1,
+                'where'     => $where,
+                'user_type' => 'user',
+            ];
+            $ret = OrderService::OrderList($data_params);
+            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+        }
+        if(!empty($data))
         {
             $this->assign('referer_url', empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : $_SERVER['HTTP_REFERER']);
-            $this->assign('data', $data['data'][0]);
+            $this->assign('data', $data);
 
             // 编辑器文件存放地址
-            $this->assign('editor_path_type', 'order_comments-'.$this->user['id'].'-'.$data['data'][0]['id']);
+            $this->assign('editor_path_type', 'order_comments-'.$this->user['id'].'-'.$data['id']);
             return $this->fetch();
         } else {
             $this->assign('msg', '没有相关数据');
@@ -185,9 +191,9 @@ class Order extends Common
      */
     public function CommentsSave()
     {
-        if(input('post.'))
+        if($this->data_post)
         {
-            $params = input('post.');
+            $params = $this->data_post;
             $params['user'] = $this->user;
             $params['business_type'] = 'order';
             return GoodsCommentsService::Comments($params);
@@ -266,9 +272,9 @@ class Order extends Common
      */
     public function Cancel()
     {
-        if(input('post.'))
+        if($this->data_post)
         {
-            $params = input('post.');
+            $params = $this->data_post;
             $params['user_id'] = $this->user['id'];
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
@@ -289,9 +295,9 @@ class Order extends Common
      */
     public function Collect()
     {
-        if(input('post.'))
+        if($this->data_post)
         {
-            $params = input('post.');
+            $params = $this->data_post;
             $params['user_id'] = $this->user['id'];
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
@@ -312,9 +318,9 @@ class Order extends Common
      */
     public function Delete()
     {
-        if(input('post.'))
+        if($this->data_post)
         {
-            $params = input('post.');
+            $params = $this->data_post;
             $params['user_id'] = $this->user['id'];
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
@@ -336,9 +342,9 @@ class Order extends Common
      */
     public function PayCheck()
     {
-        if(input('post.'))
+        if($this->data_post)
         {
-            $params = input('post.');
+            $params = $this->data_post;
             $params['user'] = $this->user;
             return OrderService::OrderPayCheck($params);
         } else {
