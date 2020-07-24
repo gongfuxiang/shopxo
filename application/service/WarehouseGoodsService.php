@@ -515,7 +515,7 @@ class WarehouseGoodsService
                 $arr = explode(',', $v);
                 $inventory_spec[] = [
                     'name'      => implode(' / ', $arr),
-                    'spec'      => json_encode(self::GoodsSpecMuster($v, $res['title'])),
+                    'spec'      => json_encode(self::GoodsSpecMuster($v, $res['title']), JSON_UNESCAPED_UNICODE),
                     'md5_key'   => md5(implode('', $arr)),
                     'inventory' => 0,
                 ];

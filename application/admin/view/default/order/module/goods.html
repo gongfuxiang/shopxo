@@ -1,5 +1,10 @@
 <!-- 订单商品信息 -->
 {{if !empty($module_data) and !empty($module_data['items'])}}
+    <p class="am-nbfc am-margin-bottom-sm">
+        <strong class="am-fl am-icon-bookmark-o"> {{$module_data.order_no}}</strong>
+        <strong class="am-fr am-icon-circle-thin"> {{$module_data.id}}</strong>
+    </p>
+    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
     {{foreach $module_data.items as $item}}
         <div class="am-nbfc am-padding-vertical-xs">
             <div class="base am-nbfc">
@@ -14,10 +19,12 @@
                         {{$item.spec_text}}
                     {{/if}}
                 </span>
-                <span class="am-fr">{{$item.price}}x{{$item.buy_number}}</span>
-                {{if $item['returned_quantity'] gt 0 or $item['refund_price'] gt 0}}
-                    <span class="am-text-danger am-fr am-margin-right-lg">已退 {{$item.returned_quantity}} / {{$item.refund_price}}</span>
-                {{/if}}
+                <div class="am-text-right">
+                    {{if $item['returned_quantity'] gt 0 or $item['refund_price'] gt 0}}
+                        <span class="am-text-danger am-margin-right-lg">已退 {{$item.returned_quantity}} / {{$price_symbol}}{{$item.refund_price}}</span>
+                    {{/if}}
+                    <span>{{$price_symbol}}{{$item.price}}x{{$item.buy_number}}</span>
+                </div>
             </div>
         </div>
         <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />

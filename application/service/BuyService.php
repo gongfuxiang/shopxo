@@ -130,7 +130,7 @@ class BuyService
             'original_price'=> $goods_base['data']['spec_base']['original_price'],
             'price'         => $goods_base['data']['spec_base']['price'],
             'stock'         => $stock,
-            'spec'          => empty($spec) ? '' : json_encode($spec),
+            'spec'          => empty($spec) ? '' : json_encode($spec, JSON_UNESCAPED_UNICODE),
         ];
 
         // 存在则更新
@@ -1043,7 +1043,7 @@ class BuyService
                 'increase_price'        => ($v['order_base']['increase_price'] <= 0.00) ? 0.00 : $v['order_base']['increase_price'],
                 'price'                 => ($v['order_base']['total_price'] <= 0.00) ? 0.00 : $v['order_base']['total_price'],
                 'total_price'           => ($v['order_base']['actual_price'] <= 0.00) ? 0.00 : $v['order_base']['actual_price'],
-                'extension_data'        => empty($v['order_base']['extension_data']) ? '' : json_encode($v['order_base']['extension_data']),
+                'extension_data'        => empty($v['order_base']['extension_data']) ? '' : json_encode($v['order_base']['extension_data'], JSON_UNESCAPED_UNICODE),
                 'payment_id'            => $payment_id,
                 'buy_number_count'      => $v['order_base']['buy_count'],
                 'client_type'           => $client_type,
@@ -1232,7 +1232,7 @@ class BuyService
             'original_price'    => $detail['original_price'],
             'price'             => $detail['price'],
             'total_price'       => PriceNumberFormat($detail['stock']*$detail['price']),
-            'spec'              => empty($detail['spec']) ? '' : json_encode($detail['spec']),
+            'spec'              => empty($detail['spec']) ? '' : json_encode($detail['spec'], JSON_UNESCAPED_UNICODE),
             'spec_weight'       => empty($detail['spec_weight']) ? 0.00 : (float) $detail['spec_weight'],
             'spec_coding'       => empty($detail['spec_coding']) ? '' : $detail['spec_coding'],
             'spec_barcode'      => empty($detail['spec_barcode']) ? '' : $detail['spec_barcode'],

@@ -1,0 +1,6 @@
+<!-- 扩展信息 -->
+{{if !empty($module_data) and !empty($module_data['extension_data'])}}
+    {{foreach $module_data.extension_data as $extk=>$ext}}
+        <p>{{$ext.name}} [{{$ext.tips}}]</p>
+    {{/foreach}}
+{{/if}}

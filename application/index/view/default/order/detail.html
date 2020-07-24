@@ -312,10 +312,19 @@
                 <div class="am-panel am-panel-default business-panel">
                     <div class="am-panel-hd">{{if $data.order_model eq 2}}取货地址{{else /}}收货地址{{/if}}</div>
                     <div class="am-panel-bd">
-                        <span>{{$data.address_data.name}}, {{$data.address_data.tel}}, {{$data.address_data.province_name}} {{$data.address_data.city_name}} {{$data.address_data.county_name}} {{$data.address_data.address}}</span>
-                        {{if $data.order_model eq 2 and $data.address_data.lng gt 0 and $data.address_data.lat gt 0}}
-                            <button type="button" class="am-btn am-btn-success am-radius am-icon-map-marker submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}"> 查看位置</button>
-                        {{/if}}
+                        <div>
+                            {{if !empty($data['address_data']['alias'])}}
+                                <span class="am-badge am-badge-secondary-plain am-radius">{{$data.address_data.alias}}</span>
+                            {{/if}}
+                            <span>{{$data.address_data.name}}</span>
+                            <span class="am-margin-left-sm">{{$data.address_data.tel}}</span>
+                        </div>
+                        <div>
+                            <span>{{$data.address_data.province_name}} {{$data.address_data.city_name}} {{$data.address_data.county_name}} {{$data.address_data.address}}</span>
+                            {{if $data.order_model eq 2 and $data.address_data.lng gt 0 and $data.address_data.lat gt 0}}
+                                <button type="button" class="am-btn am-btn-success am-radius am-icon-map-marker submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}"> 查看位置</button>
+                            {{/if}}
+                        </div>
                     </div>
                 </div>
             {{/if}}
@@ -397,7 +406,7 @@
                                             <strong class="total-price-content">{{$price_symbol}}{{$goods.price}}</strong>
                                             <span class="wap-number">x{{$goods.buy_number}}</span>
                                             {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
-                                                <span class="am-badge am-round am-badge-warning">已退 {{$goods.returned_quantity}}</span>
+                                                <span class="am-badge am-round am-badge-warning-plain">已退 {{$goods.returned_quantity}}</span>
                                             {{/if}}
                                         </div>
                                     </td>
@@ -410,13 +419,13 @@
                                     <td class="number am-hide-sm-only">
                                         <span>x{{$goods.buy_number}}</span>
                                         {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
-                                            <br /><span class="am-badge am-round am-badge-warning">已退 {{$goods.returned_quantity}}</span>
+                                            <br /><span class="am-badge am-round am-badge-warning-plain">已退 {{$goods.returned_quantity}}</span>
                                         {{/if}}
                                     </td>
                                     <td class="total-price am-hide-sm-only">
                                         <strong class="total-price-content">{{$price_symbol}}{{$goods.total_price}}</strong>
                                         {{if isset($goods['refund_price']) and $goods['refund_price'] gt 0}}
-                                            <br /><span class="am-badge am-round am-badge-warning">已退 {{$goods.refund_price}}</span>
+                                            <br /><span class="am-badge am-round am-badge-warning-plain">已退 {{$goods.refund_price}}</span>
                                         {{/if}}
                                     </td>
                                 </tr>

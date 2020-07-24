@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\admin\form;
+namespace app\index\form;
 
 use think\Db;
 use app\service\PaymentService;
@@ -27,7 +27,25 @@ class Order
     // 基础条件
     public $condition_base = [
         ['is_delete_time', '=', 0],
+        ['user_is_delete_time', '=', 0],
     ];
+
+    /**
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-29
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function __construct($params = [])
+    {
+        // 用户信息
+        if(!empty($params['system_user']))
+        {
+            $this->condition_base[] = ['user_id', '=', $params['system_user']['id']];
+        }
+    }
 
     /**
      * 入口
@@ -45,7 +63,7 @@ class Order
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/order/index'),
+                'search_url'    => MyUrl('index/order/index'),
                 'detail_title'  => '基础信息',
             ],
             // 表单配置
@@ -55,28 +73,13 @@ class Order
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/goods',
                     'grid_size'     => 'lg',
-                    'is_detail'     => 0,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
                         'where_type'            => 'like',
                         'where_type_custom'     => 'in',
                         'where_handle_custom'   => 'WhereBaseGoodsInfo',
-                        'placeholder'           => '请输入订单ID/订单号/商品名称/型号',
-                    ],
-                ],
-                [
-                    'label'         => '用户信息',
-                    'view_type'     => 'module',
-                    'view_key'      => 'lib/module/user',
-                    'grid_size'     => 'sm',
-                    'search_config' => [
-                        'form_type'             => 'input',
-                        'form_name'             => 'user_id',
-                        'where_type'            => 'like',
-                        'where_type_custom'     => 'in',
-                        'where_handle_custom'   => 'WhereValueUserInfo',
-                        'placeholder'           => '请输入用户名/昵称/手机/邮箱',
+                        'placeholder'           => '请输入订单号/商品名称/型号',
                     ],
                 ],
                 [
@@ -87,7 +90,7 @@ class Order
                         'form_type'         => 'select',
                         'form_name'         => 'status',
                         'where_type'        => 'in',
-                        'data'              => lang('common_order_admin_status'),
+                        'data'              => lang('common_order_user_status'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -150,7 +153,7 @@ class Order
                     ],
                 ],
                 [
-                    'label'         => '来源',
+                    'label'         => '下单平台',
                     'view_type'     => 'field',
                     'view_key'      => 'client_type',
                     'view_data_key' => 'name',
@@ -169,7 +172,6 @@ class Order
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/address',
                     'grid_size'     => 'sm',
-                    'is_detail'     => 0,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
@@ -183,7 +185,6 @@ class Order
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/take',
                     'width'         => 125,
-                    'is_detail'     => 0,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
@@ -250,7 +251,7 @@ class Order
                     ],
                 ],
                 [
-                    'label'         => '用户备注',
+                    'label'         => '留言信息',
                     'view_type'     => 'field',
                     'view_key'      => 'user_note',
                     'search_config' => [
@@ -291,12 +292,6 @@ class Order
                         'form_type'         => 'input',
                         'where_type'        => 'like',
                     ],
-                ],
-                [
-                    'label'         => '最新售后',
-                    'view_type'     => 'module',
-                    'view_key'      => 'order/module/aftersale',
-                    'grid_size'     => 'sm',
                 ],
                 [
                     'label'         => '确认时间',
@@ -420,29 +415,6 @@ class Order
     }
 
     /**
-     * 用户信息条件处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-06-08
-     * @desc    description
-     * @param   [string]          $value    [条件值]
-     * @param   [array]           $params   [输入参数]
-     */
-    public function WhereValueUserInfo($value, $params = [])
-    {
-        if(!empty($value))
-        {
-            // 获取用户 id
-            $ids = Db::name('User')->where('username|nickname|mobile|email', 'like', '%'.$value.'%')->column('id');
-
-            // 避免空条件造成无效的错觉
-            return empty($ids) ? [0] : $ids;
-        }
-        return $value;
-    }
-
-    /**
      * 基础条件处理
      * @author  Devil
      * @blog    http://gong.gg/
@@ -456,8 +428,8 @@ class Order
     {
         if(!empty($value))
         {
-            // 订单ID、订单号
-            $ids = Db::name('Order')->where(['id|order_no'=>$value])->column('id');
+            // 订单号
+            $ids = Db::name('Order')->where(['order_no'=>$value])->column('id');
 
             // 获取订单详情搜索的订单 id
             if(empty($ids))

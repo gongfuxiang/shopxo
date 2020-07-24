@@ -1,0 +1,7 @@
+<!-- 订单状态 -->
+{{if !empty($module_data)}}
+    <p>{{$module_data.status_name}}</p>
+    {{if $module_data['user_is_delete_time'] neq 0}}
+        <p class="am-text-warning">用户已删除</p>
+    {{/if}}
+{{/if}}

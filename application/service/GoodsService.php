@@ -1345,7 +1345,7 @@ class GoodsService
                     ];
                 }
                 $v['goods_id']  = $goods_id;
-                $v['value']     = json_encode($spec);
+                $v['value']     = json_encode($spec, JSON_UNESCAPED_UNICODE);
                 $v['add_time']  = time();
             }
             if(Db::name('GoodsSpecType')->insertAll($data['title']) < count($data['title']))
