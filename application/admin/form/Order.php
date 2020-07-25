@@ -47,6 +47,7 @@ class Order
                 'is_search'     => 1,
                 'search_url'    => MyUrl('admin/order/index'),
                 'detail_title'  => '基础信息',
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [

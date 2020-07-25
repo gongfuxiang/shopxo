@@ -65,14 +65,25 @@ class Order
                 'is_search'     => 1,
                 'search_url'    => MyUrl('index/order/index'),
                 'detail_title'  => '基础信息',
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [
                 [
+                    'view_type'         => 'checkbox',
+                    'is_checked'        => 0,
+                    'checked_text'      => '反选',
+                    'not_checked_text'  => '全选',
+                    'not_show_key'      => 'status',
+                    'not_show_data'     => [0,2,3,4,5,6],
+                    'align'             => 'center',
+                    'width'             => 80,
+                ],
+                [
                     'label'         => '基础信息',
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/goods',
-                    'grid_size'     => 'lg',
+                    'grid_size'     => 'xl',
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
@@ -84,11 +95,12 @@ class Order
                 ],
                 [
                     'label'         => '订单状态',
-                    'view_type'     => 'module',
-                    'view_key'      => 'order/module/status',
+                    'view_type'     => 'field',
+                    'view_key'      => 'status',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_order_user_status'),
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'status',
                         'where_type'        => 'in',
                         'data'              => lang('common_order_user_status'),
                         'data_key'          => 'id',

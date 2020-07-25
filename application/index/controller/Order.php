@@ -66,10 +66,11 @@ class Order extends Common
 
         // 获取列表
         $data_params = [
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $this->page_size,
-            'where'     => $this->form_where,
-            'user_type' => 'user',
+            'm'                 => $page->GetPageStarNumber(),
+            'n'                 => $this->page_size,
+            'where'             => $this->form_where,
+            'is_orderaftersale' => 1,
+            'user_type'         => 'user',
         ];
         $ret = OrderService::OrderList($data_params);
 
@@ -96,27 +97,7 @@ class Order extends Common
      */
     public function Detail()
     {
-        $data = [];
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['is_delete_time', '=', 0],
-                ['user_is_delete_time', '=', 0],
-                ['id', '=', intval($this->data_request['id'])],
-                ['user_id', '=', $this->user['id']],
-            ];
-
-            // 获取列表
-            $data_params = [
-                'm'         => 0,
-                'n'         => 1,
-                'where'     => $where,
-                'user_type' => 'user',
-            ];
-            $ret = OrderService::OrderList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-        }
+        $data = $this->OrderFirst();
         if(!empty($data))
         {
              // 发起支付 - 支付方式
@@ -128,6 +109,9 @@ class Order extends Common
 
             // 加载百度地图api
             $this->assign('is_load_baidu_map_api', 1);
+
+            // 浏览器名称
+        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单详情', 1));
 
             // 数据赋值
             $this->assign('data', $data);
@@ -146,6 +130,31 @@ class Order extends Common
      */
     public function Comments()
     {
+        $data = $this->OrderFirst();
+        if(!empty($data))
+        {
+            $this->assign('referer_url', empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : $_SERVER['HTTP_REFERER']);
+            $this->assign('data', $data);
+
+            // 编辑器文件存放地址
+            $this->assign('editor_path_type', 'order_comments-'.$this->user['id'].'-'.$data['id']);
+            return $this->fetch();
+        } else {
+            $this->assign('msg', '没有相关数据');
+            return $this->fetch('public/tips_error');
+        }
+    }
+
+    /**
+     * 获取一条订单信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-25
+     * @desc    description
+     */
+    public function OrderFirst()
+    {
         $data = [];
         if(!empty($this->data_request['id']))
         {
@@ -159,26 +168,16 @@ class Order extends Common
 
             // 获取列表
             $data_params = [
-                'm'         => 0,
-                'n'         => 1,
-                'where'     => $where,
-                'user_type' => 'user',
+                'm'                 => 0,
+                'n'                 => 1,
+                'where'             => $where,
+                'is_orderaftersale' => 1,
+                'user_type'         => 'user',
             ];
             $ret = OrderService::OrderList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
         }
-        if(!empty($data))
-        {
-            $this->assign('referer_url', empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : $_SERVER['HTTP_REFERER']);
-            $this->assign('data', $data);
-
-            // 编辑器文件存放地址
-            $this->assign('editor_path_type', 'order_comments-'.$this->user['id'].'-'.$data['id']);
-            return $this->fetch();
-        } else {
-            $this->assign('msg', '没有相关数据');
-            return $this->fetch('public/tips_error');
-        }
+        return $data;
     }
 
     /**

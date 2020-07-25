@@ -1,5 +1,9 @@
 <!-- 订单基础信息 -->
 {{if !empty($module_data) and !empty($module_data['order_data'])}}
+    <p class="am-nbfc am-margin-bottom-sm">
+        <strong class="am-icon-bookmark-o"> {{$module_data.order_no}}</strong>
+    </p>
+    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
     <div class="am-nbfc">
         <a href="{{$module_data.order_data.items.goods_url}}" target="_blank">
             <img src="{{$module_data.order_data.items.images}}" class="am-img-thumbnail am-radius am-margin-right-xs am-fl" width="60" height="60" />
@@ -19,6 +23,6 @@
         {{if $module_data.order_data.items.original_price gt 0}}
             <span class="original-price am-margin-right-xs">{{$price_symbol}}{{$module_data.order_data.items.original_price}}</span>
         {{/if}}
-        <strong>{{$price_symbol}}{{$module_data.order_data.items.price}} x {{$module_data.order_data.items.buy_number}}</strong>
+        <span>{{$price_symbol}}{{$module_data.order_data.items.price}} x {{$module_data.order_data.items.buy_number}}</span>
     </div>
 {{/if}}

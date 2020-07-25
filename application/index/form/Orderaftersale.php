@@ -59,31 +59,22 @@ class Orderaftersale
                 'key_field'     => 'id',
                 'is_search'     => 1,
                 'search_url'    => MyUrl('admin/orderaftersale/index'),
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [
                 [
-                    'label'         => '订单号',
-                    'view_type'     => 'field',
-                    'view_key'      => 'order_no',
-                    'width'         => 170,
-                    'search_config' => [
-                        'form_type'         => 'input',
-                        'where_type'        => '=',
-                    ],
-                ],
-                [
                     'label'         => '基础信息',
                     'view_type'     => 'module',
-                    'view_key'      => 'orderaftersale/module/info',
+                    'view_key'      => 'orderaftersale/module/goods',
                     'grid_size'     => 'lg',
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
                         'where_type'            => 'like',
                         'where_type_custom'     => 'in',
-                        'where_handle_custom'   => 'WhereValueBaseInfo',
-                        'placeholder'           => '请输入商品名称/型号',
+                        'where_handle_custom'   => 'WhereBaseGoodsInfo',
+                        'placeholder'           => '请输入订单号/商品名称/型号',
                     ],
                 ],
                 [
@@ -254,7 +245,7 @@ class Orderaftersale
     }
 
     /**
-     * 基础信息条件处理
+     * 基础条件处理
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -263,12 +254,12 @@ class Orderaftersale
      * @param   [string]          $value    [条件值]
      * @param   [array]           $params   [输入参数]
      */
-    public function WhereValueBaseInfo($value, $params = [])
+    public function WhereBaseGoodsInfo($value, $params = [])
     {
         if(!empty($value))
         {
             // 获取订单详情搜索的订单售后 id
-            $ids = Db::name('OrderAftersale')->alias('oa')->join(['__ORDER_DETAIL__'=>'od'], 'oa.order_detail_id=od.id')->where('title|model', 'like', '%'.$value.'%')->column('oa.id');
+            $ids = Db::name('OrderAftersale')->alias('oa')->join(['__ORDER_DETAIL__'=>'od'], 'oa.order_detail_id=od.id')->whereOr('od.title|od.model', 'like', '%'.$value.'%')->whereOr('oa.order_no', '=', $value)->column('oa.id');
 
             // 避免空条件造成无效的错觉
             return empty($ids) ? [0] : $ids;

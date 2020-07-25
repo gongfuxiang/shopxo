@@ -9,7 +9,7 @@
                         <!-- 3. 内容位置居（左|中|右） -->
                         <!-- 4. 格子是否固定（left|right 左|右） -->
                         <th class="
-                            {{if !isset($t['is_middle']) or $t['is_middle'] eq 1}}am-text-middle {{/if}}
+                            {{if isset($t['is_middle']) and $t['is_middle'] eq 1}}am-text-middle {{/if}}
                             {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
                             {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
                             {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
@@ -39,7 +39,7 @@
                     {{foreach $form_table['form'] as $k=>$t}}
                         {{if !isset($t['is_list']) or $t['is_list'] eq 1}}
                             <td class="
-                                {{if !isset($t['is_middle']) or $t['is_middle'] eq 1}}am-text-middle {{/if}}
+                                {{if isset($t['is_middle']) and $t['is_middle'] eq 1}}am-text-middle {{/if}}
                                 {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
                                 {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
                                 {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
@@ -138,7 +138,7 @@
                                 <!-- 4. 格子是否固定（left|right 左|右） -->
                                 <!-- 5. 是否操作列 -->
                                 <td class="am-nowrap-initial
-                                    {{if !isset($t['is_middle']) or $t['is_middle'] eq 1}}am-text-middle {{/if}}
+                                    {{if isset($t['is_middle']) and $t['is_middle'] eq 1}}am-text-middle {{/if}}
                                     {{if !empty($t['grid_size'])}}am-grid-{{$t.grid_size}} {{/if}}
                                     {{if !empty($t['align'])}}am-text-{{$t.align}} {{/if}}
                                     {{if !empty($t['fixed'])}}am-grid-fixed-{{$t.fixed}} {{/if}}
@@ -247,17 +247,20 @@
                                             {{/case}}
                                             {{case radio}}
                                                 {{if isset($data_list[$i][$form_table['base']['key_field']])}}
-                                                    <div class="form-table-operate-radio">
-                                                        <label class="am-radio am-secondary am-radio-inline">
-                                                            <input type="radio" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
-                                                        </label>
-                                                    </div>
+                                                    <!-- 是否配置指定数据不显示控件 -->
+                                                    {{if empty($t['not_show_data']) or empty($t['not_show_key']) or !isset($data_list[$i][$t['not_show_key']]) or !in_array($data_list[$i][$t['not_show_key']], $t['not_show_data'])}}
+                                                        <div class="form-table-operate-radio">
+                                                            <label class="am-radio am-secondary am-radio-inline">
+                                                                <input type="radio" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
+                                                            </label>
+                                                        </div>
+                                                    {{/if}}
                                                 {{/if}}
                                             {{/case}}
                                             {{case checkbox}}
                                                 {{if isset($data_list[$i][$form_table['base']['key_field']])}}
                                                     <!-- 是否配置指定数据不显示控件 -->
-                                                    {{if empty($t['not_show_data']) or empty($t['not_show_key']) or !in_array($data_list[$i][$form_table['base']['key_field']], $t['not_show_data'])}}
+                                                    {{if empty($t['not_show_data']) or empty($t['not_show_key']) or !isset($data_list[$i][$t['not_show_key']]) or !in_array($data_list[$i][$t['not_show_key']], $t['not_show_data'])}}
                                                         <div class="form-table-operate-checkbox">
                                                             <label class="am-checkbox am-secondary am-checkbox-inline">
                                                                 <input type="checkbox" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />

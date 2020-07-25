@@ -81,6 +81,12 @@ class FormHandleModule
             return DataReturn('表格唯一字段配置有误['.$module.']base->[key_field]', -1);
         }
 
+        // 是否上下居中（0否,1是）默认1
+        if(!isset($this->form_data['base']['is_middle']))
+        {
+            $this->form_data['base']['is_middle'] = 1;
+        }
+
         // 钩子
         $hv = explode('\\', $module);
         if(isset($hv[2]) && isset($hv[4]) && in_array($hv[2], config('shopxo.module_form_hook_group')))
@@ -125,7 +131,14 @@ class FormHandleModule
     {
         foreach($this->form_data['form'] as $k=>&$v)
         {
-            // 基础处理
+            // 基础字段处理
+            // 是否上下居中（0否,1是）默认1
+            if(!isset($v['is_middle']))
+            {
+                $v['is_middle'] = isset($this->form_data['base']['is_middle']) ? $this->form_data['base']['is_middle'] : 1;
+            }
+
+            // 基础数据类型处理
             if(!empty($v['view_type']))
             {
                 switch($v['view_type'])

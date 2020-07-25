@@ -54,8 +54,8 @@ class Admin
                     'checked_text'      => '反选',
                     'not_checked_text'  => '全选',
                     'align'             => 'center',
-                    'not_show_data'     => [1],
                     'not_show_key'      => 'id',
+                    'not_show_data'     => [1],
                     'width'             => 80,
                 ],
                 [

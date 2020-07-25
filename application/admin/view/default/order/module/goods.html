@@ -19,11 +19,13 @@
                         {{$item.spec_text}}
                     {{/if}}
                 </span>
-                <div class="am-text-right">
-                    {{if $item['returned_quantity'] gt 0 or $item['refund_price'] gt 0}}
-                        <span class="am-text-danger am-margin-right-lg">已退 {{$item.returned_quantity}} / {{$price_symbol}}{{$item.refund_price}}</span>
-                    {{/if}}
+                <div class="am-nbfc am-margin-top-xs">
                     <span>{{$price_symbol}}{{$item.price}}x{{$item.buy_number}}</span>
+                    <div class="am-fr">
+                        {{if $item['returned_quantity'] gt 0 or $item['refund_price'] gt 0}}
+                            <span class="am-text-danger am-margin-left-lg">已退 {{$item.returned_quantity}} / {{$price_symbol}}{{$item.refund_price}}</span>
+                        {{/if}}
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 /**
  * 公共
  */
+*{ outline:none !important; }
 ul { list-style: none; }
 .none { display:none !important; }
 .block { display:block !important; }
@@ -492,8 +493,8 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table > tfoot > tr > td {
     padding: 12px;
     line-height: 20px;
-    min-width: 150px;
-    max-width: 150px;
+    min-width: 160px;
+    max-width: 160px;
 }
 .am-table-scrollable-horizontal .am-table .am-nowrap-initial {
     white-space: initial;
@@ -505,6 +506,15 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table tr th {
     background: #e8e6e6;
     min-width: 100px;
+}
+.am-table-scrollable-horizontal .am-table tr .am-grid-xxxl {
+    min-width: 650px;
+}
+.am-table-scrollable-horizontal .am-table tr .am-grid-xxl {
+    min-width: 550px;
+}
+.am-table-scrollable-horizontal .am-table tr .am-grid-xl {
+    min-width: 450px;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-lg {
     min-width: 350px;

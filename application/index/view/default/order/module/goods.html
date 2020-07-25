@@ -20,14 +20,26 @@
                 {{/if}}
             </div>
         </div>
-        <div class="am-text-right">
-            {{if $item['returned_quantity'] gt 0 or $item['refund_price'] gt 0}}
-                <span class="am-text-danger am-margin-right-lg">已退 {{$item.returned_quantity}} / {{$price_symbol}}{{$item.refund_price}}</span>
-            {{/if}}
+        <div class="am-nbfc am-margin-top-xs">
             {{if $item.original_price gt 0}}
                 <span class="original-price am-margin-right-xs">{{$price_symbol}}{{$item.original_price}}</span>
             {{/if}}
-            <strong>{{$price_symbol}}{{$item.price}}x{{$item.buy_number}}</strong>
+            <span>{{$price_symbol}}{{$item.price}}x{{$item.buy_number}}</span>
+            {{if $item['returned_quantity'] gt 0 or $item['refund_price'] gt 0}}
+                <span class="am-text-danger am-margin-left-lg">已退 {{$item.returned_quantity}} / {{$price_symbol}}{{$item.refund_price}}</span>
+            {{/if}}
+
+            <div class="am-fr">
+                {{if ($module_data['is_can_launch_aftersale'] eq 1 or !empty($item['orderaftersale'])) and !empty($item['orderaftersale_btn_text'])}}
+                <a href="{{:MyUrl('index/orderaftersale/detail', ['oid'=>$module_data['id'], 'did'=>$item['id']])}}" target="_blank">
+                    {{if empty($item['orderaftersale'])}}
+                        {{$item.orderaftersale_btn_text}}
+                    {{else /}}
+                        <span class="{{if $item['orderaftersale']['status'] eq 3}}am-text-success{{else /}}am-text-secondary{{/if}}">{{$item.orderaftersale_btn_text}}</span>
+                    {{/if}}
+                </a>
+            {{/if}}
+            </div>
         </div>
         <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
     {{/foreach}}

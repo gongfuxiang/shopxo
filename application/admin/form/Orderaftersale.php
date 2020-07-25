@@ -42,6 +42,7 @@ class Orderaftersale
                 'key_field'     => 'id',
                 'is_search'     => 1,
                 'search_url'    => MyUrl('admin/orderaftersale/index'),
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [
