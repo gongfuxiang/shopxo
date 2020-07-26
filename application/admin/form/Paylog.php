@@ -68,8 +68,23 @@ class Paylog
                         'form_type'         => 'select',
                         'form_name'         => 'payment',
                         'where_type'        => 'in',
-                        'data'              => $this->PayLogTypeList(),
+                        'data'              => $this->PayLogPaymentTypeList(),
                         'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
+                    'label'         => '状态',
+                    'view_type'     => 'field',
+                    'view_key'      => 'status',
+                    'view_data_key' => 'name',
+                    'view_data'     => lang('common_pay_log_status_list'),
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'where_type'        => 'in',
+                        'data'              => lang('common_pay_log_status_list'),
+                        'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
@@ -78,24 +93,44 @@ class Paylog
                     'label'         => '业务类型',
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
-                    'view_data_key' => 'name',
-                    'view_data'     => lang('common_business_type_list'),
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => lang('common_business_type_list'),
-                        'data_key'          => 'id',
+                        'data'              => $this->PayLogBusinessTypeList(),
+                        'data_key'          => 'name',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
                 ],
                 [
-                    'label'         => '业务订单id',
-                    'view_type'     => 'field',
-                    'view_key'      => 'order_id',
+                    'label'         => '业务id/单号',
+                    'view_type'     => 'module',
+                    'view_key'      => 'paylog/module/business_list',
+                    'width'         => 300,
                     'search_config' => [
-                        'form_type'         => 'input',
-                        'where_type'        => '=',
+                        'form_type'             => 'input',
+                        'form_name'             => 'id',
+                        'where_type'            => 'like',
+                        'where_type_custom'     => 'in',
+                        'where_handle_custom'   => 'WhereValueBusinessInfo',
+                    ],
+                ],
+                [
+                    'label'         => '业务订单金额(元)',
+                    'view_type'     => 'field',
+                    'view_key'      => 'total_price',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                        'is_point'          => 1,
+                    ],
+                ],
+                [
+                    'label'         => '支付金额(元)',
+                    'view_type'     => 'field',
+                    'view_key'      => 'pay_price',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                        'is_point'          => 1,
                     ],
                 ],
                 [
@@ -104,7 +139,7 @@ class Paylog
                     'view_key'      => 'trade_no',
                     'search_config' => [
                         'form_type'         => 'input',
-                        'where_type'        => 'like',
+                        'where_type'        => '=',
                     ],
                 ],
                 [
@@ -114,24 +149,6 @@ class Paylog
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
-                    ],
-                ],
-                [
-                    'label'         => '支付金额',
-                    'view_type'     => 'field',
-                    'view_key'      => 'pay_price',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                        'is_point'          => 1,
-                    ],
-                ],
-                [
-                    'label'         => '订单实际金额',
-                    'view_type'     => 'field',
-                    'view_key'      => 'total_price',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                        'is_point'          => 1,
                     ],
                 ],
                 [
@@ -146,10 +163,25 @@ class Paylog
                 [
                     'label'         => '支付时间',
                     'view_type'     => 'field',
-                    'view_key'      => 'add_time_time',
+                    'view_key'      => 'pay_time',
                     'search_config' => [
                         'form_type'         => 'datetime',
-                        'form_name'         => 'add_time',
+                    ],
+                ],
+                [
+                    'label'         => '关闭时间',
+                    'view_type'     => 'field',
+                    'view_key'      => 'close_time',
+                    'search_config' => [
+                        'form_type'         => 'datetime',
+                    ],
+                ],
+                [
+                    'label'         => '创建时间',
+                    'view_type'     => 'field',
+                    'view_key'      => 'add_time',
+                    'search_config' => [
+                        'form_type'         => 'datetime',
                     ],
                 ],
                 [
@@ -194,10 +226,46 @@ class Paylog
      * @date    2020-06-26
      * @desc    description
      */
-    public function PayLogTypeList()
+    public function PayLogPaymentTypeList()
     {
         $ret = PayLogService::PayLogTypeList();
         return empty($ret['data']) ? [] : $ret['data'];
+    }
+
+    /**
+     * 业务类型
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-26
+     * @desc    description
+     */
+    public function PayLogBusinessTypeList()
+    {
+        return Db::name('PayLog')->field('business_type as name')->group('business_type')->select();
+    }
+
+    /**
+     * 关联业务条件处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-30
+     * @desc    description
+     * @param   [string]          $value    [条件值]
+     * @param   [array]           $params   [输入参数]
+     */
+    public function WhereValueBusinessInfo($value, $params = [])
+    {
+        if(!empty($value))
+        {
+            // 获取支持业务支付 id
+            $ids = Db::name('PayLogValue')->where('business_id|business_no', '=', $value)->column('pay_log_id');
+
+            // 避免空条件造成无效的错觉
+            return empty($ids) ? [0] : $ids;
+        }
+        return $value;
     }
 }
 ?>

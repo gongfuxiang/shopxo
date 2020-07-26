@@ -78,6 +78,7 @@ class Order
                     'not_show_data'     => [0,2,3,4,5,6],
                     'align'             => 'center',
                     'width'             => 80,
+                    'view_key'          => 'order_form_checkbox_value',
                 ],
                 [
                     'label'         => '基础信息',

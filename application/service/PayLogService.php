@@ -93,7 +93,18 @@ class PayLogService
         $data = Db::name('PayLog')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $refundment_list = lang('common_business_type_list');
+            // 获取支付业务关联数据
+            $log_value_list = [];
+            $log_value = Db::name('PayLogValue')->field('pay_log_id,business_id,business_no')->where(['pay_log_id'=>array_column($data, 'id')])->select();
+            if(!empty($log_value))
+            {
+                foreach($log_value as $lv)
+                {
+                    $log_value_list[$lv['pay_log_id']][] = $lv;
+                }
+            }
+
+            // 循环处理数据
             foreach($data as &$v)
             {
                 // 用户信息
@@ -105,12 +116,13 @@ class PayLogService
                     }
                 }
 
-                // 业务类型
-                $v['business_type_text'] = $refundment_list[$v['business_type']]['name'];
+                // 关联业务数据
+                $v['business_list'] = isset($log_value_list[$v['id']]) ? $log_value_list[$v['id']] : [];
 
                 // 时间
-                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                $v['add_time'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
+                $v['pay_time'] = empty($v['pay_time']) ? '' : date('Y-m-d H:i:s', $v['pay_time']);
+                $v['close_time'] = empty($v['close_time']) ? '' : date('Y-m-d H:i:s', $v['close_time']);
             }
         }
         return DataReturn('处理成功', 0, $data);

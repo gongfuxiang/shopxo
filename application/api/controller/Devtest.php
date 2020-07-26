@@ -130,5 +130,78 @@ class Devtest extends Common
         }
         echo 'count:'.count($result).', success:'.$success.', fail:'.$fail;
     }
+
+    /**
+     * 支付日志处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-26
+     * @desc    description
+     */
+    public function PayLogHandle()
+    {
+        if(input('pwd') != 'shopxo520')
+        {
+            die('非法访问');
+        }
+
+        // 状态
+        $success = 0;
+        $fail = 0;
+
+
+        // 获取日志
+        $data = Db::name('PayLog')->where(['is_handle'=>0])->limit(0, 500)->select();
+        if(!empty($data))
+        {
+            $business_type_list = [
+                0 => '默认',
+                1 => '订单',
+                2 => '充值',
+                3 => '提现',
+            ];
+            foreach($data as $v)
+            {
+                $upd_data = [
+                    'is_handle'     => 1,
+                    'business_type' => isset($business_type_list[$v['business_type']]) ? $business_type_list[$v['business_type']] : $v['business_type'],
+                    'status'        => (empty($v['pay_price']) || $v['pay_price'] <= 0) ? 0 : 1,
+                ];
+
+                // 未支付则关闭
+                if(empty($v['pay_price']) || $v['pay_price'] <= 0)
+                {
+                    $upd_data['close_time'] = time();
+                }
+
+                // 支付时间
+                if(!empty($v['pay_price']) && $v['pay_price'] > 0)
+                {
+                    $upd_data['pay_time'] = time();
+                }
+
+                // 更新操作
+                if(Db::name('PayLog')->where(['is_handle'=>0, 'id'=>$v['id']])->update($upd_data))
+                {
+                    // 新增关联数据
+                    if(DB::name('PayLogValue')->insert([
+                        'pay_log_id'    => $v['id'],
+                        'business_id'   => $v['order_id'],
+                        'business_no'   => '',
+                        'add_time'      => $v['add_time'],
+                    ]))
+                    {
+                        $success++;
+                    } else {
+                        $fail++;
+                    }
+                } else {
+                    $fail++;
+                }
+            }
+        }
+        echo 'count:'.count($data).', success:'.$success.', fail:'.$fail;
+    }
 }
 ?>

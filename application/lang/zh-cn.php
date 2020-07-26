@@ -366,6 +366,13 @@ return array(
             2 => array('value' => 2, 'name' => '已离职'),
         ),
 
+    // 支付日志状态
+    'common_pay_log_status_list'            => array(
+            0 => array('value' => 0, 'name' => '待支付', 'checked' => true),
+            1 => array('value' => 1, 'name' => '已支付'),
+            2 => array('value' => 2, 'name' => '已关闭'),
+        ),
+
 
     // 色彩值
     'common_color_list'                 =>  array(

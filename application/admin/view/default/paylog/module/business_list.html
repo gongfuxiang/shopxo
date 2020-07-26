@@ -1,0 +1,21 @@
+<!-- 关联业务数据 -->
+{{if !empty($module_data) and !empty($module_data['business_list']) and is_array($module_data['business_list'])}}
+    <dl class="dl-content dl-content-dd-only">
+        {{foreach $module_data.business_list as $v}}
+            <dd>
+                <div class="am-nbfc">
+                    {{if !empty($v['business_id'])}}
+                        <span class="am-icon-circle-thin am-fl">
+                            <strong>{{$v.business_id}}</strong>
+                        </span>
+                    {{/if}}
+                    {{if !empty($v['business_no'])}}
+                        <span class="am-icon-bookmark-o am-fr">
+                            <strong>{{$v.business_no}}</strong>
+                        </span>
+                    {{/if}}
+                </div>
+            </dd>
+        {{/foreach}}
+    </dl>
+{{/if}}

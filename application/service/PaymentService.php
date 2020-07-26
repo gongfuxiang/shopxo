@@ -252,15 +252,15 @@ class PaymentService
      * @version 1.0.0
      * @date    2018-09-19
      * @desc    description
-     * @param   [int]          $order_id    [订单id]
-     * @param   [int]          $payment_id  [支付方式id]
+     * @param   [int|string]            $business_value     [业务订单id|单号]
+     * @param   [int]                   $payment_id         [支付方式id]
      */
-    public static function OrderPaymentName($order_id = 0, $payment_id = 0)
+    public static function OrderPaymentName($business_value = 0, $payment_id = 0)
     {
         $name = null;
-        if(!empty($order_id))
+        if(!empty($business_value))
         {
-            $name = Db::name('PayLog')->where(['order_id'=>intval($order_id)])->value('payment_name');
+            $name = Db::name('PayLog')->alias('pl')->join(['__PAY_LOG_VALUE__'=>'plv'], 'pl.id=plv.pay_log_id')->where(['business_id|business_no'=>$business_value])->value('pl.payment_name');
             if(empty($anme) && !empty($payment_id))
             {
                 $name = Db::name('Payment')->where(['id'=>intval($payment_id)])->value('name');

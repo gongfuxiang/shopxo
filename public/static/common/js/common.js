@@ -1579,7 +1579,7 @@ function MapInit(lng, lat, level, point, is_dragend, mapid)
  * @date    2020-02-29
  * @desc    description
  */
-function TableContainerInit()
+function FormTableContainerInit()
 {
 	if($('.am-table-scrollable-horizontal').length > 0)
 	{
@@ -1630,12 +1630,45 @@ function TableContainerInit()
 	}
 }
 
+/**
+ * 动态表格选中的值
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-07-26
+ * @desc    description
+ * @param   {[string]}        form [表单名称]
+ */
+function FromTableCheckedValues(form)
+{
+	// 获取复选框选中的值
+	var values = [];
+	$('.am-table-scrollable-horizontal').find('input[name="'+form+'"]').each(function(key, tmp)
+	{
+		if($(this).is(':checked'))
+		{
+			values.push(tmp.value);
+		}
+	});
+
+	// 获取单选选中的值
+	if(values.length <= 0)
+	{
+		var val = $('.am-table-scrollable-horizontal input[name="'+form+'"]:checked').val();
+		if(val != undefined)
+		{
+			values.push(val);
+		}
+	}
+	return values;
+}
+
 
 // 公共数据操作
 $(function()
 {
     // 表格初始化
-    TableContainerInit();
+    FormTableContainerInit();
 
     // 表格复选框操作 全选/反选
     $('.form-table-operate-checkbox-submit').on('click', function()
@@ -1673,27 +1706,8 @@ $(function()
     		return false;
     	}
 
-    	// 获取复选框选中的值
-		var values = [];
-		$(document).find('input[name="'+form+'"]').each(function(key, tmp)
-		{
-			if($(this).is(':checked'))
-			{
-				values.push(tmp.value);
-			}
-		});
-
-		// 获取单选框的值
-		if(values.length <= 0)
-		{
-			var val = $('input[name="'+form+'"]:checked').val();
-			if(val != undefined)
-			{
-				values.push(val);
-			}
-		}
-
 		// 是否有选择的数据
+		var values = FromTableCheckedValues(form);
 		if(values.length <= 0)
 		{
 			Prompt('请先选中数据');

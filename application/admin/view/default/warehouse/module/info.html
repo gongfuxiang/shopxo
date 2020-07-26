@@ -1,9 +1,9 @@
 <!-- 基础信息 -->
 {{if !empty($module_data)}}
     {{if !empty($module_data['name'])}}
-        <p>{{$module_data.name}}{{if isset($module_data['is_default']) and $module_data['is_default'] eq 1}}<span class="am-badge am-badge-success am-round am-margin-left-xs">默认</span>{{/if}}</p>
+        <p>{{$module_data.name}}{{if isset($module_data['is_default']) and $module_data['is_default'] eq 1}}<span class="am-badge am-badge-success-plain am-round am-margin-left-xs">默认</span>{{/if}}</p>
     {{/if}}
     {{if !empty($module_data['alias'])}}
-        <p class="am-badge am-badge-secondary am-radius">{{$module_data.alias}}</p>
+        <p class="am-badge am-badge-secondary-plain am-radius">{{$module_data.alias}}</p>
     {{/if}}
 {{/if}}
