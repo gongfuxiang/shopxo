@@ -43,6 +43,7 @@ class Paylog
                 'key_field'     => 'id',
                 'is_search'     => 1,
                 'search_url'    => MyUrl('admin/paylog/index'),
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [
@@ -58,6 +59,15 @@ class Paylog
                         'where_type_custom'     => 'in',
                         'where_handle_custom'   => 'WhereValueUserInfo',
                         'placeholder'           => '请输入用户名/昵称/手机/邮箱',
+                    ],
+                ],
+                [
+                    'label'         => '支付单号',
+                    'view_type'     => 'field',
+                    'view_key'      => 'log_no',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => '=',
                     ],
                 ],
                 [
@@ -90,6 +100,24 @@ class Paylog
                     ],
                 ],
                 [
+                    'label'         => '业务订单金额(元)',
+                    'view_type'     => 'field',
+                    'view_key'      => 'total_price',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                        'is_point'          => 1,
+                    ],
+                ],
+                [
+                    'label'         => '支付金额(元)',
+                    'view_type'     => 'field',
+                    'view_key'      => 'pay_price',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                        'is_point'          => 1,
+                    ],
+                ],
+                [
                     'label'         => '业务类型',
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
@@ -113,24 +141,6 @@ class Paylog
                         'where_type'            => 'like',
                         'where_type_custom'     => 'in',
                         'where_handle_custom'   => 'WhereValueBusinessInfo',
-                    ],
-                ],
-                [
-                    'label'         => '业务订单金额(元)',
-                    'view_type'     => 'field',
-                    'view_key'      => 'total_price',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                        'is_point'          => 1,
-                    ],
-                ],
-                [
-                    'label'         => '支付金额(元)',
-                    'view_type'     => 'field',
-                    'view_key'      => 'pay_price',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                        'is_point'          => 1,
                     ],
                 ],
                 [

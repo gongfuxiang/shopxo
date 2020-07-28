@@ -74,6 +74,9 @@ class Order extends Common
         ];
         $ret = OrderService::OrderList($data_params);
 
+        // 发起支付 - 支付方式
+        $this->assign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
+
         // 加载百度地图api
         $this->assign('is_load_baidu_map_api', 1);
 
@@ -100,7 +103,7 @@ class Order extends Common
         $data = $this->OrderFirst();
         if(!empty($data))
         {
-             // 发起支付 - 支付方式
+            // 发起支付 - 支付方式
             $this->assign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
             // 虚拟销售配置
@@ -111,7 +114,7 @@ class Order extends Common
             $this->assign('is_load_baidu_map_api', 1);
 
             // 浏览器名称
-        $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单详情', 1));
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单详情', 1));
 
             // 数据赋值
             $this->assign('data', $data);
@@ -212,7 +215,7 @@ class Order extends Common
      */
     public function Pay()
     {
-        $params = input();
+        $params = $this->data_request;
         $params['user'] = $this->user;
         $ret = OrderService::Pay($params);
         if($ret['code'] == 0)
@@ -235,7 +238,7 @@ class Order extends Common
     public function Respond()
     {
         // 参数
-        $params = input();
+        $params = $this->data_request;
 
         // 是否自定义状态
         if(isset($params['appoint_status']))

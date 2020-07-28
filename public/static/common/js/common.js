@@ -1663,6 +1663,21 @@ function FromTableCheckedValues(form)
 	return values;
 }
 
+/**
+ * 判断变量是否为数组
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-07-28
+ * @desc    description
+ * @param   {[mixed]}        value [变量值]
+ */
+function IsArray(value)
+{
+	return Object.prototype.toString.call(value) == '[object Array]';
+}
+
+
 
 // 公共数据操作
 $(function()

@@ -11,10 +11,10 @@
     </button>
 {{/if}}
 {{if in_array($module_data['status'], [1])}}
-    <a class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('index/order/detail', ['id'=>$module_data['id'], 'is_pay_auto'=>1])}}" target="_blank">
+    <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay" data-id="{{$module_data.id}}" data-payment-id="{{$module_data.payment_id}}">
         <i class="am-icon-paypal"></i>
         <span>支付</span>
-    </a>
+    </button>
 {{/if}}
 {{if in_array($module_data['status'], [3])}}
     <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$module_data.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">

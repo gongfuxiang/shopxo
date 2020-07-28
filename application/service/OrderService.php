@@ -46,7 +46,7 @@ class OrderService
         $p = [
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'id',
+                'key_name'          => 'ids',
                 'error_msg'         => '订单id有误',
             ],
             [
@@ -61,28 +61,76 @@ class OrderService
             return DataReturn($ret, -1);
         }
 
-        // 获取订单信息
-        $where = ['id'=>intval($params['id']), 'user_id' => $params['user']['id']];
-        $order = Db::name('Order')->where($where)->find();
-        if(empty($order))
+        // 支付订单id
+        $ids = is_array($params['ids']) ? $params['ids'] : explode(',', urldecode($params['ids']));
+        if(empty($ids))
         {
-            return DataReturn('资源不存在或已被删除', -1);
-        }
-        if($order['status'] != 1)
-        {
-            $status_text = lang('common_order_user_status')[$order['status']]['name'];
-            return DataReturn('状态不可操作['.$status_text.']', -1);
+            return DataReturn('订单支付id有误', -1);
         }
 
-        // 订单支付前校验
-        $ret = BuyService::OrderPayBeginCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
-        if($ret['code'] != 0)
+        // 支付基础信息
+        $order_payment_id = 0;
+        $client_type = '';
+        $total_price = 0;
+        $success_count = 0;
+        $order_ids = [];
+        $order_nos = [];
+
+        // 循环处理
+        foreach($ids as $k=>$order_id)
         {
-            return $ret;
+            // 获取订单信息
+            $where = ['id'=>intval($order_id), 'user_id' => $params['user']['id']];
+            $order = Db::name('Order')->where($where)->find();
+            if(empty($order))
+            {
+                return DataReturn('资源不存在或已被删除', -1);
+            }
+            if($order['status'] != 1)
+            {
+                $status_text = lang('common_order_user_status')[$order['status']]['name'];
+                return DataReturn('状态不可操作['.$status_text.']'.$order['order_no'], -1);
+            }
+
+            // 订单支付前校验
+            $ret = BuyService::OrderPayBeginCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 金额为0、走直接支付成功
+            if($order['total_price'] <= 0.00)
+            {
+                $params['user']['user_name_view'] = '用户-'.$params['user']['user_name_view'];
+                $pay_result = self::OrderDirectSuccess([
+                    'order'     => $order,
+                    'payment'   => $payment[0],
+                    'user'      => $params['user'],
+                    'params'    => $params,
+                ]);
+                if($pay_result['code'] == 0)
+                {
+                    $success_count++;
+                }
+                return $pay_result;
+            }
+
+            // 订单id/号集合
+            $order_ids[] = $order['id'];
+            $order_nos[] = $order['order_no'];
+            $total_price += $order['total_price'];
+
+            // 仅第一个订单获取的数据
+            if($k == 0)
+            {
+                $client_type = $order['client_type'];
+                $order_payment_id = $order['payment_id'];
+            }
         }
 
         // 支付方式
-        $payment_id = empty($params['payment_id']) ? $order['payment_id'] : intval($params['payment_id']);
+        $payment_id = empty($params['payment_id']) ? $order_payment_id : intval($params['payment_id']);
         $payment = PaymentService::PaymentList(['where'=>['id'=>$payment_id]]);
         if(empty($payment[0]))
         {
@@ -90,30 +138,19 @@ class OrderService
         }
 
         // 更新订单支付方式信息
-        if(!empty($params['payment_id']) && $params['payment_id'] != $order['payment_id'])
+        if($payment_id != $order_payment_id)
         {
-            Db::name('Order')->where(['id'=>$order['id']])->update([
+            Db::name('Order')->where(['id'=>$ids])->update([
                 'payment_id'    => $payment_id,
                 'is_under_line' => in_array($payment[0]['payment'], config('shopxo.under_line_list')) ? 1 : 0,
                 'upd_time'      => time(),
             ]);
         }
 
-        // 金额为0、走直接支付成功
-        if($order['total_price'] <= 0.00)
+        // 是否直接跳转
+        if($success_count > 0 && $success_count == count($ids))
         {
-            $params['user']['user_name_view'] = '用户-'.$params['user']['user_name_view'];
-            $pay_result = self::OrderDirectSuccess([
-                'order'     => $order,
-                'payment'   => $payment[0],
-                'user'      => $params['user'],
-                'params'    => $params,
-            ]);
-            if($pay_result['code'] == 0)
-            {
-                return DataReturn('支付成功', 0, ['data'=>MyUrl('index/order/respond', ['appoint_status'=>0])]);
-            }
-            return $pay_result;
+            return DataReturn('支付成功', 0, ['data'=>MyUrl('index/order/respond', ['appoint_status'=>0])]);
         }
 
         // 支付入口文件检查
@@ -148,18 +185,32 @@ class OrderService
             }
         }
 
+        // 新增支付日志
+        $pay_log = self::OrderPayLogInsert([
+            'user_id'       => $params['user']['id'],
+            'business_ids'  => $order_ids,
+            'business_nos'  => $order_nos,
+            'total_price'   => $total_price,
+            'payment'       => $payment[0]['payment'],
+            'payment_name'  => $payment[0]['name'],
+        ]);
+        if($pay_log['code'] != 0)
+        {
+            return $pay_log;
+        }
+
         // 发起支付数据
         $pay_data = array(
             'user'          => $params['user'],
             'out_user'      => md5($params['user']['id']),
-            'order_id'      => $order['id'],
-            'order_no'      => $order['order_no'],
+            'order_id'      => $pay_log['data']['id'],
+            'order_no'      => $pay_log['data']['log_no'],
             'name'          => '订单支付',
-            'total_price'   => $order['total_price'],
-            'client_type'   => $order['client_type'],
+            'total_price'   => $total_price,
+            'client_type'   => $client_type,
             'notify_url'    => $url.'_notify.php',
             'call_back_url' => $call_back_url,
-            'redirect_url'  => MyUrl('index/order/detail', ['id'=>$order['id']]),
+            'redirect_url'  => MyUrl('index/order/index'),
             'site_name'     => MyC('home_site_name', 'ShopXO', true),
             'ajax_url'      => MyUrl('index/order/paycheck'),
         );
@@ -169,8 +220,7 @@ class OrderService
         $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
-            'order_id'      => $order['id'],
-            'order'         => &$order,
+            'order_ids'     => $order_ids,
             'params'        => &$params,
             'pay_data'      => &$pay_data,
         ]));
@@ -185,7 +235,21 @@ class OrderService
             if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false && empty($pay_data['user']['weixin_web_openid']))
             {
                 // 授权成功后回调订单详情页面重新自动发起支付
-                $url = MyUrl('index/order/detail', ['id'=>$pay_data['order_id'], 'is_pay_auto'=>1, 'is_pay_submit'=>1]);
+                // 单个订单进入详情，则进入列表
+                $weixin_params = [
+                    'is_pay_auto'       => 1,
+                    'is_pay_submit'     => 1,
+                    'payment_id'        => $payment_id,
+                ];
+                if(count($order_ids) == 1)
+                {
+                    $weixin_params['id'] = $order_ids[0];
+                    $weixin_params['ids'] = $order_ids[0];
+                    $url = MyUrl('index/order/detail', $weixin_params);
+                } else {
+                    $weixin_params['ids'] = urldecode(implode(',', $order_ids));
+                    $url = MyUrl('index/order/index', $weixin_params);
+                }
                 session('plugins_weixinwebauth_pay_callback_view_url', $url);
             }
         }
@@ -219,6 +283,31 @@ class OrderService
             return $ret;
         }
         return DataReturn(empty($ret['msg']) ? '支付接口异常' : $ret['msg'], -1);
+    }
+
+    /**
+     * 新增订单支付日志
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function OrderPayLogInsert($params = [])
+    {
+        $business_ids = isset($params['business_ids']) ? $params['business_ids'] : [];
+        $business_nos = isset($params['business_nos']) ? $params['business_nos'] : [];
+        return PayLogService::PayLogInsert([
+            'user_id'       => isset($params['user_id']) ? intval($params['user_id']) : 0,
+            'business_ids'  => is_array($business_ids) ? $business_ids : [$business_ids],
+            'business_nos'  => is_array($business_nos) ? $business_nos : [$business_nos],
+            'total_price'   => isset($params['total_price']) ? PriceNumberFormat($params['total_price']) : 0.00,
+            'subject'       => '订单支付',
+            'payment'       => isset($params['payment']) ? $params['payment'] : '',
+            'payment_name'  => isset($params['payment_name']) ? $params['payment_name'] : '',
+            'business_type' => '订单',
+        ]);
     }
 
     /**
@@ -303,11 +392,29 @@ class OrderService
         {
             if($params['order']['total_price'] <= 0.00)
             {
+                // 新增支付日志
+                $pay_log = self::OrderPayLogInsert([
+                    'user_id'       => $params['user']['id'],
+                    'business_ids'  => $params['order']['id'],
+                    'business_nos'  => $params['order']['order_no'],
+                    'total_price'   => $params['order']['total_price'],
+                    'payment'       => $params['payment']['payment'],
+                    'payment_name'  => $params['payment']['name'],
+                ]);
+                if($pay_log['code'] != 0)
+                {
+                    return $pay_log;
+                }
+
+                // 新增日志订单
+                $pay_log_data = [];
+
                 // 支付处理
                 $pay_params = [
-                    'order'     => $params['order'],
-                    'payment'   => $params['payment'],
-                    'pay'       => [
+                    'order'         => [$params['order']],
+                    'payment'       => $params['payment'],
+                    'pay_log_data'  => $pay_log['data'],
+                    'pay'           => [
                         'trade_no'      => '',
                         'subject'       => isset($params['params']['subject']) ? $params['params']['subject'] : '订单支付',
                         'buyer_user'    => $params['user']['user_name_view'],
@@ -336,11 +443,26 @@ class OrderService
         {
             if(in_array($params['payment']['payment'], config('shopxo.under_line_list')))
             {
+                // 新增支付日志
+                $pay_log = self::OrderPayLogInsert([
+                    'user_id'       => $params['user']['id'],
+                    'business_ids'  => $params['order']['id'],
+                    'business_nos'  => $params['order']['order_no'],
+                    'total_price'   => $params['order']['total_price'],
+                    'payment'       => $params['payment']['payment'],
+                    'payment_name'  => $params['payment']['name'],
+                ]);
+                if($pay_log['code'] != 0)
+                {
+                    return $pay_log;
+                }
+
                 // 支付处理
                 $pay_params = [
-                    'order'     => $params['order'],
-                    'payment'   => $params['payment'],
-                    'pay'       => [
+                    'order'         => $params['order'],
+                    'payment'       => $params['payment'],
+                    'pay_log_data'  => $pay_log['data'],
+                    'pay'           => [
                         'trade_no'      => '',
                         'subject'       => isset($params['params']['subject']) ? $params['params']['subject'] : '订单支付',
                         'buyer_user'    => $params['user']['user_name_view'],
@@ -433,31 +555,64 @@ class OrderService
 
         // 支付数据校验
         $pay_name = 'payment\\'.PAYMENT_TYPE;
-        $ret = (new $pay_name($payment[0]['config']))->Respond(array_merge(input('get.'), input('post.')));
-        if(!isset($ret['code']) || $ret['code'] != 0)
+        $pay_ret = (new $pay_name($payment[0]['config']))->Respond(array_merge(input('get.'), input('post.')));
+        if(!isset($pay_ret['code']) || $pay_ret['code'] != 0)
         {
-            return $ret;
+            return $pay_ret;
         }
 
-        // 获取订单信息
-        $where = ['order_no'=>$ret['data']['out_trade_no'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = Db::name('Order')->where($where)->find();
+        // 获取支付日志订单
+        $pay_log_data = Db::name('PayLog')->where([
+            'log_no'    => $pay_ret['data']['out_trade_no'],
+            'status'    => 0,
+        ])->find();
+        if(empty($pay_log_data))
+        {
+            return DataReturn('日志订单有误', -1);
+        }
+
+        // 获取关联信息
+        $pay_log_value = Db::name('PayLogValue')->where(['pay_log_id'=>$pay_log_data['id']])->column('business_id');
+        if(empty($pay_log_value))
+        {
+            return DataReturn('日志订单关联信息有误', -1);
+        }
+
+        // 获取订单
+        $order_list = Db::name('Order')->where(['id'=>$pay_log_value, 'status'=>1])->select();
+        if(empty($order_list))
+        {
+            return DataReturn('订单信息有误', -1);
+        }
+
+        // 订单数量是否一致
+        if(count($order_list) != count($pay_log_value))
+        {
+            return DataReturn('订单与日志记录数量不一致', -1);
+        }
+
+        // 支付金额是否小于订单金额
+        if($pay_ret['data']['pay_price'] < $pay_log_data['total_price'])
+        {
+            return DataReturn('支付金额小于日志订单金额', -1);
+        }
 
         // 支付处理
         $pay_params = [
-            'order'     => $order,
-            'payment'   => $payment[0],
-            'pay'       => [
-                'trade_no'      => $ret['data']['trade_no'],
-                'subject'       => $ret['data']['subject'],
-                'buyer_user'    => $ret['data']['buyer_user'],
-                'pay_price'     => $ret['data']['pay_price'],
+            'order'         => $order,
+            'payment'       => $payment[0],
+            'pay_log_data'  => $pay_log_data,
+            'pay'           => [
+                'trade_no'      => $pay_ret['data']['trade_no'],
+                'subject'       => $pay_ret['data']['subject'],
+                'buyer_user'    => $pay_ret['data']['buyer_user'],
+                'pay_price'     => $pay_ret['data']['pay_price'],
             ],
         ];
 
         // 支付成功异步通知处理钩子
         $hook_name = 'plugins_service_order_pay_notify_handle';
-        $ret = HookReturnHandle(Hook::listen($hook_name, [
+        $pay_ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'payment'       => $payment[0],
@@ -474,24 +629,20 @@ class OrderService
     }
 
     /**
-     * [OrderPayHandle 订单支付处理]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-10-05T23:02:14+0800
-     * @param   [array]          $params [输入参数]
+     * 订单支付处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
      */
     public static function OrderPayHandle($params = [])
     {
         // 订单信息
-        if(empty($params['order']))
+        if(empty($params['order']) || !is_array($params['order']))
         {
-            return DataReturn('资源不存在或已被删除', -1);
-        }
-        if($params['order']['status'] > 1)
-        {
-            $status_text = lang('common_order_user_status')[$params['order']['status']]['name'];
-            return DataReturn('状态不可操作['.$status_text.']', 0);
+            return DataReturn('订单数据不存在或类型有误', -1);
         }
 
         // 支付方式
@@ -500,104 +651,131 @@ class OrderService
             return DataReturn('支付方式有误', -1);
         }
 
-        // 订单支付成功处理前钩子
-        $hook_name = 'plugins_service_order_pay_handle_begin';
-        $ret = HookReturnHandle(Hook::listen($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'params'        => &$params,
-            'order_id'      => $params['order']['id']
-        ]));
-        if(isset($ret['code']) && $ret['code'] != 0)
+        // 日志订单
+        if(empty($params['pay_log_data']))
         {
-            return $ret;
+            return DataReturn('日志订单有误', -1);
         }
-
-        // 支付参数
-        $pay_price = isset($params['pay']['pay_price']) ? $params['pay']['pay_price'] : 0;
-
-        // 写入支付日志
-        $pay_log_data = [
-            'user_id'       => $params['order']['user_id'],
-            'order_id'      => $params['order']['id'],
-            'total_price'   => $params['order']['total_price'],
-            'trade_no'      => isset($params['pay']['trade_no']) ? $params['pay']['trade_no'] : '',
-            'buyer_user'    => isset($params['pay']['buyer_user']) ? $params['pay']['buyer_user'] : '',
-            'pay_price'     => $pay_price,
-            'subject'       => isset($params['pay']['subject']) ? $params['pay']['subject'] : '订单支付',
-            'payment'       => $params['payment']['payment'],
-            'payment_name'  => $params['payment']['name'],
-            'business_type' => 1,
-        ];
-        PayLogService::PayLogInsert($pay_log_data);
 
         // 开启事务
         Db::startTrans();
 
-        // 消息通知
-        $detail = '订单支付成功，金额'.PriceBeautify($params['order']['total_price']).'元';
-        MessageService::MessageAdd($params['order']['user_id'], '订单支付', $detail, 1, $params['order']['id']);
-
-        // 订单更新数据
-        $upd_data = [
-            'status'        => 2,
-            'pay_status'    => 1,
-            'pay_price'     => $pay_price,
-            'payment_id'    => $params['payment']['id'],
-            'pay_time'      => time(),
-            'upd_time'      => time(),
-        ];
-
-        // 是否线下支付
-        $upd_data['is_under_line'] = in_array($params['payment']['payment'], config('shopxo.under_line_list')) ? 1 : 0;
-
-        // 更新订单状态
-        if(Db::name('Order')->where(['id'=>$params['order']['id']])->update($upd_data))
+        // 循环处理
+        foreach($params['order'] as $order)
         {
-            // 添加状态日志
-            if(self::OrderHistoryAdd($params['order']['id'], 2, $params['order']['status'], '支付', 0, '系统'))
+            if($order['status'] > 1)
             {
-                // 库存扣除
-                $ret = BuyService::OrderInventoryDeduct(['order_id'=>$params['order']['id'], 'order_data'=>$upd_data]);
-                if($ret['code'] != 0)
-                {
-                    // 事务回滚
-                    Db::rollback();
-                    return DataReturn($ret['msg'], -10);
-                }
+                // 事务回滚
+                Db::rollback();
+                $status_text = lang('common_order_user_status')[$order['status']]['name'];
+                return DataReturn('状态不可操作['.$status_text.']', 0);
+            }
 
-                // 提交事务
-                Db::commit();
+            // 订单支付成功处理前钩子
+            $hook_name = 'plugins_service_order_pay_handle_begin';
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'order_id'      => $order['id']
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                // 事务回滚
+                Db::rollback();
+                return $ret;
+            }
 
-                // 订单支付成功处理完毕钩子
-                $hook_name = 'plugins_service_order_pay_success_handle_end';
-                $ret = HookReturnHandle(Hook::listen($hook_name, [
-                    'hook_name'     => $hook_name,
-                    'is_backend'    => true,
-                    'params'        => $params,
-                    'order_id'      => $params['order']['id']
-                ]));
+            // 消息通知
+            $detail = '订单支付成功，金额'.PriceBeautify($order['total_price']).'元';
+            MessageService::MessageAdd($order['user_id'], '订单支付', $detail, 1, $order['id']);
 
-                // 虚拟商品自动触发发货操作
-                if($params['order']['order_model'] == 3)
-                {
-                    self::OrderDelivery([
-                        'id'                => $params['order']['id'],
-                        'creator'           => 0,
-                        'creator_name'      => '系统',
-                        'user_id'           => $params['order']['user_id'],
-                    ]);
-                }
+            // 订单更新数据
+            $upd_data = [
+                'status'        => 2,
+                'pay_status'    => 1,
+                'pay_price'     => $order['total_price'],
+                'payment_id'    => $params['payment']['id'],
+                'pay_time'      => time(),
+                'upd_time'      => time(),
+            ];
 
-                return DataReturn('支付成功', 0);
+            // 是否线下支付
+            $upd_data['is_under_line'] = in_array($params['payment']['payment'], config('shopxo.under_line_list')) ? 1 : 0;
+
+            // 更新订单状态
+            if(!Db::name('Order')->where(['id'=>$order['id']])->update($upd_data))
+            {
+                // 事务回滚
+                Db::rollback();
+                return DataReturn('订单更新失败['.$order['id'].']', -10);
+            }
+
+            // 添加状态日志
+            if(!self::OrderHistoryAdd($order['id'], 2, $order['status'], '支付', 0, '系统'))
+            {
+                // 事务回滚
+                Db::rollback();
+                return DataReturn('订单日志添加失败['.$order['id'].']', -10);
+            }
+
+            // 库存扣除
+            $ret = BuyService::OrderInventoryDeduct(['order_id'=>$order['id'], 'order_data'=>$upd_data]);
+            if($ret['code'] != 0)
+            {
+                // 事务回滚
+                Db::rollback();
+                return DataReturn($ret['msg'], -10);
+            }
+
+            // 订单支付成功处理完毕钩子
+            $hook_name = 'plugins_service_order_pay_success_handle_end';
+            $ret = HookReturnHandle(Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => $params,
+                'order_id'      => $order['id']
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                // 事务回滚
+                Db::rollback();
+                return $ret;
+            }
+
+            // 虚拟商品自动触发发货操作
+            if($order['order_model'] == 3)
+            {
+                self::OrderDelivery([
+                    'id'                => $order['id'],
+                    'creator'           => 0,
+                    'creator_name'      => '系统',
+                    'user_id'           => $order['user_id'],
+                ]);
             }
         }
 
-        // 事务回滚
-        Db::rollback();
+        // 更新支付日志
+        $pay_log_data = [
+            'log_id'        => $params['pay_log_data']['id'],
+            'trade_no'      => isset($params['pay']['trade_no']) ? $params['pay']['trade_no'] : '',
+            'buyer_user'    => isset($params['pay']['buyer_user']) ? $params['pay']['buyer_user'] : '',
+            'pay_price'     => isset($params['pay']['pay_price']) ? $params['pay']['pay_price'] : 0,
+            'subject'       => isset($params['pay']['subject']) ? $params['pay']['subject'] : '订单支付',
+            'payment'       => $params['payment']['payment'],
+            'payment_name'  => $params['payment']['name'],
+        ];
+        $ret = PayLogService::PayLogSuccess($pay_log_data);
+        if($ret['code'] != 0)
+        {
+            // 事务回滚
+            Db::rollback();
+            return $ret;
+        }
 
-        // 处理失败
-        return DataReturn('处理失败', -100);
+        // 提交事务
+        Db::commit();
+        return DataReturn('支付成功', 0);
     }
 
     /**

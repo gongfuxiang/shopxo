@@ -3,7 +3,13 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-paypal batch-pay-submit"> 批量支付</button>
+    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-paypal batch-pay-submit" data-url="{{:MyUrl('index/order/pay')}}"> 批量支付</button>
     <!-- 父级内容 -->
     {__block__}
+{{/block}}
+
+<!-- 底部 -->
+{{block name="form_page_bottom"}}
+    <!-- 支付弹窗 -->
+    {{include file="order/payment_popup" /}}
 {{/block}}

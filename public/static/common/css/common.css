@@ -16,6 +16,7 @@ ul { list-style: none; }
 .dl-content dd:not(:last-child) { border-bottom: 1px solid #efefef; }
 .dl-content dt, .dl-content dd { font-weight: normal !important; text-align: left; margin-top: 0px; line-height: 20px; min-height: 40px; padding-top: 10px; padding-bottom: 10px; }
 .dl-content-dd-only dd { padding-left: 0; }
+.dl-content-dd-compact dd { line-height: 25px; min-height: 25px; padding: 0; }
 
 /**
  * 表单优化

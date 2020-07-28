@@ -29,33 +29,132 @@ class PayLogService
      * @datetime 2019-05-07T00:57:36+0800
      * @param   [array]             $params         [输入参数]
      * @param   [int]               $user_id        [用户id]
-     * @param   [int]               $order_id       [业务订单id]
+     * @param   [int]               $business_ids   [业务订单id]
      * @param   [float]             $total_price    [业务订单实际金额]
-     * @param   [string]            $trade_no       [支付平台交易号]
-     * @param   [string]            $buyer_user     [支付平台用户帐号]
-     * @param   [float]             $pay_price      [支付金额]
      * @param   [string]            $subject        [业务订单名称]
-     * @param   [string]            $payment        [支付方式标记]
-     * @param   [string]            $payment_name   [支付方式名称]
      * @param   [int]               $business_type  [业务类型（0默认, 1订单, 2充值, ...）]
      * @return  [boolean]                           [成功true, 失败false]
      */
     public static function PayLogInsert($params = [])
     {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'business_ids',
+                'error_msg'         => '业务id为空',
+            ],
+            [
+                'checked_type'      => 'is_array',
+                'key_name'          => 'business_ids',
+                'error_msg'         => '业务id数据类型有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user_id',
+                'error_msg'         => '用户id为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'business_type',
+                'error_msg'         => '业务类型为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'total_price',
+                'error_msg'         => '业务金额为空',
+            ],
+            [
+                'checked_type'      => 'min',
+                'key_name'          => 'total_price',
+                'checked_data'      => 0.01,
+                'error_msg'         => '业务金额必须大于0',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 业务id
+        if(empty($params['business_ids']))
+        {
+            return DataReturn('业务id为空', -1);
+        }
+
+        // 日志主数据
         $data = [
-            'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
-            'order_id'          => isset($params['order_id']) ? intval($params['order_id']) : 0,
-            'total_price'       => isset($params['total_price']) ? PriceNumberFormat($params['total_price']) : 0.00,
+            'log_no'            => date('YmdHis').GetNumberCode(6),
+            'user_id'           => intval($params['user_id']),
+            'total_price'       => PriceNumberFormat($params['total_price']),
+            'business_type'     => trim($params['business_type']),
+            'subject'           => isset($params['subject']) ? $params['subject'] : '',
+            'payment'           => isset($params['payment']) ? $params['payment'] : '',
+            'payment_name'      => isset($params['payment_name']) ? $params['payment_name'] : '',
+            'add_time'          => time(),
+        ];
+        $pay_log_id = Db::name('PayLog')->insertGetId($data);
+        if($pay_log_id > 0)
+        {
+            $business_nos = isset($params['business_nos']) && is_array($params['business_nos']) ? $params['business_nos'] : [];
+            $value_data = [];
+            foreach($params['business_ids'] as $bk=>$bv)
+            {
+                $value_data[] = [
+                    'pay_log_id'    => $pay_log_id,
+                    'business_id'   => $bv,
+                    'business_no'   => isset($business_nos[$bk]) ? trim($business_nos[$bk]) : '',
+                    'add_time'      => time(),
+                ];
+            }
+            $res = Db::name('PayLogValue')->insertAll($value_data);
+            if($res >= count($params['business_ids']))
+            {
+                $data['id'] = $pay_log_id;
+                return DataReturn('添加成功', 0, $data);
+            }
+        }
+        return DataReturn('支付订单添加失败', -100);
+    }
+
+    /**
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-27
+     * @desc    description
+     * @param   [int]               $log_id         [支付日志id]
+     * @param   [string]            $trade_no       [支付平台交易号]
+     * @param   [string]            $buyer_user     [支付平台用户帐号]
+     * @param   [float]             $pay_price      [支付金额]
+     * @param   [string]            $payment        [支付方式标记]
+     * @param   [string]            $payment_name   [支付方式名称]
+     */
+    public static function PayLogSuccess($params = [])
+    {
+        // 参数
+        if(empty($params['log_id']))
+        {
+            return DataReturn('日志id有误', -100);
+        }
+
+        // 更新数据
+        $data = [
             'trade_no'          => isset($params['trade_no']) ? $params['trade_no'] : '',
             'buyer_user'        => isset($params['buyer_user']) ? $params['buyer_user'] : '',
             'pay_price'         => isset($params['pay_price']) ? PriceNumberFormat($params['pay_price']) : 0.00,
             'subject'           => isset($params['subject']) ? $params['subject'] : '',
             'payment'           => isset($params['payment']) ? $params['payment'] : '',
             'payment_name'      => isset($params['payment_name']) ? $params['payment_name'] : '',
-            'business_type'     => isset($params['business_type']) ? intval($params['business_type']) : 0,
-            'add_time'          => time(),
+            'status'            => 1,
+            'pay_time'          => time(),
         ];
-        return Db::name('PayLog')->insertGetId($data) > 0;
+        if(Db::name('PayLog')->where(['id'=>intval($params['log_id']), 'status'=>0])->update($data))
+        {
+            return DataReturn('日志订单更新成功', 0);
+        }
+        return DataReturn('日志订单更新失败', -100);
     }
 
     /**

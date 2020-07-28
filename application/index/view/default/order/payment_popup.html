@@ -1,0 +1,37 @@
+<div class="am-popup am-radius" id="order-pay-popup" data-is-auto="{{if isset($params['is_pay_auto']) and $params['is_pay_auto'] eq 1}}1{{else /}}0{{/if}}" data-is-pay="{{if isset($params['is_pay_submit']) and $params['is_pay_submit'] eq 1}}1{{else /}}0{{/if}}">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">支付</h4>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <form class="am-form pay-form" method="post" action="{{:MyUrl('index/order/pay')}}">
+                <!-- 支付方式 -->
+                <div class="business-item">
+                    <h3>选择支付</h3>
+                    {{if !empty($buy_payment_list)}}
+                        <ul class="payment-list" data-type="payment">
+                            {{foreach $buy_payment_list as $payment}}
+                                <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
+                                    {{if !empty($payment.logo)}}
+                                        <img src="{{$payment.logo}}" />
+                                    {{/if}}
+                                    <span>{{$payment.name}}</span>
+                                    <i class="icon-active"></i>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    {{/if}}
+                    {{if empty($buy_payment_list)}}
+                        <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
+                    {{/if}}
+                </div>
+                <div class="am-form-group am-form-group-refreshing">
+                    <input type="hidden" name="ids" value="{{if !empty($params['ids'])}}{{:urldecode($params.ids)}}{{/if}}" />
+                    <input type="hidden" name="payment_id" value="{{if !empty($params['payment_id'])}}{{$params.payment_id}}{{/if}}" />
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认支付</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

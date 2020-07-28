@@ -219,7 +219,7 @@
                             <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-icon-paint-brush submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$data.id}}" data-view="reload"> 取消</button>
                         {{/if}}
                         {{if in_array($data['status'], [1])}}
-                            <button class="am-btn am-btn-primary am-btn-xs am-radius am-icon-paypal submit-pay" data-id="{{$data.id}}" data-payment-id="{{$data.payment_id}}" data-am-modal="{target: '#order-pay-popup'}" data-is-auto="{{if isset($params['is_pay_auto']) and $params['is_pay_auto'] eq 1}}1{{else /}}0{{/if}}" data-is-pay="{{if isset($params['is_pay_submit']) and $params['is_pay_submit'] eq 1}}1{{else /}}0{{/if}}"> {{if $data['is_under_line'] eq 1}}切换{{/if}}支付</button>
+                            <button class="am-btn am-btn-primary am-btn-xs am-radius am-icon-paypal submit-pay" data-id="{{$data.id}}" data-payment-id="{{$data.payment_id}}"> {{if $data['is_under_line'] eq 1}}切换{{/if}}支付</button>
                         {{/if}}
                         {{if in_array($data['status'], [3])}}
                             <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check-circle-o submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$data.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？"> 收货</button>
@@ -321,7 +321,7 @@
                         </div>
                         <div>
                             <span>{{$data.address_data.province_name}} {{$data.address_data.city_name}} {{$data.address_data.county_name}} {{$data.address_data.address}}</span>
-                            {{if $data.order_model eq 2 and $data.address_data.lng gt 0 and $data.address_data.lat gt 0}}
+                            {{if $data.address_data.lng gt 0 and $data.address_data.lat gt 0}}
                                 <button type="button" class="am-btn am-btn-success am-radius am-icon-map-marker submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}"> 查看位置</button>
                             {{/if}}
                         </div>
@@ -377,24 +377,19 @@
                         </thead>
                         <tbody>
                             {{foreach $data.items as $goods}}
-                                <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}">
-                                    <td class="base">
-                                        <div class="goods-detail">
+                                <tr>
+                                    <td>
+                                        <div class="am-nbfc am-text-left">
                                             <a href="{{$goods.goods_url}}" target="_blank">
-                                                <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-radius" />
+                                                <img src="{{$goods.images}}" class="am-img-thumbnail am-radius am-margin-right-xs am-fl" width="60" height="60" />
                                             </a>
-                                            <div class="goods-base">
-                                                <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
-                                                {{if !empty($goods.spec) or !empty($goods['model'])}}
-                                                    <ul class="am-margin-top-xs am-text-left goods-attr">
-                                                        {{if !empty($goods['model'])}}
-                                                            <li>型号：{{$goods.model}}</li>
-                                                        {{/if}}
-                                                        {{if !empty($goods.spec)}}
-                                                            {{foreach $goods.spec as $spec}}
-                                                                <li>{{$spec.type}}：{{$spec.value}}</li>
-                                                            {{/foreach}}
-                                                        {{/if}}
+                                            <div class="am-nbfc">
+                                                <a href="{{$goods.goods_url}}" target="_blank" class="am-nowrap-initial">{{$goods.title}}</a>
+                                                {{if !empty($goods.spec)}}
+                                                    <ul class="goods-spec am-margin-top-xs">
+                                                        {{foreach $goods.spec as $spec}}
+                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                        {{/foreach}}
                                                     </ul>
                                                 {{/if}}
                                             </div>
@@ -403,7 +398,9 @@
                                             {{if $goods['original_price'] gt 0}}
                                                 <span class="original-price">{{$price_symbol}}{{$goods.original_price}}</span>
                                             {{/if}}
-                                            <strong class="total-price-content">{{$price_symbol}}{{$goods.price}}</strong>
+                                            <span class="price">
+                                                <strong>{{$price_symbol}}{{$goods.price}}</strong>
+                                            </span>
                                             <span class="wap-number">x{{$goods.buy_number}}</span>
                                             {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
                                                 <span class="am-badge am-round am-badge-warning-plain">已退 {{$goods.returned_quantity}}</span>
@@ -422,7 +419,7 @@
                                             <br /><span class="am-badge am-round am-badge-warning-plain">已退 {{$goods.returned_quantity}}</span>
                                         {{/if}}
                                     </td>
-                                    <td class="total-price am-hide-sm-only">
+                                    <td class="price am-hide-sm-only">
                                         <strong class="total-price-content">{{$price_symbol}}{{$goods.total_price}}</strong>
                                         {{if isset($goods['refund_price']) and $goods['refund_price'] gt 0}}
                                             <br /><span class="am-badge am-round am-badge-warning-plain">已退 {{$goods.refund_price}}</span>
@@ -491,43 +488,7 @@
         </div>
 
         <!-- 支付弹窗 -->
-        <div class="am-popup am-radius" id="order-pay-popup">
-            <div class="am-popup-inner">
-                <div class="am-popup-hd">
-                    <h4 class="am-popup-title">支付</h4>
-                    <span data-am-modal-close class="am-close">&times;</span>
-                </div>
-                <div class="am-popup-bd">
-                    <form class="am-form pay-form" method="post" action="{{:MyUrl('index/order/pay')}}">
-                        <!-- 支付方式 -->
-                        <div class="business-item">
-                            <h3>选择支付</h3>
-                            {{if !empty($buy_payment_list)}}
-                                <ul class="payment-list" data-type="payment">
-                                    {{foreach $buy_payment_list as $payment}}
-                                        <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
-                                            {{if !empty($payment.logo)}}
-                                                <img src="{{$payment.logo}}" />
-                                            {{/if}}
-                                            <span>{{$payment.name}}</span>
-                                            <i class="icon-active"></i>
-                                        </li>
-                                    {{/foreach}}
-                                </ul>
-                            {{/if}}
-                            {{if empty($buy_payment_list)}}
-                                <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
-                            {{/if}}
-                        </div>
-                        <div class="am-form-group am-form-group-refreshing">
-                            <input type="hidden" name="id" value="0" />
-                            <input type="hidden" name="payment_id" value="0" />
-                            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认支付</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        {{include file="order/payment_popup" /}}
     </div>
     <!-- content end -->
 </div>
