@@ -147,6 +147,7 @@ class Paylog
                     'label'         => '支付平台交易号',
                     'view_type'     => 'field',
                     'view_key'      => 'trade_no',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => '=',
@@ -156,6 +157,7 @@ class Paylog
                     'label'         => '支付平台用户帐号',
                     'view_type'     => 'field',
                     'view_key'      => 'buyer_user',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
