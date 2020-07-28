@@ -616,7 +616,7 @@ class OrderService
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'payment'       => $payment[0],
-            'order'         => $order,
+            'order'         => $order_list,
             'pay_params'    => &$pay_params,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
