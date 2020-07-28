@@ -459,7 +459,7 @@ class OrderService
 
                 // 支付处理
                 $pay_params = [
-                    'order'         => $params['order'],
+                    'order'         => [$params['order']],
                     'payment'       => $params['payment'],
                     'pay_log_data'  => $pay_log['data'],
                     'pay'           => [
@@ -599,7 +599,7 @@ class OrderService
 
         // 支付处理
         $pay_params = [
-            'order'         => $order,
+            'order'         => $order_list,
             'payment'       => $payment[0],
             'pay_log_data'  => $pay_log_data,
             'pay'           => [
