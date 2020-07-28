@@ -978,6 +978,9 @@ class OrderService
         $result = [];
         if(!empty($data))
         {
+            // 字段列表
+            $keys = ArrayKeys($data);
+
             // 其它额外处理
             $is_items = isset($params['is_items']) ? intval($params['is_items']) : 1;
             $is_orderaftersale = isset($params['is_orderaftersale']) ? intval($params['is_orderaftersale']) : 0;
@@ -988,6 +991,14 @@ class OrderService
             $order_pay_status = lang('common_order_pay_status');
             $common_platform_type = lang('common_platform_type');
             $common_site_type_list = lang('common_site_type_list');
+
+            // 仓库信息
+            if(in_array('warehouse_id', $keys))
+            {
+                // 地区数据
+                $we_ids = array_unique(array_column($data, 'warehouse_id'));
+                $warehouse = Db::name('Warehouse')->where(['id'=>$we_ids])->column('name', 'id');
+            }
 
             // 循环处理数据
             foreach($data as &$v)
@@ -1004,6 +1015,12 @@ class OrderService
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
                     return $ret;
+                }
+
+                // 订单所属仓库
+                if(isset($v['warehouse_id']))
+                {
+                    $v['warehouse_name'] = isset($warehouse[$v['warehouse_id']]) ? $warehouse[$v['warehouse_id']] : '';
                 }
 
                 // 订单模式处理

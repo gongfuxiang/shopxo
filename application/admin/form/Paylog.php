@@ -65,6 +65,7 @@ class Paylog
                     'label'         => '支付单号',
                     'view_type'     => 'field',
                     'view_key'      => 'log_no',
+                    'width'         => 165,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => '=',
@@ -74,6 +75,7 @@ class Paylog
                     'label'         => '支付方式',
                     'view_type'     => 'module',
                     'view_key'      => 'paylog/module/payment',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'payment',
@@ -240,8 +242,19 @@ class Paylog
      */
     public function PayLogPaymentTypeList()
     {
+        $data = [];
         $ret = PayLogService::PayLogTypeList();
-        return empty($ret['data']) ? [] : $ret['data'];
+        if(!empty($ret['data']))
+        {
+            foreach($ret['data'] as $v)
+            {
+                $data[] = [
+                    'id'    => $v['id'],
+                    'name'  => $v['name'].'('.$v['id'].')',
+                ];
+            }
+        }
+        return $data;
     }
 
     /**

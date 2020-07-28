@@ -1,8 +1,11 @@
 <!-- 订单商品信息 -->
 {{if !empty($module_data) and !empty($module_data['items'])}}
     <p class="am-nbfc am-margin-bottom-sm">
-        <strong class="am-fl am-icon-bookmark-o"> {{$module_data.order_no}}</strong>
-        <strong class="am-fr am-icon-circle-thin"> {{$module_data.id}}</strong>
+        <strong class="am-icon-bookmark-o"> {{$module_data.order_no}}</strong>
+        <strong class="am-icon-circle-thin am-margin-left-lg"> {{$module_data.id}}</strong>
+        {{if !empty($module_data['warehouse_name'])}}
+            <span class="am-badge am-badge-secondary-plain am-radius am-fr">{{$module_data.warehouse_name}}</span>
+        {{/if}}
     </p>
     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
     {{foreach $module_data.items as $item}}

@@ -240,5 +240,36 @@ class PayLogService
     {
         return (int) Db::name('PayLog')->where($where)->count();
     }
+
+    /**
+     * 关闭
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-18
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function PayLogClose($params = [])
+    {
+        // 参数是否有误
+        if(empty($params['ids']))
+        {
+            return DataReturn('操作id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
+        }
+
+        // 关闭操作
+        if(Db::name('PayLog')->where(['id'=>$params['ids']])->update(['status'=>2, 'close_time'=>time()]))
+        {
+            return DataReturn('关闭成功');
+        }
+
+        return DataReturn('关闭失败', -100);
+    }
 }
 ?>

@@ -46,5 +46,18 @@ class Crontab extends Common
         $ret = CrontabService::OrderSuccess();
         return 'sucs:'.$ret['data']['sucs'].', fail:'.$ret['data']['fail'];
     }
+
+    /**
+     * 支付日志订单关闭
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-18T17:19:33+0800
+     */
+    public function PayLogOrderClose()
+    {
+        $ret = CrontabService::PayLogOrderClose();
+        return 'count:'.$ret['data'];
+    }
 }
 ?>

@@ -109,5 +109,27 @@ class PayLog extends Common
         }
         return $this->fetch();
     }
+
+    /**
+     * 关闭
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-28
+     * @desc    description
+     */
+    public function Close()
+    {
+        // 是否ajax
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始操作
+        $params = $this->data_post;
+        $params['admin'] = $this->admin;
+        return PayLogService::PayLogClose($params);
+    }
 }
 ?>

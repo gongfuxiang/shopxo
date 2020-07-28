@@ -149,5 +149,32 @@ class CrontabService
         }
         return DataReturn('操作成功', 0, ['sucs'=>$sucs, 'fail'=>$fail]);
     }
+
+    /**
+     * 支付日志订单关闭
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PayLogOrderClose($params = [])
+    {
+        // 时长
+        $time = time()-(intval(MyC('common_pay_log_order_close_limit_time', 30, true))*60);
+
+        // 更新关闭
+        $where = [
+            ['add_time', '<', $time],
+            ['status', '=', 0],
+        ];
+        $data = [
+            'status'        => 2,
+            'close_time'    => time(),
+        ];
+        $res = Db::name('PayLog')->where($where)->update($data);
+        return DataReturn('操作成功', 0, $res);
+    }
 }
 ?>

@@ -1,7 +1,10 @@
 <!-- 订单商品信息 -->
 {{if !empty($module_data) and !empty($module_data['items'])}}
-    <p class="am-icon-bookmark-o am-margin-bottom-sm">
-        <strong>{{$module_data.order_no}}</strong>
+    <p class="am-margin-bottom-sm">
+        <strong class="am-icon-bookmark-o"> {{$module_data.order_no}}</strong>
+        {{if !empty($module_data['warehouse_name'])}}
+            <span class="am-badge am-badge-secondary-plain am-radius am-fr">{{$module_data.warehouse_name}}</span>
+        {{/if}}
     </p>
     <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
     {{foreach $module_data.items as $item}}

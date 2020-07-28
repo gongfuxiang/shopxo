@@ -55,7 +55,7 @@ class Order
                     'label'         => '基础信息',
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/goods',
-                    'grid_size'     => 'lg',
+                    'grid_size'     => 'xl',
                     'is_detail'     => 0,
                     'search_config' => [
                         'form_type'             => 'input',
@@ -63,7 +63,7 @@ class Order
                         'where_type'            => 'like',
                         'where_type_custom'     => 'in',
                         'where_handle_custom'   => 'WhereBaseGoodsInfo',
-                        'placeholder'           => '请输入订单ID/订单号/商品名称/型号',
+                        'placeholder'           => '请输入订单ID/订单号/仓库/商品名称/型号',
                     ],
                 ],
                 [
@@ -457,8 +457,11 @@ class Order
     {
         if(!empty($value))
         {
+            // 仓库
+            $wids = Db::name('Warehouse')->where('name', 'like', '%'.$value.'%')->column('id');
+
             // 订单ID、订单号
-            $ids = Db::name('Order')->where(['id|order_no'=>$value])->column('id');
+            $ids = Db::name('Order')->where(['id|order_no'=>$value])->whereOr(['warehouse_id'=>$wids])->column('id');
 
             // 获取订单详情搜索的订单 id
             if(empty($ids))

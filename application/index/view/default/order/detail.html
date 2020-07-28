@@ -93,10 +93,18 @@
                     <div class="am-panel am-panel-default">
                         <div class="am-panel-hd">订单信息</div>
                         <div class="am-panel-bd">
+                            {{if !empty($data['warehouse_name'])}}
+                                <div class="items am-cf">
+                                    <div class="items-title am-fl">出货仓库：</div>
+                                    <div class="items-detail am-fl">
+                                        <span class="am-badge am-badge-secondary-plain am-radius">{{$data.warehouse_name}}</span>
+                                    </div>
+                                </div>
+                            {{/if}}
                             <div class="items am-cf">
                                 <div class="items-title am-fl">订单模式：</div>
                                 <div class="items-detail am-fl">
-                                    <span class="am-badge am-badge-secondary am-radius">{{$data.order_model_name}}</span>
+                                    <span class="am-badge am-badge-secondary-plain am-radius">{{$data.order_model_name}}</span>
                                 </div>
                             </div>
                             <div class="items am-cf">

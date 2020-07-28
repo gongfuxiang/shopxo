@@ -64,6 +64,7 @@ class Refundlog
                     'label'         => '支付方式',
                     'view_type'     => 'module',
                     'view_key'      => 'refundlog/module/payment',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'payment',
@@ -102,6 +103,7 @@ class Refundlog
                     'label'         => '支付平台交易号',
                     'view_type'     => 'field',
                     'view_key'      => 'trade_no',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -111,6 +113,7 @@ class Refundlog
                     'label'         => '支付平台用户帐号',
                     'view_type'     => 'field',
                     'view_key'      => 'buyer_user',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',

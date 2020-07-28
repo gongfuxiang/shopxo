@@ -1037,6 +1037,7 @@ class BuyService
             $order = [
                 'order_no'              => date('YmdHis').GetNumberCode(6),
                 'user_id'               => $params['user']['id'],
+                'warehouse_id'          => $v['id'],
                 'user_note'             => $user_note,
                 'status'                => $status,
                 'preferential_price'    => ($v['order_base']['preferential_price'] <= 0.00) ? 0.00 : $v['order_base']['preferential_price'],
