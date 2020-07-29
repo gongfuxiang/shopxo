@@ -63,7 +63,7 @@ class Order
                         'where_type'            => 'like',
                         'where_type_custom'     => 'in',
                         'where_handle_custom'   => 'WhereBaseGoodsInfo',
-                        'placeholder'           => '请输入订单ID/订单号/仓库/商品名称/型号',
+                        'placeholder'           => '请输入订单ID/订单号/商品名称/型号',
                     ],
                 ],
                 [
@@ -133,6 +133,20 @@ class Order
                     'search_config' => [
                         'form_type'         => 'section',
                         'is_point'          => 1,
+                    ],
+                ],
+                [
+                    'label'         => '出货仓库',
+                    'view_type'     => 'field',
+                    'view_key'      => 'warehouse_name',
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'form_name'         => 'warehouse_id',
+                        'where_type'        => 'in',
+                        'data'              => $this->OrderWarehouseList(),
+                        'data_key'          => 'id',
+                        'data_name'         => 'name',
+                        'is_multiple'       => 1,
                     ],
                 ],
                 [
@@ -375,6 +389,27 @@ class Order
     }
 
     /**
+     * 订单仓库列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-29
+     * @desc    description
+     */
+    public function OrderWarehouseList()
+    {
+        $data = [];
+        $wids = Db::name('Order')->column('warehouse_id');
+        if(!empty($wids))
+        {
+            $where = ['id'=>$wids];
+            $order_by = 'level desc, id desc';
+            $data = Db::name('Warehouse')->field('id,name')->where($where)->order($order_by)->select();
+        }
+        return $data;
+    }
+
+    /**
      * 取货码条件处理
      * @author  Devil
      * @blog    http://gong.gg/
@@ -457,11 +492,8 @@ class Order
     {
         if(!empty($value))
         {
-            // 仓库
-            $wids = Db::name('Warehouse')->where('name', 'like', '%'.$value.'%')->column('id');
-
             // 订单ID、订单号
-            $ids = Db::name('Order')->where(['id|order_no'=>$value])->whereOr(['warehouse_id'=>$wids])->column('id');
+            $ids = Db::name('Order')->where(['id|order_no'=>$value])->column('id');
 
             // 获取订单详情搜索的订单 id
             if(empty($ids))
