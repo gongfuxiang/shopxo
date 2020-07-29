@@ -132,6 +132,29 @@ class Devtest extends Common
     }
 
     /**
+     * 商品库存初始化
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-29
+     * @desc    description
+     */
+    public function GoodsInventoryHandle()
+    {
+        $warehouse_id = 1;
+        $warehouse = Db::name('Warehouse')->where(['id'=>$warehouse_id])->find();
+        if(empty($warehouse))
+        {
+            $data = [
+                'name'          => '默认仓库',
+                'is_default'    => 1,
+                'add_time'      => time(),
+            ];
+            $warehouse_id = Db::name('Warehouse')->insertGetId($data);
+        }
+    }
+
+    /**
      * 支付日志处理
      * @author  Devil
      * @blog    http://gong.gg/

@@ -75,9 +75,14 @@
 			</div>
 
 			<div class="am-form-group">
-				<label>{{$data.home_content_max_width.name}}<span class="am-form-group-label-tips">{{$data.home_content_max_width.describe}}</span></label>
-				<input type="number" name="{{$data.home_content_max_width.only_tag}}" placeholder="{{$data.home_content_max_width.name}}" data-validation-message="{{$data.home_content_max_width.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_content_max_width.value}}"{{/if}} required />
-			</div>
+                <label>{{$data.home_content_max_width.name}}<span class="am-form-group-label-tips">{{$data.home_content_max_width.describe}}</span></label>
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" min="0" name="{{$data.home_content_max_width.only_tag}}" placeholder="{{$data.home_content_max_width.name}}" data-validation-message="{{$data.home_content_max_width.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_content_max_width.value}}"{{/if}} />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="button">px</button>
+                  </span>
+                </div>
+            </div>
 			<div class="am-form-group">
 				<label>{{$data.home_static_cache_version.name}}<span class="am-form-group-label-tips">{{$data.home_static_cache_version.describe}}</span></label>
 				<input type="text" name="{{$data.home_static_cache_version.only_tag}}" placeholder="{{$data.home_static_cache_version.describe}}" data-validation-message="{{$data.home_static_cache_version.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_static_cache_version.value}}"{{/if}} />

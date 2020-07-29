@@ -11,15 +11,30 @@
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'attachment'])}}" enctype="multipart/form-data">
             <div class="am-form-group">
                 <label>{{$data.home_max_limit_image.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_image.describe}}</span></label>
-                <input type="number" name="{{$data.home_max_limit_image.only_tag}}" placeholder="{{$data.home_max_limit_image.name}}" data-validation-message="{{$data.home_max_limit_image.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_image.value}}"{{/if}} required />
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" min="0" name="{{$data.home_max_limit_image.only_tag}}" placeholder="{{$data.home_max_limit_image.name}}" data-validation-message="{{$data.home_max_limit_image.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_image.value}}"{{/if}} />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="button">B</button>
+                  </span>
+                </div>
             </div>
             <div class="am-form-group">
                 <label>{{$data.home_max_limit_file.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_file.describe}}</span></label>
-                <input type="number" name="{{$data.home_max_limit_file.only_tag}}" placeholder="{{$data.home_max_limit_file.name}}" data-validation-message="{{$data.home_max_limit_file.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_file.value}}"{{/if}} required />
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" min="0" name="{{$data.home_max_limit_file.only_tag}}" placeholder="{{$data.home_max_limit_file.name}}" data-validation-message="{{$data.home_max_limit_file.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_file.value}}"{{/if}} />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="button">B</button>
+                  </span>
+                </div>
             </div>
             <div class="am-form-group">
                 <label>{{$data.home_max_limit_video.name}}<span class="am-form-group-label-tips">{{$data.home_max_limit_video.describe}}</span></label>
-                <input type="number" name="{{$data.home_max_limit_video.only_tag}}" placeholder="{{$data.home_max_limit_video.name}}" data-validation-message="{{$data.home_max_limit_video.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_video.value}}"{{/if}} required />
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" min="0" name="{{$data.home_max_limit_video.only_tag}}" placeholder="{{$data.home_max_limit_video.name}}" data-validation-message="{{$data.home_max_limit_video.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_max_limit_video.value}}"{{/if}} />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="button">B</button>
+                  </span>
+                </div>
             </div>
             
             <div class="am-form-group am-form-group-refreshing">

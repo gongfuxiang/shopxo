@@ -11,11 +11,21 @@
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'verify'])}}" enctype="multipart/form-data">
             <div class="am-form-group">
                 <label>{{$data.common_verify_expire_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_expire_time.describe}}</span></label>
-                <input type="number" name="{{$data.common_verify_expire_time.only_tag}}" placeholder="{{$data.common_verify_expire_time.name}}" data-validation-message="{{$data.common_verify_expire_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_expire_time.value}}"{{/if}} required />
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" min="0" name="{{$data.common_verify_expire_time.only_tag}}" placeholder="{{$data.common_verify_expire_time.name}}" data-validation-message="{{$data.common_verify_expire_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_expire_time.value}}"{{/if}} />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="button">秒</button>
+                  </span>
+                </div>
             </div>
             <div class="am-form-group">
                 <label>{{$data.common_verify_interval_time.name}}<span class="am-form-group-label-tips">{{$data.common_verify_interval_time.describe}}</span></label>
-                <input type="number" name="{{$data.common_verify_interval_time.only_tag}}" placeholder="{{$data.common_verify_interval_time.name}}" data-validation-message="{{$data.common_verify_interval_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_interval_time.value}}"{{/if}} required />
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" min="0" name="{{$data.common_verify_interval_time.only_tag}}" placeholder="{{$data.common_verify_interval_time.name}}" data-validation-message="{{$data.common_verify_interval_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_verify_interval_time.value}}"{{/if}} />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="button">秒</button>
+                  </span>
+                </div>
             </div>
             <div class="am-form-group">
                 <label>{{$data.home_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_img_verify_state.describe}}</span></label>

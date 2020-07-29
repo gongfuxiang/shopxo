@@ -272,6 +272,11 @@ class BuyService
                     $v['is_error'] = 1;
                     $v['error_msg'] = '商品已下架';
                 }
+                if(empty($v['error_msg']) && $v['inventory'] <= 0)
+                {
+                    $v['is_error'] = 1;
+                    $v['error_msg'] = '商品卖没货了';
+                }
                 $ret = GoodsService::IsGoodsSiteTypeConsistent($v['goods_id'], $v['site_type']);
                 if(empty($v['error_msg']) && $ret['code'] != 0)
                 {
