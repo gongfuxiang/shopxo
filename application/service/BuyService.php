@@ -275,13 +275,16 @@ class BuyService
                 if(empty($v['error_msg']) && $v['inventory'] <= 0)
                 {
                     $v['is_error'] = 1;
-                    $v['error_msg'] = '商品卖没货了';
+                    $v['error_msg'] = '商品没货了';
                 }
-                $ret = GoodsService::IsGoodsSiteTypeConsistent($v['goods_id'], $v['site_type']);
-                if(empty($v['error_msg']) && $ret['code'] != 0)
+                if(empty($v['error_msg']))
                 {
-                    $v['is_error'] = 1;
-                    $v['error_msg'] = $ret['msg'];
+                    $ret = GoodsService::IsGoodsSiteTypeConsistent($v['goods_id'], $v['site_type']);
+                    if($ret['code'] != 0)
+                    {
+                        $v['is_error'] = 1;
+                        $v['error_msg'] = $ret['msg'];
+                    }
                 }
             }
         }
