@@ -31,6 +31,9 @@ use app\service\OrderAftersaleService;
  */
 class OrderService
 {
+    // 业务类型名称
+    public static $business_type_name = '订单';
+
     /**
      * 订单支付
      * @author   Devil
@@ -306,7 +309,7 @@ class OrderService
             'subject'       => '订单支付',
             'payment'       => isset($params['payment']) ? $params['payment'] : '',
             'payment_name'  => isset($params['payment_name']) ? $params['payment_name'] : '',
-            'business_type' => '订单',
+            'business_type' => self::$business_type_name,
         ]);
     }
 

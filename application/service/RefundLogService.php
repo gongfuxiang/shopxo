@@ -30,7 +30,7 @@ class RefundLogService
      * @datetime 2019-05-07T00:57:36+0800
      * @param   [array]             $params         [输入参数]
      * @param   [int]               $user_id        [用户id]
-     * @param   [int]               $order_id       [业务订单id]
+     * @param   [int]               $business_id    [业务订单id]
      * @param   [float]             $pay_price      [业务订单实际支付金额]
      * @param   [string]            $trade_no       [支付平台交易号]
      * @param   [string]            $buyer_user     [支付平台用户帐号]
@@ -39,7 +39,7 @@ class RefundLogService
      * @param   [string]            $payment        [支付方式标记]
      * @param   [string]            $payment_name   [支付方式名称]
      * @param   [int]               $refundment     [退款类型（0原路退回, 1退至钱包, 2手动处理）]
-     * @param   [int]               $business_type  [业务类型（0默认, 1订单, 2充值, ...）]
+     * @param   [int]               $business_type  [业务类型，字符串（如：订单、钱包充值、会员购买、等...）]
      * @param   [string]            $return_params  [支付平台返回参数]
      * @return  [boolean]                           [成功true, 失败false]
      */
@@ -47,7 +47,7 @@ class RefundLogService
     {
         $data = [
             'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
-            'order_id'          => isset($params['order_id']) ? intval($params['order_id']) : 0,
+            'business_id'       => isset($params['business_id']) ? intval($params['business_id']) : 0,
             'pay_price'         => isset($params['pay_price']) ? PriceNumberFormat($params['pay_price']) : 0.00,
             'trade_no'          => isset($params['trade_no']) ? $params['trade_no'] : '',
             'buyer_user'        => isset($params['buyer_user']) ? $params['buyer_user'] : '',
@@ -56,7 +56,7 @@ class RefundLogService
             'payment'           => isset($params['payment']) ? $params['payment'] : '',
             'payment_name'      => isset($params['payment_name']) ? $params['payment_name'] : '',
             'refundment'        => isset($params['refundment']) ? intval($params['refundment']) : 0,
-            'business_type'     => isset($params['business_type']) ? intval($params['business_type']) : 0,
+            'business_type'     => isset($params['business_type']) ? trim($params['business_type']) : 0,
             'return_params'     => empty($params['return_params']) ? '' : json_encode($params['return_params'], JSON_UNESCAPED_UNICODE),
             'add_time'          => time(),
         ];
@@ -98,7 +98,6 @@ class RefundLogService
         $data = Db::name('RefundLog')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $business_type_list = lang('common_business_type_list');
             $refundment_list = lang('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
@@ -110,9 +109,6 @@ class RefundLogService
                         $v['user'] = UserService::GetUserViewInfo($v['user_id']);
                     }
                 }
-
-                // 业务类型
-                $v['business_type_text'] = $business_type_list[$v['business_type']]['name'];
 
                 // 退款方式
                 $v['refundment_text'] = $refundment_list[$v['refundment']]['name'];

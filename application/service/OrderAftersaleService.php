@@ -842,7 +842,7 @@ class OrderAftersaleService
         }
 
         // 订单支付方式校验
-        $pay_log = Db::name('PayLog')->where(['order_id'=>$order['data']['id'], 'business_type'=>1])->find();
+        $pay_log = Db::name('PayLog')->alias('pl')->join(['__PAY_LOG_VALUE_'=>'plv'], 'pl.id=plv.pay_log_id')->where(['plv.business_id'=>$order['data']['id'], 'pl.business_type'=>OrderService::$business_type_name])->field('pl.*')->find();
 
         // 手动处理不校验支付日志
         if($params['refundment'] != 2)
@@ -1104,7 +1104,7 @@ class OrderAftersaleService
         // 写入退款日志
         $refund_log = [
             'user_id'       => $order['user_id'],
-            'order_id'      => $order['id'],
+            'business_id'   => $order['id'],
             'pay_price'     => $order['pay_price'],
             'trade_no'      => isset($ret['data']['trade_no']) ? $ret['data']['trade_no'] : '',
             'buyer_user'    => isset($ret['data']['buyer_user']) ? $ret['data']['buyer_user'] : '',
@@ -1113,7 +1113,7 @@ class OrderAftersaleService
             'payment'       => $pay_log['payment'],
             'payment_name'  => $pay_log['payment_name'],
             'refundment'    => $params['refundment'],
-            'business_type' => 1,
+            'business_type' => OrderService::$business_type_name,
             'return_params' => isset($ret['data']['return_params']) ? $ret['data']['return_params'] : '',
         ];
         RefundLogService::RefundLogInsert($refund_log);

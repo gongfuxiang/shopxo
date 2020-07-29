@@ -226,5 +226,54 @@ class Devtest extends Common
         }
         echo 'count:'.count($data).', success:'.$success.', fail:'.$fail;
     }
+
+    /**
+     * 退款日志处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-26
+     * @desc    description
+     */
+    public function RefundLogHandle()
+    {
+        if(input('pwd') != 'shopxo520')
+        {
+            die('非法访问');
+        }
+
+        // 状态
+        $success = 0;
+        $fail = 0;
+
+
+        // 获取日志
+        $data = Db::name('RefundLog')->where(['is_handle'=>0])->limit(0, 500)->select();
+        if(!empty($data))
+        {
+            $business_type_list = [
+                0 => '默认',
+                1 => '订单',
+                2 => '充值',
+                3 => '提现',
+            ];
+            foreach($data as $v)
+            {
+                $upd_data = [
+                    'is_handle'     => 1,
+                    'business_type' => isset($business_type_list[$v['business_type']]) ? $business_type_list[$v['business_type']] : $v['business_type'],
+                ];
+
+                // 更新操作
+                if(Db::name('RefundLog')->where(['is_handle'=>0, 'id'=>$v['id']])->update($upd_data))
+                {
+                    $success++;
+                } else {
+                    $fail++;
+                }
+            }
+        }
+        echo 'count:'.count($data).', success:'.$success.', fail:'.$fail;
+    }
 }
 ?>

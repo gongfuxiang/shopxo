@@ -32,7 +32,7 @@ class PayLogService
      * @param   [int]               $business_ids   [业务订单id]
      * @param   [float]             $total_price    [业务订单实际金额]
      * @param   [string]            $subject        [业务订单名称]
-     * @param   [int]               $business_type  [业务类型（0默认, 1订单, 2充值, ...）]
+     * @param   [string]            $business_type  [业务类型，字符串（如：订单、钱包充值、会员购买、等...）]
      * @return  [boolean]                           [成功true, 失败false]
      */
     public static function PayLogInsert($params = [])

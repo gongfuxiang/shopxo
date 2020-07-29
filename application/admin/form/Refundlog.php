@@ -79,13 +79,11 @@ class Refundlog
                     'label'         => '业务类型',
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
-                    'view_data_key' => 'name',
-                    'view_data'     => lang('common_business_type_list'),
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => lang('common_business_type_list'),
-                        'data_key'          => 'id',
+                        'data'              => $this->RefundLogBusinessTypeList(),
+                        'data_key'          => 'name',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
@@ -93,10 +91,10 @@ class Refundlog
                 [
                     'label'         => '业务订单id',
                     'view_type'     => 'field',
-                    'view_key'      => 'order_id',
+                    'view_key'      => 'business_id',
                     'search_config' => [
-                        'form_type'         => 'input',
-                        'where_type'        => '=',
+                        'form_type'             => 'input',
+                        'where_type'            => '=',
                     ],
                 ],
                 [
@@ -214,8 +212,32 @@ class Refundlog
      */
     public function RefundLogTypeList()
     {
+        $data = [];
         $ret = RefundLogService::RefundLogTypeList();
-        return empty($ret['data']) ? [] : $ret['data'];
+        if(!empty($ret['data']))
+        {
+            foreach($ret['data'] as $v)
+            {
+                $data[] = [
+                    'id'    => $v['id'],
+                    'name'  => $v['name'].'('.$v['id'].')',
+                ];
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * 业务类型
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-26
+     * @desc    description
+     */
+    public function RefundLogBusinessTypeList()
+    {
+        return Db::name('RefundLog')->field('business_type as name')->group('business_type')->select();
     }
 }
 ?>
