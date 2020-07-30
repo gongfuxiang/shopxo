@@ -556,7 +556,7 @@ class WarehouseGoodsService
             'data'  => $warehouse_goods,
             'spec'  => $inventory_spec,
         ];
-        return DataReturn('success', 0, $result);        
+        return DataReturn('success', 0, $result);
     }
 
     /**
@@ -680,15 +680,11 @@ class WarehouseGoodsService
         // 启动事务
         Db::startTrans();
         
-        // 获取原始数据
+        // 删除原始数据
         $where = [
-            'warehouse_goods_id'    => $warehouse_goods['id'],
             'warehouse_id'          => $warehouse_goods['warehouse_id'],
             'goods_id'              => $warehouse_goods['goods_id'],
         ];
-        $data_old = Db::name('WarehouseGoodsSpec')->where($where)->select();
-
-        // 删除原有数据
         Db::name('WarehouseGoodsSpec')->where($where)->delete();
 
         // 仓库商品更新

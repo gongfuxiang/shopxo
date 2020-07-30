@@ -13,6 +13,8 @@ namespace app\api\controller;
 use think\Db;
 use app\service\ResourcesService;
 use app\service\RegionService;
+use app\service\GoodsService;
+use app\service\WarehouseGoodsService;
 
 /**
  * 开发测试
@@ -141,17 +143,136 @@ class Devtest extends Common
      */
     public function GoodsInventoryHandle()
     {
+        if(input('pwd') != 'shopxo520')
+        {
+            die('非法访问');
+        }
+
         $warehouse_id = 1;
         $warehouse = Db::name('Warehouse')->where(['id'=>$warehouse_id])->find();
         if(empty($warehouse))
         {
-            $data = [
+            $w_data = [
+                'id'            => $warehouse_id,
                 'name'          => '默认仓库',
                 'is_default'    => 1,
                 'add_time'      => time(),
             ];
-            $warehouse_id = Db::name('Warehouse')->insertGetId($data);
+            $warehouse_id = Db::name('Warehouse')->insertGetId($w_data);
         }
+
+        // 状态
+        $success = 0;
+        $fail = 0;
+
+        // 获取数据
+        // 一次处理100条
+        $prefix = config('database.prefix');
+        $field = 'id as goods_id';
+        $sql = 'SELECT '.$field.' FROM `'.$prefix.'goods` WHERE `id` NOT IN (SELECT `goods_id` FROM `'.$prefix.'warehouse_goods` WHERE `warehouse_id`='.$warehouse_id.') ORDER BY `id` ASC LIMIT 500';
+        $result = Db::query($sql);
+        if(!empty($result))
+        {
+            foreach($result as $rv)
+            {
+                $goods_id = $rv['goods_id'];
+
+                // 获取商品规格
+                $res = GoodsService::GoodsSpecificationsActual($goods_id);
+                $inventory_spec = [];
+                if(!empty($res['value']) && is_array($res['value']))
+                {
+                    $inventory_arr = [];
+                    $inventory_temp = Db::name('GoodsSpecBase')->where(['id'=>array_column($res['value'], 'base_id')])->field('id,inventory')->select();
+                    if(!empty($inventory_temp))
+                    {
+                        foreach($inventory_temp as $rv)
+                        {
+                            $inventory_arr[$rv['id']] = $rv['inventory'];
+                        }
+                        foreach($res['value'] as &$vv)
+                        {
+                            $vv['inventory'] = isset($inventory_arr[$vv['base_id']]) ? $inventory_arr[$vv['base_id']] : 0;
+                        }
+                    }
+                    
+                    // 获取当前配置的库存
+                    $spec = array_column($res['value'], 'value');
+                    foreach($spec as $k=>$v)
+                    {
+                        $arr = explode(',', $v);
+                        $inventory_spec[] = [
+                            'name'      => implode(' / ', $arr),
+                            'spec'      => json_encode(WarehouseGoodsService::GoodsSpecMuster($v, $res['title']), JSON_UNESCAPED_UNICODE),
+                            'md5_key'   => md5(implode('', $arr)),
+                            'inventory' => isset($res['value'][$k]['inventory']) ? $res['value'][$k]['inventory'] : 0,
+                        ];
+                    }
+                } else {
+                    // 没有规格则处理默认规格 default
+                    $str = 'default';
+                    $inventory_spec[] = [
+                        'name'      => '默认规格',
+                        'spec'      => $str,
+                        'md5_key'   => md5($str),
+                        'inventory' => Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->value('inventory'),
+                    ];
+                }
+
+                // 添加关联商品
+                $warehouse_goods_id = Db::name('WarehouseGoods')->where(['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id])->value('id');
+                $inventory_total = array_sum(array_column($inventory_spec, 'inventory'));
+                if(empty($warehouse_goods_id))
+                {
+                    $w_goods = [
+                        'warehouse_id'  => $warehouse_id,
+                        'goods_id'      => $goods_id,
+                        'is_enable'     => 1,
+                        'inventory'     => $inventory_total,
+                        'add_time'      => time(),
+                    ];
+                    $warehouse_goods_id = Db::name('WarehouseGoods')->insertGetId($w_goods);
+                } else {
+                    Db::name('WarehouseGoods')->where(['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id])->update(['inventory'=>$inventory_total, 'upd_time'=>time()]);
+                }
+                
+                // 库存
+                $w_values = [];
+                if($warehouse_goods_id > 0)
+                {
+                    foreach($inventory_spec as $iv)
+                    {
+                        $w_values[] = [
+                            'warehouse_id'          => $warehouse_id,
+                            'warehouse_goods_id'    => $warehouse_goods_id,
+                            'goods_id'              => $goods_id,
+                            'md5_key'               => $iv['md5_key'],
+                            'spec'                  => $iv['spec'],
+                            'inventory'             => $iv['inventory'],
+                            'add_time'              => time(),
+                        ];
+                    }
+                } else {
+                    $fail++;
+                }        
+
+                // 添加数据
+                if(!empty($w_values))
+                {
+                    // 删除库存关联
+                    Db::name('WarehouseGoodsSpec')->where(['warehouse_id'=>$warehouse_id, 'warehouse_goods_id'=>$warehouse_goods_id, 'goods_id'=>$goods_id])->delete();
+                    // 写入
+                    if(Db::name('WarehouseGoodsSpec')->insertAll($w_values) >= count($w_values))
+                    {
+                        $success++;
+                    }
+                } else {
+                    $fail++;
+                }
+            }    
+        }
+
+        echo 'success:'.$success.', fail:'.$fail;
     }
 
     /**

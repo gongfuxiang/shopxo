@@ -32,17 +32,5 @@ return array (
   'log_write' => 
   array (
   ),
-  'plugins_css' => 
-  array (
-    0 => 'app\\plugins\\freightfee\\Hook',
-  ),
-  'plugins_service_buy_group_goods_handle' => 
-  array (
-    0 => 'app\\plugins\\freightfee\\Hook',
-  ),
-  'plugins_view_goods_detail_title' => 
-  array (
-    0 => 'app\\plugins\\freightfee\\Hook',
-  ),
 );
 ?>

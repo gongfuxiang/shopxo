@@ -1410,7 +1410,7 @@ class GoodsService
                     }
 
                     // 获取仓库规格库存
-                    $temp_data['inventory'] = WarehouseGoodsService::GoodsSpecInventory($goods_id, implode('', array_column($temp_value, 'value')));
+                    $temp_data['inventory'] = WarehouseGoodsService::WarehouseGoodsSpecInventory($goods_id, implode('', array_column($temp_value, 'value')));
                     
                     // 规格基础添加
                     $base_id = Db::name('GoodsSpecBase')->insertGetId($temp_data);
@@ -1688,7 +1688,7 @@ class GoodsService
             if(!empty($ids))
             {
                 // 根据基础值id获取规格值列表
-                $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->select();
+                $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->order('id asc')->select();
                 if(!empty($temp_data))
                 {
                     // 根据基础值id分组
@@ -1810,7 +1810,7 @@ class GoodsService
         if(!empty($ids))
         {
             // 根据基础值id获取规格值列表
-            $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->select();
+            $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->order('id asc')->select();
             if(!empty($temp_data))
             {
                 // 根据基础值id分组
@@ -1821,7 +1821,6 @@ class GoodsService
                 }
 
                 // 获取当前操作元素索引
-                $last  = end($params['spec']);
                 $index = count($params['spec'])-1;
                 $spec_str = implode('', array_column($params['spec'], 'value'));
                 $spec_type = [];
