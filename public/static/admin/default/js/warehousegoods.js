@@ -40,7 +40,7 @@ $(function()
 
         var $this = $(this);
         $this.button('loading');
-        $('.goods-list-container').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($('.goods-list-container').data('loading-msg'))+'</div>');
+        $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($('.goods-list-container').data('loading-msg'))+'</div>');
         $.ajax({
             url: url,
             type: 'post',
@@ -52,18 +52,18 @@ $(function()
                 if(res.code == 0)
                 {
                     $('.goods-list-container').attr('data-is-init', 0);
-                    $('.goods-list-container').html(res.data.data);
+                    $('.goods-list-container ul.am-gallery').html(res.data.data);
                     $('.goods-page-container').html(PageLibrary(res.data.total, res.data.page_size, res.data.page, 4));
                 } else {
                     Prompt(res.msg);
-                    $('.goods-list-container').html('<div class="table-no"><i class="am-icon-warning"></i> '+res.msg+'</div>');
+                    $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+res.msg+'</div>');
                 }
             },
             error:function(res)
             {
                 $this.button('reset');
                 Prompt('请求失败');
-                $('.goods-list-container').html('<div class="table-no"><i class="am-icon-warning"></i> 请求失败</div>');
+                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> 请求失败</div>');
             }
         });
     });
@@ -105,5 +105,20 @@ $(function()
         });
     });
 
-
+    // 弹窗全屏
+    $('#warehouse-goods-popup').on('click', '.am-popup-hd .am-full', function()
+    {
+        var width = $(window).width();
+        var height = $(window).height();
+        if(width >= 630 && height >= 630)
+        {
+            var $parent = $(this).parents('.am-popup');
+            if($parent.hasClass('popup-full'))
+            {
+                $parent.find('.am-gallery').addClass('am-avg-lg-5').removeClass('am-avg-lg-8');
+            } else {
+                $parent.find('.am-gallery').addClass('am-avg-lg-8').removeClass('am-avg-lg-6');
+            }
+        }
+    });
 });

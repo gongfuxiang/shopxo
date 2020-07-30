@@ -107,6 +107,38 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view, .content-app-ite
 .popup-not-title .am-close:hover {
     background: #f22a30;
 }
+.am-popup-hd .am-close, .am-popup-hd .am-full {
+    width: 26px;
+    height: 26px;
+    line-height: 26px;
+    color: #999;
+    text-align: center;
+}
+.am-popup-hd .am-close {
+    font-size: 22px;
+    opacity: 1;
+}
+.am-popup-hd .am-close:hover {
+    color: #f22a30;
+    transform: none;
+}
+.am-popup-hd .am-full {
+    position: absolute;
+    right: 40px;
+    top: 11px;
+    cursor: pointer;
+}
+.am-popup-hd .am-full:hover {
+    color: #03A9F4;
+}
+.popup-full {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    margin-left: 0;
+    margin-top: 0;
+}
 
 
 /**

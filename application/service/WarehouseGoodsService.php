@@ -756,7 +756,7 @@ class WarehouseGoodsService
             'inventory' => $inventory_total,
             'upd_time'  => time(),
         ];
-        if(!Db::name('Goods')->where(['id'=>$goods_id])->update($data))
+        if(Db::name('Goods')->where(['id'=>$goods_id])->update($data) === false)
         {
             return DataReturn('商品库存同步失败', -21);
         }

@@ -15,8 +15,8 @@
         <div class="am-popup-inner">
             <div class="am-popup-hd">
                 <h4 class="am-popup-title">商品添加</h4>
-                <span data-am-modal-close
-                class="am-close">&times;</span>
+                <span class="am-icon-arrows-alt am-full"></span>
+                <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd am-padding-0">
                 <form class="am-form am-padding-sm goods-add-container">
@@ -54,7 +54,9 @@
 
                     <!-- 商品列表 -->
                     <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs goods-list-container" data-loading-msg="搜索中..." data-add-url="{{:MyUrl('admin/warehousegoods/goodsadd')}}" data-del-url="{{:MyUrl('admin/warehousegoods/goodsdel')}}">
-                        <div class="table-no"><i class="am-icon-warning"></i> 请搜索商品</div>
+                        <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered">
+                            <div class="table-no"><i class="am-icon-warning"></i> 请搜索商品</div>
+                        </ul>
                     </div>
 
                     <!-- 分页 -->

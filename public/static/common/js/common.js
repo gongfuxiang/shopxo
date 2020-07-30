@@ -2498,4 +2498,16 @@ $(function()
 		MapInit(lng, lat, null, null, false);
     });
 
+    // 弹窗全屏
+    $(document).on('click', '.am-popup-hd .am-full', function()
+    {
+    	var $parent = $(this).parents('.am-popup');
+    	if($parent.hasClass('popup-full'))
+    	{
+    		$parent.removeClass('popup-full');
+    	} else {
+    		$parent.addClass('popup-full');
+    	}
+    });
+
 });
