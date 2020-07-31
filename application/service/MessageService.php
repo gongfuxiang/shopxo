@@ -32,18 +32,18 @@ class MessageService
      * @param    [int]              $user_id        [用户id]
      * @param    [string]           $title          [标题]
      * @param    [string]           $detail         [内容]
-     * @param    [int]              $business_type  [业务类型（0默认, 1订单, 2充值, 3提现, ...）]
+     * @param    [string]           $business_type  [业务类型（默认, 如：订单, 充值, 提现, ...）]
      * @param    [int]              $business_id    [业务id]
      * @param    [int]              $type           [类型（默认0  普通消息）]
      * @return   [boolean]                          [成功true, 失败false]
      */
-    public static function MessageAdd($user_id, $title, $detail, $business_type = 0, $business_id = 0, $type = 0)
+    public static function MessageAdd($user_id, $title, $detail, $business_type = '默认', $business_id = 0, $type = 0)
     {
         $data = array(
             'title'             => $title,
             'detail'            => $detail,
             'user_id'           => intval($user_id),
-            'business_type'     => intval($business_type),
+            'business_type'     => trim($business_type),
             'business_id'       => intval($business_id),
             'type'              => intval($type),
             'is_read'           => 0,
@@ -90,9 +90,9 @@ class MessageService
         if(isset($params['is_more']) && $params['is_more'] == 1)
         {
             // 等值
-            if(isset($params['business_type']) && $params['business_type'] > -1)
+            if(!empty($params['business_type']))
             {
-                $where[] = ['business_type', '=', intval($params['business_type'])];
+                $where[] = ['business_type', '=', $params['business_type']];
             }
             if(isset($params['type']) && $params['type'] > -1)
             {
@@ -180,7 +180,6 @@ class MessageService
         $data = Db::name('Message')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
-            $common_business_type_list = lang('common_business_type_list');
             $common_is_read_list = lang('common_is_read_list');
             $common_message_type_list = lang('common_message_type_list');
             foreach($data as &$v)
@@ -199,9 +198,6 @@ class MessageService
 
                 // 是否已读
                 $v['is_read_text'] = $common_is_read_list[$v['is_read']]['name'];
-
-                // 业务类型
-                $v['business_type_text'] = $common_business_type_list[$v['business_type']]['name'];
 
                 // 用户是否已删除
                 $v['user_is_delete_time_text'] = ($v['user_is_delete_time'] == 0) ? '否' : '是';

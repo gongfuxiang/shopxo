@@ -987,7 +987,7 @@ class OrderAftersaleService
 
         // 消息通知
         $detail = '订单退款成功，金额'.PriceBeautify($aftersale['price']).'元';
-        MessageService::MessageAdd($order['data']['user_id'], '订单退款', $detail, 1, $order['data']['id']);
+        MessageService::MessageAdd($order['data']['user_id'], '订单退款', $detail, '订单售后', $order['data']['id']);
 
         // 订单状态日志
         if(isset($order_upd_data['status']))
@@ -1187,7 +1187,7 @@ class OrderAftersaleService
         RefundLogService::RefundLogInsert($refund_log);
 
         // 消息通知
-        MessageService::MessageAdd($order['user_id'], '账户余额变动', $msg, 1, $order['id']);
+        MessageService::MessageAdd($order['user_id'], '账户余额变动', $msg, '订单售后', $order['id']);
 
         return DataReturn('退款成功', 0);   
     }

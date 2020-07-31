@@ -226,7 +226,7 @@ class Index extends Common
      */
     private function CreateConfig($params = [])
     {
-                // 配置文件信息处理
+        // 配置文件信息处理
         $db_str=<<<php
 <?php
 // +----------------------------------------------------------------------

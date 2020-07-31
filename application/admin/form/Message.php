@@ -91,13 +91,11 @@ class Message
                     'label'         => '业务类型',
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
-                    'view_data_key' => 'name',
-                    'view_data'     => lang('common_business_type_list'),
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => lang('common_business_type_list'),
-                        'data_key'          => 'id',
+                        'data'              => $this->MessageBusinessTypeList(),
+                        'data_key'          => 'name',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
@@ -182,6 +180,19 @@ class Message
             return empty($ids) ? [0] : $ids;
         }
         return $value;
+    }
+
+    /**
+     * 业务类型
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-26
+     * @desc    description
+     */
+    public function MessageBusinessTypeList()
+    {
+        return Db::name('Message')->field('business_type as name')->group('business_type')->select();
     }
 }
 ?>

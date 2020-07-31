@@ -175,14 +175,6 @@ return array(
             1 => array('id' => 1, 'name' => '微信'),
         ),
 
-    // 业务类型
-    'common_business_type_list'             =>  array(
-            0 => array('id' => 0, 'name' => '默认', 'checked' => true),
-            1 => array('id' => 1, 'name' => '订单'),
-            2 => array('id' => 2, 'name' => '充值'),
-            3 => array('id' => 3, 'name' => '提现'),
-        ),
-
     // 用户积分 - 操作类型
     'common_integral_log_type_list'             =>  array(
             0 => array('id' => 0, 'name' => '减少', 'checked' => true),

@@ -66,7 +66,7 @@ class CrontabService
                     if($ret['code'] == 0)
                     {
                         // 用户消息
-                        MessageService::MessageAdd($v['user_id'], '订单关闭', '订单超时关闭', 1, $v['id']);
+                        MessageService::MessageAdd($v['user_id'], '订单关闭', '订单超时关闭', '订单', $v['id']);
 
                         // 订单状态日志
                         OrderService::OrderHistoryAdd($v['id'], $upd_data['status'], $v['status'], '超时关闭', 0, '系统');
@@ -130,7 +130,7 @@ class CrontabService
                         if($ret['code'] == 0)
                         {
                             // 用户消息
-                            MessageService::MessageAdd($v['user_id'], '订单收货', '订单自动收货成功', 1, $v['id']);
+                            MessageService::MessageAdd($v['user_id'], '订单收货', '订单自动收货成功', '订单', $v['id']);
 
                             // 订单状态日志
                             OrderService::OrderHistoryAdd($v['id'], $upd_data['status'], $v['status'], '自动收货', 0, '系统');

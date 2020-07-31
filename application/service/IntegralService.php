@@ -49,11 +49,12 @@ class IntegralService
             'add_time'              => time(),
         );
         $data['new_integral'] = ($data['type'] == 1) ? $data['original_integral']+$data['operation_integral'] : $data['original_integral']-$data['operation_integral'];
-        if(Db::name('UserIntegralLog')->insertGetId($data) > 0)
+        $log_id = Db::name('UserIntegralLog')->insertGetId($data);
+        if($log_id > 0)
         {
             $type_msg = lang('common_integral_log_type_list')[$type]['name'];
             $detail = $msg.'积分'.$type_msg.$operation_integral;
-            MessageService::MessageAdd($user_id, '积分变动', $detail);
+            MessageService::MessageAdd($user_id, '积分变动', $detail, '积分', $log_id);
             return true;
         }
         return false;

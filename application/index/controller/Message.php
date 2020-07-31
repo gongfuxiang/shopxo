@@ -69,6 +69,9 @@ class Message extends Common
         ];
         $ret = MessageService::MessageList($data_params);
 
+        // 消息更新未已读
+        MessageService::MessageRead(['user'=>$this->user]);
+
         // 浏览器名称
         $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('我的消息', 1));
 
