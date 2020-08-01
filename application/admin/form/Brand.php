@@ -10,7 +10,9 @@
 // +----------------------------------------------------------------------
 namespace app\admin\form;
 
+use think\Db;
 use app\service\BrandService;
+use app\service\BrandCategoryService;
 
 /**
  * 品牌动态表格
@@ -86,15 +88,16 @@ class Brand
                 [
                     'label'         => '品牌分类',
                     'view_type'     => 'field',
-                    'view_key'      => 'brand_category_name',
+                    'view_key'      => 'brand_category_text',
                     'search_config' => [
-                        'form_type'         => 'select',
-                        'form_name'         => 'brand_category_id',
-                        'where_type'        => 'in',
-                        'data'              => $this->BrandCategoryList(),
-                        'data_key'          => 'id',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
+                        'form_type'             => 'select',
+                        'form_name'             => 'id',
+                        'where_type'            => 'in',
+                        'data'                  => $this->BrandCategoryList(),
+                        'data_key'              => 'id',
+                        'data_name'             => 'name',
+                        'is_multiple'           => 1,
+                        'where_handle_custom'   => 'WhereValueBrandCategory',
                     ],
                 ],
                 [
@@ -155,8 +158,37 @@ class Brand
      */
     public function BrandCategoryList()
     {
-        $ret = BrandService::BrandCategoryList(['field'=>'id,name']);
+        $ret = BrandCategoryService::BrandCategoryList(['field'=>'id,name']);
         return isset($ret['data']) ? $ret['data'] : [];
+    }
+
+    /**
+     * 品牌分类条件处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-03
+     * @desc    description
+     * @param   [array]           $value    [条件值]
+     * @param   [array]           $params   [输入参数]
+     */
+    public function WhereValueBrandCategory($value, $params = [])
+    {
+        if(!empty($value))
+        {
+            // 是否为数组
+            if(!is_array($value))
+            {
+                $value = [$value];
+            }
+
+            // 获取品牌 id
+            $ids = Db::name('BrandCategoryJoin')->where(['brand_category_id'=>$value])->column('brand_id');
+
+            // 避免空条件造成无效的错觉
+            return empty($ids) ? [0] : $ids;
+        }
+        return $value;
     }
 }
 ?>

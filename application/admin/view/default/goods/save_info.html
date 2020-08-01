@@ -96,13 +96,7 @@
 						{{if !empty($brand_list)}}
 							<option value="0">请选择...</option>
 							{{foreach $brand_list as $v}}
-								<optgroup label="{{$v.name}}">
-									{{if !empty($v['items'])}}
-										{{foreach $v.items as $vs}}
-											<option style="padding-left: 30px;" value="{{$vs.id}}" {{if isset($data['brand_id']) and $data['brand_id'] eq $vs['id']}}selected{{/if}}>{{$vs.name}}</option>
-										{{/foreach}}
-									{{/if}}
-								</optgroup>
+								<option value="{{$v.id}}" {{if isset($data['brand_id']) and $data['brand_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 							{{/foreach}}
 						{{/if}}
 					</select>

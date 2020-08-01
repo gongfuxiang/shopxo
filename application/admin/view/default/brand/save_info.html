@@ -15,10 +15,9 @@
 			</div>
 			<div class="am-form-group">
 				<label>品牌分类</label>
-			    <select name="brand_category_id" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择品牌分类" required>
-					<option value="">可选择...</option>
+			    <select name="brand_category_id" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="请选择品牌分类" required>
 					{{foreach $brand_category as $v}}
-						<option value="{{$v.id}}" {{if isset($data['brand_category_id']) and $data['brand_category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						<option value="{{$v.id}}" {{if isset($data['brand_category_ids']) and is_array($data['brand_category_ids']) and in_array($v['id'], $data['brand_category_ids'])}}selected{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
 				</select>
 			</div>

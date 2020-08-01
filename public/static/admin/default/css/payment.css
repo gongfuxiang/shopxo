@@ -1,6 +1,8 @@
 /**
- * 列表
+ * 上传文件
  */
 .am-form-file input[type="file"] {
-    margin-top: 0;
+    width: 95px;
+    height: 28px;
+    margin-top: 10px;
 }

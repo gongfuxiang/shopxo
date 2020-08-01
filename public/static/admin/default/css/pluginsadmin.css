@@ -95,12 +95,15 @@
     }
 }
 
-
 /**
- * 安装
+ * 上传文件
  */
-input[name="file"] { width: 105px !important; height: 32px; }
-input.file-event { margin-top: 0 !important; }
+.am-form-file input[type="file"] {
+    width: 92px;
+    height: 28px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
 
 /**
  * 删除modal

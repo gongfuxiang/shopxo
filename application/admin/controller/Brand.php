@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use think\facade\Hook;
 use app\service\BrandService;
+use app\service\BrandCategoryService;
 
 /**
  * 品牌管理
@@ -138,7 +139,7 @@ class Brand extends Common
         $this->assign('common_is_enable_list', lang('common_is_enable_list'));
 
         // 品牌分类
-		$brand_category = BrandService::BrandCategoryList(['field'=>'id,name']);
+		$brand_category = BrandCategoryService::BrandCategoryList(['field'=>'id,name']);
 		$this->assign('brand_category', $brand_category['data']);
 
         // 品牌编辑页面钩子

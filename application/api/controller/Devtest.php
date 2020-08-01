@@ -445,5 +445,56 @@ class Devtest extends Common
         }
         echo 'count:'.count($data).', success:'.$success.', fail:'.$fail;
     }
+
+    /**
+     * 品牌分类数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-01
+     * @desc    description
+     */
+    public function BrandCategoryHandle()
+    {
+        if(input('pwd') != 'shopxo520')
+        {
+            die('非法访问');
+        }
+
+        // 状态
+        $success = 0;
+        $fail = 0;
+
+        // 获取品牌列表
+        $data = Db::name('Brand')->select();
+        if(!empty($data))
+        {
+            foreach($data as $v)
+            {
+                if(!empty($v['brand_category_id']))
+                {
+                    if(Db::name('BrandCategoryJoin')->where(['brand_id'=>$v['id']])->count() <= 0)
+                    {
+                        // 删除数据
+                        Db::name('BrandCategoryJoin')->where(['brand_id'=>$v['id']])->delete();
+
+                        // 添加数据
+                        $temp_data = [
+                            'brand_id'          => $v['id'],
+                            'brand_category_id' => $v['brand_category_id'],
+                            'add_time'          => time(),
+                        ];
+                        if(Db::name('BrandCategoryJoin')->insertGetId($temp_data) > 0)
+                        {
+                            $success++;
+                        } else {
+                            $fail++;
+                        }
+                    }
+                }
+            }
+        }
+        echo 'success:'.$success.', fail:'.$fail;
+    }
 }
 ?>

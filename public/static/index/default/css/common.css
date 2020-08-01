@@ -935,7 +935,7 @@ button { outline: none !important; }
 .common-cropper-popup .preview-sm { width:50px; height:50px; }
 .common-cropper-popup .img-preview { margin-left:20px; border: 1px solid #eee; background-color: #f9f9f9; }
 .common-cropper-popup .cropper-container, .cropper-input-images-submit { border-radius:2px; }
-.common-cropper-popup .am-form-file input[type="file"] { margin-top: 0; }
+.common-cropper-popup .am-form-file input[type="file"] { width: 105px; height: 32px; }
 .common-cropper-popup .am-form-group { width: auto; }
 .common-cropper-popup form.am-form .am-form-group-refreshing { padding: 0 !important; }
 @media only screen and (max-width:641px){

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\BrandService;
+use app\service\BrandCategoryService;
 
 /**
  * 品牌分类管理
@@ -71,7 +71,7 @@ class BrandCategory extends Common
 		}
 
 		// 开始操作
-		return BrandService::BrandCategoryNodeSon(input());
+		return BrandCategoryService::BrandCategoryNodeSon($this->data_request);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class BrandCategory extends Common
 		}
 
 		// 开始操作
-		return BrandService::BrandCategorySave(input());
+		return BrandCategoryService::BrandCategorySave($this->data_request);
 	}
 
 	/**
@@ -109,9 +109,9 @@ class BrandCategory extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return BrandService::BrandCategoryDelete($params);
+		return BrandCategoryService::BrandCategoryDelete($params);
 	}
 }
 ?>
