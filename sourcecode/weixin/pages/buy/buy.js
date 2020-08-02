@@ -307,4 +307,30 @@ Page({
       this.init();
     }
   },
+
+  // 地图查看
+  map_event(e) {
+    var index = e.currentTarget.dataset.index || 0;
+    var data = this.data.goods_list[index] || null;
+    if (data == null)
+    {
+      app.showToast("地址有误");
+      return false;
+    }
+
+    var lng = parseFloat(data.lng || 0);
+    var lat = parseFloat(data.lat || 0);
+    if (lng <= 0 || lat <= 0) {
+      app.showToast("坐标有误");
+      return false;
+    }
+
+    wx.openLocation({
+      latitude: lat,
+      longitude: lng,
+      scale: 18,
+      name: data.name || data.alias || '',
+      address: (data.province_name || '') + (data.city_name || '') + (data.county_name || '') + (data.address || ''),
+    });
+  },
 });

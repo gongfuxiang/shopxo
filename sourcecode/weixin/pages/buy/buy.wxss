@@ -41,14 +41,39 @@
 /**
  * 商品
  */
-.goods .goods-item:not(:last-child) {
+.goods-group-list .goods-item:not(:last-child) {
     border-bottom: 1px dashed #efefef;
 }
-.goods-item {
-    padding: 20rpx 10rpx;
+.goods-group-list {
+    padding: 0 10rpx 10rpx 10rpx;
+}
+.goods-group-hd {
+  padding: 20rpx 0;
+}
+.goods-group-title {
+  font-weight: bold;
+  vertical-align: middle;
+}
+.goods-group-alias {
+  border: 1px solid #3bb4f2;
+  color: #3bb4f2;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+  margin-left: 10rpx;
+}
+.goods-group-footer .original-price {
+  margin-right: 10rpx;
+}
+.goods-group-map-submit {
+  font-size: 24rpx;
+  padding: 5rpx 20rpx;
+  background: #f0f0f0;
 }
 .goods-title, .goods-spec {
-    margin-bottom: 10rpx;
+  margin-bottom: 5rpx;
+}
+.goods-item {
+  padding: 5rpx 0;
 }
 .goods-image {
     width: 160rpx;
@@ -119,6 +144,7 @@
  */
 .extension-list {
   background-color: #ffffeb;
+  border: 1px solid #ffe2cf;
 }
 .extension-list .item {
   padding: 20rpx 10rpx;

@@ -32,9 +32,20 @@
       <view class="address-divider spacing-mb"></view>
     </block>
 
-    <!-- 商品 -->
-    <view class="goods bg-white spacing-mb">
-      <view wx:for="{{goods_list}}" wx:key="key" class="goods-item oh">
+    <!-- 商品数据 -->
+    <view class="goods-group-list bg-white spacing-mb" wx:for="{{goods_list}}" wx:for-item="group" wx:key="key">
+      <!-- 仓库分组 -->
+      <view class="goods-group-hd oh br-b">
+        <view class="fl">
+          <text class="goods-group-title">{{group.name}}</text>
+          <text wx:if="{{(group.alias || null) != null}}" class="goods-group-alias">{{group.alias}}</text>
+        </view>
+        <view wx:if="{{group.lng > 0 && group.lat > 0}}" class="fr">
+          <view class="goods-group-map-submit br" data-index="{{index}}" bindtap="map_event">查看地图</view>
+        </view>
+      </view>
+      <!-- 商品 -->
+      <view wx:for="{{group.goods_items}}" wx:key="keys" class="goods-item oh">
         <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
         <view class="goods-base">
           <view class="goods-title multi-text">{{item.title}}</view>
@@ -51,6 +62,20 @@
           <text class="buy-number cr-888">x{{item.stock}}
           </text>
         </view>
+      </view>
+      <!-- 扩展数据展示 -->
+      <view wx:if="{{group.order_base.extension_data.length > 0}}" class="extension-list spacing-mt">
+        <view wx:for="{{group.order_base.extension_data}}" wx:key="key" class="item oh">
+          <text class="cr-666 fl">{{item.name}}
+          </text>
+          <text class="text-tips fr">{{item.tips}}
+          </text>
+        </view>
+      </view>
+      <!-- 小计 -->
+      <view class="oh tr goods-group-footer spacing-mt spacing-mb">
+        <text wx:if="{{group.order_base.total_price != group.order_base.actual_price}}" class="original-price">{{price_symbol}}{{group.order_base.total_price}}</text>
+        <text class="sales-price">{{price_symbol}}{{group.order_base.actual_price}}</text>
       </view>
     </view>
 
