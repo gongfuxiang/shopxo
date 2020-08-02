@@ -363,7 +363,7 @@
                                 {{/if}}
                                 {{php}}
                                     $hook_name = 'plugins_view_buy_group_goods_inside_bottom';
-                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v]);
+                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v, 'params'=>$params]);
                                     if(!empty($hook_data) && is_array($hook_data))
                                     {
                                         foreach($hook_data as $hook)

@@ -18,6 +18,7 @@ use app\service\ResourcesService;
 use app\service\PaymentService;
 use app\service\ConfigService;
 use app\service\OrderSplitService;
+use app\service\WarehouseGoodsService;
 
 /**
  * 购买服务层
@@ -997,7 +998,6 @@ class BuyService
             return $buy;
         }
 
-
         // 用户留言
         $user_note = empty($params['user_note']) ? '' : str_replace(['"', "'"], '', strip_tags($params['user_note']));
 
@@ -1085,10 +1085,10 @@ class BuyService
             $order_id = Db::name('Order')->insertGetId($order);
             if($order_id > 0)
             {
-                foreach($v['goods_items'] as $k=>$v)
+                foreach($v['goods_items'] as $k=>$vs)
                 {
                     // 添加订单详情数据,data返回自增id
-                    $detail_ret = self::OrderDetailInsert($order_id, $params['user']['id'], $v);
+                    $detail_ret = self::OrderDetailInsert($order_id, $params['user']['id'], $vs);
                     if($detail_ret['code'] == 0)
                     {
                         $v['goods_items'][$k]['id'] = $detail_ret['data'];
@@ -1100,7 +1100,7 @@ class BuyService
                     // 订单模式 - 虚拟信息添加
                     if($site_model == 3)
                     {
-                        $ret = self::OrderFictitiousValueInsert($order_id, $detail_ret['data'], $params['user']['id'], $v['goods_id']);
+                        $ret = self::OrderFictitiousValueInsert($order_id, $detail_ret['data'], $params['user']['id'], $vs['goods_id']);
                         if($ret['code'] != 0)
                         {
                             Db::rollback();
@@ -1681,6 +1681,13 @@ class BuyService
                             }
                         } else {
                             return $base;
+                        }
+
+                        // 仓库库存扣除
+                        $we_ret = WarehouseGoodsService::WarehouseGoodsInventoryDeduct($params['order_id'], $v['goods_id'], $spec, $v['buy_number']);
+                        if($we_ret['code'] != 0)
+                        {
+                            return $we_ret;
                         }
 
                         // 扣除日志添加

@@ -34,12 +34,65 @@ return array (
   ),
   'plugins_css' => 
   array (
-    0 => 'app\\plugins\\freightfee\\Hook',
+    0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\freightfee\\Hook',
+    2 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_users_center_left_menu_handle' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_header_navigation_top_right_handle' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_order_status_change_history_success_handle' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_order_aftersale_audit_handle_end' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_site_extraction_address_list' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_buy_order_insert_end' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_goods_spec_extends_handle' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_admin_user_save' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_user_save_handle' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_goods_detail_base_buy_nav_min_inside' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_goods_detail_photo_within' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_goods_detail_base_bottom' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_buy_group_goods_handle' => 
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_view_goods_detail_title' => 
   array (
@@ -53,23 +106,11 @@ return array (
   array (
     0 => 'app\\plugins\\coupon\\Hook',
   ),
-  'plugins_service_users_center_left_menu_handle' => 
-  array (
-    0 => 'app\\plugins\\coupon\\Hook',
-  ),
-  'plugins_service_header_navigation_top_right_handle' => 
-  array (
-    0 => 'app\\plugins\\coupon\\Hook',
-  ),
   'plugins_view_goods_detail_panel_bottom' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
   ),
-  'plugins_view_buy_goods_bottom' => 
-  array (
-    0 => 'app\\plugins\\coupon\\Hook',
-  ),
-  'plugins_service_buy_handle' => 
+  'plugins_view_buy_group_goods_inside_bottom' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
   ),
@@ -78,10 +119,6 @@ return array (
     0 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_service_buy_order_insert_success' => 
-  array (
-    0 => 'app\\plugins\\coupon\\Hook',
-  ),
-  'plugins_service_order_status_change_history_success_handle' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
   ),
