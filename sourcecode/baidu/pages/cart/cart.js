@@ -293,7 +293,7 @@ Page({
   },
 
   // 选中处理
-  selectedt_event(e) {
+  selected_event(e) {
     var type = e.currentTarget.dataset.type || null;
     if (type != null) {
       var temp_data_list = this.data.data_list;

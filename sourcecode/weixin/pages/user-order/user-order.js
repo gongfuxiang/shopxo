@@ -13,8 +13,7 @@ Page({
     is_show_payment_popup: false,
     payment_list: [],
     payment_id: 0,
-    temp_pay_value: 0,
-    temp_pay_index: 0,
+    temp_pay_value: '',
     nav_status_list: [
       { name: "全部", value: "-1" },
       { name: "待付款", value: "1" },
@@ -24,6 +23,7 @@ Page({
       { name: "已失效", value: "5,6" },
     ],
     nav_status_index: 0,
+    order_select_ids: [],
   },
 
   onLoad(params) {
@@ -115,16 +115,9 @@ Page({
               // 下订单支付处理
               if(this.data.load_status == 0)
               {
-                if((this.data.params.is_pay || 0) == 1 && (this.data.params.order_id || 0) != 0)
+                if((this.data.params.is_pay || 0) == 1 && (this.data.params.order_ids || null) != null)
                 {
-                  for(var i in temp_data_list)
-                  {
-                    if(this.data.params.order_id == temp_data_list[i]['id'])
-                    {
-                      this.pay_handle(this.data.params.order_id, i);
-                      break;
-                    }
-                  }
+                  this.pay_handle(this.data.params.order_ids);
                 }
               }
             } else {
@@ -200,7 +193,6 @@ Page({
     this.setData({
       is_show_payment_popup: true,
       temp_pay_value: e.currentTarget.dataset.value,
-      temp_pay_index: e.currentTarget.dataset.index,
     });
   },
 
@@ -214,11 +206,11 @@ Page({
     var payment_id = e.currentTarget.dataset.value || 0;
     this.setData({payment_id: payment_id});
     this.payment_popup_event_close();
-    this.pay_handle(this.data.temp_pay_value, this.data.temp_pay_index);
+    this.pay_handle(this.data.temp_pay_value);
   },
 
   // 支付方法
-  pay_handle(order_id, index) {
+  pay_handle(order_ids) {
     var self = this;
     // 加载loding
     wx.showLoading({title: "请求中..." });
@@ -227,7 +219,7 @@ Page({
       url: app.get_request_url("pay", "order"),
       method: "POST",
       data: {
-        id: order_id,
+        ids: order_ids,
         payment_id: this.data.payment_id,
       },
       dataType: "json",
@@ -246,12 +238,11 @@ Page({
                 paySign: res.data.data.data.paySign,
                 success: function (res) {
                   // 数据设置
-                  self.order_item_pay_success_handle(index);
+                  self.order_item_pay_success_handle(order_ids);
 
                   // 跳转支付页面
                   wx.navigateTo({
-                    url: "/pages/paytips/paytips?code=9000&total_price=" +
-                      self.data.data_list[index]['total_price']
+                    url: "/pages/paytips/paytips?code=9000"
                   });
                 },
                 fail: function (res) {
@@ -262,15 +253,22 @@ Page({
 
             // 线下支付
             case 1 :
+              var order_ids_arr = order_ids.split(',');
               var temp_data_list = self.data.data_list;
-              temp_data_list[index]['is_under_line'] = 1;
+              for(var i in temp_data_list)
+              {
+                if(order_ids_arr.indexOf(temp_data_list[i]['id']) != -1)
+                {
+                  temp_data_list[i]['is_under_line'] = 1;
+                }
+              }
               self.setData({ data_list: temp_data_list });
               app.alert({ msg: res.data.msg, is_show_cancel: 0});
               break;
 
             // 钱包支付
             case 2 :
-              self.order_item_pay_success_handle(index);
+              self.order_item_pay_success_handle(order_ids);
               app.showToast('支付成功', 'success');
               break;
 
@@ -290,27 +288,35 @@ Page({
   },
 
   // 支付成功数据设置
-  order_item_pay_success_handle(index) {
-    // 数据设置
+  order_item_pay_success_handle(order_ids) {
+    var order_ids_arr = order_ids.split(',');
     var temp_data_list = this.data.data_list;
-    switch (parseInt(temp_data_list[index]['order_model'])) {
-      // 销售模式
-      case 0:
-        temp_data_list[index]['status'] = 2;
-        temp_data_list[index]['status_name'] = '待发货';
-        break;
 
-      // 自提模式
-      case 2:
-        temp_data_list[index]['status'] = 2;
-        temp_data_list[index]['status_name'] = '待取货';
-        break;
+    // 数据设置
+    for(var i in temp_data_list)
+    {
+      if(order_ids_arr.indexOf(temp_data_list[i]['id']) != -1)
+      {
+        switch (parseInt(temp_data_list[i]['order_model'])) {
+          // 销售模式
+          case 0:
+            temp_data_list[i]['status'] = 2;
+            temp_data_list[i]['status_name'] = '待发货';
+            break;
 
-      // 虚拟模式
-      case 3:
-        temp_data_list[index]['status'] = 3;
-        temp_data_list[index]['status_name'] = '待收货';
-        break;
+          // 自提模式
+          case 2:
+            temp_data_list[i]['status'] = 2;
+            temp_data_list[i]['status_name'] = '待取货';
+            break;
+
+          // 虚拟模式
+          case 3:
+            temp_data_list[i]['status'] = 3;
+            temp_data_list[i]['status_name'] = '待收货';
+            break;
+        }
+      }
     }
     this.setData({ data_list: temp_data_list });
   },
@@ -413,7 +419,10 @@ Page({
     this.setData({
       nav_status_index: e.currentTarget.dataset.index || 0,
       data_page: 1,
+      order_select_ids: [],
     });
+
+    // 重新拉取数据
     this.get_data_list(1);
   },
 
@@ -437,6 +446,33 @@ Page({
   comments_event(e) {
     wx.navigateTo({
       url: "/pages/user-order-comments/user-order-comments?id=" + e.currentTarget.dataset.value
+    });
+  },
+
+  // 选中处理
+  selected_event(e) {
+    var oid = e.currentTarget.dataset.oid || 0;
+    var temp_select_ids = this.data.order_select_ids;
+    if(temp_select_ids.indexOf(oid) == -1)
+    {
+      temp_select_ids.push(oid);
+    } else {
+      for(var i in temp_select_ids)
+      {
+        if(temp_select_ids[i] == oid)
+        {
+          temp_select_ids.splice(i, 1);
+        }
+      }
+    }
+    this.setData({order_select_ids: temp_select_ids});
+  },
+
+  // 合并支付
+  pay_merge_event(e) {
+    this.setData({
+      is_show_payment_popup: true,
+      temp_pay_value: this.data.order_select_ids.join(',')
     });
   },
 });

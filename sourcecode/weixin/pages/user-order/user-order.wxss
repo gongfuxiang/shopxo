@@ -86,3 +86,22 @@
   vertical-align: middle;
   margin-right: 10rpx;
 }
+
+/**
+ * 多选
+ */
+ .selected .icon {
+  width: 35rpx;
+  height: 35rpx !important;
+  margin: 0 20rpx 0 10rpx;
+  vertical-align: middle;
+}
+
+/**
+ * 合并支付按钮
+ */
+.pay-merge-submit {
+  width: 220rpx;
+  left: calc(50% - 110rpx);
+  bottom: 50rpx;
+}

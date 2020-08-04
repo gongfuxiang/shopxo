@@ -359,10 +359,10 @@ class Weixin
             'appid'             => $appid,
             'mch_id'            => $this->config['mch_id'],
             'body'              => $params['site_name'].'-'.$params['name'],
-            'nonce_str'         => md5(time().rand().$params['order_no']),
+            'nonce_str'         => md5(time().$params['order_no']),
             'notify_url'        => $notify_url,
             'openid'            => ($trade_type == 'JSAPI') ? $openid : '',
-            'out_trade_no'      => $params['order_no'].GetNumberCode(6),
+            'out_trade_no'      => $params['order_no'],
             'spbill_create_ip'  => GetClientIP(),
             'total_fee'         => (int) (($params['total_price']*1000)/10),
             'trade_type'        => $trade_type,
@@ -441,13 +441,10 @@ class Weixin
      */
     private function ReturnData($data)
     {
-        // 参数处理
-        $out_trade_no = substr($data['out_trade_no'], 0, strlen($data['out_trade_no'])-6);
-
         // 返回数据固定基础参数
         $data['trade_no']       = $data['transaction_id'];  // 支付平台 - 订单号
         $data['buyer_user']     = $data['openid'];          // 支付平台 - 用户
-        $data['out_trade_no']   = $out_trade_no;            // 本系统发起支付的 - 订单号
+        $data['out_trade_no']   = $data['out_trade_no'];    // 本系统发起支付的 - 订单号
         $data['subject']        = $data['attach'];          // 本系统发起支付的 - 商品名称
         $data['pay_price']      = $data['total_fee']/100;   // 本系统发起支付的 - 总价
         return $data;

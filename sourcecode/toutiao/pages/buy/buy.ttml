@@ -88,7 +88,7 @@
 
     <!-- 导航 -->
     <view class="buy-nav oh wh-auto">
-      <view class="nav-base bg-white fl single-text">
+      <view class="nav-base bg-white fl br-t single-text">
         <text>合计：</text>
         <text class="sales-price">{{price_symbol}}{{total_price}}</text>
       </view>

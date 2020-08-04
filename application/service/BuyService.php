@@ -1002,7 +1002,7 @@ class BuyService
         $user_note = empty($params['user_note']) ? '' : str_replace(['"', "'"], '', strip_tags($params['user_note']));
 
         // 订单默认状态
-        $status = (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1;
+        $order_status = (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1;
 
         // 订单来源
         $client_type = (APPLICATION_CLIENT_TYPE == 'pc' && IsMobile()) ? 'h5' : APPLICATION_CLIENT_TYPE;
@@ -1047,7 +1047,7 @@ class BuyService
                 'user_id'               => $params['user']['id'],
                 'warehouse_id'          => $v['id'],
                 'user_note'             => $user_note,
-                'status'                => $status,
+                'status'                => $order_status,
                 'preferential_price'    => ($v['order_base']['preferential_price'] <= 0.00) ? 0.00 : $v['order_base']['preferential_price'],
                 'increase_price'        => ($v['order_base']['increase_price'] <= 0.00) ? 0.00 : $v['order_base']['increase_price'],
                 'price'                 => ($v['order_base']['total_price'] <= 0.00) ? 0.00 : $v['order_base']['total_price'],
@@ -1192,13 +1192,14 @@ class BuyService
 
         // 返回信息
         $result = [
-            'order_ids' => $order_ids,
-            'jump_url'  => MyUrl('index/order/index'),
+            'order_status'  => $order_status,
+            'order_ids'     => $order_ids,
+            'jump_url'      => MyUrl('index/order/index'),
         ];
 
 
         // 获取订单信息
-        switch($status)
+        switch($order_status)
         {
             // 预约成功
             case 0 :

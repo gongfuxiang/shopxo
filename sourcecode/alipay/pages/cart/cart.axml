@@ -1,7 +1,7 @@
 <view a:if="{{data_list.length > 0}}" class="page">
   <view a:for="{{data_list}}" class="goods-item oh bg-white {{common_site_type == 1 ? 'exhibition-mode-data' : ''}}">
     <!-- 选择 -->
-    <view a:if="{{common_site_type != 1}}" onTap="selectedt_event" data-type="node" data-index="{{index}}" class="fl selected">
+    <view a:if="{{common_site_type != 1}}" onTap="selected_event" data-type="node" data-index="{{index}}" class="fl selected">
       <image class="icon" src="/images/default-select{{(item.is_error || 0) == 1 ? '-disabled' : ((item.selected || false) ? '-active' : '')}}-icon.png" mode="widthFix" />
     </view>
 
@@ -42,7 +42,7 @@
   </view>
 
   <!-- 操作导航 -->
-  <view a:if="{{data_list.length > 0}}" class="buy-nav oh wh-auto br-t">
+  <view a:if="{{data_list.length > 0}}" class="buy-nav oh wh-auto">
     <!-- 展示型 -->
     <block a:if="{{common_site_type == 1}}">
       <view class="exhibition-mode">
@@ -52,8 +52,8 @@
 
     <!-- 销售,自提,虚拟销售 -->
     <block a:else>
-      <view class="nav-base bg-white fl single-text">
-        <view onTap="selectedt_event" data-type="all" class="fl selected">
+      <view class="nav-base bg-white fl br-t single-text">
+        <view onTap="selected_event" data-type="all" class="fl selected">
           <image class="icon" src="/images/default-select{{is_selected_all ? '-active' : ''}}-icon.png" mode="widthFix" />
           <text>全选</text>
         </view>
