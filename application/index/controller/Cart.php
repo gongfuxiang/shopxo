@@ -77,7 +77,7 @@ class Cart extends Common
             $this->error('非法访问');
         }
 
-        $params = $_POST;
+        $params = $this->data_post;
         $params['user'] = $this->user;
         return BuyService::CartSave($params);
     }
@@ -98,7 +98,7 @@ class Cart extends Common
             return $this->error('非法访问');
         }
 
-        $params = $_POST;
+        $params = $this->data_post;
         $params['user'] = $this->user;
         return BuyService::CartDelete($params);
     }
@@ -119,7 +119,7 @@ class Cart extends Common
             $this->error('非法访问');
         }
 
-        $params = $_POST;
+        $params = $this->data_post;
         $params['user'] = $this->user;
         return BuyService::CartStock($params);
     }

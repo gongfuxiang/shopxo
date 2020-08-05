@@ -80,6 +80,7 @@ class OrderService
         $order_nos = [];
 
         // 循环处理
+        $order_data = [];
         foreach($ids as $k=>$order_id)
         {
             // 获取订单信息
@@ -93,13 +94,6 @@ class OrderService
             {
                 $status_text = lang('common_order_user_status')[$order['status']]['name'];
                 return DataReturn('状态不可操作['.$status_text.']'.$order['order_no'], -1);
-            }
-
-            // 订单支付前校验
-            $ret = BuyService::OrderPayBeginCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
-            if($ret['code'] != 0)
-            {
-                return $ret;
             }
 
             // 金额为0、走直接支付成功
@@ -130,6 +124,16 @@ class OrderService
                 $client_type = $order['client_type'];
                 $order_payment_id = $order['payment_id'];
             }
+
+            // 订单数据集合
+            $order_data[] = $order;
+        }
+
+        // 订单支付前校验订单商品
+        $ret = BuyService::MoreOrderPayBeginCheck(['order_data'=>$order_data]);
+        if($ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 支付方式
@@ -357,7 +361,7 @@ class OrderService
         }
 
         // 订单支付前校验
-        $ret = BuyService::OrderPayBeginCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
+        $ret = BuyService::SingleOrderPayBeginCheck(['order_id'=>$order['id'], 'order_data'=>$order]);
         if($ret['code'] != 0)
         {
             return $ret;

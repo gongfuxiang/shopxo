@@ -68,6 +68,7 @@
   font-size: 24rpx;
   padding: 5rpx 20rpx;
   background: #f0f0f0;
+  border-radius: 6rpx;
 }
 .goods-title, .goods-spec {
   margin-bottom: 5rpx;
