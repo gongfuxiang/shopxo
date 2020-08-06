@@ -37,6 +37,9 @@ Page({
       nav_status_index: nav_status_index,
     });
     this.init();
+
+    // 显示分享菜单
+    app.show_share_menu();
   },
 
   onShow() {},

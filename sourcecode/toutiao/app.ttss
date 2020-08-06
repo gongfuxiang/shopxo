@@ -171,7 +171,7 @@ textarea {
     width: 33.3%; 
 }
 .data-bottom-line .left, .data-bottom-line .right{
-    margin-top: 5px;
+    margin-top: 8px;
     border-bottom: 1px solid #e1e1e1;
 }
 .data-bottom-line .msg{

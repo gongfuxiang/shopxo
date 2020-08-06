@@ -74,7 +74,7 @@
   margin-bottom: 5rpx;
 }
 .goods-item {
-  padding: 5rpx 0;
+  padding: 10rpx 0;
 }
 .goods-image {
     width: 160rpx;
@@ -163,6 +163,7 @@
 .content-textarea-view,
 .content-textarea-view textarea {
   height: 180rpx;
+  padding: 5rpx;
 }
 .content-textarea-view view {
   padding: 12rpx;

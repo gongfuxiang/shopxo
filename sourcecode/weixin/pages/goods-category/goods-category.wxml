@@ -1,23 +1,44 @@
-<view class='left-nav'>
-  <block wx:for="{{data_list}}" wx:key="key">
-    <view class='items {{item.active || ""}}' data-index="{{index}}" bindtap='nav_event'>
-      <text>{{item.name}}</text>
-    </view>
-  </block>
-</view>
-<view class='right-content bg-white'>
-  <block wx:if="{{data_content.length > 0}}">
-    <block wx:for="{{data_content}}" wx:key="keys" wx:for-item="v">
-      <view class="content-items" data-value="{{v.id}}" bindtap="category_event">
-        <image wx:if="{{(v.icon || null) != null}}" src="{{v.icon}}" mode="aspectFit" class="icon" />
-        <view class="text single-text">{{v.name}}</view>
+<view wx:if="{{data_list.length > 0}}">
+  <view class='left-nav'>
+    <block wx:for="{{data_list}}" wx:key="key">
+      <view class='items {{item.active || ""}}' data-index="{{index}}" bindtap='nav_event'>
+        <text>{{item.name}}</text>
       </view>
     </block>
-  </block>
+  </view>
+  <view class='right-container'>
+    <!-- 一级 -->
+    <view wx:if="{{(data_content || null) != null}}" class="right-content">
+      <view wx:if="{{(data_content.vice_name || null) != null || (data_content.describe || null) != null}}" class="one-content bg-white" data-value="{{data_content.id}}" bindtap="category_event">
+        <view wx:if="{{(data_content.vice_name || null) != null}}" class="one-vice-name cr-main" style="color:{{data_content.bg_color}};">{{data_content.vice_name}}</view>
+        <view wx:if="{{(data_content.describe || null) != null}}" class="one-desc">{{data_content.describe}}</view>
+      </view>
+      <!-- 二级 -->
+      <block wx:if="{{data_content.items.length > 0}}">
+        <block wx:for="{{data_content.items}}" wx:key="key" wx:for-item="v">
+          <view class="content-tow bg-white oh">
+            <view class="tc two-name" data-value="{{v.id}}" bindtap="category_event">{{v.name}}</view>
+            <!-- 三级 -->
+            <block wx:if="{{v.items.length > 0}}">
+              <block wx:for="{{v.items}}" wx:key="key" wx:for-item="vs">
+                <view class="content-three" data-value="{{vs.id}}" bindtap="category_event">
+                  <image wx:if="{{(vs.icon || null) != null}}" src="{{vs.icon}}" mode="aspectFit" class="icon" />
+                  <view class="text single-text">{{vs.name}}</view>
+                </view>
+              </block>
+            </block>
+          </view>
+        </block>
+      </block>
+      <block wx:else>
+        <import src="/pages/common/nodata.wxml" />
+        <template is="nodata" data="{{status: 0, msg: '没有子分类数据'}}"></template>
+      </block>
+    </view>
+  </view>
 </view>
 
 <view wx:if="{{data_list.length == 0 && data_list_loding_status != 0}}">
   <import src="/pages/common/nodata.wxml" />
-  <template is="nodata" data="{{status: data_list_loding_status}}">
-  </template>
+  <template is="nodata" data="{{status: data_list_loding_status}}"></template>
 </view>

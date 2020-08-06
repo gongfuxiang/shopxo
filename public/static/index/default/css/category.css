@@ -37,17 +37,15 @@
 .category-list-container .category-content .category-item:not(:last-child) {
     margin-bottom: 15px;
 }
+.category-list-container .category-content .one-cetegory a:hover {
+    text-decoration: none;
+}
 .category-list-container .category-content ul {
     border-top: 1px dotted #e5e5e5;
 }
 .category-list-container ul.category-nav li,
-.category-list-container .category-content .title,
 .category-list-container .category-content ul {
     overflow: hidden;
-}
-.category-list-container .category-content .title a {
-    font-weight: 500;
-    color: #888;
 }
 .category-list-container .category-content ul li:not(:last-child) {
     margin-right: 20px;
@@ -56,6 +54,9 @@
     color: #787878;
     font-size: 12px;
     line-height: 22px;
+}
+.category-list-container .table-no {
+    padding: 50px 0;
 }
 @media only screen and (min-width:640px) {
     .category-list-container {

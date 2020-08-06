@@ -12,6 +12,9 @@ Page({
 
   onShow() {
     this.init();
+
+    // 显示分享菜单
+    app.show_share_menu();
   },
 
   init() {

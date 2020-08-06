@@ -17,6 +17,7 @@
   color: #666;
   border-left: 3px solid #ececec;
   border-right: 3px solid #ececec;
+  overflow: hidden;
 }
 .left-nav .items:not(:last-child) {
   border-bottom: 1px solid #e6e6e6;

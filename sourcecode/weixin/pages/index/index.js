@@ -24,6 +24,9 @@ Page({
   
   onShow() {
     this.init();
+
+    // 显示分享菜单
+    app.show_share_menu();
   },
 
   // 获取数据列表

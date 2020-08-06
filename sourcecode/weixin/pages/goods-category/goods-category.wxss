@@ -1,10 +1,10 @@
 /**
-  左侧导航
-*/
+ * 左侧导航
+ */
 .left-nav {
   height: 100vh;
-  background: #ececec;
-  width: 230rpx;
+  background: #fff;
+  width: 210rpx;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -15,43 +15,62 @@
   padding: 0 10rpx;
   text-align: center;
   color: #666;
-  border-left: 3px solid #ececec;
-  border-right: 3px solid #ececec;
+  border-left: 3px solid #fff;
+  border-right: 3px solid #fff;
+  overflow: hidden;
 }
 .left-nav .items:not(:last-child) {
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: 1px solid #f1f1f1;
 }
 .nav-active {
+  background: #f5f5f5;
   border-left: 3px solid #e23f36 !important;
-  border-right: 3px solid #fff !important;
+  border-right: 3px solid #f5f5f5 !important;
   color: #e23f36;
-  background: #fff;
 }
 
 
 /**
-  右侧内容
-*/
-.right-content {
+ *  右侧内容
+ */
+.right-container {
   height: 100vh;
-  width: calc( 100% - 230rpx );
+  width: calc( 100% - 210rpx );
   overflow-x: hidden;
   overflow-y: auto;
   position: absolute;
   top: 0;
   right: 0;
+  background: #f5f5f5;
 }
-.content-items {
+.right-content, .one-content {
+  padding: 20rpx;
+}
+.one-vice-name {
+  font-size: 30rpx;
+  font-weight: 500;
+}
+.one-desc {
+  color: #999;
+  margin-top: 10rpx;
+}
+.two-name {
+  font-weight: bold;
+  font-size: 32rpx;
+  background: #f5f5f5;
+  padding: 20rpx 10rpx;
+}
+.content-three {
     float: left;
     width: calc(33.33% - 20rpx);
-    padding: 20rpx 10rpx;
+    padding: 25rpx 10rpx;
     text-align: center;
 }
-.content-items .text {
+.content-three .text {
     font-size: 28rpx;
     line-height: 46rpx;
 }
-.content-items .icon {
+.content-three .icon {
     width: 100%;
     height: 120rpx;
 }

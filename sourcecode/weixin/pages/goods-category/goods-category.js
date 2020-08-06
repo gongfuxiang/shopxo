@@ -1,18 +1,18 @@
 const app = getApp();
 Page({
   data: {
-    tab_active: 0,
-    tab_active_text_color: '#d2364c',
-    tab_active_line_color: '#d2364c',
     data_list_loding_status: 1,
-    data_bottom_line_status: false,
+    nav_active_index: 0,
     data_list: [],
-    data_content: [],
+    data_content: null,
   },
 
   onShow() {
     wx.setNavigationBarTitle({title: app.data.common_pages_title.goods_category});
     this.init();
+
+    // 显示分享菜单
+    app.show_share_menu();
   },
 
   // 获取数据
@@ -34,10 +34,11 @@ Page({
         if (res.data.code == 0) {
             var data = res.data.data;
             var data_content = [];
+            var index = this.data.nav_active_index || 0;
             if (data.length > 0)
             {
-              data[0]['active'] = 'nav-active';
-              data_content = data[0]['items'];
+              data[index]['active'] = 'nav-active';
+              data_content = data[index];
             }
             this.setData({
               data_list: data,
@@ -80,7 +81,8 @@ Page({
     }
     this.setData({
       data_list: temp_data,
-      data_content: temp_data[index]['items'],
+      data_content: temp_data[index],
+      nav_active_index: index,
     });
   },
 

@@ -15,7 +15,7 @@
 			</div>
 
 			<div class="am-form-group">
-				<label>{{$data.admin_login_info_bg_images_rand.name}}</label>
+				<label>{{$data.admin_login_info_bg_images_rand.name}}<span class="am-form-group-label-tips">{{$data.admin_login_info_bg_images_rand.describe}}</span></label>
 				<select name="{{$data.admin_login_info_bg_images_rand.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_login_info_bg_images_rand.error_tips}}" required>
 					{{foreach $common_is_enable_list as $v}}
 						<option value="{{$v.id}}" {{if isset($data['admin_login_info_bg_images_rand']['value']) and $data['admin_login_info_bg_images_rand']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>

@@ -87,6 +87,9 @@ Page({
     //params['goods_id']=2;
     this.setData({params: params});
     this.init();
+
+    // 显示分享菜单
+    app.show_share_menu();
   },
 
   onShow() {
