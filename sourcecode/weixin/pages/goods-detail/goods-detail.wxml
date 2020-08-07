@@ -127,11 +127,11 @@
 
   <!-- 底部操作 -->
   <view class="goods-buy-nav wh-auto bg-white">
-    <view class="shop fl tc" bindtap="shop_event">
+    <view class="shop fl tc br-t" bindtap="shop_event">
       <image src="/images/goods-detail-home-icon.png" mode="scaleToFill" />
       <text class="dis-block cr-888">首页</text>
     </view>
-    <view class="collect fl tc" bindtap="goods_favor_event">
+    <view class="collect fl tc br-t" bindtap="goods_favor_event">
       <image src="{{goods_favor_icon}}" mode="scaleToFill" />
       <text class="dis-block cr-888">{{goods_favor_text}}</text>
     </view>
