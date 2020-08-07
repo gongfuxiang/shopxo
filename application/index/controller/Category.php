@@ -43,6 +43,9 @@ class Category extends Common
      */
     public function Index()
     {
+        // 展示层级
+        $this->assign('category_show_level', MyC('common_show_goods_category_level', 3, true));
+
         // 浏览器名称
         $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('商品分类', 1));
 

@@ -182,7 +182,7 @@
                                             <span>{{$address.city_name}}</span>
                                             <span>{{$address.county_name}}</span>
                                             <span>{{$address.address}}</span>
-                                            {{if isset($address['lng']) and $address['lng'] gt 0 and isset($address['lat']) and $address['lat'] gt 0}}
+                                            {{if !empty($address['lng']) and !empty($address['lat'])}}
                                                 <a href="javascript:;" class="am-badge am-badge-default am-radius extraction-address-map-submit am-icon-map-marker am-margin-left-sm" data-lng="{{$address.lng}}" data-lat="{{$address.lat}}"> 查看地图</a>
                                             {{/if}}
                                         </p>
@@ -266,7 +266,7 @@
                         <div class="am-panel am-panel-default am-margin-top-sm am-margin-bottom-0">
                             <div class="am-panel-hd">
                                 <strong>{{$v.name}}{{if !empty($v['alias'])}}<span class="am-badge am-badge-secondary-plain am-radius am-margin-left-xs">{{$v.alias}}</span>{{/if}}</strong>
-                                {{if isset($v['lng']) and isset($v['lat']) and $v['lng'] gt 0 and $v['lat'] gt 0}}
+                                {{if isset($v['lng']) and isset($v['lat'])}}
                                     <div class="am-fr">
                                         <a href="javascript:;" class="am-badge am-badge-default am-radius am-icon-map-marker submit-map-popup" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}"> 查看地图</a>
                                     </div>

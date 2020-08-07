@@ -4,6 +4,7 @@ Page({
     data_list_loding_status: 1,
     nav_active_index: 0,
     data_list: [],
+    category_show_level: 3,
     data_content: null,
   },
 
@@ -32,18 +33,19 @@ Page({
       success: res => {
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
-            var data = res.data.data;
+            var category = res.data.data.category;
             var data_content = [];
             var index = this.data.nav_active_index || 0;
-            if (data.length > 0)
+            if (category.length > 0)
             {
-              data[index]['active'] = 'nav-active';
-              data_content = data[index];
+              category[index]['active'] = 'nav-active';
+              data_content = category[index];
             }
             this.setData({
-              data_list: data,
+              data_list: category,
+              category_show_level: res.data.data.category_show_level || 3,
               data_content: data_content,
-              data_list_loding_status: data.length == 0 ? 0 : 3,
+              data_list_loding_status: category.length == 0 ? 0 : 3,
               data_bottom_line_status: true,
             });
           } else {

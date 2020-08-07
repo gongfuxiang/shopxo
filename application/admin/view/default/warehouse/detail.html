@@ -10,7 +10,7 @@
     <div class="am-panel am-panel-default">
         <div class="am-panel-hd">地图</div>
         <div class="am-panel-bd">
-            {{if !empty($data['lng']) and $data['lng'] gt 0 and !empty($data['lat']) and $data['lat']}}
+            {{if !empty($data['lng']) and !empty($data['lat'])}}
                 <div id="map" data-level="17" class="am-margin-top-xs"></div>
             {{else /}}
                 <div class="table-no"><i class="am-icon-warning"></i> 未配置</div>

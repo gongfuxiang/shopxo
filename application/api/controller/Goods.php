@@ -227,9 +227,11 @@ class Goods extends Common
      */
     public function Category()
     {
-        // 开始处理
-        $params = $this->data_post;
-        return DataReturn('success', 0, GoodsService::GoodsCategoryAll($params));
+        $result = [
+            'category'              => GoodsService::GoodsCategoryAll($this->data_post),
+            'category_show_level'   => MyC('common_show_goods_category_level', 3, true),
+        ];
+        return DataReturn('success', 0, $result);
     }
 
     /**

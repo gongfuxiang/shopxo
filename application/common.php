@@ -1363,6 +1363,55 @@ function IsJson($jsonstr)
 }
 
 /**
+ * 请求get，支持本地文件
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-08-07
+ * @desc    description
+ * @param   [string]          $value [本地文件路径或者远程url地址]
+ */
+function RequestGet($value)
+{
+    // 远程
+    if(substr($value, 0, 4) == 'http')
+    {
+        // 是否有curl模块
+        if(function_exists('curl_init'))
+        {
+            return CurlGet($value);
+        }
+        return file_get_contents($value);
+    }
+
+    // 本地文件
+    return file_exists($value) ? file_get_contents($value) : '';
+}
+
+/**
+ * curl模拟get请求
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @datetime 2018-01-03T19:21:38+0800
+ * @param    [string]           $url [url地址]
+ * @return   [array]                 [返回数据]
+ */
+function CurlGet($url)
+{
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 500);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($curl, CURLOPT_URL, $url);
+
+    $result = curl_exec($curl);
+    curl_close($curl);
+    return $result;
+}
+
+/**
  * curl模拟post
  * @author   Devil
  * @blog     http://gong.gg/

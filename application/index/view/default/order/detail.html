@@ -325,7 +325,7 @@
                         </div>
                         <div>
                             <span>{{$data.address_data.province_name}} {{$data.address_data.city_name}} {{$data.address_data.county_name}} {{$data.address_data.address}}</span>
-                            {{if $data.address_data.lng gt 0 and $data.address_data.lat gt 0}}
+                            {{if !empty($data['address_data']['lng']) and !empty($data['address_data']['lat'])}}
                                 <button type="button" class="am-btn am-btn-success am-radius am-icon-map-marker submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}"> 查看位置</button>
                             {{/if}}
                         </div>
