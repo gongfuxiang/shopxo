@@ -73,9 +73,14 @@ class SearchService
         ];
 
         // 关键字
+        $where_keywords = [];
         if(!empty($params['keywords']))
         {
-            $where[] = ['g.title|g.model|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords', 'like', '%'.$params['keywords'].'%'];
+            $keywords = explode(' ', $params['keywords']);
+            foreach($keywords as $kv)
+            {
+                $where_keywords[] = ['g.title|g.model|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords', 'like', '%'.$kv.'%'];
+            }
         }
 
         // 品牌
@@ -112,7 +117,9 @@ class SearchService
         }
 
         // 获取商品总数
-        $result['total'] = GoodsService::CategoryGoodsTotal($where);
+        $result['total'] = (int) Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->where(function($query) use($where_keywords) {
+            $query->whereOr($where_keywords);
+        })->count('DISTINCT g.id');
 
         // 获取商品列表
         if($result['total'] > 0)
@@ -130,7 +137,16 @@ class SearchService
             $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
             $n = 20;
             $m = intval(($page-1)*$n);
-            $goods = GoodsService::CategoryGoodsList(['where'=>$where, 'm'=>$m, 'n'=>$n, 'order_by'=>$order_by]);
+
+            // 查询数据
+            $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field('g.*')->where($where)->where(function($query) use($where_keywords) {
+                $query->whereOr($where_keywords);
+            })->group('g.id')->order($order_by)->limit($m, $n)->select();
+
+            // 数据处理
+            $goods = GoodsService::GoodsDataHandle($data);
+
+            // 返回数据
             $result['data'] = $goods['data'];
             $result['page_total'] = ceil($result['total']/$n);
         }
