@@ -40,7 +40,7 @@
           <text class="goods-group-title">{{group.name}}</text>
           <text wx:if="{{(group.alias || null) != null}}" class="goods-group-alias">{{group.alias}}</text>
         </view>
-        <view wx:if="{{group.lng > 0 && group.lat > 0}}" class="fr">
+        <view wx:if="{{(group.lng || null) != null && (group.lat || null) != null}}" class="fr">
           <view class="goods-group-map-submit br" data-index="{{index}}" bindtap="map_event">查看地图</view>
         </view>
       </view>

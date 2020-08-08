@@ -193,6 +193,7 @@ Page({
     this.setData({
       is_show_payment_popup: true,
       temp_pay_value: e.currentTarget.dataset.value,
+      order_select_ids: [],
     });
   },
 

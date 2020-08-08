@@ -88,7 +88,7 @@
 }
 
 /**
- * 多选
+ * 选择
  */
  .selected .icon {
   width: 35rpx;

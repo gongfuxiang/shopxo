@@ -62,7 +62,6 @@ Page({
           data_list_loding_status: 2,
           data_bottom_line_status: true,
         });
-
         app.showToast("服务器请求出错");
       }
     });

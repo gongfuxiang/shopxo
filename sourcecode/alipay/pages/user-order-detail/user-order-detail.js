@@ -47,12 +47,13 @@ Page({
           self.setData({
             detail: data.data,
             detail_list:[
-              {name: "订单号", value: data.data.order_no || ''},
+              {name: "出货仓库", value: data.data.warehouse_name || ''},
               {name: "订单模式", value: data.data.order_model_name || '' },
-              {name: "状态", value: data.data.status_name || ''},
+              {name: "订单编号", value: data.data.order_no || ''},
+              {name: "订单状态", value: data.data.status_name || ''},
               {name: "支付状态", value: data.data.pay_status_name || ''},
-              {name: "单价", value: data.data.price || ''},
-              {name: "总价", value: data.data.total_price || ''},
+              {name: "支付单价", value: data.data.price || ''},
+              {name: "支付总价", value: data.data.total_price || ''},
               {name: "优惠金额", value: data.data.preferential_price || ''},
               {name: "增加金额", value: data.data.increase_price || '' },
               {name: "支付金额", value: data.data.pay_price || ''},

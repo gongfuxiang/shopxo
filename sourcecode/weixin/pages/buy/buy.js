@@ -231,7 +231,6 @@ Page({
         fail: () => {
           wx.hideLoading();
           this.setData({buy_submit_disabled_status: false});
-          
           app.showToast("服务器请求出错");
         }
       });
@@ -351,11 +350,6 @@ Page({
 
     var lng = parseFloat(data.lng || 0);
     var lat = parseFloat(data.lat || 0);
-    if (lng <= 0 || lat <= 0) {
-      app.showToast("坐标有误");
-      return false;
-    }
-
     wx.openLocation({
       latitude: lat,
       longitude: lng,

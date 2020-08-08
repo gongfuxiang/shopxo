@@ -124,15 +124,6 @@ class Order
                     ],
                 ],
                 [
-                    'label'         => '单价(元)',
-                    'view_type'     => 'field',
-                    'view_key'      => 'price',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                        'is_point'          => 1,
-                    ],
-                ],
-                [
                     'label'         => '总价(元)',
                     'view_type'     => 'field',
                     'view_key'      => 'total_price',
@@ -145,6 +136,15 @@ class Order
                     'label'         => '支付金额(元)',
                     'view_type'     => 'field',
                     'view_key'      => 'pay_price',
+                    'search_config' => [
+                        'form_type'         => 'section',
+                        'is_point'          => 1,
+                    ],
+                ],
+                [
+                    'label'         => '单价(元)',
+                    'view_type'     => 'field',
+                    'view_key'      => 'price',
                     'search_config' => [
                         'form_type'         => 'section',
                         'is_point'          => 1,
