@@ -369,6 +369,9 @@ class Common extends Controller
         // 编辑器文件存放地址
         $this->assign('editor_path_type', empty($this->user['id']) ? 'public' : 'user-'.$this->user['id']);
 
+        // 分类展示层级模式
+        $this->assign('category_show_level', MyC('common_show_goods_category_level', 3, true));
+
         // 备案信息
         $this->assign('home_site_icp', MyC('home_site_icp'));
         $this->assign('home_site_security_record_name', MyC('home_site_security_record_name'));

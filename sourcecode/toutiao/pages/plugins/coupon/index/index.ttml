@@ -6,7 +6,7 @@
     <view class="item spacing-mt bg-white {{item.is_operable == 0 ? 'item-disabled' : ''}}" style="border:1px solid {{item.bg_color_value}};">
       <view class="v-left fl">
         <view class="base single-text" style="color:{{item.bg_color_value}};">
-          <text class="symbol">{{price_symbol}}</text>
+          <text tt:if="{{item.type == 0}}" class="symbol">{{price_symbol}}</text>
           <text class="price">{{item.discount_value}}</text>
           <text class="unit">{{item.type_unit}}</text>
           <text tt:if="{{(item.desc || null) != null}}" class="desc cr-888">{{item.desc}}</text>

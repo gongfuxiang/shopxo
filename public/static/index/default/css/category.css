@@ -1,3 +1,9 @@
+.category-list-container,
+.model-one,
+.category-list-container ul.category-nav li,
+.category-list-container .category-content ul {
+    overflow: hidden;
+}
 .category-list-container ul.category-nav,
 .category-list-container .category-content {
     overflow-y: auto;
@@ -37,23 +43,20 @@
 .category-list-container .category-content .category-item:not(:last-child) {
     margin-bottom: 15px;
 }
-.category-list-container .category-content .one-cetegory a:hover {
+.category-list-container a:hover {
     text-decoration: none;
 }
 .category-list-container .category-content ul {
     border-top: 1px dotted #e5e5e5;
 }
-.category-list-container ul.category-nav li,
-.category-list-container .category-content ul {
-    overflow: hidden;
-}
-.category-list-container .category-content ul li:not(:last-child) {
-    margin-right: 20px;
+.category-list-container .category-content ul li {
+    padding: 3px 10px;
+    margin: 5px 0;
+    border: 1px solid #fff;
 }
 .category-list-container .category-content ul li a {
     color: #787878;
     font-size: 12px;
-    line-height: 22px;
 }
 .category-list-container .table-no {
     padding: 50px 0;
@@ -76,6 +79,19 @@
         margin-right: 5px;
         width: calc(100% - 120px);
     }
+    .model-one {
+        margin-top: -5px;
+    }
+    .category-list-container .category-item:hover {
+        border: 1px solid #ccc;
+    }
+    .category-list-container .category-content ul li:hover,
+    .model-one li .item-content:hover {
+        border: 1px solid #d3364c;
+    }
+    .category-list-container .category-content ul li:hover a {
+        color: #333;
+    }
 }
 @media only screen and (min-width:1025px) {
     .category-list-container ul.category-nav {
@@ -84,6 +100,10 @@
     .category-list-container .category-content {
         margin-right: 0;
         width: calc(100% - 110px);
+    }    
+    .model-one {
+        margin-left: -5px;
+        width: calc(100% + 10px);
     }
 }
 @media only screen and (max-width:640px) {
@@ -97,4 +117,13 @@
     .category-list-container .category-content .category-item {
         margin-right: 10px;
     }
+}
+.two-content ul {
+    border-top: 0 !important;
+}
+.model-one .item-content {
+    border: 1px solid #e0e0e0;
+}
+.model-one img {
+    margin: 0 auto;
 }

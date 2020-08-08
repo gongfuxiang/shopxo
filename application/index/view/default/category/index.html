@@ -19,64 +19,100 @@
 <!-- content -->
 <div class="am-container category-list-container">
     {{if !empty($goods_category_list)}}
-        <ul class="category-nav am-fl">
+        {{if $category_show_level eq 1}}
+            <ul class="model-one am-avg-sm-2 am-avg-md-3 am-avg-lg-4">
+                {{foreach $goods_category_list as $v}}
+                    <li class="am-fl">
+                        <div class="item-content am-text-center am-margin-xs">
+                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" title="{{$v.name}}" class="am-block am-padding-xs">
+                                {{if !empty($v['icon'])}}
+                                    <img src="{{$v.icon}}" alt="{{$v.name}}" class="category-icon am-block am-margin-bottom-xs" />
+                                {{/if}}
+                                <p>{{$v.name}}</p>
+                            </a>
+                        </div>
+                    </li>
+                {{/foreach}}
+            </ul>
+        {{else /}}
+            <ul class="category-nav am-fl">
+                {{foreach $goods_category_list as $k=>$v}}
+                    <li class="am-text-break am-padding-horizontal-sm {{if $k eq 0}} active{{/if}}" data-url="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}">{{$v.name}}</li>
+                {{/foreach}}
+            </ul>
             {{foreach $goods_category_list as $k=>$v}}
-                <li class="am-text-break am-padding-horizontal-sm {{if $k eq 0}} active{{/if}}" data-url="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}">{{$v.name}}</li>
-            {{/foreach}}
-        </ul>
-        {{foreach $goods_category_list as $k=>$v}}
-            <div class="category-content category-content-{{$k}} am-fr am-padding-vertical-xs {{if $k neq 0}} none{{/if}}">
-                {{if !empty($v['vice_name']) or !empty($v['describe'])}}
-                    <div class="category-item am-padding-sm am-margin-bottom-sm one-cetegory">
-                        <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" title="{{$v.name}}">
-                            <div>
-                                {{if !empty($v['vice_name'])}}
-                                    <strong {{if !empty($v['bg_color'])}}style="color:{{$v.bg_color}};"{{/if}} class="am-text-sm am-margin-right-sm">{{$v.vice_name}}</strong>
-                                {{/if}}
-                                {{if !empty($v['describe'])}}
-                                    <span class="am-text-grey">{{$v.describe}}</span>
-                                {{/if}}
-                            </div>
-                        </a>
-                    </div>
-                {{/if}}
-                {{if !empty($v['items'])}}
-                    {{foreach $v.items as $vs}}
-                        <div class="category-item am-padding-sm">
-                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">
-                                <div class="am-text-center">
-                                    <strong>{{$vs.name}}</strong>
+                <div class="category-content category-content-{{$k}} am-fr am-padding-vertical-xs {{if $k neq 0}} none{{/if}}">
+                    {{if !empty($v['vice_name']) or !empty($v['describe'])}}
+                        <div class="category-item am-padding-sm am-margin-bottom-sm one-cetegory">
+                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" title="{{$v.name}}">
+                                <div>
+                                    {{if !empty($v['vice_name'])}}
+                                        <strong {{if !empty($v['bg_color'])}}style="color:{{$v.bg_color}};"{{/if}} class="am-text-sm am-margin-right-sm">{{$v.vice_name}}</strong>
+                                    {{/if}}
+                                    {{if !empty($v['describe'])}}
+                                        <span class="am-text-grey">{{$v.describe}}</span>
+                                    {{/if}}
                                 </div>
                             </a>
-                            {{if !empty($vs['items'])}}
-                                <ul class="am-margin-top-sm">
-                                    {{foreach $vs.items as $kss=>$vss}}
+                        </div>
+                    {{/if}}
+                    {{if !empty($v['items'])}}
+                        {{if $category_show_level eq 2}}
+                            <div class="category-item am-padding-sm two-content">
+                                <ul>
+                                    {{foreach $v.items as $vs}}
                                         <li class="am-fl am-text-center">
-                                            {{if !empty($vss['icon'])}}
-                                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}" class="am-block am-margin-top-xs">
-                                                    <img src="{{$vss.icon}}" alt="{{$vss.name}}" class="category-icon am-block" />
+                                            {{if !empty($vs['icon'])}}
+                                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}" class="am-block">
+                                                    <img src="{{$vs.icon}}" alt="{{$vs.name}}" class="category-icon am-block am-margin-bottom-xs" />
                                                 </a>
                                             {{/if}}
-                                            <p class="am-margin-top-xs">
-                                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}" class="am-block">{{$vss.name}}</a>
+                                            <p>
+                                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}" class="am-block">{{$vs.name}}</a>
                                             </p>
                                         </li>
                                     {{/foreach}}
                                 </ul>
-                            {{/if}}
+                            </div>
+                        {{elseif $category_show_level eq 3}}
+                            {{foreach $v.items as $vs}}
+                                <div class="category-item am-padding-sm">
+                                    <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">
+                                        <div class="am-text-center">
+                                            <strong>{{$vs.name}}</strong>
+                                        </div>
+                                    </a>
+                                    {{if !empty($vs['items'])}}
+                                        <ul class="am-margin-top-sm am-padding-top-sm">
+                                            {{foreach $vs.items as $kss=>$vss}}
+                                                <li class="am-fl am-text-center">
+                                                    {{if !empty($vss['icon'])}}
+                                                        <a href="{{:MyUrl('index/search/index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}" class="am-block">
+                                                            <img src="{{$vss.icon}}" alt="{{$vss.name}}" class="category-icon am-block am-margin-bottom-xs" />
+                                                        </a>
+                                                    {{/if}}
+                                                    <p>
+                                                        <a href="{{:MyUrl('index/search/index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}" class="am-block">{{$vss.name}}</a>
+                                                    </p>
+                                                </li>
+                                            {{/foreach}}
+                                        </ul>
+                                    {{/if}}
+                                </div>
+                            {{/foreach}}
+                        {{/if}}
+                    {{else /}}
+                        <div class="table-no">
+                            <i class="am-icon-warning"></i>
+                            <span>没有子分类数据</span>
+                            <p class="am-margin-top-lg am-text-center">
+                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" class="am-text-secondary" title="查看分类下商品">查看分类下商品 >></a>
+                            </p>
                         </div>
-                    {{/foreach}}
-                {{else /}}
-                    <div class="table-no">
-                        <i class="am-icon-warning"></i>
-                        <span>没有子分类数据</span>
-                        <p class="am-margin-top-lg am-text-center">
-                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" class="am-text-secondary" title="查看分类下商品">查看分类下商品 >></a>
-                        </p>
-                    </div>
-                {{/if}}
-            </div>
-        {{/foreach}}
+                    {{/if}}
+                </div>
+            {{/foreach}}
+        {{/if}}
     {{else /}}
         <div class="table-no"><i class="am-icon-warning"></i> 没有分类数据</div>
     {{/if}}
