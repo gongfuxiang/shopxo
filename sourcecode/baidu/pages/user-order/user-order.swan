@@ -1,3 +1,4 @@
+<import-sjs src="../../utils/tools.sjs" module="tools" />
 <!-- 导航 -->
 <view class="nav">
   <block s-for="item, index in nav_status_list" s-key="key">

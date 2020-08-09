@@ -119,6 +119,7 @@
   
     <!-- 优惠劵选择 -->
     <component-popup status="{{popup_plugins_coupon_status}}" position="bottom" bindonclose="plugins_coupon_close_event">
+      <import-sjs src="../../utils/tools.sjs" module="tools" />
       <view class="plugins-coupon-popup bg-white">
         <view class="close oh">
           <view class="fr" catchtap="plugins_coupon_close_event">
@@ -130,7 +131,7 @@
             <text data-wid="{{plugins_coupon_data[popup_plugins_coupon_index].warehouse_id}}" bindtap="plugins_coupon_not_use_event">不使用优惠劵</text>
           </view>
           <block s-for="item, index in plugins_coupon_data[popup_plugins_coupon_index].coupon_data.coupon_list" s-key="item">
-            <view class="item spacing-mt bg-white {{plugins_use_coupon_ids.indexOf(item.id) != -1 ? 'item-disabled' : ''}}" style="border:1px solid {{item.coupon.bg_color_value}};">
+            <view class="item spacing-mt bg-white {{tools.indexOf(plugins_use_coupon_ids, item.id) ? 'item-disabled' : ''}}" style="border:1px solid {{item.coupon.bg_color_value}};">
               <view class="v-left fl">
                 <view class="base single-text" style="color:{{item.coupon.bg_color_value}};">
                   <text class="symbol">{{price_symbol}}</text>
@@ -143,7 +144,7 @@
               </view>
               <view class="v-right fr" style="background:{{item.coupon.bg_color_value}};" data-wid="{{plugins_coupon_data[popup_plugins_coupon_index].warehouse_id}}" data-value="{{item.id}}" bindtap="plugins_coupon_use_event">
                 <text class="circle"></text>
-                <text>{{plugins_use_coupon_ids.indexOf(item.id) != -1 ? '已选' : '选择'}}</text>
+                <text>{{tools.indexOf(plugins_use_coupon_ids, item.id) ? '已选' : '选择'}}</text>
               </view>
             </view>
           </block>

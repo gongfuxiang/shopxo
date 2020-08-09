@@ -102,6 +102,8 @@
  */
 .pay-merge-submit {
   width: 220rpx;
+  height: 70rpx !important;
+  line-height: 74rpx !important;
   left: calc(50% - 110rpx);
   bottom: 50rpx;
 }
