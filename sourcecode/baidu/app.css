@@ -422,8 +422,7 @@ button[disabled].bg-primary {
 }
 .coupon-container .v-left .base .symbol {
   font-family: Verdana, Tahoma;
-  font-size: 48rpx;
-  font-weight: 400;
+  font-weight: 700;
 }
 .coupon-container .v-left .base .price {
   font-weight: 700;
