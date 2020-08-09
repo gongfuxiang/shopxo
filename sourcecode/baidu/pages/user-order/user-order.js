@@ -13,10 +13,10 @@ Page({
     is_show_payment_popup: false,
     payment_list: [],
     payment_id: 0,
-    temp_pay_value: 0,
-    temp_pay_index: 0,
+    temp_pay_value: '',
     nav_status_list: [{ name: "全部", value: "-1" }, { name: "待付款", value: "1" }, { name: "待发货", value: "2" }, { name: "待收货", value: "3" }, { name: "已完成", value: "4" }, { name: "已失效", value: "5,6" }],
-    nav_status_index: 0
+    nav_status_index: 0,
+    order_select_ids: []
   },
 
   onLoad(params) {
@@ -58,7 +58,7 @@ Page({
     } else {
       this.setData({
         data_list_loding_status: 0,
-        data_bottom_line_status: false,
+        data_bottom_line_status: false
       });
     }
   },
@@ -107,13 +107,8 @@ Page({
 
               // 下订单支付处理
               if (this.data.load_status == 0) {
-                if ((this.data.params.is_pay || 0) == 1 && (this.data.params.order_id || 0) != 0) {
-                  for (var i in temp_data_list) {
-                    if (this.data.params.order_id == temp_data_list[i]['id']) {
-                      this.pay_handle(this.data.params.order_id, i);
-                      break;
-                    }
-                  }
+                if ((this.data.params.is_pay || 0) == 1 && (this.data.params.order_ids || null) != null) {
+                  this.pay_handle(this.data.params.order_ids);
                 }
               }
             } else {
@@ -188,7 +183,7 @@ Page({
     this.setData({
       is_show_payment_popup: true,
       temp_pay_value: e.currentTarget.dataset.value,
-      temp_pay_index: e.currentTarget.dataset.index
+      order_select_ids: []
     });
   },
 
@@ -202,11 +197,11 @@ Page({
     var payment_id = e.currentTarget.dataset.value || 0;
     this.setData({ payment_id: payment_id });
     this.payment_popup_event_close();
-    this.pay_handle(this.data.temp_pay_value, this.data.temp_pay_index);
+    this.pay_handle(this.data.temp_pay_value);
   },
 
   // 支付方法
-  pay_handle(order_id, index) {
+  pay_handle(order_ids) {
     var self = this;
     // 加载loding
     swan.showLoading({ title: "请求中..." });
@@ -215,85 +210,96 @@ Page({
       url: app.get_request_url("pay", "order"),
       method: "POST",
       data: {
-        id: order_id,
+        ids: order_ids,
         payment_id: this.data.payment_id
       },
       dataType: "json",
       success: res => {
         swan.hideLoading();
         if (res.data.code == 0) {
-            // 支付方式类型
-            switch (res.data.data.is_payment_type) {
-                // 正常线上支付
-                case 0 :
-                swan.requestPolymerPayment({
+          // 支付方式类型
+          switch (res.data.data.is_payment_type) {
+            // 正常线上支付
+            case 0:
+              swan.requestPolymerPayment({
                     orderInfo: res.data.data.data,
-                    success: function (res) {
-                        // 数据设置
-                        self.order_item_pay_success_handle(index);
+                success: function (res) {
+                  // 数据设置
+                  self.order_item_pay_success_handle(order_ids);
 
-                        // 跳转支付页面
-                        swan.navigateTo({
-                        url: "/pages/paytips/paytips?code=9000&total_price=" + self.data.data_list[index]['total_price']
-                        });
-                    },
-                    fail: function (res) {
-                        app.showToast('支付失败');
-                    }
-                });
-                break;
+                  // 跳转支付页面
+                  swan.navigateTo({
+                    url: "/pages/paytips/paytips?code=9000"
+                  });
+                },
+                fail: function (res) {
+                  app.showToast('支付失败');
+                }
+              });
+              break;
 
-                // 线下支付
-                case 1 :
-                var temp_data_list = self.data.data_list;
-                temp_data_list[index]['is_under_line'] = 1;
-                self.setData({ data_list: temp_data_list });
-                app.alert({ msg: res.data.msg, is_show_cancel: 0});
-                break;
+            // 线下支付
+            case 1:
+              var order_ids_arr = order_ids.split(',');
+              var temp_data_list = self.data.data_list;
+              for (var i in temp_data_list) {
+                if (order_ids_arr.indexOf(temp_data_list[i]['id']) != -1) {
+                  temp_data_list[i]['is_under_line'] = 1;
+                }
+              }
+              self.setData({ data_list: temp_data_list });
+              app.alert({ msg: res.data.msg, is_show_cancel: 0 });
+              break;
 
-                // 钱包支付
-                case 2 :
-                self.order_item_pay_success_handle(index);
-                app.showToast('支付成功', 'success');
-                break;
+            // 钱包支付
+            case 2:
+              self.order_item_pay_success_handle(order_ids);
+              app.showToast('支付成功', 'success');
+              break;
 
-                // 默认
-                default :
-                app.showToast('支付类型有误');
-            }
+            // 默认
+            default:
+              app.showToast('支付类型有误');
+          }
         } else {
           app.showToast(res.data.msg);
         }
       },
       fail: () => {
         swan.hideLoading();
-        app.showToast("服务器请求出错");
+        app.showToast('服务器请求出错');
       }
     });
   },
 
   // 支付成功数据设置
-  order_item_pay_success_handle(index) {
-    // 数据设置
+  order_item_pay_success_handle(order_ids) {
+    var order_ids_arr = order_ids.split(',');
     var temp_data_list = this.data.data_list;
-    switch (parseInt(temp_data_list[index]['order_model'])) {
-      // 销售模式
-      case 0:
-        temp_data_list[index]['status'] = 2;
-        temp_data_list[index]['status_name'] = '待发货';
-        break;
 
-      // 自提模式
-      case 2:
-        temp_data_list[index]['status'] = 2;
-        temp_data_list[index]['status_name'] = '待取货';
-        break;
+    // 数据设置
+    for (var i in temp_data_list) {
+      if (order_ids_arr.indexOf(temp_data_list[i]['id']) != -1) {
+        switch (parseInt(temp_data_list[i]['order_model'])) {
+          // 销售模式
+          case 0:
+            temp_data_list[i]['status'] = 2;
+            temp_data_list[i]['status_name'] = '待发货';
+            break;
 
-      // 虚拟模式
-      case 3:
-        temp_data_list[index]['status'] = 3;
-        temp_data_list[index]['status_name'] = '待收货';
-        break;
+          // 自提模式
+          case 2:
+            temp_data_list[i]['status'] = 2;
+            temp_data_list[i]['status_name'] = '待取货';
+            break;
+
+          // 虚拟模式
+          case 3:
+            temp_data_list[i]['status'] = 3;
+            temp_data_list[i]['status_name'] = '待收货';
+            break;
+        }
+      }
     }
     this.setData({ data_list: temp_data_list });
   },
@@ -395,8 +401,11 @@ Page({
   nav_event(e) {
     this.setData({
       nav_status_index: e.currentTarget.dataset.index || 0,
-      data_page: 1
+      data_page: 1,
+      order_select_ids: []
     });
+
+    // 重新拉取数据
     this.get_data_list(1);
   },
 
@@ -421,4 +430,28 @@ Page({
       url: "/pages/user-order-comments/user-order-comments?id=" + e.currentTarget.dataset.value
     });
   },
+
+  // 选中处理
+  selected_event(e) {
+    var oid = e.currentTarget.dataset.oid || 0;
+    var temp_select_ids = this.data.order_select_ids;
+    if (temp_select_ids.indexOf(oid) == -1) {
+      temp_select_ids.push(oid);
+    } else {
+      for (var i in temp_select_ids) {
+        if (temp_select_ids[i] == oid) {
+          temp_select_ids.splice(i, 1);
+        }
+      }
+    }
+    this.setData({ order_select_ids: temp_select_ids });
+  },
+
+  // 合并支付
+  pay_merge_event(e) {
+    this.setData({
+      is_show_payment_popup: true,
+      temp_pay_value: this.data.order_select_ids.join(',')
+    });
+  }
 });

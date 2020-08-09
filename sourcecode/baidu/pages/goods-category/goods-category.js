@@ -1,13 +1,11 @@
 const app = getApp();
 Page({
   data: {
-    tab_active: 0,
-    tab_active_text_color: '#d2364c',
-    tab_active_line_color: '#d2364c',
     data_list_loding_status: 1,
-    data_bottom_line_status: false,
+    nav_active_index: 0,
     data_list: [],
-    data_content: []
+    category_show_level: 3,
+    data_content: null
   },
 
   onShow() {
@@ -32,27 +30,25 @@ Page({
       success: res => {
         swan.stopPullDownRefresh();
         if (res.data.code == 0) {
-            var data = res.data.data;
-            var data_content = [];
-            if (data.length > 0) {
-                data[0]['active'] = 'nav-active';
-                data_content = data[0]['items'];
-            }
-            this.setData({
-                data_list: data,
-                data_content: data_content,
-                data_list_loding_status: data.length == 0 ? 0 : 3,
-                data_bottom_line_status: true
-            });
-
-            // 页面信息设置
-            this.set_page_info();
+          var category = res.data.data.category;
+          var data_content = [];
+          var index = this.data.nav_active_index || 0;
+          if (category.length > 0) {
+            category[index]['active'] = 'nav-active';
+            data_content = category[index];
+          }
+          this.setData({
+            data_list: category,
+            category_show_level: res.data.data.category_show_level || 3,
+            data_content: data_content,
+            data_list_loding_status: category.length == 0 ? 0 : 3,
+            data_bottom_line_status: true
+          });
         } else {
           this.setData({
             data_list_loding_status: 0,
             data_bottom_line_status: true
           });
-
           app.showToast(res.data.msg);
         }
       },
@@ -62,7 +58,6 @@ Page({
           data_list_loding_status: 2,
           data_bottom_line_status: true
         });
-
         app.showToast("服务器请求出错");
       }
     });
@@ -82,7 +77,8 @@ Page({
     }
     this.setData({
       data_list: temp_data,
-      data_content: temp_data[index]['items']
+      data_content: temp_data[index],
+      nav_active_index: index
     });
   },
 
@@ -91,25 +87,14 @@ Page({
     swan.navigateTo({ url: '/pages/goods-search/goods-search?category_id=' + e.currentTarget.dataset.value });
   },
 
-  // web页面信息设置
-  set_page_info() {
-    swan.setPageInfo({
-      title: app.data.application_title+' - 商品分类',
-      keywords: app.data.application_describe,
-      description: app.data.application_describe,
-      image: (this.data.data_list.length == 0) ? [] : app.array_notempty(this.data.data_list.map(function (v) { return v.big_images;})).slice(0,3)
-    });
-  },
-
   // 自定义分享
   onShareAppMessage() {
     var user = app.get_user_cache_info() || null;
-    var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
+    var user_id = user != null && (user.id || null) != null ? user.id : 0;
     return {
       title: app.data.application_title,
       desc: app.data.application_describe,
       path: '/pages/goods-category/goods-category?referrer=' + user_id
     };
-  },
-
+  }
 });
