@@ -544,12 +544,12 @@ App({
     if ((status || 'error') == 'success')
     {
       qq.showToast({
-        icon: 'success',
         title: msg,
         duration: 3000
       });
     } else {
       qq.showToast({
+        image: '/images/default-toast-error.png',
         title: msg,
         duration: 3000
       });

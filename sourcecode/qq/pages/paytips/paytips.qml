@@ -2,10 +2,6 @@
   <image class="pay-icon" qq:if="{{params.code == '9000'}}" mode="widthFix" src="{{default_round_success_icon}}" />
   <image class="pay-icon" qq:else mode="widthFix" src="{{default_round_error_icon}}" />
   <text class="dis-block">{{params.msg}}</text>
-  <view qq:if="{{params.code == '9000'}}" class="price-box">
-    <text  class="sales-price">{{price_symbol}}{{params.total_price}}</text>
-    <text class="price-unit cr-888">元</text>
-  </view>
 </view>
 
 <view class="btn-box">

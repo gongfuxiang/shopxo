@@ -359,7 +359,7 @@ class QQ
         $data['trade_no']       = $data['transaction_id'];  // 支付平台 - 订单号
         $data['buyer_user']     = isset($data['openid']) ? $data['openid'] : '';  // 支付平台 - 用户
         $data['out_trade_no']   = $data['out_trade_no'];    // 本系统发起支付的 - 订单号
-        $data['subject']        = isset($data['attach']) ? $data['attach'] : '';  // 本系统发起支付的 - 商品名称
+        $data['subject']        = isset($data['body']) ? $data['body'] : '';  // 本系统发起支付的 - 商品名称
         $data['pay_price']      = $data['total_fee']/100;   // 本系统发起支付的 - 总价
         return $data;
     }
