@@ -583,8 +583,8 @@ App({
       var is_show_cancel = (e.is_show_cancel == 0) ? false : true;
       var cancel_text = e.cancel_text || '取消';
       var confirm_text = e.confirm_text || '确认';
-      var cancel_color = e.cancel_color || '';
-      var confirm_color = e.confirm_color || '';
+      var cancel_color = e.cancel_color || '#000000';
+      var confirm_color = e.confirm_color || '#576B95';
 
       tt.showModal({
         title: title,

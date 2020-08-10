@@ -67,15 +67,16 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://shopxo.com/',
-    // request_url: 'https://dev.shopxo.net/',
+     request_url: 'http://shopxo.com/',
+     request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
     application_describe: "{{application_describe}}",
 
     // 价格符号
-    price_symbol: "{{price_symbol}}"
+    price_symbol: "{{price_symbol}}",
+    price_symbol: "￥",
   },
 
   /**
@@ -543,12 +544,12 @@ App({
     if ((status || 'error') == 'success')
     {
       qq.showToast({
+        icon: 'success',
         title: msg,
         duration: 3000
       });
     } else {
       qq.showToast({
-        image: '/images/default-toast-error.png',
         title: msg,
         duration: 3000
       });
@@ -576,8 +577,8 @@ App({
       var is_show_cancel = (e.is_show_cancel == 0) ? false : true;
       var cancel_text = e.cancel_text || '取消';
       var confirm_text = e.confirm_text || '确认';
-      var cancel_color = e.cancel_color || '';
-      var confirm_color = e.confirm_color || '';
+      var cancel_color = e.cancel_color || '#000000';
+      var confirm_color = e.confirm_color || '#576B95';
 
       qq.showModal({
         title: title,

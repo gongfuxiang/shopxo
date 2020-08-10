@@ -116,7 +116,7 @@ Page({
                 var cupk = data.plugins_coupon_data[i]['warehouse_id'];
                 if((data.plugins_coupon_data[i]['coupon_data']['coupon_choice'] || null) != null)
                 {
-                  plugins_choice_coupon_value[cupk] = data.plugins_coupon_data[i]['coupon_data']['coupon_choice']['desc'];
+                  plugins_choice_coupon_value[cupk] = data.plugins_coupon_data[i]['coupon_data']['coupon_choice']['coupon']['desc'];
                 } else {
                   var coupon_count = (data.plugins_coupon_data[i]['coupon_data']['coupon_list'] || null) != null ? data.plugins_coupon_data[i]['coupon_data'].coupon_list.length : 0;
                   plugins_choice_coupon_value[cupk] = (coupon_count > 0) ? '可选优惠劵' + coupon_count + '张' : '暂无可用优惠劵';

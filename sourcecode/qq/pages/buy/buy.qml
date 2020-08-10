@@ -2,7 +2,7 @@
   <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: 2, msg: '展示型不允许提交订单'}}"></template>
 </block>
-<block qq:else>
+<block wx:else>
   <view qq:if="{{goods_list.length > 0}}" class="page">
     <!-- 销售+自提 模式选择 -->
     <view qq:if="{{common_site_type == 4}}" class="buy-header-nav oh tc">
@@ -32,9 +32,20 @@
       <view class="address-divider spacing-mb"></view>
     </block>
 
-    <!-- 商品 -->
-    <view class="goods bg-white spacing-mb">
-      <view qq:for="{{goods_list}}" qq:key="key" class="goods-item oh">
+    <!-- 商品数据 -->
+    <view class="goods-group-list bg-white spacing-mb" qq:for="{{goods_list}}" qq:for-item="group" qq:key="key">
+      <!-- 仓库分组 -->
+      <view class="goods-group-hd oh br-b">
+        <view class="fl">
+          <text class="goods-group-title">{{group.name}}</text>
+          <text qq:if="{{(group.alias || null) != null}}" class="goods-group-alias">{{group.alias}}</text>
+        </view>
+        <view qq:if="{{(group.lng || null) != null && (group.lat || null) != null}}" class="fr">
+          <view class="goods-group-map-submit br" data-index="{{index}}" bindtap="map_event">查看地图</view>
+        </view>
+      </view>
+      <!-- 商品 -->
+      <view qq:for="{{group.goods_items}}" qq:key="keys" class="goods-item oh">
         <image class="goods-image fl" src="{{item.images}}" mode="aspectFill" />
         <view class="goods-base">
           <view class="goods-title multi-text">{{item.title}}</view>
@@ -52,28 +63,31 @@
           </text>
         </view>
       </view>
+      <!-- 优惠劵 -->
+      <view qq:if="{{(plugins_coupon_data || null) != null && (plugins_coupon_data[index] || null) != null && (plugins_coupon_data[index].coupon_data || null) != null && (plugins_coupon_data[index].coupon_data.coupon_list || null) != null && plugins_coupon_data[index].coupon_data.coupon_list.length > 0}}" class="plugins-coupon bg-white spacing-mb arrow-right" data-index="{{index}}" bindtap="plugins_coupon_open_event">
+        <text class="cr-666">优惠劵</text>
+        <text class="cr-ccc fr">{{((plugins_choice_coupon_value || null) != null && (plugins_choice_coupon_value[group.id] || null) != null) ? plugins_choice_coupon_value[group.id] : '请选择优惠券'}}</text>
+      </view>
+      <!-- 扩展数据展示 -->
+      <view qq:if="{{group.order_base.extension_data.length > 0}}" class="extension-list spacing-mt">
+        <view qq:for="{{group.order_base.extension_data}}" qq:key="key" class="item oh">
+          <text class="cr-666 fl">{{item.name}}
+          </text>
+          <text class="text-tips fr">{{item.tips}}
+          </text>
+        </view>
+      </view>
+      <!-- 小计 -->
+      <view class="oh tr goods-group-footer spacing-mt spacing-mb">
+        <text qq:if="{{group.order_base.total_price != group.order_base.actual_price}}" class="original-price">{{price_symbol}}{{group.order_base.total_price}}</text>
+        <text class="sales-price">{{price_symbol}}{{group.order_base.actual_price}}</text>
+      </view>
     </view>
 
     <!-- 留言 -->
     <view class="content-textarea-view bg-white spacing-mb">
       <textarea qq:if="{{!popup_plugins_coupon_status}}" bindinput="bind_user_note_event" value="{{user_note_value}}" maxlength="60" placeholder="留言" class="wh-auto" />
       <view qq:if="{{popup_plugins_coupon_status}}" class="cr-888">{{user_note_value || '留言'}}</view>
-    </view>
-
-    <!-- 优惠劵 -->
-    <view qq:if="{{(plugins_coupon_data || null) != null && plugins_coupon_data.coupon_list.length > 0}}" class="plugins-coupon bg-white spacing-mb arrow-right" bindtap="plugins_coupon_open_event">
-      <text class="cr-666">优惠劵</text>
-      <text class="cr-ccc fr">{{plugins_choice_coupon_value}}</text>
-    </view>
-
-    <!-- 扩展数据展示 -->
-    <view qq:if="{{extension_data.length > 0}}" class="extension-list spacing-mb">
-      <view qq:for="{{extension_data}}" qq:key="key" class="item oh">
-        <text class="cr-666 fl">{{item.name}}
-        </text>
-        <text class="text-tips fr">{{item.tips}}
-        </text>
-      </view>
     </view>
 
     <!-- 支付方式 -->
@@ -105,21 +119,22 @@
 
   <!-- 优惠劵选择 -->
   <component-popup prop-show="{{popup_plugins_coupon_status}}" prop-position="bottom" bindonclose="plugins_coupon_close_event">
+    <qs src="../../utils/tools.qs" module="tools" />
     <view class="plugins-coupon-popup bg-white">
       <view class="close oh">
         <view class="fr" catchtap="plugins_coupon_close_event">
           <icon type="clear" size="20" />
         </view>
       </view>
-      <view qq:if="{{(plugins_coupon_data || null) != null && plugins_coupon_data.coupon_list.length > 0}}" class="coupon-container oh br-b">
+      <view qq:if="{{popup_plugins_coupon_index != null &&  (plugins_coupon_data || null) != null && (plugins_coupon_data[popup_plugins_coupon_index] || null) != null && (plugins_coupon_data[popup_plugins_coupon_index].coupon_data || null) != null && (plugins_coupon_data[popup_plugins_coupon_index].coupon_data.coupon_list || null) != null && plugins_coupon_data[popup_plugins_coupon_index].coupon_data.coupon_list.length > 0}}" class="coupon-container oh br-b">
         <view class="not-use-tips tc">
-          <text bindtap="plugins_coupon_not_use_event">不使用优惠劵</text>
+          <text data-wid="{{plugins_coupon_data[popup_plugins_coupon_index].warehouse_id}}" bindtap="plugins_coupon_not_use_event">不使用优惠劵</text>
         </view>
-        <block qq:for="{{plugins_coupon_data.coupon_list}}" qq:key="item">
-          <view class="item spacing-mt bg-white" style="border:1px solid {{item.coupon.bg_color_value}};">
+        <block qq:for="{{plugins_coupon_data[popup_plugins_coupon_index].coupon_data.coupon_list}}" qq:key="item">
+          <view class="item spacing-mt bg-white {{tools.indexOf(plugins_use_coupon_ids, item.id) ? 'item-disabled' : ''}}" style="border:1px solid {{item.coupon.bg_color_value}};">
             <view class="v-left fl">
               <view class="base single-text" style="color:{{item.coupon.bg_color_value}};">
-                <text class="symbol">{{price_symbol}}</text>
+                <text qq:if="{{item.coupon.type == 0}}" class="symbol">{{price_symbol}}</text>
                 <text class="price">{{item.coupon.discount_value}}</text>
                 <text class="unit">{{item.coupon.type_unit}}</text>
                 <text qq:if="{{(item.coupon.desc || null) != null}}" class="desc cr-888">{{item.coupon.desc}}</text>
@@ -127,9 +142,9 @@
               <view qq:if="{{(item.coupon.use_limit_type_name || null) != null}}" class="base-tips cr-666 single-text">{{item.coupon.use_limit_type_name}}</view>
               <view class="base-time cr-888 single-text">{{item.time_start_text}} 至 {{item.time_end_text}}</view>
             </view>
-            <view class="v-right fr" style="background:{{item.coupon.bg_color_value}};" data-index="{{index}}" data-value="{{item.id}}" bindtap="plugins_coupon_use_event">
+            <view class="v-right fr" style="background:{{item.coupon.bg_color_value}};" data-wid="{{plugins_coupon_data[popup_plugins_coupon_index].warehouse_id}}" data-value="{{item.id}}" bindtap="plugins_coupon_use_event">
               <text class="circle"></text>
-              <text>{{plugins_use_coupon_id == item.id ? '已选' : '选择'}}</text>
+              <text>{{tools.indexOf(plugins_use_coupon_ids, item.id) ? '已选' : '选择'}}</text>
             </view>
           </view>
         </block>

@@ -121,7 +121,7 @@
   <component-popup prop-show="{{popup_plugins_coupon_status}}" prop-position="bottom" onClose="plugins_coupon_close_event">
     <view class="plugins-coupon-popup bg-white">
       <view class="close oh">
-        <view class="fr" catchtap="plugins_coupon_close_event">
+        <view class="fr" catchTap="plugins_coupon_close_event">
           <icon type="clear" size="20" />
         </view>
       </view>
@@ -133,7 +133,7 @@
           <view class="item spacing-mt bg-white {{plugins_use_coupon_ids.indexOf(item.id) != -1 ? 'item-disabled' : ''}}" style="border:1px solid {{item.coupon.bg_color_value}};">
             <view class="v-left fl">
               <view class="base single-text" style="color:{{item.coupon.bg_color_value}};">
-                <text class="symbol">{{price_symbol}}</text>
+                <text a:if="{{item.coupon.type == 0}}" class="symbol">{{price_symbol}}</text>
                 <text class="price">{{item.coupon.discount_value}}</text>
                 <text class="unit">{{item.coupon.type_unit}}</text>
                 <text a:if="{{(item.coupon.desc || null) != null}}" class="desc cr-888">{{item.coupon.desc}}</text>

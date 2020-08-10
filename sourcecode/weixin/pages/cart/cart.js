@@ -351,7 +351,7 @@ Page({
     this.setData({
       total_price: total_price.toFixed(2),
       buy_submit_disabled_status: (selected_count <= 0),
-      is_selected_all: (selected_count >= data_count),
+      is_selected_all: (selected_count > 0 && selected_count >= data_count),
     });
   },
 

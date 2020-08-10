@@ -13,7 +13,7 @@
         </view>
       </view>
       <view class="operation br-t oh">
-        <button wx:if="{{item.lng > 0 && item.lat > 0}}" class="fr cr-666 map-submit br" type="default" size="mini" bindtap="address_map_event" data-index="{{index}}" hover-class="none">查看地图</button>
+        <button wx:if="{{(item.lng || null) != null && (item.lat || null) != null}}" class="fr cr-666 map-submit br" type="default" size="mini" bindtap="address_map_event" data-index="{{index}}" hover-class="none">查看地图</button>
       </view>
     </view>
   </view>

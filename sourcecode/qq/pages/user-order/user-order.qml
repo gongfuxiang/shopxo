@@ -1,8 +1,9 @@
+<qs src="../../utils/tools.qs" module="tools" />
 <!-- 导航 -->
 <view class="nav">
   <block qq:for="{{nav_status_list}}" qq:key="key">
     <view qq:if="{{nav_status_index == index}}" class="item fl tc cr-main" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
-    <view qq:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
+    <view wx:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
   </block>
 </view>
 
@@ -11,10 +12,13 @@
   <view class="list-content">
     <view class="list-item bg-white spacing-mb" qq:if="{{data_list.length > 0}}" qq:for="{{data_list}}" qq:key="key">
       <view class="item-base oh br-b">
-        <text class="cr-666">{{item.add_time}}</text>
-        <text class="fr cr-main">
-          {{item.status_name}}<text qq:if="{{(item.is_under_line_text || null) != null}}">（{{item.is_under_line_text}}）</text>
-        </text>
+        <!-- 选择 -->
+        <view qq:if="{{nav_status_index == 1}}" bindtap="selected_event" data-oid="{{item.id}}" class="fl selected">
+          <image class="icon" src="/images/default-select{{tools.indexOf(order_select_ids, item.id) ? '-active' : ''}}-icon.png" mode="widthFix" />
+        </view>
+        <!-- 基础信息 -->
+        <text class="fl cr-666">{{item.warehouse_name}}</text>
+        <text class="fr cr-main">{{item.status_name}}<text qq:if="{{(item.is_under_line_text || null) != null}}">（{{item.is_under_line_text}}）</text></text>
       </view>
       <view qq:for="{{item.items}}" qq:key="key" qq:for-item="detail" class="goods-item br-b-dashed oh">
         <navigator url="/pages/user-order-detail/user-order-detail?id={{item.id}}" hover-class="none">
@@ -26,7 +30,7 @@
                 {{spec.type}}:{{spec.value}}
               </view>
             </block>
-            <view qq:if="{{(item.is_can_launch_aftersale == 1 || (detail.orderaftersale || null) != null) && ($detail.orderaftersale_btn_text || null) != null}}" class="orderaftersale-btn-text" catchtap="orderaftersale_event" data-oid="{{item.id}}" data-did="{{detail.id}}">{{detail.orderaftersale_btn_text}}</view>
+            <view qq:if="{{(item.is_can_launch_aftersale == 1 || (detail.orderaftersale || null) != null) && (detail.orderaftersale_btn_text || null) != null}}" class="orderaftersale-btn-text" catchtap="orderaftersale_event" data-oid="{{item.id}}" data-did="{{detail.id}}">{{detail.orderaftersale_btn_text}}</view>
           </view>
           <view class="oh goods-price">
             <text class="sales-price">{{price_symbol}}{{detail.price}}</text>
@@ -56,6 +60,11 @@
   </view>
 </scroll-view>
 
+<!-- 合并支付 -->
+<view qq:if="{{nav_status_index == 1 && order_select_ids.length > 0}}">
+  <button class="submit-fixed pay-merge-submit" type="default" size="mini" hover-class="none" bindtap="pay_merge_event">合并支付</button>
+</view>
+
 <!-- 支付方式 popup -->
 <component-popup prop-show="{{is_show_payment_popup}}" prop-position="bottom" bindonclose="payment_popup_event_close">
   <view qq:if="{{payment_list.length > 0}}" class="payment-list oh bg-white">
@@ -67,5 +76,5 @@
       </view>
     </view>
   </view>
-  <view qq:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
+  <view wx:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
 </component-popup>

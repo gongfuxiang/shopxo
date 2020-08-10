@@ -187,7 +187,7 @@ class QQ
         {
             return $this->PayHandleReturn($ret['data'], $result, $params);
         }
-        $msg = is_string($result) ? $result : (empty($result['return_msg']) ? '支付接口异常' : $result['return_msg']);
+        $msg = is_string($result) ? $result : (empty($result['retmsg']) ? (empty($result['return_msg']) ? '支付接口异常' : $result['return_msg']) : $result['retmsg']);
         if(!empty($result['err_code_des']))
         {
             $msg .= '-'.$result['err_code_des'];

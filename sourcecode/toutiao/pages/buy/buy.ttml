@@ -119,7 +119,7 @@
           <view class="item spacing-mt bg-white" style="border:1px solid {{item.coupon.bg_color_value}};">
             <view class="v-left fl">
               <view class="base single-text" style="color:{{item.coupon.bg_color_value}};">
-                <text class="symbol">{{price_symbol}}</text>
+                <text tt:if="{{item.coupon.type == 0}}" class="symbol">{{price_symbol}}</text>
                 <text class="price">{{item.coupon.discount_value}}</text>
                 <text class="unit">{{item.coupon.type_unit}}</text>
                 <text tt:if="{{(item.coupon.desc || null) != null}}" class="desc cr-888">{{item.coupon.desc}}</text>
