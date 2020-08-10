@@ -190,6 +190,19 @@
 								<label>{{$data.common_app_mini_toutiao_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_appsecret.describe}}</span></label>
 								<input type="text" name="{{$data.common_app_mini_toutiao_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_appsecret.name}}" data-validation-message="{{$data.common_app_mini_toutiao_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_appsecret.value}}"{{/if}} />
 							</div>
+						</div>
+					</div>
+					<div class="am-panel am-panel-default">
+						<div class="am-panel-hd">
+							<h3 class="am-panel-title">支付配置</h3>
+						</div>
+						<div class="am-panel-bd">
+							<div class="am-alert am-alert-warning am-margin-bottom-0">
+			                    <p>1. 字节跳动小程序支持支付宝和微信支付</p>
+			                    <p>2. 支付宝需要申请APP支付权限</p>
+			                    <p>3. 微信需要申请H5支付权限</p>
+			                    <a href="https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/api/open-interface/payment/mini-app-pay-plugin-reference/application-for-payment/" target="_blank">支付申请与配置 <i class="am-icon-external-link"></i></a>
+			                </div>
 							<div class="am-form-group">
 								<label>{{$data.common_app_mini_toutiao_pay_merchant_id.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_pay_merchant_id.describe}}</span></label>
 								<input type="text" name="{{$data.common_app_mini_toutiao_pay_merchant_id.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_pay_merchant_id.name}}" data-validation-message="{{$data.common_app_mini_toutiao_pay_merchant_id.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_pay_merchant_id.value}}"{{/if}} />
