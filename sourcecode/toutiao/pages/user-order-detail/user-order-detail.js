@@ -45,12 +45,13 @@ Page({
           self.setData({
             detail: data.data,
             detail_list:[
-              {name: "订单号", value: data.data.order_no || ''},
+              {name: "出货仓库", value: data.data.warehouse_name || ''},
               {name: "订单模式", value: data.data.order_model_name || '' },
-              {name: "状态", value: data.data.status_name || ''},
+              {name: "订单编号", value: data.data.order_no || ''},
+              {name: "订单状态", value: data.data.status_name || ''},
               {name: "支付状态", value: data.data.pay_status_name || ''},
-              {name: "单价", value: data.data.price || ''},
-              {name: "总价", value: data.data.total_price || ''},
+              {name: "支付单价", value: data.data.price || ''},
+              {name: "支付总价", value: data.data.total_price || ''},
               {name: "优惠金额", value: data.data.preferential_price || ''},
               {name: "增加金额", value: data.data.increase_price || '' },
               {name: "支付金额", value: data.data.pay_price || ''},
@@ -99,11 +100,13 @@ Page({
 
   // 地图查看
   address_map_event(e) {
-    app.location_authorize(this, 'address_map_handle', e);
-  },
+    if((e.is_power || 0) == 0)
+    {
+      e['is_power'] = 1;
+      app.location_authorize(this, 'address_map_event', e);
+      return false;
+    }
 
-  // 地图查看处理
-  address_map_handle(e) {
     if ((this.data.detail.address_data || null) == null)
     {
       app.showToast("地址有误");
@@ -113,11 +116,6 @@ Page({
     var ads = this.data.detail.address_data;
     var lng = parseFloat(ads.lng || 0);
     var lat = parseFloat(ads.lat || 0);
-    if (lng <= 0 || lat <= 0) {
-      app.showToast("坐标有误");
-      return false;
-    }
-
     tt.openLocation({
       latitude: lat,
       longitude: lng,

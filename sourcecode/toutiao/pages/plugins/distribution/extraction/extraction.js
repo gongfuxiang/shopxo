@@ -91,11 +91,13 @@ Page({
 
   // 地图查看
   address_map_event(e) {
-    app.location_authorize(this, 'address_map_handle', e);
-  },
+    if((e.is_power || 0) == 0)
+    {
+      e['is_power'] = 1;
+      app.location_authorize(this, 'address_map_event', e);
+      return false;
+    }
 
-  // 地图查看
-  address_map_handle(e) {
     if ((this.data.extraction || null) == null) {
       return false;
     }
@@ -103,11 +105,6 @@ Page({
     var ads = this.data.extraction;
     var lng = parseFloat(ads.lng || 0);
     var lat = parseFloat(ads.lat || 0);
-
-    if (lng <= 0 || lat <= 0) {
-      return false;
-    }
-
     tt.openLocation({
       latitude: lat,
       longitude: lng,

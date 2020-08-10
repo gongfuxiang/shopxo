@@ -10,7 +10,7 @@
           <image class="icon fl" src="/images/user-address.png" mode="widthFix" />
           <view class="text fr">
             {{detail.address_data.province_name}}{{detail.address_data.city_name}}{{detail.address_data.county_name}}{{detail.address_data.address}}
-            <text tt:if="{{detail.order_model == 2 && (detail.address_data.lng || 0) > 0 && (detail.address_data.lat || 0) > 0}}" class="cr-666 br address-map-submit" bindtap="address_map_event">查看位置</text>
+            <text tt:if="{{detail.order_model == 2 && (detail.address_data.lng || null) != null && (detail.address_data.lat || null) != null}}" class="cr-666 br address-map-submit" bindtap="address_map_event">查看位置</text>
           </view>
       </view>
   </view>
@@ -48,10 +48,8 @@
       <view tt:for="{{detail.items}}" tt:key="item" class="item br-b-dashed oh">
         <image class="left-image br fl" src="{{item.images}}" mode="aspectFill" />
         <view class="right-value fr">
-          <view tt:if="{{(item.fictitious_goods_value || null) != null}}" class="rich-text-value">
-            <rich-text nodes="{{item.fictitious_goods_value}}"></rich-text>
-          </view>
-          <text tt:else class="cr-888 not-value">未配置数据</text>
+          <rich-text tt:if="{{(item.fictitious_goods_value || null) != null}}" nodes="{{item.fictitious_goods_value}}"></rich-text>
+          <text tt:else class="cr-888">未配置数据</text>
         </view>
       </view>
     </view>

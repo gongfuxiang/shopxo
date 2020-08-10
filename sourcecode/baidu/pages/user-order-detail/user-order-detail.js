@@ -107,11 +107,6 @@ Page({
     var ads = this.data.detail.address_data;
     var lng = parseFloat(ads.lng || 0);
     var lat = parseFloat(ads.lat || 0);
-    if (lng <= 0 || lat <= 0) {
-      app.showToast("坐标有误");
-      return false;
-    }
-
     swan.openLocation({
       latitude: lat,
       longitude: lng,

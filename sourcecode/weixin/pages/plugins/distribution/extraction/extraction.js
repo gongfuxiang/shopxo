@@ -95,10 +95,6 @@ Page({
     var ads = this.data.extraction;
     var lng = parseFloat(ads.lng || 0);
     var lat = parseFloat(ads.lat || 0);
-    if (lng <= 0 || lat <= 0) {
-      return false;
-    }
-
     wx.openLocation({
       latitude: lat,
       longitude: lng,
