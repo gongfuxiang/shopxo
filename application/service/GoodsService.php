@@ -370,7 +370,7 @@ class GoodsService
                         // 是否已存在相册
                         if(empty($v['photo']) || empty($v['photo'][0]) || empty($v['photo'][0]['images_old']))
                         {
-                            $v['images'] = Db::name('GoodsPhoto')->where(['goods_id'=>$v['id'], 'is_show'=>0])->order('sort asc')->value('images');
+                            $v['images'] = Db::name('GoodsPhoto')->where(['goods_id'=>$v['id'], 'is_show'=>1])->order('sort asc')->value('images');
                         } else {
                             $v['images'] = $v['photo'][0]['images_old'];
                         }
