@@ -49,7 +49,8 @@ class Index extends Common
     public function Index()
     {
         // 首页轮播
-        $this->assign('banner_list', BannerService::Banner());
+        $banner = BannerService::Banner();
+        $this->assign('banner_list', $banner);
 
         // H5导航
         $this->assign('navigation', AppHomeNavService::AppHomeNav());
@@ -70,6 +71,13 @@ class Index extends Common
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
         $this->assign('user_order_status', $user_order_status['data']);
+
+        // 加载百度地图api
+        // 存在地图事件则载入
+        if(in_array(3, array_column($banner, 'event_type')))
+        {
+            $this->assign('is_load_baidu_map_api', 1);
+        }
 
         // 钩子
         $this->PluginsHook();

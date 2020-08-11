@@ -31,7 +31,7 @@ li.select-result dt {left:-26px; top:0;font-weight:bold;width:50px;}
 
 /*排序*/
 .sort-nav { width:100%; background: #fff; overflow: hidden; height: 30px; }    
-.sort-nav li{ float:left;width:33.33%;height:30px; line-height:30px; text-align:center; padding:0px 0px;cursor: pointer;}
+.sort-nav li{ float:left;width:20%;height:30px; line-height:30px; text-align:center; padding:0px 0px;cursor: pointer;}
 .sort-nav li a{font-size:14px; text-decoration: none;}
 .sort-nav li.first {color: #F03726;}
 

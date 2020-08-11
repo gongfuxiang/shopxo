@@ -56,9 +56,22 @@ class BannerService
             {
                 foreach($data as &$v)
                 {
+                    // 图片地址
                     $v['images_url_old'] = $v['images_url'];
                     $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
-                    $v['event_value'] = empty($v['event_value']) ? null : $v['event_value'];
+
+                    // 事件值
+                    if(!empty($v['event_value']))
+                    {
+                        // 地图
+                        if($v['event_type'] == 3)
+                        {
+                            $v['event_value_data'] = explode('|', $v['event_value']);
+                        }
+                        $v['event_value'] = $v['event_value'];
+                    } else {
+                        $v['event_value'] = null;
+                    }
                 }
             }
 

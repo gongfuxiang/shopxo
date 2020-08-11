@@ -6,7 +6,19 @@
                 {{foreach $banner_list as $banner}}
                     {{if !empty($banner['images_url'])}}
                         <li {{if !empty($banner['bg_color'])}}style="background: {{$banner.bg_color}};"{{/if}} title="{{$banner.name}}">
-                            <a href="{{if isset($banner['event_type']) and $banner['event_type'] eq 0}}{{$banner.event_value}}{{else /}}javascript:;{{/if}}" target="_blank"><img src="{{$banner.images_url}}" /></a>
+                            {{switch banner.event_type}}
+                                {{case 3}}
+                                    <!-- 地图 -->
+                                    <a href="javascript:;" {{if !empty($banner['event_value_data']) and !empty($banner['event_value_data'][2]) and !empty($banner['event_value_data'][3])}}class="submit-map-popup" data-lng="{{$banner['event_value_data'][2]}}" data-lat="{{$banner['event_value_data'][3]}}"{{/if}}><img src="{{$banner.images_url}}" /></a>
+                                {{/case}}
+                                {{case 4}}
+                                    <!-- 电话 -->
+                                    <a {{if !empty($banner['event_value'])}}href="tel:{{$banner.event_value}}"{{else /}}href="javascript:;"{{/if}}><img src="{{$banner.images_url}}" /></a>
+                                {{/case}}
+                                {{default /}}
+                                    <!-- 默认url地址 -->
+                                    <a {{if !empty($banner['event_value'])}}href="{{$banner.event_value}}" target="_blank"{{else /}}href="javascript:;"{{/if}}><img src="{{$banner.images_url}}" /></a>
+                            {{/switch}}
                         </li>
                     {{/if}}
                 {{/foreach}}

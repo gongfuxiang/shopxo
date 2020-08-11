@@ -3,7 +3,6 @@ ul, li, ol {list-style: none;}
 [class*="am-u-"] {padding-left:0rem;padding-right:0rem;}
 .am-container {padding-left:0px;padding-right:0px ;}
 .am-container > .am-g {margin-left: 0px;margin-right:0px ;}
-img{max-width:100%;}
 .small-nav img,.small-nav a,.am-g.small-nav {border:none;}
 
 /*手机导航*/
