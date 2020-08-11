@@ -48,7 +48,7 @@
       <view class="goods-list" a:if="{{floor.goods.length > 0}}">
         <view a:for="{{floor.goods}}" a:for-item="goods" class="goods bg-white">
           <navigator url="/pages/goods-detail/goods-detail?goods_id={{goods.id}}" hover-class="none">
-            <image src="{{goods.home_recommended_images}}" mode="aspectFit" />
+            <image src="{{goods.images}}" mode="aspectFit" />
             <view class="goods-base">
               <view class="goods-title single-text">{{goods.title}}</view>
               <view class="sales-price">{{price_symbol}}{{goods.min_price}}</view>

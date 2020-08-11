@@ -151,12 +151,12 @@
 					</select>
 				</div>
 				<div class="am-form-group am-form-file">
-					<label class="block">首页推荐图片<span class="am-form-group-label-tips">留空则取相册第一张图</span></label>
-					<ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="home_recommended_images" data-max-number="1" data-dialog-type="images">
-						{{if !empty($data['home_recommended_images'])}}
+					<label class="block">封面图片<span class="am-form-group-label-tips">留空则取相册第一张图</span></label>
+					<ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="images" data-max-number="1" data-dialog-type="images">
+						{{if !empty($data['images'])}}
 							<li>
-								<input type="text" name="home_recommended_images" value="{{$data.home_recommended_images}}" />
-								<img src="{{$data.home_recommended_images}}" />
+								<input type="text" name="images" value="{{$data.images}}" />
+								<img src="{{$data.images}}" />
 								<i>×</i>
 							</li>
 						{{/if}}

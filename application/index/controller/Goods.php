@@ -128,7 +128,7 @@ class Goods extends Common
                     'is_home_recommended'=>1,
                 ],
                 'order_by'  => 'sales_count desc',
-                'field'     => 'id,title,title_color,price,images,home_recommended_images',
+                'field'     => 'id,title,title_color,price,images',
                 'n'         => 16,
             ];
             $like_goods = GoodsService::GoodsList($params);

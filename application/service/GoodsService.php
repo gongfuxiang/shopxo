@@ -347,9 +347,34 @@ class GoodsService
                     $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['id']]);
                 }
 
+                // 获取相册
+                if($is_photo && !empty($v['id']))
+                {
+                    $v['photo'] = Db::name('GoodsPhoto')->where(['goods_id'=>$v['id'], 'is_show'=>1])->order('sort asc')->select();
+                    if(!empty($v['photo']))
+                    {
+                        foreach($v['photo'] as &$vs)
+                        {
+                            $vs['images_old'] = $vs['images'];
+                            $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
+                        }
+                    }
+                }
+
                 // 商品封面图片
                 if(isset($v['images']))
                 {
+                    // 不存在则读取相册第一张图片
+                    if(empty($v['images']))
+                    {
+                        // 是否已存在相册
+                        if(empty($v['photo']) || empty($v['photo'][0]) || empty($v['photo'][0]['images_old']))
+                        {
+                            $v['images'] = Db::name('GoodsPhoto')->where(['goods_id'=>$v['id'], 'is_show'=>0])->order('sort asc')->value('images');
+                        } else {
+                            $v['images'] = $v['photo'][0]['images_old'];
+                        }
+                    }
                     $v['images_old'] = $v['images'];
                     $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
                 }
@@ -359,27 +384,6 @@ class GoodsService
                 {
                     $v['video_old'] = $v['video'];
                     $v['video'] = ResourcesService::AttachmentPathViewHandle($v['video']);
-                }
-
-                // 商品首页推荐图片，不存在则使用商品封面图片
-                if(isset($v['home_recommended_images']))
-                {
-                    if(empty($v['home_recommended_images']))
-                    {
-                        if(isset($v['images']))
-                        {
-                            $v['home_recommended_images'] = $v['images'];
-                        } else {
-                            if(!empty($v['id']))
-                            {
-                                $images = Db::name('Goods')->where(['id'=>$v['id']])->value('images');
-                                $v['home_recommended_images'] = ResourcesService::AttachmentPathViewHandle($images);
-                            }
-                        }
-                    } else {
-                        $v['home_recommended_images_old'] = $v['home_recommended_images'];
-                        $v['home_recommended_images'] = ResourcesService::AttachmentPathViewHandle($v['home_recommended_images']);
-                    }
                 }
 
                 // PC内容处理
@@ -422,20 +426,6 @@ class GoodsService
                     $v['category_ids'] = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$v['id']])->column('category_id');
                     $category_name = Db::name('GoodsCategory')->where(['id'=>$v['category_ids']])->column('name');
                     $v['category_text'] = implode('，', $category_name);
-                }
-
-                // 获取相册
-                if($is_photo && !empty($v['id']))
-                {
-                    $v['photo'] = Db::name('GoodsPhoto')->where(['goods_id'=>$v['id'], 'is_show'=>1])->order('sort asc')->select();
-                    if(!empty($v['photo']))
-                    {
-                        foreach($v['photo'] as &$vs)
-                        {
-                            $vs['images_old'] = $vs['images'];
-                            $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
-                        }
-                    }
                 }
 
                 // 规格基础
@@ -790,7 +780,7 @@ class GoodsService
         }
 
         // 其它附件
-        $data_fields = ['home_recommended_images', 'video'];
+        $data_fields = ['images', 'video'];
         $attachment = ResourcesService::AttachmentParams($params, $data_fields);
         if($attachment['code'] != 0)
         {
@@ -821,7 +811,7 @@ class GoodsService
             'images'                    => isset($photo['data'][0]) ? $photo['data'][0] : '',
             'photo_count'               => count($photo['data']),
             'is_home_recommended'       => isset($params['is_home_recommended']) ? intval($params['is_home_recommended']) : 0,
-            'home_recommended_images'   => $attachment['data']['home_recommended_images'],
+            'images'                    => $attachment['data']['images'],
             'brand_id'                  => isset($params['brand_id']) ? intval($params['brand_id']) : 0,
             'video'                     => $attachment['data']['video'],
             'seo_title'                 => empty($params['seo_title']) ? '' : $params['seo_title'],
