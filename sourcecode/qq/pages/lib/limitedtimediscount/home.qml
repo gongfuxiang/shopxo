@@ -1,7 +1,7 @@
 <template name="limitedtimediscount">
   <view qq:if="{{plugins_limitedtimediscount_data.goods.length > 0}}" class="limitedtimediscount">
     <view class="nav-title">
-      <image class="nav-icon" src="/pages/lib/limitedtimediscount/nav-icon.png" mode="aspectFit"></image>
+      <image class="nav-icon" src="/images/plugins/limitedtimediscount/nav-icon.png" mode="aspectFit"></image>
       <text class="text-wrapper">限时秒杀</text>
       <view class="countdown">
         <block qq:if="{{plugins_limitedtimediscount_is_show_time}}">

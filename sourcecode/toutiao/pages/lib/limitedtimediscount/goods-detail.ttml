@@ -1,7 +1,7 @@
 <template name="limitedtimediscount">
   <view class="limitedtimediscount">
     <view class="countdown">
-      <image class="icon" src="/pages/lib/limitedtimediscount/detail-icon.png" mode="aspectFit"></image>
+      <image class="icon" src="/images/plugins/limitedtimediscount/detail-icon.png" mode="aspectFit"></image>
       <text class="text-title"> {{plugins_limitedtimediscount_data.title || '限时秒杀'}}</text>
       <view class="time-right fr">
         <block tt:if="{{plugins_limitedtimediscount_is_show_time}}">

@@ -36,8 +36,9 @@ return array (
   array (
     0 => 'app\\plugins\\distribution\\Hook',
     1 => 'app\\plugins\\freightfee\\Hook',
-    2 => 'app\\plugins\\coupon\\Hook',
-    3 => 'app\\plugins\\membershiplevelvip\\Hook',
+    2 => 'app\\plugins\\limitedtimediscount\\Hook',
+    3 => 'app\\plugins\\coupon\\Hook',
+    4 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_service_users_center_left_menu_handle' => 
   array (
@@ -107,13 +108,33 @@ return array (
   ),
   'plugins_js' => 
   array (
-    0 => 'app\\plugins\\coupon\\Hook',
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
-    0 => 'app\\plugins\\coupon\\Hook',
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\membershiplevelvip\\Hook',
+    3 => 'app\\plugins\\weixinliveplayer\\Hook',
+  ),
+  'plugins_service_goods_handle_end' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
-    2 => 'app\\plugins\\weixinliveplayer\\Hook',
+  ),
+  'plugins_service_goods_spec_base' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+    1 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_view_goods_detail_base_top' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_view_home_floor_top' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_view_goods_detail_panel_bottom' => 
   array (
@@ -134,14 +155,6 @@ return array (
   'plugins_service_user_register_end' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
-  ),
-  'plugins_service_goods_handle_end' => 
-  array (
-    0 => 'app\\plugins\\membershiplevelvip\\Hook',
-  ),
-  'plugins_service_goods_spec_base' => 
-  array (
-    0 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_service_user_login_success_record' => 
   array (
