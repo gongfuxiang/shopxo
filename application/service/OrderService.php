@@ -1040,7 +1040,7 @@ class OrderService
                     // 自提模式 添加订单取货码
                     if($v['order_model'] == 2)
                     {
-                        $v['extraction_data'] = self::OrdersExtractionData($v['id'], $v['user_id']);
+                        $v['extraction_data'] = self::OrdersExtractionData($v['id']);
                     }
                 }
 
@@ -1249,9 +1249,8 @@ class OrderService
      * @date    2019-11-26
      * @desc    description
      * @param   [int]          $order_id    [订单id]
-     * @param   [int]          $user_id     [用户id]
      */
-    private static function OrdersExtractionData($order_id, $user_id)
+    private static function OrdersExtractionData($order_id)
     {
         // 必须返回的内容格式
         $result = [
@@ -1266,30 +1265,17 @@ class OrderService
             $result['code'] = $code;
 
             // 生成二维码参数
-            $qrcode_params = [
+            $params = [
                 'content'   => $code,
-                'root_path' => ROOT.'public',
                 'path'      => DS.'download'.DS.'order'.DS.'extraction_ode'.DS,
-                'filename'  => $user_id.'_'.$order_id.'.png',
+                'filename'  => $order_id.'.png',
             ];
 
             // 图片不存在则去生成二维码图片并保存至目录
-            $file = $qrcode_params['root_path'].$qrcode_params['path'].$qrcode_params['filename'];
-            if(!file_exists($file))
+            $ret = (new \base\Qrcode())->Create($params);
+            if($ret['code'] == 0)
             {
-                $ret = (new \base\Qrcode())->Create($qrcode_params);
-                if($ret['code'] == 0)
-                {
-                    $result['images'] = $qrcode_params['path'].$qrcode_params['filename'];
-                }
-            } else {
-                $result['images'] = $qrcode_params['path'].$qrcode_params['filename'];
-            }
-
-            // 展示地址处理
-            if(!empty($result['images']))
-            {
-                $result['images'] = ResourcesService::AttachmentPathViewHandle($result['images']);
+                $result['images'] = $ret['data']['url'];
             }
         }
         return $result;

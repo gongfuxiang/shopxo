@@ -2151,5 +2151,38 @@ class GoodsService
         // 匹配商品销售模式
         return DataReturn('success', 0, GoodsSalesModelType($site_type));
     }
+
+    /**
+     * 商品二维码生成
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-13
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     * @param   [int]          $add_time [商品创建时间]
+     */
+    public static function GoodsQrcode($goods_id, $add_time)
+    {
+        // 时间格式、是否已是时间格式
+        if(strstr($add_time, '-') != false)
+        {
+            $add_time = strtotime($add_time);
+        }
+
+        // 自定义路径和名称
+        $path = 'static'.DS.'upload'.DS.'images'.DS.'goods_qrcode'.DS.APPLICATION_CLIENT_TYPE.DS.date('Y', $add_time).DS.date('m', $add_time).DS.date('d', $add_time).DS;
+        $filename = $goods_id.'.png';
+
+        // 二维码处理参数
+        $params = [
+            'path'      => DS.$path,
+            'filename'  => $filename,
+            'content'   => MyUrl('index/goods/index', ['id'=>$goods_id], true, true),
+        ];
+
+        // 创建二维码
+        return (new \base\Qrcode())->Create($params);
+    }
 }
 ?>

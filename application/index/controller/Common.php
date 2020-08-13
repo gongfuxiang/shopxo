@@ -169,6 +169,16 @@ class Common extends Controller
 
         // 公共表格钩子名称动态处理
         $current = 'plugins_view_index_'.$this->controller_name;
+
+        // 是否插件默认下
+        if($this->controller_name == 'plugins')
+        {
+            if(!empty($this->data_request['pluginsname']))
+            {
+                $current .= '_'.trim($this->data_request['pluginsname']);
+            }
+        }
+
         // 内容外部顶部
         $this->assign('hook_name_content_top', $current.'_content_top');
         // 内容外部底部

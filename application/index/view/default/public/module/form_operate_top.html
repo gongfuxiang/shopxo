@@ -16,12 +16,11 @@
 <!-- 钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
     <div class="plugins-tag">
-        <span>plugins_view_admin_goods_top_operate</span>
+        <span>{{$hook_name_form_top_operate}}</span>
     </div>
 {{/if}}
 {{php}}
-    $hook_name = 'plugins_view_admin_goods_top_operate';
-    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>true]);
+    $hook_data = Hook::listen($hook_name_form_top_operate, ['hook_name'=>$hook_name_form_top_operate, 'is_backend'=>true]);
     if(!empty($hook_data) && is_array($hook_data))
     {
         foreach($hook_data as $hook)

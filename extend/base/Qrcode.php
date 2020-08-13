@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace base;
 
+use app\service\ResourcesService;
+
 /**
  * 二维码驱动
  * @author   Devil
@@ -27,9 +29,10 @@ class Qrcode
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
+     * @param    [array]       $params [输入参数]
      * @datetime 2019-04-16T21:13:10+0800
      */
-    public function __construct()
+    public function __construct($params = [])
     {
         require_once ROOT.'extend'.DS.'qrcode'.DS.'phpqrcode.php';
 
@@ -44,7 +47,7 @@ class Qrcode
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2019-04-16T21:13:16+0800
-     * @param    [array]                    $params [输入参数]
+     * @param    [array]       $params [输入参数]
      */
     public function View($params = [])
     {
@@ -76,7 +79,7 @@ class Qrcode
      * @version 1.0.0
      * @date    2019-04-19
      * @desc    description
-     * @param    [array]                    $params [输入参数]
+     * @param    [array]       $params [输入参数]
      */
     public function Create($params = [])
     {
@@ -107,55 +110,60 @@ class Qrcode
         // 文件名称
         $filename = empty($params['filename']) ? $this->RandNewFilename().'.png' : $params['filename'];
 
-        // 容错率
-        $level = isset($params['level']) && in_array($params['level'], array('L','M','Q','H')) ? $params['level'] : 'L';
-
-        // 大小，最小1，最大10
-        $point_size = isset($params['size']) ? min(max(intval($params['size']), 1), 30) : 10;
-
-        // 外边距
-        $mr = isset($params['mr']) ? intval($params['mr']) : 2;
-
-        // 生成二维码
-        \QRcode::png($params['content'], $dir.$filename, $level, $point_size, $mr);
-        if(!file_exists($dir.$filename))
+        // 是否已经存在、存在是否需要强制重新生成
+        if(!file_exists($dir.$filename) || (isset($params['is_force']) && $params['is_force'] == 1))
         {
-            return DataReturn('二维码创建失败', -100);
-        }
-        
-        //判断是否生成带logo的二维码
-        if(!empty($params['logo']))
-        {
-            $logo = @file_get_contents($params['logo']);
-            if($logo !== false)
-            {            
-                $qr = imagecreatefromstring(file_get_contents($dir.$filename));     //目标图象连接资源
-                $logo = imagecreatefromstring($logo);                               //源图象连接资源
-                
-                $qr_width = imagesx($qr);
-                $qr_height = imagesy($qr);
-                $logo_width = imagesx($logo);
-                $logo_height = imagesy($logo);
-                $logo_qr_width = $qr_width / 5;                     //组合之后logo的宽度(占二维码的1/5)
-                $scale = $logo_width/$logo_qr_width;                //logo的宽度缩放比(本身宽度/组合后的宽度)
-                $logo_qr_height = $logo_height/$scale;              //组合之后logo的高度
-                $from_width = ($qr_width - $logo_qr_width) / 2;     //组合之后logo左上角所在坐标点
-                
-                //重新组合图片并调整大小
-                imagecopyresampled($qr, $logo, $from_width, $from_width, 0, 0, $logo_qr_width,$logo_qr_height, $logo_width, $logo_height);
-                
-                //输出图片
-                imagepng($qr, $dir.$filename);
-                imagedestroy($qr);
-                imagedestroy($logo);
+            // 容错率
+            $level = isset($params['level']) && in_array($params['level'], array('L','M','Q','H')) ? $params['level'] : 'L';
+
+            // 大小，最小1，最大10
+            $point_size = isset($params['size']) ? min(max(intval($params['size']), 1), 30) : 10;
+
+            // 外边距
+            $mr = isset($params['mr']) ? intval($params['mr']) : 2;
+
+            // 生成二维码
+            \QRcode::png($params['content'], $dir.$filename, $level, $point_size, $mr);
+            if(!file_exists($dir.$filename))
+            {
+                return DataReturn('二维码创建失败', -100);
+            }
+            
+            //判断是否生成带logo的二维码
+            if(!empty($params['logo']))
+            {
+                $logo = @file_get_contents($params['logo']);
+                if($logo !== false)
+                {            
+                    $qr = imagecreatefromstring(file_get_contents($dir.$filename));     //目标图象连接资源
+                    $logo = imagecreatefromstring($logo);                               //源图象连接资源
+                    
+                    $qr_width = imagesx($qr);
+                    $qr_height = imagesy($qr);
+                    $logo_width = imagesx($logo);
+                    $logo_height = imagesy($logo);
+                    $logo_qr_width = $qr_width / 5;                     //组合之后logo的宽度(占二维码的1/5)
+                    $scale = $logo_width/$logo_qr_width;                //logo的宽度缩放比(本身宽度/组合后的宽度)
+                    $logo_qr_height = $logo_height/$scale;              //组合之后logo的高度
+                    $from_width = ($qr_width - $logo_qr_width) / 2;     //组合之后logo左上角所在坐标点
+                    
+                    //重新组合图片并调整大小
+                    imagecopyresampled($qr, $logo, $from_width, $from_width, 0, 0, $logo_qr_width,$logo_qr_height, $logo_width, $logo_height);
+                    
+                    //输出图片
+                    imagepng($qr, $dir.$filename);
+                    imagedestroy($qr);
+                    imagedestroy($logo);
+                }
             }
         }
-        
+
         $result = [
             'dir'       => $dir.$filename,
             'root'      => $this->config['root_path'],
             'path'      => $this->config['path'],
             'filename'  => $filename,
+            'url'       => ResourcesService::AttachmentPathViewHandle($this->config['path'].$filename),
         ];
         return DataReturn('创建成功', 0, $result);
     
@@ -167,7 +175,7 @@ class Qrcode
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2019-04-16T21:23:01+0800
-     * @param    [array]                    $params [输入参数]
+     * @param    [array]       $params [输入参数]
      */
     public function Download($params = [])
     {

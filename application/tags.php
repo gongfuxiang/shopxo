@@ -32,6 +32,16 @@ return array (
   'log_write' => 
   array (
   ),
+  'plugins_service_order_status_change_history_success_handle' => 
+  array (
+    0 => 'app\\plugins\\neworderemail\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
+    2 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_order_pay_launch_handle' => 
+  array (
+    0 => 'app\\plugins\\neworderemail\\Hook',
+  ),
   'plugins_css' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
@@ -51,11 +61,6 @@ return array (
     0 => 'app\\plugins\\distribution\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\membershiplevelvip\\Hook',
-  ),
-  'plugins_service_order_status_change_history_success_handle' => 
-  array (
-    0 => 'app\\plugins\\distribution\\Hook',
-    1 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_service_order_aftersale_audit_handle_end' => 
   array (
@@ -101,6 +106,7 @@ return array (
     0 => 'app\\plugins\\freightfee\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\membershiplevelvip\\Hook',
+    3 => 'app\\plugins\\newuserreduction\\Hook',
   ),
   'plugins_view_goods_detail_title' => 
   array (
@@ -117,6 +123,7 @@ return array (
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\membershiplevelvip\\Hook',
     3 => 'app\\plugins\\weixinliveplayer\\Hook',
+    4 => 'app\\plugins\\answers\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
@@ -179,6 +186,31 @@ return array (
   'plugins_service_goods_spec_type' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+  ),
+  'plugins_admin_css' => 
+  array (
+    0 => 'app\\plugins\\orderpricerevision\\Hook',
+  ),
+  'plugins_admin_js' => 
+  array (
+    0 => 'app\\plugins\\orderpricerevision\\Hook',
+  ),
+  'plugins_admin_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\orderpricerevision\\Hook',
+  ),
+  'plugins_view_admin_order_list_operate' => 
+  array (
+    0 => 'app\\plugins\\orderpricerevision\\Hook',
+    1 => 'app\\plugins\\orderexportprint\\Hook',
+  ),
+  'plugins_view_admin_order_top_operate' => 
+  array (
+    0 => 'app\\plugins\\orderexportprint\\Hook',
+  ),
+  'plugins_service_user_login_end' => 
+  array (
+    0 => 'app\\plugins\\userloginrewardintegral\\Hook',
   ),
 );
 ?>
