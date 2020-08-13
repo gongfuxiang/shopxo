@@ -47,7 +47,8 @@ class RegionService
     {
         $pid = isset($params['pid']) ? intval($params['pid']) : 0;
         $field = empty($params['field']) ? '*' : $params['field'];
-        return Db::name('Region')->field($field)->where(['pid'=>$pid, 'is_enable'=>1])->select();
+        $order_by = empty($params['order_by']) ? 'sort asc,id asc' : trim($params['order_by']);
+        return Db::name('Region')->field($field)->where(['pid'=>$pid, 'is_enable'=>1])->order($order_by)->select();
     }
 
     /**

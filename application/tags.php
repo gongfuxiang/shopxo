@@ -66,12 +66,14 @@ return array (
     0 => 'app\\plugins\\distribution\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\membershiplevelvip\\Hook',
+    3 => 'app\\plugins\\wallet\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\membershiplevelvip\\Hook',
+    3 => 'app\\plugins\\wallet\\Hook',
   ),
   'plugins_service_order_aftersale_audit_handle_end' => 
   array (
@@ -176,6 +178,7 @@ return array (
   'plugins_service_user_register_end' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\wallet\\Hook',
   ),
   'plugins_service_user_login_success_record' => 
   array (

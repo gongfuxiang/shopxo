@@ -264,7 +264,7 @@ class PayLogService
         }
 
         // 关闭操作
-        if(Db::name('PayLog')->where(['id'=>$params['ids']])->update(['status'=>2, 'close_time'=>time()]))
+        if(Db::name('PayLog')->where(['id'=>$params['ids'], 'status'=>0])->update(['status'=>2, 'close_time'=>time()]))
         {
             return DataReturn('关闭成功');
         }
