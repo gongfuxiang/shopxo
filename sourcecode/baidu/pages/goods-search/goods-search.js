@@ -11,7 +11,13 @@ Page({
     post_data: {},
     is_show_popup_form: false,
     popup_form_loading_status: false,
-    search_nav_sort_list: [{ name: "综合", field: "default", sort: "asc", "icon": null }, { name: "销量", field: "sales_count", sort: "asc", "icon": "default" }, { name: "价格", field: "min_price", sort: "asc", "icon": "default" }]
+    search_nav_sort_list: [
+      { name: "综合", field: "default", sort: "asc", "icon": null },
+      { name: "销量", field: "sales_count", sort: "asc", "icon": "default" },
+      { name: "热度", field: "access_count", sort: "asc", "icon": "default" },
+      { name: "价格", field: "min_price", sort: "asc", "icon": "default" },
+      { name: "最新", field: "id", sort: "asc", "icon": "default" }
+    ]
   },
 
   onLoad(params) {
