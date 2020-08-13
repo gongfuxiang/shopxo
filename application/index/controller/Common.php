@@ -296,14 +296,14 @@ class Common extends Controller
         $this->assign('default_theme', $default_theme);
 
         // 当前操作名称, 兼容插件模块名称
-        $module_name = strtolower(request()->module());
-        $controller_name = strtolower(request()->controller());
-        $action_name = strtolower(request()->action());
+        $this->module_name = strtolower(request()->module());
+        $this->controller_name = strtolower(request()->controller());
+        $this->action_name = strtolower(request()->action());
 
         // 当前操作名称
-        $this->assign('module_name', $module_name);
-        $this->assign('controller_name', $controller_name);
-        $this->assign('action_name', $action_name);
+        $this->assign('module_name', $this->module_name);
+        $this->assign('controller_name', $this->controller_name);
+        $this->assign('action_name', $this->action_name);
 
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
@@ -312,12 +312,12 @@ class Common extends Controller
         $this->assign('page_size', $this->page_size);
 
         // 控制器静态文件状态css,js
-        $module_css = $module_name.DS.$default_theme.DS.'css'.DS.$controller_name;
-        $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$action_name.'.css') ? '.'.$action_name.'.css' : '.css';
+        $module_css = $this->module_name.DS.$default_theme.DS.'css'.DS.$this->controller_name;
+        $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$this->action_name.'.css') ? '.'.$this->action_name.'.css' : '.css';
         $this->assign('module_css', file_exists(ROOT_PATH.'static'.DS.$module_css) ? $module_css : '');
 
-        $module_js = $module_name.DS.$default_theme.DS.'js'.DS.$controller_name;
-        $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$action_name.'.js') ? '.'.$action_name.'.js' : '.js';
+        $module_js = $this->module_name.DS.$default_theme.DS.'js'.DS.$this->controller_name;
+        $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$this->action_name.'.js') ? '.'.$this->action_name.'.js' : '.js';
         $this->assign('module_js', file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '');
 
         // 导航

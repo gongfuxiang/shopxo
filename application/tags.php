@@ -41,6 +41,17 @@ return array (
   'plugins_service_order_pay_launch_handle' => 
   array (
     0 => 'app\\plugins\\neworderemail\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_admin_js' => 
+  array (
+    0 => 'app\\plugins\\orderremind\\Hook',
+    1 => 'app\\plugins\\orderpricerevision\\Hook',
+  ),
+  'plugins_admin_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\orderremind\\Hook',
+    1 => 'app\\plugins\\orderpricerevision\\Hook',
   ),
   'plugins_css' => 
   array (
@@ -120,20 +131,23 @@ return array (
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\limitedtimediscount\\Hook',
-    1 => 'app\\plugins\\coupon\\Hook',
-    2 => 'app\\plugins\\membershiplevelvip\\Hook',
-    3 => 'app\\plugins\\weixinliveplayer\\Hook',
-    4 => 'app\\plugins\\answers\\Hook',
+    1 => 'app\\plugins\\speedplaceorder\\Hook',
+    2 => 'app\\plugins\\coupon\\Hook',
+    3 => 'app\\plugins\\membershiplevelvip\\Hook',
+    4 => 'app\\plugins\\weixinliveplayer\\Hook',
+    5 => 'app\\plugins\\answers\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
     0 => 'app\\plugins\\limitedtimediscount\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
+    2 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_goods_spec_base' => 
   array (
     0 => 'app\\plugins\\limitedtimediscount\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
+    2 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_view_goods_detail_base_top' => 
   array (
@@ -191,14 +205,6 @@ return array (
   array (
     0 => 'app\\plugins\\orderpricerevision\\Hook',
   ),
-  'plugins_admin_js' => 
-  array (
-    0 => 'app\\plugins\\orderpricerevision\\Hook',
-  ),
-  'plugins_admin_view_common_bottom' => 
-  array (
-    0 => 'app\\plugins\\orderpricerevision\\Hook',
-  ),
   'plugins_view_admin_order_list_operate' => 
   array (
     0 => 'app\\plugins\\orderpricerevision\\Hook',
@@ -211,6 +217,10 @@ return array (
   'plugins_service_user_login_end' => 
   array (
     0 => 'app\\plugins\\userloginrewardintegral\\Hook',
+  ),
+  'plugins_service_buy_order_insert_begin' => 
+  array (
+    0 => 'app\\plugins\\ordersubmitlimit\\Hook',
   ),
 );
 ?>

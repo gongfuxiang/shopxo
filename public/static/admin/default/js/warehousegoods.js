@@ -117,7 +117,7 @@ $(function()
             {
                 $parent.find('.am-gallery').addClass('am-avg-lg-5').removeClass('am-avg-lg-8');
             } else {
-                $parent.find('.am-gallery').addClass('am-avg-lg-8').removeClass('am-avg-lg-6');
+                $parent.find('.am-gallery').addClass('am-avg-lg-8').removeClass('am-avg-lg-5');
             }
         }
     });
