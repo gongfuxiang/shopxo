@@ -87,16 +87,26 @@ class AnswerService
                 }
 
                 // 回复时间
-                $v['reply_time_time'] = empty($v['reply_time']) ? null : date('Y-m-d H:i:s', $v['reply_time']);
-                $v['reply_time_date'] = empty($v['reply_time']) ? null : date('Y-m-d', $v['reply_time']);
+                if(isset($v['reply_time']))
+                {
+                    $v['reply_time_time'] = empty($v['reply_time']) ? null : date('Y-m-d H:i:s', $v['reply_time']);
+                    $v['reply_time_date'] = empty($v['reply_time']) ? null : date('Y-m-d', $v['reply_time']);
+                }
 
-                // 评论时间
-                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                // 添加时间
+                if(isset($v['add_time']))
+                {
+                    $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                    $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                }
+                
 
                 // 更新时间
-                $v['upd_time_time'] = empty($v['upd_time']) ? null : date('Y-m-d H:i:s', $v['upd_time']);
-                $v['upd_time_date'] = empty($v['upd_time']) ? null : date('Y-m-d', $v['upd_time']);
+                if(isset($v['upd_time']))
+                {
+                    $v['upd_time_time'] = empty($v['upd_time']) ? null : date('Y-m-d H:i:s', $v['upd_time']);
+                    $v['upd_time_date'] = empty($v['upd_time']) ? null : date('Y-m-d', $v['upd_time']);
+                }
             }
         }
         return DataReturn('处理成功', 0, $data);
