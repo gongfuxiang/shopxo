@@ -528,6 +528,7 @@ button.colorpicker-submit img {
     line-height: 20px;
     min-width: 160px;
     max-width: 160px;
+    word-break: break-all;
 }
 .am-table-scrollable-horizontal .am-table .am-nowrap-initial {
     white-space: initial;

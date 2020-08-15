@@ -26,6 +26,9 @@ class PluginsAdminService
     // 排除不能使用的名称
     public static $plugins_exclude_verification = ['view', 'shopxo', 'www'];
 
+    // 排除的文件后缀
+    private static $exclude_ext = ['.php'];
+
     /**
      * 列表
      * @author   Devil
@@ -1059,6 +1062,21 @@ php;
                     {
                         if(strpos($file, $dir_key) !== false)
                         {
+                            // 仅控制器模块支持php文件
+                            if($dir_key != '_controller_')
+                            {
+                                // 排除后缀文件
+                                $pos = strripos($file, '.');
+                                if($pos !== false)
+                                {
+                                    if(in_array(substr($file, $pos), self::$exclude_ext))
+                                    {
+                                        continue;
+                                    }
+                                }
+                            }
+
+                            // 匹配成功文件路径处理、跳出循环
                             $file = str_replace($plugins_name.'/'.$dir_key.'/', '', $dir_value.$file);
                             $is_has_find = true;
                             break;

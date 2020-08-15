@@ -12,12 +12,12 @@
 			<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-bordered data-list" data-am-gallery="{}" data-select-url="{{:MyUrl('admin/theme/save')}}">
 				{{foreach $data_list as $v}}
 					<li id="data-list-{{$v.theme}}">
-						<div class="am-gallery-item am-radius {{if $v['theme'] eq $theme}}theme-active{{/if}}">
-							<a href="javascript:;" class="select-theme" data-theme="{{$v.theme}}">
+						<div class="am-gallery-item am-radius am-padding-0 {{if $v['theme'] eq $theme}}theme-active{{/if}}">
+							<a href="javascript:;" class="select-theme am-block" data-theme="{{$v.theme}}">
 								<img src="{{$v.preview}}" alt="{{$v.name}}" />
 							</a>
 							<div class="am-gallery-item-bottom">
-								<h3 class="am-gallery-title">
+								<h3 class="am-gallery-title am-margin-top-0">
 									{{$v.name}}
 									<div class="am-fr am-text-right">
 										{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

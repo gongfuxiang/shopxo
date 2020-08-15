@@ -25,6 +25,9 @@ class ThemeService
     private static $html_path = 'application'.DS.'index'.DS.'view'.DS;
     private static $static_path = 'public'.DS.'static'.DS.'index'.DS;
 
+    // 排除的文件后缀
+    private static $exclude_ext = ['.php'];
+
     /**
      * 获取模板列表
      * @author   Devil
@@ -109,11 +112,11 @@ class ThemeService
         // 目录是否有权限
         if(!is_writable(ROOT.self::$html_path))
         {
-            return DataReturn('视图目录没权限', -10);
+            return DataReturn('视图目录没权限['.ROOT.self::$html_path.']', -10);
         }
         if(!is_writable(ROOT.self::$static_path))
         {
-            return DataReturn('资源目录没权限', -10);
+            return DataReturn('资源目录没权限['.self::$static_path.']', -10);
         }
 
         // 资源目录
@@ -140,6 +143,7 @@ class ThemeService
                     {
                         if(strpos($file, $dir_key) !== false)
                         {
+                            // 匹配成功文件路径处理、跳出循环
                             $file = str_replace($dir_key.'/', '', $dir_value.$file);
                             $is_has_find = true;
                             break;
@@ -150,6 +154,16 @@ class ThemeService
                     if($is_has_find == false)
                     {
                         continue;
+                    }
+
+                    // 排除后缀文件
+                    $pos = strripos($file, '.');
+                    if($pos !== false)
+                    {
+                        if(in_array(substr($file, $pos), self::$exclude_ext))
+                        {
+                            continue;
+                        }
                     }
 
                     // 截取文件路径
