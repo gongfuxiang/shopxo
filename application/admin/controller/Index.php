@@ -86,6 +86,10 @@ class Index extends Common
 		$order_complete_money = StatisticalService::OrderCompleteMoneyYesterdayTodayTotal();
 		$this->assign('order_complete_money', $order_complete_money['data']);
 
+		// 近30日成交金额走势
+		$order_profit_chart = StatisticalService::OrderProfitSevenTodayTotal();
+		$this->assign('order_profit_chart', $order_profit_chart['data']);
+
 		// 近15日订单交易走势
 		$order_trading_trend = StatisticalService::OrderTradingTrendSevenTodayTotal();
 		$this->assign('order_trading_trend', $order_trading_trend['data']);

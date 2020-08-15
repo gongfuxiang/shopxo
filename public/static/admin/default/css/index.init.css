@@ -152,6 +152,7 @@ html, body {
 /**
  * 订单交易
  */
+#echarts-order-profit,
 #echarts-order-trading {
     margin-top: 10px;
     height: 400px;

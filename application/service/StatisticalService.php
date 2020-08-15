@@ -289,6 +289,68 @@ class StatisticalService
     }
 
     /**
+     * 订单收益趋势, 30天数据
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function OrderProfitSevenTodayTotal($params = [])
+    {
+        // 初始化
+        self::Init($params);
+
+        // 订单状态列表
+        $order_status_list = lang('common_order_user_status');
+        $status_arr = array_column($order_status_list, 'id');
+
+        // 循环获取统计数据
+        $data = [];
+        $value_arr = [];
+        $name_arr = [];
+        if(!empty($status_arr))
+        {
+            foreach(self::$nearly_thirty_days as $day)
+            {
+                // 当前日期名称
+                $name_arr[] = $day['name'];
+
+                // 根据支付名称获取数量
+                foreach($status_arr as $status)
+                {
+                    // 获取订单
+                    $where = [
+                        ['status', '=', $status],
+                        ['add_time', '>=', $day['start_time']],
+                        ['add_time', '<=', $day['end_time']],
+                    ];
+                    $value_arr[$status][] = Db::name('Order')->where($where)->sum('pay_price');
+                }
+            }
+        }
+
+        // 数据格式组装
+        foreach($status_arr as $status)
+        {
+            $data[] = [
+                'name'      => $order_status_list[$status]['name'],
+                'type'      => ($status == 4) ? 'line' : 'bar',
+                'tiled'     => '总量',
+                'data'      => empty($value_arr[$status]) ? [] : $value_arr[$status],
+            ];
+        }
+
+        // 数据组装
+        $result = [
+            'title_arr' => array_column($order_status_list, 'name'),
+            'name_arr'  => $name_arr,
+            'data'      => $data,
+        ];
+        return DataReturn('处理成功', 0, $result);
+    }
+
+    /**
      * 订单交易趋势, 30天数据
      * @author   Devil
      * @blog     http://gong.gg/
@@ -307,7 +369,7 @@ class StatisticalService
 
         // 循环获取统计数据
         $data = [];
-        $count_arr = [];
+        $value_arr = [];
         $name_arr = [];
         if(!empty($status_arr))
         {
@@ -325,7 +387,7 @@ class StatisticalService
                         ['add_time', '>=', $day['start_time']],
                         ['add_time', '<=', $day['end_time']],
                     ];
-                    $count_arr[$status][] = Db::name('Order')->where($where)->count();
+                    $value_arr[$status][] = Db::name('Order')->where($where)->count();
                 }
             }
         }
@@ -335,9 +397,9 @@ class StatisticalService
         {
             $data[] = [
                 'name'      => $order_status_list[$status]['name'],
-                'type'      => 'line',
+                'type'      => ($status == 4) ? 'bar' : 'line',
                 'tiled'     => '总量',
-                'data'      => empty($count_arr[$status]) ? [] : $count_arr[$status],
+                'data'      => empty($value_arr[$status]) ? [] : $value_arr[$status],
             ];
         }
 
@@ -372,7 +434,7 @@ class StatisticalService
 
         // 循环获取统计数据
         $data = [];
-        $count_arr = [];
+        $value_arr = [];
         $name_arr = [];
         if(!empty($pay_name_arr))
         {
@@ -390,7 +452,7 @@ class StatisticalService
                         ['add_time', '>=', $day['start_time']],
                         ['add_time', '<=', $day['end_time']],
                     ];
-                    $count_arr[$payment][] = Db::name('PayLog')->where($where)->count();
+                    $value_arr[$payment][] = Db::name('PayLog')->where($where)->count();
                 }
             }
         }
@@ -403,7 +465,7 @@ class StatisticalService
                 'type'      => 'line',
                 'stack'     => '总量',
                 'areaStyle' => (object) [],
-                'data'      => empty($count_arr[$payment]) ? [] : $count_arr[$payment],
+                'data'      => empty($value_arr[$payment]) ? [] : $value_arr[$payment],
             ];
         }
 

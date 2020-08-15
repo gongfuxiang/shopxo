@@ -37,7 +37,7 @@
 							<span>今日</span>
 							<span class="animation-count-to" data-to="{{$order_number.today_count}}" data-speed="1500">0</span>
 						</div>
-						<i class="am-icon-list-alt am-icon-lg bg-icon"></i>
+						<i class="am-icon-pie-chart am-icon-lg bg-icon"></i>
 					</div>
 				</li>
 				<li>
@@ -67,12 +67,20 @@
 							<span>今日</span>
 							<span class="animation-count-to" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
 						</div>
-						<i class="am-icon-gift am-icon-lg bg-icon"></i>
+						<i class="am-icon-line-chart am-icon-lg bg-icon"></i>
 					</div>
 				</li>
 			</ul>
 		</div>
 
+		<!-- 近30日成交金额走势 -->
+		<div class="echarts-container">
+			<div class="echarts-title">
+				<span class="icon"></span>
+				<span class="title">近30日成交金额走势</span>
+			</div>
+			<div id="echarts-order-profit"></div>
+		</div>
 
 		<!-- 近30日订单交易走势 -->
 		<div class="echarts-container">
@@ -159,6 +167,53 @@
 <script type="text/javascript">
 $(function()
 {
+	// 近30日成交金额走势
+    var order_profit_chart = echarts.init(document.getElementById('echarts-order-profit'), 'macarons');
+    var option = {
+	    tooltip : {
+	        trigger: 'axis',
+	        axisPointer: {
+	            type: 'cross',
+	            label: {
+	                backgroundColor: '#6a7985'
+	            }
+	        }
+	    },
+	    legend: {
+	        data: {{:json_encode($order_profit_chart.title_arr)}}
+	    },
+	    toolbox: {
+	        show : {{if IsMobile()}}false{{else}}true{{/if}},
+	        feature : {
+	            mark : {show: true},
+	            dataView : {show: true, readOnly: false},
+	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+	            restore : {show: true},
+	            saveAsImage : {name:'近30日订单交易走势', show: true}
+	        }
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '4%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	    xAxis : [
+	        {
+	            type : 'category',
+	            boundaryGap : false,
+	            data : {{:json_encode($order_profit_chart.name_arr)}}
+	        }
+	    ],
+	    yAxis : [
+	        {
+	            type : 'value'
+	        }
+	    ],
+	    series : {{:json_encode($order_profit_chart.data)}}
+	};
+	order_profit_chart.setOption(option);
+
 	// 近30日订单交易走势
     var order_trading_chart = echarts.init(document.getElementById('echarts-order-trading'), 'macarons');
     var option = {
@@ -292,6 +347,7 @@ $(function()
 	{
 	    order_pay_type_chart.resize();
 	    goods_hot_chart.resize();
+	    order_profit_chart.resize();
 	    order_trading_chart.resize();
 	};
 });
