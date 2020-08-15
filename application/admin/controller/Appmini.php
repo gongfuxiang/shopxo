@@ -63,18 +63,33 @@ class Appmini extends Common
      */
 	public function Index()
 	{
-		// 提示信息
+		$host = 'https://shopxo.net/';
 		$nav_dev_tips = [
 			// 微信
-			'weixin'	=> '右上角 -> 详情 -> 不校验合法域名、web-view（业务域名）、TLS 版本以及 HTTPS 证书（勾选改选项即可进行小程序开发调试）。',
+			'weixin'	=> [
+				'msg' => '右上角 -> 详情 -> 不校验合法域名、web-view（业务域名）、TLS 版本以及 HTTPS 证书（勾选改选项即可进行小程序开发调试）。',
+				'url' => $host.'weixin.html',
+			],
 			// 支付宝
-			'alipay'	=> '右上角 -> 详情 -> 域名信息下 -> 忽略 httpRequest 域名合法性检查（仅限调试时，且支付宝 10.1.35 版本以上）（勾选改选项即可进行小程序开发调试）。',
+			'alipay'	=> [
+				'msg' => '右上角 -> 详情 -> 域名信息下 -> 忽略 httpRequest 域名合法性检查（仅限调试时，且支付宝 10.1.35 版本以上）（勾选改选项即可进行小程序开发调试）。',
+				'url' => $host.'alipay.html',
+			],
 			// 百度
-			'baidu'	=> '顶部导航 -> 校验域名（关闭即可）。',
-			// 百度
-			'toutiao'	=> '顶部导航 -> 详情 -> 不校验合法域名、web-view（业务域名）TLS版本以及HTTPS证书（勾选改选项即可进行小程序开发调试）。',
+			'baidu'	=> [
+				'msg' => '顶部导航 -> 校验域名（关闭即可）。',
+				'url' => $host.'baidu.html',
+			],
+			// 头条
+			'toutiao'	=> [
+				'msg' => '顶部导航 -> 详情 -> 不校验合法域名、web-view（业务域名）TLS版本以及HTTPS证书（勾选改选项即可进行小程序开发调试）。',
+				'url' => $host.'zijietiaodong.html',
+			],
 			// QQ
-			'qq'	=> '顶部导航 -> 详情 -> 不校验合法域名、web-view（业务域名）TLS版本以及HTTPS证书（勾选改选项即可进行小程序开发调试）。',
+			'qq'	=> [
+				'msg' => '顶部导航 -> 详情 -> 不校验合法域名、web-view（业务域名）TLS版本以及HTTPS证书（勾选改选项即可进行小程序开发调试）。',
+				'url' => $host.'qq.html',
+			],
 		];
 		$this->assign('nav_dev_tips', $nav_dev_tips);
 

@@ -66,7 +66,7 @@
     "pages/plugins/excellentbuyreturntocash/profit-detail/profit-detail"
   ],
   "window": {
-    "defaultTitle": "shopxo",
+    "defaultTitle": "{{application_title}}",
     "titleBarColor": "#d2364c",
     "backgroundColor": "#f5f5f5"
   },

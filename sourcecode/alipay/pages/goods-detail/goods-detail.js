@@ -849,7 +849,7 @@ Page({
     var user = app.get_user_cache_info() || null;
     var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
     return {
-      title: app.data.application_title +'-'+ this.data.goods.title,
+      title: this.data.goods.title+'-'+app.data.application_title,
       desc: app.data.application_describe,
       path: '/pages/goods-detail/goods-detail?goods_id='+this.data.goods.id +'&referrer='+user_id
     };
