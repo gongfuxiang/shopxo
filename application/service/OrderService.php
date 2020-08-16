@@ -2041,15 +2041,22 @@ class OrderService
         }
 
         // 获取订单状态
-        $where = ['order_no'=>$params['order_no'], 'user_id'=>$params['user']['id']];
-        $order = Db::name('Order')->where($where)->field('id,pay_status')->find();
-        if(empty($order))
+        $where = ['log_no'=>$params['order_no'], 'user_id'=>$params['user']['id']];
+        $pay_log = Db::name('PayLog')->where($where)->field('id,status')->find();
+        if(empty($pay_log))
         {
-            return DataReturn('订单不存在', -400, ['url'=>__MY_URL__]);
+            return DataReturn('支付订单不存在', -400, ['url'=>__MY_URL__]);
         }
-        if($order['pay_status'] == 1)
+        if($pay_log['status'] == 1)
         {
-            return DataReturn('支付成功', 0, ['url'=>MyUrl('index/order/detail', ['id'=>$order['id']])]);
+            $pay_log_value = Db::name('PayLogValue')->where(['pay_log_id'=>$pay_log['id']])->column('business_id');
+            if(empty($pay_log_value) || count($pay_log_value) > 1)
+            {
+                $url = MyUrl('index/order/index');
+            } else {
+                $url = MyUrl('index/order/detail', ['id'=>$pay_log_value[0]]);
+            }
+            return DataReturn('支付成功', 0, ['url'=>$url]);
         }
         return DataReturn('支付中', -300);
     }
