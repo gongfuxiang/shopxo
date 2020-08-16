@@ -18,6 +18,7 @@
 ![小程序二维码](https://images.gitee.com/uploads/images/2019/1105/211816_be07363a_488475.jpeg "shopxo-qrcode.jpg")
 
 ### 基础信息
+* 演示地址：https://ask.shopxo.net/article/4
 * 安装教程：https://ask.shopxo.net/article/5
 * 更新日志：https://ask.shopxo.net/article/148
 
