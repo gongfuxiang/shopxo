@@ -2,7 +2,7 @@
     <view class="item bg-white spacing-mb" s-if="data_list.length > 0" s-for="item, index in data_list">
         <view class="base br-b-dashed oh">
             <text class="name cr-666">{{item.name}}</text>
-            <text class="time fr cr-888">{{item.add_time}}</text>
+            <text class="time fr cr-888">{{item.add_time_time}}</text>
         </view>
         <view class="content">
             <view class="desc">{{item.content}}</view>

@@ -5,7 +5,7 @@
                 <image class="avatar fl" src="{{item.avatar}}" mode="widthFix" data-index="{{index}}" binderror="user_avatar_error" />
                 <view class="desc fr tl">{{item.content}}</view>
             </view>
-            <view class="cr-888 tr">{{item.add_time}}</view>
+            <view class="cr-888 tr">{{item.add_time_time}}</view>
         </view>
         <view s-if="(item.reply || null) != null" class="answer br-t">
             <text class="reply-icon bg-main cr-fff">答</text>
