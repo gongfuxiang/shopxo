@@ -8,21 +8,23 @@
 * 社区交流：https://ask.shopxo.net/
 * 应用商店：https://store.shopxo.net/
 * 演示地址：https://demo.shopxo.net/ （管理账户/密码可进入官网查看）
-* 支付宝小程序：https://shopxo.net/alipay.html （已发布）
-* 微信小程序：https://shopxo.net/weixin.html （已发布）
-* 百度小程序：https://shopxo.net/baidu.html （已发布）
-* 头条&抖音小程序：https://shopxo.net/zijietiaodong.html （已发布）
-* QQ小程序：https://shopxo.net/qq.html （已发布）
+* 支付宝小程序：https://shopxo.net/alipay.html
+* 微信小程序：https://shopxo.net/weixin.html
+* 百度小程序：https://shopxo.net/baidu.html
+* 头条&抖音小程序：https://shopxo.net/zijietiaodong.html
+* QQ小程序：https://shopxo.net/qq.html
 
 ### 小程序体验码
 ![小程序二维码](https://images.gitee.com/uploads/images/2019/1105/211816_be07363a_488475.jpeg "shopxo-qrcode.jpg")
 
-### 安装教程
+### 基础信息
 * 安装教程：https://ask.shopxo.net/article/5
+* 更新日志：https://ask.shopxo.net/article/148
 
 ### 官方QQ群（答案：shopxo.net）
 * 官方1群：833531593
 * 官方2群：641730223
+* 官方3群：1127073697
 
 ### 源代码平台
 * 码云：https://gitee.com/zongzhige/shopxo
@@ -31,7 +33,7 @@
 
 ### 部分功能特点
 ~~~
-1. 多种模式（销售+自提+虚拟+展示+销售/自提）
+1. 多种模式（销售+自提+虚拟+展示+销售/自提）多仓库管理、多端小程序
 2. 分销（可配置1~3级、分享赚取佣金、小程序商品海报、取货点、佣金可配置具体到SKU(比例和固定金额)）
 3. 会员等级（等级折扣(具体到商品规格)、满减、手动设置会员等级、付费购买+续费+三级返佣）
 4. 限时秒杀（独立秒杀中心、商品详情秒杀倒计时、自动开始结束）
@@ -207,4 +209,4 @@ QQ小程序
 Apache License Version 2.0 see http://www.apache.org/licenses/LICENSE-2.0.html
 
 # 更新日志
-更多细节参阅 <a href="changelog.txt">changelog.txt</a>
+更多细节参阅 <a href="https://ask.shopxo.net/article/148">https://ask.shopxo.net/article/148</a>
