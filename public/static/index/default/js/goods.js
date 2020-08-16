@@ -388,6 +388,23 @@ function GoodsBaseRestore()
     }
 }
 
+/**
+ * 规格选择显示
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-08-16
+ * @desc    description
+ */
+function SpecPopupShow()
+{
+    $(document.body).css('position', 'fixed');
+    $('.theme-popover-mask').show();
+    $('.theme-popover').slideDown(200);
+
+    $('.theme-popover .confirm').attr('data-type', $(this).data('type'));
+}
+
 $(function() {
     // 商品规格选择
     $('.theme-options').each(function()
@@ -472,17 +489,19 @@ $(function() {
         $('.jqzoom').attr('rel', $(this).find('img').attr('big'));
     });
 
+    // 规格选择显示事件
+    $('.mini-spec-event').on('click', function()
+    {
+        SpecPopupShow();
+    });
+
     //弹出规格选择
     $('.buy-event').on('click', function() {
         if($(window).width() < 1025) {
             // 是否登录
             if(__user_id__ != 0)
             {
-                $(document.body).css('position', 'fixed');
-                $('.theme-popover-mask').show();
-                $('.theme-popover').slideDown(200);
-
-                $('.theme-popover .confirm').attr('data-type', $(this).data('type'));
+                SpecPopupShow();
             }
         } else {
             PoptitPcShow();

@@ -149,7 +149,6 @@ fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
 .introduce-main .am-nav-tabs > li {border-top: 2px solid #f5f5f5;}
 .introduce-main .am-nav-tabs > li.am-active { border-bottom: 2px solid #F03726; }
 
-
 /*导航*/
 .introduce ul.am-tabs-nav.am-nav.am-nav-tabs {background: #F5F5F5;}
 .introduce .am-nav-tabs, .introduce .am-tabs-bd{border-color:transparent ;}
@@ -176,6 +175,7 @@ fieldset legend{margin-left:15px;padding-left:3px;padding-right:3px;color:#333;}
 
 /*商品详细页*/
 .simple-desc { color: #f00; }
+.tb-detail-hd h1, .simple-desc { word-break: break-all; }
 
 /*价格*/
 .tb-detail-price{text-align: left; position: relative;}
@@ -368,7 +368,7 @@ ul.detail-attr li {height: 26px;overflow: hidden;line-height: 26px;vertical-alig
     .theme-options ul{overflow: hidden;float: none;}
     .theme-signin-left {max-width:100%;margin-bottom: 0;}
     .theme-signin-left .sku-line{cursor: pointer; }
-    .theme-signin-left .cart-title{margin-left: -46px;font-size:12px ;font-weight: 100;color:#888 ;float: left;}
+    .theme-signin-left .cart-title{margin-left: -46px;font-size:12px ;font-weight: 100;float: left;}
         
     .scoll{display: none;}
     .item-inform{max-width:1000px; background:#fff; margin-top: 20px; margin-bottom: 30px; }
