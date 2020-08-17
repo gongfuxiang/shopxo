@@ -15,7 +15,7 @@
 * QQ小程序：https://shopxo.net/qq.html
 
 ### 小程序体验码
-![小程序二维码](https://images.gitee.com/uploads/images/2019/1105/211816_be07363a_488475.jpeg "shopxo-qrcode.jpg")
+![小程序二维码](https://images.gitee.com/uploads/images/2020/0817/190801_46b41ff6_488475.jpeg "小程序二维码.jpg")
 
 ### 基础信息
 * 演示地址：https://ask.shopxo.net/article/4
