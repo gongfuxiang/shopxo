@@ -80,7 +80,8 @@ class WarehouseGoods extends Common
         $data_params = [
             'field'     => 'id,name',
             'where'     => [
-                'is_enable' => 1,
+                'is_enable'         => 1,
+                'is_delete_time'    => 0,
             ],
         ];
         $warehouse = WarehouseService::WarehouseList($data_params);

@@ -150,10 +150,10 @@ class Warehousegoods
     public function WarehouseList()
     {
         $result = [];
-        $ids = Db::name('WarehouseGoods')->column('warehouse_id');
+        $ids = array_unique(Db::name('WarehouseGoods')->column('warehouse_id'));
         if(!empty($ids))
         {
-            $result = Db::name('Warehouse')->field('id,name')->where(['id'=>$ids])->select();
+            $result = Db::name('Warehouse')->field('id,name')->where(['id'=>$ids, 'is_delete_time'=>0])->select();
         }
         return $result;
     }
