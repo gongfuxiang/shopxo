@@ -60,8 +60,7 @@ class GoodsService
         // 从缓存获取
         $key = config('shopxo.cache_goods_category_key');
         $data = cache($key);
-
-        if(empty($data))
+        if(empty($data) || config('app_debug'))
         {
             // 获取分类
             $params['where'] = ['pid'=>0, 'is_enable'=>1];
@@ -97,12 +96,12 @@ class GoodsService
                 {
                     // 一次性查出所有二级下的三级、再做归类、避免sql连接超多
                     $where['pid'] = array_column($v['items'], 'id');
-                    $items = self::GoodsCategoryList($where);
-                    if(!empty($items))
+                    $itemss = self::GoodsCategoryList($where);
+                    if(!empty($itemss))
                     {
                         foreach($v['items'] as &$vs)
                         {
-                            foreach($items as $vss)
+                            foreach($itemss as $vss)
                             {
                                 if($vs['id'] == $vss['pid'])
                                 {
@@ -183,13 +182,42 @@ class GoodsService
         // 缓存
         $key = config('shopxo.cache_goods_floor_list_key');
         $data = cache($key);
-        if(empty($data))
+        if(empty($data) || config('app_debug'))
         {
             // 商品大分类
-            $params['where'] = ['pid'=>0, 'is_home_recommended'=>1, 'is_enable'=>1];
-            $data = self::GoodsCategory($params);
+            $where = ['pid'=>0, 'is_home_recommended'=>1, 'is_enable'=>1];
+            $data = self::GoodsCategoryList($where);
             if(!empty($data))
             {
+                $level = MyC('common_show_goods_category_level', 3, true);
+                if($level > 1)
+                {
+                    foreach($data as &$c)
+                    {
+                        $where['pid'] = $c['id'];
+                        $c['items'] = self::GoodsCategoryList($where);
+                        if(!empty($c['items']) && $level > 2)
+                        {
+                            // 一次性查出所有二级下的三级、再做归类、避免sql连接超多
+                            $where['pid'] = array_column($c['items'], 'id');
+                            $itemss = self::GoodsCategoryList($where);
+                            if(!empty($itemss))
+                            {
+                                foreach($c['items'] as &$cv)
+                                {
+                                    foreach($itemss as $cvv)
+                                    {
+                                        if($cv['id'] == $cvv['pid'])
+                                        {
+                                            $cv['items'][] = $cvv;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // 根据分类获取楼层商品
                 foreach($data as &$v)
                 {
