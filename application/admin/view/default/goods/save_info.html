@@ -540,7 +540,7 @@
 			</div>
 
 			<div class="am-form-group am-form-group-refreshing">
-				<input type="hidden" name="id" {{if isset($data) and !empty($data['id']) and (!isset($params['is_copy']) or $params['is_copy'] neq 1)}} value="{{$data.id}}"{{/if}} />
+				<input type="hidden" name="id" {{if isset($data) and !empty($data['id']) and (!isset($is_copy) or $is_copy neq 1)}} value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>
 		</form>

@@ -173,6 +173,9 @@ class Goods extends Common
         // 当前系统设置的站点类型
         $this->assign('common_site_type', MyC('common_site_type', 0, true));
 
+        // 是否拷贝
+        $this->assign('is_copy', (isset($params['is_copy']) && $params['is_copy'] == 1) ? 1 : 0);
+
 		// 商品编辑页面钩子
 		$hook_name = 'plugins_view_admin_goods_save';
         $this->assign($hook_name.'_data', Hook::listen($hook_name,
@@ -188,7 +191,7 @@ class Goods extends Common
 		$this->assign('editor_path_type', 'goods');
 
 		// 数据
-		unset($params['id']);
+		unset($params['id'], $params['is_copy']);
 		$this->assign('data', $data);
 		$this->assign('params', $params);
 		return $this->fetch();
