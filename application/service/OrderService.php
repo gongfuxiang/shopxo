@@ -32,7 +32,7 @@ use app\service\OrderAftersaleService;
 class OrderService
 {
     // 业务类型名称
-    public static $message_business_type = '订单';
+    public static $business_type_name = '订单';
 
     /**
      * 订单支付
@@ -313,7 +313,7 @@ class OrderService
             'subject'       => '订单支付',
             'payment'       => isset($params['payment']) ? $params['payment'] : '',
             'payment_name'  => isset($params['payment_name']) ? $params['payment_name'] : '',
-            'business_type' => self::$message_business_type,
+            'business_type' => self::$business_type_name,
         ]);
     }
 
@@ -695,7 +695,7 @@ class OrderService
 
             // 消息通知
             $detail = '订单支付成功，金额'.PriceBeautify($order['total_price']).'元';
-            MessageService::MessageAdd($order['user_id'], '订单支付', $detail, self::$message_business_type, $order['id']);
+            MessageService::MessageAdd($order['user_id'], '订单支付', $detail, self::$business_type_name, $order['id']);
 
             // 订单更新数据
             $upd_data = [
@@ -1458,7 +1458,7 @@ class OrderService
             }
 
             // 用户消息
-            MessageService::MessageAdd($order['user_id'], '订单取消', '订单取消成功', self::$message_business_type, $order['id']);
+            MessageService::MessageAdd($order['user_id'], '订单取消', '订单取消成功', self::$business_type_name, $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
@@ -1591,7 +1591,7 @@ class OrderService
             }
 
             // 用户消息
-            MessageService::MessageAdd($order['user_id'], '订单发货', '订单已发货', self::$message_business_type, $order['id']);
+            MessageService::MessageAdd($order['user_id'], '订单发货', '订单已发货', self::$business_type_name, $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
@@ -1681,7 +1681,7 @@ class OrderService
             }
 
             // 用户消息
-            MessageService::MessageAdd($order['user_id'], '订单收货', '订单收货成功', self::$message_business_type, $order['id']);
+            MessageService::MessageAdd($order['user_id'], '订单收货', '订单收货成功', self::$business_type_name, $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
@@ -1762,7 +1762,7 @@ class OrderService
             }
 
             // 用户消息
-            MessageService::MessageAdd($order['user_id'], '订单确认', '订单确认成功', self::$message_business_type, $order['id']);
+            MessageService::MessageAdd($order['user_id'], '订单确认', '订单确认成功', self::$business_type_name, $order['id']);
 
             // 订单状态日志
             $creator = isset($params['creator']) ? intval($params['creator']) : 0;
@@ -1850,7 +1850,7 @@ class OrderService
         if(Db::name('Order')->where($where)->update($data))
         {
             // 用户消息
-            MessageService::MessageAdd($order['user_id'], '订单删除', '订单删除成功', self::$message_business_type, $order['id']);
+            MessageService::MessageAdd($order['user_id'], '订单删除', '订单删除成功', self::$business_type_name, $order['id']);
 
             return DataReturn('删除成功', 0);
         }
