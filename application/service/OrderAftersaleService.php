@@ -842,7 +842,7 @@ class OrderAftersaleService
         }
 
         // 订单支付方式校验
-        $pay_log = Db::name('PayLog')->alias('pl')->join(['__PAY_LOG_VALUE_'=>'plv'], 'pl.id=plv.pay_log_id')->where(['plv.business_id'=>$order['data']['id'], 'pl.business_type'=>OrderService::$business_type_name])->field('pl.*')->find();
+        $pay_log = Db::name('PayLog')->alias('pl')->join(['__PAY_LOG_VALUE__'=>'plv'], 'pl.id=plv.pay_log_id')->where(['plv.business_id'=>$order['data']['id'], 'pl.business_type'=>OrderService::$business_type_name])->field('pl.*')->find();
 
         // 手动处理不校验支付日志
         if($params['refundment'] != 2)
