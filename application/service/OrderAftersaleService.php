@@ -1084,7 +1084,7 @@ class OrderAftersaleService
         $pay_name = 'payment\\'.$pay_log['payment'];
         $pay_params = [
             'order_id'          => $order['id'],
-            'order_no'          => $order['order_no'],
+            'order_no'          => $pay_log['log_no'],
             'trade_no'          => $pay_log['trade_no'],
             'pay_price'         => $order['pay_price'],
             'refund_price'      => $aftersale['price'],
