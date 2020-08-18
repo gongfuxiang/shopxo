@@ -8,10 +8,12 @@
     {__block__}
 {{/block}}
 
+<!-- 扩展信息 -->
 {{block name="form_extend"}}
     <div class="am-alert am-alert-warning" data-am-alert>
         <button type="button" class="am-close">&times;</button>
-        <p>1. 权重（数值越大权重越高、扣除库存按照权重依次扣除）</p>
-        <p>2. 删除（数据仅软删除、删除后仓库将不可用、仅数据库中保留数据）</p>
+        <p>1. 权重数值越大代表权重越高、扣除库存按照权重依次扣除）</p>
+        <p>2. 仓库仅软删除、删除后将不可用、仅数据库中保留数据）可以自行删除关联的商品数据</p>
+        <p>3. 仓库停用和删除、关联的商品库存会立即释放</p>
     </div>
 {{/block}}

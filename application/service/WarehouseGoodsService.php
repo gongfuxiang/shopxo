@@ -14,6 +14,7 @@ use think\Db;
 use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\UserService;
+use app\service\WarehouseService;
 
 /**
  * 仓库商品服务层
@@ -87,7 +88,15 @@ class WarehouseGoodsService
             // 仓库名称
             if(in_array('warehouse_id', $keys))
             {
-                $warehouse = Db::name('Warehouse')->where(['id'=>array_column($data, 'warehouse_id')])->column('name', 'id');
+                $warehouse = [];
+                $w_ret = WarehouseService::WarehouseIdsAllList(array_column($data, 'warehouse_id'));
+                if(!empty($w_ret['data']))
+                {
+                    foreach($w_ret['data'] as $wv)
+                    {
+                        $warehouse[$wv['id']] = $wv['name'];
+                    }
+                }
             }
 
             // 数据处理

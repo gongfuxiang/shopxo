@@ -338,5 +338,41 @@ class WarehouseService
         }
         return DataReturn('处理成功', 0);
     }
+
+    /**
+     * 通过库存id获取所有的仓库列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-18
+     * @desc    description
+     * @param   [array]          $ids [仓库id]
+     */
+    public static function WarehouseIdsAllList($ids)
+    {
+        $result = [];
+        $data = Db::name('Warehouse')->field('id,name,is_enable,is_delete_time')->where(['id'=>array_unique($ids)])->select();
+        if(!empty($data))
+        {
+            foreach($data as $v)
+            {
+                $err = [];
+                if($v['is_enable'] != 1)
+                {
+                    $err[] = '未启用';
+                }
+                if($v['is_delete_time'] > 0)
+                {
+                    $err[] = '已删除';
+                }
+                if(!empty($err))
+                {
+                    $v['name'] .= '('.implode('/', $err).')';
+                }
+                $result[] = $v;
+            }
+        }
+        return DataReturn('处理成功', 0, $result);
+    }
 }
 ?>

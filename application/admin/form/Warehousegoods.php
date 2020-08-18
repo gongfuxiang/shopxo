@@ -153,7 +153,11 @@ class Warehousegoods
         $ids = array_unique(Db::name('WarehouseGoods')->column('warehouse_id'));
         if(!empty($ids))
         {
-            $result = Db::name('Warehouse')->field('id,name')->where(['id'=>$ids, 'is_delete_time'=>0])->select();
+            $ret = WarehouseService::WarehouseIdsAllList($ids);
+            if($ret['code'] == 0)
+            {
+                $result = $ret['data'];
+            }
         }
         return $result;
     }
