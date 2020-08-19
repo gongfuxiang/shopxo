@@ -378,7 +378,7 @@ class GoodsService
                 // 获取相册
                 if($is_photo && !empty($v['id']))
                 {
-                    $v['photo'] = Db::name('GoodsPhoto')->where(['goods_id'=>$v['id'], 'is_show'=>1])->order('sort asc')->select();
+                    $v['photo'] = self::GoodsPhotoData($v['id']);
                     if(!empty($v['photo']))
                     {
                         foreach($v['photo'] as &$vs)
@@ -392,16 +392,11 @@ class GoodsService
                 // 商品封面图片
                 if(isset($v['images']))
                 {
-                    // 不存在则读取相册第一张图片
+                    // 无封面图片
                     if(empty($v['images']))
                     {
-                        // 是否已存在相册
-                        if(empty($v['photo']) || empty($v['photo'][0]) || empty($v['photo'][0]['images_old']))
-                        {
-                            $v['images'] = Db::name('GoodsPhoto')->where(['goods_id'=>$v['id'], 'is_show'=>1])->order('sort asc')->value('images');
-                        } else {
-                            $v['images'] = $v['photo'][0]['images_old'];
-                        }
+                        // 获取商品封面图片
+                        $v['images'] = ResourcesService::AttachmentPathHandle(self::GoodsImagesCoverHandle($v['id'], $v['photo']));
                     }
                     $v['images_old'] = $v['images'];
                     $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
@@ -494,6 +489,51 @@ class GoodsService
             }
         }
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 获取商品封面图片
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-19
+     * @desc    description
+     * @param   [int]             $goods_id [商品id]
+     * @param   [array]           $photo    [商品相册]
+     */
+    public static function GoodsImagesCoverHandle($goods_id = 0, $photo = [])
+    {
+        // 是否已存在相册
+        if(!empty($photo))
+        {
+            $photo = self::GoodsPhotoData($goods_id);
+            if(!empty($photo[0]) && !empty($photo[0]['images']))
+            {
+                $images = $photo[0]['images'];
+            }
+        }
+
+        // 无主图，并且有商品id
+        if(empty($images) && !empty($goods_id))
+        {
+            $images = Db::name('GoodsPhoto')->where(['goods_id'=>$goods_id, 'is_show'=>1])->order('sort asc')->value('images');
+        }
+
+        return isset($images) ? $images : '';
+    }
+
+    /**
+     * 商品相册
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-19
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     */
+    public static function GoodsPhotoData($goods_id)
+    {
+        return Db::name('GoodsPhoto')->where(['goods_id'=>$goods_id, 'is_show'=>1])->order('sort asc')->select();
     }
 
     /**

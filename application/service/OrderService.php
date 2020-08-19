@@ -20,6 +20,7 @@ use app\service\ExpressService;
 use app\service\ResourcesService;
 use app\service\PayLogService;
 use app\service\UserService;
+use app\service\GoodsService;
 use app\service\OrderAftersaleService;
 
 /**
@@ -1202,6 +1203,12 @@ class OrderService
         {
             foreach($items as &$vs)
             {
+                // 商品是否无封面图片
+                if(empty($vs['images']))
+                {
+                    $vs['images'] = ResourcesService::AttachmentPathHandle(GoodsService::GoodsImagesCoverHandle($vs['goods_id']));
+                }
+
                 // 商品信息
                 $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
                 $vs['goods_url'] = MyUrl('index/goods/index', ['id'=>$vs['goods_id']]);

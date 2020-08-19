@@ -85,6 +85,12 @@ class BuyService
             return DataReturn('商品不存在或已删除', -2);
         }
 
+        // 无封面图片
+        if(empty($goods['images']))
+        {
+            $goods['images'] = ResourcesService::AttachmentPathHandle(GoodsService::GoodsImagesCoverHandle($goods_id));
+        }
+
         // 是否支持购物车操作
         $ret = GoodsService::IsGoodsSiteTypeConsistent($goods_id, $goods['site_type']);
         if($ret['code'] != 0)
