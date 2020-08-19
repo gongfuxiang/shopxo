@@ -396,13 +396,12 @@ function GoodsBaseRestore()
  * @date    2020-08-16
  * @desc    description
  */
-function SpecPopupShow()
+function SpecPopupShow(e)
 {
     $(document.body).css('position', 'fixed');
     $('.theme-popover-mask').show();
     $('.theme-popover').slideDown(200);
-
-    $('.theme-popover .confirm').attr('data-type', $(this).data('type'));
+    $('.theme-popover .confirm').attr('data-type', e.data('type') || 'buy');    
 }
 
 $(function() {
@@ -492,7 +491,7 @@ $(function() {
     // 规格选择显示事件
     $('.mini-spec-event').on('click', function()
     {
-        SpecPopupShow();
+        SpecPopupShow($(this));
     });
 
     //弹出规格选择
@@ -501,7 +500,7 @@ $(function() {
             // 是否登录
             if(__user_id__ != 0)
             {
-                SpecPopupShow();
+                SpecPopupShow($(this));
             }
         } else {
             PoptitPcShow();
