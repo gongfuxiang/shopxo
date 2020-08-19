@@ -1054,7 +1054,7 @@ class NavigationService
             [
                 'name'      => '商品收藏',
                 'value'     => $user_goods_favor_count,
-                'url'       => MyUrl('index/userfavor/goods'),
+                'url'       => MyUrl('index/usergoodsfavor/index'),
             ],
             [
                 'name'      => '我的足迹',

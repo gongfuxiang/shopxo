@@ -13,6 +13,7 @@ namespace app\service;
 use think\Db;
 use app\service\ResourcesService;
 use app\service\UserService;
+use app\service\GoodsService;
 
 /**
  * 商品收藏服务层
@@ -212,6 +213,12 @@ class GoodsFavorService
                     {
                         $v['user'] = UserService::GetUserViewInfo($v['user_id']);
                     }
+                }
+
+                // 无封面图片
+                if(empty($v['images']))
+                {
+                    $v['images'] = ResourcesService::AttachmentPathHandle(GoodsService::GoodsImagesCoverHandle($v['goods_id']));
                 }
 
                 // 商品信息
