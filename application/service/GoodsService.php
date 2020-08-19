@@ -396,7 +396,7 @@ class GoodsService
                     if(empty($v['images']))
                     {
                         // 获取商品封面图片
-                        $v['images'] = ResourcesService::AttachmentPathHandle(self::GoodsImagesCoverHandle($v['id'], $v['photo']));
+                        $v['images'] = ResourcesService::AttachmentPathHandle(self::GoodsImagesCoverHandle($v['id'], isset($v['photo']) ? $v['photo'] : []));
                     }
                     $v['images_old'] = $v['images'];
                     $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);

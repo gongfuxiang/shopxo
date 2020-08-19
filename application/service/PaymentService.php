@@ -260,7 +260,7 @@ class PaymentService
         $name = null;
         if(!empty($business_value))
         {
-            $name = Db::name('PayLog')->alias('pl')->join(['__PAY_LOG_VALUE__'=>'plv'], 'pl.id=plv.pay_log_id')->where(['business_id|business_no'=>$business_value])->value('pl.payment_name');
+            $name = Db::name('PayLog')->alias('pl')->join(['__PAY_LOG_VALUE__'=>'plv'], 'pl.id=plv.pay_log_id')->where(['business_id|business_no'=>$business_value])->order('pl.id desc')->value('pl.payment_name');
             if(empty($anme) && !empty($payment_id))
             {
                 $name = Db::name('Payment')->where(['id'=>intval($payment_id)])->value('name');
