@@ -75,8 +75,7 @@ class Buy extends Common
             ];
 
             // 优惠劵
-            $ret = PluginsService::PluginsControlCall(
-                    'coupon', 'coupon', 'buy', 'api', ['order_goods'=>$buy_goods, 'params'=>$params]);
+            $ret = PluginsService::PluginsControlCall('coupon', 'coupon', 'buy', 'api', ['order_goods'=>$buy_goods, 'params'=>$params]);
             if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
             {
                 $result['plugins_coupon_data'] = $ret['data']['data'];
