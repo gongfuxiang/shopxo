@@ -107,7 +107,7 @@
                     {{foreach $user_order_status as $v}}
                         {{if in_array($v['status'], [1,2,3])}}
                             <li>
-                                <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}">
+                                <a href="{{:MyUrl('index/order/index', [$form_search_order_status_form_key=>$v['status']])}}">
                                     <i class="icon-{{$v.status}}"></i>
                                     <p>{{$v.name}}</p>
                                     {{if !empty($v.count)}}
@@ -117,7 +117,7 @@
                             </li>
                         {{elseif in_array($v['status'], [100]) /}}
                             <li>
-                                <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}">
+                                <a href="{{:MyUrl('index/order/index', [$form_search_order_status_form_key=>4, $form_search_order_user_is_comments_form_key=>0])}}">
                                     <i class="icon-{{$v.status}}"></i>
                                     <p>{{$v.name}}</p>
                                     {{if !empty($v.count)}}

@@ -57,7 +57,7 @@ class Paylog
                         'form_name'             => 'user_id',
                         'where_type'            => 'like',
                         'where_type_custom'     => 'in',
-                        'where_handle_custom'   => 'WhereValueUserInfo',
+                        'where_value_custom'    => 'WhereValueUserInfo',
                         'placeholder'           => '请输入用户名/昵称/手机/邮箱',
                     ],
                 ],
@@ -142,7 +142,7 @@ class Paylog
                         'form_name'             => 'id',
                         'where_type'            => 'like',
                         'where_type_custom'     => 'in',
-                        'where_handle_custom'   => 'WhereValueBusinessInfo',
+                        'where_value_custom'    => 'WhereValueBusinessInfo',
                     ],
                 ],
                 [

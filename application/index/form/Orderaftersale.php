@@ -73,7 +73,7 @@ class Orderaftersale
                         'form_name'             => 'id',
                         'where_type'            => 'like',
                         'where_type_custom'     => 'in',
-                        'where_handle_custom'   => 'WhereBaseGoodsInfo',
+                        'where_value_custom'    => 'WhereBaseGoodsInfo',
                         'placeholder'           => '请输入订单号/商品名称/型号',
                     ],
                 ],

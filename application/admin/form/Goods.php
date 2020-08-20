@@ -94,7 +94,7 @@ class Goods
                         'template'              => 'lib/module/goods_category',
                         'form_name'             => 'id',
                         'where_type'            => 'in',
-                        'where_handle_custom'   => 'WhereValueGoodsCategory',
+                        'where_value_custom'    => 'WhereValueGoodsCategory',
                         'data'                  => GoodsService::GoodsCategoryAll(),
                     ],
                 ],

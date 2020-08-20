@@ -230,7 +230,7 @@ class FormHandleModule
                     $label = empty($v['label']) ? '' : $v['label'];
 
                     // 唯一 formkey
-                    $form_key = 'fp'.$k;
+                    $form_key = 'f'.$k.'p';
                     $v['form_key'] = $form_key;
 
                     // 根据组件类型处理
@@ -296,14 +296,16 @@ class FormHandleModule
                     // 表单字段名称
                     $name = $v['search_config']['form_name'];
                     // 条件类型
-                    $type = isset($v['search_config']['where_type']) ? $v['search_config']['where_type'] : $v['search_config']['form_type'];
-                    // 是否自定义条件类型
-                    $type_custom = isset($v['search_config']['where_type_custom']) ? $v['search_config']['where_type_custom'] : $type;
+                    $where_type = isset($v['search_config']['where_type']) ? $v['search_config']['where_type'] : $v['search_config']['form_type'];
+                    // 是否自定义条件处理
+                    $where_custom = isset($v['search_config']['where_type_custom']) ? $v['search_config']['where_type_custom'] : '';
+                    // 条件类型
+                    $where_symbol = $this->WhereSymbolHandle($form_key, $where_custom, $where_type);
                     // 是否自定义条件处理方法
-                    $handle_custom = isset($v['search_config']['where_handle_custom']) ? $v['search_config']['where_handle_custom'] : '';
+                    $value_custom = isset($v['search_config']['where_value_custom']) ? $v['search_config']['where_value_custom'] : '';
 
                     // 根据条件类型处理
-                    switch($type)
+                    switch($where_type)
                     {
                         // 单个值
                         case '=' :
@@ -319,16 +321,18 @@ class FormHandleModule
                                 $this->where_params[$form_key] = $value;
 
                                 // 条件值处理
-                                $value = $this->WhereValueHandle($value, $handle_custom);
-
-                                // 是否 like 条件
-                                if($type == 'like' && is_string($value))
+                                $value = $this->WhereValueHandle($value, $value_custom);
+                                if($value !== null && $value !== '')
                                 {
-                                    $value = '%'.$value.'%';
-                                }
+                                    // 是否 like 条件
+                                    if($where_type == 'like' && is_string($value))
+                                    {
+                                        $value = '%'.$value.'%';
+                                    }
 
-                                // 条件
-                                $this->where[] = [$name, $type_custom, $value];
+                                    // 条件
+                                    $this->where[] = [$name, $where_symbol, $value];
+                                }
                             }
                             break;
 
@@ -345,7 +349,20 @@ class FormHandleModule
                                 $this->where_params[$form_key] = $value;
 
                                 // 条件
-                                $this->where[] = [$name, $type_custom, $this->WhereValueHandle($value, $handle_custom)];
+                                $value = $this->WhereValueHandle($value, $value_custom);
+                                // in条件必须存在值也必须是数组
+                                if($where_symbol == 'in')
+                                {
+                                    if(!empty($value) && is_array($value))
+                                    {
+                                        $this->where[] = [$name, $where_symbol, $value];
+                                    }
+                                } else {
+                                    if($value !== null && $value !== '')
+                                    {
+                                        $this->where[] = [$name, $where_symbol, $value];
+                                    }
+                                }
                             }
                             break;
 
@@ -360,7 +377,11 @@ class FormHandleModule
                                 $this->where_params[$key_min] = $value;
 
                                 // 条件
-                                $this->where[] = [$name, '>=', $this->WhereValueHandle($value, $handle_custom, ['is_min'=>1])];
+                                $value = $this->WhereValueHandle($value, $value_custom, ['is_min'=>1]);
+                                if($value !== null && $value !== '')
+                                {
+                                    $this->where[] = [$name, '>=', $value];
+                                }
                             }
                             if(array_key_exists($key_max, $this->out_params) && $this->out_params[$key_max] !== null && $this->out_params[$key_max] !== '')
                             {
@@ -369,7 +390,11 @@ class FormHandleModule
                                 $this->where_params[$key_max] = $value;
 
                                 // 条件
-                                $this->where[] = [$name, '<=', $this->WhereValueHandle($value, $handle_custom, ['is_end'=>1])];
+                                $value = $this->WhereValueHandle($value, $value_custom, ['is_end'=>1]);
+                                if($value !== null && $value !== '')
+                                {
+                                    $this->where[] = [$name, '<=', $value];
+                                }
                             }
                             break;
 
@@ -385,7 +410,11 @@ class FormHandleModule
                                 $this->where_params[$key_start] = $value;
 
                                 // 条件
-                                $this->where[] = [$name, '>=', $this->WhereValueHandle(strtotime($value), $handle_custom, ['is_start'=>1])];
+                                $value = $this->WhereValueHandle(strtotime($value), $value_custom, ['is_start'=>1]);
+                                if($value !== null && $value !== '')
+                                {
+                                    $this->where[] = [$name, '>=', $value];
+                                }
                             }
                             if(array_key_exists($key_end, $this->out_params) && $this->out_params[$key_end] !== null && $this->out_params[$key_end] !== '')
                             {
@@ -394,8 +423,11 @@ class FormHandleModule
                                 $this->where_params[$key_end] = $value;
 
                                 // 条件
-                                $this->where[] = [$name, '<=', $this->WhereValueHandle(strtotime($value), $handle_custom, ['is_end'=>1])];
-
+                                $value = $this->WhereValueHandle(strtotime($value), $value_custom, ['is_end'=>1]);
+                                if($value !== null && $value !== '')
+                                {
+                                    $this->where[] = [$name, '<=', $value];
+                                }
                             }
                             break;
                     }
@@ -479,6 +511,39 @@ class FormHandleModule
     }
 
     /**
+     * 条件符号处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-20
+     * @desc    description
+     * @param   [string]          $form_key     [表单key]
+     * @param   [stribg]          $where_custom [自定义条件值]
+     * @param   [stribg]          $where_type   [条件类型]
+     */
+    public function WhereSymbolHandle($form_key, $where_custom, $where_type)
+    {
+        // 是否已定义自定义条件符号
+        if(!empty($where_custom))
+        {
+            // 模块是否自定义条件方法处理条件
+            if(method_exists($this->module_obj, $where_custom))
+            {
+                $value = $this->module_obj->$where_custom($form_key, $this->out_params);
+                if(!empty($value))
+                {
+                    return $value;
+                }
+            } else {
+                return $where_custom;
+            }
+        }
+
+        // 默认条件类型
+        return $where_type;
+    }
+
+    /**
      * 条件值处理
      * @author  Devil
      * @blog    http://gong.gg/
@@ -489,9 +554,9 @@ class FormHandleModule
      * @param   [string]          $action   [自定义处理方法名称]
      * @param   [array]           $params   [输入参数]
      */
-    function WhereValueHandle($value, $action = '', $params = [])
+    public function WhereValueHandle($value, $action = '', $params = [])
     {
-        // 模块是否自定义方法处理条件
+        // 模块是否自定义条件值方法处理条件
         if(!empty($action) && method_exists($this->module_obj, $action))
         {
             return $this->module_obj->$action($value, $params);
@@ -509,7 +574,7 @@ class FormHandleModule
      * @date    2020-06-05
      * @desc    description
      */
-    function BaseWhereHandle()
+    public function BaseWhereHandle()
     {
         // 是否定义基础条件属性
         if(property_exists($this->module_obj, 'condition_base') && is_array($this->module_obj->condition_base))

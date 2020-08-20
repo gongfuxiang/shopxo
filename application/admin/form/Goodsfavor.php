@@ -66,7 +66,7 @@ class Goodsfavor
                         'form_name'             => 'f.user_id',
                         'where_type'            => 'like',
                         'where_type_custom'     => 'in',
-                        'where_handle_custom'   => 'WhereValueUserInfo',
+                        'where_value_custom'    => 'WhereValueUserInfo',
                         'placeholder'           => '请输入用户名/昵称/手机/邮箱',
                     ],
                 ],

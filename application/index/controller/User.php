@@ -138,6 +138,10 @@ class User extends Common
         $data = GoodsBrowseService::GoodsBrowseList($browse_params);
         $this->assign('goods_browse_list', $data['data']);
 
+        // 订单页面订单状态form key
+        $this->assign('form_search_order_status_form_key', 'f2p');
+        $this->assign('form_search_order_user_is_comments_form_key', 'f21p');
+
         // 钩子
         $this->PluginsHook();
 

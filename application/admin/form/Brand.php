@@ -97,7 +97,7 @@ class Brand
                         'data_key'              => 'id',
                         'data_name'             => 'name',
                         'is_multiple'           => 1,
-                        'where_handle_custom'   => 'WhereValueBrandCategory',
+                        'where_value_custom'    => 'WhereValueBrandCategory',
                     ],
                 ],
                 [
