@@ -2,7 +2,7 @@
 <div class="am-form-group">
 	<label>是否含尾部</label>
 	<div>
-        {{foreach :lang('common_is_footer_list') as $v}}
+        {{foreach :lang('common_is_text_list') as $v}}
 			<label class="am-radio-inline am-margin-right-sm">
 				<input type="radio" name="is_footer" value="{{$v.id}}" {{if isset($data['is_footer']) and $data['is_footer'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_footer']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
 			</label>

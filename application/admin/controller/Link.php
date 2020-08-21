@@ -52,13 +52,6 @@ class Link extends Common
 		// 获取导航列表
 		$ret = LinkService::LinkList(['where'=>$this->form_where]);
 		$this->assign('data_list', $ret['data']);
-
-		// 是否新窗口打开
-		$this->assign('common_is_new_window_open_list', lang('common_is_new_window_open_list'));
-
-		// 是否启用
-		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
-
 		return $this->fetch();
 	}
 

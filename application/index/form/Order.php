@@ -307,7 +307,7 @@ class Order
                     ],
                 ],
                 [
-                    'label'         => '是否评价',
+                    'label'         => '是否评论',
                     'view_type'     => 'module',
                     'view_key'      => 'order/module/is_comments',
                     'search_config' => [
@@ -398,7 +398,7 @@ class Order
     }
 
     /**
-     * 取货码条件处理
+     * 评论条件符号处理
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -407,17 +407,23 @@ class Order
      * @param   [string]          $form_key     [表单数据key]
      * @param   [array]           $params       [输入参数]
      */
-    public function WhereTypyUserIsComments($form_key, $params)
+    public function WhereTypyUserIsComments($form_key, $params = [])
     {
         if(isset($params[$form_key]))
         {
-            return ($params[$form_key] == 0) ? '=' : '>';
+            // 条件值是 0,1
+            // 解析成数组，都存在则返回null，则1 >， 0 =
+            $value = explode(',', urldecode($params[$form_key]));
+            if(count($value) == 1)
+            {
+                return in_array(1, $value) ? '>' : '=';
+            }
         }
         return null;
     }
 
     /**
-     * 取货码条件处理
+     * 评论条件值处理
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

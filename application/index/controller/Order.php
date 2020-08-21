@@ -139,6 +139,9 @@ class Order extends Common
             $this->assign('referer_url', empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : $_SERVER['HTTP_REFERER']);
             $this->assign('data', $data);
 
+            // 浏览器名称
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单评论', 1));
+
             // 编辑器文件存放地址
             $this->assign('editor_path_type', 'order_comments-'.$this->user['id'].'-'.$data['id']);
             return $this->fetch();

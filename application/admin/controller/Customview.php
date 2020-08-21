@@ -133,13 +133,6 @@ class CustomView extends Common
 	        $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
 		}
         $this->assign('data', $data);
-
-		// 静态资源
-		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
-		$this->assign('common_is_header_list', lang('common_is_header_list'));
-		$this->assign('common_is_footer_list', lang('common_is_footer_list'));
-		$this->assign('common_is_full_screen_list', lang('common_is_full_screen_list'));
-
 		return $this->fetch();
 	}
 

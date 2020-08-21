@@ -67,12 +67,6 @@ return array(
             1 => array('id' => 1, 'name' => '可用', 'checked' => true),
         ),
 
-    // 是否满屏
-    'common_is_full_screen_list'    =>  array(
-            0 => array('id' => 0, 'name' => '否', 'checked' => true),
-            1 => array('id' => 1, 'name' => '是'),
-        ),  
-
     // excel编码列表
     'common_excel_charset_list'         =>  array(
             0 => array('id' => 0, 'value' => 'utf-8', 'name' => 'utf-8', 'checked' => true),
@@ -169,23 +163,10 @@ return array(
             0 => array('id' => 0, 'name' => '默认', 'checked' => true),
         ),
 
-    // 支付类型
-    'common_pay_type_list'              =>  array(
-            0 => array('id' => 0, 'name' => '支付宝', 'checked' => true),
-            1 => array('id' => 1, 'name' => '微信'),
-        ),
-
     // 用户积分 - 操作类型
     'common_integral_log_type_list'             =>  array(
             0 => array('id' => 0, 'name' => '减少', 'checked' => true),
             1 => array('id' => 1, 'name' => '增加'),
-        ),
-
-    // 用户投诉状态
-    'common_complaint_status_list'              =>  array(
-            0 => array('id' => 0, 'name' => '未处理', 'checked' => true),
-            1 => array('id' => 1, 'name' => '已处理'),
-            2 => array('id' => 2, 'name' => '异常'),
         ),
 
     // 是否上架/下架
@@ -200,36 +181,12 @@ return array(
             1 => array('id' => 1, 'name' => '是'),
         ),
 
-    // 是否新窗口打开
-    'common_is_new_window_open_list'    =>  array(
-            0 => array('id' => 0, 'name' => '否', 'checked' => true),
-            1 => array('id' => 1, 'name' => '是'),
-        ),
-
-    // 是否含头部
-    'common_is_header_list'         =>  array(
-            0 => array('id' => 0, 'name' => '否'),
-            1 => array('id' => 1, 'name' => '是', 'checked' => true),
-        ),
-
-    // 是否含尾部
-    'common_is_footer_list'         =>  array(
-            0 => array('id' => 0, 'name' => '否'),
-            1 => array('id' => 1, 'name' => '是', 'checked' => true),
-        ),
-
     // 用户状态
     'common_user_status_list'           =>  array(
             0 => array('id' => 0, 'name' => '正常', 'checked' => true),
             1 => array('id' => 1, 'name' => '禁止发言', 'tips' => '用户被禁止发言'),
             2 => array('id' => 2, 'name' => '禁止登录', 'tips' => '用户被禁止登录'),
             3 => array('id' => 3, 'name' => '待审核', 'tips' => '用户等待审核中'),
-        ),
-
-    // 是否已评价
-    'common_comments_status_list'       =>  array(
-            0 => array('value' => 0, 'name' => '待评价'),
-            1 => array('value' => 1, 'name' => '已评价'),
         ),
 
     // 导航数据类型
@@ -281,18 +238,6 @@ return array(
             2 => array('value' => 2, 'out_value' => 'tel', 'name' => '点击拨打电话'),
             3 => array('value' => 3, 'out_value' => 'map', 'name' => '点击查看地图'),
             4 => array('value' => 4, 'out_value' => 'consumption', 'name' => '点击查看用户与生活号'),
-        ),
-
-    // 支付宝生活号菜单类型
-    'common_alipay_life_menu_type_list' =>  array(
-            0 => array('value' => 0, 'name' => '文字'),
-            1 => array('value' => 1, 'name' => '文字+图标'),
-        ),
-
-    // 上下架选择
-    'common_shelves_select_list'                =>  array(
-            0 => array('value' => 0, 'name' => '下架'),
-            1 => array('value' => 1, 'name' => '上架', 'checked' => true),
         ),
 
     // app事件类型

@@ -31,7 +31,7 @@
                                                     <div class="menu-srot">
                                                         <div class="sort-side">
                                                             {{foreach $v.items as $vs}}
-                                                                <dl class="dl-sort two-content">
+                                                                <dl class="dl-sort {{if $category_show_level eq 2}}dl-sort-two{{/if}}">
                                                                     {{if $category_show_level eq 2}}
                                                                         <dd>
                                                                             <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">

@@ -160,9 +160,11 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     .category-content .menu-item .area-in{ position: relative;  z-index: 1;  }
     .category-content .menu-item .area-bg{ padding: 10px 0 10px 20px;}
     .category-content .category-list li.hover .b-category-name a{ color:#4c4c4c; }
-    .category-content .menu-srot{width: 100%; overflow:hidden;}
-    .category-content .menu-srot .sort-side{ overflow:hidden }
-    .category-content .sort-side .dl-sort{ float:left; width:100%; }
+    .category-content .menu-srot .sort-side,
+    .category-content .sort-side .dl-sort,
+    .category-content .menu-srot { overflow:hidden }
+    .category-content .sort-side .dl-sort,
+    .category-content .menu-srot { width:100%; }
     .category-content .sort-side dt { margin-top: 5px; font-size: 14px; font-weight: bold; color: #db3e54; text-align: left;}
     .category-content .sort-side dd { float:left; margin: 2px 6px 4px 0;}
     .category-content .sort-side dd a{ float:left; width: auto; letter-spacing:0.5px;  line-height: 14px;  color:#888; white-space:nowrap; overflow: hidden; text-overflow:ellipsis; padding: 3px 10px; border:1px solid #e6e6e6; }
@@ -170,9 +172,8 @@ color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: a
     .category-content .menu-srot .brand-side{ float: left; position: relative;margin-left: -10px; padding-top: 10px; }
     .category-content .menu-item.top{top:0px;}
     .category-content .menu-item.bottom{bottom: -2px;*bottom: -6px;_*bottom: -7px;}
-    .category-content .sort-side .dl-sort{ float:left; width:50%; }
     .category-list li.hover .menu-in { border: 1px solid #333; }
-    .category-content .sort-side .two-content { width: auto; }
+    .category-content .sort-side .dl-sort-two { float: left; width: auto; }
 }
 
 @media only screen and (min-width: 1025px) {

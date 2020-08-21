@@ -75,12 +75,6 @@ class Navigation extends Common
 		// 自定义页面
 		$this->assign('customview_list', db('CustomView')->field(array('id', 'title'))->where(array('is_enable'=>1))->select());
 
-		// 是否新窗口打开
-		$this->assign('common_is_new_window_open_list', lang('common_is_new_window_open_list'));
-
-		// 是否显示
-		$this->assign('common_is_show_list', lang('common_is_show_list'));
-
 		$this->assign('nav_type', $this->nav_type);
 		return $this->fetch();
 	}
