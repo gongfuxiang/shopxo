@@ -45,7 +45,7 @@
                     <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="user-avatar" />
                 </a>
                 <em>
-                    <span class="s-name">
+                    <span class="s-name am-text-truncate">
                         {{if !empty($user)}}
                             <em>Hi,</em>
                             {{if !empty($user['icon'])}}

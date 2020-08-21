@@ -156,7 +156,7 @@ text-align: center;float:none}
     .mod-vip{ display: block; padding: 10px; }
     .m-baseinfo{position: relative;margin-bottom: 10px;}
     .m-baseinfo img.user-avatar {display: block;width: 50px;height: 50px;border-radius: 50px;}
-    .m-baseinfo em span {position: absolute;top:15px;left:60px;font-size: 12px;color: #3C3C3C;}
+    .m-baseinfo em span {position: absolute;top:15px;left:60px;font-size: 12px;color: #3C3C3C;width: 140px;}
     .member-login .btn{width:48%;height: 25px;display: inline-block;line-height: 25px;text-align: center;}
     .member-login .btn:hover { color: #fff !important; text-decoration: none; }
     .member-login{overflow: hidden;height:25px;text-align: center;}
