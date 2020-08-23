@@ -34,16 +34,30 @@ class ResourcesService
      */
     public static function ContentStaticReplace($content, $type = 'get')
     {
+        // 配置文件附件url地址
+        $attachment_host = config('shopxo.attachment_host');
+        if(empty($attachment_host))
+        {
+            $attachment_host = substr(__MY_PUBLIC_URL__, 0, -1);
+        }
+        $attachment_host_path = $attachment_host.'/static/';
+
+        // 根据类型处理附件地址
         switch($type)
         {
             // 读取内容
             case 'get':
-                return str_replace('src="/static/', 'src="'.__MY_PUBLIC_URL__.'static/', $content);
+                return str_replace('src="/static/', 'src="'.$attachment_host_path, $content);
                 break;
 
             // 内容写入
             case 'add':
-                return str_replace(array('src="'.__MY_PUBLIC_URL__.'static/', 'src="'.__MY_ROOT_PUBLIC__.'static/'), 'src="/static/', $content);
+                $search = [
+                    'src="'.__MY_PUBLIC_URL__.'static/',
+                    'src="'.__MY_ROOT_PUBLIC__.'static/',
+                    'src="'.$attachment_host_path,
+                ];
+                return str_replace($search, 'src="/static/', $content);
         }
         return $content;
     }

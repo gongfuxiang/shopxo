@@ -57,7 +57,7 @@ return [
     // 导航缓存信息
     'cache_navigation_key'                  => 'cache_navigation_data_',
 
-    // 附件host, 数据库图片地址以/static/...开头
+    // 附件host、最后不要带/斜杠结尾, 数据库图片地址以/static/...开头
     'attachment_host'                       => defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',
 
     // 应用商店地址
