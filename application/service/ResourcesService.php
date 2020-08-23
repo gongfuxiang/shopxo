@@ -73,7 +73,17 @@ class ResourcesService
      */
     public static function AttachmentPathHandle($value)
     {
-        return empty($value) ? '' : str_replace([__MY_PUBLIC_URL__, __MY_ROOT_PUBLIC__], DS, $value);
+        // 配置文件附件url地址
+        $attachment_host = config('shopxo.attachment_host');
+        $attachment_host_path = empty($attachment_host) ? __MY_PUBLIC_URL__ : $attachment_host.DS;
+
+        // 替换处理
+        $search = [
+            __MY_PUBLIC_URL__,
+            __MY_ROOT_PUBLIC__,
+            $attachment_host_path,
+        ];
+        return empty($value) ? '' : str_replace($search, DS, $value);
     }
 
     /**
