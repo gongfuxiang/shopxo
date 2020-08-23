@@ -46,6 +46,7 @@ text-align: center;float:none}
 .floor li {width: 50%;float: left;text-align: center;}
 .floor .goods-list .goods-items .goods-images,
 .aggregation .outer-con img,
+.floor .aggregation img,
 .small-nav img { max-width: 100%; }
 .floor .goods-list .goods-items .goods-images{ padding: 10px; }
 @media only screen and (min-width: 480px) {
@@ -78,7 +79,7 @@ text-align: center;float:none}
     .outer-con .describe {font-size: 14px;font-weight: 600;}
     .goods-title, .outer-con .price { font-size: 14px; }
     .floor .goods-list .goods-items { float: left; width: 25%; padding: 10px 15px; border-right: 1px solid; border-bottom: 1px solid; border-color: #eee; }
-    .floor .aggregation img {position: absolute;top:auto;left:0;bottom:0;max-width: 100%;}
+    .floor .aggregation img {position: absolute;top:auto;left:0;bottom:0;}
 
     /*楼层 hover*/
     .word .outer:hover { background: #fff; color: #d2354c !important; -webkit-transition: background .2s ease-in; -moz-transition: background .2s ease-in; -ms-transition: background .2s ease-in; -o-transition: background .2s ease-in; transition: background .2s ease-in; -webkit-transition: color .2s ease-in; -moz-transition: color .2s ease-in; -ms-transition: color .2s ease-in; -o-transition: color .2s ease-in; transition: color .2s ease-in; }
