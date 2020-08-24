@@ -197,6 +197,13 @@ class BrandService
                 'error_msg'         => '名称格式 2~30 个字符',
             ],
             [
+                'checked_type'      => 'unique',
+                'key_name'          => 'name',
+                'checked_data'      => 'Brand',
+                'checked_key'       => 'id',
+                'error_msg'         => '品牌已存在[{$var}]',
+            ],
+            [
                 'checked_type'      => 'empty',
                 'key_name'          => 'brand_category_id',
                 'error_msg'         => '请选择品牌分类',

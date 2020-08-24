@@ -196,7 +196,7 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'admin',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => '管理员信息有误',
             ],
             [
                 'checked_type'      => 'length',
@@ -204,6 +204,13 @@ class UserService
                 'checked_data'      => '30',
                 'is_checked'        => 1,
                 'error_msg'         => '用户名格式最多 30 个字符之间',
+            ],
+            [
+                'checked_type'      => 'unique',
+                'key_name'          => 'username',
+                'checked_data'      => 'User',
+                'checked_key'       => 'id',
+                'error_msg'         => '用户已存在[{$var}]',
             ],
             [
                 'checked_type'      => 'length',

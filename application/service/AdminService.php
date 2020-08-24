@@ -174,7 +174,8 @@ class AdminService
                 'checked_type'      => 'unique',
                 'key_name'          => 'username',
                 'checked_data'      => 'Admin',
-                'error_msg'         => '用户名已存在',
+                'checked_key'       => 'id',
+                'error_msg'         => '管理员已存在[{$var}]',
             ],
             [
                 'checked_type'      => 'fun',

@@ -328,8 +328,17 @@ class Common extends Controller
         $this->assign('is_header', 1);
         $this->assign('is_footer', 1);
 
-        // 图片host地址
+        // 附件host地址
         $this->assign('attachment_host', config('shopxo.attachment_host'));
+
+        // css/js引入host地址
+        $this->assign('public_host', config('shopxo.public_host'));
+
+        // 当前url地址
+        $this->assign('my_url', __MY_URL__);
+
+        // 当前http类型
+        $this->assign('my_http', __MY_HTTP__);
 
         // seo
         $this->assign('home_seo_site_title', MyC('home_seo_site_title'));

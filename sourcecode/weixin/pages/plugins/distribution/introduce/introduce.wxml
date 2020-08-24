@@ -14,8 +14,8 @@
           <view class="title fl">返佣比例</view>
           <view class="content cr-888 fl br-l">
             <view>一级 {{item.level_rate_one}}%</view>
-            <view>二级 {{item.level_rate_two}}%</view>
-            <view>三级 {{item.level_rate_three}}%</view>
+            <view wx:if="{{data_base.level == undefined || data_base.level > 0}}">二级 {{item.level_rate_two}}%</view>
+            <view wx:if="{{data_base.level == undefined || data_base.level > 1}}">三级 {{item.level_rate_three}}%</view>
           </view>
         </view>
         <view class="item br-b oh">

@@ -24,42 +24,42 @@
 </html>
 
 <!-- 类库 -->
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/jquery/jquery-2.1.0.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/assets/js/amazeui.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/jquery/jquery-2.1.0.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/assets/js/amazeui.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 图片放大镜 -->
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/imagezoom/jquery.imagezoom.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/imagezoom/jquery.imagezoom.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- echarts 图表 -->
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/echarts/echarts.min.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/echarts/macarons.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/echarts.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/macarons.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- amazeui插件 -->
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/amazeui-switch/amazeui.switch.min.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/amazeui-chosen/amazeui.chosen.min.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/amazeui-dialog/amazeui.dialog.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-dialog/amazeui.dialog.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 图像裁剪插件 -->
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/cropper/cropper.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/cropper/cropper.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 复制插件 -->
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/clipboard/clipboard.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/clipboard/clipboard.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- ueditor 编辑器 -->
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/ueditor/ueditor.config.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/ueditor/ueditor.all.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/ueditor/lang/zh-cn/zh-cn.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/ueditor/ueditor.config.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/ueditor/ueditor.all.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/ueditor/lang/zh-cn/zh-cn.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 颜色选择器 -->
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/colorpicker/jquery.colorpicker.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/colorpicker/jquery.colorpicker.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 日期组件 -->
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/lib/My97DatePicker/WdatePicker.js"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/My97DatePicker/WdatePicker.js"></script>
 
 <!-- baidu map -->
 {{if isset($is_load_baidu_map_api) and $is_load_baidu_map_api eq 1}}
-    <script type="text/javascript" src="{{$Think.__MY_HTTP__}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
+    <script type="text/javascript" src="{{$my_http}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
 {{/if}}
 
 <!-- 隐藏编辑器初始化 -->
@@ -78,17 +78,17 @@
 </script>
 
 <!-- 项目公共 -->
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/common/js/common.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/index/{{$default_theme}}/js/common.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/js/common.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/index/{{$default_theme}}/js/common.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 应用插件公共js -->
 {{if !empty($plugins_js)}}
-    <script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$plugins_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/{{$plugins_js}}?v={{:MyC('home_static_cache_version')}}"></script>
 {{/if}}
 
 <!-- 当前控制器js -->
 {{if !empty($module_js)}}
-	<script type='text/javascript' src="{{$Think.__MY_ROOT_PUBLIC__}}static/{{$module_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+	<script type='text/javascript' src="{{$public_host}}static/{{$module_js}}?v={{:MyC('home_static_cache_version')}}"></script>
 {{/if}}
 
 <!-- 底部信息 --> 
@@ -107,7 +107,11 @@
         {{elseif is_array($hook) /}}
             {{foreach $hook as $hook_js}}
                 {{if !empty($hook_js) and is_string($hook_js)}}
-                    <script type='text/javascript' src="{{$hook_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+                    {{if substr($hook_js, 0, 4) eq 'http'}}
+                        <script type='text/javascript' src="{{$hook_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+                    {{else /}}
+                        <script type='text/javascript' src="{{$public_host}}{{$hook_js}}?v={{:MyC('home_static_cache_version')}}"></script>
+                    {{/if}}
                 {{/if}}
             {{/foreach}}
         {{/if}}

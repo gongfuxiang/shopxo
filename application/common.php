@@ -2077,7 +2077,16 @@ function ParamsChecked($data, $params)
                 $temp = db($v['checked_data'])->where([$v['key_name']=>$data[$v['key_name']]])->find();
                 if(!empty($temp))
                 {
-                    return $v['error_msg'];
+                    // 是否需要排除当前操作数据
+                    if(isset($v['checked_key']))
+                    {
+                        if(empty($data[$v['checked_key']]) || (isset($temp[$v['checked_key']]) && $temp[$v['checked_key']] != $data[$v['checked_key']]))
+                        {
+                            return str_replace('{$var}', $data[$v['key_name']], $v['error_msg']);
+                        }
+                    } else {
+                        return $v['error_msg'];
+                    }
                 }
                 break;
         }

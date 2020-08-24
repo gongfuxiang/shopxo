@@ -60,6 +60,9 @@ return [
     // 附件host、最后不要带/斜杠结尾, 数据库图片地址以/static/...开头
     'attachment_host'                       => defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',
 
+    // css/js引入host地址
+    'public_host'                           => __MY_PUBLIC_URL__,
+
     // 应用商店地址
     'store_url'                             => 'https://store.shopxo.net/',
     'store_payment_url'                     => 'https://store.shopxo.net/payment.html',

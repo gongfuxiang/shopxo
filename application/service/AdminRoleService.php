@@ -188,6 +188,13 @@ class AdminRoleService
                 'checked_data'      => '2,8',
                 'error_msg'         => '角色名称格式 2~8 个字符之间',
             ],
+            [
+                'checked_type'      => 'unique',
+                'key_name'          => 'name',
+                'checked_data'      => 'Role',
+                'checked_key'       => 'id',
+                'error_msg'         => '角色已存在[{$var}]',
+            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
