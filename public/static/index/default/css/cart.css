@@ -19,7 +19,7 @@ strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2
 .am-table > tbody > tr > td { border-top: 1px solid #F5F5F5; }
 
 .cart-nav { background: #eee; height: 50px; line-height: 46px; }
-.cart-nav .separate-submit { height: 50px; width: 100px; font-size: 20px; font-weight: 500; }
+.cart-nav .separate-submit { height: 50px; width: 145px; font-size: 20px; font-weight: 500; }
 .selected-tips { margin-right: 15px; }
 .cart-nav label { font-weight: 500; margin: 0;  }
 .cart-nav input[type="checkbox"] { vertical-align: inherit; }
@@ -45,7 +45,7 @@ strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2
     .cart-nav, .nav-left, .nav-right { overflow: hidden; }
     .nav-right .nav-total-price { display: block;
     width: calc(100% - 175px); height: 30px; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
-    .cart-nav .separate-submit { float: right; width: 80px; }
+    .cart-nav .separate-submit { float: right; }
     .wap-base { padding-left: 20px; }
 
     .goods-detail { min-height: 40px; }
