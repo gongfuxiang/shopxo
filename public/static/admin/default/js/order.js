@@ -69,13 +69,13 @@ $(function()
         var id = $('form.pay-form input[name=id]').val() || 0;
         if(id == 0)
         {
-            PromptCenter('订单id有误');
+            Prompt('订单id有误');
             return false;
         }
         var payment_id = $('form.pay-form input[name=payment_id]').val() || 0;
         if(payment_id == 0)
         {
-            PromptCenter('请选择支付方式');
+            Prompt('请选择支付方式');
             return false;
         }
     });

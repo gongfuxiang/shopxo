@@ -14,7 +14,7 @@
                             <li class="first">
                                 <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" class="am-block" title="{{$v.name}}">
                                 <div class="category-info">
-                                    <h3 class="category-name b-category-name">
+                                    <h3 class="category-name b-category-name am-text-truncate">
                                         {{if !empty($v['icon'])}}
                                             <img src="{{$v.icon}}" />
                                         {{/if}}

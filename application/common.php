@@ -12,6 +12,20 @@
 // 应用公共文件
 
 /**
+ * 是否微信环境
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-08-26
+ * @desc    description
+ * @return  [boolean] [否false, 是true]
+ */
+function IsWeixinEnv()
+{
+    return (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false);
+}
+
+/**
  * 笛卡尔积生成规格
  * @author  Devil
  * @blog    http://gong.gg/

@@ -286,7 +286,7 @@
                                                         <input type="number" class="am-form-field" value="{{$goods.buy_min_number}}" id="text_box" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-max="{{$goods.inventory}}" />
                                                         <button class="am-input-group-label" id="add" type="button">+</button>
                                                     </div>
-                                                    <span class="tb-hidden stock-tips">库存<span class="stock" data-original-stock="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                                                    <span class="tb-hidden stock-tips"><span>库存</span><span class="stock" data-original-stock="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span><span>{{$goods.inventory_unit}}</span></span>
                                                 </dd>
                                             </div>
 

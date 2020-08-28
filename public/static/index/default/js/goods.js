@@ -85,17 +85,17 @@ function CartAdd(e)
     var unit = $('.stock-tips .stock').data('unit') || '';
     if(stock < min)
     {
-        PromptCenter('最低起购数量'+min+unit);
+        Prompt('最低起购数量'+min+unit);
         return false;
     }
     if(max > 0 && stock > max)
     {
-        PromptCenter('最大限购数量'+max+unit);
+        Prompt('最大限购数量'+max+unit);
         return false;
     }
     if(stock > inventory)
     {
-        PromptCenter('库存数量'+inventory+unit);
+        Prompt('库存数量'+inventory+unit);
         return false;
     }
 
@@ -114,7 +114,7 @@ function CartAdd(e)
                     $(this).addClass('sku-not-active');
                 }
             });
-            PromptCenter('请选择规格');
+            Prompt('请选择规格');
             return false;
         } else {
             $('.iteminfo_parameter .sku-items').removeClass('sku-not-active');
@@ -160,9 +160,9 @@ function CartAdd(e)
                     if(result.code == 0)
                     {
                         HomeCartNumberTotalUpdate(parseInt(result.data));
-                        PromptCenter(result.msg, 'success');
+                        Prompt(result.msg, 'success');
                     } else {
-                        PromptCenter(result.msg);
+                        Prompt(result.msg);
                     }
                 },
                 error: function(xhr, type)
@@ -170,14 +170,14 @@ function CartAdd(e)
                     PoptitClose();
                     $.AMUI.progress.done();
                     $button.attr('disabled', false);
-                    PromptCenter('服务器错误');
+                    Prompt('服务器错误');
                 }
             });
             break;
 
         // 默认
         default :
-            PromptCenter('操作参数配置有误');
+            Prompt('操作参数配置有误');
     }
     return true;
 }
@@ -247,23 +247,13 @@ function GoodsSpecDetail()
                     }
                 }
             } else {
-                if($(window).width() < 640)
-                {
-                    PromptBottom(result.msg, null, null, 50);
-                } else {
-                    PromptCenter(result.msg);
-                }
+                Prompt(result.msg);
             }
         },
         error: function(xhr, type)
         {
             $.AMUI.progress.done();
-            if($(window).width() < 640)
-            {
-                PromptBottom('服务器错误', null, null, 50);
-            } else {
-                PromptCenter('服务器错误');
-            }
+            Prompt('服务器错误');
         }
     });
 }
@@ -338,23 +328,13 @@ function GoodsSpecType()
                     }
                 }
             } else {
-                if($(window).width() < 640)
-                {
-                    PromptBottom(result.msg, null, null, 50);
-                } else {
-                    PromptCenter(result.msg);
-                }
+                Prompt(result.msg);
             }
         },
         error: function(xhr, type)
         {
             $.AMUI.progress.done();
-            if($(window).width() < 640)
-            {
-                PromptBottom('服务器错误', null, null, 50);
-            } else {
-                PromptCenter('服务器错误');
-            }
+            Prompt('服务器错误');
         }
     });
 }
@@ -566,32 +546,16 @@ $(function() {
                         } else {
                             $this.removeClass('text-active');
                         }
-
-                        if($(window).width() < 640)
-                        {
-                            PromptBottom(result.msg, 'success', null, 50);
-                        } else {
-                            PromptCenter(result.msg, 'success');
-                        }
+                        Prompt(result.msg, 'success');
                     } else {
-                        if($(window).width() < 640)
-                        {
-                            PromptBottom(result.msg, null, null, 50);
-                        } else {
-                            PromptCenter(result.msg);
-                        }
+                        Prompt(result.msg);
                     }
                 },
                 error: function(xhr, type)
                 {
                     PoptitClose();
                     $.AMUI.progress.done();
-                    if($(window).width() < 640)
-                    {
-                        PromptBottom('服务器错误', null, null, 50);
-                    } else {
-                        PromptCenter('服务器错误');
-                    }
+                    Prompt('服务器错误');
                 }
             });
         }

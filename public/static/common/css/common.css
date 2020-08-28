@@ -55,14 +55,12 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view, .content-app-ite
 /**
  * 公共提示信息
  */
-#common-prompt {position:fixed;left:0;right:0;text-align:center;padding:5px;font-size:14px;z-index:10000; border-radius: 2px; width: 260px; margin: 0 auto;}
-#common-prompt.am-alert-danger { background-color: #fef0f0; border-color: #fde2e2; color: #f56c6c; box-shadow: 0 2px 4px #fef1f1, 0 0 6px rgba(0, 0, 0, 0); }
-#common-prompt.am-alert-success { background-color: #f0f9eb; border-color: #e1f3d8; color: #67c23a; box-shadow: 0 2px 4px #efffe5, 0 0 6px rgba(0, 0, 0, 0); }
-#common-prompt p { text-align: left; font-size: 12px; }
-#common-prompt .am-close { line-height: 20px; }
-#common-prompt.prompt-center { top: calc(50% - 15px); }
-#common-prompt.prompt-top { top: 0; }
-#common-prompt.prompt-bottom { bottom: 0; }
+#common-prompt {position:fixed;top:20px;left:0;right:0;text-align:center;padding:10px 15px;font-size:14px;z-index:10000; border-radius: 2px; width: 260px; margin: 0 auto;}
+#common-prompt.am-alert-danger { background-color: #fef0f0; border-color: #f9d4d4; color: #f56c6c; box-shadow: 0 2px 4px #fef0f0, 0 0 6px rgba(0, 0, 0, 0); }
+#common-prompt.am-alert-warning { background-color: #ffe7d5; border-color: #fbceac; color: #f37b1d; box-shadow: 0 2px 4px #ffe7d5, 0 0 6px rgba(0, 0, 0, 0); }
+#common-prompt.am-alert-success { background-color: #e3fbd6; border-color: #bbe8a3; color: #67c23a; box-shadow: 0 2px 4px #e3fbd6, 0 0 6px rgba(0, 0, 0, 0); }
+#common-prompt .prompt-content { text-align: left; font-size: 12px; }
+#common-prompt .prompt-msg {width: calc(100% - 50px);display: -webkit-inline-box;}
 
 /**
  * 默认地图宽高

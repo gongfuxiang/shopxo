@@ -83,7 +83,7 @@ class Buy extends Common
 
             return DataReturn('操作成功', 0, $result);
         }
-        return $ret;
+        return $buy_ret;
     }
 
     /**

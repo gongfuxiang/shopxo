@@ -5,11 +5,11 @@
  * @version  0.0.1
  * @datetime 2016-12-10T14:32:39+0800
  * @param {[string]}	msg  [提示信息]
- * @param {[string]} 	type [类型（失败：danger, 成功success）]
+ * @param {[string]} 	type [类型（失败:danger, 警告:warning, 成功:success）]
  * @param {[int]} 		time [自动关闭时间（秒）, 默认3秒]
  */
 var temp_time_out;
-function Prompt(msg, type, time, distance, animation_type, location)
+function Prompt(msg, type, time)
 {
 	if(msg != undefined && msg != '')
 	{
@@ -22,12 +22,23 @@ function Prompt(msg, type, time, distance, animation_type, location)
 		// 提示信息添加
 		$('#common-prompt').remove();
 		if((type || null) == null) type = 'danger';
-		if((animation_type || null) == null) animation_type = 'top';
-		if((location || null) == null) location = 'top';
 
-		var style = '';
-		if((distance || null) != null) style = 'margin-'+animation_type+':'+distance+'px;';
-		var html = '<div id="common-prompt" class="am-alert am-alert-'+type+' am-animation-slide-'+animation_type+' prompt-'+location+'" style="'+style+'" data-am-alert><button type="button" class="am-close am-close-spin">&times;</button><p>'+msg+'</p></div>';
+		// icon图标, 默认错误
+		var icon = 'am-icon-times-circle';
+		switch(type)
+		{
+			// 成功
+			case 'success' :
+				icon = 'am-icon-check-circle';
+				break;
+
+			// 警告
+			case 'warning' :
+				icon = 'am-icon-exclamation-circle';
+				break;
+
+		}
+		var html = '<div id="common-prompt" class="am-alert am-alert-'+type+' am-animation-slide-top" data-am-alert><button type="button" class="am-close">&times;</button><div class="prompt-content"><i class="'+icon+' am-icon-sm am-margin-right-sm"></i><p class="prompt-msg">'+msg+'</p></div></div>';
 		$('body').append(html);
 
 		// 自动关闭提示
@@ -36,16 +47,6 @@ function Prompt(msg, type, time, distance, animation_type, location)
 			$('#common-prompt').slideToggle();
 		}, (time || 3)*1000);
 	}
-}
-// 中间提示信息
-function PromptCenter(msg, type, time, distance)
-{
-	Prompt(msg, type, time, distance, 'top', 'center');
-}
-// 底部提示信息
-function PromptBottom(msg, type, time, distance)
-{
-	Prompt(msg, type, time, distance, 'bottom', 'bottom');
 }
 
 /**

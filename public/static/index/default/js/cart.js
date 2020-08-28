@@ -76,7 +76,7 @@ $(function()
                     self.parents('.stock-tag').find('input').val(stock);
                     self.parents('tr').find('.total-price-content').text(__price_symbol__+FomatFloat(stock*price, 2));
                     
-                    PromptCenter(result.msg, 'success');
+                    Prompt(result.msg, 'success');
 
                     // 数量更新
                     self.parents('tr').find('.wap-number').text('x'+stock);
@@ -84,13 +84,13 @@ $(function()
                     // 计算选择的商品总数和总价
                     CartBaseTotal();
                 } else {
-                    PromptCenter(result.msg);
+                    Prompt(result.msg);
                 }
             },
             error: function(xhr, type)
             {
                 $.AMUI.progress.done();
-                PromptCenter('服务器错误');
+                Prompt('服务器错误');
             }
         });
     }
@@ -178,7 +178,7 @@ $(function()
         var ids = $(this).parents('form').find('input[name="ids"]').val() || 0;
         if(ids == 0)
         {
-            PromptCenter('请选择商品');
+            Prompt('请选择商品');
             return false;
         }
     });

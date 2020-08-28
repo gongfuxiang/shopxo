@@ -180,13 +180,84 @@ class Wechat
     }
 
     /**
-     * [GetMiniAccessToken 获取access_token]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-01-02T19:53:42+0800
+     * 小程序获取access_token
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-26
+     * @desc    description
      */
     public function GetMiniAccessToken()
+    {
+        return $this->GetAccessToken();
+    }
+
+    /**
+     * 获取微信环境签名配置信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-26
+     * @desc    description
+     */
+    public function GetSignPackage()
+    {
+        $access_token = $this->GetAccessToken();
+        if(!empty($access_token))
+        {
+            // 获取 ticket
+            $ticket = $this->GetTicket($access_token);
+
+            // 注意 URL 一定要动态获取，不能 hardcode.
+            $url = __MY_VIEW_URL__;
+
+            $timestamp = time();
+            $nonce_str = $this->CreateNonceStr();
+
+            // 这里参数的顺序要按照 key 值 ASCII 码升序排序
+            $string = "jsapi_ticket={$ticket}&noncestr={$nonce_str}&timestamp={$timestamp}&url={$url}";
+
+            return [
+              'appId'     => $this->_appid,
+              'nonceStr'  => $nonce_str,
+              'timestamp' => $timestamp,
+              'url'       => $url,
+              'signature' => sha1($string),
+              'rawString' => $string
+            ];
+        }
+        return [];
+    }
+
+    /**
+     * 签名随机字符串创建
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-26
+     * @desc    description
+     * @param   [int]         $length [长度]
+     */
+    public function CreateNonceStr($length = 16)
+    {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $str = '';
+        for($i = 0; $i < $length; $i++)
+        {
+            $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+        }
+        return $str;
+    }
+
+    /**
+     * 公共获取access_token
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-26
+     * @desc    description
+     */
+    public function GetAccessToken()
     {
         // 缓存key
         $key = $this->_appid.'_access_token';
@@ -213,6 +284,42 @@ class Wechat
     }
 
     /**
+     * 获取授权页ticket
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-26
+     * @desc    description
+     * @param   [string]          $access_token [access_token]
+     * @param   [string]          $type [类型(默认jsapi)]
+     */
+    public function GetTicket($access_token, $type = 'jsapi')
+    {
+        // 缓存key
+        $key = $this->_appid.'_get_ticket';
+        $result = cache($key);
+        if(!empty($result))
+        {
+            if($result['expires_in'] > time())
+            {
+                return $result['ticket'];
+            }
+        }
+
+        // 网络请求
+        $url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='.$access_token.'&type='.$type;
+        $result = $this->HttpRequestGet($url);
+        if(!empty($result['ticket']))
+        {
+            // 缓存存储
+            $result['expires_in'] += time();
+            cache($key, $result);
+            return $result['ticket'];
+        }
+        return false;
+    }
+
+    /**
      * [HttpRequestGet get请求]
      * @author   Devil
      * @blog     http://gong.gg/
@@ -221,7 +328,7 @@ class Wechat
      * @param    [string]           $url [url地址]
      * @return   [array]                 [返回数据]
      */
-    private function HttpRequestGet($url)
+    public function HttpRequestGet($url)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -246,7 +353,7 @@ class Wechat
      * @param    [array]    $is_parsing [是否需要解析数据]
      * @return   [array]                [返回的数据]
      */
-    private function HttpRequestPost($url, $data, $is_parsing = true)
+    public function HttpRequestPost($url, $data, $is_parsing = true)
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

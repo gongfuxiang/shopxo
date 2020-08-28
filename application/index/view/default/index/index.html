@@ -94,7 +94,7 @@
                         <li>
                             <a href="{{$article.url}}" target="_blank">
                                 {{if isset($article['article_category_name'])}}
-                                    <span>[{{$article.article_category_name}}]</span>
+                                    <span>[</span><p class="news-category-name am-inline-block am-text-truncate">{{$article.article_category_name}}</p><span>]</span>
                                 {{/if}}
                                 <span {{if !empty($article.title_color)}}style="color:{{$article.title_color}};"{{/if}} >{{$article.title}}</span>
                             </a>
