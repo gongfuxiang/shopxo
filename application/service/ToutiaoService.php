@@ -11,7 +11,6 @@
 namespace app\service;
 
 use think\Db;
-use app\service\PaymentService;
 use app\service\OrderService;
 
 /**
@@ -56,12 +55,12 @@ class ToutiaoService
             }
         
             // 获取订单信息
-            $where = ['id'=>intval($params['id']), 'user_id' => $params['user']['id']];
-            $order = Db::name('Order')->where($where)->find();
-
-            // 支付方式
-            $payment_id = empty($params['payment_id']) ? $order['payment_id'] : intval($params['payment_id']);
-            $payment = PaymentService::PaymentList(['where'=>['id'=>$payment_id]]);
+            $where = ['id'=>$ret['data']['order_id'], 'user_id'=>$params['user']['id']];
+            $pay_log = Db::name('PayLog')->where($where)->find();
+            if(empty($pay_log))
+            {
+                return DataReturn('订单支付日志有误', -1);
+            }
 
             // 头条需要的订单信息
             $order_info = [
@@ -73,12 +72,12 @@ class ToutiaoService
                 'trade_type'        => 'H5',
                 'product_code'      => 'pay',
                 'payment_type'      => 'direct',
-                'out_order_no'      => $order['order_no'].GetNumberCode(6),
+                'out_order_no'      => $pay_log['log_no'],
                 'uid'               => md5($params['user']['id']),
-                'total_amount'      => $order['total_price']*100,
+                'total_amount'      => $pay_log['total_price']*100,
                 'currency'          => 'CNY',
                 'subject'           => '订单支付',
-                'body'              => $order['order_no'],
+                'body'              => $pay_log['log_no'],
                 'trade_time'        => time(),
                 'valid_time'        => intval(MyC('common_order_close_limit_time', 30, true))*60,
                 'notify_url'        => __MY_URL__,
@@ -86,7 +85,7 @@ class ToutiaoService
 
             // 支付方式
             $service = 1;
-            switch($payment[0]['payment'])
+            switch($pay_log['payment'])
             {
                 // 微信
                 case 'Weixin' :

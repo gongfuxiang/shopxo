@@ -25,7 +25,6 @@ time, mark, audio, video {
 .w100 {width:100%;}
 .fw-100 {font-weight:100;}
 .fw-700 {font-weight:700;}
-#common-prompt {position:fixed;top:0;left:0;right:0;text-align:center;margin-top:0;padding:5px;font-size:14px;z-index:10000;}
 .am-popover { border-radius:2px !important; }
 .am-popover * {font-size: 12px;}
 .am-icon-trash-o:before {width:12px !important;}

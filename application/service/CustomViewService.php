@@ -146,13 +146,13 @@ class CustomViewService
         }
 
         // 编辑器内容
-        $content = isset($params['content']) ? htmlspecialchars_decode($params['content']) : '';
+        $content = empty($params['content']) ? '' : ResourcesService::ContentStaticReplace(htmlspecialchars_decode($params['content']), 'add');
 
         // 数据
-        $images = ResourcesService::RichTextMatchContentImage($content, 'customview');
+        $images = ResourcesService::RichTextMatchContentAttachment($content, 'customview');
         $data = [
             'title'         => $params['title'],
-            'content'       => ResourcesService::ContentStaticReplace($content, 'add'),
+            'content'       => $content,
             'images'        => empty($images) ? '' : json_encode($images),
             'images_count'  => count($images),
             'is_enable'     => isset($params['is_enable']) ? intval($params['is_enable']) : 0,

@@ -88,10 +88,10 @@
         </div>
         {{if !empty($article_list)}}
             <div class="banner-news">
-                <p class="banner-news-title">新闻头条</p>
+                <p class="banner-news-title am-text-truncate">新闻头条</p>
                 <ul>
                     {{foreach $article_list as $article}}
-                        <li>
+                        <li class="am-text-truncate">
                             <a href="{{$article.url}}" target="_blank">
                                 {{if isset($article['article_category_name'])}}
                                     <span>[</span><p class="news-category-name am-inline-block am-text-truncate">{{$article.article_category_name}}</p><span>]</span>

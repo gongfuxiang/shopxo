@@ -570,14 +570,15 @@ class ResourcesService
      * @version 1.0.0
      * @date    2020-06-16
      * @desc    description
-     * @param   [string]          $content [内容]
-     * @param   [string]          $type    [模块名称]
+     * @param   [string]      $content  [内容]
+     * @param   [string]      $business [业务模块名称]
+     * @param   [string]      $type     [附件类型（images 图片, file 文件, video 视频）]
      */
-    public static function RichTextMatchContentImage($content, $type)
+    public static function RichTextMatchContentAttachment($content, $business, $type = 'images')
     {
         if(!empty($content))
         {
-            $pattern = '/<img.*?src=[\'|\"](\/static\/upload\/images\/'.$type.'\/image\/.*?[\.gif|\.jpg|\.jpeg|\.png|\.bmp])[\'|\"].*?[\/]?>/';
+            $pattern = '/<img.*?src=[\'|\"](\/static\/upload\/'.$type.'\/'.$business.'\/.*?[\.png|\.jpg|\.jpeg|\.gif|\.bmp|\.flv|\.swf|\.mkv|\.avi|\.rm|\.rmvb|\.mpeg|\.mpg|\.ogg|\.ogv|\.mov|\.wmv|\.mp4|\.webm|\.mp3|\.wav|\.mid|\.rar|\.zip|\.tar|\.gz|\.7z|\.bz2|\.cab|\.iso|\.doc|\.docx|\.xls|\.xlsx|\.ppt|\.pptx|\.pdf|\.txt|\.md|\.xml])[\'|\"].*?[\/]?>/';
             preg_match_all($pattern, self::AttachmentPathHandle($content), $match);
             return empty($match[1]) ? [] : $match[1];
         }

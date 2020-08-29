@@ -274,6 +274,10 @@ class OrderService
 
                 // 支付模块处理数据
                 'data'              => $ret['data'],
+
+                // 支付日志id
+                'order_id'          => $pay_log['data']['id'],
+                'order_no'          => $pay_log['data']['log_no'],
             ];
 
             // 是否线下支付
