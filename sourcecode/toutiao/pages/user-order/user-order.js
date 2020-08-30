@@ -285,8 +285,8 @@ Page({
                 }
               });
               break;
-            // 线下支付
 
+            // 线下支付
             case 1:
               var order_ids_arr = order_ids.split(',');
               var temp_data_list = self.data.data_list;
@@ -305,14 +305,14 @@ Page({
                 is_show_cancel: 0
               });
               break;
-            // 钱包支付
 
+            // 钱包支付
             case 2:
               self.order_item_pay_success_handle(order_ids);
               app.showToast('支付成功', 'success');
               break;
-            // 默认
 
+            // 默认
             default:
               app.showToast('支付类型有误');
           }

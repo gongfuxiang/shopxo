@@ -238,32 +238,42 @@ Page({
         tt.hideLoading();
 
         if (res.data.code == 0) {
-          tt.pay({
-            orderInfo: res.data.data.order_info,
-            service: res.data.data.service,
-            success(res) {
-              // if (res.code == 0) {
-              //   // 数据设置
-              //   self.order_item_pay_success_handle(index); // 跳转支付页面
+          // 支付方式类型
+          switch (res.data.data.is_payment_type) {
+            // 正常线上支付
+            case 0:
+              tt.pay({
+                orderInfo: res.data.data.order_info,
+                service: res.data.data.service,
+                success(res) {
+                  // if (res.code == 0) {
+                  //   // 数据设置
+                  //   self.order_item_pay_success_handle(index); // 跳转支付页面
 
-              //   tt.navigateTo({
-              //     url: "/pages/paytips/paytips?code=9000&total_price=" + self.data.data_list[index]['money']
-              //   });
-              // } else {
-              //   app.showToast('支付失败');
-              // }
+                  //   tt.navigateTo({
+                  //     url: "/pages/paytips/paytips?code=9000&total_price=" + self.data.data_list[index]['money']
+                  //   });
+                  // } else {
+                  //   app.showToast('支付失败');
+                  // }
 
-              // 由于头条支付无法监听支付状态，这里就不做接口轮询了，直接刷新页面
-              self.setData({
-                data_page: 1
+                  // 由于头条支付无法监听支付状态，这里就不做接口轮询了，直接刷新页面
+                  self.setData({
+                    data_page: 1
+                  });
+                  self.get_data_list(1);
+                },
+                fail: function (res) {
+                  console.log(res, 'pay-fail')
+                  app.showToast('调起收银台失败-'+res.data.code);
+                }
               });
-              self.get_data_list(1);
-            },
-            fail: function (res) {
-              console.log(res, 'pay-fail')
-              app.showToast('调起收银台失败-'+res.data.code);
-            }
-          });
+              break;
+
+            // 默认
+            default:
+              app.showToast('支付类型有误');
+          }
         } else {
           app.showToast(res.data.msg);
         }

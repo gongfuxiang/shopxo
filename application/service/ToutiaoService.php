@@ -63,11 +63,12 @@ class ToutiaoService
             }
 
             // 头条需要的订单信息
+            $time = (string) time();
             $order_info = [
                 'merchant_id'       => $merchant_id,
                 'app_id'            => $app_id,
                 'sign_type'         => 'MD5',
-                'timestamp'         => time(),
+                'timestamp'         => $time,
                 'version'           => '2.0',
                 'trade_type'        => 'H5',
                 'product_code'      => 'pay',
@@ -78,9 +79,10 @@ class ToutiaoService
                 'currency'          => 'CNY',
                 'subject'           => '订单支付',
                 'body'              => $pay_log['log_no'],
-                'trade_time'        => time(),
-                'valid_time'        => intval(MyC('common_order_close_limit_time', 30, true))*60,
+                'trade_time'        => $time,
+                'valid_time'        => (string) intval(MyC('common_order_close_limit_time', 30, true))*60,
                 'notify_url'        => __MY_URL__,
+                'risk_info'         => json_encode(['ip'=>GetClientIP()]),
             ];
 
             // 支付方式
