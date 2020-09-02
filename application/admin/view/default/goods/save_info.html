@@ -19,16 +19,19 @@
 						<a href="javascript:;" data-value="#goods-nav-operations">商品规格</a>
 					</li>
 					<li>
+						<a href="javascript:;" data-value="#goods-nav-parameters">商品参数</a>
+					</li>
+					<li>
 						<a href="javascript:;" data-value="#goods-nav-photo">商品相册</a>
 					</li>
 					<li>
 						<a href="javascript:;" data-value="#goods-nav-video">商品视频</a>
 					</li>
 					<li>
-						<a href="javascript:;" data-value="#goods-nav-app">手机端详情</a>
+						<a href="javascript:;" data-value="#goods-nav-app">手机详情</a>
 					</li>
 					<li>
-						<a href="javascript:;" data-value="#goods-nav-web">电脑端详情</a>
+						<a href="javascript:;" data-value="#goods-nav-web">电脑详情</a>
 					</li>
 					<li>
 						<a href="javascript:;" data-value="#goods-nav-fictitious">虚拟商品</a>
@@ -52,7 +55,7 @@
 					<label>标题名称</label>
 					<div class="am-input-group am-input-group-sm">
 						<input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
-						<input type="text" name="title" placeholder="标题名称" minlength="2" maxlength="60" data-validation-message="标题名称格式 2~60 个字符" class="am-form-field am-radius" {{if !empty($data)}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
+						<input type="text" name="title" placeholder="标题名称" minlength="2" maxlength="160" data-validation-message="标题名称格式 2~160 个字符" class="am-form-field am-radius" {{if !empty($data)}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
 						<span class="am-input-group-btn">
 							<button type="button" class="am-btn am-btn-default am-btn-xs colorpicker-submit" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']">
 								<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
@@ -62,7 +65,7 @@
 				</div>
 				<div class="am-form-group">
 					<label>商品简述</label>
-					<input type="text" name="simple_desc" placeholder="商品简述" maxlength="160" data-validation-message="商品简述格式 最多160个字符" class="am-radius" {{if !empty($data)}} value="{{$data.simple_desc}}"{{/if}} />
+					<input type="text" name="simple_desc" placeholder="商品简述" maxlength="230" data-validation-message="商品简述格式 最多230个字符" class="am-radius" {{if !empty($data)}} value="{{$data.simple_desc}}"{{/if}} />
 				</div>
 				<div class="am-form-group">
 					<label>商品型号</label>
@@ -226,7 +229,7 @@
 				<!-- 规格常规操作 -->
 				<span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
 				<span class="business-operations-submit am-margin-left-sm specifications-nav-set-all am-icon-cogs" data-am-modal="{target: '#spec-popup-all-operation'}"> 高级批量设置</span>
-				<div class="goods-specifications business-form-group am-padding-top-sm">
+				<div class="goods-specifications business-form-group am-form-group-refreshing am-padding-top-sm">
 					<!-- 所有规格批量操作弹层 -->
 					<div class="am-popup" id="spec-popup-all-operation">
 						<div class="am-popup-inner">
@@ -268,7 +271,7 @@
 					<div class="am-modal am-modal-no-btn" tabindex="-1" id="spec-modal-all-operation">
 						<div class="am-modal-dialog">
 							<div class="am-modal-hd">批量操作
-								<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+								<a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
 							</div>
 							<div class="am-modal-bd">
 								<div class="am-input-group am-input-group-sm">
@@ -320,26 +323,26 @@
 						<tbody>
 							{{if empty($specifications['value'])}}
 								<tr class="line-0" data-line-tag=".line-0">
-									<td class="value-start">
+									<td class="am-text-middle value-start">
 										<input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" required />
 									</td>
-									<td>
+									<td class="am-text-middle">
 										<input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" />
 									</td>
-									<td>
+									<td class="am-text-middle">
 										<input type="text" name="specifications_coding[]" placeholder="编码" class="am-radius" maxlength="80" data-validation-message="规格编码最多80个字符" />
 									</td>
-									<td>
+									<td class="am-text-middle">
 										<input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" />
 									</td>
-									<td>
+									<td class="am-text-middle">
 										<input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的原价" />
 									</td>
-									<td>
+									<td class="am-text-middle">
 										<input type="hidden" name="specifications_extends[]" value="" class="line-extend-input" />
 										<span class="am-text-xs cr-blue c-p line-extend-btn">编辑</span>
 									</td>
-									<td>
+									<td class="am-text-middle">
 										<!--operation-->
 									</td>
 								</tr>
@@ -352,32 +355,32 @@
 										{{if isset($v['data_type'])}}
 											{{switch v.data_type}}
 												{{case spec}}
-													<td class="table-value table-value-{{$v.data.key}}">
+													<td class="am-text-middle table-value table-value-{{$v.data.key}}">
 														<input type="text" name="specifications_value_{{$v.data.key}}[]" placeholder="规格值" value="{{$v.data.value}}" data-validation-message="请填写规格值" required />
 													</td>
 												{{/case}}
 
 												{{case base}}
-													<td class="value-start">
+													<td class="am-text-middle value-start">
 														<input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" value="{{$v.data.price}}" required />
 													</td>
-													<td>
+													<td class="am-text-middle">
 														<input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" value="{{if $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}" />
 													</td>
-													<td>
+													<td class="am-text-middle">
 														<input type="text" name="specifications_coding[]" placeholder="编码" class="am-radius" maxlength="80" data-validation-message="规格编码最多80个字符" value="{{$v.data.coding}}" />
 													</td>
-													<td>
+													<td class="am-text-middle">
 														<input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" value="{{$v.data.barcode}}" />
 													</td>
-													<td>
+													<td class="am-text-middle">
 														<input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的原价" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
 													</td>
-													<td>
+													<td class="am-text-middle">
 														<input type="hidden" name="specifications_extends[]" value="{{$v.data.extends}}" class="line-extend-input" />
 														<span class="am-text-xs cr-blue c-p line-extend-btn">编辑</span>
 													</td>
-													<td>
+													<td class="am-text-middle">
 														{{if $line_k gt 0}}
 															<span class="am-text-xs cr-blue c-p am-margin-right-xs line-copy">复制</span>
 															<span class="am-text-xs cr-red c-p line-remove">移除</span>
@@ -426,6 +429,95 @@
 				</div>
 			</div>
 
+			<!-- 参数 -->
+			<div id="goods-nav-parameters" class="division-block">
+				<label class="block nav-detail-title">商品参数</label>
+				<div class="am-alert am-alert-warning am-radius" data-am-alert="">
+					<p>1. 展示范围</p>
+					<div class="am-padding-left-sm">
+						<p>1.1 全部（在商品基础信息和详情参数下都展示）</p>
+						<p>1.2 详情（仅在商品详情参数下都展示）</p>
+						<p>1.3 基础（仅在商品基础信息下都展示）</p>
+					</div>
+					<p>2. 快捷操作将会清除原来的数据、重载页面便可恢复原来的数据（仅保存商品后生效）</p>
+				</div>
+				<!-- 通过配置生成商品参数 -->
+				<div class="am-dropdown" id="parameters-quick-container" data-am-dropdown>
+					<span class="business-operations-submit am-dropdown-toggle parameters-quick-add">
+						<span>快捷操作</span>
+						<i class="am-icon-caret-down"></i>
+					</span>
+					<div class="am-dropdown-content parameters-quick-config">
+						<textarea rows="5" placeholder="粘贴商品参数配置信息"></textarea>
+						<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block am-margin-top-sm">确认</button>
+					</div>
+				</div>
+				<!-- 复制操作 -->
+				<span class="business-operations-submit am-margin-left-sm parameters-quick-copy">
+					<i class="am-icon-copy"></i>
+					<span>复制配置</span>
+				</span>
+				<!-- 复制弹窗、仅复制操作失败的时候显示让用户手动复制 -->
+			    <div class="am-modal am-modal-no-btn" tabindex="-1" id="parameters-quick-copy-modal">
+			        <div class="am-modal-dialog">
+			            <div class="am-modal-hd">
+			                <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
+			            </div>
+			            <div class="am-modal-bd">
+			                <div class="am-padding-sm">
+			                	<textarea rows="5" placeholder="商品参数配置信息"></textarea>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			    <!-- 清空操作 -->
+			    <span class="business-operations-submit am-margin-left-sm parameters-quick-remove">
+					<i class="am-icon-times"></i>
+					<span>清空参数</span>
+				</span>
+				<div class="parameters-content business-form-group am-form-group-refreshing am-padding-top-0 am-margin-top-sm">
+					<table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover am-margin-bottom-sm parameters-table">
+						<thead>
+							<tr>
+								<th class="spec-quick-th-title">展示范围</th>
+								<th class="spec-quick-th-title">参数名称</th>
+								<th class="spec-quick-th-value">参数值</th>
+								<th class="spec-quick-th-value">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							{{if !empty($parameters)}}
+								{{foreach $parameters as $pv}}
+									<tr>
+										<td class="am-text-middle">
+											<select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="请选择商品参数展示类型">
+												{{if !empty($common_goods_parameters_type_list)}}
+													{{foreach $common_goods_parameters_type_list as $v}}
+														<option value="{{$v.value}}" {{if $pv['type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+													{{/foreach}}
+												{{/if}}
+											</select>
+										</td>
+										<td class="am-text-middle">
+											<input type="text" name="parameters_name[]" placeholder="参数名称" value="{{$pv.name}}" data-validation-message="请填写参数名称" maxlength="160" required />
+										</td>
+										<td class="am-text-middle">
+											<input type="text" name="parameters_value[]" placeholder="参数值" value="{{$pv.value}}" maxlength="200" data-validation-message="请填写参数值" />
+										</td>
+										<td class="am-text-middle">
+											<span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="top">上移</span>
+											<span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="bottom">下移</span>
+											<span class="am-text-xs cr-red c-p line-remove">移除</span>
+										</td>
+									</tr>
+								{{/foreach}}
+							{{/if}}
+						</tbody>
+					</table>
+					<span class="business-operations-submit parameters-line-add">+添加一行</span>
+				</div>
+			</div>
+
 			<!-- 相册 -->
 			<div id="goods-nav-photo" class="division-block">
 				<label class="block nav-detail-title">商品相册<span class="am-form-group-label-tips">可拖拽图片进行排序，建议图片尺寸一致</span></label>
@@ -446,7 +538,7 @@
 			<!-- 视频 -->
 			<div id="goods-nav-video" class="division-block">
 				<label class="block nav-detail-title">商品视频</label>
-				<div class="am-form-group am-form-file">
+				<div class="am-form-group am-form-file am-form-group-refreshing">
 					<label class="block">短视频<span class="am-form-group-label-tips">视频比图文更有具带入感，仅支持 mp4 格式</span></label>
 					<ul class="plug-file-upload-view plug-file-upload-view-video goods-video-view" data-form-name="video" data-max-number="1" data-dialog-type="video">
 						{{if !empty($data['video'])}}
@@ -463,8 +555,8 @@
 
 			<!-- app内容 -->
 			<div id="goods-nav-app" class="division-block">
-				<label class="block nav-detail-title">手机端详情</label>
-				<ul class="content-app-items business-form-group" data-max-count="10" data-required="1" data-images-name="content_app_images" data-content-name="content_app_text" data-images-text="图片" data-content-text="文本内容" data-delete-text="删除" data-drag-sort-text="拖拽排序">
+				<label class="block nav-detail-title">手机详情</label>
+				<ul class="content-app-items business-form-group am-form-group-refreshing" data-max-count="10" data-required="1" data-images-name="content_app_images" data-content-name="content_app_text" data-images-text="图片" data-content-text="文本内容" data-delete-text="删除" data-drag-sort-text="拖拽排序">
 					{{if !empty($data['content_app'])}}
 						{{foreach $data.content_app as $v}}
 							<li>
@@ -498,8 +590,8 @@
 
 			<!-- web内容 -->
 			<div id="goods-nav-web" class="division-block">
-				<label class="block nav-detail-title">电脑端详情</label>
-				<div class="am-form-group">
+				<label class="block nav-detail-title">电脑详情</label>
+				<div class="am-form-group am-form-group-refreshing">
 					<textarea class="am-radius am-validate" name="content_web" maxlength="105000" id="editor-tag" data-validation-message="电脑端详情内容最多 105000 个字符">{{if !empty($data)}}{{$data.content_web}}{{/if}}</textarea>
 				</div>
 			</div>

@@ -310,6 +310,13 @@ return array(
             2 => array('value' => 2, 'name' => '已关闭'),
         ),
 
+    // 商品参数组件类型
+    'common_goods_parameters_type_list'            => array(
+            0 => array('value' => 0, 'name' => '全部'),
+            1 => array('value' => 1, 'name' => '详情', 'checked' => true),
+            2 => array('value' => 2, 'name' => '基础'),
+        ),
+
 
     // 色彩值
     'common_color_list'                 =>  array(

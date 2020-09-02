@@ -341,6 +341,7 @@ class GoodsService
             $is_spec = (isset($params['is_spec']) && $params['is_spec'] == true) ? true : false;
             $is_content_app = (isset($params['is_content_app']) && $params['is_content_app'] == true) ? true : false;
             $is_category = (isset($params['is_category']) && $params['is_category'] == true) ? true : false;
+            $is_params = (isset($params['is_params']) && $params['is_params'] == true) ? true : false;
 
             // 开始处理数据
             foreach($data as &$v)
@@ -460,13 +461,19 @@ class GoodsService
                 // 获取规格
                 if($is_spec && !empty($v['id']))
                 {
-                    $v['specifications'] = self::GoodsSpecifications($v['id']);
+                    $v['specifications'] = self::GoodsSpecificationsData($v['id']);
+                }
+
+                // 获取商品参数
+                if($is_params && !empty($v['id']))
+                {
+                    $v['parameters'] = self::GoodsParametersData($v['id']);
                 }
 
                 // 获取app内容
                 if($is_content_app && !empty($v['id']))
                 {
-                    $v['content_app'] = self::GoodsContentApp(['goods_id'=>$v['id']]);
+                    $v['content_app'] = self::GoodsContentAppData(['goods_id'=>$v['id']]);
                 }
 
                 // 展示字段
@@ -546,7 +553,7 @@ class GoodsService
      * @param   [array]          $params [输入参数]
      * @return  [array]                  [app内容]
      */
-    public static function GoodsContentApp($params = [])
+    public static function GoodsContentAppData($params = [])
     {
         $data = Db::name('GoodsContentApp')->where(['goods_id'=>$params['goods_id']])->field('id,images,content')->order('sort asc')->select();
         if(!empty($data))
@@ -571,7 +578,7 @@ class GoodsService
      * @desc    description
      * @param   [int]           $goods_id [商品id]
      */
-    public static function GoodsSpecifications($goods_id)
+    public static function GoodsSpecificationsData($goods_id)
     {
         // 条件
         $where = ['goods_id'=>$goods_id];
@@ -613,6 +620,48 @@ class GoodsService
             }
         }
         return ['choose'=>$choose];
+    }
+
+    /**
+     * 获取商品参数
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-31
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     */
+    public static function GoodsParametersData($goods_id)
+    {
+        $base = [];
+        $detail = [];
+        $data = Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->select();
+        if(!empty($data))
+        {
+            foreach($data as $v)
+            {
+                $temp = [
+                    'name'  => $v['name'],
+                    'value' => $v['value'],
+                ];
+
+                // 基础
+                if(in_array($v['type'], [0,2]))
+                {
+                    $base[] = $temp;
+                }
+
+                // 详情
+                if(in_array($v['type'], [0,1]))
+                {
+                    $detail[] = $temp;
+                }
+            }
+        }
+        return [
+            'base'      => $base,
+            'detail'    => $detail,
+        ];
     }
 
     /**
@@ -751,15 +800,15 @@ class GoodsService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'title',
-                'checked_data'      => '2,60',
-                'error_msg'         => '标题名称格式 2~60 个字符',
+                'checked_data'      => '2,160',
+                'error_msg'         => '标题名称格式 2~160 个字符',
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'simple_desc',
-                'checked_data'      => '160',
+                'checked_data'      => '230',
                 'is_checked'        => 1,
-                'error_msg'         => '商品简述格式 最多160个字符',
+                'error_msg'         => '商品简述格式 最多230个字符',
             ],
             [
                 'checked_type'      => 'length',
@@ -862,6 +911,9 @@ class GoodsService
         // 赠送积分
         $give_integral = max(0, (isset($params['give_integral']) && $params['give_integral'] <= 100) ? intval($params['give_integral']) : 0);
 
+        // 封面图片、默认相册第一张
+        $images = empty($attachment['data']['images']) ? (isset($photo['data'][0]) ? $photo['data'][0] : '') : $attachment['data']['images'];
+
         // 基础数据
         $data = [
             'title'                     => $params['title'],
@@ -876,17 +928,16 @@ class GoodsService
             'is_deduction_inventory'    => isset($params['is_deduction_inventory']) ? intval($params['is_deduction_inventory']) : 0,
             'is_shelves'                => isset($params['is_shelves']) ? intval($params['is_shelves']) : 0,
             'content_web'               => $content_web,
-            'images'                    => isset($photo['data'][0]) ? $photo['data'][0] : '',
             'photo_count'               => count($photo['data']),
             'is_home_recommended'       => isset($params['is_home_recommended']) ? intval($params['is_home_recommended']) : 0,
-            'images'                    => $attachment['data']['images'],
+            'images'                    => $images,
             'brand_id'                  => isset($params['brand_id']) ? intval($params['brand_id']) : 0,
             'video'                     => $attachment['data']['video'],
             'seo_title'                 => empty($params['seo_title']) ? '' : $params['seo_title'],
             'seo_keywords'              => empty($params['seo_keywords']) ? '' : $params['seo_keywords'],
             'seo_desc'                  => empty($params['seo_desc']) ? '' : $params['seo_desc'],
             'is_exist_many_spec'        => empty($specifications['data']['title']) ? 0 : 1,
-            'spec_base'                 => empty($specifications_base['data']) ? '' : json_encode($specifications_base['data']),
+            'spec_base'                 => empty($specifications_base['data']) ? '' : json_encode($specifications_base['data'], JSON_UNESCAPED_UNICODE),
             'fictitious_goods_value'    => $fictitious_goods_value,
             'site_type'                 => isset($params['site_type']) ? $params['site_type'] : -1,
         ];
@@ -971,6 +1022,15 @@ class GoodsService
                 return $ret;
             }
 
+            // 商品参数
+            $ret = self::GoodsParametersInsert($params, $goods_id);
+            if($ret['code'] != 0)
+            {
+                // 回滚事务
+                Db::rollback();
+                return $ret;
+            }
+
             // 提交事务
             Db::commit();
             return DataReturn('操作成功', 0);
@@ -979,6 +1039,50 @@ class GoodsService
         // 回滚事务
         Db::rollback();
         return DataReturn('操作失败', -100);
+    }
+
+    /**
+     * 商品参数添加
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-31
+     * @desc    description
+     * @param   [array]             $params   [输入参数]
+     * @param   [int]               $goods_id [商品id]
+     */
+    private static function GoodsParametersInsert($params, $goods_id)
+    {
+        // 删除商品参数
+        Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->delete();
+
+        // 展示范围、参数名称、参数值
+        if(!empty($params['parameters_type']) && !empty($params['parameters_name']) && !empty($params['parameters_value']) && is_array($params['parameters_type']) && is_array($params['parameters_name']) && is_array($params['parameters_value']))
+        {
+            $data = [];
+            $time = time();
+            foreach($params['parameters_type'] as $k=>$v)
+            {
+                if(isset($params['parameters_name'][$k]) && isset($params['parameters_value'][$k]))
+                {
+                    $data[] = [
+                        'type'      => $v,
+                        'name'      => $params['parameters_name'][$k],
+                        'value'     => $params['parameters_value'][$k],
+                        'goods_id'  => $goods_id,
+                        'add_time'  => $time,
+                    ];
+                }
+            }
+            if(!empty($data))
+            {
+                if(Db::name('GoodsParams')->insertAll($data) < count($data))
+                {
+                    return DataReturn('规格参数添加失败', -1);
+                }
+            }
+        }
+        return DataReturn('添加成功', 0);
     }
 
     /**
@@ -1687,6 +1791,20 @@ class GoodsService
             'type'      => $type,
             'value'     => array_values($value),
         ];
+    }
+
+    /**
+     * 获取商品编辑参数
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-31
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     */
+    public static function GoodsEditParameters($goods_id)
+    {
+        return Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->select();
     }
 
     /**

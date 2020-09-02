@@ -183,6 +183,16 @@ class Orderaftersale
                     ],
                 ],
                 [
+                    'label'         => '拒绝原因',
+                    'view_type'     => 'field',
+                    'view_key'      => 'refuse_reason',
+                    'grid_size'     => 'sm',
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
                     'label'         => '申请时间',
                     'view_type'     => 'field',
                     'view_key'      => 'apply_time_time',

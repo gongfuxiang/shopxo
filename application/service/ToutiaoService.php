@@ -64,6 +64,7 @@ class ToutiaoService
 
             // 头条需要的订单信息
             $time = (string) time();
+            $valid_time = intval(MyC('common_order_close_limit_time', 30, true))*60;
             $order_info = [
                 'merchant_id'       => $merchant_id,
                 'app_id'            => $app_id,
@@ -74,13 +75,13 @@ class ToutiaoService
                 'product_code'      => 'pay',
                 'payment_type'      => 'direct',
                 'out_order_no'      => $pay_log['log_no'],
-                'uid'               => md5($params['user']['id']),
+                'uid'               => $app_id,
                 'total_amount'      => $pay_log['total_price']*100,
                 'currency'          => 'CNY',
                 'subject'           => '订单支付',
                 'body'              => $pay_log['log_no'],
                 'trade_time'        => $time,
-                'valid_time'        => (string) intval(MyC('common_order_close_limit_time', 30, true))*60,
+                'valid_time'        => (string) $valid_time,
                 'notify_url'        => __MY_URL__,
                 'risk_info'         => json_encode(['ip'=>GetClientIP()]),
             ];

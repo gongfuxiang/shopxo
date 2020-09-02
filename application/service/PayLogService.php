@@ -60,15 +60,9 @@ class PayLogService
                 'error_msg'         => '业务类型为空',
             ],
             [
-                'checked_type'      => 'empty',
+                'checked_type'      => 'isset',
                 'key_name'          => 'total_price',
                 'error_msg'         => '业务金额为空',
-            ],
-            [
-                'checked_type'      => 'min',
-                'key_name'          => 'total_price',
-                'checked_data'      => 0.01,
-                'error_msg'         => '业务金额必须大于0',
             ],
         ];
         $ret = ParamsChecked($params, $p);

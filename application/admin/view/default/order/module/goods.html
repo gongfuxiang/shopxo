@@ -1,5 +1,12 @@
 <!-- 订单商品信息 -->
 {{if !empty($module_data) and !empty($module_data['items'])}}
+    {{if $module_data['pay_status'] eq 1 and $module_data['pay_price'] lt $module_data['total_price']}}
+        <p class="am-text-danger am-animation-shake am-animation-delay-1">
+            <i class="am-icon-warning am-text-lg"></i>
+            <span class="am-text-lg">请注意、该订单支付金额小于总价金额</span>
+        </p>
+        <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
+    {{/if}}
     <p class="am-nbfc am-margin-bottom-sm">
         <strong class="am-icon-bookmark-o"> {{$module_data.order_no}}</strong>
         <strong class="am-icon-circle-thin am-margin-left-lg"> {{$module_data.id}}</strong>

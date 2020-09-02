@@ -36,7 +36,11 @@
     {{if !empty($plugins_css_data) and is_array($plugins_css_data)}}
         {{foreach $plugins_css_data as $hook}}
             {{if !empty($hook) and is_string($hook)}}
-                <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
+                {{if substr($hook_css, 0, 4) eq 'http'}}
+                    <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
+                {{else /}}
+                    <link rel="stylesheet" type="text/css" href="{{$public_host}}{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
+                {{/if}}
             {{elseif is_array($hook) /}}
                 {{foreach $hook as $hook_css}}
                     {{if !empty($hook_css) and is_string($hook_css)}}

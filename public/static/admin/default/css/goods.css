@@ -12,7 +12,7 @@
     background:#f5f5f5;
     top:100px;
     right:0;
-    width:110px;
+    width:80px;
     position:fixed;
     z-index:1000;
     border:1px solid #eee;
@@ -41,7 +41,7 @@
     background:#eee;
 }
 .goods-nav li.nav-shrink-submit {
-    background: #eaeaea;
+    background: #dadada;
     cursor: pointer;
 }
 .goods-nav-retract .nav-shrink-submit {
@@ -66,10 +66,11 @@
  * 规格
  */
 .specifications-table .title-nav th,
-.spec-quick table thead th {
+.spec-quick table thead th,
+.parameters-table thead th {
     background-color: #f5f7fa;
     position: relative;
-    border-bottom: 0;
+    border-bottom: 0 !important;
 }
 .specifications-table .title-nav th input {
     width: calc(100% - 25px);
@@ -85,9 +86,6 @@
 }
 .specifications-table th.extend-btn {
     width: 45px;
-}
-.specifications-table > tbody > tr > td {
-    vertical-align: middle;
 }
 #goods-nav-operations {
     position: relative;
@@ -200,4 +198,14 @@ ul li {
     .spec-quick-td-value .value-item {
         width: calc(50% - 12px) !important;
     }
+}
+
+/**
+ * 商品参数
+ */
+#goods-nav-parameters textarea {
+    resize: none;
+}
+#parameters-quick-container .am-dropdown-content {
+    width: 260px;
 }

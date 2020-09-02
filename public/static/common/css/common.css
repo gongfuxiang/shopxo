@@ -30,7 +30,7 @@ form.am-form .am-form-group-label-tips-must { color: #f00; }
 .am-form-group:hover>label { color: #333 !important; }
 .am-form-group:hover>label>.am-form-group-label-tips { color: #FF9800 !important; }
 form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block { border-bottom: 1px dashed #ccc; padding: 10px 20% 10px 5px; }
-form.am-form .am-form-group-refreshing, .plug-file-upload-view, .content-app-items { border-bottom: 0px; }
+form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 0px; }
 
 /**
  * 插件
@@ -442,6 +442,14 @@ button.colorpicker-submit img {
  */
 .am-radio input[type="radio"], .am-radio-inline input[type="radio"], .am-checkbox input[type="checkbox"], .am-checkbox-inline input[type="checkbox"] {
     margin: -3px;
+}
+
+/**
+ * 图片响应式支持子元素
+ */
+.am-img-responsive img,
+.am-img-responsive video {
+    max-width: 100%;
 }
 
 

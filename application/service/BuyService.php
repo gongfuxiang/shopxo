@@ -1526,15 +1526,26 @@ class BuyService
         }
 
         // 是否扣除库存
-        if(MyC('common_is_deduction_inventory', 0) != 1)
+        $common_is_deduction_inventory = MyC('common_is_deduction_inventory', 0);
+        if($common_is_deduction_inventory != 1)
         {
             return DataReturn('未开启扣除库存', 0);
         }
 
-        // 获取订单商品
-        $order_detail = Db::name('OrderDetail')->field('id,goods_id,buy_number,spec')->where(['order_id'=>$params['order_id']])->select();
-        if(!empty($order_detail))
+        // 扣除库存规则
+        $common_deduction_inventory_rules = MyC('common_deduction_inventory_rules', 1);
+
+        // 这里仅订单支付规则类型下校验
+        if($common_deduction_inventory_rules == 1)
         {
+            // 获取订单商品
+            $order_detail = Db::name('OrderDetail')->field('id,goods_id,buy_number,spec')->where(['order_id'=>$params['order_id']])->select();
+            if(empty($order_detail))
+            {
+                return DataReturn('订单详情有误', -1);
+            }
+
+            // 数据校验
             foreach($order_detail as $v)
             {
                 $ret = self::BuyOrderPayBeginGoodsCheck($v);
@@ -1543,9 +1554,8 @@ class BuyService
                     return $ret;
                 }
             }
-            return DataReturn('校验成功', 0);
         }
-        return DataReturn('没有需要扣除库存的数据', 0);
+        return DataReturn('校验成功', 0);
     }
 
     /**
@@ -1579,49 +1589,57 @@ class BuyService
         }
 
         // 是否扣除库存
-        if(MyC('common_is_deduction_inventory', 0) != 1)
+        $common_is_deduction_inventory = MyC('common_is_deduction_inventory', 0);
+        if($common_is_deduction_inventory != 1)
         {
             return DataReturn('未开启扣除库存', 0);
         }
 
-        // 数据集合
-        $detail = Db::name('OrderDetail')->field('id,order_id,goods_id,buy_number,spec')->where(['order_id'=>array_column($params['order_data'], 'id')])->select();
-        if(empty($detail))
-        {
-            return DataReturn('订单详情有误', -1);
-        }
+        // 扣除库存规则
+        $common_deduction_inventory_rules = MyC('common_deduction_inventory_rules', 1);
 
-        // 订单集合
-        $order_group = [];
-        foreach($params['order_data'] as $o)
+        // 这里仅订单支付规则类型下校验
+        if($common_deduction_inventory_rules == 1)
         {
-            $order_group[$o['id']] = $o['warehouse_id'];
-        }
-    
-        // 订单详情
-        $data = [];
-        foreach($detail as $d)
-        {
-            $key = md5(empty($d['spec']) ? 'default' : $d['spec']);
-            if(!isset($data[$order_group[$d['order_id']]][$d['goods_id']][$key]))
+            // 数据集合
+            $detail = Db::name('OrderDetail')->field('id,order_id,goods_id,buy_number,spec')->where(['order_id'=>array_column($params['order_data'], 'id')])->select();
+            if(empty($detail))
             {
-                $data[$order_group[$d['order_id']]][$d['goods_id']][$key] = $d;
-            } else {
-                $data[$order_group[$d['order_id']]][$d['goods_id']][$key]['buy_number'] += $d['buy_number'];
+                return DataReturn('订单详情有误', -1);
             }
-        }
 
-        // 数据校验
-        foreach($data as $w)
-        {
-            foreach($w as $g)
+            // 订单集合
+            $order_group = [];
+            foreach($params['order_data'] as $o)
             {
-                foreach($g as $v)
+                $order_group[$o['id']] = $o['warehouse_id'];
+            }
+        
+            // 订单详情
+            $data = [];
+            foreach($detail as $d)
+            {
+                $key = md5(empty($d['spec']) ? 'default' : $d['spec']);
+                if(!isset($data[$order_group[$d['order_id']]][$d['goods_id']][$key]))
                 {
-                    $ret = self::BuyOrderPayBeginGoodsCheck($v);
-                    if($ret['code'] != 0)
+                    $data[$order_group[$d['order_id']]][$d['goods_id']][$key] = $d;
+                } else {
+                    $data[$order_group[$d['order_id']]][$d['goods_id']][$key]['buy_number'] += $d['buy_number'];
+                }
+            }
+
+            // 数据校验
+            foreach($data as $w)
+            {
+                foreach($w as $g)
+                {
+                    foreach($g as $v)
                     {
-                        return $ret;
+                        $ret = self::BuyOrderPayBeginGoodsCheck($v);
+                        if($ret['code'] != 0)
+                        {
+                            return $ret;
+                        }
                     }
                 }
             }

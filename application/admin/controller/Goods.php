@@ -100,13 +100,32 @@ class Goods extends Common
 
             // 获取列表
             $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-                'is_category'   => 1,
+                'm'                 => 0,
+                'n'                 => 1,
+                'where'             => $where,
+                'is_photo'          => 1,
+                'is_content_app'    => 1,
+                'is_category'       => 1,
             ];
             $ret = GoodsService::GoodsList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+            $data = [];
+            if(!empty($ret['data']) && !empty($ret['data'][0]))
+            {
+                $data = $ret['data'][0];
+
+                // 获取商品编辑规格
+                $specifications = GoodsService::GoodsEditSpecifications($data['id']);
+                $this->assign('specifications', $specifications);
+
+                // 获取商品编辑参数
+                $parameters = GoodsService::GoodsEditParameters($data['id']);
+
+                // 商品参数类型
+                $this->assign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));
+
+                $this->assign('parameters', $parameters);
+            }
+
             $this->assign('data', $data);
         }
         return $this->fetch();
@@ -152,7 +171,11 @@ class Goods extends Common
 
 			// 获取商品编辑规格
 			$specifications = GoodsService::GoodsEditSpecifications($ret['data'][0]['id']);
-			$this->assign('specifications', $specifications);
+            $this->assign('specifications', $specifications);
+
+            // 获取商品编辑参数
+            $parameters = GoodsService::GoodsEditParameters($ret['data'][0]['id']);
+            $this->assign('parameters', $parameters);
 		}
 
 		// 地区信息
@@ -172,6 +195,9 @@ class Goods extends Common
         $this->assign('common_site_type_list', lang('common_site_type_list'));
         // 当前系统设置的站点类型
         $this->assign('common_site_type', MyC('common_site_type', 0, true));
+
+        // 商品参数类型
+        $this->assign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));
 
         // 是否拷贝
         $this->assign('is_copy', (isset($params['is_copy']) && $params['is_copy'] == 1) ? 1 : 0);

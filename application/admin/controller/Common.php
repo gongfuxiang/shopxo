@@ -244,8 +244,17 @@ class Common extends Controller
         $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$this->action_name.'.js') ? '.'.$this->action_name.'.js' : '.js';
         $this->assign('module_js', file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '');
 
-		// 图片host地址
-		$this->assign('attachment_host', config('shopxo.attachment_host'));
+		// 附件host地址
+        $this->assign('attachment_host', config('shopxo.attachment_host'));
+
+        // css/js引入host地址
+        $this->assign('public_host', config('shopxo.public_host'));
+
+        // 当前url地址
+        $this->assign('my_url', __MY_URL__);
+
+        // 当前http类型
+        $this->assign('my_http', __MY_HTTP__);
 
         // 开发模式
         $this->assign('shopxo_is_develop', config('shopxo.is_develop'));
