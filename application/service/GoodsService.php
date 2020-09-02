@@ -635,10 +635,10 @@ class GoodsService
     {
         $base = [];
         $detail = [];
-        $data = Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->select();
-        if(!empty($data))
+        $list = Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->select();
+        if(!empty($list))
         {
-            foreach($data as $v)
+            foreach($list as $v)
             {
                 $temp = [
                     'name'  => $v['name'],
@@ -658,10 +658,23 @@ class GoodsService
                 }
             }
         }
-        return [
+
+        // 返回的数据
+        $data = [
             'base'      => $base,
             'detail'    => $detail,
         ];
+
+        // 商品参数钩子
+        $hook_name = 'plugins_service_goods_parameters_data';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+            'goods_id'      => $goods_id,
+        ]);
+
+        return $data;
     }
 
     /**

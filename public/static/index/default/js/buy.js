@@ -117,7 +117,7 @@ $(function()
         }
 
         // 备注
-        $('form.nav-buy input[name=user_note]').val($('.order-user-info input.memo-input').val());
+        $('form.nav-buy input[name="user_note"]').val($('.buy-message input.memo-input').val());
     });
 
     // 自提点地址

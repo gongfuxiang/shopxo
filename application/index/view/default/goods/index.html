@@ -226,7 +226,7 @@
                     {{/if}}
                 </div>
 
-                <!--销量-->
+                <!--销量/浏览/评论-->
                 <ul class="tm-ind-panel">
                     <li class="tm-ind-item">
                         <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{$goods.sales_count}}</span></div>
@@ -238,6 +238,18 @@
                         <div class="tm-indcon"><span class="tm-label">累计评论</span><span class="tm-count">{{$goods.comments_count}}</span></div>
                     </li>
                 </ul>
+
+                {{if !empty($goods['parameters']) and !empty($goods['parameters']['base'])}}
+                    <!-- 商品基础参数 -->
+                    <ul class="am-avg-sm-2 am-avg-md-2 am-avg-lg-3 am-padding-vertical-xs parameters-content parameters-base">
+                        {{foreach $goods.parameters.base as $v}}
+                            <li class="am-padding-vertical-xs am-padding-horizontal-sm am-text-truncate">
+                                <span>{{$v.name}}:</span>
+                                <span>{{$v.value}}</span>
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                {{/if}}
 
                 <!--各种规格-->
                 {{if $goods['is_shelves'] == 1 and $goods['inventory'] gt 0}}
@@ -257,7 +269,7 @@
                                     <a href="javascript:;" title="关闭" class="close am-icon-close am-icon-sm"></a>
                                 </div>
                                 <div class="theme-popbod dform">
-                                    <form class="theme-signin" name="loginform" action="javascript:;">
+                                    <form class="theme-signin am-padding-sm" action="javascript:;">
                                         <div class="theme-signin-left">
                                             {{if !empty($goods['specifications']['choose'])}}
                                                 {{foreach $goods.specifications.choose as $key=>$spec}}
@@ -494,46 +506,40 @@
                 <!-- 详情 -->
                 <div class="am-tabs-bd">
                     <div class="am-tab-panel am-fade am-in am-active">
-                        {{if !empty($goods['attribute'])}}
-                            <div class="specifications">
-                                <div class="spacing-nav-title">
-                                    <span class="line"></span>
-                                    <span class="text-wrapper">产品参数</span>
-                                </div>
-                                <ul class="detail-attr">
-                                    {{if !empty($goods['attribute'])}}
-                                        {{foreach $goods.attribute as $key=>$attribute}}
-                                            <li>{{$attribute.name}}:&nbsp;{{:implode(',', array_column($attribute['find'], 'name'))}}</li>
-                                        {{/foreach}}
-                                    {{/if}}
+                        {{if !empty($goods['parameters']) and !empty($goods['parameters']['detail'])}}
+                            <!-- 商品详情参数 -->
+                            <div class="am-cf tabs-nav-base-container">
+                                <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-padding-vertical-xs parameters-content parameters-detail">
+                                    {{foreach $goods.parameters.detail as $v}}
+                                        <li class="am-padding-vertical-xs am-padding-horizontal-sm am-text-truncate">
+                                            <span>{{$v.name}}:</span>
+                                            <span>{{$v.value}}</span>
+                                        </li>
+                                    {{/foreach}}
                                 </ul>
                             </div>
                         {{/if}}
 
                         <!-- 详情内容 -->
-                        <div class="details">
-                            <div class="spacing-nav-title">
-                                <span class="line"></span>
-                                <span class="text-wrapper">商品细节</span>
-                            </div>
-                            <div class="detail-content">
-                                {{if isset($common_is_goods_detail_show_photo) and $common_is_goods_detail_show_photo eq 1 and !empty($goods.photo)}}
-                                    <div class="content-photo">
-                                        {{foreach $goods.photo as $photo}}
-                                            <li>
-                                                <img src="{{$photo.images}}" title="{{$goods.title}}" />
-                                            </li>
-                                        {{/foreach}}
-                                    </div>
-                                {{/if}}
-                                <div class="content-web am-scrollable-horizontal">{{$goods.content_web|raw}}</div>
-                            </div>
+                        <div class="detail-content am-margin-top-sm">
+                            {{if isset($common_is_goods_detail_show_photo) and $common_is_goods_detail_show_photo eq 1 and !empty($goods.photo)}}
+                                <!-- 详情相册 -->
+                                <div class="content-photo">
+                                    {{foreach $goods.photo as $photo}}
+                                        <li>
+                                            <img src="{{$photo.images}}" title="{{$goods.title}}" />
+                                        </li>
+                                    {{/foreach}}
+                                </div>
+                            {{/if}}
+                            <!-- web详情 -->
+                            <div class="content-web am-scrollable-horizontal">{{$goods.content_web|raw}}</div>
                         </div>
                     </div>
 
                     <!-- 评论 -->
                     <div class="am-tab-panel am-fade goods-comment" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comments')}}">
-                        <div class="am-cf score-container">
+                        <div class="am-cf tabs-nav-base-container score-container">
                             <div class="score am-fl">
                                 <p class="name">动态评分</p>
                                 <p class="value">{{$goods_score.avg}}</p>

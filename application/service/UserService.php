@@ -210,6 +210,7 @@ class UserService
                 'key_name'          => 'username',
                 'checked_data'      => 'User',
                 'checked_key'       => 'id',
+                'is_checked'        => 1,
                 'error_msg'         => '用户已存在[{$var}]',
             ],
             [

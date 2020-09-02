@@ -56,6 +56,7 @@ class Goods extends Common
             ],
             'is_photo'  => true,
             'is_spec'   => true,
+            'is_params' => true,
         ];
         $ret = GoodsService::GoodsList($params);
         if(empty($ret['data'][0]) || $ret['data'][0]['is_delete_time'] != 0)
