@@ -20,6 +20,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .scoll { margin-bottom: 10px; position: relative; }
 
 /*内容布局*/
+.clearfix-right dd { margin: 0; }
 .theme-popover .theme-poptit h3,.btn.close,i.buy-event, form.buy-form {display:none}
 .theme-span{width:100%;background:transparent;height: 15px;}
 .theme-popbod.dform{background:#fff;}
