@@ -23,7 +23,7 @@
           <view class="goods-base">
             <view class="goods-title multi-text">{{item.title}}</view>
             <block s-if="item.spec != null">
-              <view class="goods-attribute cr-888" s-for="spec, index in item.spec" s-key="spec">
+              <view class="goods-spec cr-888" s-for="spec, index in item.spec" s-key="spec">
                 {{spec.type}}:{{spec.value}}
               </view>
             </block>

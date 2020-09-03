@@ -48,7 +48,7 @@
       <text class="sales-price">{{price_symbol}}{{goods.price}}</text>
       <view a:if="{{(goods.original_price || null) != null && goods.original_price != '0.00'}}" class="original-price">{{price_symbol}}{{goods.original_price}}</view>
     </view>
-    <view class="base-grid oh">
+    <view class="base-grid br-t oh">
       <view class="fl tl">
         <text class="cr-888">累计销量</text>
         <text class="cr-main">{{goods.sales_count}}</text>
@@ -91,30 +91,30 @@
 
   <!-- 属性导航 -->
   <!-- <view a:if="{{false}}" class="spacing">
-    <view class="goods-attr-show-title bg-white arrow-right cr-666" onTap="good_attribute_nav_event">
+    <view class="goods-spec-show-title bg-white arrow-right cr-666" onTap="good_spec_nav_event">
       属性
     </view>
   </view> -->
 
   <!-- 商品详情 -->
-  <view class="goods-detail spacing">
+  <view class="goods-detail spacing-mt spacing bg-white">
     <view class="spacing-nav-title">
       <text class="line"></text>
-      <text class="text-wrapper">详情</text>
+      <text class="text-wrapper">商品详情</text>
     </view>
     <!-- 是否详情展示相册 -->
     <block a:if="{{common_is_goods_detail_show_photo == 1 && goods_photo.length > 0}}">
-      <view a:for="{{goods_photo}}" a:key="key" class="goods-detail-photo bg-white">
+      <view a:for="{{goods_photo}}" a:key="key" class="goods-detail-photo">
         <image a:if="{{(item.images || null) != null}}" onTap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
       </view>
     </block>
     <!-- web详情 -->
-    <view a:if="{{common_app_is_use_mobile_detail == 0}}" class="bg-white">
+    <view a:if="{{common_app_is_use_mobile_detail == 0}}">
       <rich-text nodes="{{goods.content_web || ''}}"></rich-text>
     </view>
     <!-- 手机独立详情 -->
     <block a:if="{{common_app_is_use_mobile_detail == 1 && goods_content_app.length > 0}}">
-      <view a:for="{{goods_content_app}}" class="goods-detail-app bg-white">
+      <view a:for="{{goods_content_app}}" class="goods-detail-app">
           <image a:if="{{(item.images || null) != null}}" onTap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
           <view a:if="{{(item.content || null) != null}}" class="content-items">
             <view a:for="{{item.content}}" a:for-item="items">{{items}}</view>
@@ -176,11 +176,11 @@
       </view>
 
       <view class="goods-popup-content">
-        <!-- 商品属性 -->
-        <view a:if="{{goods_specifications_choose.length > 0}}" class="goods-attr-choose">
+        <!-- 商品规格 -->
+        <view a:if="{{goods_specifications_choose.length > 0}}" class="goods-spec-choose">
           <view a:for="{{goods_specifications_choose}}" a:for-index="key" class="item br-b">
             <view class="title">{{item.name}}</view>
-            <view a:if="{{item.value.length > 0}}" class="attribute">
+            <view a:if="{{item.value.length > 0}}" class="spec">
               <block a:for="{{item.value}}" a:for-index="keys" a:for-item="items">
                 <button catchTap="goods_specifications_event" data-key="{{key}}" data-keys="{{keys}}" type="default" size="mini" hover-class="none" class="{{items.is_active}} {{items.is_dont}} {{items.is_disabled}}">
                   <image a:if="{{(items.images || null) != null}}" src="{{items.images}}" mode="scaleToFill" />

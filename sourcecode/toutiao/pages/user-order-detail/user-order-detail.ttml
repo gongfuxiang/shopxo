@@ -23,7 +23,7 @@
           <view class="goods-base">
             <view class="goods-title multi-text">{{item.title}}</view>
             <block tt:if="{{item.spec != null}}">
-              <view class="goods-attribute cr-888" tt:for="{{item.spec}}" tt:key="spec" tt:for-item="spec">
+              <view class="goods-spec cr-888" tt:for="{{item.spec}}" tt:key="spec" tt:for-item="spec">
                 {{spec.type}}:{{spec.value}}
               </view>
             </block>

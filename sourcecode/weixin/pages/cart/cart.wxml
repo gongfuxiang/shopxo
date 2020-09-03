@@ -16,7 +16,7 @@
         <view class="goods-title multi-text">{{item.title}}
         </view>
         <block wx:if="{{item.spec != null}}">
-          <view class="goods-attribute cr-888" wx:for="{{item.spec}}" wx:key="key" wx:for-item="spec">{{spec.type}}:{{spec.value}}</view>
+          <view class="goods-spec cr-888" wx:for="{{item.spec}}" wx:key="key" wx:for-item="spec">{{spec.type}}:{{spec.value}}</view>
         </block>
       </view>
       <!-- 数量 -->

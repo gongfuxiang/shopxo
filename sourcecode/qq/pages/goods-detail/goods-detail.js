@@ -94,11 +94,6 @@ Page({
 
   // 获取数据列表
   init() {
-    // 数据初始化
-    this.setData({
-      temp_attribute_active: {}
-    });
-
     // 参数校验
     if((this.data.params.goods_id || null) == null)
     {
@@ -262,13 +257,6 @@ Page({
   // 下拉刷新
   onPullDownRefresh() {
     this.init();
-  },
-
-  // 进入商品属性事件
-  good_attribute_nav_event(e) {
-    qq.navigateTo({
-      url: "/pages/goods-attribute/goods-attribute?data="+JSON.stringify(this.data.goods_attribute_show)
-    });
   },
 
   // 购买弹层关闭

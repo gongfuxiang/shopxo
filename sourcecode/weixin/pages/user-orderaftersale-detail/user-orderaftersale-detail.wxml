@@ -7,7 +7,7 @@
           <view class="goods-base">
             <view class="goods-title multi-text">{{order_data.items.title}}</view>
             <block wx:if="{{order_data.items.spec != null}}">
-              <view class="goods-attribute cr-888" wx:for="{{order_data.items.spec}}" wx:for-item="spec" wx:key="spec">
+              <view class="goods-spec cr-888" wx:for="{{order_data.items.spec}}" wx:for-item="spec" wx:key="spec">
                 {{spec.type}}:{{spec.value}}
               </view>
             </block>

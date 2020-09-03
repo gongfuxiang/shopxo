@@ -39,7 +39,6 @@ App({
     common_pages_title: {
       "goods_search": "商品搜索",
       "goods_detail": "商品详情",
-      "goods_attribute": "属性",
       "user_address": "我的地址",
       "user_address_save_add": "新增地址",
       "user_address_save_edit": "编辑地址",
@@ -67,15 +66,16 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://shopxo.com/',
-    // request_url: 'https://dev.shopxo.net/',
+     request_url: 'http://shopxo.com/',
+     request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
     application_describe: "{{application_describe}}",
 
     // 价格符号
-    price_symbol: "{{price_symbol}}"
+    price_symbol: "{{price_symbol}}",
+    price_symbol: "￥"
   },
 
   /**

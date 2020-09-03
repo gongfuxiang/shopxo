@@ -7,7 +7,7 @@
           <view class="goods-base">
             <view class="goods-title multi-text">{{order_data.items.title}}</view>
             <block tt:if="{{order_data.items.spec != null}}">
-              <view class="goods-attribute cr-888" tt:for="{{order_data.items.spec}}" tt:for-item="spec" tt:key="spec">
+              <view class="goods-spec cr-888" tt:for="{{order_data.items.spec}}" tt:for-item="spec" tt:key="spec">
                 {{spec.type}}:{{spec.value}}
               </view>
             </block>

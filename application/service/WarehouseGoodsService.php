@@ -845,13 +845,25 @@ class WarehouseGoodsService
         $md5_key = md5($md5_key);
 
         // 扣除仓库商品规格库存
-        if(!Db::name('WarehouseGoodsSpec')->where(['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id, 'md5_key'=>$md5_key])->setDec('inventory', $buy_number))
+        $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id, 'md5_key'=>$md5_key];
+        $inventory = Db::name('WarehouseGoodsSpec')->where($where)->value('inventory');
+        if($inventory < $buy_number)
+        {
+            return DataReturn('仓库商品规格库存不足['.$warehouse_id.'-'.$goods_id.'('.$inventory.'<'.$buy_number.')]', -11);
+        }
+        if(!Db::name('WarehouseGoodsSpec')->where($where)->setDec('inventory', $buy_number))
         {
             return DataReturn('仓库商品规格库存扣减失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
         }
 
         // 扣除仓库商品库存
-        if(!Db::name('WarehouseGoods')->where(['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id])->setDec('inventory', $buy_number))
+        $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id];
+        $inventory = Db::name('WarehouseGoods')->where($where)->value('inventory');
+        if($inventory < $buy_number)
+        {
+            return DataReturn('仓库商品库存不足['.$warehouse_id.'-'.$goods_id.'('.$inventory.'<'.$buy_number.')]', -11);
+        }
+        if(!Db::name('WarehouseGoods')->where($where)->setDec('inventory', $buy_number))
         {
             return DataReturn('仓库商品库存扣减失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
         }

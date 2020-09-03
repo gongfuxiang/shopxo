@@ -16,7 +16,7 @@
         <view class="goods-title multi-text">{{item.title}}
         </view>
         <block qq:if="{{item.spec != null}}">
-          <view class="goods-attribute cr-888" qq:for="{{item.spec}}" qq:key="key" qq:for-item="spec">{{spec.type}}:{{spec.value}}</view>
+          <view class="goods-spec cr-888" qq:for="{{item.spec}}" qq:key="key" qq:for-item="spec">{{spec.type}}:{{spec.value}}</view>
         </block>
       </view>
       <!-- 数量 -->

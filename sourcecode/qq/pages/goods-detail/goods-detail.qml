@@ -48,7 +48,7 @@
       <text class="sales-price">{{price_symbol}}{{goods.price}}</text>
       <view qq:if="{{(goods.original_price || null) != null && goods.original_price != '0.00'}}" class="original-price">{{price_symbol}}{{goods.original_price}}</view>
     </view>
-    <view class="base-grid oh">
+    <view class="base-grid br-t oh">
       <view class="fl tl">
         <text class="cr-888">累计销量</text>
         <text class="cr-main">{{goods.sales_count}}</text>
@@ -91,30 +91,30 @@
 
   <!-- 属性导航 -->
   <!-- <view qq:if="{{false}}" class="spacing">
-    <view class="goods-attr-show-title bg-white arrow-right cr-666" bindtap="good_attribute_nav_event">
+    <view class="goods-spec-show-title bg-white arrow-right cr-666" bindtap="good_attribute_nav_event">
       属性
     </view>
   </view> -->
 
   <!-- 商品详情 -->
-  <view class="goods-detail spacing">
+  <view class="goods-detail spacing-mt spacing bg-white">
     <view class="spacing-nav-title">
       <text class="line"></text>
-      <text class="text-wrapper">详情</text>
+      <text class="text-wrapper">商品详情</text>
     </view>
     <!-- 是否详情展示相册 -->
     <block qq:if="{{common_is_goods_detail_show_photo == 1 && goods_photo.length > 0}}">
-      <view qq:for="{{goods_photo}}" qq:key="key" class="goods-detail-photo bg-white">
+      <view qq:for="{{goods_photo}}" qq:key="key" class="goods-detail-photo">
         <image qq:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
       </view>
     </block>
     <!-- web详情 -->
-    <view qq:if="{{common_app_is_use_mobile_detail == 0}}" class="bg-white">
+    <view qq:if="{{common_app_is_use_mobile_detail == 0}}">
       <rich-text nodes="{{goods.content_web || ''}}"></rich-text>
     </view>
     <!-- 手机独立详情 -->
     <block qq:if="{{common_app_is_use_mobile_detail == 1 && goods_content_app.length > 0}}">
-      <view qq:for="{{goods_content_app}}" qq:key="key" class="goods-detail-app bg-white">
+      <view qq:for="{{goods_content_app}}" qq:key="key" class="goods-detail-app">
           <image qq:if="{{(item.images || null) != null}}" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
           <view qq:if="{{(item.content || null) != null}}" class="content-items">
             <view qq:for="{{item.content}}" qq:for-item="items">{{items}}</view>
@@ -176,8 +176,8 @@
       </view>
 
       <view class="goods-popup-content">
-        <!-- 商品属性 -->
-        <view qq:if="{{goods_specifications_choose.length > 0}}" class="goods-attr-choose">
+        <!-- 商品规格 -->
+        <view qq:if="{{goods_specifications_choose.length > 0}}" class="goods-spec-choose">
           <view qq:for="{{goods_specifications_choose}}" qq:key="key" qq:for-index="key" class="item br-b">
             <view class="title">{{item.name}}</view>
             <view qq:if="{{item.value.length > 0}}" class="spec">

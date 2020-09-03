@@ -1413,15 +1413,16 @@ function RequestGet($value)
  */
 function CurlGet($url)
 {
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_TIMEOUT, 500);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($curl, CURLOPT_URL, $url);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 500);
+    curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($ch, CURLOPT_URL, $url);
 
-    $result = curl_exec($curl);
-    curl_close($curl);
+    $result = curl_exec($ch);
+    curl_close($ch);
     return $result;
 }
 
@@ -1443,6 +1444,8 @@ function CurlPost($url, $post, $is_json = false)
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HEADER, false);
     curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_URL, $url);
 
     // 是否 json
@@ -1464,9 +1467,17 @@ function CurlPost($url, $post, $is_json = false)
         );
     }
 
+    // 返回结果
     $result = curl_exec($ch);
-    curl_close($ch);
-    return $result;
+    if($result !== false)
+    {
+        curl_close($ch);
+        return $result;
+    } else { 
+        $error = curl_errno($ch);
+        curl_close($ch);
+        return "curl出错，错误码:$error";
+    }
 }
 
 /**

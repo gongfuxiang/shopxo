@@ -11,7 +11,6 @@
     "pages/goods-search/goods-search",
     "pages/goods-detail/goods-detail",
     "pages/goods-comment/goods-comment",
-    "pages/goods-attribute/goods-attribute",
     "pages/user-address/user-address",
     "pages/user-address-save/user-address-save",
     "pages/user-order/user-order",

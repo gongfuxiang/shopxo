@@ -14,7 +14,7 @@
 .goods-item:not(:last-child) {
   border-bottom: 1px solid #eee;
 }
-.goods-title, .goods-attribute {
+.goods-title, .goods-spec {
     margin-bottom: 10rpx;
 }
 .goods-image {

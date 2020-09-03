@@ -66,9 +66,10 @@ class Goods extends Common
                 'id' => $goods_id,
                 'is_delete_time' => 0,
             ],
-            'is_photo' => true,
-            'is_spec' => true,
-            'is_content_app' => ($is_use_mobile_detail == 1),
+            'is_photo'          => true,
+            'is_spec'           => true,
+            'is_params'         => true,
+            'is_content_app'    => ($is_use_mobile_detail == 1),
         ];
         $ret = GoodsService::GoodsList($params);
         if(empty($ret['data'][0]) || $ret['data'][0]['is_delete_time'] != 0)
