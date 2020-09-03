@@ -23,7 +23,7 @@
     {{if !empty($plugins_admin_css_data) and is_array($plugins_admin_css_data)}}
         {{foreach $plugins_admin_css_data as $hook}}
             {{if is_string($hook)}}
-                {{if substr($hook_css, 0, 4) eq 'http'}}
+                {{if substr($hook, 0, 4) eq 'http'}}
                     <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
                 {{else /}}
                     <link rel="stylesheet" type="text/css" href="{{$public_host}}{{$hook}}?v={{:MyC('home_static_cache_version')}}" />

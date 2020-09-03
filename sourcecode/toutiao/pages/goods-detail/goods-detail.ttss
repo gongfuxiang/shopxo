@@ -166,7 +166,7 @@
   font-size: 32rpx;
   line-height: 44rpx;
   font-weight: 500;
-  padding: 15rpx 10rpx;
+  padding: 8rpx 10rpx;
 }
 .goods-base {
     padding: 15rpx 10rpx;
@@ -338,4 +338,30 @@
  */
 .goods-buy-nav .buy-nav-submit-full button {
   width: 100%;
+}
+
+/*
+ * 商品参数
+ */
+.parameters-base {
+  padding-top: 10rpx;
+}
+.parameters-base .content-item .item {
+  color: #666;
+}
+.goods-parameters .content-item {
+   padding-bottom: 10rpx;
+ }
+.goods-parameters .content-item .item {
+  padding: 8rpx 10rpx;
+  width: calc(50% - 20rpx);
+}
+.goods-parameters .content-item .item .name {
+  margin-right: 5rpx;
+}
+.goods-parameters .content-item .item:nth-child(2n-1) {
+  float: left;
+}
+.goods-parameters .content-item .item:nth-child(2n) {
+  float: right;
 }

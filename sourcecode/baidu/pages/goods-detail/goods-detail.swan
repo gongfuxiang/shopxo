@@ -41,7 +41,7 @@
       <text class="sales-price">{{price_symbol}}{{goods.price}}</text>
       <view s-if="(goods.original_price || null) != null && goods.original_price != '0.00'" class="original-price">{{price_symbol}}{{goods.original_price}}</view>
     </view>
-    <view class="base-grid br-t oh">
+    <view class="base-grid br-t-dashed oh">
       <view class="fl tl">
         <text class="cr-888">累计销量</text>
         <text class="cr-main">{{goods.sales_count}}</text>
@@ -56,6 +56,18 @@
           <text class="cr-main">{{goods.comments_count}}</text>
         </navigator>
       </view>
+    </view>
+  </view>
+
+  <!-- 商品基础参数 -->
+  <view s-if="(goods.parameters || null) != null && goods.parameters.base.length > 0" class="goods-parameters parameters-base br-t-dashed bg-white">
+    <view class="content-item oh">
+      <block s-for="item, index in goods.parameters.base" s-key="item">
+        <view class="item single-text">
+          <text class="name">{{item.name}}:</text>
+          <text class="value">{{item.value}}</text>
+        </view>
+      </block>
     </view>
   </view>
 
@@ -82,38 +94,49 @@
     </scroll-view>
   </view>
 
-  <!-- 属性导航 -->
-  <!-- <view wx:if="{{false}}" class="spacing">
-    <view class="goods-spec-show-title bg-white arrow-right cr-666" bindtap="good_attribute_nav_event">
-      属性
+  <!-- 商品详情参数 -->
+  <view s-if="(goods.parameters || null) != null && goods.parameters.detail.length > 0" class="goods-parameters spacing-mt bg-white">
+    <view class="spacing-nav-title">
+      <text class="line"></text>
+      <text class="text-wrapper">商品参数</text>
     </view>
-  </view> -->
+    <view class="content-item oh">
+      <block s-for="item, index in goods.parameters.detail" s-key="item">
+        <view class="item single-text">
+          <text class="name">{{item.name}}:</text>
+          <text class="value">{{item.value}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
 
   <!-- 商品详情 -->
-  <view class="goods-detail spacing-mt spacing bg-white">
+  <view class="goods-detail spacing-mt bg-white">
     <view class="spacing-nav-title">
       <text class="line"></text>
       <text class="text-wrapper">商品详情</text>
     </view>
-    <!-- 是否详情展示相册 -->
-    <block s-if="common_is_goods_detail_show_photo == 1 && goods_photo.length > 0">
-      <view s-for="item, index in goods_photo" s-key="key" class="goods-detail-photo">
-        <image s-if="(item.images || null) != null" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
-      </view>
-    </block>
-    <!-- web详情 -->
-    <view s-if="common_app_is_use_mobile_detail == 0">
-      <rich-text nodes="{{goods.content_web || ''}}"></rich-text>
-    </view>
-    <!-- 手机独立详情 -->
-    <block s-if="common_app_is_use_mobile_detail == 1 && goods_content_app.length > 0">
-      <view s-for="item, index in goods_content_app" s-key="key" class="goods-detail-app">
+    <view class="spacing">
+      <!-- 是否详情展示相册 -->
+      <block s-if="common_is_goods_detail_show_photo == 1 && goods_photo.length > 0">
+        <view s-for="item, index in goods_photo" s-key="key" class="goods-detail-photo">
           <image s-if="(item.images || null) != null" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
-          <view s-if="(item.content || null) != null" class="content-items">
-            <view s-for="items, index in item.content">{{items}}</view>
-          </view>
+        </view>
+      </block>
+      <!-- web详情 -->
+      <view s-if="common_app_is_use_mobile_detail == 0">
+        <rich-text nodes="{{goods.content_web || ''}}"></rich-text>
       </view>
-    </block>
+      <!-- 手机独立详情 -->
+      <block s-if="common_app_is_use_mobile_detail == 1 && goods_content_app.length > 0">
+        <view s-for="item, index in goods_content_app" s-key="key" class="goods-detail-app">
+            <image s-if="(item.images || null) != null" bindtap="goods_detail_images_view_event" data-value="{{item.images}}" class="wh-auto dis-block" src="{{item.images}}" mode="widthFix" />
+            <view s-if="(item.content || null) != null" class="content-items">
+              <view s-for="items, index in item.content">{{items}}</view>
+            </view>
+        </view>
+      </block>
+    </view>
   </view>
 
   <!-- 底线 -->

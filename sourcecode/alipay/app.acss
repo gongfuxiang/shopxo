@@ -30,7 +30,7 @@ textarea {
 }
 .spacing-nav-title .line {
     display: inline-block;
-    width: 50%;
+    width: 80%;
     height: 1px;
     background: #d2364c;
     position: absolute;
