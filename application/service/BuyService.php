@@ -1928,6 +1928,13 @@ class BuyService
                         return $base;
                     }
 
+                    // 仓库库存回滚
+                    $we_ret = WarehouseGoodsService::WarehouseGoodsInventoryRollback($params['order_id'], $v['goods_id'], $spec, $v['buy_number']);
+                    if($we_ret['code'] != 0)
+                    {
+                        return $we_ret;
+                    }
+
                     // 回滚日志更新
                     $log_data = [
                         'is_rollback'   => 1,

@@ -870,5 +870,55 @@ class WarehouseGoodsService
 
         return DataReturn('扣除成功', 0);
     }
+
+    /**
+     * 仓库库存回滚
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-02
+     * @desc    description
+     * @param   [int]          $order_id     [订单id]
+     * @param   [int]          $goods_id     [商品id]
+     * @param   [string]       $spec         [商品规格]
+     * @param   [int]          $buy_number   [扣除库存数量]
+     */
+    public static function WarehouseGoodsInventoryRollback($order_id, $goods_id, $spec, $buy_number)
+    {
+        // 获取仓库id
+        $warehouse_id = Db::name('Order')->where(['id'=>$order_id])->value('warehouse_id');
+        if(empty($warehouse_id))
+        {
+            return DataReturn('订单仓库id有误', -1);
+        }
+
+        // 规格key，空则默认default
+        $md5_key = 'default';
+        if(!empty($spec))
+        {
+            if(!is_array($spec))
+            {
+                $spec = json_decode($spec, true);
+            }
+            $md5_key = implode('', array_column($spec, 'value'));
+        }
+        $md5_key = md5($md5_key);
+
+        // 扣除仓库商品规格库存
+        $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id, 'md5_key'=>$md5_key];
+        if(!Db::name('WarehouseGoodsSpec')->where($where)->setInc('inventory', $buy_number))
+        {
+            return DataReturn('仓库商品规格库存回滚失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
+        }
+
+        // 扣除仓库商品库存
+        $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id];
+        if(!Db::name('WarehouseGoods')->where($where)->setInc('inventory', $buy_number))
+        {
+            return DataReturn('仓库商品库存回滚失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
+        }
+
+        return DataReturn('回滚成功', 0);
+    }
 }
 ?>
