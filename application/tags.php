@@ -52,5 +52,17 @@ return array (
   array (
     0 => 'app\\plugins\\share\\Hook',
   ),
+  'plugins_service_users_center_left_menu_handle' => 
+  array (
+    0 => 'app\\plugins\\wallet\\Hook',
+  ),
+  'plugins_service_header_navigation_top_right_handle' => 
+  array (
+    0 => 'app\\plugins\\wallet\\Hook',
+  ),
+  'plugins_service_user_register_end' => 
+  array (
+    0 => 'app\\plugins\\wallet\\Hook',
+  ),
 );
 ?>

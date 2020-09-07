@@ -220,8 +220,9 @@ Page({
       success: res => {
         qq.hideLoading();
         if (res.data.code == 0) {
+          var data = res.data.data.data;
           qq.requestPayment({
-            package: res.data.data,
+            package: data,
             success: function (res) {
               // 数据设置
               self.order_item_pay_success_handle(index);

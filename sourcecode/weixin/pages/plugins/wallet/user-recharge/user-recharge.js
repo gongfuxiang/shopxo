@@ -220,12 +220,13 @@ Page({
       success: res => {
         wx.hideLoading();
         if (res.data.code == 0) {
+          var data = res.data.data.data;
           wx.requestPayment({
-            timeStamp: res.data.data.timeStamp,
-            nonceStr: res.data.data.nonceStr,
-            package: res.data.data.package,
-            signType: res.data.data.signType,
-            paySign: res.data.data.paySign,
+            timeStamp: data.timeStamp,
+            nonceStr: data.nonceStr,
+            package: data.package,
+            signType: data.signType,
+            paySign: data.paySign,
             success: function (res) {
               // 数据设置
               self.order_item_pay_success_handle(index);

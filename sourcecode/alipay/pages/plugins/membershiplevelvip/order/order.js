@@ -224,8 +224,9 @@ Page({
       success: res => {
         my.hideLoading();
         if (res.data.code == 0) {
+          var data = res.data.data.data;
           my.tradePay({
-            tradeNO: res.data.data,
+            tradeNO: data,
             success: res => {
               // 数据设置
               if (res.resultCode == 9000) {

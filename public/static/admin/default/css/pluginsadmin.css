@@ -96,16 +96,6 @@
 }
 
 /**
- * 上传文件
- */
-.am-form-file input[type="file"] {
-    width: 92px;
-    height: 28px;
-    margin-top: 5px;
-    margin-left: 5px;
-}
-
-/**
  * 删除modal
  */
 @media only screen and (min-width: 641px) {
