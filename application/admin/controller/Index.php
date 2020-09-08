@@ -86,19 +86,19 @@ class Index extends Common
 		$order_complete_money = StatisticalService::OrderCompleteMoneyYesterdayTodayTotal();
 		$this->assign('order_complete_money', $order_complete_money['data']);
 
-		// 近30日成交金额走势
+		// 近30日订单成交金额走势
 		$order_profit_chart = StatisticalService::OrderProfitSevenTodayTotal();
 		$this->assign('order_profit_chart', $order_profit_chart['data']);
 
-		// 近15日订单交易走势
+		// 近30日订单交易走势
 		$order_trading_trend = StatisticalService::OrderTradingTrendSevenTodayTotal();
 		$this->assign('order_trading_trend', $order_trading_trend['data']);
 		
-		// 近15日订单支付方式
-		$order_type_number = StatisticalService::OrderPayTypeSevenTodayTotal();
-		$this->assign('order_type_number', $order_type_number['data']);
+		// 近30日支付方式
+		$pay_type_number = StatisticalService::PayTypeSevenTodayTotal();
+		$this->assign('pay_type_number', $pay_type_number['data']);
 
-		// 近15日热销商品
+		// 近30日热销商品
 		$goods_hot_sale = StatisticalService::GoodsHotSaleSevenTodayTotal();
 		$this->assign('goods_hot_sale', $goods_hot_sale['data']);
 

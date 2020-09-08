@@ -136,7 +136,7 @@ html, body {
 /**
  * 支付方式
  */
-#echarts-order-pay-type {
+#echarts-pay-type {
     margin-top: 10px;
     height: 400px;
 }

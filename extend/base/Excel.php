@@ -29,6 +29,7 @@ class Excel
 	private $horizontal_center;
 	private $vertical_center;
 	private $warap_text;
+	private $writer_type;
 
 	/**
 	 * [__construct 构造方法]
@@ -79,6 +80,9 @@ class Excel
 		// 内容自动换行
 		$this->warap_text = isset($params['warap_text']) ? intval($params['warap_text']) : 1;
 
+		// excel写入类型
+		$this->writer_type = empty($params['writer_type']) ? 'Excel2007' : teim($params['writer_type']);
+
 		// 引入PHPExcel类库
 		require ROOT.'extend'.DS.'phpexcel'.DS.'PHPExcel.php';
 	}
@@ -117,7 +121,7 @@ class Excel
 			
 			// 默认EXCEL
 			default:
-				$writer = \PHPExcel_IOFactory::createWriter($excel, 'Excel5');
+				$writer = \PHPExcel_IOFactory::createWriter($excel, $this->writer_type);
 		}
 
 		// 获取配置编码类型
@@ -220,21 +224,14 @@ class Excel
 	public function Import($file = '')
 	{
 		// 文件为空则取全局文变量excel的临时文件
-		if(empty($file) && !empty($_FILES['excel']['tmp_name']))
+		if(empty($file) && (empty($_FILES['file']) || empty($_FILES['file']['tmp_name'])))
 		{
-			$file = $_FILES['excel']['tmp_name'];
+			return DataReturn('文件为空', -1);
 		}
-
-		// 文件地址是否有误,title数据是否有数据
-		if(empty($file) || empty($this->title))
-		{
-			echo '<script>alert("'.$this->msg.'");</script>';
-			echo '<script>window.location.href="'.$this->jump_url.'"</script>';
-			die;
-		}
+		$file = empty($file) ? $_FILES['file']['tmp_name'] : $file;
 
 		// 取得文件基础数据
-		$reader = \PHPExcel_IOFactory::createReader('Excel5');
+		$reader = \PHPExcel_IOFactory::createReader($this->writer_type);
 		$excel = $reader->load($file);
 
 		// 取得总行数
@@ -250,42 +247,34 @@ class Excel
 		$highest_column_index = \PHPExcel_Cell::columnIndexFromString($highest_column);
 
 		// 定义变量
-		$result = [];
-		$field = [];
+		$data = [];
+		$title = [];
 
 		// 读取数据
 		for($row=1; $row<=$highest_row; $row++)
 		{
-			// 临时数据
-			$info = [];
-
 			// 注意 highest_column_index 的列数索引从0开始
+			$info = [];
 			for($col = 0; $col < $highest_column_index; $col++)
 			{
-				$value = $worksheet->getCellByColumnAndRow($col, $row)->getFormattedValue();
+				$value = trim($worksheet->getCellByColumnAndRow($col, $row)->getFormattedValue());
 				if($row == 1)
 				{
-					foreach($this->title as $tk=>$tv)
-					{
-						if($value == $tv['name'])
-						{
-							$tv['field'] = $tk;
-							$field[$col] = $tv;
-						}
-					}
+					$title[] = $value;
 				} else {
-					if(!empty($field))
-					{
-						$info[$field[$col]['field']] = ($field[$col]['type'] == 'int') ? trim(ScienceNumToString($value)) : trim($value);
-					}
+					$info[] = $value;
 				}
 			}
 			if($row > 1)
 			{
-				$result[] = $info;
+				$data[] = $info;
 			}
 		}
-		return $result;
+		$result = [
+			'title'	=> $title,
+			'data'	=> $data,
+		];
+		return DataReturn('处理成功', 0, $result);
 	}
 }
 ?>

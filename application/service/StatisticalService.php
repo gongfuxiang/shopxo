@@ -413,21 +413,22 @@ class StatisticalService
     }
 
     /**
-     * 订单支付方式, 30天数据
+     * 支付方式, 30天数据
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function OrderPayTypeSevenTodayTotal($params = [])
+    public static function PayTypeSevenTodayTotal($params = [])
     {
         // 初始化
         self::Init($params);
 
         // 获取支付方式名称
         $where = [
-            ['business_type', '=', 1],
+            ['business_type', '<>', ''],
+            ['status', '=', 1],
         ];
         $pay_name_arr = Db::name('PayLog')->where($where)->group('payment_name')->column('payment_name');
 

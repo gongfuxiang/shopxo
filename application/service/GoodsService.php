@@ -142,7 +142,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $data [商品分类数据 二维数组]
      */
-    private static function GoodsCategoryDataDealWith($data)
+    public static function GoodsCategoryDataDealWith($data)
     {
         if(!empty($data) && is_array($data))
         {
@@ -1064,7 +1064,7 @@ class GoodsService
      * @param   [array]             $params   [输入参数]
      * @param   [int]               $goods_id [商品id]
      */
-    private static function GoodsParametersInsert($params, $goods_id)
+    public static function GoodsParametersInsert($params, $goods_id)
     {
         // 删除商品参数
         Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->delete();
@@ -1107,7 +1107,7 @@ class GoodsService
      * @param    [array]          $params   [输入参数]
      * @param    [int]            $goods_id [商品id]
      */
-    private static function GoodsSaveBaseUpdate($params, $goods_id)
+    public static function GoodsSaveBaseUpdate($params, $goods_id)
     {
         $data = Db::name('GoodsSpecBase')->field('min(price) AS min_price, max(price) AS max_price, sum(inventory) AS inventory, min(original_price) AS min_original_price, max(original_price) AS max_original_price')->where(['goods_id'=>$goods_id])->find();
         if(empty($data))
@@ -1139,7 +1139,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private static function GetFormGoodsSpecificationsParams($params = [])
+    public static function GetFormGoodsSpecificationsParams($params = [])
     {
         $data = [];
         $title = [];
@@ -1311,7 +1311,7 @@ class GoodsService
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
-    private static function GetFormGoodsSpecificationsBaseParams($params = [])
+    public static function GetFormGoodsSpecificationsBaseParams($params = [])
     {
         $result = [];
         foreach($params as $k=>$v)
@@ -1338,7 +1338,7 @@ class GoodsService
      * @param   [array]          $params [输入参数]
      * @return  [array]                  [一维数组但图片地址]
      */
-    private static function GetFormGoodsPhotoParams($params = [])
+    public static function GetFormGoodsPhotoParams($params = [])
     {
         if(empty($params['photo']))
         {
@@ -1365,7 +1365,7 @@ class GoodsService
      * @desc    description
      * @param    [array]          $params [输入参数]
      */
-    private static function GetFormGoodsContentAppParams($params = [])
+    public static function GetFormGoodsContentAppParams($params = [])
     {
         // 开始处理
         $result = [];
@@ -1399,7 +1399,7 @@ class GoodsService
      * @param   [int]            $goods_id [商品id]
      * @return  [array]                    [boolean | msg]
      */
-    private static function GoodsCategoryInsert($data, $goods_id)
+    public static function GoodsCategoryInsert($data, $goods_id)
     {
         Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods_id])->delete();
         if(!empty($data))
@@ -1431,7 +1431,7 @@ class GoodsService
      * @param   [int]            $goods_id [商品id]
      * @return  [array]                    [boolean | msg]
      */
-    private static function GoodsContentAppInsert($data, $goods_id)
+    public static function GoodsContentAppInsert($data, $goods_id)
     {
         Db::name('GoodsContentApp')->where(['goods_id'=>$goods_id])->delete();
         if(!empty($data))
@@ -1465,7 +1465,7 @@ class GoodsService
      * @param   [int]            $goods_id [商品id]
      * @return  [array]                    [boolean | msg]
      */
-    private static function GoodsPhotoInsert($data, $goods_id)
+    public static function GoodsPhotoInsert($data, $goods_id)
     {
         Db::name('GoodsPhoto')->where(['goods_id'=>$goods_id])->delete();
         if(!empty($data))
@@ -1499,7 +1499,7 @@ class GoodsService
      * @param   [int]            $goods_id [商品id]
      * @return  [array]                    [boolean | msg]
      */
-    private static function GoodsSpecificationsInsert($data, $goods_id)
+    public static function GoodsSpecificationsInsert($data, $goods_id)
     {
         // 删除原来的数据
         Db::name('GoodsSpecType')->where(['goods_id'=>$goods_id])->delete();

@@ -73,11 +73,11 @@
 			</ul>
 		</div>
 
-		<!-- 近30日成交金额走势 -->
+		<!-- 近30日订单成交金额走势 -->
 		<div class="echarts-container">
 			<div class="echarts-title">
 				<span class="icon"></span>
-				<span class="title">近30日成交金额走势</span>
+				<span class="title">近30日订单成交金额走势</span>
 			</div>
 			<div id="echarts-order-profit"></div>
 		</div>
@@ -103,12 +103,12 @@
 			</li>
 
 			<li>
-				<!-- 近30日订单支付方式 -->
+				<!-- 近30日支付方式 -->
 				<div class="echarts-title">
 					<span class="icon"></span>
-					<span class="title">近30日订单支付方式</span>
+					<span class="title">近30日支付方式</span>
 				</div>
-				<div id="echarts-order-pay-type"></div>
+				<div id="echarts-pay-type"></div>
 			</li>
 		</ul>
 
@@ -167,7 +167,7 @@
 <script type="text/javascript">
 $(function()
 {
-	// 近30日成交金额走势
+	// 近30日订单成交金额走势
     var order_profit_chart = echarts.init(document.getElementById('echarts-order-profit'), 'macarons');
     var option = {
 	    tooltip : {
@@ -306,14 +306,14 @@ $(function()
 	};
     goods_hot_chart.setOption(option);
 
-    // 近30日订单支付方式
-    var order_pay_type_chart = echarts.init(document.getElementById('echarts-order-pay-type'), 'macarons');
+    // 近30日支付方式
+    var order_pay_type_chart = echarts.init(document.getElementById('echarts-pay-type'), 'macarons');
     var option = {
 	    tooltip : {
 	        trigger: 'axis'
 	    },
 	    legend: {
-	        data: {{:json_encode($order_type_number.title_arr)}}
+	        data: {{:json_encode($pay_type_number.title_arr)}}
 	    },
 	    toolbox: {
 	        show : {{if IsMobile()}}false{{else}}true{{/if}},
@@ -322,7 +322,7 @@ $(function()
 	            dataView : {show: true, readOnly: false},
 	            magicType : {show: true, type: ['line', 'bar']},
 	            restore : {show: false},
-	            saveAsImage : {name:'近30日订单支付方式', show: true}
+	            saveAsImage : {name:'近30日支付方式', show: true}
 	        }
 	    },
 	    calculable : true,
@@ -330,7 +330,7 @@ $(function()
 	        {
 	            type : 'category',
 	            boundaryGap : false,
-	            data : {{:json_encode($order_type_number.name_arr)}}
+	            data : {{:json_encode($pay_type_number.name_arr)}}
 	        }
 	    ],
 	    yAxis : [
@@ -338,7 +338,7 @@ $(function()
 	            type : 'value'
 	        }
 	    ],
-	    series : {{:json_encode($order_type_number.data)}}
+	    series : {{:json_encode($pay_type_number.data)}}
 	};
     order_pay_type_chart.setOption(option);
 
