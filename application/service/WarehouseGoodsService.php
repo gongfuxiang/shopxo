@@ -577,7 +577,7 @@ class WarehouseGoodsService
      * @version 1.0.0
      * @date    2020-07-16
      * @desc    description
-     * @param   [string]         $spec_str   [规格字打错，英文逗号分割]
+     * @param   [string]         $spec_str   [规格字符串，英文逗号分割]
      * @param   [array]          $spec_title [规格类型名称]
      */
     public static function GoodsSpecMuster($spec_str, $spec_title)
