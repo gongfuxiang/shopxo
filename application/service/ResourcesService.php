@@ -584,5 +584,29 @@ class ResourcesService
         }
         return [];
     }
+
+    /**
+     * 货币价格符号
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-10
+     * @desc    description
+     */
+    public static function CurrencyPriceSymbol()
+    {
+        // 默认从配置文件读取货币符号
+        $data = config('shopxo.price_symbol');
+
+        // 货币符号钩子
+        $hook_name = 'plugins_service_currency_price_symbol';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
 }
 ?>

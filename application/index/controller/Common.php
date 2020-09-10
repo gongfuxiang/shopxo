@@ -22,6 +22,7 @@ use app\service\SearchService;
 use app\service\ConfigService;
 use app\service\LinkService;
 use app\service\UserService;
+use app\service\ResourcesService;
 
 /**
  * 前端公共控制器
@@ -277,7 +278,7 @@ class Common extends Controller
         $this->assign('params', $this->data_request);
 
         // 价格符号
-        $this->assign('price_symbol', config('shopxo.price_symbol'));
+        $this->assign('price_symbol', ResourcesService::CurrencyPriceSymbol());
 
         // 站点类型
         $this->assign('common_site_type', MyC('common_site_type', 0, true));

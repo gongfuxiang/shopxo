@@ -15,6 +15,7 @@ use think\Controller;
 use app\module\FormHandleModule;
 use app\service\AdminPowerService;
 use app\service\ConfigService;
+use app\service\ResourcesService;
 
 /**
  * 管理员公共控制器
@@ -233,7 +234,7 @@ class Common extends Controller
         $this->assign('page_size', $this->page_size);
 
         // 价格符号
-        $this->assign('price_symbol', config('shopxo.price_symbol'));
+        $this->assign('price_symbol', ResourcesService::CurrencyPriceSymbol());
 
 		// 控制器静态文件状态css,js
         $module_css = $this->module_name.DS.$default_theme.DS.'css'.DS.$this->controller_name;
