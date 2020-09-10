@@ -21,17 +21,10 @@
             "email": "fuxiang.gong@qq.com"
         }
     ],
-    "require": {
-        "php": ">=5.6.0",
-        "topthink/framework": "5.1.*"
-    },
     "autoload": {
         "psr-4": {
             "app\\": "application"
         }
-    },
-    "extra": {
-        "think-path": "thinkphp"
     },
     "config": {
         "preferred-install": "dist"

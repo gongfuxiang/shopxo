@@ -32,6 +32,12 @@ class Plugins extends Common
     public function __construct()
     {
         parent::__construct();
+
+        // 登录校验
+        $this->IsLogin();
+
+        // 权限校验
+        $this->IsPower();
     }
     
     /**
