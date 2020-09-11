@@ -34,13 +34,7 @@ class BannerService
     public static function Banner($params = [])
     {
         // 平台
-        $platform = APPLICATION_CLIENT_TYPE;
-
-        // web端手机访问
-        if($platform == 'pc' && IsMobile())
-        {
-            $platform = 'h5';
-        }
+        $platform = ApplicationClientType();
 
         // 缓存
         $key = config('shopxo.cache_banner_list_key').$platform;

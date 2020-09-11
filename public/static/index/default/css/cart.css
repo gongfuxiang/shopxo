@@ -44,7 +44,7 @@ strong.total-price-content, .selected-tips strong, .nav-total-price { color: #d2
     .nav-right { width: 68%; }
     .cart-nav, .nav-left, .nav-right { overflow: hidden; }
     .nav-right .nav-total-price { display: block;
-    width: calc(100% - 175px); height: 30px; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+    width: calc(100% - 182px); height: 30px; -o-text-overflow: ellipsis; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
     .cart-nav .separate-submit { float: right; }
     .wap-base { padding-left: 20px; }
 

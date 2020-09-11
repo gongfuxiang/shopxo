@@ -250,28 +250,25 @@ class OrderService
         }
 
         // 微信中打开并且webopenid为空
-        if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
+        if(ApplicationClientType() == 'h5' && IsWeixinEnv() && empty($pay_data['user']['weixin_web_openid']))
         {
-            if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false && empty($pay_data['user']['weixin_web_openid']))
+            // 授权成功后回调订单详情页面重新自动发起支付
+            // 单个订单进入详情，则进入列表
+            $weixin_params = [
+                'is_pay_auto'       => 1,
+                'is_pay_submit'     => 1,
+                'payment_id'        => $payment['id'],
+            ];
+            if(count($order_ids) == 1)
             {
-                // 授权成功后回调订单详情页面重新自动发起支付
-                // 单个订单进入详情，则进入列表
-                $weixin_params = [
-                    'is_pay_auto'       => 1,
-                    'is_pay_submit'     => 1,
-                    'payment_id'        => $payment['id'],
-                ];
-                if(count($order_ids) == 1)
-                {
-                    $weixin_params['id'] = $order_ids[0];
-                    $weixin_params['ids'] = $order_ids[0];
-                    $url = MyUrl('index/order/detail', $weixin_params);
-                } else {
-                    $weixin_params['ids'] = urldecode(implode(',', $order_ids));
-                    $url = MyUrl('index/order/index', $weixin_params);
-                }
-                session('plugins_weixinwebauth_pay_callback_view_url', $url);
+                $weixin_params['id'] = $order_ids[0];
+                $weixin_params['ids'] = $order_ids[0];
+                $url = MyUrl('index/order/detail', $weixin_params);
+            } else {
+                $weixin_params['ids'] = urldecode(implode(',', $order_ids));
+                $url = MyUrl('index/order/index', $weixin_params);
             }
+            session('plugins_weixinwebauth_pay_callback_view_url', $url);
         }
 
         // 发起支付

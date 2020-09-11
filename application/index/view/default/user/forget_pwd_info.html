@@ -30,13 +30,13 @@
 			</div>
 			<div class="user-form-container">
 				<!-- form start -->
-				<form class="am-form form-validation" method="post" action="{{:MyUrl('index/user/forgetpwd')}}" request-type="ajax-url" request-value="{{:MyUrl('index/user/logininfo')}}">
+				<form class="am-form form-validation am-padding-bottom-sm" method="post" action="{{:MyUrl('index/user/forgetpwd')}}" request-type="ajax-url" request-value="{{:MyUrl('index/user/logininfo')}}">
 					<div class="am-form-group am-form-group-refreshing business-form-block">
 						<label>手机/邮箱</label>
 						<input type="text" name="accounts" class="am-radius" id="accounts" minlength="1" placeholder="手机/邮箱" data-validation-message="手机/邮箱格式有误" required />
 					</div>
 
-					<div class="am-form-group am-form-group-refreshing business-form-block">
+					<div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
 						<label>验证码</label>
 						<div class="am-input-group am-input-group-sm">
 			                <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="4" maxlength="4" data-validation-message="验证码格式 4 位数字" required />
@@ -46,7 +46,7 @@
 			            </div>
 		            </div>
 		            
-		            <div class="am-form-group am-form-group-refreshing business-form-block">
+		            <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
 						<label>设置登录密码</label>
 						<div class="am-input-group am-input-group-sm">
 							<input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
@@ -56,7 +56,7 @@
 						</div>
 					</div>
 					
-					<div class="am-form-group am-form-group-refreshing business-form-block">
+					<div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-sm">
 						<button type="submit" class="am-btn am-btn-primary am-radius am-btn-block am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">确认</button>
 					</div>
 				</form>
@@ -67,7 +67,7 @@
 			<div class="am-modal am-modal-no-btn" tabindex="-1" id="verify-win">
 				<div class="am-modal-dialog am-radius">
 					<div class="am-modal-hd">
-						<a href="javascript:;" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+						<a href="javascript:;" class="am-close" data-am-modal-close>&times;</a>
 					</div>
 					<div class="am-modal-bd">
 						<div class="base">

@@ -12,6 +12,27 @@
 // 应用公共文件
 
 /**
+ * 当前应用平台
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-09-11
+ * @desc    description
+ */
+function ApplicationClientType()
+{
+    // 平台
+    $platform = APPLICATION_CLIENT_TYPE;
+
+    // web端手机访问
+    if($platform == 'pc' && IsMobile())
+    {
+        $platform = 'h5';
+    }
+    return $platform;
+}
+
+/**
  * 是否微信环境
  * @author  Devil
  * @blog    http://gong.gg/

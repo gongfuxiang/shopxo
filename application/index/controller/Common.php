@@ -14,6 +14,7 @@ use think\facade\Hook;
 use think\Controller;
 use app\module\FormHandleModule;
 use app\service\SystemService;
+use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\NavigationService;
 use app\service\BuyService;
@@ -22,7 +23,7 @@ use app\service\SearchService;
 use app\service\ConfigService;
 use app\service\LinkService;
 use app\service\UserService;
-use app\service\ResourcesService;
+use app\service\QuickNavService;
 
 /**
  * 前端公共控制器
@@ -34,11 +35,10 @@ use app\service\ResourcesService;
  */
 class Common extends Controller
 {
-    // 顶部导航
+    // 顶部导航、底部导航、快捷导航
     protected $nav_header;
-
-    // 底部导航
     protected $nav_footer;
+    protected $nav_quick;
 
     // 用户信息
     protected $user;
@@ -324,6 +324,7 @@ class Common extends Controller
         // 导航
         $this->assign('nav_header', $this->nav_header);
         $this->assign('nav_footer', $this->nav_footer);
+        $this->assign('nav_quick', $this->nav_quick);
 
         // 导航/底部默认显示
         $this->assign('is_header', 1);
@@ -443,9 +444,13 @@ class Common extends Controller
      */
     private function NavInit()
     {
-        $navigation = NavigationService::Nav();
-        $this->nav_header = $navigation['header'];
-        $this->nav_footer = $navigation['footer'];
+        // 主导航和底部导航
+        $nav = NavigationService::Nav();
+        $this->nav_header = $nav['header'];
+        $this->nav_footer = $nav['footer'];
+
+        // 快捷导航
+        $this->nav_quick = QuickNavService::QuickNav();
     }
 
     /**

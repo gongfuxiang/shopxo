@@ -91,7 +91,7 @@
 				<label>{{$data.home_footer_info.name}}<span class="am-form-group-label-tips">{{$data.home_footer_info.describe}}</span></label>
 				<textarea rows="6" name="{{$data.home_footer_info.only_tag}}" class="am-radius" placeholder="{{$data.home_footer_info.name}}" data-validation-message="{{$data.home_footer_info.error_tips}}">{{if !empty($data)}}{{$data.home_footer_info.value}}{{/if}}</textarea>
 			</div>
-			<div class="am-form-group am-form-group-refreshing">
+			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
 				<input type="hidden" name="nav_type" value="{{$nav_type}}" />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>

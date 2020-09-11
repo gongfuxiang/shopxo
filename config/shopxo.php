@@ -54,8 +54,14 @@ return [
     // 轮播缓存信息
     'cache_banner_list_key'                 => 'cache_banner_list_data_',
 
-    // 导航缓存信息
-    'cache_navigation_key'                  => 'cache_navigation_data_',
+    // 手机首页导航缓存信息
+    'cache_app_home_navigation_key'         => 'cache_app_home_navigation_data_',
+
+    // 手机用户中心导航缓存信息
+    'cache_app_user_center_navigation_key'  => 'cache_app_user_center_navigation_data_',
+
+    // 快捷导航缓存信息
+    'cache_quick_navigation_key'            => 'cache_quick_navigation_data_',
 
     // 附件host、最后不要带/斜杠结尾, 数据库图片地址以/static/...开头
     'attachment_host'                       => defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',

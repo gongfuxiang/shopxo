@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\ResourcesService;
 
 /**
@@ -271,16 +272,10 @@ class AppHomeNavService
     public static function AppHomeNav($params = [])
     {
         // 平台
-        $platform = APPLICATION_CLIENT_TYPE;
-
-        // web端手机访问
-        if($platform == 'pc' && IsMobile())
-        {
-            $platform = 'h5';
-        }
+        $platform = ApplicationClientType();
 
         // 缓存
-        $key = config('shopxo.cache_navigation_key').$platform;
+        $key = config('shopxo.cache_app_home_navigation_key').$platform;
         $data = cache($key);
 
         if(empty($data))
@@ -302,6 +297,15 @@ class AppHomeNavService
             // 存储缓存
             cache($key, $data, 3600*24);
         }
+
+        // 手机首页导航钩子
+        $hook_name = 'plugins_service_app_home_navigation_'.$platform;
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+        ]);
+
         return $data;
     }
 }

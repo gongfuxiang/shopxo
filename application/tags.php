@@ -35,14 +35,18 @@ return array (
   'plugins_css' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
+    2 => 'app\\plugins\\freightfee\\Hook',
   ),
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_view_common_bottom' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_common_page_bottom' => 
   array (
@@ -95,6 +99,14 @@ return array (
   array (
     0 => 'app\\plugins\\wallet\\Hook',
   ),
+  'plugins_service_quick_navigation_pc' => 
+  array (
+    0 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_service_quick_navigation_h5' => 
+  array (
+    0 => 'app\\plugins\\exchangerate\\Hook',
+  ),
   'plugins_service_currency_price_symbol' => 
   array (
     0 => 'app\\plugins\\exchangerate\\Hook',
@@ -110,6 +122,14 @@ return array (
   'plugins_service_order_pay_launch_handle' => 
   array (
     0 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_service_buy_group_goods_handle' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
+  ),
+  'plugins_view_goods_detail_title' => 
+  array (
+    0 => 'app\\plugins\\freightfee\\Hook',
   ),
 );
 ?>

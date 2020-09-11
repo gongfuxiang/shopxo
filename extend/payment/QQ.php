@@ -217,7 +217,7 @@ class QQ
                 // 手机模式下直接返回微信的支付url地址，打开支付（缺点是支付后会直接关闭站点）
                 // QQ支付本身没有提供H5支付方案，这种方式也可以直接支付（缺点是支付后不能回调到原来浏览器）
                 // 公众号后续再采用公众号的方式支付，体验会更好一些，只是可以不关闭站点
-                if(APPLICATION_CLIENT_TYPE == 'h5' || IsMobile())
+                if(ApplicationClientType() == 'h5')
                 {
                     $result = DataReturn('success', 0, $data['code_url']);
                 } else {
@@ -312,6 +312,10 @@ class QQ
      */
     private function GetTradeType()
     {
+        // 平台
+        $client_type = ApplicationClientType();
+
+        // 平台类型定义
         $type_all = [
             'pc'        => 'NATIVE',
             'h5'        => 'NATIVE',
@@ -321,7 +325,7 @@ class QQ
             'android'   => 'APP',
         ];
 
-        return isset($type_all[APPLICATION_CLIENT_TYPE]) ? $type_all[APPLICATION_CLIENT_TYPE] : '';
+        return isset($type_all[$client_type]) ? $type_all[$client_type] : '';
     }
 
     /**

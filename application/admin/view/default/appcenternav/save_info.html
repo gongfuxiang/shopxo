@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appcenternav/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appcenternav/index', $params)}}" enctype="multipart/form-data">
 			<legend>
-				<span class="am-text-default">用户中心导航{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+				<span class="am-text-default">手机用户中心导航{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
 				<a href="{{:MyUrl('admin/appcenternav/index', $params)}}" class="am-fr am-text-sm am-margin-top-xs am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
@@ -36,14 +36,14 @@
 				</select>
 			</div>
 			<div class="am-form-group">
+				<label>事件值</label>
+				<input type="text" name="event_value" placeholder="事件值" data-validation-message="事件值最多 255 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.event_value}}"{{/if}} />
 				<div class="am-alert am-alert-warning am-radius" data-am-alert>
 				    <button type="button" class="am-close">&times;</button>
 				    <p class="am-text-xs">
 				    	WEB页面<br />&nbsp&nbsp&nbsp;1.以http开头<br />&nbsp&nbsp&nbsp;2.并在小程序后台加入白名单<br /><br /> 内部页面(小程序/APP内部地址)<br />&nbsp&nbsp&nbsp;1.小程序或APP内部地址<br />&nbsp&nbsp&nbsp;2.小程序以/pages开始<br />&nbsp&nbsp&nbsp;3.例如：/pages/user/user<br />&nbsp&nbsp&nbsp;4.支持带参数 ?x=xx<br /><br /> 跳转原生地图查看指定位置<br />&nbsp&nbsp&nbsp;1.以 | 竖线分割，分别顺序 名称|地址|经度|纬度<br />&nbsp&nbsp&nbsp;2.例如：ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843
 				    </p>
 				</div>
-				<label>事件值</label>
-				<input type="text" name="event_value" placeholder="事件值" data-validation-message="事件值最多 255 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.event_value}}"{{/if}} />
 			</div>
 
 			<div class="am-form-group">
@@ -70,7 +70,7 @@
 			    <label class="block">是否启用</label>
 			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_enable'] eq 1}} checked="true"{{/if}} />
 			</div>
-			<div class="am-form-group am-form-group-refreshing">
+			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>

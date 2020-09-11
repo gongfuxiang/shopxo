@@ -15,33 +15,33 @@ use think\facade\Hook;
 use app\service\ResourcesService;
 
 /**
- * APP用户中心导航服务层
+ * 快捷导航服务层
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class AppCenterNavService
+class QuickNavService
 {
     /**
-     * 用户中心导航列表
+     * 首页导航列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function AppCenterNavList($params = [])
+    public static function QuickNavList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'sort asc, id asc' : trim($params['order_by']);
+        $order_by = empty($params['order_by']) ? 'sort asc,id asc' : trim($params['order_by']);
 
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         // 获取品牌列表
-        $data = Db::name('AppCenterNav')->where($where)->order($order_by)->limit($m, $n)->select();
+        $data = Db::name('QuickNav')->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
             $common_platform_type = lang('common_platform_type');
@@ -82,20 +82,20 @@ class AppCenterNavService
     }
 
     /**
-     * 用户中心导航总数
+     * 首页导航总数
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-10T22:16:29+0800
      * @param    [array]          $where [条件]
      */
-    public static function AppCenterNavTotal($where)
+    public static function QuickNavTotal($where)
     {
-        return (int) Db::name('AppCenterNav')->where($where)->count();
+        return (int) Db::name('QuickNav')->where($where)->count();
     }
 
     /**
-     * 用户中心导航数据保存
+     * 首页导航数据保存
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -103,7 +103,7 @@ class AppCenterNavService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AppCenterNavSave($params = [])
+    public static function QuickNavSave($params = [])
     {
         // 请求类型
         $p = [
@@ -140,12 +140,6 @@ class AppCenterNavService
             ],
             [
                 'checked_type'      => 'length',
-                'key_name'          => 'desc',
-                'checked_data'      => '18',
-                'error_msg'         => '描述最多 18 个字符',
-            ],
-            [
-                'checked_type'      => 'length',
                 'key_name'          => 'sort',
                 'checked_data'      => '3',
                 'error_msg'         => '顺序 0~255 之间的数值',
@@ -168,7 +162,7 @@ class AppCenterNavService
             'event_type'    => isset($params['event_type']) ? intval($params['event_type']) : -1,
             'event_value'   => $params['event_value'],
             'images_url'    => $attachment['data']['images_url'],
-            'desc'          => empty($params['desc']) ? '' : $params['desc'],
+            'bg_color'      => isset($params['bg_color']) ? $params['bg_color'] : '',
             'sort'          => intval($params['sort']),
             'is_enable'     => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
         ];
@@ -176,14 +170,14 @@ class AppCenterNavService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(Db::name('AppCenterNav')->insertGetId($data) > 0)
+            if(Db::name('QuickNav')->insertGetId($data) > 0)
             {
                 return DataReturn('添加成功', 0);
             }
             return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
-            if(Db::name('AppCenterNav')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('QuickNav')->where(['id'=>intval($params['id'])])->update($data))
             {
                 return DataReturn('编辑成功', 0);
             }
@@ -192,7 +186,7 @@ class AppCenterNavService
     }
 
     /**
-     * 用户中心导航删除
+     * 首页导航删除
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -200,7 +194,7 @@ class AppCenterNavService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AppCenterNavDelete($params = [])
+    public static function QuickNavDelete($params = [])
     {
         // 参数是否有误
         if(empty($params['ids']))
@@ -214,7 +208,7 @@ class AppCenterNavService
         }
 
         // 删除操作
-        if(Db::name('AppCenterNav')->where(['id'=>$params['ids']])->delete())
+        if(Db::name('QuickNav')->where(['id'=>$params['ids']])->delete())
         {
             return DataReturn('删除成功');
         }
@@ -223,14 +217,14 @@ class AppCenterNavService
     }
 
     /**
-     * 用户中心导航状态更新
+     * 首页导航状态更新
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function AppCenterNavStatusUpdate($params = [])
+    public static function QuickNavStatusUpdate($params = [])
     {
         // 请求参数
         $p = [
@@ -258,15 +252,15 @@ class AppCenterNavService
         }
 
         // 数据更新
-        if(Db::name('AppCenterNav')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
+        if(Db::name('QuickNav')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-           return DataReturn('操作成功');
+            return DataReturn('操作成功');
         }
         return DataReturn('操作失败', -100);
     }
 
     /**
-     * APP获取用户中心导航
+     * APP获取首页导航
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -274,20 +268,21 @@ class AppCenterNavService
      * @desc    description
      * @param   array           $params [description]
      */
-    public static function AppCenterNav($params = [])
+    public static function QuickNav($params = [])
     {
         // 平台
         $platform = ApplicationClientType();
 
         // 缓存
-        $key = config('shopxo.cache_app_user_center_navigation_key').$platform;
+        $key = config('shopxo.cache_quick_navigation_key').$platform;
         $data = cache($key);
 
         if(empty($data))
         {
-            $field = 'id,name,images_url,event_value,event_type,desc';
+            // 获取导航数据
+            $field = 'id,name,images_url,event_value,event_type,bg_color';
             $order_by = 'sort asc,id asc';
-            $data = Db::name('AppCenterNav')->field($field)->where(['platform'=>$platform, 'is_enable'=>1])->order($order_by)->select();
+            $data = Db::name('QuickNav')->field($field)->where(['platform'=>$platform, 'is_enable'=>1])->order($order_by)->select();
             if(!empty($data))
             {
                 foreach($data as &$v)
@@ -297,12 +292,14 @@ class AppCenterNavService
                     $v['event_value'] = empty($v['event_value']) ? null : $v['event_value'];
                 }
             }
+
             // 存储缓存
             cache($key, $data, 3600*24);
         }
 
-        // 手机用户中心导航钩子
-        $hook_name = 'plugins_service_app_user_center_navigation_'.$platform;
+        // 快捷导航钩子
+        // 数据参数可以自定义新增 class_name 名称、方便非url事件使用js控制点击事件
+        $hook_name = 'plugins_service_quick_navigation_'.$platform;
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,

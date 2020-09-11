@@ -150,7 +150,7 @@ dialog.popup = function(options) {
   } else {
     html.push('<div class="am-popup '+options.class+' popup-not-title">');
     html.push('<div class="am-popup-inner">');
-    html.push('<span data-am-modal-close class="am-close am-close-alt am-icon-times am-close-spin"></span>');
+    html.push('<span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>');
     html.push(options.content);
   }
   html.push('</div> ');

@@ -1029,7 +1029,7 @@ class BuyService
         $order_status = (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1;
 
         // 订单来源
-        $client_type = (APPLICATION_CLIENT_TYPE == 'pc' && IsMobile()) ? 'h5' : APPLICATION_CLIENT_TYPE;
+        $client_type = ApplicationClientType();
 
         // 开始事务
         Db::startTrans();

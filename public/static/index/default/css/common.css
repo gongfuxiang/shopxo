@@ -968,3 +968,51 @@ legend a.am-fr {
 .items-value-empty {
     color: #999;
 }
+
+/**
+ * 手机端快捷入口
+ */
+.common-main-quick-menu {
+    background: #d2354c;
+    color: #fff;
+    position: fixed;
+    left: 10px;
+    bottom:70px;
+    z-index: 1020;
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+.common-main-quick-menu:hover, .common-main-quick-menu:focus {
+    background: #ea304b;
+    color: #fff;
+}
+.common-main-quick-content li .nav-icon {
+    background: #e4e4e4;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    display: inline-block;
+}
+.common-main-quick-content li .nav-icon img {
+    width: 25px;
+    height: 25px;
+    -webkit-transition: transform .3s ease-in;
+    -moz-transition: transform .3s ease-in;
+    -ms-transition: transform .3s ease-in;
+    -o-transition: transform .3s ease-in;
+    transition: transform .3s ease-in;
+}
+.common-main-quick-content li a {
+    text-decoration: none;
+}
+@media only screen and (min-width:641px){
+    .common-main-quick-content li:hover .nav-icon img {
+        transform: scale(1.2);
+        -moz-transform: scale(1.2);
+        -webkit-transform: scale(1.2);
+        -o-transform: scale(1.2);
+        -ms-transform: scale(1.2);
+    }
+}

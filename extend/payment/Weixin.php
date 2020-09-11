@@ -162,12 +162,9 @@ class Weixin
         }
 
         // 微信中打开
-        if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
+        if(ApplicationClientType() == 'h5' && IsWeixinEnv())
         {
-            if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false && empty($params['user']['weixin_web_openid']))
-            {
-                exit(header('location:'.PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', input())));
-            }
+            exit(header('location:'.PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', input())));
         }
 
         // 获取支付参数
@@ -246,7 +243,7 @@ class Weixin
                 $pay_data['paySign'] = $this->GetSign($pay_data);
 
                 // 微信中
-                if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']) && !empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
+                if(ApplicationClientType() == 'h5' && IsWeixinEnv())
                 {
                     $this->PayHtml($pay_data, $redirect_url);
                 } else {
@@ -383,6 +380,10 @@ class Weixin
      */
     private function GetTradeType()
     {
+        // 平台
+        $client_type = ApplicationClientType();
+
+        // 平台类型定义
         $type_all = [
             'pc'        => 'NATIVE',
             'weixin'    => 'JSAPI',
@@ -393,22 +394,13 @@ class Weixin
             'android'   => 'APP',
         ];
 
-        // 手机中打开pc版本
-        if(APPLICATION_CLIENT_TYPE == 'pc' && IsMobile())
-        {
-            $type_all['pc'] = $type_all['h5'];
-        }
-
         // 微信中打开
-        if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
+        if($client_type == 'h5' && IsWeixinEnv())
         {
-            if(!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false)
-            {
-                $type_all['pc'] = $type_all['weixin'];
-            }
+            $type_all['pc'] = $type_all['weixin'];
         }
 
-        return isset($type_all[APPLICATION_CLIENT_TYPE]) ? $type_all[APPLICATION_CLIENT_TYPE] : '';
+        return isset($type_all[$client_type]) ? $type_all[$client_type] : '';
     }
 
     /**

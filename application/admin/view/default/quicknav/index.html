@@ -1,0 +1,9 @@
+<!-- 继承公共的 form -->
+{{extend name="public/module/form" /}}
+
+<!-- 表单顶部操作栏 -->
+{{block name="form_operate_top"}}
+    <a href="{{:MyUrl('admin/quicknav/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+    <!-- 父级内容 -->
+    {__block__}
+{{/block}}

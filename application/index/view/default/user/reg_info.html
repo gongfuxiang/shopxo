@@ -66,7 +66,7 @@
                                     <li class="{{if !in_array('username', MyC('home_user_reg_state')) and !in_array('sms', MyC('home_user_reg_state'))}}am-active{{/if}}"><a href="[data-tab-panel-2]">邮箱注册</a></li>
                                 {{/if}}
                             </ul>
-                            <div class="am-tabs-bd">
+                            <div class="am-tabs-bd am-padding-bottom-sm">
                                 {{if in_array('username', MyC('home_user_reg_state'))}}
                                     <div data-tab-panel-0 class="am-tab-panel am-active">
                                         <!-- form start -->
@@ -76,7 +76,7 @@
                                                 <input type="text" name="accounts" class="am-radius" placeholder="请使用字母、数字、下划线 2~18 个字符" pattern="{{:lang('common_regex_username')}}" data-validation-message="用户名格式由 字母数字下划线 2~18 个字符" required />
                                             </div>
 
-                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                            <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                                                 <label>设置登录密码</label>
                                                 <div class="am-input-group am-input-group-sm">
                                                     <input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
@@ -87,7 +87,7 @@
                                             </div>
 
                                             {{if MyC('home_user_register_img_verify_state') eq 1}}
-                                                <div class="am-form-group am-form-group-refreshing business-form-block">
+                                                <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                                                     <label>验证码</label>
                                                     <div class="am-input-group am-input-group-sm">
                                                         <input type="text" name="verify" class="am-radius" placeholder="验证码" minlength="4" maxlength="4" data-validation-message="请输入图片验证码" required />
@@ -127,7 +127,7 @@
                                                 <input type="text" name="accounts" class="am-radius" placeholder="请输入手机号码" pattern="{{:lang('common_regex_mobile')}}" data-validation-message="手机号码格式错误" required />
                                             </div>
 
-                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                            <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                                                 <label>验证码</label>
                                                 <div class="am-input-group am-input-group-sm">
                                                     <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="4" maxlength="4" data-validation-message="验证码格式 4 位数字" required />
@@ -137,7 +137,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                            <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                                                 <label>设置登录密码</label>
                                                 <div class="am-input-group am-input-group-sm">
                                                     <input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
@@ -173,7 +173,7 @@
                                                 <input type="email" name="accounts" class="am-radius" placeholder="请输入电子邮箱" data-validation-message="电子邮箱格式错误" required />
                                             </div>
 
-                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                            <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                                                 <label>验证码</label>
                                                 <div class="am-input-group am-input-group-sm">
                                                     <input type="number" name="verify" class="am-radius" placeholder="验证码" minlength="4" maxlength="4" data-validation-message="验证码格式 4 位数字" required />
@@ -183,7 +183,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="am-form-group am-form-group-refreshing business-form-block">
+                                            <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                                                 <label>设置登录密码</label>
                                                 <div class="am-input-group am-input-group-sm">
                                                     <input type="password" name="pwd" class="am-radius" placeholder="设置登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
@@ -218,7 +218,7 @@
                             <div class="am-modal am-modal-no-btn" tabindex="-1" id="verify-win">
                                 <div class="am-modal-dialog am-radius">
                                     <div class="am-modal-hd">
-                                        <a href="javascript:;" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+                                        <a href="javascript:;" class="am-close" data-am-modal-close>&times;</a>
                                     </div>
                                     <div class="am-modal-bd">
                                         <div class="base">

@@ -4,7 +4,7 @@
 .article-header .am-article-divider{margin: 10px 0 20px 0;}
 .article-header .am-article-meta{margin-top: 5px;}
 .article-header .am-article-meta span:not(:first-child){margin-left: 15px;}
-.article-nav-button{position: fixed; z-index: 10; bottom: 70px; right: 10px;}
+.article-nav-button{position: fixed; z-index: 10; bottom: 70px; right: 10px;-webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);-moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);}
 .am-offcanvas-bar:after{background: #eee;}
 .article-sidebar ul li{margin-top: 0;}
 .article-sidebar ul li a{font-size: 12px; padding: 5px;}
