@@ -51,7 +51,7 @@
                             </ul>
                         {{/if}}
                         {{if empty($express_list)}}
-                            <div class="table-no"><i class="am-icon-warning"></i> 没有快递方式</div>
+                            {{include file="public/not_data" /}}
                         {{/if}}
                     </div>
 
@@ -95,7 +95,7 @@
                             </ul>
                         {{/if}}
                         {{if empty($buy_payment_list)}}
-                            <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
+                            {{include file="public/not_data" /}}
                         {{/if}}
                     </div>
                     <div class="am-margin-top-sm">

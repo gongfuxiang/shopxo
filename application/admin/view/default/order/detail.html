@@ -13,7 +13,7 @@
             {{if !empty($data['items'])}}
                 {{:ModuleInclude('order/module/goods', $data)}}
             {{else /}}
-                <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                {{include file="public/not_data" /}}
             {{/if}}
         </div>
     </div>
@@ -40,7 +40,7 @@
                         <span>{{$data.address_data.address}}</span>
                     </p>
                 {{else /}}
-                    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                    {{include file="public/not_data" /}}
                 {{/if}}
             </div>
         </div>
@@ -71,7 +71,7 @@
                     <!-- 取货码 -->
                     {{:ModuleInclude('order/module/take', $data)}}
                 {{else /}}
-                    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                    {{include file="public/not_data" /}}
                 {{/if}}
             </div>
         </div>
@@ -100,7 +100,7 @@
                         {{/foreach}}
                     </ul>
                 {{else /}}
-                    <div class="table-no"><i class="am-icon-warning"></i> 没有相关数据</div>
+                    {{include file="public/not_data" /}}
                 {{/if}}
             </div>
         </div>

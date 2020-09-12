@@ -64,14 +64,15 @@
                 </ul>
             {{/if}}
 
-            <!-- 右侧快捷导航 -->
+            <!-- 右侧导航 -->
             <div class="am-topbar-right am-hide-sm-only">
-                <div class="navigation-user {{if empty($user)}}login-event{{/if}}">
-                    <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/user/index')}}{{/if}}">
-                        <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="nav-user" />
-                        <b></b>
-                        <span>我的商城</span>
-                        <i class="am-icon-angle-right"></i>
+                <!-- 快捷百宝箱 -->
+                <div class="navigation-main-quick">
+                    <a href="javascript:;" class="am-block" data-am-modal="{target: '#left-main-quick-popup'}">
+                        <span class="am-icon-sliders icon"></span>
+                        <b class="am-block"></b>
+                        <p class="am-text-truncate name">百宝箱</p>
+                        <i class="am-icon-angle-down"></i>
                     </a>
                 </div>
             </div>

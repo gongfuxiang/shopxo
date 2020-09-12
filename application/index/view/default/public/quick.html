@@ -1,0 +1,26 @@
+<a href="javascript:;" class="am-icon-btn am-icon-sliders am-show-sm-only left-main-quick-menu" data-am-modal="{target: '#left-main-quick-popup'}"></a>
+<div class="am-popup popup-not-title" id="left-main-quick-popup">
+    <div class="am-popup-inner">
+        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <div class="am-popup-bd">
+            {{if !empty($nav_quick) and is_array($nav_quick)}}
+                <ul class="am-avg-sm-3 am-avg-md-4 am-avg-lg-4 left-main-quick-content">
+                    {{foreach $nav_quick as $nav}}
+                        {{if !empty($nav['images_url']) and !empty($nav['name'])}}
+                            <li class="am-text-center am-padding-sm {{if isset($nav['class_name'])}}{{$nav.class_name}}{{/if}}">
+                                <a href="{{if !empty($nav['event_value'])}}{{$nav.event_value}}{{else /}}javascript:;{{/if}}">
+                                    <p class="nav-icon" style="{{if !empty($nav['bg_color'])}}background:{{$nav.bg_color}};{{/if}}">
+                                        <img src="{{$nav.images_url}}" alt="{{$nav.name}}" />
+                                    </p>
+                                    <p class="am-margin-top-xs am-text-truncate">{{$nav.name}}</p>
+                                </a>
+                            </li>
+                        {{/if}}
+                    {{/foreach}}
+                </ul>
+            {{else /}}
+                {{include file="public/not_data" /}}
+            {{/if}}
+        </div>
+    </div>
+</div>
