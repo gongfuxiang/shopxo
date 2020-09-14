@@ -295,7 +295,7 @@ class AppHomeNavService
             }
 
             // 存储缓存
-            cache($key, $data, 3600*24);
+            cache($key, $data, 60);
         }
 
         // 手机首页导航钩子

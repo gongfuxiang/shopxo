@@ -70,7 +70,6 @@ class Buy extends Common
                 'goods_list'                => $buy_goods,
                 'payment_list'              => $payment_list,
                 'base'                      => $buy_base,
-                'common_order_is_booking'   => (int) MyC('common_order_is_booking', 0),
                 'common_site_type'          => (int) $buy_base['common_site_type'],
             ];
 

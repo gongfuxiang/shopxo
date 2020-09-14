@@ -127,12 +127,15 @@ class ConfigService
                 $success++;
 
                 // 单条配置缓存删除
-                cache(config('shopxo.cache_config_row_key').$k, null);
+                cache($k, null);
             }
         }
         if($success > 0)
         {
-            // 配置信息更新
+            // 删除所有配置的缓存数据
+            cache(config('shopxo.cache_common_my_config_key'), null);
+
+            // 所有配置信息更新
             self::ConfigInit(1);
 
             // 是否需要更新路由规则
@@ -185,7 +188,7 @@ class ConfigService
     {
         $key = config('shopxo.cache_common_my_config_key');
         $data = cache($key);
-        if($status == 1 || empty($data))
+        if(empty($data) || $status == 1)
         {
             // 所有配置
             $data = Db::name('Config')->column('value', 'only_tag');
@@ -200,15 +203,20 @@ class ConfigService
                 }
             }
 
-            // 富文本字段处理
-            foreach($data as $k=>$v)
+            // 数据处理
+            foreach($data as $k=>&$v)
             {
+                // 富文本字段处理
                 if(in_array($k, self::$rich_text_list))
                 {
-                    $data[$k] = ResourcesService::ContentStaticReplace($v, 'get');
+                    $v = ResourcesService::ContentStaticReplace($v, 'get');
                 }
+
+                // 单个缓存
+                cache($k, $v);
             }
 
+            // 所有配置缓存集合
             cache($key, $data);
         }
     }
@@ -274,22 +282,21 @@ class ConfigService
      * @version 1.0.0
      * @date    2019-05-16
      * @desc    description
-     * @param   [string]           $only_tag [唯一标记]
+     * @param   [string]           $key [唯一标记]
      */
-    public static function ConfigContentRow($only_tag)
+    public static function ConfigContentRow($key)
     {
-        // 缓存key
-        $key = config('shopxo.cache_config_row_key').$only_tag;
-        $data = cache($key);
+        // 缓存key,单条新增前缀，与公共配置区分开
+        $data = cache('config_content_row_'.$key);
 
         // 获取内容
         if(empty($data))
         {
-            $data = Db::name('Config')->where(['only_tag'=>$only_tag])->field('name,value,type,upd_time')->find();
+            $data = Db::name('Config')->where(['only_tag'=>$key])->field('name,value,type,upd_time')->find();
             if(!empty($data))
             {
                 // 富文本处理
-                if(in_array($only_tag, self::$rich_text_list))
+                if(in_array($key, self::$rich_text_list))
                 {
                     $data['value'] = ResourcesService::ContentStaticReplace($data['value'], 'get');
                 }
@@ -335,7 +342,7 @@ class ConfigService
             foreach($data as &$v)
             {
                 // 坐标转换 百度转火星(高德，谷歌，腾讯坐标)
-                if(isset($v['lng']) && isset($v['lat']) && $v['lng'] > 0 && $v['lat'] > 0)
+                if(isset($v['lng']) && isset($v['lat']))
                 {
                     $map = \base\GeoTransUtil::BdToGcj($v['lng'], $v['lat']);
                     if(isset($map['lng']) && isset($map['lat']))

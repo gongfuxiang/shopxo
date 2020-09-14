@@ -254,6 +254,9 @@ class Common extends Controller
         // 当前url地址
         $this->assign('my_url', __MY_URL__);
 
+        // 项目public目录URL地址
+        $this->assign('my_public_url', __MY_PUBLIC_URL__);
+
         // 当前http类型
         $this->assign('my_http', __MY_HTTP__);
 

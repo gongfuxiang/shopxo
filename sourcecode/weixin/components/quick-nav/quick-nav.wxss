@@ -1,0 +1,88 @@
+/**
+ * 弹窗
+ */
+.quick-event-submit {
+  position: fixed;
+  bottom: 60rpx;
+  left: 20rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  background-color: #d2364c;
+}
+.quick-event-submit image {
+  width: 50rpx;
+  height: 50rpx;
+  margin: 25rpx auto 25rpx auto;
+  display: block;
+}
+
+.popup-container {
+  padding: 20rpx 10rpx 0 10rpx;
+  background: #fff;
+}
+.popup-container .close {
+  overflow: hidden;
+}
+.popup-container .close .icon-right {
+  float: right;
+}
+.popup-content {
+  max-height: 80vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-bottom: 20rpx;
+}
+
+/**
+ * 内容
+ */
+.data-list {
+  overflow: hidden;
+  background: #fff;
+}
+.data-list .items {
+  width: calc(25% - 60rpx);
+  float: left;
+  padding: 30rpx;
+}
+.items-content {
+  border-radius: 50%;
+  padding: 20rpx;
+  text-align: center;
+  width: 70rpx;
+  height: 70rpx;
+  margin: 0 auto;
+}
+.data-list .items image {
+  width: 60rpx !important;
+  height: 60rpx !important;
+  margin-top: 5rpx;
+}
+.data-list .items .title {
+  margin-top: 10rpx;
+  font-size: 32rpx;
+  text-align:center;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;	  
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/*
+ * 没有数据
+ */
+.no-data-box {
+  padding: 80rpx 0;
+  text-align: center;
+}
+.no-data-box image {
+  width: 160rpx;
+  margin-bottom: 30rpx;
+}
+.no-data-box .no-data-tips {
+  font-size: 28rpx;
+  color: #a6a6a6;
+}

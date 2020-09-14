@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    price_symbol: app.data.price_symbol,
     data_list_loding_status: 1,
     buy_submit_disabled_status: false,
     data_list_loding_msg: '',
@@ -15,7 +14,6 @@ Page({
     is_first: 1,
     extension_data: [],
     payment_id: 0,
-    common_order_is_booking: 0,
     common_site_type: 0,
     extraction_address: [],
     site_model: 0,
@@ -23,6 +21,10 @@ Page({
       { name: "快递邮寄", value: 0 },
       { name: "自提点取货", value: 2 }
     ],
+
+    // 基础配置
+    price_symbol: app.data.price_symbol,
+    common_order_is_booking: 0,
 
     // 优惠劵
     plugins_coupon_data: null,
@@ -43,11 +45,27 @@ Page({
   },
 
   onShow() {
+    // 数据加载
     this.init();
     this.setData({ is_first: 0 });
+
+    // 初始化配置
+    this.init_config();
   },
 
-  // 获取数据列表
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        price_symbol: app.get_config('price_symbol'),
+        common_order_is_booking: app.get_config('config.common_order_is_booking'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     // 订单参数信息是否正确
     if (this.data.params == null) {
@@ -101,7 +119,6 @@ Page({
               total_price: data.base.actual_price,
               extension_data: data.extension_data || [],
               data_list_loding_status: 3,
-              common_order_is_booking: data.common_order_is_booking || 0,
               common_site_type: data.common_site_type || 0,
               extraction_address: data.base.extraction_address || [],
               plugins_coupon_data: data.plugins_coupon_data || null,

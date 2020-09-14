@@ -298,7 +298,7 @@ class AppCenterNavService
                 }
             }
             // 存储缓存
-            cache($key, $data, 3600*24);
+            cache($key, $data, 60);
         }
 
         // 手机用户中心导航钩子

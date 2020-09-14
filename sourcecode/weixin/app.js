@@ -1,5 +1,8 @@
 App({
   data: {
+    // 配置信息缓存key
+    cache_config_info_key: "cache_config_info_key",
+
     // 用户登录缓存key
     cache_user_login_key: "cache_user_login_key",
     
@@ -59,21 +62,19 @@ App({
       "user_orderaftersale": "退款/售后",
       "user_orderaftersale_detail": "订单售后",
       "user_order_comments": "订单评论",
-      "coupon": "领劵中心",
-      "user_coupon": "优惠劵",
       "extraction_address": "自提地址",
     },
 
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://shopxo.com/',
-     request_url: 'https://dev.shopxo.net/',
+    // request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
     application_describe: "{{application_describe}}",
 
-    // 价格符号
+    // 默认价格符号
     price_symbol: "{{price_symbol}}",
     price_symbol: "￥"
   },
@@ -93,7 +94,17 @@ App({
       key: this.data.cache_launch_info_key,
       data: options
     });
+
+    // 初始化配置
+    this.init_config();
   },
+
+  sleep(delay) {
+    var start = (new Date()).getTime();
+    while((new Date()).getTime() - start < delay) {
+        continue;
+    }
+},
 
   /**
    * 启动参数处理
@@ -703,6 +714,91 @@ App({
       withShareTicket: true,
       menus: ['shareAppMessage', 'shareTimeline']
     });
+  },
+
+  /**
+   * 获取配置信息、可指定默认值
+   * key              数据key（支持多级读取、以 . 分割key名称）
+   * default_value    默认值
+   */
+  get_config(key, default_value) {
+    var value = null;
+    let config = wx.getStorageSync(this.data.cache_config_info_key) || null;
+    if(config != null)
+    {
+      // 数据读取
+      var arr = key.split('.');
+      if(arr.length == 1)
+      {
+        value = config[key] == undefined ? null : config[key];
+      } else {
+        value = config;
+        for(var i in arr)
+        {
+          if(value[arr[i]] != undefined)
+          {
+            value = value[arr[i]];
+          } else {
+            value =  null;
+            break;
+          }
+        }
+      }
+    }
+    return (value === null) ? ((default_value === undefined) ? value : default_value) : value;
+  },
+
+  // 初始化 配置信息
+  init_config() {
+    var self = this;
+    wx.request({
+      url: this.get_request_url('common', 'base'),
+      method: 'POST',
+      data: {},
+      dataType: 'json',
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      success: (res) => {
+        if (res.data.code == 0) {
+          wx.setStorage({
+            key: this.data.cache_config_info_key,
+            data: res.data.data,
+            fail: () => {
+              this.showToast('配置信息缓存失败');
+            }
+          });
+        } else {
+          this.showToast(res.data.msg);
+        }
+      },
+      fail: () => {
+        this.showToast('服务器请求出错');
+      },
+    });
+  },
+
+  /**
+   * 配置是否有效(100毫秒检验一次、最多检验100次)
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   */
+  is_config(object, method) {
+    var self = this;
+    var count = 0;
+    var timer = setInterval(function()
+    {
+      if(self.get_config('status') == 1)
+      {
+        clearInterval(timer);
+        if (typeof object === 'object' && (method || null) != null) {
+          object[method](true);
+        }
+      }
+      count++;
+      if(count >= 100)
+      {
+        clearInterval(timer);
+      }
+    }, 100);
   },
 
 });

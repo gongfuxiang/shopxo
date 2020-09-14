@@ -8,7 +8,7 @@
 </view>
 
 <!-- 商城公告 -->
-<view wx:if="{{common_shop_notice != null}}">
+<view wx:if="{{(common_shop_notice || null) != null}}">
   <view class="tips">{{common_shop_notice}}</view>
 </view>
 
@@ -80,6 +80,9 @@
   <import src="/pages/lib/online-service/content.wxml" />
   <template is="online_service"></template>
 </view>
+
+<!-- 快捷导航 -->
+<component-quick-nav></component-quick-nav>
 
 <view wx:if="{{load_status == 1}}">
   <import src="/pages/common/copyright.wxml" />

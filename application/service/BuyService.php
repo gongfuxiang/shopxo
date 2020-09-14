@@ -1402,7 +1402,7 @@ class BuyService
         if(in_array(APPLICATION_CLIENT_TYPE, config('shopxo.coordinate_transformation')))
         {
             // 坐标转换 火星(高德，谷歌，腾讯坐标) 转 百度
-            if(isset($address['lng']) && isset($address['lat']) && $address['lng'] > 0 && $address['lat'] > 0)
+            if(isset($address['lng']) && isset($address['lat']))
             {
                 $map = \base\GeoTransUtil::GcjToBd($address['lng'], $address['lat']);
                 if(isset($map['lng']) && isset($map['lat']))

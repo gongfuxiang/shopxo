@@ -339,6 +339,9 @@ class Common extends Controller
         // 当前url地址
         $this->assign('my_url', __MY_URL__);
 
+        // 项目public目录URL地址
+        $this->assign('my_public_url', __MY_PUBLIC_URL__);
+
         // 当前http类型
         $this->assign('my_http', __MY_HTTP__);
 
@@ -400,6 +403,12 @@ class Common extends Controller
 
         // 默认不加载百度地图api
         $this->assign('is_load_baidu_map_api', 0);
+
+        // 存在地图事件则载入
+        if(in_array(3, array_column($this->nav_quick, 'event_type')))
+        {
+            $this->assign('is_load_baidu_map_api', 1);
+        }
     }
 
     /**

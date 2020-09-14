@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    price_symbol: app.data.price_symbol,
     data_list: [],
     data_page_total: 0,
     data_page: 1,
@@ -24,6 +23,9 @@ Page({
     ],
     nav_status_index: 0,
     order_select_ids: [],
+
+    // 基础配置
+    price_symbol: app.data.price_symbol,
   },
 
   onLoad(params) {
@@ -42,13 +44,30 @@ Page({
       params: params,
       nav_status_index: nav_status_index,
     });
-    this.init();
   },
 
   onShow() {
     wx.setNavigationBarTitle({title: app.data.common_pages_title.user_order});
+    
+    // 数据加载
+    this.init();
+
+    // 初始化配置
+    this.init_config();
   },
 
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        price_symbol: app.get_config('price_symbol'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     var user = app.get_user_info(this, 'init');
     if (user != false) {

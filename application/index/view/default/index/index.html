@@ -41,7 +41,7 @@
     <div class="banner-mixed">
         <div class="mod-vip">
             <div class="m-baseinfo">
-                <a href="{{if !empty($user)}}{{:MyUrl('index/user/index')}}{{else /}}javascript:;{{/if}}" target="_blank">
+                <a {{if !empty($user)}}href="{{:MyUrl('index/user/index')}}" target="_blank"{{else /}}href="javascript:;"{{/if}}>
                     <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="user-avatar" />
                 </a>
                 <em>

@@ -46,7 +46,7 @@ class Agreement extends Common
     public function Index()
     {
         // 参数
-        $params = input();
+        $params = $this->data_request;
 
         // 获取协议内容
         $data = [];

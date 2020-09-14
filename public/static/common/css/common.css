@@ -165,7 +165,7 @@ iframe { border: 0; }
     form.am-form .am-form-group-refreshing:hover { background: none; }
 
     /* 弹窗 */
-    .am-popup .am-form-group, .am-modal form.am-form .am-form-group, .business-form-block { padding: 10px 5px !important; }
+    .am-popup form.am-form .am-form-group, .am-modal form.am-form .am-form-group, .business-form-block { padding: 10px 5px; }
 
     /* 地址联动 */
     .region-linkage select { width: 33%; display: -webkit-inline-box; }

@@ -13,6 +13,19 @@
 // | 应用设置
 // +----------------------------------------------------------------------
 
+// cdn地址
+$cdn_attachment_host = MyC('common_cdn_attachment_host', __MY_PUBLIC_URL__, true);
+$cdn_public_host = MyC('common_cdn_public_host', __MY_PUBLIC_URL__, true);
+if(substr($cdn_attachment_host, -1) == DS)
+{
+    $cdn_attachment_host = substr($cdn_attachment_host, 0, -1);
+}
+if(substr($cdn_public_host, -1) != DS)
+{
+    $cdn_public_host .= DS;
+}
+
+// 配置信息
 return [
     // 开发模式
     'is_develop'                            => false,
@@ -42,9 +55,6 @@ return [
     // 用户密码找回左侧数据
     'cache_user_forgetpwd_left_key'         => 'cache_user_forgetpwd_left_data',
 
-    // 配置信息一条缓存 拼接唯一标记 [ only_tag ]
-    'cache_config_row_key'                  => 'cache_config_row_data_',
-
     // 用户缓存信息
     'cache_user_info'                       => 'cache_user_info_',
 
@@ -64,10 +74,10 @@ return [
     'cache_quick_navigation_key'            => 'cache_quick_navigation_data_',
 
     // 附件host、最后不要带/斜杠结尾, 数据库图片地址以/static/...开头
-    'attachment_host'                       => defined('__MY_PUBLIC_URL__') ? substr(__MY_PUBLIC_URL__, 0, -1) : '',
+    'attachment_host'                       => $cdn_attachment_host,
 
-    // css/js引入host地址
-    'public_host'                           => __MY_PUBLIC_URL__,
+    // css/js引入host地址、以/斜杠结尾
+    'public_host'                           => $cdn_public_host,
 
     // 应用商店地址
     'store_url'                             => 'https://store.shopxo.net/',

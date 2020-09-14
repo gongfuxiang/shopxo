@@ -60,15 +60,15 @@
     <text class="item-name">安全退出</text>
   </view>
 
-  <view wx:if="{{customer_service_tel != null}}" class="nav-item" bindtap="call_event">
+  <view wx:if="{{(common_app_customer_service_tel || null) != null}}" class="nav-item" bindtap="call_event">
     <image src="/images/user-nav-customer-service-icon.png" class="item-icon" mode="widthFix" />
     <text class="item-name">客服电话 </text>
-    <text class="item-name cr-blue">{{customer_service_tel}}</text>
+    <text class="item-name cr-blue">{{common_app_customer_service_tel}}</text>
   </view>
 </view>
 
 <!-- 用户中心公告 -->
-<view wx:if="{{common_user_center_notice != null}}" class="user-notice">
+<view wx:if="{{(common_user_center_notice || null) != null}}" class="user-notice">
     <view class="tips">{{common_user_center_notice}}</view>
 </view>
 

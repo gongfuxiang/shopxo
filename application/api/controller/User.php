@@ -544,25 +544,25 @@ class User extends Common
             'avatar'                            => $this->user['avatar'],
             'nickname'                          => $this->user['nickname'],
             'username'                          => $this->user['username'],
-            'customer_service_tel'              => MyC('common_app_customer_service_tel', null, true),
-            'common_user_center_notice'         => MyC('common_user_center_notice', null, true),
+            // 'customer_service_tel'              => MyC('common_app_customer_service_tel', null, true),
+            // 'common_user_center_notice'         => MyC('common_user_center_notice', null, true),
+            // 'common_app_is_online_service'      => (int) MyC('common_app_is_online_service', 0),
+            // 'common_app_is_head_vice_nav'       => (int) MyC('common_app_is_head_vice_nav', 0),
             'user_order_status'                 => $user_order_status['data'],
             'user_order_count'                  => $user_order_count,
             'user_goods_favor_count'            => $user_goods_favor_count,
             'user_goods_browse_count'           => $user_goods_browse_count,
             'common_message_total'              => $common_message_total,
             'navigation'                        => AppCenterNavService::AppCenterNav(),
-            'common_app_is_online_service'      => (int) MyC('common_app_is_online_service', 0),
-            'common_app_is_head_vice_nav'       => (int) MyC('common_app_is_head_vice_nav', 0),
             'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
         );
 
         // 支付宝小程序在线客服
-        if(APPLICATION_CLIENT_TYPE == 'alipay')
-        {
-            $result['common_app_mini_alipay_tnt_inst_id'] = MyC('common_app_mini_alipay_tnt_inst_id', null, true);
-            $result['common_app_mini_alipay_scene'] = MyC('common_app_mini_alipay_scene', null, true);
-        }
+        // if(APPLICATION_CLIENT_TYPE == 'alipay')
+        // {
+        //     $result['common_app_mini_alipay_tnt_inst_id'] = MyC('common_app_mini_alipay_tnt_inst_id', null, true);
+        //     $result['common_app_mini_alipay_scene'] = MyC('common_app_mini_alipay_scene', null, true);
+        // }
 
         // 返回数据
         return DataReturn('success', 0, $result);

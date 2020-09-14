@@ -118,26 +118,36 @@ class Goods extends Common
         // 数据返回
         $result = [
             'goods'                             => $goods,
-            'common_order_is_booking'           => (int) MyC('common_order_is_booking'),
-            'common_app_is_use_mobile_detail'   => $is_use_mobile_detail,
-            'common_app_is_online_service'      => (int) MyC('common_app_is_online_service'),
-            'common_app_is_good_thing'          => (int) MyC('common_app_is_good_thing'),
-            'common_app_is_poster_share'        => (int) MyC('common_app_is_poster_share'),
+            'nav_submit_text'                   => '立即购买',
+            'nav_submit_is_disabled'            => false,
             'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
-            'customer_service_tel'              => MyC('common_app_customer_service_tel', null, true),
-            'common_is_goods_detail_show_photo' => MyC('common_is_goods_detail_show_photo', 0, true),
-
-            // 站点模式
             'common_site_type'                  => (int) $common_site_type,
-            'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
             'is_goods_site_type_consistent'     => $is_goods_site_type_consistent,
         ];
 
-        // 支付宝小程序在线客服
-        if(APPLICATION_CLIENT_TYPE == 'alipay')
+        // 是否开启预约
+        if(MyC('common_order_is_booking') == 1)
         {
-            $result['common_app_mini_alipay_tnt_inst_id'] = MyC('common_app_mini_alipay_tnt_inst_id', null, true);
-            $result['common_app_mini_alipay_scene'] = MyC('common_app_mini_alipay_scene', null, true);
+            $result['nav_submit_text'] = '立即预约';
+        }
+
+        // 是否已下架、还有库存
+        if($goods['is_shelves'] != 1)
+        {
+            $result['nav_submit_text'] = '已下架';
+            $result['nav_submit_is_disabled'] = true;
+        } else {
+            if($goods['inventory'] <= 0)
+            {
+                $result['nav_submit_text'] = '卖光了';
+                $result['nav_submit_is_disabled'] = true;
+            }
+        }
+
+        // 站点模式 - 是否展示型
+        if($common_site_type == 1)
+        {
+            $result['nav_submit_text'] = MyC('common_is_exhibition_mode_btn_text', '立即咨询', true);
         }
 
         // 限时秒杀
@@ -230,7 +240,7 @@ class Goods extends Common
     {
         $result = [
             'category'              => GoodsService::GoodsCategoryAll($this->data_post),
-            'category_show_level'   => MyC('common_show_goods_category_level', 3, true),
+            //'category_show_level'   => MyC('common_show_goods_category_level', 3, true),
         ];
         return DataReturn('success', 0, $result);
     }

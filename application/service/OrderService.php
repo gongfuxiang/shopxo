@@ -1322,7 +1322,7 @@ class OrderService
         if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, config('shopxo.coordinate_transformation')))
         {
             // 坐标转换 百度转火星(高德，谷歌，腾讯坐标)
-            if(isset($data['lng']) && isset($data['lat']) && $data['lng'] > 0 && $data['lat'] > 0)
+            if(isset($data['lng']) && isset($data['lat']))
             {
                 $map = \base\GeoTransUtil::BdToGcj($data['lng'], $data['lat']);
                 if(isset($map['lng']) && isset($map['lat']))

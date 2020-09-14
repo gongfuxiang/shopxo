@@ -287,18 +287,32 @@ class QuickNavService
             {
                 foreach($data as &$v)
                 {
+                    // 图片地址
                     $v['images_url_old'] = $v['images_url'];
                     $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
                     $v['event_value'] = empty($v['event_value']) ? null : $v['event_value'];
+
+                    // 事件值
+                    if(!empty($v['event_value']))
+                    {
+                        // 地图
+                        if($v['event_type'] == 3)
+                        {
+                            $v['event_value_data'] = explode('|', $v['event_value']);
+                        }
+                        $v['event_value'] = $v['event_value'];
+                    } else {
+                        $v['event_value'] = null;
+                    }
                 }
             }
 
             // 存储缓存
-            cache($key, $data, 3600*24);
+            cache($key, $data, 60);
         }
 
         // 快捷导航钩子
-        // 数据参数可以自定义新增 class_name 名称、方便非url事件使用js控制点击事件
+        // web端数据参数可以自定义新增 class_name 名称、方便非url事件使用js控制点击事件
         $hook_name = 'plugins_service_quick_navigation_'.$platform;
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,

@@ -39,7 +39,6 @@ class BannerService
         // 缓存
         $key = config('shopxo.cache_banner_list_key').$platform;
         $data = cache($key);
-
         if(empty($data))
         {
             // 获取banner数据
@@ -70,7 +69,7 @@ class BannerService
             }
 
             // 存储缓存
-            cache($key, $data, 3600*24);
+            cache($key, $data, 60);
         }
         return $data;
     }

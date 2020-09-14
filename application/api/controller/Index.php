@@ -52,20 +52,8 @@ class Index extends Common
 			'navigation'						=> AppHomeNavService::AppHomeNav(),
 			'banner_list'						=> BannerService::Banner(),
 			'data_list'							=> GoodsService::HomeFloorList(),
-			'common_shop_notice'				=> MyC('common_shop_notice', null, true),
-			'common_app_is_enable_search'		=> (int) MyC('common_app_is_enable_search', 1),
-			'common_app_is_enable_answer'		=> (int) MyC('common_app_is_enable_answer', 1),
-			'common_app_is_header_nav_fixed'	=> (int) MyC('common_app_is_header_nav_fixed', 0),
-			'common_app_is_online_service'		=> (int) MyC('common_app_is_online_service', 0),
 			'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
 		];
-
-		// 支付宝小程序在线客服
-		if(APPLICATION_CLIENT_TYPE == 'alipay')
-		{
-			$result['common_app_mini_alipay_tnt_inst_id'] = MyC('common_app_mini_alipay_tnt_inst_id', null, true);
-			$result['common_app_mini_alipay_scene'] = MyC('common_app_mini_alipay_scene', null, true);
-		}
 
 		// 限时秒杀
 		$ret = PluginsService::PluginsControlCall(

@@ -23,5 +23,5 @@
 
 <!-- 新增入口 -->
 <navigator url="/pages/answer-form/answer-form" hover-class="none">
-    <view class="answer-add-submit bg-white bg-main r-fff tc">+</view>
+    <view class="answer-add-submit bg-main cr-fff tc">+</view>
 </navigator>

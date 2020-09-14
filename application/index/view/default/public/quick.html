@@ -8,11 +8,31 @@
                     {{foreach $nav_quick as $nav}}
                         {{if !empty($nav['images_url']) and !empty($nav['name'])}}
                             <li class="am-text-center am-padding-sm {{if isset($nav['class_name'])}}{{$nav.class_name}}{{/if}}">
-                                <a href="{{if !empty($nav['event_value'])}}{{$nav.event_value}}{{else /}}javascript:;{{/if}}">
-                                    <p class="nav-icon" style="{{if !empty($nav['bg_color'])}}background:{{$nav.bg_color}};{{/if}}">
-                                        <img src="{{$nav.images_url}}" alt="{{$nav.name}}" />
-                                    </p>
-                                    <p class="am-margin-top-xs am-text-truncate">{{$nav.name}}</p>
+                                {{if isset($nav['event_type']) and isset($nav['event_value']) and in_array($nav['event_type'], [3,4])}}
+                                    {{switch nav.event_type}}
+                                        {{case 3}}
+                                            <!-- 地图 -->
+                                            <a href="javascript:;" {{if !empty($nav['event_value_data']) and !empty($nav['event_value_data'][2]) and !empty($nav['event_value_data'][3])}}class="submit-map-popup" data-lng="{{$nav['event_value_data'][2]}}" data-lat="{{$nav['event_value_data'][3]}}"{{/if}}>
+                                                <p class="nav-icon" style="{{if !empty($nav['bg_color'])}}background:{{$nav.bg_color}};{{/if}}">
+                                                    <img src="{{$nav.images_url}}" alt="{{$nav.name}}" />
+                                                </p>
+                                        {{/case}}
+                                        {{case 4}}
+                                            <!-- 电话 -->
+                                            <a {{if !empty($nav['event_value'])}}href="tel:{{$nav.event_value}}"{{else /}}href="javascript:;"{{/if}}>
+                                                <p class="nav-icon" style="{{if !empty($nav['bg_color'])}}background:{{$nav.bg_color}};{{/if}}">
+                                                <img src="{{$nav.images_url}}" alt="{{$nav.name}}" />
+                                            </p>
+                                        {{/case}}
+                                    {{/switch}}
+                                {{else /}}
+                                    <!-- 默认url地址 -->
+                                    <a {{if !empty($nav['event_value'])}}href="{{$nav.event_value}}"{{else /}}href="javascript:;"{{/if}}>
+                                        <p class="nav-icon" style="{{if !empty($nav['bg_color'])}}background:{{$nav.bg_color}};{{/if}}">
+                                            <img src="{{$nav.images_url}}" alt="{{$nav.name}}" />
+                                        </p>
+                                {{/if}}
+                                <p class="am-margin-top-xs am-text-truncate">{{$nav.name}}</p>
                                 </a>
                             </li>
                         {{/if}}

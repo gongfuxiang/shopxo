@@ -67,7 +67,7 @@ class GoodsService
             $data = self::GoodsCategory($params);
 
             // 存储缓存
-            cache($key, $data, 3600*24);
+            cache($key, $data, 60);
         }
         return $data;
     }
@@ -236,7 +236,7 @@ class GoodsService
             }
 
             // 存储缓存
-            cache($key, $data, 3600*24);
+            cache($key, $data, 60);
         }
 
         // 商品读取、商品不缓存、商品价格会根据用户等级可能会不一样

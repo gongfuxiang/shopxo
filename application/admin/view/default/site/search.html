@@ -22,7 +22,7 @@
                 <input type="text" name="{{$data.home_search_keywords.only_tag}}" placeholder="{{$data.home_search_keywords.describe}}" data-validation-message="{{$data.home_search_keywords.error_tips}}" class="am-radius" data-am-tagsinput {{if !empty($data)}}value="{{$data.home_search_keywords.value}}"{{/if}} />
             </div>
 
-            <div class="am-form-group am-form-group-refreshing">
+            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>
