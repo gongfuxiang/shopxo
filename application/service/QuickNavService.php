@@ -299,16 +299,6 @@ class QuickNavService
                         if($v['event_type'] == 3)
                         {
                             $v['event_value_data'] = explode('|', $v['event_value']);
-                            // 坐标转换 百度转火星(高德，谷歌，腾讯坐标)
-                            if(isset($v['event_value_data'][2]) && isset($v['event_value_data'][3]) && in_array(APPLICATION_CLIENT_TYPE, config('shopxo.coordinate_transformation')))
-                            {
-                                $map = \base\GeoTransUtil::BdToGcj($v['event_value_data'][2], $v['event_value_data'][3]);
-                                if(isset($map['lng']) && isset($map['lat']))
-                                {
-                                    $v['event_value_data'][2] = $map['lng'];
-                                    $v['event_value_data'][] = $map['lat'];
-                                }
-                            }
                         }
                         $v['event_value'] = $v['event_value'];
                     } else {

@@ -68,7 +68,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://shopxo.com/',
-     request_url: 'https://dev.shopxo.net/',
+    // request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -532,11 +532,12 @@ App({
             return false;
           }
 
+          var map = this.BMapTransqqMap(parseFloat(values[2]), parseFloat(values[3]));
           wx.openLocation({
             name: values[0],
             address: values[1],
-            longitude: parseFloat(values[2]),
-            latitude: parseFloat(values[3])
+            longitude: map.lng,
+            latitude: map.lat
           });
           break;
 
@@ -800,5 +801,19 @@ App({
       }
     }, 100);
   },
+
+  BMapTransqqMap(lng, lat) {
+      let x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+      let x = lng - 0.0065;
+      let y = lat - 0.006;
+      let z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+      let theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+      let lngs = z * Math.cos(theta);
+      let lats = z * Math.sin(theta);
+      return {
+        lng: lngs,
+        lat: lats
+      };
+    },
 
 });
