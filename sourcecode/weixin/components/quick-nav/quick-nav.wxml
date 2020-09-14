@@ -12,8 +12,8 @@
       </view>
     </view>
     <view class="popup-content">
-      <view wx:if="{{data.length > 0}}" class="data-list">
-        <view class="items" wx:for="{{data}}" wx:key="key">
+      <view wx:if="{{data_list.length > 0}}" class="data-list">
+        <view class="items" wx:for="{{data_list}}" wx:key="key">
           <view class="items-content" data-value="{{item.event_value}}" data-type="{{item.event_type}}" bindtap="navigation_event" style="background-color:{{item.bg_color}}">
             <image src="{{item.images_url}}" mode="aspectFit" />
           </view>
