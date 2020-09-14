@@ -68,7 +68,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://shopxo.com/',
-    // request_url: 'https://dev.shopxo.net/',
+     request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -531,14 +531,7 @@ App({
             this.showToast('事件值格式有误');
             return false;
           }
-
-          var map = this.BMapTransqqMap(parseFloat(values[2]), parseFloat(values[3]));
-          wx.openLocation({
-            name: values[0],
-            address: values[1],
-            longitude: map.lng,
-            latitude: map.lat
-          });
+          this.open_location(values[2], values[3], values[0], values[1]);
           break;
 
         // 拨打电话
@@ -802,18 +795,48 @@ App({
     }, 100);
   },
 
-  BMapTransqqMap(lng, lat) {
-      let x_pi = 3.14159265358979324 * 3000.0 / 180.0;
-      let x = lng - 0.0065;
-      let y = lat - 0.006;
-      let z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
-      let theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
-      let lngs = z * Math.cos(theta);
-      let lats = z * Math.sin(theta);
-      return {
-        lng: lngs,
-        lat: lats
-      };
-    },
+  /**
+   * 百度坐标BD-09到火星坐标GCJ02(高德，谷歌，腾讯坐标)
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   */
+  map_bd_to_gcj(lng, lat) {
+    let x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+    let x = lng - 0.0065;
+    let y = lat - 0.006;
+    let z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+    let theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+    let lngs = z * Math.cos(theta);
+    let lats = z * Math.sin(theta);
+    return {
+      lng: lngs,
+      lat: lats
+    };
+  },
+
+  /**
+   * 百度坐标BD-09到火星坐标GCJ02(高德，谷歌，腾讯坐标)
+   * lng        经度
+   * lat        纬度
+   * name       地图上面显示的名称
+   * address    地图上面显示的详细地址
+   * scale      缩放比例，范围5~18
+   */
+  open_location(lng, lat, name, address, scale) {
+    if(lng == undefined || lat == undefined || lng == '' || lat == '') {
+      this.showToast('坐标有误');
+      return false;
+    }
+
+    // 转换坐标打开位置
+    var position = this.map_bd_to_gcj(parseFloat(lng), parseFloat(lat));
+    wx.openLocation({
+      name: name || '',
+      address: address || '',
+      scale: scale || 18,
+      longitude: position.lng,
+      latitude: position.lat
+    });
+  },
 
 });

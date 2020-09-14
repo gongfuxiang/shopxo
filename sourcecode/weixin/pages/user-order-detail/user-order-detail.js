@@ -124,17 +124,12 @@ Page({
       app.showToast("地址有误");
       return false;
     }
+    var data = this.data.detail.address_data;
 
-    var ads = this.data.detail.address_data;
-    var lng = parseFloat(ads.lng || 0);
-    var lat = parseFloat(ads.lat || 0);
-    wx.openLocation({
-      latitude: lat,
-      longitude: lng,
-      scale: 18,
-      name: ads.alias || '',
-      address: (ads.province_name || '') + (ads.city_name || '') + (ads.county_name || '') + (ads.address || ''),
-    });
+    // 打开地图
+    var name = data.alias || '';
+    var address = (data.province_name || '') + (data.city_name || '') + (data.county_name || '') + (data.address || '');
+    app.open_location(data.lng, data.lat, name, address);
   },
 
   // 下拉刷新

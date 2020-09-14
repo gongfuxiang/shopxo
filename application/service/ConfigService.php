@@ -336,24 +336,6 @@ class ConfigService
             }
         }
 
-        // 坐标处理
-        if(!empty($data) && is_array($data) && in_array(APPLICATION_CLIENT_TYPE, config('shopxo.coordinate_transformation')))
-        {
-            foreach($data as &$v)
-            {
-                // 坐标转换 百度转火星(高德，谷歌，腾讯坐标)
-                if(isset($v['lng']) && isset($v['lat']))
-                {
-                    $map = \base\GeoTransUtil::BdToGcj($v['lng'], $v['lat']);
-                    if(isset($map['lng']) && isset($map['lat']))
-                    {
-                        $v['lng'] = $map['lng'];
-                        $v['lat'] = $map['lat'];
-                    }
-                }
-            }
-        }
-
         // 自提点地址列表数据钩子
         $hook_name = 'plugins_service_site_extraction_address_list';
         Hook::listen($hook_name, [
