@@ -35,7 +35,7 @@
       <view class="word" style="background-color:{{floor.bg_color || '#eaeaea'}}">
         <view qq:if="{{floor.items.length > 0}}">
           <block qq:for="{{floor.items}}" qq:key="ck" qq:for-index="icx" qq:for-item="icv">
-            <navigator qq:if="{{icx < 6}}" class="word-icon" url="/pages/goods-search/goods-search?category_id={{icv.id}}" hover-class="none">
+            <navigator class="word-icon" url="/pages/goods-search/goods-search?category_id={{icv.id}}" hover-class="none">
               {{icv.name}}
             </navigator>
           </block>

@@ -139,21 +139,37 @@
     <!-- 楼层 -->
     {{if !empty($goods_floor_list)}}
         {{foreach $goods_floor_list as $key=>$floor}}
+            <!-- 首页楼层顶部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_home_floor_top_{{$key+1}}</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_home_floor_top_'.($key+1);
+                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'floor'=>$floor]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+
+            <!-- 楼层数据 -->
             <div id="floor{{$key+1}}">
                 <div class="am-container">
                     <div class="items-nav-title" {{if !empty($floor['bg_color'])}}style="border-bottom: 2px solid {{$floor.bg_color}};"{{/if}}>
                         <p class="floor-title">{{$floor.name}}</p>
                         <p class="floor-desc">{{$floor.vice_name}}</p>
                         <div class="today-brands ">
-                            {{if !empty($floor['items'])}}
-                                {{foreach $floor.items as $key=>$category}}
-                                    {{if !empty($category['items'])}}
-                                        {{foreach $category.items as $keys=>$categorys}}
-                                            {{if $key lt 6 and $keys eq 0}}
-                                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$categorys['id']])}}" target="_blank">{{$categorys.name}}</a>
-                                            {{/if}}
-                                        {{/foreach}}
-                                    {{/if}}
+                            {{if !empty($floor['config_keywords'])}}
+                                {{foreach $floor.config_keywords as $wd}}
+                                    <a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($wd)])}}" target="_blank">{{$wd}}</a>
                                 {{/foreach}}
                             {{/if}}
                         </div>
@@ -189,9 +205,7 @@
                         <div class="word">
                             {{if !empty($floor['items'])}}
                                 {{foreach $floor.items as $category_key=>$category}}
-                                    {{if $category_key lt 6}}
-                                        <a href="{{:MyUrl('index/search/index', ['category_id'=>$category['id']])}}" class="outer" target="_blank">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
-                                    {{/if}}
+                                    <a href="{{:MyUrl('index/search/index', ['category_id'=>$category['id']])}}" class="outer" target="_blank">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
                                 {{/foreach}}
                             {{/if}}           
                         </div>
@@ -329,6 +343,27 @@
                     {{/php}}
                 </div>
             </div>
+
+            <!-- 首页楼层底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_home_floor_bottom_{{$key+1}}</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_home_floor_bottom_'.($key+1);
+                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'floor_id'=>$key+1, 'floor'=>$floor]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
         {{/foreach}}
     {{/if}}
 </div>

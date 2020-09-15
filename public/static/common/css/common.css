@@ -36,6 +36,7 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
  * 插件
  */
 .chosen-container { width: 100% !important; }
+.am-tagsinput { display: block; padding: 2px 5px; border-radius: 2px; }
 .chosen-choices, .chosen-single { border-radius: 2px; }
 .chosen-choices li.search-field input[type="text"] { height: 28px !important; }
 .chosen-choices li.search-field input[type="text"]:hover,
@@ -47,8 +48,6 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
 .chosen-container-multi .chosen-choices li.search-field { padding-left: 3px; }
 .chosen-container-single .chosen-single { color: #444 !important; }
 .chosen-container-single .chosen-default { color: #999 !important; }
-.am-tagsinput { display: block; }
-.am-tagsinput { padding: 2px 5px; }
 .chosen-disabled .chosen-choices, .chosen-disabled .chosen-single { background-color: #ccc; }
 .chosen-disabled .search-choice { background: #d6d6d6 !important; }
 

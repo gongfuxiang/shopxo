@@ -33,7 +33,7 @@ class SearchService
      */
     public static function GoodsCategoryList($params = [])
     {
-        return GoodsService::GoodsCategoryList(['pid'=>$params['category_id']]);
+        return GoodsService::GoodsCategoryList(['where'=>['pid'=>$params['category_id']]]);
     }
 
     /**
@@ -130,7 +130,7 @@ class SearchService
             {
                 $order_by = 'g.'.$params['order_by_field'].' '.$params['order_by_type'];
             } else {
-                $order_by = 'g.access_count desc, g.sales_count desc, g.add_time desc';
+                $order_by = 'g.access_count desc, g.sales_count desc, g.id desc';
             }
             
             // 分页计算

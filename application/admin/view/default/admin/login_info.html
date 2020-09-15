@@ -34,7 +34,7 @@
 <!-- 随机背景图片 -->
 {{if MyC('admin_login_info_bg_images_rand') eq 1}}
     <div class="bg-slides">
-        {{for start="1" end="11"}}
+        {{for start="1" end="15"}}
             {{if file_exists(ROOT.'public/static/admin/default/images/login/'.$i.'.jpg')}}
                 <div class="bg-slides-item" style="background-image:url('{{$attachment_host}}/static/admin/default/images/login/{{$i}}.jpg');{{if $i neq 1}}display:none;{{/if}}"></div>
             {{/if}}

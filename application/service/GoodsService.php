@@ -85,18 +85,18 @@ class GoodsService
     {
         // 获取分类
         $where = empty($params['where']) ? ['pid'=>0, 'is_enable'=>1] : $params['where'];
-        $data = self::GoodsCategoryList($where);
+        $data = self::GoodsCategoryList(['where'=>$where]);
         if(!empty($data))
         {
             foreach($data as &$v)
             {
                 $where['pid'] = $v['id'];
-                $v['items'] = self::GoodsCategoryList($where);
+                $v['items'] = self::GoodsCategoryList(['where'=>$where]);
                 if(!empty($v['items']))
                 {
                     // 一次性查出所有二级下的三级、再做归类、避免sql连接超多
                     $where['pid'] = array_column($v['items'], 'id');
-                    $itemss = self::GoodsCategoryList($where);
+                    $itemss = self::GoodsCategoryList(['where'=>$where]);
                     if(!empty($itemss))
                     {
                         foreach($v['items'] as &$vs)
@@ -123,13 +123,20 @@ class GoodsService
      * @version 1.0.0
      * @date    2018-08-29
      * @desc    description
-     * @param   [array]          $where [条件]
+     * @param   [array]          $params [输入参数]
      */
-    public static function GoodsCategoryList($where = [])
+    public static function GoodsCategoryList($params = [])
     {
+        // 条件、附加必须启用状态
+        $where = empty($params['where']) ? [] : $params['where'];
         $where['is_enable'] = 1;
+
+        // 数量、默认0,0则全部
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 0;
+
         $field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc';
-        $data = Db::name('GoodsCategory')->field($field)->where($where)->order('sort asc')->select();
+        $data = Db::name('GoodsCategory')->field($field)->where($where)->order('sort asc')->limit($m, $n)->select();
         return self::GoodsCategoryDataDealWith($data);
     }
 
@@ -177,7 +184,20 @@ class GoodsService
     public static function HomeFloorList($params = [])
     {
         // 商品数量
-        $goods_count = 8;
+        $goods_count = MyC('home_index_floor_goods_max_count', 8, true);
+        $goods_category_count = MyC('home_index_floor_left_goods_category_max_count', 6, true);
+
+        // 排序配置
+        $floor_order_by_type_list = lang('home_floor_goods_order_by_type_list');
+        $floor_order_by_rule_list = lang('home_floor_goods_order_by_rule_list');
+        $floor_order_by_type = MyC('home_index_floor_goods_order_by_type', 0, true);
+        $floor_order_by_rule = MyC('home_index_floor_goods_order_by_rule', 0, true);
+        // 排序字段名称
+        $order_by_field = array_key_exists($floor_order_by_type, $floor_order_by_type_list) ? $floor_order_by_type_list[$floor_order_by_type]['value'] : $floor_order_by_type_list[0]['value'];
+        // 排序规则
+        $order_by_rule = array_key_exists($floor_order_by_rule, $floor_order_by_rule_list) ? $floor_order_by_rule_list[$floor_order_by_rule]['value'] : $floor_order_by_rule_list[0]['value'];
+        // 排序
+        $order_by = implode(' '.$order_by_rule.', ', explode(',', $order_by_field)).' '.$order_by_rule;
 
         // 缓存
         $key = config('shopxo.cache_goods_floor_list_key');
@@ -186,7 +206,7 @@ class GoodsService
         {
             // 商品大分类
             $where = ['pid'=>0, 'is_home_recommended'=>1, 'is_enable'=>1];
-            $data = self::GoodsCategoryList($where);
+            $data = self::GoodsCategoryList(['where'=>$where]);
             if(!empty($data))
             {
                 $level = MyC('common_show_goods_category_level', 3, true);
@@ -194,28 +214,17 @@ class GoodsService
                 {
                     foreach($data as &$c)
                     {
+                        // 获取二级分类
                         $where['pid'] = $c['id'];
-                        $c['items'] = self::GoodsCategoryList($where);
-                        if(!empty($c['items']) && $level > 2)
-                        {
-                            // 一次性查出所有二级下的三级、再做归类、避免sql连接超多
-                            $where['pid'] = array_column($c['items'], 'id');
-                            $itemss = self::GoodsCategoryList($where);
-                            if(!empty($itemss))
-                            {
-                                foreach($c['items'] as &$cv)
-                                {
-                                    foreach($itemss as $cvv)
-                                    {
-                                        if($cv['id'] == $cvv['pid'])
-                                        {
-                                            $cv['items'][] = $cvv;
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        $c['items'] = self::GoodsCategoryList(['where'=>$where, 'n'=>$goods_category_count]);
                     }
+                }
+
+                // 楼层关键字从配置中读取
+                $floor_keywords = MyC('home_index_floor_top_right_keywords');
+                if(!empty($floor_keywords))
+                {
+                    $floor_keywords = json_decode($floor_keywords, true);
                 }
 
                 // 根据分类获取楼层商品
@@ -230,8 +239,11 @@ class GoodsService
                         'g.is_home_recommended' => 1,
                         'g.is_shelves'          => 1,
                     ];
-                    $v['goods_ids'] = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->group('g.id')->order('g.id desc')->limit($goods_count)->column('g.id');
+                    $v['goods_ids'] = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->group('g.id')->order($order_by)->limit($goods_count)->column('g.id');
                     $v['goods'] = [];
+
+                    // 楼层关键字
+                    $v['config_keywords'] = empty($floor_keywords[$v['id']]) ? [] : explode(',', $floor_keywords[$v['id']]);
                 }
             }
 
@@ -239,15 +251,18 @@ class GoodsService
             cache($key, $data, 60);
         }
 
-        // 商品读取、商品不缓存、商品价格会根据用户等级可能会不一样
+        // 商品读取、商品信息需要实时读取
         if(!empty($data) && is_array($data))
         {
+            // 去除分类关键字前缀
+            $order_by = str_replace('g.', '', $order_by);
+
             // 根据分类获取楼层商品
             foreach($data as &$v)
             {
                 if(!empty($v['goods_ids']) && is_array($v['goods_ids']))
                 {
-                    $res = self::GoodsList(['where'=>['id'=>$v['goods_ids'], 'is_home_recommended'=>1, 'is_shelves'=>1], 'm'=>0, 'n'=>$goods_count, 'field'=>'*']);
+                    $res = self::GoodsList(['where'=>['id'=>$v['goods_ids'], 'is_home_recommended'=>1, 'is_shelves'=>1], 'm'=>0, 'n'=>$goods_count, 'field'=>'*', 'order_by'=>$order_by]);
                     $v['goods'] = $res['data'];
                 }
             }

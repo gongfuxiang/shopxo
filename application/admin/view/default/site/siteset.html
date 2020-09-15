@@ -1,0 +1,155 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <div class="content">
+        <!-- table nav start -->
+        {{include file="site/nav" /}}
+        <!-- table nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'siteset'])}}" enctype="multipart/form-data">
+            <!-- 首页 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">首页</h3>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_goods_max_count.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_max_count.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="0" name="{{$data.home_index_floor_goods_max_count.only_tag}}" placeholder="{{$data.home_index_floor_goods_max_count.name}}" data-validation-message="{{$data.home_index_floor_goods_max_count.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_index_floor_goods_max_count.value}}"{{/if}} />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default" type="button">个</button>
+                          </span>
+                        </div>
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>1. 配置每个楼层最多展示多少个商品</p>
+                            <p>2. 不建议将数量修改的太大、会导致PC端左侧空白区域太大</p>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_left_goods_category_max_count.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_left_goods_category_max_count.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="0" name="{{$data.home_index_floor_left_goods_category_max_count.only_tag}}" placeholder="{{$data.home_index_floor_left_goods_category_max_count.name}}" data-validation-message="{{$data.home_index_floor_left_goods_category_max_count.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_index_floor_left_goods_category_max_count.value}}"{{/if}} />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default" type="button">个</button>
+                          </span>
+                        </div>
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>1. 配置每个楼层左侧最多展示多少个二级商品分类</p>
+                            <p>2. 不建议将数量修改的太大、如高度超出楼层容器会比较拥挤</p>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_top_right_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_top_right_keywords.describe}}</span></label>
+                        {{if !empty($goods_category_list)}}
+                            <ul class="am-list am-list-static am-list-border">
+                                {{foreach $goods_category_list as $category}}
+                                    <li>
+                                        <p class="am-text-truncate am-margin-bottom-xs">
+                                            <span>{{$category.name}}</span>
+                                            <span class="am-margin-left-sm form.am-form am-form-group-label-tips">{{$category.vice_name}}</span>
+                                        </p>
+                                        <input type="text" name="{{$data.home_index_floor_top_right_keywords.only_tag}}[{{$category['id']}}]" placeholder="{{$category.name}}{{$data.home_index_floor_top_right_keywords.describe}}" data-validation-message="{{$data.home_index_floor_top_right_keywords.error_tips}}" class="am-radius" value="{{$category.config_keywords}}" data-am-tagsinput />
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                        {{else /}}
+                            <div class="am-text-center am-margin-top-lg">
+                                <i class="am-icon-warning"></i>
+                                <span>暂无数据，请先到 / 商品管理->商品分类、一级分类设置首页推荐</span>
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_goods_order_by_type.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_type.describe}}</span></label>
+                        <select name="{{$data.home_index_floor_goods_order_by_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_floor_goods_order_by_type.error_tips}}">
+                            {{foreach $home_floor_goods_order_by_type_list as $k=>$v}}
+                                <option value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_type']['value']) and $data['home_index_floor_goods_order_by_type']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>综合为：热度->销量->最新 进行 降序(desc)排序</p>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_goods_order_by_rule.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_rule.describe}}</span></label>
+                        <select name="{{$data.home_index_floor_goods_order_by_rule.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_floor_goods_order_by_rule.error_tips}}">
+                            {{foreach $home_floor_goods_order_by_rule_list as $k=>$v}}
+                                <option value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_rule']['value']) and $data['home_index_floor_goods_order_by_rule']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">商品</h3>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>{{$data.common_is_goods_detail_show_photo.name}}<span class="am-form-group-label-tips">{{$data.common_is_goods_detail_show_photo.describe}}</span></label>
+                        <select name="{{$data.common_is_goods_detail_show_photo.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_goods_detail_show_photo.error_tips}}" required>
+                            {{foreach $common_is_text_list as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_is_goods_detail_show_photo']['value']) and $data['common_is_goods_detail_show_photo']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>{{$data.common_show_goods_category_level.name}}<span class="am-form-group-label-tips">{{$data.common_show_goods_category_level.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="1" max="3" name="{{$data.common_show_goods_category_level.only_tag}}" placeholder="{{$data.common_show_goods_category_level.name}}" data-validation-message="{{$data.common_show_goods_category_level.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_show_goods_category_level.value}}"{{/if}} />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default" type="button">级</button>
+                          </span>
+                        </div>
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>1. 默认展示3级，最低1级、最高3级</p>
+                            <p>2. 层级不一样、前端分类页样式也会不一样</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 搜索 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">搜索</h3>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>{{$data.home_search_keywords_type.name}}</label>
+                        <select name="{{$data.home_search_keywords_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_keywords_type.error_tips}}">
+                            {{foreach $common_search_keywords_type_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_search_keywords_type']['value']) and $data['home_search_keywords_type']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_search_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_search_keywords.describe}}</span></label>
+                        <input type="text" name="{{$data.home_search_keywords.only_tag}}" placeholder="{{$data.home_search_keywords.describe}}" data-validation-message="{{$data.home_search_keywords.error_tips}}" class="am-radius" data-am-tagsinput {{if !empty($data)}}value="{{$data.home_search_keywords.value}}"{{/if}} />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

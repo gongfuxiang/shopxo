@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\ConfigService;
+use app\service\GoodsService;
 
 /**
  * 站点设置
@@ -83,22 +84,45 @@ class Site extends Common
 		// 扣除库存规则
 		$this->assign('common_deduction_inventory_rules_list', lang('common_deduction_inventory_rules_list'));
 
+		// 首页商品排序规则
+		$this->assign('home_floor_goods_order_by_type_list', lang('home_floor_goods_order_by_type_list'));
+		$this->assign('home_floor_goods_order_by_rule_list', lang('home_floor_goods_order_by_rule_list'));
+
 		// 配置信息
 		$data = ConfigService::ConfigList();
 		$this->assign('data', $data);
 
-		// 自提点
-		if($nav_type == 'sitetype')
+		// 数据处理
+		switch($nav_type)
 		{
-			// 地址处理
-        	if(!empty($data['common_self_extraction_address']) && !empty($data['common_self_extraction_address']['value']))
-			{
-				$address = ConfigService::SiteTypeExtractionAddressList($data['common_self_extraction_address']['value']);
-				$this->assign('sitetype_address_list', $address['data']);
-			}
+			// 自提点
+			case 'sitetype' :
+				// 地址处理
+	        	if(!empty($data['common_self_extraction_address']) && !empty($data['common_self_extraction_address']['value']))
+				{
+					$address = ConfigService::SiteTypeExtractionAddressList($data['common_self_extraction_address']['value']);
+					$this->assign('sitetype_address_list', $address['data']);
+				}
 
-			// 加载百度地图api
-        	$this->assign('is_load_baidu_map_api', 1);
+				// 加载百度地图api
+	        	$this->assign('is_load_baidu_map_api', 1);
+				break;
+
+			// 网站设置
+			case 'siteset' :
+				// 获取商品一级分类
+				$where = ['pid'=>0, 'is_home_recommended'=>1, 'is_enable'=>1];
+            	$category = GoodsService::GoodsCategoryList(['where'=>$where]);
+            	if(!empty($category))
+            	{
+            		$floor_keywords = (empty($data['home_index_floor_top_right_keywords']) || empty($data['home_index_floor_top_right_keywords']['value'])) ? [] : json_decode($data['home_index_floor_top_right_keywords']['value'], true);
+            		foreach($category as &$c)
+            		{
+            			$c['config_keywords'] = isset($floor_keywords[$c['id']]) ? $floor_keywords[$c['id']] : '';
+            		}
+            	}
+            	$this->assign('goods_category_list', $category);
+				break;
 		}
 
 		// 编辑器文件存放地址
@@ -171,6 +195,11 @@ class Site extends Common
 					}
 					$params['common_self_extraction_address'] = json_encode($address, JSON_UNESCAPED_UNICODE);
 				}
+				break;
+
+			// 网站设置
+			case 'siteset' :
+				$params['home_index_floor_top_right_keywords'] = empty($params['home_index_floor_top_right_keywords']) ? '' : json_encode($params['home_index_floor_top_right_keywords'], JSON_UNESCAPED_UNICODE);
 				break;
 		}
 

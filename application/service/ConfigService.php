@@ -33,6 +33,7 @@ class ConfigService
             'home_site_close_reason',
             'common_agreement_userregister',
             'common_self_extraction_address',
+            'home_index_floor_top_right_keywords',
         ];
 
     // 附件字段列表

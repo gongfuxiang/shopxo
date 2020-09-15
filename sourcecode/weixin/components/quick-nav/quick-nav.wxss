@@ -3,8 +3,8 @@
  */
 .quick-event-submit {
   position: fixed;
-  bottom: 60rpx;
-  left: 20rpx;
+  bottom: 50rpx;
+  left: 50rpx;
   width: 100rpx;
   height: 100rpx;
   border-radius: 50%;
