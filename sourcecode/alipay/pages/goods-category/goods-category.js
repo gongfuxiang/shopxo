@@ -4,13 +4,31 @@ Page({
     data_list_loding_status: 1,
     nav_active_index: 0,
     data_list: [],
-    category_show_level: 3,
     data_content: null,
+
+    // 基础配置
+    category_show_level: 3,
   },
 
   onShow() {
     my.setNavigationBar({title: app.data.common_pages_title.goods_category});
+    
+    // 数据加载
     this.init();
+
+    // 初始化配置
+    this.init_config();
+  },
+
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        category_show_level: app.get_config('config.category_show_level'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
   },
 
   // 获取数据
@@ -40,7 +58,6 @@ Page({
             }
             this.setData({
               data_list: category,
-              category_show_level: res.data.data.category_show_level || 3,
               data_content: data_content,
               data_list_loding_status: category.length == 0 ? 0 : 3,
               data_bottom_line_status: true,

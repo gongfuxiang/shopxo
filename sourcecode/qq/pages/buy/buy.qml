@@ -86,8 +86,7 @@
 
     <!-- 留言 -->
     <view class="content-textarea-view bg-white spacing-mb">
-      <textarea qq:if="{{!popup_plugins_coupon_status}}" bindinput="bind_user_note_event" value="{{user_note_value}}" maxlength="60" placeholder="留言" class="wh-auto" />
-      <view qq:if="{{popup_plugins_coupon_status}}" class="cr-888">{{user_note_value || '留言'}}</view>
+      <textarea bindblur="bind_user_note_blur_event" bindinput="bind_user_note_event" bindinput="bind_user_note_event" value="{{user_note_value}}" maxlength="60" placeholder="留言" focus="{{!user_note_disabled}}" disabled="{{user_note_disabled}}" />
     </view>
 
     <!-- 支付方式 -->

@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    price_symbol: app.data.price_symbol,
     data_list_loding_status: 1,
     data_list_loding_msg: '加载中...',
     data_bottom_line_status: false,
@@ -13,13 +12,33 @@ Page({
     user_profit_total_price: 0.00,
     user_data: null,
     profit_data: null,
+
+    // 基础配置
+    price_symbol: app.data.price_symbol,
   },
   
   onShow() {
     app.set_nav_bg_color_main('#ff6a80');
+
+    // 数据加载
     this.init();
+
+    // 初始化配置
+    this.init_config();
   },
 
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        price_symbol: app.get_config('price_symbol'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     var self = this;
     my.showLoading({ content: "加载中..." });

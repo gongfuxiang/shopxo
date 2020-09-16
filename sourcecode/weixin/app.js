@@ -8,7 +8,7 @@ App({
 
     // 用户登录缓存key
     cache_user_login_key: "cache_user_login_key",
-    
+
     // 用户信息缓存key
     cache_user_info_key: "cache_shop_user_info_key",
 
@@ -71,7 +71,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://shopxo.com/',
-     //request_url: 'https://dev.shopxo.net/',
+     request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -85,29 +85,16 @@ App({
   /**
    * 小程序初始化
    */
-  onLaunch(options) {
+  onLaunch(params) {
     // 启动参数处理
-    options = this.launch_params_handle(options);
+    params = this.launch_params_handle(params);
 
     // 设置设备信息
     this.set_system_info();
 
-    // 缓存启动参数
-    wx.setStorage({
-      key: this.data.cache_launch_info_key,
-      data: options
-    });
-
     // 初始化配置
     this.init_config();
   },
-
-  sleep(delay) {
-    var start = (new Date()).getTime();
-    while((new Date()).getTime() - start < delay) {
-        continue;
-    }
-},
 
   /**
    * 启动参数处理
@@ -120,6 +107,13 @@ App({
     if ((params.scene || null) != null) {
       params = this.url_params_to_json(decodeURIComponent(params.scene));
     }
+
+    // 缓存启动参数
+    wx.setStorage({
+      key: this.data.cache_launch_info_key,
+      data: params
+    });
+
     return params;
   },
 
@@ -183,7 +177,7 @@ App({
       "&application=app&application_client_type=weixin" +
       "&token=" + token +
       "&ajax=ajax" +
-      "&uuid="+uuid+
+      "&uuid="+ uuid +
       params;
   },
 
@@ -540,7 +534,7 @@ App({
 
         // 拨打电话
         case 4:
-          wx.makePhoneCall({ phoneNumber: value });
+          this.call_tel(value);
           break;
       }
     }

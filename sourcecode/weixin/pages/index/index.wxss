@@ -16,7 +16,7 @@
 .search icon {
   position: absolute;
   left: 15rpx;
-  top: 20rpx;
+  top: calc(50% - 8px);
 }
 .search input {
   font-size: 28rpx;

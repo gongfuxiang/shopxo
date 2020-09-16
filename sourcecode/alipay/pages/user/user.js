@@ -3,8 +3,6 @@ Page({
   data: {
     avatar: app.data.default_user_head_src,
     nickname: "用户名",
-    customer_service_tel: null,
-    common_user_center_notice: null,
     message_total: 0,
     head_nav_list: [
       { name: "订单总数", url: "user-order", count: 0 },
@@ -23,22 +21,52 @@ Page({
     // 远程自定义导航
     navigation: [],
 
-    // 在线客服
+    // 基础配置
+    common_app_customer_service_tel: null,
+    common_user_center_notice: null,
     common_app_is_online_service: 0,
+    common_app_is_head_vice_nav: 0,
     common_app_mini_alipay_tnt_inst_id: null,
     common_app_mini_alipay_scene: null,
     common_app_mini_alipay_openid: null,
-
-    // 是否启用头部小导航
-    common_app_is_head_vice_nav: 0,
   },
 
   onShow() {
     my.setNavigationBar({title: app.data.common_pages_title.user});
+
+    // 主题颜色
     app.set_nav_bg_color_main();
+    
+    // 数据加载
     this.init();
+
+    // 初始化配置
+    this.init_config();
   },
 
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        common_app_customer_service_tel: app.get_config('config.common_app_customer_service_tel'),
+        common_user_center_notice: app.get_config('config.common_user_center_notice'),
+        common_app_is_online_service: app.get_config('config.common_app_is_online_service'),
+        common_app_is_head_vice_nav: app.get_config('config.common_app_is_head_vice_nav'),
+        common_app_mini_alipay_tnt_inst_id: app.get_config('config.common_app_mini_alipay_tnt_inst_id'),
+        common_app_mini_alipay_scene: app.get_config('config.common_app_mini_alipay_scene'),
+      });
+
+      // 在线客服开启，获取用户openid
+      if(this.data.common_app_is_online_service == 1)
+      {
+        this.setData({common_app_mini_alipay_openid: app.get_user_openid()});
+      }
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init(e) {
     var user = app.get_user_info(this, "init"),
       self = this;
@@ -109,19 +137,11 @@ Page({
 
           this.setData({
             user_order_status_list: temp_user_order_status_list,
-            customer_service_tel: data.customer_service_tel || null,
-            common_user_center_notice: data.common_user_center_notice || null,
             avatar: ((data.avatar || null) != null) ? data.avatar : ((this.data.avatar || null) == null ? app.data.default_user_head_src : this.data.avatar),
             nickname: (data.nickname != null) ? data.nickname : this.data.nickname,
             message_total: ((data.common_message_total || 0) == 0) ? 0 : data.common_message_total,
             head_nav_list: temp_head_nav_list,
             navigation: data.navigation || [],
-            common_app_is_head_vice_nav: data.common_app_is_head_vice_nav || 0,
-
-            // 在线客服
-            common_app_is_online_service: data.common_app_is_online_service || 0,
-            common_app_mini_alipay_tnt_inst_id: data.common_app_mini_alipay_tnt_inst_id || null,
-            common_app_mini_alipay_scene: data.common_app_mini_alipay_scene || null,
           });
 
           // 导航购物车处理
@@ -130,12 +150,6 @@ Page({
             app.set_tab_bar_badge(2, 0);
           } else {
             app.set_tab_bar_badge(2, 1, cart_total);
-          }
-
-          // 在线客服开启，用户openid
-          if(this.data.common_app_is_online_service == 1)
-          {
-            this.setData({common_app_mini_alipay_openid: app.get_user_openid()});
           }
         } else {
           if (app.is_login_check(res.data, this, 'get_data')) {
@@ -152,17 +166,30 @@ Page({
 
   // 清除缓存
   clear_storage(e) {
+    // 获取uuid重新存储缓存，一定情况下确保用户的uuid不改变
+    var res = my.getStorageSync({key: app.data.cache_user_uuid_key}) || null;
+    var uuid = res.data || null;
+
+    // 清除所有缓存
     my.clearStorage();
-    app.showToast('清除缓存成功', 'success');
+    app.showToast("清除缓存成功", "success");
+
+    // 重新存储用户uuid缓存
+    if(uuid != null) {
+      my.setStorage({
+        key: app.data.cache_user_uuid_key,
+        data: uuid
+      });
+    }
   },
 
   // 客服电话
   call_event() {
-    if(this.data.customer_service_tel == null)
+    if(this.data.common_app_customer_service_tel == null)
     {
-      app.showToast('客服电话有误');
+      app.showToast("客服电话有误");
     } else {
-      app.call_tel(this.data.customer_service_tel);
+      app.call_tel(this.data.common_app_customer_service_tel);
     }
   },
 

@@ -60,7 +60,7 @@
     <text class="item-name">安全退出</text>
   </view>
 
-  <view a:if="{{customer_service_tel != null}}" class="nav-item" onTap="call_event">
+  <view a:if="{{(customer_service_tel || null) != null}}" class="nav-item" onTap="call_event">
     <image src="/images/user-nav-customer-service-icon.png" class="item-icon" mode="widthFix" />
     <text class="item-name">客服电话 </text>
     <text class="item-name cr-blue">{{customer_service_tel}}</text>
@@ -68,7 +68,7 @@
 </view>
 
 <!-- 用户中心公告 -->
-<view a:if="{{common_user_center_notice != null}}" class="user-notice">
+<view a:if="{{(common_user_center_notice || null) != null}}" class="user-notice">
     <view class="tips">{{common_user_center_notice}}</view>
 </view>
 
@@ -77,6 +77,9 @@
   <import src="/pages/lib/online-service/content.axml" />
   <template is="online_service" data="{{tnt_inst_id: common_app_mini_alipay_tnt_inst_id || null, scene: common_app_mini_alipay_scene || null, openid: common_app_mini_alipay_openid || null}}"></template>
 </view>
+
+<!-- 快捷导航 -->
+<component-quick-nav />
 
 <import src="/pages/common/copyright.axml" />
 <template is="copyright"></template>

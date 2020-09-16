@@ -1,19 +1,19 @@
 const app = getApp();
 Page({
   data: {
-    price_symbol: app.data.price_symbol,
     load_status: 0,
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     data_list: [],
     banner_list: [],
     navigation: [],
+
+    // 基础配置
+    price_symbol: app.data.price_symbol,
     common_shop_notice: null,
-    common_app_is_enable_search: 1,
-    common_app_is_enable_answer: 1,
+    common_app_is_enable_search: 0,
+    common_app_is_enable_answer: 0,
     common_app_is_header_nav_fixed: 0,
-    
-    // 在线客服
     common_app_is_online_service: 0,
     common_app_mini_alipay_tnt_inst_id: null,
     common_app_mini_alipay_scene: null,
@@ -28,11 +28,41 @@ Page({
   },
   
   onShow() {
+    // 主题颜色
     app.set_nav_bg_color_main();
+    
+    // 数据加载
     this.init();
+
+    // 初始化配置
+    this.init_config();
   },
 
-  // 获取数据列表
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        price_symbol: app.get_config('price_symbol'),
+        common_shop_notice: app.get_config('config.common_shop_notice'),
+        common_app_is_enable_search: app.get_config('config.common_app_is_enable_search'),
+        common_app_is_enable_answer: app.get_config('config.common_app_is_enable_answer'),
+        common_app_is_header_nav_fixed: app.get_config('config.common_app_is_header_nav_fixed'),
+        common_app_is_online_service: app.get_config('config.common_app_is_online_service'),
+        common_app_mini_alipay_tnt_inst_id: app.get_config('config.common_app_mini_alipay_tnt_inst_id'),
+        common_app_mini_alipay_scene: app.get_config('config.common_app_mini_alipay_scene'),
+      });
+
+      // 在线客服开启，获取用户openid
+      if(this.data.common_app_is_online_service == 1)
+      {
+        this.setData({common_app_mini_alipay_openid: app.get_user_openid()});
+      }
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     var self = this;
 
@@ -59,18 +89,9 @@ Page({
             banner_list: data.banner_list || [],
             navigation: data.navigation || [],
             data_list: data.data_list || [],
-            common_shop_notice: data.common_shop_notice || null,
-            common_app_is_enable_search: data.common_app_is_enable_search,
-            common_app_is_enable_answer: data.common_app_is_enable_answer,
-            common_app_is_header_nav_fixed: data.common_app_is_header_nav_fixed,
             data_list_loding_status: data.data_list.length == 0 ? 0 : 3,
             plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
             plugins_limitedtimediscount_is_valid: ((data.plugins_limitedtimediscount_data || null) != null && (data.plugins_limitedtimediscount_data.is_valid || 0) == 1) ? 1 : 0,
-
-            // 在线客服
-            common_app_is_online_service: data.common_app_is_online_service || 0,
-            common_app_mini_alipay_tnt_inst_id: data.common_app_mini_alipay_tnt_inst_id || null,
-            common_app_mini_alipay_scene: data.common_app_mini_alipay_scene || null,
           });
 
           // 导航购物车处理
@@ -80,12 +101,6 @@ Page({
             app.set_tab_bar_badge(2, 0);
           } else {
             app.set_tab_bar_badge(2, 1, cart_total);
-          }
-
-          // 在线客服开启，用户openid
-          if(this.data.common_app_is_online_service == 1)
-          {
-            this.setData({common_app_mini_alipay_openid: app.get_user_openid()});
           }
 
           // 限时秒杀倒计时

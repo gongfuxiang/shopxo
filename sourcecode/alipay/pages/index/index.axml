@@ -8,7 +8,7 @@
 </view>
 
 <!-- 商城公告 -->
-<view a:if="{{common_shop_notice != null}}">
+<view a:if="{{(common_shop_notice || null) != null}}">
   <view class="tips">{{common_shop_notice}}</view>
 </view>
 
@@ -80,6 +80,9 @@
   <import src="/pages/lib/online-service/content.axml" />
   <template is="online_service" data="{{tnt_inst_id: common_app_mini_alipay_tnt_inst_id || null, scene: common_app_mini_alipay_scene || null, openid: common_app_mini_alipay_openid || null}}"></template>
 </view>
+
+<!-- 快捷导航 -->
+<component-quick-nav />
 
 <view a:if="{{load_status == 1}}">
   <import src="/pages/common/copyright.axml" />

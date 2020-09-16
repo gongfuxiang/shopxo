@@ -8,25 +8,22 @@ Component({
     y: 0,
     is_first: 1,
   },
-  pageLifetimes: {
-    // 页面被展示
-    show: function() {
-      this.init_config();
 
-      // 非首次进入则重新初始化配置接口
-      if(this.data.is_first == 0) {
-        app.init_config();
-      }
+  // 页面被展示
+  didMount() {
+    // 非首次进入则重新初始化配置接口
+    if(this.data.is_first == 0) {
+      app.init_config();
+    }
 
-      // 数据设置
-      var system = app.get_system_info();
-      this.setData({
-        is_first: 0,
-        system: system,
-        x: 5,
-        y: (system.windowHeight || 450)-160,
-      });
-    },
+    // 数据设置
+    var system = app.get_system_info();
+    this.setData({
+      is_first: 0,
+      system: system,
+      x: 5,
+      y: (system.windowHeight || 450)-160,
+    });
   },
   methods: {
     // 初始化配置

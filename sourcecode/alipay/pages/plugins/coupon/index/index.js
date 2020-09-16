@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    price_symbol: app.data.price_symbol,
     data_bottom_line_status: false,
     data_list_loding_status: 1,
     data_list_loding_msg: '',
@@ -11,16 +10,31 @@ Page({
     // 优惠劵领取
     temp_coupon_receive_index: null,
     temp_coupon_receive_value: null,
-  },
-
-  onLoad(params) {
-    this.init();
+    
+    // 基础配置
+    price_symbol: app.data.price_symbol,
   },
 
   onShow() {
-    my.setNavigationBar({title: app.data.common_pages_title.coupon });
+    // 数据加载
+    this.init();
+
+    // 初始化配置
+    this.init_config();
   },
 
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        price_symbol: app.get_config('price_symbol'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     // 获取数据
     this.get_data_list();

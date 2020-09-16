@@ -76,6 +76,11 @@
   margin-top: 20rpx;
   width: 30rpx;
 }
+.popup-form .item {
+  width: 480rpx;
+  padding: 0 20rpx;
+  margin-top: 20rpx;
+}
 .popup-form .keywords input {
   width: calc(100% - 30rpx);
 }

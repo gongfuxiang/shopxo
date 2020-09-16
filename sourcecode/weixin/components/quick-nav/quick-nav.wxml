@@ -1,18 +1,20 @@
 <!-- 开启事件 -->
-<view class="quick-event-submit" bindtap="quick_open_event">
-  <image src="/images/quick-submit-icon.png" mode="widthFix"></image>
-</view>
+<movable-area class="quick-nav-movable-container">
+  <movable-view direction="all" x="{{x}}" y="{{y}}" animation="{{false}}" class="quick-nav-event-submit" bindtap="quick_open_event">
+    <image src="/images/quick-submit-icon.png" mode="widthFix"></image>
+  </movable-view>
+</movable-area>
 
 <!-- 弹窗 -->
 <component-popup prop-show="{{popup_status}}" prop-position="bottom" bindonclose="quick_close_event">
-  <view class="popup-container">
+  <view class="quick-nav-popup-container">
     <view class="close oh">
       <view class="icon-right" catchtap="quick_close_event">
         <icon type="clear" size="20" />
       </view>
     </view>
-    <view class="popup-content">
-      <view wx:if="{{data_list.length > 0}}" class="data-list">
+    <view class="quick-nav-popup-content">
+      <view wx:if="{{data_list.length > 0}}" class="quick-nav-data-list">
         <view class="items" wx:for="{{data_list}}" wx:key="key">
           <view class="items-content" data-value="{{item.event_value}}" data-type="{{item.event_type}}" bindtap="navigation_event" style="background-color:{{item.bg_color}}">
             <image src="{{item.images_url}}" mode="aspectFit" />

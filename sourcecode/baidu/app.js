@@ -1,5 +1,11 @@
 App({
   data: {
+    // uuid缓存key
+    cache_user_uuid_key: "cache_user_uuid_key",
+
+    // 配置信息缓存key
+    cache_config_info_key: "cache_config_info_key",
+
     // 用户登录缓存key
     cache_user_login_key: "cache_user_login_key",
 
@@ -59,8 +65,6 @@ App({
       "user_orderaftersale": "退款/售后",
       "user_orderaftersale_detail": "订单售后",
       "user_order_comments": "订单评论",
-      "coupon": "领劵中心",
-      "user_coupon": "优惠劵",
       "extraction_address": "自提地址",
     },
 
@@ -86,6 +90,9 @@ App({
 
     // 启动query参数处理
     this.startup_query(options);
+
+    // 初始化配置
+    this.init_config();
   },
 
   /**

@@ -1,7 +1,7 @@
 /**
  * 按钮
  */
- .quick-nav-movable-container {
+.quick-nav-movable-container {
   position: fixed;
   width: 100%;
   height: 100%;

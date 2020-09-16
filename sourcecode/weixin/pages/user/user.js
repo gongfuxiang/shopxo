@@ -153,8 +153,20 @@ Page({
 
   // 清除缓存
   clear_storage(e) {
+    // 获取uuid重新存储缓存，一定情况下确保用户的uuid不改变
+    var uuid = wx.getStorageSync(app.data.cache_user_uuid_key) || null;
+
+    // 清除所有缓存
     wx.clearStorage();
     app.showToast("清除缓存成功", "success");
+
+    // 重新存储用户uuid缓存
+    if(uuid != null) {
+      wx.setStorage({
+        key: app.data.cache_user_uuid_key,
+        data: uuid
+      });
+    }
   },
 
   // 客服电话

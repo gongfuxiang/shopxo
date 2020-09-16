@@ -22,7 +22,7 @@ Page({
   // 获取数据
   get_data_list() {
     var self = this;
-    wx.showLoading({ title: "加载中..." });
+    my.showLoading({ content: "加载中..." });
     if (self.data.data_list.length <= 0)
     {
       self.setData({
@@ -30,14 +30,14 @@ Page({
       });
     }
 
-    wx.request({
+    my.request({
       url: app.get_request_url("index", "index", "exchangerate"),
       method: "POST",
       data: {},
       dataType: "json",
       success: res => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        my.hideLoading();
+        my.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
           var status = ((data.data.data || []).length > 0);
@@ -59,8 +59,8 @@ Page({
         }
       },
       fail: () => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        my.hideLoading();
+        my.stopPullDownRefresh();
         self.setData({
           data_bottom_line_status: false,
           data_list_loding_status: 2,
@@ -87,15 +87,15 @@ Page({
     if (data.id != this.data.data_default.id)
     {
       var self = this;
-      wx.showLoading({ title: "处理中..." });
-      wx.request({
+      my.showLoading({ content: "处理中..." });
+      my.request({
         url: app.get_request_url("setcurrency", "index", "exchangerate"),
         method: "POST",
         data: { "currency": data.id },
         dataType: "json",
         header: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
-          wx.hideLoading();
+          my.hideLoading();
           if (res.data.code == 0) {
             app.showToast(res.data.msg, "success");
             self.setData({ data_default: data });
@@ -104,14 +104,14 @@ Page({
 
             // 返回上一页
             setTimeout(function () {
-              wx.navigateBack();
+              my.navigateBack();
             }, 1500);
           } else {
             app.showToast(res.data.msg);
           }
         },
         fail: () => {
-          wx.hideLoading();
+          my.hideLoading();
           app.showToast("服务器请求出错");
         }
       });

@@ -25,7 +25,14 @@ Page({
   onLoad(params) {
     // 启动参数处理
     params = app.launch_params_handle(params);
-    this.setData({params: params});
+
+    // 初始参数
+    this.setData({
+      params: params,
+      post_data: {
+        keywords: params.keywords || ''
+      }
+    });
 
     // 显示分享菜单
     app.show_share_menu();

@@ -75,3 +75,6 @@
   <import src="/pages/common/nodata.axml" />
   <template is="nodata" data="{{status: data_list_loding_status}}"></template>
 </view>
+
+<!-- 快捷导航 -->
+<component-quick-nav />

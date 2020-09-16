@@ -1,3 +1,6 @@
 {
-  "pullRefresh": true
+  "pullRefresh": true,
+  "usingComponents": {
+      "component-quick-nav": "/components/quick-nav/quick-nav"
+  }
 }

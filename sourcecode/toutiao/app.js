@@ -1,8 +1,14 @@
 App({
   data: {
+    // uuid缓存key
+    cache_user_uuid_key: "cache_user_uuid_key",
+
+    // 配置信息缓存key
+    cache_config_info_key: "cache_config_info_key",
+
     // 用户登录缓存key
     cache_user_login_key: "cache_user_login_key",
-    
+
     // 用户信息缓存key
     cache_user_info_key: "cache_shop_user_info_key",
 
@@ -92,6 +98,9 @@ App({
       key: this.data.cache_launch_info_key,
       data: options
     });
+
+    // 初始化配置
+    this.init_config();
   },
 
   /**

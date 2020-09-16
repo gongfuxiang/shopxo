@@ -86,8 +86,7 @@
 
     <!-- 留言 -->
     <view class="content-textarea-view bg-white spacing-mb">
-      <textarea a:if="{{!popup_plugins_coupon_status}}" onInput="bind_user_note_event" value="{{user_note_value}}" maxlength="60" placeholder="留言" class="wh-auto" />
-      <view a:if="{{popup_plugins_coupon_status}}" class="cr-888">{{user_note_value || '留言'}}</view>
+      <textarea onInput="bind_user_note_event" value="{{user_note_value}}" maxlength="60" placeholder="留言" />
     </view>
 
     <!-- 支付方式 -->
@@ -151,3 +150,6 @@
     </view>
   </component-popup>
 </block>
+
+<!-- 快捷导航 -->
+<component-quick-nav />

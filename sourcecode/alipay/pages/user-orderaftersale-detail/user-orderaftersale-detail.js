@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    price_symbol: app.data.price_symbol,
     params: null,
     data_list_loding_status: 1,
     data_list_loding_msg: '',
@@ -110,6 +109,9 @@ Page({
     form_images_list: [],
     form_express_name: '',
     form_express_number: '',
+
+    // 基础配置
+    price_symbol: app.data.price_symbol,
   },
 
   onLoad(params) {
@@ -117,13 +119,30 @@ Page({
       params: params,
       popup_delivery_status: ((params.is_delivery_popup || 0) == 1),
     });
-    this.init();
   },
 
   onShow() {
     my.setNavigationBar({ title: app.data.common_pages_title.user_orderaftersale_detail });
+  
+    // 数据加载
+    this.init();
+
+    // 初始化配置
+    this.init_config();
   },
 
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        price_symbol: app.get_config('price_symbol'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     var self = this;
     my.showLoading({content: "加载中..." });
