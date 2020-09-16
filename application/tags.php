@@ -107,6 +107,26 @@ return array (
   array (
     0 => 'app\\plugins\\exchangerate\\Hook',
   ),
+  'plugins_service_quick_navigation_weixin' => 
+  array (
+    0 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_service_quick_navigation_alipay' => 
+  array (
+    0 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_service_quick_navigation_baidu' => 
+  array (
+    0 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_service_quick_navigation_qq' => 
+  array (
+    0 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_service_quick_navigation_toutiao' => 
+  array (
+    0 => 'app\\plugins\\exchangerate\\Hook',
+  ),
   'plugins_service_currency_price_symbol' => 
   array (
     0 => 'app\\plugins\\exchangerate\\Hook',

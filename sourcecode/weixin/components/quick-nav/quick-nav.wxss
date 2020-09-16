@@ -3,13 +3,14 @@
  */
 .quick-event-submit {
   position: fixed;
-  bottom: 50rpx;
-  left: 50rpx;
+  bottom: 150rpx;
+  left: 10rpx;
   width: 100rpx;
   height: 100rpx;
   border-radius: 50%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   background-color: #d2364c;
+  z-index: 2;
 }
 .quick-event-submit image {
   width: 50rpx;

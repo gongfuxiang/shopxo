@@ -1,5 +1,8 @@
 App({
   data: {
+    // uuid缓存key
+    cache_user_uuid_key: "cache_user_uuid_key",
+
     // 配置信息缓存key
     cache_config_info_key: "cache_config_info_key",
 
@@ -68,7 +71,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://shopxo.com/',
-     request_url: 'https://dev.shopxo.net/',
+     //request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -174,12 +177,13 @@ App({
     // 用户信息
     var user = this.get_user_cache_info();
     var token = (user == false) ? '' : user.token || '';
+    var uuid = this.request_uuid();
     return this.data.request_url +
       "index.php?s=/api/" + c + "/" + a + plugins_params+
       "&application=app&application_client_type=weixin" +
-      "&token=" +
-      token +
+      "&token=" + token +
       "&ajax=ajax" +
+      "&uuid="+uuid+
       params;
   },
 
@@ -717,7 +721,7 @@ App({
    */
   get_config(key, default_value) {
     var value = null;
-    let config = wx.getStorageSync(this.data.cache_config_info_key) || null;
+    var config = wx.getStorageSync(this.data.cache_config_info_key) || null;
     if(config != null)
     {
       // 数据读取
@@ -837,6 +841,32 @@ App({
       longitude: position.lng,
       latitude: position.lat
     });
+  },
+
+  // uuid生成
+  uuid() {
+    var d = new Date().getTime();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  },
+
+  // 获取当前uuid
+  request_uuid() {
+    var uuid = wx.getStorageSync(this.data.cache_user_uuid_key) || null;
+    if(uuid == null) {
+      uuid = this.uuid();
+      wx.setStorage({
+        key: this.data.cache_user_uuid_key,
+        data: uuid,
+        fail: () => {
+          this.showToast('uuid缓存失败');
+        }
+      });
+    }
+    return uuid;
   },
 
 });

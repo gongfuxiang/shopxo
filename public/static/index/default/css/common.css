@@ -969,8 +969,8 @@ legend a.am-fr {
     background: #d2354c;
     color: #fff;
     position: fixed;
-    left: 20px;
-    bottom:70px;
+    left: 10px;
+    bottom:150px;
     z-index: 1020;
     -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
