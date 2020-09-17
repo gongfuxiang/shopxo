@@ -357,10 +357,14 @@ class GoodsService
             $is_content_app = (isset($params['is_content_app']) && $params['is_content_app'] == true) ? true : false;
             $is_category = (isset($params['is_category']) && $params['is_category'] == true) ? true : false;
             $is_params = (isset($params['is_params']) && $params['is_params'] == true) ? true : false;
+            $data_key_field = empty($params['data_key_field']) ? 'id' : $params['data_key_field'];
 
             // 开始处理数据
             foreach($data as &$v)
             {
+                // 数据主键id
+                $data_id = isset($v[$data_key_field]) ? $v[$data_key_field] : 0;
+
                 // 商品处理前钩子
                 $hook_name = 'plugins_service_goods_handle_begin';
                 $ret = HookReturnHandle(Hook::listen($hook_name, [
@@ -368,7 +372,7 @@ class GoodsService
                     'is_backend'    => true,
                     'params'        => &$params,
                     'goods'         => &$v,
-                    'goods_id'      => isset($v['id']) ? $v['id'] : 0,
+                    'goods_id'      => $data_id,
                 ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {
@@ -386,15 +390,15 @@ class GoodsService
                 ];
 
                 // 商品url地址
-                if(!empty($v['id']))
+                if(!empty($data_id))
                 {
-                    $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['id']]);
+                    $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$data_id]);
                 }
 
                 // 获取相册
-                if($is_photo && !empty($v['id']))
+                if($is_photo && !empty($data_id))
                 {
-                    $v['photo'] = self::GoodsPhotoData($v['id']);
+                    $v['photo'] = self::GoodsPhotoData($data_id);
                     if(!empty($v['photo']))
                     {
                         foreach($v['photo'] as &$vs)
@@ -412,7 +416,7 @@ class GoodsService
                     if(empty($v['images']))
                     {
                         // 获取商品封面图片
-                        $v['images'] = ResourcesService::AttachmentPathHandle(self::GoodsImagesCoverHandle($v['id'], isset($v['photo']) ? $v['photo'] : []));
+                        $v['images'] = ResourcesService::AttachmentPathHandle(self::GoodsImagesCoverHandle($data_id, isset($v['photo']) ? $v['photo'] : []));
                     }
                     $v['images_old'] = $v['images'];
                     $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
@@ -460,9 +464,9 @@ class GoodsService
                 }
 
                 // 是否需要分类名称
-                if($is_category && !empty($v['id']))
+                if($is_category && !empty($data_id))
                 {
-                    $v['category_ids'] = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$v['id']])->column('category_id');
+                    $v['category_ids'] = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$data_id])->column('category_id');
                     $category_name = Db::name('GoodsCategory')->where(['id'=>$v['category_ids']])->column('name');
                     $v['category_text'] = implode('，', $category_name);
                 }
@@ -474,21 +478,21 @@ class GoodsService
                 }
 
                 // 获取规格
-                if($is_spec && !empty($v['id']))
+                if($is_spec && !empty($data_id))
                 {
-                    $v['specifications'] = self::GoodsSpecificationsData($v['id']);
+                    $v['specifications'] = self::GoodsSpecificationsData($data_id);
                 }
 
                 // 获取商品参数
-                if($is_params && !empty($v['id']))
+                if($is_params && !empty($data_id))
                 {
-                    $v['parameters'] = self::GoodsParametersData($v['id']);
+                    $v['parameters'] = self::GoodsParametersData($data_id);
                 }
 
                 // 获取app内容
-                if($is_content_app && !empty($v['id']))
+                if($is_content_app && !empty($data_id))
                 {
-                    $v['content_app'] = self::GoodsContentAppData(['goods_id'=>$v['id']]);
+                    $v['content_app'] = self::GoodsContentAppData(['goods_id'=>$data_id]);
                 }
 
                 // 展示字段
@@ -502,7 +506,7 @@ class GoodsService
                     'is_backend'    => true,
                     'params'        => &$params,
                     'goods'         => &$v,
-                    'goods_id'      => isset($v['id']) ? $v['id'] : 0,
+                    'goods_id'      => isset($data_id) ? $data_id : 0,
                 ]));
                 if(isset($ret['code']) && $ret['code'] != 0)
                 {

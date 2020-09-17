@@ -204,31 +204,19 @@ class GoodsFavorService
         $data = Db::name('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
+            // 商品数据处理
+            $ret = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id']);
+            $data = $ret['data'];
+
+            // 是否公共读取
+            $is_public = (isset($params['is_public']) && $params['is_public'] == 0) ? 0 : 1;
             foreach($data as &$v)
             {
                 // 用户信息
-                if(isset($v['user_id']))
+                if(isset($v['user_id']) && $is_public == 0)
                 {
-                    if(isset($params['is_public']) && $params['is_public'] == 0)
-                    {
-                        $v['user'] = UserService::GetUserViewInfo($v['user_id']);
-                    }
+                    $v['user'] = UserService::GetUserViewInfo($v['user_id']);
                 }
-
-                // 无封面图片
-                if(empty($v['images']))
-                {
-                    $v['images'] = ResourcesService::AttachmentPathHandle(GoodsService::GoodsImagesCoverHandle($v['goods_id']));
-                }
-
-                // 商品信息
-                $v['images_old'] = $v['images'];
-                $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
-                $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['goods_id']]);
-
-                // 时间
-                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
             }
         }
         return DataReturn('处理成功', 0, $data);

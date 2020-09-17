@@ -134,10 +134,12 @@ return array (
   'plugins_service_goods_handle_end' => 
   array (
     0 => 'app\\plugins\\exchangerate\\Hook',
+    1 => 'app\\plugins\\usernotloginhidegoodsprice\\Hook',
   ),
   'plugins_service_goods_spec_base' => 
   array (
     0 => 'app\\plugins\\exchangerate\\Hook',
+    1 => 'app\\plugins\\usernotloginhidegoodsprice\\Hook',
   ),
   'plugins_service_order_pay_launch_handle' => 
   array (

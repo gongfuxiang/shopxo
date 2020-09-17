@@ -160,11 +160,13 @@
 /**
  * 留言
  */
-.content-textarea-view {
+.content-textarea-container {
   padding: 5rpx;
 }
-.content-textarea-view textarea {
-  height: 180rpx;
+.content-textarea-container textarea,
+.content-textarea-container view {
+  padding: 5rpx 15rpx;
+  height: 170rpx;
 }
 
 /**

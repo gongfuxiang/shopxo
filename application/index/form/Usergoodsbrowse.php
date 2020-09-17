@@ -108,7 +108,7 @@ class UserGoodsBrowse
                 [
                     'label'         => '创建时间',
                     'view_type'     => 'field',
-                    'view_key'      => 'add_time_time',
+                    'view_key'      => 'add_time',
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'b.add_time',

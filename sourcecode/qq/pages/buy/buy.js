@@ -12,7 +12,7 @@ Page({
     address_id: null,
     total_price: 0,
     user_note_value: '',
-    user_note_disabled: true,
+    user_note_status: false,
     is_first: 1,
     extension_data: [],
     payment_id: 0,
@@ -180,23 +180,19 @@ Page({
     this.init();
   },
 
-  // 用户留言事件
+  // 用户留言输入事件
   bind_user_note_event(e) {
     this.setData({user_note_value: e.detail.value});
   },
 
   // 用户留言点击
   bind_user_note_tap_event(e) {
-    this.setData({
-      user_note_disabled: false,
-    });
+    this.setData({user_note_status: true});
   },
 
   // 用户留言失去焦点
   bind_user_note_blur_event(e) {
-    this.setData({
-      user_note_disabled: true,
-    });
+    this.setData({user_note_status: false});
   },
 
   // 提交订单
