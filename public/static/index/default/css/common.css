@@ -880,7 +880,7 @@ img.common-user-icon {
 /**
  * 用户中心左侧菜单
  */
-.user-menu {position:fixed;z-index:1020;bottom:70px;right:10px; -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);}
+.user-menu {position:fixed;z-index:1020;bottom:70px;right:10px; -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);opacity: 0.8;}
 .user-sidebar {width:145px;min-height:100%;float:left;}
 .user-sidebar .am-active {z-index:1600;}
 .user-sidebar .am-active a, .user-sidebar-list li a:hover {background:#fff1f5; text-decoration: none; color: #d2364c; }
@@ -966,7 +966,7 @@ legend a.am-fr {
  * 左侧快捷入口
  */
 .left-main-quick-menu {
-    background: #d2354c;
+    background-color: rgb(210 54 76 / 80%);
     color: #fff;
     position: fixed;
     left: 10px;
