@@ -43,8 +43,8 @@
         <view class="cr-888">分享</view>        
       </view>
       <text wx:if="{{(show_field_price_text || null) != null}}" class="price-icon">{{show_field_price_text}}</text>
-      <text class="sales-price">{{price_symbol}}{{goods.price}}</text>
-      <view wx:if="{{(goods.original_price || null) != null && goods.original_price != '0.00'}}" class="original-price">{{price_symbol}}{{goods.original_price}}</view>
+      <text class="sales-price">{{currency_symbol}}{{goods.price}}</text>
+      <view wx:if="{{(goods.original_price || null) != null && goods.original_price != '0.00'}}" class="original-price">{{currency_symbol}}{{goods.original_price}}</view>
     </view>
     <view class="base-grid br-t-dashed oh">
       <view class="fl tl">
@@ -83,7 +83,7 @@
         <view class="item bg-white {{item.is_operable == 0 ? 'item-disabled' : ''}}" style="border:1px solid {{item.bg_color_value}};">
           <view class="v-left fl">
             <view class="base single-text" style="color:{{item.bg_color_value}};">
-              <text wx:if="{{item.type == 0}}" class="symbol">{{price_symbol}}</text>
+              <text wx:if="{{item.type == 0}}" class="symbol">{{currency_symbol}}</text>
               <text class="price">{{item.discount_value}}</text>
               <text class="unit">{{item.type_unit}}</text>
             </view>
@@ -185,8 +185,8 @@
         <image src="{{goods_spec_base_images}}" mode="scaleToFill" class="br" />
         <view class="goods-popup-base-content">
           <view class="goods-price">
-            <view class="sales-price">{{price_symbol}}{{goods_spec_base_price}}</view>
-            <view wx:if="{{(goods_spec_base_original_price || null) != null && goods_spec_base_original_price > 0}}" class="original-price">{{price_symbol}}{{goods_spec_base_original_price}}</view>
+            <view class="sales-price">{{currency_symbol}}{{goods_spec_base_price}}</view>
+            <view wx:if="{{(goods_spec_base_original_price || null) != null && goods_spec_base_original_price > 0}}" class="original-price">{{currency_symbol}}{{goods_spec_base_original_price}}</view>
           </view>
           <view class="inventory">
             <text class="cr-888">库存</text>

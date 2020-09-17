@@ -10,9 +10,6 @@ Page({
     detail_list: [],
     extension_data: [],
     site_fictitious: null,
-
-    // 基础配置
-    price_symbol: app.data.price_symbol,
   },
 
   onLoad(params) {
@@ -25,20 +22,6 @@ Page({
 
     // 数据加载
     this.init();
-
-    // 初始化配置
-    this.init_config();
-  },
-
-  // 初始化配置
-  init_config(status) {
-    if((status || false) == true) {
-      this.setData({
-        price_symbol: app.get_config('price_symbol'),
-      });
-    } else {
-      app.is_config(this, 'init_config');
-    }
   },
 
   // 获取数据

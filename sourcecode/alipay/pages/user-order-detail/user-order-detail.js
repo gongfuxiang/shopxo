@@ -11,9 +11,6 @@ Page({
     detail_list: [],
     extension_data: [],
     site_fictitious: null,
-
-    // 基础配置
-    price_symbol: app.data.price_symbol,
   },
 
   onLoad(params) {
@@ -26,20 +23,6 @@ Page({
 
     // 数据加载
     this.init();
-
-    // 初始化配置
-    this.init_config();
-  },
-
-  // 初始化配置
-  init_config(status) {
-    if((status || false) == true) {
-      this.setData({
-        price_symbol: app.get_config('price_symbol'),
-      });
-    } else {
-      app.is_config(this, 'init_config');
-    }
   },
 
   // 获取数据
@@ -159,17 +142,12 @@ Page({
       app.showToast("地址有误");
       return false;
     }
+    var data = this.data.detail.address_data;
 
-    var ads = this.data.detail.address_data;
-    var lng = parseFloat(ads.lng || 0);
-    var lat = parseFloat(ads.lat || 0);
-    my.openLocation({
-      latitude: lat,
-      longitude: lng,
-      scale: 18,
-      name: ads.alias || '',
-      address: (ads.province_name || '') + (ads.city_name || '') + (ads.county_name || '') + (ads.address || ''),
-    });
+    // 打开地图
+    var name = data.alias || '';
+    var address = (data.province_name || '') + (data.city_name || '') + (data.county_name || '') + (data.address || '');
+    app.open_location(data.lng, data.lat, name, address);
   },
 
   // 下拉刷新

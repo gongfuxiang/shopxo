@@ -26,7 +26,7 @@ $(function()
         });
         ids = ids.toString() || 0;
         $('.cart-nav .selected-tips strong').text(total_stock);
-        $('.cart-nav .nav-total-price').text(__price_symbol__+FomatFloat(total_price));
+        $('.cart-nav .nav-total-price').text(__currency_symbol__+FomatFloat(total_price));
         $('.cart-nav input[name="ids"]').val(ids.toString() || 0);
         $('.cart-nav .nav-delete-submit').attr('data-id', ids);
     }
@@ -74,7 +74,7 @@ $(function()
                 if(result.code == 0)
                 {
                     self.parents('.stock-tag').find('input').val(stock);
-                    self.parents('tr').find('.total-price-content').text(__price_symbol__+FomatFloat(stock*price, 2));
+                    self.parents('tr').find('.total-price-content').text(__currency_symbol__+FomatFloat(stock*price, 2));
                     
                     Prompt(result.msg, 'success');
 

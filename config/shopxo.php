@@ -107,8 +107,15 @@ return [
     // 坐标需要转换的平台
     'coordinate_transformation'             => ['alipay', 'weixin', 'toutiao', 'baidu'],
 
-    // 价格符号
-    'price_symbol'                          => '￥',
+    // 货币配置信息
+    // 符号（默认 ￥）
+    // 代码（默认 0.0000）
+    // 汇率（默认 RMB）
+    // 名称（默认 人民币）
+    'currency_symbol'                       => '￥',
+    'currency_code'                         => 'RMB',
+    'currency_rate'                         => 0.0000,
+    'currency_name'                         => '人民币',
 
     // 验证码最大验证次数,防止暴力破解
     'security_prevent_violence_max'         => 6,

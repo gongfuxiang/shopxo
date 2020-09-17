@@ -33,8 +33,8 @@
             <view qq:if="{{(item.is_can_launch_aftersale == 1 || (detail.orderaftersale || null) != null) && (detail.orderaftersale_btn_text || null) != null}}" class="orderaftersale-btn-text" catchtap="orderaftersale_event" data-oid="{{item.id}}" data-did="{{detail.id}}">{{detail.orderaftersale_btn_text}}</view>
           </view>
           <view class="oh goods-price">
-            <text class="sales-price">{{price_symbol}}{{detail.price}}</text>
-            <text qq:if="{{detail.original_price > 0}}" class="original-price">{{price_symbol}}{{detail.original_price}}</text>
+            <text class="sales-price">{{currency_symbol}}{{detail.price}}</text>
+            <text qq:if="{{detail.original_price > 0}}" class="original-price">{{currency_symbol}}{{detail.original_price}}</text>
             <text class="buy-number">x{{detail.buy_number}}</text>
           </view>
         </navigator>

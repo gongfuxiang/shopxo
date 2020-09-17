@@ -45,7 +45,7 @@ Page({
     },
 
     // 基础配置
-    price_symbol: app.data.price_symbol,
+    currency_symbol: app.data.currency_symbol,
   },
   
   onShow() {    
@@ -60,7 +60,7 @@ Page({
   init_config(status) {
     if((status || false) == true) {
       this.setData({
-        price_symbol: app.get_config('price_symbol'),
+        currency_symbol: app.get_config('currency_symbol'),
       });
     } else {
       app.is_config(this, 'init_config');

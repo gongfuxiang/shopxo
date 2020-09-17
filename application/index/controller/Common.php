@@ -277,8 +277,8 @@ class Common extends Controller
         // 公共参数
         $this->assign('params', $this->data_request);
 
-        // 价格符号
-        $this->assign('price_symbol', ResourcesService::CurrencyPriceSymbol());
+        // 货币符号
+        $this->assign('currency_symbol', ResourcesService::CurrencyDataSymbol());
 
         // 站点类型
         $this->assign('common_site_type', MyC('common_site_type', 0, true));

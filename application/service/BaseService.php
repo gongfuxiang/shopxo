@@ -77,16 +77,16 @@ class BaseService
         // 数据集合
         $data = [
             // 全局状态值(1接口执行成功,用于前端校验接口请求完成状态,以后再加入其它状态)
-            'status'        => 1,
+            'status'            => 1,
 
             // 配置信息
-            'config'        => $config,
+            'config'            => $config,
 
-            // 价格符号
-            'price_symbol'  => ResourcesService::CurrencyPriceSymbol(),
+            // 货币符号
+            'currency_symbol'   => ResourcesService::CurrencyDataSymbol(),
 
             // 快捷入口信息
-            'quick_nav'     => QuickNavService::QuickNav(),
+            'quick_nav'         => QuickNavService::QuickNav(),
         ];
 
         // 公共配置信息钩子

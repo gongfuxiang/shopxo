@@ -20,7 +20,7 @@
           <view class="base">
             <view class="single-text">{{item.title}}</view>
             <view class="price">
-              <text class="sales-price">{{price_symbol}}{{item.min_price}}</text>
+              <text class="sales-price">{{currency_symbol}}{{item.min_price}}</text>
             </view>
           </view>
         </navigator>

@@ -19,6 +19,7 @@ use app\service\PaymentService;
 use app\service\ConfigService;
 use app\service\OrderSplitService;
 use app\service\WarehouseGoodsService;
+use app\service\OrderCurrencyService;
 
 /**
  * 购买服务层
@@ -1158,6 +1159,14 @@ class BuyService
                             return $ret;
                         }
                     }
+                }
+
+                // 订单货币
+                $ret = OrderCurrencyService::OrderCurrencyInsert($order_id, $params['user']['id']);
+                if($ret['code'] != 0)
+                {
+                    Db::rollback();
+                    return $ret;
                 }
             } else {
                 Db::rollback();

@@ -55,9 +55,9 @@
           </block>
         </view>
         <view class="oh goods-price">
-          <text class="sales-price">{{price_symbol}}{{item.price}}
+          <text class="sales-price">{{currency_symbol}}{{item.price}}
           </text>
-          <text qq:if="{{item.original_price > 0}}" class="original-price">{{price_symbol}}{{item.original_price}}
+          <text qq:if="{{item.original_price > 0}}" class="original-price">{{currency_symbol}}{{item.original_price}}
           </text>
           <text class="buy-number cr-888">x{{item.stock}}
           </text>
@@ -79,8 +79,8 @@
       </view>
       <!-- 小计 -->
       <view class="oh tr goods-group-footer spacing-mt spacing-mb">
-        <text qq:if="{{group.order_base.total_price != group.order_base.actual_price}}" class="original-price">{{price_symbol}}{{group.order_base.total_price}}</text>
-        <text class="sales-price">{{price_symbol}}{{group.order_base.actual_price}}</text>
+        <text qq:if="{{group.order_base.total_price != group.order_base.actual_price}}" class="original-price">{{currency_symbol}}{{group.order_base.total_price}}</text>
+        <text class="sales-price">{{currency_symbol}}{{group.order_base.actual_price}}</text>
       </view>
     </view>
 
@@ -104,7 +104,7 @@
     <view class="buy-nav oh wh-auto">
       <view class="nav-base bg-white fl br-t single-text">
         <text>合计：</text>
-        <text class="sales-price">{{price_symbol}}{{total_price}}</text>
+        <text class="sales-price">{{currency_symbol}}{{total_price}}</text>
       </view>
       <view class="fr nav-submit">
         <button class="bg-main wh-auto" type="default" bindtap="buy_submit_event" disabled="{{buy_submit_disabled_status}}" hover-class="none">提交订单</button>
@@ -134,7 +134,7 @@
           <view class="item spacing-mt bg-white {{tools.indexOf(plugins_use_coupon_ids, item.id) ? 'item-disabled' : ''}}" style="border:1px solid {{item.coupon.bg_color_value}};">
             <view class="v-left fl">
               <view class="base single-text" style="color:{{item.coupon.bg_color_value}};">
-                <text qq:if="{{item.coupon.type == 0}}" class="symbol">{{price_symbol}}</text>
+                <text qq:if="{{item.coupon.type == 0}}" class="symbol">{{currency_symbol}}</text>
                 <text class="price">{{item.coupon.discount_value}}</text>
                 <text class="unit">{{item.coupon.type_unit}}</text>
                 <text qq:if="{{(item.coupon.desc || null) != null}}" class="desc cr-888">{{item.coupon.desc}}</text>

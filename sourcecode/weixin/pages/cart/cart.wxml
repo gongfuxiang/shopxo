@@ -28,8 +28,8 @@
 
       <!-- 价格 -->
       <view class="oh goods-price">
-        <text class="sales-price">{{price_symbol}}{{item.price}}</text>
-        <text wx:if="{{item.original_price > 0}}" class="original-price">{{price_symbol}}{{item.original_price}}</text>
+        <text class="sales-price">{{currency_symbol}}{{item.price}}</text>
+        <text wx:if="{{item.original_price > 0}}" class="original-price">{{currency_symbol}}{{item.original_price}}</text>
         <text class="buy-number cr-888">x{{item.stock}}</text>
 
         <!-- 错误 -->
@@ -58,7 +58,7 @@
           <text>全选</text>
         </view>
         <view class="fr price">
-          <view class="sales-price single-text fr">{{price_symbol}}{{total_price}}</view>
+          <view class="sales-price single-text fr">{{currency_symbol}}{{total_price}}</view>
           <view class="fr">合计：</view>
         </view>
       </view>

@@ -71,15 +71,14 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://shopxo.com/',
-     request_url: 'https://dev.shopxo.net/',
+    // request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
     application_describe: "{{application_describe}}",
 
-    // 默认价格符号
-    price_symbol: "{{price_symbol}}",
-    price_symbol: "￥"
+    // 货币价格符号
+    currency_symbol: "{{currency_symbol}}"
   },
 
   /**

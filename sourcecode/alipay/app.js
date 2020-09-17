@@ -77,8 +77,8 @@ App({
     application_title: "{{application_title}}",
     application_describe: "{{application_describe}}",
 
-    // 价格符号
-    price_symbol: "{{price_symbol}}"
+    // 货币价格符号
+    currency_symbol: "{{currency_symbol}}"
   },
 
   /**
@@ -577,13 +577,7 @@ App({
               this.showToast('事件值格式有误');
               return false;
             }
-
-            my.openLocation({
-              name: values[0],
-              address: values[1],
-              longitude: parseFloat(values[2]),
-              latitude: parseFloat(values[3])
-            });
+            this.open_location(values[2], values[3], values[0], values[1]);
             break;
 
           // 拨打电话

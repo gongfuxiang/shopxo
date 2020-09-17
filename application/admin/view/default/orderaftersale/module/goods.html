@@ -21,8 +21,8 @@
     </div>
     <div class="am-text-right">
         {{if $module_data.order_data.items.original_price gt 0}}
-            <span class="original-price am-margin-right-xs">{{$price_symbol}}{{$module_data.order_data.items.original_price}}</span>
+            <span class="original-price am-margin-right-xs">{{$module_data.order_data.currency_data.currency_symbol}}{{$module_data.order_data.items.original_price}}</span>
         {{/if}}
-        <span>{{$price_symbol}}{{$module_data.order_data.items.price}}x{{$module_data.order_data.items.buy_number}}</span>
+        <span>{{$module_data.order_data.currency_data.currency_symbol}}{{$module_data.order_data.items.price}}x{{$module_data.order_data.items.buy_number}}</span>
     </div>
 {{/if}}

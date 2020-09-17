@@ -1,8 +1,8 @@
 {{if !empty($goods)}}
     <div class="am-margin-bottom-sm" data-old-price="{{$goods.price}}">
-        <strong class="am-text-danger am-text-lg goods-price">{{$price_symbol}}{{$goods.price}}</strong>
+        <strong class="am-text-danger am-text-lg goods-price">{{$currency_symbol}}{{$goods.price}}</strong>
         {{if !empty($goods['original_price']) and $goods['original_price'] gt 0}}
-            <span class="am-margin-left-xs goods-original-price" data-old-price="{{$goods.original_price}}">{{$price_symbol}}{{$goods.original_price}}</span>
+            <span class="am-margin-left-xs goods-original-price" data-old-price="{{$goods.original_price}}">{{$currency_symbol}}{{$goods.original_price}}</span>
         {{/if}}
     </div>
     <div class="goods-spec am-margin-top-sm" data-id="{{$goods.id}}">

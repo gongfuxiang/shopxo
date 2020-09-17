@@ -586,20 +586,25 @@ class ResourcesService
     }
 
     /**
-     * 货币价格符号
+     * 货币信息
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2020-09-10
      * @desc    description
      */
-    public static function CurrencyPriceSymbol()
+    public static function CurrencyData()
     {
-        // 默认从配置文件读取货币符号
-        $data = config('shopxo.price_symbol');
+        // 默认从配置文件读取货币信息
+        $data = [
+            'currency_symbol'   => config('shopxo.currency_symbol'),
+            'currency_code'     => config('shopxo.currency_code'),
+            'currency_rate'     => config('shopxo.currency_rate'),
+            'currency_name'     => config('shopxo.currency_name'),
+        ];
 
         // 货币符号钩子
-        $hook_name = 'plugins_service_currency_price_symbol';
+        $hook_name = 'plugins_service_currency_data';
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
@@ -607,6 +612,20 @@ class ResourcesService
         ]);
 
         return $data;
+    }
+
+    /**
+     * 货币信息-符号
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-10
+     * @desc    description
+     */
+    public static function CurrencyDataSymbol()
+    {
+        $res = self::CurrencyData();
+        return empty($res['currency_symbol']) ? config('shopxo.currency_symbol') : $res['currency_symbol'];
     }
 }
 ?>

@@ -1,7 +1,7 @@
 const app = getApp();
 Page({
   data: {
-    price_symbol: app.data.price_symbol,
+    currency_symbol: app.data.currency_symbol,
     data_list: [],
     data_page_total: 0,
     data_page: 1,

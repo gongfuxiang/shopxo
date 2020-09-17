@@ -29,8 +29,8 @@
             </block>
           </view>
           <view class="oh goods-price">
-            <text class="sales-price">{{price_symbol}}{{item.price}}</text>
-            <text a:if="{{item.original_price > 0}}" class="original-price">{{price_symbol}}{{item.original_price}}</text>
+            <text class="sales-price">{{detail.currency_data.currency_symbol}}{{item.price}}</text>
+            <text a:if="{{item.original_price > 0}}" class="original-price">{{detail.currency_data.currency_symbol}}{{item.original_price}}</text>
             <text class="buy-number">x{{item.buy_number}}</text>
           </view>
         </navigator>
@@ -75,7 +75,7 @@
     <view class="panel-content bg-white">
       <view a:for="{{detail_list}}" class="item br-b oh">
         <view class="title fl">{{item.name}}</view>
-        <view class="content cr-888 fl br-l">{{item.value}}</view>
+        <view class="content fl br-l">{{item.value}}</view>
       </view>
     </view>
   </view>
@@ -86,7 +86,7 @@
     <view class="panel-content bg-white">
       <view a:for="{{extension_data}}" a:key="item" class="item br-b oh">
       <text class="title">{{item.name}}</text>
-      <text class="content cr-888 br-l">{{item.tips}}</text>
+      <text class="content br-l">{{item.tips}}</text>
     </view>
     </view>
   </view>

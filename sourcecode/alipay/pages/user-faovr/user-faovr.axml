@@ -6,8 +6,8 @@
           <view class="goods-base">
             <view class="goods-title multi-text">{{item.title}}</view>
             <view class="oh goods-price">
-              <text class="sales-price">{{price_symbol}}{{item.price}}</text>
-              <text a:if="{{item.original_price > 0}}" class="original-price">{{price_symbol}}{{item.original_price}}</text>
+              <text class="sales-price">{{currency_symbol}}{{item.price}}</text>
+              <text a:if="{{item.original_price > 0}}" class="original-price">{{currency_symbol}}{{item.original_price}}</text>
             </view>
           </view>
         </navigator>

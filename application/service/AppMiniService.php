@@ -153,13 +153,13 @@ class AppMiniService
             '{{request_url}}',
             '{{application_title}}',
             '{{application_describe}}',
-            '{{price_symbol}}',
+            '{{currency_symbol}}',
         ];
         $replace = [
             __MY_URL__,
             $params['app_mini_title'],
             $params['app_mini_describe'],
-            config('shopxo.price_symbol'),
+            config('shopxo.currency_symbol'),
         ];
         $status = file_put_contents($new_dir.DS.'app.js', str_replace($search, $replace, file_get_contents($new_dir.DS.'app.js')));
         if($status === false)

@@ -22,6 +22,7 @@ use app\service\PayLogService;
 use app\service\UserService;
 use app\service\GoodsService;
 use app\service\OrderAftersaleService;
+use app\service\OrderCurrencyService;
 
 /**
  * 订单服务层
@@ -1024,6 +1025,12 @@ class OrderService
                 $warehouse = Db::name('Warehouse')->where(['id'=>$we_ids])->column('name', 'id');
             }
 
+            // 默认货币
+            $currency_default = ResourcesService::CurrencyData();
+
+            // 订单货币
+            $currency_data = OrderCurrencyService::OrderCurrencyGroupList(array_column($data, 'id'));
+
             // 循环处理数据
             foreach($data as &$v)
             {
@@ -1040,6 +1047,9 @@ class OrderService
                 {
                     return $ret;
                 }
+
+                // 订单货币
+                $v['currency_data'] = array_key_exists($v['id'], $currency_data) ? $currency_data[$v['id']] : $currency_default;
 
                 // 订单所属仓库
                 if(isset($v['warehouse_id']))
@@ -1144,7 +1154,7 @@ class OrderService
                     $v['items_count'] = count($items);
 
                     // 描述
-                    $v['describe'] = '共'.$v['buy_number_count'].'件 合计:'.config('shopxo.price_symbol').$v['total_price'].'元';
+                    $v['describe'] = '共'.$v['buy_number_count'].'件 合计:'.$v['currency_data']['currency_symbol'].'元';
                 }
 
                 // 管理员读取

@@ -37,7 +37,7 @@ Page({
     quick_nav_cart_count: 0,
 
     // 基础配置
-    price_symbol: app.data.price_symbol,
+    currency_symbol: app.data.currency_symbol,
     common_app_is_poster_share: 0,
     common_app_is_good_thing : 0,
     common_app_is_online_service: 0,
@@ -84,7 +84,7 @@ Page({
   init_config(status) {
     if((status || false) == true) {
       this.setData({
-        price_symbol: app.get_config('price_symbol'),
+        currency_symbol: app.get_config('currency_symbol'),
         common_app_is_use_mobile_detail: app.get_config('config.common_app_is_use_mobile_detail'),
         common_is_goods_detail_show_photo: app.get_config('config.common_is_goods_detail_show_photo'),
         common_app_is_online_service: app.get_config('config.common_app_is_online_service'),

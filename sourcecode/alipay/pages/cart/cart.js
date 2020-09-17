@@ -11,7 +11,7 @@ Page({
     buy_submit_disabled_status: true,
 
     // 基础配置
-    price_symbol: app.data.price_symbol,
+    currency_symbol: app.data.currency_symbol,
     common_site_type: 0,
     common_is_exhibition_mode_btn_text: null,
     common_app_customer_service_tel: null,
@@ -31,7 +31,7 @@ Page({
   init_config(status) {
     if((status || false) == true) {
       this.setData({
-        price_symbol: app.get_config('price_symbol'),
+        currency_symbol: app.get_config('currency_symbol'),
         common_site_type: app.get_config('config.common_site_type'),
         common_is_exhibition_mode_btn_text: app.get_config('config.common_is_exhibition_mode_btn_text', '立即咨询'),
         common_app_customer_service_tel: app.get_config('config.common_app_customer_service_tel'),

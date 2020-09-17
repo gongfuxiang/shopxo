@@ -24,7 +24,7 @@ Page({
     ],
 
     // 基础配置
-    price_symbol: app.data.price_symbol,
+    currency_symbol: app.data.currency_symbol,
     common_order_is_booking: 0,
 
     // 优惠劵
@@ -60,7 +60,7 @@ Page({
   init_config(status) {
     if((status || false) == true) {
       this.setData({
-        price_symbol: app.get_config('price_symbol'),
+        currency_symbol: app.get_config('currency_symbol'),
         common_order_is_booking: app.get_config('config.common_order_is_booking'),
       });
     } else {

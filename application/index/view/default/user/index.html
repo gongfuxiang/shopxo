@@ -195,7 +195,7 @@
                                                     <ul>
                                                         <li>
                                                             <span>{{$order.add_time_time}}</span>
-                                                            <span class="line-price">{{$price_symbol}}{{$order.price}}</span>
+                                                            <span class="line-price">{{$currency_symbol}}{{$order.price}}</span>
                                                         </li>
                                                         <li>
                                                             <span>{{$order.status_name}}</span>
@@ -253,7 +253,7 @@
                                                 <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank" class="goods-title am-text-truncate">{{$goods.title}}</a>
                                                 <ul>
                                                     <li>
-                                                        <span class="line-price">{{$price_symbol}}{{$goods.price}}</span>
+                                                        <span class="line-price">{{$currency_symbol}}{{$goods.price}}</span>
                                                         <span>x{{$goods.stock}}</span>
                                                     </li>
                                                 </ul>
@@ -293,7 +293,7 @@
                                                 <a href="{{:MyUrl('index/goods/index', ['id'=>$goods['goods_id']])}}" target="_blank">
                                                     <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-radius" />
                                                     <h3 class="am-gallery-title">{{$goods.title}}</h3>
-                                                    <div class="am-gallery-desc line-price">{{$price_symbol}}{{$goods.min_price}}</div>
+                                                    <div class="am-gallery-desc line-price">{{$currency_symbol}}{{$goods.min_price}}</div>
                                                 </a>
                                             </div>
                                         </li>
@@ -332,7 +332,7 @@
                                                     <img src="{{$goods.images}}" alt="{{$goods.title}}" class="am-img-thumbnail am-circle" />
                                                     <h3 class="am-gallery-title">{{$goods.title}}</h3>
                                                 </a>
-                                                <div class="am-gallery-desc line-price">{{$price_symbol}}{{$goods.min_price}}</div>
+                                                <div class="am-gallery-desc line-price">{{$currency_symbol}}{{$goods.min_price}}</div>
                                             </div>
                                         </li>
                                     {{/foreach}}

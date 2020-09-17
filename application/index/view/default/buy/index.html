@@ -326,23 +326,23 @@
                                                         </div>
                                                         <div class="wap-base am-show-sm-only">
                                                             {{if $goods['original_price'] gt 0}}
-                                                                <span class="original-price">{{$price_symbol}}{{$goods.original_price}}</span>
+                                                                <span class="original-price">{{$currency_symbol}}{{$goods.original_price}}</span>
                                                             {{/if}}
-                                                            <strong class="total-price-content">{{$price_symbol}}{{$goods.price}}</strong>
+                                                            <strong class="total-price-content">{{$currency_symbol}}{{$goods.price}}</strong>
                                                             <span class="wap-number">x{{$goods.stock}}</span>
                                                         </div>
                                                     </td>
                                                     <td class="price am-hide-sm-only">
                                                         {{if $goods['original_price'] gt 0}}
-                                                            <p class="original-price">{{$price_symbol}}{{$goods.original_price}}</p>
+                                                            <p class="original-price">{{$currency_symbol}}{{$goods.original_price}}</p>
                                                         {{/if}}
-                                                        <p class="line-price">{{$price_symbol}}{{$goods.price}}</p>
+                                                        <p class="line-price">{{$currency_symbol}}{{$goods.price}}</p>
                                                     </td>
                                                     <td class="number am-hide-sm-only">
                                                         {{$goods.stock}} {{$goods.inventory_unit}}
                                                     </td>
                                                     <td class="total-price am-hide-sm-only">
-                                                        <span>{{$price_symbol}}</span><strong class="total-price-content">{{$goods.total_price}}</strong>
+                                                        <span>{{$currency_symbol}}</span><strong class="total-price-content">{{$goods.total_price}}</strong>
                                                     </td>
                                                 </tr>
                                             {{/foreach}}
@@ -391,10 +391,10 @@
                                 <!-- 含运费小计 -->
                                 <div class="buy-point-discharge am-text-right">
                                     {{if $v['order_base']['total_price'] neq $v['order_base']['actual_price']}}
-                                        <span class="original-price am-margin-right-xs">{{$price_symbol}}{{$v.order_base.total_price}}</span>
+                                        <span class="original-price am-margin-right-xs">{{$currency_symbol}}{{$v.order_base.total_price}}</span>
                                     {{/if}}
                                     <span>
-                                        合计 <span class="price"><span>{{$price_symbol}}</span><strong class="total-price-content line-price am-text-sm">{{$v.order_base.actual_price}}</strong></span>
+                                        合计 <span class="price"><span>{{$currency_symbol}}</span><strong class="total-price-content line-price am-text-sm">{{$v.order_base.actual_price}}</strong></span>
                                     </span>
                                 </div>
                             </div>
@@ -463,7 +463,7 @@
                     <div class="base-real-pay">
                         <em>实付款 :</em>
                         <span class="price">
-                            <span>{{$price_symbol}}</span><strong class="nav-total-price">{{$base.actual_price}}</strong>
+                            <span>{{$currency_symbol}}</span><strong class="nav-total-price">{{$base.actual_price}}</strong>
                         </span>
                     </div>
 

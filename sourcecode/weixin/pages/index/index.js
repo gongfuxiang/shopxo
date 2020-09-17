@@ -9,7 +9,7 @@ Page({
     navigation: [],
 
     // 基础配置
-    price_symbol: app.data.price_symbol,
+    currency_symbol: app.data.currency_symbol,
     common_shop_notice: null,
     common_app_is_enable_search: 0,
     common_app_is_enable_answer: 0,
@@ -39,7 +39,7 @@ Page({
   init_config(status) {
     if((status || false) == true) {
       this.setData({
-        price_symbol: app.get_config('price_symbol'),
+        currency_symbol: app.get_config('currency_symbol'),
         common_shop_notice: app.get_config('config.common_shop_notice'),
         common_app_is_enable_search: app.get_config('config.common_app_is_enable_search'),
         common_app_is_enable_answer: app.get_config('config.common_app_is_enable_answer'),

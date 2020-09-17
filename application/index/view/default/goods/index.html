@@ -177,7 +177,7 @@
                         <div class="items price">
                             <dt>{{$goods.show_field_original_price_text|raw}}</dt>
                             <dd>
-                                <b class="goods-original-price original-price-value" data-original-price="{{$goods.original_price}}">{{$price_symbol}}{{$goods.original_price}}</b>
+                                <b class="goods-original-price original-price-value" data-original-price="{{$goods.original_price}}">{{$currency_symbol}}{{$goods.original_price}}</b>
                             </dd>
                         </div>
                     {{/if}}
@@ -200,7 +200,7 @@
                     <div class="items price iteminfo_mktprice">
                         <dt>{{if empty($goods['show_field_price_text'])}}销售价{{else /}}{{$goods.show_field_price_text|raw}}{{/if}}</dt>
                         <dd>
-                            <em>{{$price_symbol}}</em>
+                            <em>{{$currency_symbol}}</em>
                             <b class="goods-price" data-original-price="{{$goods.price}}">{{$goods.price}}</b>
                         </dd>                                 
                     </div>
@@ -312,7 +312,7 @@
                                                 <img src="{{$goods.images}}" />
                                             </div>
                                             <div class="text-info">
-                                                <span class="price-now" data-original-price="{{$goods.price}}">{{$price_symbol}}{{$goods.price}}</span>
+                                                <span class="price-now" data-original-price="{{$goods.price}}">{{$currency_symbol}}{{$goods.price}}</span>
                                             </div>
                                         </div>
                                     </form>
@@ -459,7 +459,7 @@
                                 <div class="p-name am-text-truncate-2 am-margin-vertical-xs ">
                                     <a href="{{:$v['goods_url']}}" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</a>
                                 </div>
-                                <div class="p-price"><strong>{{$price_symbol}}{{$v.price}}</strong></div>
+                                <div class="p-price"><strong>{{$currency_symbol}}{{$v.price}}</strong></div>
                             </li>
                           {{/foreach}}
                       {{/if}}
@@ -594,7 +594,7 @@
                                                     <p class="am-text-truncate-2 am-margin-bottom-xs" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
                                                 </a>
                                                 <p class="price fl">
-                                                    <strong>{{$price_symbol}}{{$v.price}}</strong>
+                                                    <strong>{{$currency_symbol}}{{$v.price}}</strong>
                                                 </p>
                                             </div>
                                         </li>

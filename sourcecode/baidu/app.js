@@ -77,8 +77,8 @@ App({
     application_title: "{{application_title}}",
     application_describe: "{{application_describe}}",
 
-    // 价格符号
-    price_symbol: "{{price_symbol}}"
+    // 货币价格符号
+    currency_symbol: "{{currency_symbol}}"
   },
 
   /**

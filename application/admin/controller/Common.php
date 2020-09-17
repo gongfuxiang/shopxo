@@ -233,8 +233,8 @@ class Common extends Controller
         $this->assign('page', $this->page);
         $this->assign('page_size', $this->page_size);
 
-        // 价格符号
-        $this->assign('price_symbol', ResourcesService::CurrencyPriceSymbol());
+        // 货币符号
+        $this->assign('currency_symbol', ResourcesService::CurrencyDataSymbol());
 
 		// 控制器静态文件状态css,js
         $module_css = $this->module_name.DS.$default_theme.DS.'css'.DS.$this->controller_name;
