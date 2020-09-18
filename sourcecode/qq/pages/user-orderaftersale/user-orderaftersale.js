@@ -44,13 +44,16 @@ Page({
       form_keyword_value: params.keywords || '',
       nav_status_index: nav_status_index,
     });
-    this.init();
   },
 
   onShow() {
     qq.setNavigationBarTitle({ title: app.data.common_pages_title.user_orderaftersale });
+
+    // 数据加载
+    this.init();
   },
 
+  // 获取数据
   init() {
     var user = app.get_user_info(this, "init");
     if (user != false) {

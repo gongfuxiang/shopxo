@@ -249,3 +249,6 @@
     <image src="/images/default-cart-icon.png" class="dis-block"></image>
   </view>
 </navigator>
+
+<!-- 快捷导航 -->
+<component-quick-nav></component-quick-nav>

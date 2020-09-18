@@ -68,7 +68,7 @@
 </view>
 
 <!-- 用户中心公告 -->
-<view tt:if="{{common_user_center_notice != null}}" class="user-notice">
+<view tt:if="{{(common_user_center_notice || null) != null}}" class="user-notice">
     <view class="tips">
       <image src="/images/tips.png" mode="aspectFit" />
       <text>{{common_user_center_notice}}</text>
@@ -80,6 +80,9 @@
   <import src="/pages/lib/online-service/content.ttml" />
   <template is="online_service"></template>
 </view>
+
+<!-- 快捷导航 -->
+<component-quick-nav></component-quick-nav>
 
 <import src="/pages/common/copyright.ttml" />
 <template is="copyright"></template>

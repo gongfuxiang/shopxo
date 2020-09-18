@@ -109,12 +109,9 @@ class ToutiaoService
         }
 
         // 返回数据
-        $result = [
-            'order_info'        => $order_info,
-            'service'           => $service,
-            'is_payment_type'   => $ret['data']['is_payment_type'],
-        ];
-        return DataReturn('success', 0, $result);
+        $ret['data']['order_info'] = $order_info;
+        $ret['data']['service'] = $service;
+        return $ret;
     }
 }
 ?>

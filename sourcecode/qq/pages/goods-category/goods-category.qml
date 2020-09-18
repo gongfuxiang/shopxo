@@ -12,7 +12,7 @@
       </block>
     </view>
   </block>
-  <block wx:else>
+  <block qq:else>
     <!-- 一级内导航 -->
     <view class='left-nav'>
       <block qq:for="{{data_list}}" qq:key="key">
@@ -62,7 +62,7 @@
             </block>
           </block>
         </block>
-        <block wx:else>
+        <block qq:else>
           <import src="/pages/common/nodata.qml" />
           <template is="nodata" data="{{status: 0, msg: '没有子分类数据'}}"></template>
         </block>
@@ -75,3 +75,6 @@
   <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: data_list_loding_status}}"></template>
 </view>
+
+<!-- 快捷导航 -->
+<component-quick-nav></component-quick-nav>

@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     data_list_loding_status: 1,
     data_list_loding_msg: '',
     data_bottom_line_status: false,
@@ -11,17 +10,38 @@ Page({
     is_selected_all: false,
     buy_submit_disabled_status: true,
 
-    // 站点模式
+    // 基础配置
+    currency_symbol: app.data.currency_symbol,
     common_site_type: 0,
     common_is_exhibition_mode_btn_text: null,
-    customer_service_tel: null,
+    common_app_customer_service_tel: null,
   },
 
   onShow() {
     tt.setNavigationBarTitle({ title: app.data.common_pages_title.cart });
+    
+    // 数据加载
     this.init();
+
+    // 初始化配置
+    this.init_config();
   },
 
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        currency_symbol: app.get_config('currency_symbol'),
+        common_site_type: app.get_config('config.common_site_type'),
+        common_is_exhibition_mode_btn_text: app.get_config('config.common_is_exhibition_mode_btn_text', '立即咨询'),
+        common_app_customer_service_tel: app.get_config('config.common_app_customer_service_tel'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init(e) {
     var user = app.get_user_info(this, "init");
     if (user != false) {
@@ -84,11 +104,6 @@ Page({
             data_list_loding_status: data.data.length == 0 ? 0 : 3,
             data_bottom_line_status: true,
             data_list_loding_msg: '购物车空空如也',
-
-            // 站点模式
-            common_site_type: data.common_site_type || 0,
-            common_is_exhibition_mode_btn_text: data.common_is_exhibition_mode_btn_text || '立即咨询',
-            customer_service_tel: data.customer_service_tel || null,
           });
 
           // 导航购物车处理
@@ -384,7 +399,7 @@ Page({
 
   // 展示型事件
   exhibition_submit_event(e) {
-    app.call_tel(this.data.customer_service_tel);
+    app.call_tel(this.data.common_app_customer_service_tel);
   },
 
 });

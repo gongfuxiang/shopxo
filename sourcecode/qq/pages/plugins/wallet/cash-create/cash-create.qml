@@ -45,7 +45,7 @@
     <button size="mini" type="primary" hover-class="none" class="submit-cash">返回重新申请提现</button>
   </navigator>
 </view>
-<view wx:else>
+<view qq:else>
   <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>

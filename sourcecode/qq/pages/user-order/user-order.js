@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     data_list: [],
     data_page_total: 0,
     data_page: 1,
@@ -42,13 +41,16 @@ Page({
       params: params,
       nav_status_index: nav_status_index,
     });
-    this.init();
   },
 
   onShow() {
     qq.setNavigationBarTitle({title: app.data.common_pages_title.user_order});
+    
+    // 数据加载
+    this.init();
   },
 
+  // 获取数据
   init() {
     var user = app.get_user_info(this, 'init');
     if (user != false) {

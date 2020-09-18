@@ -29,8 +29,8 @@
             </block>
           </view>
           <view class="oh goods-price">
-            <text class="sales-price">{{currency_symbol}}{{item.price}}</text>
-            <text qq:if="{{item.original_price > 0}}" class="original-price">{{currency_symbol}}{{item.original_price}}</text>
+            <text class="sales-price">{{detail.currency_data.currency_symbol}}{{item.price}}</text>
+            <text qq:if="{{item.original_price > 0}}" class="original-price">{{detail.currency_data.currency_symbol}}{{item.original_price}}</text>
             <text class="buy-number">x{{item.buy_number}}</text>
           </view>
         </navigator>

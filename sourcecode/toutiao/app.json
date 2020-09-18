@@ -59,7 +59,8 @@
     "pages/plugins/wallet/user-recharge/user-recharge",
     "pages/plugins/wallet/user-recharge-detail/user-recharge-detail",
     "pages/plugins/wallet/user-cash/user-cash",
-    "pages/plugins/wallet/user-cash-detail/user-cash-detail"
+    "pages/plugins/wallet/user-cash-detail/user-cash-detail",
+    "pages/plugins/exchangerate/currency/currency"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",

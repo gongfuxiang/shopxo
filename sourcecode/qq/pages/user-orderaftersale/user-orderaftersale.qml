@@ -27,8 +27,8 @@
             <view class="orderaftersale-btn-text" catchtap="orderaftersale_event" data-oid="{{item.id}}" data-did="{{item.order_data.items.id}}">{{item.order_data.items.orderaftersale_btn_text}}</view>
           </view>
           <view class="oh goods-price">
-            <text class="sales-price">{{currency_symbol}}{{item.order_data.items.price}}</text>
-            <text qq:if="{{item.order_data.items.original_price > 0}}" class="original-price">{{currency_symbol}}{{item.order_data.items.original_price}}</text>
+            <text class="sales-price">{{item.order_data.currency_data.currency_symbol}}{{item.order_data.items.price}}</text>
+            <text qq:if="{{item.order_data.items.original_price > 0}}" class="original-price">{{item.order_data.currency_data.currency_symbol}}{{item.order_data.items.original_price}}</text>
             <text class="buy-number">x{{item.order_data.items.buy_number}}</text>
           </view>
         </navigator>
@@ -38,7 +38,7 @@
         <text class="cr-ccc ds">/</text>
         <text class="cr-666">{{item.reason}}</text>
         <text qq:if="{{item.price > 0}}" class="cr-ccc ds">/</text>
-        <text qq:if="{{item.price > 0}}" class="sales-price">{{currency_symbol}}{{item.price}}</text>
+        <text qq:if="{{item.price > 0}}" class="sales-price">{{item.order_data.currency_data.currency_symbol}}{{item.price}}</text>
         <text qq:if="{{item.number > 0}}" class="cr-main"> x{{item.number}}</text>
       </view>
       <view qq:if="{{item.status <= 2 || item.status == 4}}" class="item-operation tr br-t">

@@ -59,5 +59,5 @@
       </view>
     </view>
   </view>
-  <view wx:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
+  <view qq:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
 </component-popup>

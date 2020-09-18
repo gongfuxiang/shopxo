@@ -2,7 +2,7 @@
   <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: 2, msg: '展示型不允许提交订单'}}"></template>
 </block>
-<block wx:else>
+<block qq:else>
   <view qq:if="{{goods_list.length > 0}}" class="page">
     <!-- 销售+自提 模式选择 -->
     <view qq:if="{{common_site_type == 4}}" class="buy-header-nav oh tc">
@@ -152,3 +152,6 @@
     </view>
   </component-popup>
 </block>
+
+<!-- 快捷导航 -->
+<component-quick-nav></component-quick-nav>

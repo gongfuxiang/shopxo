@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     params: {},
     default_round_success_icon: app.data.default_round_success_icon,
     default_round_error_icon: app.data.default_round_error_icon,

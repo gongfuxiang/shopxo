@@ -65,15 +65,13 @@ App({
       "user_orderaftersale": "退款/售后",
       "user_orderaftersale_detail": "订单售后",
       "user_order_comments": "订单评论",
-      "coupon": "领劵中心",
-      "user_coupon": "优惠劵",
       "extraction_address": "自提地址",
     },
 
     // 请求地址
     request_url: "{{request_url}}",
     // request_url: 'http://shopxo.com/',
-    // request_url: 'https://dev.shopxo.net/',
+     request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -86,18 +84,12 @@ App({
   /**
    * 小程序初始化
    */
-  onLaunch(options) {
+  onLaunch(params) {
     // 启动参数处理
-    options = this.launch_params_handle(options);
+    params = this.launch_params_handle(params);
 
     // 设置设备信息
     this.set_system_info();
-
-    // 缓存启动参数
-    tt.setStorage({
-      key: this.data.cache_launch_info_key,
-      data: options
-    });
 
     // 初始化配置
     this.init_config();
@@ -114,6 +106,13 @@ App({
     if ((params.scene || null) != null) {
       params = this.url_params_to_json(decodeURIComponent(params.scene));
     }
+
+    // 缓存启动参数
+    tt.setStorage({
+      key: this.data.cache_launch_info_key,
+      data: params
+    });
+
     return params;
   },
 
@@ -171,12 +170,13 @@ App({
     // 用户信息
     var user = this.get_user_cache_info();
     var token = (user == false) ? '' : user.token || '';
+    var uuid = this.request_uuid();
     return this.data.request_url +
       "index.php?s=/api/" + c + "/" + a + plugins_params+
       "&application=app&application_client_type=toutiao" +
-      "&token=" +
-      token +
+      "&token=" + token +
       "&ajax=ajax" +
+      "&uuid="+ uuid +
       params;
   },
 
@@ -530,18 +530,12 @@ App({
             this.showToast('事件值格式有误');
             return false;
           }
-
-          tt.openLocation({
-            name: values[0],
-            address: values[1],
-            longitude: parseFloat(values[2]),
-            latitude: parseFloat(values[3])
-          });
+          this.open_location(values[2], values[3], values[0], values[1]);
           break;
 
         // 拨打电话
         case 4:
-          tt.makePhoneCall({ phoneNumber: value });
+          this.call_tel(value);
           break;
       }
     }
@@ -795,6 +789,161 @@ App({
         tt.setTabBarBadge({ index: Number(index), "text": value.toString() });
       }
     }
+  },
+
+  /**
+   * 获取配置信息、可指定默认值
+   * key              数据key（支持多级读取、以 . 分割key名称）
+   * default_value    默认值
+   */
+  get_config(key, default_value) {
+    var value = null;
+    var config = tt.getStorageSync(this.data.cache_config_info_key) || null;
+    if(config != null)
+    {
+      // 数据读取
+      var arr = key.split('.');
+      if(arr.length == 1)
+      {
+        value = config[key] == undefined ? null : config[key];
+      } else {
+        value = config;
+        for(var i in arr)
+        {
+          if(value[arr[i]] != undefined)
+          {
+            value = value[arr[i]];
+          } else {
+            value =  null;
+            break;
+          }
+        }
+      }
+    }
+    return (value === null) ? ((default_value === undefined) ? value : default_value) : value;
+  },
+
+  // 初始化 配置信息
+  init_config() {
+    var self = this;
+    tt.request({
+      url: this.get_request_url('common', 'base'),
+      method: 'POST',
+      data: {},
+      dataType: 'json',
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      success: (res) => {
+        if (res.data.code == 0) {
+          tt.setStorage({
+            key: this.data.cache_config_info_key,
+            data: res.data.data,
+            fail: () => {
+              this.showToast('配置信息缓存失败');
+            }
+          });
+        } else {
+          this.showToast(res.data.msg);
+        }
+      },
+      fail: () => {
+        this.showToast('服务器请求出错');
+      },
+    });
+  },
+
+  /**
+   * 配置是否有效(100毫秒检验一次、最多检验100次)
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   */
+  is_config(object, method) {
+    var self = this;
+    var count = 0;
+    var timer = setInterval(function()
+    {
+      if(self.get_config('status') == 1)
+      {
+        clearInterval(timer);
+        if (typeof object === 'object' && (method || null) != null) {
+          object[method](true);
+        }
+      }
+      count++;
+      if(count >= 100)
+      {
+        clearInterval(timer);
+      }
+    }, 100);
+  },
+
+  /**
+   * 百度坐标BD-09到火星坐标GCJ02(高德，谷歌，腾讯坐标)
+   * object     回调操作对象
+   * method     回调操作对象的函数
+   */
+  map_bd_to_gcj(lng, lat) {
+    let x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+    let x = lng - 0.0065;
+    let y = lat - 0.006;
+    let z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+    let theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+    let lngs = z * Math.cos(theta);
+    let lats = z * Math.sin(theta);
+    return {
+      lng: lngs,
+      lat: lats
+    };
+  },
+
+  /**
+   * 百度坐标BD-09到火星坐标GCJ02(高德，谷歌，腾讯坐标)
+   * lng        经度
+   * lat        纬度
+   * name       地图上面显示的名称
+   * address    地图上面显示的详细地址
+   * scale      缩放比例，范围5~18
+   */
+  open_location(lng, lat, name, address, scale) {
+    if(lng == undefined || lat == undefined || lng == '' || lat == '') {
+      this.showToast('坐标有误');
+      return false;
+    }
+
+    // 转换坐标打开位置
+    var position = this.map_bd_to_gcj(parseFloat(lng), parseFloat(lat));
+    tt.openLocation({
+      name: name || '',
+      address: address || '',
+      scale: scale || 18,
+      longitude: position.lng,
+      latitude: position.lat
+    });
+  },
+
+  // uuid生成
+  uuid() {
+    var d = new Date().getTime();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  },
+
+  // 获取当前uuid
+  request_uuid() {
+    var uuid = tt.getStorageSync(this.data.cache_user_uuid_key) || null;
+    if(uuid == null) {
+      uuid = this.uuid();
+      tt.setStorage({
+        key: this.data.cache_user_uuid_key,
+        data: uuid,
+        fail: () => {
+          this.showToast('uuid缓存失败');
+        }
+      });
+    }
+    return uuid;
   },
 
 });

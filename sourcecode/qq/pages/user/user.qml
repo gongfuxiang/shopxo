@@ -68,7 +68,7 @@
 </view>
 
 <!-- 用户中心公告 -->
-<view qq:if="{{common_user_center_notice != null}}" class="user-notice">
+<view qq:if="{{(common_user_center_notice || null) != null}}" class="user-notice">
     <view class="tips">{{common_user_center_notice}}</view>
 </view>
 
@@ -77,6 +77,9 @@
   <import src="/pages/lib/online-service/content.qml" />
   <template is="online_service"></template>
 </view>
+
+<!-- 快捷导航 -->
+<component-quick-nav></component-quick-nav>
 
 <!-- 版权 -->
 <import src="/pages/common/copyright.qml" />

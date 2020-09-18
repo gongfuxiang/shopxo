@@ -1,0 +1,14 @@
+.exchangerate-container .item {
+  padding: 20rpx 10rpx;
+  font-size: 36rpx;
+}
+.exchangerate-container .item .icon image {
+  width: 50rpx;
+  height: 50rpx !important;
+  margin: 0 10rpx;
+  vertical-align: middle;
+}
+.exchangerate-container .item .single-text {
+  width: calc(100% - 80rpx);
+  line-height: 50rpx;
+}

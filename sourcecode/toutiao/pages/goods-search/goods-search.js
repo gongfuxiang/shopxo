@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     data_list: [],
@@ -18,18 +17,46 @@ Page({
       { name: "价格", field: "min_price", sort: "asc", "icon": "default" },
       { name: "最新", field: "id", sort: "asc", "icon": "default" }
     ],
+
+    // 基础配置
+    currency_symbol: app.data.currency_symbol,
   },
 
   onLoad(params) {
-    this.setData({params: params, post_data: params});
-    this.init();
+    // 启动参数处理
+    params = app.launch_params_handle(params);
+
+    // 初始参数
+    this.setData({
+      params: params,
+      post_data: {
+        keywords: params.keywords || ''
+      }
+    });
   },
 
   onShow() {
     tt.setNavigationBarTitle({title: app.data.common_pages_title.goods_search});
+
+    // 数据加载
+    this.init();
+
+    // 初始化配置
+    this.init_config();
   },
 
-  // 初始化
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        currency_symbol: app.get_config('currency_symbol'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     // 获取数据
     this.get_data_list();

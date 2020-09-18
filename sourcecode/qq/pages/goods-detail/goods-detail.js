@@ -1,8 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
-    
     indicator_dots: false,
     indicator_color: 'rgba(0, 0, 0, .3)',
     indicator_active_color: '#e31c55',
@@ -17,7 +15,6 @@ Page({
     goods_photo: [],
     goods_specifications_choose: [],
     goods_content_app: [],
-
     popup_status: false,
     goods_favor_text: '收藏',
     goods_favor_icon: '/images/goods-detail-favor-icon-0.png',
@@ -25,6 +22,8 @@ Page({
     buy_event_type: 'buy',
     nav_submit_text: '立即购买',
     nav_submit_is_disabled: true,
+    common_site_type: 0,
+    is_goods_site_type_consistent: 0,
 
     goods_spec_base_price: 0,
     goods_spec_base_original_price: 0,
@@ -32,12 +31,18 @@ Page({
     goods_spec_base_images: '',
 
     show_field_price_text: null,
-
     goods_video_is_autoplay: false,
-    common_app_is_use_mobile_detail: 1,
-    common_is_goods_detail_show_photo: 0,
+    popup_share_status: false,
 
+    // 购物车快捷导航
+    quick_nav_cart_count: 0,
+
+    // 基础配置
+    currency_symbol: app.data.currency_symbol,
     common_app_is_online_service: 0,
+    common_app_is_use_mobile_detail: 0,
+    common_is_goods_detail_show_photo: 0,
+    common_app_customer_service_tel: null,
 
     // 限时秒杀插件
     plugins_limitedtimediscount_is_valid: 0,
@@ -47,33 +52,8 @@ Page({
     plugins_limitedtimediscount_timer: null,
     plugins_limitedtimediscount_timers: null,
 
-    // 好物圈分享信息
-    common_app_is_good_thing : 0,
-    share_product: {
-      "item_code": "",
-      "title": "",
-      "desc": "",
-      "category_list": [],
-      "image_list": [],
-      "src_mini_program_path": "",
-      "brand_info": {},
-    },
-
-    // 海报分享
-    common_app_is_poster_share: 0,
-
     // 优惠劵
     plugins_coupon_data: null,
-
-    // 购物车快捷导航
-    quick_nav_cart_count: 0,
-
-    // 站点模式
-    common_site_type: 0,
-    is_goods_site_type_consistent: 0,
-    customer_service_tel: null,
-
-    // 优惠劵领取
     temp_coupon_receive_index: null,
     temp_coupon_receive_value: null,
   },
@@ -85,14 +65,37 @@ Page({
     // 参数赋值,初始化
     //params['goods_id']=2;
     this.setData({params: params});
-    this.init();
   },
 
   onShow() {
     qq.setNavigationBarTitle({title: (this.data.goods == null) ? app.data.common_pages_title.goods_detail : this.data.goods.title});
+  
+    // 数据加载
+    this.init();
+
+    // 初始化配置
+    this.init_config();
+
+    // 显示分享菜单
+    app.show_share_menu();
   },
 
-  // 获取数据列表
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        currency_symbol: app.get_config('currency_symbol'),
+        common_app_is_use_mobile_detail: app.get_config('config.common_app_is_use_mobile_detail'),
+        common_is_goods_detail_show_photo: app.get_config('config.common_is_goods_detail_show_photo'),
+        common_app_is_online_service: app.get_config('config.common_app_is_online_service'),
+        common_app_customer_service_tel: app.get_config('config.common_app_customer_service_tel'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     // 参数校验
     if((this.data.params.goods_id || null) == null)
@@ -124,6 +127,8 @@ Page({
           if (res.data.code == 0) {
             var data = res.data.data;
             self.setData({
+              data_bottom_line_status: true,
+              data_list_loding_status: 3,
               goods: data.goods,
               indicator_dots: (data.goods.photo.length > 1),
               autoplay: (data.goods.photo.length > 1),
@@ -133,23 +138,18 @@ Page({
               temp_buy_number: data.goods.buy_min_number || 1,
               goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
               goods_favor_icon: '/images/goods-detail-favor-icon-' + data.goods.is_favor+'.png',
-              data_bottom_line_status: true,
-              data_list_loding_status: 3,
+
+              nav_submit_text: data.nav_submit_text,
+              nav_submit_is_disabled: data.nav_submit_is_disabled,
+              common_site_type: data.common_site_type || 0,
+              is_goods_site_type_consistent: data.is_goods_site_type_consistent || 0,
 
               goods_spec_base_price: data.goods.price,
               goods_spec_base_original_price: data.goods.original_price,
               goods_spec_base_inventory: data.goods.inventory,
               goods_spec_base_images: data.goods.images,
-
               show_field_price_text: (data.goods.show_field_price_text == '销售价') ? null : (data.goods.show_field_price_text.replace(/<[^>]+>/g, "") || null),
-              common_app_is_use_mobile_detail: data.common_app_is_use_mobile_detail || 0,
-              common_is_goods_detail_show_photo: data.common_is_goods_detail_show_photo || 0,
-              //common_app_is_online_service: data.common_app_is_online_service || 0,
 
-              plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
-              plugins_limitedtimediscount_is_valid: ((data.plugins_limitedtimediscount_data || null) != null && (data.plugins_limitedtimediscount_data.is_valid || 0) == 1) ? 1 : 0,
-
-              common_app_is_good_thing: data.common_app_is_good_thing || 0,
               'share_product.item_code': data.goods.id.toString(),
               'share_product.title': data.goods.title,
               'share_product.image_list': data.goods.photo.map(function (v) { return v.images;}),
@@ -158,7 +158,9 @@ Page({
               'share_product.src_mini_program_path': '/pages/goods-detail/goods-detail?goods_id='+data.goods.id,
               'share_product.brand_info.name': data.goods.brand_name,
 
-              common_app_is_poster_share: data.common_app_is_poster_share || 0,
+              plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
+              plugins_limitedtimediscount_is_valid: ((data.plugins_limitedtimediscount_data || null) != null && (data.plugins_limitedtimediscount_data.is_valid || 0) == 1) ? 1 : 0,
+
               plugins_coupon_data: data.plugins_coupon_data || null,
               quick_nav_cart_count: data.common_cart_total || 0,
             });
@@ -173,34 +175,6 @@ Page({
 
             // 不能选择规格处理
             this.goods_specifications_choose_handle_dont(0);
-
-            // 购买按钮处理
-            var nav_submit_text = ((data.common_order_is_booking || 0) == 0) ? '立即购买' : '立即预约';
-            var nav_submit_is_disabled = (data.goods.is_shelves == 1 && data.goods.inventory > 0) ? false : true;
-            if (data.goods.is_shelves != 1) {
-              nav_submit_text = '已下架';
-              nav_submit_is_disabled = true;
-            } else {
-              if(data.goods.inventory <= 0) {
-                nav_submit_text = '卖光了';
-                nav_submit_is_disabled = true;
-              }
-            }
-
-            // 站点模式 - 是否展示型
-            var common_site_type = data.common_site_type || 0;
-            if (common_site_type == 1) {
-              nav_submit_text = data.common_is_exhibition_mode_btn_text || '立即咨询';
-            }
-
-            // 数据赋值
-            this.setData({
-              nav_submit_text: nav_submit_text,
-              nav_submit_is_disabled: nav_submit_is_disabled,
-              common_site_type: common_site_type,
-              is_goods_site_type_consistent: data.is_goods_site_type_consistent || 0,
-              customer_service_tel: data.customer_service_tel || null,
-            });
           } else {
             self.setData({
               data_bottom_line_status: false,
@@ -867,7 +841,7 @@ Page({
 
   // 展示型事件
   exhibition_submit_event(e) {
-    app.call_tel(this.data.customer_service_tel);
+    app.call_tel(this.data.common_app_customer_service_tel);
   },
 
   // 自定义分享

@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     params: null,
     data_list_loding_status: 1,
     data_list_loding_msg: '',
@@ -44,13 +43,16 @@ Page({
       form_keyword_value: params.keywords || '',
       nav_status_index: nav_status_index,
     });
-    this.init();
   },
 
   onShow() {
     tt.setNavigationBarTitle({ title: app.data.common_pages_title.user_orderaftersale });
+
+    // 数据加载
+    this.init();
   },
 
+  // 获取数据
   init() {
     var user = app.get_user_info(this, "init");
     if (user != false) {

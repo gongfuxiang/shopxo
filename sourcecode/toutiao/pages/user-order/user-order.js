@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     data_list: [],
     data_page_total: 0,
     data_page: 1,
@@ -54,15 +53,16 @@ Page({
       params: params,
       nav_status_index: nav_status_index
     });
-    this.init();
   },
 
   onShow() {
-    tt.setNavigationBarTitle({
-      title: app.data.common_pages_title.user_order
-    });
+    tt.setNavigationBarTitle({title: app.data.common_pages_title.user_order});
+
+    // 数据加载
+    this.init();
   },
 
+  // 获取数据
   init() {
     var user = app.get_user_info(this, 'init');
 
@@ -265,7 +265,7 @@ Page({
                   //   self.order_item_pay_success_handle(index);
 
                   //   // 跳转支付页面
-                  //   wx.navigateTo({
+                  //   tt.navigateTo({
                   //     url: "/pages/paytips/paytips?code=9000&total_price=" +
                   //       self.data.data_list[index]['total_price']
                   //   });

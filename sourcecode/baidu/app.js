@@ -532,7 +532,7 @@ App({
 
         // 拨打电话
         case 4:
-          swan.makePhoneCall({ phoneNumber: value });
+          this.call_tel(value);
           break;
       }
     }

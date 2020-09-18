@@ -1,21 +1,23 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     load_status: 0,
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     data_list: [],
     banner_list: [],
     navigation: [],
+
+    // 基础配置
+    currency_symbol: app.data.currency_symbol,
     common_shop_notice: null,
-    common_app_is_enable_search: 1,
-    common_app_is_enable_answer: 1,
+    common_app_is_enable_search: 0,
+    common_app_is_enable_answer: 0,
     common_app_is_header_nav_fixed: 0,
     common_app_is_online_service: 0,
 
     // 限时秒杀插件
-    plugins_limitedtimediscount_is_valid : 0,
+    plugins_limitedtimediscount_is_valid: 0,
     plugins_limitedtimediscount_data: null,
     plugins_limitedtimediscount_timer_title: '距离结束',
     plugins_limitedtimediscount_is_show_time: true,
@@ -23,10 +25,30 @@ Page({
   },
   
   onShow() {
+    // 数据加载
     this.init();
+
+    // 初始化配置
+    this.init_config();
   },
 
-  // 获取数据列表
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        currency_symbol: app.get_config('currency_symbol'),
+        common_shop_notice: app.get_config('config.common_shop_notice'),
+        common_app_is_enable_search: app.get_config('config.common_app_is_enable_search'),
+        common_app_is_enable_answer: app.get_config('config.common_app_is_enable_answer'),
+        common_app_is_header_nav_fixed: app.get_config('config.common_app_is_header_nav_fixed'),
+        common_app_is_online_service: app.get_config('config.common_app_is_online_service'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     var self = this;
 
@@ -52,12 +74,7 @@ Page({
             banner_list: data.banner_list || [],
             navigation: data.navigation || [],
             data_list: data.data_list,
-            common_shop_notice: data.common_shop_notice || null,
-            common_app_is_enable_search: data.common_app_is_enable_search,
-            common_app_is_enable_answer: data.common_app_is_enable_answer,
-            common_app_is_header_nav_fixed: data.common_app_is_header_nav_fixed,
             data_list_loding_status: data.data_list.length == 0 ? 0 : 3,
-            common_app_is_online_service: data.common_app_is_online_service || 0,
             plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
             plugins_limitedtimediscount_is_valid: ((data.plugins_limitedtimediscount_data || null) != null && (data.plugins_limitedtimediscount_data.is_valid || 0) == 1) ? 1 : 0,
           });

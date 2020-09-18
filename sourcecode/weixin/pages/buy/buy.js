@@ -34,6 +34,7 @@ Page({
     popup_plugins_coupon_status: false,
     popup_plugins_coupon_index: null,
   },
+
   onLoad(params) {
     //params['data'] = '{"buy_type":"goods","goods_id":"1","stock":"1","spec":"[]"}';
     if((params.data || null) != null && app.get_length(JSON.parse(params.data)) > 0)

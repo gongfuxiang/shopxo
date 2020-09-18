@@ -13,8 +13,8 @@
             </block>
           </view>
           <view class="oh goods-price">
-            <text class="sales-price">{{currency_symbol}}{{order_data.items.price}}</text>
-            <text qq:if="{{order_data.items.original_price > 0}}" class="original-price">{{currency_symbol}}{{order_data.items.original_price}}</text>
+            <text class="sales-price">{{order_data.currency_data.currency_symbol}}{{order_data.items.price}}</text>
+            <text qq:if="{{order_data.items.original_price > 0}}" class="original-price">{{order_data.currency_data.currency_symbol}}{{order_data.items.original_price}}</text>
             <text class="buy-number">x{{order_data.items.buy_number}}</text>
           </view>
         </navigator>

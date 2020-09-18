@@ -3,7 +3,7 @@
 <view class="nav">
   <block qq:for="{{nav_status_list}}" qq:key="key">
     <view qq:if="{{nav_status_index == index}}" class="item fl tc cr-main" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
-    <view wx:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
+    <view qq:else class="item fl tc" data-index="{{index}}" bindtap="nav_event">{{item.name}}</view>
   </block>
 </view>
 
@@ -33,8 +33,8 @@
             <view qq:if="{{(item.is_can_launch_aftersale == 1 || (detail.orderaftersale || null) != null) && (detail.orderaftersale_btn_text || null) != null}}" class="orderaftersale-btn-text" catchtap="orderaftersale_event" data-oid="{{item.id}}" data-did="{{detail.id}}">{{detail.orderaftersale_btn_text}}</view>
           </view>
           <view class="oh goods-price">
-            <text class="sales-price">{{currency_symbol}}{{detail.price}}</text>
-            <text qq:if="{{detail.original_price > 0}}" class="original-price">{{currency_symbol}}{{detail.original_price}}</text>
+            <text class="sales-price">{{item.currency_data.currency_symbol}}{{detail.price}}</text>
+            <text qq:if="{{detail.original_price > 0}}" class="original-price">{{item.currency_data.currency_symbol}}{{detail.original_price}}</text>
             <text class="buy-number">x{{detail.buy_number}}</text>
           </view>
         </navigator>
@@ -76,5 +76,5 @@
       </view>
     </view>
   </view>
-  <view wx:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
+  <view qq:else class="payment-list oh bg-white tc cr-888">没有支付方式</view>
 </component-popup>

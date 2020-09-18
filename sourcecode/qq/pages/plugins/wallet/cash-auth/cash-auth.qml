@@ -8,7 +8,7 @@
               <view qq:if="{{check_account_value == null}}">
                 请选择认证账号
               </view>
-              <view wx:else>
+              <view qq:else>
                 {{check_account_list[check_account_value]['msg']}}
               </view>
             </view>
@@ -40,7 +40,7 @@
   </view>
 </view>
 
-<view wx:else>
+<view qq:else>
   <import src="/pages/common/nodata.qml" />
   <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
 </view>

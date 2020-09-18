@@ -54,3 +54,6 @@
     <button formType="submit" class="bg-main form-submit wh-auto" disabled="{{popup_form_loading_status}}" hover-class="none">确认</button>
   </form>
 </component-popup>
+
+<!-- 快捷导航 -->
+<component-quick-nav></component-quick-nav>

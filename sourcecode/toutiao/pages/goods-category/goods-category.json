@@ -1,5 +1,6 @@
 {
   "enablePullDownRefresh": true,
   "usingComponents": {
+    "component-quick-nav": "/components/quick-nav/quick-nav"
   }
 }
