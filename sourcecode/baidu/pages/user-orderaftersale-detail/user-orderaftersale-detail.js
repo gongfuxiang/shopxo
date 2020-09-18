@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     params: null,
     data_list_loding_status: 1,
     data_list_loding_msg: '',
@@ -97,13 +96,16 @@ Page({
       params: params,
       popup_delivery_status: (params.is_delivery_popup || 0) == 1
     });
-    this.init();
   },
 
   onShow() {
     swan.setNavigationBarTitle({ title: app.data.common_pages_title.user_orderaftersale_detail });
+
+    // 数据加载
+    this.init();
   },
 
+  // 获取数据
   init() {
     var self = this;
     swan.showLoading({ title: "加载中..." });

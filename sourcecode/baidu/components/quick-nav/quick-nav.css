@@ -1,0 +1,101 @@
+/**
+ * 按钮
+ */
+ .quick-nav-movable-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 150rpx;
+  left: 0;
+  background:transparent;
+  pointer-events: none;
+  z-index: 2;
+}
+.quick-nav-event-submit {
+  pointer-events: auto;
+  position: fixed;
+  bottom: 150rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background-color: rgb(210 54 76 / 80%);
+}
+.quick-nav-event-submit image {
+  width: 50rpx;
+  height: 50rpx;
+  margin: 25rpx auto 25rpx auto;
+  display: block;
+}
+
+/**
+ * 弹窗
+ */
+.quick-nav-popup-container {
+  padding: 20rpx 10rpx 0 10rpx;
+  background: #fff;
+}
+.quick-nav-popup-container .close {
+  overflow: hidden;
+}
+.quick-nav-popup-container .close .icon-right {
+  float: right;
+}
+.quick-nav-popup-content {
+  max-height: 80vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-bottom: 20rpx;
+}
+
+/**
+ * 内容
+ */
+.quick-nav-data-list {
+  overflow: hidden;
+  background: #fff;
+}
+.quick-nav-data-list .items {
+  width: calc(25% - 60rpx);
+  float: left;
+  padding: 30rpx;
+}
+.quick-nav-data-list .items-content {
+  border-radius: 50%;
+  padding: 20rpx;
+  text-align: center;
+  width: 70rpx;
+  height: 70rpx;
+  margin: 0 auto;
+}
+.quick-nav-data-list .items image {
+  width: 60rpx !important;
+  height: 60rpx !important;
+  margin-top: 5rpx;
+}
+.quick-nav-data-list .items .title {
+  margin-top: 10rpx;
+  font-size: 28rpx !important;
+  text-align:center;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;	  
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+/*
+ * 没有数据
+ */
+.quick-nav-popup-container .no-data-box {
+  padding: 80rpx 0;
+  text-align: center;
+}
+.quick-nav-popup-container .no-data-box image {
+  width: 160rpx;
+  margin-bottom: 30rpx;
+}
+.quick-nav-popup-container .no-data-box .no-data-tips {
+  font-size: 28rpx;
+  color: #a6a6a6;
+}

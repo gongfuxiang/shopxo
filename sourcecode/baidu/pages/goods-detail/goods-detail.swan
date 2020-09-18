@@ -35,7 +35,7 @@
       <view class="goods-share tc" bindtap="popup_share_event">
       <button class="goods-share tc" type="default" size="mini" open-type="share" hover-class="none">
         <image src="/images/goods-detail-share-icon.png" mode="scaleToFill" class="dis-block" />
-        <view class="cr-888">分享</view>        
+        <view class="cr-888">分享</view>
       </view>
       <text s-if="(show_field_price_text || null) != null" class="price-icon">{{show_field_price_text}}</text>
       <text class="sales-price">{{currency_symbol}}{{goods.price}}</text>
@@ -242,3 +242,6 @@
     <image src="/images/default-cart-icon.png" class="dis-block"></image>
   </view>
 </navigator>
+
+<!-- 快捷导航 -->
+<component-quick-nav></component-quick-nav>

@@ -39,7 +39,7 @@
         <view class="fr remove" data-id="{{item.id}}" data-goodsid="{{item.goods_id}}" data-index="{{index}}" bindtap="cart_remove_event">移除</view>
       </view>
 
-      
+
     </view>
   </view>
 
@@ -84,3 +84,6 @@
   <import src="/pages/common/nodata.swan" />
   <template is="nodata" data="{{{status: data_list_loding_status, msg: data_list_loding_msg}}}"></template>
 </view>
+
+<!-- 快捷导航 -->
+<component-quick-nav></component-quick-nav>

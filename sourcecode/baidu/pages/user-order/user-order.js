@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     data_list: [],
     data_page_total: 0,
     data_page: 1,
@@ -14,7 +13,14 @@ Page({
     payment_list: [],
     payment_id: 0,
     temp_pay_value: '',
-    nav_status_list: [{ name: "全部", value: "-1" }, { name: "待付款", value: "1" }, { name: "待发货", value: "2" }, { name: "待收货", value: "3" }, { name: "已完成", value: "4" }, { name: "已失效", value: "5,6" }],
+    nav_status_list: [
+      { name: "全部", value: "-1" },
+      { name: "待付款", value: "1" },
+      { name: "待发货", value: "2" },
+      { name: "待收货", value: "3" },
+      { name: "已完成", value: "4" },
+      { name: "已失效", value: "5,6" },
+    ],
     nav_status_index: 0,
     order_select_ids: []
   },
@@ -35,13 +41,16 @@ Page({
       params: params,
       nav_status_index: nav_status_index
     });
-    this.init();
   },
 
   onShow() {
     swan.setNavigationBarTitle({ title: app.data.common_pages_title.user_order });
+
+    // 数据加载
+    this.init();
   },
 
+  // 获取数据
   init() {
     var user = app.get_user_info(this, 'init');
     if (user != false) {

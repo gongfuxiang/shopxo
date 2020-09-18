@@ -154,13 +154,19 @@
 {
     height: 100rpx;
 }
-.goods-buy-nav .collect { border-left: 1px solid #e1e1e1; }
-.goods-buy-nav .fl image { width: 25px; height: 25px; margin: 0 auto; }
+.goods-buy-nav .collect {
+  border-left: 1px solid #e1e1e1;
+}
+.goods-buy-nav .fl image {
+  width: 25px;
+  height: 25px;
+  margin: 0 auto;
+}
 .goods-title {
   font-size: 32rpx;
-  line-height: 44rpx;
+  line-height: 48rpx;
   font-weight: 500;
-  padding: 8rpx 10rpx;
+  padding: 5rpx 10rpx;
 }
 .goods-base {
     padding: 15rpx 10rpx;

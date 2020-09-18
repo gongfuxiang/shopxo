@@ -41,12 +41,12 @@
 <component-popup prop-show="{{is_show_popup_form}}" prop-position="right" onClose="popup_form_event_close">
   <form onSubmit="form_submit_event" class="popup-form oh bg-white">
     <view class="item oh screening-price">
-      <view class="title cr-666">价格区间(元)
+      <view class="title cr-666">价格区间(元)</view>
+      <view class="tc oh">
+        <input type="digit" placeholder="最低价" name="min_price" class="br fl" />
+        <text class="cr-888 separator">~</text>
+        <input type="digit" placeholder="最高价" name="max_price" class="br fr" />
       </view>
-      <input type="digit" placeholder="最低价" name="min_price" class="br fl" />
-      <view class="cr-888 fl tc separator">~
-      </view>
-      <input type="digit" placeholder="最高价" name="max_price" class="br fl" />
     </view>
     <view class="item keywords">
       <view class="title cr-666">关键字</view>

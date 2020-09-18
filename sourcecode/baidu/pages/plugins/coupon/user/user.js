@@ -1,24 +1,42 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     data_bottom_line_status: false,
     data_list_loding_status: 1,
     data_list_loding_msg: '',
     data_list: null,
 
-    nav_tabs_list: [{ name: "未使用", value: "not_use" }, { name: "已使用", value: "already_use" }, { name: "已过期", value: "already_expire" }],
-    nav_tabs_value: 'not_use'
-  },
+    nav_tabs_list: [
+      { name: "未使用", value: "not_use" },
+      { name: "已使用", value: "already_use" },
+      { name: "已过期", value: "already_expire" },
+    ],
+    nav_tabs_value: 'not_use',
 
-  onLoad(params) {
-    this.init();
+    // 基础配置
+    currency_symbol: app.data.currency_symbol,
   },
 
   onShow() {
-    swan.setNavigationBarTitle({ title: app.data.common_pages_title.user_coupon });
+    // 数据加载
+    this.init();
+
+    // 初始化配置
+    this.init_config();
   },
 
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        currency_symbol: app.get_config('currency_symbol'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     var user = app.get_user_info(this, "init");
     if (user != false) {

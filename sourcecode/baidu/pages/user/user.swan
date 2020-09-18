@@ -69,7 +69,7 @@
 </view>
 
 <!-- 用户中心公告 -->
-<view s-if="common_user_center_notice != null" class="user-notice">
+<view s-if="(common_user_center_notice || null) != null" class="user-notice">
     <view class="tips">{{common_user_center_notice}}</view>
 </view>
 
@@ -78,6 +78,9 @@
   <import src="/pages/lib/online-service/content.swan" />
   <template is="online_service"></template>
 </view>
+
+<!-- 快捷导航 -->
+<component-quick-nav></component-quick-nav>
 
 <import src="/pages/common/copyright.swan" />
 <template is="copyright"></template>

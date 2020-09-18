@@ -107,21 +107,16 @@ Page({
   // 地图查看
   address_map_event(e) {
     var index = e.currentTarget.dataset.index || 0;
-    var ads = this.data.data_list[index] || null;
-    if (ads == null) {
+    var data = this.data.data_list[index] || null;
+    if (data == null) {
       app.showToast("地址有误");
       return false;
     }
 
-    var lng = parseFloat(ads.lng || 0);
-    var lat = parseFloat(ads.lat || 0);
-    swan.openLocation({
-      latitude: lat,
-      longitude: lng,
-      scale: 18,
-      name: ads.alias || '',
-      address: (ads.province_name || '') + (ads.city_name || '') + (ads.county_name || '') + (ads.address || '')
-    });
+    // 打开地图
+    var name = data.name || data.alias || '';
+    var address = (data.province_name || '') + (data.city_name || '') + (data.county_name || '') + (data.address || '');
+    app.open_location(data.lng, data.lat, name, address);
   },
 
   // 地址内容事件

@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     data_list_loding_status: 1,
     buy_submit_disabled_status: false,
     data_list_loding_msg: '',
@@ -16,11 +15,17 @@ Page({
     is_first: 1,
     extension_data: [],
     payment_id: 0,
-    common_order_is_booking: 0,
     common_site_type: 0,
     extraction_address: [],
     site_model: 0,
-    buy_header_nav: [{ name: "快递邮寄", value: 0 }, { name: "自提点取货", value: 2 }],
+    buy_header_nav: [
+        { name: "快递邮寄", value: 0 },
+        { name: "自提点取货", value: 2 }
+      ],
+
+    // 基础配置
+    currency_symbol: app.data.currency_symbol,
+    common_order_is_booking: 0,
 
     // 优惠劵
     plugins_coupon_data: null,
@@ -40,11 +45,27 @@ Page({
   },
 
   onShow() {
+    // 数据加载
     this.init();
     this.setData({ is_first: 0 });
+
+    // 初始化配置
+    this.init_config();
   },
 
-  // 获取数据列表
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        currency_symbol: app.get_config('currency_symbol'),
+        common_order_is_booking: app.get_config('config.common_order_is_booking'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     // 订单参数信息是否正确
     if (this.data.params == null) {
@@ -95,7 +116,6 @@ Page({
               total_price: data.base.actual_price,
               extension_data: data.extension_data || [],
               data_list_loding_status: 3,
-              common_order_is_booking: data.common_order_is_booking || 0,
               common_site_type: data.common_site_type || 0,
               extraction_address: data.base.extraction_address || [],
               plugins_coupon_data: data.plugins_coupon_data || null
@@ -341,14 +361,9 @@ Page({
       return false;
     }
 
-    var lng = parseFloat(data.lng || 0);
-    var lat = parseFloat(data.lat || 0);
-    swan.openLocation({
-      latitude: lat,
-      longitude: lng,
-      scale: 18,
-      name: data.name || data.alias || '',
-      address: (data.province_name || '') + (data.city_name || '') + (data.county_name || '') + (data.address || '')
-    });
+    // 打开地图
+    var name = data.name || data.alias || '';
+    var address = (data.province_name || '') + (data.city_name || '') + (data.county_name || '') + (data.address || '');
+    app.open_location(data.lng, data.lat, name, address);
   }
 });

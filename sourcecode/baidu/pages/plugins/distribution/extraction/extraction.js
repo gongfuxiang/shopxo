@@ -91,17 +91,12 @@ Page({
     if ((this.data.extraction || null) == null) {
       return false;
     }
+    var data = this.data.extraction;
 
-    var ads = this.data.extraction;
-    var lng = parseFloat(ads.lng || 0);
-    var lat = parseFloat(ads.lat || 0);
-    swan.openLocation({
-      latitude: lat,
-      longitude: lng,
-      scale: 18,
-      name: ads.alias || '',
-      address: (ads.province_name || '') + (ads.city_name || '') + (ads.county_name || '') + (ads.address || '')
-    });
+    // 打开地图
+    var name = data.name || data.alias || '';
+    var address = (data.province_name || '') + (data.city_name || '') + (data.county_name || '') + (data.address || '');
+    app.open_location(data.lng, data.lat, name, address);
   },
 
   // 进入取货订单管理

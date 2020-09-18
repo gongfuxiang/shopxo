@@ -73,7 +73,7 @@
     <view class="panel-content bg-white">
       <view qq:for="{{detail_list}}" qq:key="item" class="item br-b oh">
         <view class="title fl">{{item.name}}</view>
-        <view class="content cr-888 fl br-l">{{item.value}}</view>
+        <view class="content fl br-l">{{item.value}}</view>
       </view>
     </view>
   </view>
@@ -84,7 +84,7 @@
     <view class="panel-content bg-white">
       <view qq:for="{{extension_data}}" qq:key="item" class="item br-b oh">
       <text class="title">{{item.name}}</text>
-      <text class="content cr-888 br-l">{{item.tips}}</text>
+      <text class="content br-l">{{item.tips}}</text>
     </view>
     </view>
   </view>

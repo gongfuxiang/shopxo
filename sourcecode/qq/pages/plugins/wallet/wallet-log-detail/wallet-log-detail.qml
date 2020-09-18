@@ -3,7 +3,7 @@
     <view class="panel-content bg-white">
       <view qq:for="{{detail_list}}" qq:key="item" class="item br-b oh">
         <view class="title fl">{{item.name}}</view>
-        <view class="content cr-888 fl br-l">{{item.value}}</view>
+        <view class="content fl br-l">{{item.value}}</view>
       </view>
     </view>
   </view>

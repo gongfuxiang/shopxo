@@ -73,11 +73,10 @@
   padding: 0 6rpx;
 }
 .screening-price input {
-  width: calc(50% - 16rpx);
+  width: calc(50% - 20px);
 }
 .screening-price .separator {
-  margin-top: 10rpx;
-  width: 30rpx;
+  line-height: 50rpx;
 }
 .popup-form .item {
   width: 480rpx;

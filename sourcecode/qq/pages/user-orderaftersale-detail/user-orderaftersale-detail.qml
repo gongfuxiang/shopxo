@@ -54,7 +54,7 @@
         <view class="panel-content">
           <view qq:for="{{panel_base_data_list}}" qq:key="item" class="item br-b oh">
             <view class="title fl">{{item.name}}</view>
-            <view class="content cr-888 fl br-l">{{new_aftersale_data[item.field] || ''}}</view>
+            <view class="content fl br-l">{{new_aftersale_data[item.field] || ''}}</view>
           </view>
         </view>
       </view>
@@ -65,7 +65,7 @@
         <view class="panel-content">
           <view qq:for="{{panel_express_data_list}}" qq:key="item" class="item br-b oh">
             <view class="title fl">{{item.name}}</view>
-            <view class="content cr-888 fl br-l">{{new_aftersale_data[item.field] || ''}}</view>
+            <view class="content fl br-l">{{new_aftersale_data[item.field] || ''}}</view>
           </view>
         </view>
       </view>

@@ -26,12 +26,12 @@
       </navigator>
     </view>
   </view>
-  
+
   <view s-if="data_list.length == 0">
     <import src="/pages/common/nodata.swan" />
     <template is="nodata" data="{{{status: data_list_loding_status}}}"></template>
   </view>
-    
+
   <import src="/pages/common/bottom_line.swan" />
   <template is="bottom_line" data="{{{status: data_bottom_line_status}}}"></template>
 </scroll-view>
@@ -40,12 +40,12 @@
 <component-popup status="{{is_show_popup_form}}" position="right" bindonclose="popup_form_event_close">
   <form bindsubmit="form_submit_event" class="popup-form oh bg-white">
     <view class="item oh screening-price">
-      <view class="title cr-666">价格区间(元)
+      <view class="title cr-666">价格区间(元)</view>
+      <view class="tc oh">
+        <input type="digit" placeholder="最低价" name="min_price" class="br fl" />
+        <text class="cr-888 separator">~</text>
+        <input type="digit" placeholder="最高价" name="max_price" class="br fr" />
       </view>
-      <input type="digit" placeholder="最低价" name="min_price" class="br fl" />
-      <view class="cr-888 fl tc separator">~
-      </view>
-      <input type="digit" placeholder="最高价" name="max_price" class="br fl" />
     </view>
     <view class="item keywords">
       <view class="title cr-666">关键字</view>
@@ -54,3 +54,6 @@
     <button formType="submit" class="bg-main form-submit wh-auto" disabled="{{popup_form_loading_status}}" hover-class="none">确认</button>
   </form>
 </component-popup>
+
+<!-- 快捷导航 -->
+<component-quick-nav></component-quick-nav>

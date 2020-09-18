@@ -1,7 +1,6 @@
 const app = getApp();
 Page({
   data: {
-    currency_symbol: app.data.currency_symbol,
     params: null,
     data_list_loding_status: 1,
     data_list_loding_msg: '',
@@ -15,7 +14,15 @@ Page({
 
     // 导航
     // 状态（0待确认, 1待退货, 2待审核, 3已完成, 4已拒绝, 5已取消）
-    nav_status_list: [{ name: "全部", value: "-1" }, { name: "待确认", value: "0" }, { name: "待退货", value: "1" }, { name: "待审核", value: "2" }, { name: "已完成", value: "3" }, { name: "已拒绝", value: "4" }, { name: "已取消", value: "5" }],
+    nav_status_list: [
+      { name: "全部", value: "-1" },
+      { name: "待确认", value: "0" },
+      { name: "待退货", value: "1" },
+      { name: "待审核", value: "2" },
+      { name: "已完成", value: "3" },
+      { name: "已拒绝", value: "4" },
+      { name: "已取消", value: "5" },
+    ],
     nav_status_index: 0
   },
 
@@ -36,13 +43,16 @@ Page({
       form_keyword_value: params.keywords || '',
       nav_status_index: nav_status_index
     });
-    this.init();
   },
 
   onShow() {
     swan.setNavigationBarTitle({ title: app.data.common_pages_title.user_orderaftersale });
+
+    // 数据加载
+    this.init();
   },
 
+  // 获取数据
   init() {
     var user = app.get_user_info(this, "init");
     if (user != false) {

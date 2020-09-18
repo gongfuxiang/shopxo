@@ -164,9 +164,9 @@
 }
 .goods-title {
   font-size: 32rpx;
-  line-height: 44rpx;
+  line-height: 48rpx;
   font-weight: 500;
-  padding: 8rpx 10rpx;
+  padding: 5rpx 10rpx;
 }
 .goods-base {
     padding: 15rpx 10rpx;

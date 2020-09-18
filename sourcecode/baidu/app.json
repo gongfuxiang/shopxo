@@ -40,7 +40,8 @@
     "pages/plugins/distribution/extraction/extraction",
     "pages/plugins/distribution/extraction-apply/extraction-apply",
     "pages/plugins/distribution/extraction-order/extraction-order",
-    "pages/plugins/distribution/introduce/introduce"
+    "pages/plugins/distribution/introduce/introduce",
+    "pages/plugins/exchangerate/currency/currency"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",

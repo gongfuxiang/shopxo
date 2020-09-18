@@ -13,8 +13,8 @@
             </block>
           </view>
           <view class="oh goods-price">
-            <text class="sales-price">{{currency_symbol}}{{order_data.items.price}}</text>
-            <text s-if="order_data.items.original_price > 0" class="original-price">{{currency_symbol}}{{order_data.items.original_price}}</text>
+            <text class="sales-price">{{order_data.currency_data.currency_symbol}}{{order_data.items.price}}</text>
+            <text s-if="order_data.items.original_price > 0" class="original-price">{{order_data.currency_data.currency_symbol}}{{order_data.items.original_price}}</text>
             <text class="buy-number">x{{order_data.items.buy_number}}</text>
           </view>
         </navigator>
@@ -54,7 +54,7 @@
         <view class="panel-content">
           <view s-for="item, index in panel_base_data_list" s-key="item" class="item br-b oh">
             <view class="title fl">{{item.name}}</view>
-            <view class="content cr-888 fl br-l">{{new_aftersale_data[item.field] || ''}}</view>
+            <view class="content fl br-l">{{new_aftersale_data[item.field] || ''}}</view>
           </view>
         </view>
       </view>
@@ -65,7 +65,7 @@
         <view class="panel-content">
           <view s-for="item, index in panel_express_data_list" s-key="item" class="item br-b oh">
             <view class="title fl">{{item.name}}</view>
-            <view class="content cr-888 fl br-l">{{new_aftersale_data[item.field] || ''}}</view>
+            <view class="content fl br-l">{{new_aftersale_data[item.field] || ''}}</view>
           </view>
         </view>
       </view>
