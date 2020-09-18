@@ -24,11 +24,9 @@
                 <a href="{{:MyUrl('index/goods/index', ['id'=>$item['goods_id']])}}" target="_blank" title="{{$item.title}}" {{if !empty($item['title_color'])}} style="color:{{$item.title_color}};" {{/if}} class="am-nowrap-initial">{{$item.title}}</a>
             </div>
             <div class="other am-nbfc">
-                <span class="am-fl am-text-xs am-nowrap-initial">
-                    {{if !empty($item.spec_text)}}
-                        {{$item.spec_text}}
-                    {{/if}}
-                </span>
+                {{if !empty($item['spec_text'])}}
+                    <div class="am-margin-top-xs am-nowrap-initial">{{$item.spec_text}}</div>
+                {{/if}}
                 <div class="am-nbfc am-margin-top-xs">
                     <span>{{$module_data.currency_data.currency_symbol}}{{$item.price}}x{{$item.buy_number}}</span>
                     <div class="am-fr">
