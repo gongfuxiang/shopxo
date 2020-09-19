@@ -1154,7 +1154,7 @@ class OrderService
                     $v['items_count'] = count($items);
 
                     // 描述
-                    $v['describe'] = '共'.$v['buy_number_count'].'件 合计:'.$v['currency_data']['currency_symbol'].'元';
+                    $v['describe'] = '共'.$v['buy_number_count'].'件 合计:'.$v['currency_data']['currency_symbol'].$v['total_price'].'元';
                 }
 
                 // 管理员读取
