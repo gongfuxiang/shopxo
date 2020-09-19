@@ -233,21 +233,41 @@ Page({
           switch (res.data.data.is_payment_type) {
             // 正常线上支付
             case 0 :
-              qq.requestPayment({
-                package: res.data.data.data,
-                success: function(res) {
-                  // 数据设置
-                  self.order_item_pay_success_handle(order_ids);
+              // 是否微信支付
+              if(res.data.data.payment.payment == 'Weixin') {
+                qq.requestWxPayment({
+                  url: res.data.data.data,
+                  referer: app.data.request_url,
+                  success: function(res) {
+                    // 数据设置
+                    self.order_item_pay_success_handle(order_ids);
 
-                  // 跳转支付页面
-                  qq.navigateTo({
-                    url: "/pages/paytips/paytips?code=9000"
-                  });
-                },
-                fail: function (res) {
-                  app.showToast('支付失败');
-                }
-              });
+                    // 跳转支付页面
+                    qq.navigateTo({
+                      url: "/pages/paytips/paytips?code=9000"
+                    });
+                  },
+                  fail: function (res) {
+                    app.showToast('支付失败');
+                  }
+                });
+              } else {
+                qq.requestPayment({
+                  package: res.data.data.data,
+                  success: function(res) {
+                    // 数据设置
+                    self.order_item_pay_success_handle(order_ids);
+
+                    // 跳转支付页面
+                    qq.navigateTo({
+                      url: "/pages/paytips/paytips?code=9000"
+                    });
+                  },
+                  fail: function (res) {
+                    app.showToast('支付失败');
+                  }
+                });
+              }
               break;
 
             // 线下支付

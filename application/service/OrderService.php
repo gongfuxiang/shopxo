@@ -288,6 +288,13 @@ class OrderService
                 // 支付日志id
                 'order_id'          => $pay_log['data']['id'],
                 'order_no'          => $pay_log['data']['log_no'],
+
+                // 支付方式信息
+                'payment'           => [
+                    'id'        => $payment['id'],
+                    'name'      => $payment['name'],
+                    'payment'   => $payment['payment'],
+                ],
             ];
 
             // 是否线下支付
