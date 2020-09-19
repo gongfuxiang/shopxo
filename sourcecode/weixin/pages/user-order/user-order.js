@@ -233,12 +233,13 @@ Page({
           switch (res.data.data.is_payment_type) {
             // 正常线上支付
             case 0 :
+              var data = res.data.data;
               wx.requestPayment({
-                timeStamp: res.data.data.data.timeStamp,
-                nonceStr: res.data.data.data.nonceStr,
-                package: res.data.data.data.package,
-                signType: res.data.data.data.signType,
-                paySign: res.data.data.data.paySign,
+                timeStamp: data.data.timeStamp,
+                nonceStr: data.data.nonceStr,
+                package: data.data.package,
+                signType: data.data.signType,
+                paySign: data.data.paySign,
                 success: function (res) {
                   // 数据设置
                   self.order_item_pay_success_handle(order_ids);

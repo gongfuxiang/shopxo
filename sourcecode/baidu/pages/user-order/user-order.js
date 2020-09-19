@@ -230,8 +230,9 @@ Page({
           switch (res.data.data.is_payment_type) {
             // 正常线上支付
             case 0:
+              var data = res.data.data;
               swan.requestPolymerPayment({
-                    orderInfo: res.data.data.data,
+                    orderInfo: data.data,
                 success: function (res) {
                   // 数据设置
                   self.order_item_pay_success_handle(order_ids);

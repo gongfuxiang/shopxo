@@ -235,8 +235,9 @@ Page({
           switch (res.data.data.is_payment_type) {
             // 正常线上支付
             case 0 :
+              var data = res.data.data;
               my.tradePay({
-                tradeNO: res.data.data.data,
+                tradeNO: data.data,
                 success: res => {
                   if (res.resultCode == 9000) {
                     // 数据设置

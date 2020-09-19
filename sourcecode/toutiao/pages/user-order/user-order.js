@@ -256,9 +256,10 @@ Page({
           switch (res.data.data.is_payment_type) {
             // 正常线上支付
             case 0:
+              var data = res.data.data;
               tt.pay({
-                orderInfo: res.data.data.order_info,
-                service: res.data.data.service,
+                orderInfo: data.order_info,
+                service: data.service,
                 success(res) {
                   // if (res.code == 0) {
                   //   // 数据设置

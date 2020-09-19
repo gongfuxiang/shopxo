@@ -161,8 +161,11 @@ class Weixin
             return DataReturn('支付缺少配置', -1);
         }
 
+        // 平台
+        $client_type = ApplicationClientType();
+
         // 微信中打开
-        if(ApplicationClientType() == 'h5' && IsWeixinEnv())
+        if($client_type == 'h5' && IsWeixinEnv())
         {
             exit(header('location:'.PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', input())));
         }
@@ -174,8 +177,26 @@ class Weixin
             return $ret;
         }
 
+        // QQ小程序使用微信支付
+        if($client_type == 'qq')
+        {
+            // 获取QQ access_token
+            $qq_appid = MyC('common_app_mini_qq_appid');
+            $qq_appsecret = MyC('common_app_mini_qq_appsecret');
+            $access_token = (new \base\QQ($qq_appid, $qq_appsecret))->GetAccessToken();
+            if($access_token === false)
+            {
+                return DataReturn('QQ凭证AccessToken获取失败', -1);
+            }
+
+            // QQ小程序代理下单地址
+            $request_url = 'https://api.q.qq.com/wxpay/unifiedorder?appid='.$qq_appid.'&access_token='.$access_token.'&real_notify_url='.urlencode($this->GetNotifyUrl($params));
+        } else {
+            $request_url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+        }
+
         // 请求接口处理
-        $result = $this->XmlToArray($this->HttpRequest('https://api.mch.weixin.qq.com/pay/unifiedorder', $this->ArrayToXml($ret['data'])));
+        $result = $this->XmlToArray($this->HttpRequest($request_url, $this->ArrayToXml($ret['data'])));
         if(!empty($result['return_code']) && $result['return_code'] == 'SUCCESS' && !empty($result['prepay_id']))
         {
             return $this->PayHandleReturn($ret['data'], $result, $params);
@@ -352,7 +373,7 @@ class Weixin
         $appid = ($client_type == 'weixin') ? $this->config['mini_appid'] :  $this->config['appid'];
 
         // 异步地址处理
-        $notify_url = (__MY_HTTP__ == 'https' && isset($this->config['agreement']) && $this->config['agreement'] == 1) ? 'http'.mb_substr($params['notify_url'], 5, null, 'utf-8') : $params['notify_url'];
+        $notify_url = ($client_type == 'qq') ? 'https://api.q.qq.com/wxpay/notify' : $this->GetNotifyUrl($params);
 
         // 请求参数
         $data = [
@@ -371,6 +392,20 @@ class Weixin
         ];
         $data['sign'] = $this->GetSign($data);
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 获取异步通知地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    private function GetNotifyUrl($params)
+    {
+        return (__MY_HTTP__ == 'https' && isset($this->config['agreement']) && $this->config['agreement'] == 1) ? 'http'.mb_substr($params['notify_url'], 5, null, 'utf-8') : $params['notify_url'];
     }
 
     /**

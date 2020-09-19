@@ -220,23 +220,38 @@ Page({
       success: res => {
         qq.hideLoading();
         if (res.data.code == 0) {
-          var data = res.data.data.data;
-          qq.requestPayment({
-            package: data,
-            success: function (res) {
-              // 数据设置
-              self.order_item_pay_success_handle(index);
-
-              // 跳转支付页面
-              qq.navigateTo({
-                url: "/pages/paytips/paytips?code=9000&total_price=" +
-                  self.data.data_list[index]['money']
+          var data = res.data.data;
+          // 是否微信支付
+          if(data.payment.payment == 'Weixin') {
+            qq.requestWxPayment({
+                url: data.data,
+                referer: app.data.request_url,
+                success: function(res) {
+                  app.alert({msg: '支付成功后、请不要重复支付、如果订单状态未成功请联系客服处理', is_show_cancel: 0});
+                  self.get_data_list();
+                },
+                fail: function (res) {
+                  app.showToast('支付失败');
+                }
               });
-            },
-            fail: function (res) {
-              app.showToast('支付失败');
-            }
-          });
+          } else {
+            qq.requestPayment({
+              package: data.data,
+              success: function (res) {
+                // 数据设置
+                self.order_item_pay_success_handle(index);
+
+                // 跳转支付页面
+                qq.navigateTo({
+                  url: "/pages/paytips/paytips?code=9000&total_price=" +
+                    self.data.data_list[index]['money']
+                });
+              },
+              fail: function (res) {
+                app.showToast('支付失败');
+              }
+            });
+          }
         } else {
           app.showToast(res.data.msg);
         }

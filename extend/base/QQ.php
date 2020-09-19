@@ -106,7 +106,7 @@ class QQ
     {
         // 请求获取session_key
         $url = 'https://api.q.qq.com/sns/jscode2session?appid='.$this->_appid.'&secret='.$this->_appsecret.'&js_code='.$authcode.'&grant_type=authorization_code';
-        $result = json_decode(file_get_contents($url), true);
+        $result = $this->HttpRequestGet($url);
         if(!empty($result['openid']))
         {
             // 从缓存获取用户信息
@@ -117,6 +117,63 @@ class QQ
             return $result['openid'];
         }
         return false;
+    }
+
+    /**
+     * 公共获取access_token
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-08-26
+     * @desc    description
+     */
+    public function GetAccessToken()
+    {
+        // 缓存key
+        $key = $this->_appid.'_access_token';
+        $result = cache($key);
+        if(!empty($result))
+        {
+            if($result['expires_in'] > time())
+            {
+                return $result['access_token'];
+            }
+        }
+
+        // 网络请求
+        $url = 'https://api.q.qq.com/api/getToken?grant_type=client_credential&appid='.$this->_appid.'&secret='.$this->_appsecret;
+        $result = $this->HttpRequestGet($url);
+        if(!empty($result['access_token']))
+        {
+            // 缓存存储
+            $result['expires_in'] += time();
+            cache($key, $result);
+            return $result['access_token'];
+        }
+        return false;
+    }
+
+    /**
+     * [HttpRequestGet get请求]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-01-03T19:21:38+0800
+     * @param    [string]           $url [url地址]
+     * @return   [array]                 [返回数据]
+     */
+    public function HttpRequestGet($url)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 500);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_URL, $url);
+
+        $res = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($res, true);
     }
 }
 ?>
