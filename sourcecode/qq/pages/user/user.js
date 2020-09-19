@@ -44,7 +44,7 @@ Page({
       this.setData({
         common_app_customer_service_tel: app.get_config('config.common_app_customer_service_tel'),
         common_user_center_notice: app.get_config('config.common_user_center_notice'),
-        common_app_is_online_service: app.get_config('config.common_app_is_online_service'),
+        //common_app_is_online_service: app.get_config('config.common_app_is_online_service'),
         common_app_is_head_vice_nav: app.get_config('config.common_app_is_head_vice_nav'),
       });
     } else {

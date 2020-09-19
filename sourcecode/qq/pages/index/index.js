@@ -41,7 +41,7 @@ Page({
         common_app_is_enable_search: app.get_config('config.common_app_is_enable_search'),
         common_app_is_enable_answer: app.get_config('config.common_app_is_enable_answer'),
         common_app_is_header_nav_fixed: app.get_config('config.common_app_is_header_nav_fixed'),
-        common_app_is_online_service: app.get_config('config.common_app_is_online_service'),
+        //common_app_is_online_service: app.get_config('config.common_app_is_online_service'),
       });
     } else {
       app.is_config(this, 'init_config');

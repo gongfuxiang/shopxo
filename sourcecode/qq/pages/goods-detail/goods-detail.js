@@ -87,7 +87,7 @@ Page({
         currency_symbol: app.get_config('currency_symbol'),
         common_app_is_use_mobile_detail: app.get_config('config.common_app_is_use_mobile_detail'),
         common_is_goods_detail_show_photo: app.get_config('config.common_is_goods_detail_show_photo'),
-        common_app_is_online_service: app.get_config('config.common_app_is_online_service'),
+        //common_app_is_online_service: app.get_config('config.common_app_is_online_service'),
         common_app_customer_service_tel: app.get_config('config.common_app_customer_service_tel'),
       });
     } else {
