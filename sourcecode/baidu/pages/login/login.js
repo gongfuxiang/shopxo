@@ -203,12 +203,12 @@ Page({
         "encrypted_data": encrypted_data,
         "iv": iv,
         "openid": this.data.user.baidu_openid,
-        "nickname": this.data.user.nickname,
-        "avatar": this.data.user.avatar,
-        "province": this.data.user.province,
-        "city": this.data.user.city,
-        "gender": this.data.user.gender,
-        "referrer": referrer
+        "nickname": this.data.user.nickname || '',
+        "avatar": this.data.user.avatar || '',
+        "province": this.data.user.province || '',
+        "city": this.data.user.city || '',
+        "gender": this.data.user.gender || 0,
+        "referrer": referrer || 0
       };
       swan.showLoading({ title: "处理中..." });
       var self = this;

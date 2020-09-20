@@ -10,20 +10,38 @@ Page({
     form_submit_loading: false,
     verify_time_total: 60,
     temp_clear_time: null,
+
+    // 基础配置
+    // 0 确认绑定方式, 1 验证码绑定
+    login_type_status: 0,
+    common_user_is_onekey_bind_mobile: 0,
   },
 
-  /**
-   * 页面加载初始化
-   */
+  // 页面加载初始化
   onLoad(option) {
-    // 设置用户信息
     this.setData({
       params: option,
       user: app.get_user_cache_info() || null
     });
+  },
 
-    // 标题设置
+  // 页面显示
+  onShow() {
     wx.setNavigationBarTitle({ title: (this.data.user == null) ? '授权用户信息' : '手机绑定' });
+
+    // 初始化配置
+    this.init_config();
+  },
+
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        common_user_is_onekey_bind_mobile: app.get_config('config.common_user_is_onekey_bind_mobile'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
   },
 
   /**
@@ -104,14 +122,12 @@ Page({
             }, 1000);
           } else {
             this.setData({verify_submit_text: '获取验证码', verify_loading: false, verify_disabled: false});
-            
             app.showToast(res.data.msg);
           }
         },
         fail: () => {
           wx.hideLoading();
           this.setData({verify_submit_text: '获取验证码', verify_loading: false, verify_disabled: false});
-
           app.showToast("服务器请求出错");
         }
       });
@@ -178,18 +194,82 @@ Page({
             }, 1000);
           } else {
             this.setData({form_submit_loading: false});
-            
             app.showToast(res.data.msg);
           }
         },
         fail: () => {
           wx.hideLoading();
           this.setData({form_submit_loading: false});
-
           app.showToast("服务器请求出错");
         }
       });
     }
-  }
+  },
+
+  // 获取手机号码一键登录
+  confirm_phone_number_event(e) {
+    var encrypted_data = e.detail.encryptedData || null;
+    var iv = e.detail.iv || null;
+    if(encrypted_data != null && iv != null) {
+      // 邀请人参数
+      var params = wx.getStorageSync(this.data.cache_launch_info_key) || null;
+      var referrer = (params == null) ? 0 : (params.referrer || 0);
+
+      // 解密数据并绑定手机
+      var data = {
+        "encrypted_data": encrypted_data,
+        "iv": iv,
+        "openid": this.data.user.weixin_openid,
+        "nickname": this.data.user.nickname || '',
+        "avatar": this.data.user.avatar || '',
+        "province": this.data.user.province || '',
+        "city": this.data.user.city || '',
+        "gender": this.data.user.gender || 0,
+        "referrer": referrer || 0
+      };
+      wx.showLoading({ title: "处理中..." });
+      var self = this;
+      wx.request({
+        url: app.get_request_url('weixinusermobilebind', 'user'),
+        method: 'POST',
+        data: data,
+        dataType: 'json',
+        header: { 'content-type': 'application/x-www-form-urlencoded' },
+        success: (res) => {
+          wx.hideLoading();
+          if (res.data.code == 0 && (res.data.data || null) != null) {
+            app.showToast(res.data.msg, 'success');
+
+            wx.setStorage({
+              key: app.data.cache_user_info_key,
+              data: res.data.data
+            });
+            
+            var event_callback = this.data.params.event_callback || null;
+            setTimeout(function()
+            {
+              // 触发回调函数
+              if(event_callback != null)
+              {
+                getCurrentPages()[getCurrentPages().length-2][event_callback]();
+              }
+              wx.navigateBack();
+            }, 1000);
+          } else {
+            app.showToast(res.data.msg);
+          }
+        },
+        fail: () => {
+          wx.hideLoading();
+          self.showToast('服务器请求出错');
+        },
+      });
+    }
+  },
+
+  // 确认使用验证码
+  confirm_verify_event(e) {
+    this.setData({login_type_status: 1});
+  },
 
 });

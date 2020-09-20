@@ -1,5 +1,6 @@
 <view wx:if="{{user != null}}" class="content">
-  <form bindsubmit="formSubmit">
+  <!-- 表单验证码 -->
+  <form wx:if="{{login_type_status == 1}}" bindsubmit="formSubmit">
     <input type="number" placeholder="输入手机号码" maxlength="11" name="mobile" bindinput="bind_key_input" class="mobile" />
     <view class="code clearfix">
       <input type="number" placeholder="验证码" maxlength="4" name="verify" class="verify" />
@@ -7,9 +8,20 @@
     </view>
     <button type="default" formType="submit" hover-class="none" plain loading="{{form_submit_loading}}" disabled="{{form_submit_loading}}" class="submit {{form_submit_loading ? 'my-btn-gray' : 'my-btn-default'}}">确认绑定</button>
   </form>
+
+  <!-- 确认绑定方式 -->
+  <view wx:if="{{login_type_status == 0}}" class="tc confirm-container">
+    <image class="login-logo" src="{{(user.avatar || null) == null ? '/images/default-user.png' : user.avatar}}" mode="widthFix" />
+    <view wx:if="{{(user.nickname || null) != null}}" class="cr-666 nickname">{{user.nickname}}</view>
+    <view class="submit-list">
+      <button wx:if="{{common_user_is_onekey_bind_mobile == 1}}" type="warn" class="mobile-submit" open-type="getPhoneNumber" bindgetphonenumber="confirm_phone_number_event">获取手机号码一键登录</button>
+      <button type="warn" class="mobile-submit" plain="{{true}}" bindtap="confirm_verify_event">验证码登录</button>
+    </view>
+  </view>
 </view>
 
-<view wx:if="{{user == null}}" class="user-login tc">
+<!-- 获取用户信息授权 -->
+<view wx:else class="user-login tc">
   <view class="cr-888 fs-12">确认登录授权，为您提供更优质的服务</view>
   <button type="primary" size="mini" open-type="getUserInfo" bindgetuserinfo="get_user_info_event">授权登录</button>
 </view>

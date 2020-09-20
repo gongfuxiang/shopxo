@@ -1708,10 +1708,31 @@ class UserService
             'referrer'          => isset($params['referrer']) ? $params['referrer'] : 0,
         ];
 
+        // 是否一键登录
+        $is_onekey_mobile_bind = isset($params['is_onekey_mobile_bind']) && $params['is_onekey_mobile_bind'] == 1 ? 1 : 0;
+
         // 用户信息处理
         $user = self::AppUserInfoHandle(null, $field, $params['openid']);
         if(!empty($user))
         {
+            // 如果是一键登录、如当前用户不存在手机号码则绑定
+            if(empty($user['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
+            {
+                // 手机号码不存在则绑定到当前账号下
+                $temp = self::AppUserInfoHandle(null, 'mobile', $data['mobile']);
+                if(empty($temp))
+                {
+                    $upd_data = [
+                        'mobile'    => $data['mobile'],
+                        'upd_time'  => time(),
+                    ];
+                    if(Db::name('User')->where(['id'=>$user['id']])->update($upd_data))
+                    {
+                        return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user['id']));
+                    }
+                }
+            }
+
             return DataReturn('授权成功', 0, $user);
         } else {
             // 用户unionid
@@ -1723,11 +1744,24 @@ class UserService
                 if(!empty($user_unionid))
                 {
                     // openid绑定
-                    if(Db::name('User')->where(['id'=>$user_unionid['id']])->update([$field=>$params['openid'], 'upd_time'=>time()]))
+                    $upd_data = [
+                        $field      => $params['openid'],
+                        'upd_time'  => time(),
+                    ];
+
+                    // 如果是一键登录、如当前用户不存在手机号码则绑定
+                    if(empty($user['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
                     {
-                        // 直接返回用户信息
-                        $user_unionid[$field] = $params['openid'];
-                        return DataReturn('授权成功', 0, $user_unionid);
+                        // 手机号码不存在则绑定到当前账号下
+                        $temp = self::AppUserInfoHandle(null, 'mobile', $data['mobile']);
+                        if(empty($temp))
+                        {
+                            $upd_data['mobile'] = $data['mobile'];
+                        }
+                    }
+                    if(Db::name('User')->where(['id'=>$user_unionid['id']])->update($upd_data))
+                    {
+                        return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user_unionid['id']));
                     }
                 }
 
@@ -1747,7 +1781,7 @@ class UserService
                 }
             } else {
                 // 强制绑定手机号码、是否一键获取操作绑定
-                if(isset($params['is_onekey_mobile_bind']) && $params['is_onekey_mobile_bind'] == 1 && !empty($data['mobile']))
+                if($is_onekey_mobile_bind == 1 && !empty($data['mobile']))
                 {
                     // 如果手机号码存在则直接绑定openid
                     // 不存在添加，存在更新openid

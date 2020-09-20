@@ -224,7 +224,7 @@ class User extends Common
         {
             $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
 
-            if(is_array($result))
+            if(!empty($result) && is_array($result))
             {
                 $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
                 $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
@@ -591,37 +591,85 @@ class User extends Common
             return DataReturn($ret, -1);
         }
 
-        // 先从数据库获取用户信息
-        $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $this->data_post['openid']);
-        if(empty($user))
+        // 解密数据
+        $config = [
+            'appid'     => MyC('common_app_mini_baidu_appid'),
+            'key'       => MyC('common_app_mini_baidu_appkey'),
+            'secret'    => MyC('common_app_mini_baidu_appsecret'),
+        ];
+        $result = (new \base\Baidu($config))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid'], 'mobile_bind');
+        if($result['status'] == 0 && !empty($result['data']))
         {
-            $config = [
-                'appid'     => MyC('common_app_mini_baidu_appid'),
-                'key'       => MyC('common_app_mini_baidu_appkey'),
-                'secret'    => MyC('common_app_mini_baidu_appsecret'),
+            $data = [
+                'openid'    => $this->data_post['openid'],
+                'mobile'    => $result['data']['mobile'],
+                'nickname'  => isset($this->data_post['nickname']) ? $this->data_post['nickname'] : '',
+                'avatar'    => isset($this->data_post['avatar']) ? $this->data_post['avatar'] : '',
+                'province'  => isset($this->data_post['province']) ? $this->data_post['province'] : '',
+                'city'      => isset($this->data_post['city']) ? $this->data_post['city'] : '',
+                'gender'    => isset($this->data_post['gender']) ? intval($this->data_post['gender']) : '',
+                'referrer'  => isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0,
+                'is_onekey_mobile_bind' => 1,
             ];
-            $result = (new \base\Baidu($config))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid'], 'mobile_bind');
-            if($result['status'] == 0 && !empty($result['data']))
-            {
-                $data = [
-                    'openid'    => $this->data_post['openid'],
-                    'mobile'    => $result['data']['mobile'],
-                    'nickname'  => isset($this->data_post['nickname']) ? $this->data_post['nickname'] : '',
-                    'avatar'    => isset($this->data_post['avatar']) ? $this->data_post['avatar'] : '',
-                    'province'  => isset($this->data_post['province']) ? $this->data_post['province'] : '',
-                    'city'      => isset($this->data_post['city']) ? $this->data_post['city'] : '',
-                    'gender'    => isset($this->data_post['gender']) ? intval($this->data_post['gender']) : '',
-                    'referrer'  => isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0,
-                    'is_onekey_mobile_bind' => 1,
-                ];
-                return UserService::AuthUserProgram($data, 'baidu_openid');
-            } else {
-                return DataReturn($result['msg'], -1);
-            }
+            return UserService::AuthUserProgram($data, 'baidu_openid');
         } else {
-            return DataReturn('授权成功', 0, $user);
+            return DataReturn($result['msg'], -1);
         }
-        return DataReturn(empty($result) ? '获取用户手机号码失败' : $result, -100);
+    }
+
+    /**
+     * 微信小程序用户手机绑定
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-20
+     * @desc    description
+     */
+    public function WeixinUserMobileBind()
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'openid',
+                'error_msg'         => 'openid为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'encrypted_data',
+                'error_msg'         => '解密数据为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'iv',
+                'error_msg'         => 'iv为空,请重试',
+            ]
+        ];
+        $ret = ParamsChecked($this->data_post, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 解密数据
+        $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
+        if(!empty($result) && is_array($result) && !empty($result['purePhoneNumber']))
+        {
+            $data = [
+                'openid'    => $this->data_post['openid'],
+                'mobile'    => $result['purePhoneNumber'],
+                'nickname'  => isset($this->data_post['nickname']) ? $this->data_post['nickname'] : '',
+                'avatar'    => isset($this->data_post['avatar']) ? $this->data_post['avatar'] : '',
+                'province'  => isset($this->data_post['province']) ? $this->data_post['province'] : '',
+                'city'      => isset($this->data_post['city']) ? $this->data_post['city'] : '',
+                'gender'    => isset($this->data_post['gender']) ? intval($this->data_post['gender']) : '',
+                'referrer'  => isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0,
+                'is_onekey_mobile_bind' => 1,
+            ];
+            return UserService::AuthUserProgram($data, 'weixin_openid');
+        } else {
+            return DataReturn($result, -1);
+        }
     }
 }
 ?>
