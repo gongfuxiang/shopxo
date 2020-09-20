@@ -9,7 +9,9 @@ Page({
     verify_disabled: false,
     form_submit_loading: false,
     verify_time_total: 60,
-    temp_clear_time: null
+    temp_clear_time: null,
+    // 0确认页面, 1验证码绑定, 2一键获取绑定
+    login_status: 2,
   },
 
   /**
@@ -97,14 +99,12 @@ Page({
             }, 1000);
           } else {
             this.setData({ verify_submit_text: '获取验证码', verify_loading: false, verify_disabled: false });
-
             app.showToast(res.data.msg);
           }
         },
         fail: () => {
           swan.hideLoading();
           this.setData({ verify_submit_text: '获取验证码', verify_loading: false, verify_disabled: false });
-
           app.showToast("服务器请求出错");
         }
       });
@@ -161,18 +161,80 @@ Page({
             }, 1000);
           } else {
             this.setData({ form_submit_loading: false });
-
             app.showToast(res.data.msg);
           }
         },
         fail: () => {
           swan.hideLoading();
           this.setData({ form_submit_loading: false });
-
           app.showToast("服务器请求出错");
         }
       });
     }
-  }
+  },
+
+  // 获取手机号码一键登录
+  confirm_phone_number_event(e) {
+    var encrypted_data = e.detail.encryptedData || null;
+    var iv = e.detail.iv || null;
+    if(encrypted_data != null && iv != null) {
+      // 邀请人参数
+      var params = swan.getStorageSync(this.data.cache_launch_info_key) || null;
+      var referrer = (params == null) ? 0 : (params.referrer || 0);
+
+      // 解密数据并绑定手机
+      var data = {
+        "encrypted_data": encrypted_data,
+        "iv": iv,
+        "openid": this.data.user.baidu_openid,
+        "nickname": this.data.user.nickname,
+        "avatar": this.data.user.avatar,
+        "province": this.data.user.province,
+        "city": this.data.user.city,
+        "gender": this.data.user.gender,
+        "referrer": referrer
+      };
+      swan.showLoading({ title: "处理中..." });
+      var self = this;
+      swan.request({
+        url: app.get_request_url('baiduusermobilebind', 'user'),
+        method: 'POST',
+        data: data,
+        dataType: 'json',
+        header: { 'content-type': 'application/x-www-form-urlencoded' },
+        success: (res) => {
+          swan.hideLoading();
+          if (res.data.code == 0 && (res.data.data || null) != null) {
+            app.showToast(res.data.msg, 'success');
+
+            swan.setStorage({
+              key: app.data.cache_user_info_key,
+              data: res.data.data
+            });
+
+            var event_callback = this.data.params.event_callback || null;
+            setTimeout(function () {
+              // 触发回调函数
+              if (event_callback != null) {
+                getCurrentPages()[getCurrentPages().length - 2][event_callback]();
+              }
+              swan.navigateBack();
+            }, 1000);
+          } else {
+            app.showToast(res.data.msg);
+          }
+        },
+        fail: () => {
+          swan.hideLoading();
+          self.showToast('服务器请求出错');
+        },
+      });
+    }
+  },
+
+  // 确认使用验证码
+  confirm_verify_event(e) {
+    this.setData({login_status: 1});
+  },
 
 });

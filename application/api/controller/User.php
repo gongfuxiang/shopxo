@@ -544,10 +544,6 @@ class User extends Common
             'avatar'                            => $this->user['avatar'],
             'nickname'                          => $this->user['nickname'],
             'username'                          => $this->user['username'],
-            // 'customer_service_tel'              => MyC('common_app_customer_service_tel', null, true),
-            // 'common_user_center_notice'         => MyC('common_user_center_notice', null, true),
-            // 'common_app_is_online_service'      => (int) MyC('common_app_is_online_service', 0),
-            // 'common_app_is_head_vice_nav'       => (int) MyC('common_app_is_head_vice_nav', 0),
             'user_order_status'                 => $user_order_status['data'],
             'user_order_count'                  => $user_order_count,
             'user_goods_favor_count'            => $user_goods_favor_count,
@@ -557,15 +553,75 @@ class User extends Common
             'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
         );
 
-        // 支付宝小程序在线客服
-        // if(APPLICATION_CLIENT_TYPE == 'alipay')
-        // {
-        //     $result['common_app_mini_alipay_tnt_inst_id'] = MyC('common_app_mini_alipay_tnt_inst_id', null, true);
-        //     $result['common_app_mini_alipay_scene'] = MyC('common_app_mini_alipay_scene', null, true);
-        // }
-
         // 返回数据
         return DataReturn('success', 0, $result);
+    }
+
+    /**
+     * 百度小程序用户手机绑定
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-20
+     * @desc    description
+     */
+    public function BaiduUserMobileBind()
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'openid',
+                'error_msg'         => 'openid为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'encrypted_data',
+                'error_msg'         => '解密数据为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'iv',
+                'error_msg'         => 'iv为空,请重试',
+            ]
+        ];
+        $ret = ParamsChecked($this->data_post, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 先从数据库获取用户信息
+        $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $this->data_post['openid']);
+        if(empty($user))
+        {
+            $config = [
+                'appid'     => MyC('common_app_mini_baidu_appid'),
+                'key'       => MyC('common_app_mini_baidu_appkey'),
+                'secret'    => MyC('common_app_mini_baidu_appsecret'),
+            ];
+            $result = (new \base\Baidu($config))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid'], 'mobile_bind');
+            if($result['status'] == 0 && !empty($result['data']))
+            {
+                $data = [
+                    'openid'    => $this->data_post['openid'],
+                    'mobile'    => $result['data']['mobile'],
+                    'nickname'  => isset($this->data_post['nickname']) ? $this->data_post['nickname'] : '',
+                    'avatar'    => isset($this->data_post['avatar']) ? $this->data_post['avatar'] : '',
+                    'province'  => isset($this->data_post['province']) ? $this->data_post['province'] : '',
+                    'city'      => isset($this->data_post['city']) ? $this->data_post['city'] : '',
+                    'gender'    => isset($this->data_post['gender']) ? intval($this->data_post['gender']) : '',
+                    'referrer'  => isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0,
+                    'is_onekey_mobile_bind' => 1,
+                ];
+                return UserService::AuthUserProgram($data, 'baidu_openid');
+            } else {
+                return DataReturn($result['msg'], -1);
+            }
+        } else {
+            return DataReturn('授权成功', 0, $user);
+        }
+        return DataReturn(empty($result) ? '获取用户手机号码失败' : $result, -100);
     }
 }
 ?>

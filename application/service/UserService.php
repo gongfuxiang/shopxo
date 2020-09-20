@@ -1704,6 +1704,7 @@ class UserService
             'gender'            => empty($params['gender']) ? 0 : intval($params['gender']),
             'province'          => empty($params['province']) ? '' : $params['province'],
             'city'              => empty($params['city']) ? '' : $params['city'],
+            'mobile'            => empty($params['mobile']) ? '' : $params['mobile'],
             'referrer'          => isset($params['referrer']) ? $params['referrer'] : 0,
         ];
 
@@ -1718,7 +1719,7 @@ class UserService
             if(!empty($unionid['field']) && !empty($unionid['value']))
             {
                 // unionid字段是否存在用户
-                $user_unionid = UserService::AppUserInfoHandle(null, $unionid['field'], $unionid['value']);
+                $user_unionid = self::AppUserInfoHandle(null, $unionid['field'], $unionid['value']);
                 if(!empty($user_unionid))
                 {
                     // openid绑定
@@ -1743,6 +1744,33 @@ class UserService
                     return DataReturn('授权成功', 0, self::AppUserInfoHandle($ret['data']['user_id']));
                 } else {
                     return $ret;
+                }
+            } else {
+                // 强制绑定手机号码、是否一键获取操作绑定
+                if(isset($params['is_onekey_mobile_bind']) && $params['is_onekey_mobile_bind'] == 1 && !empty($data['mobile']))
+                {
+                    // 如果手机号码存在则直接绑定openid
+                    // 不存在添加，存在更新openid
+                    $user = self::AppUserInfoHandle(null, 'mobile', $data['mobile']);
+                    if(!empty($user))
+                    {
+                        $upd_data = [
+                            $field      => $params['openid'],
+                            'upd_time'  => time(),
+                        ];
+                        if(Db::name('User')->where(['id'=>$user['id']])->update($upd_data))
+                        {
+                            return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user['id']));
+                        }
+                    } else {
+                        $ret = self::UserInsert($data, $params);
+                        if($ret['code'] == 0)
+                        {
+                            return DataReturn('绑定成功', 0, self::AppUserInfoHandle($ret['data']['user_id']));
+                        } else {
+                            return $ret;
+                        }
+                    }
                 }
             }
         }

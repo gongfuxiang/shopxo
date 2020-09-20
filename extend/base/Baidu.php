@@ -50,9 +50,10 @@ class Baidu
      * @param    [string]  $encrypted_data     [加密的用户数据]
      * @param    [string]  $iv                 [与用户数据一同返回的初始向量]
      * @param    [string]  $openid             [解密后的原文]
+     * @param    [string]  $key                [当时业务key]
      * @return   [array|string]                [成功返回用户信息数组, 失败返回错误信息]
      */
-    public function DecryptData($encrypted_data, $iv, $openid)
+    public function DecryptData($encrypted_data, $iv, $openid, $key = 'user_info')
     {
         // 登录授权session
         $login_key = 'baidu_user_login_'.$openid;
@@ -111,7 +112,7 @@ class Baidu
         }
 
         // 缓存存储
-        $data_key = 'baidu_user_info_'.$openid;
+        $data_key = 'baidu_'.$key.'_'.$openid;
         cache($data_key, $data);
 
         return ['status'=>0, 'data'=>$data];
