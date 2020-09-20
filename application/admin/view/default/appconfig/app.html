@@ -25,6 +25,20 @@
                     {{/foreach}}
                 </select>
             </div>
+            <div class="am-form-group">
+                <label>{{$data.common_user_is_onekey_bind_mobile.name}}<span class="am-form-group-label-tips">{{$data.common_user_is_onekey_bind_mobile.describe}}</span></label>
+                <select name="{{$data.common_user_is_onekey_bind_mobile.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_user_is_onekey_bind_mobile.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_user_is_onekey_bind_mobile']['value']) and $data['common_user_is_onekey_bind_mobile']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+                <div class="am-alert am-alert-warning" data-am-alert>
+                    <button type="button" class="am-close">&times;</button>
+                    <p>1. 获取当前小程序平台账户或者本本机的手机号码一键登录绑定</p>
+                    <p>2. 无需用户输入手机号码进行验证绑定</p>
+                    <p>3. 依赖需要开启《强制绑定手机》有效</p>
+                </div>
+            </div>
 
             <div class="am-form-group">
                 <label>{{$data.common_app_is_enable_search.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_search.describe}}</span></label>

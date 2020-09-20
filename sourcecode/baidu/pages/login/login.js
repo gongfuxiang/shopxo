@@ -10,22 +10,38 @@ Page({
     form_submit_loading: false,
     verify_time_total: 60,
     temp_clear_time: null,
-    // 0确认页面, 1验证码绑定, 2一键获取绑定
-    login_status: 2,
+
+    // 基础配置
+    // 0 确认绑定方式, 1 验证码绑定
+    login_type_status: 0,
+    common_user_is_onekey_bind_mobile: 0,
   },
 
-  /**
-   * 页面加载初始化
-   */
+  // 页面加载初始化
   onLoad(option) {
-    // 设置用户信息
     this.setData({
       params: option,
-      user: app.get_user_cache_info() || null
+      user: app.get_user_cache_info() || null,
     });
+  },
 
-    // 标题设置
+  // 页面显示
+  onShow() {
     swan.setNavigationBarTitle({ title: this.data.user == null ? '授权用户信息' : '手机绑定' });
+
+    // 初始化配置
+    this.init_config();
+  },
+
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        common_user_is_onekey_bind_mobile: app.get_config('config.common_user_is_onekey_bind_mobile'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
   },
 
   /**
@@ -234,7 +250,7 @@ Page({
 
   // 确认使用验证码
   confirm_verify_event(e) {
-    this.setData({login_status: 1});
+    this.setData({login_type_status: 1});
   },
 
 });

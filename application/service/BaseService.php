@@ -52,6 +52,8 @@ class BaseService
             'common_app_customer_service_tel'   => MyC('common_app_customer_service_tel', null, true),
             'common_order_is_booking'           => (int) MyC('common_order_is_booking'),
             'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
+            'common_user_is_mandatory_bind_mobile'=> (int) MyC('common_user_is_mandatory_bind_mobile', 0),
+            'common_user_is_onekey_bind_mobile' => (int) MyC('common_user_is_onekey_bind_mobile', 0),
 
             // 用户中心相关
             'common_user_center_notice'         => MyC('common_user_center_notice', null, true),
