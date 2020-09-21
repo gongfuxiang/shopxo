@@ -20,3 +20,6 @@
 .view-tips {
   padding: 10rpx;
 }
+.bind-mobile-container {
+  padding: 15% 10rpx 50rpx 10rpx;
+}

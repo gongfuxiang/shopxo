@@ -38,6 +38,13 @@
       <view>6. 安全验证成功后，请在30分钟内完成提现申请。</view>
     </view>
   </view>
+
+  <view qq:if="{{check_account_list.length == 0}}" class="bind-mobile-container">
+    <navigator url="/pages/login/login" hover-class="none">
+      <button type="warn" class="mobile-submit">绑定手机号码</button>
+    </navigator>
+  </view>
+</view>
 </view>
 
 <view qq:else>
