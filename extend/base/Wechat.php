@@ -59,52 +59,57 @@ class Wechat
         $session_data = cache($login_key);
         if(empty($session_data))
         {
-            return 'session key不存在';
+            return ['status'=>-1, 'msg'=>'session key不存在'];
         }
 
         // iv长度
         if(strlen($iv) != 24)
         {
-            return 'iv长度错误';
+            return ['status'=>-1, 'msg'=>'iv长度错误'];
         }
 
         // 加密函数
         if(!function_exists('openssl_decrypt'))
         {
-            return 'openssl不支持';
+            return ['status'=>-1, 'msg'=>'openssl不支持'];
         }
 
         $result = openssl_decrypt(base64_decode($encrypted_data), "AES-128-CBC", base64_decode($session_data['session_key']), 1, base64_decode($iv));
         $data = json_decode($result, true);
         if($data == NULL)
         {
-            return '请重试！';
+            return ['status'=>-1, 'msg'=>'请重试！'];
         }
         if($data['watermark']['appid'] != $this->_appid)
         {
-            return 'appid不匹配';
+            return ['status'=>-1, 'msg'=>'appid不匹配'];
         }
 
         // 缓存存储
         $data_key = 'wechat_user_info_'.$openid;
         cache($data_key, $data);
 
-        return $data;
+        return ['status'=>0, 'data'=>$data];
     }
 
     /**
-     * [GetAuthSessionKey 根据授权code获取 session_key 和 openid]
+     * 用户授权
      * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2017-12-30T18:20:53+0800
-     * @param    [string]     $authcode       [用户授权码]
-     * @return   [string|boolean]             [失败false, 成功返回appid|]
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-06
+     * @desc    description
+     * @param   [array]           $params [输入参数]
      */
-    public function GetAuthSessionKey($authcode)
+    public function GetAuthSessionKey($params = [])
     {
+        if(empty($params['authcode']))
+        {
+            return ['status'=>-1, 'msg'=>'授权码有误'];
+        }
+
         // 请求获取session_key
-        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$this->_appid.'&secret='.$this->_appsecret.'&js_code='.$authcode.'&grant_type=authorization_code';
+        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$this->_appid.'&secret='.$this->_appsecret.'&js_code='.$params['authcode'].'&grant_type=authorization_code';
         $result = $this->HttpRequestGet($url);
         if(!empty($result['openid']))
         {
@@ -113,9 +118,9 @@ class Wechat
 
             // 缓存存储
             cache($key, $result);
-            return $result['openid'];
+            return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result['openid']];
         }
-        return false;
+        return ['status'=>-1, 'msg'=>$result['errmsg']];
     }
 
     /**

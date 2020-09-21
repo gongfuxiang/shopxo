@@ -141,7 +141,6 @@ Page({
     e.detail.value['province'] = this.data.user.province;
     e.detail.value['city'] = this.data.user.city;
     e.detail.value['gender'] = this.data.user.gender;
-    e.detail.value['app_type'] = 'alipay';
     e.detail.value['referrer'] = (params == null || (params.data || null) == null) ? (this.data.user.referrer || 0) : (params.data.referrer || 0);
     if(app.fields_check(e.detail.value, validation))
     {

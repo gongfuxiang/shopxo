@@ -2024,11 +2024,6 @@ class UserService
                 'key_name'          => 'verify',
                 'error_msg'         => '验证码不能为空',
             ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'app_type',
-                'error_msg'         => '终端用户类型不能为空',
-            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -2061,24 +2056,20 @@ class UserService
         }
 
         // 用户信息
-        $accounts_field = $params['app_type'].'_openid';
+        $accounts_field = APPLICATION_CLIENT_TYPE.'_openid';
         if(empty($params[$accounts_field]))
         {
             return DataReturn('用户openid不能为空', -20);
         }
 
-        // 是否需要审核
-        $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
-
         // 用户数据
         $data = array(
             $accounts_field     => $params[$accounts_field],
             'mobile'            => $params['mobile'],
-            'status'            => ($common_register_is_enable_audit == 1) ? 3 : 0,
         );
 
         // 获取用户信息
-        $temp_user = Db::name('User')->where([
+        $mobile_user = Db::name('User')->where([
             ['mobile', '=', $data['mobile']],
             ['is_delete_time', '=', 0],
         ])->find();
@@ -2088,40 +2079,48 @@ class UserService
         ])->find();
 
         // 如果手机号码存在，并且openid也已存在，则更新掉之前的openid
-        if(!empty($temp_user))
+        if(!empty($mobile_user))
         {
             if(!empty($open_user))
             {
                 Db::name('User')->where(['id'=>$open_user['id']])->update([$accounts_field=>'', 'upd_time'=>time()]);
             }
         } else {
-            $temp_user = $open_user;
+            $mobile_user = $open_user;
+        }
+
+        // 如果用户不存在则新增用户状态字段
+        if(empty($mobile_user) && empty($open_user))
+        {
+            // 是否需要审核
+            $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
+            $data['status'] = ($common_register_is_enable_audit == 1) ? 3 : 0;
         }
 
         // 额外信息
-        if(empty($temp_user['nickname']) && !empty($params['nickname']))
+        if(empty($mobile_user['nickname']) && !empty($params['nickname']))
         {
             $data['nickname'] = $params['nickname'];
         }
-        if(empty($temp_user['avatar']) && !empty($params['avatar']))
+        if(empty($mobile_user['avatar']) && !empty($params['avatar']))
         {
             $data['avatar'] = $params['avatar'];
         }
-        if(empty($temp_user['province']) && !empty($params['province']))
+        if(empty($mobile_user['province']) && !empty($params['province']))
         {
             $data['province'] = $params['province'];
         }
-        if(empty($temp_user['city']) && !empty($params['city']))
+        if(empty($mobile_user['city']) && !empty($params['city']))
         {
             $data['city'] = $params['city'];
         }
-        if(empty($temp_user) && isset($params['gender']))
+        if(empty($mobile_user) && isset($params['gender']))
         {
             $data['gender'] = intval($params['gender']);
         }
 
         // 不存在添加/则更新
-        if(empty($temp_user))
+        if(empty($mobile_user))
         {
             $user_ret = self::UserInsert($data, $params);
             if($user_ret['code'] == 0)
@@ -2135,7 +2134,7 @@ class UserService
             $unionid = self::UserUnionidHandle($params);
             if(!empty($unionid['field']) && !empty($unionid['value']))
             {
-                if(empty($temp_user[$unionid['field']]))
+                if(empty($mobile_user[$unionid['field']]))
                 {
                     // unionid放入用户data中
                     $data[$unionid['field']] = $unionid['value'];
@@ -2143,9 +2142,9 @@ class UserService
             }
 
             $data['upd_time'] = time();
-            if(Db::name('User')->where(['id'=>$temp_user['id']])->update($data))
+            if(Db::name('User')->where(['id'=>$mobile_user['id']])->update($data))
             {
-                $user_id = $temp_user['id'];
+                $user_id = $mobile_user['id'];
             }
         }
         

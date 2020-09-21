@@ -142,7 +142,6 @@ Page({
     e.detail.value['province'] = this.data.user.province;
     e.detail.value['city'] = this.data.user.city;
     e.detail.value['gender'] = this.data.user.gender;
-    e.detail.value['app_type'] = 'baidu';
     e.detail.value['referrer'] = (params == null) ? this.data.user.referrer || 0 : params.referrer || 0;
     if (app.fields_check(e.detail.value, validation)) {
       swan.showLoading({ title: '处理中...' });
@@ -213,7 +212,7 @@ Page({
       swan.showLoading({ title: "处理中..." });
       var self = this;
       swan.request({
-        url: app.get_request_url('baiduusermobilebind', 'user'),
+        url: app.get_request_url('onekeyusermobilebind', 'user'),
         method: 'POST',
         data: data,
         dataType: 'json',
