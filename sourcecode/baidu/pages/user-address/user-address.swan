@@ -30,11 +30,14 @@
     <import src="/pages/common/nodata.swan" />
     <template is="nodata" data="{{{status: data_list_loding_status}}}"></template>
   </view>
-    
+
   <import src="/pages/common/bottom_line.swan" />
   <template is="bottom_line" data="{{{status: data_bottom_line_status}}}"></template>
-  
-  <navigator url="/pages/user-address-save/user-address-save" open-type="navigate" hover-class="none">
-    <button class="submit-fixed submit-bottom" type="default" hover-class="none">新增地址</button>
-  </navigator>
+
+  <view class="submit-list">
+    <navigator url="/pages/user-address-save/user-address-save" open-type="navigate" hover-class="none">
+      <button class="submit-fixed submit-bottom" type="default" hover-class="none">添加新地址</button>
+    </navigator>
+    <button class="submit-fixed submit-bottom import-system-address-submit" type="default" hover-class="none" open-type="chooseAddress" bindchooseAddress="choose_system_address_event">导入百度地址</button>
+  </view>
 </view>

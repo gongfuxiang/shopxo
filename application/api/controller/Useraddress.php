@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\UserService;
+use app\service\UserAddressService;
 use app\service\ConfigService;
 
 /**
@@ -50,7 +50,7 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserService::UserAddressRow($params);
+        return UserAddressService::UserAddressRow($params);
     }
 
     /**
@@ -63,7 +63,7 @@ class UserAddress extends Common
      */
     public function Index()
     {
-        return UserService::UserAddressList(['user'=>$this->user]);
+        return UserAddressService::UserAddressList(['user'=>$this->user]);
         
     }
 
@@ -79,7 +79,7 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserService::UserAddressSave($params);
+        return UserAddressService::UserAddressSave($params);
     }
 
     /**
@@ -94,7 +94,7 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserService::UserAddressDelete($params);
+        return UserAddressService::UserAddressDelete($params);
     }
 
     /**
@@ -109,7 +109,7 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserService::UserAddressDefault($params);
+        return UserAddressService::UserAddressDefault($params);
     }
 
     /**
@@ -125,5 +125,19 @@ class UserAddress extends Common
         return ConfigService::SiteTypeExtractionAddressList();
     }
 
+    /**
+     * 外部系统地址添加
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-21
+     * @desc    description
+     */
+    public function OutSystemAdd()
+    {
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        return UserAddressService::OutSystemUserAddressAdd($params);
+    }
 }
 ?>

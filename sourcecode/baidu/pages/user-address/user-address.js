@@ -209,7 +209,6 @@ Page({
       },
       fail: () => {
         swan.hideLoading();
-
         app.showToast("服务器请求出错");
       }
     });
@@ -226,6 +225,48 @@ Page({
       });
       swan.navigateBack();
     }
-  }
+  },
+
+  // 获取系统地址
+  choose_system_address_event(e) {
+    var detail = e.detail;
+    var data = {
+      "name": detail.userName || '',
+      "tel": detail.telNumber || '',
+      "province": detail.provinceName || '',
+      "city": detail.cityName || '',
+      "county": detail.countyName || '',
+      "town": detail.townName || '',
+      "address": detail.detailInfo || '',
+    };
+
+    // 加载loding
+    swan.showLoading({ title: "处理中..." });
+
+    // 获取数据
+    swan.request({
+      url: app.get_request_url("outsystemadd", "useraddress"),
+      method: "POST",
+      data: data,
+      dataType: "json",
+      success: res => {
+        swan.hideLoading();
+        if (res.data.code == 0) {
+          this.get_data_list();
+          app.showToast(res.data.msg, "success");
+        } else {
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
+        }
+      },
+      fail: () => {
+        swan.hideLoading();
+        app.showToast("服务器请求出错");
+      }
+    });
+  },
 
 });

@@ -46,7 +46,7 @@ App({
       "goods_search": "商品搜索",
       "goods_detail": "商品详情",
       "user_address": "我的地址",
-      "user_address_save_add": "新增地址",
+      "user_address_save_add": "添加地址",
       "user_address_save_edit": "编辑地址",
       "buy": "订单确认",
       "user_order": "我的订单",

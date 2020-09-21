@@ -1007,6 +1007,7 @@ class GoodsService
         }
 
         // 是否成功
+        $status = false;
         if(isset($goods_id) && $goods_id > 0)
         {
             // 分类
@@ -1063,13 +1064,33 @@ class GoodsService
                 return $ret;
             }
 
-            // 提交事务
-            Db::commit();
-            return DataReturn('操作成功', 0);
+            // 操作成功
+            $status = true;
         }
 
-        // 回滚事务
-        Db::rollback();
+        // 事务处理
+        if($status)
+        {
+            Db::commit();
+        } else {
+            Db::rollback();
+        }
+
+        // 商品保存后钩子
+        $hook_name = 'plugins_service_goods_save_end';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'data'          => $data,
+            'goods_id'      => $goods_id,
+        ]);
+
+        // 返回信息
+        if($status)
+        {
+            return DataReturn('操作成功', 0);
+        }
         return DataReturn('操作失败', -100);
     }
 
@@ -1686,6 +1707,15 @@ class GoodsService
                 Db::rollback();
                 return DataReturn('相册删除失败', -100);
             }
+
+            // 商品删除钩子
+            $hook_name = 'plugins_service_goods_delete';
+            Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => $params,
+                'data_ids'      => $params['ids'],
+            ]);
 
             // 提交事务
             Db::commit();

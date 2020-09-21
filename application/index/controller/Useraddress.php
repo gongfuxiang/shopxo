@@ -11,7 +11,7 @@
 namespace app\index\controller;
 
 use app\service\SeoService;
-use app\service\UserService;
+use app\service\UserAddressService;
 
 /**
  * 用户地址管理
@@ -48,7 +48,7 @@ class UserAddress extends Common
     public function Index()
     {
         // 用户地址列表
-        $data = UserService::UserAddressList(['user'=>$this->user]);
+        $data = UserAddressService::UserAddressList(['user'=>$this->user]);
         $this->assign('user_address_list', $data['data']);
 
         // 浏览器名称
@@ -74,7 +74,7 @@ class UserAddress extends Common
         {
             $params = $this->data_request;
             $params['user'] = $this->user;
-            $ret = UserService::UserAddressRow($params);
+            $ret = UserAddressService::UserAddressRow($params);
             $data = $ret['data'];
         }
 
@@ -95,7 +95,7 @@ class UserAddress extends Common
     {
         $params = input('post.');
         $params['user'] = $this->user;
-        return UserService::UserAddressSave($params);
+        return UserAddressService::UserAddressSave($params);
     }
 
     /**
@@ -110,7 +110,7 @@ class UserAddress extends Common
     {
         $params = $_POST;
         $params['user'] = $this->user;
-        return UserService::UserAddressDelete($params);
+        return UserAddressService::UserAddressDelete($params);
     }
 
     /**
@@ -125,7 +125,7 @@ class UserAddress extends Common
     {
         $params = $_POST;
         $params['user'] = $this->user;
-        return UserService::UserAddressDefault($params);
+        return UserAddressService::UserAddressDefault($params);
     }
 }
 ?>

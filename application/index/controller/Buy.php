@@ -13,6 +13,7 @@ namespace app\index\controller;
 use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\UserService;
+use app\service\UserAddressService;
 use app\service\PaymentService;
 use app\service\BuyService;
 
@@ -83,7 +84,7 @@ class Buy extends Common
                 $buy_goods = $buy_ret['data']['goods'];
 
                 // 用户地址
-                $address = UserService::UserAddressList(['user'=>$this->user]);
+                $address = UserAddressService::UserAddressList(['user'=>$this->user]);
                 $this->assign('user_address_list', $address['data']);
 
                 // 支付方式

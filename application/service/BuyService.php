@@ -14,6 +14,7 @@ use think\Db;
 use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\UserService;
+use app\service\UserAddressService;
 use app\service\ResourcesService;
 use app\service\PaymentService;
 use app\service\ConfigService;
@@ -723,7 +724,7 @@ class BuyService
                 {
                     $address_params['where'] = ['id' => $params['address_id']];
                 }
-                $ads = UserService::UserDefaultAddress($address_params);
+                $ads = UserAddressService::UserDefaultAddress($address_params);
                 if(!empty($ads['data']))
                 {
                     $address = $ads['data'];
