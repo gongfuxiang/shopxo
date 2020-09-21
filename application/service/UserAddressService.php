@@ -569,13 +569,14 @@ class UserAddressService
 
         // 地址存在则不重复添加
         $where = [
-            'name'      => $params['name'],
-            'tel'       => $params['tel'],
-            'province'  => $params['province'],
-            'city'      => $params['city'],
-            'county'    => $params['county'],
-            'address'   => $params['address'],
-            'user_id'   => $params['user']['id'],
+            'name'              => $params['name'],
+            'tel'               => $params['tel'],
+            'province'          => $params['province'],
+            'city'              => $params['city'],
+            'county'            => $params['county'],
+            'address'           => $params['address'],
+            'user_id'           => $params['user']['id'],
+            'is_delete_time'    => 0,
         ];
         $address = Db::name('UserAddress')->where($where)->find();
         if(!empty($address))
