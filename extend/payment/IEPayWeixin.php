@@ -92,10 +92,10 @@ class IEPayWeixin
             ],
             [
                 'element'       => 'select',
-                'title'         => '支付RMB定价',
-                'desc'          => '默认否（仅[PC/H5]端支付宝支付有效）',
-                'message'       => '请选择支付RMB定价',
-                'name'          => 'is_rmb_pay',
+                'title'         => '支付金额转换',
+                'desc'          => '默认否（将金额转为原始汇率的金额、仅单个订单发起支付的时候有效）',
+                'message'       => '请选择订单金额转换',
+                'name'          => 'is_reverse_price',
                 'is_multiple'   => 0,
                 'element_data'  => [
                     ['value'=>0, 'name'=>'否'],
@@ -133,6 +133,22 @@ class IEPayWeixin
             return DataReturn('支付缺少配置', -1);
         }
 
+        // 金额转换
+        if(isset($this->config['is_reverse_price']) && $this->config['is_reverse_price'] == 1 && !empty($params['business_ids']) && is_array($params['business_ids']) && count($params['business_ids']) == 1 && !empty($params['business_type']))
+        {
+            switch($params['business_type'])
+            {
+                // 订单
+                case 'system-order' :
+                    $currency_data = \app\service\OrderCurrencyService::OrderCurrencyGroupList($params['business_ids'][0]);
+                    if(isset($currency_data['currency_rate']) && $currency_data['currency_rate'] > 0)
+                    {
+                        $params['total_price'] /= $currency_data['currency_rate'];
+                    }
+                    break;
+            }
+        }
+
         // 支付参数
         $parameter = [
             'mid'               =>  $this->config['mid'],
@@ -144,13 +160,6 @@ class IEPayWeixin
             'pay_type'          => $this->GetPayType('', true),
             'version'           => 'v1',
         ];
-
-        // 是否人民币结算
-        if(isset($this->config['is_rmb_pay']) && $this->config['is_rmb_pay'] == 1)
-        {
-            $parameter['rmb_fee'] = (int) (($params['total_price']*1000)/10);
-            unset($parameter['total_fee']);
-        }
 
         // 微信小程序
         if($parameter['pay_type'] == 'IE0026')
