@@ -90,6 +90,18 @@ class IEPayWeixin
                 'is_required'   => 0,
                 'message'       => '请填写微信分配的小程序ID',
             ],
+            [
+                'element'       => 'select',
+                'title'         => '支付RMB定价',
+                'desc'          => '默认否（仅[PC/H5]端支付宝支付有效）',
+                'message'       => '请选择支付RMB定价',
+                'name'          => 'is_rmb_pay',
+                'is_multiple'   => 0,
+                'element_data'  => [
+                    ['value'=>0, 'name'=>'否'],
+                    ['value'=>1, 'name'=>'是'],
+                ],
+            ],
         ];
 
         return [
@@ -132,6 +144,13 @@ class IEPayWeixin
             'pay_type'          => $this->GetPayType('', true),
             'version'           => 'v1',
         ];
+
+        // 是否人民币结算
+        if(isset($this->config['is_rmb_pay']) && $this->config['is_rmb_pay'] == 1)
+        {
+            $parameter['rmb_fee'] = (int) (($params['total_price']*1000)/10);
+            unset($parameter['total_fee']);
+        }
 
         // 微信小程序
         if($parameter['pay_type'] == 'IE0026')

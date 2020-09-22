@@ -136,7 +136,7 @@ class IEPayAliPay
         ];
 
         // 是否人民币结算
-        if(isset($this->config['is_rmb_pay']) && $this->config['is_rmb_pay'] == 1 && in_array($parameter['pay_type'], ['IE0012', 'IE0013']))
+        if(isset($this->config['is_rmb_pay']) && $this->config['is_rmb_pay'] == 1)
         {
             $parameter['rmb_fee'] = (int) (($params['total_price']*1000)/10);
             unset($parameter['total_fee']);
