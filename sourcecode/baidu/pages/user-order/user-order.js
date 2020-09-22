@@ -22,7 +22,10 @@ Page({
       { name: "已失效", value: "5,6" },
     ],
     nav_status_index: 0,
-    order_select_ids: []
+    order_select_ids: [],
+
+    // 基础配置
+    home_is_enable_order_bulk_pay: 0,
   },
 
   onLoad(params) {
@@ -48,6 +51,20 @@ Page({
 
     // 数据加载
     this.init();
+
+    // 初始化配置
+    this.init_config();
+  },
+
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        home_is_enable_order_bulk_pay: app.get_config('config.home_is_enable_order_bulk_pay'),
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
   },
 
   // 获取数据

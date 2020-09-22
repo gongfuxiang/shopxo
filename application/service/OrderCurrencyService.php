@@ -60,17 +60,20 @@ class OrderCurrencyService
      * @date    2020-09-17
      * @desc    description
      * @param   [array|int]          $order_ids [订单id]
+     * @return  [array]                         [货币数据、参数是多个id则返回二维数组，一个id则返回一维数组]
      */
     public static function OrderCurrencyGroupList($order_ids)
     {
         $data = Db::name('OrderCurrency')->where(['order_id'=>$order_ids])->select();
         $result = [];
-        if(!empty($data))
+        if(!empty($data) && is_array($order_ids) && count($order_ids) > 1)
         {
             foreach($data as $v)
             {
                 $result[$v['order_id']] = $v;
             }
+        } else {
+            $result = isset($data[0]) ? $data[0] : [];
         }
         return $result;
     }

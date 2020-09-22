@@ -3,7 +3,10 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-paypal batch-pay-submit" data-url="{{:MyUrl('index/order/pay')}}"> 批量支付</button>
+    <!-- 是否开启批量支付 -->
+    {{if MyC('home_is_enable_order_bulk_pay') eq 1}}
+        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-paypal batch-pay-submit" data-url="{{:MyUrl('index/order/pay')}}"> 批量支付</button>
+    {{/if}}
     <!-- 父级内容 -->
     {__block__}
 {{/block}}

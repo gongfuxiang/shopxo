@@ -55,6 +55,9 @@ class BaseService
             'common_user_is_mandatory_bind_mobile'=> (int) MyC('common_user_is_mandatory_bind_mobile', 0),
             'common_user_is_onekey_bind_mobile' => (int) MyC('common_user_is_onekey_bind_mobile', 0),
 
+            // 订单相关
+            'home_is_enable_order_bulk_pay'     => (int) MyC('home_is_enable_order_bulk_pay', 0),
+
             // 用户中心相关
             'common_user_center_notice'         => MyC('common_user_center_notice', null, true),
             'common_app_is_head_vice_nav'       => (int) MyC('common_app_is_head_vice_nav', 0),

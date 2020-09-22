@@ -58,342 +58,351 @@ class Order
      */
     public function Run($params = [])
     {
+        // 基础配置
+        $base = [
+            'key_field'     => 'id',
+            'is_search'     => 1,
+            'search_url'    => MyUrl('index/order/index'),
+            'detail_title'  => '基础信息',
+            'is_middle'     => 0,
+        ];
+
+        // 表单配置
+        $form = [
+            [
+                'label'         => '基础信息',
+                'view_type'     => 'module',
+                'view_key'      => 'order/module/goods',
+                'grid_size'     => 'xl',
+                'search_config' => [
+                    'form_type'             => 'input',
+                    'form_name'             => 'id',
+                    'where_type'            => 'like',
+                    'where_type_custom'     => 'in',
+                    'where_value_custom'    => 'WhereBaseGoodsInfo',
+                    'placeholder'           => '请输入订单号/商品名称/型号',
+                ],
+            ],
+            [
+                'label'         => '订单状态',
+                'view_type'     => 'field',
+                'view_key'      => 'status',
+                'view_data_key' => 'name',
+                'view_data'     => lang('common_order_user_status'),
+                'search_config' => [
+                    'form_type'         => 'select',
+                    'where_type'        => 'in',
+                    'data'              => lang('common_order_user_status'),
+                    'data_key'          => 'id',
+                    'data_name'         => 'name',
+                    'is_multiple'       => 1,
+                ],
+            ],
+            [
+                'label'         => '支付状态',
+                'view_type'     => 'module',
+                'view_key'      => 'order/module/pay_status',
+                'search_config' => [
+                    'form_type'         => 'select',
+                    'form_name'         => 'pay_status',
+                    'where_type'        => 'in',
+                    'data'              => lang('common_order_pay_status'),
+                    'data_key'          => 'id',
+                    'data_name'         => 'name',
+                    'is_multiple'       => 1,
+                ],
+            ],
+            [
+                'label'         => '总价(元)',
+                'view_type'     => 'field',
+                'view_key'      => 'total_price',
+                'search_config' => [
+                    'form_type'         => 'section',
+                    'is_point'          => 1,
+                ],
+            ],
+            [
+                'label'         => '支付金额(元)',
+                'view_type'     => 'field',
+                'view_key'      => 'pay_price',
+                'search_config' => [
+                    'form_type'         => 'section',
+                    'is_point'          => 1,
+                ],
+            ],
+            [
+                'label'         => '单价(元)',
+                'view_type'     => 'field',
+                'view_key'      => 'price',
+                'search_config' => [
+                    'form_type'         => 'section',
+                    'is_point'          => 1,
+                ],
+            ],
+            [
+                'label'         => '订单模式',
+                'view_type'     => 'field',
+                'view_key'      => 'order_model',
+                'view_data_key' => 'name',
+                'view_data'     => lang('common_site_type_list'),
+                'search_config' => [
+                    'form_type'         => 'select',
+                    'where_type'        => 'in',
+                    'data'              => lang('common_site_type_list'),
+                    'data_key'          => 'value',
+                    'data_name'         => 'name',
+                    'is_multiple'       => 1,
+                ],
+            ],
+            [
+                'label'         => '下单平台',
+                'view_type'     => 'field',
+                'view_key'      => 'client_type',
+                'view_data_key' => 'name',
+                'view_data'     => lang('common_platform_type'),
+                'search_config' => [
+                    'form_type'         => 'select',
+                    'where_type'        => 'in',
+                    'data'              => lang('common_platform_type'),
+                    'data_key'          => 'value',
+                    'data_name'         => 'name',
+                    'is_multiple'       => 1,
+                ],
+            ],
+            [
+                'label'         => '地址信息',
+                'view_type'     => 'module',
+                'view_key'      => 'order/module/address',
+                'grid_size'     => 'sm',
+                'search_config' => [
+                    'form_type'             => 'input',
+                    'form_name'             => 'id',
+                    'where_type'            => 'like',
+                    'where_type_custom'     => 'in',
+                    'where_value_custom'    => 'WhereValueAddressInfo',
+                ],
+            ],
+            [
+                'label'         => '取货信息',
+                'view_type'     => 'module',
+                'view_key'      => 'order/module/take',
+                'width'         => 125,
+                'search_config' => [
+                    'form_type'             => 'input',
+                    'form_name'             => 'id',
+                    'where_type'            => 'like',
+                    'where_type_custom'     => 'in',
+                    'where_value_custom'    => 'WhereValueTakeInfo',
+                ],
+            ],
+            [
+                'label'         => '退款金额(元)',
+                'view_type'     => 'field',
+                'view_key'      => 'refund_price',
+                'search_config' => [
+                    'form_type'         => 'section',
+                    'is_point'          => 1,
+                ],
+            ],
+            [
+                'label'         => '退货数量',
+                'view_type'     => 'field',
+                'view_key'      => 'returned_quantity',
+                'search_config' => [
+                    'form_type'         => 'section',
+                ],
+            ],
+            [
+                'label'         => '购买总数',
+                'view_type'     => 'field',
+                'view_key'      => 'buy_number_count',
+                'search_config' => [
+                    'form_type'         => 'section',
+                ],
+            ],
+            [
+                'label'         => '增加金额(元)',
+                'view_type'     => 'field',
+                'view_key'      => 'increase_price',
+                'search_config' => [
+                    'form_type'         => 'section',
+                    'is_point'          => 1,
+                ],
+            ],
+            [
+                'label'         => '优惠金额(元)',
+                'view_type'     => 'field',
+                'view_key'      => 'preferential_price',
+                'search_config' => [
+                    'form_type'         => 'section',
+                    'is_point'          => 1,
+                ],
+            ],
+            [
+                'label'         => '支付方式',
+                'view_type'     => 'field',
+                'view_key'      => 'payment_name',
+                'search_config' => [
+                    'form_type'         => 'select',
+                    'form_name'         => 'payment_id',
+                    'where_type'        => 'in',
+                    'data'              => PaymentService::PaymentList(),
+                    'data_key'          => 'id',
+                    'data_name'         => 'name',
+                    'is_multiple'       => 1,
+                ],
+            ],
+            [
+                'label'         => '留言信息',
+                'view_type'     => 'field',
+                'view_key'      => 'user_note',
+                'search_config' => [
+                    'form_type'         => 'select',
+                    'where_type'        => 'like',
+                ],
+            ],
+            [
+                'label'         => '扩展信息',
+                'view_type'     => 'module',
+                'view_key'      => 'order/module/extension',
+                'grid_size'     => 'sm',
+                'search_config' => [
+                    'form_type'         => 'input',
+                    'form_name'         => 'extension_data',
+                    'where_type'        => 'like',
+                ],
+            ],
+            [
+                'label'         => '快递公司',
+                'view_type'     => 'field',
+                'view_key'      => 'express_name',
+                'search_config' => [
+                    'form_type'         => 'select',
+                    'form_name'         => 'express_id',
+                    'data'              => ExpressService::ExpressList(),
+                    'where_type'        => 'in',
+                    'data_key'          => 'id',
+                    'data_name'         => 'name',
+                    'is_multiple'       => 1,
+                ],
+            ],
+            [
+                'label'         => '快递单号',
+                'view_type'     => 'field',
+                'view_key'      => 'express_number',
+                'search_config' => [
+                    'form_type'         => 'input',
+                    'where_type'        => 'like',
+                ],
+            ],
+            [
+                'label'         => '是否评论',
+                'view_type'     => 'module',
+                'view_key'      => 'order/module/is_comments',
+                'search_config' => [
+                    'form_type'             => 'select',
+                    'where_type'            => 'in',
+                    'form_name'             => 'user_is_comments',
+                    'data'                  => lang('common_is_text_list'),
+                    'data_key'              => 'id',
+                    'data_name'             => 'name',
+                    'where_type_custom'     => 'WhereTypyUserIsComments',
+                    'where_value_custom'    => 'WhereValueUserIsComments',
+                    'is_multiple'           => 1,
+                ],
+            ],
+            [
+                'label'         => '确认时间',
+                'view_type'     => 'field',
+                'view_key'      => 'confirm_time',
+                'search_config' => [
+                    'form_type'         => 'datetime',
+                ],
+            ],
+            [
+                'label'         => '支付时间',
+                'view_type'     => 'field',
+                'view_key'      => 'pay_time',
+                'search_config' => [
+                    'form_type'         => 'datetime',
+                ],
+            ],
+            [
+                'label'         => '发货时间',
+                'view_type'     => 'field',
+                'view_key'      => 'delivery_time',
+                'search_config' => [
+                    'form_type'         => 'datetime',
+                ],
+            ],
+            [
+                'label'         => '完成时间',
+                'view_type'     => 'field',
+                'view_key'      => 'collect_time',
+                'search_config' => [
+                    'form_type'         => 'datetime',
+                ],
+            ],
+            [
+                'label'         => '取消时间',
+                'view_type'     => 'field',
+                'view_key'      => 'cancel_time',
+                'search_config' => [
+                    'form_type'         => 'datetime',
+                ],
+            ],
+            [
+                'label'         => '关闭时间',
+                'view_type'     => 'field',
+                'view_key'      => 'close_time',
+                'search_config' => [
+                    'form_type'         => 'datetime',
+                ],
+            ],
+            [
+                'label'         => '创建时间',
+                'view_type'     => 'field',
+                'view_key'      => 'add_time',
+                'search_config' => [
+                    'form_type'         => 'datetime',
+                ],
+            ],
+            [
+                'label'         => '更新时间',
+                'view_type'     => 'field',
+                'view_key'      => 'upd_time',
+                'search_config' => [
+                    'form_type'         => 'datetime',
+                ],
+            ],
+            [
+                'label'         => '操作',
+                'view_type'     => 'operate',
+                'view_key'      => 'order/module/operate',
+                'align'         => 'center',
+                'fixed'         => 'right',
+            ],
+        ];
+
+        // 是否启用订单批量支付
+        if(MyC('home_is_enable_order_bulk_pay') == 1)
+        {
+            array_unshift($form, [
+                'view_type'         => 'checkbox',
+                'is_checked'        => 0,
+                'checked_text'      => '反选',
+                'not_checked_text'  => '全选',
+                'not_show_key'      => 'status',
+                'not_show_data'     => [0,2,3,4,5,6],
+                'align'             => 'center',
+                'width'             => 80,
+                'view_key'          => 'order_form_checkbox_value',
+            ]);
+        }
+
         return [
-            // 基础配置
-            'base' => [
-                'key_field'     => 'id',
-                'is_search'     => 1,
-                'search_url'    => MyUrl('index/order/index'),
-                'detail_title'  => '基础信息',
-                'is_middle'     => 0,
-            ],
-            // 表单配置
-            'form' => [
-                [
-                    'view_type'         => 'checkbox',
-                    'is_checked'        => 0,
-                    'checked_text'      => '反选',
-                    'not_checked_text'  => '全选',
-                    'not_show_key'      => 'status',
-                    'not_show_data'     => [0,2,3,4,5,6],
-                    'align'             => 'center',
-                    'width'             => 80,
-                    'view_key'          => 'order_form_checkbox_value',
-                ],
-                [
-                    'label'         => '基础信息',
-                    'view_type'     => 'module',
-                    'view_key'      => 'order/module/goods',
-                    'grid_size'     => 'xl',
-                    'search_config' => [
-                        'form_type'             => 'input',
-                        'form_name'             => 'id',
-                        'where_type'            => 'like',
-                        'where_type_custom'     => 'in',
-                        'where_value_custom'    => 'WhereBaseGoodsInfo',
-                        'placeholder'           => '请输入订单号/商品名称/型号',
-                    ],
-                ],
-                [
-                    'label'         => '订单状态',
-                    'view_type'     => 'field',
-                    'view_key'      => 'status',
-                    'view_data_key' => 'name',
-                    'view_data'     => lang('common_order_user_status'),
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'where_type'        => 'in',
-                        'data'              => lang('common_order_user_status'),
-                        'data_key'          => 'id',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
-                    ],
-                ],
-                [
-                    'label'         => '支付状态',
-                    'view_type'     => 'module',
-                    'view_key'      => 'order/module/pay_status',
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'form_name'         => 'pay_status',
-                        'where_type'        => 'in',
-                        'data'              => lang('common_order_pay_status'),
-                        'data_key'          => 'id',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
-                    ],
-                ],
-                [
-                    'label'         => '总价(元)',
-                    'view_type'     => 'field',
-                    'view_key'      => 'total_price',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                        'is_point'          => 1,
-                    ],
-                ],
-                [
-                    'label'         => '支付金额(元)',
-                    'view_type'     => 'field',
-                    'view_key'      => 'pay_price',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                        'is_point'          => 1,
-                    ],
-                ],
-                [
-                    'label'         => '单价(元)',
-                    'view_type'     => 'field',
-                    'view_key'      => 'price',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                        'is_point'          => 1,
-                    ],
-                ],
-                [
-                    'label'         => '订单模式',
-                    'view_type'     => 'field',
-                    'view_key'      => 'order_model',
-                    'view_data_key' => 'name',
-                    'view_data'     => lang('common_site_type_list'),
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'where_type'        => 'in',
-                        'data'              => lang('common_site_type_list'),
-                        'data_key'          => 'value',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
-                    ],
-                ],
-                [
-                    'label'         => '下单平台',
-                    'view_type'     => 'field',
-                    'view_key'      => 'client_type',
-                    'view_data_key' => 'name',
-                    'view_data'     => lang('common_platform_type'),
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'where_type'        => 'in',
-                        'data'              => lang('common_platform_type'),
-                        'data_key'          => 'value',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
-                    ],
-                ],
-                [
-                    'label'         => '地址信息',
-                    'view_type'     => 'module',
-                    'view_key'      => 'order/module/address',
-                    'grid_size'     => 'sm',
-                    'search_config' => [
-                        'form_type'             => 'input',
-                        'form_name'             => 'id',
-                        'where_type'            => 'like',
-                        'where_type_custom'     => 'in',
-                        'where_value_custom'    => 'WhereValueAddressInfo',
-                    ],
-                ],
-                [
-                    'label'         => '取货信息',
-                    'view_type'     => 'module',
-                    'view_key'      => 'order/module/take',
-                    'width'         => 125,
-                    'search_config' => [
-                        'form_type'             => 'input',
-                        'form_name'             => 'id',
-                        'where_type'            => 'like',
-                        'where_type_custom'     => 'in',
-                        'where_value_custom'    => 'WhereValueTakeInfo',
-                    ],
-                ],
-                [
-                    'label'         => '退款金额(元)',
-                    'view_type'     => 'field',
-                    'view_key'      => 'refund_price',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                        'is_point'          => 1,
-                    ],
-                ],
-                [
-                    'label'         => '退货数量',
-                    'view_type'     => 'field',
-                    'view_key'      => 'returned_quantity',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                    ],
-                ],
-                [
-                    'label'         => '购买总数',
-                    'view_type'     => 'field',
-                    'view_key'      => 'buy_number_count',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                    ],
-                ],
-                [
-                    'label'         => '增加金额(元)',
-                    'view_type'     => 'field',
-                    'view_key'      => 'increase_price',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                        'is_point'          => 1,
-                    ],
-                ],
-                [
-                    'label'         => '优惠金额(元)',
-                    'view_type'     => 'field',
-                    'view_key'      => 'preferential_price',
-                    'search_config' => [
-                        'form_type'         => 'section',
-                        'is_point'          => 1,
-                    ],
-                ],
-                [
-                    'label'         => '支付方式',
-                    'view_type'     => 'field',
-                    'view_key'      => 'payment_name',
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'form_name'         => 'payment_id',
-                        'where_type'        => 'in',
-                        'data'              => PaymentService::PaymentList(),
-                        'data_key'          => 'id',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
-                    ],
-                ],
-                [
-                    'label'         => '留言信息',
-                    'view_type'     => 'field',
-                    'view_key'      => 'user_note',
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'where_type'        => 'like',
-                    ],
-                ],
-                [
-                    'label'         => '扩展信息',
-                    'view_type'     => 'module',
-                    'view_key'      => 'order/module/extension',
-                    'grid_size'     => 'sm',
-                    'search_config' => [
-                        'form_type'         => 'input',
-                        'form_name'         => 'extension_data',
-                        'where_type'        => 'like',
-                    ],
-                ],
-                [
-                    'label'         => '快递公司',
-                    'view_type'     => 'field',
-                    'view_key'      => 'express_name',
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'form_name'         => 'express_id',
-                        'data'              => ExpressService::ExpressList(),
-                        'where_type'        => 'in',
-                        'data_key'          => 'id',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
-                    ],
-                ],
-                [
-                    'label'         => '快递单号',
-                    'view_type'     => 'field',
-                    'view_key'      => 'express_number',
-                    'search_config' => [
-                        'form_type'         => 'input',
-                        'where_type'        => 'like',
-                    ],
-                ],
-                [
-                    'label'         => '是否评论',
-                    'view_type'     => 'module',
-                    'view_key'      => 'order/module/is_comments',
-                    'search_config' => [
-                        'form_type'             => 'select',
-                        'where_type'            => 'in',
-                        'form_name'             => 'user_is_comments',
-                        'data'                  => lang('common_is_text_list'),
-                        'data_key'              => 'id',
-                        'data_name'             => 'name',
-                        'where_type_custom'     => 'WhereTypyUserIsComments',
-                        'where_value_custom'    => 'WhereValueUserIsComments',
-                        'is_multiple'           => 1,
-                    ],
-                ],
-                [
-                    'label'         => '确认时间',
-                    'view_type'     => 'field',
-                    'view_key'      => 'confirm_time',
-                    'search_config' => [
-                        'form_type'         => 'datetime',
-                    ],
-                ],
-                [
-                    'label'         => '支付时间',
-                    'view_type'     => 'field',
-                    'view_key'      => 'pay_time',
-                    'search_config' => [
-                        'form_type'         => 'datetime',
-                    ],
-                ],
-                [
-                    'label'         => '发货时间',
-                    'view_type'     => 'field',
-                    'view_key'      => 'delivery_time',
-                    'search_config' => [
-                        'form_type'         => 'datetime',
-                    ],
-                ],
-                [
-                    'label'         => '完成时间',
-                    'view_type'     => 'field',
-                    'view_key'      => 'collect_time',
-                    'search_config' => [
-                        'form_type'         => 'datetime',
-                    ],
-                ],
-                [
-                    'label'         => '取消时间',
-                    'view_type'     => 'field',
-                    'view_key'      => 'cancel_time',
-                    'search_config' => [
-                        'form_type'         => 'datetime',
-                    ],
-                ],
-                [
-                    'label'         => '关闭时间',
-                    'view_type'     => 'field',
-                    'view_key'      => 'close_time',
-                    'search_config' => [
-                        'form_type'         => 'datetime',
-                    ],
-                ],
-                [
-                    'label'         => '创建时间',
-                    'view_type'     => 'field',
-                    'view_key'      => 'add_time',
-                    'search_config' => [
-                        'form_type'         => 'datetime',
-                    ],
-                ],
-                [
-                    'label'         => '更新时间',
-                    'view_type'     => 'field',
-                    'view_key'      => 'upd_time',
-                    'search_config' => [
-                        'form_type'         => 'datetime',
-                    ],
-                ],
-                [
-                    'label'         => '操作',
-                    'view_type'     => 'operate',
-                    'view_key'      => 'order/module/operate',
-                    'align'         => 'center',
-                    'fixed'         => 'right',
-                ],
-            ],
+            'base'  => $base,
+            'form'  => $form,
         ];
     }
 

@@ -13,7 +13,7 @@
     <view class="list-item bg-white spacing-mb" tt:if="{{data_list.length > 0}}" tt:for="{{data_list}}" tt:key="key">
       <view class="item-base oh br-b">
         <!-- 选择 -->
-        <view tt:if="{{nav_status_index == 1}}" bindtap="selected_event" data-oid="{{item.id}}" class="fl selected">
+        <view tt:if="{{nav_status_index == 1 && home_is_enable_order_bulk_pay == 1}}" bindtap="selected_event" data-oid="{{item.id}}" class="fl selected">
           <image class="icon" src="/images/default-select{{tools.indexOf(order_select_ids, item.id) ? '-active' : ''}}-icon.png" mode="widthFix" />
         </view>
         <!-- 基础信息 -->
@@ -61,7 +61,7 @@
 </scroll-view>
 
 <!-- 合并支付 -->
-<view tt:if="{{nav_status_index == 1 && order_select_ids.length > 0}}">
+<view tt:if="{{nav_status_index == 1 && order_select_ids.length > 0 && home_is_enable_order_bulk_pay == 1}}">
   <button class="submit-fixed pay-merge-submit" type="default" size="mini" hover-class="none" bindtap="pay_merge_event">合并支付</button>
 </view>
 

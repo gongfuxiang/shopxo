@@ -224,6 +224,9 @@ class OrderService
         $pay_data = [
             'user'          => $params['user'],
             'out_user'      => md5($params['user']['id']),
+            'business_type' => 'system-order',
+            'business_ids'  => $order_ids,
+            'business_nos'  => $order_nos,
             'order_id'      => $pay_log['data']['id'],
             'order_no'      => $pay_log['data']['log_no'],
             'name'          => '订单支付',
