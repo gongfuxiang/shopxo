@@ -80,6 +80,18 @@ class IEPayAliPay
                 'is_required'   => 0,
                 'message'       => '请填写密钥',
             ],
+            [
+                'element'       => 'select',
+                'title'         => '支付RMB定价',
+                'desc'          => '默认否（仅[PC/H5]端支付宝支付有效）',
+                'message'       => '请选择支付RMB定价',
+                'name'          => 'is_rmb_pay',
+                'is_multiple'   => 0,
+                'element_data'  => [
+                    ['value'=>0, 'name'=>'否'],
+                    ['value'=>1, 'name'=>'是'],
+                ],
+            ],
         ];
 
         return [
@@ -123,17 +135,11 @@ class IEPayAliPay
             'version'           => 'v1',
         ];
 
-        // 订单货币是否人民币
-        // 仅一个订单支付
-        // 仅支付宝pc+h5支付有效
-        if(in_array($parameter['pay_type'], ['IE0012', 'IE0013']) && isset($params['business_type']) && $params['business_type'] == 'system-order' && !empty($params['business_ids']) && is_array($params['business_ids']) && count($params['business_ids']) == 1)
+        // 是否人民币结算
+        if(isset($this->config['is_rmb_pay']) && $this->config['is_rmb_pay'] == 1 && in_array($parameter['pay_type'], ['IE0012', 'IE0013']))
         {
-            $currency_data = \app\service\OrderCurrencyService::OrderCurrencyGroupList($params['business_ids'][0]);
-            if(!empty($currency_data) && isset($currency_data['currency_code']) && $currency_data['currency_code'] == 'RMB')
-            {
-                $parameter['rmb_fee'] = (int) (($params['total_price']*1000)/10);
-                unset($parameter['total_fee']);
-            }
+            $parameter['rmb_fee'] = (int) (($params['total_price']*1000)/10);
+            unset($parameter['total_fee']);
         }
 
         // 生成签名
