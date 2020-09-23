@@ -629,7 +629,7 @@ class OrderService
         // 支付金额是否小于订单金额
         if($pay_ret['data']['pay_price'] < $pay_log_data['total_price'])
         {
-            return DataReturn('支付金额小于日志订单金额', -1);
+            return DataReturn('支付金额小于日志订单金额['.$pay_ret['data']['pay_price'].'<'.$pay_log_data['total_price'].']', -1);
         }
 
         // 支付处理
