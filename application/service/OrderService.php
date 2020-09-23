@@ -604,7 +604,7 @@ class OrderService
         }
         if($pay_log_data['status'] == 1)
         {
-            return DataReturn('日志订单已支付、无需再次处理', -1);
+            return DataReturn('日志订单已支付、无需再次处理', 0);
         }
 
         // 获取关联信息
