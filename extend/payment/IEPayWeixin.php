@@ -576,7 +576,7 @@ class IEPayWeixin
      */
     public function SuccessReturn()
     {
-        return '成功';
+        return 'SUCCESS';
     }
 }
 ?>

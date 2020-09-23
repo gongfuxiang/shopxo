@@ -463,7 +463,7 @@ class IEPayAliPay
      */
     public function SuccessReturn()
     {
-        return '成功';
+        return 'SUCCESS';
     }
 }
 ?>
