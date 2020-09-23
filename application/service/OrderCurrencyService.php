@@ -59,14 +59,28 @@ class OrderCurrencyService
      * @version 1.0.0
      * @date    2020-09-17
      * @desc    description
-     * @param   [array|int]          $order_ids [订单id]
+     * @param   [array|int]          $order_value [订单id或者编号]
+     * @param   [string]             $order_key   [订单主键字段名称(order_id|order_no)(默认order_id)]
      * @return  [array]                         [货币数据、参数是多个id则返回二维数组，一个id则返回一维数组]
      */
-    public static function OrderCurrencyGroupList($order_ids)
+    public static function OrderCurrencyGroupList($order_value, $order_key = 'order_id')
     {
-        $data = Db::name('OrderCurrency')->where(['order_id'=>$order_ids])->select();
+        // 是否订单编号
+        if($order_key == 'order_no')
+        {
+            // 数组读取多个id，则读取单个订单id
+            if(is_array($order_value))
+            {
+                $order_value = Db::name('OrderCurrency')->where(['order_no'=>$order_value])->column('id');
+            } else {
+                $order_value = Db::name('OrderCurrency')->where(['order_no'=>$order_value])->value('id');
+            }
+        }
+
+        // 数据处理
+        $data = Db::name('OrderCurrency')->where(['order_id'=>$order_value])->select();
         $result = [];
-        if(!empty($data) && is_array($order_ids) && count($order_ids) > 1)
+        if(!empty($data) && is_array($order_value) && count($order_value) > 1)
         {
             foreach($data as $v)
             {

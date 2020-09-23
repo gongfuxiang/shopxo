@@ -331,12 +331,37 @@ class IEPayAliPay
             return DataReturn($ret, -1);
         }
 
+        // 退款金额
+        $refund_price = $params['refund_price'];
+
+        // 金额转换
+        if(isset($this->config['is_reverse_price']) && $this->config['is_reverse_price'] == 1)
+        {
+            // 获取订单信息
+            $log_data = \app\service\PayLogService::PayLogList(['where'=>['log_no'=>$params['order_no']]]);
+            if($log_data['code'] == 0 && !empty($log_data['data']) && !empty($log_data['data'][0]) && !empty($log_data['data'][0]['business_list']) && count($log_data['data'][0]['business_list']) == 1)
+            {
+                switch($log_data['data'][0]['business_type'])
+                {
+                    // 订单
+                    case \app\service\OrderService::$business_type_name :
+                        // 获取订单汇率
+                        $currency_data = \app\service\OrderCurrencyService::OrderCurrencyGroupList($log_data['data'][0]['business_list'][0]['business_id']);
+                        if(isset($currency_data['currency_rate']) && $currency_data['currency_rate'] > 0)
+                        {
+                            $refund_price /= $currency_data['currency_rate'];
+                        }
+                        break;
+                }
+            }
+        }
+
         // 远程查询支付状态
         $parameter = [
             'mid'               => $this->config['mid'],
             'pay_type'          => $this->GetPayType($params['client_type']),
             'out_trade_no'      => $params['order_no'],
-            'refund_amount'     => (int) (($params['refund_price']*1000)/10),
+            'refund_amount'     => (int) ((PriceNumberFormat($refund_price)*1000)/10),
             'version'           => 'v1',
         ];
 
