@@ -1,2 +1,13 @@
 <!-- 继承公共的 form -->
 {{extend name="public/module/form" /}}
+
+<!-- 表单顶部操作栏 -->
+{{block name="form_operate_top"}}
+    <!-- 支付请求日志是否有权限 -->
+    {{if AdminIsPower('payrequestlog', 'index')}}
+        <a href="{{:MyUrl('admin/payrequestlog/index')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-forumbee"> 支付请求日志</a>
+    {{/if}}
+
+    <!-- 父级内容 -->
+    {__block__}
+{{/block}}

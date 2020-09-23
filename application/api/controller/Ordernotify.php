@@ -11,6 +11,7 @@
 namespace app\api\controller;
 
 use app\service\OrderService;
+use app\service\PayRequestLogService;
 
 /**
  * 订单支付异步通知
@@ -43,12 +44,20 @@ class OrderNotify extends Common
      */
     public function Notify()
     {
+        // 支付请求日志添加
+        $log_ret = PayRequestLogService::PayRequestLogInsert(OrderService::$business_type_name);
+
+        // 业务处理
         $ret = OrderService::Notify($this->data_request);
-        if($ret['code'] == 0)
-        {
-            $this->SuccessReturn();
-        }
-        $this->ErrorReturn();
+
+        // 响应内容
+        $res = ($ret['code'] == 0) ? $this->SuccessReturn() : $this->ErrorReturn();
+
+        // 支付响应日志
+        PayRequestLogService::PayRequestLogEnd($log_ret['data'], $ret, $res);
+
+        // 结束运行
+        die($res);
     }
 
     /**
@@ -62,10 +71,10 @@ class OrderNotify extends Common
     private function SuccessReturn()
     {
         // 支付插件是否自定义返回内容
-        $this->ContentReturn('SuccessReturn');
+        $res = $this->ContentReturn('SuccessReturn');
 
         // 结束输出
-        die('success');
+        return empty($res) ? 'success' : $res;
     }
 
     /**
@@ -79,10 +88,10 @@ class OrderNotify extends Common
     private function ErrorReturn()
     {
         // 支付插件是否自定义返回内容
-        $this->ContentReturn('ErrorReturn');
+        $res = $this->ContentReturn('ErrorReturn');
 
         // 结束输出
-        die('error');
+        return empty($res) ? 'error' : $res;
     }
 
     /**
@@ -102,9 +111,10 @@ class OrderNotify extends Common
             $payment_obj = new $payment();
             if(method_exists($payment_obj, $action))
             {
-                die($payment_obj->$action());
+                return $payment_obj->$action();
             }
         }
+        return '';
     }
 }
 ?>

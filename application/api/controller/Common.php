@@ -50,7 +50,7 @@ class Common extends Controller
         $this->data_request = input();
 
         // 系统运行开始
-        SystemService::SystemBegin();
+        SystemService::SystemBegin($this->data_request);
 
         // 系统初始化
         $this->SystemInit();
@@ -73,7 +73,7 @@ class Common extends Controller
     public function __destruct()
     {
         // 系统运行结束
-        SystemService::SystemEnd();
+        SystemService::SystemEnd($this->data_request);
     }
 
     /**

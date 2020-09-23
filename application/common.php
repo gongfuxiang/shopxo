@@ -12,6 +12,49 @@
 // 应用公共文件
 
 /**
+ * 获取参数数据
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-09-23
+ * @desc    description
+ * @param   [string]          $key     [参数key]
+ * @param   [string]          $default [默认值]
+ */
+function MyInput($key = null, $default = null)
+{
+    static $data = null;
+    if($data === null)
+    {
+        // raw
+        $raw_data = empty($HTTP_RAW_POST_DATA) ? [] : (!is_array($HTTP_RAW_POST_DATA) ? json_decode($HTTP_RAW_POST_DATA, true) : []);
+
+        // request
+        $request_data = empty($_REQUEST) ? [] : $_REQUEST;
+
+        // input
+        $input_data = file_get_contents("php://input");
+        $input_data = empty($input_data) ? [] : (!is_array($input_data) ? json_decode($input_data, true) : []);
+
+        // 数据合并
+        $data = array_merge($raw_data, $request_data, $input_data);
+    }
+
+    // 是否指定key
+    if(!empty($key))
+    {
+        if(array_key_exists($key, $data)) 
+        {
+            return is_array($data[$key]) ? $data[$key] : htmlspecialchars(trim($data[$key]));
+        }
+        return $default;
+    }
+
+    // 未指定key则返回所有数据
+    return $data;
+}
+
+/**
  * 当前应用平台
  * @author  Devil
  * @blog    http://gong.gg/
@@ -1214,7 +1257,7 @@ function ScienceNumToString($num)
  */
 function GetClientIP($long = false)
 {
-    $onlineip = ''; 
+    $onlineip = '';
     if(getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown'))
     { 
         $onlineip = getenv('HTTP_CLIENT_IP'); 

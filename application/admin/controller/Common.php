@@ -309,7 +309,6 @@ class Common extends Controller
 	 */
 	protected function IsPower()
 	{
-
 		// 不需要校验权限的方法
 		$unwanted_power = ['getnodeson'];
         if(!AdminIsPower(null, null, $unwanted_power))

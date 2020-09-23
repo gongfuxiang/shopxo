@@ -87,7 +87,7 @@ class Common extends Controller
         $this->SystemInit();
 
         // 系统运行开始
-        SystemService::SystemBegin();
+        SystemService::SystemBegin($this->data_request);
 
         // 站点状态校验
         $this->SiteStstusCheck();
@@ -119,7 +119,7 @@ class Common extends Controller
     public function __destruct()
     {
         // 系统运行结束
-        SystemService::SystemEnd();
+        SystemService::SystemEnd($this->data_request);
     }
 
     /**
