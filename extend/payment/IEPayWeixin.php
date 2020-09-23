@@ -336,8 +336,8 @@ class IEPayWeixin
                     2 => '已退款',
                     3 => '已关闭',
                 ];
-                $msg = isset($arr[$result['extra']['order_status']]) ? $arr[$result['extra']['order_status']] : '平台订单支付失败';
-                return DataReturn($msg, -1);
+                $msg = isset($arr[$result['extra']['order_status']]) ? $arr[$result['extra']['order_status']] : '支付失败';
+                return DataReturn('平台订单'.$msg, -1);
             }
         }
         return DataReturn(empty($result['message']) ? '支付失败' : $result['message'], -100);
