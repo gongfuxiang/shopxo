@@ -565,5 +565,18 @@ class IEPayWeixin
         }
         return strtolower(md5(substr($sign, 0, -1).$this->config['key']));
     }
+
+    /**
+     * 自定义成功返回内容
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-01
+     * @desc    description
+     */
+    public function SuccessReturn()
+    {
+        return '成功';
+    }
 }
 ?>
