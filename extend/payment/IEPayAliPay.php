@@ -247,9 +247,48 @@ class IEPayAliPay
         $data['buyer_user']     = $data['pay_type'];       // 支付平台 - 用户
         $data['out_trade_no']   = $data['out_trade_no'];    // 本系统发起支付的 - 订单号
         $data['subject']        = isset($data['order_status']) ? '状态:'.$data['order_status'] : ''; // 本系统发起支付的 - 商品名称
-        $data['pay_price']      = $data['total_fee']/100;    // 本系统发起支付的 - 总价
+        $data['pay_price']      = $this->RespondReversePrice($data['out_trade_no'], $data['total_fee']);    // 本系统发起支付的 - 总价
 
         return $data;
+    }
+
+    /**
+     * 金额转换
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-23
+     * @desc    description
+     * @param   [string]          $out_trade_no [支付日志订单号]
+     * @param   [float]           $total_fee    [平台返回的支付金额]
+     */
+    private function RespondReversePrice($out_trade_no, $total_fee)
+    {
+        $total_fee /= 100;
+
+        // 金额转换
+        if(isset($this->config['is_reverse_price']) && $this->config['is_reverse_price'] == 1)
+        {
+            // 获取订单信息
+            $log_data = \app\service\PayLogService::PayLogList(['where'=>['log_no'=>$out_trade_no]]);
+            if($log_data['code'] == 0 && !empty($log_data['data']) && !empty($log_data['data'][0]) && !empty($log_data['data'][0]['business_list']) && count($log_data['data'][0]['business_list']) == 1)
+            {
+                switch($log_data['data'][0]['business_type'])
+                {
+                    // 订单
+                    case \app\service\OrderService::$business_type_name :
+                        // 获取订单汇率
+                        $currency_data = \app\service\OrderCurrencyService::OrderCurrencyGroupList($log_data['data'][0]['business_list'][0]['business_id']);
+                        if(isset($currency_data['currency_rate']) && $currency_data['currency_rate'] > 0)
+                        {
+                            $total_fee *= $currency_data['currency_rate'];
+                        }
+                        break;
+                }
+            }
+        }
+
+        return PriceNumberFormat($total_fee);
     }
 
     /**
@@ -387,6 +426,19 @@ class IEPayAliPay
             }
         }
         return strtolower(md5(substr($sign, 0, -1).$this->config['key']));
+    }
+
+    /**
+     * 自定义成功返回内容
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-01
+     * @desc    description
+     */
+    public function SuccessReturn()
+    {
+        return '成功';
     }
 }
 ?>

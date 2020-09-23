@@ -597,13 +597,14 @@ class OrderService
         }
 
         // 获取支付日志订单
-        $pay_log_data = Db::name('PayLog')->where([
-            'log_no'    => $pay_ret['data']['out_trade_no'],
-            'status'    => 0,
-        ])->find();
+        $pay_log_data = Db::name('PayLog')->where(['log_no'=>$pay_ret['data']['out_trade_no']])->find();
         if(empty($pay_log_data))
         {
             return DataReturn('日志订单有误', -1);
+        }
+        if($pay_log_data['status'] == 1)
+        {
+            return DataReturn('日志订单已支付、无需再次处理', -1);
         }
 
         // 获取关联信息
