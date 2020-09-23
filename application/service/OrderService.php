@@ -648,7 +648,7 @@ class OrderService
 
         // 支付成功异步通知处理钩子
         $hook_name = 'plugins_service_order_pay_notify_handle';
-        $pay_ret = HookReturnHandle(Hook::listen($hook_name, [
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'payment'       => $payment,

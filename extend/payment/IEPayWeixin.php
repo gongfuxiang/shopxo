@@ -329,6 +329,15 @@ class IEPayWeixin
             if(isset($result['extra']['order_status']) && $result['extra']['order_status'] == 1)
             {
                 return DataReturn('支付成功', 0, $this->ReturnData($result['extra']));
+            } else {
+                $arr = [
+                    0 => '未付款',
+                    1 => '已付款',
+                    2 => '已退款',
+                    3 => '已关闭',
+                ];
+                $msg = isset($arr[$result['extra']['order_status']]) ? $arr[$result['extra']['order_status']] : '平台订单支付失败';
+                return DataReturn($msg, -1);
             }
         }
         return DataReturn(empty($result['message']) ? '支付失败' : $result['message'], -100);
