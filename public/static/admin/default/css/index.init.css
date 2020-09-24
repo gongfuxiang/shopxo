@@ -98,18 +98,15 @@ html, body {
     font-size: 26px;
     font-weight: 700;
 }
-.shopxo-base li .li-content p, .shopxo-base li .li-content .yesterday, .shopxo-base li .li-content .today {
+.shopxo-base li .li-content p, .shopxo-base li .li-content .item {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     max-width: 100%;
 }
-.shopxo-base li .li-content .yesterday, .shopxo-base li .li-content .today {
+.shopxo-base li .li-content .item {
     color: #f0f0f0;
     font-size: 12px;
-}
-.shopxo-base li .li-content .yesterday {
-    padding-bottom: 5px;
 }
 .shopxo-base li .li-content .bg-icon {
     font-size: 36px;

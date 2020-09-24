@@ -27,23 +27,31 @@ class StatisticalService
     private static $nearly_fifteen_days;
     private static $nearly_thirty_days;
 
-    // 近30天日期
+    // 近30天
     private static $thirty_time_start;
     private static $thirty_time_end;
 
-    // 近15天日期
+    // 近15天
     private static $fifteen_time_start;
     private static $fifteen_time_end;
 
-    // 近7天日期
+    // 近7天
     private static $seven_time_start;
     private static $seven_time_end;
 
-    // 昨天日期
+    // 上月
+    private static $last_month_time_start;
+    private static $last_month_time_end;
+
+    // 当月
+    private static $same_month_time_start;
+    private static $same_month_time_end;
+
+    // 昨天
     private static $yesterday_time_start;
     private static $yesterday_time_end;
 
-    // 今天日期
+    // 今天
     private static $today_time_start;
     private static $today_time_end;
 
@@ -75,6 +83,14 @@ class StatisticalService
             // 近7天日期
             self::$seven_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-7 day')));
             self::$seven_time_end = time();
+
+            // 上月
+            self::$last_month_time_start = strtotime(date('Y-m-01 00:00:00', strtotime('-1 month')));
+            self::$last_month_time_end = strtotime(date('Y-m-t 23:59:59', strtotime('-1 month')));
+
+            // 当月
+            self::$same_month_time_start = strtotime(date('Y-m-01 00:00:00'));
+            self::$same_month_time_end = time();
 
             // 昨天日期
             self::$yesterday_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-1 day')));
@@ -109,7 +125,7 @@ class StatisticalService
     }
 
     /**
-     * 用户总数,今日,昨日,总数
+     * 用户总数,今日,昨日,当月,上月总数
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -123,6 +139,22 @@ class StatisticalService
 
         // 总数
         $total_count = Db::name('User')->count();
+
+        // 上月
+        $where = [
+            ['status', '<=', 4],
+            ['add_time', '>=', self::$last_month_time_start],
+            ['add_time', '<=', self::$last_month_time_end],
+        ];
+        $last_month_count = Db::name('User')->where($where)->count();
+
+        // 当月
+        $where = [
+            ['status', '<=', 4],
+            ['add_time', '>=', self::$same_month_time_start],
+            ['add_time', '<=', self::$same_month_time_end],
+        ];
+        $same_month_count = Db::name('User')->where($where)->count();
 
         // 昨天
         $where = [
@@ -141,6 +173,8 @@ class StatisticalService
         // 数据组装
         $result = [
             'total_count'       => $total_count,
+            'last_month_count'  => $last_month_count,
+            'same_month_count'  => $same_month_count,
             'yesterday_count'   => $yesterday_count,
             'today_count'       => $today_count,
         ];
@@ -148,7 +182,7 @@ class StatisticalService
     }
 
     /**
-     * 订单总数,今日,昨日,总数
+     * 订单总数,今日,昨日,当月,上月总数
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -162,12 +196,28 @@ class StatisticalService
 
         // 订单状态
         // （0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭）
-        
+
         // 总数
         $where = [
             ['status', '<=', 4],
         ];
         $total_count = Db::name('Order')->where($where)->count();
+
+        // 上月
+        $where = [
+            ['status', '<=', 4],
+            ['add_time', '>=', self::$last_month_time_start],
+            ['add_time', '<=', self::$last_month_time_end],
+        ];
+        $last_month_count = Db::name('Order')->where($where)->count();
+
+        // 当月
+        $where = [
+            ['status', '<=', 4],
+            ['add_time', '>=', self::$same_month_time_start],
+            ['add_time', '<=', self::$same_month_time_end],
+        ];
+        $same_month_count = Db::name('Order')->where($where)->count();
 
         // 昨天
         $where = [
@@ -188,6 +238,8 @@ class StatisticalService
         // 数据组装
         $result = [
             'total_count'       => $total_count,
+            'last_month_count'  => $last_month_count,
+            'same_month_count'  => $same_month_count,
             'yesterday_count'   => $yesterday_count,
             'today_count'       => $today_count,
         ];
@@ -195,7 +247,7 @@ class StatisticalService
     }
 
     /**
-     * 订单成交总量,今日,昨日,总数
+     * 订单成交总量,今日,昨日,当月,上月总数
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -216,6 +268,22 @@ class StatisticalService
         ];
         $total_count = Db::name('Order')->where($where)->count();
 
+        // 上月
+        $where = [
+            ['status', '=', 4],
+            ['add_time', '>=', self::$last_month_time_start],
+            ['add_time', '<=', self::$last_month_time_end],
+        ];
+        $last_month_count = Db::name('Order')->where($where)->count();
+
+        // 当月
+        $where = [
+            ['status', '=', 4],
+            ['add_time', '>=', self::$same_month_time_start],
+            ['add_time', '<=', self::$same_month_time_end],
+        ];
+        $same_month_count = Db::name('Order')->where($where)->count();
+
         // 昨天
         $where = [
             ['status', '=', 4],
@@ -235,6 +303,8 @@ class StatisticalService
         // 数据组装
         $result = [
             'total_count'       => $total_count,
+            'last_month_count'  => $last_month_count,
+            'same_month_count'  => $same_month_count,
             'yesterday_count'   => $yesterday_count,
             'today_count'       => $today_count,
         ];
@@ -242,7 +312,7 @@ class StatisticalService
     }
 
     /**
-     * 订单收入总计,今日,昨日,总数
+     * 订单收入总计,今日,昨日,当月,上月总数
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -263,6 +333,22 @@ class StatisticalService
         ];
         $total_count = Db::name('Order')->where($where)->sum('total_price');
 
+        // 上月
+        $where = [
+            ['status', 'in', [2,3,4]],
+            ['add_time', '>=', self::$last_month_time_start],
+            ['add_time', '<=', self::$last_month_time_end],
+        ];
+        $last_month_count = Db::name('Order')->where($where)->sum('total_price');
+
+        // 当月
+        $where = [
+            ['status', 'in', [2,3,4]],
+            ['add_time', '>=', self::$same_month_time_start],
+            ['add_time', '<=', self::$same_month_time_end],
+        ];
+        $same_month_count = Db::name('Order')->where($where)->sum('total_price');
+
         // 昨天
         $where = [
             ['status', 'in', [2,3,4]],
@@ -282,6 +368,8 @@ class StatisticalService
         // 数据组装
         $result = [
             'total_count'       => PriceNumberFormat($total_count),
+            'last_month_count'  => PriceNumberFormat($last_month_count),
+            'same_month_count'  => PriceNumberFormat($same_month_count),
             'yesterday_count'   => PriceNumberFormat($yesterday_count),
             'today_count'       => PriceNumberFormat($today_count),
         ];

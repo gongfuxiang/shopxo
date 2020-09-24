@@ -162,7 +162,7 @@ function AdminIsPower($controller = null, $action = null, $unwanted_power = [])
 
         // 权限
         // 角色组权限列表校验
-        $power = isset($admin['id']) ? cache(config('cache_admin_power_key').$admin['id']) : [];
+        $power = \app\service\AdminPowerService::PowerData();
         if(!empty($power) && is_array($power) && in_array($controller.'_'.$action, $power))
         {
             return true;

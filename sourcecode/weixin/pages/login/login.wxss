@@ -67,7 +67,7 @@ page{
  */
 .confirm-container .login-logo {
     width: 200rpx;
-    height: 200rpx;
+    height: 200rpx !important;
     margin: 0 auto;
     border-radius: 50%;
 }

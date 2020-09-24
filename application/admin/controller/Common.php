@@ -29,9 +29,6 @@ class Common extends Controller
 	// 管理员
 	protected $admin;
 
-	// 权限
-	protected $power;
-
 	// 左边权限菜单
 	protected $left_menu;
 
@@ -80,10 +77,7 @@ class Common extends Controller
 
 		// 权限菜单
 		AdminPowerService::PowerMenuInit();
-
-		// 权限
-		$this->left_menu = isset($this->admin['id']) ? cache(config('cache_admin_left_menu_key').$this->admin['id']) : [];
-		$this->power = isset($this->admin['id']) ? cache(config('cache_admin_power_key').$this->admin['id']) : [];
+		$this->left_menu = AdminPowerService::MenuData();
 
 		// 视图初始化
 		$this->ViewInit();

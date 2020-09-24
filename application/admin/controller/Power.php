@@ -50,7 +50,7 @@ class Power extends Common
 	public function Index()
 	{
 		$data_params = [
-			'field'		=> 'id,pid,name,control,action,sort,is_show,icon',
+			'field'		=> 'id,pid,name,control,action,url,sort,is_show,icon',
 			'order_by'	=> 'sort asc',
 			'where'		=> ['pid'=>0],
 		];

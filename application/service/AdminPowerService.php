@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 
 /**
  * 权限菜单服务层
@@ -71,28 +72,6 @@ class AdminPowerService
                 'error_msg'         => '权限名称格式 2~16 个字符之间',
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'control',
-                'error_msg'         => '控制器名称不能为空',
-            ],
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'control',
-                'checked_data'      => '1,30',
-                'error_msg'         => '控制器名称格式 1~30 个字符之间',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'action',
-                'error_msg'         => '方法名称不能为空',
-            ],
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'action',
-                'checked_data'      => '1,30',
-                'error_msg'         => '方法名称格式 1~30 个字符之间',
-            ],
-            [
                 'checked_type'      => 'length',
                 'key_name'          => 'icon',
                 'checked_data'      => '60',
@@ -106,6 +85,29 @@ class AdminPowerService
                 'error_msg'         => '是否显示范围值有误',
             ],
         ];
+        // 是否自定义url地址
+        if(empty($params['url']))
+        {
+            $p[] = [
+                'checked_type'      => 'length',
+                'key_name'          => 'control',
+                'checked_data'      => '1,30',
+                'error_msg'         => '控制器名称格式 1~30 个字符之间',
+            ];
+            $p[] = [
+                'checked_type'      => 'length',
+                'key_name'          => 'action',
+                'checked_data'      => '1,30',
+                'error_msg'         => '方法名称格式 1~30 个字符之间',
+            ];
+        } else {
+            $p[] = [
+                'checked_type'      => 'length',
+                'key_name'          => 'url',
+                'checked_data'      => '1,255',
+                'error_msg'         => '自定义url地址格式 1~255 个字符之间',
+            ];
+        }
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
@@ -120,6 +122,7 @@ class AdminPowerService
             'name'      => $params['name'],
             'control'   => $params['control'],
             'action'    => $params['action'],
+            'url'       => $params['url'],
             'is_show'   => isset($params['is_show']) ? intval($params['is_show']) : 0,
         ];
         if(empty($params['id']))
@@ -211,45 +214,65 @@ class AdminPowerService
         $admin_power = cache(config('cache_admin_power_key').$admin_id);
 
         // 缓存没数据则从数据库重新读取
-        if(($role_id > 0 || $admin_id == 1) && empty($admin_left_menu))
+        if((($role_id > 0 || $admin_id == 1) && empty($admin_left_menu)) || config('app_debug'))
         {
             // 获取一级数据
             if($admin_id == 1 || $role_id == 1)
             {
-                $field = 'id,name,control,action,is_show,icon';
+                $field = 'id,name,control,action,url,is_show,icon';
                 $admin_left_menu = Db::name('Power')->where(array('pid' => 0))->field($field)->order('sort')->select();
             } else {
-                $field = 'p.id,p.name,p.control,p.action,p.is_show,p.icon';
+                $field = 'p.id,p.name,p.control,p.action,p.url,p.is_show,p.icon';
                 $admin_left_menu = Db::name('Power')->alias('p')->join(['__ROLE_POWER__'=>'rp'], 'p.id=rp.power_id')->where(array('rp.role_id' => $role_id, 'p.pid' => 0))->field($field)->order('p.sort')->select();
             }
-            
+
             // 有数据，则处理子级数据
             if(!empty($admin_left_menu))
             {
                 foreach($admin_left_menu as $k=>$v)
                 {
-                    // 权限
-                    $admin_power[$v['id']] = strtolower($v['control'].'_'.$v['action']);
+                    // 是否存在控制器和方法
+                    if(!empty($v['control']) && !empty($v['action']))
+                    {
+                        // 权限
+                        $admin_power[$v['id']] = strtolower($v['control'].'_'.$v['action']);
+
+                        // url、存在自定义url则不覆盖
+                        if(empty($v['url']))
+                        {
+                            $admin_left_menu[$k]['url'] = MyUrl('admin/'.strtolower($v['control']).'/'.strtolower($v['action']));
+                        }
+                    }
 
                     // 获取子权限
-                    if($admin_id == 1 || $role_id == 1)
+                    if(($admin_id == 1 || $role_id == 1) && !empty($v['id']))
                     {
-                        $items = Db::name('Power')->where(array('pid' => $v['id']))->field($field)->order('sort')->select();
+                        $items = Db::name('Power')->where(['pid'=>intval($v['id'])])->field($field)->order('sort')->select();
                     } else {
-                        $items = Db::name('Power')->alias('p')->join(['__ROLE_POWER__'=>'rp'], 'p.id=rp.power_id')->where(array('rp.role_id' => $role_id, 'p.pid' => $v['id']))->field($field)->order('p.sort')->select();
+                        $items = Db::name('Power')->alias('p')->join(['__ROLE_POWER__'=>'rp'], 'p.id=rp.power_id')->where(['rp.role_id'=>$role_id, 'p.pid'=>intval($v['id'])])->field($field)->order('p.sort')->select();
                     }
 
                     // 权限列表
-                    $is_show_parent = $v['is_show'];
+                    $is_show_parent = isset($v['is_show']) ? $v['is_show'] : 0;
                     if(!empty($items))
                     {
                         foreach($items as $ks=>$vs)
                         {
-                            // 权限
-                            $admin_power[$vs['id']] = strtolower($vs['control'].'_'.$vs['action']);
+                            // 是否存在控制器和方法
+                            if(!empty($vs['control']) && !empty($vs['action']))
+                            {
+                                // 权限
+                                $admin_power[$vs['id']] = strtolower($vs['control'].'_'.$vs['action']);
+
+                                // url、存在自定义url则不覆盖
+                                if(empty($vs['url']))
+                                {
+                                    $items[$ks]['url'] = MyUrl('admin/'.strtolower($vs['control']).'/'.strtolower($vs['action']));
+                                }
+                            }
 
                             // 是否显示视图
-                            if($vs['is_show'] == 0)
+                            if(isset($vs['is_show']) && $vs['is_show'] == 0)
                             {
                                 unset($items[$ks]);
                             }
@@ -275,6 +298,63 @@ class AdminPowerService
             cache(config('cache_admin_left_menu_key').$admin_id, $admin_left_menu);
             cache(config('cache_admin_power_key').$admin_id, $admin_power);
         }
+        return true;
+    }
+
+    /**
+     * 获取菜单数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-24
+     * @desc    description
+     */
+    public static function MenuData()
+    {
+        $admin = session('admin');
+        if(!empty($admin['id']))
+        {
+            $data = cache(config('cache_admin_left_menu_key').$admin['id']);
+        }
+
+        // 后台左侧菜单钩子
+        $hook_name = 'plugins_service_admin_menu_data';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'admin'         => $admin,
+            'data'          => &$data,
+        ]);
+
+        return empty($data) ? [] : $data;
+    }
+
+    /**
+     * 获取权限数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-24
+     * @desc    description
+     */
+    public static function PowerData()
+    {
+        $admin = session('admin');
+        if(!empty($admin['id']))
+        {
+            $data = cache(config('cache_admin_power_key').$admin['id']);
+        }
+
+        // 后台左侧菜单权限钩子
+        $hook_name = 'plugins_service_admin_menu_power_data';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'admin'         => $admin,
+            'data'          => &$data,
+        ]);
+
+        return empty($data) ? [] : $data;
     }
 }
 ?>

@@ -27,7 +27,13 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/power/save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/power/save')}}" method="POST" request-type="ajax-reload">
+						<div class="am-alert am-alert-warning" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>1. 填写[ 控制器名称 和 方法名称 ]需要对应创建相应的控制器和方法的定义</p>
+                            <p>2. 控制器文件位置[ application/admin/controller ]、该操作仅开发人员使用</p>
+                            <p>3. 控制器名称/方法名称 与 自定义url地址、两者必须填写一个</p>
+                        </div>
 						<div class="am-form-group">
 							<label>栏目级别</label>
 							<select  class="am-radius chosen-select" name="pid" data-validation-message="栏目级别选择错误">
@@ -43,15 +49,25 @@
 						</div>
 						<div class="am-form-group">
 							<label>控制器名称</label>
-							<input type="text" placeholder="控制器名称" name="control" pattern="{{:lang('common_regex_control')}}"  data-validation-message="控制器名格式 1~30 个字符之间（必须以字母开始，可以是字母数字下划线）" class="am-radius" required />
+							<input type="text" placeholder="控制器名称" name="control" pattern="{{:lang('common_regex_control')}}"  data-validation-message="控制器名格式 1~30 个字符之间（必须以字母开始，可以是字母数字下划线）" class="am-radius" />
 						</div>
 						<div class="am-form-group">
 							<label>方法名称</label>
-							<input type="text" placeholder="方法名称" name="action" pattern="{{:lang('common_regex_action')}}"  data-validation-message="方法名格式 1~30 个字符之间（必须以字母开始，可以是字母数字下划线）" class="am-radius" required />
+							<input type="text" placeholder="方法名称" name="action" pattern="{{:lang('common_regex_action')}}"  data-validation-message="方法名格式 1~30 个字符之间（必须以字母开始，可以是字母数字下划线）" class="am-radius" />
 						</div>
 						<div class="am-form-group">
-							<label>图标class<span class="am-form-group-label-tips">参考 http://www.iconfont.cn/ 将icon放到 [ /static/admin/default/css/iconfontmenu.css ] 文件中</span></label>
+							<label>自定义url地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+							<input type="url" name="url" placeholder="自定义url地址" data-validation-message="自定义url地址格式有误" class="am-radius" />
+						</div>
+						<div class="am-form-group">
+							<label>图标class</label>
 							<input type="text" placeholder="图标class" name="icon" maxlength="60" data-validation-message="图标格式 0~30 个字符之间" class="am-radius" />
+							<div class="am-alert am-alert-warning" data-am-alert>
+	                            <button type="button" class="am-close">&times;</button>
+	                            <p>1. 参考 http://www.iconfont.cn/ 将icon放到 [ /static/admin/default/css/iconfontmenu.css ] 文件中</p>
+	                            <p>2. 也可以直接使用框架自带的icon、参考 [ http://amazeui.shopxo.net/css/icon/ ]</p>
+	                            <p>3. 也可以自己使用插件钩子引入自定义的icon图标的css文件，然后使用定义好的icon</p>
+	                        </div>
 						</div>
 						<div class="am-form-group">
 							<label>顺序</label>

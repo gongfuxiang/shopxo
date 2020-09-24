@@ -101,6 +101,7 @@ class PayRequestLog
                     'label'         => '请求url地址',
                     'view_type'     => 'field',
                     'view_key'      => 'request_url',
+                    'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'business_handle',

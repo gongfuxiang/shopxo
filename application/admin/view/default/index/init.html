@@ -14,11 +14,19 @@
 					<div class="li-content">
 						<p class="name">用户总量</p>
 						<p class="total animation-count-to" data-to="{{$user.total_count}}" data-speed="1500">0</p>
-						<div class="yesterday">
+						<div class="item am-margin-bottom-xs">
+							<span>上月</span>
+							<span class="animation-count-to" data-to="{{$user.last_month_count}}" data-speed="1500">0</span>
+						</div>
+						<div class="item am-margin-bottom-xs">
+							<span>当月</span>
+							<span class="animation-count-to" data-to="{{$user.same_month_count}}" data-speed="1500">0</span>
+						</div>
+						<div class="item am-margin-bottom-xs">
 							<span>昨日</span>
 							<span class="animation-count-to" data-to="{{$user.yesterday_count}}" data-speed="1500">0</span>
 						</div>
-						<div class="today">
+						<div class="item">
 							<span>今日</span>
 							<span class="animation-count-to" data-to="{{$user.today_count}}" data-speed="1500">0</span>
 						</div>
@@ -29,11 +37,19 @@
 					<div class="li-content">
 						<p class="name">订单总量</p>
 						<p class="total animation-count-to" data-to="{{$order_number.total_count}}" data-speed="1500">0</p>
-						<div class="yesterday">
+						<div class="item am-margin-bottom-xs">
+							<span>上月</span>
+							<span class="animation-count-to" data-to="{{$order_number.last_month_count}}" data-speed="1500">0</span>
+						</div>
+						<div class="item am-margin-bottom-xs">
+							<span>当月</span>
+							<span class="animation-count-to" data-to="{{$order_number.same_month_count}}" data-speed="1500">0</span>
+						</div>
+						<div class="item am-margin-bottom-xs">
 							<span>昨日</span>
 							<span class="animation-count-to" data-to="{{$order_number.yesterday_count}}" data-speed="1500">0</span>
 						</div>
-						<div class="today">
+						<div class="item">
 							<span>今日</span>
 							<span class="animation-count-to" data-to="{{$order_number.today_count}}" data-speed="1500">0</span>
 						</div>
@@ -44,11 +60,19 @@
 					<div class="li-content">
 						<p class="name">成交总量</p>
 						<p class="total animation-count-to" data-to="{{$order_complete_number.total_count}}" data-speed="1500">0</p>
-						<div class="yesterday">
+						<div class="item am-margin-bottom-xs">
+							<span>上月</span>
+							<span class="animation-count-to" data-to="{{$order_complete_number.last_month_count}}" data-speed="1500">0</span>
+						</div>
+						<div class="item am-margin-bottom-xs">
+							<span>当月</span>
+							<span class="animation-count-to" data-to="{{$order_complete_number.same_month_count}}" data-speed="1500">0</span>
+						</div>
+						<div class="item am-margin-bottom-xs">
 							<span>昨日</span>
 							<span class="animation-count-to" data-to="{{$order_complete_number.yesterday_count}}" data-speed="1500">0</span>
 						</div>
-						<div class="today">
+						<div class="item">
 							<span>今日</span>
 							<span class="animation-count-to" data-to="{{$order_complete_number.today_count}}" data-speed="1500">0</span>
 						</div>
@@ -59,11 +83,19 @@
 					<div class="li-content">
 						<p class="name">收入总计</p>
 						<p class="total animation-count-to" data-to="{{$order_complete_money.total_count}}" data-speed="1500" data-decimals="2">0.00</p>
-						<div class="yesterday">
+						<div class="item am-margin-bottom-xs">
+							<span>上月</span>
+							<span class="animation-count-to" data-to="{{$order_complete_money.last_month_count}}" data-speed="1500">0</span>
+						</div>
+						<div class="item am-margin-bottom-xs">
+							<span>当月</span>
+							<span class="animation-count-to" data-to="{{$order_complete_money.same_month_count}}" data-speed="1500">0</span>
+						</div>
+						<div class="item am-margin-bottom-xs">
 							<span>昨日</span>
 							<span class="animation-count-to" data-to="{{$order_complete_money.yesterday_count}}" data-speed="1500" data-decimals="2">0.00</span>
 						</div>
-						<div class="today">
+						<div class="item">
 							<span>今日</span>
 							<span class="animation-count-to" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
 						</div>
