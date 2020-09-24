@@ -10,11 +10,11 @@ Page({
 
   onLoad(params) {
     this.setData({params: params});
+    this.init();
   },
 
   onShow() {
     wx.setNavigationBarTitle({title: app.data.common_pages_title.user_address});
-    this.init();
   },
 
   // 初始化
@@ -235,6 +235,58 @@ Page({
       });
       wx.navigateBack();
     }
+  },
+
+  // 获取系统地址
+  choose_system_address_event(e) {
+    var self = this;
+    wx.authorize({
+      scope: 'scope.address',
+      success: function(res) {
+        wx.chooseAddress({
+          success (res) {
+            var data = {
+              "name": res.userName || '',
+              "tel": res.telNumber || '',
+              "province": res.provinceName || '',
+              "city": res.cityName || '',
+              "county": res.countyName || '',
+              "address": res.detailInfo || '',
+            };
+
+            // 加载loding
+            wx.showLoading({ title: "处理中..." });
+        
+            // 获取数据
+            wx.request({
+              url: app.get_request_url("outsystemadd", "useraddress"),
+              method: "POST",
+              data: data,
+              dataType: "json",
+              success: res => {
+                wx.hideLoading();
+                if (res.data.code == 0) {
+                  self.get_data_list();
+                } else {
+                  if (app.is_login_check(res.data)) {
+                    app.showToast(res.data.msg);
+                  } else {
+                    app.showToast('提交失败，请重试！');
+                  }
+                }
+              },
+              fail: () => {
+                wx.hideLoading();
+                app.showToast("服务器请求出错");
+              }
+            });
+          }
+        });
+      },
+      fail: function(res) {
+        app.showToast('取消选择');
+      }
+    });
   },
   
 });

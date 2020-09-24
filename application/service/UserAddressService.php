@@ -221,9 +221,9 @@ class UserAddressService
         $data = [
             'name'          => $params['name'],
             'tel'           => $params['tel'],
-            'province'      => $params['province'],
-            'city'          => $params['city'],
-            'county'        => $params['county'],
+            'province'      => intval($params['province']),
+            'city'          => intval($params['city']),
+            'county'        => isset($params['county']) ? intval($params['county']) : 0,
             'address'       => $params['address'],
             'is_default'    => $is_default,
         ];
@@ -340,11 +340,6 @@ class UserAddressService
                 'checked_type'      => 'empty',
                 'key_name'          => 'city',
                 'error_msg'         => '城市不能为空',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'county',
-                'error_msg'         => '区/县不能为空',
             ],
             [
                 'checked_type'      => 'empty',
@@ -495,7 +490,7 @@ class UserAddressService
         // 省市区解析
         $province_name = $params['province'];
         $city_name = $params['city'];
-        $county_name = $params['county'];
+        $county_name = isset($params['county']) ? $params['county'] : '';
         $town_name = isset($params['town']) ? $params['town'] : '';
 
         // 开始匹配地址
@@ -551,15 +546,11 @@ class UserAddressService
             $where2[] = ['name', 'like', str_replace($search, '', $town_name).'%'];
             $county = Db::name('Region')->where($where2)->field($field)->find();
         }
-        if(empty($county))
-        {
-            return DataReturn('区/县匹配失败', -1);
-        }
 
         // 地区id赋值
         $params['province'] = $province['id'];
         $params['city'] = $city['id'];
-        $params['county'] = $county['id'];
+        $params['county'] = empty($county['id']) ? 0 : $county['id'];
 
         // 存在街道字段数据则拼接到详细地址前面
         if(!empty($town_name))

@@ -22,7 +22,7 @@
           </view>
           <view class="address-detail oh">
             <image class="icon fl" src="/images/user-address.png" mode="widthFix" />
-            <view class="text fr">{{address.province_name}}{{address.city_name}}{{address.county_name}}{{address.address}}</view>
+            <view class="text fr">{{address.province_name || ''}}{{address.city_name || ''}}{{address.county_name || ''}}{{address.address || ''}}</view>
           </view>
         </view>
         <view tt:if="{{address == null}}" class="no-address cr-888">

@@ -10,11 +10,11 @@ Page({
 
   onLoad(params) {
     this.setData({params: params});
+    this.init();
   },
 
   onShow() {
     tt.setNavigationBarTitle({title: app.data.common_pages_title.user_address});
-    this.init();
   },
 
   // 初始化

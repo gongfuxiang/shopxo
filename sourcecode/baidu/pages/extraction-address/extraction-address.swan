@@ -9,7 +9,7 @@
         </view>
         <view class="address oh">
           <image class="item-icon fl" src="/images/user-address.png" mode="widthFix" />
-          <view class="text fr">{{item.province_name}}{{item.city_name}}{{item.county_name}}{{item.address}}</view>
+          <view class="text fr">{{item.province_name || ''}}{{item.city_name || ''}}{{item.county_name || ''}}{{item.address || ''}}</view>
         </view>
       </view>
       <view class="operation br-t oh">

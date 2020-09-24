@@ -34,3 +34,11 @@
 .page {
     padding-bottom: 85rpx;
 }
+.submit-list button {
+    width: 50%;
+}
+.submit-list .import-system-address-submit {
+    background: #07c160 !important;
+    right: 0;
+    left: auto;
+}

@@ -10,11 +10,11 @@ Page({
 
   onLoad(params) {
     this.setData({ params: params });
+    this.init();
   },
 
   onShow() {
     swan.setNavigationBarTitle({ title: app.data.common_pages_title.user_address });
-    this.init();
   },
 
   // 初始化
@@ -253,7 +253,6 @@ Page({
         swan.hideLoading();
         if (res.data.code == 0) {
           this.get_data_list();
-          app.showToast(res.data.msg, "success");
         } else {
           if (app.is_login_check(res.data)) {
             app.showToast(res.data.msg);
