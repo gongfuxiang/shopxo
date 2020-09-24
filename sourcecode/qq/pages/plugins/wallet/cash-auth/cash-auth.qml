@@ -45,7 +45,6 @@
     </navigator>
   </view>
 </view>
-</view>
 
 <view qq:else>
   <import src="/pages/common/nodata.qml" />

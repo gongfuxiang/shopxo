@@ -237,5 +237,53 @@ Page({
       my.navigateBack();
     }
   },
+
+  // 获取系统地址
+  choose_system_address_event(e) {
+    var self = this;
+    my.getAddress({
+      success (res) {
+        if(res.resultStatus == '9000') {
+          var data = {
+            "name": res.result.fullname || '',
+            "tel": res.result.mobilePhone || '',
+            "province": res.result.prov || '',
+            "city": res.result.city || '',
+            "county": res.result.area || '',
+            "town": res.result.street || '',
+            "address": res.result.address || '',
+          };
+
+          // 加载loding
+          my.showLoading({ content: "处理中..." });
+      
+          // 获取数据
+          my.request({
+            url: app.get_request_url("outsystemadd", "useraddress"),
+            method: "POST",
+            data: data,
+            dataType: "json",
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
+            success: res => {
+              my.hideLoading();
+              if (res.data.code == 0) {
+                self.get_data_list();
+              } else {
+                if (app.is_login_check(res.data)) {
+                  app.showToast(res.data.msg);
+                } else {
+                  app.showToast('提交失败，请重试！');
+                }
+              }
+            },
+            fail: () => {
+              my.hideLoading();
+              app.showToast("服务器请求出错");
+            }
+          });
+        }
+      }
+    });
+  },
   
 });

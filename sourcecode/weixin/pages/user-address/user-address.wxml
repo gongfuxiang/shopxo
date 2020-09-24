@@ -38,6 +38,6 @@
     <navigator url="/pages/user-address-save/user-address-save" open-type="navigate" hover-class="none">
       <button class="submit-fixed submit-bottom" type="default" hover-class="none">添加新地址</button>
     </navigator>
-    <button class="submit-fixed submit-bottom import-system-address-submit" type="default" hover-class="none" bindtap="choose_system_address_event">导入百度地址</button>
+    <button class="submit-fixed submit-bottom import-system-address-submit" type="default" hover-class="none" bindtap="choose_system_address_event">导入微信地址</button>
   </view>
 </view>

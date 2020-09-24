@@ -229,6 +229,7 @@ Page({
 
   // 获取系统地址
   choose_system_address_event(e) {
+    var self = this;
     var detail = e.detail;
     var data = {
       "name": detail.userName || '',
@@ -249,10 +250,11 @@ Page({
       method: "POST",
       data: data,
       dataType: "json",
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         swan.hideLoading();
         if (res.data.code == 0) {
-          this.get_data_list();
+          self.get_data_list();
         } else {
           if (app.is_login_check(res.data)) {
             app.showToast(res.data.msg);

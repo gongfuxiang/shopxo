@@ -263,6 +263,7 @@ Page({
               method: "POST",
               data: data,
               dataType: "json",
+              headers: { 'content-type': 'application/x-www-form-urlencoded' },
               success: res => {
                 wx.hideLoading();
                 if (res.data.code == 0) {
