@@ -90,18 +90,6 @@ class IEPayWeixin
                 'is_required'   => 0,
                 'message'       => '请填写微信分配的小程序ID',
             ],
-            [
-                'element'       => 'select',
-                'title'         => '支付金额转换',
-                'desc'          => '默认否（将金额转为原始汇率的金额、仅单个订单发起支付的时候有效）',
-                'message'       => '请选择订单金额转换',
-                'name'          => 'is_reverse_price',
-                'is_multiple'   => 0,
-                'element_data'  => [
-                    ['value'=>0, 'name'=>'否'],
-                    ['value'=>1, 'name'=>'是'],
-                ],
-            ],
         ];
 
         return [
@@ -131,22 +119,6 @@ class IEPayWeixin
         if(empty($this->config))
         {
             return DataReturn('支付缺少配置', -1);
-        }
-
-        // 金额转换
-        if(isset($this->config['is_reverse_price']) && $this->config['is_reverse_price'] == 1 && !empty($params['business_ids']) && is_array($params['business_ids']) && count($params['business_ids']) == 1 && !empty($params['business_type']))
-        {
-            switch($params['business_type'])
-            {
-                // 订单
-                case 'system-order' :
-                    $currency_data = \app\service\OrderCurrencyService::OrderCurrencyGroupList($params['business_ids'][0]);
-                    if(isset($currency_data['currency_rate']) && $currency_data['currency_rate'] > 0)
-                    {
-                        $params['total_price'] /= $currency_data['currency_rate'];
-                    }
-                    break;
-            }
         }
 
         // 支付参数
@@ -358,48 +330,9 @@ class IEPayWeixin
         $data['buyer_user']     = $data['pay_type'];       // 支付平台 - 用户
         $data['out_trade_no']   = $data['out_trade_no'];    // 本系统发起支付的 - 订单号
         $data['subject']        = isset($data['order_status']) ? '状态:'.$data['order_status'] : ''; // 本系统发起支付的 - 商品名称
-        $data['pay_price']      = $this->RespondReversePrice($data['out_trade_no'], $data['total_fee']);    // 本系统发起支付的 - 总价
+        $data['pay_price']      = $data['total_fee']/100;    // 本系统发起支付的 - 总价
 
         return $data;
-    }
-
-    /**
-     * 金额转换
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-09-23
-     * @desc    description
-     * @param   [string]          $out_trade_no [支付日志订单号]
-     * @param   [float]           $total_fee    [平台返回的支付金额]
-     */
-    private function RespondReversePrice($out_trade_no, $total_fee)
-    {
-        $total_fee /= 100;
-
-        // 金额转换
-        if(isset($this->config['is_reverse_price']) && $this->config['is_reverse_price'] == 1)
-        {
-            // 获取订单信息
-            $log_data = \app\service\PayLogService::PayLogList(['where'=>['log_no'=>$out_trade_no]]);
-            if($log_data['code'] == 0 && !empty($log_data['data']) && !empty($log_data['data'][0]) && !empty($log_data['data'][0]['business_list']) && count($log_data['data'][0]['business_list']) == 1)
-            {
-                switch($log_data['data'][0]['business_type'])
-                {
-                    // 订单
-                    case \app\service\OrderService::$business_type_name :
-                        // 获取订单汇率
-                        $currency_data = \app\service\OrderCurrencyService::OrderCurrencyGroupList($log_data['data'][0]['business_list'][0]['business_id']);
-                        if(isset($currency_data['currency_rate']) && $currency_data['currency_rate'] > 0)
-                        {
-                            $total_fee *= $currency_data['currency_rate'];
-                        }
-                        break;
-                }
-            }
-        }
-
-        return PriceNumberFormat($total_fee);
     }
 
     /**
@@ -442,37 +375,13 @@ class IEPayWeixin
             return DataReturn($ret, -1);
         }
 
-        // 退款金额
-        $refund_price = $params['refund_price'];
-
-        // 金额转换
-        if(isset($this->config['is_reverse_price']) && $this->config['is_reverse_price'] == 1)
-        {
-            // 获取订单信息
-            $log_data = \app\service\PayLogService::PayLogList(['where'=>['log_no'=>$params['order_no']]]);
-            if($log_data['code'] == 0 && !empty($log_data['data']) && !empty($log_data['data'][0]) && !empty($log_data['data'][0]['business_list']) && count($log_data['data'][0]['business_list']) == 1)
-            {
-                switch($log_data['data'][0]['business_type'])
-                {
-                    // 订单
-                    case \app\service\OrderService::$business_type_name :
-                        // 获取订单汇率
-                        $currency_data = \app\service\OrderCurrencyService::OrderCurrencyGroupList($log_data['data'][0]['business_list'][0]['business_id']);
-                        if(isset($currency_data['currency_rate']) && $currency_data['currency_rate'] > 0)
-                        {
-                            $refund_price /= $currency_data['currency_rate'];
-                        }
-                        break;
-                }
-            }
-        }
-
         // 远程查询支付状态
         $parameter = [
             'mid'               => $this->config['mid'],
             'pay_type'          => $this->GetPayType($params['client_type']),
             'out_trade_no'      => $params['order_no'],
-            'refund_amount'     => (int) ((PriceNumberFormat($refund_price)*1000)/10),
+            'refund_amount'     => (int) (($params['refund_price']*1000)/10),
+            'refund_charge_fee' => 'TRUE',
             'version'           => 'v1',
         ];
 
