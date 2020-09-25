@@ -117,7 +117,7 @@ class IEPayPoli
             'total_fee'         => (int) (($params['total_price']*1000)/10),
             'goods'             => $params['name'],
             'out_trade_no'      => $params['order_no'],
-            'return_url'        => $params['call_back_url'].'?out_trade_no='.$params['order_no'],
+            'return_url'        => $params['call_back_url'],
             'notify_url'        => $params['notify_url'],
             'pay_type'          => $this->GetPayType(),
             'version'           => 'v1',
