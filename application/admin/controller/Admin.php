@@ -290,7 +290,7 @@ class Admin extends Common
 	 */
 	public function Logout()
 	{
-		session_destroy();
+		session('admin', null);
 		return redirect(MyUrl('admin/admin/logininfo'));
 	}
 }

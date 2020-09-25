@@ -350,11 +350,6 @@ class Common extends Controller
         $this->assign('home_seo_site_keywords', MyC('home_seo_site_keywords'));
         $this->assign('home_seo_site_description', MyC('home_seo_site_description'));
 
-        // 页面最大宽度
-        $max_width = MyC('home_content_max_width', 0, true);
-        $max_width_style = ($max_width == 0) ? '' : 'max-width:'.$max_width.'px;';
-        $this->assign('max_width_style', $max_width_style);
-
         // 用户数据
         $this->assign('user', $this->user);
 

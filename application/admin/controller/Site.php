@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use app\service\ConfigService;
 use app\service\GoodsService;
+use app\service\BaseConfigHandleService;
 
 /**
  * 站点设置
@@ -223,11 +224,22 @@ class Site extends Common
 		{
 			switch($nav_type)
 			{
+				// 登录
 				case 'login' :
 					cache(config('shopxo.cache_user_login_left_key'), null);
 
+				// 密码找回
 				case 'forgetpwd' :
 					cache(config('shopxo.cache_user_forgetpwd_left_key'), null);
+					break;
+
+				// 缓存
+				case 'cache' :
+					$res = BaseConfigHandleService::Run();
+					if($res['code'] != 0)
+					{
+						return $res;
+					}
 					break;
 			}
 		}

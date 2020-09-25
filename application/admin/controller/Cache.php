@@ -69,6 +69,10 @@ class Cache extends Common
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'cache');
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'temp');
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'data');
+
+		// 缓存操作清除
+		\think\facade\Cache::clear();
+
 		return $this->success('更新成功');
 	}
 

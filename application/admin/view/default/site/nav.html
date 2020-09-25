@@ -5,9 +5,6 @@
     <li {{if $nav_type eq 'siteset'}}class="am-active"{{/if}} data-type="siteset">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'siteset'])}}">网站设置</a>
     </li>
-    <li {{if $nav_type eq 'beian'}}class="am-active"{{/if}} data-type="beian">
-        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'beian'])}}">备案信息</a>
-    </li>
     <li {{if $nav_type eq 'sitetype'}}class="am-active"{{/if}} data-type="sitetype">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'sitetype'])}}">站点类型</a>
     </li>
@@ -20,14 +17,17 @@
     <li {{if $nav_type eq 'forgetpwd'}}class="am-active"{{/if}} data-type="forgetpwd">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'forgetpwd'])}}">密码找回</a>
     </li>
-    <li {{if $nav_type eq 'attachment'}}class="am-active"{{/if}} data-type="attachment">
-        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'attachment'])}}">附件</a>
-    </li>
     <li {{if $nav_type eq 'verify'}}class="am-active"{{/if}} data-type="verify">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'verify'])}}">验证码</a>
     </li>
     <li {{if $nav_type eq 'orderaftersale'}}class="am-active"{{/if}} data-type="orderaftersale">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'orderaftersale'])}}">订单售后</a>
+    </li>
+    <li {{if $nav_type eq 'attachment'}}class="am-active"{{/if}} data-type="attachment">
+        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'attachment'])}}">附件</a>
+    </li>
+    <li {{if $nav_type eq 'cache'}}class="am-active"{{/if}} data-type="cache">
+        <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'cache'])}}">缓存</a>
     </li>
     <li {{if $nav_type eq 'extends'}}class="am-active"{{/if}} data-type="extends">
         <a href="{{:MyUrl('admin/site/index', ['nav_type'=>'extends'])}}">扩展项</a>
