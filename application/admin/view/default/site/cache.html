@@ -61,6 +61,11 @@
                                 <button class="am-btn am-btn-default" type="button">秒</button>
                           </span>
                         </div>
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>1. session下过期时间默认为3600秒</p>
+                            <p>2. 数据缓存下过期时间默认0（表示默认永久缓存）</p>
+                        </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_cache_redis_prefix.name}}<span class="am-form-group-label-tips">{{$data.common_cache_redis_prefix.describe}}</span></label>

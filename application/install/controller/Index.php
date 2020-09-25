@@ -11,6 +11,7 @@
 namespace app\install\controller;
 
 use think\Db;
+use app\service\BaseConfigHandleService;
 
 /**
  * 安装程序
@@ -160,6 +161,13 @@ class Index extends Common
             die('非法访问');
         }
 
+        // 校验cache和session配置生成
+        $ret = BaseConfigHandleService::Run();
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 参数
         $params = input('post.');
         $ret = $this->ParamsCheck($params);
@@ -217,8 +225,8 @@ class Index extends Common
             return $ret;
         }
 
-        // 生成配置文件
-        return $this->CreateConfig($params);
+        // 生成数据库配置文件
+        return $this->CreateDbConfig($params);
     }
 
     /**
@@ -230,7 +238,7 @@ class Index extends Common
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private function CreateConfig($params = [])
+    private function CreateDbConfig($params = [])
     {
         // 配置文件信息处理
         $db_str=<<<php

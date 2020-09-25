@@ -76,22 +76,26 @@ class BaseConfigHandleService
         } else {
             $config = [
                 // session_id
-                'id'             => '',
+                'id'                => '',
                 // SESSION_ID的提交变量,解决flash上传跨域
-                'var_session_id' => '',
+                'var_session_id'    => '',
                 // SESSION 前缀
-                'prefix'         => 'shopxo',
+                'prefix'            => 'shopxo',
                 // 驱动方式 支持redis memcache memcached
-                'type'           => '',
+                'type'              => '',
+                // 过期时间(默认3600秒)
+                'expire'            => 3600,
                 // 是否自动开启 SESSION
-                'auto_start'     => true,
+                'auto_start'        => true,
             ];
         }
+
         // 配置文件
-        $config_file = ROOT.'config'.DS.'session.php';
+        $file_dir = ROOT.'config'.DS;
+        $file_name = 'session.php';
 
         // 保存文件
-        return self::ConfigFileSave($config_file, $config, 'Session配置');
+        return self::ConfigFileSave($file_dir, $file_name, $config, 'Session配置');
     }
 
     /**
@@ -137,10 +141,11 @@ class BaseConfigHandleService
         }
 
         // 配置文件
-        $config_file = ROOT.'config'.DS.'cache.php';
+        $file_dir = ROOT.'config'.DS;
+        $file_name = 'cache.php';
 
         // 保存文件
-        return self::ConfigFileSave($config_file, $config, '缓存配置');
+        return self::ConfigFileSave($file_dir, $file_name, $config, '缓存配置');
     }
 
     /**
@@ -150,16 +155,30 @@ class BaseConfigHandleService
      * @version 1.0.0
      * @date    2020-09-25
      * @desc    description
-     * @param   [string]          $config_file [文件路径]
-     * @param   [array]           $config      [配置信息]
-     * @param   [string]          $name        [描述名称]
+     * @param   [string]          $file_dir     [文件路径]
+     * @param   [string]          $file_name    [文件名称]
+     * @param   [array]           $config       [配置信息]
+     * @param   [string]          $name         [描述名称]
      */
-    private static function ConfigFileSave($config_file, $config, $name)
+    private static function ConfigFileSave($file_dir, $file_name, $config, $name)
     {
         // 是否有写权限
-        if(file_exists($config_file) && !is_writable($config_file))
+        $config_file = $file_dir.$file_name;
+        if(file_exists($config_file))
         {
-            return DataReturn('缓存配置文件没有操作权限'.'['.$config_file.']', -3);
+            if(!is_writable($config_file))
+            {
+                return DataReturn($name.'文件没有操作权限'.'['.$config_file.']', -10);
+            }
+        } else {
+            if(!is_dir($file_dir))
+            {
+                return DataReturn($name.'路径不存在'.'['.$file_dir.']', -11);
+            }
+            if(!is_writable($file_dir))
+            {
+                return DataReturn($name.'路径没有操作权限'.'['.$file_dir.']', -12);
+            }
         }
 
         // 生成配置文件
@@ -177,7 +196,7 @@ class BaseConfigHandleService
 // {$name}\nreturn ".var_export($config, true).";\n?>");
         if($ret === false)
         {
-            return DataReturn($name.'处理失败['.$config_file.']', -10);
+            return DataReturn($name.'处理失败['.$config_file.']', -100);
         }
         return DataReturn('处理成功', 0);
     }
