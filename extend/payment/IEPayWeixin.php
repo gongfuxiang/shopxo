@@ -264,7 +264,6 @@ class IEPayWeixin
         return isset($client_type_arr[$client_type]) ? $client_type_arr[$client_type] : $client_type_arr['pc'];
     }
 
-
     /**
      * 支付回调处理
      * @author   Devil

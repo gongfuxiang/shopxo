@@ -11,14 +11,14 @@
 namespace payment;
 
 /**
- * IEPay - 支付宝
+ * IEPay - 银联
  * @author   Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2020-09-22
  * @desc    description
  */
-class IEPayAliPay
+class IEPayUnionPay
 {
     // 插件配置参数
     private $config;
@@ -49,11 +49,11 @@ class IEPayAliPay
     {
         // 基础信息
         $base = [
-            'name'          => 'IEPay支付宝',  // 插件名称
+            'name'          => 'IEPay银联',  // 插件名称
             'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
-            'apply_terminal'=> ['pc', 'h5', 'ios', 'android'], // 适用终端 默认全部 ['pc', 'h5', 'ios', 'android', 'alipay', 'weixin', 'baidu', 'toutiao']
-            'desc'          => '适用PC+H5+APP，即时到帐支付方式，买家的交易资金直接打入卖家账户，新西兰货币支付。 <a href="https://www.mypaynz.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'apply_terminal'=> ['pc', 'h5'], // 适用终端 默认全部 ['pc', 'h5', 'ios', 'android', 'alipay', 'weixin', 'baidu', 'toutiao']
+            'desc'          => '适用PC+H5，即时到帐支付方式，买家的交易资金直接打入卖家账户，新西兰货币支付。 <a href="https://www.mypaynz.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];
@@ -146,20 +146,7 @@ class IEPayAliPay
      */
     private function GetPayType($client_type = '')
     {
-        // 平台
-        if(empty($client_type))
-        {
-            $client_type = ApplicationClientType();
-        }
-
-        // 终端平台
-        $client_type_arr = [
-            'pc'        => 'IE0012',
-            'h5'        => 'IE0013',
-            'ios'       => 'IE0015',
-            'android'   => 'IE0015',
-        ];
-        return isset($client_type_arr[$client_type]) ? $client_type_arr[$client_type] : $client_type_arr['pc'];
+        return 'IE0031';
     }
 
     /**
