@@ -63,15 +63,15 @@ class BaseConfigHandleService
                 // 使用redis
                 'type'      => 'redis',
                 // 连接地址
-                'host'      => MyC('common_cache_redis_host', '127.0.0.1', true),
+                'host'      => MyC('common_cache_session_redis_host', '127.0.0.1', true),
                 // 端口号
-                'port'      => MyC('common_cache_redis_port', 6379, true),
+                'port'      => MyC('common_cache_session_redis_port', 6379, true),
                 // 密码
-                'password'  => MyC('common_cache_redis_password', '', true),
+                'password'  => MyC('common_cache_session_redis_password', '', true),
                 // 全局缓存有效期、默认3600秒
-                'expire'    => MyC('common_cache_redis_expire', 3600, true), 
+                'expire'    => MyC('common_cache_session_redis_expire', 3600, true), 
                 // 缓存前缀
-                'prefix'    => MyC('common_cache_redis_prefix', 'shopxo', true),
+                'prefix'    => MyC('common_cache_session_redis_prefix', 'shopxo', true),
             ];
         } else {
             $config = [
@@ -116,15 +116,15 @@ class BaseConfigHandleService
                 // 使用redis
                 'type'      => 'redis',
                 // 连接地址
-                'host'      => MyC('common_cache_redis_host', '127.0.0.1', true),
+                'host'      => MyC('common_cache_data_redis_host', '127.0.0.1', true),
                 // 端口号
-                'port'      => MyC('common_cache_redis_port', 6379, true),
+                'port'      => MyC('common_cache_data_redis_port', 6379, true),
                 // 密码
-                'password'  => MyC('common_cache_redis_password', '', true),
+                'password'  => MyC('common_cache_data_redis_password', '', true),
                 // 全局缓存有效期（0为永久有效）
-                'expire'    => MyC('common_cache_redis_expire', 0, true), 
+                'expire'    => MyC('common_cache_data_redis_expire', 0, true), 
                 // 缓存前缀
-                'prefix'    => MyC('common_cache_redis_prefix', 'shopxo', true),
+                'prefix'    => MyC('common_cache_data_redis_prefix', 'shopxo', true),
             ];
             
         } else {

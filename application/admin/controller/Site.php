@@ -205,11 +205,25 @@ class Site extends Common
 
 			// 缓存
 			case 'cache' :
-				if((isset($params['common_session_is_use_cache']) && $params['common_session_is_use_cache'] == 1) || (isset($params['common_data_is_use_cache']) && $params['common_data_is_use_cache'] == 1))
+				// session是否使用缓存
+				if(isset($params['common_session_is_use_cache']) && $params['common_session_is_use_cache'] == 1)
 				{
-					if(!extension_loaded('redis'))
+					// 连接测试
+					$ret = $this->RedisCheckConnectPing($params['common_cache_session_redis_host'], $params['common_cache_session_redis_port'], $params['common_cache_session_redis_password']);
+					if($ret['code'] != 0)
 					{
-						return DataReturn('请先安装redis扩展', -1);
+						return $ret;
+					}
+				}
+
+				// 数据是否使用缓存
+				if(isset($params['common_data_is_use_cache']) && $params['common_data_is_use_cache'] == 1)
+				{
+					// 连接测试
+					$ret = $this->RedisCheckConnectPing($params['common_cache_data_redis_host'], $params['common_cache_data_redis_port'], $params['common_cache_data_redis_password']);
+					if($ret['code'] != 0)
+					{
+						return $ret;
 					}
 				}
 				break;
@@ -256,6 +270,51 @@ class Site extends Common
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * redis连接测试
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2020-09-26
+	 * @desc    description
+	 * @param   [string]        $host     [连接地址]
+	 * @param   [int]           $port     [端口]
+	 * @param   [string]        $password [密码]
+	 */
+	private function RedisCheckConnectPing($host, $port, $password)
+	{
+		// 参数处理
+		$host = empty($host) ? '127.0.0.1' : $host;
+		$port = empty($port) ? 6379 : $port;
+		$password = empty($password) ? '' : $password;
+
+		// 是否已安装redis扩展
+		if(!extension_loaded('redis'))
+		{
+			return DataReturn('请先安装redis扩展', -1);
+		}
+
+		// 捕获异常
+		try {
+			// 连接redis
+			$redis = new \Redis();
+			$redis->connect($host, $port);
+			if($password != '')
+			{
+	            $redis->auth($password);
+	        }
+        } catch(\Exception $e) {
+		    return DataReturn('redis连接失败['.$e->getMessage().']', -1);
+		}
+
+		// 检测是否连接成功
+		if($redis->ping())
+		{
+			return DataReturn('redis连接成功', 0);
+		}
+		return DataReturn('redis连接失败', -1);
 	}
 }
 ?>
