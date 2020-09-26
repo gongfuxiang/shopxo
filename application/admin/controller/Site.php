@@ -202,6 +202,17 @@ class Site extends Common
 			case 'siteset' :
 				$params['home_index_floor_top_right_keywords'] = empty($params['home_index_floor_top_right_keywords']) ? '' : json_encode($params['home_index_floor_top_right_keywords'], JSON_UNESCAPED_UNICODE);
 				break;
+
+			// 缓存
+			case 'cache' :
+				if((isset($params['common_session_is_use_cache']) && $params['common_session_is_use_cache'] == 1) || (isset($params['common_data_is_use_cache']) && $params['common_data_is_use_cache'] == 1))
+				{
+					if(!extension_loaded('redis'))
+					{
+						return DataReturn('请先安装redis扩展', -1);
+					}
+				}
+				break;
 		}
 
 		// 开始处理空值
