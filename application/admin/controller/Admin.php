@@ -250,6 +250,27 @@ class Admin extends Common
 			return redirect(MyUrl('admin/index/index'));
 		}
 
+        // 背景图片
+        $host = config('shopxo.attachment_host');
+        $bg_images_list = [
+            $host.'/static/admin/default/images/login/1.jpg',
+            $host.'/static/admin/default/images/login/2.jpg',
+            $host.'/static/admin/default/images/login/3.jpg',
+            $host.'/static/admin/default/images/login/4.jpg',
+            $host.'/static/admin/default/images/login/5.jpg',
+            $host.'/static/admin/default/images/login/6.jpg',
+            $host.'/static/admin/default/images/login/7.jpg',
+            $host.'/static/admin/default/images/login/8.jpg',
+            $host.'/static/admin/default/images/login/9.jpg',
+            $host.'/static/admin/default/images/login/10.jpg',
+            $host.'/static/admin/default/images/login/11.jpg',
+            $host.'/static/admin/default/images/login/12.jpg',
+            $host.'/static/admin/default/images/login/13.jpg',
+            $host.'/static/admin/default/images/login/14.jpg',
+            $host.'/static/admin/default/images/login/15.jpg',
+        ];
+        $this->assign('bg_images_list', $bg_images_list);
+
 		// 管理员登录页面钩子
         $hook_name = 'plugins_view_admin_login_info';
         $this->assign($hook_name.'_data', Hook::listen($hook_name,

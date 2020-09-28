@@ -45,14 +45,14 @@ class NavigationService
         $footer = cache(config('shopxo.cache_common_home_nav_footer_key'));
 
         // 缓存没数据则从数据库重新读取,顶部菜单
-        if(empty($header))
+        if(empty($header) || config('app_debug'))
         {
             // 获取导航数据
             $header = self::NavDataAll('header');
         }
 
         // 底部导航
-        if(empty($footer))
+        if(empty($footer) || config('app_debug'))
         {
             // 获取导航数据
             $footer = self::NavDataAll('footer');

@@ -21,8 +21,11 @@
     .article-sidebar .am-offcanvas-bar{position: static; width: auto; background: none; -webkit-transform: translate3d(0, 0, 0); -ms-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0);}
     .article-sidebar ul li:not(:last-child){border-bottom: 1px solid #f5f5f5;}
     .am-accordion-gapped{margin: 0 15px 0 0;}
+    .article-sidebar { padding-left: 5px; }
 }
-
+@media only screen and (min-width: 1025px) {
+    .article-sidebar { padding-left: 0; }
+}
 @media only screen and (max-width: 640px) {
     .article-right{padding: 0 5px;}
     .article-sidebar .am-offcanvas-bar{background: #f9f9f9;}

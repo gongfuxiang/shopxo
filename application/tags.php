@@ -82,7 +82,6 @@ return array (
   'plugins_service_buy_order_insert_end' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
-    1 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_goods_spec_extends_handle' => 
   array (
@@ -140,10 +139,6 @@ return array (
   array (
     0 => 'app\\plugins\\exchangerate\\Hook',
   ),
-  'plugins_service_order_pay_launch_handle' => 
-  array (
-    0 => 'app\\plugins\\exchangerate\\Hook',
-  ),
   'plugins_service_buy_group_goods_handle' => 
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
@@ -151,6 +146,10 @@ return array (
   'plugins_view_goods_detail_title' => 
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
+  ),
+  'plugins_service_navigation_header_handle' => 
+  array (
+    0 => 'app\\plugins\\answers\\Hook',
   ),
 );
 ?>
