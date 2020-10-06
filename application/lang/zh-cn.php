@@ -318,8 +318,8 @@ return array(
             2 => array('value' => 2, 'name' => '基础'),
         ),
 
-    // 首页商品关联排序类型
-    'home_floor_goods_order_by_type_list'           => array(
+    // 商品关联排序类型
+    'goods_order_by_type_list'           => array(
             0 => array('value' => 'g.access_count,g.sales_count,g.id', 'name' => '综合', 'checked' => true),
             1 => array('value' => 'g.sales_count', 'name' => '销量'),
             2 => array('value' => 'g.access_count', 'name' => '热度'),
@@ -327,8 +327,8 @@ return array(
             4 => array('value' => 'g.id', 'name' => '最新'),
         ),
 
-    // 首页商品关联排序规则
-    'home_floor_goods_order_by_rule_list'           => array(
+    // 商品关联排序规则
+    'goods_order_by_rule_list'           => array(
             0 => array('value' => 'desc', 'name' => '降序(desc)', 'checked' => true),
             1 => array('value' => 'asc', 'name' => '升序(asc)'),
         ),

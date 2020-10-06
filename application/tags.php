@@ -150,6 +150,7 @@ return array (
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\answers\\Hook',
+    1 => 'app\\plugins\\blog\\Hook',
   ),
 );
 ?>

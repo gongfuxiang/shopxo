@@ -86,8 +86,8 @@ class Site extends Common
 		$this->assign('common_deduction_inventory_rules_list', lang('common_deduction_inventory_rules_list'));
 
 		// 首页商品排序规则
-		$this->assign('home_floor_goods_order_by_type_list', lang('home_floor_goods_order_by_type_list'));
-		$this->assign('home_floor_goods_order_by_rule_list', lang('home_floor_goods_order_by_rule_list'));
+		$this->assign('goods_order_by_type_list', lang('goods_order_by_type_list'));
+		$this->assign('goods_order_by_rule_list', lang('goods_order_by_rule_list'));
 
 		// 配置信息
 		$data = ConfigService::ConfigList();

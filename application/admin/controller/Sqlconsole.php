@@ -68,7 +68,7 @@ class Sqlconsole extends Common
         }
 
         // 开始处理
-        return SqlconsoleService::Implement(input());
+        return SqlconsoleService::Implement($this->data_request);
     }
 }
 ?>

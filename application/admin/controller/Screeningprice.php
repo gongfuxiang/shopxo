@@ -71,7 +71,7 @@ class ScreeningPrice extends Common
 		}
 
 		// 开始操作
-		return ScreeningPriceService::ScreeningPriceNodeSon(input());
+		return ScreeningPriceService::ScreeningPriceNodeSon($this->data_request);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class ScreeningPrice extends Common
 		}
 
 		// 开始操作
-		return ScreeningPriceService::ScreeningPriceSave(input());
+		return ScreeningPriceService::ScreeningPriceSave($this->data_request);
 	}
 
 	/**
@@ -109,7 +109,7 @@ class ScreeningPrice extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return ScreeningPriceService::ScreeningPriceDelete($params);
 	}

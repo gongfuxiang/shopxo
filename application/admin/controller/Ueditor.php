@@ -48,7 +48,7 @@ class Ueditor extends Common
      */
     public function Index()
     {
-        return json(UeditorService::Run(input()));
+        return json(UeditorService::Run($this->data_request));
     }
 }
 ?>

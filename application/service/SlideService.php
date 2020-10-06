@@ -46,24 +46,6 @@ class SlideService
             $common_app_event_type = lang('common_app_event_type');
             foreach($data as &$v)
             {
-                // 是否启用
-                if(isset($v['is_enable']))
-                {
-                    $v['is_enable_text'] = $common_is_enable_tips[$v['is_enable']]['name'];
-                }
-
-                // 平台类型
-                if(isset($v['platform']))
-                {
-                    $v['platform_text'] = $common_platform_type[$v['platform']]['name'];
-                }
-
-                // 事件类型
-                if(isset($v['event_type']) && $v['event_type'] != -1)
-                {
-                    $v['event_type_text'] = $common_app_event_type[$v['event_type']]['name'];
-                }
-
                 // 图片地址
                 if(isset($v['images_url']))
                 {

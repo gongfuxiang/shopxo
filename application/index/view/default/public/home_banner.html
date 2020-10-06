@@ -9,15 +9,15 @@
                             {{switch banner.event_type}}
                                 {{case 3}}
                                     <!-- 地图 -->
-                                    <a href="javascript:;" {{if !empty($banner['event_value_data']) and !empty($banner['event_value_data'][2]) and !empty($banner['event_value_data'][3])}}class="submit-map-popup" data-lng="{{$banner['event_value_data'][2]}}" data-lat="{{$banner['event_value_data'][3]}}"{{/if}}><img src="{{$banner.images_url}}" /></a>
+                                    <a href="javascript:;" {{if !empty($banner['event_value_data']) and !empty($banner['event_value_data'][2]) and !empty($banner['event_value_data'][3])}}class="submit-map-popup" data-lng="{{$banner['event_value_data'][2]}}" data-lat="{{$banner['event_value_data'][3]}}"{{/if}}><img src="{{$banner.images_url}}" alt="{{$banner.name}}" /></a>
                                 {{/case}}
                                 {{case 4}}
                                     <!-- 电话 -->
-                                    <a {{if !empty($banner['event_value'])}}href="tel:{{$banner.event_value}}"{{else /}}href="javascript:;"{{/if}}><img src="{{$banner.images_url}}" /></a>
+                                    <a {{if !empty($banner['event_value'])}}href="tel:{{$banner.event_value}}"{{else /}}href="javascript:;"{{/if}}><img src="{{$banner.images_url}}" alt="{{$banner.name}}" /></a>
                                 {{/case}}
                                 {{default /}}
                                     <!-- 默认url地址 -->
-                                    <a {{if !empty($banner['event_value'])}}href="{{$banner.event_value}}" target="_blank"{{else /}}href="javascript:;"{{/if}}><img src="{{$banner.images_url}}" /></a>
+                                    <a {{if !empty($banner['event_value'])}}href="{{$banner.event_value}}" target="_blank"{{else /}}href="javascript:;"{{/if}}><img src="{{$banner.images_url}}" alt="{{$banner.name}}" /></a>
                             {{/switch}}
                         </li>
                     {{/if}}

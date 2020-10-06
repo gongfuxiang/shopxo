@@ -2024,7 +2024,7 @@ function ParamsChecked($data, $params)
         {
             // 是否存在
             case 'isset' :
-                if(!isset($data[$v['key_name']]))
+                if(!array_key_exists($v['key_name'], $data))
                 {
                     return $v['error_msg'];
                 }

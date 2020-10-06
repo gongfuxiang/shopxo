@@ -57,7 +57,7 @@ class Pluginsadmin extends Common
         $this->assign('view_type', $this->view_type);
 
         // 参数
-        $params = input();
+        $params = $this->data_request;
 
         // 应用商店地址
         $this->assign('store_url', StoreService::StoreUrl());
@@ -83,7 +83,7 @@ class Pluginsadmin extends Common
     public function SaveInfo()
     {
         // 参数
-        $params = input();
+        $params = $this->data_request;
 
         // 参数
         $this->assign('params', $params);
@@ -143,7 +143,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始处理
-        return PluginsAdminService::PluginsSave(input('post.'));
+        return PluginsAdminService::PluginsSave($this->data_post);
     }
 
     /**
@@ -162,7 +162,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始处理
-        return PluginsAdminService::PluginsDelete(input('post.'));
+        return PluginsAdminService::PluginsDelete($this->data_post);
     }
 
     /**
@@ -181,7 +181,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始处理
-        return PluginsAdminService::PluginsStatusUpdate(input('post.'));
+        return PluginsAdminService::PluginsStatusUpdate($this->data_post);
     }
 
     /**
@@ -200,7 +200,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始处理
-        return PluginsAdminService::PluginsUpload(input());
+        return PluginsAdminService::PluginsUpload($this->data_request);
     }
 
     /**
@@ -214,7 +214,7 @@ class Pluginsadmin extends Common
     public function Download()
     {
         // 开始处理
-        $ret = PluginsAdminService::PluginsDownload(input());
+        $ret = PluginsAdminService::PluginsDownload($this->data_request);
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             $this->assign('msg', $ret['msg']);
@@ -241,7 +241,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始操作
-        return PluginsAdminService::PluginsInstall(input());
+        return PluginsAdminService::PluginsInstall($this->data_request);
     }
 
     /**
@@ -261,7 +261,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始操作
-        return PluginsAdminService::PluginsUninstall(input());
+        return PluginsAdminService::PluginsUninstall($this->data_request);
     }
 }
 ?>

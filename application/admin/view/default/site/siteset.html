@@ -80,7 +80,7 @@
                     <div class="am-form-group">
                         <label>{{$data.home_index_floor_goods_order_by_type.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_type.describe}}</span></label>
                         <select name="{{$data.home_index_floor_goods_order_by_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_floor_goods_order_by_type.error_tips}}">
-                            {{foreach $home_floor_goods_order_by_type_list as $k=>$v}}
+                            {{foreach $goods_order_by_type_list as $k=>$v}}
                                 <option value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_type']['value']) and $data['home_index_floor_goods_order_by_type']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -92,7 +92,7 @@
                     <div class="am-form-group">
                         <label>{{$data.home_index_floor_goods_order_by_rule.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_rule.describe}}</span></label>
                         <select name="{{$data.home_index_floor_goods_order_by_rule.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_floor_goods_order_by_rule.error_tips}}">
-                            {{foreach $home_floor_goods_order_by_rule_list as $k=>$v}}
+                            {{foreach $goods_order_by_rule_list as $k=>$v}}
                                 <option value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_rule']['value']) and $data['home_index_floor_goods_order_by_rule']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>

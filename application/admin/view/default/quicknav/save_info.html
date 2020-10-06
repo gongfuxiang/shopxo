@@ -36,12 +36,7 @@
 			<div class="am-form-group">
 				<label>事件值</label>
 				<input type="text" name="event_value" placeholder="事件值" data-validation-message="事件值最多 255 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.event_value}}"{{/if}} />
-				<div class="am-alert am-alert-warning am-radius" data-am-alert>
-				    <button type="button" class="am-close">&times;</button>
-				    <p class="am-text-xs">
-				    	WEB页面<br />&nbsp&nbsp&nbsp;1.以http开头<br />&nbsp&nbsp&nbsp;2.并在小程序后台加入白名单<br /><br /> 内部页面(小程序/APP内部地址)<br />&nbsp&nbsp&nbsp;1.小程序或APP内部地址<br />&nbsp&nbsp&nbsp;2.小程序以/pages开始<br />&nbsp&nbsp&nbsp;3.例如：/pages/user/user<br />&nbsp&nbsp&nbsp;4.支持带参数 ?x=xx<br /><br /> 跳转原生地图查看指定位置<br />&nbsp&nbsp&nbsp;1.以 | 竖线分割，分别顺序 名称|地址|经度|纬度<br />&nbsp&nbsp&nbsp;2.例如：ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843
-				    </p>
-				</div>
+				{{include file="public/event_value_tips" /}}
 			</div>
 
 			<div class="am-form-group am-form-file">

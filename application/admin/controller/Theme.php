@@ -81,7 +81,7 @@ class Theme extends Common
 	 */
 	public function Save()
 	{
-		return ConfigService::ConfigSave(input());
+		return ConfigService::ConfigSave($this->data_request);
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Theme extends Common
 		}
 
 		// 开始处理
-		return ThemeService::ThemeDelete(input());
+		return ThemeService::ThemeDelete($this->data_request);
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Theme extends Common
 		}
 
 		// 开始处理
-		return ThemeService::ThemeUpload(input());
+		return ThemeService::ThemeUpload($this->data_request);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class Theme extends Common
     public function Download()
     {
         // 开始处理
-        $ret = ThemeService::ThemeDownload(input());
+        $ret = ThemeService::ThemeDownload($this->data_request);
         if(isset($ret['code']) && $ret['code'] != 0)
         {
             $this->assign('msg', $ret['msg']);

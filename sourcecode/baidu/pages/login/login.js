@@ -194,8 +194,8 @@ Page({
     var iv = e.detail.iv || null;
     if(encrypted_data != null && iv != null) {
       // 邀请人参数
-      var params = swan.getStorageSync(this.data.cache_launch_info_key) || null;
-      var referrer = (params == null) ? 0 : (params.referrer || 0);
+      var params = swan.getStorageSync(app.data.cache_launch_info_key) || null;
+      var referrer = (params == null) ? (this.data.user.referrer || 0) : (params.referrer || 0);
 
       // 解密数据并绑定手机
       var data = {

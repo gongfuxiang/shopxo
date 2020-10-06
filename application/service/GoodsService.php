@@ -188,8 +188,8 @@ class GoodsService
         $goods_category_count = MyC('home_index_floor_left_goods_category_max_count', 6, true);
 
         // 排序配置
-        $floor_order_by_type_list = lang('home_floor_goods_order_by_type_list');
-        $floor_order_by_rule_list = lang('home_floor_goods_order_by_rule_list');
+        $floor_order_by_type_list = lang('goods_order_by_type_list');
+        $floor_order_by_rule_list = lang('goods_order_by_rule_list');
         $floor_order_by_type = MyC('home_index_floor_goods_order_by_type', 0, true);
         $floor_order_by_rule = MyC('home_index_floor_goods_order_by_rule', 0, true);
         // 排序字段名称

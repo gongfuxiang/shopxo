@@ -74,7 +74,7 @@ class Express extends Common
 		}
 
 		// 开始操作
-		return ExpressService::ExpressNodeSon(input());
+		return ExpressService::ExpressNodeSon($this->data_request);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class Express extends Common
 		}
 
 		// 开始操作
-		return ExpressService::ExpressSave(input());
+		return ExpressService::ExpressSave($this->data_request);
 	}
 
 	/**
@@ -112,7 +112,7 @@ class Express extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return ExpressService::ExpressDelete($params);
 	}

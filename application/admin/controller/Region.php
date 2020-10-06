@@ -74,7 +74,7 @@ class Region extends Common
 		}
 
 		// 开始操作
-		return RegionService::RegionNodeSon(input());
+		return RegionService::RegionNodeSon($this->data_request);
 	}
 
 	/**
@@ -96,7 +96,7 @@ class Region extends Common
 		}
 
 		// 开始操作
-		return RegionService::RegionSave(input());
+		return RegionService::RegionSave($this->data_request);
 	}
 
 	/**
@@ -118,7 +118,7 @@ class Region extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return RegionService::RegionDelete($params);
 	}
@@ -142,7 +142,7 @@ class Region extends Common
         // 获取地区
         $params = [
             'where' => [
-                'pid'   => intval(input('pid', 0)),
+                'pid'   => isset($this->data_request['pid']) ? intval($this->data_request['pid']) : 0,
             ],
         ];
         $data = RegionService::RegionNode($params);

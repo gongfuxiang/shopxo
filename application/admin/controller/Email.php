@@ -95,7 +95,7 @@ class Email extends Common
 
 		$obj = new \base\Email($verify_param);
 		$email_param = array(
-				'email'		=>	input('email'),
+				'email'		=>	isset($this->data_request['email']) ? $this->data_request['email'] : '',
 				'content'	=>	'邮件配置-发送测试内容',
 				'title'		=>	MyC('home_site_name').' - '.'测试',
 			);

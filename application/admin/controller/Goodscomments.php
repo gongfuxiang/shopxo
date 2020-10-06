@@ -119,7 +119,7 @@ class Goodscomments extends Common
     public function SaveInfo()
     {
         // 参数
-        $params = input();
+        $params = $this->data_request;
 
         // 数据
         $data = [];
@@ -166,7 +166,7 @@ class Goodscomments extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return GoodsCommentsService::GoodsCommentsSave($params);
     }
 
@@ -186,7 +186,7 @@ class Goodscomments extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return GoodsCommentsService::GoodsCommentsDelete($params);
     }
 
@@ -206,7 +206,7 @@ class Goodscomments extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return GoodsCommentsService::GoodsCommentsReply($params);
     }
 
@@ -226,7 +226,7 @@ class Goodscomments extends Common
         }
 
         // 开始处理
-        $params = input();
+        $params = $this->data_request;
         return GoodsCommentsService::GoodsCommentsStatusUpdate($params);
     }
 }

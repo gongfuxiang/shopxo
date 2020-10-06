@@ -634,7 +634,7 @@ class User extends Common
             'province'  => isset($this->data_post['province']) ? $this->data_post['province'] : '',
             'city'      => isset($this->data_post['city']) ? $this->data_post['city'] : '',
             'gender'    => isset($this->data_post['gender']) ? intval($this->data_post['gender']) : '',
-            'referrer'  => isset($this->data_post['referrer']) ? intval($this->data_post['referrer']) : 0,
+            'referrer'  => isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0,
             'is_onekey_mobile_bind' => 1,
         ];
         return UserService::AuthUserProgram($data, APPLICATION_CLIENT_TYPE.'_openid');
