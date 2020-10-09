@@ -38,3 +38,41 @@
     <a href="{{if isset($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" class="am-btn am-btn-warning am-radius am-btn-sm am-icon-filter"> 重置</a>
     <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example am-icon-search" data-am-loading="{loadingText:' 搜索中...'}"> 搜索</button>
 {{/if}}
+
+<!-- 字段选择 -->
+<div class="am-fr am-nbfc">
+    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs am-icon-cog" data-am-modal="{target: '#form-table-fields-popup'}"> 设置</button>
+    <div class="am-popup popup-not-title" id="form-table-fields-popup">
+        <div class="am-popup-inner">
+            <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+            <div class="am-popup-bd am-padding-0">
+                <div class="form-table-fields-select-container">
+                    <div class="am-scrollable-vertical form-table-fields-list-container">
+                        {{if !empty($form_user_fields)}}
+                            <div class="am-alert am-margin-bottom-0">
+                                <p>可点击拖拽调整显示顺序</p>
+                            </div>
+                            <ul class="am-list am-list-static am-list-striped am-margin-bottom-0 form-table-fields-content-container">
+                                {{foreach $form_user_fields as $v}}
+                                    <li>
+                                        <label class="am-checkbox-inline">
+                                            <input type="checkbox" name="form_field_checkbox_value" value="{{$v.label}}" data-am-ucheck {{if isset($v['checked']) and $v['checked'] eq 1}}checked{{/if}} />
+                                            <span>{{$v.label}}</span>
+                                        </label>
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                        {{else /}}
+                            {{include file="public/not_data" /}}
+                        {{/if}}
+                    </div>
+                    <div class="am-padding-sm am-nbfc form-table-fields-button-container">
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs form-table-field-checkbox-submit" data-value="{{if array_sum(array_column($form_user_fields, 'checked')) gt 0}}1{{else /}}0{{/if}}" data-checked-text="反选" data-not-checked-text="全选">{{if array_sum(array_column($form_user_fields, 'checked')) gt 0}}反选{{else /}}全选{{/if}}</button>
+                        <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-margin-left-sm submit-ajax" data-url="{{:MyUrl('admin/formtable/fieldsselectreset')}}" data-id="{{$form_md5_key}}" data-key="md5_key" data-view="reload" data-is-confirm="0">重置</button>
+                        <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example am-fr form-table-field-confirm-submit" data-url="{{:MyUrl('admin/formtable/fieldsselectsave')}}" data-am-loading="{loadingText:'处理中...'}">确认</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

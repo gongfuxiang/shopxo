@@ -151,6 +151,7 @@ return array (
   array (
     0 => 'app\\plugins\\answers\\Hook',
     1 => 'app\\plugins\\blog\\Hook',
+    2 => 'app\\plugins\\speedplaceorder\\Hook',
   ),
 );
 ?>

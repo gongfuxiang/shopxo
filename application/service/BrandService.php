@@ -41,7 +41,7 @@ class BrandService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
-        // 获取品牌列表
+        // 获取列表
         $data = Db::name('Brand')->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {

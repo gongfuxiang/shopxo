@@ -165,7 +165,7 @@ class Weixin
         $client_type = ApplicationClientType();
 
         // 微信中打开
-        if($client_type == 'h5' && IsWeixinEnv())
+        if($client_type == 'h5' && IsWeixinEnv() && (empty($params['user']) || empty($params['user']['weixin_web_openid'])))
         {
             exit(header('location:'.PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', input())));
         }
@@ -436,7 +436,7 @@ class Weixin
         // 微信中打开
         if($client_type == 'h5' && IsWeixinEnv())
         {
-            $type_all['pc'] = $type_all['weixin'];
+            $type_all['h5'] = $type_all['weixin'];
         }
 
         return isset($type_all[$client_type]) ? $type_all[$client_type] : '';

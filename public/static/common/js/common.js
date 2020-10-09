@@ -1638,13 +1638,14 @@ function FormTableContainerInit()
  * @version 1.0.0
  * @date    2020-07-26
  * @desc    description
- * @param   {[string]}        form [表单名称]
+ * @param   {[string]}        form 	[表单名称]
+ * @param   {[string]}        tag 	[表单父级标签class或id]
  */
-function FromTableCheckedValues(form)
+function FromTableCheckedValues(form, tag)
 {
 	// 获取复选框选中的值
 	var values = [];
-	$('.am-table-scrollable-horizontal').find('input[name="'+form+'"]').each(function(key, tmp)
+	$(tag).find('input[name="'+form+'"]').each(function(key, tmp)
 	{
 		if($(this).is(':checked'))
 		{
@@ -1655,7 +1656,7 @@ function FromTableCheckedValues(form)
 	// 获取单选选中的值
 	if(values.length <= 0)
 	{
-		var val = $('.am-table-scrollable-horizontal input[name="'+form+'"]:checked').val();
+		var val = $(tag).find('input[name="'+form+'"]:checked').val();
 		if(val != undefined)
 		{
 			values.push(val);
@@ -1685,6 +1686,83 @@ $(function()
 {
     // 表格初始化
     FormTableContainerInit();
+
+    // 表格字段拖拽排序
+    if($('ul.form-table-fields-content-container').length > 0)
+    {
+    	$('ul.form-table-fields-content-container').dragsort({ dragSelector: 'li', placeHolderTemplate: '<li class="drag-sort-dotted am-margin-left-sm"></li>'});
+    }
+
+    // 表格字段选择确认
+    $('.form-table-field-confirm-submit').on('click', function()
+    {
+    	// 获取复选框选中的值
+		var fields = [];
+		$('.form-table-fields-list-container').find('input[name="form_field_checkbox_value"]').each(function(key, tmp)
+		{
+			fields.push({
+				"label": tmp.value,
+				"checked": $(this).is(':checked') ? 1 : 0
+			});
+		});
+
+    	// 是否有选择的数据
+		if(fields.length <= 0)
+		{
+			Prompt('请先选择数据');
+			return false;
+		}
+
+		// 表单唯一md5key
+		var md5_key = $('.am-table-scrollable-horizontal').data('md5-key') || '';
+
+		// ajax请求操作
+		var $button = $(this);
+		$button.button('loading');
+		$.ajax({
+			url: $button.data('url'),
+			type: 'POST',
+			dataType: "json",
+			data: {"fields": fields, "md5_key": md5_key},
+			success: function(result)
+			{
+				if(result.code == 0)
+				{
+					Prompt(result.msg, 'success');
+					setTimeout(function()
+					{
+						window.location.reload();
+					}, 1500);
+					
+				} else {
+					$button.button('reset');
+					Prompt(result.msg);
+				}
+			},
+			error: function(xhr, type)
+			{
+				$button.button('reset');
+				Prompt('网络异常出错');
+			}
+		});
+    });
+
+    // 表格字段复选框操作 全选/反选
+    $('.form-table-field-checkbox-submit').on('click', function()
+    {
+    	var value = parseInt($(this).attr('data-value')) || 0;
+        if(value == 1)
+        {
+        	var not_checked_text = $(this).data('not-checked-text') || '全选';
+            $(this).text(not_checked_text);
+            $('.form-table-fields-list-container ul li').find('input[type="checkbox"]').uCheck('uncheck');
+        } else {
+            var checked_text = $(this).data('checked-text') || '反选';
+            $(this).text(checked_text);
+            $('.form-table-fields-list-container ul li').find('input[type="checkbox"]').uCheck('check');
+        }
+        $(this).attr('data-value', value == 1 ? 0 : 1);
+    });
 
     // 表格复选框操作 全选/反选
     $('.form-table-operate-checkbox-submit').on('click', function()
@@ -1723,7 +1801,7 @@ $(function()
     	}
 
 		// 是否有选择的数据
-		var values = FromTableCheckedValues(form);
+		var values = FromTableCheckedValues(form, '.am-table-scrollable-horizontal');
 		if(values.length <= 0)
 		{
 			Prompt('请先选中数据');

@@ -638,6 +638,31 @@ button.colorpicker-submit img {
 }
 
 /**
+ * 表格-字段选择
+ */
+.form-table-fields-select-container {
+    height: 100%;
+}
+.form-table-fields-list-container {
+    height: calc(100% - 50px);
+}
+.form-table-fields-content-container li {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 10px;
+}
+.form-table-fields-content-container li:first-child {
+    border-top: 0;
+}
+.form-table-fields-button-container {
+    border-top: 1px solid #dedede;
+    height: 50px;
+}
+.form-table-fields-button-container .form-table-field-confirm-submit {
+    width: calc(100% - 130px);
+}
+
+/**
  * 公共联动地区组件样式
  */
 .region-linkage .chosen-select {

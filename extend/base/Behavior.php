@@ -286,7 +286,10 @@ class Behavior
 	 */
 	public function GetUserCookie()
 	{
-		if(!empty($_COOKIE['behavior_user_cookie'])) return $_COOKIE['behavior_user_cookie'];
+		if(!empty($_COOKIE['behavior_user_cookie']))
+		{
+			return $_COOKIE['behavior_user_cookie'];
+		}
 
 		$user_cookie = $this->GetUserNumberRand();
 		setcookie('behavior_user_cookie', $user_cookie);

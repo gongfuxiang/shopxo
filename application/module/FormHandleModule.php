@@ -12,6 +12,7 @@ namespace app\module;
 
 use think\Controller;
 use think\facade\Hook;
+use app\service\FormTableService;
 
 /**
  * 动态表格处理
@@ -31,8 +32,12 @@ class FormHandleModule
     public $out_params;
     // 条件参数
     public $where_params;
+    // md5key
+    public $md5_key;
     // 搜索条件
     public $where;
+    // 用户选择字段字段
+    public $user_fields;
 
     /**
      * 运行入口
@@ -101,6 +106,9 @@ class FormHandleModule
             ]);
         }
 
+        // md5key
+        $this->FromMd5Key($module, $action);
+
         // 基础条件
         $this->BaseWhereHandle();
 
@@ -110,13 +118,97 @@ class FormHandleModule
         // 基础数据结尾处理
         $this->FormBaseLastHandle();
 
+        // 用户字段选择处理
+        $this->FormFieldsUserSelect();
+
         // 数据返回
         $data = [
-            'table'     => $this->form_data,
-            'where'     => $this->where,
-            'params'    => $this->where_params,
+            'table'         => $this->form_data,
+            'where'         => $this->where,
+            'params'        => $this->where_params,
+            'md5_key'       => $this->md5_key,
+            'user_fields'   => $this->user_fields,
         ];
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 字段用户选择处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-10-09
+     * @desc    description
+     */
+    public function FormFieldsUserSelect()
+    {
+        // 当前用户选择的字段
+        $ret = FormTableService::FieldsSelectData(['md5_key'=>$this->md5_key]);
+        if(empty($ret['data']))
+        {
+            // 未设置则读取所有带label的字段、默认显示
+            $this->user_fields = array_filter(array_map(function($value)
+            {
+                if(!empty($value['label']) && $value['view_type'] != 'operate')
+                {
+                    return ['label'=>$value['label'], 'checked'=>1];
+                }
+            }, $this->form_data['form']));
+        } else {
+            $this->user_fields = $ret['data'];
+        }
+
+        // 如用户已选择字段则排除数据
+        if(!empty($this->user_fields))
+        {
+            $data = [];
+            // 无标题元素放在前面
+            foreach($this->form_data['form'] as $v)
+            {
+                if(empty($v['label']))
+                {
+                    $data[] = $v;
+                }
+            }
+
+            // 根据用户选择顺序追加数据
+            $temp_form = array_column($this->form_data['form'], null, 'label');
+            foreach($this->user_fields as $v)
+            {
+                if(array_key_exists($v['label'], $temp_form))
+                {
+                    $temp = $temp_form[$v['label']];
+                    $temp['is_list'] = $v['checked'];
+                    $data[] = $temp;
+                }
+            }
+
+            // 操作元素放在最后面
+            foreach($this->form_data['form'] as $v)
+            {
+                if(isset($v['view_type']) && $v['view_type'] == 'operate')
+                {
+                    $data[] = $v;
+                }
+            }
+
+            $this->form_data['form'] = $data;
+        }
+    }
+
+    /**
+     * 表单md5key值
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-10-08
+     * @desc    description
+     * @param   [string]          $module     [模块位置]
+     * @param   [string]          $action     [模块方法（默认 Run 方法，可自动匹配控制器方法名）]
+     */
+    public function FromMd5Key($module, $action)
+    {
+        $this->md5_key = md5($module.'\\'.$action);
     }
 
     /**

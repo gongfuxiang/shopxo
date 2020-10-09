@@ -95,7 +95,7 @@ $(function()
     $('.batch-pay-submit').on('click', function()
     {
         // 是否有选择的数据
-        var values = FromTableCheckedValues('order_form_checkbox_value');
+        var values = FromTableCheckedValues('order_form_checkbox_value', '.am-table-scrollable-horizontal');
         if(values.length <= 0)
         {
             Prompt('请先选中数据');
