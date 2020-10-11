@@ -728,6 +728,75 @@ class WarehouseGoodsService
     }
 
     /**
+     * 商品改变规格仓库商品库存同步
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-16
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     */
+    public static function GoodsSpecChangeInventorySync($goods_id)
+    {
+        // 获取商品实际规格
+        $res = GoodsService::GoodsSpecificationsActual($goods_id);
+        if(empty($res['value']))
+        {
+            // 没有规格则读取默认规格数据
+            $res['value'][] = [
+                'base_id'   => Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_id])->value('id'),
+                'value'     => 'default',
+            ];
+        }
+
+        // 获取商品仓库
+        $warehouse_goods = Db::name('WarehouseGoods')->where(['goods_id'=>$goods_id])->select();
+        if(!empty($warehouse_goods))
+        {
+            // 循环根据仓库处理库存
+            foreach($warehouse_goods as $wg)
+            {
+                $data = [];
+                foreach($res['value'] as $v)
+                {
+                    $md5_key = md5(empty($v['value']) ? 'default' : str_replace(',', '', $v['value']));
+                    $inventory = (int) Db::name('WarehouseGoodsSpec')->where(['warehouse_id'=>$wg['warehouse_id'], 'md5_key'=>$md5_key])->value('inventory');
+                    $data[] = [
+                        'warehouse_goods_id'    => $wg['id'],
+                        'warehouse_id'          => $wg['warehouse_id'],
+                        'goods_id'              => $wg['goods_id'],
+                        'md5_key'               => $md5_key,
+                        'spec'                  => json_encode(self::GoodsSpecMuster($v['value'], $res['title']), JSON_UNESCAPED_UNICODE),
+                        'inventory'             => $inventory,
+                        'add_time'              => time(),
+                    ];
+                }
+
+                // 删除原始数据
+                $where = [
+                    'warehouse_id'          => $wg['warehouse_id'],
+                    'goods_id'              => $wg['goods_id'],
+                ];
+                Db::name('WarehouseGoodsSpec')->where($where)->delete();
+
+                // 仓库商品更新
+                Db::name('WarehouseGoods')->where(['id'=>$wg['id']])->update([
+                    'inventory' => array_sum(array_column($data, 'inventory')),
+                    'upd_time'  => time(),
+                ]);
+
+                // 添加数据
+                if(Db::name('WarehouseGoodsSpec')->insertAll($data) < count($data))
+                {
+                    return DataReturn('规格库存添加失败', -1);
+                }
+            }
+        }
+
+        return DataReturn('操作成功', 0);
+    }
+
+    /**
      * 商品规格库存同步
      * @author  Devil
      * @blog    http://gong.gg/

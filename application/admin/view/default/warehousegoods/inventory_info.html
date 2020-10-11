@@ -69,8 +69,16 @@ function ViewModalBack(e)
             Prompt(e.msg, 'success');
             setTimeout(function()
             {
-                // 关闭弹窗
-                $(window.parent.document).find('.warehouse-goods-popup .am-close').trigger('click');
+                // 关闭弹窗、仅关闭窗口后列表数据不更新
+                // $(window.parent.document).find('.warehouse-goods-popup .am-close').trigger('click');
+
+                // 刷新页面、刷新页面列表数据重新加载
+                if(self.frameElement && self.frameElement.tagName == "IFRAME")
+                {
+                    parent.location.reload();
+                } else {
+                    window.location.reload();
+                }
             }, 1500);
         } else {
             $('form.form-validation').find('button[type="submit"]').button('reset');

@@ -1064,6 +1064,15 @@ class GoodsService
                 return $ret;
             }
 
+            // 仓库规格库存同步
+            $ret = WarehouseGoodsService::GoodsSpecChangeInventorySync($goods_id);
+            if($ret['code'] != 0)
+            {
+                // 回滚事务
+                Db::rollback();
+                return $ret;
+            }
+
             // 操作成功
             $status = true;
         }
