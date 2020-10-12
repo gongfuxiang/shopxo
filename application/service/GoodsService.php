@@ -26,6 +26,9 @@ use app\service\WarehouseGoodsService;
  */
 class GoodsService
 {
+    // 规格转成字符串分割符号
+    public static $goods_spec_to_string_separator = '{|}';
+
     /**
      * 根据id获取一条商品分类
      * @author   Devil
@@ -752,7 +755,7 @@ class GoodsService
             }
             foreach($group as &$gv)
             {
-                $gv['value'] = implode(',', $gv['value']);
+                $gv['value'] = implode(self::$goods_spec_to_string_separator, $gv['value']);
             }
             sort($group);
         }

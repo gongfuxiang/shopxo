@@ -523,7 +523,7 @@ class WarehouseGoodsService
             $spec = array_column($res['value'], 'value');
             foreach($spec as $v)
             {
-                $arr = explode(',', $v);
+                $arr = explode(GoodsService::$goods_spec_to_string_separator, $v);
                 $inventory_spec[] = [
                     'name'      => implode(' / ', $arr),
                     'spec'      => json_encode(self::GoodsSpecMuster($v, $res['title']), JSON_UNESCAPED_UNICODE),
@@ -583,7 +583,7 @@ class WarehouseGoodsService
     public static function GoodsSpecMuster($spec_str, $spec_title)
     {
         $result = [];
-        $arr = explode(',', $spec_str);
+        $arr = explode(GoodsService::$goods_spec_to_string_separator, $spec_str);
         if(count($arr) == count($spec_title))
         {
             foreach($arr as $k=>$v)
@@ -759,7 +759,7 @@ class WarehouseGoodsService
                 $data = [];
                 foreach($res['value'] as $v)
                 {
-                    $md5_key = md5(empty($v['value']) ? 'default' : str_replace(',', '', $v['value']));
+                    $md5_key = md5(empty($v['value']) ? 'default' : str_replace(GoodsService::$goods_spec_to_string_separator, '', $v['value']));
                     $inventory = (int) Db::name('WarehouseGoodsSpec')->where(['warehouse_id'=>$wg['warehouse_id'], 'md5_key'=>$md5_key])->value('inventory');
                     $data[] = [
                         'warehouse_goods_id'    => $wg['id'],
@@ -822,7 +822,7 @@ class WarehouseGoodsService
         // 商品规格库存
         foreach($res['value'] as $v)
         {
-            $inventory = self::WarehouseGoodsSpecInventory($goods_id, str_replace(',', '', $v['value']));
+            $inventory = self::WarehouseGoodsSpecInventory($goods_id, str_replace(GoodsService::$goods_spec_to_string_separator, '', $v['value']));
 
             if(Db::name('GoodsSpecBase')->where(['id'=>$v['base_id'], 'goods_id'=>$goods_id])->update(['inventory'=>$inventory]) === false)
             {

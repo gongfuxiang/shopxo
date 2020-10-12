@@ -200,7 +200,7 @@ class Devtest extends Common
                     $spec = array_column($res['value'], 'value');
                     foreach($spec as $k=>$v)
                     {
-                        $arr = explode(',', $v);
+                        $arr = explode(GoodsService::$goods_spec_to_string_separator, $v);
                         $inventory_spec[] = [
                             'name'      => implode(' / ', $arr),
                             'spec'      => json_encode(WarehouseGoodsService::GoodsSpecMuster($v, $res['title']), JSON_UNESCAPED_UNICODE),
