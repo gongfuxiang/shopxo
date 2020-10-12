@@ -4,8 +4,9 @@ Page({
     params: null,
     data_list_loding_status: 1,
     data_list_loding_msg: '',
+    data_base: null,
+    user_wallet: null,
     check_account_list: [],
-
     verify_submit_text: '获取验证码',
     verify_loading: false,
     verify_disabled: false,
@@ -65,6 +66,8 @@ Page({
         if (res.data.code == 0) {
           var data = res.data.data;
           this.setData({
+            data_base: data.base || null,
+            user_wallet: data.user_wallet || null,
             check_account_list: data.check_account_list || [],
           });
         } else {

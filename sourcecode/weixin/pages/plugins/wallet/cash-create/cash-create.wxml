@@ -1,9 +1,10 @@
 <form wx:if="{{check_status == 1}}" bindsubmit="form_submit" class="form-container oh">
   <view class="form-gorup bg-white">
     <view class="form-gorup-title">提现金额<text class="form-group-tips-must">必填</text></view>
-    <input type="digit" name="money" value="{{default_data.money || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="提现金额，最低0.01元，最高{{can_cash_max_money}}元" />
+    <input type="digit" name="money" value="{{default_data.money || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="提现金额，最低{{(data_base.cash_minimum_amount || 0) <= 0 ? 0.01 : data_base.cash_minimum_amount}}元，最高{{can_cash_max_money}}元" />
     <view class="tips form-tips">
       <view wx:if="{{(data_base || null) == null || data_base.is_cash_retain_give != 0}}">赠送金额不可提现</view>
+      <view wx:if="{{(data_base || null) != null && data_base.cash_minimum_amount > 0}}">提现最低金额 {{data_base.cash_minimum_amount}} 元起</view>
       <view>当前可提现金额 <text class="cr-main">{{can_cash_max_money}}</text> 元</view>
       <view>当前可用金额 <text class="cr-666">{{user_wallet.normal_money}}</text> 元</view>
       <view>当前赠送金额 <text class="cr-666">{{user_wallet.give_money}}</text> 元</view>
