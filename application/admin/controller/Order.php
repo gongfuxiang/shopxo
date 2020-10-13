@@ -121,6 +121,9 @@ class Order extends Common
             $ret = OrderService::OrderList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
             $this->assign('data', $data);
+
+            // 加载百度地图api
+            $this->assign('is_load_baidu_map_api', 1);
         }
         return $this->fetch();
     }

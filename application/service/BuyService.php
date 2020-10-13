@@ -1440,9 +1440,13 @@ class BuyService
             'county_name'   => isset($address['county_name']) ? $address['county_name'] : '',
             'lng'           => isset($address['lng']) ? (float) $address['lng'] : '0.0000000000',
             'lat'           => isset($address['lat']) ? (float) $address['lat'] : '0.0000000000',
+            'idcard_name'   => empty($address['idcard_name']) ? '' : $address['idcard_name'],
+            'idcard_number' => empty($address['idcard_number']) ? '' : $address['idcard_number'],
+            'idcard_front'  => empty($address['idcard_front']) ? '' : ResourcesService::AttachmentPathHandle($address['idcard_front']),
+            'idcard_back'   => empty($address['idcard_back']) ? '' : ResourcesService::AttachmentPathHandle($address['idcard_back']),
             'add_time'      => time(),
         ];
-        
+
         // 订单地址添加前钩子
         $hook_name = 'plugins_service_buy_order_address_insert_begin';
         $ret = HookReturnHandle(Hook::listen($hook_name, [

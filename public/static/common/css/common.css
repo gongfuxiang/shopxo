@@ -30,7 +30,7 @@ form.am-form .am-form-group-label-tips-must { color: #f00; }
 .am-form-group:hover>label { color: #333 !important; }
 .am-form-group:hover>label>.am-form-group-label-tips { color: #FF9800 !important; }
 form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block { border-bottom: 1px dashed #e2e2e2; padding: 15px 20% 20px 5px; margin-bottom: 0; }
-form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 0px; }
+form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 0 !important; }
 
 /**
  * 插件

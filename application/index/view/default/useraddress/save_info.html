@@ -6,35 +6,71 @@
     <form class="am-form form-validation" method="post" action="{{:MyUrl('index/useraddress/save')}}" request-type="ajax-fun" request-value="ViewModalBack">
         <div class="am-form-group">
             <label>姓名<span class="am-form-group-label-tips-must">必填</span></label>
-            <input type="text" name="name" placeholder="姓名" minlength="2" maxlength="16" data-validation-message="姓名格式 2~16 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
+            <input type="text" name="name" placeholder="姓名" minlength="2" maxlength="16" data-validation-message="姓名格式 2~16 个字符之间" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
         </div>
         <div class="am-form-group">
             <label>电话<span class="am-form-group-label-tips-must">必填</span></label>
-            <input type="text" name="tel" placeholder="电话" minlength="6" maxlength="30" data-validation-message="电话格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.tel}}"{{/if}} required />
+            <input type="text" name="tel" placeholder="电话" minlength="6" maxlength="30" data-validation-message="电话格式有误" class="am-radius" {{if !empty($data['tel'])}} value="{{$data.tel}}"{{/if}} required />
         </div>
 
         {{include file="lib/region_linkage" /}}
         <div class="am-form-group">
             <label>详细地址<span class="am-form-group-label-tips-must">必填</span></label>
             <div class="am-input-group am-input-group-sm">
-                <input type="hidden" name="lng" id="form-lng" {{if !empty($data)}} value="{{$data.lng}}"{{/if}} />
-                <input type="hidden" name="lat" id="form-lat" {{if !empty($data)}} value="{{$data.lat}}"{{/if}} />
-                <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} required />
+                <input type="hidden" name="lng" id="form-lng" {{if !empty($data['lng'])}} value="{{$data.lng}}"{{/if}} />
+                <input type="hidden" name="lat" id="form-lat" {{if !empty($data['lat'])}} value="{{$data.lat}}"{{/if}} />
+                <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} required />
                 <span class="am-input-group-btn">
                     <button type="button" class="am-btn am-btn-default am-radius" id="map-location-submit"><span class="am-icon-map-marker"></span> 定位</button>
                 </span>
             </div>
             <div id="map" data-level="17" class="am-margin-top-xs"></div>
         </div>
-        
 
         <div class="am-form-group">
             <label>别名<span class="am-form-group-label-tips">选填</span></label>
-            <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.alias}}"{{/if}} />
+            <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
         </div>
         <div class="am-form-group">
             <label class="block">是否默认</label>
             <input name="is_default" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_default']) and $data['is_default'] eq 1}}checked="true"{{/if}} />
+        </div>
+        <div class="am-alert am-alert-secondary">
+            <div class="am-form-group">
+                <label>身份证姓名<span class="am-form-group-label-tips">选填，请务必与上传的身份证件姓名保持一致</span></label>
+                <input type="text" name="idcard_name" placeholder="身份证姓名" minlength="0" maxlength="16" data-validation-message="身份证姓名格式最多 16 个字符" class="am-radius" {{if !empty($data['idcard_name'])}} value="{{$data.idcard_name}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
+                <label>身份证号码<span class="am-form-group-label-tips">选填，请务必与上传的身份证件号码保持一致</span></label>
+                <input type="text" name="idcard_number" placeholder="身份证号码" minlength="0" maxlength="18" data-validation-message="身份证号码格式最多 18 个字符" class="am-radius" {{if !empty($data['idcard_number'])}} value="{{$data.idcard_number}}"{{/if}} />
+            </div>
+            <div class="am-form-group plug-file-upload-view">
+                <label>身份证照片<span class="am-form-group-label-tips">选填，请使用身份证原件拍摄，图片要清晰</span></label>
+                <div class="am-nbfc user-address-idcard-images">
+                    <div class="am-fl">
+                        <ul class="plug-file-upload-view images-idcard_front" data-form-name="idcard_front" data-max-number="1" data-dialog-type="images">
+                            <li>
+                                {{if !empty($data['idcard_front_old'])}}
+                                    <input type="text" name="idcard_front" value="{{$data.idcard_front_old}}" />
+                                {{/if}}
+                                <img src="{{if empty($data['idcard_front'])}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-idcard-front.jpg{{else /}}{{$data.idcard_front}}{{/if}}" />
+                            </li>
+                        </ul>
+                        <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_front">+上传人像面图片</div>
+                    </div>
+                    <div class="am-fl am-margin-left-lg">
+                        <ul class="plug-file-upload-view images-idcard_back" data-form-name="idcard_back" data-max-number="1" data-dialog-type="images">
+                            <li>
+                                {{if !empty($data['idcard_back_old'])}}
+                                    <input type="text" name="idcard_back" value="{{$data.idcard_back_old}}" />
+                                {{/if}}
+                                <img src="{{if empty($data['idcard_back'])}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-idcard-back.jpg{{else /}}{{$data.idcard_back}}{{/if}}" />
+                            </li>
+                        </ul>
+                        <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_back">+上传国微面图片</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="am-form-group am-form-group-refreshing">

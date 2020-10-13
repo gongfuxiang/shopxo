@@ -405,6 +405,11 @@ function PathToParams($key = null, $default = null, $path = '')
     {
         $path = $_REQUEST['s'];
     }
+    if(empty($path))
+    {
+        $path = !empty($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : (empty($_SERVER['REDIRECT_URL']) ? (empty($_SERVER['REQUEST_URI']) ? (empty($_SERVER['PATH_TRANSLATED']) ? '' : $_SERVER['PATH_TRANSLATED']) : $_SERVER['REQUEST_URI']) : $_SERVER['REDIRECT_URL']);
+    }
+
     if(!empty($path) && !array_key_exists($key, $data))
     {
         if(substr($path, 0, 1) == '/')
@@ -429,7 +434,7 @@ function PathToParams($key = null, $default = null, $path = '')
             }
         }
     }
-    
+
     if($key !== null)
     {
         return array_key_exists($key, $data) ? $data[$key] : $default;

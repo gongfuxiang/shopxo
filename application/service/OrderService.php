@@ -1338,7 +1338,16 @@ class OrderService
     {
         // 销售模式+自提模式 地址信息
         $data = Db::name('OrderAddress')->where(['order_id'=>$order_id])->find();
-        return empty($data) ? [] : $data;
+        if(!empty($data))
+        {
+            // 附件
+            $data['idcard_front_old'] = $data['idcard_front'];
+            $data['idcard_front'] =  ResourcesService::AttachmentPathViewHandle($data['idcard_front']);
+            $data['idcard_back_old'] = $data['idcard_back'];
+            $data['idcard_back'] =  ResourcesService::AttachmentPathViewHandle($data['idcard_back']);
+            return $data;
+        }
+        return [];
     }
 
     /**

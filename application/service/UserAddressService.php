@@ -13,6 +13,7 @@ namespace app\service;
 use think\Db;
 use think\facade\Hook;
 use app\service\RegionService;
+use app\service\ResourcesService;
 
 /**
  * 用户地址服务层
@@ -54,7 +55,7 @@ class UserAddressService
         $where['is_delete_time'] = 0;
 
         // 获取用户地址
-        $field = 'id,alias,name,tel,province,city,county,address,lng,lat,is_default';
+        $field = 'id,alias,name,tel,province,city,county,address,lng,lat,is_default,idcard_name,idcard_number,idcard_front,idcard_back';
         $data = Db::name('UserAddress')->where($where)->field($field)->order('id desc')->select();
         if(!empty($data))
         {
@@ -70,6 +71,18 @@ class UserAddressService
                 if($is_default === false && $v['is_default'] == 1)
                 {
                     $is_default = true;
+                }
+
+                // 附件
+                if(isset($v['idcard_front']))
+                {
+                    $v['idcard_front_old'] = $v['idcard_front'];
+                    $v['idcard_front'] =  ResourcesService::AttachmentPathViewHandle($v['idcard_front']);
+                }
+                if(isset($v['idcard_back']))
+                {
+                    $v['idcard_back_old'] = $v['idcard_back'];
+                    $v['idcard_back'] =  ResourcesService::AttachmentPathViewHandle($v['idcard_back']);
                 }
             }
 
@@ -215,17 +228,29 @@ class UserAddressService
             $where = ['user_id' => $params['user']['id'], 'id'=>$params['id']];
             $temp = Db::name('UserAddress')->where($where)->find();
         }
+
+        // 附件
+        $data_fields = ['idcard_front', 'idcard_back'];
+        $attachment = ResourcesService::AttachmentParams($params, $data_fields);
+        if($attachment['code'] != 0)
+        {
+            return $attachment;
+        }
         
         // 操作数据
         $is_default = isset($params['is_default']) ? intval($params['is_default']) : 0;
         $data = [
-            'name'          => $params['name'],
-            'tel'           => $params['tel'],
-            'province'      => intval($params['province']),
-            'city'          => intval($params['city']),
-            'county'        => isset($params['county']) ? intval($params['county']) : 0,
-            'address'       => $params['address'],
-            'is_default'    => $is_default,
+            'name'              => $params['name'],
+            'tel'               => $params['tel'],
+            'province'          => intval($params['province']),
+            'city'              => intval($params['city']),
+            'county'            => isset($params['county']) ? intval($params['county']) : 0,
+            'address'           => $params['address'],
+            'idcard_name'       => empty($params['idcard_name']) ? '' : $params['idcard_name'],
+            'idcard_number'     => empty($params['idcard_number']) ? '' : $params['idcard_number'],
+            'idcard_front'      => $attachment['data']['idcard_front'],
+            'idcard_back'       => $attachment['data']['idcard_back'],
+            'is_default'        => $is_default,
         ];
         if(!empty($params['alias']))
         {

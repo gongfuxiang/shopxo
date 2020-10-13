@@ -93,8 +93,10 @@
                                     <span class="am-icon-angle-right am-icon-md"></span>
                                 </div>
                                 <div class="address-operation-btn">
-                                    <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
-                                    <span class="cut">|</span>
+                                    {{if isset($address['is_default']) and $address['is_default'] neq 1}}
+                                        <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
+                                        <span class="cut">|</span>
+                                    {{/if}}
                                     <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}" data-popup-title="编辑地址"> 编辑</a>
                                     <span class="cut">|</span>
                                     <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> 删除</a>

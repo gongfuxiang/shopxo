@@ -78,6 +78,9 @@ class UserAddress extends Common
             $data = $ret['data'];
         }
 
+        // 编辑器文件存放地址
+        $this->assign('editor_path_type', 'user_address-'.intval($this->user['id']%(3*24)/24));
+
         // 加载百度地图api
         $this->assign('is_load_baidu_map_api', 1);
         $this->assign('data', $data);
@@ -93,7 +96,7 @@ class UserAddress extends Common
      */
     public function Save()
     {
-        $params = input('post.');
+        $params = $this->data_post;
         $params['user'] = $this->user;
         return UserAddressService::UserAddressSave($params);
     }
@@ -108,7 +111,7 @@ class UserAddress extends Common
      */
     public function Delete()
     {
-        $params = $_POST;
+        $params = $this->data_post;
         $params['user'] = $this->user;
         return UserAddressService::UserAddressDelete($params);
     }
@@ -123,7 +126,7 @@ class UserAddress extends Common
      */
     public function SetDefault()
     {
-        $params = $_POST;
+        $params = $this->data_post;
         $params['user'] = $this->user;
         return UserAddressService::UserAddressDefault($params);
     }
