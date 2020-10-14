@@ -58,7 +58,7 @@ class UserAddress extends Common
             'total'     =>  $total,
             'where'     =>  $this->data_request,
             'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/UserAddress/index'),
+            'url'       =>  MyUrl('admin/useraddress/index'),
         ];
         $page = new \base\Page($page_params);
 
