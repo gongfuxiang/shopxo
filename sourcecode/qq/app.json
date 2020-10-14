@@ -26,6 +26,7 @@
     "pages/user-orderaftersale/user-orderaftersale",
     "pages/user-orderaftersale-detail/user-orderaftersale-detail",
     "pages/extraction-address/extraction-address",
+    "pages/common/open-setting-location/open-setting-location",
     "pages/plugins/coupon/index/index",
     "pages/plugins/coupon/user/user",
     "pages/plugins/wallet/user/user",

@@ -1,0 +1,8 @@
+<!-- 身份证信息 -->
+{{if !empty($module_data)}}
+    <p>姓名：{{$module_data.idcard_name}}</p>
+    <p>号码：{{$module_data.idcard_number}}</p>
+    {{if !empty($module_data['idcard_front']) or !empty($module_data['idcard_back'])}}
+        <p class="am-nbfc"><span class="am-fl">照片：</span>{{if !empty($module_data['idcard_front'])}}<a href="{{$module_data.idcard_front}}" target="_blank" class="am-fl"><img width="35" height="27" src="{{$module_data.idcard_front}}" alt="身份证人像面" class="am-img-thumbnail am-radius am-block" /></a>{{/if}} {{if !empty($module_data['idcard_back'])}}<a href="{{$module_data.idcard_back}}" target="_blank" class="am-fl am-margin-left-xs"><img width="35" height="27" src="{{$module_data.idcard_back}}" alt="身份证人像面" class="am-img-thumbnail am-radius am-block" /></a>{{/if}}</p>
+    {{/if}}
+{{/if}}

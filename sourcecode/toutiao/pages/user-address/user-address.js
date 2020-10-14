@@ -10,11 +10,11 @@ Page({
 
   onLoad(params) {
     this.setData({params: params});
-    this.init();
   },
 
   onShow() {
     tt.setNavigationBarTitle({title: app.data.common_pages_title.user_address});
+    this.init();
   },
 
   // 初始化
@@ -235,6 +235,89 @@ Page({
       });
       tt.navigateBack();
     }
+  },
+
+  // 获取系统地址
+  choose_system_address_event(e) {
+    if((e.is_power || 0) == 0)
+    {
+      e['is_power'] = 1;
+      app.auth_setting_authorize('scope.address', this, 'choose_system_address_event', e, '收货地址');
+      return false;
+    }
+    var self = this;
+    tt.chooseAddress({
+      success (res) {
+        var data = {
+          "name": res.userName || '',
+          "tel": res.telNumber || '',
+          "province": res.provinceName || '',
+          "city": res.cityName || '',
+          "county": res.countyName || '',
+          "address": res.detailInfo || '',
+        };
+
+        // 加载loding
+        tt.showLoading({ title: "处理中..." });
+    
+        // 获取数据
+        tt.request({
+          url: app.get_request_url("outsystemadd", "useraddress"),
+          method: "POST",
+          data: data,
+          dataType: "json",
+          headers: { 'content-type': 'application/x-www-form-urlencoded' },
+          success: res => {
+            tt.hideLoading();
+            if (res.data.code == 0) {
+              self.get_data_list();
+            } else {
+              if (app.is_login_check(res.data)) {
+                app.showToast(res.data.msg);
+              } else {
+                app.showToast('提交失败，请重试！');
+              }
+            }
+          },
+          fail: () => {
+            tt.hideLoading();
+            app.showToast("服务器请求出错");
+          }
+        });
+      }
+    });
+  },
+
+  // 地址编辑
+  address_edit_event(e) {
+    var index = e.currentTarget.dataset.index || 0;
+    var data = this.data.data_list[index] || null;
+    if (data == null)
+    {
+      app.showToast("地址有误");
+      return false;
+    }
+
+    // 进入编辑页面
+    tt.navigateTo({
+      url: '/pages/user-address-save/user-address-save?id='+data.id
+    });
+  },
+
+  // 地图查看
+  address_map_event(e) {
+    var index = e.currentTarget.dataset.index || 0;
+    var data = this.data.data_list[index] || null;
+    if (data == null)
+    {
+      app.showToast("地址有误");
+      return false;
+    }
+
+    // 打开地图
+    var name = data.alias || data.name || '';
+    var address = (data.province_name || '') + (data.city_name || '') + (data.county_name || '') + (data.address || '');
+    app.open_location(data.lng, data.lat, name, address);
   },
   
 });

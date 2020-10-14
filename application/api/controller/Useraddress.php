@@ -39,7 +39,20 @@ class UserAddress extends Common
     }
 
     /**
-     * 获取用户地址详情
+     * 地址列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-07-18
+     * @desc    description
+     */
+    public function Index()
+    {
+        return UserAddressService::UserAddressList(['user'=>$this->user]);
+    }
+
+    /**
+     * 地址详情
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -50,21 +63,14 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserAddressService::UserAddressRow($params);
-    }
+        $data = empty($params['id']) ? [] : UserAddressService::UserAddressRow($params);
 
-    /**
-     * 获取用户地址列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-07-18
-     * @desc    description
-     */
-    public function Index()
-    {
-        return UserAddressService::UserAddressList(['user'=>$this->user]);
-        
+        // 返回数据
+        $result = [
+            'data'              => empty($data['data']) ? null : $data['data'],
+            'editor_path_type'  => UserAddressService::EditorAttachmentPathType($this->user['id']),
+        ];
+        return DataReturn('success', 0, $result);
     }
 
     /**

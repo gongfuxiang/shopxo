@@ -147,12 +147,17 @@ class GoodsBrowseService
 
             // 是否公共读取
             $is_public = (isset($params['is_public']) && $params['is_public'] == 0) ? 0 : 1;
+            $users = [];
             foreach($data as &$v)
             {
                 // 用户信息
                 if(isset($v['user_id']) && $is_public == 0)
                 {
-                    $v['user'] = UserService::GetUserViewInfo($v['user_id']);
+                    if(!array_key_exists($v['user_id'], $users))
+                    {
+                        $users[$v['user_id']] = UserService::GetUserViewInfo($v['user_id']);
+                    }
+                    $v['user'] =  $users[$v['user_id']];
                 }
             }
         }

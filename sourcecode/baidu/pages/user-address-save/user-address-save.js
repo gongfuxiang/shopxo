@@ -1,22 +1,18 @@
 const app = getApp();
-
 Page({
   data: {
-    data_list_loding_status: 1,
-    data_list_loding_msg: '处理错误',
     params: null,
-    
-    name : '',
-    tel : '',
-    address: '',
-    is_default: 0,
-    province_id: null,
-    city_id: null,
-    county_id: null,
-
+    data_list_loding_status: 1,
+    data_list_loding_msg: '',
+    editor_path_type: '',
+    address_data: null,
     province_list: [],
     city_list: [],
     county_list: [],
+    province_id: null,
+    city_id: null,
+    county_id: null,
+    idcard_images_data: {},
 
     default_province: "请选择省",
     default_city: "请选择市",
@@ -24,21 +20,34 @@ Page({
 
     province_value: null,
     city_value: null,
-    county_value: null
+    county_value: null,
+
+    user_location_cache_key: app.data.cache_userlocation_key,
+    user_location: null,
+
+    form_submit_disabled_status: false,
   },
 
   onLoad(params) {
     this.setData({ params: params });
   },
 
-  onShow() {
-    if ((this.data.params.id || null) == null) {
+  onReady: function () {
+    if((this.data.params.id || null) == null)
+    {
       var title = app.data.common_pages_title.user_address_save_add;
     } else {
       var title = app.data.common_pages_title.user_address_save_edit;
     }
-    swan.setNavigationBarTitle({ title: title });
+    swan.setNavigationBarTitle({title: title});
+
+    // 清除位置缓存信息
+    swan.removeStorage({key: this.data.user_location_cache_key});
     this.init();
+  },
+
+  onShow() {
+    this.user_location_init();
   },
 
   init() {
@@ -55,14 +64,8 @@ Page({
         });
         return false;
       } else {
-        // 获取地址数据
-        if((this.data.params.id || null) != null)
-        {
-          this.get_user_address();
-        }
-
-        // 获取省
         this.get_province_list();
+        this.get_data();
       }
     } else {
       this.setData({
@@ -72,12 +75,9 @@ Page({
     }
   },
 
-  //   获取用户地址
-  get_user_address() {
+  // 获取数据
+  get_data() {
     var self = this;
-    // 加载loding
-    swan.showLoading({ title: "加载中..." });
-
     swan.request({
       url: app.get_request_url("detail", "useraddress"),
       method: "POST",
@@ -85,24 +85,48 @@ Page({
       dataType: "json",
       header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
-        swan.hideLoading();
         if (res.data.code == 0) {
-          var data = res.data.data;
+          var data = res.data.data || null;
+          var ads_data = data.data || null;
+          var idcard_images = {
+            idcard_front: (ads_data == null) ? '' : ads_data.idcard_front || '',
+            idcard_back: (ads_data == null) ? '' : ads_data.idcard_back || '',
+          };
           self.setData({
-            name: data.name,
-            tel: data.tel,
-            address: data.address,
-            province_id: data.province,
-            city_id: data.city,
-            county_id: data.county,
-            is_default: data.is_default || 0
+            address_data: ads_data,
+            idcard_images_data: idcard_images,
+            editor_path_type: data.editor_path_type || '',
           });
 
+          // 数据设置
+          if(ads_data != null)
+          {
+            self.setData({
+              province_id: ads_data.province || null,
+              city_id: ads_data.city || null,
+              county_id: ads_data.county || null,
+            });
+
+            // 地理位置
+            var lng = ads_data.lng || null;
+            var lat = ads_data.lat || null;
+            if (lng != null && lat != null)
+            {
+              self.setData({ user_location: {
+                lng: lng,
+                lat: lat,
+                address: ads_data.address || '',
+              }});
+            }
+          }
+          
+          // 获取城市、区县
           self.get_city_list();
           self.get_county_list();
 
+          // 半秒后初始化数据
           setTimeout(function () {
-            self.init_value();
+            self.init_region_value();
           }, 500);
         } else {
           if (app.is_login_check(res.data)) {
@@ -111,13 +135,35 @@ Page({
         }
       },
       fail: () => {
-        swan.hideLoading();
-        app.showToast("服务器请求出错");
+        app.showToast("省份信息失败");
       }
     });
   },
 
-  // 获取选择的省市区
+  // 地区数据初始化
+  init_region_value() {
+     this.setData({
+      province_value: this.get_region_value("province_list", "province_id"),
+      city_value: this.get_region_value("city_list", "city_id"),
+      county_value: this.get_region_value("county_list", "county_id"),
+    });
+  },
+
+  // 地区初始化匹配索引
+  get_region_value(list, id) {
+    var data = this.data[list];
+    var data_id = this.data[id];
+    var value = null;
+    data.forEach((d, i) => {
+      if (d.id == data_id) {
+        value = i;
+        return false;
+      }
+    });
+    return value;
+  },
+
+  // 获取省份
   get_province_list() {
     var self = this;
     swan.request({
@@ -137,11 +183,12 @@ Page({
         }
       },
       fail: () => {
-        app.showToast("服务器请求出错");
+        app.showToast("省份获取失败");
       }
     });
   },
 
+  // 获取市
   get_city_list() {
     var self = this;
     if (self.data.province_id) {
@@ -164,12 +211,13 @@ Page({
           }
         },
         fail: () => {
-          app.showToast("服务器请求出错");
+          app.showToast("城市获取失败");
         }
       });
     }
   },
 
+  // 获取区/县
   get_county_list() {
     var self = this;
     if (self.data.city_id) {
@@ -193,19 +241,19 @@ Page({
           }
         },
         fail: () => {
-          app.showToast("服务器请求出错");
+          app.showToast("区/县获取失败");
         }
       });
     }
   },
 
-  select_province(e) {
-    if(e.detail.value >= 0)
-    {
-      var value = e.detail.value,
-        data = this.data.province_list[value];
+  // 省份事件
+  select_province_event(e) {
+    var index = e.detail.value || 0;
+    if (index >= 0) {
+      var data = this.data.province_list[index];
       this.setData({
-        province_value: value,
+        province_value: index,
         province_id: data.id,
         city_value: null,
         county_value: null,
@@ -216,13 +264,13 @@ Page({
     }
   },
 
-  select_city(e) {
-    if(e.detail.value >= 0)
-    {
-      var value = e.detail.value,
-        data = this.data.city_list[value];
+  // 市事件
+  select_city_event(e) {
+    var index = e.detail.value || 0;
+    if (index >= 0) {
+      var data = this.data.city_list[index];
       this.setData({
-        city_value: value,
+        city_value: index,
         city_id: data.id,
         county_value: null,
         county_id: null
@@ -231,62 +279,181 @@ Page({
     }
   },
 
-  select_county(e) {
-    if(e.detail.value >= 0)
-    {
-      var value = e.detail.value,
-        data = this.data.county_list[value];
+  // 区/县事件
+  select_county_event(e) {
+    var index = e.detail.value || 0;
+    if (index >= 0) {
+      var data = this.data.county_list[index];
       this.setData({
-        county_value: value,
+        county_value: index,
         county_id: data.id
       });
     }
   },
 
-  init_value() {
-    var province_value = this.get_init_value("province_list", "province_id"),
-        city_value = this.get_init_value("city_list", "city_id"),
-        county_value = this.get_init_value("county_list", "county_id");
-    this.setData({
-      province_value: province_value,
-      city_value: city_value,
-      county_value: county_value
+  // 省市区未按照顺序选择提示
+  region_select_error_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if (value != null) {
+      app.showToast(value);
+    }
+  },
+
+  // 选择地理位置
+  choose_location_event(e) {
+    swan.navigateTo({
+      url: '/pages/common/open-setting-location/open-setting-location'
     });
   },
 
-  get_init_value(list, id) {
-    var data = this.data[list],
-        data_id = this.data[id],
-        value;
-    data.forEach((d, i) => {
-      if (d.id == data_id) {
-        value = i;
-        return false;
+  // 地址信息初始化
+  user_location_init() {
+    var result = swan.getStorageSync(this.data.user_location_cache_key) || null;
+    var data = null;
+    if (result != null)
+    {
+      data = {
+        name: result.name || null,
+        address: result.address || null,
+        lat: result.latitude || null,
+        lng: result.longitude || null
+      }
+    }
+    this.setData({user_location: data});
+  },
+
+  // 文件上传
+  file_upload_event(e) {
+    var form_name = e.currentTarget.dataset.value || null;
+    if(form_name == null) {
+      app.showToast('表单名称类型有误');
+      return false;
+    }
+
+    var self = this;
+    swan.chooseImage({
+      count: 1,
+      success(res) {
+        var success = 0;
+        var fail = 0;
+        var length = res.tempFilePaths.length;
+        var count = 0;
+        self.upload_one_by_one(res.tempFilePaths, success, fail, count, length, form_name);
       }
     });
-    return value;
+  },
+
+  // 采用递归的方式上传多张
+  upload_one_by_one(img_paths, success, fail, count, length, form_name) {
+    var self = this;
+    swan.uploadFile({
+      url: app.get_request_url("index", "ueditor"),
+      filePath: img_paths[count],
+      name: 'upfile',
+      formData: {
+        action: 'uploadimage',
+        path_type: self.data.editor_path_type
+      },
+      success: function (res) {
+        success++;
+        if (res.statusCode == 200) {
+          var data = (typeof (res.data) == 'object') ? res.data : JSON.parse(res.data);
+          if (data.code == 0 && (data.data.url || null) != null) {
+            var temp_idcard_images_data = self.data.idcard_images_data || {};
+            temp_idcard_images_data[form_name] = data.data.url;
+            self.setData({ idcard_images_data: temp_idcard_images_data });
+          } else {
+            app.showToast(data.msg);
+          }
+        }
+      },
+      fail: function (e) {
+        fail++;
+      },
+      complete: function (e) {
+        count++; // 下一张
+        if (count >= length) {
+          // 上传完毕，作一下提示
+          //app.showToast('上传成功' + success +'张', 'success');
+        } else {
+          // 递归调用，上传下一张
+          self.upload_one_by_one(img_paths, success, fail, count, length, form_name);
+        }
+      }
+    });
+  },
+
+  // 图片删除
+  upload_delete_event(e) {
+    var form_name = e.currentTarget.dataset.value || null;
+    if(form_name == null) {
+      app.showToast('表单名称类型有误');
+      return false;
+    }
+
+    var self = this;
+    swan.showModal({
+      title: '温馨提示',
+      content: '删除后不可恢复、继续吗？',
+      success(res) {
+        if (res.confirm) {
+          var temp_idcard_images_data = self.data.idcard_images_data || {};
+          temp_idcard_images_data[form_name] = '';
+          self.setData({ idcard_images_data: temp_idcard_images_data });
+        }
+      }
+    });
   },
 
   // 数据提交
   form_submit(e) {
-    var self = this,
-        data = self.data;
+    var self = this;
     // 表单数据
     var form_data = e.detail.value;
 
     // 数据校验
-    var validation = [{ fields: "name", msg: "请填写姓名" }, { fields: "tel", msg: "请填写手机号" }, { fields: "province", msg: "请选择省份" }, { fields: "city", msg: "请选择城市" }, { fields: "county", msg: "请选择区县" }, { fields: "address", msg: "请填写详细地址" }];
+    var validation = [
+      { fields: "name", msg: "请填写联系人" },
+      { fields: "tel", msg: "请填写联系电话" },
+      { fields: "province", msg: "请选择省份" },
+      { fields: "city", msg: "请选择城市" },
+      { fields: "county", msg: "请选择区县" },
+      { fields: "address", msg: "请填写详细地址" },
+      { fields: "lng", msg: "请选择地理位置" },
+      { fields: "lat", msg: "请选择地理位置" }
+    ];
 
-    form_data["province"] = data.province_id;
-    form_data["city"] = data.city_id;
-    form_data["county"] = data.county_id;
+    form_data["province"] = self.data.province_id;
+    form_data["city"] = self.data.city_id;
+    form_data["county"] = self.data.county_id;
     form_data["id"] = self.data.params.id || 0;
-    form_data["is_default"] = self.data.is_default || 0;
+    form_data["is_default"] = form_data.is_default == true ? 1 : 0;
+    form_data['idcard_front'] = self.data.idcard_images_data.idcard_front || '';
+    form_data['idcard_back'] = self.data.idcard_images_data.idcard_back || '';
 
+    // 地理位置
+    var lng = 0;
+    var lat = 0;
+    if((self.data.user_location || null) != null) {
+      lng = self.data.user_location.lng || 0;
+      lat = self.data.user_location.lat || 0;
+    }
+    if((self.data.address_data || null) != null) {
+      if((lng || null) == null) {
+        lng = self.data.address_data.lng || 0;
+      }
+      if((lat || null) == null) {
+        lat = self.data.address_data.lat || 0;
+      }
+    }
+    form_data["lng"] = lng;
+    form_data["lat"] = lat;
+
+    // 验证提交表单
     if (app.fields_check(form_data, validation)) {
-      // 加载loding
+      // 数据保存
+      self.setData({ form_submit_disabled_status: true });
       swan.showLoading({ title: "处理中..." });
-
       swan.request({
         url: app.get_request_url("save", "useraddress"),
         method: "POST",
@@ -301,6 +468,7 @@ Page({
               swan.navigateBack();
             }, 1000);
           } else {
+            self.setData({ form_submit_disabled_status: false });
             if (app.is_login_check(res.data)) {
               app.showToast(res.data.msg);
             } else {
@@ -309,19 +477,11 @@ Page({
           }
         },
         fail: () => {
+          self.setData({ form_submit_disabled_status: false });
           swan.hideLoading();
           app.showToast("服务器请求出错");
         }
       });
     }
   },
-
-  // 省市区未按照顺序选择提示
-  region_select_error_event(e) {
-    var value = e.currentTarget.dataset.value || null;
-    if(value != null)
-    {
-      app.showToast(value);
-    }
-  }
 });

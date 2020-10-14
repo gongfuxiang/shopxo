@@ -24,6 +24,9 @@ App({
     // 启动参数缓存key
     cache_launch_info_key: "cache_shop_launch_info_key",
 
+    // 获取位置选择缓存key
+    cache_userlocation_key: "cache_userlocation_key",
+
     // 默认用户头像
     default_user_head_src: "/images/default-user.png",
 
@@ -644,7 +647,17 @@ App({
     return json;
   },
 
-  // 文件上传权限获取
+  /**
+   * 文件上传权限获取
+   * @author  Devil
+   * @blog    http://gong.gg/
+   * @version 1.0.0
+   * @date    2020-10-14
+   * @desc    description
+   * @param   {[object]}        object [当前页面对象]
+   * @param   {[string]}        method [回调方法]
+   * @param   {[object]}        params [同步参数]
+   */
   file_upload_authorize(object, method, params) {
     var self = this;
     tt.getSetting({
@@ -705,14 +718,26 @@ App({
     });
   },
 
-  // 位置权限获取
-  location_authorize(object, method, params) {
+  /**
+   * 权限获取
+   * @author  Devil
+   * @blog    http://gong.gg/
+   * @version 1.0.0
+   * @date    2020-10-14
+   * @desc    description
+   * @param   {[string]}        auth_type [权限名称]
+   * @param   {[object]}        object    [当前页面对象]
+   * @param   {[string]}        method    [回调方法]
+   * @param   {[object]}        params    [同步参数]
+   * @param   {[string]}        msg       [提示名称]
+   */
+  auth_setting_authorize(auth_type, object, method, params, msg) {
     var self = this;
     tt.getSetting({
       success(res) {
-        if (!res.authSetting['scope.userLocation']) {
+        if (!res.authSetting[auth_type]) {
           tt.authorize({
-            scope: 'scope.userLocation',
+            scope: auth_type,
             success (res) {
               if (typeof object === 'object' && (method || null) != null) {
                 object[method](params);
@@ -720,7 +745,7 @@ App({
             },
             fail (res) {
               tt.openSetting();
-              self.showToast('请同意地理位置授权');
+              self.showToast('请同意'+(msg || auth_type)+'授权');
             }
           });
         } else {
@@ -877,11 +902,34 @@ App({
   },
 
   /**
-   * 百度坐标BD-09到火星坐标GCJ02(高德，谷歌，腾讯坐标)
-   * object     回调操作对象
-   * method     回调操作对象的函数
+   * 火星坐标GCJ02到百度坐标BD-09(高德，谷歌，腾讯坐标 -> 百度)
+   * lng     经度
+   * lat     纬度
+   */
+  map_gcj_to_bd(lng, lat) {
+    lng = parseFloat(lng);
+    lat = parseFloat(lat);
+    let x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+    let x = lng;
+    let y = lat;
+    let z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+    let theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+    let lngs = z * Math.cos(theta) + 0.0065;
+    let lats = z * Math.sin(theta) + 0.006;
+    return {
+      lng: lngs,
+      lat: lats
+    };
+  },
+
+  /**
+   * 百度坐标BD-09到火星坐标GCJ02(百度 -> 高德，谷歌，腾讯坐标)
+   * lng     经度
+   * lat     纬度
    */
   map_bd_to_gcj(lng, lat) {
+    lng = parseFloat(lng);
+    lat = parseFloat(lat);
     let x_pi = 3.14159265358979324 * 3000.0 / 180.0;
     let x = lng - 0.0065;
     let y = lat - 0.006;
@@ -908,11 +956,15 @@ App({
       this.showToast('坐标有误');
       return false;
     }
+    if((address || null) == null) {
+      this.showToast('地址有误');
+      return false;
+    }
 
     // 转换坐标打开位置
-    var position = this.map_bd_to_gcj(parseFloat(lng), parseFloat(lat));
+    var position = this.map_bd_to_gcj(lng, lat);
     tt.openLocation({
-      name: name || '',
+      name: name || '当前位置',
       address: address || '',
       scale: scale || 18,
       longitude: position.lng,

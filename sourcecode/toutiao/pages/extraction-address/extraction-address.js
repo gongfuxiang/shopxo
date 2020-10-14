@@ -109,7 +109,7 @@ Page({
     if((e.is_power || 0) == 0)
     {
       e['is_power'] = 1;
-      app.location_authorize(this, 'address_map_event', e);
+      app.auth_setting_authorize('scope.userLocation', this, 'address_map_event', e, '地理位置');
       return false;
     }
 

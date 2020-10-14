@@ -1,0 +1,6 @@
+<!-- 是否默认 -->
+{{if isset($module_data['is_default']) and $module_data['is_default'] eq 1}}
+    <span class="am-badge am-badge-success-plain am-round">默认</span>
+{{else /}}
+    <span class="am-badge am-badge-default-plain am-round">否</span>
+{{/if}}

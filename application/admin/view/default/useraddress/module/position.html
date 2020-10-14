@@ -1,0 +1,7 @@
+<!--  经纬度 -->
+{{if !empty($module_data['lng'])}}
+    <p><span class="am-badge am-radius">经度</span> {{$module_data.lng}}</p>
+{{/if}}
+{{if !empty($module_data['lat'])}}
+    <p class="am-margin-top-xs"><span class="am-badge am-radius">纬度</span> {{$module_data.lat}}</p>
+{{/if}}

@@ -20,7 +20,7 @@ Page({
     city_value: null,
     county_value: null,
 
-    user_location_cache_key: 'cache_userlocation_key',
+    user_location_cache_key: app.data.cache_userlocation_key,
     user_location: null,
 
     form_submit_disabled_status: false,
@@ -91,8 +91,8 @@ Page({
             });
 
             // 地理位置
-            var lng = (data.lng || 0) <= 0 ? null : data.lng;
-            var lat = (data.lat || 0) <= 0 ? null : data.lat;
+            var lng = data.lng || null;
+            var lat = data.lat || null;
             if (lng != null && lat != null)
             {
               self.setData({ user_location: {
@@ -174,7 +174,6 @@ Page({
   // 获取市
   get_city_list() {
     var self = this;
-    console.log(self.data.province_id)
     if (self.data.province_id) {
       wx.request({
         url: app.get_request_url("index", "region"),
@@ -329,11 +328,22 @@ Page({
     form_data["county"] = self.data.county_id;
 
     // 地理位置
-    if ((self.data.user_location || null) != null)
-    {
-      form_data["lng"] = self.data.user_location.lng || 0;
-      form_data["lat"] = self.data.user_location.lat || 0;
+    var lng = 0;
+    var lat = 0;
+    if((self.data.user_location || null) != null) {
+      lng = self.data.user_location.lng || 0;
+      lat = self.data.user_location.lat || 0;
     }
+    if((self.data.extraction_data || null) != null) {
+      if((lng || null) == null) {
+        lng = self.data.extraction_data.lng || 0;
+      }
+      if((lat || null) == null) {
+        lat = self.data.extraction_data.lat || 0;
+      }
+    }
+    form_data["lng"] = lng;
+    form_data["lat"] = lat;
 
     // 验证提交表单
     if (app.fields_check(form_data, validation)) {

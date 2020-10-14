@@ -79,7 +79,7 @@ class UserAddress extends Common
         }
 
         // 编辑器文件存放地址
-        $this->assign('editor_path_type', 'user_address-'.intval($this->user['id']%(3*24)/24));
+        $this->assign('editor_path_type', UserAddressService::EditorAttachmentPathType($this->user['id']));
 
         // 加载百度地图api
         $this->assign('is_load_baidu_map_api', 1);

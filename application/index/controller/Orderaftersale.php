@@ -137,7 +137,7 @@ class Orderaftersale extends Common
             $this->assign('common_order_aftersale_type_list', lang('common_order_aftersale_type_list'));
 
             // 编辑器文件存放地址
-            $this->assign('editor_path_type', 'order_aftersale-'.intval($this->user['id']%(3*24)/24).'-'.$order_id.'-'.$order_detail_id);
+            $this->assign('editor_path_type', OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id));
 
             // 订单售后搜索form key
             $this->assign('form_search_keywords_form_key', 'f0p');

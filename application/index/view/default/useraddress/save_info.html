@@ -53,7 +53,7 @@
                                 {{if !empty($data['idcard_front_old'])}}
                                     <input type="text" name="idcard_front" value="{{$data.idcard_front_old}}" />
                                 {{/if}}
-                                <img src="{{if empty($data['idcard_front'])}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-idcard-front.jpg{{else /}}{{$data.idcard_front}}{{/if}}" />
+                                <img src="{{if empty($data['idcard_front'])}}{{$attachment_host}}/static/common/images/default-idcard-front.jpg{{else /}}{{$data.idcard_front}}{{/if}}" />
                             </li>
                         </ul>
                         <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_front">+上传人像面图片</div>
@@ -64,7 +64,7 @@
                                 {{if !empty($data['idcard_back_old'])}}
                                     <input type="text" name="idcard_back" value="{{$data.idcard_back_old}}" />
                                 {{/if}}
-                                <img src="{{if empty($data['idcard_back'])}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-idcard-back.jpg{{else /}}{{$data.idcard_back}}{{/if}}" />
+                                <img src="{{if empty($data['idcard_back'])}}{{$attachment_host}}/static/common/images/default-idcard-back.jpg{{else /}}{{$data.idcard_back}}{{/if}}" />
                             </li>
                         </ul>
                         <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_back">+上传国微面图片</div>
@@ -74,7 +74,7 @@
         </div>
 
         <div class="am-form-group am-form-group-refreshing">
-            <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
+            <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
             <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
         </div>
     </form>

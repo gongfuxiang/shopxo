@@ -24,6 +24,9 @@ App({
     // 启动参数缓存key
     cache_launch_info_key: "cache_shop_launch_info_key",
 
+    // 获取位置选择缓存key
+    cache_userlocation_key: "cache_userlocation_key",
+
     // 默认用户头像
     default_user_head_src: "/images/default-user.png",
 
@@ -71,7 +74,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://shopxo.com/',
-    // request_url: 'https://dev.shopxo.net/',
+     request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -793,11 +796,34 @@ App({
   },
 
   /**
-   * 百度坐标BD-09到火星坐标GCJ02(高德，谷歌，腾讯坐标)
-   * object     回调操作对象
-   * method     回调操作对象的函数
+   * 火星坐标GCJ02到百度坐标BD-09(高德，谷歌，腾讯坐标 -> 百度)
+   * lng     经度
+   * lat     纬度
+   */
+  map_gcj_to_bd(lng, lat) {
+    lng = parseFloat(lng);
+    lat = parseFloat(lat);
+    let x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+    let x = lng;
+    let y = lat;
+    let z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+    let theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+    let lngs = z * Math.cos(theta) + 0.0065;
+    let lats = z * Math.sin(theta) + 0.006;
+    return {
+      lng: lngs,
+      lat: lats
+    };
+  },
+
+  /**
+   * 百度坐标BD-09到火星坐标GCJ02(百度 -> 高德，谷歌，腾讯坐标)
+   * lng     经度
+   * lat     纬度
    */
   map_bd_to_gcj(lng, lat) {
+    lng = parseFloat(lng);
+    lat = parseFloat(lat);
     let x_pi = 3.14159265358979324 * 3000.0 / 180.0;
     let x = lng - 0.0065;
     let y = lat - 0.006;
@@ -824,11 +850,15 @@ App({
       this.showToast('坐标有误');
       return false;
     }
+    if((address || null) == null) {
+      this.showToast('地址有误');
+      return false;
+    }
 
     // 转换坐标打开位置
-    var position = this.map_bd_to_gcj(parseFloat(lng), parseFloat(lat));
+    var position = this.map_bd_to_gcj(lng, lat);
     wx.openLocation({
-      name: name || '',
+      name: name || '当前位置',
       address: address || '',
       scale: scale || 18,
       longitude: position.lng,

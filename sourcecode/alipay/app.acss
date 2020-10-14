@@ -297,6 +297,9 @@ textarea {
 .form-container .form-gorup-text {
   padding: 20rpx 10rpx;
 }
+.form-container .form-gorup .switch {
+  margin: 30rpx 0 20rpx 0;
+}
 
 /**
  * 表单图片上传

@@ -28,9 +28,17 @@
     margin-right: 10rpx;
     vertical-align: middle;
 }
-.operation .delete-submit {
-    margin-left: 20rpx;
+.operation .submit-items button:not(:last-child) {
+    margin-right: 20rpx;
 }
 .page {
     padding-bottom: 85rpx;
+}
+.submit-list button {
+    width: 50%;
+}
+.submit-list .import-system-address-submit {
+    background: #07c160 !important;
+    right: 0;
+    left: auto;
 }

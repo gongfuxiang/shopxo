@@ -1588,5 +1588,21 @@ class OrderAftersaleService
         $end_time = $collect_time+($launch_day*86400);
         return ($end_time >= time()) ? 1 : 0;
     }
+
+    /**
+     * 附件存储路径标识
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-10-14
+     * @desc    description
+     * @param   [int]          $user_id         [用户id]
+     * @param   [int]          $order_id        [订单id]
+     * @param   [int]          $order_detail_id [订单详情id]
+     */
+    public static function EditorAttachmentPathType($user_id, $order_id, $order_detail_id)
+    {
+        return 'order_aftersale-'.intval($user_id%(3*24)/24).'-'.$order_id.'-'.$order_detail_id;
+    }
 }
 ?>

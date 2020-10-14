@@ -110,7 +110,7 @@ Page({
     var data = this.data.detail.address_data;
 
     // 打开地图
-    var name = data.name || data.alias || '';
+    var name = data.alias || data.name || '';
     var address = (data.province_name || '') + (data.city_name || '') + (data.county_name || '') + (data.address || '');
     app.open_location(data.lng, data.lat, name, address);
   },

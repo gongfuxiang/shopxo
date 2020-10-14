@@ -10,11 +10,11 @@ Page({
 
   onLoad(params) {
     this.setData({params: params});
-    this.init();
   },
 
   onShow() {
     my.setNavigationBar({title: app.data.common_pages_title.user_address});
+    this.init();
   },
 
   // 初始化
@@ -284,6 +284,38 @@ Page({
         }
       }
     });
+  },
+
+  // 地址编辑
+  address_edit_event(e) {
+    var index = e.currentTarget.dataset.index || 0;
+    var data = this.data.data_list[index] || null;
+    if (data == null)
+    {
+      app.showToast("地址有误");
+      return false;
+    }
+
+    // 进入编辑页面
+    my.navigateTo({
+      url: '/pages/user-address-save/user-address-save?id='+data.id
+    });
+  },
+
+  // 地图查看
+  address_map_event(e) {
+    var index = e.currentTarget.dataset.index || 0;
+    var data = this.data.data_list[index] || null;
+    if (data == null)
+    {
+      app.showToast("地址有误");
+      return false;
+    }
+
+    // 打开地图
+    var name = data.alias || data.name || '';
+    var address = (data.province_name || '') + (data.city_name || '') + (data.county_name || '') + (data.address || '');
+    app.open_location(data.lng, data.lat, name, address);
   },
   
 });

@@ -17,7 +17,7 @@ Page({
     province_value: null,
     city_value: null,
     county_value: null,
-    user_location_cache_key: 'cache_userlocation_key',
+    user_location_cache_key: app.data.cache_userlocation_key,
     user_location: null,
     form_submit_disabled_status: false
   },
@@ -177,8 +177,6 @@ Page({
   // 获取市
   get_city_list() {
     var self = this;
-    console.log(self.data.province_id);
-
     if (self.data.province_id) {
       tt.request({
         url: app.get_request_url("index", "region"),

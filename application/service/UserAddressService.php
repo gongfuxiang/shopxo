@@ -26,6 +26,130 @@ use app\service\ResourcesService;
 class UserAddressService
 {
     /**
+     * 列表-管理
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function UserAddressAdminList($params = [])
+    {
+        $where = empty($params['where']) ? [] : $params['where'];
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
+
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
+
+        // 获取列表
+        $data = self::DataHandle(Db::name('UserAddress')->where($where)->order($order_by)->limit($m, $n)->select(), 0);
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 总数
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-10T22:16:29+0800
+     * @param    [array]          $where [条件]
+     */
+    public static function UserAddressTotal($where)
+    {
+        return (int) Db::name('UserAddress')->where($where)->count();
+    }
+
+    /**
+     * 删除-管理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-18
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserAddressAdminDelete($params = [])
+    {
+        // 参数是否有误
+        if(empty($params['ids']))
+        {
+            return DataReturn('操作id有误', -1);
+        }
+        // 是否数组
+        if(!is_array($params['ids']))
+        {
+            $params['ids'] = explode(',', $params['ids']);
+        }
+
+        // 删除操作
+        if(Db::name('UserAddress')->where(['id'=>$params['ids']])->delete())
+        {
+            return DataReturn('删除成功');
+        }
+
+        return DataReturn('删除失败', -100);
+    }
+
+    /**
+     * 数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-10-14
+     * @desc    description
+     * @param   [array]          $data [数据列表]
+     * @param   [int]            $is_public [是否公共访问0|1、默认1]
+     */
+    public static function DataHandle($data, $is_public = 1)
+    {
+        if(!empty($data))
+        {
+            $users = [];
+            foreach($data as &$v)
+            {
+                // 用户信息
+                if(isset($v['user_id']) && $is_public == 0)
+                {
+                    if(!array_key_exists($v['user_id'], $users))
+                    {
+                        $users[$v['user_id']] = UserService::GetUserViewInfo($v['user_id']);
+                    }
+                    $v['user'] =  $users[$v['user_id']];
+                }
+
+                // 地区
+                $v['province_name'] = RegionService::RegionName($v['province']);
+                $v['city_name'] = RegionService::RegionName($v['city']);
+                $v['county_name'] = RegionService::RegionName($v['county']);
+
+                // 附件
+                if(isset($v['idcard_front']))
+                {
+                    $v['idcard_front_old'] = $v['idcard_front'];
+                    $v['idcard_front'] =  ResourcesService::AttachmentPathViewHandle($v['idcard_front']);
+                }
+                if(isset($v['idcard_back']))
+                {
+                    $v['idcard_back_old'] = $v['idcard_back'];
+                    $v['idcard_back'] =  ResourcesService::AttachmentPathViewHandle($v['idcard_back']);
+                }
+
+                // 时间
+                if(isset($v['add_time']))
+                {
+                    $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                }
+                if(isset($v['upd_time']))
+                {
+                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
+                }
+            }
+        }
+        return $data;
+    }
+
+    /**
      * 用户地址列表列表
      * @author   Devil
      * @blog    http://gong.gg/
@@ -56,33 +180,16 @@ class UserAddressService
 
         // 获取用户地址
         $field = 'id,alias,name,tel,province,city,county,address,lng,lat,is_default,idcard_name,idcard_number,idcard_front,idcard_back';
-        $data = Db::name('UserAddress')->where($where)->field($field)->order('id desc')->select();
+        $data = self::DataHandle(Db::name('UserAddress')->where($where)->field($field)->order('id desc')->select());
         if(!empty($data))
         {
             $is_default = false;
             foreach($data as &$v)
             {
-                // 地区
-                $v['province_name'] = RegionService::RegionName($v['province']);
-                $v['city_name'] = RegionService::RegionName($v['city']);
-                $v['county_name'] = RegionService::RegionName($v['county']);
-
                 // 是否有默认地址
                 if($is_default === false && $v['is_default'] == 1)
                 {
                     $is_default = true;
-                }
-
-                // 附件
-                if(isset($v['idcard_front']))
-                {
-                    $v['idcard_front_old'] = $v['idcard_front'];
-                    $v['idcard_front'] =  ResourcesService::AttachmentPathViewHandle($v['idcard_front']);
-                }
-                if(isset($v['idcard_back']))
-                {
-                    $v['idcard_back_old'] = $v['idcard_back'];
-                    $v['idcard_back'] =  ResourcesService::AttachmentPathViewHandle($v['idcard_back']);
                 }
             }
 
@@ -602,6 +709,20 @@ class UserAddressService
 
         // 地址保存
         return self::UserAddressSave($params);
+    }
+
+    /**
+     * 附件存储路径标识
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-10-14
+     * @desc    description
+     * @param   [int]          $user_id [用户id]
+     */
+    public static function EditorAttachmentPathType($user_id)
+    {
+        return 'user_address-'.intval($user_id%(3*24)/24).'-'.$user_id;
     }
 }
 ?>

@@ -4,7 +4,7 @@ Page({
     params: null,
     is_show_open_setting: false,
     auth: 'scope.userLocation',
-    cache_key: 'cache_userlocation_key'
+    cache_key: app.data.cache_userlocation_key
   },
 
   onLoad: function (params) {
@@ -53,6 +53,9 @@ Page({
   choose_location() {
     swan.chooseLocation({
       success: res => {
+        var position = app.map_gcj_to_bd(res.longitude, res.latitude);
+        res.longitude = position.lng;
+        res.latitude = position.lat;
         swan.setStorageSync(this.data.cache_key, res);
         swan.navigateBack();
       },

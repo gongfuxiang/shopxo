@@ -3,6 +3,7 @@
     <view class="item bg-white spacing-mb" qq:for="{{data_list}}" qq:key="key">
       <view bindtap="address_conent_event" data-index="{{index}}">
         <view class="base oh">
+          <text qq:if="{{(item.alias || null) != null}}" class="address-alias">{{item.alias}}</text>
           <text>{{item.name}}</text>
           <text class="fr">{{item.tel}}</text>
         </view>
@@ -17,10 +18,11 @@
           <image qq:else class="item-icon" src="/images/default-select-icon.png" mode="widthFix" />
           <text>设为默认地址</text>
         </view>
-        <button class="fr cr-666 delete-submit br" type="default" size="mini" bindtap="address_delete_event" data-index="{{index}}" data-value="{{item.id}}" hover-class="none">删除</button>
-        <navigator url="/pages/user-address-save/user-address-save?id={{item.id}}" open-type="navigate" hover-class="none">
-          <button class="fr cr-666 br" type="default" size="mini" bindtap="address_edit_event" hover-class="none">编辑</button>
-        </navigator>
+        <view class="fr oh submit-items">
+          <button qq:if="{{(item.lng || null) != null && (item.lat || null) != null}}" class="cr-666 br" type="default" size="mini" bindtap="address_map_event" data-index="{{index}}" hover-class="none">位置</button>
+          <button class="cr-666 br" type="default" size="mini" bindtap="address_edit_event" data-index="{{index}}" hover-class="none">编辑</button>
+          <button class="cr-666 br" type="default" size="mini" bindtap="address_delete_event" data-index="{{index}}" data-value="{{item.id}}" hover-class="none">删除</button>
+        </view>
       </view>
     </view>
   </view>
