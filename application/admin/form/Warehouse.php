@@ -50,7 +50,6 @@ class Warehouse
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/warehouse/delete'),
                 'delete_key'    => 'ids',
-                'detail_title'  => '基础信息',
             ],
             // 表单配置
             'form' => [

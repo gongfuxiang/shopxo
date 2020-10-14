@@ -70,6 +70,9 @@ class UserAddress extends Common
         ];
         $ret = UserAddressService::UserAddressAdminList($data_params);
 
+        // 加载百度地图api
+        $this->assign('is_load_baidu_map_api', 1);
+
         // 基础参数赋值
         $this->assign('params', $this->data_request);
         $this->assign('page_html', $page->GetPageHtml());

@@ -58,10 +58,13 @@ class Warehouse extends Common
             'where'         => $this->form_where,
         ];
         $ret = WarehouseService::WarehouseList($data_params);
+        $this->assign('data_list', $ret['data']);
+
+        // 加载百度地图api
+        $this->assign('is_load_baidu_map_api', 1);
 
         // 基础参数赋值
         $this->assign('params', $this->data_request);
-        $this->assign('data_list', $ret['data']);
         return $this->fetch();
     }
 
