@@ -21,6 +21,9 @@
             "email": "fuxiang.gong@qq.com"
         }
     ],
+    "require": {
+        "php": "5.6.35"
+    },
     "autoload": {
         "psr-4": {
             "app\\": "application"

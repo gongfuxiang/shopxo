@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\UserService;
 
 /**
@@ -49,7 +50,20 @@ class MessageService
             'is_read'           => 0,
             'add_time'          => time(),
         );
-        return Db::name('Message')->insertGetId($data) > 0;
+        $message_id = Db::name('Message')->insertGetId($data);
+        if($message_id > 0)
+        {
+            // 消息添加钩子
+            $hook_name = 'plugins_service_message_add';
+            Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data'          => $data,
+                'data_id'       => $message_id,
+            ]);
+            return true;
+        }
+        return facade;
     }
 
     /**

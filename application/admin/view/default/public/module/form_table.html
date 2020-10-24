@@ -28,6 +28,14 @@
                                 {{default /}}
                                     {{if isset($t['label'])}}{{$t.label}}{{/if}}
                             {{/switch}}
+
+                            <!-- 排序操作、必须开启搜索后有效 -->
+                            {{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1 and isset($t['is_sort']) and $t['is_sort'] eq 1 and !empty($t['sort_field'])}}
+                                <div class="form-sort-container am-nbfc am-inline-block">
+                                    <a href="javascript:;" data-key="{{$t.sort_field}}" data-val="asc" class="sort-icon am-icon-caret-up {{if !empty($form_order_by) and !empty($form_order_by['key']) and $form_order_by['key'] eq $t['sort_field'] and !empty($form_order_by['val']) and $form_order_by['val'] eq 'asc'}}sort-active{{/if}}"></a>
+                                    <a href="javascript:;" data-key="{{$t.sort_field}}" data-val="desc" class="sort-icon am-icon-caret-down {{if !empty($form_order_by) and !empty($form_order_by['key']) and $form_order_by['key'] eq $t['sort_field'] and !empty($form_order_by['val']) and $form_order_by['val'] eq 'desc'}}sort-active{{/if}}"></a>
+                                </div>
+                            {{/if}}
                         </th>
                     {{/if}}
                 {{/foreach}}

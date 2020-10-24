@@ -37,6 +37,10 @@
 {{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
     <a href="{{if isset($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" class="am-btn am-btn-warning am-radius am-btn-sm am-icon-filter"> 重置</a>
     <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example am-icon-search" data-am-loading="{loadingText:' 搜索中...'}"> 搜索</button>
+
+    <!-- 排序数据字段 -->
+    <input type="hidden" name="fp_order_by_key" value="" />
+    <input type="hidden" name="fp_order_by_val" value="" />
 {{/if}}
 
 <!-- 字段选择 -->

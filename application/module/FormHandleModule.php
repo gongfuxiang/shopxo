@@ -38,6 +38,8 @@ class FormHandleModule
     public $where;
     // 用户选择字段字段
     public $user_fields;
+    // 排序
+    public $order_by;
 
     /**
      * 运行入口
@@ -121,6 +123,9 @@ class FormHandleModule
         // 用户字段选择处理
         $this->FormFieldsUserSelect();
 
+        // 排序字段处理
+        $this->FormOrderByHandle();
+
         // 数据返回
         $data = [
             'table'         => $this->form_data,
@@ -128,8 +133,30 @@ class FormHandleModule
             'params'        => $this->where_params,
             'md5_key'       => $this->md5_key,
             'user_fields'   => $this->user_fields,
+            'order_by'      => $this->order_by,
         ];
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 排序字段处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-10-24
+     * @desc    description
+     */
+    public function FormOrderByHandle()
+    {
+        $order_by_key = empty($this->out_params['fp_order_by_key']) ? '' : $this->out_params['fp_order_by_key'];
+        $order_by_val = empty($this->out_params['fp_order_by_val']) ? '' : $this->out_params['fp_order_by_val'];
+        $order_by_data = (empty($order_by_key) || empty($order_by_val)) ? '' : $order_by_key.' '.$order_by_val;
+
+        $this->order_by = [
+            'data'  => $order_by_data,
+            'key'   => $order_by_key,
+            'val'   => $order_by_val,
+        ];
     }
 
     /**
@@ -386,7 +413,7 @@ class FormHandleModule
 
                     // 搜索条件数据处理
                     // 表单字段名称
-                    $name = $v['search_config']['form_name'];
+                    $where_name = $v['search_config']['form_name'];
                     // 条件类型
                     $where_type = isset($v['search_config']['where_type']) ? $v['search_config']['where_type'] : $v['search_config']['form_type'];
                     // 是否自定义条件处理
@@ -423,7 +450,7 @@ class FormHandleModule
                                     }
 
                                     // 条件
-                                    $this->where[] = [$name, $where_symbol, $value];
+                                    $this->where[] = [$where_name, $where_symbol, $value];
                                 }
                             }
                             break;
@@ -447,12 +474,12 @@ class FormHandleModule
                                 {
                                     if(!empty($value) && is_array($value))
                                     {
-                                        $this->where[] = [$name, $where_symbol, $value];
+                                        $this->where[] = [$where_name, $where_symbol, $value];
                                     }
                                 } else {
                                     if($value !== null && $value !== '')
                                     {
-                                        $this->where[] = [$name, $where_symbol, $value];
+                                        $this->where[] = [$where_name, $where_symbol, $value];
                                     }
                                 }
                             }
@@ -472,7 +499,7 @@ class FormHandleModule
                                 $value = $this->WhereValueHandle($value, $value_custom, ['is_min'=>1]);
                                 if($value !== null && $value !== '')
                                 {
-                                    $this->where[] = [$name, '>=', $value];
+                                    $this->where[] = [$where_name, '>=', $value];
                                 }
                             }
                             if(array_key_exists($key_max, $this->out_params) && $this->out_params[$key_max] !== null && $this->out_params[$key_max] !== '')
@@ -485,7 +512,7 @@ class FormHandleModule
                                 $value = $this->WhereValueHandle($value, $value_custom, ['is_end'=>1]);
                                 if($value !== null && $value !== '')
                                 {
-                                    $this->where[] = [$name, '<=', $value];
+                                    $this->where[] = [$where_name, '<=', $value];
                                 }
                             }
                             break;
@@ -505,7 +532,7 @@ class FormHandleModule
                                 $value = $this->WhereValueHandle(strtotime($value), $value_custom, ['is_start'=>1]);
                                 if($value !== null && $value !== '')
                                 {
-                                    $this->where[] = [$name, '>=', $value];
+                                    $this->where[] = [$where_name, '>=', $value];
                                 }
                             }
                             if(array_key_exists($key_end, $this->out_params) && $this->out_params[$key_end] !== null && $this->out_params[$key_end] !== '')
@@ -518,12 +545,15 @@ class FormHandleModule
                                 $value = $this->WhereValueHandle(strtotime($value), $value_custom, ['is_end'=>1]);
                                 if($value !== null && $value !== '')
                                 {
-                                    $this->where[] = [$name, '<=', $value];
+                                    $this->where[] = [$where_name, '<=', $value];
                                 }
                             }
                             break;
                     }
                 }
+
+                // 排序字段
+                $v['sort_field'] = empty($v['sort_field']) ? $where_name : $v['sort_field'];
             }
         }
     }

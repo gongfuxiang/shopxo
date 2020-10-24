@@ -545,6 +545,7 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table tr th {
     background: #e8e6e6;
     min-width: 100px;
+    position: relative;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-xxxl {
     min-width: 650px;
@@ -660,6 +661,34 @@ button.colorpicker-submit img {
 }
 .form-table-fields-button-container .form-table-field-confirm-submit {
     width: calc(100% - 130px);
+}
+
+/**
+ * 表格排序
+ */
+.form-sort-container {
+    position: absolute;
+    margin-left: 3px;
+    top: calc(50% - 8px);
+}
+.form-sort-container .sort-icon {
+    display: block;
+    height: 8px;
+    line-height: 10px;
+    color: #999;
+    width: 15px;
+    text-align: center;
+}
+.form-sort-container .sort-icon:before {
+    height: 8px;
+    line-height: 8px;
+    font-size: 14px;
+}
+.form-sort-container .sort-icon:hover {
+    color: #333;
+}
+.form-sort-container .sort-active {
+    color: #0e90d2 !important;
 }
 
 /**

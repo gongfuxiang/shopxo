@@ -1687,7 +1687,25 @@ $(function()
     // 表格初始化
     FormTableContainerInit();
 
-    // 表格字段拖拽排序
+    // 表格字段数据排序
+    $('.form-sort-container .sort-icon').on('click', function()
+    {
+    	var key = $(this).data('key') || null;
+    	var val = $(this).data('val') || null;
+    	if(key == null || val == null)
+    	{
+    		Prompt('排序数据值有误');
+    		return false;
+    	}
+
+    	// 赋值并搜索
+    	var $parent = $(this).parents('form.form-validation-search');
+    	$parent.find('input[name="fp_order_by_key"]').val(key);
+    	$parent.find('input[name="fp_order_by_val"]').val(val);
+    	$parent.find('button[type="submit"]').trigger('click');
+    });
+
+    // 表格字显示段拖拽排序
     if($('ul.form-table-fields-content-container').length > 0)
     {
     	$('ul.form-table-fields-content-container').dragsort({ dragSelector: 'li', placeHolderTemplate: '<li class="drag-sort-dotted am-margin-left-sm"></li>'});

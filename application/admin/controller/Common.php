@@ -52,6 +52,7 @@ class Common extends Controller
     protected $form_params;
     protected $form_md5_key;
     protected $form_user_fields;
+    protected $form_order_by;
     protected $form_error;
 
 	/**
@@ -288,11 +289,13 @@ class Common extends Controller
                 $this->form_params = $ret['data']['params'];
                 $this->form_md5_key = $ret['data']['md5_key'];
                 $this->form_user_fields = $ret['data']['user_fields'];
+                $this->form_order_by = $ret['data']['order_by'];
 
                 $this->assign('form_table', $this->form_table);
                 $this->assign('form_params', $this->form_params);
                 $this->assign('form_md5_key', $this->form_md5_key);
                 $this->assign('form_user_fields', $this->form_user_fields);
+                $this->assign('form_order_by', $this->form_order_by);
             } else {
                 $this->form_error = $ret['msg'];
                 $this->assign('form_error', $this->form_error);

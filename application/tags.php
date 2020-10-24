@@ -37,6 +37,8 @@ return array (
     0 => 'app\\plugins\\share\\Hook',
     1 => 'app\\plugins\\exchangerate\\Hook',
     2 => 'app\\plugins\\freightfee\\Hook',
+    3 => 'app\\plugins\\activity\\Hook',
+    4 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
   ),
   'plugins_js' => 
   array (
@@ -60,20 +62,24 @@ return array (
   array (
     0 => 'app\\plugins\\distribution\\Hook',
     1 => 'app\\plugins\\wallet\\Hook',
+    2 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
     1 => 'app\\plugins\\wallet\\Hook',
     2 => 'app\\plugins\\exchangerate\\Hook',
+    3 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
   ),
   'plugins_service_order_status_change_history_success_handle' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
   ),
   'plugins_service_order_aftersale_audit_handle_end' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
   ),
   'plugins_service_site_extraction_address_list' => 
   array (
@@ -82,6 +88,7 @@ return array (
   'plugins_service_buy_order_insert_end' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
   ),
   'plugins_service_goods_spec_extends_handle' => 
   array (
@@ -92,6 +99,20 @@ return array (
     0 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_user_save_handle' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_goods_handle_end' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_service_goods_spec_base' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_view_goods_detail_panel_price_top' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
   ),
@@ -131,14 +152,6 @@ return array (
   array (
     0 => 'app\\plugins\\exchangerate\\Hook',
   ),
-  'plugins_service_goods_handle_end' => 
-  array (
-    0 => 'app\\plugins\\exchangerate\\Hook',
-  ),
-  'plugins_service_goods_spec_base' => 
-  array (
-    0 => 'app\\plugins\\exchangerate\\Hook',
-  ),
   'plugins_service_buy_group_goods_handle' => 
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
@@ -146,12 +159,30 @@ return array (
   'plugins_view_goods_detail_title' => 
   array (
     0 => 'app\\plugins\\freightfee\\Hook',
+    1 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\answers\\Hook',
     1 => 'app\\plugins\\blog\\Hook',
     2 => 'app\\plugins\\speedplaceorder\\Hook',
+    3 => 'app\\plugins\\activity\\Hook',
+  ),
+  'plugins_view_home_floor_top' => 
+  array (
+    0 => 'app\\plugins\\activity\\Hook',
+  ),
+  'plugins_view_home_floor_bottom' => 
+  array (
+    0 => 'app\\plugins\\activity\\Hook',
+  ),
+  'plugins_service_buy_order_insert_begin' => 
+  array (
+    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
+  ),
+  'plugins_view_goods_detail_panel_bottom' => 
+  array (
+    0 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
   ),
 );
 ?>

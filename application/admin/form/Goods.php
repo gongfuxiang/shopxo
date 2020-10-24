@@ -68,6 +68,7 @@ class Goods
                     'view_type'     => 'field',
                     'view_key'      => 'id',
                     'width'         => 105,
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => '=',
@@ -78,6 +79,8 @@ class Goods
                     'view_type'     => 'module',
                     'view_key'      => 'goods/module/info',
                     'grid_size'     => 'lg',
+                    'is_sort'       => 1,
+                    'sort_field'    => 'title',
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'title|simple_desc|seo_title|seo_keywords|seo_keywords',
@@ -102,6 +105,7 @@ class Goods
                     'label'         => '品牌',
                     'view_type'     => 'field',
                     'view_key'      => 'brand_name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'module',
                         'template'          => 'lib/module/category_brand',
@@ -116,6 +120,7 @@ class Goods
                     'label'         => '销售价格(元)',
                     'view_type'     => 'field',
                     'view_key'      => 'price',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                         'form_name'         => 'min_price',
@@ -126,6 +131,7 @@ class Goods
                     'label'         => '原价(元)',
                     'view_type'     => 'field',
                     'view_key'      => 'original_price',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                         'form_name'         => 'min_original_price',
@@ -137,6 +143,7 @@ class Goods
                     'view_type'     => 'field',
                     'view_key'      => ['inventory', 'inventory_unit'],
                     'view_key_join' => ' ',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                         'form_name'         => 'inventory',
@@ -149,6 +156,7 @@ class Goods
                     'post_url'      => MyUrl('admin/goods/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -164,6 +172,7 @@ class Goods
                     'view_key'      => 'is_home_recommended',
                     'post_url'      => MyUrl('admin/goods/statusupdate'),
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -179,6 +188,7 @@ class Goods
                     'view_key'      => 'is_deduction_inventory',
                     'post_url'      => MyUrl('admin/goods/statusupdate'),
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -194,6 +204,7 @@ class Goods
                     'view_key'      => 'site_type',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_site_type_list'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -207,6 +218,7 @@ class Goods
                     'label'         => '商品型号',
                     'view_type'     => 'field',
                     'view_key'      => 'model',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -216,6 +228,7 @@ class Goods
                     'label'         => '生产地',
                     'view_type'     => 'field',
                     'view_key'      => 'place_origin_name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'place_origin',
@@ -231,6 +244,7 @@ class Goods
                     'view_type'     => 'field',
                     'view_key'      => 'give_integral',
                     'view_join_last'=> '%',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -239,6 +253,7 @@ class Goods
                     'label'         => '单次最低起购数量',
                     'view_type'     => 'field',
                     'view_key'      => 'buy_min_number',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -247,6 +262,7 @@ class Goods
                     'label'         => '单次最大购买数量',
                     'view_type'     => 'field',
                     'view_key'      => 'buy_max_number',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -255,6 +271,7 @@ class Goods
                     'label'         => '访问次数',
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -263,6 +280,7 @@ class Goods
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -271,6 +289,7 @@ class Goods
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

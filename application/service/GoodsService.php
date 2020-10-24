@@ -873,7 +873,7 @@ class GoodsService
                 'key_name'          => 'site_type',
                 'checked_data'      => array_merge([-1], array_column(lang('common_site_type_list'), 'value')),
                 'is_checked'        => 2,
-                'error_msg'         => '商品型号格式 最多30个字符',
+                'error_msg'         => '商品类型数据值范围有误',
             ],
             [
                 'checked_type'      => 'length',
