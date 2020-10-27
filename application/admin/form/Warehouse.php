@@ -66,6 +66,8 @@ class Warehouse
                     'view_type'     => 'module',
                     'view_key'      => 'warehouse/module/info',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
+                    'sort_field'    => 'name',
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'name|alias',
@@ -76,6 +78,7 @@ class Warehouse
                     'label'         => '权重',
                     'view_type'     => 'field',
                     'view_key'      => 'level',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -87,6 +90,7 @@ class Warehouse
                     'post_url'      => MyUrl('admin/warehouse/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -100,6 +104,7 @@ class Warehouse
                     'label'         => '联系人',
                     'view_type'     => 'field',
                     'view_key'      => 'contacts_name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -109,6 +114,7 @@ class Warehouse
                     'label'         => '联系电话',
                     'view_type'     => 'field',
                     'view_key'      => 'contacts_tel',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -118,6 +124,7 @@ class Warehouse
                     'label'         => '所在省',
                     'view_type'     => 'field',
                     'view_key'      => 'province_name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'province',
@@ -132,6 +139,7 @@ class Warehouse
                     'label'         => '所在市',
                     'view_type'     => 'field',
                     'view_key'      => 'city_name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'city',
@@ -146,6 +154,7 @@ class Warehouse
                     'label'         => '所在区/县',
                     'view_type'     => 'field',
                     'view_key'      => 'county_name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'county',
@@ -161,6 +170,7 @@ class Warehouse
                     'view_type'     => 'field',
                     'view_key'      => 'address',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -176,6 +186,7 @@ class Warehouse
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -184,6 +195,7 @@ class Warehouse
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

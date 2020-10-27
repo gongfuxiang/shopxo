@@ -62,6 +62,7 @@ class Link
                     'view_type'     => 'module',
                     'view_key'      => 'link/module/info',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'name',
@@ -83,6 +84,7 @@ class Link
                     'label'         => '描述',
                     'view_type'     => 'field',
                     'view_key'      => 'describe',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -95,6 +97,7 @@ class Link
                     'post_url'      => MyUrl('admin/link/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -110,6 +113,7 @@ class Link
                     'view_key'      => 'is_new_window_open',
                     'post_url'      => MyUrl('admin/link/statusupdate'),
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -123,11 +127,16 @@ class Link
                     'label'         => '排序',
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
                 ],
                 [
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

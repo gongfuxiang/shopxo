@@ -69,6 +69,7 @@ class Brand extends Common
             'where'         => $this->form_where,
             'm'             => $page->GetPageStarNumber(),
             'n'             => $this->page_size,
+            'order_by'      => $this->form_order_by['data'],
         ];
         $ret = BrandService::BrandList($data_params);
 

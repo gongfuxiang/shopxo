@@ -27,7 +27,7 @@ class PluginsAdminService
     public static $plugins_exclude_verification = ['view', 'shopxo', 'www'];
 
     // 排除的文件后缀
-    private static $exclude_ext = ['.php'];
+    private static $exclude_ext = ['php'];
 
     /**
      * 列表
@@ -1069,7 +1069,8 @@ php;
                                 $pos = strripos($file, '.');
                                 if($pos !== false)
                                 {
-                                    if(in_array(substr($file, $pos), self::$exclude_ext))
+                                    $info = pathinfo($file);
+                                    if(isset($info['extension']) && in_array($info['extension'], self::$exclude_ext))
                                     {
                                         continue;
                                     }

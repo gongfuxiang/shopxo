@@ -62,6 +62,8 @@ class Goodscomments
                     'view_type'     => 'module',
                     'view_key'      => 'goodscomments/module/goods',
                     'grid_size'     => 'lg',
+                    'is_sort'       => 1,
+                    'sort_field'    => 'goods_id',
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
@@ -76,6 +78,7 @@ class Goodscomments
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'user_id',
@@ -92,6 +95,7 @@ class Goodscomments
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_goods_comments_business_type_list'),
                     'width'         => 120,
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -123,6 +127,7 @@ class Goodscomments
                     'view_type'     => 'module',
                     'view_key'      => 'goodscomments/module/rating',
                     'width'         => 100,
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'rating',
@@ -151,6 +156,7 @@ class Goodscomments
                     'post_url'      => MyUrl('admin/goodscomments/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -166,6 +172,7 @@ class Goodscomments
                     'view_key'      => 'is_anonymous',
                     'post_url'      => MyUrl('admin/goodscomments/statusupdate'),
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -181,6 +188,7 @@ class Goodscomments
                     'view_key'      => 'is_reply',
                     'post_url'      => MyUrl('admin/goodscomments/statusupdate'),
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -194,6 +202,7 @@ class Goodscomments
                     'label'         => '回复时间',
                     'view_type'     => 'field',
                     'view_key'      => 'reply_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'reply_time',
@@ -203,6 +212,7 @@ class Goodscomments
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'add_time',
@@ -212,6 +222,7 @@ class Goodscomments
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'upd_time',

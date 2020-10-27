@@ -51,6 +51,7 @@ class Refundlog
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'user_id',
@@ -65,6 +66,7 @@ class Refundlog
                     'view_type'     => 'module',
                     'view_key'      => 'refundlog/module/payment',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'payment',
@@ -79,6 +81,7 @@ class Refundlog
                     'label'         => '业务类型',
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -92,6 +95,7 @@ class Refundlog
                     'label'         => '业务订单id',
                     'view_type'     => 'field',
                     'view_key'      => 'business_id',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'             => 'input',
                         'where_type'            => '=',
@@ -102,6 +106,7 @@ class Refundlog
                     'view_type'     => 'field',
                     'view_key'      => 'trade_no',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -112,6 +117,7 @@ class Refundlog
                     'view_type'     => 'field',
                     'view_key'      => 'buyer_user',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -121,6 +127,7 @@ class Refundlog
                     'label'         => '退款方式',
                     'view_type'     => 'field',
                     'view_key'      => 'refundment_text',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'refundment',
@@ -135,6 +142,7 @@ class Refundlog
                     'label'         => '退款金额',
                     'view_type'     => 'field',
                     'view_key'      => 'refund_price',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                         'is_point'          => 1,
@@ -144,6 +152,7 @@ class Refundlog
                     'label'         => '订单支付金额',
                     'view_type'     => 'field',
                     'view_key'      => 'pay_price',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                         'is_point'          => 1,
@@ -154,6 +163,7 @@ class Refundlog
                     'view_type'     => 'field',
                     'view_key'      => 'msg',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -163,6 +173,7 @@ class Refundlog
                     'label'         => '退款时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'add_time',

@@ -52,6 +52,7 @@ class Paylog
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'user_id',
@@ -66,6 +67,7 @@ class Paylog
                     'view_type'     => 'field',
                     'view_key'      => 'log_no',
                     'width'         => 165,
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => '=',
@@ -76,6 +78,7 @@ class Paylog
                     'view_type'     => 'module',
                     'view_key'      => 'paylog/module/payment',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'payment',
@@ -92,6 +95,7 @@ class Paylog
                     'view_key'      => 'status',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_pay_log_status_list'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -105,6 +109,7 @@ class Paylog
                     'label'         => '业务订单金额(元)',
                     'view_type'     => 'field',
                     'view_key'      => 'total_price',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                         'is_point'          => 1,
@@ -114,6 +119,7 @@ class Paylog
                     'label'         => '支付金额(元)',
                     'view_type'     => 'field',
                     'view_key'      => 'pay_price',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                         'is_point'          => 1,
@@ -123,6 +129,7 @@ class Paylog
                     'label'         => '业务类型',
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -150,6 +157,7 @@ class Paylog
                     'view_type'     => 'field',
                     'view_key'      => 'trade_no',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => '=',
@@ -160,6 +168,7 @@ class Paylog
                     'view_type'     => 'field',
                     'view_key'      => 'buyer_user',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -169,6 +178,7 @@ class Paylog
                     'label'         => '订单名称',
                     'view_type'     => 'field',
                     'view_key'      => 'subject',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -178,6 +188,7 @@ class Paylog
                     'label'         => '支付时间',
                     'view_type'     => 'field',
                     'view_key'      => 'pay_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -186,6 +197,7 @@ class Paylog
                     'label'         => '关闭时间',
                     'view_type'     => 'field',
                     'view_key'      => 'close_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -194,6 +206,7 @@ class Paylog
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

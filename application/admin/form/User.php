@@ -59,6 +59,7 @@ class User
                     'view_type'     => 'field',
                     'view_key'      => 'id',
                     'width'         => 105,
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'id',
@@ -74,6 +75,7 @@ class User
                     'label'         => '用户名',
                     'view_type'     => 'field',
                     'view_key'      => 'username',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -83,6 +85,7 @@ class User
                     'label'         => '昵称',
                     'view_type'     => 'field',
                     'view_key'      => 'nickname',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -92,6 +95,7 @@ class User
                     'label'         => '手机',
                     'view_type'     => 'field',
                     'view_key'      => 'mobile',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -101,6 +105,7 @@ class User
                     'label'         => '邮箱',
                     'view_type'     => 'field',
                     'view_key'      => 'email',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -112,6 +117,7 @@ class User
                     'view_key'      => 'gender',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_gender_list'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -127,6 +133,7 @@ class User
                     'view_key'      => 'status',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_user_status_list'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -140,6 +147,7 @@ class User
                     'label'         => '所在省',
                     'view_type'     => 'field',
                     'view_key'      => 'province',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -149,6 +157,7 @@ class User
                     'label'         => '所在市',
                     'view_type'     => 'field',
                     'view_key'      => 'city',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -158,6 +167,7 @@ class User
                     'label'         => '详细地址',
                     'view_type'     => 'field',
                     'view_key'      => 'address',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -167,6 +177,7 @@ class User
                     'label'         => '生日',
                     'view_type'     => 'field',
                     'view_key'      => 'birthday_text',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'date',
                         'form_name'         => 'birthday',
@@ -177,6 +188,7 @@ class User
                     'label'         => '可用积分',
                     'view_type'     => 'field',
                     'view_key'      => 'integral',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -185,6 +197,7 @@ class User
                     'label'         => '锁定积分',
                     'view_type'     => 'field',
                     'view_key'      => 'locking_integral',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -193,6 +206,7 @@ class User
                     'label'         => '注册时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -201,6 +215,7 @@ class User
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

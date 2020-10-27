@@ -72,6 +72,10 @@
                 </div>
                 <!-- bottom operate end -->
             </form>
+
+            <!-- 字段选择 -->
+            {{include file="public/module/form_fields_select" /}}
+
         {{else /}}
             <div class="table-no"><i class="am-icon-warning"></i> {{if empty($form_error)}}动态表格配置有误{{else /}}{{$form_error}}{{/if}}</div>
         {{/if}}

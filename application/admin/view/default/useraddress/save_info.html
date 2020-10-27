@@ -20,6 +20,10 @@
             </div>
 
             <div class="am-form-group">
+                <label>别名<span class="am-form-group-label-tips">选填</span></label>
+                <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
+            </div>
+            <div class="am-form-group">
                 <label>姓名<span class="am-form-group-label-tips-must">必填</span></label>
                 <input type="text" name="name" placeholder="姓名" minlength="2" maxlength="16" data-validation-message="姓名格式 2~16 个字符之间" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
             </div>
@@ -42,10 +46,6 @@
                 <div id="map" data-level="17" class="am-margin-top-xs"></div>
             </div>
 
-            <div class="am-form-group">
-                <label>别名<span class="am-form-group-label-tips">选填</span></label>
-                <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
-            </div>
             <div class="am-form-group">
                 <label class="block">是否默认</label>
                 <input name="is_default" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_default']) and $data['is_default'] eq 1}}checked="true"{{/if}} />

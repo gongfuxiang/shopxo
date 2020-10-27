@@ -62,6 +62,7 @@ class Answer
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'user_id',
@@ -75,6 +76,7 @@ class Answer
                     'label'         => '联系人',
                     'view_type'     => 'field',
                     'view_key'      => 'name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -84,6 +86,7 @@ class Answer
                     'label'         => '联系电话',
                     'view_type'     => 'field',
                     'view_key'      => 'tel',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -118,6 +121,7 @@ class Answer
                     'post_url'      => MyUrl('admin/answer/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -133,6 +137,7 @@ class Answer
                     'view_key'      => 'is_reply',
                     'post_url'      => MyUrl('admin/answer/statusupdate'),
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -146,6 +151,7 @@ class Answer
                     'label'         => '回复时间',
                     'view_type'     => 'field',
                     'view_key'      => 'reply_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'reply_time',
@@ -155,6 +161,7 @@ class Answer
                     'label'         => '访问次数',
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -163,6 +170,7 @@ class Answer
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'add_time',
@@ -172,6 +180,7 @@ class Answer
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'upd_time',

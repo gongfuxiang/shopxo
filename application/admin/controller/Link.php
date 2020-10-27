@@ -49,8 +49,12 @@ class Link extends Common
      */
 	public function Index()
 	{
-		// 获取导航列表
-		$ret = LinkService::LinkList(['where'=>$this->form_where]);
+		// 获取列表
+        $data_params = [
+            'where'         => $this->form_where,
+            'order_by'      => $this->form_order_by['data'],
+        ];
+		$ret = LinkService::LinkList($data_params);
 		$this->assign('data_list', $ret['data']);
 		return $this->fetch();
 	}

@@ -35,10 +35,11 @@ class CustomViewService
     {
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
-        $data = Db::name('CustomView')->field($field)->where($where)->order('id desc')->limit($m, $n)->select();
+        $data = Db::name('CustomView')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {
             $common_is_enable_list = lang('common_is_enable_list');

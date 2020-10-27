@@ -59,6 +59,7 @@ class Slide
                     'label'         => '名称',
                     'view_type'     => 'field',
                     'view_key'      => 'name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -70,6 +71,7 @@ class Slide
                     'view_key'      => 'platform',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_platform_type'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -91,6 +93,7 @@ class Slide
                     'view_key'      => 'event_type',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_app_event_type'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -105,6 +108,7 @@ class Slide
                     'view_type'     => 'field',
                     'view_key'      => 'event_value',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -117,6 +121,7 @@ class Slide
                     'post_url'      => MyUrl('admin/slide/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -130,11 +135,16 @@ class Slide
                     'label'         => '排序',
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
                 ],
                 [
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -143,6 +153,7 @@ class Slide
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

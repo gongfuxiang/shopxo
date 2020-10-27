@@ -63,6 +63,7 @@ class Article
                     'view_type'     => 'module',
                     'view_key'      => 'article/module/info',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'title',
@@ -74,6 +75,7 @@ class Article
                     'view_type'     => 'field',
                     'view_key'      => 'jump_url',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -83,6 +85,7 @@ class Article
                     'label'         => '分类',
                     'view_type'     => 'field',
                     'view_key'      => 'article_category_name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'article_category_id',
@@ -100,6 +103,7 @@ class Article
                     'post_url'      => MyUrl('admin/article/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -115,6 +119,7 @@ class Article
                     'view_key'      => 'is_home_recommended',
                     'post_url'      => MyUrl('admin/article/statusupdate'),
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -128,6 +133,7 @@ class Article
                     'label'         => '图片数量',
                     'view_type'     => 'field',
                     'view_key'      => 'images_count',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -136,6 +142,7 @@ class Article
                     'label'         => '访问次数',
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -144,6 +151,7 @@ class Article
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -152,6 +160,7 @@ class Article
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

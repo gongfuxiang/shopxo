@@ -61,6 +61,7 @@ class Customview
                     'view_type'     => 'module',
                     'view_key'      => 'customview/module/info',
                     'grid_size'     => 'lg',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'title',
@@ -74,6 +75,7 @@ class Customview
                     'post_url'      => MyUrl('admin/customview/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -89,6 +91,7 @@ class Customview
                     'view_key'      => 'is_header',
                     'post_url'      => MyUrl('admin/customview/statusupdate'),
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -104,6 +107,7 @@ class Customview
                     'view_key'      => 'is_footer',
                     'post_url'      => MyUrl('admin/customview/statusupdate'),
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -119,6 +123,7 @@ class Customview
                     'view_key'      => 'is_full_screen',
                     'post_url'      => MyUrl('admin/customview/statusupdate'),
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -132,6 +137,7 @@ class Customview
                     'label'         => '图片数量',
                     'view_type'     => 'field',
                     'view_key'      => 'images_count',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -140,6 +146,7 @@ class Customview
                     'label'         => '访问次数',
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -148,6 +155,7 @@ class Customview
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -156,6 +164,7 @@ class Customview
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

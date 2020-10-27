@@ -26,7 +26,7 @@ class ThemeService
     private static $static_path = 'public'.DS.'static'.DS.'index'.DS;
 
     // 排除的文件后缀
-    private static $exclude_ext = ['.php'];
+    private static $exclude_ext = ['php'];
 
     /**
      * 获取模板列表
@@ -160,7 +160,8 @@ class ThemeService
                     $pos = strripos($file, '.');
                     if($pos !== false)
                     {
-                        if(in_array(substr($file, $pos), self::$exclude_ext))
+                        $info = pathinfo($file);
+                        if(isset($info['extension']) && in_array($info['extension'], self::$exclude_ext))
                         {
                             continue;
                         }

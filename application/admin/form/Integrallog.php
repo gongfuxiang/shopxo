@@ -50,6 +50,7 @@ class Integrallog
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'user_id',
@@ -65,6 +66,7 @@ class Integrallog
                     'view_key'      => 'type',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_integral_log_type_list'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -78,6 +80,7 @@ class Integrallog
                     'label'         => '操作积分',
                     'view_type'     => 'field',
                     'view_key'      => 'operation_integral',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -86,6 +89,7 @@ class Integrallog
                     'label'         => '原始积分',
                     'view_type'     => 'field',
                     'view_key'      => 'original_integral',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -94,6 +98,7 @@ class Integrallog
                     'label'         => '最新积分',
                     'view_type'     => 'field',
                     'view_key'      => 'new_integral',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -103,6 +108,7 @@ class Integrallog
                     'view_type'     => 'field',
                     'view_key'      => 'msg',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -112,6 +118,7 @@ class Integrallog
                     'label'         => '操作人员id',
                     'view_type'     => 'field',
                     'view_key'      => 'operation_id',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => '=',
@@ -121,6 +128,7 @@ class Integrallog
                     'label'         => '操作时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'add_time',

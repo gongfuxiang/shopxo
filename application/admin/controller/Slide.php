@@ -67,6 +67,7 @@ class Slide extends Common
             'where'         => $this->form_where,
             'm'             => $page->GetPageStarNumber(),
             'n'             => $this->page_size,
+            'order_by'      => $this->form_order_by['data'],
         ];
         $ret = SlideService::SlideList($data_params);
 

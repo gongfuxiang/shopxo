@@ -33,9 +33,10 @@ class LinkService
      */
     public static function LinkList($params = [])
     {
+        $field = empty($params['field']) ? '*' : $params['field'];
         $where = empty($params['where']) ? [] : $params['where'];
-        $order_by = 'sort asc,id desc';
-        $data = Db::name('Link')->where($where)->order($order_by)->select();
+        $order_by = empty($params['order_by']) ? 'sort asc,id desc' : trim($params['order_by']);
+        $data = Db::name('Link')->field($field)->where($where)->order($order_by)->select();
         if(!empty($data))
         {
             foreach($data as &$v)

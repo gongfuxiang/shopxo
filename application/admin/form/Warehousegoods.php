@@ -65,6 +65,8 @@ class Warehousegoods
                     'view_type'     => 'module',
                     'view_key'      => 'warehousegoods/module/goods',
                     'grid_size'     => 'lg',
+                    'is_sort'       => 1,
+                    'sort_field'    => 'goods_id',
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
@@ -78,6 +80,7 @@ class Warehousegoods
                     'label'         => '仓库',
                     'view_type'     => 'field',
                     'view_key'      => 'warehouse_name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'warehouse_id',
@@ -95,6 +98,7 @@ class Warehousegoods
                     'post_url'      => MyUrl('admin/warehousegoods/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -108,6 +112,7 @@ class Warehousegoods
                     'label'         => '总库存',
                     'view_type'     => 'field',
                     'view_key'      => 'inventory',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -116,6 +121,7 @@ class Warehousegoods
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -124,6 +130,7 @@ class Warehousegoods
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

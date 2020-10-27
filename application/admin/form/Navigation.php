@@ -64,6 +64,7 @@ class Navigation
                     'view_type'     => 'module',
                     'view_key'      => 'navigation/module/info',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'name',
@@ -76,6 +77,7 @@ class Navigation
                     'view_key'      => 'data_type',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_nav_type_list'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -92,6 +94,7 @@ class Navigation
                     'post_url'      => MyUrl('admin/navigation/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -107,6 +110,7 @@ class Navigation
                     'view_key'      => 'is_new_window_open',
                     'post_url'      => MyUrl('admin/navigation/statusupdate'),
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -120,11 +124,16 @@ class Navigation
                     'label'         => '排序',
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
                 ],
                 [
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -133,6 +142,7 @@ class Navigation
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

@@ -332,9 +332,22 @@ class GoodsService
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? 'g.*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'g.id desc' : trim($params['order_by']);
-
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
+
+        // 商品列表读取前钩子
+        $hook_name = 'plugins_service_category_goods_list_begin';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'where'         => &$where,
+            'field'         => &$field,
+            'order_by'      => &$order_by,
+            'm'             => &$m,
+            'n'             => &$n,
+        ]);
+
         $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field($field)->where($where)->group('g.id')->order($order_by)->limit($m, $n)->select();
         
         // 数据处理
@@ -812,9 +825,22 @@ class GoodsService
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
-
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
+
+        // 商品列表读取前钩子
+        $hook_name = 'plugins_service_goods_list_begin';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'where'         => &$where,
+            'field'         => &$field,
+            'order_by'      => &$order_by,
+            'm'             => &$m,
+            'n'             => &$n,
+        ]);
+
         $data = Db::name('Goods')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         
         return self::GoodsDataHandle($data, $params);

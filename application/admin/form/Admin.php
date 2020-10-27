@@ -62,6 +62,7 @@ class Admin
                     'label'         => '管理员',
                     'view_type'     => 'field',
                     'view_key'      => 'username',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -73,6 +74,7 @@ class Admin
                     'view_key'      => 'status',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_admin_status_list'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -88,6 +90,7 @@ class Admin
                     'view_key'      => 'gender',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_gender_list'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -101,6 +104,7 @@ class Admin
                     'label'         => '手机',
                     'view_type'     => 'field',
                     'view_key'      => 'mobile',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -110,6 +114,7 @@ class Admin
                     'label'         => '角色组',
                     'view_type'     => 'field',
                     'view_key'      => 'role_name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'role_id',
@@ -124,6 +129,7 @@ class Admin
                     'label'         => '登录次数',
                     'view_type'     => 'field',
                     'view_key'      => 'login_total',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -132,6 +138,7 @@ class Admin
                     'label'         => '最后登录时间',
                     'view_type'     => 'field',
                     'view_key'      => 'login_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -140,6 +147,7 @@ class Admin
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -148,6 +156,7 @@ class Admin
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

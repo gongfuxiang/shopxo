@@ -33,11 +33,11 @@ class SlideService
      */
     public static function SlideList($params = [])
     {
-        $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
+        $where = empty($params['where']) ? [] : $params['where'];
+        $order_by = empty($params['order_by']) ? 'sort asc,id asc' : trim($params['order_by']);
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $order_by = 'sort asc,id asc';
         $data = Db::name('Slide')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         if(!empty($data))
         {

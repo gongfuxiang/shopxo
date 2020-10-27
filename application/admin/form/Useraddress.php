@@ -62,6 +62,7 @@ class UserAddress
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'user_id',
@@ -72,12 +73,22 @@ class UserAddress
                     ],
                 ],
                 [
-                    'label'         => '别名/联系人',
-                    'view_type'     => 'module',
-                    'view_key'      => 'useraddress/module/info',
+                    'label'         => '别名',
+                    'view_type'     => 'field',
+                    'view_key'      => 'alias',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
-                        'form_name'         => 'alias|name',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
+                    'label'         => '联系人',
+                    'view_type'     => 'field',
+                    'view_key'      => 'name',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
                         'where_type'        => 'like',
                     ],
                 ],
@@ -85,6 +96,7 @@ class UserAddress
                     'label'         => '联系电话',
                     'view_type'     => 'field',
                     'view_key'      => 'tel',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -94,6 +106,7 @@ class UserAddress
                     'label'         => '所属省',
                     'view_type'     => 'field',
                     'view_key'      => 'province_name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'province',
@@ -108,17 +121,20 @@ class UserAddress
                     'label'         => '所属市',
                     'view_type'     => 'field',
                     'view_key'      => 'city_name',
+                    'is_sort'       => 1,
                 ],
                 [
                     'label'         => '所属区/县',
                     'view_type'     => 'field',
                     'view_key'      => 'county_name',
+                    'is_sort'       => 1,
                 ],
                 [
                     'label'         => '详细地址',
                     'view_type'     => 'field',
                     'view_key'      => 'address',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -135,6 +151,8 @@ class UserAddress
                     'view_type'     => 'module',
                     'view_key'      => 'useraddress/module/idcard_info',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
+                    'sort_field'    => 'idcard_number',
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'idcard_name|idcard_number',
@@ -145,6 +163,7 @@ class UserAddress
                     'label'         => '是否默认',
                     'view_type'     => 'module',
                     'view_key'      => 'useraddress/module/is_default',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'form_name'         => 'is_default',
@@ -159,6 +178,7 @@ class UserAddress
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -167,6 +187,7 @@ class UserAddress
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

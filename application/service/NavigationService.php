@@ -206,13 +206,14 @@ class NavigationService
      */
     public static function NavList($params = [])
     {
-        // 导航条件
+        // 基础参数
+        $field = '*';
         $where = empty($params['where']) ? [] : $params['where'];
+        $order_by = empty($params['order_by']) ? 'sort asc,id asc' : $params['order_by'];
+
+        // 获取数据
         $where1 = $where;
         $where1[] = ['pid', '=', 0];
-
-        $field = '*';
-        $order_by = 'sort asc,id asc';
         $data = self::NavigationHandle(self::NavDataDealWith(Db::name('Navigation')->field($field)->where($where1)->order($order_by)->select()));
         $result = [];
         if(!empty($data))

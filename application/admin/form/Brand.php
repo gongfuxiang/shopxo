@@ -64,6 +64,7 @@ class Brand
                     'label'         => '名称',
                     'view_type'     => 'field',
                     'view_key'      => 'name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -107,6 +108,7 @@ class Brand
                     'post_url'      => MyUrl('admin/brand/statusupdate'),
                     'is_form_su'    => 1,
                     'align'         => 'center',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -120,11 +122,16 @@ class Brand
                     'label'         => '排序',
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
                 ],
                 [
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -133,6 +140,7 @@ class Brand
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],

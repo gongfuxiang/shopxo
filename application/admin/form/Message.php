@@ -63,6 +63,7 @@ class Message
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'user_id',
@@ -78,6 +79,7 @@ class Message
                     'view_key'      => 'type',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_message_type_list'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -91,6 +93,7 @@ class Message
                     'label'         => '业务类型',
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -104,6 +107,7 @@ class Message
                     'label'         => '标题',
                     'view_type'     => 'field',
                     'view_key'      => 'title',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -113,6 +117,7 @@ class Message
                     'label'         => '详情',
                     'view_type'     => 'field',
                     'view_key'      => 'detail',
+                    'is_sort'       => 1,
                     'grid_size'     => 'lg',
                     'search_config' => [
                         'form_type'         => 'input',
@@ -125,6 +130,7 @@ class Message
                     'view_key'      => 'is_read',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_is_read_list'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -138,11 +144,13 @@ class Message
                     'label'         => '用户是否删除',
                     'view_type'     => 'field',
                     'view_key'      => 'user_is_delete_time_text',
+                    'is_sort'       => 1,
                 ],
                 [
                     'label'         => '发送时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'add_time',

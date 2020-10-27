@@ -56,10 +56,13 @@ class Navigation extends Common
      */
 	public function Index()
 	{
-		// 获取导航列表
-        $where = $this->form_where;
-        $where[] = ['nav_type', '=', $this->nav_type];
-        $ret = NavigationService::NavList(['where'=>$where]);
+        // 获取列表
+        $data_params = [
+            'where'         => $this->form_where,
+            'order_by'      => $this->form_order_by['data'],
+        ];
+        $data_params['where'][] = ['nav_type', '=', $this->nav_type];
+        $ret = NavigationService::NavList($data_params);
 		$this->assign('data_list', $ret['data']);
 
 		// 一级分类

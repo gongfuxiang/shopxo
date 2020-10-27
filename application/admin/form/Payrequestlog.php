@@ -50,6 +50,7 @@ class PayRequestLog
                     'label'         => '业务类型',
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -92,6 +93,7 @@ class PayRequestLog
                     'view_key'      => 'payrequestlog/module/business_handle',
                     'align'         => 'left',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -112,6 +114,7 @@ class PayRequestLog
                     'label'         => '端口号',
                     'view_type'     => 'field',
                     'view_key'      => 'server_port',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -125,6 +128,7 @@ class PayRequestLog
                     'label'         => '服务器ip',
                     'view_type'     => 'field',
                     'view_key'      => 'server_ip',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -143,6 +147,7 @@ class PayRequestLog
                     'label'         => '操作系统',
                     'view_type'     => 'field',
                     'view_key'      => 'os',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -156,6 +161,7 @@ class PayRequestLog
                     'label'         => '浏览器',
                     'view_type'     => 'field',
                     'view_key'      => 'browser',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -169,6 +175,7 @@ class PayRequestLog
                     'label'         => '请求类型',
                     'view_type'     => 'field',
                     'view_key'      => 'method',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -182,6 +189,7 @@ class PayRequestLog
                     'label'         => 'http类型',
                     'view_type'     => 'field',
                     'view_key'      => 'scheme',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -195,6 +203,7 @@ class PayRequestLog
                     'label'         => 'http版本',
                     'view_type'     => 'field',
                     'view_key'      => 'version',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -208,6 +217,7 @@ class PayRequestLog
                     'label'         => '客户端详情',
                     'view_type'     => 'field',
                     'view_key'      => 'client',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -217,6 +227,7 @@ class PayRequestLog
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
@@ -225,6 +236,7 @@ class PayRequestLog
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                     ],
