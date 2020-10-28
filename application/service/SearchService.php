@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\GoodsService;
 
 /**
@@ -116,6 +117,34 @@ class SearchService
             $where[] = ['g.min_price', 'LT', $params['max_price']];
         }
 
+        // 排序
+        if(!empty($params['order_by_field']) && !empty($params['order_by_type']) && $params['order_by_field'] != 'default')
+        {
+            $order_by = 'g.'.$params['order_by_field'].' '.$params['order_by_type'];
+        } else {
+            $order_by = 'g.access_count desc, g.sales_count desc, g.id desc';
+        }
+
+        // 分页计算
+        $field = 'g.*';
+        $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
+        $n = 20;
+        $m = intval(($page-1)*$n);
+
+        // 搜索商品列表读取前钩子
+        $hook_name = 'plugins_service_search_goods_list_begin';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'where'         => &$where,
+            'where_keywords'=> &$where_keywords,
+            'field'         => &$field,
+            'order_by'      => &$order_by,
+            'm'             => &$m,
+            'n'             => &$n,
+        ]);
+
         // 获取商品总数
         $result['total'] = (int) Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->where(function($query) use($where_keywords) {
             $query->whereOr($where_keywords);
@@ -124,22 +153,8 @@ class SearchService
         // 获取商品列表
         if($result['total'] > 0)
         {
-            // 排序
-            $order_by = '';
-            if(!empty($params['order_by_field']) && !empty($params['order_by_type']) && $params['order_by_field'] != 'default')
-            {
-                $order_by = 'g.'.$params['order_by_field'].' '.$params['order_by_type'];
-            } else {
-                $order_by = 'g.access_count desc, g.sales_count desc, g.id desc';
-            }
-            
-            // 分页计算
-            $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
-            $n = 20;
-            $m = intval(($page-1)*$n);
-
             // 查询数据
-            $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field('g.*')->where($where)->where(function($query) use($where_keywords) {
+            $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field($field)->where($where)->where(function($query) use($where_keywords) {
                 $query->whereOr($where_keywords);
             })->group('g.id')->order($order_by)->limit($m, $n)->select();
 

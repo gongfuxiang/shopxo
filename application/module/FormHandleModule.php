@@ -108,6 +108,9 @@ class FormHandleModule
             ]);
         }
 
+        // 初始化
+        $this->Init();
+
         // md5key
         $this->FromMd5Key($module, $action);
 
@@ -139,6 +142,23 @@ class FormHandleModule
     }
 
     /**
+     * 初始化
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-10-29
+     * @desc    description
+     */
+    public function Init()
+    {
+        // 排序
+        $this->order_by['key'] = empty($this->out_params['fp_order_by_key']) ? '' : $this->out_params['fp_order_by_key'];
+        $this->order_by['val'] = empty($this->out_params['fp_order_by_val']) ? '' : $this->out_params['fp_order_by_val'];
+        $this->order_by['field'] = '';
+        $this->order_by['data'] = '';
+    }
+
+    /**
      * 排序字段处理
      * @author  Devil
      * @blog    http://gong.gg/
@@ -148,15 +168,10 @@ class FormHandleModule
      */
     public function FormOrderByHandle()
     {
-        $order_by_key = empty($this->out_params['fp_order_by_key']) ? '' : $this->out_params['fp_order_by_key'];
-        $order_by_val = empty($this->out_params['fp_order_by_val']) ? '' : $this->out_params['fp_order_by_val'];
-        $order_by_data = (empty($order_by_key) || empty($order_by_val)) ? '' : $order_by_key.' '.$order_by_val;
-
-        $this->order_by = [
-            'data'  => $order_by_data,
-            'key'   => $order_by_key,
-            'val'   => $order_by_val,
-        ];
+        if(!empty($this->order_by['field']) && !empty($this->order_by['val']))
+        {
+            $this->order_by['data'] = $this->order_by['field'].' '.$this->order_by['val'];
+        }
     }
 
     /**
@@ -333,15 +348,15 @@ class FormHandleModule
                 }
             }
 
+            // 表单key
+            $fk = 'f'.$k;
+
+            // 表单名称
+            $form_name = (!empty($v['search_config']) && !empty($v['search_config']['form_name'])) ? $v['search_config']['form_name'] : (isset($v['view_key']) ? $v['view_key'] : '');
+
             // 条件处理
             if(!empty($v['search_config']) && !empty($v['search_config']['form_type']))
             {
-                // 搜索 key 未指定则使用显示数据的字段名称
-                if(empty($v['search_config']['form_name']))
-                {
-                    $v['search_config']['form_name'] = isset($v['view_key']) ? $v['view_key'] : '';
-                }
-
                 // 基础数据处理
                 if(!empty($v['search_config']['form_name']))
                 {
@@ -349,7 +364,7 @@ class FormHandleModule
                     $label = empty($v['label']) ? '' : $v['label'];
 
                     // 唯一 formkey
-                    $form_key = 'f'.$k.'p';
+                    $form_key = $fk.'p';
                     $v['form_key'] = $form_key;
 
                     // 根据组件类型处理
@@ -413,7 +428,7 @@ class FormHandleModule
 
                     // 搜索条件数据处理
                     // 表单字段名称
-                    $where_name = $v['search_config']['form_name'];
+                    $where_name = $form_name;
                     // 条件类型
                     $where_type = isset($v['search_config']['where_type']) ? $v['search_config']['where_type'] : $v['search_config']['form_type'];
                     // 是否自定义条件处理
@@ -551,9 +566,13 @@ class FormHandleModule
                             break;
                     }
                 }
+            }
 
-                // 排序字段
-                $v['sort_field'] = empty($v['sort_field']) ? $where_name : $v['sort_field'];
+            // 排序key与字段
+            $v['sort_key'] = $fk.'o';
+            if($v['sort_key'] == $this->order_by['key'])
+            {
+                $this->order_by['field'] = empty($v['sort_field']) ? $form_name : $v['sort_field'];
             }
         }
     }

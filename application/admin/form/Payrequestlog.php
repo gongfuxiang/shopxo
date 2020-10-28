@@ -93,7 +93,6 @@ class PayRequestLog
                     'view_key'      => 'payrequestlog/module/business_handle',
                     'align'         => 'left',
                     'grid_size'     => 'sm',
-                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',

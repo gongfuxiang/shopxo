@@ -637,6 +637,11 @@ button.colorpicker-submit img {
 .form-table-operate-checkbox .am-checkbox {
     margin-top: 0;
 }
+.form-table-operate-checkbox-submit {
+    position: absolute;
+    left: calc(50% - 25px);
+    top: calc(50% - 14px);
+}
 
 /**
  * 表格-字段选择

@@ -69,6 +69,7 @@ class Order extends Common
             'm'                 => $page->GetPageStarNumber(),
             'n'                 => $this->page_size,
             'where'             => $this->form_where,
+            'order_by'      => $this->form_order_by['data'],
             'is_orderaftersale' => 1,
             'user_type'         => 'user',
         ];

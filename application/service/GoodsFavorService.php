@@ -195,10 +195,10 @@ class GoodsFavorService
     public static function GoodsFavorList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
+        $field = empty($params['field']) ? 'f.*, g.title, g.original_price, g.price, g.min_price, g.images' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'f.id desc' : $params['order_by'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $order_by = empty($params['order_by']) ? 'f.id desc' : $params['order_by'];
-        $field = 'f.*, g.title, g.original_price, g.price, g.min_price, g.images';
 
         // 获取数据
         $data = Db::name('GoodsFavor')->alias('f')->join(['__GOODS__'=>'g'], 'g.id=f.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();

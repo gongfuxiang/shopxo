@@ -177,10 +177,10 @@ class PayLogService
     public static function PayLogList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $field = '*';
-        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
 
         // 获取数据列表
         $data = Db::name('PayLog')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();

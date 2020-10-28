@@ -78,6 +78,8 @@ class UserGoodsFavor
                     'view_type'     => 'module',
                     'view_key'      => 'usergoodsfavor/module/goods',
                     'grid_size'     => 'lg',
+                    'is_sort'       => 1,
+                    'sort_field'    => 'g.title',
                     'search_config' => [
                         'form_type'         => 'input',
                         'form_name'         => 'g.title|g.model|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords',
@@ -89,6 +91,7 @@ class UserGoodsFavor
                     'label'         => '销售价格(元)',
                     'view_type'     => 'field',
                     'view_key'      => 'price',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                         'form_name'         => 'g.min_price',
@@ -99,6 +102,7 @@ class UserGoodsFavor
                     'label'         => '原价(元)',
                     'view_type'     => 'field',
                     'view_key'      => 'original_price',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                         'form_name'         => 'g.min_original_price',
@@ -109,6 +113,7 @@ class UserGoodsFavor
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'f.add_time',

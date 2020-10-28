@@ -56,6 +56,7 @@ class Warehouse extends Common
         // 获取列表
         $data_params = [
             'where'         => $this->form_where,
+            'order_by'      => $this->form_order_by['data'],
         ];
         $ret = WarehouseService::WarehouseList($data_params);
         $this->assign('data_list', $ret['data']);

@@ -48,10 +48,10 @@ class AnswerService
     public static function AnswerList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
+        $m = isset($params['m']) ? intval($params['m']) : 0;
+        $n = isset($params['n']) ? intval($params['n']) : 10;
 
         // 获取数据列表
         $data = Db::name('Answer')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();

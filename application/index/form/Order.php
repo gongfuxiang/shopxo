@@ -89,6 +89,7 @@ class Order
                 'view_key'      => 'status',
                 'view_data_key' => 'name',
                 'view_data'     => lang('common_order_user_status'),
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'select',
                     'where_type'        => 'in',
@@ -102,6 +103,7 @@ class Order
                 'label'         => '支付状态',
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/pay_status',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'select',
                     'form_name'         => 'pay_status',
@@ -116,6 +118,7 @@ class Order
                 'label'         => '总价(元)',
                 'view_type'     => 'field',
                 'view_key'      => 'total_price',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'section',
                     'is_point'          => 1,
@@ -125,6 +128,7 @@ class Order
                 'label'         => '支付金额(元)',
                 'view_type'     => 'field',
                 'view_key'      => 'pay_price',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'section',
                     'is_point'          => 1,
@@ -134,6 +138,7 @@ class Order
                 'label'         => '单价(元)',
                 'view_type'     => 'field',
                 'view_key'      => 'price',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'section',
                     'is_point'          => 1,
@@ -145,6 +150,7 @@ class Order
                 'view_key'      => 'order_model',
                 'view_data_key' => 'name',
                 'view_data'     => lang('common_site_type_list'),
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'select',
                     'where_type'        => 'in',
@@ -160,6 +166,7 @@ class Order
                 'view_key'      => 'client_type',
                 'view_data_key' => 'name',
                 'view_data'     => lang('common_platform_type'),
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'select',
                     'where_type'        => 'in',
@@ -199,6 +206,7 @@ class Order
                 'label'         => '退款金额(元)',
                 'view_type'     => 'field',
                 'view_key'      => 'refund_price',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'section',
                     'is_point'          => 1,
@@ -208,6 +216,7 @@ class Order
                 'label'         => '退货数量',
                 'view_type'     => 'field',
                 'view_key'      => 'returned_quantity',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'section',
                 ],
@@ -216,6 +225,7 @@ class Order
                 'label'         => '购买总数',
                 'view_type'     => 'field',
                 'view_key'      => 'buy_number_count',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'section',
                 ],
@@ -224,6 +234,7 @@ class Order
                 'label'         => '增加金额(元)',
                 'view_type'     => 'field',
                 'view_key'      => 'increase_price',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'section',
                     'is_point'          => 1,
@@ -233,6 +244,7 @@ class Order
                 'label'         => '优惠金额(元)',
                 'view_type'     => 'field',
                 'view_key'      => 'preferential_price',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'section',
                     'is_point'          => 1,
@@ -242,6 +254,7 @@ class Order
                 'label'         => '支付方式',
                 'view_type'     => 'field',
                 'view_key'      => 'payment_name',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'select',
                     'form_name'         => 'payment_id',
@@ -256,6 +269,7 @@ class Order
                 'label'         => '留言信息',
                 'view_type'     => 'field',
                 'view_key'      => 'user_note',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'select',
                     'where_type'        => 'like',
@@ -276,6 +290,7 @@ class Order
                 'label'         => '快递公司',
                 'view_type'     => 'field',
                 'view_key'      => 'express_name',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'select',
                     'form_name'         => 'express_id',
@@ -290,6 +305,7 @@ class Order
                 'label'         => '快递单号',
                 'view_type'     => 'field',
                 'view_key'      => 'express_number',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'input',
                     'where_type'        => 'like',
@@ -299,6 +315,7 @@ class Order
                 'label'         => '是否评论',
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/is_comments',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'             => 'select',
                     'where_type'            => 'in',
@@ -315,6 +332,7 @@ class Order
                 'label'         => '确认时间',
                 'view_type'     => 'field',
                 'view_key'      => 'confirm_time',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'datetime',
                 ],
@@ -323,6 +341,7 @@ class Order
                 'label'         => '支付时间',
                 'view_type'     => 'field',
                 'view_key'      => 'pay_time',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'datetime',
                 ],
@@ -331,6 +350,7 @@ class Order
                 'label'         => '发货时间',
                 'view_type'     => 'field',
                 'view_key'      => 'delivery_time',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'datetime',
                 ],
@@ -339,6 +359,7 @@ class Order
                 'label'         => '完成时间',
                 'view_type'     => 'field',
                 'view_key'      => 'collect_time',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'datetime',
                 ],
@@ -347,6 +368,7 @@ class Order
                 'label'         => '取消时间',
                 'view_type'     => 'field',
                 'view_key'      => 'cancel_time',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'datetime',
                 ],
@@ -355,6 +377,7 @@ class Order
                 'label'         => '关闭时间',
                 'view_type'     => 'field',
                 'view_key'      => 'close_time',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'datetime',
                 ],
@@ -363,6 +386,7 @@ class Order
                 'label'         => '创建时间',
                 'view_type'     => 'field',
                 'view_key'      => 'add_time',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'datetime',
                 ],
@@ -371,6 +395,7 @@ class Order
                 'label'         => '更新时间',
                 'view_type'     => 'field',
                 'view_key'      => 'upd_time',
+                'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'datetime',
                 ],

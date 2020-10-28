@@ -75,7 +75,6 @@ class Article
                     'view_type'     => 'field',
                     'view_key'      => 'jump_url',
                     'grid_size'     => 'sm',
-                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',

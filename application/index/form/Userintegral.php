@@ -68,6 +68,7 @@ class Userintegral
                     'view_key'      => 'type',
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_integral_log_type_list'),
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -81,6 +82,7 @@ class Userintegral
                     'label'         => '操作积分',
                     'view_type'     => 'field',
                     'view_key'      => 'operation_integral',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -89,6 +91,7 @@ class Userintegral
                     'label'         => '原始积分',
                     'view_type'     => 'field',
                     'view_key'      => 'original_integral',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -97,6 +100,7 @@ class Userintegral
                     'label'         => '最新积分',
                     'view_type'     => 'field',
                     'view_key'      => 'new_integral',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -106,6 +110,7 @@ class Userintegral
                     'view_type'     => 'field',
                     'view_key'      => 'msg',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -115,6 +120,7 @@ class Userintegral
                     'label'         => '时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'add_time',

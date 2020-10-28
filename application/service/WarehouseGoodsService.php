@@ -41,7 +41,8 @@ class WarehouseGoodsService
         $field = empty($params['field']) ? '*' : $params['field'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $order_by = 'id desc';
+
+        $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
         $data = Db::name('WarehouseGoods')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         return DataReturn('处理成功', 0, self::DataHandle($data));
     }

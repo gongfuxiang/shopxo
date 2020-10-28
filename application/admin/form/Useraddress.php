@@ -122,12 +122,14 @@ class UserAddress
                     'view_type'     => 'field',
                     'view_key'      => 'city_name',
                     'is_sort'       => 1,
+                    'sort_field'    => 'city',
                 ],
                 [
                     'label'         => '所属区/县',
                     'view_type'     => 'field',
                     'view_key'      => 'county_name',
                     'is_sort'       => 1,
+                    'sort_field'    => 'county',
                 ],
                 [
                     'label'         => '详细地址',

@@ -73,6 +73,7 @@ class WarehouseGoods extends Common
             'where'         => $this->form_where,
             'm'             => $page->GetPageStarNumber(),
             'n'             => $this->page_size,
+            'order_by'      => $this->form_order_by['data'],
         ];
         $ret = WarehouseGoodsService::WarehouseGoodsList($data_params);
 

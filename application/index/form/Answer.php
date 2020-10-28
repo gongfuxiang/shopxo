@@ -66,6 +66,7 @@ class Answer
                     'label'         => '联系人',
                     'view_type'     => 'field',
                     'view_key'      => 'name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -75,6 +76,7 @@ class Answer
                     'label'         => '联系电话',
                     'view_type'     => 'field',
                     'view_key'      => 'tel',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -106,6 +108,7 @@ class Answer
                     'label'         => '回复时间',
                     'view_type'     => 'field',
                     'view_key'      => 'reply_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'reply_time',
@@ -115,6 +118,7 @@ class Answer
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'add_time',

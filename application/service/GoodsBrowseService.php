@@ -132,10 +132,10 @@ class GoodsBrowseService
     public static function GoodsBrowseList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
+        $field = empty($params['field']) ? 'b.*, g.title, g.original_price, g.price, g.min_price, g.images' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'b.id desc' : $params['order_by'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $order_by = empty($params['order_by']) ? 'b.id desc' : $params['order_by'];
-        $field = 'b.*, g.title, g.original_price, g.price, g.min_price, g.images';
 
         // 获取数据
         $data = Db::name('GoodsBrowse')->alias('b')->join(['__GOODS__'=>'g'], 'g.id=b.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select();

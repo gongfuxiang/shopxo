@@ -988,12 +988,13 @@ class OrderService
     public static function OrderList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
-        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
 
         // 获取订单
-        $data = Db::name('Order')->where($where)->limit($m, $n)->order($order_by)->select();
+        $data = Db::name('Order')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
         
         // 数据处理
         return self::OrderDataHandle($data, $params);

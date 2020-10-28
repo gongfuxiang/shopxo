@@ -68,6 +68,8 @@ class Orderaftersale
                     'view_type'     => 'module',
                     'view_key'      => 'orderaftersale/module/goods',
                     'grid_size'     => 'lg',
+                    'is_sort'       => 1,
+                    'sort_field'    => 'goods_id',
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
@@ -84,6 +86,7 @@ class Orderaftersale
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_order_aftersale_status_list'),
                     'width'         => 120,
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -100,6 +103,7 @@ class Orderaftersale
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_order_aftersale_type_list'),
                     'width'         => 120,
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -113,6 +117,7 @@ class Orderaftersale
                     'label'         => '原因',
                     'view_type'     => 'field',
                     'view_key'      => 'reason',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -122,6 +127,7 @@ class Orderaftersale
                     'label'         => '退款金额(元)',
                     'view_type'     => 'field',
                     'view_key'      => 'price',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                         'is_point'          => 1,
@@ -131,6 +137,7 @@ class Orderaftersale
                     'label'         => '退货数量',
                     'view_type'     => 'field',
                     'view_key'      => 'number',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'section',
                     ],
@@ -140,6 +147,7 @@ class Orderaftersale
                     'view_type'     => 'field',
                     'view_key'      => 'msg',
                     'grid_size'     => 'sm',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -152,6 +160,7 @@ class Orderaftersale
                     'view_data_key' => 'name',
                     'view_data'     => lang('common_order_aftersale_refundment_list'),
                     'width'         => 120,
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
@@ -165,6 +174,7 @@ class Orderaftersale
                     'label'         => '快递公司',
                     'view_type'     => 'field',
                     'view_key'      => 'express_name',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -174,6 +184,7 @@ class Orderaftersale
                     'label'         => '快递单号',
                     'view_type'     => 'field',
                     'view_key'      => 'express_number',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
@@ -183,6 +194,7 @@ class Orderaftersale
                     'label'         => '申请时间',
                     'view_type'     => 'field',
                     'view_key'      => 'apply_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'apply_time',
@@ -192,6 +204,7 @@ class Orderaftersale
                     'label'         => '确认时间',
                     'view_type'     => 'field',
                     'view_key'      => 'confirm_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'confirm_time',
@@ -201,6 +214,7 @@ class Orderaftersale
                     'label'         => '退货时间',
                     'view_type'     => 'field',
                     'view_key'      => 'delivery_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'delivery_time',
@@ -210,6 +224,7 @@ class Orderaftersale
                     'label'         => '审核时间',
                     'view_type'     => 'field',
                     'view_key'      => 'audit_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'audit_time',
@@ -219,6 +234,7 @@ class Orderaftersale
                     'label'         => '创建时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'add_time',
@@ -228,6 +244,7 @@ class Orderaftersale
                     'label'         => '更新时间',
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time_time',
+                    'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
                         'form_name'         => 'upd_time',
