@@ -357,6 +357,12 @@ class FormHandleModule
             // 条件处理
             if(!empty($v['search_config']) && !empty($v['search_config']['form_type']))
             {
+                // 搜索 key 未指定则使用显示数据的字段名称
+                if(empty($v['search_config']['form_name']))
+                {
+                    $v['search_config']['form_name'] = $form_name;
+                }
+                
                 // 基础数据处理
                 if(!empty($v['search_config']['form_name']))
                 {
