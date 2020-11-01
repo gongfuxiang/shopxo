@@ -57,7 +57,6 @@ Page({
           }
           this.setData({
             data_list: category,
-            category_show_level: res.data.data.category_show_level || 3,
             data_content: data_content,
             data_list_loding_status: category.length == 0 ? 0 : 3,
             data_bottom_line_status: true
