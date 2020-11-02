@@ -200,7 +200,11 @@
                                                         <li>
                                                             <span>{{$order.status_name}}</span>
                                                             {{if $order['items_count'] gt 1}}
-                                                                <span class="items-count">等{{$order.items_count}}种商品</span>
+                                                                <span class="items-count">
+                                                                    <em>等</em>
+                                                                    <em>{{$order.items_count}}</em>
+                                                                    <em>种商品</em>
+                                                                </span>
                                                             {{/if}}
                                                         </li>
                                                     </ul>
