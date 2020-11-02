@@ -175,7 +175,7 @@ v1.2版本不再支持支付宝生活号管理（需要使用此功能的小伙�
 - 完善我们的文档和例子
 
 # 开源协议
-Apache License Version 2.0 see http://www.apache.org/licenses/LICENSE-2.0.html
+MIT see https://ask.shopxo.net/article/15
 
 # 更新日志
 更多细节参阅 <a href="https://ask.shopxo.net/article/148">https://ask.shopxo.net/article/148</a>
