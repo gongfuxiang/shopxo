@@ -66,7 +66,7 @@
     "pages/plugins/exchangerate/currency/currency"
   ],
   "window": {
-    "defaultTitle": "shopxo",
+    "defaultTitle": "{{application_title}}",
     "titleBarColor": "#d2364c",
     "backgroundColor": "#f5f5f5"
   },

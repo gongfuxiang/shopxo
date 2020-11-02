@@ -140,16 +140,16 @@ class Appmini extends Common
 		}
 
 		// 配置内容
-        $app_mini_title = MyC('common_app_mini_weixin_title');
-        $app_mini_describe = MyC('common_app_mini_weixin_describe');
-        if(empty($app_mini_title) || empty($app_mini_describe))
+        $title = MyC('common_app_mini_'.$this->params['application_name'].'_title');
+        $describe = MyC('common_app_mini_'.$this->params['application_name'].'_describe');
+        if(empty($title) || empty($describe))
         {
             return DataReturn('配置信息不能为空', -1);
         }
 
 		// 开始操作
-		$this->params['app_mini_title'] = $app_mini_title;
-		$this->params['app_mini_describe'] = $app_mini_describe;
+		$this->params['app_mini_title'] = $title;
+		$this->params['app_mini_describe'] = $describe;
 		return AppMiniService::Created($this->params);
 	}
 
