@@ -86,7 +86,7 @@
 <!-- js钩子 -->
 {{if !empty($plugins_admin_js_data) and is_array($plugins_admin_js_data)}}
     {{foreach $plugins_admin_js_data as $hook}}
-        {{if is_string($hook)}}
+        {{if !empty($hook) and is_string($hook)}}
             {{if substr($hook, 0, 4) eq 'http'}}
                 <script type='text/javascript' src="{{$hook}}?v={{:MyC('home_static_cache_version')}}"></script>
             {{else /}}
@@ -94,7 +94,7 @@
             {{/if}}
         {{elseif is_array($hook) /}}
             {{foreach $hook as $hook_js}}
-                {{if is_string($hook_js)}}
+                {{if !empty($hook_js) and is_string($hook_js)}}
                     {{if substr($hook_js, 0, 4) eq 'http'}}
                         <script type='text/javascript' src="{{$hook_js}}?v={{:MyC('home_static_cache_version')}}"></script>
                     {{else /}}
