@@ -64,7 +64,7 @@ return array(
         'Asia/Kolkata' => '(标准时+5:00) 叶卡捷琳堡、伊斯兰堡、卡拉奇',
         'Asia/Dhaka' => '(标准时+6:00) 阿拉木图、 达卡、新亚伯利亚',
         'Indian/Christmas' => '(标准时+7:00) 曼谷、河内、雅加达',
-        'Australia/Eucla' => '(标准时+8:00)北京、重庆、香港、新加坡',
+        'Asia/Shanghai' => '(标准时+8:00)北京、重庆、香港、新加坡',
         'Australia/Darwin' => '(标准时+9:00) 东京、汉城、大阪、雅库茨克',
         'Australia/Adelaide' => '(标准时+10:00) 悉尼、关岛',
         'Australia/Currie' => '(标准时+11:00) 马加丹、索罗门群岛',

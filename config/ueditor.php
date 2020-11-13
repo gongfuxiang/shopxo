@@ -27,7 +27,7 @@ return [
       'imageFieldName'            =>  'upfile',
 
       // 上传大小限制，单位B
-      'imageMaxSize'              =>  MyC('home_max_limit_image', 2048000, true),
+      'imageMaxSize'              =>  MyFileConfig('home_max_limit_image', '', 2048000, true),
 
       // 上传图片格式显示
       'imageAllowFiles'           =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
@@ -59,7 +59,7 @@ return [
       'scrawlPathFormat'      =>  __MY_ROOT_PUBLIC__.'static/upload/images/'.$upload_path.'/{yyyy}/{mm}/{dd}/{time}{rand:6}',
 
       // 上传大小限制，单位B
-      'scrawlMaxSize'         =>  MyC('home_max_limit_image', 2048000, true),
+      'scrawlMaxSize'         =>  MyFileConfig('home_max_limit_image', '', 2048000, true),
 
       // 上传图片格式显示
       'scrawlAllowFiles'           =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
@@ -102,7 +102,7 @@ return [
       'catcherUrlPrefix'      =>  '',
 
       // 上传大小限制，单位B
-      'catcherMaxSize'        =>  MyC('home_max_limit_image', 2048000, true),
+      'catcherMaxSize'        =>  MyFileConfig('home_max_limit_image', '', 2048000, true),
 
       // 抓取图片格式显示
       'catcherAllowFiles'     =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp'],
@@ -122,7 +122,7 @@ return [
       'videoUrlPrefix'        =>  '',
 
       // 上传大小限制，单位B，默认100MB
-      'videoMaxSize'          =>  MyC('home_max_limit_video', 102400000, true),
+      'videoMaxSize'          =>  MyFileConfig('home_max_limit_video', '', 102400000, true),
 
       // 上传视频格式显示
       'videoAllowFiles'       =>  ['.swf', '.ogg', '.ogv', '.mp4', '.webm', '.mp3'], 
@@ -142,7 +142,7 @@ return [
       'fileUrlPrefix'         =>  '',
 
       // 上传大小限制，单位B，默认50MB
-      'fileMaxSize'           =>  MyC('home_max_limit_file', 51200000, true),
+      'fileMaxSize'           =>  MyFileConfig('home_max_limit_file', '', 51200000, true),
 
       // 上传文件格式显示
       'fileAllowFiles'        =>  ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.wav', '.mid','.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.cab', '.iso', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.xml'],

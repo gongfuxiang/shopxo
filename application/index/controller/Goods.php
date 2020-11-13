@@ -207,6 +207,46 @@ class Goods extends Common
                 'goods'        => &$goods,
             ]));
 
+        // 商品页面规格顶部钩子
+        $hook_name = 'plugins_view_goods_detail_base_sku_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+                'goods_id'     => $goods_id,
+                'goods'        => &$goods,
+            ]));
+
+        // 商品页面库存数量顶部钩子
+        $hook_name = 'plugins_view_goods_detail_base_inventory_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+                'goods_id'     => $goods_id,
+                'goods'        => &$goods,
+            ]));
+
+        // 商品页面库存数量底部钩子
+        $hook_name = 'plugins_view_goods_detail_base_inventory_bottom';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+                'goods_id'     => $goods_id,
+                'goods'        => &$goods,
+            ]));
+
+        // 商品页面购买导航顶部钩子
+        $hook_name = 'plugins_view_goods_detail_buy_nav_top';
+        $this->assign($hook_name.'_data', Hook::listen($hook_name,
+            [
+                'hook_name'    => $hook_name,
+                'is_backend'   => false,
+                'goods_id'     => $goods_id,
+                'goods'        => &$goods,
+            ]));
+
         // 商品页面基础信息面板底部钩子
         $hook_name = 'plugins_view_goods_detail_base_bottom';
         $this->assign($hook_name.'_data', Hook::listen($hook_name,

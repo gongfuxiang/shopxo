@@ -369,15 +369,10 @@ function FromInit(form_name)
 				// ajax-reload  请求完成后刷新页面
 				// ajax-url 	请求完成后调整到指定的请求值
 				// ajax-fun 	请求完成后调用指定方法
+				// ajax-view 	请求完成后仅提示文本信息
 				// sync 		不发起请求、直接同步调用指定的方法
 				// jump 		不发起请求、拼接数据参数跳转到指定 url 地址
-				var request_handle = ['ajax-reload', 'ajax-url', 'ajax-fun', 'sync', 'jump'];
-
-				// 是form表单直接通过
-				if(request_type == 'form')
-				{
-					return true;
-				}
+				var request_handle = ['ajax-reload', 'ajax-url', 'ajax-fun', 'ajax-view', 'sync', 'jump', 'form'];
 
 				// 参数校验
 				if(request_handle.indexOf(request_type) == -1)
@@ -387,37 +382,46 @@ function FromInit(form_name)
 	            	return false;
 				}
 
-				// 类型不等于刷新的时候，类型值必须填写
-				if(request_type != 'ajax-reload' && request_value == null)
+				// 类型值必须配置校验
+				var request_type_value = ['ajax-url', 'ajax-fun', 'sync', 'jump']
+				if(request_type_value.indexOf(request_type) != -1 && request_value == null)
 				{
 	        		$button.button('reset');
 					Prompt('表单[类型值]参数配置有误');
 					return false;
 				}
 
-				// 同步调用方法
-				if(request_type == 'sync')
+				// 请求类型
+				switch(request_type)
 				{
-            		$button.button('reset');
-					if(IsExitsFunction(request_value))
-            		{
-            			window[request_value](GetFormVal(form_name, true));
-            		} else {
-            			Prompt('['+request_value+']表单定义的方法未定义');
-            		}
-            		return false;
-				}
+					// 是form表单直接通过
+					case 'form' :
+						return true;
+						break;
 
-				// 拼接参数跳转
-				if(request_type == 'jump')
-				{
-					var params = GetFormVal(form_name, true);
-					for(var i in params)
-					{
-						request_value = UrlFieldReplace(i, encodeURIComponent(params[i]), request_value)
-					}
-					window.location.href = request_value;
-					return false;
+					// 同步调用方法
+					case 'sync' :
+						$button.button('reset');
+						if(IsExitsFunction(request_value))
+	            		{
+	            			window[request_value](GetFormVal(form_name, true));
+	            		} else {
+	            			Prompt('['+request_value+']表单定义的方法未定义');
+	            		}
+	            		return false;
+						break;
+
+					// 拼接参数跳转
+					case 'jump' :
+						var params = GetFormVal(form_name, true);
+						for(var i in params)
+						{
+							request_value = UrlFieldReplace(i, encodeURIComponent(params[i]), request_value)
+						}
+						window.location.href = request_value;
+						return false;
+						break;
+
 				}
 
 				// 请求 url http类型
@@ -433,15 +437,16 @@ function FromInit(form_name)
 
 				// ajax请求
 				$.ajax({
-					url:action,
-					type:method,
-	                dataType:"json",
-	                timeout:$form.attr('timeout') || 30000,
-	                data:GetFormVal(form_name),
-	                processData:false,
-					contentType:false,
-	                success:function(result)
+					url: action,
+					type: method,
+	                dataType: "json",
+	                timeout: $form.attr('timeout') || 30000,
+	                data: GetFormVal(form_name),
+	                processData: false,
+					contentType: false,
+	                success: function(result)
 	                {
+	                	$.AMUI.progress.done();
 	                	// 调用自定义回调方法
 	                	if(request_type == 'ajax-fun')
 	                	{
@@ -449,40 +454,45 @@ function FromInit(form_name)
 	                		{
 	                			window[request_value](result);
 	                		} else {
-	                			$.AMUI.progress.done();
 		            			$button.button('reset');
 	                			Prompt('['+request_value+']表单定义的方法未定义');
 	                		}
-	                	} else if(request_type == 'ajax-url' || request_type == 'ajax-reload')
-	                	{
-	                		$.AMUI.progress.done();
+	                	} else {
+	                		// 统一处理
 		            		if(result.code == 0)
 		            		{
-		            			// url跳转
-		            			if(request_type == 'ajax-url')
+		            			switch(request_type)
 		            			{
-		            				Prompt(result.msg, 'success');
-		            				setTimeout(function()
-									{
-										window.location.href = request_value;
-									}, 1500);
+		            				// url跳转
+		            				case 'ajax-url' :
+			            				Prompt(result.msg, 'success');
+			            				setTimeout(function()
+										{
+											window.location.href = request_value;
+										}, 1500);
+		            					break;
 
-		            			// 页面刷新
-		            			} else if(request_type == 'ajax-reload')
-		            			{
-		            				Prompt(result.msg, 'success');
-		            				setTimeout(function()
-									{
-										window.location.reload();
-									}, 1500);
-								}
+		            				// 页面刷新
+		            				case 'ajax-reload' :
+		            					Prompt(result.msg, 'success');
+			            				setTimeout(function()
+										{
+											window.location.reload();
+										}, 1500);
+		            					break;
+
+		            				// 默认仅提示
+		            				default :
+		            					$button.button('reset');
+		            					Prompt(result.msg, 'success');
+		            			}
 							} else {
 								Prompt(result.msg);
 								$button.button('reset');
 							}
 						}
 					},
-					error:function(xhr, type)
+					error: function(xhr, type)
 		            {
 		            	$.AMUI.progress.done();
 		            	$button.button('reset');

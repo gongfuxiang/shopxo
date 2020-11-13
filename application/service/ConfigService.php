@@ -213,8 +213,11 @@ class ConfigService
                     $v = ResourcesService::ContentStaticReplace($v, 'get');
                 }
 
-                // 单个缓存
+                // 公共内置数据缓存
                 cache($k, $v);
+
+                // 数据文件缓存
+                MyFileConfig($k, $v);
             }
 
             // 所有配置缓存集合

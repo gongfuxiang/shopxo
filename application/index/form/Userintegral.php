@@ -20,7 +20,7 @@ use think\Db;
  * @date    2020-06-28
  * @desc    description
  */
-class Userintegral
+class UserIntegral
 {
     // 基础条件
     public $condition_base = [];

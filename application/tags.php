@@ -34,7 +34,18 @@ return array (
   ),
   'plugins_css' => 
   array (
-    0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    0 => 'app\\plugins\\ordergoodsform\\Hook',
+    1 => 'app\\plugins\\membershiplevelvip\\Hook',
+    2 => 'app\\plugins\\multilingual\\Hook',
+  ),
+  'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\ordergoodsform\\Hook',
+    1 => 'app\\plugins\\multilingual\\Hook',
+  ),
+  'plugins_view_goods_detail_base_inventory_top' => 
+  array (
+    0 => 'app\\plugins\\ordergoodsform\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
@@ -95,6 +106,27 @@ return array (
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\multilingual\\Hook',
+  ),
+  'plugins_common_page_bottom' => 
+  array (
+    0 => 'app\\plugins\\multilingual\\Hook',
+  ),
+  'plugins_service_quick_navigation_pc' => 
+  array (
+    0 => 'app\\plugins\\multilingual\\Hook',
+  ),
+  'plugins_service_quick_navigation_h5' => 
+  array (
+    0 => 'app\\plugins\\multilingual\\Hook',
+  ),
+  'plugins_view_common_top' => 
+  array (
+    0 => 'app\\plugins\\multilingual\\Hook',
+  ),
+  'plugins_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\multilingual\\Hook',
   ),
 );
 ?>

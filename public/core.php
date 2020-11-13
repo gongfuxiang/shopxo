@@ -37,6 +37,11 @@ define('__MY_PUBLIC_URL__',  empty($_SERVER['HTTP_HOST']) ? '' : __MY_HTTP__.':/
 
 // 当前页面url地址
 $request_url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+if(!empty($request_url) && !empty($my_root))
+{
+    // 去除多余的子目录路径
+    $request_url = str_replace($my_root, '', $request_url);
+}
 define('__MY_VIEW_URL__', substr(__MY_URL__, 0, -1).$request_url);
 
 // 系统根目录,强制转换win反斜杠

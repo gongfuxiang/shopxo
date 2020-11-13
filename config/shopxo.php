@@ -14,8 +14,8 @@
 // +----------------------------------------------------------------------
 
 // cdn地址
-$cdn_attachment_host = MyC('common_cdn_attachment_host', __MY_PUBLIC_URL__, true);
-$cdn_public_host = MyC('common_cdn_public_host', __MY_PUBLIC_URL__, true);
+$cdn_attachment_host = MyFileConfig('common_cdn_attachment_host', '', __MY_PUBLIC_URL__, true);
+$cdn_public_host = MyFileConfig('common_cdn_public_host', '', __MY_PUBLIC_URL__, true);
 if(substr($cdn_attachment_host, -1) == DS)
 {
     $cdn_attachment_host = substr($cdn_attachment_host, 0, -1);

@@ -21,7 +21,7 @@ use app\service\RefundLogService;
  * @date    2020-06-27
  * @desc    description
  */
-class Refundlog
+class RefundLog
 {
     // 基础条件
     public $condition_base = [];

@@ -221,6 +221,9 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 #min, #add{ width: 35px; height: 25px; outline:none; line-height: 23px; padding: 0; cursor: pointer; }
 #text_box { width: 60px; height: 25px; text-align: center; font-size: 12px !important; }
 .theme-popover .am-input-group { display: inline-flex; }
+@media only screen and (min-width: 641px) {
+    .theme-popover .am-input-group { margin-left: 5px; }
+}
 
 
 /*购物车*/

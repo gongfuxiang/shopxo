@@ -22,7 +22,7 @@ use app\service\RegionService;
  * @date    2020-07-12
  * @desc    description
  */
-class Warehousegoods
+class WarehouseGoods
 {
     // 基础条件
     public $condition_base = [];

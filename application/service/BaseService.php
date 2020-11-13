@@ -25,10 +25,6 @@ use app\service\QuickNavService;
  */
 class BaseService
 {
-    public static function sss()
-    {
-        return MyC('common_timezone', 'Asia/Shanghai', true);
-    }
     /**
      * 公共配置信息
      * @author  Devil

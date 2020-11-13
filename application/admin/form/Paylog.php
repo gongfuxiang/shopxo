@@ -21,7 +21,7 @@ use app\service\PayLogService;
  * @date    2020-06-26
  * @desc    description
  */
-class Paylog
+class PayLog
 {
     // 基础条件
     public $condition_base = [];

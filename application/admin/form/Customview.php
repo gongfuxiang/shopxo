@@ -18,7 +18,7 @@ namespace app\admin\form;
  * @date    2020-06-16
  * @desc    description
  */
-class Customview
+class CustomView
 {
     // 基础条件
     public $condition_base = [];

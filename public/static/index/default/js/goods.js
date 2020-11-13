@@ -66,7 +66,7 @@ function GoodsCommentsHtml(page)
 }
 
 /**
- * 购买/加入购物车
+ * 购买/加入购物车校验
  * @author   Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -74,10 +74,9 @@ function GoodsCommentsHtml(page)
  * @desc    description
  * @param   {[object]}        e [当前标签对象]
  */
-function CartAdd(e)
+function BuyCartCheck(e)
 {
     // 参数
-    var type = e.attr('data-type');
     var stock = parseInt($('#text_box').val()) || 1;
     var inventory = parseInt($('.stock-tips .stock').text());
     var min = $('.stock-tips .stock').data('min-limit') || 1;
@@ -124,55 +123,48 @@ function CartAdd(e)
             });
         }
     }
+    return {
+        "stock": stock,
+        "spec": spec,
+        "type": e.attr('data-type')
+    };
+}
+
+/**
+ * 购买/加入购物车处理
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-09-13
+ * @desc    description
+ * @param   {[object]}        e [当前标签对象]
+ */
+function BuyCartHandle(e)
+{
+    // 参数
+    var params = BuyCartCheck(e);
+    if(params === false)
+    {
+        return false;
+    }
 
     // 操作类型
-    switch(type)
+    switch(params.type)
     {
         // 立即购买
         case 'buy' :
-            var $form_buy = $('form.buy-form');
-            $form_buy.find('input[name="spec"]').val(JSON.stringify(spec));
-            $form_buy.find('input[name="stock"]').val(stock);
-            $form_buy.find('button[type="submit"]').trigger('click');
+            var $form = $('form.buy-form');
+            $form.find('input[name="spec"]').val(JSON.stringify(params.spec));
+            $form.find('input[name="stock"]').val(params.stock);
+            $form.find('button[type="submit"]').trigger('click');
             break;
 
         // 加入购物车
         case 'cart' :
-            // 开启进度条
-            $.AMUI.progress.start();
-
-            var $button = e;
-            $button.attr('disabled', true);
-
-            // ajax请求
-            $.ajax({
-                url: e.data('ajax-url'),
-                type: 'post',
-                dataType: "json",
-                timeout: 10000,
-                data: {"goods_id": $('.goods-detail').data('id'), "stock": stock, "spec": spec},
-                success: function(result)
-                {
-                    PoptitClose();
-                    $.AMUI.progress.done();
-                    $button.attr('disabled', false);
-
-                    if(result.code == 0)
-                    {
-                        HomeCartNumberTotalUpdate(parseInt(result.data));
-                        Prompt(result.msg, 'success');
-                    } else {
-                        Prompt(result.msg);
-                    }
-                },
-                error: function(xhr, type)
-                {
-                    PoptitClose();
-                    $.AMUI.progress.done();
-                    $button.attr('disabled', false);
-                    Prompt('服务器错误');
-                }
-            });
+            var $form = $('form.cart-form');
+            $form.find('input[name="spec"]').val(JSON.stringify(params.spec));
+            $form.find('input[name="stock"]').val(params.stock);
+            $form.find('button[type="submit"]').trigger('click');
             break;
 
         // 默认
@@ -385,6 +377,9 @@ function SpecPopupShow(e)
 }
 
 $(function() {
+    // 购物车表单初始化
+    FromInit('form.cart-form');
+
     // 商品规格选择
     $('.theme-options').each(function()
     {
@@ -498,7 +493,7 @@ $(function() {
         {
             if($(window).width() >= 1025)
             {
-                CartAdd($(this));
+                BuyCartHandle($(this));
             }
         }
     });
@@ -509,7 +504,7 @@ $(function() {
         {
             if($(window).width() < 1025)
             {
-                CartAdd($(this));
+                BuyCartHandle($(this));
             }
         }
     });

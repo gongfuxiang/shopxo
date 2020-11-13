@@ -12,6 +12,67 @@
 // 应用公共文件
 
 /**
+ * 文件配置数据读写
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-11-13
+ * @desc    description
+ * @param   [string]          $key      [数据缓存可以]
+ * @param   [mixed]           $value    [数据值(空字符串:读, null:删除, 其他:写)]
+ * @param   [mixed]           $default  [默认值]
+ * @param   [boolean]         $mandatory[是否强制判断数据值(空字符串|null|0)视为空]
+ * @return  [mixed]                     [缓存不存在:null, 则缓存数据]
+ */
+function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
+{
+    // 目录不存在则创建
+    $config_dir = ROOT.'runtime'.DS.'data'.DS.'config_data'.DS;
+    \base\FileUtil::CreateDir($config_dir);
+
+    // 数据文件
+    $file = $config_dir.md5($key).'.php';
+
+    // 删除
+    if($value === null)
+    {
+        return \base\FileUtil::UnlinkFile($aim_url);
+    } else {
+        // 读内容
+        if($value === '')
+        {
+            $value = file_exists($file) ? require $file : $default;
+            if($mandatory === true)
+            {
+                if(empty($value))
+                {
+                    $value = $default;
+                }
+            }
+            return $value;
+
+        // 写内容
+        } else {
+            // 目录是否有可写权限
+            if(!is_writable($config_dir))
+            {
+                return false;
+            }
+
+            // 存在则校验写权限
+            if(file_exists($file) && !is_writable($file))
+            {
+                return false;
+            }
+
+            // 存储内容
+            $content = "<?php\nreturn ".var_export($value, true).";\n?>";
+            return (file_put_contents($file, $content) !== false);
+        }
+    }
+}
+
+/**
  * 获取参数数据
  * @author  Devil
  * @blog    http://gong.gg/

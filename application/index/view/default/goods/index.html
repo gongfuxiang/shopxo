@@ -271,6 +271,19 @@
                                 <div class="theme-popbod dform">
                                     <form class="theme-signin am-padding-sm" action="javascript:;">
                                         <div class="theme-signin-left">
+                                            <!-- 商品页面规格顶部钩子 -->
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                <div class="plugins-tag">
+                                                    <span>plugins_view_goods_detail_base_sku_top</span>
+                                                </div>
+                                            {{/if}}
+                                            {{if !empty($plugins_view_goods_detail_base_sku_top_data) and is_array($plugins_view_goods_detail_base_sku_top_data)}}
+                                                {{foreach $plugins_view_goods_detail_base_sku_top_data as $hook}}
+                                                    {{if is_string($hook) or is_int($hook)}}
+                                                        {{$hook|raw}}
+                                                    {{/if}}
+                                                {{/foreach}}
+                                            {{/if}}
                                             {{if !empty($goods['specifications']['choose'])}}
                                                 {{foreach $goods.specifications.choose as $key=>$spec}}
                                                     {{if !empty($spec['value'])}}
@@ -290,6 +303,22 @@
                                                     {{/if}}
                                                 {{/foreach}}
                                             {{/if}}
+
+                                            <!-- 商品页面库存数量顶部钩子 -->
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                <div class="plugins-tag">
+                                                    <span>plugins_view_goods_detail_base_inventory_top</span>
+                                                </div>
+                                            {{/if}}
+                                            {{if !empty($plugins_view_goods_detail_base_inventory_top_data) and is_array($plugins_view_goods_detail_base_inventory_top_data)}}
+                                                {{foreach $plugins_view_goods_detail_base_inventory_top_data as $hook}}
+                                                    {{if is_string($hook) or is_int($hook)}}
+                                                        {{$hook|raw}}
+                                                    {{/if}}
+                                                {{/foreach}}
+                                            {{/if}}
+
+                                            <!-- 库存数量 -->
                                             <div class="theme-options">
                                                 <div class="cart-title number">数量</div>
                                                 <dd>
@@ -302,8 +331,22 @@
                                                 </dd>
                                             </div>
 
+                                            <!-- 商品页面库存数量底部钩子 -->
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                <div class="plugins-tag">
+                                                    <span>plugins_view_goods_detail_base_inventory_bottom</span>
+                                                </div>
+                                            {{/if}}
+                                            {{if !empty($plugins_view_goods_detail_base_inventory_bottom_data) and is_array($plugins_view_goods_detail_base_inventory_bottom_data)}}
+                                                {{foreach $plugins_view_goods_detail_base_inventory_bottom_data as $hook}}
+                                                    {{if is_string($hook) or is_int($hook)}}
+                                                        {{$hook|raw}}
+                                                    {{/if}}
+                                                {{/foreach}}
+                                            {{/if}}
+
                                             <div class="btn-op">
-                                                <span class="btn am-btn am-btn-default confirm login-event" data-type="cart" data-ajax-url="{{:MyUrl('index/Cart/Save')}}">确认</span>
+                                                <span class="btn am-btn am-btn-default confirm login-event" data-type="cart">确认</span>
                                                 <span class="btn close am-btn am-btn-danger cancel">取消</span>
                                             </div>
                                         </div>
@@ -322,6 +365,20 @@
                     </dl>
                 {{/if}}
             </div>
+
+            <!-- 商品页面购买导航顶部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_goods_detail_buy_nav_top</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_goods_detail_buy_nav_top_data) and is_array($plugins_view_goods_detail_buy_nav_top_data)}}
+                {{foreach $plugins_view_goods_detail_buy_nav_top_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
 
             <!-- 购买导航 -->
             <div class="buy-nav {{if $common_site_type eq 1}}exhibition-nav{{else /}}{{if isset($is_goods_site_type_consistent) and $is_goods_site_type_consistent neq 1}}site-type-not-consistent-nav{{/if}}{{/if}}">
@@ -367,7 +424,7 @@
                         {{if $common_site_type eq 1}}
                             <!-- 站点模式 1 展示型 -->
                             <div class="submit">
-                                <div class="clearfix tb-btn tb-btn-basket" data-type="cart"  data-ajax-url="{{:MyUrl('index/Cart/Save')}}">
+                                <div class="clearfix tb-btn tb-btn-basket" data-type="cart">
                                     <a href="{{if empty($common_customer_store_tel)}}javascript:;{{else /}}tel:{{$common_customer_store_tel}}{{/if}}">
                                         <button title="{{$common_is_exhibition_mode_btn_text}}" href="javascript:;" type="button"><i class="am-icon-phone"></i> {{$common_is_exhibition_mode_btn_text}}</button>
                                     </a>
@@ -385,7 +442,7 @@
                             {{if isset($is_goods_site_type_consistent) and $is_goods_site_type_consistent eq 1}}
                                 <!-- 商品类型是否与系统类型一致 -->
                                 <div class="submit">
-                                    <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart"  data-ajax-url="{{:MyUrl('index/Cart/Save')}}">
+                                    <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart">
                                         <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
                                     </div>
                                 </div>
@@ -398,6 +455,14 @@
                                 <input type="hidden" name="stock" value="1" />
                                 <input type="hidden" name="spec" value="" />
                                 <button type="submit"></button>
+                            </form>
+
+                            <!-- 加入购物车表单 -->
+                            <form action="{{:MyUrl('index/cart/save')}}" method="post" class="cart-form" request-type="ajax-view">
+                                <input type="hidden" name="goods_id" value="{{$goods.id}}" />
+                                <input type="hidden" name="stock" value="1" />
+                                <input type="hidden" name="spec" value="" />
+                                <button type="submit" data-am-loading="{loadingText:''}"></button>
                             </form>
                         {{/if}}
                     {{else /}}
