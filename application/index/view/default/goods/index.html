@@ -458,7 +458,7 @@
                             </form>
 
                             <!-- 加入购物车表单 -->
-                            <form action="{{:MyUrl('index/cart/save')}}" method="post" class="cart-form" request-type="ajax-view">
+                            <form action="{{:MyUrl('index/cart/save')}}" method="post" class="cart-form" request-type="ajax-fun" request-value="CartSubmitBack">
                                 <input type="hidden" name="goods_id" value="{{$goods.id}}" />
                                 <input type="hidden" name="stock" value="1" />
                                 <input type="hidden" name="spec" value="" />
@@ -689,3 +689,19 @@
 </div>
 
 {{include file="public/footer" /}}
+
+<script type="text/javascript">
+// 购物车回调
+function CartSubmitBack(e)
+{
+    if(e.code == 0)
+    {
+        HomeCartNumberTotalUpdate(parseInt(e.data));
+        Prompt(e.msg, 'success');
+    } else {
+        Prompt(e.msg);
+    }
+    $.AMUI.progress.done();
+    $('form.cart-form').find('button[type="submit"]').button('reset');
+}
+</script>

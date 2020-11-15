@@ -370,7 +370,7 @@ function GoodsBaseRestore()
  */
 function SpecPopupShow(e)
 {
-    $(document.body).css('position', 'fixed');
+    $(document.body).css({"position":"fixed", "width":"100%"});
     $('.theme-popover-mask').show();
     $('.theme-popover').slideDown(200);
     $('.theme-popover .confirm').attr('data-type', e.data('type') || 'buy');    

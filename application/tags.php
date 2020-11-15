@@ -47,6 +47,22 @@ return array (
   array (
     0 => 'app\\plugins\\ordergoodsform\\Hook',
   ),
+  'plugins_view_buy_group_goods_base_bottom' => 
+  array (
+    0 => 'app\\plugins\\ordergoodsform\\Hook',
+  ),
+  'plugins_service_buy_order_insert_end' => 
+  array (
+    0 => 'app\\plugins\\ordergoodsform\\Hook',
+  ),
+  'plugins_view_index_order_list_operate' => 
+  array (
+    0 => 'app\\plugins\\ordergoodsform\\Hook',
+  ),
+  'plugins_view_admin_order_list_operate' => 
+  array (
+    0 => 'app\\plugins\\ordergoodsform\\Hook',
+  ),
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
