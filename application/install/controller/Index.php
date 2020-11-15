@@ -11,7 +11,6 @@
 namespace app\install\controller;
 
 use think\Db;
-use app\service\BaseConfigHandleService;
 
 /**
  * 安装程序
@@ -159,13 +158,6 @@ class Index extends Common
         if(!IS_AJAX)
         {
             die('非法访问');
-        }
-
-        // 校验cache和session配置生成
-        $ret = BaseConfigHandleService::Run();
-        if($ret['code'] != 0)
-        {
-            return $ret;
         }
 
         // 参数
