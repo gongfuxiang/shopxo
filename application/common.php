@@ -1101,8 +1101,16 @@ function MyUrl($path, $params=[])
  * @param   string          $plugins_action    [应用方法]
  * @param   array           $params            [参数]
  */
-function PluginsHomeUrl($plugins_name, $plugins_control, $plugins_action, $params=[])
+function PluginsHomeUrl($plugins_name, $plugins_control = '', $plugins_action = '', $params = [])
 {
+    // 控制器和方法都为index的时候置空、缩短url地址
+    if($plugins_control == 'index' && $plugins_action == 'index')
+    {
+        $plugins_control = '';
+        $plugins_action = '';
+    }
+
+    // 插件基础参数
     $plugins = [
         'pluginsname'       => $plugins_name,
         'pluginscontrol'    => $plugins_control,
@@ -1140,7 +1148,7 @@ function PluginsHomeUrl($plugins_name, $plugins_control, $plugins_action, $param
  * @param   string          $plugins_action    [应用方法]
  * @param   array           $params            [参数]
  */
-function PluginsAdminUrl($plugins_name, $plugins_control, $plugins_action, $params=[])
+function PluginsAdminUrl($plugins_name, $plugins_control, $plugins_action, $params = [])
 {
     $plugins = [
         'pluginsname'       => $plugins_name,

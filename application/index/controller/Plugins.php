@@ -53,16 +53,6 @@ class Plugins extends Common
                 'key_name'          => 'pluginsname',
                 'error_msg'         => '应用名称有误',
             ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'pluginscontrol',
-                'error_msg'         => '应用控制器有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'pluginsaction',
-                'error_msg'         => '应用操作方法有误',
-            ],
         ];
         $ret = ParamsChecked($params['data_request'], $p);
         if($ret !== true)
@@ -76,10 +66,14 @@ class Plugins extends Common
             }
         }
 
+        // 控制器/方法默认值
+        $pluginscontrol = empty($params['data_request']['pluginscontrol']) ? 'index' : $params['data_request']['pluginscontrol'];
+        $pluginsaction = empty($params['data_request']['pluginsaction']) ? 'index' : $params['data_request']['pluginsaction'];
+
         // 应用名称/控制器/方法
         $pluginsname = $params['data_request']['pluginsname'];
-        $pluginscontrol = strtolower($params['data_request']['pluginscontrol']);
-        $pluginsaction = strtolower($params['data_request']['pluginsaction']);
+        $pluginscontrol = strtolower($pluginscontrol);
+        $pluginsaction = strtolower($pluginsaction);
         unset($params['data_request']['pluginsname'], $params['data_request']['pluginscontrol'], $params['data_request']['pluginsaction']);
 
         // 视图初始化
