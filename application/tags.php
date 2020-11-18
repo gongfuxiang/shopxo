@@ -66,6 +66,7 @@ return array (
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\blog\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
