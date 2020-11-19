@@ -18,7 +18,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/articlecategory/save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/articlecategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group">
 							<label>名称</label>
 							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
@@ -40,11 +40,8 @@
 		<!-- save win end -->
 
         <!-- list start -->
-		<div id="tree" class="am-margin-top-sm">
-			<div class="am-margin-top-lg am-text-center">
-				<img src="{{$attachment_host}}/static/common/images/loading.gif" />
-				<p>处理中...</p>
-			</div>
+		<div id="tree" class="am-margin-top-sm" data-node-url="{{:MyUrl('admin/articlecategory/getnodeson')}}" data-del-url="{{:MyUrl('admin/articlecategory/delete')}}" data-popup-tag="#data-save-win">
+			{{include file="public/loading" /}}
 		</div>
 		<!-- list end -->
 	</div>
@@ -54,6 +51,14 @@
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->
-<script>
-	Tree(0, "{{:MyUrl('admin/articlecategory/getnodeson')}}", 0);
+
+<script type="text/javascript">
+	// 初始化
+	Tree(0, $('#tree').data('node-url'), 0);
+
+	// 回调处理
+	function TreeFormSaveBack(e)
+	{
+		TreeFormSaveBackHandle(e);
+	}
 </script>

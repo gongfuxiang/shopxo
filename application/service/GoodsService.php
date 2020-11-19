@@ -2163,8 +2163,6 @@ class GoodsService
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['ajax_url']          =   MyUrl('admin/goodscategory/getnodeson', array('id'=>$v['id']));
-                $v['delete_url']        =   MyUrl('admin/goodscategory/delete');
                 $v['icon_url']          =   ResourcesService::AttachmentPathViewHandle($v['icon']);
                 $v['big_images_url']    =   ResourcesService::AttachmentPathViewHandle($v['big_images']);
                 $v['json']              =   json_encode($v);
@@ -2266,36 +2264,28 @@ class GoodsService
         }
 
         // 添加/编辑
-        $msg = '操作失败';
-        $code = -100;
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(Db::name('GoodsCategory')->insertGetId($data) > 0)
+            $data['id'] = Db::name('GoodsCategory')->insertGetId($data);
+            if($data['id'] <= 0)
             {
-                $code = 0;
-                $msg = '添加成功';
-            } else {
-                $msg = '添加失败';
+                return DataReturn('添加失败', -100);
             }
         } else {
             $data['upd_time'] = time();
-            if(Db::name('GoodsCategory')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('GoodsCategory')->where(['id'=>intval($params['id'])])->update($data) === false)
             {
-                $code = 0;
-                $msg = '编辑成功';
+                return DataReturn('编辑失败', -100);
             } else {
-                $msg = '编辑失败';
+                $data['id'] = $params['id'];
             }
         }
 
-        // 状态
-        if($code == 0)
-        {
-            // 删除大分类缓存
-            cache(config('shopxo.cache_goods_category_key'), null);
-        }
-        return DataReturn($msg, $code);
+        // 删除大分类缓存
+        cache(config('shopxo.cache_goods_category_key'), null);
+
+        return DataReturn('操作成功', 0, json_encode($data));
     }
 
     /**

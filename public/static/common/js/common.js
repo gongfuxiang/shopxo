@@ -581,78 +581,22 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 		{
 			if(result.code == 0 && result.data.length > 0)
 			{
-				html = (id != 0) ? '' : '<table class="am-table am-table-striped am-table-hover">';
-				is_add_node = is_add_node || 0;
-				var is_astrict_rank = parseInt($('#tree').attr('data-rank')) || 0;
+				html = '';
 				for(var i in result.data)
 				{
-					// 获取class
-					var class_name = $('#data-list-'+id).attr('class') || '';
-
-					// 数据 start
-					var is_active = (result.data[i]['is_enable'] == 0) ? 'am-active' : '';
-					html += '<tr id="data-list-'+result.data[i]['id']+'" class="'+class_name+' tree-pid-'+id+' '+is_active+'"><td>';
-					tmp_level = (id != 0) ? parseInt(level)+20 : parseInt(level);
-					var son_css = '';
-					if(result.data[i]['is_son'] == 'ok')
-					{
-						html += '<i class="am-icon-plus c-p tree-submit" data-id="'+result.data[i]['id']+'" data-url="'+result.data[i]['ajax_url']+'" data-level="'+tmp_level+'" data-is_add_node="'+is_add_node+'" data-is_delete_all="'+is_delete_all+'" style="margin-right:8px;width:12px;';
-						if(id != 0)
-						{
-							html += 'margin-left:'+tmp_level+'px;';
-						}
-						html += '"></i>';
-					} else {
-						son_css = 'padding-left:'+tmp_level+'px;';
-					}
-					html += '<span style="'+son_css+'">';
-					if((result.data[i]['icon_url'] || null) != null)
-					{
-						html += '<a href="'+result.data[i]['icon_url']+'" target="_blank"><img src="'+result.data[i]['icon_url']+'" width="20" height="20" class="am-vertical-align-middle am-margin-right-xs" /></a>';
-					}
-					html += '<span>'+(result.data[i]['name_alias'] || result.data[i]['name'])+'</span>';
-					html += '</span>';
-					// 数据 end
-
-					// 操作项 start
-					html += '<div class="fr m-r-20 submit">';
-
-					// 新增
-					var rank = tmp_level/20+1;
-					if(is_add_node == 1 && (is_astrict_rank == 0 || rank < is_astrict_rank))
-					{
-						html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus c-p m-r-10 tree-submit-add-node" data-am-modal="{target: \'#data-save-win\'}" data-id="'+result.data[i]['id']+'"> 新增</button>';
-					}
-
-					// 编辑
-					html += '<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit c-p submit-edit" data-am-modal="{target: \'#data-save-win\'}" data-json=\''+result.data[i]['json']+'\' data-is_exist_son="'+result.data[i]['is_son']+'"> 编辑</button>';
-					if(result.data[i]['is_son'] != 'ok' || is_delete_all == 1)
-					{
-						// 是否需要删除子数据
-						var pid_class = is_delete_all == 1 ? '.tree-pid-'+result.data[i]['id'] : '';
-
-						// 删除
-						html += '<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o c-p m-l-10 submit-delete" data-id="'+result.data[i]['id']+'" data-url="'+result.data[i]['delete_url']+'" data-ext-delete-tag="'+pid_class+'"> 删除</button>';
-					}
-					html += '</div>';
-					// 操作项 end
-					
-					html += '</td></tr>';
+					html += TreeItemHtmlHandle(result.data[i], id, level, is_add_node, is_delete_all)
 				}
-				html += (id != 0) ? '' : '</table>';
 
-				// 防止网络慢的情况下重复添加
-				if($('#data-list-'+id).find('.tree-submit').attr('state') != 'ok')
+				// 是否首次
+				if(id == 0)
 				{
-					if(id == 0)
-					{
-						$('#tree').html(html);
-					} else {
-						$('#data-list-'+id).after(html);
-						$('#data-list-'+id).find('.tree-submit').attr('state', 'ok');
-						$('#data-list-'+id).find('.tree-submit').removeClass('am-icon-plus');
-						$('#data-list-'+id).find('.tree-submit').addClass('am-icon-minus-square');
-					}
+					html = '<table class="am-table am-table-striped am-table-hover">'+html+'</table>';
+					$('#tree').html(html);
+				} else {
+					$('.tree-pid-'+id).remove();
+					$('#data-list-'+id).after(html);
+					$('#data-list-'+id).find('.tree-submit').removeClass('am-icon-plus');
+					$('#data-list-'+id).find('.tree-submit').addClass('am-icon-minus-square');
 				}
 			} else {
 				$('#tree').find('p').text(result.msg);
@@ -665,6 +609,207 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 			$('#tree').find('img').remove();
 		}
 	});
+}
+
+/**
+ * tree列表数据处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-11-19
+ * @desc    description
+ * @param    {[boject]}     item            [数据]
+ * @param    {[int]}    	id    			[节点id]
+ * @param    {[int]}      	level 			[层级]
+ * @param    {[int]}      	is_add_node 	[是否开启新增子级按钮]
+ * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
+ */
+function TreeItemHtmlHandle(item, id, level, is_add_node, is_delete_all)
+{
+	// 基础参数处理
+	is_add_node = is_add_node || 0;
+	is_delete_all = is_delete_all || 0;
+	var is_astrict_rank = parseInt($('#tree').attr('data-rank')) || 0;
+				var delete_url = $('#tree').data('del-url');
+	var class_name = $('#data-list-'+id).attr('class') || '';
+		class_name = class_name.replace('tree-change-item', '').replace('am-active', '');
+	var popup_tag = $('#tree').data('popup-tag') || ''+popup_tag+'';
+
+	// 数据 start
+	var is_active = (item['is_enable'] == 0) ? 'am-active' : '';
+	html = '<tr id="data-list-'+item['id']+'" class="'+class_name+' tree-pid-'+id+' '+is_active+'"><td>';
+	tmp_level = (id != 0) ? parseInt(level)+20 : parseInt(level);
+	var son_css = '';
+	if(item['is_son'] == 'ok')
+	{
+		html += '<a href="javascript:;" class="am-icon-plus tree-submit" data-id="'+item['id']+'" data-level="'+tmp_level+'" data-is_add_node="'+is_add_node+'" data-is_delete_all="'+is_delete_all+'" style="margin-right:8px;width:12px;';
+		if(id != 0)
+		{
+			html += 'margin-left:'+tmp_level+'px;';
+		}
+		html += '"></a>';
+	} else {
+		son_css = 'padding-left:'+tmp_level+'px;';
+	}
+	html += '<span style="'+son_css+'">';
+	if((item['icon_url'] || null) != null)
+	{
+		html += '<a href="'+item['icon_url']+'" target="_blank"><img src="'+item['icon_url']+'" width="20" height="20" class="am-vertical-align-middle am-margin-right-xs" /></a>';
+	}
+	html += '<span>'+(item['name_alias'] || item['name'])+'</span>';
+	html += '</span>';
+	// 数据 end
+
+	// 操作项 start
+	html += '<div class="am-fr am-margin-right-lg submit">';
+
+	// 新增
+	var rank = tmp_level/20+1;
+	if(is_add_node == 1 && (is_astrict_rank == 0 || rank < is_astrict_rank))
+	{
+		html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus am-margin-right-sm tree-submit-add-node" data-am-modal="{target: \''+popup_tag+'\'}" data-id="'+item['id']+'" '+(item['is_enable'] == 0 ? 'style="display:none;"' : '')+'> 新增</button>';
+	}
+
+	// 编辑
+	html += '<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: \''+popup_tag+'\'}" data-json="'+encodeURIComponent(item['json'])+'" data-is-exist-son="'+item['is_son']+'"> 编辑</button>';
+	if(item['is_son'] != 'ok' || is_delete_all == 1)
+	{
+		// 是否需要删除子数据
+		var pid_class = is_delete_all == 1 ? '.tree-pid-'+item['id'] : '';
+
+		// 删除
+		html += '<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-margin-left-sm submit-delete" data-id="'+item['id']+'" data-url="'+delete_url+'" data-ext-delete-tag="'+pid_class+'"> 删除</button>';
+	}
+	html += '</div>';
+	// 操作项 end
+	
+	html += '</td></tr>';
+	return html;
+}
+
+/**
+ * tree数据保存回调处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-11-19
+ * @desc    description
+ * @param   {[boject]}        e [当前回调数据]
+ */
+function TreeFormSaveBackHandle(e)
+{
+	$.AMUI.progress.done();
+	$('form.form-validation').find('button[type="submit"]').button('reset');
+    if(e.code == 0)
+    {
+        Prompt(e.msg, 'success');
+        var $popup = $($('#tree').data('popup-tag') || ''+popup_tag+'');
+        
+        // 数据处理
+        if((e.data || null) != null)
+        {
+        	var json = JSON.parse(decodeURIComponent(e.data));
+        	if((json.id || null) != null)
+        	{
+        		// 是否存在pid节点数据
+    			var pid_arr = [];
+    			if($popup.find('select[name="pid"]').length > 0)
+    			{
+	    			$popup.find('select[name="pid"] option').each(function()
+	    			{
+						var value = $(this).val();
+						if(value != '')
+						{
+							pid_arr.push(value);
+						}
+					});
+				}
+
+    			// 存在数据编辑、则添加
+        		var $obj = $('#data-list-'+json.id);
+        		if($obj.length > 0)
+        		{
+        			// 原始json数据
+        			var json_old = JSON.parse(decodeURIComponent($obj.find('.submit-edit').attr('data-json')));
+
+        			// 名称更新
+	        		$obj.find('td>span>span').text(json.name_alias || json.name);
+
+	        		// 状态处理
+	        		if(json.is_enable != json_old.is_enable)
+	        		{
+	        			if($obj.hasClass('am-active'))
+	        			{
+	        				$obj.removeClass('am-active');
+	        			} else {
+	        				$obj.addClass('am-active');
+	        			}
+	        		}
+
+	        		// 属性json数据更新
+	        		$obj.find('.submit-edit').attr('data-json', encodeURIComponent(e.data));
+
+	        		// pid改变后不可再次操作
+	        		if(pid_arr.length > 0)
+	        		{
+		        		if(json_old.pid != json.pid)
+		        		{
+		        			// 移出操作项（由于修改父级后，数据可能已经不在当前节点下、禁止再次编辑）
+		        			$obj.find('.submit').remove();
+
+		        			// 更新记录样式
+		        			$obj.addClass('tree-change-item');
+
+		        			// 存在父节点数据则移出当前的元素option
+		        			// 防止交叉关联导致造成垃圾数据残留在数据库中
+	        				// 移出当前存在父节点中的数据
+	        				$popup.find('select[name="pid"] option[value="'+json['id']+'"]').remove();
+	        				// 多选插件事件更新
+							if($('.chosen-select').length > 0)
+							{
+								$('.chosen-select').trigger('chosen:updated');
+							}
+		        		} else {
+		        			// 是否未启用
+		        			if(json.is_enable != 1)
+		        			{
+		        				$obj.find('.tree-submit-add-node').hide();
+		        			} else {
+		        				$obj.find('.tree-submit-add-node').show();
+		        			}
+
+		        			// 如果当前节点id不存在pid节点中则隐藏新增操作按钮
+		        			if(pid_arr.indexOf(json.id) == -1)
+		        			{
+		        				$obj.find('.tree-submit-add-node').hide();
+		        			}
+		        		}
+	        		}
+        		} else {
+        			// 存在pid直接拉取下级数据,则追加新数据
+        			if(json.pid > 0)
+        			{
+        				Tree(json.pid, $('#tree').data('node-url'), 1, 1, 1);
+        			} else {
+        				json['json'] = e.data;
+	        			var html = TreeItemHtmlHandle(json, 0, 1, 1);
+        				$('#tree table tbody').append(html);
+        				// 刚刚创建的数据不支持新增操作
+        				// 因为级数据还不在父级选择节点数据中
+        				// 需要刷新页面重新加载数据
+        				// 如果当前节点id不存在pid节点中则隐藏新增操作按钮
+	        			if(pid_arr.indexOf(json.id) == -1)
+	        			{
+	        				$('#data-list-'+json.id).find('.tree-submit-add-node').hide();
+	        			}
+	        		}
+        		}
+        	}
+        }
+        $popup.modal('close');
+    } else {
+        Prompt(e.msg);
+    }
 }
 
 /**
@@ -1484,8 +1629,11 @@ function FunSaveWinAdditional(data, type)
  */
 function TreeFormInit()
 {
+	// popup窗口
+	var $popup = $($('#tree').data('popup-tag') || ''+popup_tag+'');
+
 	// 更改窗口名称
-	$title = $('#data-save-win').find('.am-popup-title');
+	var $title = $popup.find('.am-popup-title');
 	$title.text($title.attr('data-add-title'));
 
 	// 填充数据
@@ -1498,10 +1646,10 @@ function TreeFormInit()
 	FormDataFill(data);
 
 	// 移除菜单禁止状态
-	$('form select[name="pid"]').removeAttr('disabled');
+	$popup.find('form select[name="pid"]').removeAttr('disabled');
 
 	// 校验成功状态增加失去焦点
-	$('form').find('.am-field-valid').each(function()
+	$popup.find('form').find('.am-field-valid').each(function()
 	{
 		$(this).blur();
 	});
@@ -2054,9 +2202,10 @@ $(function()
 			$title = $('#'+tag).find('.am-popup-title');
 			$title.text($title.attr('data-edit-title'));
 		}
-		
+
 		// 填充数据
-		var data = FunSaveWinAdditional($(this).data('json'), 'edit');
+		var json = JSON.parse(decodeURIComponent($(this).attr('data-json')));
+		var data = FunSaveWinAdditional(json, 'edit');
 
 		// 开始填充数据
 		FormDataFill(data, '#'+tag);
@@ -2069,14 +2218,14 @@ $(function()
 	 * @version  0.0.1
 	 * @datetime 2016-12-25T22:12:10+0800
 	 */
-	$('#tree').on('click', '.tree-submit-add-node', function()
+	$(document).on('click', '#tree .tree-submit-add-node', function()
 	{
 		// 清空表单数据
 		TreeFormInit();
 
 		// 父节点赋值
 		var id = parseInt($(this).attr('data-id')) || 0;
-		$('#data-save-win').find('input[name="pid"], select[name="pid"]').val(id);
+		$($(this).parents('#tree').data('popup-tag') || ''+popup_tag+'').find('input[name="pid"], select[name="pid"]').val(id);
 
 		// 多选插件事件更新
 		if($('.chosen-select').length > 0)
@@ -2092,11 +2241,11 @@ $(function()
 	 * @version  0.0.1
 	 * @datetime 2016-12-25T22:12:10+0800
 	 */
-	$('#tree').on('click', '.tree-submit', function()
+	$(document).on('click', '#tree .tree-submit', function()
 	{
 		var id = parseInt($(this).attr('data-id')) || 0;
 		// 状态
-		if($('#data-list-'+id).find('.tree-submit').attr('state') == 'ok')
+		if($('.tree-pid-'+id).length > 0)
 		{
 			if($(this).hasClass('am-icon-plus'))
 			{
@@ -2109,7 +2258,7 @@ $(function()
 				$('.tree-pid-'+id).css('display', 'none');
 			}
 		} else {
-			var url = $(this).attr('data-url') || '';
+			var url = $(this).parents('#tree').data('node-url') || '';
 			var level = parseInt($(this).attr('data-level')) || 0;
 			var is_add_node = parseInt($(this).attr('data-is_add_node')) || 0;
 			var is_delete_all = parseInt($(this).attr('data-is_delete_all')) || 0;

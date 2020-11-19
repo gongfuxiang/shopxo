@@ -93,8 +93,6 @@ class RegionService
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('Region')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['ajax_url']          =   MyUrl('admin/region/getnodeson', array('id'=>$v['id']));
-                $v['delete_url']        =   MyUrl('admin/region/delete');
                 $v['json']              =   json_encode($v);
             }
             return DataReturn('操作成功', 0, $data);
@@ -139,19 +137,21 @@ class RegionService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(Db::name('Region')->insertGetId($data) > 0)
+            $data['id'] = Db::name('Region')->insertGetId($data);
+            if($data['id'] <= 0)
             {
-                return DataReturn('添加成功', 0);
+                return DataReturn('添加失败', -100);
             }
-            return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
-            if(Db::name('Region')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('Region')->where(['id'=>intval($params['id'])])->update($data) === false)
             {
-                return DataReturn('编辑成功', 0);
+                return DataReturn('编辑失败', -100);
+            } else {
+                $data['id'] = $params['id'];
             }
-            return DataReturn('编辑失败', -100);
         }
+        return DataReturn('操作成功', 0, json_encode($data));
     }
 
     /**
@@ -183,19 +183,47 @@ class RegionService
             return DataReturn($ret, -1);
         }
 
-        // 是否还有子数据
-        $temp_count = Db::name('Region')->where(['pid'=>$params['id']])->count();
-        if($temp_count > 0)
-        {
-            return DataReturn('请先删除子数据', -10);
-        }
+        // 获取分类下所有分类id
+        $ids = self::RegionItemsIds([$params['id']]);
+        $ids[] = $params['id'];
 
         // 开始删除
-        if(Db::name('Region')->where(['id'=>$params['id']])->delete())
+        if(Db::name('Region')->where(['id'=>$ids])->delete())
         {
             return DataReturn('删除成功', 0);
         }
         return DataReturn('删除失败', -100);
+    }
+
+    /**
+     * 获取地区下的所有子级id
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-08-29
+     * @desc    description
+     * @param   [array]          $ids       [id数组]
+     * @param   [int]            $is_enable [是否启用 null, 0否, 1是]
+     * @param   [string]         $order_by  [排序, 默认sort asc]
+     */
+    public static function RegionItemsIds($ids = [], $is_enable = null, $order_by = 'sort asc')
+    {
+        $where = ['pid'=>$ids];
+        if($is_enable !== null)
+        {
+            $where['is_enable'] = $is_enable;
+        }
+        $data = Db::name('Region')->where($where)->order($order_by)->column('id');
+        if(!empty($data))
+        {
+            $temp = self::RegionItemsIds($data, $is_enable, $order_by);
+            if(!empty($temp))
+            {
+                $data = array_merge($data, $temp);
+            }
+        }
+        $data = empty($data) ? $ids : array_unique(array_merge($ids, $data));
+        return $data;
     }
 }
 ?>

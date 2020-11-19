@@ -18,7 +18,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/express/save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/express/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group am-form-file">
 							<label class="block">icon图标</label>
 							<ul class="plug-file-upload-view express-icon-images-view" data-form-name="icon" data-max-number="1" data-dialog-type="images">
@@ -51,11 +51,8 @@
 		<!-- save win end -->
 
         <!-- list start -->
-		<div id="tree" class="am-margin-top-sm" data-additional='[{"field":"icon", "value":"", "type":"input"}, {"field":"icon_url", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.express-icon-images-view li img", "style":"src"}]'>
-			<div class="am-margin-top-lg am-text-center">
-				<img src="{{$attachment_host}}/static/common/images/loading.gif" />
-				<p>处理中...</p>
-			</div>
+		<div id="tree" class="am-margin-top-sm" data-additional='[{"field":"icon", "value":"", "type":"input"}, {"field":"icon_url", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.express-icon-images-view li img", "style":"src"}]' data-node-url="{{:MyUrl('admin/express/getnodeson')}}" data-del-url="{{:MyUrl('admin/express/delete')}}" data-popup-tag="#data-save-win">
+			{{include file="public/loading" /}}
 		</div>
 		<!-- list end -->
 	</div>
@@ -65,6 +62,14 @@
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->
-<script>
-	Tree(0, "{{:MyUrl('admin/express/getnodeson')}}", 0);
+
+<script type="text/javascript">
+	// 初始化
+	Tree(0, $('#tree').data('node-url'), 0);
+
+	// 回调处理
+	function TreeFormSaveBack(e)
+	{
+		TreeFormSaveBackHandle(e);
+	}
 </script>

@@ -565,6 +565,9 @@ table.am-table .am-btn-danger:hover {
 #tree table.am-table td button.am-btn {
     vertical-align: unset;
 }
+#tree table.am-table tr.tree-change-item td {
+    border: 1px dashed #FF9800;
+}
 
 /**
  * 警告框下表单最后一个去掉虚线

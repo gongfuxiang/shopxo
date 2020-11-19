@@ -43,8 +43,6 @@ class ScreeningPriceService
             foreach($data as &$v)
             {
                 $v['is_son']            =   (Db::name('ScreeningPrice')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['ajax_url']          =   MyUrl('admin/screeningprice/getnodeson', array('id'=>$v['id']));
-                $v['delete_url']        =   MyUrl('admin/screeningprice/delete');
                 $v['json']              =   json_encode($v);
             }
             return DataReturn('操作成功', 0, $data);
@@ -91,19 +89,21 @@ class ScreeningPriceService
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(Db::name('ScreeningPrice')->insertGetId($data) > 0)
+            $data['id'] = Db::name('ScreeningPrice')->insertGetId($data);
+            if($data['id'] <= 0)
             {
-                return DataReturn('添加成功', 0);
+                return DataReturn('添加失败', -100);
             }
-            return DataReturn('添加失败', -100);
         } else {
             $data['upd_time'] = time();
-            if(Db::name('ScreeningPrice')->where(['id'=>intval($params['id'])])->update($data))
+            if(Db::name('ScreeningPrice')->where(['id'=>intval($params['id'])])->update($data) === false)
             {
-                return DataReturn('编辑成功', 0);
+                return DataReturn('编辑失败', -100);
+            } else {
+                $data['id'] = $params['id'];
             }
-            return DataReturn('编辑失败', -100);
         }
+        return DataReturn('操作成功', 0, json_encode($data));
     }
 
     /**

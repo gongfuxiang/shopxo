@@ -18,7 +18,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/goodscategory/save')}}" method="POST" request-type="ajax-reload" request-value="">
+					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/goodscategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group">
 							<label class="block">父级</label>
 							<select name="pid" class="am-radius chosen-select forth-selection-form-category" data-placeholder="可选择..." data-validation-message="请选择商品分类">
@@ -112,11 +112,8 @@
 		<!-- save win end -->
 
         <!-- list start -->
-		<div id="tree" class="am-margin-top-sm" data-rank="3" data-additional='[{"field":"bg_color", "value":"", "type":"input"}, {"field":"bg_color", "value":"", "type":"css", "tag":"button.colorpicker-submit", "style":"background-color"}, {"field":"icon", "value":"", "type":"input"}, {"field":"icon_url", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-icon-images-view li img", "style":"src"}, {"field":"big_images", "value":"", "type":"input"}, {"field":"big_images_url", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-big_images-images-view li img", "style":"src"}]'>
-			<div class="am-margin-top-lg am-text-center">
-				<img src="{{$attachment_host}}/static/common/images/loading.gif" />
-				<p>处理中...</p>
-			</div>
+		<div id="tree" class="am-margin-top-sm" data-additional='[{"field":"bg_color", "value":"", "type":"input"}, {"field":"bg_color", "value":"", "type":"css", "tag":"button.colorpicker-submit", "style":"background-color"}, {"field":"icon", "value":"", "type":"input"}, {"field":"icon_url", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-icon-images-view li img", "style":"src"}, {"field":"big_images", "value":"", "type":"input"}, {"field":"big_images_url", "value":"{{$attachment_host}}/static/admin/default/images/default-images.jpg", "type":"attr", "tag":"ul.goods-category-big_images-images-view li img", "style":"src"}]' data-node-url="{{:MyUrl('admin/goodscategory/getnodeson')}}" data-del-url="{{:MyUrl('admin/goodscategory/delete')}}" data-popup-tag="#data-save-win" data-rank="3">
+			{{include file="public/loading" /}}
 		</div>
 		<!-- list end -->
 	</div>
@@ -126,6 +123,14 @@
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->
-<script>
-	Tree(0, "{{:MyUrl('admin/goodscategory/getnodeson')}}", 0, 1, 1);
+
+<script type="text/javascript">
+	// 初始化
+	Tree(0, $('#tree').data('node-url'), 0, 1, 1);
+
+	// 回调处理
+	function TreeFormSaveBack(e)
+	{
+		TreeFormSaveBackHandle(e);
+	}
 </script>
