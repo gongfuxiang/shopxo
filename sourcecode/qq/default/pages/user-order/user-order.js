@@ -232,9 +232,7 @@ Page({
   // 支付方法
   pay_handle(order_ids) {
     var self = this;
-    // 加载loding
     qq.showLoading({title: "请求中..." });
-
     qq.request({
       url: app.get_request_url("pay", "order"),
       method: "POST",
@@ -246,67 +244,73 @@ Page({
       success: res => {
         qq.hideLoading();
         if (res.data.code == 0) {
-          // 支付方式类型
-          switch (res.data.data.is_payment_type) {
-            // 正常线上支付
-            case 0 :
-              var data = res.data.data;
-              // 是否微信支付
-              if(data.payment.payment == 'Weixin') {
-                qq.requestWxPayment({
-                  url: data.data,
-                  referer: app.data.request_url,
-                  success: function(res) {
-                    app.alert({msg: '支付成功后、请不要重复支付、如果订单状态未成功请联系客服处理', is_show_cancel: 0});
-                    self.get_data_list();
-                  },
-                  fail: function (res) {
-                    app.showToast('支付失败');
-                  }
-                });
-              } else {
-                qq.requestPayment({
-                  package: data.data,
-                  success: function(res) {
-                    // 数据设置
-                    self.order_item_pay_success_handle(order_ids);
+          // 是否直接支付成功
+          if((res.data.data.is_success || 0) == 1) {
+            self.order_item_pay_success_handle(order_ids);
+            app.showToast('支付成功', 'success');
+          } else {
+            // 支付方式类型
+            switch (res.data.data.is_payment_type) {
+              // 正常线上支付
+              case 0 :
+                var data = res.data.data;
+                // 是否微信支付
+                if(data.payment.payment == 'Weixin') {
+                  qq.requestWxPayment({
+                    url: data.data,
+                    referer: app.data.request_url,
+                    success: function(res) {
+                      app.alert({msg: '支付成功后、请不要重复支付、如果订单状态未成功请联系客服处理', is_show_cancel: 0});
+                      self.get_data_list();
+                    },
+                    fail: function (res) {
+                      app.showToast('支付失败');
+                    }
+                  });
+                } else {
+                  qq.requestPayment({
+                    package: data.data,
+                    success: function(res) {
+                      // 数据设置
+                      self.order_item_pay_success_handle(order_ids);
 
-                    // 跳转支付页面
-                    qq.navigateTo({
-                      url: "/pages/paytips/paytips?code=9000"
-                    });
-                  },
-                  fail: function (res) {
-                    app.showToast('支付失败');
-                  }
-                });
-              }
-              break;
-
-            // 线下支付
-            case 1 :
-              var order_ids_arr = order_ids.split(',');
-              var temp_data_list = self.data.data_list;
-              for(var i in temp_data_list)
-              {
-                if(order_ids_arr.indexOf(temp_data_list[i]['id']) != -1)
-                {
-                  temp_data_list[i]['is_under_line'] = 1;
+                      // 跳转支付页面
+                      qq.navigateTo({
+                        url: "/pages/paytips/paytips?code=9000"
+                      });
+                    },
+                    fail: function (res) {
+                      app.showToast('支付失败');
+                    }
+                  });
                 }
-              }
-              self.setData({ data_list: temp_data_list });
-              app.alert({ msg: res.data.msg, is_show_cancel: 0});
-              break;
+                break;
 
-            // 钱包支付
-            case 2 :
-              self.order_item_pay_success_handle(order_ids);
-              app.showToast('支付成功', 'success');
-              break;
+              // 线下支付
+              case 1 :
+                var order_ids_arr = order_ids.split(',');
+                var temp_data_list = self.data.data_list;
+                for(var i in temp_data_list)
+                {
+                  if(order_ids_arr.indexOf(temp_data_list[i]['id']) != -1)
+                  {
+                    temp_data_list[i]['is_under_line'] = 1;
+                  }
+                }
+                self.setData({ data_list: temp_data_list });
+                app.alert({ msg: res.data.msg, is_show_cancel: 0});
+                break;
 
-            // 默认
-            default :
-              app.showToast('支付类型有误');
+              // 钱包支付
+              case 2 :
+                self.order_item_pay_success_handle(order_ids);
+                app.showToast('支付成功', 'success');
+                break;
+
+              // 默认
+              default :
+                app.showToast('支付类型有误');
+            }
           }
         } else {
           app.showToast(res.data.msg);

@@ -171,7 +171,7 @@ class OrderService
         // 是否直接跳转
         if($success_count > 0 && $success_count == count($order_data))
         {
-            return DataReturn('支付成功', 0, ['data'=>MyUrl('index/order/respond', ['appoint_status'=>0])]);
+            return DataReturn('支付成功', 0, ['data'=>MyUrl('index/order/respond', ['appoint_status'=>0]), 'is_success'=>1]);
         }
 
         // 支付入口文件检查

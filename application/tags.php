@@ -37,11 +37,13 @@ return array (
     0 => 'app\\plugins\\ordergoodsform\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
     2 => 'app\\plugins\\multilingual\\Hook',
+    3 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\ordergoodsform\\Hook',
     1 => 'app\\plugins\\multilingual\\Hook',
+    2 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_view_goods_detail_base_inventory_top' => 
   array (
@@ -67,6 +69,7 @@ return array (
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
     1 => 'app\\plugins\\blog\\Hook',
+    2 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
@@ -79,6 +82,7 @@ return array (
   'plugins_service_buy_group_goods_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_service_user_login_success_record' => 
   array (
@@ -119,11 +123,13 @@ return array (
   'plugins_service_users_center_left_menu_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
     1 => 'app\\plugins\\multilingual\\Hook',
+    2 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_common_page_bottom' => 
   array (
@@ -144,6 +150,30 @@ return array (
   'plugins_view_common_bottom' => 
   array (
     0 => 'app\\plugins\\multilingual\\Hook',
+  ),
+  'plugins_view_goods_detail_panel_bottom' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_view_buy_group_goods_inside_bottom' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_view_buy_form_inside' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_buy_order_insert_success' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_order_status_change_history_success_handle' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_user_register_end' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
   ),
 );
 ?>
