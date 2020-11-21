@@ -156,6 +156,23 @@ class Appmini extends Common
 
 		// 是否
 		$this->assign('common_is_text_list', lang('common_is_text_list'));
+
+		// 基础导航
+		$base_nav = [
+			[
+				'view_type'	=> 'index',
+				'name'		=> '当前主题',
+			],
+			[
+				'view_type'	=> 'upload',
+				'name'		=> '主题安装',
+			],
+			[
+				'view_type'	=> 'package',
+				'name'		=> '源码包下载',
+			],
+		];
+		$this->assign('base_nav', $base_nav);
 	}
 
 	/**
