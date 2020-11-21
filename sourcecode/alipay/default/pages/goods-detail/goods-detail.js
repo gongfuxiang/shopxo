@@ -68,13 +68,13 @@ Page({
 
     //params['goods_id']=2;
     this.setData({params: params});
+
+    // 数据加载
+    this.init();
   },
 
   onShow() {
     my.setNavigationBar({title: (this.data.goods == null) ? app.data.common_pages_title.goods_detail : this.data.goods.title});
-
-    // 数据加载
-    this.init();
 
     // 初始化配置
     this.init_config();

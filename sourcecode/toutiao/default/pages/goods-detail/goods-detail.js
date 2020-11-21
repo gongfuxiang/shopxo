@@ -65,13 +65,13 @@ Page({
     // 参数赋值,初始化
     //params['goods_id']=12;
     this.setData({params: params});
+
+    // 数据加载
+    this.init();
   },
 
   onShow() {
     tt.setNavigationBarTitle({title: (this.data.goods == null) ? app.data.common_pages_title.goods_detail : this.data.goods.title});
-
-    // 数据加载
-    this.init();
 
     // 初始化配置
     this.init_config();

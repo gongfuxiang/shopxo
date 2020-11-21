@@ -184,7 +184,7 @@
       </view>
       <!-- 规格基础信息 -->
       <view class="goods-popup-base oh br-b">
-        <image src="{{goods_spec_base_images}}" mode="scaleToFill" class="br" />
+        <image src="{{goods_spec_base_images}}" mode="scaleToFill" class="br" bindtap="goods_detail_images_view_event" data-value="{{goods_spec_base_images}}" />
         <view class="goods-popup-base-content">
           <view class="goods-price">
             <view class="sales-price">{{currency_symbol}}{{goods_spec_base_price}}</view>
