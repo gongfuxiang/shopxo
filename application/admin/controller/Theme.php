@@ -23,6 +23,8 @@ use app\service\StoreService;
  */
 class Theme extends Common
 {
+    private $view_type;
+
 	/**
 	 * 构造方法
 	 * @author   Devil
@@ -60,14 +62,15 @@ class Theme extends Common
         // 应用商店
         $this->assign('store_theme_url', StoreService::StoreThemeUrl());
 
+        // 是否默认首页
 		if($this->view_type == 'index')
 		{
-			// 模板列表
-			$this->assign('data_list', ThemeService::ThemeList());
+            // 获取主题列表
+            $data = ThemeService::ThemeList();
+            $this->assign('data_list', $data);
 
 			// 默认主题
-			$theme = MyC('common_default_theme', 'default', true);
-			$this->assign('theme', empty($theme) ? 'default' : $theme);
+			$this->assign('theme', ThemeService::DefaultTheme());
 		}
         return $this->fetch($this->view_type);
 	}
@@ -81,7 +84,8 @@ class Theme extends Common
 	 */
 	public function Save()
 	{
-		return ConfigService::ConfigSave($this->data_request);
+        $params['common_default_theme'] = empty($this->data_request['theme']) ? 'default' : $this->data_request['theme'];
+		return ConfigService::ConfigSave($params);
 	}
 
 	/**
@@ -123,7 +127,7 @@ class Theme extends Common
 	}
 
 	/**
-     * 主题打包
+     * 主题打包下载
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

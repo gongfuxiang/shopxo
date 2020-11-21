@@ -575,3 +575,20 @@ table.am-table .am-btn-danger:hover {
 .am-alert .am-form-group:last-child {
     border-bottom: 0;
 }
+
+/**
+ * 二级导航
+ */
+.second-nav {
+    background: #90b9ff;
+}
+.second-nav li a {
+    color: #fff;
+}
+.second-nav > li > a:hover {
+    font-weight: bold;
+    background-color: transparent;
+}
+.second-nav li.am-active a {
+    background-color: #1cc09f !important;
+}

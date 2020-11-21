@@ -80,6 +80,7 @@ return [
     'public_host'                           => $cdn_public_host,
 
     // 应用商店地址
+    'website_url'                           => 'https://shopxo.net/',
     'store_url'                             => 'https://store.shopxo.net/',
     'store_payment_url'                     => 'https://store.shopxo.net/payment.html',
     'store_theme_url'                       => 'https://store.shopxo.net/theme.html',

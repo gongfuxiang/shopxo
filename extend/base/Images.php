@@ -404,5 +404,26 @@ class Images
         }
         return '';
     }
+
+    /**
+     * 图片转base64
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-20
+     * @desc    description
+     * @param   [string]          $image_file [图片地址（不支持url形式）]
+     */
+    public function ImageToBase64($image_file)
+    {
+		$content = '';
+		if(file_exists($image_file))
+		{
+			$info = getimagesize($image_file);
+			$image_data = fread(fopen($image_file, 'r'), filesize($image_file));
+			$content = 'data:'.$info['mime'].';base64,'.chunk_split(base64_encode($image_data));
+		}
+		return $content;
+	}
 }
 ?>

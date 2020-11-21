@@ -15,7 +15,7 @@ $(function()
 					type:'POST',
 					dataType:"json",
 					timeout:10000,
-					data:{"common_default_theme":theme},
+					data:{"theme":theme},
 					success:function(result)
 					{
 						if(result.code == 0)

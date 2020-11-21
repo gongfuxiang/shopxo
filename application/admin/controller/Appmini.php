@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use app\service\AppMiniService;
 use app\service\ConfigService;
+use app\service\StoreService;
 
 /**
  * 小程序管理
@@ -23,10 +24,11 @@ use app\service\ConfigService;
  */
 class Appmini extends Common
 {
+	private $params;
 	private $application_name;
 	private $old_path;
 	private $new_path;
-	private $params;
+	private $view_type;
 
 	/**
 	 * 构造方法
@@ -50,10 +52,12 @@ class Appmini extends Common
 		// 参数
 		$this->params = $this->data_request;
 		$this->params['application_name'] = empty($this->data_request['nav_type']) ? 'weixin' : trim($this->data_request['nav_type']);
-		$this->assign('nav_type', $this->params['application_name']);
+
+		// 小导航
+		$this->view_type = input('view_type', 'index');
 	}
 
-    /**
+	/**
      * 列表
      * @author  Devil
      * @blog    http://gong.gg/
@@ -63,7 +67,33 @@ class Appmini extends Common
      */
 	public function Index()
 	{
-		$host = 'https://shopxo.net/';
+        // 公共视图
+		$this->CurrentViewInit();
+
+		// 是否默认首页
+		if($this->view_type == 'index')
+		{
+            // 获取主题列表
+			$data = AppMiniService::ThemeList($this->params);
+			$this->assign('data_list', $data);
+
+			// 默认主题
+			$this->assign('theme', AppMiniService::$default_theme);
+		}
+		return $this->fetch($this->view_type);
+	}
+
+    /**
+     * 小程序包列表页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-13
+     * @desc    description
+     */
+	public function Package()
+	{
+		$host = config('shopxo.website_url');
 		$nav_dev_tips = [
 			// 微信
 			'weixin'	=> [
@@ -93,13 +123,114 @@ class Appmini extends Common
 		];
 		$this->assign('nav_dev_tips', $nav_dev_tips);
 
+		// 公共视图
+		$this->CurrentViewInit();
+
+		// 源码包列表
+		$ret = AppMiniService::DownloadDataList($this->params);
+		$this->assign('data_list', $ret['data']);
+		return $this->fetch();
+	}
+
+	/**
+	 * 公共视图
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2020-11-21
+	 * @desc    description
+	 */
+	public function CurrentViewInit()
+	{
+		// 操作导航类型
+		$this->assign('nav_type', $this->params['application_name']);
+
+		// 操作页面类型
+		$this->assign('view_type', $this->view_type);
+
+		// 应用商店
+        $this->assign('store_theme_url', StoreService::StoreThemeUrl());
+
 		// 小程序平台
 		$this->assign('common_appmini_type', lang('common_appmini_type'));
 
-		// 源码包列表
-		$ret = AppMiniService::DataList($this->params);
-		$this->assign('data_list', $ret['data']);
-		return $this->fetch();
+		// 是否
+		$this->assign('common_is_text_list', lang('common_is_text_list'));
+	}
+
+	/**
+	 * 主题上传安装
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2020-11-21
+	 * @desc    description
+	 */
+	public function ThemeUpload()
+	{
+		// 是否ajax
+		if(!IS_AJAX)
+		{
+			return $this->error('非法访问');
+		}
+
+		// 开始处理
+		return AppMiniService::ThemeUpload($this->params);
+	}
+
+	/**
+	 * 主题切换保存
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  1.0.0
+	 * @datetime 2018-12-19T00:58:47+0800
+	 */
+	public function ThemeSave()
+	{
+		$key = AppMiniService::DefaultThemeKey($this->params);
+		$params[$key] = empty($this->data_request['theme']) ? 'default' : $this->data_request['theme'];
+		return ConfigService::ConfigSave($params);
+	}
+
+	/**
+	 * 主题打包下载
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  1.0.0
+	 * @datetime 2018-12-19T00:58:47+0800
+	 */
+	public function ThemeDownload()
+	{
+		$params = array_merge($this->params, $this->data_request);
+        $ret = AppMiniService::ThemeDownload($params);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            $this->assign('msg', $ret['msg']);
+            return $this->fetch('public/tips_error');
+        } else {
+            return $ret;
+        }
+	}
+
+	/**
+	 * 主题删除
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2020-11-21
+	 * @desc    description
+	 */
+	public function ThemeDelete()
+	{
+		// 是否ajax
+		if(!IS_AJAX)
+		{
+			return $this->error('非法访问');
+		}
+
+		// 开始处理
+		$params = array_merge($this->params, $this->data_request);
+		return AppMiniService::ThemeDelete($params);
 	}
 
 	/**
@@ -112,11 +243,8 @@ class Appmini extends Common
      */
 	public function Config()
 	{
-		// 是否
-		$this->assign('common_is_text_list', lang('common_is_text_list'));
-
-		// 小程序平台
-		$this->assign('common_appmini_type', lang('common_appmini_type'));
+		// 公共视图
+		$this->CurrentViewInit();
 
 		// 配置信息
 		$this->assign('data', ConfigService::ConfigList());
@@ -139,22 +267,12 @@ class Appmini extends Common
 			$this->error('非法访问');
 		}
 
-		// 配置内容
-        $title = MyC('common_app_mini_'.$this->params['application_name'].'_title');
-        $describe = MyC('common_app_mini_'.$this->params['application_name'].'_describe');
-        if(empty($title) || empty($describe))
-        {
-            return DataReturn('配置信息不能为空', -1);
-        }
-
 		// 开始操作
-		$this->params['app_mini_title'] = $title;
-		$this->params['app_mini_describe'] = $describe;
 		return AppMiniService::Created($this->params);
 	}
 
 	/**
-	 * 保存
+	 * 配置保存
 	 * @author  Devil
 	 * @blog    http://gong.gg/
 	 * @version 1.0.0

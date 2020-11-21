@@ -29,6 +29,19 @@ class ThemeService
     private static $exclude_ext = ['php'];
 
     /**
+     * 默认主题标识符
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-20
+     * @desc    description
+     */
+    public static function DefaultTheme()
+    {
+        return MyC('common_default_theme', 'default', true);
+    }
+
+    /**
      * 获取模板列表
      * @author   Devil
      * @blog     http://gong.gg/
@@ -48,7 +61,7 @@ class ThemeService
                 $default_preview = __MY_PUBLIC_URL__.'static'.DS.'common'.DS.'images'.DS.'default-preview.jpg';
                 while(($temp_file = readdir($dh)) !== false)
                 {
-                    if(in_array($temp_file, ['.', '..', 'index.html']))
+                    if(substr($temp_file, 0, 1) == '.' || in_array($temp_file, ['index.html']))
                     {
                         continue;
                     }
@@ -203,9 +216,18 @@ class ThemeService
      */
     public static function ThemeDelete($params = [])
     {
-        if(empty($params['id']))
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '模板id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
         {
-            return DataReturn('模板id有误', -1);
+            return DataReturn($ret, -1);
         }
 
         // 防止路径回溯
@@ -221,11 +243,8 @@ class ThemeService
             return DataReturn('系统模板不能删除', -2);
         }
 
-        // 默认主题
-        $theme = MyC('common_default_theme', 'default', true);
-
         // 不能删除正在使用的主题
-        if($theme == $id)
+        if(self::DefaultTheme() == $id)
         {
             return DataReturn('不能删除正在使用的主题', -2);
         }

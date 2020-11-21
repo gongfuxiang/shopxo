@@ -1,35 +1,57 @@
-<!-- 继承公共的 form -->
-{{extend name="public/module/form" /}}
+{{include file="public/header" /}}
 
-<!-- 导航 -->
-{{block name="form_navigation"}}
+<!-- right content start  -->
+<div class="content-right">
+    <!-- second nav start -->
     {{include file="appmini/nav" /}}
-    <!-- tips -->
-    <div class="am-alert am-alert-warning am-radius">
-        {{if config('shopxo.is_develop') eq true}}
-            <p>当前为开发模式</p>
-            <p class="am-margin-left-lg">1. 发布小程序必须采用 https 协议，上线需确认 app.js 中 request_url 参数值是否正确。</p>
-            <p class="am-margin-left-lg">2. 发布小程序，建议关闭开发者模式、从正式环境重新生成小程序下载使用开发者工具上传审核。</p>
-            {{if isset($nav_dev_tips[$nav_type])}}
-                <p class="am-margin-left-lg">3. 非 https 环境下，在开发者工具 -> {{$nav_dev_tips[$nav_type]['msg']}}</p>
-            {{/if}}
+    <!-- second nav end -->
+    <div class="content">
+        <!-- nav start -->
+        {{include file="appmini/base_nav" /}}
+        <!-- nav end -->
+        
+        <!-- list start -->
+        {{if !empty($data_list)}}
+            <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-bordered data-list" data-am-gallery="{}" data-select-url="{{:MyUrl('admin/appmini/themesave')}}" data-nav-type="{{$nav_type}}">
+                {{foreach $data_list as $v}}
+                    <li id="data-list-{{$v.theme}}">
+                        <div class="am-gallery-item am-radius am-padding-0 {{if $v['theme'] eq $theme}}theme-active{{/if}}">
+                            <a href="javascript:;" class="select-theme am-block" data-theme="{{$v.theme}}">
+                                <img src="{{$v.preview}}" alt="{{$v.name}}" class="am-block" />
+                            </a>
+                            <div class="am-gallery-item-bottom am-padding-sm">
+                                <h3 class="am-gallery-title am-margin-top-0">
+                                    {{$v.name}}
+                                    <div class="am-fr am-text-right">
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                            <a href="{{:MyUrl('admin/appmini/themedownload', ['id'=>$v['theme'], 'nav_type'=>$nav_type])}}" class="am-icon-trash-o am-icon-download" title="打包"></a>
+                                        {{/if}}
+                                        {{if $v.is_delete eq 1}}
+                                            <a href="javascript:;" class="am-icon-trash-o submit-delete am-margin-left-sm" title="删除" data-url="{{:MyUrl('admin/appmini/themedelete', ['nav_type'=>$nav_type])}}" data-id="{{$v.theme}}"></a>
+                                        {{/if}}
+                                    </div>
+                                </h3>
+                                <div class="am-gallery-desc">作者：
+                                    {{if empty($v['home'])}}
+                                        {{$v.author}}
+                                    {{else /}}
+                                        <a href="{{$v.home}}" target="_blank">{{$v.author}}</a>
+                                    {{/if}}
+                                </div>
+                                <div class="am-gallery-desc">适用版本：{{$v.ver}}</div>
+                            </div>
+                        </div>
+                    </li>
+                {{/foreach}}
+            <ul>
         {{else /}}
-            <p>1. 生成小程序必须在 https 协议下进行操作、请配置好服务器 ssl 并使用 https 协议登录后台管理生成小程序。</p>
-            <p>2. 如需非 https 协议下生成小程序，请在 config/shopxo.php 文件中 is_develop值改为true开启开发者模式。</p>
+            {{include file="public/not_data" /}}
         {{/if}}
-
-        <!-- 教程地址-->
-        {{if isset($nav_dev_tips[$nav_type])}}
-            <p class="am-margin-top-xs">
-                <a href="{{$nav_dev_tips[$nav_type]['url']}}" target="_blank">查看部署教程 <i class="am-icon-external-link"></i></a>
-            </p>
-        {{/if}}
+        <!-- lis end -->
     </div>
-{{/block}}
+</div>
+<!-- right content end  -->
 
-<!-- 表单顶部操作栏 -->
-{{block name="form_operate_top"}}
-    <button type="button" class="am-btn am-btn-secondary am-btn-xs am-icon-refresh am-radius submit-ajax" data-url="{{:MyUrl('admin/appmini/created', ['nav_type'=>$nav_type])}}" data-view="reload" data-msg="生成时间比较长，请不要关闭浏览器窗口！"> 生成</button>
-    <!-- 父级内容 -->
-    {__block__}
-{{/block}}
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

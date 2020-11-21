@@ -2,11 +2,10 @@
 
 <!-- right content start  -->
 <div class="content-right">
+	<!-- second nav start -->
+    {{include file="appmini/nav" /}}
+    <!-- second nav end -->
 	<div class="content">
-		<!-- table nav start -->
-        {{include file="appmini/nav" /}}
-        <!-- table nav end -->
-
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appmini/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appmini/config', ['nav_type'=>$nav_type])}}">
 			{{switch $nav_type}}

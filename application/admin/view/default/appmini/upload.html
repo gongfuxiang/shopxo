@@ -1,0 +1,34 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <!-- second nav start -->
+    {{include file="appmini/nav" /}}
+    <!-- second nav end -->
+    <div class="content">
+        <!-- nav start -->
+        {{include file="appmini/base_nav" /}}
+        <!-- nav end -->
+        
+        <!-- form start -->
+        <form class="am-form form-validation view-save am-margin-top-sm" action="{{:MyUrl('admin/appmini/themeupload')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appmini/index', ['nav_type'=>$nav_type])}}" enctype="multipart/form-data">
+            <div class="am-form-group am-form-group-refreshing am-margin-bottom-0 am-form-file">
+                <button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
+                <i class="am-icon-cloud-upload"></i> 选择文件</button>
+                <input type="file" name="theme" class="file-event" data-tips-tag="#form-theme-tips" data-validation-message="请选择需要上传的文件" accept=".zip" required />
+                <span class="tips am-text-xs">上传一个zip压缩格式的主题安装包</span>
+                <div id="form-theme-tips" class="am-margin-top-xs"></div>
+            </div>
+            <div class="am-form-group am-form-group-refreshing">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm" data-am-loading="{loadingText:'上传中...'}">确认上传</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

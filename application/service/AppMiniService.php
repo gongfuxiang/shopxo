@@ -20,13 +20,16 @@ namespace app\service;
 class AppMiniService
 {
     // 当前小程序包名称
-    private static $application_name;
+    public static $application_name;
 
     // 原包地址/操作地址
-    private static $old_root;
-    private static $new_root;
-    private static $old_path;
-    private static $new_path;
+    public static $old_root;
+    public static $new_root;
+    public static $old_path;
+    public static $new_path;
+
+    // 当前默认主题
+    public static $default_theme;
 
     /**
      * @author   Devil
@@ -39,24 +42,339 @@ class AppMiniService
     public static function Init($params = [])
     {
         // 当前小程序包名称
-        self::$application_name = isset($params['application_name']) ? $params['application_name'] : 'alipay';
+        self::$application_name = isset($params['application_name']) ? $params['application_name'] : 'weixin';
 
         // 原包地址/操作地址
         self::$old_root = ROOT.'sourcecode';
         self::$new_root = ROOT.'public'.DS.'download'.DS.'sourcecode';
         self::$old_path = self::$old_root.DS.self::$application_name;
         self::$new_path = self::$new_root.DS.self::$application_name;
+
+        // 默认主题
+        self::$default_theme = self::DefaultTheme();
     }
 
     /**
-     * 获取小程序生成列表
+     * 默认主题标识符
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-20
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function DefaultTheme($params = [])
+    {
+        return MyC(self::DefaultThemeKey($params), 'default', true);
+    }
+
+    /**
+     * 默认主题标识符数据key
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-21
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function DefaultThemeKey($params = [])
+    {
+        if(empty(self::$application_name))
+        {
+            // 初始化
+            self::Init($params);
+        }
+
+        return 'common_app_mini_'.self::$application_name.'_default_theme';
+    }
+
+    /**
+     * 获取模板列表
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-05-10T10:24:40+0800
+     * @param    [array]          $params [输入参数]
+     * @return   [array]                  [模板列表]
+     */
+    public static function ThemeList($params = [])
+    {
+        // 初始化
+        self::Init($params);
+
+        // 读取目录
+        $result = [];
+        $dir = self::$old_path.DS;
+        if(is_dir($dir))
+        {
+            if($dh = opendir($dir))
+            {
+                $img_obj = \base\Images::Instance();
+                $default_preview = __MY_PUBLIC_URL__.'static'.DS.'common'.DS.'images'.DS.'default-preview.jpg';
+                while(($temp_file = readdir($dh)) !== false)
+                {
+                    if(substr($temp_file, 0, 1) == '.')
+                    {
+                        continue;
+                    }
+
+                    $config = $dir.$temp_file.DS.'config.json';
+                    if(!file_exists($config))
+                    {
+                        continue;
+                    }
+
+                    // 读取配置文件
+                    $data = json_decode(file_get_contents($config), true);
+                    if(!empty($data) && is_array($data))
+                    {
+                        if(empty($data['name']) || empty($data['ver']) || empty($data['author']))
+                        {
+                            continue;
+                        }
+                        $preview = $dir.$temp_file.DS.'images'.DS.'preview.jpg';
+                        $result[] = array(
+                            'theme'     =>  $temp_file,
+                            'name'      =>  htmlentities($data['name']),
+                            'ver'       =>  str_replace(array('，',','), ', ', htmlentities($data['ver'])),
+                            'author'    =>  htmlentities($data['author']),
+                            'home'      =>  isset($data['home']) ? $data['home'] : '',
+                            'preview'   =>  $img_obj->ImageToBase64(file_exists($preview) ? $preview : $default_preview),
+                            'is_delete' => ($temp_file == 'default') ? 0 : 1,
+                        );
+                    }
+                }
+                closedir($dh);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * 模板上传
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-12-19T00:53:45+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function ThemeUpload($params = [])
+    {
+        // 初始化
+        self::Init($params);
+
+        // 文件上传校验
+        $error = FileUploadError('theme');
+        if($error !== true)
+        {
+            return DataReturn($error, -1);
+        }
+
+        // 文件格式化校验
+        $type = array('application/zip', 'application/octet-stream', 'application/x-zip-compressed');
+        if(!in_array($_FILES['theme']['type'], $type))
+        {
+            return DataReturn('文件格式有误，请上传zip压缩包', -2);
+        }
+
+        // 主题目录
+        $dir = self::$old_path.DS;
+
+        // 目录是否有权限
+        if(!is_writable($dir))
+        {
+            return DataReturn('视图目录没权限['.$dir.']', -10);
+        }
+
+        // 开始解压文件
+        $resource = zip_open($_FILES['theme']['tmp_name']);
+        while(($temp_resource = zip_read($resource)) !== false)
+        {
+            if(zip_entry_open($resource, $temp_resource))
+            {
+                // 资源文件
+                $file = zip_entry_name($temp_resource);
+
+                // 排除系统.开头的临时文件和目录
+                if(strpos($file, '/.') !== false)
+                {
+                    continue;
+                }
+
+                // 截取文件路径
+                $file_path = $dir.substr($file, 0, strrpos($file, '/'));
+
+                // 路径不存在则创建
+                if(!is_dir($file_path))
+                {
+                    mkdir($file_path, 0777, true);
+                }
+
+                // 如果不是目录则写入文件
+                if(!is_dir($dir.$file))
+                {
+                    // 读取这个文件
+                    $file_size = zip_entry_filesize($temp_resource);
+                    $file_content = zip_entry_read($temp_resource, $file_size);
+                    file_put_contents($dir.$file, $file_content);
+                }
+                
+                // 关闭目录项  
+                zip_entry_close($temp_resource);
+            }
+        }
+        return DataReturn('安装成功');
+    }
+
+    /**
+     * 模板删除
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-12-19T00:46:02+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function ThemeDelete($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '模板id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 初始化
+        self::Init($params);
+
+        // 防止路径回溯
+        $id = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
+        if(empty($id))
+        {
+            return DataReturn('主题名称有误', -1);
+        }
+
+        // default不能删除
+        if($id == 'default')
+        {
+            return DataReturn('系统模板不能删除', -2);
+        }
+
+        // 不能删除正在使用的主题
+        if(self::$default_theme == $id)
+        {
+            return DataReturn('不能删除正在使用的主题', -2);
+        }
+
+        // 开始删除主题
+        if(\base\FileUtil::UnlinkDir(self::$old_path.DS.$id))
+        {
+            return DataReturn('删除成功');
+        }
+        return DataReturn('删除失败或资源不存在', -100);
+    }
+
+    /**
+     * 主题打包
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-22
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function ThemeDownload($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '模板id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 初始化
+        self::Init($params);
+
+        // 是否开启开发者模式
+        if(config('shopxo.is_develop') !== true)
+        {
+            return DataReturn('请先开启开发者模式', -1); 
+        }
+
+        // 防止路径回溯
+        $theme = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
+        if(empty($theme))
+        {
+            return DataReturn('主题名称有误', -1);
+        }
+
+        // 获取配置信息
+        $config_file = self::$old_path.DS.$theme.DS.'config.json';
+        if(!file_exists($config_file))
+        {
+            return DataReturn('主题配置文件不存在', -1);
+        }
+        $config = json_decode(file_get_contents($config_file), true);
+        if(empty($config))
+        {
+            return DataReturn('主题配置信息有误', -1);
+        }
+
+        // 目录不存在则创建
+        $new_dir = ROOT.'runtime'.DS.'data'.DS.'theme_appmini_package'.DS.$theme;
+        \base\FileUtil::CreateDir($new_dir);
+
+        // 复制包目录
+        $old_dir = self::$old_path.DS.$theme;
+        if(is_dir($old_dir))
+        {
+            if(\base\FileUtil::CopyDir($old_dir, $new_dir) != true)
+            {
+                return DataReturn('项目包复制失败', -2);
+            }
+        }
+
+        // 生成压缩包
+        $zip = new \base\ZipFolder();
+        if(!$zip->zip($new_dir.'.zip', $new_dir))
+        {
+            return DataReturn('压缩包生成失败', -100);
+        }
+
+        // 生成成功删除目录
+        \base\FileUtil::UnlinkDir($new_dir);
+
+        // 开始下载
+        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $config['name'].'.zip'))
+        {
+            @unlink($new_dir.'.zip');
+        } else {
+            return DataReturn('下载失败', -100);
+        }
+    }
+
+    /**
+     * 获取小程序下载包数据列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2017-05-10T10:24:40+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function DataList($params = [])
+    public static function DownloadDataList($params = [])
     {
         // 初始化
         self::Init($params);
@@ -111,7 +429,9 @@ class AppMiniService
         self::Init($params);
 
         // 配置内容
-        if(empty($params['app_mini_title']) || empty($params['app_mini_describe']))
+        $title = MyC('common_app_mini_'.self::$application_name.'_title');
+        $describe = MyC('common_app_mini_'.self::$application_name.'_describe');
+        if(empty($title) || empty($describe))
         {
             return DataReturn('配置信息不能为空', -1);
         }
@@ -135,8 +455,9 @@ class AppMiniService
         \base\FileUtil::CreateDir(self::$new_path);
 
         // 复制包目录
+        $old_dir = self::$old_path.DS.self::$default_theme;
         $new_dir = self::$new_path.DS.date('YmdHis');
-        if(\base\FileUtil::CopyDir(self::$old_path, $new_dir) != true)
+        if(\base\FileUtil::CopyDir($old_dir, $new_dir) != true)
         {
             return DataReturn('项目包复制失败', -2);
         }
@@ -157,8 +478,8 @@ class AppMiniService
         ];
         $replace = [
             __MY_URL__,
-            $params['app_mini_title'],
-            $params['app_mini_describe'],
+            $title,
+            $describe,
             config('shopxo.currency_symbol'),
         ];
         $status = file_put_contents($new_dir.DS.'app.js', str_replace($search, $replace, file_get_contents($new_dir.DS.'app.js')));
@@ -168,7 +489,7 @@ class AppMiniService
         }
 
         // app.json
-        $status = file_put_contents($new_dir.DS.'app.json', str_replace(['{{application_title}}'], [$params['app_mini_title']], file_get_contents($new_dir.DS.'app.json')));
+        $status = file_put_contents($new_dir.DS.'app.json', str_replace(['{{application_title}}'], [$title], file_get_contents($new_dir.DS.'app.json')));
         if($status === false)
         {
             return DataReturn('基础配置替换失败', -4);

@@ -14,14 +14,14 @@
 					<li id="data-list-{{$v.theme}}">
 						<div class="am-gallery-item am-radius am-padding-0 {{if $v['theme'] eq $theme}}theme-active{{/if}}">
 							<a href="javascript:;" class="select-theme am-block" data-theme="{{$v.theme}}">
-								<img src="{{$v.preview}}" alt="{{$v.name}}" />
+								<img src="{{$v.preview}}" alt="{{$v.name}}" class="am-block" />
 							</a>
-							<div class="am-gallery-item-bottom">
+							<div class="am-gallery-item-bottom am-padding-sm">
 								<h3 class="am-gallery-title am-margin-top-0">
 									{{$v.name}}
 									<div class="am-fr am-text-right">
 										{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-											<a href="{{:MyUrl('admin/theme/download', array('id'=>$v['theme']))}}" class="am-icon-trash-o am-icon-download" title="打包" data-url="{{:MyUrl('admin/theme/download')}}" data-id="{{$v.theme}}"></a>
+											<a href="{{:MyUrl('admin/theme/download', ['id'=>$v['theme']])}}" class="am-icon-trash-o am-icon-download" title="打包"></a>
 										{{/if}}
 										{{if $v.is_delete eq 1}}
 											<a href="javascript:;" class="am-icon-trash-o submit-delete am-margin-left-sm" title="删除" data-url="{{:MyUrl('admin/theme/delete')}}" data-id="{{$v.theme}}"></a>

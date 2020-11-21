@@ -22,6 +22,11 @@
 
 <!-- right content start  -->
 <div class="content-right">
+    <!-- content top start -->
+    <div class="content-top">
+        {{block name="form_content_top"}}{{/block}}
+    </div>
+    <!-- content top end -->
     <div class="content form-table-content">
         <!-- content inside top hook -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
