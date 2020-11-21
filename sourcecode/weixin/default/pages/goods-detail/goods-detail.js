@@ -877,7 +877,8 @@ Page({
     return {
       title: this.data.goods.title+'-'+app.data.application_title,
       desc: app.data.application_describe,
-      path: '/pages/goods-detail/goods-detail?goods_id=' + this.data.goods.id +'&referrer='+user_id
+      path: '/pages/goods-detail/goods-detail?goods_id=' + this.data.goods.id +'&referrer='+user_id,
+      imageUrl: this.data.goods.images
     };
   },
 });

@@ -138,7 +138,8 @@ Page({
     return {
       title: name,
       desc: app.data.application_describe,
-      path: '/pages/plugins/weixinliveplayer/detail/detail?id=' + did + '&referrer=' + user_id
+      path: '/pages/plugins/weixinliveplayer/detail/detail?id=' + did + '&referrer=' + user_id,
+      imageUrl: this.data.detail.share_img || ''
     };
   },
 });
