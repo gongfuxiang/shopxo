@@ -916,7 +916,7 @@ class WarehouseGoodsService
 
         // 扣除仓库商品规格库存
         $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id, 'md5_key'=>$md5_key];
-        $inventory = Db::name('WarehouseGoodsSpec')->where($where)->value('inventory');
+        $inventory = (int) Db::name('WarehouseGoodsSpec')->where($where)->value('inventory');
         if($inventory < $buy_number)
         {
             return DataReturn('仓库商品规格库存不足['.$warehouse_id.'-'.$goods_id.'('.$inventory.'<'.$buy_number.')]', -11);
