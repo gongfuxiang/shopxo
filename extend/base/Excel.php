@@ -199,6 +199,12 @@ class Excel
 			}
 		}
 
+		// 丢弃输出缓冲区中的内容
+        if(ob_get_length() > 0)
+        {
+            ob_clean();
+        }
+
 		// 头部
 		header('Pragma: public');
 		header('Expires: 0');
