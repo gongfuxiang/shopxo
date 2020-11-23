@@ -322,7 +322,6 @@ class Images
 	    /* 保留透明背景 */
         switch($type)
         {
-            case 'gif':
             case 'png':
                 /* 保存完整alpha通道信息 */
                 imagesavealpha($dst_im, true);
@@ -345,7 +344,6 @@ class Images
             /* 保留透明背景 */
             switch($type)
             {
-                case 'gif':
                 case 'png':
                     /* 保存完整alpha通道信息 */
                     imagesavealpha($cpd_im, true);

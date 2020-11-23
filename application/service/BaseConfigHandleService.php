@@ -40,10 +40,8 @@ class BaseConfigHandleService
 
         // cache配置
         $ret = self::CacheHandle($params);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
+
+        return $ret;
     }
 
     /**
