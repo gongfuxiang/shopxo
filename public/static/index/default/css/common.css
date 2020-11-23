@@ -935,6 +935,7 @@ button { outline: none !important; }
 .common-cropper-popup .am-form-file input[type="file"] { width: 105px; height: 32px; }
 .common-cropper-popup .am-form-group { width: auto; }
 .common-cropper-popup form.am-form .am-form-group-refreshing { padding: 0 !important; }
+.common-cropper-popup .am-form-file input[type="file"] { width: 106px !important; top: 0; }
 @media only screen and (max-width:641px){
     .common-cropper-popup .img-preview { margin-left:10px; }
     .common-cropper-popup .preview-md,
