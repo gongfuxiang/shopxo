@@ -319,17 +319,52 @@ class Images
 	    /* 新建一个真彩色图像 */
 	    $dst_im = imagecreatetruecolor($new_width, $new_height);
 
-	    /* 是否裁剪图片 */
+	    /* 保留透明背景 */
+        switch($type)
+        {
+            case 'png':
+                /* 保存完整alpha通道信息 */
+                imagesavealpha($dst_im, true);
+                /* 上色 */
+                $color = imagecolorallocatealpha($dst_im, 0, 0, 0, 127);
+                /* 设置透明色 */
+                imagecolortransparent($dst_im, $color);
+                /* 填充透明色 */
+                imagefill($dst_im, 0, 0, $color);
+                break;
+            default:;
+        }
+
+        /* 是否裁剪图片 */
 	    if($src_width > 0 && $src_height > 0)
 	    {
 	    	/* 新建拷贝大小的真彩图像 */
 	    	$cpd_im = imagecreatetruecolor($src_width, $src_height);
+
+            /* 保留透明背景 */
+            switch($type)
+            {
+                case 'png':
+                    /* 保存完整alpha通道信息 */
+                    imagesavealpha($cpd_im, true);
+                    /* 上色 */
+                    $color = imagecolorallocatealpha($cpd_im, 0, 0, 0, 127);
+                    /* 设置透明色 */
+                    imagecolortransparent($cpd_im, $color);
+                    /* 填充透明色 */
+                    imagefill($cpd_im, 0, 0, $color);
+                    break;
+                default:;
+            }
 
 	    	/* 拷贝图片 */
 		    imagecopy($cpd_im, $src_im, 0, 0, $src_x, $src_y, $src_width, $src_height);
 
 		    /* 图片缩放 */
 		    $s = imagecopyresampled($dst_im, $cpd_im, 0, 0, 0, 0, $new_width, $new_height, $src_width, $src_height);
+
+		    /* 销毁画布 */
+		    imagedestroy($cpd_im);
 		} else {
 			/* 图片缩放 */
 	    	$s = imagecopyresampled($dst_im, $src_im, 0, 0, 0, 0, $new_width, $new_height, $w, $h);
