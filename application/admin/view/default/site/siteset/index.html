@@ -1,0 +1,222 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <!-- second nav start -->
+    {{include file="site/public/nav" /}}
+    <!-- second nav end -->
+
+    <div class="content">
+        <!-- nav start -->
+        {{include file="site/public/siteset_nav" /}}
+        <!-- nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'siteset'])}}" enctype="multipart/form-data">
+            <!-- 基础 -->
+            <div class="am-panel am-panel-default am-margin-top-sm">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">基础</h3>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_data_type.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_data_type.describe}}</span></label>
+                        <select name="{{$data.home_index_floor_data_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_floor_data_type.error_tips}}">
+                            {{foreach $common_site_floor_data_type_list as $k=>$v}}
+                                <option value="{{$k}}" {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_left_goods_category_max_count.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_left_goods_category_max_count.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="0" name="{{$data.home_index_floor_left_goods_category_max_count.only_tag}}" placeholder="{{$data.home_index_floor_left_goods_category_max_count.name}}" data-validation-message="{{$data.home_index_floor_left_goods_category_max_count.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_index_floor_left_goods_category_max_count.value}}"{{/if}} />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default" type="button">个</button>
+                          </span>
+                        </div>
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>1. 配置每个楼层左侧最多展示多少个二级商品分类</p>
+                            <p>2. 不建议将数量修改的太大、如高度超出楼层容器会比较拥挤</p>
+                            <p>3. 商品分类显示层级配置不能小于2、否则二级分类不展示</p>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_top_right_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_top_right_keywords.describe}}</span></label>
+                        {{if !empty($goods_category_list)}}
+                            <ul class="am-list am-list-static am-list-border am-margin-bottom-0">
+                                {{foreach $goods_category_list as $category}}
+                                    <li>
+                                        <p class="am-text-truncate am-margin-bottom-xs">
+                                            <span>{{$category.name}}</span>
+                                            <span class="am-margin-left-sm form.am-form am-form-group-label-tips">{{$category.vice_name}}</span>
+                                        </p>
+                                        <input type="text" name="{{$data.home_index_floor_top_right_keywords.only_tag}}[{{$category['id']}}]" placeholder="{{$category.name}}{{$data.home_index_floor_top_right_keywords.describe}}" data-validation-message="{{$data.home_index_floor_top_right_keywords.error_tips}}" class="am-radius" value="{{$category.config_keywords}}" data-am-tagsinput />
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                        {{else /}}
+                            <div class="am-text-center am-margin-top-lg">
+                                <i class="am-icon-warning"></i>
+                                <span>暂无数据，请先到 / 商品管理->商品分类、一级分类设置首页推荐</span>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+
+            <!-- 自动模式 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">自动模式</h3>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_goods_max_count.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_max_count.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="0" name="{{$data.home_index_floor_goods_max_count.only_tag}}" placeholder="{{$data.home_index_floor_goods_max_count.name}}" data-validation-message="{{$data.home_index_floor_goods_max_count.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_index_floor_goods_max_count.value}}"{{/if}} />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default" type="button">个</button>
+                          </span>
+                        </div>
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>1. 配置每个楼层最多展示多少个商品</p>
+                            <p>2. 不建议将数量修改的太大、会导致PC端左侧空白区域太大</p>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_goods_order_by_type.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_type.describe}}</span></label>
+                        <select name="{{$data.home_index_floor_goods_order_by_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_floor_goods_order_by_type.error_tips}}">
+                            {{foreach $goods_order_by_type_list as $k=>$v}}
+                                <option value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_type']['value']) and $data['home_index_floor_goods_order_by_type']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>综合为：热度->销量->最新 进行 降序(desc)排序</p>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_goods_order_by_rule.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_rule.describe}}</span></label>
+                        <select name="{{$data.home_index_floor_goods_order_by_rule.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_floor_goods_order_by_rule.error_tips}}">
+                            {{foreach $goods_order_by_rule_list as $k=>$v}}
+                                <option value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_rule']['value']) and $data['home_index_floor_goods_order_by_rule']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 手动模式 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">手动模式</h3>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_floor_manual_mode_goods.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_manual_mode_goods.describe}}</span></label>
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>1. 可点击商品标题拖拽排序、按照顺序展示</p>
+                            <p>2. 不建议添加很多商品、会导致PC端左侧空白区域太大</p>
+                        </div>
+                        {{if !empty($goods_category_list)}}
+                            <ul class="am-list am-list-static am-list-border am-margin-bottom-0 am-margin-top-sm">
+                                {{foreach $goods_category_list as $category}}
+                                    <li>
+                                        <p class="am-text-truncate am-margin-bottom-xs">
+                                            <span>{{$category.name}}</span>
+                                            <span class="am-margin-left-sm form.am-form am-form-group-label-tips">{{$category.vice_name}}</span>
+                                        </p>
+                                        <ul class="am-list am-list-border am-margin-top-sm manual-mode-goods-container manual-mode-goods-container-{{$category.id}}">
+                                        {{if !empty($floor_manual_mode_goods_list) && !empty($floor_manual_mode_goods_list[$category['id']])}}
+                                            {{foreach $floor_manual_mode_goods_list[$category['id']] as $g}}
+                                                <li class="manual-mode-goods-item-{{$g.id}}">
+                                                    <input type="hidden" name="home_index_floor_manual_mode_goods[{{$category.id}}][]" value="{{$g.id}}" />
+                                                    <a href="{{$g.goods_url}}" target="_blank" class="am-text-truncate">
+                                                        <img src="{{$g.images}}" alt="{{$g.title}}" class="am-fl am-margin-right-xs" width="20" height="20" />
+                                                        <span>{{$g.title}}</span>
+                                                    </a>
+                                                    <button type="button" class="am-close am-fr">&times;</button>
+                                                </li>
+                                            {{/foreach}}
+                                        {{/if}}
+                                    </ul>
+                                    <span class="business-operations-submit goods-popup-add" data-tag=".manual-mode-goods-container-{{$category.id}}" data-form-name="home_index_floor_manual_mode_goods[{{$category.id}}][]">+添加商品</span>
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                        {{else /}}
+                            <div class="am-text-center am-margin-top-lg">
+                                <i class="am-icon-warning"></i>
+                                <span>暂无数据，请先到 / 商品管理->商品分类、一级分类设置首页推荐</span>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+
+<!-- 商品添加弹窗 -->
+<div class="am-popup" id="siteset-goods-popup">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">商品添加</h4>
+            <span class="am-icon-arrows-alt am-full"></span>
+            <span data-am-modal-close class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd am-padding-0">
+            <form class="am-form am-padding-sm goods-add-container">
+                <!-- 搜索 -->
+                <div class="forth-selection-container" data-search-url="{{:MyUrl('admin/site/goodssearch')}}">
+                    <select class="am-radius chosen-select forth-selection-form-category" data-placeholder="商品分类..." data-validation-message="请选择商品分类">
+                        <option value="">商品分类...</option>
+                        {{if !empty($goods_category_list)}}
+                            {{foreach $goods_category_list as $v}}
+                                <option value="{{$v.id}}">一级 - {{$v.name}}</option>
+                                {{if !empty($v['items'])}}
+                                    {{foreach $v.items as $vs}}
+                                        <option style="padding-left: 15px;" value="{{$vs.id}}">二级 - {{$vs.name}}</option>
+                                        {{if !empty($vs['items'])}}
+                                            {{foreach $vs.items as $vss}}
+                                                <option style="padding-left: 30px;" value="{{$vss.id}}">三级 - {{$vss.name}}</option>
+                                            {{/foreach}}
+                                        {{/if}}
+                                    {{/foreach}}
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+                    </select>
+                    <input type="text" placeholder="商品名称" class="am-radius forth-selection-form-keywords" />
+                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-icon-search search-submit" data-am-loading="{loadingText: ' 搜索中...'}"> 搜索</button>
+                </div>
+
+                <!-- 商品列表 -->
+                <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs goods-list-container" data-loading-msg="搜索中...">
+                    <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered">
+                        <div class="table-no"><i class="am-icon-warning"></i> 请搜索商品</div>
+                    </ul>
+                </div>
+
+                <!-- 分页 -->
+                <div class="am-margin-top-sm am-text-center goods-page-container"></div>
+            </form>
+        </div>
+    </div>
+</div>
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

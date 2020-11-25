@@ -186,22 +186,6 @@ class GoodsService
      */
     public static function HomeFloorList($params = [])
     {
-        // 商品数量
-        $goods_count = MyC('home_index_floor_goods_max_count', 8, true);
-        $goods_category_count = MyC('home_index_floor_left_goods_category_max_count', 6, true);
-
-        // 排序配置
-        $floor_order_by_type_list = lang('goods_order_by_type_list');
-        $floor_order_by_rule_list = lang('goods_order_by_rule_list');
-        $floor_order_by_type = MyC('home_index_floor_goods_order_by_type', 0, true);
-        $floor_order_by_rule = MyC('home_index_floor_goods_order_by_rule', 0, true);
-        // 排序字段名称
-        $order_by_field = array_key_exists($floor_order_by_type, $floor_order_by_type_list) ? $floor_order_by_type_list[$floor_order_by_type]['value'] : $floor_order_by_type_list[0]['value'];
-        // 排序规则
-        $order_by_rule = array_key_exists($floor_order_by_rule, $floor_order_by_rule_list) ? $floor_order_by_rule_list[$floor_order_by_rule]['value'] : $floor_order_by_rule_list[0]['value'];
-        // 排序
-        $order_by = implode(' '.$order_by_rule.', ', explode(',', $order_by_field)).' '.$order_by_rule;
-
         // 缓存
         $key = config('shopxo.cache_goods_floor_list_key');
         $data = cache($key);
@@ -212,9 +196,12 @@ class GoodsService
             $data = self::GoodsCategoryList(['where'=>$where]);
             if(!empty($data))
             {
+                // 分类层级
                 $level = MyC('common_show_goods_category_level', 3, true);
                 if($level > 1)
                 {
+                    // 二级分类数量 
+                    $goods_category_count = MyC('home_index_floor_left_goods_category_max_count', 6, true);
                     foreach($data as &$c)
                     {
                         // 获取二级分类
@@ -230,19 +217,74 @@ class GoodsService
                     $floor_keywords = json_decode($floor_keywords, true);
                 }
 
+                // 数据模式
+                // 0 自动模式
+                // 1 手动模式
+                $floor_data_type = MyC('home_index_floor_data_type', 0, true);
+
+                // 数据处理
+                switch($floor_data_type)
+                {
+                    // 自动模式
+                    case 0 :
+                        // 商品数量
+                        $goods_count = MyC('home_index_floor_goods_max_count', 8, true);
+                        // 排序配置
+                        $floor_order_by_type_list = lang('goods_order_by_type_list');
+                        $floor_order_by_rule_list = lang('goods_order_by_rule_list');
+                        $floor_order_by_type = MyC('home_index_floor_goods_order_by_type', 0, true);
+                        $floor_order_by_rule = MyC('home_index_floor_goods_order_by_rule', 0, true);
+                        // 排序字段名称
+                        $order_by_field = array_key_exists($floor_order_by_type, $floor_order_by_type_list) ? $floor_order_by_type_list[$floor_order_by_type]['value'] : $floor_order_by_type_list[0]['value'];
+                        // 排序规则
+                        $order_by_rule = array_key_exists($floor_order_by_rule, $floor_order_by_rule_list) ? $floor_order_by_rule_list[$floor_order_by_rule]['value'] : $floor_order_by_rule_list[0]['value'];
+                        // 排序
+                        $order_by = implode(' '.$order_by_rule.', ', explode(',', $order_by_field)).' '.$order_by_rule;
+                        break;
+
+                    // 手动模式
+                    case 1 :
+                        $manual_mode = MyC('home_index_floor_manual_mode_goods');
+                        if(!empty($manual_mode))
+                        {
+                            $floor_manual_mode_goods = json_decode($manual_mode, true);
+                        }
+                        break;
+                }
+
                 // 根据分类获取楼层商品
                 foreach($data as &$v)
                 {
-                    // 获取分类ids
-                    $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
+                    // 数据模式
+                    switch($floor_data_type)
+                    {
+                        // 自动模式
+                        case 0 :
+                            if(isset($goods_count) && isset($order_by))
+                            {
+                                // 获取分类ids
+                                $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
 
-                    // 获取商品ids
-                    $where = [
-                        'gci.category_id'       => $category_ids,
-                        'g.is_home_recommended' => 1,
-                        'g.is_shelves'          => 1,
-                    ];
-                    $v['goods_ids'] = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->group('g.id')->order($order_by)->limit($goods_count)->column('g.id');
+                                // 获取商品ids
+                                $where = [
+                                    'gci.category_id'       => $category_ids,
+                                    'g.is_home_recommended' => 1,
+                                    'g.is_shelves'          => 1,
+                                ];
+                                $v['goods_ids'] = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->group('g.id')->order($order_by)->limit($goods_count)->column('g.id');
+                            }
+                            break;
+
+                        // 手动模式
+                        case 1 :
+                            if(!empty($floor_manual_mode_goods) && is_array($floor_manual_mode_goods) && array_key_exists($v['id'], $floor_manual_mode_goods))
+                            {
+                                $v['goods_ids'] = $floor_manual_mode_goods[$v['id']];
+                            }
+                            break;
+                    }
+
+                    // 商品数据、后面实时读取这里赋空值
                     $v['goods'] = [];
 
                     // 楼层关键字
@@ -257,16 +299,44 @@ class GoodsService
         // 商品读取、商品信息需要实时读取
         if(!empty($data) && is_array($data))
         {
-            // 去除分类关键字前缀
-            $order_by = str_replace('g.', '', $order_by);
+            // 商品id一次性读取商品
+            $goods_ids = [];
+            foreach($data as $cg)
+            {
+                if(!empty($cg['goods_ids']) & is_array($cg['goods_ids']))
+                {
+                    $goods_ids = array_merge($goods_ids, $cg['goods_ids']);
+                }
+            }
+            // 读取商品
+            $goods_list = [];
+            if(!empty($goods_ids))
+            {
+                $where = [
+                    ['id', 'in', array_unique($goods_ids)],
+                    ['is_shelves', '=', 1],
+                ];
+                $res = self::GoodsList(['where'=>$where, 'm'=>0, 'n'=>0, 'field'=>'*']);
+                $goods_list = empty($res['data']) ? [] : array_column($res['data'], null, 'id');
+            }
 
             // 根据分类获取楼层商品
-            foreach($data as &$v)
+            if(!empty($goods_list))
             {
-                if(!empty($v['goods_ids']) && is_array($v['goods_ids']))
+                foreach($data as &$cv)
                 {
-                    $res = self::GoodsList(['where'=>['id'=>$v['goods_ids'], 'is_home_recommended'=>1, 'is_shelves'=>1], 'm'=>0, 'n'=>$goods_count, 'field'=>'*', 'order_by'=>$order_by]);
-                    $v['goods'] = $res['data'];
+                    if(!empty($cv['goods_ids']) && is_array($cv['goods_ids']))
+                    {
+                        $temp = [];
+                        foreach($cv['goods_ids'] as $gid)
+                        {
+                            if(array_key_exists($gid, $goods_list))
+                            {
+                                $temp[] = $goods_list[$gid];
+                            }
+                        }
+                        $cv['goods'] = $temp;
+                    }
                 }
             }
         }
@@ -1021,48 +1091,45 @@ class GoodsService
         // 启动事务
         Db::startTrans();
 
-        // 添加/编辑
-        if(empty($params['id']))
-        {
-            $data['add_time'] = time();
-            $goods_id = Db::name('Goods')->insertGetId($data);
-        } else {
-            $goods = Db::name('Goods')->find($params['id']);
-            $data['upd_time'] = time();
-            if(Db::name('Goods')->where(['id'=>intval($params['id'])])->update($data))
+        // 捕获异常
+        try {
+            // 添加/编辑
+            if(empty($params['id']))
             {
-                $goods_id = $params['id'];
+                $data['add_time'] = time();
+                $goods_id = Db::name('Goods')->insertGetId($data);
+                if($goods_id <= 0)
+                {
+                    throw new \Exception('添加失败');
+                }
+            } else {
+                $data['upd_time'] = time();
+                if(Db::name('Goods')->where(['id'=>intval($params['id'])])->update($data))
+                {
+                    $goods_id = $params['id'];
+                } else {
+                    throw new \Exception('更新失败');
+                }
             }
-        }
 
-        // 是否成功
-        $status = false;
-        if(isset($goods_id) && $goods_id > 0)
-        {
             // 分类
             $ret = self::GoodsCategoryInsert(explode(',', $params['category_id']), $goods_id);
             if($ret['code'] != 0)
             {
-                // 回滚事务
-                Db::rollback();
-                return $ret;
+                throw new \Exception($ret['msg']);
             }
 
             // 规格
             $ret = self::GoodsSpecificationsInsert($specifications['data'], $goods_id);
             if($ret['code'] != 0)
             {
-                // 回滚事务
-                Db::rollback();
-                return $ret;
+                throw new \Exception($ret['msg']);
             } else {
                 // 更新商品基础信息
-                $ret = self::GoodsSaveBaseUpdate($params, $goods_id);
+                $ret = self::GoodsSaveBaseUpdate($goods_id);
                 if($ret['code'] != 0)
                 {
-                    // 回滚事务
-                    Db::rollback();
-                    return $ret;
+                    throw new \Exception($ret['msg']);
                 }
             }
 
@@ -1070,48 +1137,35 @@ class GoodsService
             $ret = self::GoodsPhotoInsert($photo['data'], $goods_id);
             if($ret['code'] != 0)
             {
-                // 回滚事务
-                Db::rollback();
-                return $ret;
+                throw new \Exception($ret['msg']);
             }
 
             // 手机详情
             $ret = self::GoodsContentAppInsert($content_app['data'], $goods_id);
             if($ret['code'] != 0)
             {
-                // 回滚事务
-                Db::rollback();
-                return $ret;
+                throw new \Exception($ret['msg']);
             }
 
             // 商品参数
             $ret = self::GoodsParametersInsert($params, $goods_id);
             if($ret['code'] != 0)
             {
-                // 回滚事务
-                Db::rollback();
-                return $ret;
+                throw new \Exception($ret['msg']);
             }
 
             // 仓库规格库存同步
             $ret = WarehouseGoodsService::GoodsSpecChangeInventorySync($goods_id);
             if($ret['code'] != 0)
             {
-                // 回滚事务
-                Db::rollback();
-                return $ret;
+                throw new \Exception($ret['msg']);
             }
 
-            // 操作成功
-            $status = true;
-        }
-
-        // 事务处理
-        if($status)
-        {
+            // 完成
             Db::commit();
-        } else {
+        } catch(\Exception $e) {
             Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
 
         // 商品保存后钩子
@@ -1125,11 +1179,7 @@ class GoodsService
         ]);
 
         // 返回信息
-        if($status)
-        {
-            return DataReturn('操作成功', 0);
-        }
-        return DataReturn('操作失败', -100);
+        return DataReturn('操作成功', 0);
     }
 
     /**
@@ -1182,10 +1232,9 @@ class GoodsService
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-12-16T01:56:42+0800
-     * @param    [array]          $params   [输入参数]
      * @param    [int]            $goods_id [商品id]
      */
-    public static function GoodsSaveBaseUpdate($params, $goods_id)
+    public static function GoodsSaveBaseUpdate($goods_id)
     {
         $data = Db::name('GoodsSpecBase')->field('min(price) AS min_price, max(price) AS max_price, sum(inventory) AS inventory, min(original_price) AS min_original_price, max(original_price) AS max_original_price')->where(['goods_id'=>$goods_id])->find();
         if(empty($data))

@@ -34,6 +34,7 @@ class ConfigService
             'common_agreement_userregister',
             'common_self_extraction_address',
             'home_index_floor_top_right_keywords',
+            'home_index_floor_manual_mode_goods',
         ];
 
     // 附件字段列表

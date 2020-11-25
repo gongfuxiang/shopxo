@@ -333,6 +333,11 @@ return array(
             1 => array('value' => 'asc', 'name' => '升序(asc)'),
         ),
 
+    // 首页数据类型
+    'common_site_floor_data_type_list'           => array(
+            0 => array('value' => 0, 'name' => '自动模式', 'checked' => true),
+            1 => array('value' => 1, 'name' => '手动模式'),
+        ),
 
 
     // 色彩值

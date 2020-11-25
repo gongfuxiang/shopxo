@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use app\service\ConfigService;
 use app\service\GoodsService;
+use app\service\SiteService;
 
 /**
  * 站点设置
@@ -22,6 +23,9 @@ use app\service\GoodsService;
  */
 class Site extends Common
 {
+	public $nav_type;
+	public $view_type;
+
 	/**
 	 * 构造方法
 	 * @author   Devil
@@ -39,20 +43,96 @@ class Site extends Common
 
 		// 权限校验
 		$this->IsPower();
+
+		// 导航类型
+		$this->nav_type = input('nav_type', 'base');
+		$this->view_type = input('view_type', 'index');
+
+		// 仅网站设置页面存在多个子页面
+        if($this->nav_type != 'siteset')
+        {
+        	$this->view_type = 'index';
+        }
 	}
 
 	/**
-     * [Index 配置列表]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
-     */
+	 * 配置列表
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2020-11-25
+	 * @desc    description
+	 */
 	public function Index()
 	{
-		// 导航
-        $nav_type = input('nav_type', 'base');
-        $this->assign('nav_type', $nav_type);
+		// 公共数据
+		$this->CurrentViewInit();
+
+		// 配置信息
+		$data = ConfigService::ConfigList();
+		$this->assign('data', $data);
+
+		// 数据处理
+		switch($this->nav_type)
+		{
+			// 自提点
+			case 'sitetype' :
+				// 地址处理
+	        	if(!empty($data['common_self_extraction_address']) && !empty($data['common_self_extraction_address']['value']))
+				{
+					$address = ConfigService::SiteTypeExtractionAddressList($data['common_self_extraction_address']['value']);
+					$this->assign('sitetype_address_list', $address['data']);
+				}
+
+				// 加载百度地图api
+	        	$this->assign('is_load_baidu_map_api', 1);
+				break;
+
+			// 网站设置
+			case 'siteset' :
+				// 获取商品一级分类
+				$where = ['pid'=>0, 'is_home_recommended'=>1, 'is_enable'=>1];
+            	$category = GoodsService::GoodsCategoryList(['where'=>$where]);
+            	if(!empty($category))
+            	{
+            		$floor_keywords = (empty($data['home_index_floor_top_right_keywords']) || empty($data['home_index_floor_top_right_keywords']['value'])) ? [] : json_decode($data['home_index_floor_top_right_keywords']['value'], true);
+            		foreach($category as &$c)
+            		{
+            			$c['config_keywords'] = isset($floor_keywords[$c['id']]) ? $floor_keywords[$c['id']] : '';
+            		}
+            	}
+            	$this->assign('goods_category_list', $category);
+
+            	// 楼层自定义商品
+            	if(!empty($data['home_index_floor_manual_mode_goods']) && !empty($data['home_index_floor_manual_mode_goods']['value']))
+            	{
+            		$ret = SiteService::FloorManualModeGoodsViewHandle(json_decode($data['home_index_floor_manual_mode_goods']['value'], true));
+            		$this->assign('floor_manual_mode_goods_list', $ret['data']);
+            	}
+				break;
+		}
+
+		// 编辑器文件存放地址
+        $this->assign('editor_path_type', 'common');
+
+        // 视图
+        $view = 'site/'.$this->nav_type.'/'.$this->view_type;
+        return $this->fetch($view);
+	}
+
+	/**
+	 * 公共视图
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2020-11-21
+	 * @desc    description
+	 */
+	public function CurrentViewInit()
+	{
+		// 主/子导航
+        $this->assign('nav_type', $this->nav_type);
+        $this->assign('view_type', $this->view_type);
 
 		// 时区
 		$this->assign('site_timezone_list', lang('site_timezone_list'));
@@ -88,56 +168,89 @@ class Site extends Common
 		$this->assign('goods_order_by_type_list', lang('goods_order_by_type_list'));
 		$this->assign('goods_order_by_rule_list', lang('goods_order_by_rule_list'));
 
-		// 配置信息
-		$data = ConfigService::ConfigList();
-		$this->assign('data', $data);
+		// 首页楼层数据类型
+		$this->assign('common_site_floor_data_type_list', lang('common_site_floor_data_type_list'));
 
-		// 数据处理
-		switch($nav_type)
-		{
-			// 自提点
-			case 'sitetype' :
-				// 地址处理
-	        	if(!empty($data['common_self_extraction_address']) && !empty($data['common_self_extraction_address']['value']))
-				{
-					$address = ConfigService::SiteTypeExtractionAddressList($data['common_self_extraction_address']['value']);
-					$this->assign('sitetype_address_list', $address['data']);
-				}
+		// 主导航
+		$this->assign('second_nav_list', [
+			[
+				'name'	=> '基础配置',
+				'type'	=> 'base',
+			],
+			[
+				'name'	=> '网站设置',
+				'type'	=> 'siteset',
+			],
+			[
+				'name'	=> '站点类型',
+				'type'	=> 'sitetype',
+			],
+			[
+				'name'	=> '用户注册',
+				'type'	=> 'register',
+			],
+			[
+				'name'	=> '用户登录',
+				'type'	=> 'login',
+			],
+			[
+				'name'	=> '密码找回',
+				'type'	=> 'forgetpwd',
+			],
+			[
+				'name'	=> '验证码',
+				'type'	=> 'verify',
+			],
+			[
+				'name'	=> '订单售后',
+				'type'	=> 'orderaftersale',
+			],
+			[
+				'name'	=> '附件',
+				'type'	=> 'attachment',
+			],
+			[
+				'name'	=> '缓存',
+				'type'	=> 'cache',
+			],
+			[
+				'name'	=> '扩展项',
+				'type'	=> 'extends',
+			],
+		]);
 
-				// 加载百度地图api
-	        	$this->assign('is_load_baidu_map_api', 1);
-				break;
-
-			// 网站设置
-			case 'siteset' :
-				// 获取商品一级分类
-				$where = ['pid'=>0, 'is_home_recommended'=>1, 'is_enable'=>1];
-            	$category = GoodsService::GoodsCategoryList(['where'=>$where]);
-            	if(!empty($category))
-            	{
-            		$floor_keywords = (empty($data['home_index_floor_top_right_keywords']) || empty($data['home_index_floor_top_right_keywords']['value'])) ? [] : json_decode($data['home_index_floor_top_right_keywords']['value'], true);
-            		foreach($category as &$c)
-            		{
-            			$c['config_keywords'] = isset($floor_keywords[$c['id']]) ? $floor_keywords[$c['id']] : '';
-            		}
-            	}
-            	$this->assign('goods_category_list', $category);
-				break;
-		}
-
-		// 编辑器文件存放地址
-        $this->assign('editor_path_type', 'common');
-
-        // 视图
-        return $this->fetch($nav_type);
+		// 网站设置导航
+		$this->assign('siteset_nav_list', [
+			[
+				'name'	=> '首页',
+				'type'	=> 'index',
+			],
+			[
+				'name'	=> '商品',
+				'type'	=> 'goods',
+			],
+			[
+				'name'	=> '搜索',
+				'type'	=> 'search',
+			],
+			[
+				'name'	=> '订单',
+				'type'	=> 'order',
+			],
+			[
+				'name'	=> '扩展',
+				'type'	=> 'extends',
+			],
+		]);
 	}
-
+	
 	/**
-	 * [Save 配置数据保存]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-01-02T23:08:19+0800
+	 * 配置数据保存
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2020-11-25
+	 * @desc    description
 	 */
 	public function Save()
 	{
@@ -199,7 +312,10 @@ class Site extends Common
 
 			// 网站设置
 			case 'siteset' :
+				// 楼层关键字
 				$params['home_index_floor_top_right_keywords'] = empty($params['home_index_floor_top_right_keywords']) ? '' : json_encode($params['home_index_floor_top_right_keywords'], JSON_UNESCAPED_UNICODE);
+				// 楼层自定义商品
+				$params['home_index_floor_manual_mode_goods'] = empty($params['home_index_floor_manual_mode_goods']) ? '' : json_encode($params['home_index_floor_manual_mode_goods'], JSON_UNESCAPED_UNICODE);
 				break;
 
 			// 缓存
@@ -208,7 +324,7 @@ class Site extends Common
 				if(isset($params['common_session_is_use_cache']) && $params['common_session_is_use_cache'] == 1)
 				{
 					// 连接测试
-					$ret = $this->RedisCheckConnectPing($params['common_cache_session_redis_host'], $params['common_cache_session_redis_port'], $params['common_cache_session_redis_password']);
+					$ret = SiteService::RedisCheckConnectPing($params['common_cache_session_redis_host'], $params['common_cache_session_redis_port'], $params['common_cache_session_redis_password']);
 					if($ret['code'] != 0)
 					{
 						return $ret;
@@ -219,7 +335,7 @@ class Site extends Common
 				if(isset($params['common_data_is_use_cache']) && $params['common_data_is_use_cache'] == 1)
 				{
 					// 连接测试
-					$ret = $this->RedisCheckConnectPing($params['common_cache_data_redis_host'], $params['common_cache_data_redis_port'], $params['common_cache_data_redis_password']);
+					$ret = SiteService::RedisCheckConnectPing($params['common_cache_data_redis_host'], $params['common_cache_data_redis_port'], $params['common_cache_data_redis_password']);
 					if($ret['code'] != 0)
 					{
 						return $ret;
@@ -263,48 +379,29 @@ class Site extends Common
 	}
 
 	/**
-	 * redis连接测试
+	 * 商品搜索
 	 * @author  Devil
 	 * @blog    http://gong.gg/
 	 * @version 1.0.0
-	 * @date    2020-09-26
+	 * @date    2020-11-25
 	 * @desc    description
-	 * @param   [string]        $host     [连接地址]
-	 * @param   [int]           $port     [端口]
-	 * @param   [string]        $password [密码]
 	 */
-	private function RedisCheckConnectPing($host, $port, $password)
-	{
-		// 参数处理
-		$host = empty($host) ? '127.0.0.1' : $host;
-		$port = empty($port) ? 6379 : $port;
-		$password = empty($password) ? '' : $password;
+    public function GoodsSearch()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
 
-		// 是否已安装redis扩展
-		if(!extension_loaded('redis'))
-		{
-			return DataReturn('请先安装redis扩展', -1);
-		}
-
-		// 捕获异常
-		try {
-			// 连接redis
-			$redis = new \Redis();
-			$redis->connect($host, $port);
-			if($password != '')
-			{
-	            $redis->auth($password);
-	        }
-        } catch(\Exception $e) {
-		    return DataReturn('redis连接失败['.$e->getMessage().']', -1);
-		}
-
-		// 检测是否连接成功
-		if($redis->ping())
-		{
-			return DataReturn('redis连接成功', 0);
-		}
-		return DataReturn('redis连接失败', -1);
-	}
+        // 搜索数据
+        $ret = SiteService::GoodsSearchList($this->data_post);
+        if($ret['code'] == 0)
+        {
+            $this->assign('data', $ret['data']['data']);
+            $ret['data']['data'] = $this->fetch('site/public/goods_search');
+        }
+        return $ret;
+    }
 }
 ?>

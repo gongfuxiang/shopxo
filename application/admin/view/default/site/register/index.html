@@ -2,11 +2,11 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <div class="content">
-        <!-- table nav start -->
-        {{include file="site/nav" /}}
-        <!-- table nav end -->
+    <!-- second nav start -->
+    {{include file="site/public/nav" /}}
+    <!-- second nav end -->
 
+    <div class="content">
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'register'])}}" enctype="multipart/form-data">
             <div class="am-form-group">

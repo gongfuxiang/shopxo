@@ -1,0 +1,9 @@
+{{if !empty($siteset_nav_list) and is_array($siteset_nav_list)}}
+    <ul class="am-nav am-nav-pills table-nav">
+        {{foreach $siteset_nav_list as $v}}
+            <li {{if $view_type eq $v['type']}}class="am-active"{{/if}} data-type="{{$v.type}}">
+                <a href="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$v['type']])}}">{{$v.name}}</a>
+            </li>
+        {{/foreach}}
+    </ul>
+{{/if}}

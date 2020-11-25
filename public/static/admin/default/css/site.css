@@ -1,5 +1,5 @@
 /**
- * logo
+ * 登录
  */
 ul.home_site_logo-images-view li,
 ul.home_site_logo_wap-images-view li {
@@ -46,4 +46,76 @@ ul.home_site_user_register_bg_images-images-view li {
     .address-list .delete-submit {
         right: 70px;
     }
+}
+
+/**
+ * 收到模式下商品列表容器
+ */
+.manual-mode-goods-container li {
+    position: relative;
+}
+.manual-mode-goods-container li button.am-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 8px 25px 8px 15px;
+}
+
+/**
+ * 商品添加-搜索列表
+ */
+.goods-add-container {
+    height: 100%;
+}
+.forth-selection-container select.forth-selection-form-category {
+    display: -webkit-inline-box;
+}
+.forth-selection-container .forth-selection-form-category, .forth-selection-container .chosen-container, .forth-selection-container .forth-selection-form-keywords {
+    width: calc(50% - 48px) !important;
+}
+.forth-selection-container .chosen-container, .forth-selection-container .forth-selection-form-keywords {
+    display: -webkit-inline-box !important;
+}
+.forth-selection-container .chosen-single {
+    width: 100%;
+}
+.forth-selection-container .search-submit {
+    width: 87px;
+}
+.goods-list-container {
+    height: calc(100% - 92px);
+    border: 1px solid #eee;
+}
+.goods-list-container .am-gallery-bordered .am-gallery-title {
+    margin-top: 5px;
+}
+.goods-list-container ul li {
+    position: relative;
+    cursor: pointer;
+}
+.goods-list-container ul li:hover .am-gallery-item {
+    -webkit-box-shadow: 0 0 6px #3cb4f1;
+    box-shadow: 0 0 6px #3cb4f1;
+}
+.goods-list-container .icon-submit-container {
+    position: absolute;
+    right: 15px;
+    bottom: 47px;
+}
+.goods-list-container .icon-submit-container .am-icon-btn {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    font-size: 20px;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+.goods-list-container .am-icon-btn.am-success:hover {
+    background: #4CAF50;
+}
+.goods-list-container .am-icon-btn.am-danger:hover {
+    background: #F44336;
+}
+.goods-page-container {
+    height: 40px;
 }

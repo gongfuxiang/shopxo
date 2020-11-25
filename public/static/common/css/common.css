@@ -122,7 +122,7 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
 .am-popup-hd .am-full {
     position: absolute;
     right: 40px;
-    top: 11px;
+    top: 9px;
     cursor: pointer;
 }
 .am-popup-hd .am-full:hover {

@@ -1,0 +1,30 @@
+{{if !empty($second_nav_list) and is_array($second_nav_list)}}
+    <ul class="am-nav am-nav-pills table-nav second-nav">
+        {{foreach $second_nav_list as $v}}
+            <li {{if $nav_type eq $v['type']}}class="am-active"{{/if}} data-type="{{$v.type}}">
+                <a href="{{:MyUrl('admin/site/index', ['nav_type'=>$v['type'], 'view_type'=>$view_type])}}">{{$v.name}}</a>
+            </li>
+        {{/foreach}}
+    </ul>
+{{/if}}
+
+{{switch $nav_type}}
+    {{case login|forgetpwd}}
+        <!-- 登录/密码找回提示 -->
+        <div class="content">
+            <div class="am-alert am-alert-warning am-radius am-margin-bottom-0" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p class="am-text-xs">左侧图片最多可上传3张图片、每次随机展示其中一张</p>
+            </div>
+        </div>
+    {{/case}}
+    {{case register}}
+        <!-- 注册提示 -->
+        <div class="content">
+            <div class="am-alert am-alert-warning am-radius am-margin-bottom-0" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p class="am-text-xs">可自定义背景图片、默认底灰色</p>
+            </div>
+        </div>
+    {{/case}}
+{{/switch}}
