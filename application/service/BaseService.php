@@ -50,6 +50,7 @@ class BaseService
             'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
             'common_user_is_mandatory_bind_mobile'=> (int) MyC('common_user_is_mandatory_bind_mobile', 0),
             'common_user_is_onekey_bind_mobile' => (int) MyC('common_user_is_onekey_bind_mobile', 0),
+            'home_navigation_main_quick_status' => (int) MyC('home_navigation_main_quick_status', 0),
 
             // 订单相关
             'home_is_enable_order_bulk_pay'     => (int) MyC('home_is_enable_order_bulk_pay', 0),

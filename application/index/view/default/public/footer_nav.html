@@ -121,4 +121,6 @@
 {{/if}}
 
 <!-- 快捷导航 -->
-{{include file="public/quick" /}}
+{{if MyC('home_navigation_main_quick_status') eq 1}}
+	{{include file="public/quick" /}}
+{{/if}}

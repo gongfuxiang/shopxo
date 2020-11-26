@@ -2,6 +2,7 @@ const app = getApp();
 Component({
   data: {
     popup_status: false,
+    quick_status: 0,
     data_list: [],
     system: null,
     x: 0,
@@ -29,7 +30,10 @@ Component({
     // 初始化配置
     init_config(status) {
       if((status || false) == true) {
-        this.setData({ data_list: app.get_config('quick_nav') || [] });
+        this.setData({
+          data_list: app.get_config('quick_nav') || [],
+          quick_status: app.get_config('config.home_navigation_main_quick_status') || 0
+        });
       } else {
         app.is_config(this, 'init_config');
       }

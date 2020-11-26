@@ -67,14 +67,16 @@
             <!-- 右侧导航 -->
             <div class="am-topbar-right am-hide-sm-only">
                 <!-- 快捷百宝箱 -->
-                <div class="navigation-main-quick">
-                    <a href="javascript:;" class="am-block" data-am-modal="{target: '#left-main-quick-popup'}">
-                        <span class="am-icon-sliders icon"></span>
-                        <b class="am-block"></b>
-                        <p class="am-text-truncate name">{{:MyC('home_navigation_main_quick_name', '百宝箱', true)}}</p>
-                        <i class="am-icon-angle-down"></i>
-                    </a>
-                </div>
+                {{if MyC('home_navigation_main_quick_status') eq 1}}
+                    <div class="navigation-main-quick">
+                        <a href="javascript:;" class="am-block" data-am-modal="{target: '#left-main-quick-popup'}">
+                            <span class="am-icon-sliders icon"></span>
+                            <b class="am-block"></b>
+                            <p class="am-text-truncate name">{{:MyC('home_navigation_main_quick_name', '百宝箱', true)}}</p>
+                            <i class="am-icon-angle-down"></i>
+                        </a>
+                    </div>
+                {{/if}}
             </div>
         </div>
     </div>

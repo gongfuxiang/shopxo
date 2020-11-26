@@ -1,5 +1,5 @@
 <!-- 开启事件 -->
-<movable-area class="quick-nav-movable-container">
+<movable-area qq:if="{{quick_status == 1}}" class="quick-nav-movable-container">
   <movable-view direction="all" x="{{x}}" y="{{y}}" animation="{{false}}" class="quick-nav-event-submit" bindtap="quick_open_event">
     <image src="/images/quick-submit-icon.png" mode="widthFix"></image>
   </movable-view>
