@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\Db;
 use app\service\UserService;
+use app\service\AdminService;
 
 /**
  * 动态表格服务层
@@ -145,7 +146,7 @@ class FormTableService
         // 当前用户
         if($module_name == 'admin')
         {
-            $admin = session('admin');
+            $admin = AdminService::LoginInfo();
             $user_id = empty($admin['id']) ? 0 : $admin['id'];
             $user_type = 0;
         } else {

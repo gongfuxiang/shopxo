@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\Db;
 use app\service\UserService;
+use app\service\AdminService;
 
 /**
  * 问答/留言服务层
@@ -180,7 +181,7 @@ class AnswerService
     public static function AnswerSave($params = [])
     {
         // 是否开启登录留言,管理员登录状态可继续操作
-        if(MyC('common_is_login_answer') == 1 && session('admin') === null)
+        if(MyC('common_is_login_answer') == 1 && AdminService::LoginInfo() === null)
         {
             $user = UserService::LoginUserInfo();
             if(empty($user))

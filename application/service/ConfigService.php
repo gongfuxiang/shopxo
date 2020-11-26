@@ -35,6 +35,7 @@ class ConfigService
             'common_self_extraction_address',
             'home_index_floor_top_right_keywords',
             'home_index_floor_manual_mode_goods',
+            'home_index_floor_left_top_category',
         ];
 
     // 附件字段列表

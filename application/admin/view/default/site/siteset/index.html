@@ -12,7 +12,7 @@
         <!-- nav end -->
 
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'siteset'])}}" enctype="multipart/form-data">
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
             <!-- 基础 -->
             <div class="am-panel am-panel-default am-margin-top-sm">
                 <div class="am-panel-hd">
@@ -27,21 +27,35 @@
                             {{/foreach}}
                         </select>
                     </div>
+
                     <div class="am-form-group">
-                        <label>{{$data.home_index_floor_left_goods_category_max_count.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_left_goods_category_max_count.describe}}</span></label>
-                        <div class="am-input-group am-input-group-sm">
-                            <input type="number" min="0" name="{{$data.home_index_floor_left_goods_category_max_count.only_tag}}" placeholder="{{$data.home_index_floor_left_goods_category_max_count.name}}" data-validation-message="{{$data.home_index_floor_left_goods_category_max_count.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_index_floor_left_goods_category_max_count.value}}"{{/if}} />
-                            <span class="am-input-group-btn">
-                                <button class="am-btn am-btn-default" type="button">个</button>
-                          </span>
-                        </div>
-                        <div class="am-alert am-alert-warning" data-am-alert>
-                            <button type="button" class="am-close">&times;</button>
-                            <p>1. 配置每个楼层左侧最多展示多少个二级商品分类</p>
-                            <p>2. 不建议将数量修改的太大、如高度超出楼层容器会比较拥挤</p>
-                            <p>3. 商品分类显示层级配置不能小于2、否则二级分类不展示</p>
-                        </div>
+                        <label>{{$data.home_index_floor_left_top_category.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_left_top_category.describe}}</span></label>
+                        {{if !empty($goods_category_list)}}
+                            <ul class="am-list am-list-static am-list-border am-margin-bottom-0">
+                                {{foreach $goods_category_list as $category}}
+                                    <li>
+                                        <p class="am-text-truncate am-margin-bottom-xs">
+                                            <span>{{$category.name}}</span>
+                                            <span class="am-margin-left-sm form.am-form am-form-group-label-tips">{{$category.vice_name}}</span>
+                                        </p>
+                                        <select name="{{$data.home_index_floor_left_top_category.only_tag}}[{{$category.id}}]" class="am-radius chosen-select" multiple="multiple" data-placeholder="请选择..." data-validation-message="{{$data.home_index_floor_left_top_category.error_tips}}">
+                                            {{if !empty($category['items'])}}
+                                                {{foreach $category.items as $v}}
+                                                    <option value="{{$v.id}}" {{if !empty($category['config_category_ids']) and in_array($v['id'], $category['config_category_ids'])}}selected{{/if}}>{{$v.name}}</option>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        </select>
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                        {{else /}}
+                            <div class="am-text-center am-margin-top-lg">
+                                <i class="am-icon-warning"></i>
+                                <span>暂无数据，请先到 / 商品管理->商品分类、一级分类设置首页推荐</span>
+                            </div>
+                        {{/if}}
                     </div>
+
                     <div class="am-form-group">
                         <label>{{$data.home_index_floor_top_right_keywords.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_top_right_keywords.describe}}</span></label>
                         {{if !empty($goods_category_list)}}
@@ -135,7 +149,7 @@
                                         {{if !empty($floor_manual_mode_goods_list) && !empty($floor_manual_mode_goods_list[$category['id']])}}
                                             {{foreach $floor_manual_mode_goods_list[$category['id']] as $g}}
                                                 <li class="manual-mode-goods-item-{{$g.id}}">
-                                                    <input type="hidden" name="home_index_floor_manual_mode_goods[{{$category.id}}][]" value="{{$g.id}}" />
+                                                    <input type="hidden" name="{{$data.home_index_floor_manual_mode_goods.only_tag}}[{{$category.id}}][]" value="{{$g.id}}" />
                                                     <a href="{{$g.goods_url}}" target="_blank" class="am-text-truncate">
                                                         <img src="{{$g.images}}" alt="{{$g.title}}" class="am-fl am-margin-right-xs" width="20" height="20" />
                                                         <span>{{$g.title}}</span>
@@ -145,7 +159,7 @@
                                             {{/foreach}}
                                         {{/if}}
                                     </ul>
-                                    <span class="business-operations-submit goods-popup-add" data-tag=".manual-mode-goods-container-{{$category.id}}" data-form-name="home_index_floor_manual_mode_goods[{{$category.id}}][]">+添加商品</span>
+                                    <span class="business-operations-submit goods-popup-add" data-tag=".manual-mode-goods-container-{{$category.id}}" data-form-name="{{$data.home_index_floor_manual_mode_goods.only_tag}}[{{$category.id}}][]">+添加商品</span>
                                     </li>
                                 {{/foreach}}
                             </ul>
@@ -161,6 +175,7 @@
 
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <input type="hidden" name="view_type" value="{{$view_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>
         </form>

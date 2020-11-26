@@ -246,7 +246,7 @@ class Admin extends Common
 	public function LoginInfo()
 	{
 		// 是否已登录
-		if(session('admin') !== null)
+		if(AdminService::LoginInfo() !== null)
 		{
 			return redirect(MyUrl('admin/index/index'));
 		}
@@ -312,7 +312,7 @@ class Admin extends Common
 	 */
 	public function Logout()
 	{
-		session('admin', null);
+        AdminService::LoginLogout();
 		return redirect(MyUrl('admin/admin/logininfo'));
 	}
 }

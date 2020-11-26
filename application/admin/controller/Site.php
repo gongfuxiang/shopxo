@@ -95,10 +95,20 @@ class Site extends Common
             	$category = GoodsService::GoodsCategoryList(['where'=>$where]);
             	if(!empty($category))
             	{
+            		// 关键字
             		$floor_keywords = (empty($data['home_index_floor_top_right_keywords']) || empty($data['home_index_floor_top_right_keywords']['value'])) ? [] : json_decode($data['home_index_floor_top_right_keywords']['value'], true);
+            		// 分类
+            		$floor_category = (empty($data['home_index_floor_left_top_category']) || empty($data['home_index_floor_left_top_category']['value'])) ? [] : json_decode($data['home_index_floor_left_top_category']['value'], true);
             		foreach($category as &$c)
             		{
-            			$c['config_keywords'] = isset($floor_keywords[$c['id']]) ? $floor_keywords[$c['id']] : '';
+            			// 获取二级分类
+            			$c['items'] = GoodsService::GoodsCategoryList(['where'=>['pid'=>$c['id'], 'is_enable'=>1]]);
+
+            			// 配置的关键字
+            			$c['config_keywords'] = array_key_exists($c['id'], $floor_keywords) ? $floor_keywords[$c['id']] : '';
+
+            			// 配置左侧分类
+            			$c['config_category_ids'] = array_key_exists($c['id'], $floor_category) ? explode(',', $floor_category[$c['id']]) : [];
             		}
             	}
             	$this->assign('goods_category_list', $category);
@@ -257,14 +267,11 @@ class Site extends Common
 		// 参数
 		$params = $_POST;
 
-		// 导航
-		$nav_type = input('nav_type', 'base');
-
 		// 字段不存在赋空值
 		$field_list = [];
 
 		// 导航类型
-		switch($nav_type)
+		switch($this->nav_type)
 		{
 			// 用户注册
 			case 'register' :
@@ -312,10 +319,18 @@ class Site extends Common
 
 			// 网站设置
 			case 'siteset' :
-				// 楼层关键字
-				$params['home_index_floor_top_right_keywords'] = empty($params['home_index_floor_top_right_keywords']) ? '' : json_encode($params['home_index_floor_top_right_keywords'], JSON_UNESCAPED_UNICODE);
-				// 楼层自定义商品
-				$params['home_index_floor_manual_mode_goods'] = empty($params['home_index_floor_manual_mode_goods']) ? '' : json_encode($params['home_index_floor_manual_mode_goods'], JSON_UNESCAPED_UNICODE);
+				switch($this->view_type)
+				{
+					// 首页
+					case 'index' :
+						// 楼层关键字
+						$params['home_index_floor_top_right_keywords'] = empty($params['home_index_floor_top_right_keywords']) ? '' : json_encode($params['home_index_floor_top_right_keywords'], JSON_UNESCAPED_UNICODE);
+						// 楼层自定义商品
+						$params['home_index_floor_manual_mode_goods'] = empty($params['home_index_floor_manual_mode_goods']) ? '' : json_encode($params['home_index_floor_manual_mode_goods'], JSON_UNESCAPED_UNICODE);
+						// 楼层左侧分类
+						$params['home_index_floor_left_top_category'] = empty($params['home_index_floor_left_top_category']) ? '' : json_encode($params['home_index_floor_left_top_category'], JSON_UNESCAPED_UNICODE);
+						break;
+				}
 				break;
 
 			// 缓存
@@ -362,7 +377,7 @@ class Site extends Common
 		// 清除缓存
 		if($ret['code'] == 0)
 		{
-			switch($nav_type)
+			switch($this->nav_type)
 			{
 				// 登录
 				case 'login' :

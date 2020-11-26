@@ -205,7 +205,7 @@ function AdminIsPower($controller = null, $action = null, $unwanted_power = [])
     $action = strtolower(empty($action) ? request()->action() : $action);
 
     // 管理员
-    $admin = session('admin');
+    $admin = \app\service\AdminService::LoginInfo();
     if(!empty($admin))
     {
         // 不需要校验权限的方法

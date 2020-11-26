@@ -12,7 +12,7 @@
         <!-- nav end -->
 
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'siteset'])}}" enctype="multipart/form-data">
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
             <!-- 快捷导航 -->
             <div class="am-panel am-panel-default am-margin-top-sm">
                 <div class="am-panel-hd">
@@ -28,6 +28,7 @@
 
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <input type="hidden" name="view_type" value="{{$view_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>
         </form>

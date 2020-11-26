@@ -13,6 +13,7 @@ namespace app\admin\controller;
 use think\facade\Hook;
 use think\Controller;
 use app\module\FormHandleModule;
+use app\service\AdminService;
 use app\service\AdminPowerService;
 use app\service\ConfigService;
 use app\service\ResourcesService;
@@ -76,7 +77,7 @@ class Common extends Controller
         $this->SystemInit();
 
 		// 管理员信息
-		$this->admin = session('admin');
+		$this->admin = AdminService::LoginInfo();
 
 		// 权限菜单
 		AdminPowerService::PowerMenuInit();
@@ -184,7 +185,7 @@ class Common extends Controller
 	 */
 	protected function IsLogin()
 	{
-		if(session('admin') === null)
+		if($this->admin === null)
 		{
 			if(IS_AJAX)
 			{
@@ -192,7 +193,9 @@ class Common extends Controller
 			} else {
 				die('<script type="text/javascript">if(self.frameElement && self.frameElement.tagName == "IFRAME"){parent.location.reload();}else{window.location.href="'.MyUrl('admin/admin/logininfo').'";}</script>');
 			}
-		}
+		} else {
+            AdminService::LoginRefresh($this->admin);
+        }
 	}
 
 	/**

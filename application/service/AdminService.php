@@ -21,6 +21,9 @@ use think\Db;
  */
 class AdminService
 {
+    // admin登录session key
+    public static $admin_login_key = 'admin_login';
+
     /**
      * 管理员列表
      * @author   Devil
@@ -381,10 +384,10 @@ class AdminService
 
         // 校验成功
         // session存储
-        session('admin', $admin);
+        session(self::$admin_login_key, $admin);
 
         // 返回数据,更新数据库
-        if(session('admin') != null)
+        if(session(self::$admin_login_key) != null)
         {
             $login_salt = GetNumberCode(6);
             $data = array(
@@ -404,8 +407,48 @@ class AdminService
         }
 
         // 失败
-        session('admin', null);
+        session(self::$admin_login_key, null);
         return DataReturn('登录失败，请稍后再试！', -100);
+    }
+
+    /**
+     * 登录信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-26
+     * @desc    description
+     */
+    public static function LoginInfo()
+    {
+        return session(self::$admin_login_key);
+    }
+
+    /**
+     * 登录刷新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-26
+     * @desc    description
+     * @param   [array]          $admin [管理员登录信息]
+     */
+    public static function LoginRefresh($admin)
+    {
+        return session(self::$admin_login_key, $admin);
+    }
+
+    /**
+     * 登录退出
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-26
+     * @desc    description
+     */
+    public static function LoginLogout()
+    {
+        return session(self::$admin_login_key, null);
     }
 }
 ?>

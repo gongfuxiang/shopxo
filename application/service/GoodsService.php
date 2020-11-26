@@ -138,8 +138,11 @@ class GoodsService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 0;
 
+        // 排序
+        $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
+
         $field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc';
-        $data = Db::name('GoodsCategory')->field($field)->where($where)->order('sort asc')->limit($m, $n)->select();
+        $data = Db::name('GoodsCategory')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         return self::GoodsCategoryDataDealWith($data);
     }
 
@@ -196,18 +199,11 @@ class GoodsService
             $data = self::GoodsCategoryList(['where'=>$where]);
             if(!empty($data))
             {
-                // 分类层级
-                $level = MyC('common_show_goods_category_level', 3, true);
-                if($level > 1)
+                // 楼层左侧商品分类从配置中读取
+                $floor_left_top_category = MyC('home_index_floor_left_top_category');
+                if(!empty($floor_left_top_category))
                 {
-                    // 二级分类数量 
-                    $goods_category_count = MyC('home_index_floor_left_goods_category_max_count', 6, true);
-                    foreach($data as &$c)
-                    {
-                        // 获取二级分类
-                        $where['pid'] = $c['id'];
-                        $c['items'] = self::GoodsCategoryList(['where'=>$where, 'n'=>$goods_category_count]);
-                    }
+                    $floor_left_top_category = json_decode($floor_left_top_category, true);
                 }
 
                 // 楼层关键字从配置中读取
@@ -287,8 +283,16 @@ class GoodsService
                     // 商品数据、后面实时读取这里赋空值
                     $v['goods'] = [];
 
+                    // 楼层左侧分类
+                    if(!empty($floor_left_top_category) && !empty($floor_left_top_category[$v['id']]))
+                    {
+                        $v['items'] = self::GoodsCategoryList(['where'=>['id'=>explode(',', $floor_left_top_category[$v['id']])], 'm'=>0, 'n'=>0]);
+                    } else {
+                        $v['items'] = [];
+                    }
+
                     // 楼层关键字
-                    $v['config_keywords'] = empty($floor_keywords[$v['id']]) ? [] : explode(',', $floor_keywords[$v['id']]);
+                    $v['config_keywords'] = (empty($floor_keywords) || empty($floor_keywords[$v['id']])) ? [] : explode(',', $floor_keywords[$v['id']]);
                 }
             }
 
@@ -303,7 +307,7 @@ class GoodsService
             $goods_ids = [];
             foreach($data as $cg)
             {
-                if(!empty($cg['goods_ids']) & is_array($cg['goods_ids']))
+                if(!empty($cg['goods_ids']) && is_array($cg['goods_ids']))
                 {
                     $goods_ids = array_merge($goods_ids, $cg['goods_ids']);
                 }

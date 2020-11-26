@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\Db;
 use think\facade\Hook;
+use app\service\AdminService;
 
 /**
  * 权限菜单服务层
@@ -205,7 +206,7 @@ class AdminPowerService
     public static function PowerMenuInit()
     {
         // 基础参数
-        $admin = session('admin');
+        $admin = AdminService::LoginInfo();
         $admin_id = isset($admin['id']) ? intval($admin['id']) : 0;
         $role_id = isset($admin['role_id']) ? intval($admin['role_id']) : 0;
 
@@ -311,7 +312,7 @@ class AdminPowerService
      */
     public static function MenuData()
     {
-        $admin = session('admin');
+        $admin = AdminService::LoginInfo();
         if(!empty($admin['id']))
         {
             $data = cache(config('cache_admin_left_menu_key').$admin['id']);
@@ -339,7 +340,7 @@ class AdminPowerService
      */
     public static function PowerData()
     {
-        $admin = session('admin');
+        $admin = AdminService::LoginInfo();
         if(!empty($admin['id']))
         {
             $data = cache(config('cache_admin_power_key').$admin['id']);
