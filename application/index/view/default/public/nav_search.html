@@ -12,6 +12,20 @@
             </a>
         </div>
 
+        <!-- logo右侧 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_common_logo_right</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_common_logo_right_data) and is_array($plugins_view_common_logo_right_data)}}
+            {{foreach $plugins_view_common_search_right_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+
         <div class="search-bar">
             <form action="{{:MyUrl('index/search/index')}}" method="POST">
                 <div class="search-group">
@@ -30,6 +44,20 @@
                 {{/if}}
             </form>
         </div>
+
+        <!-- 公共搜索框右侧 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_common_search_right</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_common_search_right_data) and is_array($plugins_view_common_search_right_data)}}
+            {{foreach $plugins_view_common_search_right_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
     </div>
 </div>
 <!-- 搜索框 end -->

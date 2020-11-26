@@ -4,6 +4,20 @@
         <ul class="top-nav-left">
             <div class="top-nav-items">
                 <div class="menu-hd">
+                    <!-- 公共顶部小导航钩子-左侧前面 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_header_navigation_top_left_begin</span>
+                        </div>
+                    {{/if}}
+                    {{if !empty($plugins_view_header_navigation_top_left_begin_data) and is_array($plugins_view_header_navigation_top_left_begin_data) and (!isset($is_footer) or $is_footer eq 1)}}
+                        {{foreach $plugins_view_header_navigation_top_left_begin_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
+
                     {{if empty($user)}}
                         <em>您好，欢迎来到</em>
                         <em>{{:MyC('home_site_name')}}</em>
@@ -23,14 +37,14 @@
                         [<a href="{{:MyUrl('index/user/logout')}}">退出</a>]
                     {{/if}}
 
-                    <!-- 公共顶部小导航钩子-左侧 -->
+                    <!-- 公共顶部小导航钩子-左侧后面 -->
                     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                         <div class="plugins-tag">
-                            <span>plugins_view_header_navigation_top_left</span>
+                            <span>plugins_view_header_navigation_top_left_end</span>
                         </div>
                     {{/if}}
-                    {{if !empty($plugins_view_header_navigation_top_left_data) and is_array($plugins_view_header_navigation_top_left_data) and (!isset($is_footer) or $is_footer eq 1)}}
-                        {{foreach $plugins_view_header_navigation_top_left_data as $hook}}
+                    {{if !empty($plugins_view_header_navigation_top_left_end_data) and is_array($plugins_view_header_navigation_top_left_end_data) and (!isset($is_footer) or $is_footer eq 1)}}
+                        {{foreach $plugins_view_header_navigation_top_left_end_data as $hook}}
                             {{if is_string($hook) or is_int($hook)}}
                                 {{$hook|raw}}
                             {{/if}}
@@ -39,43 +53,75 @@
                 </div>
             </div>
         </ul>
+
         <ul class="top-nav-right">
-            {{foreach $common_nav_top_right_list as $nav}}
-                {{if empty($nav['items'])}}
-                    <div class="top-nav-items">
-                        <div class="menu-hd {{if isset($nav['is_login']) and $nav['is_login'] eq 1 and empty($user)}}login-event{{/if}}">
-                            <a href="{{if empty($user)}}javascript:;{{else /}}{{$nav.url}}{{/if}}" target="_top">
-                                <i class="am-icon-fw {{$nav.icon}}"></i>
-                                <span>{{$nav.name}}</span>
-                                {{if isset($nav['badge']) and $nav['badge'] gt -1}}
-                                    {{if $nav['badge'] gt 0}}
-                                        <strong class="am-badge am-badge-danger am-round common-cart-total">{{$nav.badge}}</strong>
-                                    {{else /}}
-                                        <strong class="common-cart-total am-round">{{$nav.badge}}</strong>
+            <!-- 公共顶部小导航钩子-右侧前面 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_header_navigation_top_right_begin</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_header_navigation_top_right_begin_data) and is_array($plugins_view_header_navigation_top_right_begin_data) and (!isset($is_footer) or $is_footer eq 1)}}
+                {{foreach $plugins_view_header_navigation_top_right_begin_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+
+            <!-- 右侧导航 -->
+            {{if !empty($common_nav_top_right_list) and is_array($common_nav_top_right_list)}}
+                {{foreach $common_nav_top_right_list as $nav}}
+                    {{if empty($nav['items'])}}
+                        <div class="top-nav-items">
+                            <div class="menu-hd {{if isset($nav['is_login']) and $nav['is_login'] eq 1 and empty($user)}}login-event{{/if}}">
+                                <a href="{{if empty($user)}}javascript:;{{else /}}{{$nav.url}}{{/if}}" target="_top">
+                                    <i class="am-icon-fw {{$nav.icon}}"></i>
+                                    <span>{{$nav.name}}</span>
+                                    {{if isset($nav['badge']) and $nav['badge'] gt -1}}
+                                        {{if $nav['badge'] gt 0}}
+                                            <strong class="am-badge am-badge-danger am-round common-cart-total">{{$nav.badge}}</strong>
+                                        {{else /}}
+                                            <strong class="common-cart-total am-round">{{$nav.badge}}</strong>
+                                        {{/if}}
                                     {{/if}}
-                                {{/if}}
-                            </a>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                {{else /}}
-                    <div class="top-nav-items">
-                        <div class="am-dropdown menu-hd" data-am-dropdown>
-                            <a class="am-dropdown-toggle" href="javascript:;" target="_top" data-am-dropdown-toggle>
-                                <i class="am-icon-fw {{$nav.icon}}"></i>
-                                <span>{{$nav.name}}</span>
-                                <i class="am-icon-angle-down"></i>
-                            </a>
-                            <ul class="am-dropdown-content">
-                                {{foreach $nav.items as $navs}}
-                                    <li class="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}login-event{{/if}}">
-                                        <a href="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}javascript:;{{else /}}{{$navs.url}}{{/if}}">{{$navs.name}}</a>
-                                    </li>
-                                {{/foreach}}
-                            </ul>
+                    {{else /}}
+                        <div class="top-nav-items">
+                            <div class="am-dropdown menu-hd" data-am-dropdown>
+                                <a class="am-dropdown-toggle" href="javascript:;" target="_top" data-am-dropdown-toggle>
+                                    <i class="am-icon-fw {{$nav.icon}}"></i>
+                                    <span>{{$nav.name}}</span>
+                                    <i class="am-icon-angle-down"></i>
+                                </a>
+                                <ul class="am-dropdown-content">
+                                    {{foreach $nav.items as $navs}}
+                                        <li class="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}login-event{{/if}}">
+                                            <a href="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}javascript:;{{else /}}{{$navs.url}}{{/if}}">{{$navs.name}}</a>
+                                        </li>
+                                    {{/foreach}}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                {{/if}}
-            {{/foreach}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+
+            <!-- 公共顶部小导航钩子-右侧后面 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_header_navigation_top_right_end</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_header_navigation_top_right_end_data) and is_array($plugins_view_header_navigation_top_right_end_data) and (!isset($is_footer) or $is_footer eq 1)}}
+                {{foreach $plugins_view_header_navigation_top_right_end_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
         </ul>
     </div>
 </div>

@@ -153,8 +153,17 @@ class Common extends Controller
         // 公共底部钩子
         $this->assign('plugins_view_common_bottom_data', Hook::listen('plugins_view_common_bottom', ['hook_name'=>'plugins_view_common_bottom', 'is_backend'=>false, 'user'=>$this->user]));
 
-        // 公共顶部小导航钩子-左侧
-        $this->assign('plugins_view_header_navigation_top_left_data', Hook::listen('plugins_view_header_navigation_top_left', ['hook_name'=>'plugins_view_header_navigation_top_left', 'is_backend'=>false, 'user'=>$this->user]));
+        // 公共顶部小导航钩子-左侧前面
+        $this->assign('plugins_view_header_navigation_top_left_begin_data', Hook::listen('plugins_view_header_navigation_top_left_begin', ['hook_name'=>'plugins_view_header_navigation_top_left_begin', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 公共顶部小导航钩子-左侧后面
+        $this->assign('plugins_view_header_navigation_top_left_end_data', Hook::listen('plugins_view_header_navigation_top_left_end', ['hook_name'=>'plugins_view_header_navigation_top_left_end', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 公共顶部小导航钩子-右侧前面
+        $this->assign('plugins_view_header_navigation_top_right_begin_data', Hook::listen('plugins_view_header_navigation_top_right_begin', ['hook_name'=>'plugins_view_header_navigation_top_right_begin', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 公共顶部小导航钩子-右侧后面
+        $this->assign('plugins_view_header_navigation_top_right_end_data', Hook::listen('plugins_view_header_navigation_top_right_end', ['hook_name'=>'plugins_view_header_navigation_top_right_end', 'is_backend'=>false, 'user'=>$this->user]));
 
         // 用户登录页面顶部钩子
         $this->assign('plugins_view_user_login_info_top_data', Hook::listen('plugins_view_user_login_info_top', ['hook_name'=>'plugins_view_user_login_info_top', 'is_backend'=>false, 'user'=>$this->user]));
@@ -170,6 +179,12 @@ class Common extends Controller
 
         // 底部导航上面钩子
         $this->assign('plugins_view_common_footer_top_data', Hook::listen('plugins_view_common_footer_top', ['hook_name'=>'plugins_view_common_footer_top', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // logo右侧
+        $this->assign('plugins_view_common_logo_right_data', Hook::listen('plugins_view_common_logo_right', ['hook_name'=>'plugins_view_common_logo_right', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 公共搜索框右侧
+        $this->assign('plugins_view_common_search_right_data', Hook::listen('plugins_view_common_search_right', ['hook_name'=>'plugins_view_common_search_right', 'is_backend'=>false, 'user'=>$this->user]));
 
         // 公共表格钩子名称动态处理
         $current = 'plugins_view_index_'.$this->controller_name;
