@@ -382,12 +382,11 @@ class AdminService
             return DataReturn('密码错误', -3);
         }
 
-        // 校验成功
-        // session存储
-        session(self::$admin_login_key, $admin);
+        // 种session
+        self::LoginSession($admin);
 
         // 返回数据,更新数据库
-        if(session(self::$admin_login_key) != null)
+        if(self::LoginInfo())
         {
             $login_salt = GetNumberCode(6);
             $data = array(
@@ -407,7 +406,7 @@ class AdminService
         }
 
         // 失败
-        session(self::$admin_login_key, null);
+        self::LoginLogout();
         return DataReturn('登录失败，请稍后再试！', -100);
     }
 
@@ -425,7 +424,7 @@ class AdminService
     }
 
     /**
-     * 登录刷新
+     * 登录种session
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -433,7 +432,7 @@ class AdminService
      * @desc    description
      * @param   [array]          $admin [管理员登录信息]
      */
-    public static function LoginRefresh($admin)
+    public static function LoginSession($admin)
     {
         return session(self::$admin_login_key, $admin);
     }

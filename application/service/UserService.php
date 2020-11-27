@@ -25,6 +25,9 @@ use app\service\ResourcesService;
  */
 class UserService
 {
+    // user登录session key
+    public static $user_login_key = 'user_login';
+
     /**
      * 获取用户登录信息
      * @author   Devil
@@ -43,7 +46,7 @@ class UserService
         if(APPLICATION == 'web')
         {
             // web用户session
-            $user = session('user');
+            $user = session(self::$user_login_key);
 
             // token仅小程序浏览器环境和api接口环境中有效
             if(empty($user) && !empty($params['token']) && in_array(MiniAppEnv(), config('shopxo.mini_app_type_list')))
@@ -413,8 +416,8 @@ class UserService
                 if($is_app == false)
                 {
                     // 存储session
-                    session('user', $user);
-                    return (session('user') !== null);
+                    session(self::$user_login_key, $user);
+                    return (session(self::$user_login_key) !== null);
                 }
             }
         }
@@ -1871,7 +1874,7 @@ class UserService
         $user = self::LoginUserInfo();
 
         // 清除session
-        session('user', null);
+        session(self::$user_login_key, null);
 
         // html代码
         $body_html = [];

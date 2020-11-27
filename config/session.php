@@ -39,8 +39,6 @@ if($common_session_is_use_cache == 1)
         'prefix'            => 'shopxo',
         // 驱动方式 支持redis memcache memcached
         'type'              => '',
-        // 过期时间(默认3600秒)
-        'expire'            => 3600,
         // 是否自动开启 SESSION
         'auto_start'        => true,
     ];

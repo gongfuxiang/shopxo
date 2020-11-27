@@ -193,9 +193,7 @@ class Common extends Controller
 			} else {
 				die('<script type="text/javascript">if(self.frameElement && self.frameElement.tagName == "IFRAME"){parent.location.reload();}else{window.location.href="'.MyUrl('admin/admin/logininfo').'";}</script>');
 			}
-		} else {
-            AdminService::LoginRefresh($this->admin);
-        }
+		}
 	}
 
 	/**
