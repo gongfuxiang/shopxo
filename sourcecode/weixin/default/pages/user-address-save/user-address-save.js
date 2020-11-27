@@ -26,6 +26,10 @@ Page({
     user_location: null,
 
     form_submit_disabled_status: false,
+
+    // 基础配置
+    home_user_address_map_status: 0,
+    home_user_address_idcard_status : 0,
   },
 
   onLoad(params) {
@@ -41,6 +45,9 @@ Page({
     }
     wx.setNavigationBarTitle({title: title});
 
+    // 初始化配置
+    this.init_config();
+
     // 清除位置缓存信息
     wx.removeStorage({key: this.data.user_location_cache_key});
     this.init();
@@ -50,6 +57,19 @@ Page({
     this.user_location_init();
   },
 
+  // 初始化配置
+  init_config(status) {
+    if((status || false) == true) {
+      this.setData({
+        home_user_address_map_status: app.get_config('config.home_user_address_map_status'),
+        home_user_address_idcard_status: app.get_config('config.home_user_address_idcard_status')
+      });
+    } else {
+      app.is_config(this, 'init_config');
+    }
+  },
+
+  // 获取数据
   init() {
     var user = app.get_user_info(this, "init");
     if (user != false) {

@@ -43,11 +43,11 @@
             <input type="text" name="address" value="{{address_data.address || ''}}" maxlength="80" placeholder-class="cr-ccc" class="cr-666" placeholder="详细地址格式 1~80 个字符之间" />
         </view>
 
-        <view class="form-gorup bg-white">
+        <view wx:if="{{home_user_address_map_status == 1}}" class="form-gorup bg-white">
             <view class="form-gorup-title">地理位置<text class="form-group-tips-must">必选</text></view>
             <view bindtap="choose_location_event" class="form-gorup-text">
-            <view wx:if="{{(user_location || null) == null && (address_data.address || null) == null}}" class="cr-888">请选择地理位置</view>
-            <view wx:else class="cr-666">{{((user_location || null) != null && (user_location.name || null) != null) ? user_location.name+' ' : ''}}{{user_location.address || address_data.address || ''}}</view>
+                <view wx:if="{{(user_location || null) == null && (address_data.address || null) == null}}" class="cr-888">请选择地理位置</view>
+                <view wx:else class="cr-666">{{((user_location || null) != null && (user_location.name || null) != null) ? user_location.name+' ' : ''}}{{user_location.address || address_data.address || ''}}</view>
             </view>
         </view>
 
@@ -59,7 +59,7 @@
         </view>
 
         <!-- 身份证信息 -->
-        <view class="idcard-container">
+        <view wx:if="{{home_user_address_idcard_status == 1}}" class="idcard-container">
             <view class="form-gorup bg-white">
                 <view class="form-gorup-title">身份证姓名<text class="form-group-tips">选填，请务必与上传的身份证件姓名保持一致</text></view>
                 <input type="text" name="idcard_name" value="{{address_data.idcard_name || ''}}" maxlength="16" placeholder-class="cr-ccc" class="cr-666" placeholder="身份证姓名格式 2~16 个字符之间" />

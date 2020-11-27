@@ -124,7 +124,7 @@ Page({
           this.setData({
             user_order_status_list: temp_user_order_status_list,
             avatar: ((data.avatar || null) != null) ? data.avatar : ((this.data.avatar || null) == null ? app.data.default_user_head_src : this.data.avatar),
-            nickname: (data.nickname != null) ? data.nickname : this.data.nickname,
+            nickname: ((data.nickname || null) != null) ? data.nickname : this.data.nickname,
             message_total: ((data.common_message_total || 0) == 0) ? 0 : data.common_message_total,
             head_nav_list: temp_head_nav_list,
             navigation: data.navigation || [],

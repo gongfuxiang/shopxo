@@ -346,6 +346,8 @@ class UserAddressService
         // 操作数据
         $is_default = isset($params['is_default']) ? intval($params['is_default']) : 0;
         $data = [
+            'alias'             => empty($params['alias']) ? '' : $params['alias'],
+            'address'           => $params['address'],
             'name'              => $params['name'],
             'tel'               => $params['tel'],
             'province'          => intval($params['province']),
@@ -358,10 +360,6 @@ class UserAddressService
             'idcard_back'       => $attachment['data']['idcard_back'],
             'is_default'        => $is_default,
         ];
-        if(!empty($params['alias']))
-        {
-            $data['alias'] = $params['alias'];
-        }
         if(!empty($params['lng']))
         {
             $data['lng'] = floatval($params['lng']);
