@@ -60,7 +60,7 @@ class Order extends Common
             'total'     =>  $total,
             'where'     =>  $this->data_request,
             'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/order/index'),
+            'url'       =>  MyUrl('index/order/index'),
         ];
         $page = new \base\Page($page_params);
 
