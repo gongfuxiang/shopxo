@@ -65,13 +65,6 @@
 /**
  * 规格
  */
-.specifications-table .title-nav th,
-.spec-quick table thead th,
-.parameters-table thead th {
-    background-color: #f5f7fa;
-    position: relative;
-    border-bottom: 0 !important;
-}
 .specifications-table .title-nav th input {
     width: calc(100% - 25px);
 }
@@ -198,14 +191,4 @@ ul li {
     .spec-quick-td-value .value-item {
         width: calc(50% - 12px) !important;
     }
-}
-
-/**
- * 商品参数
- */
-#goods-nav-parameters textarea {
-    resize: none;
-}
-#parameters-quick-container .am-dropdown-content {
-    width: 260px;
 }

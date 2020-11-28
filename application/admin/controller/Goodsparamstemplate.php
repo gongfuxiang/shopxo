@@ -11,25 +11,26 @@
 namespace app\admin\controller;
 
 use think\facade\Hook;
-use app\service\BrandService;
-use app\service\BrandCategoryService;
+use app\service\GoodsParamsTemplateService;
 
 /**
- * 品牌管理
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2016-12-01T21:51:08+0800
+ * 商品参数管理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-11-27
+ * @desc    description
  */
-class Brand extends Common
+class GoodsParamsTemplate extends Common
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
+     * 构造方法
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-27
+     * @desc    description
+     */
 	public function __construct()
 	{
 		// 调用父类前置方法
@@ -43,16 +44,17 @@ class Brand extends Common
 	}
 
 	/**
-     * [Index 品牌列表]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
+     * 列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-27
+     * @desc    description
      */
 	public function Index()
 	{
         // 总数
-        $total = BrandService::BrandTotal($this->form_where);
+        $total = GoodsParamsTemplateService::GoodsParamsTemplateTotal($this->form_where);
 
         // 分页
         $page_params = [
@@ -60,7 +62,7 @@ class Brand extends Common
             'total'     =>  $total,
             'where'     =>  $this->data_request,
             'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/brand/index'),
+            'url'       =>  MyUrl('admin/goodsparamstemplate/index'),
         ];
         $page = new \base\Page($page_params);
 
@@ -71,7 +73,7 @@ class Brand extends Common
             'n'             => $this->page_size,
             'order_by'      => $this->form_order_by['data'],
         ];
-        $ret = BrandService::BrandList($data_params);
+        $ret = GoodsParamsTemplateService::GoodsParamsTemplateList($data_params);
 
         // 基础参数赋值
         $this->assign('params', $this->data_request);
@@ -82,10 +84,11 @@ class Brand extends Common
 
     /**
      * 详情
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-08-05T08:21:54+0800
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-27
+     * @desc    description
      */
     public function Detail()
     {
@@ -102,19 +105,26 @@ class Brand extends Common
                 'n'             => 1,
                 'where'         => $where,
             ];
-            $ret = BrandService::BrandList($data_params);
+            $ret = GoodsParamsTemplateService::GoodsParamsTemplateList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
             $this->assign('data', $data);
+
+            // 商品参数类型
+            $this->assign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));
+
+            // 参数配置
+            $this->assign('parameters', empty($data['config_data']) ? [] : $data['config_data']);
         }
         return $this->fetch();
     }
 
     /**
-     * [SaveInfo 添加/编辑页面]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-14T21:37:02+0800
+     * 添加/编辑页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-27
+     * @desc    description
      */
     public function SaveInfo()
     {
@@ -132,19 +142,18 @@ class Brand extends Common
                 'where' => ['id'=>intval($params['id'])],
                 'field' => '*',
             );
-            $ret = BrandService::BrandList($data_params);
+            $ret = GoodsParamsTemplateService::GoodsParamsTemplateList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
 
-        // 是否启用
-        $this->assign('common_is_enable_list', lang('common_is_enable_list'));
+        // 商品参数类型
+        $this->assign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));
 
-        // 品牌分类
-		$brand_category = BrandCategoryService::BrandCategoryList(['field'=>'id,name']);
-		$this->assign('brand_category', $brand_category['data']);
+        // 参数配置
+        $this->assign('parameters', empty($data['config_data']) ? [] : $data['config_data']);
 
         // 编辑页面钩子
-        $hook_name = 'plugins_view_admin_brand_save';
+        $hook_name = 'plugins_view_admin_goods_params_template_save';
         $this->assign($hook_name.'_data', Hook::listen($hook_name,
         [
             'hook_name'     => $hook_name,
@@ -154,9 +163,6 @@ class Brand extends Common
             'params'        => &$params,
         ]));
 
-        // 编辑器文件存放地址
-        $this->assign('editor_path_type', 'brand');
-
         // 数据
         $this->assign('data', $data);
         $this->assign('params', $params);
@@ -164,12 +170,13 @@ class Brand extends Common
     }
 
 	/**
-	 * [Save 品牌保存]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-25T22:36:12+0800
-	 */
+     * 保存
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-27
+     * @desc    description
+     */
 	public function Save()
 	{
 		// 是否ajax请求
@@ -180,16 +187,17 @@ class Brand extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return BrandService::BrandSave($params);
+        return GoodsParamsTemplateService::GoodsParamsTemplateSave($params);
 	}
 
 	/**
-	 * [Delete 品牌删除]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-25T22:36:12+0800
-	 */
+     * 删除
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-27
+     * @desc    description
+     */
 	public function Delete()
 	{
 		// 是否ajax请求
@@ -201,15 +209,16 @@ class Brand extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return BrandService::BrandDelete($params);
+        return GoodsParamsTemplateService::GoodsParamsTemplateDelete($params);
 	}
 
-	/**
-     * [StatusUpdate 状态更新]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-01-12T22:23:06+0800
+    /**
+     * 状态更新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-11-27
+     * @desc    description
      */
     public function StatusUpdate()
     {
@@ -221,7 +230,7 @@ class Brand extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return BrandService::BrandStatusUpdate($params);
+        return GoodsParamsTemplateService::GoodsParamsTemplateStatusUpdate($params);
     }
 }
 ?>

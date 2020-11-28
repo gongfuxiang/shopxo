@@ -592,3 +592,23 @@ table.am-table .am-btn-danger:hover {
 .second-nav li.am-active a {
     background-color: #1cc09f !important;
 }
+
+
+/**
+ * 表格头部美化
+ */
+.table-thead-beautify thead th {
+    background-color: #f5f7fa;
+    position: relative;
+    border-bottom: 0 !important;
+}
+
+/**
+ * 商品参数
+ */
+#parameters-quick-copy-modal textarea {
+    resize: none;
+}
+#parameters-quick-container .am-dropdown-content {
+    width: 260px;
+}

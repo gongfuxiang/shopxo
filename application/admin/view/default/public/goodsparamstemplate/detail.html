@@ -1,0 +1,24 @@
+{{if !empty($parameters) and is_array($parameters)}}
+    <div class="am-scrollable-vertical am-scrollable-horizontal">
+        <table class="am-table am-table-bordered am-table-striped am-text-nowrap">
+            <thead>
+                <tr>
+                    <th>展示范围</th>
+                    <th>参数名称</th>
+                    <th>参数值</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{foreach $parameters as $v}}
+                    <tr>
+                        <td class="am-text-middle">{{if isset($common_goods_parameters_type_list[$v['type']])}}{{$common_goods_parameters_type_list[$v['type']]['name']}}{{/if}}</td>
+                        <td class="am-text-middle">{{$v.name}}</td>
+                        <td class="am-text-middle">{{$v.value}}</td>
+                    </tr>
+                {{/foreach}}
+            </tbody>
+        </table>
+    </div>
+{{else /}}
+    {{include file="public/not_data" /}}
+{{/if}}

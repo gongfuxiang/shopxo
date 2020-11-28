@@ -51,16 +51,8 @@ class BrandService
             {
                 $cnames = Db::name('BrandCategory')->where(['id'=>$cids])->column('name', 'id');
             }
-
-            $common_is_enable_tips = lang('common_is_enable_tips');
             foreach($data as &$v)
             {
-                // 是否启用
-                if(isset($v['is_enable']))
-                {
-                    $v['is_enable_text'] = $common_is_enable_tips[$v['is_enable']]['name'];
-                }
-
                 // 分类名称
                 if(isset($v['id']))
                 {
@@ -271,7 +263,7 @@ class BrandService
             'is_backend'    => true,
             'params'        => &$params,
             'data'          => &$data,
-            'brand_id'      => isset($params['id']) ? intval($params['id']) : 0,
+            'data_id'       => isset($params['id']) ? intval($params['id']) : 0,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {

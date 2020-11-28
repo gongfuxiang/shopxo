@@ -191,7 +191,7 @@
 					<span class="business-operations-submit quick-spec-title-add">+快捷操作</span>
 					<span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created">生成规格</span>
 					<div class="goods-specifications business-form-group" {{if empty($data['spec_base'])}}style="display: none;"{{/if}}>
-						<table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover">
+						<table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover table-thead-beautify">
 							<thead>
 								<tr>
 									<th class="spec-quick-th-title">规格名</th>
@@ -285,7 +285,7 @@
 					</div>
 
 					<!-- 规格列表 -->
-					<table class="am-table am-table-bordered am-table-centered specifications-table am-margin-bottom-sm am-table-striped am-table-hover">
+					<table class="am-table am-table-bordered am-table-centered specifications-table am-margin-bottom-sm am-table-striped am-table-hover table-thead-beautify">
 						<thead class="title-nav">
 							<tr>
 								{{if !empty($specifications['type'])}}
@@ -432,15 +432,7 @@
 			<!-- 参数 -->
 			<div id="goods-nav-parameters" class="division-block">
 				<label class="block nav-detail-title">商品参数</label>
-				<div class="am-alert am-alert-warning am-radius" data-am-alert="">
-					<p>1. 展示范围</p>
-					<div class="am-padding-left-sm">
-						<p>1.1 全部（在商品基础信息和详情参数下都展示）</p>
-						<p>1.2 详情（仅在商品详情参数下都展示）</p>
-						<p>1.3 基础（仅在商品基础信息下都展示）</p>
-					</div>
-					<p>2. 快捷操作将会清除原来的数据、重载页面便可恢复原来的数据（仅保存商品后生效）</p>
-				</div>
+				{{include file="public/goodsparamstemplate/tips" /}}
 				<!-- 通过配置生成商品参数 -->
 				<div class="am-dropdown" id="parameters-quick-container" data-am-dropdown>
 					<span class="business-operations-submit am-dropdown-toggle parameters-quick-add">
@@ -448,6 +440,16 @@
 						<i class="am-icon-caret-down"></i>
 					</span>
 					<div class="am-dropdown-content parameters-quick-config">
+						<div class="am-margin-bottom-sm">
+							<select class="am-radius chosen-select goods-template-params-select" data-placeholder="请选择模板..." data-validation-message="选择商品参数模板">
+								{{if !empty($goods_template_list) and is_array($goods_template_list)}}
+									<option value="">请选择模板...</option>
+									{{foreach $goods_template_list as $v}}
+										<option value="{{:urlencode(json_encode($v['config_data'], JSON_UNESCAPED_UNICODE))}}">{{$v.name}}</option>
+									{{/foreach}}
+								{{/if}}
+							</select>
+						</div>
 						<textarea rows="5" placeholder="粘贴商品参数配置信息"></textarea>
 						<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block am-margin-top-sm">确认</button>
 					</div>
@@ -475,47 +477,7 @@
 					<i class="am-icon-times"></i>
 					<span>清空参数</span>
 				</span>
-				<div class="parameters-content business-form-group am-form-group-refreshing am-padding-top-0 am-margin-top-sm">
-					<table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover am-margin-bottom-sm parameters-table">
-						<thead>
-							<tr>
-								<th class="spec-quick-th-title">展示范围</th>
-								<th class="spec-quick-th-title">参数名称</th>
-								<th class="spec-quick-th-value">参数值</th>
-								<th class="spec-quick-th-value">操作</th>
-							</tr>
-						</thead>
-						<tbody>
-							{{if !empty($parameters)}}
-								{{foreach $parameters as $pv}}
-									<tr>
-										<td class="am-text-middle">
-											<select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="请选择商品参数展示类型">
-												{{if !empty($common_goods_parameters_type_list)}}
-													{{foreach $common_goods_parameters_type_list as $v}}
-														<option value="{{$v.value}}" {{if $pv['type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-													{{/foreach}}
-												{{/if}}
-											</select>
-										</td>
-										<td class="am-text-middle">
-											<input type="text" name="parameters_name[]" placeholder="参数名称" value="{{$pv.name}}" data-validation-message="请填写参数名称" maxlength="160" required />
-										</td>
-										<td class="am-text-middle">
-											<input type="text" name="parameters_value[]" placeholder="参数值" value="{{$pv.value}}" maxlength="200" data-validation-message="请填写参数值" />
-										</td>
-										<td class="am-text-middle">
-											<span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="top">上移</span>
-											<span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="bottom">下移</span>
-											<span class="am-text-xs cr-red c-p line-remove">移除</span>
-										</td>
-									</tr>
-								{{/foreach}}
-							{{/if}}
-						</tbody>
-					</table>
-					<span class="business-operations-submit parameters-line-add">+添加一行</span>
-				</div>
+				{{include file="public/goodsparamstemplate/table" /}}
 			</div>
 
 			<!-- 相册 -->

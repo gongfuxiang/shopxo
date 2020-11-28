@@ -16,6 +16,7 @@ use app\service\ResourcesService;
 use app\service\BrandService;
 use app\service\RegionService;
 use app\service\WarehouseGoodsService;
+use app\service\GoodsParamsTemplateService;
 
 /**
  * 商品服务层
@@ -1152,7 +1153,7 @@ class GoodsService
             }
 
             // 商品参数
-            $ret = self::GoodsParametersInsert($params, $goods_id);
+            $ret = self::GoodsParamsInsert($params, $goods_id);
             if($ret['code'] != 0)
             {
                 throw new \Exception($ret['msg']);
@@ -1196,38 +1197,26 @@ class GoodsService
      * @param   [array]             $params   [输入参数]
      * @param   [int]               $goods_id [商品id]
      */
-    public static function GoodsParametersInsert($params, $goods_id)
+    public static function GoodsParamsInsert($params, $goods_id)
     {
         // 删除商品参数
         Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->delete();
 
-        // 展示范围、参数名称、参数值
-        if(!empty($params['parameters_type']) && !empty($params['parameters_name']) && !empty($params['parameters_value']) && is_array($params['parameters_type']) && is_array($params['parameters_name']) && is_array($params['parameters_value']))
+        // 获取参数解析并添加
+        $config = GoodsParamsTemplateService::GoodsParamsTemplateHandle($params);
+        if($config['code'] == 0 && !empty($config['data']))
         {
-            $data = [];
-            $time = time();
-            foreach($params['parameters_type'] as $k=>$v)
+            foreach($config['data'] as &$v)
             {
-                if(isset($params['parameters_name'][$k]) && isset($params['parameters_value'][$k]))
-                {
-                    $data[] = [
-                        'type'      => $v,
-                        'name'      => $params['parameters_name'][$k],
-                        'value'     => $params['parameters_value'][$k],
-                        'goods_id'  => $goods_id,
-                        'add_time'  => $time,
-                    ];
-                }
+                $v['goods_id'] = $goods_id;
+                $v['add_time'] = time();
             }
-            if(!empty($data))
+            if(Db::name('GoodsParams')->insertAll($config['data']) < count($config['data']))
             {
-                if(Db::name('GoodsParams')->insertAll($data) < count($data))
-                {
-                    return DataReturn('规格参数添加失败', -1);
-                }
+                return DataReturn('规格参数添加失败', -1);
             }
         }
-        return DataReturn('添加成功', 0);
+        return DataReturn('操作成功', 0);
     }
 
     /**

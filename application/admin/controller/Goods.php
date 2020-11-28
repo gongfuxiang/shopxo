@@ -14,6 +14,7 @@ use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\RegionService;
 use app\service\BrandService;
+use app\service\GoodsParamsTemplateService;
 
 /**
  * 商品管理
@@ -199,6 +200,19 @@ class Goods extends Common
 
         // 商品参数类型
         $this->assign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));
+
+        // 商品参数模板
+        $data_params = array(
+            'm'     => 0,
+            'n'     => 0,
+            'where' => [
+                ['is_enable', '=', 1],
+                ['config_count', '>', 0],
+            ],
+            'field' => 'id,name',
+        );
+        $template = GoodsParamsTemplateService::GoodsParamsTemplateList($data_params);
+        $this->assign('goods_template_list', $template['data']);
 
         // 是否拷贝
         $this->assign('is_copy', (isset($params['is_copy']) && $params['is_copy'] == 1) ? 1 : 0);
