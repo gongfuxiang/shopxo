@@ -27,7 +27,7 @@ class Page
 	private $page_total;
 	private $url;
 	private $html;
-	private $page_start_tag;
+	private $page_join;
 
 	/**
 	 * [__construct description]
@@ -84,9 +84,9 @@ class Page
 					}
 				}
 			}
-			$this->page_start_tag = ($tmp == false) ? '&' : (($state === false) ? '?' : '&');
+			$this->page_join = ($tmp == false) ? '&' : (($state === false) ? '?' : '&');
 		} else {
-			$this->page_start_tag = ($state === false) ? '?' : '&';
+			$this->page_join = ($state === false) ? '?' : '&';
 		}
 	}
 
@@ -100,22 +100,26 @@ class Page
 
 		$this->html .= '<ul class="am-pagination am-pagination-centered">';
 		$this->html .= '<li '.$before_disabled.'>';
-		$this->html .= '<a href="'.$this->url.$this->page_start_tag.'page=1" class="am-radius am-icon-angle-double-left"></a>';
+		$this->html .= '<a href="'.$this->url.$this->page_join.'page=1" class="am-radius am-icon-angle-double-left"></a>';
 		$this->html .= '</li>';
 
 		$this->html .= '<li '.$before_disabled.'>';
-		$this->html .= '<a href="'.$this->url.$this->page_start_tag.'page='.($this->page-1).'" class="am-radius am-icon-angle-left"></a>';
+		$this->html .= '<a href="'.$this->url.$this->page_join.'page='.($this->page-1).'" class="am-radius am-icon-angle-left"></a>';
 		$this->html .= '</li>';
 
 		$this->html .= $this->GetButtonNumberHtml();
 
 		$this->html .= '<li '.$after_disabled.'>';
-		$this->html .= '<a href="'.$this->url.$this->page_start_tag.'page='.($this->page+1).'" class="am-radius am-icon-angle-right"></a>';
+		$this->html .= '<a href="'.$this->url.$this->page_join.'page='.($this->page+1).'" class="am-radius am-icon-angle-right"></a>';
 		$this->html .= '</li>';
 
 		$this->html .= '<li '.$after_disabled.'>';
-		$this->html .= '<a href="'.$this->url.$this->page_start_tag.'page='.$this->page_total.'" class="am-radius am-icon-angle-double-right"></a>';
+		$this->html .= '<a href="'.$this->url.$this->page_join.'page='.$this->page_total.'" class="am-radius am-icon-angle-double-right"></a>';
 		$this->html .= '</li>';
+
+		$this->html .= '&nbsp;&nbsp;&nbsp;<span>跳转到</span>';
+		$this->html .= '<input type="text" min="1" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs pagination-input" value="'.$this->page.'" onchange="window.location.href=\''.$this->url.$this->page_join.'page=\'+(isNaN(parseInt(this.value)) ? 1 : parseInt(this.value) || 1);" onclick="this.select()" />';
+		$this->html .= '<span>页</span>';
 
 		$this->html .= '<div>';
 		$this->html .= '<span>共 '.$this->total.' 条数据</span>';
@@ -143,7 +147,7 @@ class Page
 				$total = ($this->page-$this->bt_number < 1) ? 1 : $this->page-$this->bt_number;
 				for($i=$this->page-1; $i>=$total; $i--)
 				{
-					$html_before = '<li><a href="'.$this->url.$this->page_start_tag.'page='.$i.'" class="am-radius">'.$i.'</a></li>'.$html_before;
+					$html_before = '<li><a href="'.$this->url.$this->page_join.'page='.$i.'" class="am-radius">'.$i.'</a></li>'.$html_before;
 				}
 			}
 
@@ -153,7 +157,7 @@ class Page
 				$total = ($this->page+$this->bt_number > $this->page_total) ? $this->page_total : $this->page+$this->bt_number;
 				for($i=$this->page+1; $i<=$total; $i++)
 				{
-					$html_after .= '<li><a href="'.$this->url.$this->page_start_tag.'page='.$i.'" class="am-radius">'.$i.'</a></li>';
+					$html_after .= '<li><a href="'.$this->url.$this->page_join.'page='.$i.'" class="am-radius">'.$i.'</a></li>';
 				}
 			}
 		}

@@ -750,3 +750,11 @@ button.colorpicker-submit img {
     background: transparent;
     color: #dd514c;
 }
+
+/**
+ * 分页
+ */
+.pagination-input {
+    width: 50px;
+    vertical-align: inherit !important;
+}
