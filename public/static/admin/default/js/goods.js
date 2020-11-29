@@ -98,7 +98,7 @@ $(function()
         // title
         var index = parseInt(Math.random()*1000001);
         html = '<th class="table-title table-title-'+index+'">';
-        html += '<i class="am-close am-close-spin title-nav-remove" data-index="'+index+'">&times;</i>';
+        html += '<i class="am-close title-nav-remove" data-index="'+index+'">&times;</i>';
         html += '<input type="text" name="specifications_name_'+index+'" placeholder="规格名" class="am-radius" data-validation-message="请填写规格名" required />';
         html += '</th>';
         $('.title-start').before(html);
@@ -631,7 +631,7 @@ $(function()
                     var index = parseInt(Math.random()*1000001);
                     // title
                     html = '<th class="table-title table-title-'+index+'">';
-                    html += '<i class="am-close am-close-spin title-nav-remove" data-index="'+index+'">&times;</i>';
+                    html += '<i class="am-close title-nav-remove" data-index="'+index+'">&times;</i>';
                     html += '<input type="text" name="specifications_name_'+index+'" value="'+spec[i]['title']+'" placeholder="规格名" class="am-radius" data-validation-message="请填写规格名" required />';
                     html += '</th>';
                     $('.title-start').before(html);

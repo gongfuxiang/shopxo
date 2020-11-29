@@ -211,7 +211,7 @@
 													{{foreach $spec_base.value as $value}}
 														<div class="am-fl am-margin-xs value-item">
 															<input type="text" class="am-fl" name="spec_base_value_{{$spec_base_key}}[]" value="{{$value}}" placeholder="规格值" />
-															<i class="am-close am-close-spin quick-value-remove">×</i>
+															<i class="am-close quick-value-remove">×</i>
 														</div>
 													{{/foreach}}
 												{{/if}}
@@ -291,7 +291,7 @@
 								{{if !empty($specifications['type'])}}
 									{{foreach $specifications.type as $type_v}}
 										<th class="table-title table-title-{{$type_v.id}}">
-											<i class="am-close am-close-spin title-nav-remove" data-index="{{$type_v.id}}">×</i>
+											<i class="am-close title-nav-remove" data-index="{{$type_v.id}}">×</i>
 											<input type="text" name="specifications_name_{{$type_v.id}}" placeholder="规格名" value="{{$type_v.name}}" data-validation-message="请填写规格名" required />
 										</th>
 									{{/foreach}}
