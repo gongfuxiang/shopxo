@@ -60,10 +60,6 @@ function FormTableHeightHandle()
     {
         // 页面右侧总内容容器高度
         var height = $('.content-right .content-top').outerHeight(true) || 0;
-        if(height > 0)
-        {
-            height += 10;
-        }
         $('.content-right').css('height', 'calc(100% - '+height+'px)');
 
         // 内容高度
