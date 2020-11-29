@@ -1,4 +1,4 @@
-<ul class="am-nav am-nav-pills table-nav am-margin-bottom-sm">
+<ul class="am-nav am-nav-pills table-nav second-nav">
 	<li {{if $nav_type eq 'sms'}}class="am-active"{{/if}} data-type="sms">
 		<a href="{{:MyUrl('admin/sms/index', ['type'=>'sms'])}}">短信设置</a>
 	</li>
@@ -7,7 +7,7 @@
 	</li>
 </ul>
 
-<div class="am-alert am-alert-warning am-radius" data-am-alert>
+<div class="am-alert am-alert-warning am-radius am-margin-bottom-0" data-am-alert>
     <button type="button" class="am-close">&times;</button>
     <p class="am-text-xs">阿里云短信管理地址 <a href="https://www.aliyun.com/acts/alicomcloud/new-discount?userCode=iub0dy6g" class="am-margin-left-sm" target="_blank">点击去阿里云购买短信 <i class="am-icon-external-link"></i></a> </p>
 </div>

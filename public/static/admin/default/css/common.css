@@ -612,3 +612,19 @@ table.am-table .am-btn-danger:hover {
 #parameters-quick-container .am-dropdown-content {
     width: 260px;
 }
+
+/**
+ * 动态数据列表
+ */
+.content-right,
+.form-table-content {
+    height: 100%;
+}
+.form-validation-search {
+    height: calc(100% - 85px);
+}
+.am-table-scrollable-horizontal {
+    max-height: calc(100% - 50px);
+    overflow-x: auto;
+    overflow-y: auto;
+}

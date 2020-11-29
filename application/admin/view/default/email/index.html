@@ -2,11 +2,11 @@
 
 <!-- right content start  -->
 <div class="content-right">
+	<!-- table nav start -->
+	{{include file="email/nav"" /}}
+	<!-- table nav end -->
+
 	<div class="content">
-		<!-- table nav start -->
-		{{include file="email/nav" /}}
-		<!-- table nav end -->
-		
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/email/index', ['type'=>'email'])}}">
 			<div class="am-form-group">

@@ -45,6 +45,40 @@ function ParametersItemHtmlCreated(type, name, value)
     });
 }
 
+/**
+ * 动态数据表格高度处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-11-29
+ * @desc    description
+ */
+function FormTableHeightHandle()
+{
+    // 表格内容
+    if($('.am-table-scrollable-horizontal').length > 0)
+    {
+        // 页面右侧总内容容器高度
+        var height = $('.content-right .content-top').outerHeight(true) || 0;
+        if(height > 0)
+        {
+            height += 10;
+        }
+        $('.content-right').css('height', 'calc(100% - '+height+'px)');
+
+        // 内容高度
+        var height_top = $('.form-table-operate-top').outerHeight(true) || 0;
+        var height_bottom = $('.form-table-operate-bottom').outerHeight(true) || 0;
+        $('.am-table-scrollable-horizontal').css('max-height', 'calc(100% - '+(height_top+height_bottom)+'px)');
+    }
+    // 表格内容外围高度
+    if($('.form-validation-search').length > 0)
+    {
+        var height = $('.form-table-content .am-pagination').outerHeight(true) || 0;
+        $('.form-validation-search').css('height', 'calc(100% - '+height+'px)');
+    }
+}
+
 $(function()
 {
     // 商品参数添加
@@ -186,4 +220,14 @@ $(function()
     {
         $parameters_table.find('tbody').html('');
     });
+
+
+    // 浏览器窗口实时事件
+    $(window).resize(function()
+    {
+        // 动态数据表格高度处理
+        FormTableHeightHandle();
+    });
+    // 动态数据表格高度处理
+    FormTableHeightHandle();
 });

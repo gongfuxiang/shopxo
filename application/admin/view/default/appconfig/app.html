@@ -2,11 +2,11 @@
 
 <!-- right content start  -->
 <div class="content-right">
-    <div class="content">
-        <!-- table nav start -->
-        {{include file="appconfig/nav" /}}
-        <!-- table nav end -->
+    <!-- table nav start -->
+    {{include file="appconfig/nav" /}}
+    <!-- table nav end -->
 
+    <div class="content">
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'app'])}}" enctype="multipart/form-data">
             <div class="am-form-group">

@@ -612,6 +612,9 @@ button.colorpicker-submit img {
 .form-table-operate-top > .am-btn:not(:last-child) {
     margin-right: 10px;
 }
+.form-table-operate-top .am-btn {
+    margin-bottom: 10px;
+}
 
 /**
  * 表格-搜索条件

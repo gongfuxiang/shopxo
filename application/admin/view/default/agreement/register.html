@@ -2,16 +2,16 @@
 
 <!-- right content start  -->
 <div class="content-right">
+    <!-- table nav start -->
+    {{include file="agreement/nav" /}}
+    <!-- table nav end -->
+
     <div class="content">
-        <!-- table nav start -->
-        {{include file="agreement/nav" /}}
-        <!-- table nav end -->
-        
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/agreement/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/agreement/index', ['type'=>$nav_type])}}">
             <div class="am-form-group">
                 <div class="am-cf">
-                    <label>{{$data.common_agreement_userregister.name}}<span class="am-form-group-label-tips">{{$data.common_agreement_userregister.describe}}</span></label>
+                    <label><span class="am-form-group-label-tips am-margin-left-0">{{$data.common_agreement_userregister.describe}}</span></label>
                     <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank" class="am-fr">查看详情</a>
                 </div>
                 <textarea class="am-radius am-validate" name="{{$data.common_agreement_userregister.only_tag}}" maxlength="105000" id="editor-tag" data-validation-message="{{$data.common_agreement_userregister.error_tips}}">{{if !empty($data)}}{{$data.common_agreement_userregister.value|raw}}{{/if}}</textarea>
