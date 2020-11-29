@@ -20,6 +20,23 @@
                 </div>
                 <div class="am-panel-bd">
                     <div class="am-form-group">
+                        <label>{{$data.home_index_banner_left_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_banner_left_status.describe}}</span></label>
+                        <select name="{{$data.home_index_banner_left_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_banner_left_status.error_tips}}" required>
+                            {{foreach $site_site_state_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_index_banner_left_status']['value']) and $data['home_index_banner_left_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_banner_right_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_banner_right_status.describe}}</span></label>
+                        <select name="{{$data.home_index_banner_right_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_banner_right_status.error_tips}}" required>
+                            {{foreach $site_site_state_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_index_banner_right_status']['value']) and $data['home_index_banner_right_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <div class="am-form-group">
                         <label>{{$data.home_index_floor_data_type.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_data_type.describe}}</span></label>
                         <select name="{{$data.home_index_floor_data_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_floor_data_type.error_tips}}">
                             {{foreach $common_site_floor_data_type_list as $k=>$v}}

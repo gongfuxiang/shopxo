@@ -6,7 +6,7 @@
                 <span class="all-goods">全部分类</span>
             </div>
         </a>
-        <div class="category-content" {{if isset($controller_name) and $controller_name neq 'index'}}style="display:none;"{{/if}}>
+        <div class="category-content" {{if (isset($controller_name) and $controller_name neq 'index') or (MyC('home_index_banner_left_status', 1) neq 1)}}style="display:none;"{{/if}}>
             <div class="category">
                 <ul class="category-list">
                     {{if !empty($goods_category_list) and is_array($goods_category_list)}}

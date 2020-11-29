@@ -28,47 +28,48 @@ function HomeCartNumberTotalUpdate(number)
 
 $(function()
 {
-    // 选中处理
-    if(store.enabled)
+  // 选中处理
+  if(store.enabled)
+  {
+    // 用户菜单选中
+    if($('.user-sidebar-list li.am-active').length == 0)
     {
-        // 用户菜单选中
-        if($('.user-sidebar-list li.am-active').length == 0)
-        {
-            var user_menu_value = store.get(store_user_menu_key);
-            if(user_menu_value !== undefined)
-            {
-                $('.user-sidebar-list li').removeClass('am-active')
-                $('.user-sidebar-list').find('.'+user_menu_value).addClass('am-active');
-            }
-        }
+      var user_menu_value = store.get(store_user_menu_key);
+      if(user_menu_value !== undefined)
+      {
+        $('.user-sidebar-list li').removeClass('am-active')
+        $('.user-sidebar-list').find('.'+user_menu_value).addClass('am-active');
+      }
     }
+  }
 
-    // 商品分类子级内容显示/隐藏
-    $(".category-content li").hover(function() {
-        $(".category-content .category-list li.first .menu-in").css("display", "none");
-        $(".category-content .category-list li.first").removeClass("hover");
-        $(this).addClass("hover");
-        $(this).children("div.menu-in").css("display", "block");
-    }, function() {
-        $(this).removeClass("hover")
-        $(this).children("div.menu-in").css("display", "none");
-    });
+  // 商品分类子级内容显示/隐藏
+  $('.category-content li').hover(function() {
+    $('.category-content .category-list li.first .menu-in').css('display', 'none');
+    $('.category-content .category-list li.first').removeClass('hover');
+    $(this).addClass('hover');
+    $(this).children('div.menu-in').css('display', 'block');
+  }, function() {
+    $(this).removeClass('hover')
+    $(this).children('div.menu-in').css('display', 'none');
+  });
 
-    // 非首页的页面商品分类显示/隐藏
+    // 全局商品分类显示/隐藏
+    var goods_category_display = $('#goods-category .category-content').css('display');
     $('#goods-category').hover(function()
     {
-        if($(this).data('controller-name') != 'index')
+      if(goods_category_display == 'none')
+      {
+        if(!$('#goods-category .category-content').is(":visible"))
         {
-            if(!$('#goods-category .category-content').is(":visible"))
-            {
-                $('#goods-category .category-content').slideDown(100);
-            }
+          $('#goods-category .category-content').slideDown(100);
         }
+      }
     }).mouseleave(function() {
-        if($(this).data('controller-name') != 'index')
-        {
-            $('#goods-category .category-content').slideUp(100);
-        }
+      if(goods_category_display == 'none')
+      {
+        $('#goods-category .category-content').slideUp(100);
+      }
     });
 
     // 搜索导航固定
