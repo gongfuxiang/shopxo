@@ -193,5 +193,9 @@ return array (
   array (
     0 => 'app\\plugins\\distribution\\Hook',
   ),
+  'plugins_view_admin_goods_list_operate' => 
+  array (
+    0 => 'app\\plugins\\goodsalledit\\Hook',
+  ),
 );
 ?>

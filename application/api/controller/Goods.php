@@ -139,7 +139,7 @@ class Goods extends Common
         } else {
             if($goods['inventory'] <= 0)
             {
-                $result['nav_submit_text'] = '卖光了';
+                $result['nav_submit_text'] = '没货了';
                 $result['nav_submit_is_disabled'] = true;
             }
         }

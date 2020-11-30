@@ -400,7 +400,6 @@ class WarehouseGoodsService
             return DataReturn($ret, -1);
         }
 
-        // 存在则校验状态并且启用
         // 不存在添加
         $where = [
             'goods_id'      => intval($params['goods_id']),
