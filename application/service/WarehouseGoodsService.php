@@ -690,41 +690,49 @@ class WarehouseGoodsService
 
         // 启动事务
         Db::startTrans();
+
+        // 捕获异常
+        try {
         
-        // 删除原始数据
-        $where = [
-            'warehouse_id'          => $warehouse_goods['warehouse_id'],
-            'goods_id'              => $warehouse_goods['goods_id'],
-        ];
-        Db::name('WarehouseGoodsSpec')->where($where)->delete();
+            // 删除原始数据
+            $where = [
+                'warehouse_id'          => $warehouse_goods['warehouse_id'],
+                'goods_id'              => $warehouse_goods['goods_id'],
+            ];
+            Db::name('WarehouseGoodsSpec')->where($where)->delete();
 
-        // 仓库商品更新
-        Db::name('WarehouseGoods')->where(['id'=>$warehouse_goods['id']])->update([
-            'inventory' => array_sum(array_column($data, 'inventory')),
-            'upd_time'  => time(),
-        ]);
-
-        // 添加数据
-        if(!empty($data))
-        {
-            if(Db::name('WarehouseGoodsSpec')->insertAll($data) < count($data))
+            // 添加数据
+            if(!empty($data))
             {
-                Db::rollback();
-                return DataReturn('规格库存添加失败', -100);
+                if(Db::name('WarehouseGoodsSpec')->insertAll($data) < count($data))
+                {
+                    throw new \Exception('规格库存添加失败');
+                }
             }
-        }
 
-        // 同步商品库存
-        $ret = self::GoodsSpecInventorySync($warehouse_goods['goods_id']);
-        if($ret['code'] != 0)
-        {
+            // 仓库商品更新
+            if(!Db::name('WarehouseGoods')->where(['id'=>$warehouse_goods['id']])->update([
+                'inventory' => array_sum(array_column($data, 'inventory')),
+                'upd_time'  => time(),
+            ]))
+            {
+                throw new \Exception('库存商品更新失败');
+            }
+
+            // 同步商品库存
+            $ret = self::GoodsSpecInventorySync($warehouse_goods['goods_id']);
+            if($ret['code'] != 0)
+            {
+                throw new \Exception($ret['msg']);
+            }
+
+            // 完成
+            Db::commit();
+            return DataReturn('操作成功', 0);
+        } catch(\Exception $e) {
             Db::rollback();
-            return $ret;
+            return DataReturn($e->getMessage(), -1);
         }
-
-        // 提交事务
-        Db::commit();
-        return DataReturn('更新成功', 0);
     }
 
     /**
@@ -760,7 +768,11 @@ class WarehouseGoodsService
                 foreach($res['value'] as $v)
                 {
                     $md5_key = md5(empty($v['value']) ? 'default' : str_replace(GoodsService::$goods_spec_to_string_separator, '', $v['value']));
-                    $inventory = (int) Db::name('WarehouseGoodsSpec')->where(['warehouse_id'=>$wg['warehouse_id'], 'md5_key'=>$md5_key])->value('inventory');
+                    $inventory = (int) Db::name('WarehouseGoodsSpec')->where([
+                        'warehouse_id'  => $wg['warehouse_id'],
+                        'goods_id'      => $wg['goods_id'],
+                        'md5_key'       => $md5_key,
+                    ])->value('inventory');
                     $data[] = [
                         'warehouse_goods_id'    => $wg['id'],
                         'warehouse_id'          => $wg['warehouse_id'],
@@ -774,26 +786,30 @@ class WarehouseGoodsService
 
                 // 删除原始数据
                 $where = [
-                    'warehouse_id'          => $wg['warehouse_id'],
-                    'goods_id'              => $wg['goods_id'],
+                    'warehouse_id'  => $wg['warehouse_id'],
+                    'goods_id'      => $wg['goods_id'],
                 ];
                 Db::name('WarehouseGoodsSpec')->where($where)->delete();
-
-                // 仓库商品更新
-                Db::name('WarehouseGoods')->where(['id'=>$wg['id']])->update([
-                    'inventory' => array_sum(array_column($data, 'inventory')),
-                    'upd_time'  => time(),
-                ]);
 
                 // 添加数据
                 if(Db::name('WarehouseGoodsSpec')->insertAll($data) < count($data))
                 {
                     return DataReturn('规格库存添加失败', -1);
                 }
+
+                // 仓库商品更新
+                if(!Db::name('WarehouseGoods')->where(['id'=>$wg['id']])->update([
+                    'inventory' => array_sum(array_column($data, 'inventory')),
+                    'upd_time'  => time(),
+                ]))
+                {
+                    return DataReturn('库存商品更新失败', -1);
+                }
             }
         }
 
-        return DataReturn('操作成功', 0);
+        // 商品库存同步
+        return self::GoodsSpecInventorySync($goods_id);
     }
 
     /**
