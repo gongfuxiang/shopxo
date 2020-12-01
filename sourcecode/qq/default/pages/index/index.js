@@ -201,8 +201,7 @@ Page({
 
   // 自定义分享
   onShareAppMessage() {
-    var user = app.get_user_cache_info() || null;
-    var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
+    var user_id = app.get_user_cache_info('id', 0) || 0;
     return {
       title: app.data.application_title,
       desc: app.data.application_describe,

@@ -85,13 +85,22 @@ Page({
 
   // 自定义分享
   onShareAppMessage() {
-    var user = app.get_user_cache_info() || null;
-    var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
+    var user_id = app.get_user_cache_info('id', 0) || 0;
     var name = ((this.data.data_base || null) != null && (this.data.data_base.application_name || null) != null) ? this.data.data_base.application_name : app.data.application_title;
     return {
       title: name,
       desc: app.data.application_describe,
       path: '/pages/plugins/weixinliveplayer/index/index?referrer=' + user_id
+    };
+  },
+
+  // 分享朋友圈
+  onShareTimeline() {
+    var user_id = app.get_user_cache_info('id', 0) || 0;
+    var name = ((this.data.data_base || null) != null && (this.data.data_base.application_name || null) != null) ? this.data.data_base.application_name : app.data.application_title;
+    return {
+      title: name,
+      query: 'referrer=' + user_id
     };
   },
 });

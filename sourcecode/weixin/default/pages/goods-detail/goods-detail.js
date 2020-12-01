@@ -872,12 +872,21 @@ Page({
 
   // 自定义分享
   onShareAppMessage() {
-    var user = app.get_user_cache_info() || null;
-    var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
+    var user_id = app.get_user_cache_info('id', 0) || 0;
     return {
       title: this.data.goods.title+'-'+app.data.application_title,
       desc: app.data.application_describe,
       path: '/pages/goods-detail/goods-detail?goods_id=' + this.data.goods.id +'&referrer='+user_id,
+      imageUrl: this.data.goods.images
+    };
+  },
+
+  // 分享朋友圈
+  onShareTimeline() {
+    var user_id = app.get_user_cache_info('id', 0) || 0;
+    return {
+      title: this.data.goods.title+'-'+app.data.application_title,
+      query: 'goods_id=' + this.data.goods.id +'&referrer='+user_id,
       imageUrl: this.data.goods.images
     };
   },

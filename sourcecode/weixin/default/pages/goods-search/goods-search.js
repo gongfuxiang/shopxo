@@ -225,14 +225,24 @@ Page({
 
   // 自定义分享
   onShareAppMessage() {
-    var user = app.get_user_cache_info() || null;
-    var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
+    var user_id = app.get_user_cache_info('id', 0) || 0;
     var category_id = this.data.params['category_id'] || 0;
     var keywords = this.data.params['keywords'] || '';
     return {
       title: app.data.application_title,
       desc: app.data.application_describe,
       path: '/pages/goods-search/goods-search?referrer=' + user_id+'&category_id='+category_id+'&keywords='+keywords
+    };
+  },
+
+  // 分享朋友圈
+  onShareTimeline() {
+    var user_id = app.get_user_cache_info('id', 0) || 0;
+    var category_id = this.data.params['category_id'] || 0;
+    var keywords = this.data.params['keywords'] || '';
+    return {
+      title: app.data.application_title,
+      query: 'referrer=' + user_id+'&category_id='+category_id+'&keywords='+keywords
     };
   },
 });

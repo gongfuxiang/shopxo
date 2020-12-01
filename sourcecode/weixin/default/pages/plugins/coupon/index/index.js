@@ -165,4 +165,24 @@ Page({
     this.get_data_list();
   },
 
+  // 自定义分享
+  onShareAppMessage() {
+    var user_id = app.get_user_cache_info('id', 0) || 0;
+    var name = ((this.data.data_base || null) != null && (this.data.data_base.application_name || null) != null) ? this.data.data_base.application_name : app.data.application_title;
+    return {
+      title: name,
+      desc: app.data.application_describe,
+      path: '/pages/index/index?referrer=' + user_id
+    };
+  },
+
+  // 分享朋友圈
+  onShareTimeline() {
+    var user_id = app.get_user_cache_info('id', 0) || 0;
+    var name = ((this.data.data_base || null) != null && (this.data.data_base.application_name || null) != null) ? this.data.data_base.application_name : app.data.application_title;
+    return {
+      title: name,
+      query: 'referrer=' + user_id
+    };
+  },
 });

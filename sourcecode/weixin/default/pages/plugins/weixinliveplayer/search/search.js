@@ -2,6 +2,7 @@ const app = getApp();
 Page({
   data: {
     data_list: [],
+    data_base: null,
     data_page_total: 0,
     data_page: 1,
     data_list_loding_status: 1,
@@ -97,6 +98,7 @@ Page({
               data_page_total: res.data.data.page_total,
               data_list_loding_status: 3,
               data_page: this.data.data_page + 1,
+              data_base: data.base || null,
             });
 
             // 是否还有数据
@@ -155,12 +157,22 @@ Page({
 
   // 自定义分享
   onShareAppMessage() {
-    var user = app.get_user_cache_info() || null;
-    var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
+    var user_id = app.get_user_cache_info('id', 0) || 0;
+    var name = ((this.data.data_base || null) != null && (this.data.data_base.application_name || null) != null) ? this.data.data_base.application_name : app.data.application_title;
     return {
-      title: app.data.application_title,
+      title: name,
       desc: app.data.application_describe,
       path: '/pages/plugins/weixinliveplayer/search/search?referrer=' + user_id
+    };
+  },
+
+  // 分享朋友圈
+  onShareTimeline() {
+    var user_id = app.get_user_cache_info('id', 0) || 0;
+    var name = ((this.data.data_base || null) != null && (this.data.data_base.application_name || null) != null) ? this.data.data_base.application_name : app.data.application_title;
+    return {
+      title: name,
+      query: 'referrer=' + user_id
     };
   },
 });

@@ -202,13 +202,22 @@ App({
   },
 
   /**
-   * 从缓存获取用户信息
+   * 从缓存获取用户信息、可指定key和默认值
+   * key              数据key
+   * default_value    默认值
    */
-  get_user_cache_info() {
-    let user = swan.getStorageSync(this.data.cache_user_info_key) || null;
+  get_user_cache_info(key, default_value) {
+    var user = swan.getStorageSync(this.data.cache_user_info_key) || null;
     if (user == null) {
-      return false;
+      // 是否存在默认值
+      return (default_value == undefined) ? false : default_value;
     }
+
+    // 是否读取key
+    if((key || null) != null) {
+      return (user[key] == undefined) ? (default_value == undefined ? null : default_value) : user[key];
+    }
+
     return user;
   },
 
@@ -694,7 +703,7 @@ App({
   },
 
   /**
-   * 获取配置信息、可指定默认值
+   * 获取配置信息、可指定key和默认值
    * key              数据key（支持多级读取、以 . 分割key名称）
    * default_value    默认值
    */

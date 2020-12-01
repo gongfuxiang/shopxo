@@ -125,20 +125,25 @@ Page({
 
   // 自定义分享
   onShareAppMessage() {
-    var user = app.get_user_cache_info() || null;
-    var user_id = (user != null && (user.id || null) != null) ? user.id : 0;
-    if ((this.data.detail || null) != null)
-    {
-      var did = this.data.detail.id;
-      var name = this.data.detail.name;
-    } else {
-      var did = 0;
-      var name = app.data.application_title;
-    }
+    var user_id = app.get_user_cache_info('id', 0) || 0;
+    var did = ((this.data.detail || null) != null) ? this.data.detail.id : 0;
+    var name = ((this.data.detail || null) != null) ? this.data.detail.name : app.data.application_title;
     return {
       title: name,
       desc: app.data.application_describe,
       path: '/pages/plugins/weixinliveplayer/detail/detail?id=' + did + '&referrer=' + user_id,
+      imageUrl: this.data.detail.share_img || ''
+    };
+  },
+
+  // 分享朋友圈
+  onShareTimeline() {
+    var user_id = app.get_user_cache_info('id', 0) || 0;
+    var did = ((this.data.detail || null) != null) ? this.data.detail.id : 0;
+    var name = ((this.data.detail || null) != null) ? this.data.detail.name : app.data.application_title;
+    return {
+      title: name,
+      query: 'id=' + did + '&referrer=' + user_id,
       imageUrl: this.data.detail.share_img || ''
     };
   },
