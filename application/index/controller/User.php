@@ -139,8 +139,8 @@ class User extends Common
         $this->assign('goods_browse_list', $data['data']);
 
         // 订单页面订单状态form key
-        $this->assign('form_search_order_status_form_key', 'f2p');
-        $this->assign('form_search_order_user_is_comments_form_key', 'f21p');
+        $this->assign('form_search_order_status_form_key', 'status');
+        $this->assign('form_search_order_user_is_comments_form_key', 'user_is_comments');
 
         // 钩子
         $this->PluginsHook();

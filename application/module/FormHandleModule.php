@@ -373,6 +373,13 @@ class FormHandleModule
                     $form_key = $fk.'p';
                     $v['form_key'] = $form_key;
 
+                    // 是否指定了数据/表单唯一key作为条件、则复制当前key数据
+                    // 用于根据key指定条件（指定不宜使用这里拼接的key）
+                    if(array_key_exists($form_name, $this->out_params) && $this->out_params[$form_name] !== null && $this->out_params[$form_name] !== '')
+                    {
+                        $this->out_params[$form_key] = $this->out_params[$form_name];
+                    }
+
                     // 根据组件类型处理
                     switch($v['search_config']['form_type'])
                     {
