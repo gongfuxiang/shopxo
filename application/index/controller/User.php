@@ -53,7 +53,7 @@ class User extends Common
     private function GetrefererUrl()
     {
         // 上一个页面, 空则用户中心
-        $referer_url = empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/user/index') : $_SERVER['HTTP_REFERER'];
+        $referer_url = empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/user/index') : htmlentities($_SERVER['HTTP_REFERER']);
         if(!empty($_SERVER['HTTP_REFERER']))
         {
             $all = ['login', 'regster', 'forget', 'logininfo', 'reginfo', 'smsreginfo', 'emailreginfo', 'forgetpwdinfo'];

@@ -181,7 +181,7 @@ class AppHomeNavService
             {
                 return DataReturn('编辑成功', 0);
             }
-            return DataReturn('编辑失败', -100); 
+            return DataReturn('编辑失败', -100);
         }
     }
 

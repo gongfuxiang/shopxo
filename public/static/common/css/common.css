@@ -277,6 +277,11 @@ ul.plug-file-upload-view-video li {
     width: 300px;
     height: 200px;
 }
+ul.plug-file-upload-view-file li {
+    width: auto;
+    height: auto;
+    padding-right: 28px;
+}
 
 
 

@@ -132,6 +132,7 @@ return array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\distribution\\Hook',
+    3 => 'app\\plugins\\invoice\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
@@ -139,6 +140,7 @@ return array (
     1 => 'app\\plugins\\multilingual\\Hook',
     2 => 'app\\plugins\\coupon\\Hook',
     3 => 'app\\plugins\\distribution\\Hook',
+    4 => 'app\\plugins\\invoice\\Hook',
   ),
   'plugins_common_page_bottom' => 
   array (
@@ -147,10 +149,12 @@ return array (
   'plugins_service_quick_navigation_pc' => 
   array (
     0 => 'app\\plugins\\multilingual\\Hook',
+    1 => 'app\\plugins\\invoice\\Hook',
   ),
   'plugins_service_quick_navigation_h5' => 
   array (
     0 => 'app\\plugins\\multilingual\\Hook',
+    1 => 'app\\plugins\\invoice\\Hook',
   ),
   'plugins_view_common_top' => 
   array (
@@ -196,6 +200,26 @@ return array (
   'plugins_view_admin_goods_list_operate' => 
   array (
     0 => 'app\\plugins\\goodsalledit\\Hook',
+  ),
+  'plugins_service_quick_navigation_weixin' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
+  ),
+  'plugins_service_quick_navigation_alipay' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
+  ),
+  'plugins_service_quick_navigation_baidu' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
+  ),
+  'plugins_service_quick_navigation_qq' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
+  ),
+  'plugins_service_quick_navigation_toutiao' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
   ),
 );
 ?>

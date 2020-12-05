@@ -414,7 +414,7 @@ class QQ
             'mch_id'            => $this->config['mch_id'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
             'transaction_id'    => $params['trade_no'],
-            'out_refund_no'     => $params['order_no'].GetNumberCode(6),
+            'out_refund_no'     => $params['order_no'],
             'refund_fee'        => (int) (($params['refund_price']*1000)/10),
             'op_user_id'        => $this->config['op_user_id'],
             'op_user_passwd'    => md5($this->config['op_user_passwd']),

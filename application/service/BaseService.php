@@ -53,6 +53,8 @@ class BaseService
             'home_navigation_main_quick_status' => (int) MyC('home_navigation_main_quick_status', 0),
             'home_user_address_map_status'      => (int) MyC('home_user_address_map_status', 0),
             'home_user_address_idcard_status'   => (int) MyC('home_user_address_idcard_status', 0),
+            'common_order_close_limit_time'     => (int) MyC('common_order_close_limit_time', 30, true),
+            'common_order_success_limit_time'   => (int) MyC('common_order_success_limit_time', 21600, true),
 
             // 订单相关
             'home_is_enable_order_bulk_pay'     => (int) MyC('home_is_enable_order_bulk_pay', 0),

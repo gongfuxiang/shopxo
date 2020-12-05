@@ -313,6 +313,7 @@ class IntegralService
                 self::UserIntegralLogAdd($user['id'], $user['integral'], $give_integral, '订单商品发生售后收回', 0);
             }
         }
+        return DataReturn('操作成功', 0);
     }
 
     /**

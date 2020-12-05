@@ -111,9 +111,10 @@ class Order extends Common
 
         // 获取列表
         $data_params = array(
-            'm'         => 0,
-            'n'         => 1,
-            'where'     => $where,
+            'm'                 => 0,
+            'n'                 => 1,
+            'where'             => $where,
+            'is_orderaftersale' => 1,
         );
         $data = OrderService::OrderList($data_params);
         if(!empty($data['data'][0]))

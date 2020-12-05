@@ -69,7 +69,7 @@ class Order extends Common
             'm'         => $page->GetPageStarNumber(),
             'n'         => $this->page_size,
             'where'     => $this->form_where,
-            'order_by'      => $this->form_order_by['data'],
+            'order_by'  => $this->form_order_by['data'],
             'is_public' => 0,
             'user_type' => 'admin',
         ];

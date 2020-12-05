@@ -86,7 +86,6 @@ class Plugins extends Common
         $pluginsname = $params['data_request']['pluginsname'];
         $pluginscontrol = strtolower($params['data_request']['pluginscontrol']);
         $pluginsaction = strtolower($params['data_request']['pluginsaction']);
-        unset($params['data_request']['pluginsname'], $params['data_request']['pluginscontrol'], $params['data_request']['pluginsaction']);
 
         // 视图初始化
         $this->PluginsViewInit($pluginsname, $pluginscontrol, $pluginsaction);

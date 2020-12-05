@@ -593,6 +593,18 @@ class UserService
      */
     public static function Login($params = [])
     {
+        // 用户登录前校验钩子
+        $hook_name = 'plugins_service_user_login_begin_check';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 是否开启用户登录
         if(MyC('home_user_login_state') != 1)
         {
@@ -758,6 +770,18 @@ class UserService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
+        }
+
+        // 用户注册前校验钩子
+        $hook_name = 'plugins_service_user_register_begin_check';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 是否开启用户注册
@@ -1681,6 +1705,18 @@ class UserService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
+        }
+
+        // 用户注册前校验钩子
+        $hook_name = 'plugins_service_user_app_register_begin_check';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 手机号码格式

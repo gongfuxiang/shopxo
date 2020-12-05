@@ -67,14 +67,13 @@ class Plugins extends Common
         }
 
         // 控制器/方法默认值
-        $pluginscontrol = empty($params['data_request']['pluginscontrol']) ? 'index' : $params['data_request']['pluginscontrol'];
-        $pluginsaction = empty($params['data_request']['pluginsaction']) ? 'index' : $params['data_request']['pluginsaction'];
+        $params['data_request']['pluginscontrol'] = empty($params['data_request']['pluginscontrol']) ? 'index' : $params['data_request']['pluginscontrol'];
+        $params['data_request']['pluginsaction'] = empty($params['data_request']['pluginsaction']) ? 'index' : $params['data_request']['pluginsaction'];
 
         // 应用名称/控制器/方法
         $pluginsname = $params['data_request']['pluginsname'];
-        $pluginscontrol = strtolower($pluginscontrol);
-        $pluginsaction = strtolower($pluginsaction);
-        unset($params['data_request']['pluginsname'], $params['data_request']['pluginscontrol'], $params['data_request']['pluginsaction']);
+        $pluginscontrol = strtolower($params['data_request']['pluginscontrol']);
+        $pluginsaction = strtolower($params['data_request']['pluginsaction']);
 
         // 视图初始化
         $this->PluginsViewInit($pluginsname, $pluginscontrol, $pluginsaction);

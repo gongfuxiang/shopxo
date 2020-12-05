@@ -422,6 +422,16 @@ function FromInit(form_name)
 						return false;
 						break;
 
+					// 调用自定义回调方法
+					case 'ajax-fun' :
+						if(!IsExitsFunction(request_value))
+	            		{
+	            			$button.button('reset');
+	            			Prompt('['+request_value+']表单定义的方法未定义');
+	            			return false;
+	            		}
+						break;
+
 				}
 
 				// 请求 url http类型
@@ -2536,7 +2546,6 @@ $(function()
 	                        break;
 	                    }
 
-	                    var $tag = $($('body').attr('view-tag'));
 	                    var html = '<li>';
 	                        html += '<input type="text" name="'+form_name+'" value="'+result[i].src+'" />';
 	                        html += '<video src="'+result[i].src+'" controls>your browser does not support the video tag</video>';
@@ -2553,12 +2562,6 @@ $(function()
 	        // 文件上传
 	        upload_editor.addListener("beforeInsertFile", function(t, result)
 	        {
-	            var fileHtml = '';
-	            for(var i in result){
-	                fileHtml += '<li><a href="'+result[i].url+'" target="_blank">'+result[i].url+'</a></li>';
-	            }
-	            document.getElementById('upload_video_wrap').innerHTML = fileHtml;
-
 	            if(result.length > 0)
 	            {
 	                var $tag = $($('body').attr('view-tag'));
@@ -2579,8 +2582,8 @@ $(function()
 	                	// 是否直接赋值属性
 	                	if(i == 0 && is_attr != null)
 	                	{
-	                		$('form [name="'+form_name+'"]').val(result[i].src);
-	                		$tag.attr(is_attr, result[i].src);
+	                		$('form [name="'+form_name+'"]').val(result[i].url);
+	                		$tag.attr(is_attr, result[i].url);
 	                		break;
 	                	}
 
@@ -2591,10 +2594,11 @@ $(function()
 	                        break;
 	                    }
 
-	                    var $tag = $($('body').attr('view-tag'));
+	                    var index = parseInt($tag.find('li').length) || 0;
 	                    var html = '<li>';
-	                        html += '<input type="text" name="'+form_name+'" value="'+result[i].src+'" />';
-	                        html += '<a href="'+result[i].src+'">'+result[i].src+'</a>';
+	                        html += '<input type="text" name="'+form_name+'['+index+'][title]" value="'+result[i].title+'" />';
+	                        html += '<input type="text" name="'+form_name+'['+index+'][url]" value="'+result[i].url+'" />';
+	                        html += '<a href="'+result[i].url+'" title="'+result[i].title+'" target="_blank">'+result[i].title+'</a>';
 	                        if(is_delete == 1)
 	                        {
 	                        	html += '<i>×</i>';
