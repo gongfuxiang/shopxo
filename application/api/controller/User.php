@@ -537,6 +537,7 @@ class User extends Common
             'avatar'                            => $this->user['avatar'],
             'nickname'                          => $this->user['nickname'],
             'username'                          => $this->user['username'],
+            'user_name_view'                    => $this->user['user_name_view'],
             'user_order_status'                 => $user_order_status['data'],
             'user_order_count'                  => $user_order_count,
             'user_goods_favor_count'            => $user_goods_favor_count,
