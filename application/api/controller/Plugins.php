@@ -75,7 +75,6 @@ class Plugins extends Common
         $pluginsname = $params['data_request']['pluginsname'];
         $pluginscontrol = strtolower($params['data_request']['pluginscontrol']);
         $pluginsaction = strtolower($params['data_request']['pluginsaction']);
-        unset($params['data_request']['pluginsname'], $params['data_request']['pluginscontrol'], $params['data_request']['pluginsaction']);
 
         // 调用
         $ret = PluginsService::PluginsControlCall($pluginsname, $pluginscontrol, $pluginsaction, 'api', $params);
