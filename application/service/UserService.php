@@ -1941,20 +1941,43 @@ class UserService
      * @version 1.0.0
      * @date    2019-05-05
      * @desc    description
-     * @param   [int]          $user_id     [用户id]
+     * @param   [array|int]    $user_ids    [用户id]
      * @param   [array]        $user        [指定用户信息]
      * @param   [boolean]      $is_privacy  [是否隐私处理展示用户名]
      */
-    public static function GetUserViewInfo($user_id, $user = [], $is_privacy = false)
+    public static function GetUserViewInfo($user_ids, $user = [], $is_privacy = false)
     {
         // 是否指定用户信息
-        if(empty($user) && !empty($user_id))
+        if(empty($user) && !empty($user_ids))
         {
-            $user = Db::name('User')->field('username,nickname,mobile,email,avatar')->find($user_id);
+            if(is_array($user_ids))
+            {
+                $user_ids = array_filter(array_unique($user_ids));
+            }
+            if(!empty($user_ids))
+            {
+                $data = Db::name('User')->field('username,nickname,mobile,email,avatar')->where(['id'=>$user_ids])->column('*', 'id');
+            }
+
+            // 数据处理
+            if(!empty($data) && is_array($data))
+            {
+                foreach($data as &$v)
+                {
+                    $v = self::UserHandle($v);
+                }
+            }
+
+            // 用户id是否数组
+            if(is_array($user_ids))
+            {
+                $user = isset($data) ? $data : [];
+            } else {
+                $user = (!empty($data) && array_key_exists($user_ids, $data)) ? $data[$user_ids] : [];
+            }
+        } else {
+            $user = self::UserHandle($user);
         }
-        
-        // 用户数据处理
-        $user = self::UserHandle($user);
 
         return $user;
     }

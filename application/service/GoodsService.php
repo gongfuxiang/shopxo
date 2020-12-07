@@ -1284,7 +1284,7 @@ class GoodsService
                             {
                                 $data[$ks][] = empty($vs) ? null : htmlspecialchars_decode($vs);
                             } else {
-                                $data[$ks][] = $vs;
+                                $data[$ks][] = trim($vs);
                             }
                         }
                     }
@@ -1375,8 +1375,9 @@ class GoodsService
                                 $key = substr($ks, 21);
                                 if(!empty($params['specifications_name_'.$key]))
                                 {
-                                    $title[$params['specifications_name_'.$key]] = [
-                                        'name'  => $params['specifications_name_'.$key],
+                                    $spec_name = trim($params['specifications_name_'.$key]);
+                                    $title[$spec_name] = [
+                                        'name'  => $spec_name,
                                         'value' => array_unique($vs),
                                     ];
                                     $names_value[] = $params['specifications_name_'.$key];
@@ -1891,20 +1892,23 @@ class GoodsService
                     {
                         foreach($type_v['value'] as $type_vs)
                         {
-                            if($type_vs['name'] == $value_v['value'])
+                            if(trim($type_vs['name']) == trim($value_v['value']))
                             {
                                 $key = $type_v['id'];
                                 break;
                             }
                         }
                     }
-                    $value[$value_v['goods_spec_base_id']][] = [
-                        'data_type' => 'spec',
-                        'data'  => [
-                            'key'       => $key,
-                            'value'     => $value_v['value'],
-                        ],
-                    ];
+                    if(!empty($key))
+                    {
+                        $value[$value_v['goods_spec_base_id']][] = [
+                            'data_type' => 'spec',
+                            'data'  => [
+                                'key'       => $key,
+                                'value'     => trim($value_v['value']),
+                            ],
+                        ];
+                    }
                 }
             }
 

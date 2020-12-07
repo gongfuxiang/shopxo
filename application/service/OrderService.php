@@ -1034,7 +1034,7 @@ class OrderService
             {
                 // 地区数据
                 $we_ids = array_unique(array_column($data, 'warehouse_id'));
-                $warehouse = Db::name('Warehouse')->where(['id'=>$we_ids])->column('name', 'id');
+                $warehouse_list = Db::name('Warehouse')->where(['id'=>$we_ids])->column('name', 'id');
             }
 
             // 默认货币
@@ -1042,6 +1042,24 @@ class OrderService
 
             // 订单货币
             $currency_data = OrderCurrencyService::OrderCurrencyGroupList(array_column($data, 'id'));
+
+            // 用户列表
+            if(in_array('warehouse_id', $keys) && isset($params['is_public']) && $params['is_public'] == 0)
+            {
+                $user_list = UserService::GetUserViewInfo(array_column($data, 'user_id'));
+            }
+
+            // 快递名称
+            if(in_array('express_id', $keys))
+            {
+                $express_list = ExpressService::ExpressName(array_column($data, 'express_id'));
+            }
+
+            // 支付方式名称
+            $payment_list = PaymentService::OrderPaymentName(array_column($data, 'id'));
+
+            // 取货码
+            $extraction_data = self::OrderExtractionData(array_column($data, 'id'));
 
             // 循环处理数据
             foreach($data as &$v)
@@ -1061,12 +1079,12 @@ class OrderService
                 }
 
                 // 订单货币
-                $v['currency_data'] = array_key_exists($v['id'], $currency_data) ? $currency_data[$v['id']] : $currency_default;
+                $v['currency_data'] = (!empty($currency_data) && is_array($currency_data) && array_key_exists($v['id'], $currency_data)) ? $currency_data[$v['id']] : $currency_default;
 
                 // 订单所属仓库
                 if(isset($v['warehouse_id']))
                 {
-                    $v['warehouse_name'] = isset($warehouse[$v['warehouse_id']]) ? $warehouse[$v['warehouse_id']] : '';
+                    $v['warehouse_name'] = (!empty($warehouse_list) && is_array($warehouse_list) && array_key_exists($v['warehouse_id'], $warehouse_list)) ? $warehouse_list[$v['warehouse_id']] : '';
                 }
 
                 // 订单模式处理
@@ -1079,7 +1097,7 @@ class OrderService
                     // 自提模式 添加订单取货码
                     if($v['order_model'] == 2)
                     {
-                        $v['extraction_data'] = self::OrdersExtractionData($v['id']);
+                        $v['extraction_data'] = (!empty($extraction_data) && array_key_exists($v['id'], $extraction_data)) ? $extraction_data[$v['id']] : [];
                     }
                 }
 
@@ -1088,7 +1106,7 @@ class OrderService
                 {
                     if(isset($params['is_public']) && $params['is_public'] == 0)
                     {
-                        $v['user'] = UserService::GetUserViewInfo($v['user_id']);
+                        $v['user'] = (!empty($user_list) && is_array($user_list) && array_key_exists($v['user_id'], $user_list)) ? $user_list[$v['user_id']] : [];
                     }
                 }
 
@@ -1105,10 +1123,10 @@ class OrderService
                 $v['pay_status_name'] = $order_pay_status[$v['pay_status']]['name'];
 
                 // 快递公司
-                $v['express_name'] = ExpressService::ExpressName($v['express_id']);
+                $v['express_name'] = (!empty($express_list) && is_array($express_list) && array_key_exists($v['express_id'], $express_list)) ? $express_list[$v['express_id']] : null;
 
                 // 支付方式
-                $v['payment_name'] = PaymentService::OrderPaymentName($v['id'], $v['payment_id']);
+                $v['payment_name'] = (!empty($payment_list) && is_array($payment_list) && array_key_exists($v['id'], $payment_list)) ? $payment_list[$v['id']] : null;
 
                 // 线下支付 icon 名称
                 $v['is_under_line_text'] = ($v['is_under_line'] == 1) ? '线下支付' : null;
@@ -1239,6 +1257,9 @@ class OrderService
         $items = Db::name('OrderDetail')->where(['order_id'=>$order_id])->select();
         if(!empty($items))
         {
+            // 虚拟商品取货码
+            $fictitious_value_list = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>array_column($items, 'id')])->value('value', 'order_detail_id');
+
             foreach($items as &$vs)
             {
                 // 商品是否无封面图片
@@ -1271,7 +1292,7 @@ class OrderService
                 // 虚拟销售商品 - 虚拟信息处理
                 if($order_model == 3 && $pay_status == 1 && in_array($status, [3,4]))
                 {
-                    $vs['fictitious_goods_value'] = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>$vs['id']])->value('value');
+                    $vs['fictitious_goods_value'] = (!empty($fictitious_value_list) && array_key_exists($vs['id'], $fictitious_value_list)) ? $fictitious_value_list[$vs['id']] : '';
                 }
 
                 // 是否获取最新一条售后信息
@@ -1293,34 +1314,37 @@ class OrderService
      * @version 1.0.0
      * @date    2019-11-26
      * @desc    description
-     * @param   [int]          $order_id    [订单id]
+     * @param   [array]          $order_ids    [订单id]
      */
-    private static function OrdersExtractionData($order_id)
+    private static function OrderExtractionData($order_ids)
     {
         // 必须返回的内容格式
-        $result = [
-            'code'      => null,
-            'images'    => null,
-        ];
+        $result = [];
 
         // 获取取货码
-        $code = Db::name('OrderExtractionCode')->where(['order_id'=>$order_id])->value('code');
-        if(!empty($code))
+        $data = Db::name('OrderExtractionCode')->where(['order_id'=>array_unique($order_ids)])->column('code', 'order_id');
+        if(!empty($data) && is_array($data))
         {
-            $result['code'] = $code;
-
-            // 生成二维码参数
-            $params = [
-                'content'   => $code,
-                'path'      => DS.'download'.DS.'order'.DS.'extraction_ode'.DS,
-                'filename'  => $order_id.'.png',
-            ];
-
-            // 图片不存在则去生成二维码图片并保存至目录
-            $ret = (new \base\Qrcode())->Create($params);
-            if($ret['code'] == 0)
+            foreach($order_ids as $v)
             {
-                $result['images'] = $ret['data']['url'];
+                $images = null;
+                if(array_key_exists($v, $data))
+                {
+                    // 生成二维码参数
+                    $params = [
+                        'content'   => $data[$v],
+                        'path'      => DS.'download'.DS.'order'.DS.'extraction_ode'.DS,
+                        'filename'  => $v.'.png',
+                    ];
+
+                    // 图片不存在则去生成二维码图片并保存至目录
+                    $ret = (new \base\Qrcode())->Create($params);
+                    $images = ($ret['code'] == 0) ? $ret['data']['url'] : null;
+                }
+                $result[$v] = [
+                    'code'      => isset($data[$v]) ? $data[$v] : null,
+                    'images'    => $images,
+                ];
             }
         }
         return $result;

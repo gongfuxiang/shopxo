@@ -435,13 +435,13 @@ class Common extends Controller
     public function FormTableInit()
     {
         // 获取表格模型
-        $data = FormModulePath($this->data_request);
-        if(!empty($data))
+        $module = FormModulePath($this->data_request);
+        if(!empty($module))
         {
             // 调用表格处理
             $params = $this->data_request;
             $params['system_user'] = $this->user;
-            $ret = (new FormHandleModule())->Run($data['module'], $data['action'], $params);
+            $ret = (new FormHandleModule())->Run($module['module'], $module['action'], $params);
             if($ret['code'] == 0)
             {
                 $this->form_table = $ret['data']['table'];

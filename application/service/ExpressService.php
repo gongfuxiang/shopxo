@@ -29,11 +29,31 @@ class ExpressService
      * @version 1.0.0
      * @date    2018-09-19
      * @desc    description
-     * @param   [int]          $express_id [快递id]
+     * @param   [array|int]          $express_ids [快递id]
      */
-    public static function ExpressName($express_id = 0)
+    public static function ExpressName($express_ids = 0)
     {
-        return empty($express_id) ? null : Db::name('Express')->where(['id'=>intval($express_id)])->value('name');
+        if(empty($express_ids))
+        {
+            return null;
+        }
+
+        // 参数处理查询数据
+        if(is_array($express_ids))
+        {
+            $express_ids = array_filter(array_unique($express_ids));
+        }
+        if(!empty($express_ids))
+        {
+            $data = Db::name('Express')->where(['id'=>$express_ids])->column('name', 'id');
+        }
+
+        // id数组则直接返回
+        if(is_array($express_ids))
+        {
+            return empty($data) ? [] : $data;
+        }
+        return (!empty($data) && is_array($data) && array_key_exists($express_ids, $data)) ? $data[$express_ids] : null;
     }
 
     /**

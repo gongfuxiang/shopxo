@@ -252,21 +252,42 @@ class PaymentService
      * @version 1.0.0
      * @date    2018-09-19
      * @desc    description
-     * @param   [int|string]            $business_value     [业务订单id|单号]
-     * @param   [int]                   $payment_id         [支付方式id]
+     * @param   [int|array]      $business_ids       [业务订单id]
      */
-    public static function OrderPaymentName($business_value = 0, $payment_id = 0)
+    public static function OrderPaymentName($business_ids = 0)
     {
-        $name = null;
-        if(!empty($business_value))
+        if(empty($business_ids))
         {
-            $name = Db::name('PayLog')->alias('pl')->join(['__PAY_LOG_VALUE__'=>'plv'], 'pl.id=plv.pay_log_id')->where(['business_id|business_no'=>$business_value])->order('pl.id desc')->value('pl.payment_name');
-            if(empty($anme) && !empty($payment_id))
+            return null;
+        }
+
+        // 参数处理查询数据
+        if(is_array($business_ids))
+        {
+            $business_ids = array_filter(array_unique($business_ids));
+        }
+        if(!empty($business_ids))
+        {
+            $res = Db::name('PayLog')->alias('pl')->join(['__PAY_LOG_VALUE__'=>'plv'], 'pl.id=plv.pay_log_id')->where(['plv.business_id'=>$business_ids])->order('pl.id desc')->field('plv.business_id,pl.payment_name')->select();
+            $data = [];
+            if(!empty($res) && is_array($res))
             {
-                $name = Db::name('Payment')->where(['id'=>intval($payment_id)])->value('name');
+                foreach($res as $v)
+                {
+                    if(!array_key_exists($v['business_id'], $data))
+                    {
+                        $data[$v['business_id']] = $v['payment_name'];
+                    }
+                }
             }
         }
-        return $name;
+
+        // id数组则直接返回
+        if(is_array($business_ids))
+        {
+            return empty($data) ? [] : $data;
+        }
+        return (!empty($data) && is_array($data) && array_key_exists($business_ids, $data)) ? $data[$business_ids] : null;
     }
 
     /**

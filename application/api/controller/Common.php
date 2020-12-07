@@ -14,6 +14,7 @@ use think\Controller;
 use app\service\SystemService;
 use app\service\ConfigService;
 use app\service\UserService;
+use app\module\FormHandleModule;
 
 /**
  * 接口公共控制器
@@ -27,10 +28,28 @@ class Common extends Controller
 	// 用户信息
 	protected $user;
 
+    // 当前操作名称
+    protected $module_name;
+    protected $controller_name;
+    protected $action_name;
+
     // 输入参数 post|get|request
     protected $data_post;
     protected $data_get;
     protected $data_request;
+
+    // 分页信息
+    protected $page;
+    protected $page_size;
+
+    // 动态表格
+    protected $form_table;
+    protected $form_where;
+    protected $form_params;
+    protected $form_md5_key;
+    protected $form_user_fields;
+    protected $form_order_by;
+    protected $form_error;
 
 	/**
      * 构造方法
@@ -57,6 +76,9 @@ class Common extends Controller
 
         // 网站状态
         $this->SiteStstusCheck();
+
+        // 动态表格初始化
+        $this->FormTableInit();
 
 		// 公共数据初始化
 		$this->CommonInit();
@@ -94,7 +116,7 @@ class Common extends Controller
     }
 
     /**
-     * [SiteStstusCheck 网站状态]
+     * 网站状态
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -109,7 +131,7 @@ class Common extends Controller
     }
 
 	/**
-	 * [IsLogin 登录校验]
+	 * 登录校验
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -123,8 +145,39 @@ class Common extends Controller
 		}
     }
 
+    /**
+     * 动态表格初始化
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-02
+     * @desc    description
+     */
+    public function FormTableInit()
+    {
+        // 获取表格模型
+        $module = FormModulePath($this->data_request);
+        if(!empty($module))
+        {
+            // 调用表格处理
+            $params = $this->data_request;
+            $ret = (new FormHandleModule())->Run($module['module'], $module['action'], $params);
+            if($ret['code'] == 0)
+            {
+                $this->form_table = $ret['data']['table'];
+                $this->form_where = $ret['data']['where'];
+                $this->form_params = $ret['data']['params'];
+                $this->form_md5_key = $ret['data']['md5_key'];
+                $this->form_user_fields = $ret['data']['user_fields'];
+                $this->form_order_by = $ret['data']['order_by'];
+            } else {
+                $this->form_error = $ret['msg'];
+            }
+        }
+    }
+
 	/**
-	 * [CommonInit 公共数据初始化]
+	 * 公共数据初始化
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -134,10 +187,19 @@ class Common extends Controller
 	{
 		// 用户数据
 		$this->user = UserService::LoginUserInfo();
+
+        // 当前操作名称
+        $this->module_name = strtolower(request()->module());
+        $this->controller_name = strtolower(request()->controller());
+        $this->action_name = strtolower(request()->action());
+
+        // 分页信息
+        $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
+        $this->page_size = 10;
 	}
 
 	/**
-	 * [_empty 空方法操作]
+	 * 空方法操作
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1

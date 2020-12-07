@@ -54,44 +54,11 @@ class FormHandleModule
      */
     public function Run($module, $action = 'Run', $params = [])
     {
-        // 参数
-        $this->out_params = $params;
-
-        // 模块是否存在
-        if(!class_exists($module))
+        // 参数校验
+        $ret = $this->ParamsCheckHandle($module, $action, $params);
+        if($ret['code'] != 0)
         {
-            return DataReturn('表格模块未定义['.$module.']', -1);
-        }
-
-        // 指定方法检测
-        $this->module_obj = new $module($this->out_params);
-        if(!method_exists($this->module_obj, $action))
-        {
-            // 默认方法检测
-            $action = 'Run';
-            if(!method_exists($this->module_obj, $action))
-            {
-                return DataReturn('表格方法未定义['.$module.'->'.$action.'()]', -1);
-            }
-        }
-
-        // 获取表格配置数据
-        $this->form_data = $this->module_obj->$action($this->out_params);
-        if(empty($this->form_data['base']) || !is_array($this->form_data['base']) || empty($this->form_data['form']) || !is_array($this->form_data['form']))
-        {
-            return DataReturn('表格配置有误['.$module.'][base|form]', -1);
-        }
-
-        // 数据唯一主字段
-        if(empty($this->form_data['base']['key_field']))
-        {
-            return DataReturn('表格唯一字段配置有误['.$module.']base->[key_field]', -1);
-        }
-
-        // 是否上下居中（0否,1是）默认1
-        if(!isset($this->form_data['base']['is_middle']))
-        {
-            $this->form_data['base']['is_middle'] = 1;
+            return $ret;
         }
 
         // 钩子
@@ -139,6 +106,62 @@ class FormHandleModule
             'order_by'      => $this->order_by,
         ];
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 参数校验
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-12-06
+     * @desc    description
+     * @param   [string]          $module     [模块位置]
+     * @param   [string]          $action     [模块方法（默认 Run 方法，可自动匹配控制器方法名）]
+     * @param   [mixed]           $params     [参数数据]
+     */
+    public function ParamsCheckHandle($module, $action, $params)
+    {
+        // 参数
+        $this->out_params = $params;
+
+        // 模块是否存在
+        if(!class_exists($module))
+        {
+            return DataReturn('表格模块未定义['.$module.']', -1);
+        }
+
+        // 指定方法检测
+        $this->module_obj = new $module($this->out_params);
+        if(!method_exists($this->module_obj, $action))
+        {
+            // 默认方法检测
+            $action = 'Run';
+            if(!method_exists($this->module_obj, $action))
+            {
+                return DataReturn('表格方法未定义['.$module.'->'.$action.'()]', -1);
+            }
+        }
+
+        // 获取表格配置数据
+        $this->form_data = $this->module_obj->$action($this->out_params);
+        if(empty($this->form_data['base']) || !is_array($this->form_data['base']) || empty($this->form_data['form']) || !is_array($this->form_data['form']))
+        {
+            return DataReturn('表格配置有误['.$module.'][base|form]', -1);
+        }
+
+        // 数据唯一主字段
+        if(empty($this->form_data['base']['key_field']))
+        {
+            return DataReturn('表格唯一字段配置有误['.$module.']base->[key_field]', -1);
+        }
+
+        // 是否上下居中（0否,1是）默认1
+        if(!isset($this->form_data['base']['is_middle']))
+        {
+            $this->form_data['base']['is_middle'] = 1;
+        }
+
+        return DataReturn('success', 0);
     }
 
     /**
@@ -735,6 +758,68 @@ class FormHandleModule
         {
             $this->where = $this->module_obj->condition_base;
         }
+    }
+
+    /**
+     * 表格数据列表处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-12-06
+     * @desc    description
+     * @param   [array]           $data       [数据列表]
+     * @param   [array]           $params     [参数数据]
+     */
+    public function FormTableDataListHandle($data, $params)
+    {
+        // 空或非数组则不处理
+        if(empty($data) || !is_array($data) || empty($params) || !is_array($params))
+        {
+            return $data;
+        }
+
+        // 获取表格模型处理表格列表数据
+        $module = FormModulePath($params);
+        if(empty($module))
+        {
+            return $data;
+        }
+
+        // 参数校验
+        $ret = $this->ParamsCheckHandle($module['module'], $module['action'], $params);
+        if($ret['code'] != 0)
+        {
+            return $data;
+        }
+
+        // 获取表单配置数据处理
+        $form = array_column($this->form_data['form'], null, 'view_key');
+        foreach($data as $k=>&$v)
+        {
+            if(empty($v) || !is_array($v))
+            {
+                continue;
+            }
+            foreach($v as $ks=>$vs)
+            {
+                // view_type为field
+                // 必须存在view_data数据
+                if(!array_key_exists($ks, $form) || empty($form[$ks]['view_data']) || !is_array($form[$ks]['view_data']))
+                {
+                    continue;
+                }
+
+                // 是否指定view_data_key配置、指定则view_data为二维数组
+                $key = $ks.'_name';
+                if(empty($form[$ks]['view_data_key']))
+                {
+                    $v[$key] = isset($form[$ks]['view_data'][$vs]) ? $form[$ks]['view_data'][$vs] : '';
+                } else {
+                    $v[$key] = (isset($form[$ks]['view_data'][$vs]) && isset($form[$ks]['view_data'][$vs][$form[$ks]['view_data_key']])) ? $form[$ks]['view_data'][$vs][$form[$ks]['view_data_key']] : '';
+                }
+            }
+        }
+        return $data;
     }
 }
 ?>
