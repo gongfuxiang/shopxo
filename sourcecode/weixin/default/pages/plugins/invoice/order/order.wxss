@@ -23,3 +23,21 @@
 .data-list .item .operation button:not(:first-child) {
   margin-left: 30rpx;
 }
+
+/*
+ * 选择
+ */
+ .selected .icon {
+  width: 40rpx;
+  height: 40rpx !important;
+  margin-left: 10rpx;
+  margin-right: 20rpx;
+  vertical-align: middle;
+}
+ .invoice-merge-submit {
+  width: 220rpx;
+  height: 70rpx !important;
+  line-height: 74rpx !important;
+  left: calc(50% - 110rpx);
+  bottom: 50rpx;
+}

@@ -22,6 +22,15 @@
         </picker>
       </view>
 
+      <view wx:if="{{invoice_content_list.length > 0}}" class="form-gorup bg-white">
+        <view class="form-gorup-title">发票内容<text class="form-group-tips-must">必选</text></view>
+        <picker name="invoice_content" bindchange="form_invoice_content_event" value="{{form_invoice_content_index}}" range="{{invoice_content_list}}">
+          <view class="picker {{invoice_content_list[form_invoice_content_index] == undefined ? 'cr-ccc' : 'cr-666'}} arrow-right">
+            {{invoice_content_list[form_invoice_content_index] == undefined ? '请选择发票内容' : invoice_content_list[form_invoice_content_index]}}
+          </view>
+        </picker>
+      </view>
+
       <view class="form-gorup bg-white">
         <view class="form-gorup-title">发票抬头<text class="form-group-tips-must">必填</text></view>
         <input type="text" name="invoice_title" placeholder-class="cr-ccc" class="cr-666" placeholder="发票抬头、最多200个字符" maxlength="200" value="{{data.invoice_title || ''}}" />

@@ -8,6 +8,7 @@ Page({
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     params: null,
+    select_ids: [],
   },
 
   onLoad(params) {
@@ -135,5 +136,32 @@ Page({
   // 滚动加载
   scroll_lower(e) {
     this.get_data_list();
+  },
+
+  // 选择
+  selected_event(e) {
+    var value = e.currentTarget.dataset.value;
+    var temp_select_ids = this.data.select_ids;
+    var index = temp_select_ids.indexOf(value);
+    if(index == -1)
+    {
+      temp_select_ids.push(value);
+    } else {
+      temp_select_ids.splice(index, 1);
+    }
+    this.setData({select_ids: temp_select_ids});
+    console.log(value, index, temp_select_ids);
+  },
+
+  // 合并开票
+  invoice_merge_event(e) {
+    if(this.data.select_ids.length <= 0)
+    {
+      app.showToast('请先选择数据');
+      return false;
+    }
+    wx.navigateTo({
+      url: '/pages/plugins/invoice/invoice-saveinfo/invoice-saveinfo?ids='+this.data.select_ids.join(',')+'&type=order&is_redirect=1',
+    });
   },
 });

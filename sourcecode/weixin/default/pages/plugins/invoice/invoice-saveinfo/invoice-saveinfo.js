@@ -7,14 +7,15 @@ Page({
     data_list_loding_msg: '',
     data_bottom_line_status: false,
     data_base: null,
-    apply_type_list: null,
-    can_invoice_type_list: null,
-    invoice_content_list: null,
+    apply_type_list: [],
+    can_invoice_type_list: [],
+    invoice_content_list: [],
     save_base_data: null,
     data: null,
 
     form_invoice_type_index: 0,
     form_apply_type_index: 0,
+    form_invoice_content_index: 0,
     form_apply_type_disabled: false,
     company_container: false,
     company_special_container: false,
@@ -48,15 +49,18 @@ Page({
           var data = res.data.data;
           self.setData({
             data_base: data.base || null,
-            apply_type_list: data.apply_type_list || null,
-            can_invoice_type_list: data.can_invoice_type_list || null,
-            invoice_content_list: data.invoice_content_list || null,
+            apply_type_list: data.apply_type_list || [],
+            can_invoice_type_list: data.can_invoice_type_list || [],
+            invoice_content_list: data.invoice_content_list || [],
             save_base_data: data.save_base_data,
             data: ((data.data || null) == null || data.data.length == 0) ? null : data.data,
             data_list_loding_status: 0,
             data_bottom_line_status: true,
             data_list_loding_msg: (data.save_base_data.total_price <= 0) ? '发票金额必须大于0' : '',
           });
+
+          // 数据容器处理
+          this.invoice_container_handle();
         } else {
           self.setData({
             data_list_loding_status: 2,
@@ -101,6 +105,13 @@ Page({
       form_apply_type_index: e.detail.value
     });
     this.invoice_container_handle();
+  },
+
+  // 发票内容事件
+  form_invoice_content_event(e) {
+    this.setData({
+      form_invoice_content_index: e.detail.value
+    });
   },
 
   // 容器显隐处理
@@ -210,6 +221,15 @@ Page({
       }
       if(app.fields_check(data, validation))
       {
+        // 发票类型
+        data['invoice_type'] = this.data.can_invoice_type_list[this.data.form_invoice_type_index]['id'];
+
+        // 发票内容
+        if(this.data.invoice_content_list.length > 0 && this.data.invoice_content_list[this.data.form_invoice_content_index] != undefined)
+        {
+          data['invoice_content'] = this.data.invoice_content_list[this.data.form_invoice_content_index];
+        }
+
         wx.showLoading({title: '提交中...'});
         this.setData({form_submit_loading: true});
 

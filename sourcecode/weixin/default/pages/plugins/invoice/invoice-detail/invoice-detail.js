@@ -45,7 +45,7 @@ Page({
               { name: "发票类型", value: data.data.invoice_type_name || '' },
               { name: "发票金额", value: data.data.total_price || '' },
               { name: "状态", value: data.data.status_name || '' },
-              { name: "发票内容", value: data.data.invoice_account || '' },
+              { name: "发票内容", value: data.data.invoice_content || '' },
               { name: "发票抬头", value: data.data.invoice_title || '' },
               { name: "纳税识别号", value: data.data.invoice_code || '' },
               { name: "企业开户行名称", value: data.data.invoice_bank || '' },
