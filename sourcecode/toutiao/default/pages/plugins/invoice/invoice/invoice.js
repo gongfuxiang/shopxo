@@ -8,12 +8,31 @@ Page({
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     params: null,
-    select_ids: [],
+    nav_status_list: [
+      { name: "全部", value: "-1" },
+      { name: "待审核", value: "0" },
+      { name: "待开票", value: "1" },
+      { name: "已开票", value: "2" },
+      { name: "已拒绝", value: "3" },
+    ],
+    nav_status_index: 0,
   },
 
   onLoad(params) {
+    // 是否指定状态
+    var nav_status_index = 0;
+    if ((params.status || null) != null) {
+      for (var i in this.data.nav_status_list) {
+        if (this.data.nav_status_list[i]['value'] == params.status) {
+          nav_status_index = i;
+          break;
+        }
+      }
+    }
+
     this.setData({
       params: params,
+      nav_status_index: nav_status_index,
     });
   },
 
@@ -26,7 +45,7 @@ Page({
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {
-        wx.redirectTo({
+        tt.redirectTo({
           url: "/pages/login/login?event_callback=init"
         });
         return false;
@@ -52,7 +71,7 @@ Page({
     }
 
     // 加载loding
-    wx.showLoading({ title: "加载中..." });
+    tt.showLoading({ title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
@@ -62,15 +81,22 @@ Page({
       page: this.data.data_page
     };
 
+    // 参数
+    var status = ((this.data.nav_status_list[this.data.nav_status_index] || null) == null) ? -1 : this.data.nav_status_list[this.data.nav_status_index]['value'];
+    if(status != -1)
+    {
+      data['status'] = status;
+    }
+
     // 获取数据
-    wx.request({
-      url: app.get_request_url("index", "order", "invoice"),
+    tt.request({
+      url: app.get_request_url("index", "user", "invoice"),
       method: "POST",
       data: data,
       dataType: "json",
       success: res => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        tt.hideLoading();
+        tt.stopPullDownRefresh();
         if (res.data.code == 0) {
           if (res.data.data.data.length > 0) {
             if (this.data.data_page <= 1) {
@@ -114,8 +140,8 @@ Page({
         }
       },
       fail: () => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        tt.hideLoading();
+        tt.stopPullDownRefresh();
 
         this.setData({
           data_list_loding_status: 2,
@@ -138,29 +164,67 @@ Page({
     this.get_data_list();
   },
 
-  // 选择
-  selected_event(e) {
-    var value = e.currentTarget.dataset.value;
-    var temp_select_ids = this.data.select_ids;
-    var index = temp_select_ids.indexOf(value);
-    if(index == -1)
-    {
-      temp_select_ids.push(value);
-    } else {
-      temp_select_ids.splice(index, 1);
-    }
-    this.setData({select_ids: temp_select_ids});
+  // 导航事件
+  nav_event(e) {
+    this.setData({
+      nav_status_index: e.currentTarget.dataset.index || 0,
+      data_page: 1,
+    });
+    this.get_data_list(1);
   },
 
-  // 合并开票
-  invoice_merge_event(e) {
-    if(this.data.select_ids.length <= 0)
-    {
-      app.showToast('请先选择数据');
-      return false;
-    }
-    wx.navigateTo({
-      url: '/pages/plugins/invoice/invoice-saveinfo/invoice-saveinfo?ids='+this.data.select_ids.join(',')+'&type=order&is_redirect=1',
+  // 编辑事件
+  edit_event(e) {
+    tt.navigateTo({
+      url: '/pages/plugins/invoice/invoice-saveinfo/invoice-saveinfo?id='+e.currentTarget.dataset.value,
+    });
+  },
+
+  // 删除
+  delete_event(e) {
+    tt.showModal({
+      title: "温馨提示",
+      content: "删除后不可恢复，确定继续吗?",
+      confirmText: "确认",
+      cancelText: "不了",
+      success: result => {
+        if (result.confirm) {
+          // 参数
+          var value = e.currentTarget.dataset.value;
+          var index = e.currentTarget.dataset.index;
+
+          // 加载loding
+          tt.showLoading({ title: "处理中..." });
+
+          tt.request({
+            url: app.get_request_url("delete", "user", "invoice"),
+            method: "POST",
+            data: { ids: value },
+            dataType: "json",
+            success: res => {
+              tt.hideLoading();
+              if (res.data.code == 0) {
+                var temp_data_list = this.data.data_list;
+                temp_data_list.splice(index, 1);
+                this.setData({ data_list: temp_data_list });
+                if (temp_data_list.length == 0) {
+                  this.setData({
+                    data_list_loding_status: 0,
+                    data_bottom_line_status: false,
+                  });
+                }
+                app.showToast(res.data.msg, "success");
+              } else {
+                app.showToast(res.data.msg);
+              }
+            },
+            fail: () => {
+              tt.hideLoading();
+              app.showToast("服务器请求出错");
+            }
+          });
+        }
+      }
     });
   },
 });

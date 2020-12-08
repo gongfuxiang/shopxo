@@ -55,7 +55,7 @@ class Toutiao
 
         // 获取授权
         $url = 'https://developer.toutiao.com/api/apps/jscode2session?appid='.$this->config['appid'].'&secret='.$this->config['secret'].'&code='.$params['authcode'];
-        $result = json_decode(file_get_contents($url), true);
+        $result = json_decode(RequestGet($url), true);
         if(empty($result['openid']))
         {
             return ['status'=>-1, 'msg'=>$result['errmsg']];

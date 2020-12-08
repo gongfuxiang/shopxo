@@ -81,7 +81,7 @@ class Excel
 		$this->warap_text = isset($params['warap_text']) ? intval($params['warap_text']) : 1;
 
 		// excel写入类型
-		$this->writer_type = empty($params['writer_type']) ? 'Excel2007' : teim($params['writer_type']);
+		$this->writer_type = empty($params['writer_type']) ? 'Excel2007' : trim($params['writer_type']);
 
 		// 引入PHPExcel类库
 		require ROOT.'extend'.DS.'phpexcel'.DS.'PHPExcel.php';

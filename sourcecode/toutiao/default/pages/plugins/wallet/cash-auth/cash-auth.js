@@ -179,8 +179,8 @@ Page({
       fields: "verify",
       msg: "请输入验证码"
     }];
-    console.log(form_data); // 验证提交表单
-
+    
+    // 验证提交表单
     if (app.fields_check(form_data, validation)) {
       form_data["account_type"] = self.data.check_account_list[self.data.check_account_value]['field'];
       self.setData({

@@ -150,7 +150,6 @@ Page({
       { fields: "account_type", msg: "请选择认证方式", "is_can_zero": 1 },
       { fields: "verify", msg: "请输入验证码" },
     ];
-    console.log(form_data);
     
     // 验证提交表单
     if (app.fields_check(form_data, validation)) {

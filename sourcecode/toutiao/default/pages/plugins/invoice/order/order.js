@@ -26,7 +26,7 @@ Page({
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {
-        wx.redirectTo({
+        tt.redirectTo({
           url: "/pages/login/login?event_callback=init"
         });
         return false;
@@ -52,7 +52,7 @@ Page({
     }
 
     // 加载loding
-    wx.showLoading({ title: "加载中..." });
+    tt.showLoading({ title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
@@ -63,14 +63,14 @@ Page({
     };
 
     // 获取数据
-    wx.request({
+    tt.request({
       url: app.get_request_url("index", "order", "invoice"),
       method: "POST",
       data: data,
       dataType: "json",
       success: res => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        tt.hideLoading();
+        tt.stopPullDownRefresh();
         if (res.data.code == 0) {
           if (res.data.data.data.length > 0) {
             if (this.data.data_page <= 1) {
@@ -114,8 +114,8 @@ Page({
         }
       },
       fail: () => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        tt.hideLoading();
+        tt.stopPullDownRefresh();
 
         this.setData({
           data_list_loding_status: 2,
@@ -159,7 +159,7 @@ Page({
       app.showToast('请先选择数据');
       return false;
     }
-    wx.navigateTo({
+    tt.navigateTo({
       url: '/pages/plugins/invoice/invoice-saveinfo/invoice-saveinfo?ids='+this.data.select_ids.join(',')+'&type=order&is_redirect=1',
     });
   },
