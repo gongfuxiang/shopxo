@@ -66,7 +66,12 @@
     "pages/plugins/weixinliveplayer/index/index",
     "pages/plugins/weixinliveplayer/search/search",
     "pages/plugins/weixinliveplayer/detail/detail",
-    "pages/plugins/exchangerate/currency/currency"
+    "pages/plugins/exchangerate/currency/currency",
+    "pages/plugins/invoice/user/user",
+    "pages/plugins/invoice/invoice/invoice",
+    "pages/plugins/invoice/invoice-detail/invoice-detail",
+    "pages/plugins/invoice/invoice-saveinfo/invoice-saveinfo",
+    "pages/plugins/invoice/order/order"
   ],
   "permission": {
     "scope.userLocation": {

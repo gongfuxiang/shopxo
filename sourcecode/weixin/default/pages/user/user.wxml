@@ -69,7 +69,7 @@
 
 <!-- 用户中心公告 -->
 <view wx:if="{{(common_user_center_notice || null) != null}}" class="user-notice">
-    <view class="tips">{{common_user_center_notice}}</view>
+  <view class="tips">{{common_user_center_notice}}</view>
 </view>
 
 <!-- 在线客服 -->
