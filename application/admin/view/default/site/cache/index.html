@@ -13,7 +13,7 @@
                 <button type="button" class="am-close">&times;</button>
                 <p>1. 默认使用的文件缓存、使用Redis缓存PHP需要先安装Redis扩展</p>
                 <p>2. 请确保Redis服务稳定性（Session使用缓存后、服务不稳定可能导致后台也无法登录）</p>
-                <p>3. 如遇到Redis服务异常无法登录管理后台、可进入数据库[ <strong class="am-text-danger">{{:config('database.prefix')}}config</strong> ]表修改配置、然后删除[ <strong class="am-text-danger">config</strong> ]目录下[ <strong class="am-text-danger">session.php,cache.php</strong> ]文件</p>
+                <p>3. 如遇到Redis服务异常无法登录管理后台、修改配置文件[ <strong class="am-text-danger">config</strong> ]目录下[ <strong class="am-text-danger">session.php,cache.php</strong> ]文件</p>
             </div>
 
             <!-- Session缓存配置 -->
