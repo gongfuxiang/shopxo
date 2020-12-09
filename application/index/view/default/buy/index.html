@@ -644,8 +644,9 @@ function BuySubmitBack(e)
         Prompt(e.msg, 'success');
         setTimeout(function()
         {
-            window.location.href = e.data.jump_url;
-        }, 1000);
+            window.open(e.data.jump_url, '_blank');
+            window.close();
+        }, 1500);
     } else {
         $('form.form-validation').find('button[type="submit"]').button('reset');
         $.AMUI.progress.done();
