@@ -171,6 +171,7 @@ class Admin extends Common
         ]));
 
         // 数据
+        unset($params['id']);
         $this->assign('data', $data);
         $this->assign('params', $params);
 		return $this->fetch();

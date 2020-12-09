@@ -182,7 +182,8 @@ class User extends Common
 		$this->assign('common_gender_list', lang('common_gender_list'));
 
 		// 数据
-		$this->assign('data', $data);
+		unset($params['id']);
+        $this->assign('data', $data);
 		$this->assign('params', $params);
 		return $this->fetch();
 	}

@@ -133,18 +133,16 @@ class AppHomeNav extends Common
             $ret = AppHomeNavService::AppHomeNavList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
-        $this->assign('data', $data);
 
         // 静态数据
         $this->assign('common_platform_type', lang('common_platform_type'));
         $this->assign('common_app_event_type', lang('common_app_event_type'));
 
-        // 参数
-        $this->assign('params', $params);
-
-        // 编辑器文件存放地址
+        // 数据
+        unset($params['id']);
         $this->assign('editor_path_type', 'app_nav');
-
+        $this->assign('params', $params);
+        $this->assign('data', $data);
         return $this->fetch();
     }
 

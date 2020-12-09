@@ -4,7 +4,7 @@
     <span>详情</span>
 </button>
 {{if $module_data['id'] neq 1}}
-    <a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/role/saveinfo', array('id'=>$module_data['id']))}}">
+    <a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/role/saveinfo', array_merge($params, ['id'=>$module_data['id']]))}}">
         <i class="am-icon-edit"></i>
         <span>编辑</span>
     </a>

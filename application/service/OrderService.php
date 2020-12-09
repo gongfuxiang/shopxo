@@ -362,7 +362,7 @@ class OrderService
             ],
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'user',
+                'key_name'          => 'admin',
                 'error_msg'         => '管理员信息有误',
             ],
         ];
@@ -406,7 +406,7 @@ class OrderService
         return self::OrderPaymentUnderLineSuccess([
             'order'     => $order,
             'payment'   => $payment,
-            'user'      => $params['user'],
+            'user'      => UserService::GetUserViewInfo($order['user_id']),
             'params'    => $params,
         ]);
     }
@@ -1044,7 +1044,7 @@ class OrderService
             $currency_data = OrderCurrencyService::OrderCurrencyGroupList(array_column($data, 'id'));
 
             // 用户列表
-            if(in_array('warehouse_id', $keys) && isset($params['is_public']) && $params['is_public'] == 0)
+            if(in_array('user_id', $keys) && isset($params['is_public']) && $params['is_public'] == 0)
             {
                 $user_list = UserService::GetUserViewInfo(array_column($data, 'user_id'));
             }

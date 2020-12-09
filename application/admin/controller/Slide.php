@@ -140,6 +140,7 @@ class Slide extends Common
         $this->assign('common_app_event_type', lang('common_app_event_type'));
 
         // 数据
+        unset($params['id']);
         $this->assign('editor_path_type', 'slide');
         $this->assign('params', $params);
         $this->assign('data', $data);

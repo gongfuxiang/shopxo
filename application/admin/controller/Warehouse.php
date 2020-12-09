@@ -144,6 +144,7 @@ class Warehouse extends Common
         $this->assign('editor_path_type', 'warehouse');
 
         // 数据
+        unset($params['id']);
         $this->assign('data', $data);
         $this->assign('params', $params);
         return $this->fetch();

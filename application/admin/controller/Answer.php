@@ -159,7 +159,6 @@ class Answer extends Common
         // 参数
         unset($params['id']);
         $this->assign('params', $params);
-
         return $this->fetch();
     }
 

@@ -133,7 +133,9 @@ class CustomView extends Common
 	        $ret = CustomViewService::CustomViewList($data_params);
 	        $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
 		}
+        unset($params['id']);
         $this->assign('data', $data);
+        $this->assign('params', $params);
 		return $this->fetch();
 	}
 

@@ -255,8 +255,7 @@ class Order extends Common
     public function Pay()
     {
         $params = $this->data_request;
-        $params['user'] = $this->admin;
-        $params['user']['user_name_view'] = '管理员'.'-'.$this->admin['username'];
+        $params['admin'] = $this->admin;
         return OrderService::AdminPay($params);
     }
 }

@@ -186,6 +186,9 @@ class PayLogService
         $data = Db::name('PayLog')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
+            // 字段列表
+            $keys = ArrayKeys($data);
+
             // 获取支付业务关联数据
             $log_value_list = [];
             $log_value = Db::name('PayLogValue')->field('pay_log_id,business_id,business_no')->where(['pay_log_id'=>array_column($data, 'id')])->select();
@@ -195,6 +198,12 @@ class PayLogService
                 {
                     $log_value_list[$lv['pay_log_id']][] = $lv;
                 }
+
+                // 用户列表
+            if(in_array('user_id', $keys) && isset($params['is_public']) && $params['is_public'] == 0)
+            {
+                $user_list = UserService::GetUserViewInfo(array_column($data, 'user_id'));
+            }
             }
 
             // 循环处理数据
@@ -205,7 +214,7 @@ class PayLogService
                 {
                     if(isset($params['is_public']) && $params['is_public'] == 0)
                     {
-                        $v['user'] = UserService::GetUserViewInfo($v['user_id']);
+                        $v['user'] = (!empty($user_list) && is_array($user_list) && array_key_exists($v['user_id'], $user_list)) ? $user_list[$v['user_id']] : [];
                     }
                 }
 
