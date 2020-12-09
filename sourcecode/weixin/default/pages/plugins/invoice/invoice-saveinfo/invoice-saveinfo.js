@@ -256,7 +256,7 @@ Page({
                     url: "/pages/plugins/invoice/invoice/invoice"
                   });
                 } else {
-                  wx:wx.navigateBack();
+                  wx.navigateBack();
                 }
               }, 2000);
             } else {

@@ -147,7 +147,7 @@ Page({
         success(res) {
           app.showToast('复制成功', 'success');
         }
-      })
+      });
     } else {
       app.showToast('链接地址有误');
     }

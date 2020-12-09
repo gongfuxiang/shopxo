@@ -32,19 +32,19 @@ Page({
 
   init() {
     var self = this;
-    tt.showLoading({ title: "加载中..." });
+    qq.showLoading({ title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
 
-    tt.request({
+    qq.request({
       url: app.get_request_url("saveinfo", "user", "invoice"),
       method: "POST",
       data: this.data.params,
       dataType: "json",
       success: res => {
-        tt.hideLoading();
-        tt.stopPullDownRefresh();
+        qq.hideLoading();
+        qq.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
           self.setData({
@@ -73,8 +73,8 @@ Page({
         }
       },
       fail: () => {
-        tt.hideLoading();
-        tt.stopPullDownRefresh();
+        qq.hideLoading();
+        qq.stopPullDownRefresh();
         self.setData({
           data_list_loding_status: 2,
           data_bottom_line_status: false,
@@ -230,19 +230,19 @@ Page({
           data['invoice_content'] = this.data.invoice_content_list[this.data.form_invoice_content_index];
         }
 
-        tt.showLoading({title: '提交中...'});
+        qq.showLoading({title: '提交中...'});
         this.setData({form_submit_loading: true});
 
         // 网络请求
         var self = this;
-        tt.request({
+        qq.request({
           url: app.get_request_url("save", "user", "invoice"),
           method: 'POST',
           data: data,
           dataType: 'json',
           header: { 'content-type': 'application/x-www-form-urlencoded' },
           success: (res) => {
-            tt.hideLoading();
+            qq.hideLoading();
 
             if(res.data.code == 0)
             {
@@ -252,11 +252,11 @@ Page({
                 // 是否关闭页面进入我的发票、适合从订单开票中过来提交成功直接进入我的发票列表
                 if((self.data.params || null) != null && (self.data.params.is_redirect || 0) == 1)
                 {
-                  tt.redirectTo({
+                  qq.redirectTo({
                     url: "/pages/plugins/invoice/invoice/invoice"
                   });
                 } else {
-                  tt.navigateBack();
+                  qq.navigateBack();
                 }
               }, 2000);
             } else {
@@ -269,7 +269,7 @@ Page({
             }
           },
           fail: () => {
-            tt.hideLoading();
+            qq.hideLoading();
             this.setData({form_submit_loading: false});
             app.showToast('服务器请求出错');
           }
