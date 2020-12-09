@@ -70,15 +70,22 @@ class Appmini extends Common
         // 公共视图
 		$this->CurrentViewInit();
 
-		// 是否默认首页
-		if($this->view_type == 'index')
+		switch($this->view_type)
 		{
-            // 获取主题列表
-			$data = AppMiniService::ThemeList($this->params);
-			$this->assign('data_list', $data);
+			// 首页
+			case 'index' :
+				// 获取主题列表
+				$data = AppMiniService::ThemeList($this->params);
+				$this->assign('data_list', $data);
 
-			// 默认主题
-			$this->assign('theme', AppMiniService::$default_theme);
+				// 默认主题
+				$this->assign('theme', AppMiniService::$default_theme);
+				break;
+
+			// 源码包列表
+			case 'package' :
+				$this->Package();
+				break;
 		}
 		return $this->fetch($this->view_type);
 	}
@@ -123,13 +130,9 @@ class Appmini extends Common
 		];
 		$this->assign('nav_dev_tips', $nav_dev_tips);
 
-		// 公共视图
-		$this->CurrentViewInit();
-
 		// 源码包列表
 		$ret = AppMiniService::DownloadDataList($this->params);
 		$this->assign('data_list', $ret['data']);
-		return $this->fetch();
 	}
 
 	/**
