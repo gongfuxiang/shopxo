@@ -129,6 +129,10 @@ class Baidu
      */
     public function GetAuthSessionKey($params = [])
     {
+        if(empty($this->_appkey) || empty($this->_appkey) || empty($this->_appsecret))
+        {
+            return ['status'=>-1, 'msg'=>'请先配置'];
+        }
         if(empty($params['authcode']))
         {
             return ['status'=>-1, 'msg'=>'授权码有误'];
