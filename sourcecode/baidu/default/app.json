@@ -41,7 +41,12 @@
     "pages/plugins/distribution/extraction-apply/extraction-apply",
     "pages/plugins/distribution/extraction-order/extraction-order",
     "pages/plugins/distribution/introduce/introduce",
-    "pages/plugins/exchangerate/currency/currency"
+    "pages/plugins/exchangerate/currency/currency",
+    "pages/plugins/invoice/user/user",
+    "pages/plugins/invoice/invoice/invoice",
+    "pages/plugins/invoice/invoice-detail/invoice-detail",
+    "pages/plugins/invoice/invoice-saveinfo/invoice-saveinfo",
+    "pages/plugins/invoice/order/order"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",

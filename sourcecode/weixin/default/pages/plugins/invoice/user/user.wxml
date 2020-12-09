@@ -1,5 +1,5 @@
 <!-- 导航 -->
-<view wx:if="{{nav_list.length > 0 && (data_base || null) != null}}" class="nav oh bg-white">
+<view wx:if="{{nav_list.length > 0}}" class="nav oh bg-white">
   <block wx:for="{{nav_list}}" wx:key="key">
     <navigator url="{{item.url}}" hover-class="none">
       <view class="item fl tc">
@@ -11,7 +11,7 @@
 </view>
 
 <!-- 通知  -->
-<view wx:if="{{(data_base.invoice_desc || null) != null && data_base.invoice_desc.length > 0}}" class="tips-container spacing-mt">
+<view wx:if="{{(data_base || null) != null && (data_base.invoice_desc || null) != null && data_base.invoice_desc.length > 0}}" class="tips-container spacing-mt">
   <view class="tips">
     <view wx:for="{{data_base.invoice_desc}}" wx:key="key" class="item">
       {{item}}

@@ -65,7 +65,6 @@ Page({
               { name: "快递名称", value: data.data.express_name || '' },
               { name: "快递单号", value: data.data.express_number || '' },
             ],
-
             data_list_loding_status: 3,
             data_bottom_line_status: true,
             data_list_loding_msg: '',

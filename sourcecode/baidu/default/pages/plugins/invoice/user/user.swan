@@ -1,6 +1,6 @@
 <!-- 导航 -->
-<view qq:if="{{nav_list.length > 0}}" class="nav oh bg-white">
-  <block qq:for="{{nav_list}}" qq:key="key">
+<view s-if="nav_list.length > 0" class="nav oh bg-white">
+  <block s-for="item, index in nav_list" s-key="key">
     <navigator url="{{item.url}}" hover-class="none">
       <view class="item fl tc">
         <image src="{{item.icon}}" mode="scaleToFill" class="dis-block" />
@@ -11,9 +11,9 @@
 </view>
 
 <!-- 通知  -->
-<view qq:if="{{(data_base || null) != null && (data_base.invoice_desc || null) != null && data_base.invoice_desc.length > 0}}" class="tips-container spacing-mt">
+<view s-if="(data_base || null) != null && (data_base.invoice_desc || null) != null && data_base.invoice_desc.length > 0" class="tips-container spacing-mt">
   <view class="tips">
-    <view qq:for="{{data_base.invoice_desc}}" qq:key="key" class="item">
+    <view s-for="item, index in data_base.invoice_desc" s-key="key" class="item">
       {{item}}
     </view>
   </view>
