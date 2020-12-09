@@ -198,12 +198,12 @@ class PayLogService
                 {
                     $log_value_list[$lv['pay_log_id']][] = $lv;
                 }
+            }
 
-                // 用户列表
+            // 用户列表
             if(in_array('user_id', $keys) && isset($params['is_public']) && $params['is_public'] == 0)
             {
                 $user_list = UserService::GetUserViewInfo(array_column($data, 'user_id'));
-            }
             }
 
             // 循环处理数据

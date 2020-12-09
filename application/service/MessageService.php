@@ -194,6 +194,15 @@ class MessageService
         $data = Db::name('Message')->where($where)->field($field)->limit($m, $n)->order($order_by)->select();
         if(!empty($data))
         {
+            // 字段列表
+            $keys = ArrayKeys($data);
+            
+            // 用户列表
+            if(in_array('user_id', $keys) && isset($params['is_public']) && $params['is_public'] == 0)
+            {
+                $user_list = UserService::GetUserViewInfo(array_column($data, 'user_id'));
+            }
+
             $common_is_read_list = lang('common_is_read_list');
             $common_message_type_list = lang('common_message_type_list');
             foreach($data as &$v)
@@ -203,7 +212,7 @@ class MessageService
                 {
                     if(isset($params['is_public']) && $params['is_public'] == 0)
                     {
-                        $v['user'] = UserService::GetUserViewInfo($v['user_id']);
+                        $v['user'] = (!empty($user_list) && is_array($user_list) && array_key_exists($v['user_id'], $user_list)) ? $user_list[$v['user_id']] : [];
                     }
                 }
 
