@@ -44,19 +44,5 @@
   </view>
 </view>
 
-<!-- 近15日收益走势 -->
-<view class="container chart-container bg-white oh spacing-mt">
-  <view class="title">近15日收益走势</view>
-  <component-ec-canvas wx:if="{{(profit_data || null) != null}}" canvas-id="profit-chart" ec="{{ profit_chart }}"></component-ec-canvas>
-  <view wx:else class="cr-888 tc chart-not-data">{{data_list_loding_msg || '暂无数据'}}</view>
-</view>
-
-<!-- 近15日推广用户数 -->
-<view class="container chart-container bg-white oh spacing-mt">
-  <view class="title">近15日推广用户数</view>
-  <component-ec-canvas wx:if="{{(user_data || null) != null}}" canvas-id="user-chart" ec="{{ user_chart }}"></component-ec-canvas>
-  <view wx:else class="cr-888 tc chart-not-data">{{data_list_loding_msg || '暂无数据'}}</view>
-</view>
-
 <import src="/pages/common/bottom_line.wxml" />
 <template is="bottom_line" data="{{status: true}}"></template>

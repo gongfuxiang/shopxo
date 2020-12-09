@@ -53,17 +53,3 @@
 .profit-container .base-content {
   padding: 10rpx;
 }
-
-/*
- * 图表
- */
-.chart-container {
-  width: 100%;
-  height: 520rpx;
-  box-sizing: border-box;  
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-}
-.chart-container .chart-not-data {
-  margin-top: 230rpx;
-}
