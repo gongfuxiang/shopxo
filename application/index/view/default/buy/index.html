@@ -617,15 +617,19 @@
 <!-- 订单确认页面底部钩子-结束 -->
 
 <!-- 订单提交后提示弹层 -->
-<div class="buy-order-submit-modal-container am-text-center am-vertical-align">
-    <div class="content am-vertical-align-middle am-padding-xl">
-        <p class="am-text-success">支付跳转中、请勿关闭页面</p>
-        <p class="am-text-warning am-margin-top-lg">支付失败或长时间未响应</p>
-        <p class="am-text-warning am-margin-xs">
-            <span>进入</span>
-            <a href="{{:MyUrl('index/order/index')}}" class="am-text-secondary">我的订单</a>
-            <span>后可以重新发起支付</span>
-        </p>
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="buy-order-submit-modal">
+    <div class="am-modal-dialog">
+        <div class="am-modal-bd">
+            <div class="content am-vertical-align-middle am-padding-vertical-sm">
+                <p class="am-text-success">支付跳转中、请勿关闭页面</p>
+                <p class="am-text-warning am-margin-top-lg">支付失败或长时间未响应</p>
+                <p class="am-text-warning am-margin-xs">
+                    <span>进入</span>
+                    <a href="{{:MyUrl('index/order/index')}}" class="am-text-secondary">我的订单</a>
+                    <span>后可以重新发起支付</span>
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -639,7 +643,11 @@ function BuySubmitBack(e)
 {
     if(e.code == 0)
     {
-        $('.buy-order-submit-modal-container').show();
+        $('#buy-order-submit-modal').modal({
+            closeViaDimmer: false,
+            width: 280,
+            height: 140
+        });
         $.AMUI.progress.done();
         Prompt(e.msg, 'success');
         setTimeout(function()
