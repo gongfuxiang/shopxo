@@ -48,7 +48,7 @@ text-align: center;float:none}
 .floor .goods-list .goods-items .goods-images,
 .aggregation .outer-con img,
 .floor .aggregation img,
-.small-nav img { max-width: 100%; }
+.small-nav img { width: 100%; }
 .floor .goods-list .goods-items .goods-images{ padding: 10px; }
 @media only screen and (min-width: 480px) {
     .small-nav img{max-width: 100%;max-height: 100%;}
