@@ -1258,7 +1258,7 @@ class OrderService
         if(!empty($items))
         {
             // 虚拟商品取货码
-            $fictitious_value_list = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>array_column($items, 'id')])->value('value', 'order_detail_id');
+            $fictitious_value_list = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>array_column($items, 'id')])->column('value', 'order_detail_id');
 
             foreach($items as &$vs)
             {
@@ -1292,7 +1292,7 @@ class OrderService
                 // 虚拟销售商品 - 虚拟信息处理
                 if($order_model == 3 && $pay_status == 1 && in_array($status, [3,4]))
                 {
-                    $vs['fictitious_goods_value'] = (!empty($fictitious_value_list) && array_key_exists($vs['id'], $fictitious_value_list)) ? $fictitious_value_list[$vs['id']] : '';
+                    $vs['fictitious_goods_value'] = (!empty($fictitious_value_list) && is_array($fictitious_value_list) && array_key_exists($vs['id'], $fictitious_value_list)) ? $fictitious_value_list[$vs['id']] : '';
                 }
 
                 // 是否获取最新一条售后信息
