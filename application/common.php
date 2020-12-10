@@ -365,9 +365,12 @@ function FormModulePath($params = [])
     // 是否插件调用
     if($controller == 'Plugins')
     {
-        if(!empty($params['pluginsname']) && !empty($params['pluginscontrol']))
+        if(!empty($params['pluginsname']))
         {
-            $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.ucfirst($params['pluginscontrol']);
+            // 控制器和方法默认值处理
+            $controller = empty($params['pluginscontrol']) ? 'index' : $params['pluginscontrol'];
+            $action = empty($params['pluginsaction']) ? 'index' : $params['pluginsaction'];
+            $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.ucfirst($controller);
         }
     } else {
         $path = '\app\\'.request()->module().'\form\\'.$controller;
