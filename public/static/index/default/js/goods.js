@@ -654,7 +654,9 @@ $(function() {
 // 浏览器窗口实时事件
 $(window).resize(function()
 {
-    if($(document.activeElement).attr('id') != 'text_box')
+    var name = document.activeElement.tagName;
+    var arr = ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'];
+    if(arr.indexOf(name) == -1)
     {
         // 规格显示/隐藏处理
         if($(window).width() < 1025)
