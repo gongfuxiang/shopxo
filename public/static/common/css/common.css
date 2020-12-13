@@ -582,15 +582,13 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-right {
     height: auto;
-    z-index: 1020;
+    z-index: 1030;
     position: sticky;
 }
 .am-table-scrollable-horizontal .am-table tr td.am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr td.am-grid-fixed-right {
-    height: auto;
-    z-index: 1011;
-    position: sticky;
     background: #fff;
+    z-index: 1011;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-left {
     -webkit-box-shadow: 1px 0px 1px #ddd;
