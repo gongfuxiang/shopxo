@@ -550,7 +550,9 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table tr th {
     background: #e8e6e6;
     min-width: 100px;
-    position: relative;
+    position: sticky;
+    z-index: 1020;
+    top: 0;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-xxxl {
     min-width: 650px;
@@ -580,7 +582,7 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-right {
     height: auto;
-    z-index: 2;
+    z-index: 1020;
     position: sticky;
 }
 .am-table-scrollable-horizontal .am-table tr td.am-grid-fixed-left,
