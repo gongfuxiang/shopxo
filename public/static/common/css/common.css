@@ -551,7 +551,7 @@ button.colorpicker-submit img {
     background: #e8e6e6;
     min-width: 100px;
     position: sticky;
-    z-index: 1020;
+    z-index: 1;
     top: 0;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-xxxl {
@@ -582,13 +582,16 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-right {
     height: auto;
-    z-index: 1030;
     position: sticky;
 }
 .am-table-scrollable-horizontal .am-table tr td.am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr td.am-grid-fixed-right {
     background: #fff;
-    z-index: 1011;
+    z-index: 2;
+}
+.am-table-scrollable-horizontal .am-table tr th.am-grid-fixed-left,
+.am-table-scrollable-horizontal .am-table tr th.am-grid-fixed-right {
+    z-index: 3;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-left {
     -webkit-box-shadow: 1px 0px 1px #ddd;
