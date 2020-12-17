@@ -467,6 +467,16 @@ class FormHandleModule
                     $where_name = $form_name;
                     // 条件类型
                     $where_type = isset($v['search_config']['where_type']) ? $v['search_config']['where_type'] : $v['search_config']['form_type'];
+                    // 条件默认值处理
+                    $where_type_default_arr = [
+                        'input'     => '=',
+                        'select'    => 'in',
+                    ];
+                    if(array_key_exists($where_type, $where_type_default_arr))
+                    {
+                        $where_type = $where_type_default_arr[$where_type];
+                    }
+
                     // 是否自定义条件处理
                     $where_custom = isset($v['search_config']['where_type_custom']) ? $v['search_config']['where_type_custom'] : '';
                     // 条件类型

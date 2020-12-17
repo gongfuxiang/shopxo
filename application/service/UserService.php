@@ -136,7 +136,7 @@ class UserService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         // 获取用户列表
-        $data = Db::name('User')->where($where)->order($order_by)->limit($m, $n)->select();
+        $data = Db::name('User')->where($where)->order($order_by)->field($field)->limit($m, $n)->select();
         if(!empty($data))
         {
             $common_gender_list = lang('common_gender_list');
@@ -144,27 +144,43 @@ class UserService
             foreach($data as &$v)
             {
                 // 生日
-                $v['birthday_text'] = empty($v['birthday']) ? '' : date('Y-m-d', $v['birthday']);
-
-                // 头像
-                if(!empty($v['avatar']))
+                if(array_key_exists('birthday', $v))
                 {
-                    $v['avatar'] = ResourcesService::AttachmentPathViewHandle($v['avatar']);
-                } else {
-                    $v['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
+                    $v['birthday_text'] = empty($v['birthday']) ? '' : date('Y-m-d', $v['birthday']);
                 }
 
-                // 注册时间
-                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                // 头像
+                if(array_key_exists('avatar', $v))
+                {
+                    if(!empty($v['avatar']))
+                    {
+                        $v['avatar'] = ResourcesService::AttachmentPathViewHandle($v['avatar']);
+                    } else {
+                        $v['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
+                    }
+                }
 
-                // 更新时间
-                $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
+                // 时间
+                if(array_key_exists('add_time', $v))
+                {
+                    $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                }
+                if(array_key_exists('upd_time', $v))
+                {
+                    $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
+                }
 
                 // 性别
-                $v['gender_text'] = isset($common_gender_list[$v['gender']]) ? $common_gender_list[$v['gender']]['name'] : '未知';
+                if(array_key_exists('gender', $v))
+                {
+                    $v['gender_text'] = isset($common_gender_list[$v['gender']]) ? $common_gender_list[$v['gender']]['name'] : '未知';
+                }
 
                 // 状态
-                $v['status_text'] = $common_user_status_list[$v['status']]['name'];
+                if(array_key_exists('status', $v))
+                {
+                    $v['status_text'] = $common_user_status_list[$v['status']]['name'];
+                }
             }
         }
         return DataReturn('处理成功', 0, $data);
@@ -433,7 +449,7 @@ class UserService
      * @desc    description
      * @param   [ array]          $user [用户数据]
      */
-    private static function UserHandle($user)
+    public static function UserHandle($user)
     {
         // 基础数据处理
         if(isset($user['add_time']))
