@@ -230,7 +230,7 @@ class User extends Common
         } else {
             return DataReturn('授权成功', 0, $user);
         }
-        return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
+        return DataReturn(empty($result['msg']) ? '获取用户信息失败' : $result['msg'], -100);
     }
 
     /**
@@ -324,7 +324,7 @@ class User extends Common
         } else {
             return DataReturn('授权成功', 0, $user);
         }
-        return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
+        return DataReturn(empty($result['msg']) ? '获取用户信息失败' : $result['msg'], -100);
     }
 
     /**

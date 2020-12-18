@@ -81,7 +81,7 @@ class QQ
         {
             return '请重试！';
         }
-        if($data['watermark']['appid'] != $this->_appid )
+        if($data['watermark']['appid'] != $this->_appid)
         {
             return 'appid不匹配';
         }

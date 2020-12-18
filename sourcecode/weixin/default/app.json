@@ -1,5 +1,5 @@
 {
-  "pages": [
+  "pages": ["pages/plugins/signin/index-detail/index-detail",
     "pages/index/index",
     "pages/goods-category/goods-category",
     "pages/cart/cart",
@@ -71,7 +71,8 @@
     "pages/plugins/invoice/invoice/invoice",
     "pages/plugins/invoice/invoice-detail/invoice-detail",
     "pages/plugins/invoice/invoice-saveinfo/invoice-saveinfo",
-    "pages/plugins/invoice/order/order"
+    "pages/plugins/invoice/order/order",
+    "pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo"
   ],
   "permission": {
     "scope.userLocation": {
