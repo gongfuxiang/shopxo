@@ -18,7 +18,7 @@
       <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.id}}" hover-class="none">
         <image src="{{item.images}}" mode="aspectFit" />
         <view class="base">
-          <view class="single-text">{{item.title}}</view>
+          <view class="multi-text">{{item.title}}</view>
           <view class="price">
             <text class="sales-price">{{currency_symbol}}{{item.min_price}}</text>
           </view>

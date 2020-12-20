@@ -20,7 +20,7 @@
           <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none">
             <image class="dis-block" src="{{item.images}}" mode="aspectFit"></image>
             <view class="goods-base">
-              <view class="goods-title single-text">{{item.title}}</view>
+              <view class="goods-title multi-text">{{item.title}}</view>
               <view class="goods-price single-text">{{currency_symbol}}{{item.price}}</view>
               <view qq:if="{{(item.original_price || null) != null}}" class="goods-original-price single-text">{{currency_symbol}}{{item.original_price}}</view>
               <button size="mini">抢购</button>
