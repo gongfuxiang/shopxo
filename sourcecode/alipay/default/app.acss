@@ -135,6 +135,8 @@ textarea {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   min-height: 104rpx;
+  line-height: 52rpx;
+  font-size: 32rpx;
 }
 
 

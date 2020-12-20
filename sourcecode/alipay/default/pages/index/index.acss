@@ -94,10 +94,6 @@
 .floor-list .goods-list .goods-base {
   padding: 0 10rpx;
 }
-.floor-list .goods-list .goods-base .goods-title {
-  line-height: 52rpx;
-  font-size: 32rpx;
-}
 .floor-list .goods-list .goods-base .sales-price {
   font-size: 30rpx;
 }
