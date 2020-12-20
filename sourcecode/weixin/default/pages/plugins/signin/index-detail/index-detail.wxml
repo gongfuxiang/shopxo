@@ -1,14 +1,14 @@
 <view wx:if="{{(data || null) != null}}">
   <!-- 签到 -->
   <view class="coming-container tc">
-    <navigator wx:if="{{(data_base.is_user_menu || 0) == 1}}" class="signin-user-menu-submit" url="/pages/index/index" hover-class="none">我的签到</navigator>
+    <navigator wx:if="{{(data_base.is_user_menu || 0) == 1}}" class="signin-user-menu-submit" url="/pages/plugins/signin/user-signin/user-signin" hover-class="none">我的签到</navigator>
     <view class="coming-submit {{(is_already_coming == 1) ? 'already-coming' : ''}}" bindtap="coming_event">签到</view>
     <block wx:if="{{(user || null) == null}}">
       <view class="coming-title">登录签到获得积分奖励</view>
     </block>
     <block wx:else>
       <!-- 是否已签到 -->
-      <block wx:if="{{(user_signin_data || null) != null && (user_signin_data.integral || 0) > 0 && (user || null) != null}}">
+      <block wx:if="{{(user_signin_data || null) != null && (user_signin_data.integral || 0) > 0}}">
         <view class="coming-title">今日已签到，获得{{user_signin_data.integral}}积分，共{{user_signin_data.total}}次</view>
         <view class="coming-tips">请明日继续签到，更多积分奖励</view>
       </block>
@@ -17,10 +17,10 @@
       </block>
 
       <!-- 队长 -->
-      <block wx:if="{{(team_signin_data || null) != null && (user || null) != null && user.id == data.user_id}}">
+      <block wx:if="{{(team_signin_data || null) != null && user.id == data.user_id}}">
         <view class="coming-title">
           <text>今日{{team_signin_data.day}}人签到，共{{team_signin_data.total}}人</text>
-          <navigator wx:if="{{(base_data.is_team_show_coming_user || 0) == 1}}" url="/pages/index/index" hover-class="none" class="detail-submit">详情 >></navigator>
+          <navigator wx:if="{{(data_base.is_team_show_coming_user || 0) == 1}}" url="/pages/plugins/signin/user-coming-list/user-coming-list?id={{data.id}}" hover-class="none" class="detail-submit">详情 >></navigator>
         </view>
         <view class="coming-tips">分享获得更多奖励</view>
       </block>

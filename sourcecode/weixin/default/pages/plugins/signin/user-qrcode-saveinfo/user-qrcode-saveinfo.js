@@ -1,66 +1,130 @@
-// pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo.js
+const app = getApp();
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    params: null,
+    form_submit_loading: false,
+    data_list_loding_status: 1,
+    data_list_loding_msg: '',
+    data_base: null,
+    data: null,
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  onLoad(params) {
+    this.setData({ params: params });
+    this.init();
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  onShow() {},
 
+  init() {
+    var self = this;
+    wx.showLoading({ title: "加载中..." });
+    this.setData({
+      data_list_loding_status: 1
+    });
+
+    wx.request({
+      url: app.get_request_url("saveinfo", "userqrcode", "signin"),
+      method: "POST",
+      data: this.data.params,
+      dataType: "json",
+      success: res => {
+        wx.hideLoading();
+        wx.stopPullDownRefresh();
+        if (res.data.code == 0) {
+          var data = res.data.data;
+          self.setData({
+            data_base: data.base || null,
+            data: data.data || null,
+            data_list_loding_status: 0,
+          });
+        } else {
+          self.setData({
+            data_list_loding_status: 2,
+            data_list_loding_msg: res.data.msg,
+          });
+          if (app.is_login_check(res.data, self, 'init')) {
+            app.showToast(res.data.msg);
+          }
+        }
+      },
+      fail: () => {
+        wx.hideLoading();
+        wx.stopPullDownRefresh();
+        self.setData({
+          data_list_loding_status: 2,
+          data_list_loding_msg: '服务器请求出错',
+        });
+        app.showToast("服务器请求出错");
+      }
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
+  // 下拉刷新
+  onPullDownRefresh() {
+    this.init();
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
+  // 表单提交
+  formSubmit(e)
+  {
+    var data = e.detail.value;
+    if((this.data.data || null) != null)
+    {
+      data['id'] = this.data.data.id;
+    }
+    // 数据验证
+    var validation = [
+      {fields: 'name', msg: '请填写联系人姓名格式 2~30 个字符之间'},
+      {fields: 'tel', msg: '请填写联系人电话 6~15 个字符'},
+      {fields: 'address', msg: '请填写联系人地址、最多230个字符'}
+    ];
+    if(app.fields_check(data, validation))
+    {
+      wx.showLoading({title: '提交中...'});
+      this.setData({form_submit_loading: true});
 
+      // 网络请求
+      var self = this;
+      wx.request({
+        url: app.get_request_url("save", "userqrcode", "signin"),
+        method: 'POST',
+        data: data,
+        dataType: 'json',
+        header: { 'content-type': 'application/x-www-form-urlencoded' },
+        success: (res) => {
+          wx.hideLoading();
+
+          if(res.data.code == 0)
+          {
+            app.showToast(res.data.msg, "success");
+            setTimeout(function()
+            {
+              // 是否签到也组队
+              if((self.data.params || null) != null && (self.data.params.is_team || 0) == 1)
+              {
+                wx.redirectTo({
+                  url: "/pages/plugins/signin/index-detail/index-detail?id="+res.data.data
+                });
+              } else {
+                wx.navigateBack();
+              }
+            }, 2000);
+          } else {
+            this.setData({form_submit_loading: false});
+            if (app.is_login_check(res.data)) {
+              app.showToast(res.data.msg);
+            } else {
+              app.showToast('提交失败，请重试！');
+            }
+          }
+        },
+        fail: () => {
+          wx.hideLoading();
+          this.setData({form_submit_loading: false});
+          app.showToast('服务器请求出错');
+        }
+      });
+    }
   },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
-})
+});

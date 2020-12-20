@@ -96,10 +96,10 @@
 <view qq:if="{{detail == null}}">
     <import src="/pages/common/nodata.qml" />
     <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
-</view>
 
-<view class="nav-back tc wh-auto">
-  <navigator open-type="navigateBack" hover-class="none">
-    <button type="default" size="mini" class="cr-888 br" hover-class="none">返回</button>
-  </navigator>
+    <view qq:if="{{data_list_loding_status != 1}}" class="nav-back tc wh-auto">
+      <navigator open-type="navigateBack" hover-class="none">
+        <button type="default" size="mini" class="cr-888 br" hover-class="none">返回</button>
+      </navigator>
+    </view>
 </view>

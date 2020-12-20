@@ -1,0 +1,15 @@
+.scroll-box {
+  height: 100vh;
+}
+.data-list .item .content {
+  padding: 20rpx 10rpx;
+}
+.data-list .item .content .multi-text {
+  line-height: 50rpx;
+}
+.data-list .item .content .multi-text .title {
+  margin-right: 30rpx;
+}
+.data-list .item .content .multi-text .value {
+  font-weight: 500;
+}

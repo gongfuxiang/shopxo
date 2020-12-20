@@ -40,6 +40,8 @@
 }
 .detail-submit {
   margin-left: 20rpx;
+  color: #0e90d2;
+  display: inline;
 }
 .submit-container {
   position: absolute;

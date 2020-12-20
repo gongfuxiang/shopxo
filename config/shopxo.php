@@ -28,7 +28,7 @@ if(substr($cdn_public_host, -1) != DS)
 // 配置信息
 return [
     // 开发模式
-    'is_develop'                            => true,
+    'is_develop'                            => false,
 
     // 默认编码
     'default_charset'                       => 'utf-8',

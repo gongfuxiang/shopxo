@@ -16,7 +16,7 @@ Page({
   },
 
   onLoad(params) {
-    params['id'] = 1;
+    //params['id'] = 1;
     this.setData({
       params: params,
       user: app.get_user_cache_info(),
@@ -121,6 +121,7 @@ Page({
               is_success_tips: 1,
               coming_integral: res.data.data,
             });
+            this.get_data();
           } else {
             if (app.is_login_check(res.data, self, 'team_request')) {
               app.showToast(res.data.msg);
@@ -171,7 +172,7 @@ Page({
                 // 需要填写联系人信息
               case 1 :
                 wx.navigateTo({
-                  url: '/pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo',
+                  url: '/pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo?is_team=1',
                 })
                 break;
             }
