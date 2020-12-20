@@ -1972,7 +1972,7 @@ class UserService
             }
             if(!empty($user_ids))
             {
-                $data = Db::name('User')->where(['username,nickname,mobile,email,avatar'=>$user_ids])->column('*', 'id');
+                $data = Db::name('User')->where(['id'=>$user_ids])->column('username,nickname,mobile,email,avatar', 'id');
             }
 
             // 数据处理
