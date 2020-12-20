@@ -15,26 +15,26 @@
       </view>
       <navigator url="/pages/plugins/membershiplevelvip/order-detail/order-detail?id={{item.id}}" hover-class="none">
         <view class="content">
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">开通单号</text>
             <text class="value">{{item.payment_user_order_no}}</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">开通时长</text>
             <text class="value">{{item.period_value}}</text>
             <text class="unit cr-888">{{item.period_unit}}</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">订单金额</text>
             <text class="value">{{item.price}}</text>
             <text class="unit cr-888">元</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">支付金额</text>
             <text class="value">{{item.pay_price}}</text>
             <text class="unit cr-888">元</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">结算状态</text>
             <text class="value">{{item.settlement_status_name}}</text>
           </view>

@@ -2,11 +2,11 @@
   <view class="data-list">
     <view class="item bg-white spacing-mb" wx:if="{{data_list.length > 0}}" wx:for="{{data_list}}" wx:key="key">
       <view class="content">
-        <view class="multi-text">
+        <view class="single-text">
           <text class="title cr-666">奖励积分</text>
           <text class="value">{{item.integral}}</text>
         </view>
-        <view class="multi-text">
+        <view class="single-text">
           <text class="title cr-666">签到时间</text>
           <text class="value">{{item.add_time}}</text>
         </view>

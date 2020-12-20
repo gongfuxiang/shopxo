@@ -15,11 +15,11 @@
       </view>
       <navigator url="/pages/plugins/wallet/user-cash-detail/user-cash-detail?id={{item.id}}" hover-class="none">
         <view class="content">
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">提现单号</text>
             <text class="value">{{item.cash_no}}</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">提现金额</text>
             <text class="value">{{item.money}}</text>
             <text class="unit cr-888">元</text>

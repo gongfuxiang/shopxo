@@ -6,11 +6,11 @@
         <text class="fr nickname cr-888">{{item.user.user_name_view || ''}}</text>
       </view>
       <view class="content">
-        <view class="multi-text">
+        <view class="single-text">
           <text class="title cr-666">奖励积分</text>
           <text class="value">{{item.integral}}</text>
         </view>
-        <view class="multi-text">
+        <view class="single-text">
           <text class="title cr-666">签到时间</text>
           <text class="value">{{item.add_time}}</text>
         </view>

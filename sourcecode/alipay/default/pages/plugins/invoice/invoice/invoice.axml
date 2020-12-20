@@ -15,24 +15,24 @@
       </view>
       <navigator url="/pages/plugins/invoice/invoice-detail/invoice-detail?id={{item.id}}" hover-class="none">
         <view class="content">
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">业务类型</text>
             <text class="value">{{item.business_type_name}}</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">申请类型</text>
             <text class="value">{{item.apply_type_name}}</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">发票类型</text>
             <text class="value">{{item.invoice_type_name}}</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">发票金额</text>
             <text class="value">{{item.total_price}}</text>
             <text class="unit cr-888">元</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">发票抬头</text>
             <text class="value">{{item.invoice_title}}</text>
           </view>

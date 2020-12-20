@@ -15,16 +15,16 @@
       </view>
       <navigator url="/pages/plugins/wallet/user-recharge-detail/user-recharge-detail?id={{item.id}}" hover-class="none">
         <view class="content">
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">充值单号</text>
             <text class="value">{{item.recharge_no}}</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">充值金额</text>
             <text class="value">{{item.money}}</text>
             <text class="unit cr-888">元</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">支付金额</text>
             <text class="value">{{item.pay_money}}</text>
             <text class="unit cr-888">元</text>

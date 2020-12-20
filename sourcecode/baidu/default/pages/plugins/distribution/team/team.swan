@@ -6,22 +6,22 @@
         <text class="fr nickname cr-888">{{item.user_name_view || ''}}</text>
       </view>
       <view class="content">
-        <view class="multi-text">
+        <view class="single-text">
           <text class="title cr-666">消费金额</text>
           <text class="value">{{item.order_total}}</text>
           <text class="unit cr-888">元</text>
         </view>
-        <view class="multi-text">
+        <view class="single-text">
           <text class="title cr-666">下级消费</text>
           <text class="value">{{item.find_order_total}}</text>
           <text class="unit cr-888">元</text>
         </view>
-        <view class="multi-text">
+        <view class="single-text">
           <text class="title cr-666">下级用户</text>
           <text class="value">{{item.referrer_count}}</text>
           <text class="unit cr-888">人</text>
         </view>
-        <view class="multi-text">
+        <view class="single-text">
           <text class="title cr-666">加入时间</text>
           <text class="value">{{item.add_time_time}}</text>
         </view>

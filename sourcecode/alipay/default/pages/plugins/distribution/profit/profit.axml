@@ -15,22 +15,22 @@
       </view>
       <navigator url="/pages/plugins/distribution/profit-detail/profit-detail?id={{item.id}}" hover-class="none">
         <view class="content">
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">订单金额</text>
             <text class="value">{{item.total_price}}</text>
             <text class="unit cr-888">元</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">退款金额</text>
             <text class="value">{{item.refund_price}}</text>
             <text class="unit cr-888">元</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">收益金额</text>
             <text class="value">{{item.profit_price}}</text>
             <text class="unit cr-888">元</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">当前级别</text>
             <text class="value">{{item.level_name}}</text>
           </view>

@@ -15,25 +15,25 @@
       </view>
       <navigator url="/pages/plugins/wallet/wallet-log-detail/wallet-log-detail?id={{item.id}}" hover-class="none">
         <view class="content">
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">业务类型</text>
             <text class="value">{{item.business_type_name}}</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">金额类型</text>
             <text class="value">{{item.money_type_name}}</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">操作金额</text>
             <text class="value">{{item.operation_money}}</text>
             <text class="unit cr-888">元</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">原始金额</text>
             <text class="value">{{item.original_money}}</text>
             <text class="unit cr-888">元</text>
           </view>
-          <view class="multi-text">
+          <view class="single-text">
             <text class="title cr-666">最新金额</text>
             <text class="value">{{item.latest_money}}</text>
             <text class="unit cr-888">元</text>

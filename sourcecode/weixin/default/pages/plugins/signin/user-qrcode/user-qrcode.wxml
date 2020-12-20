@@ -7,15 +7,15 @@
         </view>
         <navigator url="/pages/plugins/signin/user-qrcode-detail/user-qrcode-detail?id={{item.id}}" hover-class="none">
           <view class="content">
-            <view class="multi-text">
+            <view class="single-text">
               <text class="title cr-666">是否启用</text>
               <text class="value">{{item.is_enable_name}}</text>
             </view>
-            <view class="multi-text">
+            <view class="single-text">
               <text class="title cr-666">邀请人奖励积分</text>
               <text class="value">{{item.reward_master}}</text>
             </view>
-            <view class="multi-text">
+            <view class="single-text">
               <text class="title cr-666">受邀人奖励积分</text>
               <text class="value">{{item.reward_invitee}}</text>
             </view>
