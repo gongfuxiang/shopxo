@@ -1,31 +1,29 @@
 const app = getApp();
 Page({
   data: {
-    data_list_loding_status: 1,
-    data_bottom_line_status: false,
-    params: null,
-    data_base: null,
     data_list: [],
     data_page_total: 0,
     data_page: 1,
+    data_list_loding_status: 1,
+    data_bottom_line_status: false,
+    params: null,
   },
 
   onLoad(params) {
     this.setData({
       params: params,
     });
-  },
-
-  onShow() {
     this.init();
   },
+
+  onShow() { },
 
   init() {
     var user = app.get_user_info(this, 'init');
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {
-        wx.redirectTo({
+        tt.redirectTo({
           url: "/pages/login/login?event_callback=init"
         });
         return false;
@@ -51,25 +49,22 @@ Page({
     }
 
     // 加载loding
-    wx.showLoading({ title: "加载中..." });
+    tt.showLoading({ title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
 
-    // 请求数据
-    var data = {
-      page: this.data.data_page
-    };
-
     // 获取数据
-    wx.request({
-      url: app.get_request_url("index", "userqrcode", "signin"),
+    tt.request({
+      url: app.get_request_url("index", "usersignin", "signin"),
       method: "POST",
-      data: data,
+      data: {
+        page: this.data.data_page,
+      },
       dataType: "json",
       success: res => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        tt.hideLoading();
+        tt.stopPullDownRefresh();
         if (res.data.code == 0) {
           if (res.data.data.data.length > 0) {
             if (this.data.data_page <= 1) {
@@ -82,7 +77,6 @@ Page({
               }
             }
             this.setData({
-              data_base: res.data.data.base || null,
               data_list: temp_data_list,
               data_total: res.data.data.total,
               data_page_total: res.data.data.page_total,
@@ -98,7 +92,6 @@ Page({
             }
           } else {
             this.setData({
-              data_base: res.data.data.base || null,
               data_list_loding_status: 0,
               data_list: [],
               data_bottom_line_status: false,
@@ -114,8 +107,8 @@ Page({
         }
       },
       fail: () => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        tt.hideLoading();
+        tt.stopPullDownRefresh();
 
         this.setData({
           data_list_loding_status: 2,
@@ -136,36 +129,5 @@ Page({
   // 滚动加载
   scroll_lower(e) {
     this.get_data_list();
-  },
-
-  // 查看详情
-  show_event(e) {
-    var value = e.currentTarget.dataset.value;
-    wx.navigateTo({
-      url: '/pages/plugins/signin/index-detail/index-detail?id='+value,
-    });
-  },
-
-  // 签到用户
-  coming_event(e) {
-    var value = e.currentTarget.dataset.value;
-    wx.navigateTo({
-      url: '/pages/plugins/signin/user-coming-list/user-coming-list?id='+value,
-    });
-  },
-
-  // 编辑
-  edit_event(e) {
-    var value = e.currentTarget.dataset.value;
-    wx.navigateTo({
-      url: '/pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo?id='+value,
-    });
-  },
-
-  // 组队签到
-  team_event(e) {
-    wx.navigateTo({
-      url: '/pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo',
-    });
   },
 });

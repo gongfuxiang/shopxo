@@ -63,10 +63,12 @@ return array (
   'plugins_service_users_center_left_menu_handle' => 
   array (
     0 => 'app\\plugins\\signin\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\signin\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_css' => 
   array (
@@ -87,6 +89,46 @@ return array (
   'plugins_view_goods_detail_photo_bottom' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_service_order_status_change_history_success_handle' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_order_aftersale_audit_handle_end' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_site_extraction_address_list' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_buy_order_insert_end' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_goods_spec_extends_handle' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_admin_user_save' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_user_save_handle' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_goods_handle_end' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_goods_spec_base' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_goods_detail_panel_price_top' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
   ),
 );
 ?>

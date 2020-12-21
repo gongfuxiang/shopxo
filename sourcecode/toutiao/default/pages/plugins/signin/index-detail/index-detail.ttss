@@ -1,0 +1,132 @@
+/**
+ * 签到
+ */
+.coming-container {
+  background-color: #f6b015;
+  position: relative;
+  padding: 100rpx 0 120rpx 0;
+}
+.coming-submit {
+  width: 200rpx;
+  height: 200rpx;
+  line-height: 200rpx;
+  border-radius: 50%;
+  background-color: #F37B1D;
+  color: #f8fb0b;
+  border: 12rpx solid #f9f420;
+  font-size: 62rpx;
+  margin: 0 auto;
+}
+.already-coming {
+  border: 12rpx solid #bebebe;
+  background-color: #ccc;
+  color: #9f9f9f;
+}
+.coming-title {
+  color: #fff;
+  margin-top: 20rpx;
+}
+.coming-tips {
+  color: #ffe7b2;
+}
+.signin-user-menu-submit {
+  border: 1px solid #fff900;
+  color: #fffb62;
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  padding: 6rpx 20rpx;
+  border-radius: 3rpx;
+}
+.detail-submit {
+  margin-left: 20rpx;
+  color: #0e90d2;
+  display: inline;
+}
+.submit-container {
+  position: absolute;
+  bottom: 20rpx;
+  right: 20rpx;
+}
+.submit-container button:not(:first-child) {
+  margin-left: 30rpx;
+}
+.submit-container button.team-submit {
+  color: #5eb95e;
+  background-color: #E4F3E4;
+  border-color: #d2e8d2;
+}
+.submit-container button.share-submit {
+  color: #F37B1D;
+  background-color: #ffe5be;
+  border-color: #f8d093;
+}
+
+/**
+ * 签到成功提示
+ */
+ .coming-tips-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1050;
+  background: rgb(0 0 0 / 0.6);
+  padding-top: 30%;
+}
+.coming-content {
+  max-width: 300px;
+  height: 305px;
+  margin: 0 auto;
+  position: relative;
+}
+.coming-content icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.coming-tips-container image {
+  max-width: 100%;
+  margin-top:60rpx;
+}
+.coming-tips-content .coming-tips-text {
+  background: #fff;
+  color: #f00;
+  padding: 10rpx 20rpx;
+  border-radius: 1000rpx;
+}
+
+/**
+ * 商品列表
+ */
+ .scroll-box {
+  height: calc(100vh - 80rpx);
+}
+.data-list {
+   overflow: hidden;
+}
+.data-list .items {
+   width: calc(50% - 5rpx);
+   margin-bottom: 10rpx;
+   padding-bottom: 20rpx;
+}
+.data-list .items:nth-child(2n) {
+   float: right;
+}
+.data-list .items:nth-child(2n+1) {
+   float: left;
+}
+.data-list .items image {
+   width: 100%;
+   height: 200px !important;
+}
+.data-list .items .base {
+   text-align: left;
+   font-size: 32rpx;
+   padding: 0 15rpx;
+}
+.data-list .items .base,
+.data-list .items .base .price {
+   margin-top: 15rpx;
+}

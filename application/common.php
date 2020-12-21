@@ -1543,14 +1543,15 @@ function RequestGet($value)
  * @blog     http://gong.gg/
  * @version  1.0.0
  * @datetime 2018-01-03T19:21:38+0800
- * @param    [string]           $url [url地址]
- * @return   [array]                 [返回数据]
+ * @param    [string]           $url        [url地址]
+ * @param    [int]              $timeout    [超时时间（默认10秒）]
+ * @return   [array]                        [返回数据]
  */
-function CurlGet($url)
+function CurlGet($url, $timeout = 10)
 {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 500);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
     curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);

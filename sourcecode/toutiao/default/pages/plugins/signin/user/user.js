@@ -20,15 +20,15 @@ Page({
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {
-        wx.showModal({
+        tt.showModal({
           title: '温馨提示',
           content: '绑定手机号码',
           confirmText: '确认',
           cancelText: '暂不',
           success: (result) => {
-            wx.stopPullDownRefresh();
+            tt.stopPullDownRefresh();
             if (result.confirm) {
-              wx.navigateTo({
+              tt.navigateTo({
                 url: "/pages/login/login?event_callback=init"
               });
             }
@@ -43,13 +43,13 @@ Page({
   // 获取数据
   get_data() {
     var self = this;
-    wx.request({
+    tt.request({
       url: app.get_request_url("center", "user", "signin"),
       method: "POST",
       data: {},
       dataType: "json",
       success: res => {
-        wx.stopPullDownRefresh();
+        tt.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
           // 是否开启组队
@@ -87,7 +87,7 @@ Page({
         }
       },
       fail: () => {
-        wx.stopPullDownRefresh();
+        tt.stopPullDownRefresh();
         self.setData({
           data_bottom_line_status: false,
           data_list_loding_status: 2,

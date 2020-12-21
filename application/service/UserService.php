@@ -1959,9 +1959,8 @@ class UserService
      * @desc    description
      * @param   [array|int]    $user_ids    [用户id]
      * @param   [array]        $user        [指定用户信息]
-     * @param   [boolean]      $is_privacy  [是否隐私处理展示用户名]
      */
-    public static function GetUserViewInfo($user_ids, $user = [], $is_privacy = false)
+    public static function GetUserViewInfo($user_ids, $user = [])
     {
         // 是否指定用户信息
         if(empty($user) && !empty($user_ids))
