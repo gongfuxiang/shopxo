@@ -162,6 +162,8 @@ class SiteService
                     ['is_shelves', '=', 1],
                 ],
                 'field' => 'id,title,images',
+                'm'     => 0,
+                'n'     => 0,
             ]);
             // 使用商品id作为key返回
             $goods = empty($ret['data']) ? [] : array_column($ret['data'], null, 'id');
