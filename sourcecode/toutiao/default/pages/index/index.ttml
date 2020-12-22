@@ -8,7 +8,7 @@
 </view>
 
 <!-- 商城公告 -->
-<view tt:if="{{(common_shop_notice || null) != null}}">
+<view tt:if="{{load_status == 1 && (common_shop_notice || null) != null}}">
   <view class="tips">
     <image src="/images/tips.png" mode="aspectFit" />
     <text>{{common_shop_notice}}</text>

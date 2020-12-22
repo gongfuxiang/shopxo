@@ -8,7 +8,7 @@
 </view>
 
 <!-- 商城公告 -->
-<view qq:if="{{(common_shop_notice || null) != null}}">
+<view qq:if="{{load_status == 1 && (common_shop_notice || null) != null}}">
   <view class="tips">{{common_shop_notice}}</view>
 </view>
 

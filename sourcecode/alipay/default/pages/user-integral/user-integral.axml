@@ -3,7 +3,7 @@
     <view class="data-card bg-white br-b" a:for="{{data_list}}">
       <view class="data-box oh">
       <import src="/pages/common/nodata.axml" />
-        <text class="data-title">{{item.type_text}} {{item.new_integral}}</text>
+        <text class="data-title">{{item.type_text}} {{item.operation_integral}}</text>
         <text class="data-time fr">{{item.add_time_time}}</text>
       </view>
       <view class="data-value">
