@@ -1,0 +1,10 @@
+.content-top {
+  padding: 30rpx 10rpx;
+}
+.content-top text {
+  font-size: 38rpx;
+  font-weight: bold;
+}
+.submit-bottom {
+  background-color: #f6b015 !important;
+}
