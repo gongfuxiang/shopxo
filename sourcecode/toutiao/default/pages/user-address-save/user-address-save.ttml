@@ -61,15 +61,15 @@
         <!-- 身份证信息 -->
         <view tt:if="{{home_user_address_idcard_status == 1}}" class="idcard-container">
             <view class="form-gorup bg-white">
-                <view class="form-gorup-title">身份证姓名<text class="form-group-tips">选填，请务必与上传的身份证件姓名保持一致</text></view>
+                <view class="form-gorup-title">身份证姓名<text class="form-group-tips-must">必填</text><text class="form-group-tips">请务必与上传的身份证件姓名保持一致</text></view>
                 <input type="text" name="idcard_name" value="{{address_data.idcard_name || ''}}" maxlength="16" placeholder-class="cr-ccc" class="cr-666" placeholder="身份证姓名格式 2~16 个字符之间" />
             </view>
             <view class="form-gorup bg-white">
-                <view class="form-gorup-title">身份证号码<text class="form-group-tips">选填，请务必与上传的身份证件号码保持一致</text></view>
+                <view class="form-gorup-title">身份证号码<text class="form-group-tips-must">必填</text><text class="form-group-tips">请务必与上传的身份证件号码保持一致</text></view>
                 <input type="idcard" name="idcard_number" value="{{address_data.idcard_number || ''}}" maxlength="18" placeholder-class="cr-ccc" class="cr-666" placeholder="身份证号码格式最多18个字符" />
             </view>
             <view class="form-gorup bg-white form-container-upload oh">
-                <view class="form-gorup-title">身份证照片<text class="form-group-tips">选填，请使用身份证原件拍摄，图片要清晰</text></view>
+                <view class="form-gorup-title">身份证照片<text class="form-group-tips-must">必传</text><text class="form-group-tips">请使用身份证原件拍摄，图片要清晰</text></view>
                 <view class="form-upload-data">
                     <view class="item fl">
                         <text tt:if="{{(idcard_images_data.idcard_front || null) != null}}" class="delete-icon" bindtap="upload_delete_event" data-value="idcard_front">x</text>

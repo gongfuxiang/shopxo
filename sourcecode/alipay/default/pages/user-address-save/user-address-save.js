@@ -436,16 +436,33 @@ Page({
       { fields: "province", msg: "请选择省份" },
       { fields: "city", msg: "请选择城市" },
       { fields: "county", msg: "请选择区县" },
-      { fields: "address", msg: "请填写详细地址" },
-      { fields: "lng", msg: "请选择地理位置" },
-      { fields: "lat", msg: "请选择地理位置" }
+      { fields: "address", msg: "请填写详细地址" }
     ];
 
-    form_data["province"] = self.data.province_id;
-    form_data["city"] = self.data.city_id;
-    form_data["county"] = self.data.county_id;
-    form_data["id"] = self.data.params.id || 0;
-    form_data["is_default"] = form_data.is_default == true ? 1 : 0;
+    // 是否开启了地理位置选择
+    if(self.data.home_user_address_map_status == 1)
+    {
+      validation.push({ fields: "lng", msg: "请选择地理位置" });
+      validation.push({ fields: "lat", msg: "请选择地理位置" });
+    }
+
+    // 是否开启了用户身份证信息
+    if(self.data.home_user_address_idcard_status == 1)
+    {
+      validation.push({ fields: "idcard_name", msg: "请填写身份证姓名" });
+      validation.push({ fields: "idcard_number", msg: "请填写身份证号码" });
+      validation.push({ fields: "idcard_front", msg: "请上传身份证正面照片" });
+      validation.push({ fields: "idcard_back", msg: "请上传身份证背面照片" });
+    } else {
+      form_data['idcard_name'] = self.data.address_data.idcard_name || '';
+      form_data['idcard_number'] = self.data.address_data.idcard_number || '';
+    }
+
+    form_data['province'] = self.data.province_id;
+    form_data['city'] = self.data.city_id;
+    form_data['county'] = self.data.county_id;
+    form_data['id'] = self.data.params.id || 0;
+    form_data['is_default'] = form_data.is_default == true ? 1 : 0;
     form_data['idcard_front'] = self.data.idcard_images_data.idcard_front || '';
     form_data['idcard_back'] = self.data.idcard_images_data.idcard_back || '';
 
@@ -464,8 +481,8 @@ Page({
         lat = self.data.address_data.lat || 0;
       }
     }
-    form_data["lng"] = lng;
-    form_data["lat"] = lat;
+    form_data['lng'] = lng;
+    form_data['lat'] = lat;
 
     // 验证提交表单
     if (app.fields_check(form_data, validation)) {
