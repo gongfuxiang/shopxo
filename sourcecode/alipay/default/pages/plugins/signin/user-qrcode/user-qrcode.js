@@ -1,23 +1,23 @@
 const app = getApp();
 Page({
   data: {
-    data_list: [],
-    data_page_total: 0,
-    data_page: 1,
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     params: null,
+    data_base: null,
+    data_list: [],
+    data_page_total: 0,
+    data_page: 1,
   },
 
   onLoad(params) {
     this.setData({
       params: params,
     });
-    this.init();
   },
 
   onShow() {
-    app.set_nav_bg_color_main('#ff6a80');
+    this.init();
   },
 
   init() {
@@ -56,13 +56,16 @@ Page({
       data_list_loding_status: 1
     });
 
+    // 请求数据
+    var data = {
+      page: this.data.data_page
+    };
+
     // 获取数据
     my.request({
-      url: app.get_request_url("index", "team", "distribution"),
+      url: app.get_request_url("index", "userqrcode", "signin"),
       method: "POST",
-      data: {
-        page: this.data.data_page,
-      },
+      data: data,
       dataType: "json",
       success: res => {
         my.hideLoading();
@@ -79,6 +82,7 @@ Page({
               }
             }
             this.setData({
+              data_base: res.data.data.base || null,
               data_list: temp_data_list,
               data_total: res.data.data.total,
               data_page_total: res.data.data.page_total,
@@ -94,6 +98,7 @@ Page({
             }
           } else {
             this.setData({
+              data_base: res.data.data.base || null,
               data_list_loding_status: 0,
               data_list: [],
               data_bottom_line_status: false,
@@ -133,17 +138,34 @@ Page({
     this.get_data_list();
   },
 
-  // 头像查看
-  avatar_event(e) {
-    var value = e.currentTarget.dataset.value || null;
-    if (value != null)
-    {
-      my.previewImage({
-        current: 0,
-        urls: [value]
-      });
-    } else {
-      app.showToast('头像地址有误');
-    }
+  // 查看详情
+  show_event(e) {
+    var value = e.currentTarget.dataset.value;
+    my.navigateTo({
+      url: '/pages/plugins/signin/index-detail/index-detail?id='+value,
+    });
+  },
+
+  // 签到用户
+  coming_event(e) {
+    var value = e.currentTarget.dataset.value;
+    my.navigateTo({
+      url: '/pages/plugins/signin/user-coming-list/user-coming-list?id='+value,
+    });
+  },
+
+  // 编辑
+  edit_event(e) {
+    var value = e.currentTarget.dataset.value;
+    my.navigateTo({
+      url: '/pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo?id='+value,
+    });
+  },
+
+  // 组队签到
+  team_event(e) {
+    my.navigateTo({
+      url: '/pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo',
+    });
   },
 });

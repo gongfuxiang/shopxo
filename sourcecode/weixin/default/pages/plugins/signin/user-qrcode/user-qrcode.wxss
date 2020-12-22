@@ -31,6 +31,7 @@
   padding-top: 35%;
 }
 .user-team-container button {
+  margin: 0 auto;
   margin-bottom: 50rpx;
   width: 50%;
   background-color: #f6b015;

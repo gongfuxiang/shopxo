@@ -1,0 +1,29 @@
+/*
+ * 导航
+ */
+.nav {
+  border-top: 1px solid #eee;
+}
+.nav .item {
+  padding: 30rpx 0;
+  width: calc(50% - 1px);
+  border-bottom: 1px solid #eee;
+}
+.nav .item:nth-child(odd) {
+  border-right: 1px solid #eee;
+}
+.nav .item image {
+  width: 100rpx;
+  height: 100rpx;
+  margin: 0 auto;
+}
+.nav .item .title {
+  margin-top: 20rpx;
+}
+
+/*
+ * 提示信息
+ */
+.tips-container {
+  padding: 0 10rpx;
+}

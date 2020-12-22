@@ -81,7 +81,7 @@
   margin: 0 auto;
   position: relative;
 }
-.coming-content icon {
+.coming-content .icon-close-submit {
   position: absolute;
   top: 5px;
   right: 5px;

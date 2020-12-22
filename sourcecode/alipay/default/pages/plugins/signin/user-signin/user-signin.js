@@ -16,9 +16,7 @@ Page({
     this.init();
   },
 
-  onShow() {
-    app.set_nav_bg_color_main('#ff6a80');
-  },
+  onShow() { },
 
   init() {
     var user = app.get_user_info(this, 'init');
@@ -58,7 +56,7 @@ Page({
 
     // 获取数据
     my.request({
-      url: app.get_request_url("index", "team", "distribution"),
+      url: app.get_request_url("index", "usersignin", "signin"),
       method: "POST",
       data: {
         page: this.data.data_page,
@@ -131,19 +129,5 @@ Page({
   // 滚动加载
   scroll_lower(e) {
     this.get_data_list();
-  },
-
-  // 头像查看
-  avatar_event(e) {
-    var value = e.currentTarget.dataset.value || null;
-    if (value != null)
-    {
-      my.previewImage({
-        current: 0,
-        urls: [value]
-      });
-    } else {
-      app.showToast('头像地址有误');
-    }
   },
 });

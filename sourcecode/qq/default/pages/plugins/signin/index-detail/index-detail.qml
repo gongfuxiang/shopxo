@@ -67,7 +67,9 @@
   <!-- 签到成功提示信息 -->
   <view qq:if="{{is_success_tips == 1}}" class="coming-tips-container am-text-center">
     <view class="coming-content tc">
-      <icon type="clear" size="20" bindtap="coming_success_close_event" />
+      <view class="icon-close-submit" bindtap="coming_success_close_event">
+        <icon type="clear" size="20" />
+      </view>
       <image src="/images/plugins/signin/coming-success-icon.png" mode="widthFix" />
       <view class="coming-tips-content">
           <text class="coming-tips-text">获得 <text>{{coming_integral}}</text> 积分</text>

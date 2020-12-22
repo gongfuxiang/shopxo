@@ -1,12 +1,12 @@
 const app = getApp();
 Page({
   data: {
-    data_list: [],
-    data_page_total: 0,
-    data_page: 1,
     data_list_loding_status: 1,
     data_bottom_line_status: false,
     params: null,
+    data_list: [],
+    data_page_total: 0,
+    data_page: 1,
   },
 
   onLoad(params) {
@@ -16,9 +16,7 @@ Page({
     this.init();
   },
 
-  onShow() {
-    app.set_nav_bg_color_main('#ff6a80');
-  },
+  onShow() { },
 
   init() {
     var user = app.get_user_info(this, 'init');
@@ -58,9 +56,10 @@ Page({
 
     // 获取数据
     my.request({
-      url: app.get_request_url("index", "team", "distribution"),
+      url: app.get_request_url("usercominglist", "userqrcode", "signin"),
       method: "POST",
       data: {
+        id: this.data.params.id || 0,
         page: this.data.data_page,
       },
       dataType: "json",

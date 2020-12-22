@@ -1,0 +1,20 @@
+<!-- 导航 -->
+<view a:if="{{nav_list.length > 0}}" class="nav oh bg-white">
+  <block a:for="{{nav_list}}" a:key="key">
+    <navigator url="{{item.url}}" hover-class="none">
+      <view class="item fl tc">
+        <image src="{{item.icon}}" mode="scaleToFill" class="dis-block" />
+        <view class="title">{{item.title}}</view>
+      </view>
+    </navigator>
+  </block>
+</view>
+
+<!-- 通知  -->
+<view a:if="{{(data_base || null) != null && (data_base.signin_desc || null) != null && data_base.signin_desc.length > 0}}" class="tips-container spacing-mt">
+  <view class="tips">
+    <view a:for="{{data_base.signin_desc}}" a:key="key" class="item">
+      {{item}}
+    </view>
+  </view>
+</view>
