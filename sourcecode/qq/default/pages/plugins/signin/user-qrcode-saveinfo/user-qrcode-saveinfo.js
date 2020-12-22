@@ -18,19 +18,19 @@ Page({
 
   init() {
     var self = this;
-    wx.showLoading({ title: "加载中..." });
+    qq.showLoading({ title: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
 
-    wx.request({
+    qq.request({
       url: app.get_request_url("saveinfo", "userqrcode", "signin"),
       method: "POST",
       data: this.data.params,
       dataType: "json",
       success: res => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        qq.hideLoading();
+        qq.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
           self.setData({
@@ -49,8 +49,8 @@ Page({
         }
       },
       fail: () => {
-        wx.hideLoading();
-        wx.stopPullDownRefresh();
+        qq.hideLoading();
+        qq.stopPullDownRefresh();
         self.setData({
           data_list_loding_status: 2,
           data_list_loding_msg: '服务器请求出错',
@@ -81,19 +81,19 @@ Page({
     ];
     if(app.fields_check(data, validation))
     {
-      wx.showLoading({title: '提交中...'});
+      qq.showLoading({title: '提交中...'});
       this.setData({form_submit_loading: true});
 
       // 网络请求
       var self = this;
-      wx.request({
+      qq.request({
         url: app.get_request_url("save", "userqrcode", "signin"),
         method: 'POST',
         data: data,
         dataType: 'json',
         header: { 'content-type': 'application/x-www-form-urlencoded' },
         success: (res) => {
-          wx.hideLoading();
+          qq.hideLoading();
 
           if(res.data.code == 0)
           {
@@ -103,11 +103,11 @@ Page({
               // 是否签到也组队
               if((self.data.params || null) != null && (self.data.params.is_team || 0) == 1)
               {
-                wx.redirectTo({
+                qq.redirectTo({
                   url: "/pages/plugins/signin/index-detail/index-detail?id="+res.data.data
                 });
               } else {
-                wx.navigateBack();
+                qq.navigateBack();
               }
             }, 2000);
           } else {
@@ -120,7 +120,7 @@ Page({
           }
         },
         fail: () => {
-          wx.hideLoading();
+          qq.hideLoading();
           this.setData({form_submit_loading: false});
           app.showToast('服务器请求出错');
         }

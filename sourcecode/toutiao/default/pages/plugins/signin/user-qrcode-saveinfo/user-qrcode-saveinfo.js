@@ -71,7 +71,7 @@ Page({
     var data = e.detail.value;
     if((this.data.data || null) != null)
     {
-      data['id'] = this.data.data.id;
+      data['id'] = this.data.data.id || 0;
     }
     // 数据验证
     var validation = [

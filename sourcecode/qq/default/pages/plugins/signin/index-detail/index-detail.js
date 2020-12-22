@@ -30,13 +30,13 @@ Page({
   // 获取数据
   get_data() {
     var self = this;
-    tt.request({
+    qq.request({
       url: app.get_request_url("detail", "index", "signin"),
       method: "POST",
       data: {id: this.data.params.id || 0},
       dataType: "json",
       success: res => {
-        tt.stopPullDownRefresh();
+        qq.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
           self.setData({
@@ -58,7 +58,7 @@ Page({
         }
       },
       fail: () => {
-        tt.stopPullDownRefresh();
+        qq.stopPullDownRefresh();
         self.setData({
           data_bottom_line_status: false,
           data_list_loding_status: 2,
@@ -81,15 +81,15 @@ Page({
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {
-        tt.showModal({
+        qq.showModal({
           title: '温馨提示',
           content: '绑定手机号码',
           confirmText: '确认',
           cancelText: '暂不',
           success: (result) => {
-            tt.stopPullDownRefresh();
+            qq.stopPullDownRefresh();
             if (result.confirm) {
-              tt.navigateTo({
+              qq.navigateTo({
                 url: "/pages/login/login?event_callback=init"
               });
             }
@@ -107,14 +107,14 @@ Page({
     if(this.data.is_already_coming != 1 && this.init())
     {
       var self = this;
-      tt.showLoading({ title: "处理中..." });
-      tt.request({
+      qq.showLoading({ title: "处理中..." });
+      qq.request({
         url: app.get_request_url("coming", "index", "signin"),
         method: "POST",
         data: {id: this.data.data.id},
         dataType: "json",
         success: res => {
-          tt.hideLoading();
+          qq.hideLoading();
           if (res.data.code == 0) {
             this.setData({
               is_already_coming: 1,
@@ -129,7 +129,7 @@ Page({
           }
         },
         fail: () => {
-          tt.hideLoading();
+          qq.hideLoading();
           app.showToast("服务器请求出错");
         }
       });
@@ -148,14 +148,14 @@ Page({
     if(this.init())
     {
       var self = this;
-      tt.showLoading({ title: "处理中..." });
-      tt.request({
+      qq.showLoading({ title: "处理中..." });
+      qq.request({
         url: app.get_request_url("team", "userqrcode", "signin"),
         method: "POST",
         data: {},
         dataType: "json",
         success: res => {
-          tt.hideLoading();
+          qq.hideLoading();
           if (res.data.code == 0) {
             switch(res.data.data.status)
             {
@@ -171,7 +171,7 @@ Page({
 
                 // 需要填写联系人信息
               case 1 :
-                tt.navigateTo({
+                qq.navigateTo({
                   url: '/pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo?is_team=1',
                 })
                 break;
@@ -183,7 +183,7 @@ Page({
           }
         },
         fail: () => {
-          tt.hideLoading();
+          qq.hideLoading();
           app.showToast("服务器请求出错");
         }
       });
@@ -194,7 +194,7 @@ Page({
   right_images_event(e) {
     if((this.data.data.right_images_url || null) != null)
     {
-      tt.navigateTo({
+      qq.navigateTo({
         url: this.data.data.right_images_url,
       });
     }

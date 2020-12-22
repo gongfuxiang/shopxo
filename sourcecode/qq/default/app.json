@@ -46,7 +46,14 @@
     "pages/plugins/invoice/invoice/invoice",
     "pages/plugins/invoice/invoice-detail/invoice-detail",
     "pages/plugins/invoice/invoice-saveinfo/invoice-saveinfo",
-    "pages/plugins/invoice/order/order"
+    "pages/plugins/invoice/order/order",
+    "pages/plugins/signin/user/user",
+    "pages/plugins/signin/index-detail/index-detail",
+    "pages/plugins/signin/user-signin/user-signin",
+    "pages/plugins/signin/user-qrcode/user-qrcode",
+    "pages/plugins/signin/user-qrcode-detail/user-qrcode-detail",
+    "pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo",
+    "pages/plugins/signin/user-coming-list/user-coming-list"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",
