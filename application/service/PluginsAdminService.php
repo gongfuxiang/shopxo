@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use app\service\PluginsService;
 use app\service\ResourcesService;
 use app\service\SqlconsoleService;
 
@@ -108,8 +109,10 @@ class PluginsAdminService
         $config = self::GetPluginsConfig($params['id']);;
         if($config !== false)
         {
+            $cache = PluginsService::PluginsCacheData($params['id']);
             $data = [
                 'plugins'   => $params['id'],
+                'data'      => empty($cache) ? '' : json_encode($cache),
                 'is_enable' => 0,
                 'add_time'  => time(),
             ];
@@ -379,9 +382,13 @@ class PluginsAdminService
             // 是否需要删除应用数据,sql运行
             $is_delete_static = (isset($params['value']) && $params['value'] == 1);
 
-            // 执行卸载sql
+            // 删除数据
             if($is_delete_static === true)
             {
+                // 删除缓存
+                PluginsService::PluginsCacheDelete($params['plugins']);
+
+                // 执行卸载sql
                 $uninstall_sql = APP_PATH.'plugins'.DS.$params['id'].DS.'uninstall.sql';
                 if(file_exists($uninstall_sql))
                 {
@@ -394,6 +401,7 @@ class PluginsAdminService
 
             // 删除应用文件
             self::PluginsResourcesDelete($params['id'], $is_delete_static);
+
             return DataReturn('删除成功');
         }
         return $ret;

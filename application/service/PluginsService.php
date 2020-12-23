@@ -36,12 +36,7 @@ class PluginsService
     public static function PluginsData($plugins, $attachment_field = [], $is_cache = true)
     {
         // 从缓存获取数据
-        $data = [];
-        $key = config('shopxo.cache_plugins_data_key').$plugins;
-        if($is_cache === true)
-        {
-            $data = cache($key);
-        }
+        $data = ($is_cache === true) ? self::PluginsCacheData($plugins) : [];
 
         // 数据不存在则从数据库读取
         if(empty($data))
@@ -91,7 +86,7 @@ class PluginsService
                 }
 
                 // 存储缓存
-                cache($key, $data);
+                self::PluginsCacheStorage($plugins, $data);
             }
         }
         return DataReturn('处理成功', 0, $data);
@@ -149,11 +144,55 @@ class PluginsService
         if(Db::name('Plugins')->where(['plugins'=>$params['plugins']])->update(['data'=>json_encode($params['data']), 'upd_time'=>time()]))
         {
             // 删除缓存
-            cache(config('shopxo.cache_plugins_data_key').$params['plugins'], null);
+            self::PluginsCacheDelete($params['plugins']);
             
             return DataReturn('操作成功');
         }
         return DataReturn('操作失败', -100);
+    }
+
+    /**
+     * 应用缓存c存储
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-12-23
+     * @desc    description
+     * @param   [string]          $plugins [应用标记]
+     * @param   [mixed]           $data    [应用数据]
+     */
+    public static function PluginsCacheStorage($plugins, $data)
+    {
+        return cache(config('shopxo.cache_plugins_data_key').$plugins, $data);
+    }
+
+    /**
+     * 应用缓存获取
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-12-23
+     * @desc    description
+     * @param   [string]          $plugins [应用标记]
+     */
+    public static function PluginsCacheData($plugins)
+    {
+        $data = cache(config('shopxo.cache_plugins_data_key').$plugins);
+        return empty($data) ? '' : $data;
+    }
+
+    /**
+     * 应用缓存删除
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-12-23
+     * @desc    description
+     * @param   [string]          $plugins [应用标记]
+     */
+    public static function PluginsCacheDelete($plugins)
+    {
+        cache(config('shopxo.cache_plugins_data_key').$plugins, null);
     }
 
     /**
