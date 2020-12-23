@@ -233,6 +233,9 @@ class OrderSplitService
      */
     public static function GoodsWarehouseAggregate($data)
     {
+        // 默认仓库
+        $warehouse_default = [];
+
         // 数据分组
         $result = [];
         foreach($data as $v)
@@ -242,17 +245,15 @@ class OrderSplitService
 
             // 获取商品库存
             $where = [
-                'wgs.goods_id'      => $v['goods_id'],
-                'wgs.md5_key'       => md5(implode('', array_column($spec, 'value'))),
-                'wg.is_enable'      => 1,
-                'w.is_enable'       => 1,
-                'w.is_delete_time'  => 0,
+                ['wgs.goods_id', '=', $v['goods_id']],
+                ['wgs.md5_key', '=', md5(implode('', array_column($spec, 'value')))],
+                ['wgs.inventory', '>', 0],
+                ['wg.is_enable', '=', 1],
+                ['w.is_enable', '=', 1],
+                ['w.is_delete_time', '=', 0],
             ];
             $field = 'distinct w.id,w.name,w.alias,w.lng,w.lat,w.province,w.city,w.county,w.address,wgs.inventory,w.is_default,w.level';
             $warehouse = Db::name('WarehouseGoodsSpec')->alias('wgs')->join(['__WAREHOUSE_GOODS__'=>'wg'], 'wgs.warehouse_id=wg.warehouse_id')->join(['__WAREHOUSE__'=>'w'], 'wg.warehouse_id=w.id')->where($where)->field($field)->order('w.level desc,w.is_default desc,wgs.inventory desc')->select();
-
-            // 默认仓库
-            $warehouse_default = [];
 
             // 商品仓库分组
             if(!empty($warehouse))
@@ -266,7 +267,7 @@ class OrderSplitService
                         $temp_v = $v;
 
                         // 购买数量计算
-                        if($temp_v['stock'] > $w['inventory'])
+                        if($temp_v['stock'] > $w['inventory'] && $w['inventory'] > 0)
                         {
                             $temp_v['stock'] = $w['inventory'];
                         }

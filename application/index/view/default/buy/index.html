@@ -652,8 +652,7 @@ function BuySubmitBack(e)
         Prompt(e.msg, 'success');
         setTimeout(function()
         {
-            window.open(e.data.jump_url, '_blank');
-            window.close();
+            window.location.href = e.data.jump_url;
         }, 1500);
     } else {
         $('form.form-validation').find('button[type="submit"]').button('reset');
