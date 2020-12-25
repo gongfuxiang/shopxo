@@ -92,6 +92,11 @@ class OrderSplitService
                     $v['order_base']['actual_price'] = PriceNumberFormat(($v['order_base']['actual_price']+$ext['inc'])-$ext['dec']);
                     $v['order_base']['total_price'] = PriceNumberFormat($v['order_base']['total_price']);
 
+                    // 防止实际金额负数
+                    if($v['order_base']['actual_price'] < 0)
+                    {
+                        $v['order_base']['actual_price'] = 0;
+                    }
                 }
             }
         }

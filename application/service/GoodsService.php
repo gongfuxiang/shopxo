@@ -586,9 +586,30 @@ class GoodsService
                     $v['content_app'] = self::GoodsContentAppData(['goods_id'=>$data_id]);
                 }
 
-                // 展示字段
+                // 价格字段
+                // 原价
+                // 销售价
                 $v['show_field_original_price_text'] = '原价';
                 $v['show_field_price_text'] = '销售价';
+
+
+                // 公共插件数据
+                // 商品详情面板提示数据、一维数组
+                $v['plugins_view_panel_data'] = [];
+
+                // 商品详情icon数据、二维数组
+                // name     必填(建议不超过6个字符)
+                // bg_color 默认(#fff)
+                // br_color 默认(#3bb4f2)
+                // color    默认($3bb4f2)
+                // [
+                //      'name'      => 'icon名称',
+                //      'bg_color'  => '#fff',
+                //      'br_color'  => '#3bb4f2',
+                //      'color'     => '#3bb4f2',
+                // ]
+                $v['plugins_view_icon_data'] = [];
+                
 
                 // 商品处理后钩子
                 $hook_name = 'plugins_service_goods_handle_end';

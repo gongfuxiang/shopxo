@@ -1396,6 +1396,12 @@ function UrlFieldReplace(field, value, url)
     		url += '?'+field+'='+value;
     	}
     }
+
+    // 多余的双斜杠处理、这里防止://被处理 首先换成特殊字符再换回来
+    url = url.replace(/\:\/\//ig, '{--re--join--re--}');
+    url = url.replace(/\/\//ig, '/');
+    url = url.replace(/\{\-\-re\-\-join\-\-re\-\-\}/ig, '://');
+
     return url+anchor;
 }
 

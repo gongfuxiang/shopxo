@@ -162,7 +162,7 @@
                                             <span>{{$category.name}}</span>
                                             <span class="am-margin-left-sm form.am-form am-form-group-label-tips">{{$category.vice_name}}</span>
                                         </p>
-                                        <ul class="am-list am-list-border am-margin-top-sm manual-mode-goods-container manual-mode-goods-container-{{$category.id}}">
+                                        <ul class="am-list am-list-border am-list-striped am-margin-top-sm manual-mode-goods-container manual-mode-goods-container-{{$category.id}}">
                                         {{if !empty($floor_manual_mode_goods_list) && !empty($floor_manual_mode_goods_list[$category['id']])}}
                                             {{foreach $floor_manual_mode_goods_list[$category['id']] as $g}}
                                                 <li class="manual-mode-goods-item-{{$g.id}}">

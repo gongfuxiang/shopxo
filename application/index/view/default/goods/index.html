@@ -137,6 +137,18 @@
             <div class="tb-detail-hd">
                 <h1 class="detail-title am-margin-bottom-xs" {{if !empty($goods.title_color)}}style="color:{{$goods.title_color}};"{{/if}}>
                     {{$goods.title}}
+
+                    <!-- 公共icon数据 -->
+                    {{if !empty($goods['plugins_view_icon_data']) and is_array($goods['plugins_view_icon_data'])}}
+                        <span class="goods-plugins-view-icon-container">
+                            {{foreach $goods.plugins_view_icon_data as $v}}
+                                {{if !empty($v) or is_array($v) and !empty($v['name'])}}
+                                    <span class="am-badge am-radius" style="{{if !empty($v['br_color'])}}border:1px solid {{$v.br_color}};{{/if}}{{if !empty($v['color'])}}color:{{$v.color}};{{/if}}">{{$v.name}}</span>
+                                {{/if}}
+                            {{/foreach}}
+                        </span>
+                    {{/if}}
+
                     <!-- 商品页面基础信息标题里面钩子 -->
                     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                         <div class="plugins-tag">
@@ -156,6 +168,17 @@
                 {{/if}}
             </div>
             <div class="tb-detail-list">
+                <!-- 公共面板数据 -->
+                {{if !empty($goods['plugins_view_panel_data']) and is_array($goods['plugins_view_panel_data'])}}
+                    <div class="goods-plugins-view-panel-container am-margin-bottom-sm">
+                        {{foreach $goods.plugins_view_panel_data as $v}}
+                            {{if is_string($v) or is_int($v)}}
+                                <p>{{$v}}</p>
+                            {{/if}}
+                        {{/foreach}}
+                    </div>
+                {{/if}}
+
                 <!-- 商品页面基础信息顶部钩子 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                     <div class="plugins-tag">

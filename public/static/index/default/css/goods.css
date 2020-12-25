@@ -458,3 +458,36 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 @media only screen and (min-width:641px) {
     .exhibition-nav .buy-nav-opt { margin-left: 120px; }
 }
+
+/**
+ * 插件公共数据
+ */
+/**
+ * 插件公共面板数据
+ */
+.goods-plugins-view-panel-container {
+    background: #ffedf0;
+    color: #d2354c;
+}
+.goods-plugins-view-panel-container p {
+    padding: 5px 10px;
+}
+.goods-plugins-view-panel-container p:not(:first-child) {
+    border-top: 1px dashed #ffdbdf;
+}
+@media only screen and (max-width:641px) {
+    .goods-plugins-view-panel-container p {
+        padding: 5px;
+    }
+}
+/**
+ * 插件公共icon数据
+ */
+.goods-plugins-view-icon-container span {
+    background: #fff;
+    border: 1px solid #3bb4f2;
+    color: #3bb4f2;
+}
+.goods-plugins-view-icon-container span:not(:first-child) {
+    margin-left: 5px;
+}
