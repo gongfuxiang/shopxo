@@ -70,7 +70,7 @@
 		<div class="am-footer-miscs">
 			<div class="am-container">
 				<!-- 友情链接 -->
-				{{if !empty($link_list) and $module_name.$controller_name.$action_name eq 'indexindexindex' and MyC('home_index_friendship_link_status') eq 1}}
+				{{if !empty($link_list) and $module_name.$controller_name.$action_name eq 'indexindexindex' and (!IsMobile() or (IsMobile() and MyC('home_index_friendship_link_status') eq 1))}}
 					<div class="friendship-list">
 						<ul class="am-cf am-margin-bottom-sm">
 							<li class="am-fl am-text-center title">友情链接</li>

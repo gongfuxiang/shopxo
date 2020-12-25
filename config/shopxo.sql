@@ -11,7 +11,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 25/12/2020 18:22:21
+ Date: 25/12/2020 18:28:57
 */
 
 SET NAMES utf8mb4;
@@ -67,6 +67,12 @@ CREATE TABLE `s_answer` (
   KEY `user_id` (`name`),
   KEY `is_show` (`is_show`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户留言/问答';
+
+-- ----------------------------
+-- Records of s_answer
+-- ----------------------------
+BEGIN;
+COMMIT;
 
 -- ----------------------------
 -- Table structure for s_app_center_nav
@@ -144,6 +150,8 @@ INSERT INTO `s_app_center_nav` VALUES (46, 'qq', 1, '/pages/plugins/invoice/user
 INSERT INTO `s_app_center_nav` VALUES (47, 'weixin', 1, '/pages/plugins/signin/user/user', '/static/upload/images/app_center_nav/2020/12/22/1608608498784252.png', '我的签到', '', 1, 0, 0, 1607398368, 1608608501);
 INSERT INTO `s_app_center_nav` VALUES (48, 'alipay', 1, '/pages/plugins/signin/user/user', '/static/upload/images/app_center_nav/2020/12/22/1608608498784252.png', '我的签到', '', 1, 0, 0, 1607398368, 0);
 INSERT INTO `s_app_center_nav` VALUES (49, 'baidu', 1, '/pages/plugins/signin/user/user', '/static/upload/images/app_center_nav/2020/12/22/1608608498784252.png', '我的签到', '', 1, 0, 0, 1607398368, 0);
+INSERT INTO `s_app_center_nav` VALUES (50, 'toutiao', 1, '/pages/plugins/signin/user/user', '/static/upload/images/app_center_nav/2020/12/22/1608608498784252.png', '我的签到', '', 1, 0, 0, 1607398368, 0);
+INSERT INTO `s_app_center_nav` VALUES (51, 'qq', 1, '/pages/plugins/signin/user/user', '/static/upload/images/app_center_nav/2020/12/22/1608608498784252.png', '我的签到', '', 1, 0, 0, 1607398368, 0);
 COMMIT;
 
 -- ----------------------------
@@ -941,7 +949,7 @@ INSERT INTO `s_config` VALUES (181, '', '有效时间', '默认3600秒', '请填
 INSERT INTO `s_config` VALUES (182, '', '前缀', '默认 shopxo', '请填写前缀', 'common', 'common_cache_session_redis_prefix', 1605443205);
 INSERT INTO `s_config` VALUES (76, '', '应用私钥', '', '请填写应用私钥', 'common', 'common_app_mini_alipay_rsa_private', 1597483646);
 INSERT INTO `s_config` VALUES (171, '4', '首页楼层商品排序类型', '默认综合', '请选择首页楼层商品排序类型', 'home', 'home_index_floor_goods_order_by_type', 1608258457);
-INSERT INTO `s_config` VALUES (173, '百宝箱', '快捷导航名称', '默认 百宝箱', '请填写快捷导航名称', 'home', 'home_navigation_main_quick_name', 1608891706);
+INSERT INTO `s_config` VALUES (173, '百宝箱', '快捷导航名称', '默认 百宝箱', '请填写快捷导航名称', 'home', 'home_navigation_main_quick_name', 1608892087);
 INSERT INTO `s_config` VALUES (172, '0', '首页楼层商品排序规则', '默认降序(desc)', '请选择首页楼层商品排序规则', 'home', 'home_index_floor_goods_order_by_rule', 1608258457);
 INSERT INTO `s_config` VALUES (188, 'default', '默认主题', '微信小程序默认主题', '请选择微信小程序默认主题', 'common', 'common_app_mini_weixin_default_theme', 1605947161);
 INSERT INTO `s_config` VALUES (174, '0', '获取账户手机一键登录', '默认否', '请选择获取账户手机一键登录', 'common', 'common_user_is_onekey_bind_mobile', 1607494842);
@@ -1054,12 +1062,12 @@ INSERT INTO `s_config` VALUES (192, 'default', '默认主题', 'QQ小程序默�
 INSERT INTO `s_config` VALUES (193, '1', '首页楼层数据模式类型', '默认自动模式', '请选择首页楼层数据模式类型', 'home', 'home_index_floor_data_type', 1608258457);
 INSERT INTO `s_config` VALUES (194, '{\"1\":[\"7\",\"8\",\"3\",\"2\",\"1\",\"6\",\"5\",\"4\",\"11\",\"12\",\"10\",\"9\"]}', '首页楼层商品配置', '自定义添加商品', '请选择首页楼层商品配置', 'home', 'home_index_floor_manual_mode_goods', 1608258457);
 INSERT INTO `s_config` VALUES (195, '{\"1\":\"58,59,60,61,62,63\",\"2\":\"304,305,306,307,308,309\"}', '首页楼层左侧二级商品分类', '楼层下分类（下拉多选）', '请填写首页楼层左侧二级商品分类', 'home', 'home_index_floor_left_top_category', 1608258457);
-INSERT INTO `s_config` VALUES (196, '1', '快捷导航状态', '默认关闭', '请选择快捷导航状态', 'home', 'home_navigation_main_quick_status', 1608891706);
-INSERT INTO `s_config` VALUES (197, '0', '用户地址地图', '默认关闭', '请选择用户地址地图', 'home', 'home_user_address_map_status', 1608891706);
-INSERT INTO `s_config` VALUES (198, '0', '用户地址身份证', '默认关闭', '请选择用户地址身份证', 'home', 'home_user_address_idcard_status', 1608891706);
+INSERT INTO `s_config` VALUES (196, '1', '快捷导航状态', '默认关闭', '请选择快捷导航状态', 'home', 'home_navigation_main_quick_status', 1608892087);
+INSERT INTO `s_config` VALUES (197, '0', '用户地址地图', '默认关闭', '请选择用户地址地图', 'home', 'home_user_address_map_status', 1608892087);
+INSERT INTO `s_config` VALUES (198, '0', '用户地址身份证', '默认关闭', '请选择用户地址身份证', 'home', 'home_user_address_idcard_status', 1608892087);
 INSERT INTO `s_config` VALUES (199, '1', '首页轮播左侧商品分类', '默认开启', '请选择首页轮播左侧商品分类', 'home', 'home_index_banner_left_status', 1608258457);
 INSERT INTO `s_config` VALUES (200, '1', '首页轮播右侧聚合内容', '默认开启', '请选择首页轮播右侧聚合内容', 'home', 'home_index_banner_right_status', 1608258457);
-INSERT INTO `s_config` VALUES (201, '0', '手机模式下开启关闭友情链接', '默认关闭', '请选择手机模式下开启关闭友情链接', 'home', 'home_index_friendship_link_status', 1608891706);
+INSERT INTO `s_config` VALUES (201, '0', '手机模式下友情链接状态', '默认关闭', '请选择手机模式下友情链接状态', 'home', 'home_index_friendship_link_status', 1608892087);
 COMMIT;
 
 -- ----------------------------
@@ -3181,27 +3189,6 @@ CREATE TABLE `s_order_status_history` (
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='订单状态历史纪录';
 
 -- ----------------------------
--- Records of s_order_status_history
--- ----------------------------
-BEGIN;
-INSERT INTO `s_order_status_history` VALUES (1, 13, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608887443);
-INSERT INTO `s_order_status_history` VALUES (2, 12, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608887460);
-INSERT INTO `s_order_status_history` VALUES (3, 17, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608888295);
-INSERT INTO `s_order_status_history` VALUES (4, 16, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608888299);
-INSERT INTO `s_order_status_history` VALUES (5, 19, '1', '2', '支付[待付款-待发货]', 0, '系统', 1608888559);
-INSERT INTO `s_order_status_history` VALUES (6, 20, '1', '2', '支付[待付款-待发货]', 0, '系统', 1608888559);
-INSERT INTO `s_order_status_history` VALUES (7, 20, '2', '6', '关闭[待发货-已关闭]', 1, 'admin', 1608889819);
-INSERT INTO `s_order_status_history` VALUES (8, 19, '2', '6', '关闭[待发货-已关闭]', 1, 'admin', 1608890128);
-INSERT INTO `s_order_status_history` VALUES (9, 21, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608890330);
-INSERT INTO `s_order_status_history` VALUES (10, 22, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608890398);
-INSERT INTO `s_order_status_history` VALUES (11, 23, '1', '2', '支付[待付款-待发货]', 0, '系统', 1608890451);
-INSERT INTO `s_order_status_history` VALUES (12, 23, '2', '6', '关闭[待发货-已关闭]', 1, 'admin', 1608890531);
-INSERT INTO `s_order_status_history` VALUES (13, 25, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608890622);
-INSERT INTO `s_order_status_history` VALUES (14, 24, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608890630);
-INSERT INTO `s_order_status_history` VALUES (15, 26, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608890919);
-COMMIT;
-
--- ----------------------------
 -- Table structure for s_pay_log
 -- ----------------------------
 DROP TABLE IF EXISTS `s_pay_log`;
@@ -3447,12 +3434,6 @@ CREATE TABLE `s_plugins_distribution_integral_log` (
   KEY `order_id` (`order_id`),
   KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='分销积分明细 - 应用';
-
--- ----------------------------
--- Records of s_plugins_distribution_integral_log
--- ----------------------------
-BEGIN;
-COMMIT;
 
 -- ----------------------------
 -- Table structure for s_plugins_distribution_level
@@ -4132,195 +4113,6 @@ INSERT INTO `s_power` VALUES (178, 177, '订单管理', 'Order', 'Index', '', 1,
 INSERT INTO `s_power` VALUES (179, 177, '订单删除', 'Order', 'Delete', '', 2, 0, '', 1522317917);
 INSERT INTO `s_power` VALUES (180, 177, '订单取消', 'Order', 'Cancel', '', 3, 0, '', 1527497803);
 INSERT INTO `s_power` VALUES (181, 38, '商品状态更新', 'Goods', 'StatusUpdate', '', 5, 0, '', 1528080200);
-INSERT INTO `s_power` VALUES (182, 0, '数据管理', 'Data', 'Index', '', 22, 1, 'icon-shuju', 1528096661);
-INSERT INTO `s_power` VALUES (183, 182, '消息管理', 'Message', 'Index', '', 10, 1, '', 1528080200);
-INSERT INTO `s_power` VALUES (184, 182, '消息删除', 'Message', 'Delete', '', 11, 0, '', 1528080200);
-INSERT INTO `s_power` VALUES (185, 182, '支付日志', 'PayLog', 'Index', '', 20, 1, '', 1528080200);
-INSERT INTO `s_power` VALUES (186, 182, '积分日志', 'IntegralLog', 'Index', '', 40, 1, '', 1528103067);
-INSERT INTO `s_power` VALUES (193, 222, '筛选价格', 'ScreeningPrice', 'Index', '', 50, 1, '', 1528708578);
-INSERT INTO `s_power` VALUES (194, 222, '筛选价格添加/编辑', 'ScreeningPrice', 'Save', '', 51, 0, '', 1528708609);
-INSERT INTO `s_power` VALUES (199, 81, 'SEO设置', 'Seo', 'Index', '', 30, 1, '', 1528771081);
-INSERT INTO `s_power` VALUES (200, 81, 'SEO设置编辑', 'Seo', 'Save', '', 31, 0, '', 1528771105);
-INSERT INTO `s_power` VALUES (201, 38, '商品分类', 'GoodsCategory', 'Index', '', 10, 1, '', 1529041901);
-INSERT INTO `s_power` VALUES (202, 38, '商品分类添加/编辑', 'GoodsCategory', 'Save', '', 11, 0, '', 1529041928);
-INSERT INTO `s_power` VALUES (203, 38, '商品分类删除', 'GoodsCategory', 'Delete', '', 12, 0, '', 1529041949);
-INSERT INTO `s_power` VALUES (204, 0, '文章管理', 'Article', 'Index', '', 21, 1, 'icon-wenzhang', 1530360560);
-INSERT INTO `s_power` VALUES (205, 204, '文章管理', 'Article', 'Index', '', 0, 1, '', 1530360593);
-INSERT INTO `s_power` VALUES (206, 204, '文章添加/编辑页面', 'Article', 'SaveInfo', '', 1, 0, '', 1530360625);
-INSERT INTO `s_power` VALUES (207, 204, '文章添加/编辑', 'Article', 'Save', '', 2, 0, '', 1530360663);
-INSERT INTO `s_power` VALUES (208, 204, '文章删除', 'Article', 'Delete', '', 3, 0, '', 1530360692);
-INSERT INTO `s_power` VALUES (209, 204, '文章状态更新', 'Article', 'StatusUpdate', '', 4, 0, '', 1530360730);
-INSERT INTO `s_power` VALUES (210, 204, '文章分类', 'ArticleCategory', 'Index', '', 10, 1, '', 1530361071);
-INSERT INTO `s_power` VALUES (211, 204, '文章分类编辑/添加', 'ArticleCategory', 'Save', '', 11, 0, '', 1530361101);
-INSERT INTO `s_power` VALUES (212, 204, '文章分类删除', 'ArticleCategory', 'Delete', '', 12, 0, '', 1530361126);
-INSERT INTO `s_power` VALUES (214, 182, '问答留言', 'Answer', 'Index', '', 0, 1, '', 1533112443);
-INSERT INTO `s_power` VALUES (215, 182, '问答留言回复', 'Answer', 'Reply', '', 1, 0, '', 1533119660);
-INSERT INTO `s_power` VALUES (216, 182, '问答留言删除', 'Answer', 'Delete', '', 2, 0, '', 1533119680);
-INSERT INTO `s_power` VALUES (217, 182, '问答留言状态更新', 'Answer', 'StatusUpdate', '', 3, 0, '', 1533119704);
-INSERT INTO `s_power` VALUES (219, 81, '邮箱设置', 'Email', 'Index', '', 20, 1, '', 1533636067);
-INSERT INTO `s_power` VALUES (220, 81, '邮箱设置/编辑', 'Email', 'Save', '', 21, 0, '', 1533636109);
-INSERT INTO `s_power` VALUES (221, 81, '邮件发送测试', 'Email', 'EmailTest', '', 22, 0, '', 1533636157);
-INSERT INTO `s_power` VALUES (222, 0, '网站管理', 'Navigation', 'Index', '', 7, 1, 'icon-wangzhanguanli', 1533692051);
-INSERT INTO `s_power` VALUES (223, 222, '导航管理', 'Navigation', 'Index', '', 0, 1, '', 1486183114);
-INSERT INTO `s_power` VALUES (226, 222, '导航添加/编辑', 'Navigation', 'Save', '', 2, 0, '', 1486183367);
-INSERT INTO `s_power` VALUES (227, 222, '导航删除', 'Navigation', 'Delete', '', 3, 0, '', 1486183410);
-INSERT INTO `s_power` VALUES (228, 222, '导航状态更新', 'Navigation', 'StatusUpdate', '', 4, 0, '', 1486183462);
-INSERT INTO `s_power` VALUES (234, 222, '自定义页面', 'CustomView', 'Index', '', 11, 1, '', 1486193400);
-INSERT INTO `s_power` VALUES (235, 222, '自定义页面添加/编辑页面', 'CustomView', 'SaveInfo', '', 12, 0, '', 1486193449);
-INSERT INTO `s_power` VALUES (236, 222, '自定义页面添加/编辑', 'CustomView', 'Save', '', 13, 0, '', 1486193473);
-INSERT INTO `s_power` VALUES (237, 222, '自定义页面删除', 'CustomView', 'Delete', '', 14, 0, '', 1486193516);
-INSERT INTO `s_power` VALUES (238, 222, '自定义页面状态更新', 'CustomView', 'StatusUpdate', '', 15, 0, '', 1486193582);
-INSERT INTO `s_power` VALUES (239, 222, '友情链接', 'Link', 'Index', '', 21, 1, '', 1486194358);
-INSERT INTO `s_power` VALUES (240, 222, '友情链接添加/编辑页面', 'Link', 'SaveInfo', '', 22, 0, '', 1486194392);
-INSERT INTO `s_power` VALUES (241, 222, '友情链接添加/编辑', 'Link', 'Save', '', 23, 0, '', 1486194413);
-INSERT INTO `s_power` VALUES (242, 222, '友情链接删除', 'Link', 'Delete', '', 24, 0, '', 1486194435);
-INSERT INTO `s_power` VALUES (243, 222, '友情链接状态更新', 'Link', 'StatusUpdate', '', 25, 0, '', 1486194479);
-INSERT INTO `s_power` VALUES (244, 222, '主题管理', 'Theme', 'Index', '', 30, 1, '', 1494381693);
-INSERT INTO `s_power` VALUES (245, 222, '主题管理添加/编辑', 'Theme', 'Save', '', 31, 0, '', 1494398194);
-INSERT INTO `s_power` VALUES (246, 222, '主题上传安装', 'Theme', 'Upload', '', 32, 0, '', 1494405096);
-INSERT INTO `s_power` VALUES (247, 222, '主题删除', 'Theme', 'Delete', '', 33, 0, '', 1494410655);
-INSERT INTO `s_power` VALUES (248, 204, '文章详情', 'Article', 'Detail', '', 5, 0, '', 1534156400);
-INSERT INTO `s_power` VALUES (249, 252, '品牌管理', 'Brand', 'Index', '', 0, 1, '', 1535683271);
-INSERT INTO `s_power` VALUES (250, 252, '品牌添加/编辑', 'Brand', 'Save', '', 2, 0, '', 1535683310);
-INSERT INTO `s_power` VALUES (251, 252, '品牌删除', 'Brand', 'Delete', '', 4, 0, '', 1535683351);
-INSERT INTO `s_power` VALUES (252, 0, '品牌管理', 'Brand', 'Index', '', 8, 1, 'icon-ico-pinpaiguanli', 1535684308);
-INSERT INTO `s_power` VALUES (253, 252, '品牌分类', 'BrandCategory', 'Index', '', 10, 1, '', 1535684401);
-INSERT INTO `s_power` VALUES (254, 252, '品牌分类添加/编辑', 'BrandCategory', 'Save', '', 11, 0, '', 1535684424);
-INSERT INTO `s_power` VALUES (255, 252, '品牌分类删除', 'BrandCategory', 'Delete', '', 12, 0, '', 1535684444);
-INSERT INTO `s_power` VALUES (256, 252, '品牌添加/编辑页面', 'Brand', 'SaveInfo', '', 1, 0, '', 1535694837);
-INSERT INTO `s_power` VALUES (257, 252, '品牌状态更新', 'Brand', 'StatusUpdate', '', 3, 0, '', 1535694880);
-INSERT INTO `s_power` VALUES (258, 222, '筛选价格删除', 'ScreeningPrice', 'Delete', '', 52, 0, '', 1536227071);
-INSERT INTO `s_power` VALUES (259, 222, '支付方式', 'Payment', 'Index', '', 80, 1, '', 1537156351);
-INSERT INTO `s_power` VALUES (260, 222, '支付方式安装/编辑页面', 'Payment', 'SaveInfo', '', 81, 0, '', 1537156423);
-INSERT INTO `s_power` VALUES (261, 222, '支付方式安装/编辑', 'Payment', 'Save', '', 82, 0, '', 1537156463);
-INSERT INTO `s_power` VALUES (262, 222, '支付方式删除', 'Payment', 'Delete', '', 83, 0, '', 1537156502);
-INSERT INTO `s_power` VALUES (263, 222, '支付方式安装', 'Payment', 'Install', '', 84, 0, '', 1537166090);
-INSERT INTO `s_power` VALUES (264, 222, '支付方式状态更新', 'Payment', 'StatusUpdate', '', 85, 0, '', 1537166149);
-INSERT INTO `s_power` VALUES (265, 222, '支付方式卸载', 'Payment', 'Uninstall', '', 86, 0, '', 1537167814);
-INSERT INTO `s_power` VALUES (266, 222, '支付方式上传', 'Payment', 'Upload', '', 87, 0, '', 1537173653);
-INSERT INTO `s_power` VALUES (267, 177, '订单发货', 'Order', 'Delivery', '', 4, 0, '', 1538413499);
-INSERT INTO `s_power` VALUES (268, 177, '订单收货', 'Order', 'Collect', '', 5, 0, '', 1538414034);
-INSERT INTO `s_power` VALUES (269, 177, '订单支付', 'Order', 'Pay', '', 6, 0, '', 1538757043);
-INSERT INTO `s_power` VALUES (310, 177, '订单确认', 'Order', 'Confirm', '', 7, 0, '', 1542011799);
-INSERT INTO `s_power` VALUES (311, 1, '角色状态更新', 'Role', 'StatusUpdate', '', 24, 0, '', 1542102071);
-INSERT INTO `s_power` VALUES (314, 319, '首页导航', 'AppHomeNav', 'Index', '', 10, 1, '', 1542558318);
-INSERT INTO `s_power` VALUES (315, 319, '首页导航添加/编辑页面', 'AppHomeNav', 'SaveInfo', '', 11, 0, '', 1542558686);
-INSERT INTO `s_power` VALUES (316, 319, '首页导航添加/编辑', 'AppHomeNav', 'Save', '', 12, 0, '', 1542558706);
-INSERT INTO `s_power` VALUES (317, 319, '首页导航状态更新', 'AppHomeNav', 'StatusUpdate', '', 13, 0, '', 1542558747);
-INSERT INTO `s_power` VALUES (318, 319, '首页导航删除', 'AppHomeNav', 'Delete', '', 14, 0, '', 1542558767);
-INSERT INTO `s_power` VALUES (319, 0, '手机管理', 'App', 'Index', '', 20, 1, 'icon-shouji', 1483362358);
-INSERT INTO `s_power` VALUES (326, 319, '基础配置', 'AppConfig', 'Index', '', 0, 1, '', 1543206359);
-INSERT INTO `s_power` VALUES (327, 319, '基础配置保存', 'AppConfig', 'Save', '', 1, 0, '', 1543206402);
-INSERT INTO `s_power` VALUES (331, 118, '日志删除', 'Cache', 'LogDelete', '', 4, 0, '', 1545642163);
-INSERT INTO `s_power` VALUES (332, 319, '小程序列表', 'AppMini', 'Index', '', 30, 1, '', 1546935020);
-INSERT INTO `s_power` VALUES (333, 319, '小程序配置', 'AppMini', 'Config', '', 40, 1, '', 1546935090);
-INSERT INTO `s_power` VALUES (334, 319, '小程序配置保存', 'AppMini', 'Save', '', 41, 0, '', 1546935118);
-INSERT INTO `s_power` VALUES (336, 319, '小程序包生成', 'AppMini', 'Created', '', 31, 0, '', 1546935187);
-INSERT INTO `s_power` VALUES (337, 319, '小程序包删除', 'AppMini', 'Delete', '', 32, 0, '', 1546935212);
-INSERT INTO `s_power` VALUES (339, 41, '后台配置', 'Config', 'Index', '', 0, 1, '', 1549419752);
-INSERT INTO `s_power` VALUES (340, 0, '应用中心', 'Store', 'Index', '', 30, 1, 'icon-application', 1549496703);
-INSERT INTO `s_power` VALUES (341, 340, '应用管理', 'Pluginsadmin', 'Index', '', 1, 1, '', 1549497306);
-INSERT INTO `s_power` VALUES (342, 340, '应用状态更新', 'Pluginsadmin', 'StatusUpdate', '', 3, 0, '', 1549694138);
-INSERT INTO `s_power` VALUES (343, 340, '应用调用管理', 'Plugins', 'Index', '', 0, 0, '', 1549958187);
-INSERT INTO `s_power` VALUES (345, 340, '应用添加/编辑页面', 'Pluginsadmin', 'SaveInfo', '', 1, 0, '', 1549977925);
-INSERT INTO `s_power` VALUES (346, 340, '应用添加/编辑', 'Pluginsadmin', 'Save', '', 2, 0, '', 1549977958);
-INSERT INTO `s_power` VALUES (347, 340, '应用删除', 'Pluginsadmin', 'Delete', '', 4, 0, '', 1549977993);
-INSERT INTO `s_power` VALUES (348, 340, '应用上传', 'Pluginsadmin', 'Upload', '', 5, 0, '', 1550110821);
-INSERT INTO `s_power` VALUES (349, 118, 'SQL控制台', 'Sqlconsole', 'Index', '', 10, 1, '', 1550476002);
-INSERT INTO `s_power` VALUES (350, 118, 'SQL执行', 'Sqlconsole', 'Implement', '', 11, 0, '', 1550476023);
-INSERT INTO `s_power` VALUES (351, 340, '应用打包', 'Pluginsadmin', 'Download', '', 6, 0, '', 1553248727);
-INSERT INTO `s_power` VALUES (352, 182, '问答添加/编辑页面', 'Answer', 'SaveInfo', '', 4, 0, '', 1553964318);
-INSERT INTO `s_power` VALUES (353, 182, '问答添加/编辑', 'Answer', 'Save', '', 5, 0, '', 1553964354);
-INSERT INTO `s_power` VALUES (354, 41, '商店信息', 'Config', 'Store', '', 0, 1, '', 1554803430);
-INSERT INTO `s_power` VALUES (356, 38, '商品评论', 'Goodscomments', 'Index', '', 30, 1, '', 1533112443);
-INSERT INTO `s_power` VALUES (357, 38, '商品评论回复', 'Goodscomments', 'Reply', '', 31, 0, '', 1533119660);
-INSERT INTO `s_power` VALUES (358, 38, '商品评论删除', 'Goodscomments', 'Delete', '', 32, 0, '', 1533119680);
-INSERT INTO `s_power` VALUES (359, 38, '商品评论状态更新', 'Goodscomments', 'StatusUpdate', '', 33, 0, '', 1533119704);
-INSERT INTO `s_power` VALUES (360, 38, '商品评论添加/编辑页面', 'Goodscomments', 'SaveInfo', '', 34, 0, '', 1553964318);
-INSERT INTO `s_power` VALUES (361, 38, '商品评论添加/编辑', 'Goodscomments', 'Save', '', 35, 0, '', 1553964354);
-INSERT INTO `s_power` VALUES (362, 81, '协议管理', 'Agreement', 'Index', '', 40, 1, '', 1486561615);
-INSERT INTO `s_power` VALUES (363, 81, '协议设置编辑', 'Agreement', 'Save', '', 41, 0, '', 1486562011);
-INSERT INTO `s_power` VALUES (364, 177, '订单售后', 'Orderaftersale', 'Index', '', 10, 1, '', 1522317898);
-INSERT INTO `s_power` VALUES (365, 177, '订单售后删除', 'Orderaftersale', 'Delete', '', 11, 0, '', 1522317917);
-INSERT INTO `s_power` VALUES (366, 177, '订单售后取消', 'Orderaftersale', 'Cancel', '', 12, 0, '', 1527497803);
-INSERT INTO `s_power` VALUES (367, 177, '订单售后审核', 'Orderaftersale', 'Audit', '', 13, 0, '', 1538413499);
-INSERT INTO `s_power` VALUES (368, 177, '订单售后确认', 'Orderaftersale', 'Confirm', '', 14, 0, '', 1538414034);
-INSERT INTO `s_power` VALUES (369, 177, '订单售后拒绝', 'Orderaftersale', 'Refuse', '', 15, 0, '', 1538757043);
-INSERT INTO `s_power` VALUES (372, 182, '退款日志', 'RefundLog', 'Index', '', 30, 1, '', 1528080200);
-INSERT INTO `s_power` VALUES (373, 340, '应用商店', 'Store', 'Index', '', 10, 1, '', 1553248727);
-INSERT INTO `s_power` VALUES (374, 340, '应用安装', 'Pluginsadmin', 'Install', '', 6, 0, '', 1561369950);
-INSERT INTO `s_power` VALUES (375, 340, '应用卸载', 'Pluginsadmin', 'Uninstall', '', 7, 0, '', 1561370063);
-INSERT INTO `s_power` VALUES (376, 319, '用户中心导航', 'AppCenterNav', 'Index', '', 20, 1, '', 1542558318);
-INSERT INTO `s_power` VALUES (377, 319, '用户中心导航添加/编辑页面', 'AppCenterNav', 'SaveInfo', '', 21, 0, '', 1542558686);
-INSERT INTO `s_power` VALUES (378, 319, '用户中心导航添加/编辑', 'AppCenterNav', 'Save', '', 22, 0, '', 1542558706);
-INSERT INTO `s_power` VALUES (379, 319, '用户中心导航状态更新', 'AppCenterNav', 'StatusUpdate', '', 23, 0, '', 1542558747);
-INSERT INTO `s_power` VALUES (380, 319, '用户中心导航删除', 'AppCenterNav', 'Delete', '', 24, 0, '', 1542558767);
-INSERT INTO `s_power` VALUES (387, 222, '主题下载', 'Theme', 'Download', '', 34, 0, '', 1494410699);
-INSERT INTO `s_power` VALUES (400, 177, '订单详情', 'Order', 'Detail', '', 8, 0, '', 1589534580);
-INSERT INTO `s_power` VALUES (401, 177, '订单售后详情', 'Orderaftersale', 'Detail', '', 16, 0, '', 1589538361);
-INSERT INTO `s_power` VALUES (402, 38, '商品详情', 'Goods', 'Detail', '', 6, 0, '', 1589539780);
-INSERT INTO `s_power` VALUES (403, 38, '商品评论详情', 'Goodscomments', 'Detail', '', 36, 0, '', 1591609904);
-INSERT INTO `s_power` VALUES (404, 126, '用户详情', 'User', 'Detail', '', 7, 0, '', 1591621569);
-INSERT INTO `s_power` VALUES (405, 1, '管理员详情', 'Admin', 'Detail', '', 5, 0, '', 1591951422);
-INSERT INTO `s_power` VALUES (406, 1, '角色详情', 'Role', 'Detail', '', 25, 0, '', 1542102071);
-INSERT INTO `s_power` VALUES (407, 222, '自定义页面详情', 'CustomView', 'Detail', '', 16, 0, '', 1592287822);
-INSERT INTO `s_power` VALUES (408, 222, '轮播详情', 'Slide', 'Detail', '', 45, 0, '', 1592413297);
-INSERT INTO `s_power` VALUES (409, 252, '品牌详情', 'Brand', 'Detail', '', 6, 0, '', 1592563170);
-INSERT INTO `s_power` VALUES (410, 319, '首页导航详情', 'AppHomeNav', 'Detail', '', 15, 0, '', 1592652323);
-INSERT INTO `s_power` VALUES (411, 319, '用户中心导航详情', 'AppCenterNav', 'Detail', '', 25, 0, '', 1592661364);
-INSERT INTO `s_power` VALUES (412, 182, '问答留言详情', 'Answer', 'Detail', '', 6, 0, '', 1592840031);
-INSERT INTO `s_power` VALUES (413, 182, '消息详情', 'Message', 'Detail', '', 12, 0, '', 1593181414);
-INSERT INTO `s_power` VALUES (414, 222, '友情链接详情', 'Link', 'Detail', '', 26, 0, '', 1593181677);
-INSERT INTO `s_power` VALUES (415, 182, '支付日志详情', 'PayLog', 'Detail', '', 21, 0, '', 1593355200);
-INSERT INTO `s_power` VALUES (416, 182, '退款日志详情', 'RefundLog', 'Detail', '', 31, 0, '', 1593355237);
-INSERT INTO `s_power` VALUES (417, 182, '积分日志详情', 'IntegralLog', 'Detail', '', 41, 0, '', 1593355265);
-INSERT INTO `s_power` VALUES (418, 38, '商品浏览', 'GoodsBrowse', 'Index', '', 40, 1, '', 1591609904);
-INSERT INTO `s_power` VALUES (419, 38, '商品浏览删除', 'GoodsBrowse', 'Delete', '', 41, 0, '', 1591609904);
-INSERT INTO `s_power` VALUES (420, 38, '商品浏览详情', 'GoodsBrowse', 'Detail', '', 42, 0, '', 1591609904);
-INSERT INTO `s_power` VALUES (421, 38, '商品收藏', 'GoodsFavor', 'Index', '', 50, 1, '', 1591609904);
-INSERT INTO `s_power` VALUES (422, 38, '商品收藏删除', 'GoodsFavor', 'Delete', '', 51, 0, '', 1591609904);
-INSERT INTO `s_power` VALUES (423, 38, '商品收藏详情', 'GoodsFavor', 'Detail', '', 52, 0, '', 1591609904);
-INSERT INTO `s_power` VALUES (425, 438, '仓库管理', 'Warehouse', 'Index', '', 0, 1, '', 1488108044);
-INSERT INTO `s_power` VALUES (426, 438, '仓库添加/编辑页面', 'Warehouse', 'SaveInfo', '', 1, 0, '', 1530360625);
-INSERT INTO `s_power` VALUES (427, 438, '仓库添加/编辑', 'Warehouse', 'Save', '', 2, 0, '', 1530360663);
-INSERT INTO `s_power` VALUES (428, 438, '仓库删除', 'Warehouse', 'Delete', '', 3, 0, '', 1530360692);
-INSERT INTO `s_power` VALUES (429, 438, '仓库状态更新', 'Warehouse', 'StatusUpdate', '', 4, 0, '', 1530360730);
-INSERT INTO `s_power` VALUES (430, 438, '仓库详情', 'Warehouse', 'Detail', '', 5, 0, '', 1534156400);
-INSERT INTO `s_power` VALUES (431, 438, '仓库商品管理', 'WarehouseGoods', 'Index', '', 10, 1, '', 1488108044);
-INSERT INTO `s_power` VALUES (432, 438, '仓库商品删除', 'WarehouseGoods', 'Delete', '', 12, 0, '', 1530360625);
-INSERT INTO `s_power` VALUES (433, 438, '仓库商品搜索添加', 'WarehouseGoods', 'GoodsAdd', '', 15, 0, '', 1530360663);
-INSERT INTO `s_power` VALUES (434, 438, '仓库商品搜索删除', 'WarehouseGoods', 'GoodsDel', '', 16, 0, '', 1530360692);
-INSERT INTO `s_power` VALUES (435, 438, '仓库商品状态更新', 'WarehouseGoods', 'StatusUpdate', '', 13, 0, '', 1530360730);
-INSERT INTO `s_power` VALUES (436, 438, '仓库商品详情', 'WarehouseGoods', 'Detail', '', 11, 0, '', 1534156400);
-INSERT INTO `s_power` VALUES (438, 0, '仓库管理', 'Warehouse', 'Index', '', 9, 1, 'icon-cangku', 1483362358);
-INSERT INTO `s_power` VALUES (439, 438, '仓库商品搜索', 'WarehouseGoods', 'GoodsSearch', '', 14, 0, '', 1534156400);
-INSERT INTO `s_power` VALUES (440, 438, '仓库商品库存编辑页面', 'WarehouseGoods', 'InventoryInfo', '', 17, 0, '', 1534156400);
-INSERT INTO `s_power` VALUES (441, 438, '仓库商品库存编辑', 'WarehouseGoods', 'InventorySave', '', 18, 0, '', 0);
-INSERT INTO `s_power` VALUES (442, 182, '支付日志关闭', 'PayLog', 'Close', '', 22, 0, '', 1593355200);
-INSERT INTO `s_power` VALUES (443, 222, '快捷导航', 'QuickNav', 'Index', '', 90, 1, '', 1542558318);
-INSERT INTO `s_power` VALUES (444, 222, '快捷导航添加/编辑页面', 'QuickNav', 'SaveInfo', '', 91, 0, '', 1542558686);
-INSERT INTO `s_power` VALUES (445, 222, '快捷导航添加/编辑', 'QuickNav', 'Save', '', 92, 0, '', 1542558706);
-INSERT INTO `s_power` VALUES (446, 222, '快捷导航状态更新', 'QuickNav', 'StatusUpdate', '', 93, 0, '', 1542558747);
-INSERT INTO `s_power` VALUES (447, 222, '快捷导航删除', 'QuickNav', 'Delete', '', 94, 0, '', 1542558767);
-INSERT INTO `s_power` VALUES (448, 222, '快捷导航详情', 'QuickNav', 'Detail', '', 95, 0, '', 1592652323);
-INSERT INTO `s_power` VALUES (449, 182, '支付请求日志列表', 'PayRequestLog', 'Index', '', 25, 0, '', 1593355200);
-INSERT INTO `s_power` VALUES (450, 182, '支付请求日志详情', 'PayRequestLog', 'Detail', '', 26, 0, '', 1593355200);
-INSERT INTO `s_power` VALUES (451, 126, '用户地址', 'UserAddress', 'Index', '', 10, 1, '', 1490794316);
-INSERT INTO `s_power` VALUES (452, 126, '用户地址编辑页面', 'UserAddress', 'SaveInfo', '', 11, 0, '', 1490794510);
-INSERT INTO `s_power` VALUES (453, 126, '用户地址编辑', 'UserAddress', 'Save', '', 12, 0, '', 1490794510);
-INSERT INTO `s_power` VALUES (454, 126, '用户地址删除', 'UserAddress', 'Delete', '', 13, 0, '', 1591621569);
-INSERT INTO `s_power` VALUES (455, 126, '用户地址详情', 'UserAddress', 'Detail', '', 14, 0, '', 0);
-INSERT INTO `s_power` VALUES (457, 319, '小程序主题上传', 'AppMini', 'ThemeUpload', '', 33, 0, '', 1605872721);
-INSERT INTO `s_power` VALUES (458, 319, '小程序主题切换', 'AppMini', 'ThemeSave', '', 34, 0, '', 1605872721);
-INSERT INTO `s_power` VALUES (459, 319, '小程序主题切换', 'AppMini', 'ThemeDelete', '', 35, 0, '', 1605872721);
-INSERT INTO `s_power` VALUES (460, 319, '小程序主题下载', 'AppMini', 'ThemeDownload', '', 36, 0, '', 1605872721);
-INSERT INTO `s_power` VALUES (461, 81, '站点设置商品搜索', 'Site', 'GoodsSearch', '', 1, 0, '', 1486561780);
-INSERT INTO `s_power` VALUES (462, 38, '商品参数', 'GoodsParamsTemplate', 'Index', '', 20, 1, '', 1533112443);
-INSERT INTO `s_power` VALUES (463, 38, '商品参数删除', 'GoodsParamsTemplate', 'Delete', '', 21, 0, '', 1533119680);
-INSERT INTO `s_power` VALUES (464, 38, '商品参数状态更新', 'GoodsParamsTemplate', 'StatusUpdate', '', 22, 0, '', 1533119704);
-INSERT INTO `s_power` VALUES (465, 38, '商品参数添加/编辑页面', 'GoodsParamsTemplate', 'SaveInfo', '', 23, 0, '', 1553964318);
-INSERT INTO `s_power` VALUES (466, 38, '商品参数添加/编辑', 'GoodsParamsTemplate', 'Save', '', 24, 0, '', 1553964354);
-INSERT INTO `s_power` VALUES (467, 38, '商品参数详情', 'GoodsParamsTemplate', 'Detail', '', 25, 0, '', 1591609904);
 COMMIT;
 
 -- ----------------------------
@@ -49500,6 +49292,14 @@ CREATE TABLE `s_role` (
   `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色组';
+
+-- ----------------------------
+-- Records of s_role
+-- ----------------------------
+BEGIN;
+INSERT INTO `s_role` VALUES (1, '超级管理员', 1, 1481350313, 0);
+INSERT INTO `s_role` VALUES (13, '管理员', 1, 1484402362, 1607495066);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for s_role_power
