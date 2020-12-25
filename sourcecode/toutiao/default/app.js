@@ -240,6 +240,7 @@ App({
         }
       },
       fail: function () {
+        tt.removeStorageSync(self.data.cache_user_login_key);
         self.user_login(object, method);
       }
     });
