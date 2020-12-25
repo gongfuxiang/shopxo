@@ -52,11 +52,23 @@ return array (
     0 => 'app\\plugins\\points\\Hook',
     1 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
+  'plugins_view_buy_form_inside' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
   'plugins_view_buy_base_confirm_top' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_buy_group_goods_handle' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_buy_order_insert_end' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_order_status_change_history_success_handle' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
   ),

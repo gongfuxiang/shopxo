@@ -13,6 +13,23 @@
 
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
+            <!-- 基础配置 -->
+            <div class="am-panel am-panel-default am-margin-top-sm">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">基础配置</h3>
+                </div>
+                <div class="am-panel-bd">
+                    <div class="am-form-group">
+                        <label>{{$data.home_index_friendship_link_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_friendship_link_status.describe}}</span></label>
+                        <select name="{{$data.home_index_friendship_link_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_friendship_link_status.error_tips}}" required>
+                            {{foreach $site_site_state_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_index_friendship_link_status']['value']) and $data['home_index_friendship_link_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <!-- 快捷导航 -->
             <div class="am-panel am-panel-default am-margin-top-sm">
                 <div class="am-panel-hd">

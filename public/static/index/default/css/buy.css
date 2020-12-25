@@ -40,7 +40,7 @@ ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; ve
 
 /*运费、留言、扩展数据*/
 .td.td-oplist .pay-logis,.td.td-bonus select{position:absolute;top:6px;right:0;}
-.memo-input {width:calc(100% - 55px);border: 1px solid #ccc;padding: 5px;outline:none;border-radius: 2px;}
+.memo-input {width:calc(100% - 55px);border: 1px solid #f2f2f2;padding: 5px;outline:none;border-radius: 2px;}
 @media only screen and (max-width: 1025px) {
   .buy-message {
     padding: 0 5px;
