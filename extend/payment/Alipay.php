@@ -318,7 +318,7 @@ class Alipay
         }
 
         // 支付状态
-        if(!empty($data['trade_no']) || (isset($data['trade_status']) && in_array($data['trade_status'], ['TRADE_SUCCESS', 'TRADE_FINISHED'])))
+        if(!empty($data['trade_no']) && (isset($data['trade_status']) && in_array($data['trade_status'], ['TRADE_SUCCESS', 'TRADE_FINISHED'])))
         {
             return DataReturn('支付成功', 0, $this->ReturnData($data));
         }
