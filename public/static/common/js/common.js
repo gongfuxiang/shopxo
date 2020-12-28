@@ -1339,6 +1339,10 @@ function UrlFieldReplace(field, value, url)
                 last = (last.indexOf('/') >= 0) ? last.substr(last.indexOf('/')) : '';
                 if(value === null)
                 {
+                	if(first.substr(-1) == '/')
+                	{
+                		first = first.substr(0, first.length-1);
+                	}
                 	url = first+last+ext;
                 } else {
                 	url = first+field+'/'+value+last+ext;
@@ -1354,21 +1358,16 @@ function UrlFieldReplace(field, value, url)
                     for(var i in params_all)
                     {
                         var temp = params_all[i].split('=');
-
                         if(temp.length >= 2)
                         {
-                            if(i > 0)
-                            {
-                                p += '&';
-                            }
                             if(temp[0] == field)
                             {
                             	if(value !== null)
                             	{
-                            		p += field+'='+value;
+                            		p += '&'+field+'='+value;
                             	}
                             } else {
-                                p += params_all[i];
+                                p += '&'+params_all[i];
                             }
                         }
                     }
@@ -1380,13 +1379,25 @@ function UrlFieldReplace(field, value, url)
                 		p = exts+'&'+field+'='+value;
                 	}
                 }
-                url = str+(ext.substr(0, ext.indexOf('?')))+'?'+p;
+                url = str+(ext.substr(0, ext.indexOf('?')))
+                if((p || null) != null)
+                {
+                	if(p.substr(0, 1) == '&')
+                	{
+                		p = p.substr(1);
+                	}
+                	url += '?'+p;
+                }
             } else {
             	if(value === null)
             	{
             		url = str+ext;
             	} else {
-            		url = str+'/'+field+'/'+value+ext;
+            		if(str.substr(-1) != '/')
+            		{
+            			str += '/';
+            		}
+            		url = str+field+'/'+value+ext;
             	}
             }
         }
@@ -1396,11 +1407,6 @@ function UrlFieldReplace(field, value, url)
     		url += '?'+field+'='+value;
     	}
     }
-
-    // 多余的双斜杠处理、这里防止://被处理 首先换成特殊字符再换回来
-    url = url.replace(/\:\/\//ig, '{--re--join--re--}');
-    url = url.replace(/\/\//ig, '/');
-    url = url.replace(/\{\-\-re\-\-join\-\-re\-\-\}/ig, '://');
 
     return url+anchor;
 }
