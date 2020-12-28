@@ -1390,15 +1390,11 @@ function UrlFieldReplace(field, value, url)
                 }
             } else {
             	if(value === null)
-            	{
-            		url = str+ext;
-            	} else {
-            		if(str.substr(-1) != '/')
-            		{
-            			str += '/';
-            		}
-            		url = str+field+'/'+value+ext;
-            	}
+                {
+                    url = str+ext;
+                } else {
+                    url = str+'/'+field+'/'+value+ext;
+                }
             }
         }
     } else {
