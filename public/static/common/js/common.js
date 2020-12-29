@@ -416,7 +416,12 @@ function FromInit(form_name)
 						var params = GetFormVal(form_name, true);
 						for(var i in params)
 						{
-							request_value = UrlFieldReplace(i, encodeURIComponent(params[i]), request_value)
+							var value = encodeURIComponent(params[i]);
+							if(value == undefined || value == '')
+							{
+								value = null;
+							}
+							request_value = UrlFieldReplace(i, value, request_value)
 						}
 						window.location.href = request_value;
 						return false;
