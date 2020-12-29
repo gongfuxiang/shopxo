@@ -318,9 +318,12 @@ class Alipay
         }
 
         // 支付状态
-        if(!empty($data['trade_no']) && (isset($data['trade_status']) && in_array($data['trade_status'], ['TRADE_SUCCESS', 'TRADE_FINISHED'])))
+        if(!empty($data['trade_no']) && isset($data['total_amount']) && $data['total_amount'] > 0)
         {
-            return DataReturn('支付成功', 0, $this->ReturnData($data));
+            if((!isset($data['trade_status']) && isset($data['method']) && $data['method'] == 'alipay.trade.page.pay.return') || (in_array($data['trade_status'], ['TRADE_SUCCESS', 'TRADE_FINISHED'])))
+            {
+                return DataReturn('支付成功', 0, $this->ReturnData($data));
+            }
         }
         return DataReturn('处理异常错误', -100);
     }
