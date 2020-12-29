@@ -454,13 +454,15 @@ Page({
     // 是否开启了用户身份证信息
     if(self.data.home_user_address_idcard_status == 1)
     {
+      // 验证
       validation.push({ fields: "idcard_name", msg: "请填写身份证姓名" });
       validation.push({ fields: "idcard_number", msg: "请填写身份证号码" });
       validation.push({ fields: "idcard_front", msg: "请上传身份证正面照片" });
       validation.push({ fields: "idcard_back", msg: "请上传身份证背面照片" });
-    } else {
-      form_data['idcard_name'] = self.data.address_data.idcard_name || '';
-      form_data['idcard_number'] = self.data.address_data.idcard_number || '';
+
+      // 数据
+      form_data['idcard_front'] = self.data.idcard_images_data.idcard_front || '';
+      form_data['idcard_back'] = self.data.idcard_images_data.idcard_back || '';
     }
 
     form_data['province'] = self.data.province_id;
@@ -468,8 +470,6 @@ Page({
     form_data['county'] = self.data.county_id;
     form_data['id'] = self.data.params.id || 0;
     form_data['is_default'] = form_data.is_default == true ? 1 : 0;
-    form_data['idcard_front'] = self.data.idcard_images_data.idcard_front || '';
-    form_data['idcard_back'] = self.data.idcard_images_data.idcard_back || '';
 
     // 地理位置
     // var lng = 0;
