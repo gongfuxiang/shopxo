@@ -43,7 +43,7 @@ class ToutiaoService
         // 线上支付信息处理
         $order_info = [];
         $service = 0;
-        if($ret['data']['is_payment_type'] == 0)
+        if(isset($ret['data']['is_payment_type']) && $ret['data']['is_payment_type'] == 0)
         {
             // 配置信息
             $merchant_id = MyC('common_app_mini_toutiao_pay_merchant_id');

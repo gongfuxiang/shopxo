@@ -439,7 +439,7 @@ Page({
       "ids": ids.join(',')
     };
     my.navigateTo({
-      url: '/pages/buy/buy?data=' + JSON.stringify(data)
+      url: '/pages/buy/buy?data=' + encodeURIComponent(JSON.stringify(data))
     });
   },
 

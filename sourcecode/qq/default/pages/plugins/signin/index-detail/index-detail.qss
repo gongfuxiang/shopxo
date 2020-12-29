@@ -98,6 +98,16 @@
 }
 
 /**
+ * 商品导航
+ */
+.spacing-nav-title {
+  color: #f6b015;
+}
+.spacing-nav-title .line {
+  background: #f6b015;
+}
+
+/**
  * 商品列表
  */
  .scroll-box {

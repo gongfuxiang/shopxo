@@ -90,6 +90,22 @@
       <view wx:else bindtap="bind_user_note_tap_event" class="{{(user_note_value || null) == null ? 'cr-888' : ''}}">{{user_note_value || '留言'}}</view>
     </view>
 
+    <!-- 积分 -->
+    <view wx:if="{{(plugins_points_data || null) != null && (plugins_points_data.discount_price || 0) > 0}}" class="plugins-points-buy-container bg-white spacing-mb">
+      <view class="select oh">
+        <text wx:if="{{plugins_points_data.discount_type == 1}}">使用{{plugins_points_data.use_integral}}个积分兑换商品</text>
+        <text wx:else>使用积分{{plugins_points_data.use_integral}}个</text>
+        <text class="sales-price">-{{currency_symbol}}{{plugins_points_data.discount_price}}</text>
+        <view bindtap="points_event" class="fr">
+          <image class="icon" src="/images/default-select{{plugins_points_status ? '-active' : ''}}-icon.png" mode="widthFix" />
+        </view>
+      </view>
+      <view class="desc">
+        <text wx:if="{{plugins_points_data.discount_type == 1}}">你有积分{{plugins_points_data.user_integral}}个</text>
+        <text wx:else>你有积分{{plugins_points_data.user_integral}}个，可用{{plugins_points_data.use_integral}}个</text>
+      </view>
+    </view>
+
     <!-- 支付方式 -->
     <view wx:if="{{payment_list.length > 0 && common_order_is_booking != 1}}" class="payment-list bg-white oh">
       <view class="item tc fl" wx:for="{{payment_list}}" wx:key="key">

@@ -93,12 +93,12 @@ Page({
               }
             }
             this.setData({
+              data_base: res.data.data.base || null,
               data_list: temp_data_list,
               data_total: res.data.data.total,
               data_page_total: res.data.data.page_total,
               data_list_loding_status: 3,
               data_page: this.data.data_page + 1,
-              data_base: data.base || null,
             });
 
             // 是否还有数据

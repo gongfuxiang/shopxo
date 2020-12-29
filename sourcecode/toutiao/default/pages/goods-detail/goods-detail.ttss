@@ -365,3 +365,44 @@
 .goods-parameters .content-item .item:nth-child(2n) {
   float: right;
 }
+
+/*
+ * 商品简述
+ */
+.goods-simple-desc {
+  color: #f00;
+  padding: 0 10rpx;
+  margin: 5rpx 0 15rpx 0;
+}
+
+/*
+ * icon
+ */
+.goods-icon-container {
+  padding: 20rpx 10rpx 10rpx 10rpx;
+}
+.goods-icon-container view {
+  background: #fff;
+  border: 1px solid #3bb4f2;
+  color: #3bb4f2;
+  padding: 3rpx 15rpx;
+  border-radius: 8rpx;
+  margin-bottom: 10rpx;
+}
+.goods-icon-container view:not(:last-child) {
+  margin-right: 10rpx;
+}
+
+/*
+ * 面板
+ */
+.goods-panel-container {
+  background: #fffbfc;
+  color: #d2354c;
+}
+.goods-panel-container view {
+  padding: 15rpx 10rpx;
+}
+.goods-panel-container view:not(:first-child) {
+  border-top: 1px dashed #fff1f2;
+}

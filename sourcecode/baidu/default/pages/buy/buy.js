@@ -32,12 +32,17 @@ Page({
     plugins_use_coupon_ids: [],
     plugins_choice_coupon_value: [],
     popup_plugins_coupon_status: false,
-    popup_plugins_coupon_index: null
+    popup_plugins_coupon_index: null,
+
+    // 积分
+    plugins_points_data: null,
+    plugins_points_status: false,
   },
   onLoad(params) {
     //params['data'] = '{"buy_type":"goods","goods_id":"1","stock":"1","spec":"[]"}';
-    if ((params.data || null) != null && app.get_length(JSON.parse(params.data)) > 0) {
-      this.setData({ params: JSON.parse(params.data) });
+    if((params.data || null) != null && app.get_length(JSON.parse(decodeURIComponent(params.data))) > 0)
+    {
+      this.setData({ params: JSON.parse(decodeURIComponent(params.data))});
 
       // 删除地址缓存
       swan.removeStorageSync(app.data.cache_buy_user_address_select_key);
@@ -101,7 +106,7 @@ Page({
     swan.request({
       url: app.get_request_url("index", "buy"),
       method: "POST",
-      data: this.request_data_coupon_merge(data),
+      data: this.request_data_ext_params_merge(data),
       dataType: "json",
       success: res => {
         swan.stopPullDownRefresh();
@@ -118,7 +123,8 @@ Page({
               data_list_loding_status: 3,
               common_site_type: data.common_site_type || 0,
               extraction_address: data.base.extraction_address || [],
-              plugins_coupon_data: data.plugins_coupon_data || null
+              plugins_coupon_data: data.plugins_coupon_data || null,
+              plugins_points_data: data.plugins_points_data || null,
             });
 
             // 优惠劵选择处理
@@ -172,14 +178,19 @@ Page({
     });
   },
 
-  // 请求参数合并优惠券参数
-  request_data_coupon_merge(data) {
+  // 请求参数合并
+  request_data_ext_params_merge(data) {
+    // 优惠券
     var coupon_ids = this.data.plugins_use_coupon_ids;
     if ((coupon_ids || null) != null && coupon_ids.length > 0) {
       for (var i in coupon_ids) {
         data['coupon_id_' + i] = coupon_ids[i];
       }
     }
+
+    // 积分
+    data['is_points'] = (this.data.plugins_points_status === true) ? 1 : 0;
+
     return data;
   },
 
@@ -229,7 +240,7 @@ Page({
       swan.request({
         url: app.get_request_url("add", "buy"),
         method: "POST",
-        data: this.request_data_coupon_merge(data),
+        data: this.request_data_ext_params_merge(data),
         dataType: "json",
         success: res => {
           swan.hideLoading();
@@ -365,5 +376,11 @@ Page({
     var name = data.alias || data.name || '';
     var address = (data.province_name || '') + (data.city_name || '') + (data.county_name || '') + (data.address || '');
     app.open_location(data.lng, data.lat, name, address);
-  }
+  },
+
+  // 积分选择事件
+  points_event(e) {
+    this.setData({plugins_points_status: !this.data.plugins_points_status});
+    this.init();
+  },
 });

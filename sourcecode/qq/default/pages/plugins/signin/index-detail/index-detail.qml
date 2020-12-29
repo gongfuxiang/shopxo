@@ -55,8 +55,8 @@
           <image src="{{item.images}}" mode="aspectFit" />
           <view class="base">
             <view class="multi-text">{{item.title}}</view>
-            <view class="price">
-              <text class="sales-price">{{currency_symbol}}{{item.min_price}}</text>
+            <view class="price single-text">
+              <text class="sales-price">{{currency_symbol}}{{item.price}}</text>
             </view>
           </view>
         </navigator>
@@ -75,7 +75,7 @@
           <text class="coming-tips-text">获得 <text>{{coming_integral}}</text> 积分</text>
       </view>
     </view>
-</view>
+  </view>
 
   <!-- 结尾 -->
   <import src="/pages/common/bottom_line.qml" />

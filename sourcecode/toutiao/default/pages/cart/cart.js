@@ -393,7 +393,7 @@ Page({
       "ids": ids.join(',')
     };
     tt.navigateTo({
-      url: '/pages/buy/buy?data=' + JSON.stringify(data)
+      url: '/pages/buy/buy?data=' + encodeURIComponent(JSON.stringify(data))
     });
   },
 

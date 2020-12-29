@@ -80,6 +80,13 @@ class Buy extends Common
                 $result['plugins_coupon_data'] = $ret['data']['data'];
             }
 
+            // 积分
+            $ret = PluginsService::PluginsControlCall('points', 'index', 'buy', 'api', ['order_goods'=>$buy_goods, 'params'=>$params]);
+            if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
+            {
+                $result['plugins_points_data'] = $ret['data']['data'];
+            }
+
             return DataReturn('操作成功', 0, $result);
         }
         return $buy_ret;

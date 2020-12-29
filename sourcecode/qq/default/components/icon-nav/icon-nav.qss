@@ -23,7 +23,7 @@
 }
 .data-list .items .title {
   margin-top: 10rpx;
-  font-size: 32rpx;
+  font-size: 30rpx;
   text-align:center;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;	  

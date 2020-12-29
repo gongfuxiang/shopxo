@@ -25,6 +25,9 @@ Page({
 
   onShow() {
     this.get_data();
+
+    // 显示分享菜单
+    app.show_share_menu();
   },
 
   // 获取数据
@@ -76,8 +79,7 @@ Page({
 
   // 初始化
   init() {
-    var user = app.get_user_info(this, "init"),
-      self = this;
+    var user = app.get_user_info(this, "init");
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {

@@ -24,6 +24,7 @@ Page({
   },
 
   onShow() {
+    app.set_nav_bg_color_main('#f6b015');
     this.get_data();
   },
 

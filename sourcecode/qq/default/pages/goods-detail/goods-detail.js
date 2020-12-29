@@ -610,7 +610,7 @@ Page({
               "spec": JSON.stringify(spec)
             };
             qq.navigateTo({
-              url: '/pages/buy/buy?data=' + JSON.stringify(data)
+              url: '/pages/buy/buy?data=' + encodeURIComponent(JSON.stringify(data))
             });
             this.popup_close_event();
             break;

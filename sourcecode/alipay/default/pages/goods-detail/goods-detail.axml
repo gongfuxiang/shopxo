@@ -29,6 +29,23 @@
   <!-- 标题 -->
   <view class="goods-title multi-text" style="color:{{goods.title_color}}">{{goods.title}}</view>
 
+  <!-- 简述 -->
+  <view a:if="{{(goods.simple_desc || null) != null}}" class="goods-simple-desc">{{goods.simple_desc}}</view>
+
+  <!-- icon -->
+  <view a:if="{{(goods.plugins_view_icon_data || null) != null && goods.plugins_view_icon_data.length > 0}}" class="goods-icon-container bg-white br-b-dashed oh">
+    <block a:for="{{goods.plugins_view_icon_data}}" a:key="key">
+      <view a:if="{{(item.name || null) != null}}" class="fl tc" style="{{(item.br_color || null) == null ? '' : 'border:1px solid '+item.br_color+';'}}{{(item.color || null) == null ? '' : 'color: '+item.color+';'}}">{{item.name}}</view>
+    </block>
+  </view>
+
+  <!-- 面板提示信息 -->
+  <view a:if="{{(goods.plugins_view_panel_data || null) != null && goods.plugins_view_panel_data.length > 0}}" class="goods-panel-container bg-white br-b-dashed oh">
+    <block a:for="{{goods.plugins_view_panel_data}}" a:key="key">
+      <view a:if="{{(item || null) != null}}">{{item}}</view>
+    </block>
+  </view>
+
   <!-- 限时秒杀 -->
   <view a:if="{{plugins_limitedtimediscount_is_valid == 1}}">
     <import src="/pages/lib/limitedtimediscount/goods-detail.axml" />

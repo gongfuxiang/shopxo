@@ -1,0 +1,122 @@
+const app = getApp();
+Page({
+  data: {
+    data_bottom_line_status: false,
+    data_list_loding_status: 1,
+    data_list_loding_msg: '',
+    params: null,
+    user: null,
+    data_base: null,
+    avatar_default: app.data.default_user_head_src,
+  },
+
+  onLoad(params) {
+    this.setData({
+      params: params,
+      user: app.get_user_cache_info(),
+    });
+  },
+
+  onShow() {
+    app.set_nav_bg_color_main('#fe3e28');
+    this.get_data();
+  },
+
+  // 获取数据
+  get_data() {
+    var self = this;
+    my.request({
+      url: app.get_request_url("index", "index", "points"),
+      method: "POST",
+      data: {},
+      dataType: "json",
+      success: res => {
+        my.stopPullDownRefresh();
+        if (res.data.code == 0) {
+          var data = res.data.data;
+          self.setData({
+            data_base: data.base || null,
+            data_list_loding_msg: '',
+            data_list_loding_status: 0,
+            data_bottom_line_status: true,
+          });
+        } else {
+          self.setData({
+            data_bottom_line_status: false,
+            data_list_loding_status: 2,
+            data_list_loding_msg: res.data.msg,
+          });
+        }
+      },
+      fail: () => {
+        my.stopPullDownRefresh();
+        self.setData({
+          data_bottom_line_status: false,
+          data_list_loding_status: 2,
+          data_list_loding_msg: '服务器请求出错',
+        });
+        app.showToast("服务器请求出错");
+      }
+    });
+  },
+
+  // 下拉刷新
+  onPullDownRefresh() {
+    this.get_data();
+  },
+
+  // 立即登录
+  login_event() {
+    var user = app.get_user_info(this, "login_event")
+    if (user != false) {
+      // 用户未绑定用户则转到登录页面
+      if (app.user_is_need_login(user)) {
+        my.confirm({
+          title: '温馨提示',
+          content: '绑定手机号码',
+          confirmButtonText: '确认',
+          cancelButtonText: '暂不',
+          success: (result) => {
+            my.stopPullDownRefresh();
+            if (result.confirm) {
+              my.navigateTo({
+                url: "/pages/login/login?event_callback=init"
+              });
+            }
+          },
+        });
+      }
+    }
+    this.setData({user: user || null});
+  },
+
+  // 图片事件
+  right_images_event(e) {
+    if((this.data.data_base.right_images_url || null) != null)
+    {
+      my.navigateTo({
+        url: this.data.data_base.right_images_url,
+      });
+    }
+  },
+
+  // 头像查看
+  preview_event() {
+    if (app.data.default_user_head_src != this.data.user.avatar) {
+      my.previewImage({
+        current: 0,
+        urls: [this.data.user.avatar]
+      });
+    }
+  },
+
+  // 自定义分享
+  onShareAppMessage() {
+    var user_id = app.get_user_cache_info('id', 0) || 0;
+    return {
+      title: this.data.data_base.seo_title || '积分商城 - '+app.data.application_title,
+      desc: this.data.data_base.seo_desc || '积分抵扣、兑换 - '+app.data.application_describe,
+      path: '/pages/plugins/signin/index-detail/index-detail?referrer=' + user_id
+    };
+  },
+});

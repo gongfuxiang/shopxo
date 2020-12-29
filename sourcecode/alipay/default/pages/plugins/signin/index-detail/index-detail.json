@@ -1,8 +1,5 @@
 {
   "pullRefresh": true,
-  "navigationBarBackgroundColor": "#f6b015",
   "titleBarColor": "#f6b015",
-  "backgroundColorBottom": "#f5f5f5",
-  "backgroundTextStyle": "light",
   "defaultTitle": "签到"
 }
