@@ -73,6 +73,9 @@ return [
     // 快捷导航缓存信息
     'cache_quick_navigation_key'            => 'cache_quick_navigation_data_',
 
+    // 地区所有数据缓存、1~3级
+    'cache_region_all_key'                  => 'cache_region_all_data',
+
     // 附件host、最后不要带/斜杠结尾, 数据库图片地址以/static/...开头
     'attachment_host'                       => $cdn_attachment_host,
 

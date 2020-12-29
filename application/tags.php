@@ -34,18 +34,67 @@ return array (
   ),
   'plugins_css' => 
   array (
-    0 => 'app\\plugins\\points\\Hook',
-    1 => 'app\\plugins\\limitedtimediscount\\Hook',
+    0 => 'app\\plugins\\share\\Hook',
+    1 => 'app\\plugins\\points\\Hook',
+    2 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_js' => 
   array (
-    0 => 'app\\plugins\\points\\Hook',
-    1 => 'app\\plugins\\limitedtimediscount\\Hook',
+    0 => 'app\\plugins\\share\\Hook',
+    1 => 'app\\plugins\\points\\Hook',
+    2 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_common_page_bottom' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_view_goods_detail_photo_bottom' => 
+  array (
+    0 => 'app\\plugins\\share\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
     1 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_service_quick_navigation_pc' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+  ),
+  'plugins_service_quick_navigation_h5' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+  ),
+  'plugins_service_quick_navigation_weixin' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+  ),
+  'plugins_service_quick_navigation_alipay' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+  ),
+  'plugins_service_quick_navigation_baidu' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+  ),
+  'plugins_service_quick_navigation_qq' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+  ),
+  'plugins_service_quick_navigation_toutiao' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
@@ -71,34 +120,6 @@ return array (
   'plugins_service_order_status_change_history_success_handle' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
-  ),
-  'plugins_service_quick_navigation_pc' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-  ),
-  'plugins_service_quick_navigation_h5' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-  ),
-  'plugins_service_quick_navigation_weixin' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-  ),
-  'plugins_service_quick_navigation_alipay' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-  ),
-  'plugins_service_quick_navigation_baidu' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-  ),
-  'plugins_service_quick_navigation_qq' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-  ),
-  'plugins_service_quick_navigation_toutiao' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
   ),
   'plugins_service_users_center_left_menu_handle' => 
   array (

@@ -225,5 +225,81 @@ class RegionService
         $data = empty($data) ? $ids : array_unique(array_merge($ids, $data));
         return $data;
     }
+
+    /**
+     * 获取地区所有数据、最多三级
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-12-29
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function RegionAll($params = [])
+    {
+        // 缓存
+        $key = config('shopxo.cache_region_all_key');
+        $data = cache($key);
+        if(empty($data))
+        {
+            // 所有一级
+            $field = 'id,pid,name';
+            $data = self::RegionNode(['field'=>$field,'where'=>['pid'=>0]]);
+            if(!empty($data))
+            {
+                // 所有二级
+                $two = self::RegionNode(['field'=>$field,'where'=>['pid'=>array_column($data, 'id')]]);
+                $two_group = [];
+                $three_group = [];
+                if(!empty($two))
+                {
+                    // 所有三级
+                    $three = self::RegionNode(['field'=>$field,'where'=>['pid'=>array_column($two, 'id')]]);
+                    if(!empty($three))
+                    {
+                        // 三级集合组
+                        foreach($three as $v)
+                        {
+                            if(!array_key_exists($v['pid'], $three_group))
+                            {
+                                $three_group[$v['pid']] = [];
+                            }
+                            $pid = $v['pid'];
+                            unset($v['pid']);
+                            $three_group[$pid][] = $v;
+                        }
+                    }
+
+                    // 二级集合
+                    foreach($two as $v)
+                    {
+                        // 是否存在三级数据
+                        $v['items'] = array_key_exists($v['id'], $three_group) ? $three_group[$v['id']] : [];
+                        
+
+                        // 集合组
+                        if(!array_key_exists($v['pid'], $two_group))
+                        {
+                            $two_group[$v['pid']] = [];
+                        }
+                        $pid = $v['pid'];
+                        unset($v['pid']);
+                        $two_group[$pid][] = $v;
+                    }
+                }
+
+                // 一级集合
+                foreach($data as $k=>$v)
+                {
+                    $data[$k]['items'] = array_key_exists($v['id'], $two_group) ? $two_group[$v['id']] : [];
+                }
+
+                // 存储缓存
+                cache($key, $data, 60);
+            }
+        }
+
+        return DataReturn('success', 0, $data);
+    }
 }
 ?>

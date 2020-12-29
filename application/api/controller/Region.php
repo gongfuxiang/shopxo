@@ -35,11 +35,12 @@ class Region extends Common
     }
 
     /**
-     * [Index 获取地区]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-04-08T15:08:01+0800
+     * 获取地区节点
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-12-29
+     * @desc    description
      */
     public function Index()
     {
@@ -51,6 +52,19 @@ class Region extends Common
         ];
         $data = RegionService::RegionNode($params);
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 获取地区所有数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-12-29
+     * @desc    description
+     */
+    public function All()
+    {
+        return RegionService::RegionAll();
     }
 }
 ?>

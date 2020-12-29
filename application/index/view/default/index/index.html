@@ -22,20 +22,7 @@
 <!-- 轮播上内容 -->
 <div class="am-container slideall">
     <!-- 轮播-手机导航 -->
-    {{if !empty($navigation)}}
-        <div class="am-g am-g-fixed small-nav">
-            {{foreach $navigation as $nav}}
-                <div class="am-u-sm-3">
-                    <a {{if $nav['is_need_login'] eq 1 and empty($user)}} href="javascript:;" class="login-event" {{else /}} href="{{$nav.event_value}}" {{/if}} >
-                        <div class="nav-icon" style="{{if !empty($nav['bg_color'])}}background:{{$nav.bg_color}};{{/if}}">
-                            <img src="{{$nav.images_url}}" alt="{{$nav.name}}" />
-                        </div>
-                        <div class="mini-nav-title">{{$nav.name}}</div>
-                    </a>
-                </div>
-            {{/foreach}}
-        </div>
-    {{/if}}
+    {{include file="public/home_nav" /}}
 
     <!-- 轮播-聚合内容 -->
     {{if MyC('home_index_banner_right_status', 1) eq 1}}

@@ -35,7 +35,7 @@ class Region extends Common
     }
 
     /**
-     * 获取地区
+     * 获取地区节点
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -58,6 +58,19 @@ class Region extends Common
         ];
         $data = RegionService::RegionNode($params);
         return DataReturn('操作成功', 0, $data);
+    }
+
+    /**
+     * 获取地区所有数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-12-29
+     * @desc    description
+     */
+    public function All()
+    {
+        return RegionService::RegionAll();
     }
 }
 ?>

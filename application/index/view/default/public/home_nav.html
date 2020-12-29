@@ -1,0 +1,26 @@
+{{if !empty($navigation)}}
+    <div class="am-g am-g-fixed small-nav">
+        {{foreach $navigation as $nav}}
+            <div class="am-u-sm-3">
+                {{switch nav.event_type}}
+                    {{case 3}}
+                        <!-- 地图 -->
+                        <a href="javascript:;" {{if $nav['is_need_login'] eq 1 and empty($user)}} class="login-event" {{else /}}{{if !empty($nav['event_value_data']) and !empty($nav['event_value_data'][2]) and !empty($nav['event_value_data'][3])}}class="submit-map-popup" data-lng="{{$nav['event_value_data'][2]}}" data-lat="{{$nav['event_value_data'][3]}}"{{/if}}{{/if}}>
+                    {{/case}}
+                    {{case 4}}
+                        <!-- 电话 -->
+                        <a {{if $nav['is_need_login'] eq 1 and empty($user)}} href="javascript:;" class="login-event" {{else /}}{{if !empty($nav['event_value'])}}href="tel:{{$nav.event_value}}"{{else /}}href="javascript:;"{{/if}}{{/if}}>
+                    {{/case}}
+                    {{default /}}
+                        <!-- 默认url地址 -->
+                        <a {{if $nav['is_need_login'] eq 1 and empty($user)}} href="javascript:;" class="login-event" {{else /}}{{if !empty($nav['event_value'])}}href="{{$nav.event_value}}" target="_blank"{{else /}}href="javascript:;"{{/if}}{{/if}}>
+                {{/switch}}
+                    <div class="nav-icon" style="{{if !empty($nav['bg_color'])}}background:{{$nav.bg_color}};{{/if}}">
+                        <img src="{{$nav.images_url}}" alt="{{$nav.name}}" />
+                    </div>
+                    <div class="mini-nav-title">{{$nav.name}}</div>
+                </a>
+            </div>
+        {{/foreach}}
+    </div>
+{{/if}}
