@@ -447,15 +447,13 @@ function FromInit(form_name)
 	            	return false;
 				}
 
-				// 开启进度条
-				$.AMUI.progress.start();
-
 				// ajax请求
+				$.AMUI.progress.start();
 				$.ajax({
 					url: action,
 					type: method,
 	                dataType: "json",
-	                timeout: $form.attr('timeout') || 30000,
+	                timeout: $form.attr('timeout') || 60000,
 	                data: GetFormVal(form_name),
 	                processData: false,
 					contentType: false,
@@ -511,7 +509,7 @@ function FromInit(form_name)
 		            {
 		            	$.AMUI.progress.done();
 		            	$button.button('reset');
-		            	Prompt('服务器错误');
+		            	Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
 		            }
 	            });
 			}
@@ -590,7 +588,7 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 		url:url,
 		type:'POST',
 		dataType:"json",
-		timeout:30000,
+		timeout:60000,
 		data:{"id":id},
 		success:function(result)
 		{
@@ -620,7 +618,7 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 		},
 		error:function(xhr, type)
 		{
-			$('#tree').find('p').text('网络异常出错');
+			$('#tree').find('p').text(HtmlToString(xhr.responseText) || '异常错误');
 			$('#tree').find('img').remove();
 		}
 	});
@@ -1026,14 +1024,16 @@ function DataDelete(e)
 		data[key] = id;
 
 	// 请求删除数据
+	$.AMUI.progress.start();
 	$.ajax({
 		url:url,
 		type:'POST',
 		dataType:"json",
-		timeout:e.attr('data-timeout') || 30000,
+		timeout:e.attr('data-timeout') || 60000,
 		data:data,
 		success:function(result)
 		{
+			$.AMUI.progress.done();
 			if(result.code == 0)
 			{
 				Prompt(result.msg, 'success');
@@ -1094,7 +1094,8 @@ function DataDelete(e)
 		},
 		error:function(xhr, type)
 		{
-			Prompt('网络异常出错');
+			$.AMUI.progress.done();
+			Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
 		}
 	});
 }
@@ -1152,14 +1153,16 @@ function AjaxRequest(e)
 		data[key] = id;
 
 	// ajax
+	$.AMUI.progress.start();
 	$.ajax({
 		url:url,
 		type:'POST',
 		dataType:"json",
-		timeout:e.attr('data-timeout') || 30000,
+		timeout:e.attr('data-timeout') || 60000,
 		data:data,
 		success:function(result)
 		{
+			$.AMUI.progress.done();
 			if(result.code == 0)
 			{
 				switch(view)
@@ -1199,7 +1202,8 @@ function AjaxRequest(e)
 		},
 		error:function(xhr, type)
 		{
-			Prompt('网络异常出错');
+			$.AMUI.progress.done();
+			Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
 		}
 	});
 }
@@ -1860,6 +1864,52 @@ function IsArray(value)
 	return Object.prototype.toString.call(value) == '[object Array]';
 }
 
+/**
+ * html转字符串
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-12-30
+ * @desc    description
+ * @param   {[string]}        html_str [html代码]
+ */
+function HtmlToString(html_str)
+{
+	function ToTxt(str)
+	{
+		var rex = /\<|\>|\"|\'|\&|　| /g;
+		str = str.replace(rex, function(match_str)
+		{
+			switch(match_str)
+			{
+				case '<' :
+					return '&lt;';
+					break;
+				case '>' :
+					return '&gt;';
+					break;
+				case '"' :
+					return '&quot;';
+					break;
+				case '\'' :
+					return '&#39;';
+					break;
+				case '&' :
+					return '&amp;';
+					break;
+				case ' ' :
+					return '&ensp;';
+					break;
+				case '　' :
+					return '&emsp;';
+					break;
+			}
+		});
+		return str;
+	}
+	return ToTxt(html_str).replace(/\&lt\;br[\&ensp\;|\&emsp\;]*[\/]?\&gt\;|\r\n|\n/g, '<br/>');
+}
+
 
 
 // 公共数据操作
@@ -1918,6 +1968,7 @@ $(function()
 		// ajax请求操作
 		var $button = $(this);
 		$button.button('loading');
+		$.AMUI.progress.start();
 		$.ajax({
 			url: $button.data('url'),
 			type: 'POST',
@@ -1925,6 +1976,7 @@ $(function()
 			data: {"fields": fields, "md5_key": md5_key},
 			success: function(result)
 			{
+				$.AMUI.progress.done();
 				if(result.code == 0)
 				{
 					Prompt(result.msg, 'success');
@@ -1940,8 +1992,9 @@ $(function()
 			},
 			error: function(xhr, type)
 			{
+				$.AMUI.progress.done();
 				$button.button('reset');
-				Prompt('网络异常出错');
+				Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
 			}
 		});
     });
@@ -2009,7 +2062,7 @@ $(function()
 
 		// 提交字段名称|超时时间|标题|描述
 		var key = $(this).data('key') || form;
-		var timeout = $(this).data('timeout') || 30000;
+		var timeout = $(this).data('timeout') || 60000;
 		var title = $(this).data('confirm-title') || '温馨提示';
 		var msg = $(this).data('confirm-msg') || '删除后不可恢复、确认操作吗？';
 
@@ -2028,6 +2081,7 @@ $(function()
 				}
 
 				// ajax请求操作
+				$.AMUI.progress.start();
 				$.ajax({
 					url: url,
 					type: 'POST',
@@ -2036,6 +2090,7 @@ $(function()
 					data: data,
 					success: function(result)
 					{
+						$.AMUI.progress.done();
 						if(result.code == 0)
 						{
 							// 成功则删除数据列表
@@ -2050,7 +2105,8 @@ $(function()
 					},
 					error: function(xhr, type)
 					{
-						Prompt('网络异常出错');
+						$.AMUI.progress.done();
+						Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
 					}
 				});
 			},
@@ -2160,14 +2216,16 @@ $(function()
 		}
 
 		// 请求更新数据
+		$.AMUI.progress.start();
 		$.ajax({
 			url:url,
 			type:'POST',
 			dataType:"json",
-			timeout:$tag.attr('data-timeout') || 30000,
+			timeout:$tag.attr('data-timeout') || 60000,
 			data:{"id":id, "state":state, "field":field},
 			success:function(result)
 			{
+				$.AMUI.progress.done();
 				if(result.code == 0)
 				{
 					Prompt(result.msg, 'success');
@@ -2202,7 +2260,8 @@ $(function()
 			},
 			error:function(xhr, type)
 			{
-				Prompt('网络异常出错');
+				$.AMUI.progress.done();
+				Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
 			}
 		});
 	});

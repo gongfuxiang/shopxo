@@ -213,7 +213,7 @@ $(function()
                 $('.loding-view').hide();
                 $('.search-pages-submit').hide();
                 $('.table-no').show();
-                Prompt('网络异常出错');
+                Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
             }
         });
     }

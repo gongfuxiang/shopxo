@@ -636,6 +636,9 @@ table.am-table .am-btn-danger:hover {
     -moz-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
     box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
 }
+.parameters-table thead tr > th:last-child {
+    background: #f5f7fa;
+}
 .parameters-table thead tr > th {
     min-width: 100px;
 }

@@ -90,7 +90,7 @@ $(function()
             error: function(xhr, type)
             {
                 $.AMUI.progress.done();
-                Prompt('服务器错误');
+                Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
             }
         });
     }

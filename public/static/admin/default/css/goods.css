@@ -124,6 +124,9 @@
     right: 0;
     background: #fff;
 }
+.specifications-table thead tr > th:nth-last-child(-n+2) {
+    background: #f5f7fa;
+}
 .specifications-table thead tr > th:nth-last-child(2),
 .specifications-table tbody tr > td:nth-last-child(2) {
     right: 150px;
