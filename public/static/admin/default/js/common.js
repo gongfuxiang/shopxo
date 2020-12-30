@@ -77,16 +77,8 @@ function FormTableHeightHandle()
 
 $(function()
 {
-    // 商品参数添加
-    var $parameters_table = $('.parameters-table');
-    $('.parameters-line-add').on('click', function()
-    {
-        // 追加内容
-        ParametersItemHtmlCreated();
-    });
-
-    // 商品参数移动
-    $parameters_table.on('click', '.line-move', function()
+    // 商品规格和参数上下移动
+    $('.specifications-table,.parameters-table').on('click', '.line-move', function()
     {
         // 类型
         var type = $(this).data('type') || null;
@@ -97,7 +89,7 @@ $(function()
         }
 
         // 索引
-        var count = $parameters_table.find('tbody tr').length; 
+        var count = $(this).parents('table').find('tbody tr').length; 
         var index = $(this).parents('tr').index() || 0;
         var $parent = $(this).parents('tr');
         switch(type)
@@ -126,6 +118,14 @@ $(function()
             default :
                 Prompt('操作类型配置有误');
         }
+    });
+
+    // 商品参数添加
+    var $parameters_table = $('.parameters-table');
+    $('.parameters-line-add').on('click', function()
+    {
+        // 追加内容
+        ParametersItemHtmlCreated();
     });
 
     // 商品参数移除

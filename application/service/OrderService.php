@@ -590,7 +590,15 @@ class OrderService
 
         // 支付数据校验
         $pay_name = 'payment\\'.PAYMENT_TYPE;
-        $pay_ret = (new $pay_name($payment['config']))->Respond(array_merge(input('get.'), input('post.')));
+        if(!class_exists($pay_name))
+        {
+            return DataReturn('支付方式不存在['.PAYMENT_TYPE.']', -1);
+        }
+        $payment_obj = new $pay_name($payment['config']);
+
+        // 是否存在异步方法
+        $method = method_exists($payment_obj, 'Notify') ? 'Notify' : 'Respond';
+        $pay_ret = $payment_obj->$method(array_merge(input('get.'), input('post.')));
         if(!isset($pay_ret['code']) || $pay_ret['code'] != 0)
         {
             return $pay_ret;

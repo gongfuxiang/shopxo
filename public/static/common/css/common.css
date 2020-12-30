@@ -143,6 +143,12 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
  */
 iframe { border: 0; }
 
+/* 表单全屏 */
+.am-popup .am-form-group,
+.am-modal .am-form-group,
+.business-form-block {
+    padding: 10px 5px !important;
+}
 
 /**
  * H5
@@ -162,9 +168,6 @@ iframe { border: 0; }
     /* 表单 */
     form.am-form .am-form-group:hover, .plug-file-upload-view:hover { background: #f6f9fc; }
     form.am-form .am-form-group-refreshing:hover { background: none; }
-
-    /* 弹窗 */
-    .am-popup form.am-form .am-form-group, .am-modal form.am-form .am-form-group, .business-form-block { padding: 10px 5px; }
 
     /* 地址联动 */
     .region-linkage select { width: 33%; display: -webkit-inline-box; }

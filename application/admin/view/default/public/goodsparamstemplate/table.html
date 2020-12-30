@@ -13,44 +13,48 @@
 </div>
 
 <!--表列表数据 -->
-<div class="parameters-content business-form-group am-form-group-refreshing am-padding-top-0 am-margin-top-sm">
-    <table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover am-margin-bottom-sm parameters-table table-thead-beautify">
-        <thead>
-            <tr>
-                <th class="spec-quick-th-title">展示范围</th>
-                <th class="spec-quick-th-title">参数名称</th>
-                <th class="spec-quick-th-value">参数值</th>
-                <th class="spec-quick-th-value">操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{if !empty($parameters) and is_array($parameters)}}
-                {{foreach $parameters as $pv}}
-                    <tr>
-                        <td class="am-text-middle">
-                            <select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="请选择商品参数展示类型">
-                                {{if !empty($common_goods_parameters_type_list)}}
-                                    {{foreach $common_goods_parameters_type_list as $v}}
-                                        <option value="{{$v.value}}" {{if $pv['type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                                    {{/foreach}}
-                                {{/if}}
-                            </select>
-                        </td>
-                        <td class="am-text-middle">
-                            <input type="text" name="parameters_name[]" placeholder="参数名称" value="{{$pv.name}}" data-validation-message="请填写参数名称" maxlength="160" required />
-                        </td>
-                        <td class="am-text-middle">
-                            <input type="text" name="parameters_value[]" placeholder="参数值" value="{{$pv.value}}" maxlength="200" data-validation-message="请填写参数值" />
-                        </td>
-                        <td class="am-text-middle">
-                            <span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="top">上移</span>
-                            <span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="bottom">下移</span>
-                            <span class="am-text-xs cr-red c-p line-remove">移除</span>
-                        </td>
-                    </tr>
-                {{/foreach}}
-            {{/if}}
-        </tbody>
-    </table>
-    <span class="business-operations-submit parameters-line-add">+添加一行</span>
+<div class="business-form-group am-padding-top-0">
+    <div class="parameters-container am-margin-top-sm am-scrollable-horizontal">
+        <table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover am-margin-bottom-sm parameters-table table-thead-beautify am-margin-bottom-0">
+            <thead>
+                <tr>
+                    <th class="spec-quick-th-title">展示范围</th>
+                    <th class="spec-quick-th-title">参数名称</th>
+                    <th class="spec-quick-th-value">参数值</th>
+                    <th class="spec-quick-th-value">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{if !empty($parameters) and is_array($parameters)}}
+                    {{foreach $parameters as $pv}}
+                        <tr>
+                            <td class="am-text-middle">
+                                <select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="请选择商品参数展示类型">
+                                    {{if !empty($common_goods_parameters_type_list)}}
+                                        {{foreach $common_goods_parameters_type_list as $v}}
+                                            <option value="{{$v.value}}" {{if $pv['type'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                                        {{/foreach}}
+                                    {{/if}}
+                                </select>
+                            </td>
+                            <td class="am-text-middle">
+                                <input type="text" name="parameters_name[]" placeholder="参数名称" value="{{$pv.name}}" data-validation-message="请填写参数名称" maxlength="160" required />
+                            </td>
+                            <td class="am-text-middle">
+                                <input type="text" name="parameters_value[]" placeholder="参数值" value="{{$pv.value}}" maxlength="200" data-validation-message="请填写参数值" />
+                            </td>
+                            <td class="am-text-middle">
+                                <span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="top">上移</span>
+                                <span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="bottom">下移</span>
+                                <span class="am-text-xs cr-red c-p line-remove">移除</span>
+                            </td>
+                        </tr>
+                    {{/foreach}}
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+    <div class="am-margin-top-sm">
+        <span class="business-operations-submit parameters-line-add">+添加一行</span>
+    </div>
 </div>
