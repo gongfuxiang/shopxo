@@ -34,7 +34,7 @@ $(function()
             },
             error: function(xhr, type)
             {
-                Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
+                Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
             }
         });
     }, 2000);

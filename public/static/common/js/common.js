@@ -5,7 +5,7 @@
  * @version  0.0.1
  * @datetime 2016-12-10T14:32:39+0800
  * @param {[string]}	msg  [提示信息]
- * @param {[string]} 	type [类型（失败:danger, 警告:warning, 成功:success）]
+ * @param {[string]} 	type [类型（失败:error, 警告:warning, 成功:success）]
  * @param {[int]} 		time [自动关闭时间（秒）, 默认3秒]
  */
 var temp_time_out;
@@ -21,7 +21,10 @@ function Prompt(msg, type, time)
 
 		// 提示信息添加
 		$('#common-prompt').remove();
-		if((type || null) == null) type = 'danger';
+		if((type || null) == null)
+		{
+			type = 'danger';
+		}
 
 		// icon图标, 默认错误
 		var icon = 'am-icon-times-circle';
@@ -509,7 +512,7 @@ function FromInit(form_name)
 		            {
 		            	$.AMUI.progress.done();
 		            	$button.button('reset');
-		            	Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
+		            	Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
 		            }
 	            });
 			}
@@ -1095,7 +1098,7 @@ function DataDelete(e)
 		error:function(xhr, type)
 		{
 			$.AMUI.progress.done();
-			Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
+			Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
 		}
 	});
 }
@@ -1203,7 +1206,7 @@ function AjaxRequest(e)
 		error:function(xhr, type)
 		{
 			$.AMUI.progress.done();
-			Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
+			Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
 		}
 	});
 }
@@ -1994,7 +1997,7 @@ $(function()
 			{
 				$.AMUI.progress.done();
 				$button.button('reset');
-				Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
+				Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
 			}
 		});
     });
@@ -2106,7 +2109,7 @@ $(function()
 					error: function(xhr, type)
 					{
 						$.AMUI.progress.done();
-						Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
+						Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
 					}
 				});
 			},
@@ -2261,7 +2264,7 @@ $(function()
 			error:function(xhr, type)
 			{
 				$.AMUI.progress.done();
-				Prompt(HtmlToString(xhr.responseText) || '异常错误', 'danger', 30);
+				Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
 			}
 		});
 	});
