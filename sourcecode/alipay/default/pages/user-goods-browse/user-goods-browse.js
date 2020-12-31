@@ -164,7 +164,7 @@ Page({
           my.request({
             url: app.get_request_url("delete", "usergoodsbrowse"),
             method: "POST",
-            data: { id: id },
+            data: { ids: id },
             dataType: "json",
             headers: { 'content-type': 'application/x-www-form-urlencoded' },
             success: res => {
