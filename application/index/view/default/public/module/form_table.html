@@ -74,12 +74,16 @@
                                                     </option>
                                                 {{/if}}
                                                 {{if !empty($t['search_config']['data']) and is_array($t['search_config']['data'])}}
-                                                    {{foreach $t['search_config']['data'] as $v}}
-                                                        <option value="{{if isset($t['search_config']['data_key']) and isset($v[$t['search_config']['data_key']])}}{{$v[$t['search_config']['data_key']]}}{{/if}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and is_array($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and  in_array($v[$t['search_config']['data_key']], $form_params[$t['form_key']])}}selected{{/if}}>
-                                                            {{if isset($t['search_config']['data_name']) and isset($v[$t['search_config']['data_name']])}}
-                                                                {{$v[$t['search_config']['data_name']]}}
-                                                            {{/if}}
-                                                        </option>
+                                                    {{foreach $t['search_config']['data'] as $k=>$v}}
+                                                        {{if is_array($v)}}
+                                                            <option value="{{if isset($t['search_config']['data_key']) and isset($v[$t['search_config']['data_key']])}}{{$v[$t['search_config']['data_key']]}}{{/if}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and is_array($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and in_array($v[$t['search_config']['data_key']], $form_params[$t['form_key']])}}selected{{/if}}>
+                                                                {{if isset($t['search_config']['data_name']) and isset($v[$t['search_config']['data_name']])}}
+                                                                    {{$v[$t['search_config']['data_name']]}}
+                                                                {{/if}}
+                                                            </option>
+                                                        {{else /}}
+                                                            <option value="{{$k}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and is_array($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and in_array($k, $form_params[$t['form_key']])}}selected{{/if}}>{{$v}}</option>
+                                                        {{/if}}
                                                     {{/foreach}}
                                                 {{/if}}
                                             </select>
@@ -110,9 +114,19 @@
                                             <!-- 从模块加载自定义模块数据 -->
                                             {{if !empty($t['search_config']['template'])}}
                                                 {{if isset($t['search_config']['data'])}}
-                                                    {{:ModuleInclude($t['search_config']['template'], ['data'=>$t['search_config']['data'], 'form_name_key'=>$t['form_key'], 'params'=>isset($form_params) ? $form_params : []])}}
+                                                    {{:ModuleInclude($t['search_config']['template'], [
+                                                        'form'=>$t,
+                                                        'data'=>$t['search_config']['data'],
+                                                        'form_name_key'=>$t['form_key'],
+                                                        'params'=>isset($form_params) ? $form_params : [],
+                                                    ])}}
                                                 {{else /}}
-                                                    {{:ModuleInclude($t['search_config']['template'], ['data'=>[], 'form_name_key'=>$t['form_key'], 'params'=>isset($form_params) ? $form_params : []])}}
+                                                    {{:ModuleInclude($t['search_config']['template'], [
+                                                        'form'=>$t,
+                                                        'data'=>[],
+                                                        'form_name_key'=>$t['form_key'],
+                                                        'params'=>isset($form_params) ? $form_params : [],
+                                                    ])}}
                                                 {{/if}}
                                             {{/if}}
                                         {{/case}}
@@ -208,7 +222,10 @@
                                             {{/case}}
                                             {{case module}}
                                                 <!-- 从模块加载自定义模块数据 -->
-                                                {{:ModuleInclude($t['view_key'], $data_list[$i], isset($params) ? $params : [])}}
+                                                {{:ModuleInclude($t['view_key'], $data_list[$i], [
+                                                    'form'      => $t,
+                                                    'params'    => isset($form_params) ? $form_params : [],
+                                                ])}}
                                             {{/case}}
                                             {{case status}}
                                                 <!-- 数据状态操作按钮组件 -->
@@ -226,7 +243,10 @@
                                             {{case operate}}
                                                 <!-- 是否操作列 -->
                                                 <!-- 模块数据 -->
-                                                {{:ModuleInclude($t['view_key'], $data_list[$i])}}
+                                                {{:ModuleInclude($t['view_key'], $data_list[$i], [
+                                                    'form'      => $t,
+                                                    'params'    => isset($form_params) ? $form_params : [],
+                                                ])}}
 
                                                 <!-- 列表操作钩子 -->
                                                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}

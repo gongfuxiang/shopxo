@@ -255,13 +255,13 @@ class PluginsService
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @date     2020-01-02
-     * @param   [string]          $plugins        [应用标记]
-     * @param   [string]          $control        [应用控制器]
-     * @param   [string]          $action         [应用方法]
-     * @param   [string]          $group          [应用组(admin, index, api)]
-     * @param   [array]           $params         [输入参数]
+     * @param    [string]          $plugins        [应用标记]
+     * @param    [string]          $control        [应用控制器]
+     * @param    [string]          $action         [应用方法]
+     * @param    [string]          $group          [应用组(admin, index, api)]
+     * @param    [array]           $params         [输入参数]
      */
-    public static function PluginsControlCall($plugins, $control, $action, $group = 'index', $params = [])
+    public static function PluginsControlCall($plugins, $control, $action, $group = 'index', $params = [], $is_return_data = 0)
     {
         // 应用校验
         $ret = self::PluginsCheck($plugins);
@@ -291,7 +291,7 @@ class PluginsService
         {
             $params = $params['data_request'];
         }
-        return DataReturn('验证成功', 0, $obj->$action($params));
+        return DataReturn('调用成功', 0, $obj->$action($params));
     }
 }
 ?>

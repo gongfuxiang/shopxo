@@ -10,7 +10,6 @@
 // +----------------------------------------------------------------------
 namespace app\module;
 
-use think\Controller;
 use think\facade\Hook;
 use app\service\FormTableService;
 

@@ -507,6 +507,25 @@ function PathToParams($key = null, $default = null, $path = '')
 }
 
 /**
+ * 应用控制器调用
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  1.0.0
+ * @date     2020-01-02
+ * @param    [string]          $plugins        [应用标记]
+ * @param    [string]          $control        [应用控制器]
+ * @param    [string]          $action         [应用方法]
+ * @param    [string]          $group          [应用组(admin, index, api)]
+ * @param    [array]           $params         [输入参数]
+ * @param    [int]             $is_ret_data    [是否直接返回data数据]
+ */
+function PluginsControlCall($plugins, $control, $action, $group = 'index', $params = [], $is_ret_data = 0)
+{
+    $ret =  app\service\PluginsService::PluginsControlCall($plugins, $control, $action, $group, $params);
+    return ($is_ret_data == 1) ? $ret['data'] : $ret;
+}
+
+/**
  * 调用插件服务层方法 - 获取插件配置信息
  * @author   Devil
  * @blog     http://gong.gg/
