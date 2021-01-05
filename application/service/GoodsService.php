@@ -2513,9 +2513,11 @@ class GoodsService
             $add_time = strtotime($add_time);
         }
 
-        // 自定义路径和名称
+        // 自定义路径
         $path = 'static'.DS.'upload'.DS.'images'.DS.'goods_qrcode'.DS.APPLICATION_CLIENT_TYPE.DS.date('Y', $add_time).DS.date('m', $add_time).DS.date('d', $add_time).DS;
-        $filename = $goods_id.'.png';
+
+        // 名称增加站点模式（站点模式不一样商品url地址也会不一样）
+        $filename = $goods_id.MyC('common_site_type', 0, true).'.png';
 
         // 二维码处理参数
         $params = [

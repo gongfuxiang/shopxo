@@ -65,8 +65,8 @@ class Pluginsadmin extends Common
         // 页面类型
         if($this->view_type == 'home')
         {
-            $data = PluginsAdminService::PluginsList();
-            $this->assign('data_list', $data['data']);
+            $ret = PluginsAdminService::PluginsList();
+            $this->assign('data_list', $ret['data']);
             return $this->fetch();
         } else {
             return $this->fetch('upload');
@@ -94,10 +94,14 @@ class Pluginsadmin extends Common
         {
             // 获取数据
             $ret = PluginsAdminService::PluginsList();
-            if(isset($ret['data'][$params['id']]))
+            if(!empty($ret['data']) && is_array($ret['data']))
             {
-                $data = $ret['data'][$params['id']];
-                $params['plugins'] = $params['id'];
+                $data = array_column($ret['data'], null, 'plugins');
+                if(isset($data[$params['id']]))
+                {
+                    $data = $data[$params['id']];
+                    $params['plugins'] = $params['id'];
+                }
             }
         }
         $this->assign('data', $data);
@@ -262,6 +266,26 @@ class Pluginsadmin extends Common
 
         // 开始操作
         return PluginsAdminService::PluginsUninstall($this->data_request);
+    }
+
+    /**
+     * 排序保存
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-05
+     * @desc    description
+     */
+    public function SortSave()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->error('非法访问');
+        }
+
+        // 开始操作
+        return PluginsAdminService::SortSave($this->data_post);
     }
 }
 ?>

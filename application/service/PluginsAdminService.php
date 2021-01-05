@@ -30,6 +30,9 @@ class PluginsAdminService
     // 排除的文件后缀
     private static $exclude_ext = ['php'];
 
+    // 读取插件排序方式(自定义排序 -> 最早安装)
+    private static $plugins_order_by = 'sort asc,id asc';
+
     /**
      * 列表
      * @author   Devil
@@ -42,27 +45,33 @@ class PluginsAdminService
     public static function PluginsList($params = [])
     {
         $data = [];
+        $db_data = [];
+        $dir_data = [];
         $plugins_dir = APP_PATH.'plugins'.DS;
         if(is_dir($plugins_dir))
         {
             if($dh = opendir($plugins_dir))
             {
+                // 获取数据库已安装插件
+                $db_data = Db::name('Plugins')->order(self::$plugins_order_by)->column('*', 'plugins');
+
+                // 获取目录所有插件
                 while(($temp_file = readdir($dh)) !== false)
                 {
                     if(!in_array($temp_file, ['.', '..', '/', 'view', 'index.html']) && substr($temp_file, 0, 1) != '.')
                     {
                         // 获取插件配置信息
                         $config = self::GetPluginsConfig($temp_file);
-                        if($config !== false)
+                        if($config !== false && !empty($config['base']))
                         {
                             // 获取数据库配置信息
-                            $db_config = Db::name('Plugins')->where(['plugins'=>$config['base']['plugins']])->find();
+                            $base = $config['base'];
+                            $db_config = array_key_exists($base['plugins'], $db_data) ? $db_data[$base['plugins']] : [];
 
                             // 数据组装
-                            $base = $config['base'];
-                            $data[$config['base']['plugins']] = [
-                                'id'            => empty($db_config['id']) ? date('YmdHis').GetNumberCode(8) : $db_config['id'],
-                                'plugins'       => isset($base['plugins']) ? $base['plugins'] : '',
+                            $dir_data[$base['plugins']] = [
+                                'id'            => empty($db_config['id']) ? 0 : $db_config['id'],
+                                'plugins'       => $base['plugins'],
                                 'is_enable'     => isset($db_config['is_enable']) ? $db_config['is_enable'] : 0,
                                 'is_install'    => empty($db_config) ? 0 : 1,
                                 'logo_old'      => $base['logo'],
@@ -83,6 +92,23 @@ class PluginsAdminService
                 }
                 closedir($dh);
             }
+        }
+
+        // 存在插件和数据库插件数据则处理排序合并
+        if(!empty($dir_data) && !empty($db_data))
+        {
+            $temp_data = [];
+            foreach($db_data as $v)
+            {
+                if(array_key_exists($v['plugins'], $dir_data))
+                {
+                    $temp_data[] = $dir_data[$v['plugins']];
+                    unset($dir_data[$v['plugins']]);
+                }
+            }
+            $data = array_merge($temp_data, array_values($dir_data));
+        } else {
+            $data = array_values($dir_data);
         }
 
         return DataReturn('处理成功', 0, $data);
@@ -107,10 +133,11 @@ class PluginsAdminService
 
         // 数据处理
         $config = self::GetPluginsConfig($params['id']);;
-        if($config !== false)
+        if($config !== false && !empty($config['base']) && !empty($config['base']['name']))
         {
             $cache = PluginsService::PluginsCacheData($params['id']);
             $data = [
+                'name'      => $config['base']['name'],
                 'plugins'   => $params['id'],
                 'data'      => empty($cache) ? '' : json_encode($cache),
                 'is_enable' => 0,
@@ -292,7 +319,7 @@ class PluginsAdminService
         }
 
         // 处理应用钩子
-        $data = Db::name('Plugins')->where(['is_enable'=>1])->column('plugins');
+        $data = Db::name('Plugins')->where(['is_enable'=>1])->order(self::$plugins_order_by)->column('plugins');
         if(!empty($data))
         {
             foreach($data as $plugins)
@@ -518,7 +545,7 @@ class PluginsAdminService
 
         // 应用目录不存在则创建
         $app_dir = APP_PATH.'plugins'.DS.$plugins;
-        if(\base\FileUtil::CreateDir($app_dir) !== true)
+        if(!is_dir($app_dir) && \base\FileUtil::CreateDir($app_dir) !== true)
         {
             return DataReturn('应用主目录创建失败', -10);
         }
@@ -537,7 +564,7 @@ class PluginsAdminService
             return $ret;
         }
 
-        return DataReturn(empty($params['id']) ? '创建成功' : '更新成功', 0);
+        return DataReturn('操作成功', 0);
     }
 
     /**
@@ -729,60 +756,55 @@ h1 {
 php;
         // 静态文件目录
         $app_static_css_dir = ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS.trim($params['plugins']);
-        if(\base\FileUtil::CreateDir($app_static_css_dir) !== true)
+        if(!is_dir($app_static_css_dir) && \base\FileUtil::CreateDir($app_static_css_dir) !== true)
         {
             return DataReturn('应用静态目录创建失败[css]', -10);
         } else {
             // 后端css目录创建
-            if(\base\FileUtil::CreateDir($app_static_css_dir.DS.'admin') !== true)
+            if(!is_dir($app_static_css_dir.DS.'admin') && \base\FileUtil::CreateDir($app_static_css_dir.DS.'admin') !== true)
             {
                 return DataReturn('应用静态目录创建失败[css/admin]', -10);
             }
         }
 
-        // 编辑模式下不生成后端文件
-        if(empty($params['id']))
+        // 后端admin目录创建
+        if(!is_dir($app_dir.DS.'admin') && \base\FileUtil::CreateDir($app_dir.DS.'admin') !== true)
         {
-            // 后端admin目录创建
-            if(\base\FileUtil::CreateDir($app_dir.DS.'admin') !== true)
-            {
-                return DataReturn('应用后端目录创建失败[admin]', -10);
-            }
-
-            // 创建文件
-            if(@file_put_contents($app_dir.DS.'admin'.DS.'Admin.php', $admin) === false)
-            {
-                return DataReturn('应用文件创建失败[Admin.php]', -11);
-            }
-            if(@file_put_contents($app_dir.DS.'Hook.php', $hook) === false)
-            {
-                return DataReturn('应用文件创建失败[Hook.php]', -11);
-            }
-
-            // 应用后台视图目录不存在则创建
-            $app_view_admin_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'admin'.DS.'admin';
-            if(\base\FileUtil::CreateDir($app_view_admin_dir) !== true)
-            {
-                return DataReturn('应用视图目录创建失败[admin]', -10);
-            }
-            if(@file_put_contents($app_view_admin_dir.DS.'index.html', $admin_view) === false)
-            {
-                return DataReturn('应用视图文件创建失败[admin-view]', -11);
-            }
-
-            // css创建
-            if(@file_put_contents($app_static_css_dir.DS.'admin'.DS.'admin.css', $admin_css) === false)
-            {
-                return DataReturn('应用静态文件创建失败[admin-css]', -11);
-            }
+            return DataReturn('应用后端目录创建失败[admin]', -10);
         }
 
+        // 创建文件
+        if(!file_exists($app_dir.DS.'admin'.DS.'Admin.php') && @file_put_contents($app_dir.DS.'admin'.DS.'Admin.php', $admin) === false)
+        {
+            return DataReturn('应用文件创建失败[Admin.php]', -11);
+        }
+        if(!file_exists($app_dir.DS.'Hook.php') && @file_put_contents($app_dir.DS.'Hook.php', $hook) === false)
+        {
+            return DataReturn('应用文件创建失败[Hook.php]', -11);
+        }
+
+        // 应用后台视图目录不存在则创建
+        $app_view_admin_dir = APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'admin'.DS.'admin';
+        if(!is_dir($app_view_admin_dir) && \base\FileUtil::CreateDir($app_view_admin_dir) !== true)
+        {
+            return DataReturn('应用视图目录创建失败[admin]', -10);
+        }
+        if(!file_exists($app_view_admin_dir.DS.'index.html') && @file_put_contents($app_view_admin_dir.DS.'index.html', $admin_view) === false)
+        {
+            return DataReturn('应用视图文件创建失败[admin-view]', -11);
+        }
+
+        // css创建
+        if(!file_exists($app_static_css_dir.DS.'admin'.DS.'admin.css') && @file_put_contents($app_static_css_dir.DS.'admin'.DS.'admin.css', $admin_css) === false)
+        {
+            return DataReturn('应用静态文件创建失败[admin-css]', -11);
+        }
 
         // 是否有前端页面
         if(isset($params['is_home']) && $params['is_home'] == 1)
         {
             // 前端index目录创建
-            if(\base\FileUtil::CreateDir($app_dir.DS.'index') !== true)
+            if(!is_dir($app_dir.DS.'index') && \base\FileUtil::CreateDir($app_dir.DS.'index') !== true)
             {
                 return DataReturn('应用前端目录创建失败[index]', -10);
             }
@@ -815,15 +837,9 @@ php;
             {
                 return DataReturn('应用静态文件创建失败[index-css]', -11);
             }
-
-        // 没有独立前端页面则删除文件
-        } else {
-            \base\FileUtil::UnlinkFile($app_dir.DS.'index'.DS.'Index.php');
-            \base\FileUtil::UnlinkDir(APP_PATH.'plugins'.DS.'view'.DS.trim($params['plugins']).DS.'index');
-            \base\FileUtil::UnlinkFile($app_static_css_dir.DS.'index'.DS.'index.css');
         }
 
-        return DataReturn('创建成功', 0);
+        return DataReturn('操作成功', 0);
     }
 
     /**
@@ -865,20 +881,24 @@ php;
             'hook'  => (object) $hook,
         ];
 
-        // 文件存在是否有权限
+        // 文件是否存在、存在判断权限、则创建
         $config_file = $app_dir.DS.'config.json';
-        if(file_exists($config_file) && !is_writable($config_file))
+        if(file_exists($config_file))
         {
-            return DataReturn('应用配置文件没有操作权限'.'['.$config_file.']', -3);
+            // 文件存在是否有权限
+            if(!is_writable($config_file))
+            {
+                return DataReturn('应用配置文件没有操作权限'.'['.$config_file.']', -3);
+            }
+        } else {
+            // 创建配置文件
+            if(@file_put_contents($config_file, JsonFormat($data)) === false)
+            {
+                return DataReturn('应用配置文件创建失败', -10);
+            }
         }
 
-        // 创建配置文件
-        if(@file_put_contents($config_file, JsonFormat($data)) === false)
-        {
-            return DataReturn('应用配置文件创建失败', -10);
-        }
-
-        return DataReturn('创建成功', 0);
+        return DataReturn('操作成功', 0);
     }
 
     /**
@@ -1279,6 +1299,70 @@ php;
         } else {
             return DataReturn('下载失败', -100);
         }
+    }
+
+    /**
+     * 排序保存
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-05
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SortSave($params = [])
+    {
+        // 请求类型
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'data',
+                'error_msg'         => '没有可保存的插件数据',
+            ]
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 排序数据、非数组则当做json转换一次
+        $data = is_array($params['data']) ? $params['data'] : json_decode($params['data'], true);
+        if(!empty($data) && is_array($data))
+        {
+            // 启动事务
+            Db::startTrans();
+
+            // 捕获异常
+            try {
+                foreach($data as $k=>$v)
+                {
+                    $upd_data = [
+                        'sort'      => intval($k),
+                        'add_time'  => time(),
+                    ];
+                    if(Db::name('Plugins')->where(['id'=>intval($v)])->update($upd_data) === false)
+                    {
+                        throw new \Exception('操作失败');
+                    }
+                }
+
+                // 钩子部署
+                $ret = self::PluginsHookDeployment();
+                if($ret['code'] != 0)
+                {
+                    throw new \Exception($ret['msg']);
+                }
+
+                // 完成
+                Db::commit();
+                return DataReturn('操作成功', 0);
+            } catch(\Exception $e) {
+                Db::rollback();
+                return DataReturn($e->getMessage(), -1);
+            }
+        }
+        return DataReturn('插件排序数据有误', -1);
     }
 }
 ?>

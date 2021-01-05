@@ -210,19 +210,32 @@ class SearchService
     }
 
     /**
-     * [SearchKeywordsList 获取热门关键字列表]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-10-20T23:55:06+0800
-     * @param   [array]          $params [输入参数]
+     * 搜索关键字列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-03
+     * @desc    description
+     * @param   [array]           $params [输入参数]
      */
     public static function SearchKeywordsList($params = [])
     {
-        $where = [
-            ['keywords', '<>', ''],
-        ];
-        return Db::name('SearchHistory')->where($where)->group('keywords')->limit(10)->column('keywords');
+        // 搜索框下热门关键字
+        $data = [];
+        switch(intval(MyC('home_search_keywords_type', 0)))
+        {
+            case 1 :
+                $data = Db::name('SearchHistory')->where([['keywords', '<>', '']])->group('keywords')->limit(10)->column('keywords');
+                break;
+            case 2 :
+                $keywords = MyC('home_search_keywords', '', true);
+                if(!empty($keywords))
+                {
+                    $data = explode(',', $keywords);
+                }
+                break;
+        }
+        return $data;
     }
 }
 ?>

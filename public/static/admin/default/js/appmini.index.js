@@ -10,14 +10,16 @@ $(function()
             if(theme != undefined)
             {
                 // ajax请求
+                $.AMUI.progress.start();
                 $.ajax({
-                    url:$('.data-list').data('select-url'),
-                    type:'POST',
-                    dataType:"json",
-                    timeout:10000,
-                    data:{"theme":theme, "nav_type":$('.data-list').data('nav-type')},
-                    success:function(result)
+                    url: $('.data-list').data('select-url'),
+                    type: 'POST',
+                    dataType: 'json',
+                    timeout: 10000,
+                    data: {"theme":theme, "nav_type":$('.data-list').data('nav-type')},
+                    success: function(result)
                     {
+                        $.AMUI.progress.done();
                         if(result.code == 0)
                         {
                             $('.am-gallery-item').removeClass('theme-active');
@@ -27,9 +29,10 @@ $(function()
                             Prompt(result.msg);
                         }
                     },
-                    error:function()
+                    error: function(xhr, type)
                     {
-                        Prompt('服务器错误');
+                        $.AMUI.progress.done();
+                        Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
                     }
                 });
             }

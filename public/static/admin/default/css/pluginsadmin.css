@@ -6,22 +6,25 @@
     width: calc(100% + 10px);
     margin-left: -5px;
 }
-.content ul.am-gallery-bordered .icon {
+.content ul.am-gallery-bordered li .am-gallery-item {
+    height: 197px;
+}
+.content ul.am-gallery-bordered li .icon {
     width: 80px;
     height: 80px;
     border-radius: 10px;
     box-shadow: 0px 3px 6px 0px rgba(0,0,0,.4);
 }
-.content ul.am-gallery-bordered.am-gallery-bordered .am-gallery-item {
+.content ul.am-gallery-bordered .am-gallery-item {
     box-shadow: none;
     border: 1px solid #d4d4d4;
     border-radius: 2px;
 }
-.content ul.am-gallery-bordered.am-gallery-bordered .am-gallery-item.am-active {
+.content ul.am-gallery-bordered .am-gallery-item.am-active {
     border: 1px solid #ff8a8a !important;
     background: #fff2f2;
 }
-.content ul.am-gallery-bordered.am-gallery-bordered .am-gallery-item:hover {
+.content ul.am-gallery-bordered .am-gallery-item:hover {
     border: 1px solid #999;
     box-shadow: 0px 12px 12px -10px rgba(0,0,0,.4);
 }
@@ -52,7 +55,7 @@
     white-space: nowrap;
     overflow: hidden;
 }
-.content ul.am-gallery-bordered.am-gallery-bordered .am-gallery-desc {
+.content ul.am-gallery-bordered .am-gallery-desc {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -78,8 +81,18 @@
 .content ul.am-gallery-bordered li .submit-state.am-default {
     background-color: #e6e6e6;
 }
+.content ul.am-gallery-bordered li .submit-move {
+    cursor: move !important;
+}
+.content ul.already-install .am-gallery-item.am-active {
+    border: 1px solid #f8815d !important;
+    background: #fffbf5;
+}
 @media only screen and (max-width: 641px) {
-    .content ul.am-gallery-bordered .icon {
+    .content ul.am-gallery-bordered li .am-gallery-item {
+        height: 187px;
+    }
+    .content ul.am-gallery-bordered li .icon {
         width: 65px;
         height: 65px;
     }

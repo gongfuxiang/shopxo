@@ -78,11 +78,11 @@ $(function()
 
 			// 发送验证码
 			$.ajax({
-				url:$('.verify-submit').data('url'),
-				type:'POST',
-				data:{"accounts":$accounts.val(), "verify":verify, "type":$form_tag.find('input[name="type"]').val()},
-				dataType:'json',
-				success:function(result)
+				url: $('.verify-submit').data('url'),
+				type: 'POST',
+				data: {"accounts":$accounts.val(), "verify":verify, "type":$form_tag.find('input[name="type"]').val()},
+				dataType: 'json',
+				success: function(result)
 				{
 					if(result.code == 0)
 					{
@@ -117,14 +117,14 @@ $(function()
 						Prompt(result.msg);
 					}
 				},
-				error:function()
+				error: function(xhr, type)
 				{
 					$this.button('reset');
 					if(is_win == 1)
 					{
 						$('.verify-submit-win').button('reset');
 					}
-					Prompt('网络错误');
+					Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
 				}
 			});			
 		} else {

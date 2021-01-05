@@ -378,17 +378,7 @@ class Common extends Controller
         $this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
 
         // 搜索框下热门关键字
-        $home_search_keywords = [];
-        switch(intval(MyC('home_search_keywords_type', 0)))
-        {
-            case 1 :
-                $home_search_keywords = SearchService::SearchKeywordsList();
-                break;
-            case 2 :
-                $home_search_keywords = explode(',', MyC('home_search_keywords'));
-                break;
-        }
-        $this->assign('home_search_keywords', $home_search_keywords);
+        $this->assign('home_search_keywords', SearchService::SearchKeywordsList());
 
         // 友情链接
         $link = LinkService::LinkList(['where'=>['is_enable'=>1]]);

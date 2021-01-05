@@ -10,14 +10,16 @@ $(function()
 			if(theme != undefined)
 			{
 				// ajax请求
+				$.AMUI.progress.start();
 				$.ajax({
-					url:$('.data-list').data('select-url'),
-					type:'POST',
-					dataType:"json",
-					timeout:10000,
-					data:{"theme":theme},
-					success:function(result)
+					url: $('.data-list').data('select-url'),
+					type: 'POST',
+					dataType: 'json',
+					timeout: 10000,
+					data: {"theme":theme},
+					success: function(result)
 					{
+						$.AMUI.progress.done();
 						if(result.code == 0)
 						{
 							$('.am-gallery-item').removeClass('theme-active');
@@ -27,10 +29,11 @@ $(function()
 							Prompt(result.msg);
 						}
 					},
-					error:function()
-					{
-						Prompt('服务器错误');
-					}
+					error: function(xhr, type)
+		            {
+		                $.AMUI.progress.done();
+		                Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+		            }
 				});
 			}
 		}

@@ -4,14 +4,16 @@ $(function()
 	$('.test-email-submit').on('click', function()
 	{
 		// ajax请求
+		$.AMUI.progress.start();
 		$.ajax({
-			url:$(this).data('url'),
-			type:'POST',
-			dataType:"json",
-			timeout:30000,
-			data:{"email":$('.test-email-value').val()},
-			success:function(result)
+			url: $(this).data('url'),
+			type: 'POST',
+			dataType: 'json',
+			timeout: 30000,
+			data: {"email":$('.test-email-value').val()},
+			success: function(result)
 			{
+				$.AMUI.progress.done();
 				if(result.code == 0)
 				{
 					Prompt(result.msg, 'success');
@@ -19,10 +21,11 @@ $(function()
 					Prompt(result.msg);
 				}
 			},
-			error:function()
-			{
-				Prompt('服务器错误');
-			}
+			error: function(xhr, type)
+            {
+                $.AMUI.progress.done();
+                Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+            }
 		});
 	});
 

@@ -38,10 +38,10 @@ function GoodsCommentsHtml(page)
 
     $.ajax({
         url: $('.goods-comment').data('url'),
-        type:'POST',
-        data:{"goods_id": $('.goods-comment').data('goods-id'), "page": page || 1},
-        dataType:'json',
-        success:function(result)
+        type: 'POST',
+        data: {"goods_id": $('.goods-comment').data('goods-id'), "page": page || 1},
+        dataType: 'json',
+        success: function(result)
         {
             $('.goods-page-no-data').addClass('none');
             if(result.code == 0)
@@ -57,10 +57,10 @@ function GoodsCommentsHtml(page)
                 $('.goods-page-no-data span').text('没有评论数据');
             }
         },
-        error:function(result)
+        error: function(xhr, type)
         {
             $('.goods-page-no-data').removeClass('none');
-            $('.goods-page-no-data span').text('请求出现错误，请稍后再试！');
+            $('.goods-page-no-data span').text(xhr.responseText || '请求出现错误，请稍后再试！');
         }
     });
 }
@@ -516,10 +516,9 @@ $(function() {
         if(__user_id__ != 0)
         {
             var $this = $(this);
-            // 开启进度条
-            $.AMUI.progress.start();
 
             // ajax请求
+            $.AMUI.progress.start();
             $.ajax({
                 url: $(this).data('ajax-url'),
                 type: 'post',
@@ -528,8 +527,8 @@ $(function() {
                 data: {"id": $('.goods-detail').data('id')},
                 success: function(result)
                 {
-                    PoptitClose();
                     $.AMUI.progress.done();
+                    PoptitClose();
 
                     if(result.code == 0)
                     {
@@ -548,8 +547,8 @@ $(function() {
                 },
                 error: function(xhr, type)
                 {
-                    PoptitClose();
                     $.AMUI.progress.done();
+                    PoptitClose();
                     Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
                 }
             });

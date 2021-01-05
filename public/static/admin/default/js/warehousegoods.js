@@ -39,6 +39,7 @@ $(function()
         }
 
         var $this = $(this);
+        $.AMUI.progress.start();
         $this.button('loading');
         $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($('.goods-list-container').data('loading-msg'))+'</div>');
         $.ajax({
@@ -48,6 +49,7 @@ $(function()
             dataType: 'json',
             success:function(res)
             {
+                $.AMUI.progress.done();
                 $this.button('reset');
                 if(res.code == 0)
                 {
@@ -59,11 +61,13 @@ $(function()
                     $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+res.msg+'</div>');
                 }
             },
-            error:function(res)
+            error: function(xhr, type)
             {
+                $.AMUI.progress.done();
                 $this.button('reset');
-                Prompt('请求失败');
-                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> 请求失败</div>');
+                var msg = HtmlToString(xhr.responseText) || '异常错误';
+                Prompt(msg, null, 30);
+                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+msg+'</div>');
             }
         });
     });
@@ -83,13 +87,15 @@ $(function()
             return false;
         }
 
+        $.AMUI.progress.start();
         $.ajax({
             url: url,
             type: 'post',
             data: {"warehouse_id":warehouse_id, "goods_id":goods_id},
             dataType: 'json',
-            success:function(res)
+            success: function(res)
             {
+                $.AMUI.progress.done();
                 if(res.code == 0)
                 {
                     $this.parent().html(icon_html);
@@ -98,9 +104,10 @@ $(function()
                     Prompt(res.msg);
                 }
             },
-            error:function(res)
+            error: function(xhr, type)
             {
-                Prompt('请求失败');
+                $.AMUI.progress.done();
+                Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
             }
         });
     });

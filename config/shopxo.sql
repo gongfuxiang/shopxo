@@ -11,7 +11,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 25/12/2020 18:28:57
+ Date: 05/01/2021 14:43:41
 */
 
 SET NAMES utf8mb4;
@@ -41,7 +41,7 @@ CREATE TABLE `s_admin` (
 -- Records of s_admin
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_admin` VALUES (1, 'admin', 'c87b54aa85d8826732d15189be1d7e4b', '193291', '17688888888', 0, 0, 661, 1607678717, 1, 1481350313, 1593747210);
+INSERT INTO `s_admin` VALUES (1, 'admin', 'cb54c61d1697f8e6b67616e7111bc695', '974121', '17688888888', 0, 0, 663, 1609172360, 1, 1481350313, 1593747210);
 INSERT INTO `s_admin` VALUES (4, 'shopxo', 'c547c7fdfc244cef6747b306d390cc12', '898429', '', 0, 0, 7, 1600938931, 13, 1580807200, 1598279043);
 COMMIT;
 
@@ -185,8 +185,8 @@ INSERT INTO `s_app_home_nav` VALUES (1, 'weixin', 1, '/pages/goods-category/good
 INSERT INTO `s_app_home_nav` VALUES (2, 'weixin', 1, '/pages/plugins/coupon/index/index', '/static/upload/images/app_nav/2019/10/16/1571231655606153.png', '优惠券', 1, 0, '#FF0066', 0, 1542613659, 1592659444);
 INSERT INTO `s_app_home_nav` VALUES (3, 'weixin', 1, '/pages/user-order/user-order', '/static/upload/images/app_nav/2018/11/19/2018111915482687655.png', '订单', 1, 0, '#CC6633', 0, 1542613706, 1572417702);
 INSERT INTO `s_app_home_nav` VALUES (4, 'weixin', 1, '/pages/plugins/weixinliveplayer/index/index', '/static/upload/images/app_nav/2020/04/19/1587304154495133.png', '我的', 1, 0, '#FF00CC', 0, 1542613752, 1587363007);
-INSERT INTO `s_app_home_nav` VALUES (5, 'h5', 0, 'index.php?s=/index/category/index.html', '/static/upload/images/app_nav/2018/11/19/2018111915461980516.png', '分类', 1, 0, '#FB6E52', 0, 1555913238, 1555914992);
-INSERT INTO `s_app_home_nav` VALUES (6, 'h5', 0, 'index.php?s=/index/cart/index.html', '/static/upload/images/app_nav/2018/11/19/2018111915473948001.png', '购物车', 1, 1, '#48CFAE', 0, 1555913479, 1555914976);
+INSERT INTO `s_app_home_nav` VALUES (5, 'h5', 4, '17600000000', '/static/upload/images/app_nav/2018/11/19/2018111915461980516.png', '拨打电话', 1, 0, '#FB6E52', 0, 1555913238, 1609165650);
+INSERT INTO `s_app_home_nav` VALUES (6, 'h5', 3, 'ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843', '/static/upload/images/app_nav/2018/11/19/2018111915473948001.png', '地图测试', 1, 0, '#48CFAE', 0, 1555913479, 1609165802);
 INSERT INTO `s_app_home_nav` VALUES (7, 'h5', 0, 'index.php?s=/index/plugins/index/pluginsname/coupon/pluginscontrol/index/pluginsaction/index.html', '/static/upload/images/app_nav/2019/10/16/1571231655606153.png', '优惠券', 1, 0, '#FF0066', 0, 1555914517, 1572401676);
 INSERT INTO `s_app_home_nav` VALUES (8, 'h5', 0, 'index.php?s=/index/user/index.html', '/static/upload/images/app_nav/2018/11/19/2018111915491258361.png', '我的', 1, 1, '#49acfa', 0, 1555914623, 1555914935);
 INSERT INTO `s_app_home_nav` VALUES (9, 'alipay', 1, '/pages/goods-category/goods-category', '/static/upload/images/app_nav/2018/11/19/2018111915461980516.png', '分类', 1, 0, '#48CFAE', 0, 1542563498, 1571231781);
@@ -890,9 +890,9 @@ INSERT INTO `s_config` VALUES (15, '15', '分页数量', '分页显示数量', '
 INSERT INTO `s_config` VALUES (59, '1', '扣减库存规则', '需扣减库存开启方可有效，默认订单支付成功', '', 'common', 'common_deduction_inventory_rules', 1607515629);
 INSERT INTO `s_config` VALUES (60, '1', '是否扣减库存', '建议不要随意修改，以免造成库存数据错乱，关闭不影响库存回滚', '', 'common', 'common_is_deduction_inventory', 1607515629);
 INSERT INTO `s_config` VALUES (11, '0', 'Excel编码', 'excel模块编码选择', '请选择编码', 'admin', 'admin_excel_charset', 1607932316);
-INSERT INTO `s_config` VALUES (16, 'ShopXO企业级B2C电商系统提供商 - 演示站点', '站点标题', '浏览器标题，一般不超过80个字符', '站点标题不能为空', 'home', 'home_seo_site_title', 1608196210);
-INSERT INTO `s_config` VALUES (17, '商城系统,开源电商系统,免费电商系统,PHP电商系统,商城系统,B2C电商系统,B2B2C电商系统', '站点关键字', '一般不超过100个字符，多个关键字以半圆角逗号 [ , ] 隔开', '站点关键字不能为空', 'home', 'home_seo_site_keywords', 1608196210);
-INSERT INTO `s_config` VALUES (18, 'ShopXO是国内领先的商城系统提供商，为企业提供php商城系统、微信商城、小程序。', '站点描述', '站点描述，一般不超过200个字符', '站点描述不能为空', 'home', 'home_seo_site_description', 1608196210);
+INSERT INTO `s_config` VALUES (16, 'ShopXO企业级B2C电商系统提供商 - 演示站点', '站点标题', '浏览器标题，一般不超过80个字符', '站点标题不能为空', 'home', 'home_seo_site_title', 1609172775);
+INSERT INTO `s_config` VALUES (17, '商城系统,开源电商系统,免费电商系统,PHP电商系统,商城系统,B2C电商系统,B2B2C电商系统', '站点关键字', '一般不超过100个字符，多个关键字以半圆角逗号 [ , ] 隔开', '站点关键字不能为空', 'home', 'home_seo_site_keywords', 1609172775);
+INSERT INTO `s_config` VALUES (18, 'ShopXO是国内领先的商城系统提供商，为企业提供php商城系统、微信商城、小程序。', '站点描述', '站点描述，一般不超过200个字符', '站点描述不能为空', 'home', 'home_seo_site_description', 1609172775);
 INSERT INTO `s_config` VALUES (19, '沪ICP备20014383号', 'ICP证书号', 'ICP域名备案号', '', 'home', 'home_site_icp', 1606379365);
 INSERT INTO `s_config` VALUES (20, '', '底部统计代码', '支持html，可用于添加流量统计代码', '', 'home', 'home_statistics_code', 0);
 INSERT INTO `s_config` VALUES (21, '1', '站点状态', '可暂时将站点关闭，其他人无法访问，但不影响管理员访问后台', '请选择站点状态', 'home', 'home_site_state', 1606379365);
@@ -900,11 +900,11 @@ INSERT INTO `s_config` VALUES (22, '升级中...', '关闭原因', '支持html�
 INSERT INTO `s_config` VALUES (23, 'Asia/Shanghai', '默认时区', '默认 亚洲/上海 [标准时+8]', '请选择默认时区', 'common', 'common_timezone', 1606379365);
 INSERT INTO `s_config` VALUES (24, '', '底部代码', '支持html，可用于添加流量统计代码', '', 'home', 'home_footer_info', 1606379365);
 INSERT INTO `s_config` VALUES (28, 'ShopXO', '站点名称', '', '站点名称不能为空', 'home', 'home_site_name', 1606379365);
-INSERT INTO `s_config` VALUES (29, '0', '链接模式', '非兼容模式请确保配置好伪静态规则', '请选择url模式', 'home', 'home_seo_url_model', 1608196210);
+INSERT INTO `s_config` VALUES (29, '0', '链接模式', '非兼容模式请确保配置好伪静态规则', '请选择url模式', 'home', 'home_seo_url_model', 1609172775);
 INSERT INTO `s_config` VALUES (25, '20480000', '图片最大限制', '单位B [上传图片还受到服务器空间PHP配置最大上传 20M 限制]', '请填写图片上传最大限制', 'home', 'home_max_limit_image', 1603762525);
 INSERT INTO `s_config` VALUES (26, '51200000', '文件最大限制', '单位B [上传文件还受到服务器空间PHP配置最大上传 20M 限制]', '请填写文件上传最大限制', 'home', 'home_max_limit_file', 1603762525);
 INSERT INTO `s_config` VALUES (27, '102400000', '视频最大限制', '单位B [上传视频还受到服务器空间PHP配置最大上传 20M 限制]', '请填写视频上传最大限制', 'home', 'home_max_limit_video', 1603762525);
-INSERT INTO `s_config` VALUES (30, 'html', '伪静态后缀', '链接后面的后缀别名，默认 [ html ]', '小写字母，不能超过8个字符', 'home', 'home_seo_url_html_suffix', 1608196210);
+INSERT INTO `s_config` VALUES (30, 'html', '伪静态后缀', '链接后面的后缀别名，默认 [ html ]', '小写字母，不能超过8个字符', 'home', 'home_seo_url_html_suffix', 1609172775);
 INSERT INTO `s_config` VALUES (31, '0', '用户注册开启审核', '开启后用户注册需要审核通过方可登录', '请选择用户注册开启审核', 'common', 'common_register_is_enable_audit', 1566227415);
 INSERT INTO `s_config` VALUES (32, '/static/upload/images/common/2019/01/14/1547448748316693.png', '手机端logo', '支持 [jpg, png, gif]', '请上传手机端网站logo', 'home', 'home_site_logo_wap', 1606379365);
 INSERT INTO `s_config` VALUES (33, '/static/upload/images/common/2019/01/14/1547448705165706.png', '电脑端logo', '支持 [jpg, png, gif]', '请上传电脑端网站logo', 'home', 'home_site_logo', 1606379365);
@@ -965,7 +965,7 @@ INSERT INTO `s_config` VALUES (168, '3', '首页楼层商品数量', '默认8个
 INSERT INTO `s_config` VALUES (170, '{\"1\":\"手机,iphone,小米\",\"2\":\"包包,夏装,连衣裙,短袖\"}', '首页楼层顶部右侧关键字', '楼层下关键字（输入回车）', '请填写首页楼层顶部右侧关键字', 'home', 'home_index_floor_top_right_keywords', 1608258457);
 INSERT INTO `s_config` VALUES (79, '0', '是否启用留言', '默认否', '', 'common', 'common_app_is_enable_answer', 1607494842);
 INSERT INTO `s_config` VALUES (80, '3', '商品可添加规格最大数量', '建议不超过3个规格', '请填写谷歌最大数', 'common', 'common_spec_add_max_number', 1607932316);
-INSERT INTO `s_config` VALUES (81, '-', '路由分隔符', '建议填写 [ - ]  默认 [ - ] ，仅PATHINFO模式+短地址模式下有效', '请填写路由分隔符', 'common', 'common_route_separator', 1608196210);
+INSERT INTO `s_config` VALUES (81, '-', '路由分隔符', '建议填写 [ - ]  默认 [ - ] ，仅PATHINFO模式+短地址模式下有效', '请填写路由分隔符', 'common', 'common_route_separator', 1609172775);
 INSERT INTO `s_config` VALUES (82, 'wxda7779770f53e901', 'AppID', '小程序ID', '请填写appid', 'common', 'common_app_mini_weixin_appid', 1608201594);
 INSERT INTO `s_config` VALUES (83, '4bb30af2e71e84f2f5107c0572f66641', 'AppSecret	', '小程序密钥', '请填写appsecret', 'common', 'common_app_mini_weixin_appsecret', 1608201594);
 INSERT INTO `s_config` VALUES (84, 'ShopXO', '名称', '', '请填写名称', 'common', 'common_app_mini_weixin_title', 1608201594);
@@ -1198,6 +1198,7 @@ CREATE TABLE `s_goods` (
   `is_exist_many_spec` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否存在多个规格（0否, 1是）',
   `spec_base` text COMMENT '规格基础数据',
   `fictitious_goods_value` text COMMENT '虚拟商品展示数据',
+  `plugins_membershiplevelvip_price_extends` mediumtext COMMENT '会员等级增强版价格扩展数据',
   `seo_title` char(100) NOT NULL DEFAULT '' COMMENT 'SEO标题',
   `seo_keywords` char(130) NOT NULL DEFAULT '' COMMENT 'SEO关键字',
   `seo_desc` char(230) NOT NULL DEFAULT '' COMMENT 'SEO描述',
@@ -1215,18 +1216,18 @@ CREATE TABLE `s_goods` (
 -- Records of s_goods
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_goods` VALUES (1, 1, -1, 'MIUI/小米 小米手机4 小米4代 MI4智能4G手机包邮 黑色 D-LTE（4G）/TD-SCD', '', '', '', 0, 8, '步', '/static/upload/images/goods/2019/01/14/1547450781101144.jpg', '3200.00', 3200.00, 3200.00, '2100.00', 2100.00, 2100.00, 10, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547450880620837.png\" title=\"1547450880620837.png\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547450880750687.png\" title=\"1547450880750687.png\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547450880917418.png\" title=\"1547450880917418.png\"/></p><p><br/></p>', 2, 10, 747, '', 0, '', '<p><a href=\"https://pan.baidu.com/s/18xyUNruvohr5JCdorvaz5w\" target=\"_blank\" style=\"box-sizing: border-box; background-color: rgb(255, 255, 255); color: rgb(0, 154, 97); text-decoration-line: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;WenQuanYi Micro Hei&quot;, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 14px; white-space: normal;\">https://pan.baidu.com/s/18xyUNruvohr5JCdorvaz5w</a><span style=\"box-sizing: border-box; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;WenQuanYi Micro Hei&quot;, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 14px;\">&nbsp; &nbsp; &nbsp;提取码&nbsp;</span><span style=\"box-sizing: border-box; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;WenQuanYi Micro Hei&quot;, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 14px;\">v3y4</span></p>', '', '', '', 0, 1547450921, 1605345053);
-INSERT INTO `s_goods` VALUES (2, 2, -1, '苹果（Apple）iPhone 6 Plus (A1524)移动联通电信4G手机 金色 16G', '', '', 'iPhone 6 Plus', 0, 1995, '步', '/static/upload/images/goods/2019/01/14/1547451274847894.jpg', '6000.00-7600.00', 6000.00, 7600.00, '4500.00-6800.00', 4500.00, 6800.00, 30, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547451595700972.jpg\" title=\"1547451595700972.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547451595528800.jpg\" title=\"1547451595528800.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547451595616298.jpg\" title=\"1547451595616298.jpg\"/></p><p><br/></p>', 2, 38, 1900, '/static/upload/video/goods/2019/01/14/1547458876723311.mp4', 1, '', '', '', '', '', 0, 1547451624, 1605345051);
-INSERT INTO `s_goods` VALUES (3, 2, -1, 'Samsung/三星 SM-G8508S GALAXY Alpha四核智能手机 新品 闪耀白', '', '', '', 0, 332, '步', '/static/upload/images/goods/2019/01/14/1547451909951171.jpg', '6866.00', 6866.00, 6866.00, '3888.00', 3888.00, 3888.00, 20, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547451947383902.jpg\" title=\"1547451947383902.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547451947686990.jpg\" title=\"1547451947686990.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547451947676180.jpg\" title=\"1547451947676180.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547451947791154.jpg\" title=\"1547451947791154.jpg\"/></p><p><br/></p>', 2, 5, 306, '', 0, '', '', '', '', '', 0, 1547452007, 1606704142);
-INSERT INTO `s_goods` VALUES (4, 1, -1, 'Huawei/华为 H60-L01 荣耀6 移动4G版智能手机 安卓', '', '', '', 0, 331, '步', '/static/upload/images/goods/2019/01/14/1547452474332334.jpg', '2300.00', 2300.00, 2300.00, '1999.00', 1999.00, 1999.00, 19, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547452505568604.jpg\" title=\"1547452505568604.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547452505349986.jpg\" title=\"1547452505349986.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547452505184884.jpg\" title=\"1547452505184884.jpg\"/></p><p><br/></p>', 2, 5, 294, '', 0, '', '', '', '', '', 0, 1547452553, 1605432758);
-INSERT INTO `s_goods` VALUES (5, 2, -1, 'Meizu/魅族 MX4 Pro移动版 八核大屏智能手机 黑色 16G', '', '', '', 0, 554, '步', '/static/upload/images/goods/2019/01/14/1547452714324599.jpg', '3200.00', 3200.00, 3200.00, '2499.00', 2499.00, 2499.00, 56, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547452760417982.jpg\" title=\"1547452760417982.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547452760659259.jpg\" title=\"1547452760659259.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547452760984656.jpg\" title=\"1547452760984656.jpg\"/></p><p><br/></p>', 2, 10, 558, '', 0, NULL, NULL, '', '', '', 0, 1547452798, 1605432763);
-INSERT INTO `s_goods` VALUES (6, 1, -1, 'vivo X5MAX L 移动4G 八核超薄大屏5.5吋双卡手机vivoX5max', '', '', '', 0, 664, '步', '/static/upload/images/goods/2019/01/14/1547453000703308.jpg', '3200.00', 3200.00, 3200.00, '2998.90', 2998.90, 2998.90, 65, 1, 0, 1, 1, 1, '<p><span style=\"color: rgb(255, 0, 0); font-size: 18px;\">&nbsp;X5L/SL/V/M (5.0寸)&nbsp; X5max钢化膜(5.5寸)&nbsp; X5pro钢化膜(5.2寸)&nbsp;</span></p><p><span style=\"color: rgb(255, 0, 0); font-size: 18px;\"><br/></span></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547453042405182.jpg\" title=\"1547453042405182.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547453042614480.jpg\" title=\"1547453042614480.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547453042816509.jpg\" title=\"1547453042816509.jpg\"/></p><p><br/></p>', 2, 4, 412, '', 0, '', '', '', '', '', 0, 1547453135, 1605432769);
-INSERT INTO `s_goods` VALUES (7, 1, -1, '纽芝兰包包女士2018新款潮百搭韩版时尚单肩斜挎包少女小挎包链条', '', '', '', 0, 217, '件', '/static/upload/images/goods/2019/01/15/1547540603500383.jpg', '760.00', 760.00, 760.00, '168.00', 168.00, 168.00, 11, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547453910353340.jpg\" title=\"1547453910353340.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547453910505349.jpg\" title=\"1547453910505349.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547453910394886.jpg\" title=\"1547453910394886.jpg\"/></p><p><br/></p>', 2, 12, 1205, '', 0, NULL, NULL, '', '', '', 0, 1547453967, 1602428921);
-INSERT INTO `s_goods` VALUES (8, 1, -1, 'MARNI Trunk 女士 中号拼色十字纹小牛皮 斜挎风琴包', '', '', '', 0, 5, '件', '/static/upload/images/goods/2019/01/14/1547454145355962.jpg', '0.00', 0.00, 0.00, '356.00', 356.00, 356.00, 8, 1, 6, 1, 1, 1, '<p><iframe src=\"http://player.youku.com/embed/XNDU0MDk5MTQ4OA==\" width=\"600\" height=\"400\" scrolling=\"no\" frameborder=\"0\" align=\"\"></iframe></p><p><br/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454192301566.jpg\" title=\"1547454192301566.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454192448116.jpg\" title=\"1547454192448116.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454192474638.jpg\" title=\"1547454192474638.jpg\"/></p><p><br/></p>', 2, 4, 781, '', 0, '', '', '', '', '', 0, 1547454269, 1608886265);
-INSERT INTO `s_goods` VALUES (9, 2, 2, '睡衣女长袖春秋季纯棉韩版女士大码薄款春夏季全棉家居服两件套装', '', '', '', 0, 932, '件', '/static/upload/images/goods/2019/01/14/1547454567172116.jpg', '160.00-216.00', 160.00, 216.00, '120.00-158.00', 120.00, 158.00, 2, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547454712270511.jpg\" title=\"1547454712270511.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454713556301.jpg\" title=\"1547454713556301.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454713800333.jpg\" title=\"1547454713800333.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454713456602.jpg\" title=\"1547454713456602.jpg\"/></p><p><br/></p>', 3, 30, 1035, '', 1, '', '', '', '', '', 0, 1547454786, 1608886265);
-INSERT INTO `s_goods` VALUES (10, 0, 1, '夏装女装古力娜扎明星同款一字领露肩蓝色蕾丝修身显瘦连衣裙礼服', '', '', '', 0, 8, '件', '/static/upload/images/goods/2019/01/14/1547455222990904.jpg', '568.00', 568.00, 568.00, '228.00', 228.00, 228.00, 28, 1, 1, 1, 1, 1, '<p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><strong><span style=\"color: rgb(153, 51, 255);\">【品牌】欧单 学媛风 猫咪良品</span></strong></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><strong>【吊牌】xueyuanfeng&nbsp;</strong></strong></span></strong></span><strong style=\"font-size: 18px; line-height: 27px;\"><strong><span style=\"color: rgb(153, 51, 255);\">猫咪良品</span></strong></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><strong><strong>【面料质地】涤棉</strong></strong></strong></span><span style=\"font-size: 18px;\"><strong><strong><strong>拼接蕾丝&nbsp;</strong></strong></strong></span><span style=\"font-size: 18px;\"><strong><strong><strong>&nbsp;</strong></strong></strong></span><strong style=\"font-size: 18px; line-height: 1.5;\"><strong><strong>后中拉链 有内衬</strong></strong></strong><strong style=\"font-size: 18px;\"><strong><strong><span style=\"font-family: 微软雅黑;\"><strong>（非专业机构鉴定，介意请慎拍）</strong></span></strong></strong></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong><span style=\"font-size: 18px;\"><span style=\"color: rgb(153, 51, 255);\"></span><span style=\"color: rgb(153, 51, 255);\"></span><span style=\"color: rgb(153, 51, 255);\"><span style=\"background-color: rgb(255, 255, 0);\"><strong style=\"color: rgb(0, 0, 0);\"><span style=\"color: rgb(153, 51, 255);\">好的衣服需要好好呵护，务必请冷水手洗(切记别浸泡)拧干就晾晒或则干洗哦~</span></strong></span></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"><strong>【商品颜色】实物拍摄 蓝色 颜色很难拍有小色差属正常现象哦</strong></span></strong></span></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"></span></strong></span></strong></span><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"></span><strong>【商品尺寸】XS/S/M/L 小高腰设计 胸口纽扣是装饰的哦</strong></strong></span></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"></span></strong></span></p><p style=\"white-space: normal;\"><span style=\"color: rgb(255, 0, 0); font-family: 微软雅黑;\"><span style=\"font-size: 18px; line-height: 27px;\"></span></span></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(64, 64, 64);\"><strong><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">XS码尺寸: 悬挂衣长81CM.胸围80</span></span></strong></span><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">内合适</span></span></strong><span style=\"color: rgb(64, 64, 64);\"><strong><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">.腰围63CM</span></span></strong></span><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">.臀围86CM</span></span></strong></strong></strong></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">S码尺寸: 悬挂衣长82CM.胸围84</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围67CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围90CM</span></strong></strong></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">M码尺寸: 悬挂衣长83CM.胸围88</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围71CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围94CM</span></strong></strong></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">L码尺寸: 悬挂衣长84CM.胸围92</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围75CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围98CM</span></strong></strong></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong style=\"font-size: 18px; line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\"><strong><strong style=\"color: rgb(0, 0, 0);\"><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(0, 0, 255);\"><strong><span style=\"color: rgb(255, 0, 0); font-family: 新宋体;\">（测量单位是CM，每个人的测量方式不一样，测量的尺寸数据可能会有1~3厘米的差异，请MM们谅解哦）</span></strong></span></strong></span></strong></strong></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"><span style=\"color: rgb(0, 0, 255);\"><span style=\"color: rgb(255, 0, 0); font-family: 新宋体;\"></span></span></span></strong></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">PS：常规码数，可按平时号选择哦。修身</span></span></span></strong><strong style=\"line-height: 1.5; color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">版型~如果上身偏大可以适当考虑大1号~下摆蕾丝拼接不会很平整的哦~</span></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong>蕾丝花是手工修剪出来的，每件都有不同和不规则的哦，有小线头和节点是正常现象哦~请亲们谅解哦~</strong></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455266234658.jpg\" title=\"1547455266234658.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455266527628.jpg\" title=\"1547455266527628.jpg\"/></p><p><br/></p>', 2, 8, 689, '', 0, '', '<p><a href=\"https://pan.baidu.com/s/1XTSM-EJZwEgLmGx3ZyFMGQ\" target=\"_blank\">https://pan.baidu.com/s/1XTSM-EJZwEgLmGx3ZyFMGQ</a>&nbsp; &nbsp;<span style=\"font-size: 16px;\"><span style=\"box-sizing: border-box; color: rgb(51, 51, 51); font-family: &quot;Segoe UI&quot;, &quot;Lucida Grande&quot;, Helvetica, Arial, &quot;Microsoft YaHei&quot;, FreeSans, Arimo, &quot;Droid Sans&quot;, &quot;wenquanyi micro hei&quot;, &quot;Hiragino Sans GB&quot;, &quot;Hiragino Sans GB W3&quot;, FontAwesome, sans-serif; background-color: rgb(255, 255, 255);\">提取码：</span><span class=\"am-text-success\" style=\"box-sizing: border-box; color: rgb(94, 185, 94); font-family: &quot;Segoe UI&quot;, &quot;Lucida Grande&quot;, Helvetica, Arial, &quot;Microsoft YaHei&quot;, FreeSans, Arimo, &quot;Droid Sans&quot;, &quot;wenquanyi micro hei&quot;, &quot;Hiragino Sans GB&quot;, &quot;Hiragino Sans GB W3&quot;, FontAwesome, sans-serif; background-color: rgb(255, 255, 255);\">dcs4</span></span></p>', '', '', '', 0, 1547455375, 1606792889);
-INSERT INTO `s_goods` VALUES (11, 0, 3, '夏季复古ins风格网红SP同款 短袖大圆领香槟色蕾丝绣花钉珠连衣裙', '', '', '', 0, 1398, '件', '/static/upload/images/goods/2019/01/14/1547455566118614.jpg', '268.00-422.00', 268.00, 422.00, '160.00-258.00', 160.00, 258.00, 0, 1, 0, 1, 1, 1, '<p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><strong><span style=\"color: rgb(153, 51, 255);\">【品牌】欧单 学媛风 猫咪良品</span></strong></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><strong>【吊牌】xueyuanfeng&nbsp;</strong></strong></span></strong></span><strong style=\"font-size: 18px; line-height: 27px;\"><strong><span style=\"color: rgb(153, 51, 255);\">猫咪良品</span></strong></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><strong><strong>【面料质地】网纱绣花钉珠拼接蕾丝</strong></strong></strong></span><span style=\"font-size: 18px;\"><strong><strong><strong>&nbsp;</strong></strong></strong></span><span style=\"font-size: 18px;\"><strong><strong><strong>有</strong></strong></strong></span><strong style=\"font-size: 18px; line-height: 1.5;\"><strong><strong>拉链有内衬</strong></strong></strong><strong style=\"font-size: 18px;\"><strong><strong><span style=\"font-family: 微软雅黑;\"><strong>（非专业机构鉴定，介意请慎拍）</strong></span></strong></strong></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong><span style=\"font-size: 18px;\"><span style=\"color: rgb(153, 51, 255);\"></span><span style=\"color: rgb(153, 51, 255);\"></span><span style=\"color: rgb(153, 51, 255);\"><span style=\"background-color: rgb(255, 255, 0);\"><strong style=\"color: rgb(0, 0, 0);\"><span style=\"color: rgb(153, 51, 255);\">好的衣服需要好好呵护，务必请冷水手洗(切记别浸泡)拧干就晾晒或则干洗哦~</span></strong></span></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"><strong>【商品颜色】实物拍摄 香槟色 颜色很难拍有小色差属正常现象哦</strong></span></strong></span></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"></span></strong></span></strong></span><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"></span></strong></span></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><strong>【商品尺寸】XS/S/M/L<strong style=\"color: rgb(0, 0, 0);\"><span style=\"color: rgb(153, 51, 255);\"><strong><strong>&nbsp;小高腰设计 胸那考虑撑开因素哦 微弹的哦</strong></strong></span></strong><br/></strong></strong></span></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"></span></strong></span></p><p style=\"white-space: normal; text-align: center;\"><span style=\"color: rgb(255, 0, 0); font-family: 微软雅黑;\"><span style=\"font-size: 18px; line-height: 27px;\"></span></span></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(64, 64, 64);\"><strong><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">XS码尺寸: 衣长82CM.胸围80</span></span></strong></span><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">内合适</span></span></strong><span style=\"color: rgb(64, 64, 64);\"><strong><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">.腰围63CM</span></span></strong></span><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">.臀围86CM</span></span></strong></strong></strong></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">S码尺寸: 衣长83CM.胸围84</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围67CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围90CM</span></strong></strong></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">M码尺寸: 衣长84CM.胸围88</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围71CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围94CM</span></strong></strong></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">L码尺寸: 衣长85CM.胸围92</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围75CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围98CM</span></strong></strong></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong style=\"font-size: 18px; line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\"><strong><strong style=\"color: rgb(0, 0, 0);\"><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(0, 0, 255);\"><strong><span style=\"color: rgb(255, 0, 0); font-family: 新宋体;\">（测量单位是CM，每个人的测量方式不一样，测量的尺寸数据可能会有1~3厘米的差异，请MM们谅解哦）</span></strong></span></strong></span></strong></strong></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"><span style=\"color: rgb(0, 0, 255);\"><span style=\"color: rgb(255, 0, 0); font-family: 新宋体;\"></span></span></span></strong></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">PS：常规码数，可按平时号选择哦。修身</span></span></span></strong><strong style=\"line-height: 1.5; color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">版型，如果腰粗可以适当考虑大1号哦~</span></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong style=\"line-height: 1.5; color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">大圆领，每个人的身材曲线不同，领口不会很平的哦，请谅解~</span></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong style=\"line-height: 1.5; color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">肩膀那有暗扣哦，可以很好的隐藏了内衣的肩带哦~袖子那略硬哦~</span></span></span></strong></p><p><br/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455601898622.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455601528614.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455601314107.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455601168384.jpg\"/></p><p><br/></p>', 4, 4, 506, '', 1, '', '', '', '', '', 0, 1547455700, 1608714514);
-INSERT INTO `s_goods` VALUES (12, 2, 4, 'ZK星星绣花雪纺连衣裙中长款sukol裙少女心温柔超仙女chic裙子夏', '', '轻奢醋酸面料，高标准的生产要求,品质保证', 'hello', 2, 120, '箱', '/static/upload/images/goods/2019/01/14/1547455890402147.jpg', '0.00', 0.00, 0.00, '0.01-5.00', 0.01, 5.00, 50, 1, 0, 1, 1, 1, '<p><br/></p><table class=\"am-table am-table-bordered\"><tbody><tr class=\"firstRow\"><td><span style=\"background-color: rgb(255, 0, 0);\"><strong>11</strong></span></td><td><strong>22</strong></td><td><strong>33</strong></td><td><strong>44</strong></td><td><strong>55</strong></td><td><strong>66</strong></td></tr><tr><td>q</td><td>w</td><td>e</td><td>r</td><td>t</td><td>y</td></tr><tr><td>a</td><td>s</td><td>d</td><td>f</td><td>g</td><td>h</td></tr><tr><td>z</td><td>x</td><td>c</td><td>v</td><td>b</td><td>n</td></tr></tbody></table><p><br/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547456214155362.jpg\" title=\"1547456214155362.jpg\" alt=\"d-1.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455907486857.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455907256518.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547456228913731.jpg\" title=\"1547456228913731.jpg\" alt=\"d-2.jpg\"/></p>', 3, 18, 1698, '', 1, '[{\"title\":\"颜色\",\"value\":[\"粉色\",\"白色\"]},{\"title\":\"尺码\",\"value\":[\"S+S\",\"M+M\",\"L+L\"]}]', '', 'ZK爆款连衣裙', '连衣裙,裙子', '夏季连衣裙，瘦身裙子', 0, 1547456230, 1608886265);
+INSERT INTO `s_goods` VALUES (1, 1, -1, 'MIUI/小米 小米手机4 小米4代 MI4智能4G手机包邮 黑色 D-LTE（4G）/TD-SCD', '', '', '', 0, 8, '步', '/static/upload/images/goods/2019/01/14/1547450781101144.jpg', '3200.00', 3200.00, 3200.00, '2100.00', 2100.00, 2100.00, 10, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547450880620837.png\" title=\"1547450880620837.png\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547450880750687.png\" title=\"1547450880750687.png\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547450880917418.png\" title=\"1547450880917418.png\"/></p><p><br/></p>', 2, 10, 753, '', 0, '', '<p><a href=\"https://pan.baidu.com/s/18xyUNruvohr5JCdorvaz5w\" target=\"_blank\" style=\"box-sizing: border-box; background-color: rgb(255, 255, 255); color: rgb(0, 154, 97); text-decoration-line: none; font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;WenQuanYi Micro Hei&quot;, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 14px; white-space: normal;\">https://pan.baidu.com/s/18xyUNruvohr5JCdorvaz5w</a><span style=\"box-sizing: border-box; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;WenQuanYi Micro Hei&quot;, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 14px;\">&nbsp; &nbsp; &nbsp;提取码&nbsp;</span><span style=\"box-sizing: border-box; color: rgb(51, 51, 51); font-family: &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, &quot;WenQuanYi Micro Hei&quot;, &quot;Microsoft Yahei&quot;, sans-serif; font-size: 14px;\">v3y4</span></p>', NULL, '', '', '', 0, 1547450921, 1605345053);
+INSERT INTO `s_goods` VALUES (2, 2, -1, '苹果（Apple）iPhone 6 Plus (A1524)移动联通电信4G手机 金色 16G', '', '', 'iPhone 6 Plus', 0, 1995, '步', '/static/upload/images/goods/2019/01/14/1547451274847894.jpg', '6000.00-7600.00', 6000.00, 7600.00, '4500.00-6800.00', 4500.00, 6800.00, 30, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547451595700972.jpg\" title=\"1547451595700972.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547451595528800.jpg\" title=\"1547451595528800.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547451595616298.jpg\" title=\"1547451595616298.jpg\"/></p><p><br/></p>', 2, 38, 1906, '/static/upload/video/goods/2019/01/14/1547458876723311.mp4', 1, '', '', NULL, '', '', '', 0, 1547451624, 1609742277);
+INSERT INTO `s_goods` VALUES (3, 2, -1, 'Samsung/三星 SM-G8508S GALAXY Alpha四核智能手机 新品 闪耀白', '', '', '', 0, 332, '步', '/static/upload/images/goods/2019/01/14/1547451909951171.jpg', '6866.00', 6866.00, 6866.00, '3888.00', 3888.00, 3888.00, 20, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547451947383902.jpg\" title=\"1547451947383902.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547451947686990.jpg\" title=\"1547451947686990.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547451947676180.jpg\" title=\"1547451947676180.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547451947791154.jpg\" title=\"1547451947791154.jpg\"/></p><p><br/></p>', 2, 5, 315, '', 0, '', '', NULL, '', '', '', 0, 1547452007, 1606704142);
+INSERT INTO `s_goods` VALUES (4, 1, -1, 'Huawei/华为 H60-L01 荣耀6 移动4G版智能手机 安卓', '', '', '', 0, 331, '步', '/static/upload/images/goods/2019/01/14/1547452474332334.jpg', '2300.00', 2300.00, 2300.00, '1999.00', 1999.00, 1999.00, 19, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547452505568604.jpg\" title=\"1547452505568604.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547452505349986.jpg\" title=\"1547452505349986.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547452505184884.jpg\" title=\"1547452505184884.jpg\"/></p><p><br/></p>', 2, 5, 300, '', 0, '', '', NULL, '', '', '', 0, 1547452553, 1605432758);
+INSERT INTO `s_goods` VALUES (5, 2, -1, 'Meizu/魅族 MX4 Pro移动版 八核大屏智能手机 黑色 16G', '', '', '', 0, 554, '步', '/static/upload/images/goods/2019/01/14/1547452714324599.jpg', '3200.00', 3200.00, 3200.00, '2499.00', 2499.00, 2499.00, 56, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547452760417982.jpg\" title=\"1547452760417982.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547452760659259.jpg\" title=\"1547452760659259.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547452760984656.jpg\" title=\"1547452760984656.jpg\"/></p><p><br/></p>', 2, 10, 563, '', 0, NULL, NULL, NULL, '', '', '', 0, 1547452798, 1605432763);
+INSERT INTO `s_goods` VALUES (6, 1, -1, 'vivo X5MAX L 移动4G 八核超薄大屏5.5吋双卡手机vivoX5max', '', '', '', 0, 664, '步', '/static/upload/images/goods/2019/01/14/1547453000703308.jpg', '3200.00', 3200.00, 3200.00, '2998.90', 2998.90, 2998.90, 65, 1, 0, 1, 1, 1, '<p><span style=\"color: rgb(255, 0, 0); font-size: 18px;\">&nbsp;X5L/SL/V/M (5.0寸)&nbsp; X5max钢化膜(5.5寸)&nbsp; X5pro钢化膜(5.2寸)&nbsp;</span></p><p><span style=\"color: rgb(255, 0, 0); font-size: 18px;\"><br/></span></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547453042405182.jpg\" title=\"1547453042405182.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547453042614480.jpg\" title=\"1547453042614480.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547453042816509.jpg\" title=\"1547453042816509.jpg\"/></p><p><br/></p>', 2, 4, 413, '', 0, '', '', NULL, '', '', '', 0, 1547453135, 1605432769);
+INSERT INTO `s_goods` VALUES (7, 1, -1, '纽芝兰包包女士2018新款潮百搭韩版时尚单肩斜挎包少女小挎包链条', '', '', '', 0, 217, '件', '/static/upload/images/goods/2019/01/15/1547540603500383.jpg', '760.00', 760.00, 760.00, '168.00', 168.00, 168.00, 11, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547453910353340.jpg\" title=\"1547453910353340.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547453910505349.jpg\" title=\"1547453910505349.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547453910394886.jpg\" title=\"1547453910394886.jpg\"/></p><p><br/></p>', 2, 12, 1238, '', 0, NULL, NULL, NULL, '', '', '', 0, 1547453967, 1602428921);
+INSERT INTO `s_goods` VALUES (8, 1, -1, 'MARNI Trunk 女士 中号拼色十字纹小牛皮 斜挎风琴包', '', '', '', 0, 5, '件', '/static/upload/images/goods/2019/01/14/1547454145355962.jpg', '0.00', 0.00, 0.00, '356.00', 356.00, 356.00, 8, 1, 6, 1, 1, 1, '<p><iframe src=\"http://player.youku.com/embed/XNDU0MDk5MTQ4OA==\" width=\"600\" height=\"400\" scrolling=\"no\" frameborder=\"0\" align=\"\"></iframe></p><p><br/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454192301566.jpg\" title=\"1547454192301566.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454192448116.jpg\" title=\"1547454192448116.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454192474638.jpg\" title=\"1547454192474638.jpg\"/></p><p><br/></p>', 2, 4, 936, '', 0, '', '', '{\"1\":{\"min_price\":\"100.00\",\"max_price\":\"100.00\",\"price\":\"100.00\"}}', '', '', '', 0, 1547454269, 1609744193);
+INSERT INTO `s_goods` VALUES (9, 2, 2, '睡衣女长袖春秋季纯棉韩版女士大码薄款春夏季全棉家居服两件套装', '', '', '', 0, 932, '件', '/static/upload/images/goods/2019/01/14/1547454567172116.jpg', '160.00-216.00', 160.00, 216.00, '120.00-158.00', 120.00, 158.00, 2, 1, 0, 1, 1, 1, '<p><img src=\"/static/upload/images/goods/2019/01/14/1547454712270511.jpg\" title=\"1547454712270511.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454713556301.jpg\" title=\"1547454713556301.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454713800333.jpg\" title=\"1547454713800333.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547454713456602.jpg\" title=\"1547454713456602.jpg\"/></p><p><br/></p>', 3, 30, 1038, '', 1, '', '', NULL, '', '', '', 0, 1547454786, 1608886265);
+INSERT INTO `s_goods` VALUES (10, 0, 1, '夏装女装古力娜扎明星同款一字领露肩蓝色蕾丝修身显瘦连衣裙礼服', '', '', '', 0, 8, '件', '/static/upload/images/goods/2019/01/14/1547455222990904.jpg', '568.00', 568.00, 568.00, '228.00', 228.00, 228.00, 28, 1, 1, 1, 1, 1, '<p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><strong><span style=\"color: rgb(153, 51, 255);\">【品牌】欧单 学媛风 猫咪良品</span></strong></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><strong>【吊牌】xueyuanfeng&nbsp;</strong></strong></span></strong></span><strong style=\"font-size: 18px; line-height: 27px;\"><strong><span style=\"color: rgb(153, 51, 255);\">猫咪良品</span></strong></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><strong><strong>【面料质地】涤棉</strong></strong></strong></span><span style=\"font-size: 18px;\"><strong><strong><strong>拼接蕾丝&nbsp;</strong></strong></strong></span><span style=\"font-size: 18px;\"><strong><strong><strong>&nbsp;</strong></strong></strong></span><strong style=\"font-size: 18px; line-height: 1.5;\"><strong><strong>后中拉链 有内衬</strong></strong></strong><strong style=\"font-size: 18px;\"><strong><strong><span style=\"font-family: 微软雅黑;\"><strong>（非专业机构鉴定，介意请慎拍）</strong></span></strong></strong></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong><span style=\"font-size: 18px;\"><span style=\"color: rgb(153, 51, 255);\"></span><span style=\"color: rgb(153, 51, 255);\"></span><span style=\"color: rgb(153, 51, 255);\"><span style=\"background-color: rgb(255, 255, 0);\"><strong style=\"color: rgb(0, 0, 0);\"><span style=\"color: rgb(153, 51, 255);\">好的衣服需要好好呵护，务必请冷水手洗(切记别浸泡)拧干就晾晒或则干洗哦~</span></strong></span></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"><strong>【商品颜色】实物拍摄 蓝色 颜色很难拍有小色差属正常现象哦</strong></span></strong></span></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"></span></strong></span></strong></span><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"></span><strong>【商品尺寸】XS/S/M/L 小高腰设计 胸口纽扣是装饰的哦</strong></strong></span></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"></span></strong></span></p><p style=\"white-space: normal;\"><span style=\"color: rgb(255, 0, 0); font-family: 微软雅黑;\"><span style=\"font-size: 18px; line-height: 27px;\"></span></span></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(64, 64, 64);\"><strong><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">XS码尺寸: 悬挂衣长81CM.胸围80</span></span></strong></span><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">内合适</span></span></strong><span style=\"color: rgb(64, 64, 64);\"><strong><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">.腰围63CM</span></span></strong></span><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">.臀围86CM</span></span></strong></strong></strong></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">S码尺寸: 悬挂衣长82CM.胸围84</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围67CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围90CM</span></strong></strong></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">M码尺寸: 悬挂衣长83CM.胸围88</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围71CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围94CM</span></strong></strong></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">L码尺寸: 悬挂衣长84CM.胸围92</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围75CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围98CM</span></strong></strong></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong style=\"font-size: 18px; line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\"><strong><strong style=\"color: rgb(0, 0, 0);\"><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(0, 0, 255);\"><strong><span style=\"color: rgb(255, 0, 0); font-family: 新宋体;\">（测量单位是CM，每个人的测量方式不一样，测量的尺寸数据可能会有1~3厘米的差异，请MM们谅解哦）</span></strong></span></strong></span></strong></strong></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"><span style=\"color: rgb(0, 0, 255);\"><span style=\"color: rgb(255, 0, 0); font-family: 新宋体;\"></span></span></span></strong></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">PS：常规码数，可按平时号选择哦。修身</span></span></span></strong><strong style=\"line-height: 1.5; color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">版型~如果上身偏大可以适当考虑大1号~下摆蕾丝拼接不会很平整的哦~</span></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong>蕾丝花是手工修剪出来的，每件都有不同和不规则的哦，有小线头和节点是正常现象哦~请亲们谅解哦~</strong></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455266234658.jpg\" title=\"1547455266234658.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455266527628.jpg\" title=\"1547455266527628.jpg\"/></p><p><br/></p>', 2, 8, 697, '', 0, '', '<p><a href=\"https://pan.baidu.com/s/1XTSM-EJZwEgLmGx3ZyFMGQ\" target=\"_blank\">https://pan.baidu.com/s/1XTSM-EJZwEgLmGx3ZyFMGQ</a>&nbsp; &nbsp;<span style=\"font-size: 16px;\"><span style=\"box-sizing: border-box; color: rgb(51, 51, 51); font-family: &quot;Segoe UI&quot;, &quot;Lucida Grande&quot;, Helvetica, Arial, &quot;Microsoft YaHei&quot;, FreeSans, Arimo, &quot;Droid Sans&quot;, &quot;wenquanyi micro hei&quot;, &quot;Hiragino Sans GB&quot;, &quot;Hiragino Sans GB W3&quot;, FontAwesome, sans-serif; background-color: rgb(255, 255, 255);\">提取码：</span><span class=\"am-text-success\" style=\"box-sizing: border-box; color: rgb(94, 185, 94); font-family: &quot;Segoe UI&quot;, &quot;Lucida Grande&quot;, Helvetica, Arial, &quot;Microsoft YaHei&quot;, FreeSans, Arimo, &quot;Droid Sans&quot;, &quot;wenquanyi micro hei&quot;, &quot;Hiragino Sans GB&quot;, &quot;Hiragino Sans GB W3&quot;, FontAwesome, sans-serif; background-color: rgb(255, 255, 255);\">dcs4</span></span></p>', NULL, '', '', '', 0, 1547455375, 1606792889);
+INSERT INTO `s_goods` VALUES (11, 0, 3, '夏季复古ins风格网红SP同款 短袖大圆领香槟色蕾丝绣花钉珠连衣裙', '', '', '', 0, 1398, '件', '/static/upload/images/goods/2019/01/14/1547455566118614.jpg', '268.00-422.00', 268.00, 422.00, '160.00-258.00', 160.00, 258.00, 0, 1, 0, 1, 1, 1, '<p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><strong><span style=\"color: rgb(153, 51, 255);\">【品牌】欧单 学媛风 猫咪良品</span></strong></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><strong>【吊牌】xueyuanfeng&nbsp;</strong></strong></span></strong></span><strong style=\"font-size: 18px; line-height: 27px;\"><strong><span style=\"color: rgb(153, 51, 255);\">猫咪良品</span></strong></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><strong><strong>【面料质地】网纱绣花钉珠拼接蕾丝</strong></strong></strong></span><span style=\"font-size: 18px;\"><strong><strong><strong>&nbsp;</strong></strong></strong></span><span style=\"font-size: 18px;\"><strong><strong><strong>有</strong></strong></strong></span><strong style=\"font-size: 18px; line-height: 1.5;\"><strong><strong>拉链有内衬</strong></strong></strong><strong style=\"font-size: 18px;\"><strong><strong><span style=\"font-family: 微软雅黑;\"><strong>（非专业机构鉴定，介意请慎拍）</strong></span></strong></strong></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong><span style=\"font-size: 18px;\"><span style=\"color: rgb(153, 51, 255);\"></span><span style=\"color: rgb(153, 51, 255);\"></span><span style=\"color: rgb(153, 51, 255);\"><span style=\"background-color: rgb(255, 255, 0);\"><strong style=\"color: rgb(0, 0, 0);\"><span style=\"color: rgb(153, 51, 255);\">好的衣服需要好好呵护，务必请冷水手洗(切记别浸泡)拧干就晾晒或则干洗哦~</span></strong></span></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"><strong>【商品颜色】实物拍摄 香槟色 颜色很难拍有小色差属正常现象哦</strong></span></strong></span></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"></span></strong></span></strong></span><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"></span></strong></span></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><strong>【商品尺寸】XS/S/M/L<strong style=\"color: rgb(0, 0, 0);\"><span style=\"color: rgb(153, 51, 255);\"><strong><strong>&nbsp;小高腰设计 胸那考虑撑开因素哦 微弹的哦</strong></strong></span></strong><br/></strong></strong></span></strong></span></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><span style=\"font-size: 18px;\"><strong><span style=\"color: rgb(153, 51, 255);\"></span></strong></span></p><p style=\"white-space: normal; text-align: center;\"><span style=\"color: rgb(255, 0, 0); font-family: 微软雅黑;\"><span style=\"font-size: 18px; line-height: 27px;\"></span></span></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(64, 64, 64);\"><strong><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">XS码尺寸: 衣长82CM.胸围80</span></span></strong></span><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">内合适</span></span></strong><span style=\"color: rgb(64, 64, 64);\"><strong><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">.腰围63CM</span></span></strong></span><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\">.臀围86CM</span></span></strong></strong></strong></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">S码尺寸: 衣长83CM.胸围84</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围67CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围90CM</span></strong></strong></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">M码尺寸: 衣长84CM.胸围88</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围71CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围94CM</span></strong></strong></p><p style=\"white-space: normal; text-align: center;\"><strong><strong><span style=\"color: rgb(255, 0, 0);\">L码尺寸: 衣长85CM.胸围92</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">内合适</span></strong><strong><span style=\"color: rgb(255, 0, 0);\">.腰围75CM</span></strong><strong style=\"line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\">.臀围98CM</span></strong></strong></p><p style=\"white-space: normal;\"><br/></p><p style=\"white-space: normal; text-align: center;\"><strong style=\"font-size: 18px; line-height: 27px;\"><span style=\"color: rgb(255, 0, 0);\"><span style=\"font-family: 微软雅黑;\"><strong><strong style=\"color: rgb(0, 0, 0);\"><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(0, 0, 255);\"><strong><span style=\"color: rgb(255, 0, 0); font-family: 新宋体;\">（测量单位是CM，每个人的测量方式不一样，测量的尺寸数据可能会有1~3厘米的差异，请MM们谅解哦）</span></strong></span></strong></span></strong></strong></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong><span style=\"color: rgb(153, 51, 255);\"><strong><span style=\"color: rgb(153, 51, 153);\"><span style=\"color: rgb(0, 0, 255);\"><span style=\"color: rgb(255, 0, 0); font-family: 新宋体;\"></span></span></span></strong></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong style=\"color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">PS：常规码数，可按平时号选择哦。修身</span></span></span></strong><strong style=\"line-height: 1.5; color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">版型，如果腰粗可以适当考虑大1号哦~</span></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong style=\"line-height: 1.5; color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">大圆领，每个人的身材曲线不同，领口不会很平的哦，请谅解~</span></span></span></strong></p><p style=\"margin-top: 1.12em; margin-bottom: 1.12em; white-space: normal; padding: 0px; font-family: tahoma, arial, 宋体, sans-serif; font-size: 14px; background-color: rgb(255, 255, 255); text-align: center;\"><strong style=\"line-height: 1.5; color: rgb(64, 64, 64);\"><span style=\"color: rgb(68, 68, 68);\"><span style=\"background-color: rgb(92, 81, 80);\"><span style=\"background-color: rgb(255, 255, 255);\">肩膀那有暗扣哦，可以很好的隐藏了内衣的肩带哦~袖子那略硬哦~</span></span></span></strong></p><p><br/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455601898622.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455601528614.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455601314107.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455601168384.jpg\"/></p><p><br/></p>', 4, 4, 507, '', 1, '', '', NULL, '', '', '', 0, 1547455700, 1608714514);
+INSERT INTO `s_goods` VALUES (12, 2, 4, 'ZK星星绣花雪纺连衣裙中长款sukol裙少女心温柔超仙女chic裙子夏', '', '轻奢醋酸面料，高标准的生产要求,品质保证', 'hello', 2, 120, '箱', '/static/upload/images/goods/2019/01/14/1547455890402147.jpg', '0.00', 0.00, 0.00, '0.01-5.00', 0.01, 5.00, 50, 1, 0, 1, 1, 1, '<p><br/></p><table class=\"am-table am-table-bordered\"><tbody><tr class=\"firstRow\"><td><span style=\"background-color: rgb(255, 0, 0);\"><strong>11</strong></span></td><td><strong>22</strong></td><td><strong>33</strong></td><td><strong>44</strong></td><td><strong>55</strong></td><td><strong>66</strong></td></tr><tr><td>q</td><td>w</td><td>e</td><td>r</td><td>t</td><td>y</td></tr><tr><td>a</td><td>s</td><td>d</td><td>f</td><td>g</td><td>h</td></tr><tr><td>z</td><td>x</td><td>c</td><td>v</td><td>b</td><td>n</td></tr></tbody></table><p><br/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547456214155362.jpg\" title=\"1547456214155362.jpg\" alt=\"d-1.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455907486857.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547455907256518.jpg\"/></p><p><img src=\"/static/upload/images/goods/2019/01/14/1547456228913731.jpg\" title=\"1547456228913731.jpg\" alt=\"d-2.jpg\"/></p>', 3, 18, 1717, '', 1, '[{\"title\":\"颜色\",\"value\":[\"粉色\",\"白色\"]},{\"title\":\"尺码\",\"value\":[\"S+S\",\"M+M\",\"L+L\"]}]', '', NULL, 'ZK爆款连衣裙', '连衣裙,裙子', '夏季连衣裙，瘦身裙子', 0, 1547456230, 1609335571);
 COMMIT;
 
 -- ----------------------------
@@ -1240,24 +1241,25 @@ CREATE TABLE `s_goods_browse` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户商品浏览';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户商品浏览';
 
 -- ----------------------------
 -- Records of s_goods_browse
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_goods_browse` VALUES (1, 7, 1, 1607515417, 1608890559);
-INSERT INTO `s_goods_browse` VALUES (2, 3, 1, 1607515704, 1608891114);
-INSERT INTO `s_goods_browse` VALUES (3, 9, 1, 1608030887, 1608890797);
-INSERT INTO `s_goods_browse` VALUES (4, 10, 1, 1608030888, 1608891096);
-INSERT INTO `s_goods_browse` VALUES (5, 11, 1, 1608031491, 1608714452);
-INSERT INTO `s_goods_browse` VALUES (6, 12, 1, 1608031493, 1608873498);
-INSERT INTO `s_goods_browse` VALUES (7, 6, 1, 1608031544, 1608812944);
-INSERT INTO `s_goods_browse` VALUES (8, 8, 1, 1608189713, 1608888303);
-INSERT INTO `s_goods_browse` VALUES (9, 5, 1, 1608201473, 1608812941);
+INSERT INTO `s_goods_browse` VALUES (1, 7, 1, 1607515417, 1609764259);
+INSERT INTO `s_goods_browse` VALUES (2, 3, 1, 1607515704, 1608986854);
+INSERT INTO `s_goods_browse` VALUES (3, 9, 1, 1608030887, 1608986623);
+INSERT INTO `s_goods_browse` VALUES (4, 10, 1, 1608030888, 1608982937);
+INSERT INTO `s_goods_browse` VALUES (5, 11, 1, 1608031491, 1609073849);
+INSERT INTO `s_goods_browse` VALUES (6, 12, 1, 1608031493, 1609743581);
+INSERT INTO `s_goods_browse` VALUES (7, 6, 1, 1608031544, 1608977647);
+INSERT INTO `s_goods_browse` VALUES (8, 8, 1, 1608189713, 1609812409);
+INSERT INTO `s_goods_browse` VALUES (9, 5, 1, 1608201473, 1609215830);
 INSERT INTO `s_goods_browse` VALUES (10, 9, 2, 1608255999, 0);
-INSERT INTO `s_goods_browse` VALUES (11, 1, 1, 1608792162, 1608890556);
-INSERT INTO `s_goods_browse` VALUES (12, 2, 1, 1608812931, 1608813335);
+INSERT INTO `s_goods_browse` VALUES (11, 1, 1, 1608792162, 1609169113);
+INSERT INTO `s_goods_browse` VALUES (12, 2, 1, 1608812931, 1609742664);
+INSERT INTO `s_goods_browse` VALUES (13, 4, 1, 1608893030, 1608977532);
 COMMIT;
 
 -- ----------------------------
@@ -2150,7 +2152,7 @@ CREATE TABLE `s_goods_category_join` (
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`),
   KEY `category_id` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=756 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品分类关联';
+) ENGINE=InnoDB AUTO_INCREMENT=771 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品分类关联';
 
 -- ----------------------------
 -- Records of s_goods_category_join
@@ -2168,9 +2170,6 @@ INSERT INTO `s_goods_category_join` VALUES (411, 11, 318, 1593703443);
 INSERT INTO `s_goods_category_join` VALUES (479, 6, 1, 1594957734);
 INSERT INTO `s_goods_category_join` VALUES (494, 14, 304, 1597152213);
 INSERT INTO `s_goods_category_join` VALUES (495, 14, 318, 1597152213);
-INSERT INTO `s_goods_category_join` VALUES (499, 2, 68, 1598698299);
-INSERT INTO `s_goods_category_join` VALUES (500, 2, 69, 1598698299);
-INSERT INTO `s_goods_category_join` VALUES (501, 2, 304, 1598698299);
 INSERT INTO `s_goods_category_join` VALUES (581, 9, 363, 1599803472);
 INSERT INTO `s_goods_category_join` VALUES (582, 3, 68, 1600151429);
 INSERT INTO `s_goods_category_join` VALUES (583, 3, 69, 1600151429);
@@ -2178,18 +2177,21 @@ INSERT INTO `s_goods_category_join` VALUES (584, 3, 305, 1600151429);
 INSERT INTO `s_goods_category_join` VALUES (585, 4, 68, 1600151450);
 INSERT INTO `s_goods_category_join` VALUES (586, 4, 69, 1600151450);
 INSERT INTO `s_goods_category_join` VALUES (587, 4, 318, 1600151450);
-INSERT INTO `s_goods_category_join` VALUES (588, 8, 58, 1600771192);
-INSERT INTO `s_goods_category_join` VALUES (589, 8, 195, 1600771192);
-INSERT INTO `s_goods_category_join` VALUES (590, 8, 198, 1600771192);
 INSERT INTO `s_goods_category_join` VALUES (708, 13, 304, 1606792372);
 INSERT INTO `s_goods_category_join` VALUES (709, 13, 318, 1606792372);
 INSERT INTO `s_goods_category_join` VALUES (710, 13, 446, 1606792372);
 INSERT INTO `s_goods_category_join` VALUES (726, 10, 304, 1606792889);
 INSERT INTO `s_goods_category_join` VALUES (727, 10, 318, 1606792889);
 INSERT INTO `s_goods_category_join` VALUES (728, 10, 446, 1606792889);
-INSERT INTO `s_goods_category_join` VALUES (753, 12, 53, 1608873434);
-INSERT INTO `s_goods_category_join` VALUES (754, 12, 611, 1608873434);
-INSERT INTO `s_goods_category_join` VALUES (755, 12, 612, 1608873434);
+INSERT INTO `s_goods_category_join` VALUES (762, 12, 53, 1609307674);
+INSERT INTO `s_goods_category_join` VALUES (763, 12, 611, 1609307674);
+INSERT INTO `s_goods_category_join` VALUES (764, 12, 612, 1609307674);
+INSERT INTO `s_goods_category_join` VALUES (765, 2, 68, 1609742103);
+INSERT INTO `s_goods_category_join` VALUES (766, 2, 69, 1609742103);
+INSERT INTO `s_goods_category_join` VALUES (767, 2, 304, 1609742103);
+INSERT INTO `s_goods_category_join` VALUES (768, 8, 58, 1609744193);
+INSERT INTO `s_goods_category_join` VALUES (769, 8, 195, 1609744193);
+INSERT INTO `s_goods_category_join` VALUES (770, 8, 198, 1609744193);
 COMMIT;
 
 -- ----------------------------
@@ -2238,7 +2240,7 @@ CREATE TABLE `s_goods_content_app` (
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`),
   KEY `sort` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=1061 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品手机详情';
+) ENGINE=InnoDB AUTO_INCREMENT=1079 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品手机详情';
 
 -- ----------------------------
 -- Records of s_goods_content_app
@@ -2260,9 +2262,6 @@ INSERT INTO `s_goods_content_app` VALUES (678, 11, '/static/upload/images/goods/
 INSERT INTO `s_goods_content_app` VALUES (737, 6, '/static/upload/images/goods/2019/01/14/1547453042405182.jpg', 'X5L/SL/V/M (5.0寸)  X5max钢化膜(5.5寸)  X5pro钢化膜(5.2寸)', 0, 1594957734);
 INSERT INTO `s_goods_content_app` VALUES (738, 6, '/static/upload/images/goods/2019/01/14/1547453042614480.jpg', '', 1, 1594957734);
 INSERT INTO `s_goods_content_app` VALUES (739, 6, '/static/upload/images/goods/2019/01/14/1547453042816509.jpg', '', 2, 1594957734);
-INSERT INTO `s_goods_content_app` VALUES (768, 2, '/static/upload/images/goods/2019/01/14/1547451595700972.jpg', '', 0, 1598698299);
-INSERT INTO `s_goods_content_app` VALUES (769, 2, '/static/upload/images/goods/2019/01/14/1547451595528800.jpg', '', 1, 1598698299);
-INSERT INTO `s_goods_content_app` VALUES (770, 2, '/static/upload/images/goods/2019/01/14/1547451595616298.jpg', '', 2, 1598698299);
 INSERT INTO `s_goods_content_app` VALUES (843, 9, '/static/upload/images/goods/2019/01/14/1547454712270511.jpg', '', 0, 1599803472);
 INSERT INTO `s_goods_content_app` VALUES (844, 9, '/static/upload/images/goods/2019/01/14/1547454713556301.jpg', '', 1, 1599803472);
 INSERT INTO `s_goods_content_app` VALUES (845, 9, '/static/upload/images/goods/2019/01/14/1547454713800333.jpg', '', 2, 1599803472);
@@ -2274,15 +2273,18 @@ INSERT INTO `s_goods_content_app` VALUES (850, 3, '/static/upload/images/goods/2
 INSERT INTO `s_goods_content_app` VALUES (851, 4, '/static/upload/images/goods/2019/01/14/1547452505568604.jpg', '', 0, 1600151450);
 INSERT INTO `s_goods_content_app` VALUES (852, 4, '/static/upload/images/goods/2019/01/14/1547452505349986.jpg', '', 1, 1600151450);
 INSERT INTO `s_goods_content_app` VALUES (853, 4, '/static/upload/images/goods/2019/01/14/1547452505184884.jpg', '', 2, 1600151450);
-INSERT INTO `s_goods_content_app` VALUES (854, 8, '/static/upload/images/goods/2019/01/14/1547454192301566.jpg', '', 0, 1600771192);
-INSERT INTO `s_goods_content_app` VALUES (855, 8, '/static/upload/images/goods/2019/01/14/1547454192448116.jpg', '', 1, 1600771192);
-INSERT INTO `s_goods_content_app` VALUES (856, 8, '/static/upload/images/goods/2019/01/14/1547454192474638.jpg', '', 2, 1600771192);
 INSERT INTO `s_goods_content_app` VALUES (1023, 10, '/static/upload/images/goods/2019/01/14/1547455266527628.jpg', '【品牌】欧单 学媛风 猫咪良品\n\n【吊牌】xueyuanfeng 猫咪良品\n\n【面料质地】涤棉拼接蕾丝  后中拉链 有内衬（非专业机构鉴定，介意请慎拍）\n\n好的衣服需要好好呵护，务必请冷水手洗(切记别浸泡)拧干就晾晒或则干洗哦~\n\n【商品颜色】实物拍摄 蓝色 颜色很难拍有小色差属正常现象哦\n\n【商品尺寸】XS/S/M/L 小高腰设计 胸口纽扣是装饰的哦\n\n\nXS码尺寸: 悬挂衣长81CM.胸围80内合适.腰围63CM.臀围86CM\n\nS码尺寸: 悬挂衣长82CM.胸围84内合适.腰围67CM.臀围90CM\n\nM码尺寸: 悬挂衣长83CM.胸围88内合适.腰围71CM.臀围94CM\n\nL码尺寸: 悬挂衣长84CM.胸围92内合适.腰围75CM.臀围98CM\n\n\n（测量单位是CM，每个人的测量方式不一样，测量的尺寸数据可能会有1~3厘米的差异，请MM们谅解哦）\n\n\nPS：常规码数，可按平时号选择哦。修身版型~如果上身偏大可以适当考虑大1号~下摆蕾丝拼接不会很平整的哦~\n\n蕾丝花是手工修剪出来的，每件都有不同和不规则的哦，有小线头和节点是正常现象哦~请亲们谅解哦~', 0, 1606792889);
 INSERT INTO `s_goods_content_app` VALUES (1024, 10, '/static/upload/images/goods/2019/01/14/1547455266234658.jpg', '', 1, 1606792889);
-INSERT INTO `s_goods_content_app` VALUES (1057, 12, '/static/upload/images/goods/2019/01/14/1547456214155362.jpg', '每个人都有一个死角， 自己走不出来，别人也闯不进去。\n我把最深沉的秘密放在那里。\n你不懂我，我不怪你。\n每个人都有一道伤口， 或深或浅，盖上布，以为不存在。', 0, 1608873434);
-INSERT INTO `s_goods_content_app` VALUES (1058, 12, '/static/upload/images/goods/2019/01/14/1547455907486857.jpg', '', 1, 1608873434);
-INSERT INTO `s_goods_content_app` VALUES (1059, 12, '/static/upload/images/goods/2019/01/14/1547455907256518.jpg', '', 2, 1608873434);
-INSERT INTO `s_goods_content_app` VALUES (1060, 12, '/static/upload/images/goods/2019/01/14/1547456228913731.jpg', '', 3, 1608873434);
+INSERT INTO `s_goods_content_app` VALUES (1069, 12, '/static/upload/images/goods/2019/01/14/1547456214155362.jpg', '每个人都有一个死角， 自己走不出来，别人也闯不进去。\n我把最深沉的秘密放在那里。\n你不懂我，我不怪你。\n每个人都有一道伤口， 或深或浅，盖上布，以为不存在。', 0, 1609307674);
+INSERT INTO `s_goods_content_app` VALUES (1070, 12, '/static/upload/images/goods/2019/01/14/1547455907486857.jpg', '', 1, 1609307674);
+INSERT INTO `s_goods_content_app` VALUES (1071, 12, '/static/upload/images/goods/2019/01/14/1547455907256518.jpg', '', 2, 1609307674);
+INSERT INTO `s_goods_content_app` VALUES (1072, 12, '/static/upload/images/goods/2019/01/14/1547456228913731.jpg', '', 3, 1609307674);
+INSERT INTO `s_goods_content_app` VALUES (1073, 2, '/static/upload/images/goods/2019/01/14/1547451595700972.jpg', '', 0, 1609742104);
+INSERT INTO `s_goods_content_app` VALUES (1074, 2, '/static/upload/images/goods/2019/01/14/1547451595528800.jpg', '', 1, 1609742104);
+INSERT INTO `s_goods_content_app` VALUES (1075, 2, '/static/upload/images/goods/2019/01/14/1547451595616298.jpg', '', 2, 1609742104);
+INSERT INTO `s_goods_content_app` VALUES (1076, 8, '/static/upload/images/goods/2019/01/14/1547454192301566.jpg', '', 0, 1609744193);
+INSERT INTO `s_goods_content_app` VALUES (1077, 8, '/static/upload/images/goods/2019/01/14/1547454192448116.jpg', '', 1, 1609744193);
+INSERT INTO `s_goods_content_app` VALUES (1078, 8, '/static/upload/images/goods/2019/01/14/1547454192474638.jpg', '', 2, 1609744193);
 COMMIT;
 
 -- ----------------------------
@@ -2295,12 +2297,13 @@ CREATE TABLE `s_goods_favor` (
   `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户商品收藏';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户商品收藏';
 
 -- ----------------------------
 -- Records of s_goods_favor
 -- ----------------------------
 BEGIN;
+INSERT INTO `s_goods_favor` VALUES (1, 12, 1, 1609423239);
 COMMIT;
 
 -- ----------------------------
@@ -2317,22 +2320,22 @@ CREATE TABLE `s_goods_params` (
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`),
   KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=583 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品参数';
+) ENGINE=InnoDB AUTO_INCREMENT=613 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品参数';
 
 -- ----------------------------
 -- Records of s_goods_params
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_goods_params` VALUES (573, 12, 0, '流行元素/工艺', '树脂固色', 1608873434);
-INSERT INTO `s_goods_params` VALUES (574, 12, 2, '款式', '长款连衣裙', 1608873434);
-INSERT INTO `s_goods_params` VALUES (575, 12, 2, '适用年龄', '30-34周岁', 1608873434);
-INSERT INTO `s_goods_params` VALUES (576, 12, 1, '图案', '纯色', 1608873434);
-INSERT INTO `s_goods_params` VALUES (577, 12, 1, '袖长', '短袖', 1608873434);
-INSERT INTO `s_goods_params` VALUES (578, 12, 1, '风格', '复古风', 1608873434);
-INSERT INTO `s_goods_params` VALUES (579, 12, 1, '衣门襟', '套头', 1608873434);
-INSERT INTO `s_goods_params` VALUES (580, 12, 1, '裙型', '大摆型', 1608873434);
-INSERT INTO `s_goods_params` VALUES (581, 12, 1, '组合形式', '单件', 1608873434);
-INSERT INTO `s_goods_params` VALUES (582, 12, 0, '款式类别', '图案花纹', 1608873434);
+INSERT INTO `s_goods_params` VALUES (603, 12, 0, '流行元素/工艺', '树脂固色', 1609307674);
+INSERT INTO `s_goods_params` VALUES (604, 12, 2, '款式', '长款连衣裙', 1609307674);
+INSERT INTO `s_goods_params` VALUES (605, 12, 2, '适用年龄', '30-34周岁', 1609307674);
+INSERT INTO `s_goods_params` VALUES (606, 12, 1, '图案', '纯色', 1609307674);
+INSERT INTO `s_goods_params` VALUES (607, 12, 1, '袖长', '短袖', 1609307674);
+INSERT INTO `s_goods_params` VALUES (608, 12, 1, '风格', '复古风', 1609307674);
+INSERT INTO `s_goods_params` VALUES (609, 12, 1, '衣门襟', '套头', 1609307674);
+INSERT INTO `s_goods_params` VALUES (610, 12, 1, '裙型', '大摆型', 1609307674);
+INSERT INTO `s_goods_params` VALUES (611, 12, 1, '组合形式', '单件', 1609307674);
+INSERT INTO `s_goods_params` VALUES (612, 12, 0, '款式类别', '图案花纹', 1609307674);
 COMMIT;
 
 -- ----------------------------
@@ -2405,7 +2408,7 @@ CREATE TABLE `s_goods_photo` (
   KEY `goods_id` (`goods_id`),
   KEY `is_show` (`is_show`),
   KEY `sort` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=826 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品相册图片';
+) ENGINE=InnoDB AUTO_INCREMENT=839 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品相册图片';
 
 -- ----------------------------
 -- Records of s_goods_photo
@@ -2423,8 +2426,6 @@ INSERT INTO `s_goods_photo` VALUES (531, 11, '/static/upload/images/goods/2019/0
 INSERT INTO `s_goods_photo` VALUES (532, 11, '/static/upload/images/goods/2019/01/14/1547455601528614.jpg', 1, 3, 1593703443);
 INSERT INTO `s_goods_photo` VALUES (581, 6, '/static/upload/images/goods/2019/01/14/1547453000703308.jpg', 1, 0, 1594957734);
 INSERT INTO `s_goods_photo` VALUES (582, 6, '/static/upload/images/goods/2019/01/14/1547453032949003.jpg', 1, 1, 1594957734);
-INSERT INTO `s_goods_photo` VALUES (604, 2, '/static/upload/images/goods/2019/01/14/1547451274847894.jpg', 1, 0, 1598698299);
-INSERT INTO `s_goods_photo` VALUES (605, 2, '/static/upload/images/goods/2019/01/14/1547451576558478.jpg', 1, 1, 1598698299);
 INSERT INTO `s_goods_photo` VALUES (660, 9, '/static/upload/images/goods/2019/01/14/1547454702543219.jpg', 1, 0, 1599803472);
 INSERT INTO `s_goods_photo` VALUES (661, 9, '/static/upload/images/goods/2019/01/14/1547454702272215.jpg', 1, 1, 1599803472);
 INSERT INTO `s_goods_photo` VALUES (662, 9, '/static/upload/images/goods/2019/01/14/1547454702814719.jpg', 1, 2, 1599803472);
@@ -2432,13 +2433,15 @@ INSERT INTO `s_goods_photo` VALUES (663, 3, '/static/upload/images/goods/2019/01
 INSERT INTO `s_goods_photo` VALUES (664, 3, '/static/upload/images/goods/2019/01/14/1547451936230948.jpg', 1, 1, 1600151429);
 INSERT INTO `s_goods_photo` VALUES (665, 4, '/static/upload/images/goods/2019/01/14/1547452474332334.jpg', 1, 0, 1600151450);
 INSERT INTO `s_goods_photo` VALUES (666, 4, '/static/upload/images/goods/2019/01/14/1547452496713777.jpg', 1, 1, 1600151450);
-INSERT INTO `s_goods_photo` VALUES (667, 8, '/static/upload/images/goods/2019/01/14/1547454145355962.jpg', 1, 0, 1600771192);
-INSERT INTO `s_goods_photo` VALUES (668, 8, '/static/upload/images/goods/2019/01/14/1547454172213779.jpg', 1, 1, 1600771192);
 INSERT INTO `s_goods_photo` VALUES (797, 10, '/static/upload/images/goods/2019/01/14/1547455240794230.jpg', 1, 0, 1606792889);
 INSERT INTO `s_goods_photo` VALUES (798, 10, '/static/upload/images/goods/2019/01/14/1547455240700820.jpg', 1, 1, 1606792889);
-INSERT INTO `s_goods_photo` VALUES (823, 12, '/static/upload/images/goods/2019/01/14/1547455890402147.jpg', 1, 0, 1608873434);
-INSERT INTO `s_goods_photo` VALUES (824, 12, '/static/upload/images/goods/2019/01/14/1547455907256518.jpg', 1, 1, 1608873434);
-INSERT INTO `s_goods_photo` VALUES (825, 12, '/static/upload/images/goods/2019/01/14/1547455907486857.jpg', 1, 2, 1608873434);
+INSERT INTO `s_goods_photo` VALUES (832, 12, '/static/upload/images/goods/2019/01/14/1547455890402147.jpg', 1, 0, 1609307674);
+INSERT INTO `s_goods_photo` VALUES (833, 12, '/static/upload/images/goods/2019/01/14/1547455907256518.jpg', 1, 1, 1609307674);
+INSERT INTO `s_goods_photo` VALUES (834, 12, '/static/upload/images/goods/2019/01/14/1547455907486857.jpg', 1, 2, 1609307674);
+INSERT INTO `s_goods_photo` VALUES (835, 2, '/static/upload/images/goods/2019/01/14/1547451274847894.jpg', 1, 0, 1609742104);
+INSERT INTO `s_goods_photo` VALUES (836, 2, '/static/upload/images/goods/2019/01/14/1547451576558478.jpg', 1, 1, 1609742104);
+INSERT INTO `s_goods_photo` VALUES (837, 8, '/static/upload/images/goods/2019/01/14/1547454145355962.jpg', 1, 0, 1609744193);
+INSERT INTO `s_goods_photo` VALUES (838, 8, '/static/upload/images/goods/2019/01/14/1547454172213779.jpg', 1, 1, 1609744193);
 COMMIT;
 
 -- ----------------------------
@@ -2458,7 +2461,7 @@ CREATE TABLE `s_goods_spec_base` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1375 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格基础';
+) ENGINE=InnoDB AUTO_INCREMENT=1403 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格基础';
 
 -- ----------------------------
 -- Records of s_goods_spec_base
@@ -2471,15 +2474,6 @@ INSERT INTO `s_goods_spec_base` VALUES (813, 11, 258.00, 677, 0.00, '', '', 268.
 INSERT INTO `s_goods_spec_base` VALUES (814, 11, 238.00, 688, 0.00, '', '', 343.00, '{\"plugins_distribution_rules_1\":\"r|5\\nr|3\\ns|2\",\"plugins_distribution_down_rules_1\":\"r|1\"}', 1593703443);
 INSERT INTO `s_goods_spec_base` VALUES (815, 11, 160.00, 33, 0.00, '', '', 422.00, '{\"plugins_distribution_rules_20191202164330784159\":\"r|8\",\"plugins_distribution_rules_20191204113948916981\":\"\"}', 1593703443);
 INSERT INTO `s_goods_spec_base` VALUES (909, 6, 2998.90, 664, 0.00, '', '', 3200.00, '{\"plugins_distribution_rules_1\":\"r|10\\nr|10\\nr|10\",\"plugins_distribution_down_rules_1\":\"\"}', 1594957734);
-INSERT INTO `s_goods_spec_base` VALUES (955, 2, 6050.00, 221, 12.00, '', '', 6800.00, '{\"plugins_distribution_rules_1\":\"r|5\",\"plugins_distribution_down_rules_1\":\"\"}', 1598698299);
-INSERT INTO `s_goods_spec_base` VALUES (956, 2, 6600.00, 222, 21.00, '', '', 7200.00, NULL, 1598698299);
-INSERT INTO `s_goods_spec_base` VALUES (957, 2, 6800.00, 222, 22.00, '', '', 7600.00, NULL, 1598698299);
-INSERT INTO `s_goods_spec_base` VALUES (958, 2, 6050.00, 222, 23.00, '', '', 6800.00, NULL, 1598698299);
-INSERT INTO `s_goods_spec_base` VALUES (959, 2, 6600.00, 222, 12.00, '', '', 7200.00, NULL, 1598698299);
-INSERT INTO `s_goods_spec_base` VALUES (960, 2, 6800.00, 222, 32.00, '', '', 7600.00, NULL, 1598698299);
-INSERT INTO `s_goods_spec_base` VALUES (961, 2, 4500.00, 222, 23.00, '', '', 6800.00, NULL, 1598698299);
-INSERT INTO `s_goods_spec_base` VALUES (962, 2, 4800.00, 222, 32.00, '', '', 6600.00, NULL, 1598698299);
-INSERT INTO `s_goods_spec_base` VALUES (963, 2, 5500.00, 220, 11.00, '', '', 6000.00, NULL, 1598698299);
 INSERT INTO `s_goods_spec_base` VALUES (1072, 9, 120.00, 105, 17.00, '', '', 160.00, '{\"plugins_distribution_rules_1\":\"r|5\",\"plugins_distribution_down_rules_1\":\"\"}', 1599803472);
 INSERT INTO `s_goods_spec_base` VALUES (1073, 9, 120.00, 102, 17.00, '', '', 160.00, NULL, 1599803472);
 INSERT INTO `s_goods_spec_base` VALUES (1074, 9, 120.00, 104, 17.00, '', '', 160.00, NULL, 1599803472);
@@ -2491,14 +2485,23 @@ INSERT INTO `s_goods_spec_base` VALUES (1079, 9, 158.00, 105, 17.00, '', '', 216
 INSERT INTO `s_goods_spec_base` VALUES (1080, 9, 158.00, 104, 17.00, '', '', 216.00, NULL, 1599803472);
 INSERT INTO `s_goods_spec_base` VALUES (1081, 3, 3888.00, 332, 0.00, '', '', 6866.00, NULL, 1600151429);
 INSERT INTO `s_goods_spec_base` VALUES (1082, 4, 1999.00, 331, 0.00, '', '', 2300.00, NULL, 1600151450);
-INSERT INTO `s_goods_spec_base` VALUES (1083, 8, 356.00, 5, 0.00, '', '', 0.00, NULL, 1600771192);
 INSERT INTO `s_goods_spec_base` VALUES (1320, 10, 228.00, 8, 0.00, '', '', 568.00, NULL, 1606792889);
-INSERT INTO `s_goods_spec_base` VALUES (1369, 12, 0.01, 20, 0.00, '', '', 0.00, NULL, 1608873434);
-INSERT INTO `s_goods_spec_base` VALUES (1370, 12, 0.10, 20, 0.00, '', '', 0.00, NULL, 1608873434);
-INSERT INTO `s_goods_spec_base` VALUES (1371, 12, 1.00, 20, 0.00, '', '', 0.00, NULL, 1608873434);
-INSERT INTO `s_goods_spec_base` VALUES (1372, 12, 2.00, 20, 0.00, '', '', 0.00, NULL, 1608873434);
-INSERT INTO `s_goods_spec_base` VALUES (1373, 12, 3.00, 20, 0.00, '', '', 0.00, NULL, 1608873434);
-INSERT INTO `s_goods_spec_base` VALUES (1374, 12, 5.00, 20, 0.00, '', '', 0.00, NULL, 1608873434);
+INSERT INTO `s_goods_spec_base` VALUES (1387, 12, 0.10, 20, 0.00, '', '', 0.00, NULL, 1609307674);
+INSERT INTO `s_goods_spec_base` VALUES (1388, 12, 1.00, 20, 0.00, '', '', 0.00, NULL, 1609307674);
+INSERT INTO `s_goods_spec_base` VALUES (1389, 12, 0.01, 20, 0.00, '', '', 0.00, NULL, 1609307674);
+INSERT INTO `s_goods_spec_base` VALUES (1390, 12, 2.00, 20, 0.00, '', '', 0.00, NULL, 1609307674);
+INSERT INTO `s_goods_spec_base` VALUES (1391, 12, 3.00, 20, 0.00, '', '', 0.00, NULL, 1609307674);
+INSERT INTO `s_goods_spec_base` VALUES (1392, 12, 5.00, 20, 0.00, '', '', 0.00, NULL, 1609307674);
+INSERT INTO `s_goods_spec_base` VALUES (1393, 2, 6050.00, 221, 12.00, '', '', 6800.00, '{\"plugins_distribution_rules_1\":\"r|5\",\"plugins_distribution_down_rules_1\":\"\"}', 1609742103);
+INSERT INTO `s_goods_spec_base` VALUES (1394, 2, 6600.00, 222, 21.00, '', '', 7200.00, NULL, 1609742104);
+INSERT INTO `s_goods_spec_base` VALUES (1395, 2, 6800.00, 222, 22.00, '', '', 7600.00, NULL, 1609742104);
+INSERT INTO `s_goods_spec_base` VALUES (1396, 2, 6050.00, 222, 23.00, '', '', 6800.00, NULL, 1609742104);
+INSERT INTO `s_goods_spec_base` VALUES (1397, 2, 6600.00, 222, 12.00, '', '', 7200.00, NULL, 1609742104);
+INSERT INTO `s_goods_spec_base` VALUES (1398, 2, 6800.00, 222, 32.00, '', '', 7600.00, NULL, 1609742104);
+INSERT INTO `s_goods_spec_base` VALUES (1399, 2, 4500.00, 222, 23.00, '', '', 6800.00, NULL, 1609742104);
+INSERT INTO `s_goods_spec_base` VALUES (1400, 2, 4800.00, 222, 32.00, '', '', 6600.00, NULL, 1609742104);
+INSERT INTO `s_goods_spec_base` VALUES (1401, 2, 5500.00, 220, 11.00, '', '', 6000.00, NULL, 1609742104);
+INSERT INTO `s_goods_spec_base` VALUES (1402, 8, 356.00, 5, 0.00, '', '', 0.00, '{\"plugins_membershiplevelvip_price_1\":\"100\"}', 1609744193);
 COMMIT;
 
 -- ----------------------------
@@ -2513,20 +2516,20 @@ CREATE TABLE `s_goods_spec_type` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=446 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格类型';
+) ENGINE=InnoDB AUTO_INCREMENT=455 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格类型';
 
 -- ----------------------------
 -- Records of s_goods_spec_type
 -- ----------------------------
 BEGIN;
 INSERT INTO `s_goods_spec_type` VALUES (262, 11, '[{\"name\":\"M\",\"images\":\"\\/static\\/upload\\/images\\/goods\\/2019\\/01\\/14\\/1547455907486857.jpg\"},{\"name\":\"L\",\"images\":\"\\/static\\/upload\\/images\\/goods\\/2019\\/01\\/14\\/1547455907256518.jpg\"},{\"name\":\"XL\",\"images\":\"\\/static\\/upload\\/images\\/goods\\/2019\\/01\\/14\\/1547455601528614.jpg\"}]', '尺码', 1593703443);
-INSERT INTO `s_goods_spec_type` VALUES (315, 2, '[{\"name\":\"套餐一\",\"images\":\"\"},{\"name\":\"套餐二\",\"images\":\"\"}]', '套餐', 1598698299);
-INSERT INTO `s_goods_spec_type` VALUES (316, 2, '[{\"name\":\"金色\",\"images\":\"\\/static\\/upload\\/images\\/goods\\/2019\\/01\\/14\\/1547451274847894.jpg\"},{\"name\":\"银色\",\"images\":\"\\/static\\/upload\\/images\\/goods\\/2019\\/01\\/14\\/1547451576558478.jpg\"}]', '颜色', 1598698299);
-INSERT INTO `s_goods_spec_type` VALUES (317, 2, '[{\"name\":\"32G\",\"images\":\"\"},{\"name\":\"64G\",\"images\":\"\"},{\"name\":\"128G\",\"images\":\"\"}]', '容量', 1598698299);
 INSERT INTO `s_goods_spec_type` VALUES (354, 9, '[{\"name\":\"白色\",\"images\":\"\\/static\\/upload\\/images\\/goods\\/2019\\/01\\/14\\/1547454702543219.jpg\"},{\"name\":\"粉色\",\"images\":\"\\/static\\/upload\\/images\\/goods\\/2019\\/01\\/14\\/1547454702272215.jpg\"},{\"name\":\"黑色\",\"images\":\"\\/static\\/upload\\/images\\/goods\\/2019\\/01\\/14\\/1547454702814719.jpg\"}]', '颜色', 1599803472);
 INSERT INTO `s_goods_spec_type` VALUES (355, 9, '[{\"name\":\"S\",\"images\":\"\"},{\"name\":\"M\",\"images\":\"\"},{\"name\":\"L\",\"images\":\"\"},{\"name\":\"XL\",\"images\":\"\"}]', '尺码', 1599803472);
-INSERT INTO `s_goods_spec_type` VALUES (444, 12, '[{\"name\":\"粉色\",\"images\":\"\"},{\"name\":\"白色\",\"images\":\"\"}]', '颜 色', 1608873434);
-INSERT INTO `s_goods_spec_type` VALUES (445, 12, '[{\"name\":\"S+Sad,f\",\"images\":\"\"},{\"name\":\"M+M\",\"images\":\"\"},{\"name\":\"L+L\",\"images\":\"\"},{\"name\":\"S+S\",\"images\":\"\"}]', '尺,码', 1608873434);
+INSERT INTO `s_goods_spec_type` VALUES (450, 12, '[{\"name\":\"粉色\",\"images\":\"\"},{\"name\":\"白色\",\"images\":\"\"}]', '颜 色', 1609307674);
+INSERT INTO `s_goods_spec_type` VALUES (451, 12, '[{\"name\":\"M+M\",\"images\":\"\"},{\"name\":\"L+L\",\"images\":\"\"},{\"name\":\"S+Sad,f\",\"images\":\"\"},{\"name\":\"S+S\",\"images\":\"\"}]', '尺,码', 1609307674);
+INSERT INTO `s_goods_spec_type` VALUES (452, 2, '[{\"name\":\"套餐一\",\"images\":\"\"},{\"name\":\"套餐二\",\"images\":\"\"}]', '套餐', 1609742103);
+INSERT INTO `s_goods_spec_type` VALUES (453, 2, '[{\"name\":\"金色\",\"images\":\"\\/static\\/upload\\/images\\/goods\\/2019\\/01\\/14\\/1547451274847894.jpg\"},{\"name\":\"银色\",\"images\":\"\\/static\\/upload\\/images\\/goods\\/2019\\/01\\/14\\/1547451576558478.jpg\"}]', '颜色', 1609742103);
+INSERT INTO `s_goods_spec_type` VALUES (454, 2, '[{\"name\":\"32G\",\"images\":\"\"},{\"name\":\"64G\",\"images\":\"\"},{\"name\":\"128G\",\"images\":\"\"}]', '容量', 1609742103);
 COMMIT;
 
 -- ----------------------------
@@ -2542,7 +2545,7 @@ CREATE TABLE `s_goods_spec_value` (
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`),
   KEY `goods_spec_base_id` (`goods_spec_base_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2687 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格值';
+) ENGINE=InnoDB AUTO_INCREMENT=2750 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格值';
 
 -- ----------------------------
 -- Records of s_goods_spec_value
@@ -2551,33 +2554,6 @@ BEGIN;
 INSERT INTO `s_goods_spec_value` VALUES (1559, 11, 813, 'M', 1593703443);
 INSERT INTO `s_goods_spec_value` VALUES (1560, 11, 814, 'L', 1593703443);
 INSERT INTO `s_goods_spec_value` VALUES (1561, 11, 815, 'XL', 1593703443);
-INSERT INTO `s_goods_spec_value` VALUES (1862, 2, 955, '套餐一', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1863, 2, 955, '金色', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1864, 2, 955, '32G', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1865, 2, 956, '套餐一', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1866, 2, 956, '金色', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1867, 2, 956, '64G', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1868, 2, 957, '套餐一', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1869, 2, 957, '金色', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1870, 2, 957, '128G', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1871, 2, 958, '套餐一', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1872, 2, 958, '银色', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1873, 2, 958, '32G', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1874, 2, 959, '套餐一', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1875, 2, 959, '银色', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1876, 2, 959, '64G', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1877, 2, 960, '套餐一', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1878, 2, 960, '银色', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1879, 2, 960, '128G', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1880, 2, 961, '套餐二', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1881, 2, 961, '金色', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1882, 2, 961, '32G', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1883, 2, 962, '套餐二', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1884, 2, 962, '金色', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1885, 2, 962, '128G', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1886, 2, 963, '套餐二', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1887, 2, 963, '银色', 1598698299);
-INSERT INTO `s_goods_spec_value` VALUES (1888, 2, 963, '64G', 1598698299);
 INSERT INTO `s_goods_spec_value` VALUES (2105, 9, 1072, '白色', 1599803472);
 INSERT INTO `s_goods_spec_value` VALUES (2106, 9, 1072, 'S', 1599803472);
 INSERT INTO `s_goods_spec_value` VALUES (2107, 9, 1073, '白色', 1599803472);
@@ -2596,18 +2572,45 @@ INSERT INTO `s_goods_spec_value` VALUES (2119, 9, 1079, '黑色', 1599803472);
 INSERT INTO `s_goods_spec_value` VALUES (2120, 9, 1079, 'S', 1599803472);
 INSERT INTO `s_goods_spec_value` VALUES (2121, 9, 1080, '黑色', 1599803472);
 INSERT INTO `s_goods_spec_value` VALUES (2122, 9, 1080, 'XL', 1599803472);
-INSERT INTO `s_goods_spec_value` VALUES (2675, 12, 1369, '粉色', 1608873434);
-INSERT INTO `s_goods_spec_value` VALUES (2676, 12, 1369, 'S+Sad,f', 1608873434);
-INSERT INTO `s_goods_spec_value` VALUES (2677, 12, 1370, '粉色', 1608873434);
-INSERT INTO `s_goods_spec_value` VALUES (2678, 12, 1370, 'M+M', 1608873434);
-INSERT INTO `s_goods_spec_value` VALUES (2679, 12, 1371, '粉色', 1608873434);
-INSERT INTO `s_goods_spec_value` VALUES (2680, 12, 1371, 'L+L', 1608873434);
-INSERT INTO `s_goods_spec_value` VALUES (2681, 12, 1372, '白色', 1608873434);
-INSERT INTO `s_goods_spec_value` VALUES (2682, 12, 1372, 'S+S', 1608873434);
-INSERT INTO `s_goods_spec_value` VALUES (2683, 12, 1373, '白色', 1608873434);
-INSERT INTO `s_goods_spec_value` VALUES (2684, 12, 1373, 'M+M', 1608873434);
-INSERT INTO `s_goods_spec_value` VALUES (2685, 12, 1374, '白色', 1608873434);
-INSERT INTO `s_goods_spec_value` VALUES (2686, 12, 1374, 'L+L', 1608873434);
+INSERT INTO `s_goods_spec_value` VALUES (2711, 12, 1387, '粉色', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2712, 12, 1387, 'M+M', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2713, 12, 1388, '粉色', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2714, 12, 1388, 'L+L', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2715, 12, 1389, '粉色', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2716, 12, 1389, 'S+Sad,f', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2717, 12, 1390, '白色', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2718, 12, 1390, 'S+S', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2719, 12, 1391, '白色', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2720, 12, 1391, 'M+M', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2721, 12, 1392, '白色', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2722, 12, 1392, 'L+L', 1609307674);
+INSERT INTO `s_goods_spec_value` VALUES (2723, 2, 1393, '套餐一', 1609742103);
+INSERT INTO `s_goods_spec_value` VALUES (2724, 2, 1393, '金色', 1609742103);
+INSERT INTO `s_goods_spec_value` VALUES (2725, 2, 1393, '32G', 1609742103);
+INSERT INTO `s_goods_spec_value` VALUES (2726, 2, 1394, '套餐一', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2727, 2, 1394, '金色', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2728, 2, 1394, '64G', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2729, 2, 1395, '套餐一', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2730, 2, 1395, '金色', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2731, 2, 1395, '128G', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2732, 2, 1396, '套餐一', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2733, 2, 1396, '银色', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2734, 2, 1396, '32G', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2735, 2, 1397, '套餐一', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2736, 2, 1397, '银色', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2737, 2, 1397, '64G', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2738, 2, 1398, '套餐一', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2739, 2, 1398, '银色', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2740, 2, 1398, '128G', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2741, 2, 1399, '套餐二', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2742, 2, 1399, '金色', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2743, 2, 1399, '32G', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2744, 2, 1400, '套餐二', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2745, 2, 1400, '金色', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2746, 2, 1400, '128G', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2747, 2, 1401, '套餐二', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2748, 2, 1401, '银色', 1609742104);
+INSERT INTO `s_goods_spec_value` VALUES (2749, 2, 1401, '64G', 1609742104);
 COMMIT;
 
 -- ----------------------------
@@ -2665,7 +2668,7 @@ CREATE TABLE `s_message` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='消息';
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='消息';
 
 -- ----------------------------
 -- Records of s_message
@@ -2709,6 +2712,10 @@ INSERT INTO `s_message` VALUES (35, 1, '积分变动', '积分抵扣退回积分
 INSERT INTO `s_message` VALUES (36, 1, '积分变动', '积分抵扣积分减少10', 22, '积分', 0, 1, 0, 0, 1608890897);
 INSERT INTO `s_message` VALUES (37, 1, '订单取消', '订单取消成功', 26, '订单', 0, 0, 0, 0, 1608890919);
 INSERT INTO `s_message` VALUES (38, 1, '积分变动', '积分抵扣退回积分增加10', 23, '积分', 0, 0, 0, 0, 1608890919);
+INSERT INTO `s_message` VALUES (39, 1, '积分变动', '签到奖励积分增加10', 24, '积分', 0, 0, 0, 0, 1608985367);
+INSERT INTO `s_message` VALUES (40, 1, '积分变动', '签到奖励积分增加5', 25, '积分', 0, 0, 0, 0, 1608985367);
+INSERT INTO `s_message` VALUES (41, 1, '积分变动', '签到奖励积分增加10', 26, '积分', 0, 0, 0, 0, 1609812436);
+INSERT INTO `s_message` VALUES (42, 1, '积分变动', '签到奖励积分增加5', 27, '积分', 0, 0, 0, 0, 1609812436);
 COMMIT;
 
 -- ----------------------------
@@ -3189,6 +3196,27 @@ CREATE TABLE `s_order_status_history` (
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='订单状态历史纪录';
 
 -- ----------------------------
+-- Records of s_order_status_history
+-- ----------------------------
+BEGIN;
+INSERT INTO `s_order_status_history` VALUES (1, 13, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608887443);
+INSERT INTO `s_order_status_history` VALUES (2, 12, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608887460);
+INSERT INTO `s_order_status_history` VALUES (3, 17, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608888295);
+INSERT INTO `s_order_status_history` VALUES (4, 16, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608888299);
+INSERT INTO `s_order_status_history` VALUES (5, 19, '1', '2', '支付[待付款-待发货]', 0, '系统', 1608888559);
+INSERT INTO `s_order_status_history` VALUES (6, 20, '1', '2', '支付[待付款-待发货]', 0, '系统', 1608888559);
+INSERT INTO `s_order_status_history` VALUES (7, 20, '2', '6', '关闭[待发货-已关闭]', 1, 'admin', 1608889819);
+INSERT INTO `s_order_status_history` VALUES (8, 19, '2', '6', '关闭[待发货-已关闭]', 1, 'admin', 1608890128);
+INSERT INTO `s_order_status_history` VALUES (9, 21, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608890330);
+INSERT INTO `s_order_status_history` VALUES (10, 22, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608890398);
+INSERT INTO `s_order_status_history` VALUES (11, 23, '1', '2', '支付[待付款-待发货]', 0, '系统', 1608890451);
+INSERT INTO `s_order_status_history` VALUES (12, 23, '2', '6', '关闭[待发货-已关闭]', 1, 'admin', 1608890531);
+INSERT INTO `s_order_status_history` VALUES (13, 25, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608890622);
+INSERT INTO `s_order_status_history` VALUES (14, 24, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608890630);
+INSERT INTO `s_order_status_history` VALUES (15, 26, '1', '5', '取消[待付款-已取消]', 1, 'qqqqqq', 1608890919);
+COMMIT;
+
+-- ----------------------------
 -- Table structure for s_pay_log
 -- ----------------------------
 DROP TABLE IF EXISTS `s_pay_log`;
@@ -3349,29 +3377,34 @@ COMMIT;
 DROP TABLE IF EXISTS `s_plugins`;
 CREATE TABLE `s_plugins` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `name` char(60) NOT NULL DEFAULT '' COMMENT '插件名称',
   `plugins` char(60) NOT NULL DEFAULT '' COMMENT '唯一标记',
   `data` longtext COMMENT '应用数据',
   `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用（0否，1是）',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `plugins` (`plugins`),
   KEY `is_enable` (`is_enable`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='应用';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='应用';
 
 -- ----------------------------
 -- Records of s_plugins
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_plugins` VALUES (1, 'wallet', NULL, 0, 1607563344, 1607565753);
-INSERT INTO `s_plugins` VALUES (2, 'speedplaceorder', NULL, 0, 1607597034, 1607608467);
-INSERT INTO `s_plugins` VALUES (3, 'invoice', '{\"order_add_max_time\":\"\",\"order_success_start_time\":\"\",\"invoice_content_type\":\"\",\"invoice_desc\":\"\",\"can_invoice_type\":\"0,1\"}', 0, 1607676580, 1607758900);
-INSERT INTO `s_plugins` VALUES (4, 'ordergoodsform', '{\"is_goods_detail_form\":\"1\",\"is_buy_show\":\"1\",\"is_admin_order_list_operate\":\"1\",\"is_index_order_list_operate\":\"1\"}', 0, 1607851353, 1607853279);
-INSERT INTO `s_plugins` VALUES (6, 'share', '{\"title\":\"\",\"url\":\"\",\"desc\":\"\",\"weixin_appid\":\"\",\"weixin_secret\":\"\",\"is_goods_photo_bottom\":\"1\",\"is_goods_photo_top_right\":\"1\",\"pic\":\"\"}', 0, 1608084569, 1608622317);
-INSERT INTO `s_plugins` VALUES (7, 'distribution', NULL, 0, 1608522023, 1608622311);
-INSERT INTO `s_plugins` VALUES (8, 'points', '{\"application_name\":\"22\",\"goods_detail_panel\":\"\\u8be5\\u5546\\u54c1\\u652f\\u6301\\u79ef\\u5206\\u5168\\u989d\\u5151\\u6362\\u3001\\u4ec5\\u9700{$integral}\\u79ef\\u5206\",\"goods_detail_title_icon\":\"\\u79ef\\u5206\\u5151\\u6362\",\"points_desc\":\"3434\\u8ba4\\u4e3a\\u4eba\\n\\u8212\\u670d\\u8212\\u670d\\u6c34\\u7535\\u8d39\\u7b2c\\u4e09\\u65b9\\n\\u7b2c\\u4e09\\u65b9\\u987a\\u4e30\\u901f\\u9012\",\"deduction_price\":\"1\",\"order_max_integral\":\"10\",\"order_total_price\":\"\",\"goods_exchange\":{\"1\":{\"gid\":\"1\",\"integral\":\"15\"},\"8\":{\"gid\":\"8\",\"integral\":\"11\"},\"10\":{\"gid\":\"10\",\"integral\":\"999\"},\"3\":{\"gid\":\"3\",\"integral\":\"55\"},\"4\":{\"gid\":\"4\",\"integral\":\"44\"},\"9\":{\"gid\":\"9\",\"integral\":\"9888\"},\"6\":{\"gid\":\"6\",\"integral\":\"33\"},\"5\":{\"gid\":\"5\",\"integral\":\"22\"},\"2\":{\"gid\":\"2\",\"integral\":\"77\"}}}', 1, 1608712219, 1608889693);
-INSERT INTO `s_plugins` VALUES (9, 'signin', '{\"reward_master\":\"\",\"reward_invitee\":\"\",\"signin_desc\":\"\\u554a\\u987a\\u4e30\\u901f\\u9012\\u53d1\\u6492\\u65e6\\u53d1\\u6c34\\u7535\\u8d39\\u6c34\\u7535\\u8d39\\n\\u6c34\\u7535\\u8d39\\u6c34\\u7535\\u8d39\\u82cf\\u6253\\u7c89\\u6492\\u65e6\\u6cd5\\u6492\\u65e6\\u6cd5\\n\\u6c34\\u7535\\u8d39\\u6c34\\u7535\\u8d39\\u4f3c\\u61c2\\u975e\\u61c2\",\"is_user_quick\":\"1\",\"is_user_menu\":\"1\",\"is_qrcode_limit\":\"1\",\"is_share\":\"1\",\"is_qrcode_must_userinfo\":\"1\",\"is_team_show_coming_user\":\"1\"}', 1, 1608725639, 1608888004);
-INSERT INTO `s_plugins` VALUES (10, 'limitedtimediscount', '{\"application_name\":\"\",\"goods_list_title\":\"\",\"goods_detail_icon\":\"\",\"goods_detail_title\":\"\",\"content_notice\":\"\",\"time_start\":\"2020-12-23 20:33:18\",\"time_end\":\"2020-12-31 20:33:22\"}', 1, 1608813179, 1608813205);
+INSERT INTO `s_plugins` VALUES (1, '', 'wallet', NULL, 0, 8, 1609826496, 1607565753);
+INSERT INTO `s_plugins` VALUES (2, '', 'speedplaceorder', NULL, 0, 7, 1609826496, 1609816300);
+INSERT INTO `s_plugins` VALUES (3, '', 'invoice', '{\"order_add_max_time\":\"\",\"order_success_start_time\":\"\",\"invoice_content_type\":\"\",\"invoice_desc\":\"\",\"can_invoice_type\":\"0,1\"}', 0, 4, 1609826496, 1609826789);
+INSERT INTO `s_plugins` VALUES (4, '', 'ordergoodsform', '{\"is_goods_detail_form\":\"1\",\"is_buy_show\":\"1\",\"is_admin_order_list_operate\":\"1\",\"is_index_order_list_operate\":\"1\"}', 0, 10, 1609826496, 1607853279);
+INSERT INTO `s_plugins` VALUES (6, '', 'share', '{\"title\":\"\",\"url\":\"\",\"desc\":\"\",\"weixin_appid\":\"\",\"weixin_secret\":\"\",\"is_goods_photo_bottom\":\"1\",\"is_goods_photo_top_right\":\"1\",\"pic\":\"\"}', 1, 0, 1609826496, 1609816316);
+INSERT INTO `s_plugins` VALUES (7, '', 'distribution', NULL, 0, 9, 1609826496, 1608622311);
+INSERT INTO `s_plugins` VALUES (8, '', 'points', '{\"application_name\":\"\\u79ef\\u5206\\u5546\\u57ce\",\"goods_detail_panel\":\"\\u8be5\\u5546\\u54c1\\u652f\\u6301\\u79ef\\u5206\\u5168\\u989d\\u5151\\u6362\\u3001\\u4ec5\\u9700{$integral}\\u79ef\\u5206\",\"goods_detail_title_icon\":\"\\u79ef\\u5206\\u5151\\u6362\",\"points_desc\":\"\\u554a\\u53d1\\u751f\\u7684\\u53d1\\u65af\\u8482\\u82ac\\u68ee\\u7684\\u7761\\u6c99\\u53d1\\n\\u4f3c\\u61c2\\u975e\\u61c2\\u8c01\\u662f\\u8c01\\u7684\\u8c01\\u53d1\\n\\u6c34\\u7535\\u8d39\\u7b2c\\u4e09\\u65b9\\u662f\\u5426\\u65af\\u8482\\u82ac\\u68ee\\u7684\\u6c34\\u7535\\u8d39\\u7b2c\\u4e09\\n\\u7b2c\\u4e09\\u65b9\\u6c34\\u7535\\u8d39\\u662f\\u5426\",\"footer_code\":\"\",\"deduction_price\":\"1\",\"order_max_integral\":\"\",\"order_total_price\":\"\",\"goods_exchange\":{\"10\":{\"gid\":\"10\",\"integral\":\"12\"},\"11\":{\"gid\":\"11\",\"integral\":\"34\"},\"12\":{\"gid\":\"12\",\"integral\":\"56\"},\"7\":{\"gid\":\"7\",\"integral\":\"3\"},\"6\":{\"gid\":\"6\",\"integral\":\"31\"},\"5\":{\"gid\":\"5\",\"integral\":\"13\"},\"4\":{\"gid\":\"4\",\"integral\":\"8\"}},\"right_images\":\"http:\\/\\/shopxo.com\\/static\\/plugins\\/images\\/points\\/default-right-images.jpg\",\"right_images_url_rules\":{\"pc\":\"\",\"h5\":\"\",\"ios\":\"\",\"android\":\"\",\"weixin\":\"\\/pages\\/goods-detail\\/goods-detail?id=4\",\"alipay\":\"\",\"baidu\":\"\",\"toutiao\":\"\",\"qq\":\"\"},\"seo_title\":\"\",\"seo_keywords\":\"\",\"seo_desc\":\"\",\"is_user_quick\":\"1\",\"is_integral_deduction\":\"1\"}', 1, 6, 1609826496, 1609744679);
+INSERT INTO `s_plugins` VALUES (9, '', 'signin', '{\"reward_master\":\"\",\"reward_invitee\":\"\",\"signin_desc\":\"\\u554a\\u987a\\u4e30\\u901f\\u9012\\u53d1\\u6492\\u65e6\\u53d1\\u6c34\\u7535\\u8d39\\u6c34\\u7535\\u8d39\\n\\u6c34\\u7535\\u8d39\\u6c34\\u7535\\u8d39\\u82cf\\u6253\\u7c89\\u6492\\u65e6\\u6cd5\\u6492\\u65e6\\u6cd5\\n\\u6c34\\u7535\\u8d39\\u6c34\\u7535\\u8d39\\u4f3c\\u61c2\\u975e\\u61c2\",\"is_user_quick\":\"1\",\"is_user_menu\":\"1\",\"is_qrcode_limit\":\"1\",\"is_team\":\"1\",\"is_share\":\"1\",\"is_qrcode_must_userinfo\":\"1\",\"is_team_show_coming_user\":\"1\"}', 1, 2, 1609826496, 1609812429);
+INSERT INTO `s_plugins` VALUES (10, '', 'limitedtimediscount', '{\"application_name\":\"\",\"goods_list_title\":\"\",\"goods_detail_icon\":\"\",\"goods_detail_title\":\"\",\"content_notice\":\"\",\"time_start\":\"2020-12-23 20:33:18\",\"time_end\":\"2020-12-31 20:33:22\"}', 1, 5, 1609826496, 1609825527);
+INSERT INTO `s_plugins` VALUES (11, '', 'exchangerate', '{\"is_user_quick_select\":\"1\",\"is_user_header_top_right_select\":\"1\",\"is_goods_to_rate\":\"1\",\"is_use_default_currency_buy\":\"1\"}', 1, 3, 1609826496, 1609745000);
+INSERT INTO `s_plugins` VALUES (12, '', 'membershiplevelvip', '{\"application_name\":\"\\u4f1a\\u5458\\u4ff1\\u4e50\\u90e8\",\"level_rules\":\"0\",\"order_close_time\":\"30\",\"profit_order_create_time\":\"5\",\"profit_order_settlement_time\":\"10800\",\"user_poster_share_title\":\"\",\"user_poster_share_desc\":\"\",\"banner_top_title\":\"\",\"banner_middle_name\":\"\",\"banner_bottom_content\":\"\",\"not_opening_vip_desc\":\"\",\"user_vip_center_notice\":\"\"}', 1, 1, 1609826496, 1609826774);
+INSERT INTO `s_plugins` VALUES (17, '新用户立减', 'newuserreduction', '', 0, 0, 1609827531, 1609828752);
 COMMIT;
 
 -- ----------------------------
@@ -3434,6 +3467,12 @@ CREATE TABLE `s_plugins_distribution_integral_log` (
   KEY `order_id` (`order_id`),
   KEY `status` (`status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='分销积分明细 - 应用';
+
+-- ----------------------------
+-- Records of s_plugins_distribution_integral_log
+-- ----------------------------
+BEGIN;
+COMMIT;
 
 -- ----------------------------
 -- Table structure for s_plugins_distribution_level
@@ -3556,6 +3595,36 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
+-- Table structure for s_plugins_exchangerate_currency
+-- ----------------------------
+DROP TABLE IF EXISTS `s_plugins_exchangerate_currency`;
+CREATE TABLE `s_plugins_exchangerate_currency` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `name` char(80) NOT NULL DEFAULT '' COMMENT '名称',
+  `code` char(60) NOT NULL DEFAULT '' COMMENT '代码',
+  `symbol` char(60) NOT NULL DEFAULT '' COMMENT '符号',
+  `rate` decimal(7,6) unsigned NOT NULL DEFAULT '0.000000' COMMENT '汇率',
+  `sort` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '顺序',
+  `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否启用（0否，1是）',
+  `is_default` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否默认（0否，1是）',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `name` (`name`),
+  KEY `code` (`code`),
+  KEY `rate` (`rate`),
+  KEY `sort` (`sort`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='汇率货币配置 - 应用';
+
+-- ----------------------------
+-- Records of s_plugins_exchangerate_currency
+-- ----------------------------
+BEGIN;
+INSERT INTO `s_plugins_exchangerate_currency` VALUES (1, '人民币', 'RMB', '￥', 0.000000, 0, 1, 1, 1609744007, 0);
+INSERT INTO `s_plugins_exchangerate_currency` VALUES (2, '美元', 'USD', '$', 0.650000, 0, 1, 0, 1609744023, 1609744527);
+COMMIT;
+
+-- ----------------------------
 -- Table structure for s_plugins_invoice
 -- ----------------------------
 DROP TABLE IF EXISTS `s_plugins_invoice`;
@@ -3667,6 +3736,156 @@ CREATE TABLE `s_plugins_limited_time_discount_slide` (
 
 -- ----------------------------
 -- Records of s_plugins_limited_time_discount_slide
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for s_plugins_membershiplevelvip_introduce
+-- ----------------------------
+DROP TABLE IF EXISTS `s_plugins_membershiplevelvip_introduce`;
+CREATE TABLE `s_plugins_membershiplevelvip_introduce` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `name` char(30) NOT NULL DEFAULT '' COMMENT '名称',
+  `desc` char(60) NOT NULL DEFAULT '' COMMENT '描述',
+  `images_url` char(255) NOT NULL DEFAULT '' COMMENT '图标',
+  `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否启用（0否, 1是）',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `is_enable` (`is_enable`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='会员等级增强版插件 - 会员等级介绍';
+
+-- ----------------------------
+-- Records of s_plugins_membershiplevelvip_introduce
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for s_plugins_membershiplevelvip_level
+-- ----------------------------
+DROP TABLE IF EXISTS `s_plugins_membershiplevelvip_level`;
+CREATE TABLE `s_plugins_membershiplevelvip_level` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `name` char(30) NOT NULL DEFAULT '' COMMENT '名称',
+  `images_url` char(255) NOT NULL DEFAULT '' COMMENT '图标',
+  `rules_min` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '自动计算会员（规则最小值）',
+  `rules_max` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '自动计算会员（规则最大值）',
+  `order_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '满减优惠（订单满额条件）',
+  `full_reduction_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '满减优惠（优惠金额）',
+  `discount_rate` decimal(3,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '折扣率（0~0.99）',
+  `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否启用（0否, 1是）',
+  `is_supported_pay_buy` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否支持付费购买（0否, 1是）',
+  `is_supported_renew` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否支持会员续费（0否, 1是）',
+  `pay_period_rules` text COMMENT '周期费用规则（json存储）',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `is_enable` (`is_enable`),
+  KEY `is_supported_pay_buy` (`is_supported_pay_buy`),
+  KEY `is_supported_renew` (`is_supported_renew`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='会员等级增强版插件 - 会员等级';
+
+-- ----------------------------
+-- Records of s_plugins_membershiplevelvip_level
+-- ----------------------------
+BEGIN;
+INSERT INTO `s_plugins_membershiplevelvip_level` VALUES (1, 'VIP1', '', 0.00, 99999999.00, 0.00, 0.00, 0.50, 1, 0, 0, '', 1609743577, 1609743832);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for s_plugins_membershiplevelvip_payment_user
+-- ----------------------------
+DROP TABLE IF EXISTS `s_plugins_membershiplevelvip_payment_user`;
+CREATE TABLE `s_plugins_membershiplevelvip_payment_user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `level_id` char(60) NOT NULL DEFAULT '' COMMENT '会员等级id',
+  `level_name` char(60) NOT NULL DEFAULT '' COMMENT '等级名称',
+  `is_permanent` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否永久/终生（0否, 1是）',
+  `is_supported_renew` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否支持续费（0否, 1是）',
+  `expire_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '到期时间',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `level_id` (`level_id`),
+  KEY `is_supported_renew` (`is_supported_renew`),
+  KEY `expire_time` (`expire_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='会员等级增强版插件 - 付费用户';
+
+-- ----------------------------
+-- Records of s_plugins_membershiplevelvip_payment_user
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for s_plugins_membershiplevelvip_payment_user_order
+-- ----------------------------
+DROP TABLE IF EXISTS `s_plugins_membershiplevelvip_payment_user_order`;
+CREATE TABLE `s_plugins_membershiplevelvip_payment_user_order` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `payment_user_order_no` char(60) NOT NULL DEFAULT '' COMMENT '购买单号',
+  `payment_user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '购买纪录id',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `number` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '购买周期（单位 天）',
+  `price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '购买价格（单位 元）',
+  `level_id` char(60) NOT NULL DEFAULT '' COMMENT '会员等级id',
+  `level_data` text COMMENT '等级数据（json存储）',
+  `status` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '状态（0待支付, 1已支付, 2已取消, 3已关闭）',
+  `settlement_status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '结算状态（0待结算, 1结算中, 2已结算）',
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '类型（0正常购买, 1续费）',
+  `pay_price` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '支付金额',
+  `payment_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '支付方式id',
+  `payment` char(60) NOT NULL DEFAULT '' COMMENT '支付方式标记',
+  `payment_name` char(60) NOT NULL DEFAULT '' COMMENT '支付方式名称',
+  `pay_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '支付时间',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `payment_user_order_no` (`payment_user_order_no`),
+  KEY `payment_user_id` (`payment_user_id`),
+  KEY `user_id` (`user_id`),
+  KEY `level_id` (`level_id`),
+  KEY `status` (`status`),
+  KEY `settlement_status` (`settlement_status`),
+  KEY `pay_price` (`pay_price`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='会员等级增强版插件 - 付费订单纪录';
+
+-- ----------------------------
+-- Records of s_plugins_membershiplevelvip_payment_user_order
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for s_plugins_membershiplevelvip_user_profit
+-- ----------------------------
+DROP TABLE IF EXISTS `s_plugins_membershiplevelvip_user_profit`;
+CREATE TABLE `s_plugins_membershiplevelvip_user_profit` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+  `payment_user_order_id` int(11) unsigned NOT NULL COMMENT '会员付费订单id',
+  `payment_user_order_user_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '会员付费订单用户id',
+  `total_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '订单金额',
+  `profit_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '收益金额',
+  `commission_rules` char(60) NOT NULL DEFAULT '' COMMENT '佣金规则',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '结算状态（0待结算, 1已结算, 2已失效）',
+  `level` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '当前级别（1~3）',
+  `user_level_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '插件会员等级id',
+  `msg` char(255) NOT NULL DEFAULT '' COMMENT '描述（一般用于失效后的描述）',
+  `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+  `upd_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `payment_user_order_id` (`payment_user_order_id`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='会员等级增强版插件 - 会员佣金明细';
+
+-- ----------------------------
+-- Records of s_plugins_membershiplevelvip_user_profit
 -- ----------------------------
 BEGIN;
 COMMIT;
@@ -3829,7 +4048,7 @@ CREATE TABLE `s_plugins_signin_qrcode` (
 -- Records of s_plugins_signin_qrcode
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_plugins_signin_qrcode` VALUES (1, 0, 1, 5, 10, '[{\"number\":\"3\",\"value\":\"1\"},{\"number\":\"15\",\"value\":\"5\"},{\"number\":\"7\",\"value\":\"2\"}]', '{\"time_start\":\"14:19:00\",\"time_end\":\"14:21:00\",\"value\":10}', 1000000, 10000, '/static/plugins/images/signin/default-right-images.jpg', '{\"pc\":\"https:\\/\\/shopxo.net\",\"h5\":\"https:\\/\\/ask.shopxo.net\",\"ios\":\"\",\"android\":\"\",\"weixin\":\"\\/pages\\/goods-detail\\/goods-detail?id=1\",\"alipay\":\"\",\"baidu\":\"\\/pages\\/goods-detail\\/goods-detail?id=2\",\"toutiao\":\"\\/pages\\/goods-category\\/goods-category?keywords=\\u624b\\u673a\",\"qq\":\"\"}', 'sky', '17602128368', '妙川路1111号', 7, 836, 1, '111', '', '', '', '', 1608030828, 1608436544);
+INSERT INTO `s_plugins_signin_qrcode` VALUES (1, 0, 1, 5, 10, '[{\"number\":\"3\",\"value\":\"1\"},{\"number\":\"15\",\"value\":\"5\"},{\"number\":\"7\",\"value\":\"2\"}]', '{\"time_start\":\"14:19:00\",\"time_end\":\"14:21:00\",\"value\":10}', 1000000, 10000, '/static/plugins/images/signin/default-right-images.jpg', '{\"pc\":\"https:\\/\\/shopxo.net\",\"h5\":\"https:\\/\\/ask.shopxo.net\",\"ios\":\"\",\"android\":\"\",\"weixin\":\"\\/pages\\/goods-detail\\/goods-detail?id=1\",\"alipay\":\"\",\"baidu\":\"\\/pages\\/goods-detail\\/goods-detail?id=2\",\"toutiao\":\"\\/pages\\/goods-category\\/goods-category?keywords=\\u624b\\u673a\",\"qq\":\"\"}', 'sky', '17602128368', '妙川路1111号', 7, 884, 1, '111', '', '', '', '', 1608030828, 1608436544);
 INSERT INTO `s_plugins_signin_qrcode` VALUES (2, 0, 2, 1, 1, NULL, '', 0, 0, '', NULL, 'qer', '132222222', '2323', 0, 32, 1, '', NULL, '', '', '', 1608453262, 0);
 COMMIT;
 
@@ -3850,7 +4069,7 @@ CREATE TABLE `s_plugins_signin_qrcode_data` (
   KEY `integral` (`integral`),
   KEY `ymd` (`ymd`),
   KEY `add_time` (`add_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='签到码数据 - 应用';
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='签到码数据 - 应用';
 
 -- ----------------------------
 -- Records of s_plugins_signin_qrcode_data
@@ -3869,6 +4088,8 @@ INSERT INTO `s_plugins_signin_qrcode_data` VALUES (35, 1, 1, 10, 20201220, 16084
 INSERT INTO `s_plugins_signin_qrcode_data` VALUES (36, 2, 1, 10, 20201220, 1608453250);
 INSERT INTO `s_plugins_signin_qrcode_data` VALUES (37, 1, 2, 1, 20201220, 1608453850);
 INSERT INTO `s_plugins_signin_qrcode_data` VALUES (38, 2, 2, 1, 20201220, 1608453868);
+INSERT INTO `s_plugins_signin_qrcode_data` VALUES (39, 1, 1, 10, 20201226, 1608985367);
+INSERT INTO `s_plugins_signin_qrcode_data` VALUES (40, 1, 1, 10, 20210105, 1609812436);
 COMMIT;
 
 -- ----------------------------
@@ -4056,7 +4277,7 @@ CREATE TABLE `s_power` (
   `icon` char(60) NOT NULL DEFAULT '' COMMENT '图标class',
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=468 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限';
+) ENGINE=InnoDB AUTO_INCREMENT=469 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='权限';
 
 -- ----------------------------
 -- Records of s_power
@@ -4113,6 +4334,196 @@ INSERT INTO `s_power` VALUES (178, 177, '订单管理', 'Order', 'Index', '', 1,
 INSERT INTO `s_power` VALUES (179, 177, '订单删除', 'Order', 'Delete', '', 2, 0, '', 1522317917);
 INSERT INTO `s_power` VALUES (180, 177, '订单取消', 'Order', 'Cancel', '', 3, 0, '', 1527497803);
 INSERT INTO `s_power` VALUES (181, 38, '商品状态更新', 'Goods', 'StatusUpdate', '', 5, 0, '', 1528080200);
+INSERT INTO `s_power` VALUES (182, 0, '数据管理', 'Data', 'Index', '', 22, 1, 'icon-shuju', 1528096661);
+INSERT INTO `s_power` VALUES (183, 182, '消息管理', 'Message', 'Index', '', 10, 1, '', 1528080200);
+INSERT INTO `s_power` VALUES (184, 182, '消息删除', 'Message', 'Delete', '', 11, 0, '', 1528080200);
+INSERT INTO `s_power` VALUES (185, 182, '支付日志', 'PayLog', 'Index', '', 20, 1, '', 1528080200);
+INSERT INTO `s_power` VALUES (186, 182, '积分日志', 'IntegralLog', 'Index', '', 40, 1, '', 1528103067);
+INSERT INTO `s_power` VALUES (193, 222, '筛选价格', 'ScreeningPrice', 'Index', '', 50, 1, '', 1528708578);
+INSERT INTO `s_power` VALUES (194, 222, '筛选价格添加/编辑', 'ScreeningPrice', 'Save', '', 51, 0, '', 1528708609);
+INSERT INTO `s_power` VALUES (199, 81, 'SEO设置', 'Seo', 'Index', '', 30, 1, '', 1528771081);
+INSERT INTO `s_power` VALUES (200, 81, 'SEO设置编辑', 'Seo', 'Save', '', 31, 0, '', 1528771105);
+INSERT INTO `s_power` VALUES (201, 38, '商品分类', 'GoodsCategory', 'Index', '', 10, 1, '', 1529041901);
+INSERT INTO `s_power` VALUES (202, 38, '商品分类添加/编辑', 'GoodsCategory', 'Save', '', 11, 0, '', 1529041928);
+INSERT INTO `s_power` VALUES (203, 38, '商品分类删除', 'GoodsCategory', 'Delete', '', 12, 0, '', 1529041949);
+INSERT INTO `s_power` VALUES (204, 0, '文章管理', 'Article', 'Index', '', 21, 1, 'icon-wenzhang', 1530360560);
+INSERT INTO `s_power` VALUES (205, 204, '文章管理', 'Article', 'Index', '', 0, 1, '', 1530360593);
+INSERT INTO `s_power` VALUES (206, 204, '文章添加/编辑页面', 'Article', 'SaveInfo', '', 1, 0, '', 1530360625);
+INSERT INTO `s_power` VALUES (207, 204, '文章添加/编辑', 'Article', 'Save', '', 2, 0, '', 1530360663);
+INSERT INTO `s_power` VALUES (208, 204, '文章删除', 'Article', 'Delete', '', 3, 0, '', 1530360692);
+INSERT INTO `s_power` VALUES (209, 204, '文章状态更新', 'Article', 'StatusUpdate', '', 4, 0, '', 1530360730);
+INSERT INTO `s_power` VALUES (210, 204, '文章分类', 'ArticleCategory', 'Index', '', 10, 1, '', 1530361071);
+INSERT INTO `s_power` VALUES (211, 204, '文章分类编辑/添加', 'ArticleCategory', 'Save', '', 11, 0, '', 1530361101);
+INSERT INTO `s_power` VALUES (212, 204, '文章分类删除', 'ArticleCategory', 'Delete', '', 12, 0, '', 1530361126);
+INSERT INTO `s_power` VALUES (214, 182, '问答留言', 'Answer', 'Index', '', 0, 1, '', 1533112443);
+INSERT INTO `s_power` VALUES (215, 182, '问答留言回复', 'Answer', 'Reply', '', 1, 0, '', 1533119660);
+INSERT INTO `s_power` VALUES (216, 182, '问答留言删除', 'Answer', 'Delete', '', 2, 0, '', 1533119680);
+INSERT INTO `s_power` VALUES (217, 182, '问答留言状态更新', 'Answer', 'StatusUpdate', '', 3, 0, '', 1533119704);
+INSERT INTO `s_power` VALUES (219, 81, '邮箱设置', 'Email', 'Index', '', 20, 1, '', 1533636067);
+INSERT INTO `s_power` VALUES (220, 81, '邮箱设置/编辑', 'Email', 'Save', '', 21, 0, '', 1533636109);
+INSERT INTO `s_power` VALUES (221, 81, '邮件发送测试', 'Email', 'EmailTest', '', 22, 0, '', 1533636157);
+INSERT INTO `s_power` VALUES (222, 0, '网站管理', 'Navigation', 'Index', '', 7, 1, 'icon-wangzhanguanli', 1533692051);
+INSERT INTO `s_power` VALUES (223, 222, '导航管理', 'Navigation', 'Index', '', 0, 1, '', 1486183114);
+INSERT INTO `s_power` VALUES (226, 222, '导航添加/编辑', 'Navigation', 'Save', '', 2, 0, '', 1486183367);
+INSERT INTO `s_power` VALUES (227, 222, '导航删除', 'Navigation', 'Delete', '', 3, 0, '', 1486183410);
+INSERT INTO `s_power` VALUES (228, 222, '导航状态更新', 'Navigation', 'StatusUpdate', '', 4, 0, '', 1486183462);
+INSERT INTO `s_power` VALUES (234, 222, '自定义页面', 'CustomView', 'Index', '', 11, 1, '', 1486193400);
+INSERT INTO `s_power` VALUES (235, 222, '自定义页面添加/编辑页面', 'CustomView', 'SaveInfo', '', 12, 0, '', 1486193449);
+INSERT INTO `s_power` VALUES (236, 222, '自定义页面添加/编辑', 'CustomView', 'Save', '', 13, 0, '', 1486193473);
+INSERT INTO `s_power` VALUES (237, 222, '自定义页面删除', 'CustomView', 'Delete', '', 14, 0, '', 1486193516);
+INSERT INTO `s_power` VALUES (238, 222, '自定义页面状态更新', 'CustomView', 'StatusUpdate', '', 15, 0, '', 1486193582);
+INSERT INTO `s_power` VALUES (239, 222, '友情链接', 'Link', 'Index', '', 21, 1, '', 1486194358);
+INSERT INTO `s_power` VALUES (240, 222, '友情链接添加/编辑页面', 'Link', 'SaveInfo', '', 22, 0, '', 1486194392);
+INSERT INTO `s_power` VALUES (241, 222, '友情链接添加/编辑', 'Link', 'Save', '', 23, 0, '', 1486194413);
+INSERT INTO `s_power` VALUES (242, 222, '友情链接删除', 'Link', 'Delete', '', 24, 0, '', 1486194435);
+INSERT INTO `s_power` VALUES (243, 222, '友情链接状态更新', 'Link', 'StatusUpdate', '', 25, 0, '', 1486194479);
+INSERT INTO `s_power` VALUES (244, 222, '主题管理', 'Theme', 'Index', '', 30, 1, '', 1494381693);
+INSERT INTO `s_power` VALUES (245, 222, '主题管理添加/编辑', 'Theme', 'Save', '', 31, 0, '', 1494398194);
+INSERT INTO `s_power` VALUES (246, 222, '主题上传安装', 'Theme', 'Upload', '', 32, 0, '', 1494405096);
+INSERT INTO `s_power` VALUES (247, 222, '主题删除', 'Theme', 'Delete', '', 33, 0, '', 1494410655);
+INSERT INTO `s_power` VALUES (248, 204, '文章详情', 'Article', 'Detail', '', 5, 0, '', 1534156400);
+INSERT INTO `s_power` VALUES (249, 252, '品牌管理', 'Brand', 'Index', '', 0, 1, '', 1535683271);
+INSERT INTO `s_power` VALUES (250, 252, '品牌添加/编辑', 'Brand', 'Save', '', 2, 0, '', 1535683310);
+INSERT INTO `s_power` VALUES (251, 252, '品牌删除', 'Brand', 'Delete', '', 4, 0, '', 1535683351);
+INSERT INTO `s_power` VALUES (252, 0, '品牌管理', 'Brand', 'Index', '', 8, 1, 'icon-ico-pinpaiguanli', 1535684308);
+INSERT INTO `s_power` VALUES (253, 252, '品牌分类', 'BrandCategory', 'Index', '', 10, 1, '', 1535684401);
+INSERT INTO `s_power` VALUES (254, 252, '品牌分类添加/编辑', 'BrandCategory', 'Save', '', 11, 0, '', 1535684424);
+INSERT INTO `s_power` VALUES (255, 252, '品牌分类删除', 'BrandCategory', 'Delete', '', 12, 0, '', 1535684444);
+INSERT INTO `s_power` VALUES (256, 252, '品牌添加/编辑页面', 'Brand', 'SaveInfo', '', 1, 0, '', 1535694837);
+INSERT INTO `s_power` VALUES (257, 252, '品牌状态更新', 'Brand', 'StatusUpdate', '', 3, 0, '', 1535694880);
+INSERT INTO `s_power` VALUES (258, 222, '筛选价格删除', 'ScreeningPrice', 'Delete', '', 52, 0, '', 1536227071);
+INSERT INTO `s_power` VALUES (259, 222, '支付方式', 'Payment', 'Index', '', 80, 1, '', 1537156351);
+INSERT INTO `s_power` VALUES (260, 222, '支付方式安装/编辑页面', 'Payment', 'SaveInfo', '', 81, 0, '', 1537156423);
+INSERT INTO `s_power` VALUES (261, 222, '支付方式安装/编辑', 'Payment', 'Save', '', 82, 0, '', 1537156463);
+INSERT INTO `s_power` VALUES (262, 222, '支付方式删除', 'Payment', 'Delete', '', 83, 0, '', 1537156502);
+INSERT INTO `s_power` VALUES (263, 222, '支付方式安装', 'Payment', 'Install', '', 84, 0, '', 1537166090);
+INSERT INTO `s_power` VALUES (264, 222, '支付方式状态更新', 'Payment', 'StatusUpdate', '', 85, 0, '', 1537166149);
+INSERT INTO `s_power` VALUES (265, 222, '支付方式卸载', 'Payment', 'Uninstall', '', 86, 0, '', 1537167814);
+INSERT INTO `s_power` VALUES (266, 222, '支付方式上传', 'Payment', 'Upload', '', 87, 0, '', 1537173653);
+INSERT INTO `s_power` VALUES (267, 177, '订单发货', 'Order', 'Delivery', '', 4, 0, '', 1538413499);
+INSERT INTO `s_power` VALUES (268, 177, '订单收货', 'Order', 'Collect', '', 5, 0, '', 1538414034);
+INSERT INTO `s_power` VALUES (269, 177, '订单支付', 'Order', 'Pay', '', 6, 0, '', 1538757043);
+INSERT INTO `s_power` VALUES (310, 177, '订单确认', 'Order', 'Confirm', '', 7, 0, '', 1542011799);
+INSERT INTO `s_power` VALUES (311, 1, '角色状态更新', 'Role', 'StatusUpdate', '', 24, 0, '', 1542102071);
+INSERT INTO `s_power` VALUES (314, 319, '首页导航', 'AppHomeNav', 'Index', '', 10, 1, '', 1542558318);
+INSERT INTO `s_power` VALUES (315, 319, '首页导航添加/编辑页面', 'AppHomeNav', 'SaveInfo', '', 11, 0, '', 1542558686);
+INSERT INTO `s_power` VALUES (316, 319, '首页导航添加/编辑', 'AppHomeNav', 'Save', '', 12, 0, '', 1542558706);
+INSERT INTO `s_power` VALUES (317, 319, '首页导航状态更新', 'AppHomeNav', 'StatusUpdate', '', 13, 0, '', 1542558747);
+INSERT INTO `s_power` VALUES (318, 319, '首页导航删除', 'AppHomeNav', 'Delete', '', 14, 0, '', 1542558767);
+INSERT INTO `s_power` VALUES (319, 0, '手机管理', 'App', 'Index', '', 20, 1, 'icon-shouji', 1483362358);
+INSERT INTO `s_power` VALUES (326, 319, '基础配置', 'AppConfig', 'Index', '', 0, 1, '', 1543206359);
+INSERT INTO `s_power` VALUES (327, 319, '基础配置保存', 'AppConfig', 'Save', '', 1, 0, '', 1543206402);
+INSERT INTO `s_power` VALUES (331, 118, '日志删除', 'Cache', 'LogDelete', '', 4, 0, '', 1545642163);
+INSERT INTO `s_power` VALUES (332, 319, '小程序列表', 'AppMini', 'Index', '', 30, 1, '', 1546935020);
+INSERT INTO `s_power` VALUES (333, 319, '小程序配置', 'AppMini', 'Config', '', 40, 1, '', 1546935090);
+INSERT INTO `s_power` VALUES (334, 319, '小程序配置保存', 'AppMini', 'Save', '', 41, 0, '', 1546935118);
+INSERT INTO `s_power` VALUES (336, 319, '小程序包生成', 'AppMini', 'Created', '', 31, 0, '', 1546935187);
+INSERT INTO `s_power` VALUES (337, 319, '小程序包删除', 'AppMini', 'Delete', '', 32, 0, '', 1546935212);
+INSERT INTO `s_power` VALUES (339, 41, '后台配置', 'Config', 'Index', '', 0, 1, '', 1549419752);
+INSERT INTO `s_power` VALUES (340, 0, '应用中心', 'Store', 'Index', '', 30, 1, 'icon-application', 1549496703);
+INSERT INTO `s_power` VALUES (341, 340, '应用管理', 'Pluginsadmin', 'Index', '', 1, 1, '', 1549497306);
+INSERT INTO `s_power` VALUES (342, 340, '应用状态更新', 'Pluginsadmin', 'StatusUpdate', '', 3, 0, '', 1549694138);
+INSERT INTO `s_power` VALUES (343, 340, '应用调用管理', 'Plugins', 'Index', '', 0, 0, '', 1549958187);
+INSERT INTO `s_power` VALUES (345, 340, '应用添加/编辑页面', 'Pluginsadmin', 'SaveInfo', '', 1, 0, '', 1549977925);
+INSERT INTO `s_power` VALUES (346, 340, '应用添加/编辑', 'Pluginsadmin', 'Save', '', 2, 0, '', 1549977958);
+INSERT INTO `s_power` VALUES (347, 340, '应用删除', 'Pluginsadmin', 'Delete', '', 4, 0, '', 1549977993);
+INSERT INTO `s_power` VALUES (348, 340, '应用上传', 'Pluginsadmin', 'Upload', '', 5, 0, '', 1550110821);
+INSERT INTO `s_power` VALUES (349, 118, 'SQL控制台', 'Sqlconsole', 'Index', '', 10, 1, '', 1550476002);
+INSERT INTO `s_power` VALUES (350, 118, 'SQL执行', 'Sqlconsole', 'Implement', '', 11, 0, '', 1550476023);
+INSERT INTO `s_power` VALUES (351, 340, '应用打包', 'Pluginsadmin', 'Download', '', 6, 0, '', 1553248727);
+INSERT INTO `s_power` VALUES (352, 182, '问答添加/编辑页面', 'Answer', 'SaveInfo', '', 4, 0, '', 1553964318);
+INSERT INTO `s_power` VALUES (353, 182, '问答添加/编辑', 'Answer', 'Save', '', 5, 0, '', 1553964354);
+INSERT INTO `s_power` VALUES (354, 41, '商店信息', 'Config', 'Store', '', 0, 1, '', 1554803430);
+INSERT INTO `s_power` VALUES (356, 38, '商品评论', 'Goodscomments', 'Index', '', 30, 1, '', 1533112443);
+INSERT INTO `s_power` VALUES (357, 38, '商品评论回复', 'Goodscomments', 'Reply', '', 31, 0, '', 1533119660);
+INSERT INTO `s_power` VALUES (358, 38, '商品评论删除', 'Goodscomments', 'Delete', '', 32, 0, '', 1533119680);
+INSERT INTO `s_power` VALUES (359, 38, '商品评论状态更新', 'Goodscomments', 'StatusUpdate', '', 33, 0, '', 1533119704);
+INSERT INTO `s_power` VALUES (360, 38, '商品评论添加/编辑页面', 'Goodscomments', 'SaveInfo', '', 34, 0, '', 1553964318);
+INSERT INTO `s_power` VALUES (361, 38, '商品评论添加/编辑', 'Goodscomments', 'Save', '', 35, 0, '', 1553964354);
+INSERT INTO `s_power` VALUES (362, 81, '协议管理', 'Agreement', 'Index', '', 40, 1, '', 1486561615);
+INSERT INTO `s_power` VALUES (363, 81, '协议设置编辑', 'Agreement', 'Save', '', 41, 0, '', 1486562011);
+INSERT INTO `s_power` VALUES (364, 177, '订单售后', 'Orderaftersale', 'Index', '', 10, 1, '', 1522317898);
+INSERT INTO `s_power` VALUES (365, 177, '订单售后删除', 'Orderaftersale', 'Delete', '', 11, 0, '', 1522317917);
+INSERT INTO `s_power` VALUES (366, 177, '订单售后取消', 'Orderaftersale', 'Cancel', '', 12, 0, '', 1527497803);
+INSERT INTO `s_power` VALUES (367, 177, '订单售后审核', 'Orderaftersale', 'Audit', '', 13, 0, '', 1538413499);
+INSERT INTO `s_power` VALUES (368, 177, '订单售后确认', 'Orderaftersale', 'Confirm', '', 14, 0, '', 1538414034);
+INSERT INTO `s_power` VALUES (369, 177, '订单售后拒绝', 'Orderaftersale', 'Refuse', '', 15, 0, '', 1538757043);
+INSERT INTO `s_power` VALUES (372, 182, '退款日志', 'RefundLog', 'Index', '', 30, 1, '', 1528080200);
+INSERT INTO `s_power` VALUES (373, 340, '应用商店', 'Store', 'Index', '', 10, 1, '', 1553248727);
+INSERT INTO `s_power` VALUES (374, 340, '应用安装', 'Pluginsadmin', 'Install', '', 6, 0, '', 1561369950);
+INSERT INTO `s_power` VALUES (375, 340, '应用卸载', 'Pluginsadmin', 'Uninstall', '', 7, 0, '', 1561370063);
+INSERT INTO `s_power` VALUES (376, 319, '用户中心导航', 'AppCenterNav', 'Index', '', 20, 1, '', 1542558318);
+INSERT INTO `s_power` VALUES (377, 319, '用户中心导航添加/编辑页面', 'AppCenterNav', 'SaveInfo', '', 21, 0, '', 1542558686);
+INSERT INTO `s_power` VALUES (378, 319, '用户中心导航添加/编辑', 'AppCenterNav', 'Save', '', 22, 0, '', 1542558706);
+INSERT INTO `s_power` VALUES (379, 319, '用户中心导航状态更新', 'AppCenterNav', 'StatusUpdate', '', 23, 0, '', 1542558747);
+INSERT INTO `s_power` VALUES (380, 319, '用户中心导航删除', 'AppCenterNav', 'Delete', '', 24, 0, '', 1542558767);
+INSERT INTO `s_power` VALUES (387, 222, '主题下载', 'Theme', 'Download', '', 34, 0, '', 1494410699);
+INSERT INTO `s_power` VALUES (400, 177, '订单详情', 'Order', 'Detail', '', 8, 0, '', 1589534580);
+INSERT INTO `s_power` VALUES (401, 177, '订单售后详情', 'Orderaftersale', 'Detail', '', 16, 0, '', 1589538361);
+INSERT INTO `s_power` VALUES (402, 38, '商品详情', 'Goods', 'Detail', '', 6, 0, '', 1589539780);
+INSERT INTO `s_power` VALUES (403, 38, '商品评论详情', 'Goodscomments', 'Detail', '', 36, 0, '', 1591609904);
+INSERT INTO `s_power` VALUES (404, 126, '用户详情', 'User', 'Detail', '', 7, 0, '', 1591621569);
+INSERT INTO `s_power` VALUES (405, 1, '管理员详情', 'Admin', 'Detail', '', 5, 0, '', 1591951422);
+INSERT INTO `s_power` VALUES (406, 1, '角色详情', 'Role', 'Detail', '', 25, 0, '', 1542102071);
+INSERT INTO `s_power` VALUES (407, 222, '自定义页面详情', 'CustomView', 'Detail', '', 16, 0, '', 1592287822);
+INSERT INTO `s_power` VALUES (408, 222, '轮播详情', 'Slide', 'Detail', '', 45, 0, '', 1592413297);
+INSERT INTO `s_power` VALUES (409, 252, '品牌详情', 'Brand', 'Detail', '', 6, 0, '', 1592563170);
+INSERT INTO `s_power` VALUES (410, 319, '首页导航详情', 'AppHomeNav', 'Detail', '', 15, 0, '', 1592652323);
+INSERT INTO `s_power` VALUES (411, 319, '用户中心导航详情', 'AppCenterNav', 'Detail', '', 25, 0, '', 1592661364);
+INSERT INTO `s_power` VALUES (412, 182, '问答留言详情', 'Answer', 'Detail', '', 6, 0, '', 1592840031);
+INSERT INTO `s_power` VALUES (413, 182, '消息详情', 'Message', 'Detail', '', 12, 0, '', 1593181414);
+INSERT INTO `s_power` VALUES (414, 222, '友情链接详情', 'Link', 'Detail', '', 26, 0, '', 1593181677);
+INSERT INTO `s_power` VALUES (415, 182, '支付日志详情', 'PayLog', 'Detail', '', 21, 0, '', 1593355200);
+INSERT INTO `s_power` VALUES (416, 182, '退款日志详情', 'RefundLog', 'Detail', '', 31, 0, '', 1593355237);
+INSERT INTO `s_power` VALUES (417, 182, '积分日志详情', 'IntegralLog', 'Detail', '', 41, 0, '', 1593355265);
+INSERT INTO `s_power` VALUES (418, 38, '商品浏览', 'GoodsBrowse', 'Index', '', 40, 1, '', 1591609904);
+INSERT INTO `s_power` VALUES (419, 38, '商品浏览删除', 'GoodsBrowse', 'Delete', '', 41, 0, '', 1591609904);
+INSERT INTO `s_power` VALUES (420, 38, '商品浏览详情', 'GoodsBrowse', 'Detail', '', 42, 0, '', 1591609904);
+INSERT INTO `s_power` VALUES (421, 38, '商品收藏', 'GoodsFavor', 'Index', '', 50, 1, '', 1591609904);
+INSERT INTO `s_power` VALUES (422, 38, '商品收藏删除', 'GoodsFavor', 'Delete', '', 51, 0, '', 1591609904);
+INSERT INTO `s_power` VALUES (423, 38, '商品收藏详情', 'GoodsFavor', 'Detail', '', 52, 0, '', 1591609904);
+INSERT INTO `s_power` VALUES (425, 438, '仓库管理', 'Warehouse', 'Index', '', 0, 1, '', 1488108044);
+INSERT INTO `s_power` VALUES (426, 438, '仓库添加/编辑页面', 'Warehouse', 'SaveInfo', '', 1, 0, '', 1530360625);
+INSERT INTO `s_power` VALUES (427, 438, '仓库添加/编辑', 'Warehouse', 'Save', '', 2, 0, '', 1530360663);
+INSERT INTO `s_power` VALUES (428, 438, '仓库删除', 'Warehouse', 'Delete', '', 3, 0, '', 1530360692);
+INSERT INTO `s_power` VALUES (429, 438, '仓库状态更新', 'Warehouse', 'StatusUpdate', '', 4, 0, '', 1530360730);
+INSERT INTO `s_power` VALUES (430, 438, '仓库详情', 'Warehouse', 'Detail', '', 5, 0, '', 1534156400);
+INSERT INTO `s_power` VALUES (431, 438, '仓库商品管理', 'WarehouseGoods', 'Index', '', 10, 1, '', 1488108044);
+INSERT INTO `s_power` VALUES (432, 438, '仓库商品删除', 'WarehouseGoods', 'Delete', '', 12, 0, '', 1530360625);
+INSERT INTO `s_power` VALUES (433, 438, '仓库商品搜索添加', 'WarehouseGoods', 'GoodsAdd', '', 15, 0, '', 1530360663);
+INSERT INTO `s_power` VALUES (434, 438, '仓库商品搜索删除', 'WarehouseGoods', 'GoodsDel', '', 16, 0, '', 1530360692);
+INSERT INTO `s_power` VALUES (435, 438, '仓库商品状态更新', 'WarehouseGoods', 'StatusUpdate', '', 13, 0, '', 1530360730);
+INSERT INTO `s_power` VALUES (436, 438, '仓库商品详情', 'WarehouseGoods', 'Detail', '', 11, 0, '', 1534156400);
+INSERT INTO `s_power` VALUES (438, 0, '仓库管理', 'Warehouse', 'Index', '', 9, 1, 'icon-cangku', 1483362358);
+INSERT INTO `s_power` VALUES (439, 438, '仓库商品搜索', 'WarehouseGoods', 'GoodsSearch', '', 14, 0, '', 1534156400);
+INSERT INTO `s_power` VALUES (440, 438, '仓库商品库存编辑页面', 'WarehouseGoods', 'InventoryInfo', '', 17, 0, '', 1534156400);
+INSERT INTO `s_power` VALUES (441, 438, '仓库商品库存编辑', 'WarehouseGoods', 'InventorySave', '', 18, 0, '', 0);
+INSERT INTO `s_power` VALUES (442, 182, '支付日志关闭', 'PayLog', 'Close', '', 22, 0, '', 1593355200);
+INSERT INTO `s_power` VALUES (443, 222, '快捷导航', 'QuickNav', 'Index', '', 90, 1, '', 1542558318);
+INSERT INTO `s_power` VALUES (444, 222, '快捷导航添加/编辑页面', 'QuickNav', 'SaveInfo', '', 91, 0, '', 1542558686);
+INSERT INTO `s_power` VALUES (445, 222, '快捷导航添加/编辑', 'QuickNav', 'Save', '', 92, 0, '', 1542558706);
+INSERT INTO `s_power` VALUES (446, 222, '快捷导航状态更新', 'QuickNav', 'StatusUpdate', '', 93, 0, '', 1542558747);
+INSERT INTO `s_power` VALUES (447, 222, '快捷导航删除', 'QuickNav', 'Delete', '', 94, 0, '', 1542558767);
+INSERT INTO `s_power` VALUES (448, 222, '快捷导航详情', 'QuickNav', 'Detail', '', 95, 0, '', 1592652323);
+INSERT INTO `s_power` VALUES (449, 182, '支付请求日志列表', 'PayRequestLog', 'Index', '', 25, 0, '', 1593355200);
+INSERT INTO `s_power` VALUES (450, 182, '支付请求日志详情', 'PayRequestLog', 'Detail', '', 26, 0, '', 1593355200);
+INSERT INTO `s_power` VALUES (451, 126, '用户地址', 'UserAddress', 'Index', '', 10, 1, '', 1490794316);
+INSERT INTO `s_power` VALUES (452, 126, '用户地址编辑页面', 'UserAddress', 'SaveInfo', '', 11, 0, '', 1490794510);
+INSERT INTO `s_power` VALUES (453, 126, '用户地址编辑', 'UserAddress', 'Save', '', 12, 0, '', 1490794510);
+INSERT INTO `s_power` VALUES (454, 126, '用户地址删除', 'UserAddress', 'Delete', '', 13, 0, '', 1591621569);
+INSERT INTO `s_power` VALUES (455, 126, '用户地址详情', 'UserAddress', 'Detail', '', 14, 0, '', 0);
+INSERT INTO `s_power` VALUES (457, 319, '小程序主题上传', 'AppMini', 'ThemeUpload', '', 33, 0, '', 1605872721);
+INSERT INTO `s_power` VALUES (458, 319, '小程序主题切换', 'AppMini', 'ThemeSave', '', 34, 0, '', 1605872721);
+INSERT INTO `s_power` VALUES (459, 319, '小程序主题切换', 'AppMini', 'ThemeDelete', '', 35, 0, '', 1605872721);
+INSERT INTO `s_power` VALUES (460, 319, '小程序主题下载', 'AppMini', 'ThemeDownload', '', 36, 0, '', 1605872721);
+INSERT INTO `s_power` VALUES (461, 81, '站点设置商品搜索', 'Site', 'GoodsSearch', '', 1, 0, '', 1486561780);
+INSERT INTO `s_power` VALUES (462, 38, '商品参数', 'GoodsParamsTemplate', 'Index', '', 20, 1, '', 1533112443);
+INSERT INTO `s_power` VALUES (463, 38, '商品参数删除', 'GoodsParamsTemplate', 'Delete', '', 21, 0, '', 1533119680);
+INSERT INTO `s_power` VALUES (464, 38, '商品参数状态更新', 'GoodsParamsTemplate', 'StatusUpdate', '', 22, 0, '', 1533119704);
+INSERT INTO `s_power` VALUES (465, 38, '商品参数添加/编辑页面', 'GoodsParamsTemplate', 'SaveInfo', '', 23, 0, '', 1553964318);
+INSERT INTO `s_power` VALUES (466, 38, '商品参数添加/编辑', 'GoodsParamsTemplate', 'Save', '', 24, 0, '', 1553964354);
+INSERT INTO `s_power` VALUES (467, 38, '商品参数详情', 'GoodsParamsTemplate', 'Detail', '', 25, 0, '', 1591609904);
+INSERT INTO `s_power` VALUES (468, 340, '应用排序保存', 'Pluginsadmin', 'SortSave', '', 8, 0, '', 1609820501);
 COMMIT;
 
 -- ----------------------------
@@ -49533,6 +49944,7 @@ CREATE TABLE `s_user` (
   `integral` int(10) NOT NULL DEFAULT '0' COMMENT '有效积分',
   `locking_integral` int(10) NOT NULL DEFAULT '0' COMMENT '锁定积分',
   `referrer` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '推荐人用户id',
+  `plugins_user_level` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '会员等级增强版',
   `plugins_distribution_level` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '分销等级',
   `is_delete_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '是否已删除（0否, 大于0删除时间）',
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
@@ -49550,8 +49962,8 @@ CREATE TABLE `s_user` (
 -- Records of s_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `s_user` VALUES (1, '', '', '', '', '', '', '', '', 0, '792160', 'c8d639f5b6bf82ceb25cab879b691042', '', 'qqqqqq', '', '', '', 0, '', '', '', 0, '', 51, 0, 0, 0, 0, 1607515698, 1608175666);
-INSERT INTO `s_user` VALUES (2, '', '', '', '', '', '', '', '', 0, '799857', '5f73e8af7b9244f9e39b65865507d3fc', '', 'wwwwww', '', '', '', 0, '', '', '', 0, '', 31, 0, 0, 0, 0, 1608255824, 1608255960);
+INSERT INTO `s_user` VALUES (1, '', '', '', '', '', '', '', '', 0, '560204', 'a85b63c93606b538130bc1b8f222b2d6', '65c1547bcaf7a5d24c5317d134523999', 'qqqqqq', '', '', '', 0, '', '', '', 0, '', 81, 0, 0, 0, 0, 0, 1607515698, 1609743623);
+INSERT INTO `s_user` VALUES (2, '', '', '', '', '', '', '', '', 0, '799857', '5f73e8af7b9244f9e39b65865507d3fc', '', 'wwwwww', '', '', '', 0, '', '', '', 0, '', 31, 0, 0, 0, 0, 0, 1608255824, 1608255960);
 COMMIT;
 
 -- ----------------------------
@@ -49584,12 +49996,6 @@ CREATE TABLE `s_user_address` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户地址';
 
 -- ----------------------------
--- Records of s_user_address
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
 -- Table structure for s_user_integral_log
 -- ----------------------------
 DROP TABLE IF EXISTS `s_user_integral_log`;
@@ -49605,7 +50011,7 @@ CREATE TABLE `s_user_integral_log` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户积分日志';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户积分日志';
 
 -- ----------------------------
 -- Records of s_user_integral_log
@@ -49634,6 +50040,10 @@ INSERT INTO `s_user_integral_log` VALUES (20, 1, 0, 51, 41, 10, '积分抵扣', 
 INSERT INTO `s_user_integral_log` VALUES (21, 1, 1, 41, 51, 10, '积分抵扣退回', 0, 1608890630);
 INSERT INTO `s_user_integral_log` VALUES (22, 1, 0, 51, 41, 10, '积分抵扣', 0, 1608890897);
 INSERT INTO `s_user_integral_log` VALUES (23, 1, 1, 41, 51, 10, '积分抵扣退回', 0, 1608890919);
+INSERT INTO `s_user_integral_log` VALUES (24, 1, 1, 51, 61, 10, '签到奖励', 0, 1608985367);
+INSERT INTO `s_user_integral_log` VALUES (25, 1, 1, 61, 66, 5, '签到奖励', 0, 1608985367);
+INSERT INTO `s_user_integral_log` VALUES (26, 1, 1, 66, 76, 10, '签到奖励', 0, 1609812436);
+INSERT INTO `s_user_integral_log` VALUES (27, 1, 1, 76, 81, 5, '签到奖励', 0, 1609812436);
 COMMIT;
 
 -- ----------------------------
@@ -49699,22 +50109,22 @@ CREATE TABLE `s_warehouse_goods` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `s_warehouse_goods` VALUES (20, 2, 1, 1, 8, 1595068577, 1595068582);
-INSERT INTO `s_warehouse_goods` VALUES (22, 2, 8, 1, 0, 1595076197, 1608886251);
-INSERT INTO `s_warehouse_goods` VALUES (24, 2, 2, 1, 1995, 1595077992, 1598698244);
+INSERT INTO `s_warehouse_goods` VALUES (22, 2, 8, 1, 0, 1595076197, 1609744193);
+INSERT INTO `s_warehouse_goods` VALUES (24, 2, 2, 1, 1995, 1595077992, 1609742277);
 INSERT INTO `s_warehouse_goods` VALUES (25, 2, 7, 1, 217, 1595863207, 1598698236);
-INSERT INTO `s_warehouse_goods` VALUES (26, 2, 12, 1, 30, 1596084332, 1608873434);
+INSERT INTO `s_warehouse_goods` VALUES (26, 2, 12, 1, 30, 1596084332, 1609307674);
 INSERT INTO `s_warehouse_goods` VALUES (49, 2, 10, 1, 8, 1596635742, 1606792889);
 INSERT INTO `s_warehouse_goods` VALUES (50, 2, 9, 1, 75, 1596635833, 1602671920);
-INSERT INTO `s_warehouse_goods` VALUES (51, 4, 8, 1, 5, 1605345085, 1608886261);
+INSERT INTO `s_warehouse_goods` VALUES (51, 4, 8, 1, 5, 1605345085, 1609744193);
 INSERT INTO `s_warehouse_goods` VALUES (52, 4, 9, 0, 999, 1605345089, 1606744261);
 INSERT INTO `s_warehouse_goods` VALUES (53, 2, 11, 1, 1332, 1605432741, 1608714489);
 INSERT INTO `s_warehouse_goods` VALUES (54, 2, 6, 1, 664, 1605432742, 1605432769);
 INSERT INTO `s_warehouse_goods` VALUES (55, 2, 5, 1, 554, 1605432742, 1605432763);
 INSERT INTO `s_warehouse_goods` VALUES (56, 2, 4, 1, 331, 1605432743, 1605432758);
 INSERT INTO `s_warehouse_goods` VALUES (57, 2, 3, 1, 332, 1605432744, 1606704142);
-INSERT INTO `s_warehouse_goods` VALUES (58, 3, 12, 1, 30, 1606744165, 1608873434);
+INSERT INTO `s_warehouse_goods` VALUES (58, 3, 12, 1, 30, 1606744165, 1609307674);
 INSERT INTO `s_warehouse_goods` VALUES (59, 3, 9, 1, 0, 1606744566, 0);
-INSERT INTO `s_warehouse_goods` VALUES (60, 4, 12, 1, 60, 1606802328, 1608873434);
+INSERT INTO `s_warehouse_goods` VALUES (60, 4, 12, 1, 60, 1606802328, 1609307674);
 INSERT INTO `s_warehouse_goods` VALUES (61, 3, 11, 1, 66, 1608714423, 1608714514);
 COMMIT;
 
@@ -49737,7 +50147,7 @@ CREATE TABLE `s_warehouse_goods_spec` (
   KEY `goods_id` (`goods_id`),
   KEY `md5_key` (`md5_key`),
   KEY `inventory` (`inventory`)
-) ENGINE=InnoDB AUTO_INCREMENT=1332 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='仓库商品规格';
+) ENGINE=InnoDB AUTO_INCREMENT=1415 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='仓库商品规格';
 
 -- ----------------------------
 -- Records of s_warehouse_goods_spec
@@ -49745,15 +50155,6 @@ CREATE TABLE `s_warehouse_goods_spec` (
 BEGIN;
 INSERT INTO `s_warehouse_goods_spec` VALUES (189, 20, 2, 1, 'c21f969b5f03d33d43e04f8f136e7682', 'default', 8, 1595068582);
 INSERT INTO `s_warehouse_goods_spec` VALUES (357, 25, 2, 7, 'c21f969b5f03d33d43e04f8f136e7682', 'default', 217, 1598698236);
-INSERT INTO `s_warehouse_goods_spec` VALUES (358, 24, 2, 2, '674eee93efe8de506e9f7f776d09f1e5', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"金色\"},{\"type\":\"容量\",\"value\":\"32G\"}]', 221, 1598698244);
-INSERT INTO `s_warehouse_goods_spec` VALUES (359, 24, 2, 2, '40c2afb68f3cc84cc305bce8ab8d5f47', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"金色\"},{\"type\":\"容量\",\"value\":\"64G\"}]', 222, 1598698244);
-INSERT INTO `s_warehouse_goods_spec` VALUES (360, 24, 2, 2, '7ffbb29c5dfb16f6c6b32034d22e3fef', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"金色\"},{\"type\":\"容量\",\"value\":\"128G\"}]', 222, 1598698244);
-INSERT INTO `s_warehouse_goods_spec` VALUES (361, 24, 2, 2, 'ca455d91ca7da72892f87745a04500bc', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"银色\"},{\"type\":\"容量\",\"value\":\"32G\"}]', 222, 1598698244);
-INSERT INTO `s_warehouse_goods_spec` VALUES (362, 24, 2, 2, '107e3e2e6320d811564c2704b034d8fa', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"银色\"},{\"type\":\"容量\",\"value\":\"64G\"}]', 222, 1598698244);
-INSERT INTO `s_warehouse_goods_spec` VALUES (363, 24, 2, 2, 'a7cf0be020f452a8b7d8777e6bbfa041', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"银色\"},{\"type\":\"容量\",\"value\":\"128G\"}]', 222, 1598698244);
-INSERT INTO `s_warehouse_goods_spec` VALUES (364, 24, 2, 2, '224734fbe895debc3c7999a2f157f05d', '[{\"type\":\"套餐\",\"value\":\"套餐二\"},{\"type\":\"颜色\",\"value\":\"金色\"},{\"type\":\"容量\",\"value\":\"32G\"}]', 222, 1598698244);
-INSERT INTO `s_warehouse_goods_spec` VALUES (365, 24, 2, 2, '35c55bca127aa2f3c77fecfdd802c18f', '[{\"type\":\"套餐\",\"value\":\"套餐二\"},{\"type\":\"颜色\",\"value\":\"金色\"},{\"type\":\"容量\",\"value\":\"128G\"}]', 222, 1598698244);
-INSERT INTO `s_warehouse_goods_spec` VALUES (366, 24, 2, 2, '3d09a0554e685e5de759819564ca592b', '[{\"type\":\"套餐\",\"value\":\"套餐二\"},{\"type\":\"颜色\",\"value\":\"银色\"},{\"type\":\"容量\",\"value\":\"64G\"}]', 220, 1598698244);
 INSERT INTO `s_warehouse_goods_spec` VALUES (717, 56, 2, 4, 'c21f969b5f03d33d43e04f8f136e7682', 'default', 331, 1605432758);
 INSERT INTO `s_warehouse_goods_spec` VALUES (718, 55, 2, 5, 'c21f969b5f03d33d43e04f8f136e7682', 'default', 554, 1605432763);
 INSERT INTO `s_warehouse_goods_spec` VALUES (719, 54, 2, 6, 'c21f969b5f03d33d43e04f8f136e7682', 'default', 664, 1605432769);
@@ -49791,25 +50192,35 @@ INSERT INTO `s_warehouse_goods_spec` VALUES (1308, 53, 2, 11, 'd20caec3b48a1eef1
 INSERT INTO `s_warehouse_goods_spec` VALUES (1309, 61, 3, 11, '69691c7bdcc3ce6d5d8a1361f22d04ac', '[{\"type\":\"尺码\",\"value\":\"M\"}]', 11, 1608714514);
 INSERT INTO `s_warehouse_goods_spec` VALUES (1310, 61, 3, 11, 'd20caec3b48a1eef164cb4ca81ba2587', '[{\"type\":\"尺码\",\"value\":\"L\"}]', 22, 1608714514);
 INSERT INTO `s_warehouse_goods_spec` VALUES (1311, 61, 3, 11, 'a7a4ccc5e1a068d87f4965e014329201', '[{\"type\":\"尺码\",\"value\":\"XL\"}]', 33, 1608714514);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1312, 26, 2, 12, '32d68312fb367dd8a78ab789c3dce9c5', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"S+Sad,f\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1313, 26, 2, 12, 'f5c75bc99305a664f1d92d572ee78289', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1314, 26, 2, 12, '24ac3b718ed8542628cfe5f1843f8ed9', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1315, 26, 2, 12, 'eda0100ccdfa2942729825effc96f571', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"S+S\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1316, 26, 2, 12, 'ec0bf37ae952cd7c60f2cdbb5153086a', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1317, 26, 2, 12, 'ae7a23a3e2693f7aec7b919e16fd74d5', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1318, 58, 3, 12, '32d68312fb367dd8a78ab789c3dce9c5', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"S+Sad,f\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1319, 58, 3, 12, 'f5c75bc99305a664f1d92d572ee78289', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1320, 58, 3, 12, '24ac3b718ed8542628cfe5f1843f8ed9', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1321, 58, 3, 12, 'eda0100ccdfa2942729825effc96f571', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"S+S\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1322, 58, 3, 12, 'ec0bf37ae952cd7c60f2cdbb5153086a', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1323, 58, 3, 12, 'ae7a23a3e2693f7aec7b919e16fd74d5', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 5, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1324, 60, 4, 12, '32d68312fb367dd8a78ab789c3dce9c5', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"S+Sad,f\"}]', 10, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1325, 60, 4, 12, 'f5c75bc99305a664f1d92d572ee78289', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 10, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1326, 60, 4, 12, '24ac3b718ed8542628cfe5f1843f8ed9', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 10, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1327, 60, 4, 12, 'eda0100ccdfa2942729825effc96f571', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"S+S\"}]', 10, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1328, 60, 4, 12, 'ec0bf37ae952cd7c60f2cdbb5153086a', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 10, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1329, 60, 4, 12, 'ae7a23a3e2693f7aec7b919e16fd74d5', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 10, 1608873434);
-INSERT INTO `s_warehouse_goods_spec` VALUES (1331, 51, 4, 8, 'c21f969b5f03d33d43e04f8f136e7682', 'default', 5, 1608886261);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1368, 26, 2, 12, 'f5c75bc99305a664f1d92d572ee78289', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1369, 26, 2, 12, '24ac3b718ed8542628cfe5f1843f8ed9', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1370, 26, 2, 12, '32d68312fb367dd8a78ab789c3dce9c5', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"S+Sad,f\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1371, 26, 2, 12, 'eda0100ccdfa2942729825effc96f571', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"S+S\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1372, 26, 2, 12, 'ec0bf37ae952cd7c60f2cdbb5153086a', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1373, 26, 2, 12, 'ae7a23a3e2693f7aec7b919e16fd74d5', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1374, 58, 3, 12, 'f5c75bc99305a664f1d92d572ee78289', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1375, 58, 3, 12, '24ac3b718ed8542628cfe5f1843f8ed9', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1376, 58, 3, 12, '32d68312fb367dd8a78ab789c3dce9c5', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"S+Sad,f\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1377, 58, 3, 12, 'eda0100ccdfa2942729825effc96f571', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"S+S\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1378, 58, 3, 12, 'ec0bf37ae952cd7c60f2cdbb5153086a', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1379, 58, 3, 12, 'ae7a23a3e2693f7aec7b919e16fd74d5', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 5, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1380, 60, 4, 12, 'f5c75bc99305a664f1d92d572ee78289', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 10, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1381, 60, 4, 12, '24ac3b718ed8542628cfe5f1843f8ed9', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 10, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1382, 60, 4, 12, '32d68312fb367dd8a78ab789c3dce9c5', '[{\"type\":\"颜 色\",\"value\":\"粉色\"},{\"type\":\"尺,码\",\"value\":\"S+Sad,f\"}]', 10, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1383, 60, 4, 12, 'eda0100ccdfa2942729825effc96f571', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"S+S\"}]', 10, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1384, 60, 4, 12, 'ec0bf37ae952cd7c60f2cdbb5153086a', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"M+M\"}]', 10, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1385, 60, 4, 12, 'ae7a23a3e2693f7aec7b919e16fd74d5', '[{\"type\":\"颜 色\",\"value\":\"白色\"},{\"type\":\"尺,码\",\"value\":\"L+L\"}]', 10, 1609307674);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1404, 24, 2, 2, '674eee93efe8de506e9f7f776d09f1e5', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"金色\"},{\"type\":\"容量\",\"value\":\"32G\"}]', 221, 1609742277);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1405, 24, 2, 2, '40c2afb68f3cc84cc305bce8ab8d5f47', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"金色\"},{\"type\":\"容量\",\"value\":\"64G\"}]', 222, 1609742277);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1406, 24, 2, 2, '7ffbb29c5dfb16f6c6b32034d22e3fef', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"金色\"},{\"type\":\"容量\",\"value\":\"128G\"}]', 222, 1609742277);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1407, 24, 2, 2, 'ca455d91ca7da72892f87745a04500bc', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"银色\"},{\"type\":\"容量\",\"value\":\"32G\"}]', 222, 1609742277);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1408, 24, 2, 2, '107e3e2e6320d811564c2704b034d8fa', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"银色\"},{\"type\":\"容量\",\"value\":\"64G\"}]', 222, 1609742277);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1409, 24, 2, 2, 'a7cf0be020f452a8b7d8777e6bbfa041', '[{\"type\":\"套餐\",\"value\":\"套餐一\"},{\"type\":\"颜色\",\"value\":\"银色\"},{\"type\":\"容量\",\"value\":\"128G\"}]', 222, 1609742277);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1410, 24, 2, 2, '224734fbe895debc3c7999a2f157f05d', '[{\"type\":\"套餐\",\"value\":\"套餐二\"},{\"type\":\"颜色\",\"value\":\"金色\"},{\"type\":\"容量\",\"value\":\"32G\"}]', 222, 1609742277);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1411, 24, 2, 2, '35c55bca127aa2f3c77fecfdd802c18f', '[{\"type\":\"套餐\",\"value\":\"套餐二\"},{\"type\":\"颜色\",\"value\":\"金色\"},{\"type\":\"容量\",\"value\":\"128G\"}]', 222, 1609742277);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1412, 24, 2, 2, '3d09a0554e685e5de759819564ca592b', '[{\"type\":\"套餐\",\"value\":\"套餐二\"},{\"type\":\"颜色\",\"value\":\"银色\"},{\"type\":\"容量\",\"value\":\"64G\"}]', 220, 1609742277);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1413, 22, 2, 8, 'c21f969b5f03d33d43e04f8f136e7682', '[]', 0, 1609744193);
+INSERT INTO `s_warehouse_goods_spec` VALUES (1414, 51, 4, 8, 'c21f969b5f03d33d43e04f8f136e7682', '[]', 5, 1609744193);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

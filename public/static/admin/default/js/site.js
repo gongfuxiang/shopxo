@@ -205,6 +205,7 @@ $(function()
         });
 
         var $this = $(this);
+        $.AMUI.progress.start();
         $this.button('loading');
         $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($('.goods-list-container').data('loading-msg'))+'</div>');
         $.ajax({
@@ -212,8 +213,9 @@ $(function()
             type: 'post',
             data: {"page":page, "category_id":category_id, "keywords":keywords, "goods_ids":goods_ids},
             dataType: 'json',
-            success:function(res)
+            success: function(res)
             {
+                $.AMUI.progress.done();
                 $this.button('reset');
                 if(res.code == 0)
                 {
@@ -225,11 +227,13 @@ $(function()
                     $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+res.msg+'</div>');
                 }
             },
-            error:function(res)
+            error: function(xhr, type)
             {
+                $.AMUI.progress.done();
                 $this.button('reset');
-                Prompt('请求失败');
-                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> 请求失败</div>');
+                var msg = HtmlToString(xhr.responseText) || '异常错误';
+                Prompt(msg, null, 30);
+                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+msg+'</div>');
             }
         });
     });
