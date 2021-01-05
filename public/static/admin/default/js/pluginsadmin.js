@@ -8,6 +8,17 @@ $(function()
         $modal.modal('open');
     });
 
+    // 插件设置事件
+    $('.plugins-set-event').on('click', function()
+    {
+        if($(this).parents('.am-gallery-item').hasClass('am-active'))
+        {
+            Prompt('请先点击勾勾启用');
+        } else {
+            window.location.href = $(this).data('set-url');
+        }
+    });
+
     // 拖拽
     $('.content ul.am-gallery-bordered').dragsort({ dragSelector: 'button.submit-move', placeHolderTemplate: '<li><div class="am-gallery-item drag-sort-dotted"></div></li>'});
 
