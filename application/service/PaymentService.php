@@ -541,9 +541,9 @@ class PaymentService
 
         if($success > 0)
         {
-            return DataReturn('上传成功[成功'.$success.'个, 失败'.$error.'个]', 0);
+            return DataReturn('上传成功[成功'.$success.'个支付插件, 失败'.$error.'个无效文件]', 0);
         }
-        return DataReturn('上传失败'.$error.'个', -10);
+        return DataReturn('上传失败，'.$error.'个无效文件、如功能插件请到[ 应用中心->应用管理 ]模块里面去上传安装', -10);
     }
 
     /**

@@ -1061,6 +1061,15 @@ php;
                     $plugins_name = substr($file, 0, strpos($file, '/'));
                     if(empty($plugins_name))
                     {
+                        // 应用名称为空、则校验是否为支付插件
+                        $file_size = zip_entry_filesize($temp_resource);
+                        $file_content = zip_entry_read($temp_resource, $file_size);
+                        if(stripos($file_content, 'namespace payment') !== false)
+                        {
+                            return DataReturn('支付插件请到[ 网站管理->支付方式 ]模块里面去上传安装', -1);
+                        }
+
+                        // 不是支付插件则提示插件包错误
                         return DataReturn('插件包有误', -30);
                     }
 
