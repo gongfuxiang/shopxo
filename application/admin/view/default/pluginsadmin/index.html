@@ -15,17 +15,17 @@
         {{/if}}
         <!-- operation end -->
 
-        <div class="am-alert">
-            <p>1 列表排序方式[ 自定义排序 -> 最早安装 ]</p>
-            <p>
-                <span>2. 可点击拖动图标按钮调整插件调用和展示顺序</span>
-                <button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-xs am-icon-sort-numeric-asc submit-move-sort-open"> 开启排序</button>
-                <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-check submit-move-sort-save am-hide"> 保存</button>
-                <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-margin-left-xs am-icon-close submit-move-sort-cancel am-hide"> 取消</button>
-            </p>
-        </div>
-
         {{if !empty($data_list)}}
+            <!-- 操作提示 -->
+            <div class="am-alert">
+                <p>1 列表排序方式[ 自定义排序 -> 最早安装 ]</p>
+                <p>
+                    <span>2. 可点击拖动图标按钮调整插件调用和展示顺序</span>
+                    <button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-xs am-icon-sort-numeric-asc submit-move-sort-open"> 开启排序</button>
+                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-check submit-move-sort-save am-hide"> 保存</button>
+                    <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-margin-left-xs am-icon-close submit-move-sort-cancel am-hide"> 取消</button>
+                </p>
+            </div>
             <!-- 已安装 -->
             <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-avg-md-2 am-avg-lg-3 am-gallery-bordered already-install" data-am-gallery="{}" data-sort-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
                 {{foreach $data_list as $v}}
@@ -65,10 +65,15 @@
             </ul>
 
             <!-- 未安装 -->
-            <div class="am-text-center am-margin-top-lg am-margin-bottom-xs">
-                <strong class="am-text-lg">以下插件未安装</strong>
+            <div class="am-text-center am-margin-top-lg am-margin-bottom-xs middle-divider">
+                <strong>
+                    <i class="am-icon-angle-double-down"></i>
+                    <span class="am-text-lg am-margin-horizontal-xs">以下插件未安装</span>
+                    <i class="am-icon-angle-double-down"></i>
+                </strong>
+                <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
             </div>
-            <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
+            
             <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-avg-md-2 am-avg-lg-3 am-gallery-bordered" data-am-gallery="{}" data-sort-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
                 {{foreach $data_list as $v}}
                     {{if !isset($v['is_install']) or $v['is_install'] eq 0}}
@@ -97,6 +102,10 @@
                     {{/if}}
                 {{/foreach}}
             </ul>
+            <div class="am-padding-vertical-xl am-text-center">
+                <a href="{{$store_url}}" class="am-margin-left-xs">去应用商店挑选更多插件丰富站点 >></a>
+            </div>
+
 
             <!-- 删除弹层 -->
             <div class="am-modal am-modal-no-btn" tabindex="-1" id="plugins-delete-modal">
@@ -122,7 +131,7 @@
         {{else /}}
             <div class="table-no">
                 <i class="am-icon-warning"></i> 还没有相关应用
-                <a href="{{$store_url}}" class="am-margin-left-xs">到应用商店看看 >></a>
+                <a href="{{$store_url}}" class="am-margin-left-xs">到应用商店挑选插件丰富站点 >></a>
             </div>
         {{/if}}
     </div>

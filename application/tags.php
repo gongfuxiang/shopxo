@@ -37,15 +37,13 @@ return array (
     0 => 'app\\plugins\\share\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
     2 => 'app\\plugins\\exchangerate\\Hook',
-    3 => 'app\\plugins\\limitedtimediscount\\Hook',
-    4 => 'app\\plugins\\points\\Hook',
+    3 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
     1 => 'app\\plugins\\exchangerate\\Hook',
-    2 => 'app\\plugins\\limitedtimediscount\\Hook',
-    3 => 'app\\plugins\\points\\Hook',
+    2 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_view_common_bottom' => 
   array (
@@ -63,21 +61,18 @@ return array (
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
-    1 => 'app\\plugins\\limitedtimediscount\\Hook',
-    2 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
     1 => 'app\\plugins\\exchangerate\\Hook',
-    2 => 'app\\plugins\\limitedtimediscount\\Hook',
-    3 => 'app\\plugins\\points\\Hook',
+    2 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_goods_spec_base' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
     1 => 'app\\plugins\\exchangerate\\Hook',
-    2 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_service_buy_group_goods_handle' => 
   array (
@@ -176,14 +171,6 @@ return array (
   'plugins_service_currency_data' => 
   array (
     0 => 'app\\plugins\\exchangerate\\Hook',
-  ),
-  'plugins_view_goods_detail_base_top' => 
-  array (
-    0 => 'app\\plugins\\limitedtimediscount\\Hook',
-  ),
-  'plugins_view_home_floor_top' => 
-  array (
-    0 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_view_buy_form_inside' => 
   array (

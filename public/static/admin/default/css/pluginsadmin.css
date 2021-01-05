@@ -88,6 +88,28 @@
     border: 1px solid #f8815d !important;
     background: #fffbf5;
 }
+.content .middle-divider {
+    height: 50px;
+    position: relative;
+    padding-top: 25px;
+}
+.content .middle-divider strong {
+    position: absolute;
+    top: 4px;
+    background: #fff;
+    padding: 4px 20px;
+    left: calc(50% - 83px);
+    border: 1px dashed #ccc;
+    border-radius: 2px;
+}
+.content .middle-divider:hover > strong {
+    border: 1px dashed #2196F3;
+    color: #2196F3;
+    background: #eaf6ff;
+}
+.content .middle-divider:hover > hr {
+    border-top: 1px dashed #2196F3;
+}
 @media only screen and (max-width: 641px) {
     .content ul.am-gallery-bordered li .am-gallery-item {
         height: 187px;
