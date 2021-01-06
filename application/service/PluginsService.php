@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\Db;
 use app\service\ResourcesService;
+use app\service\PluginsAdminService;
 
 /**
  * 应用服务层
@@ -45,51 +46,73 @@ class PluginsService
             $ret = self::PluginsField($plugins, 'data');
             if(!empty($ret['data']))
             {
-                $data = json_decode($ret['data'], true);
-                if(!empty($data) && is_array($data))
-                {
-                    // 是否有自定义附件需要处理
-                    if(!empty($attachment_field) && is_array($attachment_field))
-                    {
-                        foreach($attachment_field as $field)
-                        {
-                            if(isset($data[$field]))
-                            {
-                                $data[$field.'_old'] = $data[$field];
-                                $data[$field] = ResourcesService::AttachmentPathViewHandle($data[$field]);
-                            }
-                        }
-                    } else {
-                        // 所有附件后缀名称
-                        $attachment_ext = config('ueditor.fileManagerAllowFiles');
-
-                        // 未自定义附件则自动根据内容判断处理附件，建议自定义附件字段名称处理更高效
-                        if(!empty($attachment_ext) && is_array($attachment_ext))
-                        {
-                            foreach($data as $k=>$v)
-                            {
-                                if(!empty($v) && !is_array($v) && !is_object($v))
-                                {
-                                    $ext = strrchr(substr($v, -6), '.');
-                                    if($ext !== false)
-                                    {
-                                        if(in_array($ext, $attachment_ext))
-                                        {
-                                            $data[$k.'_old'] = $v;
-                                            $data[$k] = ResourcesService::AttachmentPathViewHandle($v);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                // 数据处理
+                $data = self::PluginsDataHandle($ret['data'], $attachment_field);
 
                 // 存储缓存
                 self::PluginsCacheStorage($plugins, $data);
             }
         }
         return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-06
+     * @desc    description
+     * @param   [array|json]      $data             [应用配置数据]
+     * @param   [array]           $attachment_field [附件字段]
+     */
+    public static function PluginsDataHandle($data, $attachment_field = [])
+    {
+        // 有数据并且非数组则解析json
+        if(!empty($data) && !is_array($data))
+        {
+            $data = json_decode($data, true);
+        }
+
+        // 处理配置数据
+        if(!empty($data) && is_array($data))
+        {
+            // 是否有自定义附件需要处理
+            if(!empty($attachment_field) && is_array($attachment_field))
+            {
+                foreach($attachment_field as $field)
+                {
+                    if(isset($data[$field]))
+                    {
+                        $data[$field.'_old'] = $data[$field];
+                        $data[$field] = ResourcesService::AttachmentPathViewHandle($data[$field]);
+                    }
+                }
+            } else {
+                // 所有附件后缀名称
+                $attachment_ext = config('ueditor.fileManagerAllowFiles');
+
+                // 未自定义附件则自动根据内容判断处理附件，建议自定义附件字段名称处理更高效
+                if(!empty($attachment_ext) && is_array($attachment_ext))
+                {
+                    foreach($data as $k=>$v)
+                    {
+                        if(!empty($v) && !is_array($v) && !is_object($v))
+                        {
+                            $ext = strrchr(substr($v, -6), '.');
+                            if($ext !== false)
+                            {
+                                if(in_array($ext, $attachment_ext))
+                                {
+                                    $data[$k.'_old'] = $v;
+                                    $data[$k] = ResourcesService::AttachmentPathViewHandle($v);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return empty($data) ? null : $data;
     }
 
     /**
@@ -261,7 +284,7 @@ class PluginsService
      * @param    [string]          $group          [应用组(admin, index, api)]
      * @param    [array]           $params         [输入参数]
      */
-    public static function PluginsControlCall($plugins, $control, $action, $group = 'index', $params = [], $is_return_data = 0)
+    public static function PluginsControlCall($plugins, $control, $action, $group = 'index', $params = [])
     {
         // 应用校验
         $ret = self::PluginsCheck($plugins);
@@ -292,6 +315,30 @@ class PluginsService
             $params = $params['data_request'];
         }
         return DataReturn('调用成功', 0, $obj->$action($params));
+    }
+
+    /**
+     * 所有有效插件配置列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-06
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PluginsBaseList($params = [])
+    {
+        $data = Db::name('Plugins')->where(['is_enable'=>1])->order(PluginsAdminService::$plugins_order_by)->field('id,plugins,data')->select();
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                $v['data'] = self::PluginsDataHandle($v['data']);
+            }
+        } else {
+            $data = null;
+        }
+        return $data;
     }
 }
 ?>

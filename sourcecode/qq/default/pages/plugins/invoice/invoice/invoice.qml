@@ -38,8 +38,8 @@
           </view>
         </view>
       </navigator>
-      <view qq:if="{{item.status == 0 || item.status == 3}}" class="operation tr br-t-dashed">
-        <button class="cr-666 br" type="default" size="mini" bindtap="edit_event" data-value="{{item.id}}" hover-class="none">编辑</button>
+      <view qq:if="{{item.status == 0 || item.status == 3 || item.status == 4}}" class="operation tr br-t-dashed">
+        <button qq:if="{{item.status == 0 || item.status == 3}}" class="cr-666 br" type="default" size="mini" bindtap="edit_event" data-value="{{item.id}}" hover-class="none">编辑</button>
         <button class="submit-delete" type="default" size="mini" bindtap="delete_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">删除</button>
       </view>
     </view>

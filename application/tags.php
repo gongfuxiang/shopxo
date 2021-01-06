@@ -32,23 +32,75 @@ return array (
   'log_write' => 
   array (
   ),
+  'plugins_service_quick_navigation_pc' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+    2 => 'app\\plugins\\exchangerate\\Hook',
+    3 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_h5' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+    2 => 'app\\plugins\\exchangerate\\Hook',
+    3 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_weixin' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+    2 => 'app\\plugins\\exchangerate\\Hook',
+    3 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_alipay' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+    2 => 'app\\plugins\\exchangerate\\Hook',
+    3 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_baidu' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+    2 => 'app\\plugins\\exchangerate\\Hook',
+    3 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_qq' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+    2 => 'app\\plugins\\exchangerate\\Hook',
+    3 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_toutiao' => 
+  array (
+    0 => 'app\\plugins\\invoice\\Hook',
+    1 => 'app\\plugins\\signin\\Hook',
+    2 => 'app\\plugins\\exchangerate\\Hook',
+    3 => 'app\\plugins\\points\\Hook',
+  ),
   'plugins_service_users_center_left_menu_handle' => 
   array (
-    0 => 'app\\plugins\\distribution\\Hook',
-    1 => 'app\\plugins\\membershiplevelvip\\Hook',
-    2 => 'app\\plugins\\signin\\Hook',
+    0 => 'app\\plugins\\invoice\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
+    2 => 'app\\plugins\\membershiplevelvip\\Hook',
+    3 => 'app\\plugins\\signin\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
-    0 => 'app\\plugins\\distribution\\Hook',
-    1 => 'app\\plugins\\membershiplevelvip\\Hook',
-    2 => 'app\\plugins\\signin\\Hook',
-    3 => 'app\\plugins\\exchangerate\\Hook',
+    0 => 'app\\plugins\\invoice\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
+    2 => 'app\\plugins\\membershiplevelvip\\Hook',
+    3 => 'app\\plugins\\signin\\Hook',
+    4 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_order_status_change_history_success_handle' => 
   array (
-    0 => 'app\\plugins\\distribution\\Hook',
-    1 => 'app\\plugins\\points\\Hook',
+    0 => 'app\\plugins\\invoice\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
+    2 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_order_aftersale_audit_handle_end' => 
   array (
@@ -99,10 +151,12 @@ return array (
   'plugins_module_form_admin_user_index' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_module_form_admin_user_detail' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
   'plugins_css' => 
   array (
@@ -159,48 +213,6 @@ return array (
   'plugins_service_goods_spec_type' => 
   array (
     0 => 'app\\plugins\\membershiplevelvip\\Hook',
-  ),
-  'plugins_service_quick_navigation_pc' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-    1 => 'app\\plugins\\exchangerate\\Hook',
-    2 => 'app\\plugins\\points\\Hook',
-  ),
-  'plugins_service_quick_navigation_h5' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-    1 => 'app\\plugins\\exchangerate\\Hook',
-    2 => 'app\\plugins\\points\\Hook',
-  ),
-  'plugins_service_quick_navigation_weixin' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-    1 => 'app\\plugins\\exchangerate\\Hook',
-    2 => 'app\\plugins\\points\\Hook',
-  ),
-  'plugins_service_quick_navigation_alipay' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-    1 => 'app\\plugins\\exchangerate\\Hook',
-    2 => 'app\\plugins\\points\\Hook',
-  ),
-  'plugins_service_quick_navigation_baidu' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-    1 => 'app\\plugins\\exchangerate\\Hook',
-    2 => 'app\\plugins\\points\\Hook',
-  ),
-  'plugins_service_quick_navigation_qq' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-    1 => 'app\\plugins\\exchangerate\\Hook',
-    2 => 'app\\plugins\\points\\Hook',
-  ),
-  'plugins_service_quick_navigation_toutiao' => 
-  array (
-    0 => 'app\\plugins\\signin\\Hook',
-    1 => 'app\\plugins\\exchangerate\\Hook',
-    2 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_currency_data' => 
   array (

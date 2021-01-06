@@ -14,6 +14,7 @@ use think\Db;
 use think\facade\Hook;
 use app\service\ResourcesService;
 use app\service\QuickNavService;
+use app\service\PluginsService;
 
 /**
  * 基础公共信息服务层
@@ -93,6 +94,9 @@ class BaseService
 
             // 快捷入口信息
             'quick_nav'         => QuickNavService::QuickNav(),
+
+            // 插件配置信息
+            'plugins_base'      => PluginsService::PluginsBaseList(),
         ];
 
         // 公共配置信息钩子

@@ -28,10 +28,10 @@ class PluginsAdminService
     public static $plugins_exclude_verification = ['view', 'shopxo', 'www'];
 
     // 排除的文件后缀
-    private static $exclude_ext = ['php'];
+    public static $exclude_ext = ['php'];
 
     // 读取插件排序方式(自定义排序 -> 最早安装)
-    private static $plugins_order_by = 'sort asc,id asc';
+    public static $plugins_order_by = 'sort asc,id asc';
 
     /**
      * 列表
