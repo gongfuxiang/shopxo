@@ -47,13 +47,14 @@ class PluginsAdminService
         $data = [];
         $db_data = [];
         $dir_data = [];
+        $temp_data = [];
         $plugins_dir = APP_PATH.'plugins'.DS;
         if(is_dir($plugins_dir))
         {
             if($dh = opendir($plugins_dir))
             {
                 // 获取数据库已安装插件
-                $db_data = Db::name('Plugins')->order(self::$plugins_order_by)->column('*', 'plugins');
+                $temp_data = Db::name('Plugins')->order(self::$plugins_order_by)->column('*', 'plugins');
 
                 // 获取目录所有插件
                 while(($temp_file = readdir($dh)) !== false)
@@ -66,7 +67,7 @@ class PluginsAdminService
                         {
                             // 获取数据库配置信息
                             $base = $config['base'];
-                            $db_config = array_key_exists($base['plugins'], $db_data) ? $db_data[$base['plugins']] : [];
+                            $db_config = array_key_exists($base['plugins'], $temp_data) ? $temp_data[$base['plugins']] : [];
 
                             // 数据组装
                             $dir_data[$base['plugins']] = [
@@ -95,22 +96,22 @@ class PluginsAdminService
         }
 
         // 存在插件和数据库插件数据则处理排序合并
-        if(!empty($dir_data) && !empty($db_data))
+        if(!empty($dir_data) && !empty($temp_data))
         {
-            $temp_data = [];
-            foreach($db_data as $v)
+            foreach($temp_data as $v)
             {
                 if(array_key_exists($v['plugins'], $dir_data))
                 {
-                    $temp_data[] = $dir_data[$v['plugins']];
+                    $db_data[] = $dir_data[$v['plugins']];
                     unset($dir_data[$v['plugins']]);
                 }
             }
-            $data = array_merge($temp_data, array_values($dir_data));
-        } else {
-            $data = array_values($dir_data);
         }
 
+        $data = [
+            'db_data'   => $db_data,
+            'dir_data'  => array_values($dir_data),
+        ];
         return DataReturn('处理成功', 0, $data);
     }
 
@@ -890,12 +891,12 @@ php;
             {
                 return DataReturn('应用配置文件没有操作权限'.'['.$config_file.']', -3);
             }
-        } else {
-            // 创建配置文件
-            if(@file_put_contents($config_file, JsonFormat($data)) === false)
-            {
-                return DataReturn('应用配置文件创建失败', -10);
-            }
+        }
+
+        // 创建配置文件
+        if(@file_put_contents($config_file, JsonFormat($data)) === false)
+        {
+            return DataReturn('应用配置文件创建失败', -10);
         }
 
         return DataReturn('操作成功', 0);

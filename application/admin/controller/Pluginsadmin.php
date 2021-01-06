@@ -94,9 +94,9 @@ class Pluginsadmin extends Common
         {
             // 获取数据
             $ret = PluginsAdminService::PluginsList();
-            if(!empty($ret['data']) && is_array($ret['data']))
+            if(!empty($ret['data']['db_data']) || !empty($ret['data']['dir_data']))
             {
-                $data = array_column($ret['data'], null, 'plugins');
+                $data = array_column(array_merge($ret['data']['db_data'], $ret['data']['dir_data']), null, 'plugins');
                 if(isset($data[$params['id']]))
                 {
                     $data = $data[$params['id']];
