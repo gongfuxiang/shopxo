@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\GoodsService;
 use app\service\BuyService;
 use app\service\PluginsService;
@@ -166,7 +167,7 @@ class Goods extends Common
             $result['plugins_coupon_data'] = $ret['data']['data'];
         }
 
-        return DataReturn('success', 0, $result);
+        return BaseService::DataReturn($result);
     }
 
     /**
@@ -239,10 +240,9 @@ class Goods extends Common
     public function Category()
     {
         $result = [
-            'category'              => GoodsService::GoodsCategoryAll($this->data_post),
-            //'category_show_level'   => MyC('common_show_goods_category_level', 3, true),
+            'category'  => GoodsService::GoodsCategoryAll($this->data_post),
         ];
-        return DataReturn('success', 0, $result);
+        return BaseService::DataReturn($result);
     }
 
     /**
@@ -299,16 +299,16 @@ class Goods extends Common
             'where'     => $where,
             'is_public' => 1,
         );
-        $data = GoodsCommentsService::GoodsCommentsList($data_params);
+        $ret = GoodsCommentsService::GoodsCommentsList($data_params);
         
         // 返回数据
         $result = [
             'number'            => $number,
             'total'             => $total,
             'page_total'        => $page_total,
-            'data'              => $data['data'],
+            'data'              => $ret['data'],
         ];
-        return DataReturn('success', 0, $result);
+        return BaseService::DataReturn($result);
     }
 }
 ?>

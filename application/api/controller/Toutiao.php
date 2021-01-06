@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\ToutiaoService;
 
 /**
@@ -50,7 +51,8 @@ class Toutiao extends Common
         // 获取支付信息
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return ToutiaoService::Pay($params);
+        $ret = ToutiaoService::Pay($params);
+        return BaseService::DataReturn($ret['data']);
     }
 }
 ?>

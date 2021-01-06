@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\PaymentService;
 use app\service\OrderService;
 use app\service\GoodsCommentsService;
@@ -80,12 +81,12 @@ class Order extends Common
 
         // 返回数据
         $result = [
-            'total'             =>  $total,
-            'page_total'        =>  $page_total,
-            'data'              =>  $data['data'],
-            'payment_list'      =>  $payment_list,
+            'total'         => $total,
+            'page_total'    => $page_total,
+            'data'          => $data['data'],
+            'payment_list'  => $payment_list,
         ];
-        return DataReturn('success', 0, $result);
+        return BaseService::DataReturn($result);
     }
 
     /**
@@ -131,7 +132,7 @@ class Order extends Common
                 $site_fictitious = ConfigService::SiteFictitiousConfig();
                 $result['site_fictitious'] = $site_fictitious['data'];
             }
-            return DataReturn('success', 0, $result);
+            return BaseService::DataReturn($result);
         }
         return DataReturn('数据不存在或已删除', -100);
     }
@@ -178,7 +179,7 @@ class Order extends Common
                 'data'                  => $data['data'][0],
                 'editor_path_type'      => 'order_comments-'.$this->user['id'].'-'.$data['data'][0]['id'],
             ];
-            return DataReturn('success', 0, $result);
+            return BaseService::DataReturn($result);
         }
         return DataReturn('没有相关数据', -100);
     }

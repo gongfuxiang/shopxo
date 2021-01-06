@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\AppHomeNavService;
 
 /**
@@ -44,10 +45,8 @@ class Navigation extends Common
     public function Index()
     {
         // 获取轮播
-        $data = AppHomeNavService::AppHomeNav();
-
-        // 返回数据
-        return DataReturn('success', 0, $data);
+        $result = AppHomeNavService::AppHomeNav();
+        return BaseService::DataReturn($result);
     }
 }
 ?>

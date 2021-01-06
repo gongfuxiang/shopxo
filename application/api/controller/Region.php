@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\RegionService;
 
 /**
@@ -50,8 +51,8 @@ class Region extends Common
                 'pid'   => isset($this->data_post['pid']) ? intval($this->data_post['pid']) : 0,
             ],
         ];
-        $data = RegionService::RegionNode($params);
-        return DataReturn('success', 0, $data);
+        $result = RegionService::RegionNode($params);
+        return BaseService::DataReturn($result);
     }
 
     /**

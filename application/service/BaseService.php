@@ -10,7 +10,6 @@
 // +----------------------------------------------------------------------
 namespace app\service;
 
-use think\Db;
 use think\facade\Hook;
 use app\service\ResourcesService;
 use app\service\QuickNavService;
@@ -108,7 +107,34 @@ class BaseService
             'params'        => $params,
         ]);
 
-        return $data;
+        return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 数据返回处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-06
+     * @desc    description
+     * @param   [array]           $data [返回数据]
+     */
+    public static function DataReturn($data = [])
+    {
+        // 当前操作名称, 兼容插件模块名称
+        $module_name = strtolower(request()->module());
+        $controller_name = strtolower(request()->controller());
+        $action_name = strtolower(request()->action());
+
+        // 接口返回信息钩子
+        $hook_name = 'plugins_service_base_return_data_'.$module_name.'_'.$controller_name.'_'.$action_name;
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+        ]);
+
+        return DataReturn('success', 0, $data);
     }
 }
 ?>

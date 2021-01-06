@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\SearchService;
 use app\service\GoodsService;
 
@@ -51,16 +52,12 @@ class Search extends Common
 
         // 获取数据
         $ret = SearchService::GoodsList($this->data_post);
+        $result = $ret['data'];
 
         // 分类
-        if(!empty($this->data_post['category_id']))
-        {
-            $ret['data']['category'] = GoodsService::GoodsCategoryRow(['id'=>$this->data_post['category_id']]);
-        } else {
-            $ret['data']['category'] = [];
-        }
+        $result['category'] = empty($this->data_post['category_id']) ? [] : GoodsService::GoodsCategoryRow(['id'=>$this->data_post['category_id']]);
         
-        return $ret;
+        return BaseService::DataReturn($result);
     }
 }
 ?>

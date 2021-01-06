@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\MessageService;
 
 /**
@@ -75,11 +76,11 @@ class Message extends Common
         
         // 返回数据
         $result = [
-            'total'             =>  $total,
-            'page_total'        =>  $page_total,
-            'data'              =>  $data['data'],
+            'total'         => $total,
+            'page_total'    => $page_total,
+            'data'          => $data['data'],
         ];
-        return DataReturn('success', 0, $result);
+        return BaseService::DataReturn($result);
     }
 }
 ?>

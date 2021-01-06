@@ -35,7 +35,7 @@ class Base extends Common
         // 参数
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return DataReturn('success', 0, BaseService::Common($params));
+        return BaseService::Common($params);
     }
 }
 ?>

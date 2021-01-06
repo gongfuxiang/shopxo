@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\OrderAftersaleService;
 
 /**
@@ -75,11 +76,11 @@ class Orderaftersale extends Common
 
         // 返回数据
         $result = [
-            'total'                     => $total,
-            'page_total'                => $page_total,
-            'data'                      => $data['data'],
+            'total'         => $total,
+            'page_total'    => $page_total,
+            'data'          => $data['data'],
         ];
-        return DataReturn('success', 0, $result);
+        return BaseService::DataReturn($result);
     }
 
     /**
@@ -139,7 +140,7 @@ class Orderaftersale extends Common
                 'return_goods_address'      => MyC('home_order_aftersale_return_goods_address', '管理员未填写', true),
                 'editor_path_type'          => OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id),
             ];
-            return DataReturn('success', 0, $result);
+            return BaseService::DataReturn($result);
         }
         return DataReturn($ret['msg'], -1);
     }

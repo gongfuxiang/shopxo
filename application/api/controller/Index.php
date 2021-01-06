@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\GoodsService;
 use app\service\BannerService;
 use app\service\AppHomeNavService;
@@ -64,7 +65,7 @@ class Index extends Common
         }
 
 		// 返回数据
-		return DataReturn('success', 0, $result);
+		return BaseService::DataReturn($result);
 	}
 }
 ?>

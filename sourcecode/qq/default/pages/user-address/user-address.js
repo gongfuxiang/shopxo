@@ -57,20 +57,21 @@ Page({
         qq.hideLoading();
         qq.stopPullDownRefresh();
         if (res.data.code == 0) {
-          if (res.data.data.length > 0) {
+          var data = res.data.data;
+          if (data.data.length > 0) {
             // 获取当前默认地址
             var is_default = 0;
-            for(var i in res.data.data)
+            for(var i in data.data)
             {
-              if(res.data.data[i]['is_default'] == 1)
+              if(data.data[i]['is_default'] == 1)
               {
-                is_default = res.data.data[i]['id'];
+                is_default = data.data[i]['id'];
               }
             }
 
             // 设置数据
             this.setData({
-              data_list: res.data.data,
+              data_list: data.data,
               is_default: is_default,
               data_list_loding_status: 3,
               data_bottom_line_status: true,

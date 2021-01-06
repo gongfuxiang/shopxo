@@ -10,8 +10,9 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\UserAddressService;
+use app\service\BaseService;
 use app\service\ConfigService;
+use app\service\UserAddressService;
 
 /**
  * 用户地址
@@ -48,7 +49,11 @@ class UserAddress extends Common
      */
     public function Index()
     {
-        return UserAddressService::UserAddressList(['user'=>$this->user]);
+        $ret = UserAddressService::UserAddressList(['user'=>$this->user]);
+        $result = [
+            'data'  => $ret['data'],
+        ];
+        return BaseService::DataReturn($result);
     }
 
     /**
@@ -70,7 +75,7 @@ class UserAddress extends Common
             'data'              => empty($data['data']) ? null : $data['data'],
             'editor_path_type'  => UserAddressService::EditorAttachmentPathType($this->user['id']),
         ];
-        return DataReturn('success', 0, $result);
+        return BaseService::DataReturn($result);
     }
 
     /**

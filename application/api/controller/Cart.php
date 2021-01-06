@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\BuyService;
 
 /**
@@ -47,12 +48,12 @@ class Cart extends Common
     public function Index()
     {
         $ret = BuyService::CartList(['user'=>$this->user]);
-        $ret['data'] = [
-            'data'                  => $ret['data'],
-            'common_cart_total'     => BuyService::UserCartTotal(['user'=>$this->user]),
+        $result = [
+            'data'              => $ret['data'],
+            'common_cart_total' => BuyService::UserCartTotal(['user'=>$this->user]),
         ];
-        
-        return $ret;
+
+        return BaseService::DataReturn($result);
     }
 
     /**

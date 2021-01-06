@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\PaymentService;
@@ -67,10 +68,10 @@ class Buy extends Common
 
             // 数据返回组装
             $result = [
-                'goods_list'                => $buy_goods,
-                'payment_list'              => $payment_list,
-                'base'                      => $buy_base,
-                'common_site_type'          => (int) $buy_base['common_site_type'],
+                'goods_list'        => $buy_goods,
+                'payment_list'      => $payment_list,
+                'base'              => $buy_base,
+                'common_site_type'  => (int) $buy_base['common_site_type'],
             ];
 
             // 优惠劵
@@ -87,7 +88,7 @@ class Buy extends Common
                 $result['plugins_points_data'] = $ret['data']['data'];
             }
 
-            return DataReturn('操作成功', 0, $result);
+            return BaseService::DataReturn($result);
         }
         return $buy_ret;
     }

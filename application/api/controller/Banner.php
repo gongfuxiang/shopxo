@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\BaseService;
 use app\service\BannerService;
 
 /**
@@ -44,10 +45,8 @@ class Banner extends Common
     public function Index()
     {
         // 获取轮播
-        $data = BannerService::Banner();
-
-        // 返回数据
-        return DataReturn('success', 0, $data);
+        $result = BannerService::Banner();
+        return BaseService::DataReturn($result);
     }
 }
 ?>
