@@ -142,7 +142,7 @@ class User extends Common
         $user = UserService::AppUserInfoHandle(null, 'alipay_openid', $this->data_post['openid']);
         if(empty($user))
         {
-            $this->data_post['nick_name'] = isset($this->data_post['nickName']) ? $this->data_post['nickName'] : '';
+            $this->data_post['nickname'] = isset($this->data_post['nickName']) ? $this->data_post['nickName'] : '';
             $this->data_post['gender'] = empty($this->data_post['gender']) ? 0 : (($this->data_post['gender'] == 'f') ? 1 : 2);
             return UserService::AuthUserProgram($this->data_post, 'alipay_openid');
         } else {
@@ -220,7 +220,7 @@ class User extends Common
             $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
             if($result['status'] == 0 && !empty($result['data']))
             {
-                $result['nick_name'] = isset($result['data']['nickName']) ? $result['data']['nickName'] : '';
+                $result['nickname'] = isset($result['data']['nickName']) ? $result['data']['nickName'] : '';
                 $result['avatar'] = isset($result['data']['avatarUrl']) ? $result['data']['avatarUrl'] : '';
                 $result['gender'] = empty($result['data']['gender']) ? 0 : (($result['data']['gender'] == 2) ? 1 : 2);
                 $result['weixin_unionid'] = isset($result['data']['unionId']) ? $result['data']['unionId'] : '';
@@ -313,7 +313,7 @@ class User extends Common
 
             if($result['status'] == 0 && !empty($result['data']))
             {
-                $result['nick_name'] = isset($result['data']['nickname']) ? $result['data']['nickname'] : '';
+                $result['nickname'] = isset($result['data']['nickname']) ? $result['data']['nickname'] : '';
                 $result['avatar'] = isset($result['data']['headimgurl']) ? $result['data']['headimgurl'] : '';
                 $result['gender'] = empty($result['data']['sex']) ? 0 : (($result['data']['sex'] == 2) ? 1 : 2);
                 $result['openid'] = $result['data']['openid'];
@@ -395,7 +395,7 @@ class User extends Common
             $result = json_decode(htmlspecialchars_decode($this->data_post['userinfo']), true);
             if(is_array($result))
             {
-                $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
+                $result['nickname'] = isset($result['nickName']) ? $result['nickName'] : '';
                 $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
                 $result['gender'] = empty($result['gender']) ? 0 : (($result['gender'] == 2) ? 1 : 2);
                 $result['openid'] = $this->data_post['openid'];
@@ -483,7 +483,7 @@ class User extends Common
             $result = (new \base\QQ(MyC('common_app_mini_qq_appid'), MyC('common_app_mini_qq_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
             if(is_array($result))
             {
-                $result['nick_name'] = isset($result['nickName']) ? $result['nickName'] : '';
+                $result['nickname'] = isset($result['nickName']) ? $result['nickName'] : '';
                 $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
                 $result['gender'] = empty($result['gender']) ? 0 : (($result['gender'] == 2) ? 1 : 2);
                 $result['qq_unionid'] = isset($result['unionId']) ? $result['unionId'] : '';

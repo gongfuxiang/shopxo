@@ -1391,7 +1391,7 @@ class UserService
         // 用户信息
         $data = [
             $field              => $params['openid'],
-            'nickname'          => empty($params['nick_name']) ? '' : $params['nick_name'],
+            'nickname'          => empty($params['nickname']) ? '' : $params['nickname'],
             'avatar'            => empty($params['avatar']) ? '' : $params['avatar'],
             'gender'            => empty($params['gender']) ? 0 : intval($params['gender']),
             'province'          => empty($params['province']) ? '' : $params['province'],
