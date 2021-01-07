@@ -84,23 +84,87 @@ return array (
   'plugins_service_users_center_left_menu_handle' => 
   array (
     0 => 'app\\plugins\\invoice\\Hook',
-    1 => 'app\\plugins\\distribution\\Hook',
-    2 => 'app\\plugins\\membershiplevelvip\\Hook',
-    3 => 'app\\plugins\\signin\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
+    3 => 'app\\plugins\\membershiplevelvip\\Hook',
+    4 => 'app\\plugins\\signin\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\invoice\\Hook',
-    1 => 'app\\plugins\\distribution\\Hook',
-    2 => 'app\\plugins\\membershiplevelvip\\Hook',
-    3 => 'app\\plugins\\signin\\Hook',
-    4 => 'app\\plugins\\exchangerate\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
+    3 => 'app\\plugins\\membershiplevelvip\\Hook',
+    4 => 'app\\plugins\\signin\\Hook',
+    5 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_order_status_change_history_success_handle' => 
   array (
     0 => 'app\\plugins\\invoice\\Hook',
-    1 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
+    3 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_css' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\share\\Hook',
+    2 => 'app\\plugins\\membershiplevelvip\\Hook',
+    3 => 'app\\plugins\\exchangerate\\Hook',
+    4 => 'app\\plugins\\limitedtimediscount\\Hook',
+    5 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_js' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\share\\Hook',
+    2 => 'app\\plugins\\exchangerate\\Hook',
+    3 => 'app\\plugins\\limitedtimediscount\\Hook',
+    4 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_navigation_header_handle' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\membershiplevelvip\\Hook',
+    2 => 'app\\plugins\\limitedtimediscount\\Hook',
+    3 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_view_goods_detail_panel_bottom' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_view_buy_group_goods_inside_bottom' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_buy_group_goods_handle' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\membershiplevelvip\\Hook',
     2 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_view_buy_form_inside' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_buy_order_insert_success' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_user_register_end' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+  ),
+  'plugins_service_base_data_return_api_goods_detail' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_service_base_data_return_api_buy_index' => 
+  array (
+    0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_order_aftersale_audit_handle_end' => 
   array (
@@ -135,13 +199,15 @@ return array (
     0 => 'app\\plugins\\distribution\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
     2 => 'app\\plugins\\exchangerate\\Hook',
-    3 => 'app\\plugins\\points\\Hook',
+    3 => 'app\\plugins\\limitedtimediscount\\Hook',
+    4 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_goods_spec_base' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
     2 => 'app\\plugins\\exchangerate\\Hook',
+    3 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_view_goods_detail_panel_price_top' => 
   array (
@@ -158,19 +224,6 @@ return array (
     0 => 'app\\plugins\\distribution\\Hook',
     1 => 'app\\plugins\\membershiplevelvip\\Hook',
   ),
-  'plugins_css' => 
-  array (
-    0 => 'app\\plugins\\share\\Hook',
-    1 => 'app\\plugins\\membershiplevelvip\\Hook',
-    2 => 'app\\plugins\\exchangerate\\Hook',
-    3 => 'app\\plugins\\points\\Hook',
-  ),
-  'plugins_js' => 
-  array (
-    0 => 'app\\plugins\\share\\Hook',
-    1 => 'app\\plugins\\exchangerate\\Hook',
-    2 => 'app\\plugins\\points\\Hook',
-  ),
   'plugins_view_common_bottom' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
@@ -183,16 +236,6 @@ return array (
   'plugins_view_goods_detail_photo_bottom' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
-  ),
-  'plugins_service_navigation_header_handle' => 
-  array (
-    0 => 'app\\plugins\\membershiplevelvip\\Hook',
-    1 => 'app\\plugins\\points\\Hook',
-  ),
-  'plugins_service_buy_group_goods_handle' => 
-  array (
-    0 => 'app\\plugins\\membershiplevelvip\\Hook',
-    1 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_user_login_success_record' => 
   array (
@@ -218,9 +261,17 @@ return array (
   array (
     0 => 'app\\plugins\\exchangerate\\Hook',
   ),
-  'plugins_view_buy_form_inside' => 
+  'plugins_view_goods_detail_base_top' => 
   array (
-    0 => 'app\\plugins\\points\\Hook',
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_view_home_floor_top' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
+  ),
+  'plugins_service_base_data_return_api_index_index' => 
+  array (
+    0 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_view_buy_base_confirm_top' => 
   array (

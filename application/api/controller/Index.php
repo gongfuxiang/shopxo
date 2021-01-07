@@ -14,7 +14,6 @@ use app\service\BaseService;
 use app\service\GoodsService;
 use app\service\BannerService;
 use app\service\AppHomeNavService;
-use app\service\PluginsService;
 use app\service\BuyService;
 
 /**
@@ -50,21 +49,11 @@ class Index extends Common
 	{
 		// 返回数据
 		$result = [
-			'navigation'						=> AppHomeNavService::AppHomeNav(),
-			'banner_list'						=> BannerService::Banner(),
-			'data_list'							=> GoodsService::HomeFloorList(),
-			'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
+			'navigation'		=> AppHomeNavService::AppHomeNav(),
+			'banner_list'		=> BannerService::Banner(),
+			'data_list'			=> GoodsService::HomeFloorList(),
+			'common_cart_total'	=> BuyService::UserCartTotal(['user'=>$this->user]),
 		];
-
-		// 限时秒杀
-		$ret = PluginsService::PluginsControlCall(
-            'limitedtimediscount', 'index', 'index', 'api');
-        if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
-        {
-            $result['plugins_limitedtimediscount_data'] = $ret['data']['data'];
-        }
-
-		// 返回数据
 		return BaseService::DataReturn($result);
 	}
 }

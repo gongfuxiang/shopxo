@@ -127,11 +127,12 @@ class BaseService
         $action_name = strtolower(request()->action());
 
         // 接口返回信息钩子
-        $hook_name = 'plugins_service_base_return_data_'.$module_name.'_'.$controller_name.'_'.$action_name;
+        $hook_name = 'plugins_service_base_data_return_'.$module_name.'_'.$controller_name.'_'.$action_name;
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'data'          => &$data,
+            'params'        => input(),
         ]);
 
         return DataReturn('success', 0, $data);

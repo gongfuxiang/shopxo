@@ -15,7 +15,6 @@ use app\service\GoodsService;
 use app\service\UserService;
 use app\service\PaymentService;
 use app\service\BuyService;
-use app\service\PluginsService;
 
 /**
  * 购买
@@ -73,20 +72,6 @@ class Buy extends Common
                 'base'              => $buy_base,
                 'common_site_type'  => (int) $buy_base['common_site_type'],
             ];
-
-            // 优惠劵
-            $ret = PluginsService::PluginsControlCall('coupon', 'coupon', 'buy', 'api', ['order_goods'=>$buy_goods, 'params'=>$params]);
-            if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
-            {
-                $result['plugins_coupon_data'] = $ret['data']['data'];
-            }
-
-            // 积分
-            $ret = PluginsService::PluginsControlCall('points', 'index', 'buy', 'api', ['order_goods'=>$buy_goods, 'params'=>$params]);
-            if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
-            {
-                $result['plugins_points_data'] = $ret['data']['data'];
-            }
 
             return BaseService::DataReturn($result);
         }

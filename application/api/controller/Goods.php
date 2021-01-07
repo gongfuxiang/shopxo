@@ -13,7 +13,6 @@ namespace app\api\controller;
 use app\service\BaseService;
 use app\service\GoodsService;
 use app\service\BuyService;
-use app\service\PluginsService;
 use app\service\GoodsCommentsService;
 use app\service\ResourcesService;
 use app\service\GoodsFavorService;
@@ -149,22 +148,6 @@ class Goods extends Common
         if($common_site_type == 1)
         {
             $result['nav_submit_text'] = MyC('common_is_exhibition_mode_btn_text', '立即咨询', true);
-        }
-
-        // 限时秒杀
-        $ret = PluginsService::PluginsControlCall(
-            'limitedtimediscount', 'index', 'goods', 'api', ['goods_id'=>$goods_id]);
-        if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
-        {
-            $result['plugins_limitedtimediscount_data'] = $ret['data']['data'];
-        }
-
-        // 优惠券
-        $ret = PluginsService::PluginsControlCall(
-                'coupon', 'index', 'goods', 'api', ['goods_id'=>$goods_id]);
-        if($ret['code'] == 0 && isset($ret['data']['code']) && $ret['data']['code'] == 0)
-        {
-            $result['plugins_coupon_data'] = $ret['data']['data'];
         }
 
         return BaseService::DataReturn($result);
