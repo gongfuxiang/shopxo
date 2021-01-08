@@ -15,7 +15,7 @@
         {{/if}}
         <!-- operation end -->
 
-        {{if !empty($data_list['db_data']) and !empty($data_list['dir_data'])}}
+        {{if !empty($data_list['db_data']) or !empty($data_list['dir_data'])}}
             {{if !empty($data_list['db_data'])}}
                 <!-- 操作提示 -->
                 <div class="am-alert">
