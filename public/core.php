@@ -59,6 +59,12 @@ define('APPLICATION', empty($_REQUEST['application']) ? 'web' : trim($_REQUEST['
 // 请求客户端 [pc, h5, ios, android, alipay, weixin, baidu, toutiao, qq] 默认pc(目前系统为自适应,h5需自行校验)
 define('APPLICATION_CLIENT_TYPE', empty($_REQUEST['application_client_type']) ? 'pc' : trim($_REQUEST['application_client_type']));
 
+// 是否get
+define('IS_GET', isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'GET');
+
+// 是否post
+define('IS_POST', isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST');
+
 // 是否ajax
 define('IS_AJAX', ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])) || isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == 'ajax'));
 

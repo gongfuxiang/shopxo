@@ -53,7 +53,7 @@ class Search extends Common
         $this->data_request['user_id'] = empty($this->user) ? 0 : $this->user['id'];
 
         // 搜索关键字
-        $this->data_request['wd'] = empty($this->data_request['wd']) ? '' : (IS_AJAX ? trim($this->data_request['wd']) : AsciiToStr($this->data_request['wd']));
+        $this->data_request['wd'] = empty($this->data_request['wd']) ? '' : (IS_POST ? trim($this->data_request['wd']) : AsciiToStr($this->data_request['wd']));
     }
 
     /**
