@@ -161,23 +161,34 @@ class User extends Common
      */
     private function PluginsHook()
     {
-        // 顶部钩子
-        $this->assign('plugins_view_user_center_top_data', Hook::listen('plugins_view_user_center_top', ['hook_name'=>'plugins_view_user_center_top', 'is_backend'=>false, 'user'=>$this->user]));
+        $hook_arr = [
+            // 顶部钩子
+            'plugins_view_user_center_top',
 
-        // 基础信息底部钩子
-        $this->assign('plugins_view_user_base_bottom_data', Hook::listen('plugins_view_user_base_bottom', ['hook_name'=>'plugins_view_user_base_bottom', 'is_backend'=>false, 'user'=>$this->user]));
+            // 基础信息底部钩子
+            'plugins_view_user_base_bottom',
 
-        // 聚合内容顶部钩子
-        $this->assign('plugins_view_user_various_top_data', Hook::listen('plugins_view_user_various_top', ['hook_name'=>'plugins_view_user_various_top', 'is_backend'=>false, 'user'=>$this->user]));
+            // 聚合内容顶部钩子
+            'plugins_view_user_various_top',
 
-        // 聚合内容底部钩子
-        $this->assign('plugins_view_user_various_bottom_data', Hook::listen('plugins_view_user_various_bottom', ['hook_name'=>'plugins_view_user_various_bottom', 'is_backend'=>false, 'user'=>$this->user]));
+            // 聚合内容底部钩子
+            'plugins_view_user_various_bottom',
 
-        // 聚合内容里面顶部钩子
-        $this->assign('plugins_view_user_various_inside_top_data', Hook::listen('plugins_view_user_various_inside_top', ['hook_name'=>'plugins_view_user_various_inside_top', 'is_backend'=>false, 'user'=>$this->user]));
+            // 聚合内容里面顶部钩子
+            'plugins_view_user_various_inside_top',
 
-        // 聚合内容里面底部钩子
-        $this->assign('plugins_view_user_various_bottom_data', Hook::listen('plugins_view_user_various_bottom', ['hook_name'=>'plugins_view_user_various_bottom', 'is_backend'=>false, 'user'=>$this->user]));
+            // 聚合内容里面底部钩子
+            'plugins_view_user_various_inside_bottom',
+        ];
+        foreach($hook_arr as $hook_name)
+        {
+            $this->assign($hook_name.'_data', Hook::listen($hook_name,
+                [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => false,
+                    'user'          => $this->user,
+                ]));
+        }
     }
 
     /**

@@ -26,6 +26,16 @@
                 <input type="text" name="{{$data.home_search_keywords.only_tag}}" placeholder="{{$data.home_search_keywords.describe}}" data-validation-message="{{$data.home_search_keywords.error_tips}}" class="am-radius" data-am-tagsinput {{if !empty($data)}}value="{{$data.home_search_keywords.value}}"{{/if}} />
             </div>
 
+            <div class="am-form-group">
+                <label>{{$data.home_search_limit_number.name}}<span class="am-form-group-label-tips">{{$data.home_search_limit_number.describe}}</span></label>
+                <div class="am-input-group am-input-group-sm">
+                    <input type="number" min="0" name="{{$data.home_search_limit_number.only_tag}}" placeholder="{{$data.home_search_limit_number.name}}" data-validation-message="{{$data.home_search_limit_number.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_search_limit_number.value}}"{{/if}} />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="button">条</button>
+                  </span>
+                </div>
+            </div>
+
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <input type="hidden" name="view_type" value="{{$view_type}}" />

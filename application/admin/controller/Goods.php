@@ -14,7 +14,7 @@ use think\facade\Hook;
 use app\service\GoodsService;
 use app\service\RegionService;
 use app\service\BrandService;
-use app\service\GoodsParamsTemplateService;
+use app\service\GoodsParamsService;
 
 /**
  * 商品管理
@@ -211,7 +211,7 @@ class Goods extends Common
             ],
             'field' => 'id,name',
         );
-        $template = GoodsParamsTemplateService::GoodsParamsTemplateList($data_params);
+        $template = GoodsParamsService::GoodsParamsTemplateList($data_params);
         $this->assign('goods_template_list', $template['data']);
 
         // 是否拷贝

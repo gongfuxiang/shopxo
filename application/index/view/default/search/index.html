@@ -42,81 +42,186 @@
         {{/foreach}}
     {{/if}}
 
-    <div class="search-container am-u-sm-12 am-u-md-12 am-padding-left-0 am-padding-right-0" data-category-id="{{$params.category_id}}">
-        <div class="theme-popover">
-            <ul class="select am-cf">
-                <p class="title-tips">
-                    <span>筛选出</span>
-                    <strong>...</strong>
-                    <span>条数据</span>
-                </p>
-                <li class="select-result">
-                    <dl>
-                        <dt>已选</dt>
-                        <dd class="select-no"></dd>
-                        <p class="screening-remove-submit">清除</p>
-                    </dl>
-                </li>
-                <li class="select-list">
-                    <dl id="screening-brand-dl">
-                        <dt class="am-badge am-round">品牌</dt>   
-                         <div class="dd-conent" data-selected-tag="screening-brand">                                        
-                            <dd class="select-all selected"><a href="javascript:;">不限</a></dd>
-                            {{if !empty($brand_list)}}
-                                {{foreach $brand_list as $brand}}
-                                    <dd><a href="javascript:;" data-value="{{$brand.id}}" data-field="brand_id">{{$brand.name}}</a></dd>
-                                {{/foreach}}
-                            {{else /}}
-                                <span class="not-tips">没有相关品牌</span>
-                            {{/if}}
-                         </div>
-                    </dl>
-                </li>
-                <li class="select-list">
-                    <dl id="screening-category-dl">
-                        <dt class="am-badge am-round">分类</dt>
-                        <div class="dd-conent" data-selected-tag="screening-category">
-                            <dd class="select-all selected"><a href="javascript:;">不限</a></dd>
-                            {{if !empty($category_list)}}
-                                {{foreach $category_list as $category}}
-                                    <dd><a href="javascript:;" data-value="{{$category.id}}" data-field="category_id">{{$category.name}}</a></dd>
-                                {{/foreach}}
-                            {{else /}}
-                                <span class="not-tips">没有相关分类</span>
-                            {{/if}}
-                        </div>
-                    </dl>
-                </li>
-                <li class="select-list">
-                    <dl id="screening-price-dl">
-                        <dt class="am-badge am-round">价格</dt>
-                        <div class="dd-conent" data-selected-tag="screening-price">
-                            <dd class="select-all selected"><a href="javascript:;">不限</a></dd>
-                            {{if !empty($screening_price_list)}}
-                                {{foreach $screening_price_list as $screening_price}}
-                                    <dd><a href="javascript:;" data-value="{{$screening_price.id}}" data-field="screening_price_id">{{$screening_price.name}}</a></dd>
-                                {{/foreach}}
-                            {{else /}}
-                                <span class="not-tips">没有相关价格</span>
-                            {{/if}}
-                        </div>
-                    </dl>
-                </li>
+    <div class="search-container am-u-sm-12 am-u-md-12 am-padding-left-0 am-padding-right-0" data-category-id="{{if !empty($params['category_id'])}}{{$params.category_id}}{{/if}}">
+        <!-- 手机模式下基础信息+搜索条件按钮 -->
+        <div class="map-base-tips am-nbfc am-padding-horizontal-xs am-padding-vertical-sm am-show-sm">
+            <p class="am-fl">
+                <span>筛选出</span>
+                <strong class="map-result-count am-text-danger">...</strong>
+                <span>条数据</span>
+            </p>
+            <button class="am-btn am-btn-primary am-icon-th-large map-offcanvas-submit" data-am-offcanvas="{target: '#search-map'}"></button>
+        </div>
 
-                <!-- 搜索页面筛选条件内尾部钩子 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                    <div class="plugins-tag">
-                        <span>plugins_view_search_screen_inside_end</span>
-                    </div>
+        <!-- 搜索条件顶部钩子 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_search_map_top</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_search_map_top_data) and is_array($plugins_view_search_map_top_data)}}
+            {{foreach $plugins_view_search_map_top_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
                 {{/if}}
-                {{if !empty($plugins_view_search_screen_inside_end_data) and is_array($plugins_view_search_screen_inside_end_data)}}
-                    {{foreach $plugins_view_search_screen_inside_end_data as $hook}}
-                        {{if is_string($hook) or is_int($hook)}}
-                            {{$hook|raw}}
+            {{/foreach}}
+        {{/if}}
+
+        <!-- 搜索条件内容、侧边栏内容 -->
+        <div id="search-map" class="am-offcanvas">
+            <div class="am-offcanvas-bar">
+                <div class="am-offcanvas-content">
+                    <ul class="map-item am-list am-list-border am-margin-top-sm am-margin-bottom-0">
+                        <!-- 搜索页面筛选条件内前面钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_search_map_inside_begin</span>
+                            </div>
                         {{/if}}
-                    {{/foreach}}
-                {{/if}}
-            </ul>
+                        {{if !empty($plugins_view_search_map_inside_begin_data) and is_array($plugins_view_search_map_inside_begin_data)}}
+                            {{foreach $plugins_view_search_map_inside_begin_data as $hook}}
+                                {{if is_string($hook) or is_int($hook)}}
+                                    {{$hook|raw}}
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+
+                        <!-- 基础数据 -->
+                        <li class="am-nbfc">
+                            <p class="am-fl am-margin-left-sm">
+                                <span>筛选出</span>
+                                <strong class="map-result-count am-text-danger">...</strong>
+                                <span>条数据</span>
+                            </p>
+                            <span class="map-remove-submit am-fr am-margin-right-sm am-hide">清除</span>
+                        </li>
+
+                        <!-- 搜索页面筛选条件内基础底部钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_search_map_inside_base_bottom</span>
+                            </div>
+                        {{/if}}
+                        {{if !empty($plugins_view_search_map_inside_base_bottom_data) and is_array($plugins_view_search_map_inside_base_bottom_data)}}
+                            {{foreach $plugins_view_search_map_inside_base_bottom_data as $hook}}
+                                {{if is_string($hook) or is_int($hook)}}
+                                    {{$hook|raw}}
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+
+                        <!-- 品牌 -->
+                        {{if !empty($brand_list)}}
+                            <li class="am-nbfc map-brand-container" data-field="brand_ids">
+                                <div class="map-left am-text-center am-fl">品牌</div>
+                                <div class="map-right map-images-text-items am-fr am-nbfc">
+                                    <ul class="am-nbfc">
+                                        {{foreach $brand_list as $v}}
+                                            <li data-value="{{$v.id}}" title="{{$v.name}}">
+                                                {{if empty($v['logo'])}}
+                                                    {{$v.name}}
+                                                {{else /}}
+                                                    <img src="{{$v.logo}}" alt="{{$v.name}}" />
+                                                {{/if}}
+                                            </li>
+                                        {{/foreach}}
+                                    </ul>
+                                    <div class="map-more-submit am-hide">
+                                        <span>更多</span>
+                                        <i class="am-icon-angle-down"></i>
+                                    </div>
+                                </div>
+                            </li>
+                        {{/if}}
+
+                        <!-- 分类 -->
+                        {{if !empty($category_list)}}
+                            <li class="am-nbfc map-category-container" data-field="category_ids">
+                                <div class="map-left am-text-center am-fl">分类</div>
+                                <div class="map-right map-text-items am-fr am-nbfc">
+                                    <ul class="am-nbfc">
+                                        {{foreach $category_list as $v}}
+                                            <li data-value="{{$v.id}}" title="{{$v.name}}">{{$v.name}}</li>
+                                        {{/foreach}}
+                                    </ul>
+                                    <div class="map-more-submit am-hide">
+                                        <span>更多</span>
+                                        <i class="am-icon-angle-down"></i>
+                                    </div>
+                                </div>
+                            </li>
+                        {{/if}}
+
+                        <!-- 价格 -->
+                        {{if !empty($screening_price_list)}}
+                            <li class="am-nbfc screening-price-container" data-field="screening_price_values">
+                                <div class="map-left am-text-center am-fl">价格</div>
+                                <div class="map-right map-text-items am-fr am-nbfc">
+                                    <ul class="am-nbfc">
+                                        {{foreach $screening_price_list as $v}}
+                                            <li data-value="{{$v.min_price}}-{{$v.max_price}}" title="{{$v.name}}">{{$v.name}}</li>
+                                        {{/foreach}}
+                                    </ul>
+                                    <div class="map-more-submit am-hide">
+                                        <span>更多</span>
+                                        <i class="am-icon-angle-down"></i>
+                                    </div>
+                                </div>
+                            </li>
+                        {{/if}}
+
+                        <!-- 属性 -->
+                        {{if !empty($goods_params_list)}}
+                            <li class="am-nbfc goods-params-container" data-field="goods_params_values">
+                                <div class="map-left am-text-center am-fl">属性</div>
+                                <div class="map-right map-text-items am-fr am-nbfc">
+                                    <ul class="am-nbfc">
+                                        {{foreach $goods_params_list as $v}}
+                                            <li data-value="{{$v}}" title="{{$v}}">{{$v}}</li>
+                                        {{/foreach}}
+                                    </ul>
+                                    <div class="map-more-submit am-hide">
+                                        <span>更多</span>
+                                        <i class="am-icon-angle-down"></i>
+                                    </div>
+                                </div>
+                            </li>
+                        {{/if}}
+
+                        <!-- 规格 -->
+                        {{if !empty($goods_spec_list)}}
+                            <li class="am-nbfc goods-spec-container" data-field="goods_spec_values">
+                                <div class="map-left am-text-center am-fl">规格</div>
+                                <div class="map-right map-text-items am-fr am-nbfc">
+                                    <ul class="am-nbfc">
+                                        {{foreach $goods_spec_list as $v}}
+                                            <li data-value="{{$v}}" title="{{$v}}">{{$v}}</li>
+                                        {{/foreach}}
+                                    </ul>
+                                    <div class="map-more-submit am-hide">
+                                        <span>更多</span>
+                                        <i class="am-icon-angle-down"></i>
+                                    </div>
+                                </div>
+                            </li>
+                        {{/if}}
+
+                        <!-- 搜索页面筛选条件内尾部钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_search_map_inside_end</span>
+                            </div>
+                        {{/if}}
+                        {{if !empty($plugins_view_search_map_inside_end_data) and is_array($plugins_view_search_map_inside_end_data)}}
+                            {{foreach $plugins_view_search_map_inside_end_data as $hook}}
+                                {{if is_string($hook) or is_int($hook)}}
+                                    {{$hook|raw}}
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!-- 搜索页面搜索导航条顶部钩子 -->
@@ -133,7 +238,8 @@
             {{/foreach}}
         {{/if}}
 
-        <div class="search-content search-nav">
+        <!-- 排序方式 -->
+        <div class="search-nav am-margin-top-sm">
             <ul class="sort-nav" data-am-sticky="{animation: 'slide-top'}">
                 <!-- 搜索页面搜索导航条内前面钩子 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
@@ -179,7 +285,7 @@
                     </a>
                 </li>
 
-                <!-- 搜索页面搜索导航条内尾部钩子 -->
+                <!-- 搜索页面排序导航条内尾部钩子 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                     <div class="plugins-tag">
                         <span>plugins_view_search_nav_inside_end</span>
@@ -210,7 +316,7 @@
         {{/if}}
 
         <!-- 数据容器 -->
-        <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 search-list"></ul>
+        <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 am-margin-top-sm search-list"></ul>
 
         <!-- 搜索页面数据容器底部钩子 -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
@@ -236,7 +342,7 @@
         <div class="table-no" style="display:none;"><i class="am-icon-warning"></i> 没有相关数据</div>
 
         <!-- 分页 -->
-        <button type="button" class="am-btn am-btn-default am-btn-block search-pages-submit" data-url="{{:MyUrl('index/search/goodslist')}}" style="display:none;">加载更多 <i class="am-icon-angle-double-down"></i></button>
+        <button type="button" class="am-btn am-btn-default am-btn-block am-margin-vertical-sm search-pages-submit" data-url="{{:MyUrl('index/search/goodslist')}}" style="display:none;">加载更多 <i class="am-icon-angle-double-down"></i></button>
     </div>
 
     <!-- 搜索页面顶部内部结构里面钩子 -->

@@ -109,52 +109,6 @@ class BrandService
     }
 
     /**
-     * 分类下品牌列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function CategoryBrandList($params = [])
-    {
-        $brand_where = ['is_enable'=>1];
-
-        // 分类id
-        if(!empty($params['category_id']))
-        {
-            // 根据分类获取品牌id
-            $category_ids = GoodsService::GoodsCategoryItemsIds([$params['category_id']], 1);
-            $category_ids[] = $params['category_id'];
-            $where = ['g.is_delete_time'=>0, 'g.is_shelves'=>1, 'gci.category_id'=>$category_ids];
-            $brand_where['id'] = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field('g.brand_id')->where($where)->group('g.brand_id')->column('brand_id');
-        }
-
-        // 关键字
-        if(!empty($params['keywords']))
-        {
-            $where = [
-                ['title', 'like', '%'.$params['keywords'].'%']
-            ];
-            $brand_where['id'] = Db::name('Goods')->where($where)->group('brand_id')->column('brand_id');
-        }
-
-        // 获取品牌列表
-        $brand = Db::name('Brand')->where($brand_where)->field('id,name,logo,website_url')->select();
-        if(!empty($brand))
-        {
-            foreach($brand as &$v)
-            {
-                $v['logo_old'] = $v['logo'];
-                $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
-                $v['website_url'] = empty($v['website_url']) ? null : $v['website_url'];
-            }
-        }
-        return $brand;
-    }
-
-    /**
      * 获取品牌名称
      * @author   Devil
      * @blog    http://gong.gg/

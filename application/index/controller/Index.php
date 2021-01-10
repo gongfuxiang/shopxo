@@ -96,32 +96,25 @@ class Index extends Common
      */
     private function PluginsHook($params = [])
     {
-        // 楼层数据顶部钩子
-        $hook_name = 'plugins_view_home_floor_top';
-        $this->assign($hook_name.'_data', Hook::listen($hook_name,
-            [
-                'hook_name'     => $hook_name,
-                'is_backend'    => false,
-                'user'          => $this->user,
-            ]));
+        $hook_arr = [
+            // 楼层数据顶部钩子
+            'plugins_view_home_floor_top',
 
-        // 楼层数据底部钩子
-        $hook_name = 'plugins_view_home_floor_bottom';
-        $this->assign($hook_name.'_data', Hook::listen($hook_name,
-            [
-                'hook_name'     => $hook_name,
-                'is_backend'    => false,
-                'user'          => $this->user,
-            ]));
+            // 楼层数据底部钩子
+            'plugins_view_home_floor_bottom',
 
-        // 轮播混合数据底部钩子
-        $hook_name = 'plugins_view_home_banner_mixed_bottom';
-        $this->assign($hook_name.'_data', Hook::listen($hook_name,
-            [
-                'hook_name'     => $hook_name,
-                'is_backend'    => false,
-                'user'          => $this->user,
-            ]));
+            // 轮播混合数据底部钩子
+            'plugins_view_home_banner_mixed_bottom',
+        ];
+        foreach($hook_arr as $hook_name)
+        {
+            $this->assign($hook_name.'_data', Hook::listen($hook_name,
+                [
+                    'hook_name'    => $hook_name,
+                    'is_backend'    => false,
+                    'user'          => $this->user,
+                ]));
+        }
     }
 }
 ?>

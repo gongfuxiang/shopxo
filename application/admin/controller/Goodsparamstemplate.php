@@ -11,7 +11,7 @@
 namespace app\admin\controller;
 
 use think\facade\Hook;
-use app\service\GoodsParamsTemplateService;
+use app\service\GoodsParamsService;
 
 /**
  * 商品参数管理
@@ -54,7 +54,7 @@ class GoodsParamsTemplate extends Common
 	public function Index()
 	{
         // 总数
-        $total = GoodsParamsTemplateService::GoodsParamsTemplateTotal($this->form_where);
+        $total = GoodsParamsService::GoodsParamsTemplateTotal($this->form_where);
 
         // 分页
         $page_params = [
@@ -73,7 +73,7 @@ class GoodsParamsTemplate extends Common
             'n'             => $this->page_size,
             'order_by'      => $this->form_order_by['data'],
         ];
-        $ret = GoodsParamsTemplateService::GoodsParamsTemplateList($data_params);
+        $ret = GoodsParamsService::GoodsParamsTemplateList($data_params);
 
         // 基础参数赋值
         $this->assign('params', $this->data_request);
@@ -105,7 +105,7 @@ class GoodsParamsTemplate extends Common
                 'n'             => 1,
                 'where'         => $where,
             ];
-            $ret = GoodsParamsTemplateService::GoodsParamsTemplateList($data_params);
+            $ret = GoodsParamsService::GoodsParamsTemplateList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
             $this->assign('data', $data);
 
@@ -142,7 +142,7 @@ class GoodsParamsTemplate extends Common
                 'where' => ['id'=>intval($params['id'])],
                 'field' => '*',
             );
-            $ret = GoodsParamsTemplateService::GoodsParamsTemplateList($data_params);
+            $ret = GoodsParamsService::GoodsParamsTemplateList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
 
@@ -188,7 +188,7 @@ class GoodsParamsTemplate extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return GoodsParamsTemplateService::GoodsParamsTemplateSave($params);
+        return GoodsParamsService::GoodsParamsTemplateSave($params);
 	}
 
 	/**
@@ -210,7 +210,7 @@ class GoodsParamsTemplate extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return GoodsParamsTemplateService::GoodsParamsTemplateDelete($params);
+        return GoodsParamsService::GoodsParamsTemplateDelete($params);
 	}
 
     /**
@@ -231,7 +231,7 @@ class GoodsParamsTemplate extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return GoodsParamsTemplateService::GoodsParamsTemplateStatusUpdate($params);
+        return GoodsParamsService::GoodsParamsTemplateStatusUpdate($params);
     }
 }
 ?>

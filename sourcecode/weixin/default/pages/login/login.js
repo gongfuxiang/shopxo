@@ -224,8 +224,10 @@ Page({
         "province": this.data.user.province || '',
         "city": this.data.user.city || '',
         "gender": this.data.user.gender || 0,
+        "weixin_unionid": this.data.user.weixin_unionid || '',
         "referrer": referrer || 0
       };
+
       wx.showLoading({ title: "处理中..." });
       var self = this;
       wx.request({

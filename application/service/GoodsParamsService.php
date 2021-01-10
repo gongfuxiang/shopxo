@@ -21,7 +21,7 @@ use think\facade\Hook;
  * @date    2020-11-27
  * @desc    description
  */
-class GoodsParamsTemplateService
+class GoodsParamsService
 {
     /**
      * 列表

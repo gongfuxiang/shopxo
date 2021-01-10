@@ -628,18 +628,9 @@ class User extends Common
         }
 
         // 用户信息处理
-        $data = [
-            'openid'    => $this->data_post['openid'],
-            'mobile'    => $mobile,
-            'nickname'  => isset($this->data_post['nickname']) ? $this->data_post['nickname'] : '',
-            'avatar'    => isset($this->data_post['avatar']) ? $this->data_post['avatar'] : '',
-            'province'  => isset($this->data_post['province']) ? $this->data_post['province'] : '',
-            'city'      => isset($this->data_post['city']) ? $this->data_post['city'] : '',
-            'gender'    => isset($this->data_post['gender']) ? intval($this->data_post['gender']) : '',
-            'referrer'  => isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0,
-            'is_onekey_mobile_bind' => 1,
-        ];
-        return UserService::AuthUserProgram($data, APPLICATION_CLIENT_TYPE.'_openid');
+        $this->data_post['mobile'] = $mobile;
+        $this->data_post['is_onekey_mobile_bind'] = 1;
+        return UserService::AuthUserProgram($this->data_post, APPLICATION_CLIENT_TYPE.'_openid');
     }
 }
 ?>

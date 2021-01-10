@@ -16,7 +16,7 @@ use app\service\ResourcesService;
 use app\service\BrandService;
 use app\service\RegionService;
 use app\service\WarehouseGoodsService;
-use app\service\GoodsParamsTemplateService;
+use app\service\GoodsParamsService;
 
 /**
  * 商品服务层
@@ -142,7 +142,7 @@ class GoodsService
         // 排序
         $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
 
-        $field = 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc';
+        $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc' : $params['field'];
         $data = Db::name('GoodsCategory')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
         return self::GoodsCategoryDataDealWith($data);
     }
@@ -361,6 +361,10 @@ class GoodsService
      */
     public static function GoodsCategoryItemsIds($ids = [], $is_enable = null, $order_by = 'sort asc')
     {
+        if(!is_array($ids))
+        {
+            $ids = explode(',', $ids);
+        }
         $where = ['pid'=>$ids];
         if($is_enable !== null)
         {
@@ -1224,7 +1228,7 @@ class GoodsService
         Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->delete();
 
         // 获取参数解析并添加
-        $config = GoodsParamsTemplateService::GoodsParamsTemplateHandle($params);
+        $config = GoodsParamsService::GoodsParamsTemplateHandle($params);
         if($config['code'] == 0 && !empty($config['data']))
         {
             foreach($config['data'] as &$v)
@@ -1773,41 +1777,56 @@ class GoodsService
             $params['ids'] = explode(',', $params['ids']);
         }
 
-        // 开启事务
+        // 启动事务
         Db::startTrans();
 
-        // 删除商品
-        if(Db::name('Goods')->where(['id'=>$params['ids']])->delete())
-        {
+        // 捕获异常
+        try {
+            // 删除商品
+            if(!Db::name('Goods')->where(['id'=>$params['ids']])->delete())
+            {
+                throw new \Exception('商品删除失败');
+            }
             // 商品规格
             if(Db::name('GoodsSpecType')->where(['goods_id'=>$params['ids']])->delete() === false)
             {
-                Db::rollback();
-                return DataReturn('规格类型删除失败', -100);
+                throw new \Exception('规格类型删除失败');
             }
             if(Db::name('GoodsSpecValue')->where(['goods_id'=>$params['ids']])->delete() === false)
             {
-                Db::rollback();
-                return DataReturn('规格值删除失败', -100);
+                throw new \Exception('规格值删除失败');
             }
             if(Db::name('GoodsSpecBase')->where(['goods_id'=>$params['ids']])->delete() === false)
             {
-                Db::rollback();
-                return DataReturn('规格基础删除失败', -100);
+                throw new \Exception('规格基础删除失败');
             }
 
             // 相册
             if(Db::name('GoodsPhoto')->where(['goods_id'=>$params['ids']])->delete() === false)
             {
-                Db::rollback();
-                return DataReturn('相册删除失败', -100);
+                throw new \Exception('相册删除失败');
             }
 
             // app内容
             if(Db::name('GoodsContentApp')->where(['goods_id'=>$params['ids']])->delete() === false)
             {
-                Db::rollback();
-                return DataReturn('相册删除失败', -100);
+                throw new \Exception('手机端内容删除失败');
+            }
+
+            // 商品参数
+            if(Db::name('GoodsParams')->where(['goods_id'=>$params['ids']])->delete() === false)
+            {
+                throw new \Exception('规格参数删除失败');
+            }
+
+            // 商品关联仓库信息+库存
+            if(Db::name('WarehouseGoods')->where(['goods_id'=>$params['ids']])->delete() === false)
+            {
+                throw new \Exception('仓库商品删除失败');
+            }
+            if(Db::name('WarehouseGoodsSpec')->where(['goods_id'=>$params['ids']])->delete() === false)
+            {
+                throw new \Exception('仓库商品库存删除失败');
             }
 
             // 商品删除钩子
@@ -1822,10 +1841,10 @@ class GoodsService
             // 提交事务
             Db::commit();
             return DataReturn('删除成功', 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-
-        Db::rollback();
-        return DataReturn('删除失败', -100);
     }
 
     /**
