@@ -30,7 +30,7 @@ Page({
     this.setData({
       params: params,
       post_data: {
-        keywords: params.keywords || ''
+        wd: params.keywords || ''
       }
     });
   },

@@ -195,6 +195,16 @@ class SearchService
             }
         }
 
+        // 指定价格筛选
+        if(!empty($params['min_price']))
+        {
+            $where_base[] = ['g.min_price', 'EGT', $params['min_price']];
+        }
+        if(!empty($params['max_price']))
+        {
+            $where_base[] = ['g.min_price', 'LT', $params['max_price']];
+        }
+
         return [
             'base'              => $where_base,
             'keywords'          => $where_keywords,
