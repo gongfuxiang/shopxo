@@ -13,6 +13,7 @@ namespace app\service;
 use think\Db;
 use think\facade\Hook;
 use app\service\GoodsService;
+use app\service\BrandService;
 use app\service\ResourcesService;
 
 /**
@@ -134,9 +135,22 @@ class SearchService
         }
 
         // 品牌
+        $brand_ids = [];
+        if(!empty($params['brand_id']))
+        {
+            $brand_ids[] = intval($params['brand_id']);
+        }
         if(!empty($params['brand_ids']))
         {
-            $where_base[] = ['g.brand_id', 'in', $params['brand_ids']];
+            if(!is_array($params['brand_ids']))
+            {
+                $params['brand_ids'] = explode(',', $params['brand_ids']);
+            }
+            $brand_ids = array_merge($brand_ids, $params['brand_ids']);
+        }
+        if(!empty($brand_ids))
+        {
+            $where_base[] = ['g.brand_id', 'in', array_unique($brand_ids)];
         }
 
         // 分类id
@@ -326,16 +340,14 @@ class SearchService
         }
 
         // 获取品牌列表
-        $brand = Db::name('Brand')->where($brand_where)->field('id,name,logo,website_url')->select();
-        if(!empty($brand))
-        {
-            foreach($brand as &$v)
-            {
-                $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
-                $v['website_url'] = empty($v['website_url']) ? null : $v['website_url'];
-            }
-        }
-        return $brand;
+        $data_params = [
+            'field'     => 'id,name,logo,website_url',
+            'where'     => $brand_where,
+            'm'         => 0,
+            'n'         => 0,
+        ];
+        $ret = BrandService::BrandList($data_params);
+        return $ret['data'];
     }
 
     /**
@@ -415,6 +427,44 @@ class SearchService
         })->where(function($query) use($where_screening_price) {
             $query->whereOr($where_screening_price);
         })->group('gsv.value')->column('gsv.value');
+    }
+
+    /**
+     * 搜索条件基础数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-11
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SearchMapInfo($params = [])
+    {
+        // 分类
+        $category = empty($params['category_id']) ? [] : GoodsService::GoodsCategoryRow(['id'=>intval($params['category_id']), 'field'=>'name,vice_name,describe,seo_title,seo_keywords,seo_desc']);
+
+        // 品牌
+        $brand = [];
+        if(!empty($params['brand_id']))
+        {
+            $data_params = [
+                'field'     => 'id,name,describe,logo,website_url',
+                'where'     => ['id'=>intval($params['brand_id'])],
+                'm'         => 0,
+                'n'         => 1,
+            ];
+            $ret = BrandService::BrandList($data_params);
+            if(!empty($ret['data']) && !empty($ret['data'][0]))
+            {
+                $brand = $ret['data'][0];
+            }
+        }
+
+        return [
+            'category'  => $category,
+            'brand'     => $brand,
+        ];
+        
     }
 }
 ?>

@@ -21,6 +21,7 @@ function GetGoodsList(page)
     var data = {
         "wd": $('#search-input').val() || '',
         "category_id": $('.search-container').data('category-id') || 0,
+        "brand_id": $('.search-container').data('brand-id') || 0,
         "page": page || parseInt($('.search-pages-submit').attr('data-page')) || 1,
         "order_by_field": $('.sort-nav li.active').attr('data-field') || 'default',
         "order_by_type": $('.sort-nav li.active').attr('data-type') == 'asc' ? 'desc' : 'asc',
@@ -134,13 +135,16 @@ $(function()
     // 筛选操作
     $(document).on('click', '.map-item>li>.map-right>ul>li', function()
     {
-        if($(this).hasClass('active'))
+        if(!$(this).hasClass('disabled'))
         {
-            $(this).removeClass('active');
-        } else {
-            $(this).addClass('active');
+            if($(this).hasClass('active'))
+            {
+                $(this).removeClass('active');
+            } else {
+                $(this).addClass('active');
+            }
+            GetGoodsList(1);
         }
-        GetGoodsList(1);
     });
 
     // 清除条件

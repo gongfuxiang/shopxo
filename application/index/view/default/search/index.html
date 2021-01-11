@@ -42,7 +42,7 @@
         {{/foreach}}
     {{/if}}
 
-    <div class="search-container am-u-sm-12 am-u-md-12 am-padding-left-0 am-padding-right-0" data-category-id="{{if !empty($params['category_id'])}}{{$params.category_id}}{{/if}}">
+    <div class="search-container am-u-sm-12 am-u-md-12 am-padding-left-0 am-padding-right-0" data-category-id="{{if !empty($params['category_id'])}}{{$params.category_id}}{{/if}}" data-brand-id="{{if !empty($params['brand_id'])}}{{$params.brand_id}}{{/if}}">
         <!-- 手机模式下基础信息+搜索条件按钮 -->
         <div class="map-base-tips am-nbfc am-padding-horizontal-xs am-padding-vertical-sm am-show-sm">
             <p class="am-fl">
@@ -113,24 +113,41 @@
                         <!-- 品牌 -->
                         {{if !empty($brand_list)}}
                             <li class="am-nbfc map-brand-container" data-field="brand_ids">
-                                <div class="map-left am-text-center am-fl">品牌</div>
-                                <div class="map-right map-images-text-items am-fr am-nbfc">
-                                    <ul class="am-nbfc">
-                                        {{foreach $brand_list as $v}}
-                                            <li data-value="{{$v.id}}" title="{{$v.name}}">
-                                                {{if empty($v['logo'])}}
-                                                    {{$v.name}}
-                                                {{else /}}
-                                                    <img src="{{$v.logo}}" alt="{{$v.name}}" />
-                                                {{/if}}
-                                            </li>
-                                        {{/foreach}}
-                                    </ul>
-                                    <div class="map-more-submit am-hide">
-                                        <span>更多</span>
-                                        <i class="am-icon-angle-down"></i>
+                                {{if empty($search_map_info['brand'])}}
+                                    <div class="map-left am-text-center am-fl">品牌</div>
+                                    <div class="map-right map-images-text-items am-fr am-nbfc">
+                                        <ul class="am-nbfc">
+                                            {{foreach $brand_list as $v}}
+                                                <li data-value="{{$v.id}}" title="{{$v.name}}" {{if isset($params['brand_id']) and $params['brand_id'] eq $v['id']}}class="active disabled"{{/if}}>
+                                                    {{if empty($v['logo'])}}
+                                                        {{$v.name}}
+                                                    {{else /}}
+                                                        <img src="{{$v.logo}}" alt="{{$v.name}}" />
+                                                    {{/if}}
+                                                </li>
+                                            {{/foreach}}
+                                        </ul>
+                                        <div class="map-more-submit am-hide">
+                                            <span>更多</span>
+                                            <i class="am-icon-angle-down"></i>
+                                        </div>
                                     </div>
-                                </div>
+                                {{else /}}
+                                    <div class="brand-info">
+                                        <div class="map-left am-text-center am-fl">品牌</div>
+                                        <div class="map-right map-images-text-items am-fr am-nbfc">
+                                            {{if empty($search_map_info['brand']['logo'])}}
+                                                <p class="info-logo-empty am-fl am-text-center">{{$search_map_info.brand.name}}</p>
+                                            {{else /}}
+                                                <img src="{{$search_map_info.brand.logo}}" alt="{{$search_map_info.brand.name}}" class="info-logo am-img-thumbnail am-fl" />
+                                            {{/if}}
+                                            <div class="am-fr info-right">
+                                                <p class="info-name">{{$search_map_info.brand.name}}</p>
+                                                <p class="info-desc am-margin-top-xs am-text-truncate-2">{{$search_map_info.brand.describe}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{/if}}
                             </li>
                         {{/if}}
 

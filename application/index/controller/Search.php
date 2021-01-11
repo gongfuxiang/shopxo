@@ -13,7 +13,6 @@ namespace app\index\controller;
 use think\facade\Hook;
 use app\service\SeoService;
 use app\service\SearchService;
-use app\service\GoodsService;
 
 /**
  * 搜索
@@ -35,9 +34,6 @@ class Search extends Common
     public function __construct()
     {
         parent::__construct();
-
-        // 参数初始化
-        $this->ParamsInit();
     }
 
     /**
@@ -70,9 +66,16 @@ class Search extends Common
         {
             return redirect(MyUrl('index/search/index', ['wd'=>StrToAscii($keywords)]));
         } else {
+            // 参数初始化
+            $this->ParamsInit();
+
             // 品牌列表
             $brand_list = SearchService::CategoryBrandList($this->data_request);
             $this->assign('brand_list', $brand_list);
+
+            // 指定数据
+            $search_map_info = SearchService::SearchMapInfo($this->data_request);
+            $this->assign('search_map_info', $search_map_info);
 
             // 商品分类
             $category_list = SearchService::GoodsCategoryList($this->data_request);
@@ -94,7 +97,7 @@ class Search extends Common
             $this->assign('params', $this->data_request);
 
             // seo
-            $this->SetSeo();
+            $this->SetSeo($search_map_info);
 
             // 钩子
             $this->PluginsHook();
@@ -105,31 +108,33 @@ class Search extends Common
 
     /**
      * seo设置
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-06-02T21:29:04+0800
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-11
+     * @desc    description
+     * @param   [array]           $data [条件基础数据]
      */
-    private function SetSeo()
+    private function SetSeo($data = [])
     {
-        $seo_title = $this->data_request['wd'];
-        if(!empty($this->data_request['category_id']))
-        {
-            $category = GoodsService::GoodsCategoryRow(['id'=>$this->data_request['category_id'], 'field'=>'name,seo_title,seo_keywords,seo_desc']);
-            if(!empty($category))
-            {
-                $seo_title = empty($category['seo_title']) ? $category['name'] : $category['seo_title'];
+        // 默认关键字
+        $seo_title = empty($this->data_request['wd']) ? '' : $this->data_request['wd'];
 
-                // 关键字和描述
-                if(!empty($category['seo_keywords']))
-                {
-                    $this->assign('home_seo_site_keywords', $category['seo_keywords']);
-                }
-                if(!empty($category['seo_desc']))
-                {
-                    $this->assign('home_seo_site_description', $category['seo_desc']);
-                }
-            }                
+        // 分类、品牌
+        $seo_data = empty($data['category']) ? (empty($data['brand']) ? [] : $data['brand']) : $data['category'];
+        if(!empty($seo_data))
+        {
+            $seo_title = empty($seo_data['seo_title']) ? $seo_data['name'] : $seo_data['seo_title'];
+
+            // 关键字和描述
+            if(!empty($seo_data['seo_keywords']))
+            {
+                $this->assign('home_seo_site_keywords', $seo_data['seo_keywords']);
+            }
+            if(!empty($seo_data['seo_desc']))
+            {
+                $this->assign('home_seo_site_description', $seo_data['seo_desc']);
+            }
         }
         $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle(empty($seo_title) ? '商品搜索' : $seo_title, 1));
     }
@@ -149,6 +154,9 @@ class Search extends Common
         {
             $this->error('非法访问');
         }
+
+        // 参数初始化
+        $this->ParamsInit();
 
         // 获取商品列表
         $ret = SearchService::GoodsList($this->data_request);

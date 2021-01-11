@@ -41,7 +41,22 @@ class BrandService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         // 获取列表
-        $data = Db::name('Brand')->where($where)->order($order_by)->limit($m, $n)->select();
+        $data = self::DataHandle(Db::name('Brand')->where($where)->field($field)->order($order_by)->limit($m, $n)->select());
+        
+        return DataReturn('处理成功', 0, $data);
+    }
+
+    /**
+     * 数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-11
+     * @desc    description
+     * @param   [array]          $data [列表数据]
+     */
+    public static function DataHandle($data)
+    {
         if(!empty($data))
         {
             // 分类名称
@@ -64,8 +79,13 @@ class BrandService
                 // logo
                 if(isset($v['logo']))
                 {
-                    $v['logo_old'] = $v['logo'];
                     $v['logo'] =  ResourcesService::AttachmentPathViewHandle($v['logo']);
+                }
+
+                // 品牌官方地址
+                if(isset($v['website_url']))
+                {
+                    $v['website_url'] = empty($v['website_url']) ? null : $v['website_url'];
                 }
 
                 // 时间
@@ -79,7 +99,7 @@ class BrandService
                 }
             }
         }
-        return DataReturn('处理成功', 0, $data);
+        return $data;
     }
 
     /**
@@ -142,6 +162,13 @@ class BrandService
                 'error_msg'         => '名称格式 2~30 个字符',
             ],
             [
+                'checked_type'      => 'length',
+                'key_name'          => 'describe',
+                'checked_data'      => '230',
+                'is_checked'        => 1,
+                'error_msg'         => '描述最多200个字符',
+            ],
+            [
                 'checked_type'      => 'unique',
                 'key_name'          => 'name',
                 'checked_data'      => 'Brand',
@@ -201,6 +228,7 @@ class BrandService
         // 数据
         $data = [
             'name'              => $params['name'],
+            'describe'          => $params['describe'],
             'logo'              => $attachment['data']['logo'],
             'website_url'       => empty($params['website_url']) ? '' : $params['website_url'],
             'sort'              => intval($params['sort']),

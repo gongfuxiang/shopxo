@@ -11,7 +11,7 @@
 			</legend>
 			<div class="am-form-group">
 				<label>名称</label>
-				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
+				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
 			</div>
 			<div class="am-form-group">
 				<label>品牌分类</label>
@@ -24,11 +24,16 @@
 
 			<div class="am-form-group">
 				<label>官网地址<span class="am-form-group-label-tips">带http://或https://</span></label>
-				<input type="url" placeholder="官网地址" name="website_url"  data-validation-message="官网地址格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.website_url}}"{{/if}} />
+				<input type="url" placeholder="官网地址" name="website_url"  data-validation-message="官网地址格式有误" class="am-radius" {{if !empty($data['website_url'])}} value="{{$data.website_url}}"{{/if}} />
+			</div>
+
+			<div class="am-form-group">
+				<label>描述</label>
+				<textarea rows="5" name="describe" maxlength="230" class="am-radius" placeholder="描述" data-validation-message="描述最多230个字符">{{if !empty($data['describe'])}} {{$data.describe}}{{/if}}</textarea>
 			</div>
 
 			<div class="am-form-group am-form-file">
-				<label class="block">LOGO</label>
+				<label class="block">LOGO<span class="am-form-group-label-tips">建议160x62像素</span></label>
 				<ul class="plug-file-upload-view brand-logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
 					{{if !empty($data['logo'])}}
 						<li>

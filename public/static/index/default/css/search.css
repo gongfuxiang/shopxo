@@ -178,6 +178,38 @@
 }
 
 /**
+ * 条件指定品牌信息
+ */
+.brand-info .map-images-text-items {
+    padding: 15px 15px 0 15px;
+    height: 84px;
+}
+.brand-info .info-logo,
+.brand-info .info-logo-empty {
+    width: 150px;
+    height: 54px;
+    border: 1px solid #eee;
+}
+.brand-info .info-logo-empty {
+    line-height: 46px;
+}
+.brand-info .info-right {
+    width: calc(100% - 165px);
+}
+.brand-info .info-name,
+.brand-info .info-desc {
+    line-height: 16px;
+}
+.brand-info .info-desc {
+    color: #999;
+}
+@media only screen and (min-width:641px) {
+    .brand-info .map-left {
+        line-height: 84px !important;
+    }
+}
+
+/**
  * 条件基础信息
  */
 .map-base-tips {
