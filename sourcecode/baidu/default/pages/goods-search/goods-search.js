@@ -91,6 +91,7 @@ Page({
     var post_data = this.data.post_data;
     post_data['page'] = this.data.data_page;
     post_data['category_id'] = params['category_id'] || 0;
+    post_data['brand_id'] = params['brand_id'] || 0;
 
     // 获取数据
     swan.request({

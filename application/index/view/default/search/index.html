@@ -136,14 +136,19 @@
                                     <div class="brand-info">
                                         <div class="map-left am-text-center am-fl">品牌</div>
                                         <div class="map-right map-images-text-items am-fr am-nbfc">
-                                            {{if empty($search_map_info['brand']['logo'])}}
-                                                <p class="info-logo-empty am-fl am-text-center">{{$search_map_info.brand.name}}</p>
-                                            {{else /}}
-                                                <img src="{{$search_map_info.brand.logo}}" alt="{{$search_map_info.brand.name}}" class="info-logo am-img-thumbnail am-fl" />
-                                            {{/if}}
+                                            <a {{if empty($search_map_info['brand']['website_url'])}}href="javascript:;"{{else /}}href="{{$search_map_info.brand.website_url}}" target="_blank"{{/if}} title="{{$search_map_info.brand.name}}">
+                                                {{if empty($search_map_info['brand']['logo'])}}
+                                                    <p class="info-logo-empty am-fl am-text-center">{{$search_map_info.brand.name}}</p>
+                                                {{else /}}
+                                                    <img src="{{$search_map_info.brand.logo}}" alt="{{$search_map_info.brand.name}}" class="info-logo am-img-thumbnail am-fl" />
+                                                {{/if}}
+                                            </a>
                                             <div class="am-fr info-right">
-                                                <p class="info-name">{{$search_map_info.brand.name}}</p>
-                                                <p class="info-desc am-margin-top-xs am-text-truncate-2">{{$search_map_info.brand.describe}}</p>
+                                                <!-- logo为空则不显示名称、无logo会使用名称当做logo展示 -->
+                                                {{if !empty($search_map_info['brand']['logo'])}}
+                                                    <p class="info-name am-margin-bottom-xs">{{$search_map_info.brand.name}}</p>
+                                                {{/if}}
+                                                <p class="info-desc am-text-truncate-2">{{$search_map_info.brand.describe}}</p>
                                             </div>
                                         </div>
                                     </div>

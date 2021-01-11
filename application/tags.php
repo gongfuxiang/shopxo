@@ -35,11 +35,12 @@ return array (
   'plugins_css' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
-    1 => 'app\\plugins\\coupon\\Hook',
-    2 => 'app\\plugins\\share\\Hook',
-    3 => 'app\\plugins\\membershiplevelvip\\Hook',
-    4 => 'app\\plugins\\exchangerate\\Hook',
-    5 => 'app\\plugins\\limitedtimediscount\\Hook',
+    1 => 'app\\plugins\\brand\\Hook',
+    2 => 'app\\plugins\\coupon\\Hook',
+    3 => 'app\\plugins\\share\\Hook',
+    4 => 'app\\plugins\\membershiplevelvip\\Hook',
+    5 => 'app\\plugins\\exchangerate\\Hook',
+    6 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_js' => 
   array (
@@ -52,58 +53,66 @@ return array (
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
-    1 => 'app\\plugins\\coupon\\Hook',
-    2 => 'app\\plugins\\membershiplevelvip\\Hook',
-    3 => 'app\\plugins\\limitedtimediscount\\Hook',
+    1 => 'app\\plugins\\brand\\Hook',
+    2 => 'app\\plugins\\coupon\\Hook',
+    3 => 'app\\plugins\\membershiplevelvip\\Hook',
+    4 => 'app\\plugins\\limitedtimediscount\\Hook',
   ),
   'plugins_service_quick_navigation_pc' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
-    1 => 'app\\plugins\\invoice\\Hook',
-    2 => 'app\\plugins\\signin\\Hook',
-    3 => 'app\\plugins\\exchangerate\\Hook',
+    1 => 'app\\plugins\\brand\\Hook',
+    2 => 'app\\plugins\\invoice\\Hook',
+    3 => 'app\\plugins\\signin\\Hook',
+    4 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_h5' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
-    1 => 'app\\plugins\\invoice\\Hook',
-    2 => 'app\\plugins\\signin\\Hook',
-    3 => 'app\\plugins\\exchangerate\\Hook',
+    1 => 'app\\plugins\\brand\\Hook',
+    2 => 'app\\plugins\\invoice\\Hook',
+    3 => 'app\\plugins\\signin\\Hook',
+    4 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_weixin' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
-    1 => 'app\\plugins\\invoice\\Hook',
-    2 => 'app\\plugins\\signin\\Hook',
-    3 => 'app\\plugins\\exchangerate\\Hook',
+    1 => 'app\\plugins\\brand\\Hook',
+    2 => 'app\\plugins\\invoice\\Hook',
+    3 => 'app\\plugins\\signin\\Hook',
+    4 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_alipay' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
-    1 => 'app\\plugins\\invoice\\Hook',
-    2 => 'app\\plugins\\signin\\Hook',
-    3 => 'app\\plugins\\exchangerate\\Hook',
+    1 => 'app\\plugins\\brand\\Hook',
+    2 => 'app\\plugins\\invoice\\Hook',
+    3 => 'app\\plugins\\signin\\Hook',
+    4 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_baidu' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
-    1 => 'app\\plugins\\invoice\\Hook',
-    2 => 'app\\plugins\\signin\\Hook',
-    3 => 'app\\plugins\\exchangerate\\Hook',
+    1 => 'app\\plugins\\brand\\Hook',
+    2 => 'app\\plugins\\invoice\\Hook',
+    3 => 'app\\plugins\\signin\\Hook',
+    4 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_qq' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
-    1 => 'app\\plugins\\invoice\\Hook',
-    2 => 'app\\plugins\\signin\\Hook',
-    3 => 'app\\plugins\\exchangerate\\Hook',
+    1 => 'app\\plugins\\brand\\Hook',
+    2 => 'app\\plugins\\invoice\\Hook',
+    3 => 'app\\plugins\\signin\\Hook',
+    4 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_toutiao' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
-    1 => 'app\\plugins\\invoice\\Hook',
-    2 => 'app\\plugins\\signin\\Hook',
-    3 => 'app\\plugins\\exchangerate\\Hook',
+    1 => 'app\\plugins\\brand\\Hook',
+    2 => 'app\\plugins\\invoice\\Hook',
+    3 => 'app\\plugins\\signin\\Hook',
+    4 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
@@ -145,6 +154,11 @@ return array (
     0 => 'app\\plugins\\points\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
   ),
+  'plugins_view_goods_detail_panel_bottom' => 
+  array (
+    0 => 'app\\plugins\\brand\\Hook',
+    1 => 'app\\plugins\\coupon\\Hook',
+  ),
   'plugins_service_users_center_left_menu_handle' => 
   array (
     0 => 'app\\plugins\\invoice\\Hook',
@@ -161,10 +175,6 @@ return array (
     3 => 'app\\plugins\\membershiplevelvip\\Hook',
     4 => 'app\\plugins\\signin\\Hook',
     5 => 'app\\plugins\\exchangerate\\Hook',
-  ),
-  'plugins_view_goods_detail_panel_bottom' => 
-  array (
-    0 => 'app\\plugins\\coupon\\Hook',
   ),
   'plugins_view_buy_group_goods_inside_bottom' => 
   array (

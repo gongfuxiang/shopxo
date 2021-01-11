@@ -110,9 +110,6 @@
 /**
  * 商品列表
  */
- .scroll-box {
-  height: calc(100vh - 80rpx);
-}
 .data-list {
    overflow: hidden;
 }

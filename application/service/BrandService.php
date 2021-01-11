@@ -79,7 +79,7 @@ class BrandService
                 // logo
                 if(isset($v['logo']))
                 {
-                    $v['logo'] =  ResourcesService::AttachmentPathViewHandle($v['logo']);
+                    $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
                 }
 
                 // 品牌官方地址
