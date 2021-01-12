@@ -167,9 +167,11 @@ class SearchService
             {
                 $params['category_ids'] = (substr($params['category_ids'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['category_ids']), true) : explode(',', $params['category_ids']);
             }
-            $ids = GoodsService::GoodsCategoryItemsIds($params['category_ids'], 1);
-            $ids[] = $params['category_id'];
-            $category_ids = array_merge($category_ids, $ids);
+            if(!empty($params['category_ids']))
+            {
+                $ids = GoodsService::GoodsCategoryItemsIds($params['category_ids'], 1);
+                $category_ids = array_merge($category_ids, $ids);
+            }
         }
         if(!empty($category_ids))
         {

@@ -44,6 +44,7 @@
         <text>筛选出</text>
         <text class="cr-main"> {{data_total}} </text>
         <text>条数据</text>
+        <text class="map-remove-submit fr" bindtap="map_remove_event">清除</text>
       </view>
 
       <!-- 搜索关键字 -->

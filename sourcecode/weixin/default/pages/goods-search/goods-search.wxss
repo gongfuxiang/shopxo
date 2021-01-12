@@ -133,6 +133,10 @@
   bottom: 0;
   border-radius: 0;
 }
+.map-remove-submit {
+  color: #e23f36;
+  cursor: pointer;
+}
 
 /**
  * 品牌基础信息

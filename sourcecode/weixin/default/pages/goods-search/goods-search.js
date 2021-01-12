@@ -230,10 +230,7 @@ Page({
             index++;
           }
         }
-        if(app.get_length(temp) > 0)
-        {
-          post_data[data.map_fields_list[i]['form_key']] = JSON.stringify(temp);
-        }
+        post_data[data.map_fields_list[i]['form_key']] = (app.get_length(temp) > 0) ? JSON.stringify(temp) : '';
       }
     }
 
@@ -322,6 +319,33 @@ Page({
       data[field][index]['active'] = ((data[field][index]['active'] || 0) == 0) ? 1 : 0;
       this.setData(data);
     }
+  },
+  
+  // 条件-清空
+  map_remove_event(e) {
+    var data = this.data;
+    // 关键字
+    data['post_data']['wd'] = '';
+
+    // 品牌、分类、价格、属性、规格
+    for(var i in data.map_fields_list)
+    {
+      if((data[i] != null) != null && data[i].length > 0)
+      {
+        for(var k in data[i])
+        {
+          data[i][k]['active'] = 0;
+        }
+      }
+    }
+
+    // 关闭条件弹层
+    this.popup_form_event_close();
+
+    // 分页恢复1页、重新获取数据
+    data['data_page'] = 1;
+    this.setData(data);
+    this.get_data_list(1);
   },
 
   // 自定义分享
