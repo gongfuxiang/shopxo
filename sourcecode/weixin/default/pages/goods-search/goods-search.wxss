@@ -72,9 +72,8 @@
   padding: 0 10rpx;
   line-height: 66rpx;
   height: 66rpx;
-  border-color: #e8e8e8;
-  border-width: 1px 0;
-  border-style: solid;
+  font-size: 26rpx;
+  box-sizing: border-box;
 }
 .map-nav {
   position: relative;
@@ -135,7 +134,6 @@
 }
 .map-remove-submit {
   color: #e23f36;
-  cursor: pointer;
 }
 
 /**

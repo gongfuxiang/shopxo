@@ -167,22 +167,6 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '首页推荐',
-                    'view_type'     => 'status',
-                    'view_key'      => 'is_home_recommended',
-                    'post_url'      => MyUrl('admin/goods/statusupdate'),
-                    'align'         => 'center',
-                    'is_sort'       => 1,
-                    'search_config' => [
-                        'form_type'         => 'select',
-                        'where_type'        => 'in',
-                        'data'              => lang('common_is_text_list'),
-                        'data_key'          => 'id',
-                        'data_name'         => 'name',
-                        'is_multiple'       => 1,
-                    ],
-                ],
-                [
                     'label'         => '扣减库存',
                     'view_type'     => 'status',
                     'view_key'      => 'is_deduction_inventory',

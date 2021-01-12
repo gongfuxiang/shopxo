@@ -48,10 +48,10 @@
       </view>
 
       <!-- 搜索关键字 -->
-      <input type="text" placeholder="其实搜索很简单^_^ !" name="wd" value="{{(post_data.wd || '')}}" class="map-keywords" placeholder-class="cr-ccc" />
+      <input type="text" placeholder="其实搜索很简单^_^ !" name="wd" value="{{(post_data.wd || '')}}" class="map-keywords wh-auto" placeholder-class="cr-ccc" />
 
       <!-- 品牌 -->
-      <view wx:if="{{(brand_list || null) != null && brand_list.length > 0}}" class="map-item">
+      <view wx:if="{{((brand_list || null) != null && brand_list.length > 0) || ((search_map_info.brand || null) != null)}}" class="map-item">
         <view class="map-nav tc">
           <text>品牌</text>
           <text class="arrow-bottom" wx:if="{{brand_list.length > 3}}" bindtap="more_event" data-value="brand_list">更多</text>
@@ -128,8 +128,6 @@
 
       <button formType="submit" class="bg-main search-submit wh-auto" disabled="{{popup_form_loading_status}}" hover-class="none">确认</button>
     </view>
-    
-    
   </form>
 </component-popup>
 

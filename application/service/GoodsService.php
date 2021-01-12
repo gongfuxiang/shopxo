@@ -264,9 +264,8 @@ class GoodsService
 
                                 // 获取商品ids
                                 $where = [
-                                    'gci.category_id'       => $category_ids,
-                                    'g.is_home_recommended' => 1,
-                                    'g.is_shelves'          => 1,
+                                    'gci.category_id'   => $category_ids,
+                                    'g.is_shelves'      => 1,
                                 ];
                                 $v['goods_ids'] = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where)->group('g.id')->order($order_by)->limit($goods_count)->column('g.id');
                             }
@@ -1090,7 +1089,6 @@ class GoodsService
             'is_shelves'                => isset($params['is_shelves']) ? intval($params['is_shelves']) : 0,
             'content_web'               => $content_web,
             'photo_count'               => count($photo['data']),
-            'is_home_recommended'       => isset($params['is_home_recommended']) ? intval($params['is_home_recommended']) : 0,
             'images'                    => $images,
             'brand_id'                  => isset($params['brand_id']) ? intval($params['brand_id']) : 0,
             'video'                     => $attachment['data']['video'],

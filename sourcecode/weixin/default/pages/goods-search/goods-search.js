@@ -117,6 +117,21 @@ Page({
         wx.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
+
+          // 仅首次请求赋值条件数据
+          if(this.data.data_list_loding_status == 1)
+          {
+            this.setData({
+              search_map_info: data.search_map_info || [],
+              brand_list: data.brand_list || [],
+              category_list: data.category_list || [],
+              screening_price_list: data.screening_price_list || [],
+              goods_params_list: data.goods_params_list || [],
+              goods_spec_list: data.goods_spec_list || [],
+            });
+          }
+
+          // 列表数据处理
           if (data.data.length > 0) {
             if (this.data.data_page <= 1) {
               var temp_data_list = data.data;
@@ -127,21 +142,6 @@ Page({
                 temp_data_list.push(temp_data[i]);
               }
             }
-
-            // 仅首次请求赋值条件数据
-            if(this.data.data_list_loding_status == 1)
-            {
-              this.setData({
-                search_map_info: data.search_map_info || [],
-                brand_list: data.brand_list || [],
-                category_list: data.category_list || [],
-                screening_price_list: data.screening_price_list || [],
-                goods_params_list: data.goods_params_list || [],
-                goods_spec_list: data.goods_spec_list || [],
-              });
-            }
-
-            // 公共基础数据
             this.setData({
               data_list: temp_data_list,
               data_total: data.total,
@@ -172,14 +172,12 @@ Page({
           this.setData({
             data_list_loding_status: 0
           });
-
           app.showToast(res.data.msg);
         }
       },
       fail: () => {
         wx.hideLoading();
         wx.stopPullDownRefresh();
-
         this.setData({
           data_list_loding_status: 2
         });
@@ -340,7 +338,7 @@ Page({
     }
 
     // 关闭条件弹层
-    this.popup_form_event_close();
+    data['is_show_popup_form'] = false;
 
     // 分页恢复1页、重新获取数据
     data['data_page'] = 1;
@@ -352,11 +350,12 @@ Page({
   onShareAppMessage() {
     var user_id = app.get_user_cache_info('id', 0) || 0;
     var category_id = this.data.params['category_id'] || 0;
+    var brand_id = this.data.params['brand_id'] || 0;
     var keywords = this.data.params['keywords'] || '';
     return {
       title: app.data.application_title,
       desc: app.data.application_describe,
-      path: '/pages/goods-search/goods-search?referrer=' + user_id+'&category_id='+category_id+'&keywords='+keywords
+      path: '/pages/goods-search/goods-search?referrer=' + user_id+'&category_id='+category_id+'&brand_id='+brand_id+'&keywords='+keywords
     };
   },
 
@@ -364,10 +363,11 @@ Page({
   onShareTimeline() {
     var user_id = app.get_user_cache_info('id', 0) || 0;
     var category_id = this.data.params['category_id'] || 0;
+    var brand_id = this.data.params['brand_id'] || 0;
     var keywords = this.data.params['keywords'] || '';
     return {
       title: app.data.application_title,
-      query: 'referrer=' + user_id+'&category_id='+category_id+'&keywords='+keywords
+      query: 'referrer=' + user_id+'&category_id='+category_id+'&brand_id='+brand_id+'&keywords='+keywords
     };
   },
 });

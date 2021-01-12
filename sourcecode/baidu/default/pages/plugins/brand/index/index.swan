@@ -1,0 +1,32 @@
+<view s-if="(data_base || null) != null">
+  <!-- 分类 -->
+  <scroll-view s-if="(brand_category_list || null) != null && brand_category_list.length > 0" class="nav-list bg-white tc oh" scroll-x="true">
+    <view class="item cr-888 {{nav_active_value == 0 ? 'active' : ''}}" bindtap="nav_event" data-value="0">全部</view>
+    <block s-for="item, index in brand_category_list" s-key="key">
+      <view class="item cr-888 {{nav_active_value == item.id ? 'active' : ''}}" bindtap="nav_event" data-value="{{item.id}}">{{item.name}}</view>
+    </block>
+  </scroll-view>
+
+  <!-- 品牌列表 -->
+  <view s-if="(brand_list || null) != null && brand_list.length > 0" class="data-list oh spacing-mt">
+    <block s-for="item, index in brand_list" s-key="key">
+      <view s-if="(item.is_not_show || 0) == 0" class="items bg-white">
+        <navigator url="/pages/goods-search/goods-search?brand_id={{item.id}}" hover-class="none">
+          <image src="{{item.logo}}" mode="aspectFit" />
+          <view class="base br-t-dashed">
+            <view class="single-text name tc">{{item.name}}</view>
+            <view class="multi-text desc">{{item.describe}}</view>
+            </view>
+        </navigator>
+      </view>
+    </block>
+  </view>
+
+  <!-- 结尾 -->
+  <import src="/pages/common/bottom_line.swan" />
+  <template is="bottom_line" data="{{{status: data_bottom_line_status}}}"></template>
+</view>
+<view s-if="data_list_loding_status != 3">
+  <import src="/pages/common/nodata.swan" />
+  <template is="nodata" data="{{{status: data_list_loding_status, msg: data_list_loding_msg}}}"></template>
+</view>

@@ -61,40 +61,102 @@
 /**
  * 条件
  */
-.popup-form {
-  height: 100vh;
+.search-map {
+  height: calc(100vh - 80rpx);
+  width: 680rpx;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
-.popup-form input {
+.map-keywords {
+  border-radius: 0 !important;
+  padding: 0 10rpx;
+  line-height: 66rpx;
+  height: 66rpx;
   font-size: 26rpx;
-  height: 60rpx;
+  box-sizing: border-box;
+}
+.map-nav {
+  position: relative;
+}
+.map-nav .arrow-bottom {
+  position: absolute;
+  top: 0;
+  right: 10rpx;
+  padding-right: 46rpx;
+  color: #999;
+}
+.map-item {
+  background: #f0f0f0;
+  line-height: 76rpx;
+}
+.map-base,
+.map-nav {
+  padding: 0 10rpx;
+}
+.map-content {
+  padding: 15rpx;
   line-height: 60rpx;
-  background: #fbfbfb;
-  border-radius: 6rpx;
-  padding: 0 6rpx;
 }
-.screening-price input {
-  width: calc(50% - 20px);
+.map-text-items view,
+.map-images-text-items view {
+  padding: 0 15rpx;
+  border-radius: 2px;
+  margin: 15rpx;
+  border: 1px solid transparent;
 }
-.screening-price .separator {
-  line-height: 50rpx;
+.map-images-text-items view {
+  vertical-align: middle;
+  border: 1px solid #eee;
+  width: 150rpx;
+  height: 72rpx;
+  line-height: 72rpx;
 }
-.popup-form .item {
-  width: 480rpx;
-  padding: 0 20rpx;
-  margin-top: 20rpx;
+.map-images-text-items view image {
+  width: 150rpx;
+  height: calc(100% - 8rpx);
+  display: block;
+  margin: 0 auto;
+  margin-top: 4rpx;
 }
-.popup-form .item:not(:last-child) {
-  margin-bottom: 30rpx;
+.map-text-items view.active,
+.map-images-text-items view.active {
+  border: 1px solid #e23f36;
+  color: #e23f36;
+  font-weight: bold;
 }
-.popup-form .item .title {
-  margin-bottom: 10rpx;
-  font-size: 28rpx;
-}
-.popup-form .form-submit {
+.search-map .search-submit {
   height: 80rpx;
   line-height: 80rpx;
   position: absolute;
   left: 0;
   bottom: 0;
   border-radius: 0;
+}
+.map-remove-submit {
+  color: #e23f36;
+}
+
+/**
+ * 品牌基础信息
+ */
+.brand-info {
+  padding: 35rpx 15rpx;
+}
+.brand-info image,
+.brand-info .info-logo-empty {
+  width: 300rpx;
+  height: 130rpx;
+  border: 1px solid #eee;
+}
+.brand-info .info-logo-empty {
+  line-height: 130rpx;
+}
+.brand-info .info-right {
+  width: calc(100% - 330rpx);
+}
+.brand-info .info-desc {
+  color: #999;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  min-height: 80rpx;
 }

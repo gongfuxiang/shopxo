@@ -174,10 +174,6 @@
 					<label class="block">上下架<span class="am-form-group-label-tips">下架后用户不可见</span></label>
 					<input name="is_shelves" value="1" type="checkbox" data-off-text="下架" data-on-text="上架" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_shelves']) and $data['is_shelves'] eq 1) or empty($data)}}checked="true"{{/if}} />
 				</div>
-				<div class="am-form-group">
-					<label class="block">首页推荐<span class="am-form-group-label-tips">推荐后在首页展示</span></label>
-					<input name="is_home_recommended" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1}}checked="true"{{/if}} />
-				</div>
 			</div>
 
 			<!-- 规格 -->

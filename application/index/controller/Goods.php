@@ -126,9 +126,8 @@ class Goods extends Common
             // 详情tab商品 猜你喜欢
             $params = [
                 'where'     => [
-                    'is_delete_time'=>0,
-                    'is_shelves'=>1,
-                    'is_home_recommended'=>1,
+                    'is_delete_time'    => 0,
+                    'is_shelves'        => 1,
                 ],
                 'order_by'  => 'sales_count desc',
                 'field'     => 'id,title,title_color,price,images',

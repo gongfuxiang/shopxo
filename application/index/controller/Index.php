@@ -58,7 +58,7 @@ class Index extends Common
         // 楼层数据
         $this->assign('goods_floor_list', GoodsService::HomeFloorList());
 
-        // 新闻
+        // 文章
         $params = [
             'where' => ['is_enable'=>1, 'is_home_recommended'=>1],
             'field' => 'id,title,title_color,article_category_id',

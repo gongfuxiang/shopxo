@@ -146,6 +146,7 @@ textarea {
   min-height: 104rpx;
   line-height: 52rpx;
   font-size: 32rpx;
+  white-space: initial;
 }
 
 

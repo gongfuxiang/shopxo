@@ -73,7 +73,8 @@
     "pages/plugins/signin/user-qrcode-detail/user-qrcode-detail",
     "pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo",
     "pages/plugins/signin/user-coming-list/user-coming-list",
-    "pages/plugins/points/index/index"
+    "pages/plugins/points/index/index",
+    "pages/plugins/brand/index/index"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",
