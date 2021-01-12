@@ -135,32 +135,26 @@ class SearchService
         }
 
         // 品牌
-        $brand_ids = [];
-        if(!empty($params['brand_id']))
-        {
-            $brand_ids[] = intval($params['brand_id']);
-        }
+        // 不存在搜索品牌的时候则看是否指定品牌
         if(!empty($params['brand_ids']))
         {
             if(!is_array($params['brand_ids']))
             {
                 $params['brand_ids'] = (substr($params['brand_ids'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['brand_ids']), true) : explode(',', $params['brand_ids']);
             }
-            $brand_ids = array_merge($brand_ids, $params['brand_ids']);
-        }
-        if(!empty($brand_ids))
-        {
-            $where_base[] = ['g.brand_id', 'in', array_unique($brand_ids)];
+            if(!empty($params['brand_ids']))
+            {
+                $where_base[] = ['g.brand_id', 'in', array_unique($params['brand_ids'])];
+            }
+        } else {
+            if(!empty($params['brand_id']))
+            {
+                $where_base[] = ['g.brand_id', 'in', intval($params['brand_id'])];
+            }
         }
 
         // 分类id
-        // 单个进来指定分类id+搜索条件分类id
-        $category_ids = [];
-        if(!empty($params['category_id']))
-        {
-            $ids = GoodsService::GoodsCategoryItemsIds([intval($params['category_id'])], 1);
-            $category_ids = array_merge($category_ids, $ids);
-        }
+        // 不存在搜索分类的时候则看是否指定分类
         if(!empty($params['category_ids']))
         {
             if(!is_array($params['category_ids']))
@@ -170,12 +164,14 @@ class SearchService
             if(!empty($params['category_ids']))
             {
                 $ids = GoodsService::GoodsCategoryItemsIds($params['category_ids'], 1);
-                $category_ids = array_merge($category_ids, $ids);
+                $where_base[] = ['gci.category_id', 'in', $ids];
             }
-        }
-        if(!empty($category_ids))
-        {
-            $where_base[] = ['gci.category_id', 'in', array_unique($category_ids)];
+        } else {
+            if(!empty($params['category_id']))
+            {
+                $ids = GoodsService::GoodsCategoryItemsIds([intval($params['category_id'])], 1);
+                $where_base[] = ['gci.category_id', 'in', $ids];
+            }
         }
 
         // 筛选价格
