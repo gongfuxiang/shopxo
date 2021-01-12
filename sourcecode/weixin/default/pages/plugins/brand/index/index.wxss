@@ -42,4 +42,7 @@
 .data-list .items .desc {
    color: #999;
    margin-top: 10rpx;
+   font-size: 28rpx;
+   line-height: 40rpx;
+   min-height: 80rpx;
 }

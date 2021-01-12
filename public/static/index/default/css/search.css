@@ -73,9 +73,6 @@
     padding: 2px 10px;
     border: 1px solid transparent;
 }
-.map-text-items ul li.active {
-    border: 1px solid #e23f36;
-}
 .map-images-text-items ul li.active,
 .map-text-items ul li.active {
     border: 1px solid #e23f36;

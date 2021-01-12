@@ -144,7 +144,7 @@ class SearchService
         {
             if(!is_array($params['brand_ids']))
             {
-                $params['brand_ids'] = explode(',', $params['brand_ids']);
+                $params['brand_ids'] = (substr($params['brand_ids'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['brand_ids']), true) : explode(',', $params['brand_ids']);
             }
             $brand_ids = array_merge($brand_ids, $params['brand_ids']);
         }
@@ -163,6 +163,10 @@ class SearchService
         }
         if(!empty($params['category_ids']))
         {
+            if(!is_array($params['category_ids']))
+            {
+                $params['category_ids'] = (substr($params['category_ids'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['category_ids']), true) : explode(',', $params['category_ids']);
+            }
             $ids = GoodsService::GoodsCategoryItemsIds($params['category_ids'], 1);
             $ids[] = $params['category_id'];
             $category_ids = array_merge($category_ids, $ids);
@@ -176,15 +180,22 @@ class SearchService
         $where_screening_price = [];
         if(!empty($params['screening_price_values']))
         {
-            foreach($params['screening_price_values'] as $v)
+            if(!is_array($params['screening_price_values']))
             {
-                $temp = explode('-', $v);
-                if(count($temp) == 2)
+                $params['screening_price_values'] = (substr($params['screening_price_values'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['screening_price_values']), true) : explode(',', $params['screening_price_values']);
+            }
+            if(!empty($params['screening_price_values']))
+            {
+                foreach($params['screening_price_values'] as $v)
                 {
-                    $where_screening_price[] = [
-                        ['min_price', 'EGT', $temp[0]],
-                        ['min_price', 'LT', $temp[1]],
-                    ];
+                    $temp = explode('-', $v);
+                    if(count($temp) == 2)
+                    {
+                        $where_screening_price[] = [
+                            ['min_price', 'EGT', $temp[0]],
+                            ['min_price', 'LT', $temp[1]],
+                        ];
+                    }
                 }
             }
         }
@@ -192,31 +203,35 @@ class SearchService
         // 商品参数、属性
         if(!empty($params['goods_params_values']))
         {
-            $ids = Db::name('GoodsParams')->where(['value'=>$params['goods_params_values']])->column('goods_id');
-            if(!empty($ids))
+            if(!is_array($params['goods_params_values']))
             {
-                $where_base[] = ['g.id', 'in', $ids];
+                $params['goods_params_values'] = (substr($params['goods_params_values'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['goods_params_values']), true) : explode(',', $params['goods_params_values']);
+            }
+            if(!empty($params['goods_params_values']))
+            {
+                $ids = Db::name('GoodsParams')->where(['value'=>$params['goods_params_values']])->column('goods_id');
+                if(!empty($ids))
+                {
+                    $where_base[] = ['g.id', 'in', $ids];
+                }
             }
         }
 
         // 商品规格
         if(!empty($params['goods_spec_values']))
         {
-            $ids = Db::name('GoodsSpecValue')->where(['value'=>$params['goods_spec_values']])->column('goods_id');
-            if(!empty($ids))
+            if(!is_array($params['goods_spec_values']))
             {
-                $where_base[] = ['g.id', 'in', $ids];
+                $params['goods_spec_values'] = (substr($params['goods_spec_values'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['goods_spec_values']), true) : explode(',', $params['goods_spec_values']);
             }
-        }
-
-        // 指定价格筛选
-        if(!empty($params['min_price']))
-        {
-            $where_base[] = ['g.min_price', 'EGT', $params['min_price']];
-        }
-        if(!empty($params['max_price']))
-        {
-            $where_base[] = ['g.min_price', 'LT', $params['max_price']];
+            if(!empty($params['goods_spec_values']))
+            {
+                $ids = Db::name('GoodsSpecValue')->where(['value'=>$params['goods_spec_values']])->column('goods_id');
+                if(!empty($ids))
+                {
+                    $where_base[] = ['g.id', 'in', $ids];
+                }
+            }
         }
 
         return [
@@ -401,7 +416,7 @@ class SearchService
             $query->whereOr($where_keywords);
         })->where(function($query) use($where_screening_price) {
             $query->whereOr($where_screening_price);
-        })->group('gp.value')->column('gp.value');
+        })->group('gp.value')->field('gp.value')->select();
     }
 
     /**
@@ -426,7 +441,7 @@ class SearchService
             $query->whereOr($where_keywords);
         })->where(function($query) use($where_screening_price) {
             $query->whereOr($where_screening_price);
-        })->group('gsv.value')->column('gsv.value');
+        })->group('gsv.value')->field('gsv.value')->select();
     }
 
     /**
@@ -444,7 +459,7 @@ class SearchService
         $category = empty($params['category_id']) ? [] : GoodsService::GoodsCategoryRow(['id'=>intval($params['category_id']), 'field'=>'name,vice_name,describe,seo_title,seo_keywords,seo_desc']);
 
         // 品牌
-        $brand = [];
+        $brand = null;
         if(!empty($params['brand_id']))
         {
             $data_params = [
@@ -461,8 +476,8 @@ class SearchService
         }
 
         return [
-            'category'  => $category,
-            'brand'     => $brand,
+            'category'  => empty($category) ? null : $category,
+            'brand'     => empty($brand) ? null : $brand,
         ];
         
     }

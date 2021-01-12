@@ -199,7 +199,7 @@
                                 <div class="map-right map-text-items am-fr am-nbfc">
                                     <ul class="am-nbfc">
                                         {{foreach $goods_params_list as $v}}
-                                            <li data-value="{{$v}}" title="{{$v}}">{{$v}}</li>
+                                            <li data-value="{{$v.value}}" title="{{$v.value}}">{{$v.value}}</li>
                                         {{/foreach}}
                                     </ul>
                                     <div class="map-more-submit am-hide">
@@ -217,7 +217,7 @@
                                 <div class="map-right map-text-items am-fr am-nbfc">
                                     <ul class="am-nbfc">
                                         {{foreach $goods_spec_list as $v}}
-                                            <li data-value="{{$v}}" title="{{$v}}">{{$v}}</li>
+                                            <li data-value="{{$v.value}}" title="{{$v.value}}">{{$v.value}}</li>
                                         {{/foreach}}
                                     </ul>
                                     <div class="map-more-submit am-hide">
