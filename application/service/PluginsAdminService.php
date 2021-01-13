@@ -414,7 +414,7 @@ class PluginsAdminService
             if($is_delete_static === true)
             {
                 // 删除缓存
-                PluginsService::PluginsCacheDelete($params['plugins']);
+                PluginsService::PluginsCacheDelete($params['id']);
 
                 // 执行卸载sql
                 $uninstall_sql = APP_PATH.'plugins'.DS.$params['id'].DS.'uninstall.sql';
