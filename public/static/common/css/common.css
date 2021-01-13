@@ -507,7 +507,8 @@ button.colorpicker-submit img {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 18px;
-    height: 35px;
+    height: 34px;
+    white-space: initial !important;
 }
 
 /**
