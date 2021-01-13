@@ -576,7 +576,7 @@ class AppMiniService
             if(is_array($data) && isset($data['plugins']))
             {
                 $data['plugins']['live-player-plugin'] = [
-                    'version'   => MyC('common_app_weixin_liveplayer_ver', '1.2.4', true),
+                    'version'   => MyC('common_app_weixin_liveplayer_ver', '1.2.5', true),
                     'provider'  => 'wx2b03c6e691cd7370',
                 ];
                 if(file_put_contents($file, JsonFormat($data)) === false)
