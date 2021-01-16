@@ -37,9 +37,14 @@
         <text class="cr-666">{{item.type_text}}</text>
         <text class="cr-ccc ds">/</text>
         <text class="cr-666">{{item.reason}}</text>
-        <text qq:if="{{item.price > 0}}" class="cr-ccc ds">/</text>
-        <text qq:if="{{item.price > 0}}" class="sales-price">{{item.order_data.currency_data.currency_symbol}}{{item.price}}</text>
-        <text qq:if="{{item.number > 0}}" class="cr-main"> x{{item.number}}</text>
+        <block qq:if="{{item.price > 0}}">
+          <text class="cr-ccc ds">/</text>
+          <text class="sales-price">{{item.order_data.currency_data.currency_symbol}}{{item.price}}</text>
+        </block>
+        <block qq:if="{{item.number > 0}}">
+          <text class="cr-ccc ds">/</text>
+          <text class="cr-main">{{item.number}}</text>
+        </block>
       </view>
       <view qq:if="{{item.status <= 2 || item.status == 4}}" class="item-operation tr br-t">
         <button qq:if="{{item.status != 3 && item.status != 5}}" class="submit-cancel" type="default" size="mini" bindtap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消

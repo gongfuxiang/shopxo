@@ -22,6 +22,28 @@
     <!-- content start -->
     <div class="user-content">
         <div class="user-content-body">
+            <!-- 用户订单详情状态环节顶部-开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_order_detail_progress_top</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_user_order_detail_progress_top';
+                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 用户订单详情状态环节顶部-结束 -->
+
             <!-- 进度环节 -->
             {{if !in_array($data['status'], [5,6])}}
                 <ul class="progress">
@@ -87,6 +109,28 @@
                 </ul>
             {{/if}}
 
+            <!-- 用户订单详情基础信息顶部-开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_order_detail_base_top</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_user_order_detail_base_top';
+                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 用户订单详情基础信息顶部-结束 -->
+
             <!-- 基础信息 -->
             <div class="order-base">
                 <div class="base-left">
@@ -95,7 +139,7 @@
                         <div class="am-panel-bd">
                             {{if !empty($data['warehouse_name'])}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">出货仓库：</div>
+                                    <div class="items-title am-fl">出货服务：</div>
                                     <div class="items-detail am-fl">{{$data.warehouse_name}}</div>
                                 </div>
                             {{/if}}
@@ -311,6 +355,28 @@
                 </div>
             </div>
 
+            <!-- 用户订单详情基础信息底部-开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_order_detail_base_bottom</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_user_order_detail_base_bottom';
+                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 用户订单详情基础信息底部-结束 -->
+
             <!-- 地址 -->
             {{if in_array($data['order_model'], [0, 2])}}
                 <div class="am-panel am-panel-default business-panel">
@@ -332,6 +398,28 @@
                     </div>
                 </div>
             {{/if}}
+
+            <!-- 用户订单详情地址信息底部-开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_order_detail_address_bottom</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_user_order_detail_address_bottom';
+                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 用户订单详情地址信息底部-结束 -->
 
             <!-- 虚拟销售信息 -->
             {{if $data['order_model'] eq 3 and $data['pay_status'] eq 1 and in_array($data['status'], [3,4])}}
@@ -366,6 +454,28 @@
                     </div>
                 </div>
             {{/if}}
+
+            <!-- 用户订单详情虚拟信息底部-开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_order_detail_fictitious_bottom</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_user_order_detail_fictitious_bottom';
+                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 用户订单详情虚拟信息底部-结束 -->
 
             <!-- 商品列表 -->
             {{if !empty($data.items)}}
@@ -435,6 +545,28 @@
                     </table>
                 </div>
 
+                <!-- 用户订单详情商品信息底部-开始 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_user_order_detail_goods_inside_bottom</span>
+                    </div>
+                {{/if}}
+                {{php}}
+                    $hook_name = 'plugins_view_user_order_detail_goods_inside_bottom';
+                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                    if(!empty($hook_data) && is_array($hook_data))
+                    {
+                        foreach($hook_data as $hook)
+                        {
+                            if(is_string($hook) || is_int($hook))
+                            {
+                                echo htmlspecialchars_decode($hook);
+                            }
+                        }
+                    }
+                {{/php}}
+                <!-- 用户订单详情商品信息底部-结束 -->
+
                 {{if !empty($data['extension_data'])}}
                     <div class="am-alert am-alert-warning">
                         {{foreach $data.extension_data as $ertk=>$ext}}
@@ -489,6 +621,28 @@
                     {{/if}}
                 </div>
             {{/if}}
+
+            <!-- 用户订单详情商品信息底部-开始 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_order_detail_goods_bottom</span>
+                </div>
+            {{/if}}
+            {{php}}
+                $hook_name = 'plugins_view_user_order_detail_goods_bottom';
+                $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$data]);
+                if(!empty($hook_data) && is_array($hook_data))
+                {
+                    foreach($hook_data as $hook)
+                    {
+                        if(is_string($hook) || is_int($hook))
+                        {
+                            echo htmlspecialchars_decode($hook);
+                        }
+                    }
+                }
+            {{/php}}
+            <!-- 用户订单详情商品信息底部-结束 -->
         </div>
 
         <!-- 支付弹窗 -->

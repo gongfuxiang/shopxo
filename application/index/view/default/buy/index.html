@@ -271,12 +271,79 @@
                     {{foreach $buy_goods as $v}}
                         <div class="am-panel am-panel-default am-margin-top-sm am-margin-bottom-0">
                             <div class="am-panel-hd">
+                                <!-- 分组导航内部开始钩子-开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_buy_group_nav_inside_begin</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_buy_group_nav_inside_begin';
+                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 分组导航内部开始钩子-结束 -->
+
                                 <strong>{{$v.name}}{{if !empty($v['alias'])}}<span class="am-badge am-badge-secondary-plain am-radius am-margin-left-xs">{{$v.alias}}</span>{{/if}}</strong>
-                                {{if isset($v['lng']) and isset($v['lat'])}}
+
+                                <!-- 分组导航内部中间钩子-开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_buy_group_nav_inside_middle</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_buy_group_nav_inside_middle';
+                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 分组导航内部中间钩子-结束 -->
+
+                                {{if isset($v['lng']) and isset($v['lat']) and $v['lng'] neq 0 and $v['lat'] neq 0}}
                                     <div class="am-fr">
                                         <a href="javascript:;" class="am-badge am-badge-default am-radius am-icon-map-marker submit-map-popup" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}"> 查看地图</a>
                                     </div>
                                 {{/if}}
+
+                                <!-- 分组导航内部结束钩子-开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_buy_group_nav_inside_end</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_buy_group_nav_inside_end';
+                                    $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 分组导航内部结束钩子-结束 -->
                             </div>
                             <div class="am-panel-bd">
                                 <!-- 分组商品顶部钩子-开始 -->

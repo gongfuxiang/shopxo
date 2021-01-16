@@ -46,7 +46,7 @@ Page({
           self.setData({
             detail: data.data,
             detail_list:[
-                {name: "出货仓库", value: data.data.warehouse_name || ''},
+                {name: "出货服务", value: data.data.warehouse_name || ''},
                 {name: "订单模式", value: data.data.order_model_name || '' },
                 {name: "订单编号", value: data.data.order_no || ''},
                 {name: "订单状态", value: data.data.status_name || ''},
