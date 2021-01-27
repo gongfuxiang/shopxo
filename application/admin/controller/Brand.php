@@ -13,6 +13,7 @@ namespace app\admin\controller;
 use think\facade\Hook;
 use app\service\BrandService;
 use app\service\BrandCategoryService;
+use app\service\ResourcesService;
 
 /**
  * 品牌管理
@@ -155,7 +156,7 @@ class Brand extends Common
         ]));
 
         // 编辑器文件存放地址
-        $this->assign('editor_path_type', 'brand');
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('brand'));
 
         // 数据
         unset($params['id']);

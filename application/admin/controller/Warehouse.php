@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use think\facade\Hook;
 use app\service\WarehouseService;
+use app\service\ResourcesService;
 
 /**
  * 仓库管理
@@ -141,7 +142,7 @@ class Warehouse extends Common
         $this->assign('is_load_baidu_map_api', 1);
 
         // 编辑器文件存放地址
-        $this->assign('editor_path_type', 'warehouse');
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('warehouse'));
 
         // 数据
         unset($params['id']);

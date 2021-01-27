@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\UserService;
@@ -839,7 +840,6 @@ class WarehouseGoodsService
         foreach($res['value'] as $v)
         {
             $inventory = self::WarehouseGoodsSpecInventory($goods_id, str_replace(GoodsService::$goods_spec_to_string_separator, '', $v['value']));
-
             if(Db::name('GoodsSpecBase')->where(['id'=>$v['base_id'], 'goods_id'=>$goods_id])->update(['inventory'=>$inventory]) === false)
             {
                 return DataReturn('商品规格库存同步失败', -20);
@@ -855,6 +855,18 @@ class WarehouseGoodsService
         if(Db::name('Goods')->where(['id'=>$goods_id])->update($data) === false)
         {
             return DataReturn('商品库存同步失败', -21);
+        }
+
+        // 商品仓库库存修改钩子
+        $hook_name = 'plugins_service_warehouse_goods_inventory_sync';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'goods_id'      => $goods_id
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
         }
 
         return DataReturn('更新成功', 0);
@@ -953,6 +965,21 @@ class WarehouseGoodsService
             return DataReturn('仓库商品库存扣减失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
         }
 
+        // 商品库存扣除钩子
+        $hook_name = 'plugins_service_warehouse_goods_inventory_deduct';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_id'      => $order_id,
+            'goods_id'      => $goods_id,
+            'spec'          => $spec,
+            'buy_number'    => $buy_number,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         return DataReturn('扣除成功', 0);
     }
 
@@ -1001,6 +1028,21 @@ class WarehouseGoodsService
         if(!Db::name('WarehouseGoods')->where($where)->setInc('inventory', $buy_number))
         {
             return DataReturn('仓库商品库存回滚失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
+        }
+
+        // 商品库存回滚钩子
+        $hook_name = 'plugins_service_warehouse_goods_inventory_rollback';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_id'      => $order_id,
+            'goods_id'      => $goods_id,
+            'spec'          => $spec,
+            'buy_number'    => $buy_number,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
         }
 
         return DataReturn('回滚成功', 0);

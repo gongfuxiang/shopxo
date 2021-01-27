@@ -13,6 +13,7 @@ namespace app\api\controller;
 use app\service\BaseService;
 use app\service\ConfigService;
 use app\service\UserAddressService;
+use app\service\ResourcesService;
 
 /**
  * 用户地址
@@ -73,7 +74,7 @@ class UserAddress extends Common
         // 返回数据
         $result = [
             'data'              => empty($data['data']) ? null : $data['data'],
-            'editor_path_type'  => UserAddressService::EditorAttachmentPathType($this->user['id']),
+            'editor_path_type'  => ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($this->user['id'])),
         ];
         return BaseService::DataReturn($result);
     }

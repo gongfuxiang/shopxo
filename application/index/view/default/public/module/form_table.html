@@ -229,7 +229,7 @@
                                             {{/case}}
                                             {{case status}}
                                                 <!-- 数据状态操作按钮组件 -->
-                                                {{if !empty($t['key_field']) and !empty($t['post_url']) and !empty($data_list[$i][$t['key_field']])}}
+                                                {{if !empty($t['key_field']) and !empty($t['post_url']) and !empty($data_list[$i][$t['key_field']]) and array_key_exists($t['view_key'], $data_list[$i])}}
                                                     <a href="javascript:;"
                                                         class="am-icon-btn am-icon-check submit-state {{if $data_list[$i][$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
                                                         data-url="{{$t.post_url}}"

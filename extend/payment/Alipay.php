@@ -123,7 +123,7 @@ class Alipay
         }
         
         // 配置信息
-        if(empty($this->config))
+        if(empty($this->config) || empty($this->config['appid']) || empty($this->config['rsa_public']) || empty($this->config['rsa_private']) || empty($this->config['out_rsa_public']))
         {
             return DataReturn('支付缺少配置', -1);
         }
@@ -320,7 +320,27 @@ class Alipay
         // 支付状态
         if(!empty($data['trade_no']) && isset($data['total_amount']) && $data['total_amount'] > 0)
         {
-            if((!isset($data['trade_status']) && isset($data['method']) && $data['method'] == 'alipay.trade.page.pay.return') || (in_array($data['trade_status'], ['TRADE_SUCCESS', 'TRADE_FINISHED'])))
+            $status = false;
+            if(isset($data['trade_status']))
+            {
+                if(in_array($data['trade_status'], ['TRADE_SUCCESS', 'TRADE_FINISHED']))
+                {
+                    $status = true;
+                }
+            } else {
+                switch($data['method'])
+                {
+                    // pc、h5
+                    case 'alipay.trade.wap.pay.return' :
+                    case 'alipay.trade.page.pay.return' :
+                        if(isset($data['seller_id']))
+                        {
+                            $status = true;
+                        }
+                        break;
+                }
+            }
+            if($status)
             {
                 return DataReturn('支付成功', 0, $this->ReturnData($data));
             }

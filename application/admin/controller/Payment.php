@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use app\service\PaymentService;
 use app\service\StoreService;
+use app\service\ResourcesService;
 
 /**
  * 支付方式管理
@@ -101,7 +102,7 @@ class Payment extends Common
         $this->assign('params', $params);
 
         // 编辑器文件存放地址
-        $this->assign('editor_path_type', 'payment');
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('payment'));
 
         return $this->fetch();
     }

@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\AppCenterNavService;
+use app\service\ResourcesService;
 
 /**
  * 手机管理-用户中心导航管理
@@ -138,9 +139,11 @@ class AppCenterNav extends Common
         $this->assign('common_platform_type', lang('common_platform_type'));
         $this->assign('common_app_event_type', lang('common_app_event_type'));
 
+        // 编辑器文件存放地址
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('app_center_nav'));
+
         // 数据
         unset($params['id']);
-        $this->assign('editor_path_type', 'app_center_nav');
         $this->assign('params', $params);
         $this->assign('data', $data);
         return $this->fetch();

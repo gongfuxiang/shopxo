@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use think\facade\Hook;
 use app\service\ArticleService;
+use app\service\ResourcesService;
 
 /**
  * 文章管理
@@ -150,7 +151,7 @@ class Article extends Common
         ]));
 
         // 编辑器文件存放地址
-        $this->assign('editor_path_type', 'article');
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('article'));
 
         // 数据
         unset($params['id']);

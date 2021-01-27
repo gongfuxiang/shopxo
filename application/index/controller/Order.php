@@ -144,7 +144,7 @@ class Order extends Common
             $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单评论', 1));
 
             // 编辑器文件存放地址
-            $this->assign('editor_path_type', 'order_comments-'.$this->user['id'].'-'.$data['id']);
+            $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['id']));
             return $this->fetch();
         } else {
             $this->assign('msg', '没有相关数据');

@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\SlideService;
+use app\service\ResourcesService;
 
 /**
  * 轮播图片管理
@@ -139,9 +140,11 @@ class Slide extends Common
         $this->assign('common_platform_type', lang('common_platform_type'));
         $this->assign('common_app_event_type', lang('common_app_event_type'));
 
+        // 编辑器文件存放地址
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('slide'));
+
         // 数据
         unset($params['id']);
-        $this->assign('editor_path_type', 'slide');
         $this->assign('params', $params);
         $this->assign('data', $data);
         return $this->fetch();

@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\PluginsService;
+use app\service\ResourcesService;
 
 /**
  * 应用调用入口
@@ -79,7 +80,7 @@ class Plugins extends Common
         $this->PluginsViewInit($pluginsname, $pluginscontrol, $pluginsaction);
 
         // 编辑器文件存放地址定义
-        $this->assign('editor_path_type', 'plugins_'.$pluginsname);
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('plugins_'.$pluginsname));
 
         // 调用
         $ret = PluginsService::PluginsControlCall($pluginsname, $pluginscontrol, $pluginsaction, 'index', $params);

@@ -554,7 +554,7 @@ $(function()
         var index = parseInt(Math.random()*1000001);
         var html = '<tr>';
             html += '<td class="am-text-middle">';
-            html += '<i class="am-close am-close-spin quick-title-remove">×</i>';
+            html += '<i class="am-close quick-title-remove">×</i>';
             html += '<input type="text" name="spec_base_title_'+index+'" placeholder="规格名" />';
             html += '</td>';
             html += '<td class="spec-quick-td-value am-cf">';
@@ -573,7 +573,7 @@ $(function()
         var index = $(this).data('index');
         var html = '<div class="am-fl am-margin-xs value-item">';
             html += '<input type="text" class="am-fl" name="spec_base_value_'+index+'[]" placeholder="规格值" />';
-            html += '<i class="am-close am-close-spin quick-value-remove">×</i>';
+            html += '<i class="am-close quick-value-remove">×</i>';
             html += '</div>';
         $(this).parent().before(html);
     });

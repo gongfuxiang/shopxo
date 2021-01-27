@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use app\service\StoreService;
 use app\service\PluginsAdminService;
+use app\service\ResourcesService;
 
 /**
  * 应用管理
@@ -123,7 +124,7 @@ class Pluginsadmin extends Common
             return $this->fetch('first_step');
         } else {
             // 编辑器文件存放地址
-            $this->assign('editor_path_type', 'plugins_'.$params['plugins']);
+            $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('plugins_'.$params['plugins']));
 
             // 唯一标记
             $this->assign('plugins', $params['plugins']);

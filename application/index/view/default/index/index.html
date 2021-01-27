@@ -126,7 +126,7 @@
 <!-- 楼层-主内容 -->
 <div class="home-floor">
     <!-- 楼层 -->
-    {{if !empty($goods_floor_list)}}
+    {{if !empty($goods_floor_list) and is_array($goods_floor_list)}}
         {{foreach $goods_floor_list as $key=>$floor}}
             <!-- 首页楼层顶部钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
@@ -156,7 +156,7 @@
                         <p class="floor-title">{{$floor.name}}</p>
                         <p class="floor-desc">{{$floor.vice_name}}</p>
                         <div class="today-brands ">
-                            {{if !empty($floor['config_keywords'])}}
+                            {{if !empty($floor['config_keywords']) and is_array($floor['config_keywords'])}}
                                 {{foreach $floor.config_keywords as $wd}}
                                     <a href="{{:MyUrl('index/search/index', ['wd'=>StrToAscii($wd)])}}" target="_blank">{{$wd}}</a>
                                 {{/foreach}}
@@ -192,7 +192,7 @@
 
                     <div class="am-u-sm-3 aggregation" {{if !empty($floor['bg_color'])}}style="background-color:{{$floor.bg_color}};"{{else /}}style="background-color:#eaeaea;"{{/if}}>
                         <div class="word">
-                            {{if !empty($floor['items'])}}
+                            {{if !empty($floor['items']) and is_array($floor['items'])}}
                                 {{foreach $floor.items as $category_key=>$category}}
                                     <a href="{{:MyUrl('index/search/index', ['category_id'=>$category['id']])}}" class="outer" target="_blank">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
                                 {{/foreach}}
@@ -231,7 +231,7 @@
                     </div>
 
                     <div class="goods-list">
-                        {{if !empty($floor['goods'])}}
+                        {{if !empty($floor['goods']) and is_array($floor['goods'])}}
                             {{foreach $floor.goods as $goods_key=>$goods}}
                                 <div class="goods-items">
                                     <a href="{{$goods.goods_url}}" target="_blank" class="am-block am-text-center">

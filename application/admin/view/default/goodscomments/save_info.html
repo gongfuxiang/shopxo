@@ -62,7 +62,7 @@
 
             <div class="am-form-group">
                 <label>回复时间</label>
-                <input type="text" name="reply_time" class="am-form-field am-radius Wdate" placeholder="生日" data-validation-message="生日格式有误" {{if !empty($data)}} value="{{if isset($data['reply_time_time'])}}{{$data.reply_time_time}}{{/if}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
+                <input type="text" name="reply_time" class="am-form-field am-radius Wdate" placeholder="生日" data-validation-message="回复时间格式有误" {{if !empty($data)}} value="{{if isset($data['reply_time_time'])}}{{$data.reply_time_time}}{{/if}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
             </div>
 
             <div class="am-form-group">

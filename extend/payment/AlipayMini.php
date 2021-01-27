@@ -123,7 +123,7 @@ class AlipayMini
         }
         
         // 配置信息
-        if(empty($this->config))
+        if(empty($this->config) || empty($this->config['appid']) || empty($this->config['rsa_public']) || empty($this->config['rsa_private']) || empty($this->config['out_rsa_public']))
         {
             return DataReturn('支付缺少配置', -1);
         }

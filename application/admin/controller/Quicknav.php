@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\QuickNavService;
+use app\service\ResourcesService;
 
 /**
  * 快捷导航管理
@@ -143,7 +144,7 @@ class QuickNav extends Common
         $this->assign('params', $params);
 
         // 编辑器文件存放地址
-        $this->assign('editor_path_type', 'quick_nav');
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('quick_nav'));
 
         return $this->fetch();
     }

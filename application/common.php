@@ -359,6 +359,7 @@ function FormModulePath($params = [])
 {
     // 参数变量
     $path = '';
+    $group = request()->module();
     $controller = request()->controller();
     $action = request()->action();
 
@@ -370,7 +371,13 @@ function FormModulePath($params = [])
             // 控制器和方法默认值处理
             $controller = empty($params['pluginscontrol']) ? 'index' : $params['pluginscontrol'];
             $action = empty($params['pluginsaction']) ? 'index' : $params['pluginsaction'];
-            $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.ucfirst($controller);
+
+            // 是否定义模块组
+            $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.$group.'\\'.ucfirst($controller);
+            if(!class_exists($path))
+            {
+                $path = '\app\plugins\\'.$params['pluginsname'].'\form\\'.ucfirst($controller);
+            }
         }
     } else {
         $path = '\app\\'.request()->module().'\form\\'.$controller;
@@ -1126,7 +1133,7 @@ function MyUrl($path, $params=[])
 function PluginsHomeUrl($plugins_name, $plugins_control = '', $plugins_action = '', $params = [])
 {
     // 控制器和方法都为index的时候置空、缩短url地址
-    if($plugins_control == 'index' && $plugins_action == 'index')
+    if($plugins_control == 'index' && $plugins_action == 'index' && empty($params))
     {
         $plugins_control = '';
         $plugins_action = '';

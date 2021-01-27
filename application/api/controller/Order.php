@@ -15,6 +15,7 @@ use app\service\PaymentService;
 use app\service\OrderService;
 use app\service\GoodsCommentsService;
 use app\service\ConfigService;
+use app\service\ResourcesService;
 
 /**
  * 我的订单
@@ -177,7 +178,7 @@ class Order extends Common
             // 返回数据
             $result = [
                 'data'                  => $data['data'][0],
-                'editor_path_type'      => 'order_comments-'.$this->user['id'].'-'.$data['data'][0]['id'],
+                'editor_path_type'      => ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['data'][0]['id']),
             ];
             return BaseService::DataReturn($result);
         }

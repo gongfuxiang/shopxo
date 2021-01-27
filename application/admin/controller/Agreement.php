@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\ConfigService;
+use app\service\ResourcesService;
 
 /**
  * 协议管理
@@ -54,7 +55,7 @@ class Agreement extends Common
         $this->assign('data', ConfigService::ConfigList());
 
         // 编辑器文件存放地址
-        $this->assign('editor_path_type', 'agreement');
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('agreement'));
 
         // 导航/视图
         $nav_type = input('nav_type', 'register');

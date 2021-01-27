@@ -14,7 +14,7 @@
 
 <!--表列表数据 -->
 <div class="business-form-group am-padding-top-0">
-    <div class="parameters-container am-margin-top-sm am-scrollable-horizontal">
+    <div class="parameters-container am-margin-top-sm">
         <table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover am-margin-bottom-sm parameters-table table-thead-beautify am-margin-bottom-0">
             <thead>
                 <tr>
@@ -44,9 +44,9 @@
                                 <input type="text" name="parameters_value[]" placeholder="参数值" value="{{$pv.value}}" maxlength="200" data-validation-message="请填写参数值" />
                             </td>
                             <td class="am-text-middle">
-                                <span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="top">上移</span>
-                                <span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="bottom">下移</span>
-                                <span class="am-text-xs cr-red c-p line-remove">移除</span>
+                                <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">上移</a>
+                                <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">下移</a>
+                                <a href="javascript:;" class="am-text-xs am-text-danger line-remove">移除</a>
                             </td>
                         </tr>
                     {{/foreach}}

@@ -12,6 +12,7 @@ namespace app\index\controller;
 
 use app\service\SeoService;
 use app\service\UserAddressService;
+use app\service\ResourcesService;
 
 /**
  * 用户地址管理
@@ -79,7 +80,7 @@ class UserAddress extends Common
         }
 
         // 编辑器文件存放地址
-        $this->assign('editor_path_type', UserAddressService::EditorAttachmentPathType($this->user['id']));
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($this->user['id'])));
 
         // 加载百度地图api
         $this->assign('is_load_baidu_map_api', 1);

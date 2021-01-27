@@ -603,7 +603,7 @@ class ResourcesService
             'currency_name'     => config('shopxo.currency_name'),
         ];
 
-        // 货币符号钩子
+        // 钩子
         $hook_name = 'plugins_service_currency_data';
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
@@ -626,6 +626,33 @@ class ResourcesService
     {
         $res = self::CurrencyData();
         return empty($res['currency_symbol']) ? config('shopxo.currency_symbol') : $res['currency_symbol'];
+    }
+
+    /**
+     * 编辑器文件存放地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-27
+     * @desc    description
+     * @param   [string]          $value [位置路径名称（[ - ]作为目录分隔符）]
+     */
+    public static function EditorPathTypeValue($value)
+    {
+        // 当前操作名称, 兼容插件模块名称
+        $module_name = strtolower(request()->module());
+        $controller_name = strtolower(request()->controller());
+        $action_name = strtolower(request()->action());
+
+        // 钩子
+        $hook_name = 'plugins_service_editor_path_type_'.$module_name.'_'.$controller_name.'_'.$action_name;
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'value'         => &$value,
+        ]);
+
+        return $value;
     }
 }
 ?>

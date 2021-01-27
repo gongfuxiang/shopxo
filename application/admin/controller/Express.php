@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\ExpressService;
+use app\service\ResourcesService;
 
 /**
  * 快递管理
@@ -53,7 +54,7 @@ class Express extends Common
 		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
 
         // 编辑器文件存放地址
-		$this->assign('editor_path_type', 'express');
+		$this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('express'));
 
 		return $this->fetch();
 	}

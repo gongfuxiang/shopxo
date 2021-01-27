@@ -57,6 +57,7 @@
                                     <th>{{$line_v.name}}</th>
                                 {{/foreach}}
                                 <th>销售金额</th>
+                                <th>库存</th>
                                 <th>重量</th>
                                 <th>编码</th>
                                 <th>条形码</th>
@@ -75,6 +76,7 @@
 
                                                 {{case base}}
                                                     <td class="am-text-middle">{{$v.data.price}}</td>
+                                                    <td class="am-text-middle">{{$v.data.inventory}}</td>
                                                     <td class="am-text-middle">{{if $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}</td>
                                                     <td class="am-text-middle">{{$v.data.coding}}</td>
                                                     <td class="am-text-middle">{{$v.data.barcode}}</td>

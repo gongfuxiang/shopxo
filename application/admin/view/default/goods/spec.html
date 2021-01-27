@@ -1,10 +1,12 @@
 <!-- 规格快捷操作 -->
 <div class="spec-quick am-margin-bottom-lg">
-    <div class="am-alert am-alert-warning am-radius" data-am-alert>
-        快捷操作可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。
+    <div class="am-margin-left-xs">
+        <div class="am-alert am-alert-warning am-radius" data-am-alert>
+            快捷操作可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。
+        </div>
+        <span class="business-operations-submit quick-spec-title-add">+快捷操作</span>
+        <span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created">生成规格</span>
     </div>
-    <span class="business-operations-submit quick-spec-title-add">+快捷操作</span>
-    <span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created">生成规格</span>
     <div class="goods-specifications business-form-group" {{if empty($data['spec_base'])}}style="display: none;"{{/if}}>
         <table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover table-thead-beautify">
             <thead>
@@ -42,8 +44,10 @@
 </div>
 
 <!-- 规格常规操作 -->
-<span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
-<span class="business-operations-submit am-margin-left-sm specifications-nav-set-all am-icon-cogs" data-am-modal="{target: '#spec-popup-all-operation'}"> 高级批量设置</span>
+<div class="am-margin-left-xs">
+    <span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
+    <span class="business-operations-submit am-margin-left-sm specifications-nav-set-all am-icon-cogs" data-am-modal="{target: '#spec-popup-all-operation'}"> 高级批量设置</span>
+</div>
 <div class="goods-specifications business-form-group am-form-group-refreshing am-padding-top-sm">
     <!-- 规格列表 -->
     <div class="specifications-container am-scrollable-horizontal">
@@ -102,10 +106,13 @@
                         </td>
                         <td class="am-text-middle">
                             <input type="hidden" name="specifications_extends[]" value="" class="line-extend-input" />
-                            <span class="am-text-xs cr-blue c-p line-extend-btn">编辑</span>
+                            <a href="javascript:;" class="am-text-xs am-text-secondary line-extend-btn">编辑</a>
                         </td>
                         <td class="am-text-middle">
-                            <!--operation-->
+                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">上移</a>
+                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">下移</a>
+                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-xs line-copy">复制</a>
+                            <a href="javascript:;" class="am-text-xs am-text-danger line-remove">移除</a>
                         </td>
                     </tr>
                 {{/if}}
@@ -140,13 +147,13 @@
                                         </td>
                                         <td class="am-text-middle">
                                             <input type="hidden" name="specifications_extends[]" value="{{$v.data.extends}}" class="line-extend-input" />
-                                            <span class="am-text-xs cr-blue c-p line-extend-btn">编辑</span>
+                                            <a href="javascript:;" class="am-text-xs am-text-secondary line-extend-btn">编辑</a>
                                         </td>
                                         <td class="am-text-middle">
-                                            <span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="top">上移</span>
-                                            <span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="bottom">下移</span>
-                                            <span class="am-text-xs cr-blue c-p am-margin-right-xs line-copy">复制</span>
-                                            <span class="am-text-xs cr-red c-p line-remove">移除</span>
+                                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">上移</a>
+                                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">下移</a>
+                                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-xs line-copy">复制</a>
+                                            <a href="javascript:;" class="am-text-xs am-text-danger line-remove">移除</a>
                                         </td>
                                     {{/case}}
                                 {{/switch}}

@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\UserAddressService;
+use app\service\ResourcesService;
 
 /**
  * 用户地址管理
@@ -146,7 +147,7 @@ class UserAddress extends Common
         // 编辑器文件存放地址
         if(!empty($data['user_id']))
         {
-            $this->assign('editor_path_type', UserAddressService::EditorAttachmentPathType($data['user_id']));
+            $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($data['user_id'])));
         }
 
         // 数据

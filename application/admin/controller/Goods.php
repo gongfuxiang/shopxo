@@ -15,6 +15,7 @@ use app\service\GoodsService;
 use app\service\RegionService;
 use app\service\BrandService;
 use app\service\GoodsParamsService;
+use app\service\ResourcesService;
 
 /**
  * 商品管理
@@ -229,7 +230,7 @@ class Goods extends Common
         ]));
 
         // 编辑器文件存放地址
-		$this->assign('editor_path_type', 'goods');
+		$this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('goods'));
 
 		// 数据
 		unset($params['id'], $params['is_copy']);

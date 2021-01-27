@@ -453,6 +453,21 @@ class GoodsService
             $is_params = (isset($params['is_params']) && $params['is_params'] == true) ? true : false;
             $data_key_field = empty($params['data_key_field']) ? 'id' : $params['data_key_field'];
 
+            // 字段列表
+            $keys = ArrayKeys($data);
+
+            // 品牌名称
+            if(in_array('brand_id', $keys))
+            {
+                $brand_list = BrandService::BrandName(array_column($data, 'brand_id'));
+            }
+
+            // 产地名称
+            if(in_array('place_origin', $keys))
+            {
+                $place_origin_list = RegionService::RegionName(array_column($data, 'place_origin'));
+            }
+
             // 开始处理数据
             foreach($data as &$v)
             {
@@ -538,13 +553,13 @@ class GoodsService
                 // 产地
                 if(isset($v['place_origin']))
                 {
-                    $v['place_origin_name'] = empty($v['place_origin']) ? null : RegionService::RegionName($v['place_origin']);
+                    $v['place_origin_name'] = (!empty($place_origin_list) && is_array($place_origin_list) && array_key_exists($v['place_origin'], $place_origin_list)) ? $place_origin_list[$v['place_origin']] : null;
                 }
 
                 // 品牌
                 if(isset($v['brand_id']))
                 {
-                    $v['brand_name'] = empty($v['brand_id']) ? null : BrandService::BrandName($v['brand_id']);
+                    $v['brand_name'] = (!empty($brand_list) && is_array($brand_list) && array_key_exists($v['brand_id'], $brand_list)) ? $brand_list[$v['brand_id']] : null;
                 }
 
                 // 时间
@@ -1780,52 +1795,8 @@ class GoodsService
 
         // 捕获异常
         try {
-            // 删除商品
-            if(!Db::name('Goods')->where(['id'=>$params['ids']])->delete())
-            {
-                throw new \Exception('商品删除失败');
-            }
-            // 商品规格
-            if(Db::name('GoodsSpecType')->where(['goods_id'=>$params['ids']])->delete() === false)
-            {
-                throw new \Exception('规格类型删除失败');
-            }
-            if(Db::name('GoodsSpecValue')->where(['goods_id'=>$params['ids']])->delete() === false)
-            {
-                throw new \Exception('规格值删除失败');
-            }
-            if(Db::name('GoodsSpecBase')->where(['goods_id'=>$params['ids']])->delete() === false)
-            {
-                throw new \Exception('规格基础删除失败');
-            }
-
-            // 相册
-            if(Db::name('GoodsPhoto')->where(['goods_id'=>$params['ids']])->delete() === false)
-            {
-                throw new \Exception('相册删除失败');
-            }
-
-            // app内容
-            if(Db::name('GoodsContentApp')->where(['goods_id'=>$params['ids']])->delete() === false)
-            {
-                throw new \Exception('手机端内容删除失败');
-            }
-
-            // 商品参数
-            if(Db::name('GoodsParams')->where(['goods_id'=>$params['ids']])->delete() === false)
-            {
-                throw new \Exception('规格参数删除失败');
-            }
-
-            // 商品关联仓库信息+库存
-            if(Db::name('WarehouseGoods')->where(['goods_id'=>$params['ids']])->delete() === false)
-            {
-                throw new \Exception('仓库商品删除失败');
-            }
-            if(Db::name('WarehouseGoodsSpec')->where(['goods_id'=>$params['ids']])->delete() === false)
-            {
-                throw new \Exception('仓库商品库存删除失败');
-            }
+            // 删除商品操作
+            self::GoodsDeleteHandle($params['ids']);
 
             // 商品删除钩子
             $hook_name = 'plugins_service_goods_delete';
@@ -1833,7 +1804,7 @@ class GoodsService
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => $params,
-                'data_ids'      => $params['ids'],
+                'goods_ids'     => $params['ids'],
             ]);
 
             // 提交事务
@@ -1842,6 +1813,65 @@ class GoodsService
         } catch(\Exception $e) {
             Db::rollback();
             return DataReturn($e->getMessage(), -1);
+        }
+    }
+
+    /**
+     * 商品删除操作
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-27
+     * @desc    description
+     * @param   [array]          $goods_ids [商品id]
+     */
+    public static function GoodsDeleteHandle($goods_ids)
+    {
+        // 删除商品
+        if(!Db::name('Goods')->where(['id'=>$goods_ids])->delete())
+        {
+            throw new \Exception('商品删除失败');
+        }
+        // 商品规格
+        if(Db::name('GoodsSpecType')->where(['goods_id'=>$goods_ids])->delete() === false)
+        {
+            throw new \Exception('规格类型删除失败');
+        }
+        if(Db::name('GoodsSpecValue')->where(['goods_id'=>$goods_ids])->delete() === false)
+        {
+            throw new \Exception('规格值删除失败');
+        }
+        if(Db::name('GoodsSpecBase')->where(['goods_id'=>$goods_ids])->delete() === false)
+        {
+            throw new \Exception('规格基础删除失败');
+        }
+
+        // 相册
+        if(Db::name('GoodsPhoto')->where(['goods_id'=>$goods_ids])->delete() === false)
+        {
+            throw new \Exception('相册删除失败');
+        }
+
+        // app内容
+        if(Db::name('GoodsContentApp')->where(['goods_id'=>$goods_ids])->delete() === false)
+        {
+            throw new \Exception('手机端内容删除失败');
+        }
+
+        // 商品参数
+        if(Db::name('GoodsParams')->where(['goods_id'=>$goods_ids])->delete() === false)
+        {
+            throw new \Exception('规格参数删除失败');
+        }
+
+        // 商品关联仓库信息+库存
+        if(Db::name('WarehouseGoods')->where(['goods_id'=>$goods_ids])->delete() === false)
+        {
+            throw new \Exception('仓库商品删除失败');
+        }
+        if(Db::name('WarehouseGoodsSpec')->where(['goods_id'=>$goods_ids])->delete() === false)
+        {
+            throw new \Exception('仓库商品库存删除失败');
         }
     }
 
@@ -1880,12 +1910,40 @@ class GoodsService
             return DataReturn($ret, -1);
         }
 
-        // 数据更新
-        if(Db::name('Goods')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
-        {
+        // 启动事务
+        Db::startTrans();
+
+        // 捕获异常
+        try {
+            // 基础参数
+            $goods_id = intval($params['id']);
+            $field = $params['field'];
+            $status = intval($params['state']);
+
+            // 数据更新
+            if(!Db::name('Goods')->where(['id'=>$goods_id])->update([$field=>$status, 'upd_time'=>time()]))
+            {
+                throw new \Exception('操作失败');
+            }
+
+            // 商品删除钩子
+            $hook_name = 'plugins_service_goods_field_status_update';
+            Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => $params,
+                'goods_id'      => $goods_id,
+                'field'         => $field,
+                'status'        => $status,
+            ]);
+
+            // 提交事务
+            Db::commit();
             return DataReturn('操作成功');
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-        return DataReturn('操作失败', -100);
     }
 
     /**

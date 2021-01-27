@@ -252,6 +252,15 @@ class Goods
                     ],
                 ],
                 [
+                    'label'         => '销量',
+                    'view_type'     => 'field',
+                    'view_key'      => 'sales_count',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'section',
+                    ],
+                ],
+                [
                     'label'         => '访问次数',
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',

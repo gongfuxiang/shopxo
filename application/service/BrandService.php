@@ -135,11 +135,31 @@ class BrandService
      * @version 1.0.0
      * @date    2018-09-19
      * @desc    description
-     * @param   [int]          $brand_id [地区id]
+     * @param   [array|int]          $brand_ids [快递id]
      */
-    public static function BrandName($brand_id = 0)
+    public static function BrandName($brand_ids = 0)
     {
-        return empty($brand_id) ? null : Db::name('Brand')->where(['id'=>intval($brand_id)])->value('name');
+        if(empty($brand_ids))
+        {
+            return null;
+        }
+
+        // 参数处理查询数据
+        if(is_array($brand_ids))
+        {
+            $brand_ids = array_filter(array_unique($brand_ids));
+        }
+        if(!empty($brand_ids))
+        {
+            $data = Db::name('Brand')->where(['id'=>$brand_ids])->column('name', 'id');
+        }
+
+        // id数组则直接返回
+        if(is_array($brand_ids))
+        {
+            return empty($data) ? [] : $data;
+        }
+        return (!empty($data) && is_array($data) && array_key_exists($brand_ids, $data)) ? $data[$brand_ids] : null;
     }
 
     /**

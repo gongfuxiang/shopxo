@@ -394,7 +394,7 @@ class Common extends Controller
         $this->assign('common_bottom_nav_list', NavigationService::BottomNavigation(['user'=>$this->user]));
 
         // 编辑器文件存放地址
-        $this->assign('editor_path_type', empty($this->user['id']) ? 'public' : 'user-'.$this->user['id']);
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue(empty($this->user['id']) ? 'public' : 'user-'.$this->user['id']));
 
         // 分类展示层级模式
         $this->assign('category_show_level', MyC('common_show_goods_category_level', 3, true));

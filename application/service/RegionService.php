@@ -28,11 +28,31 @@ class RegionService
      * @version 1.0.0
      * @date    2018-09-19
      * @desc    description
-     * @param   [int]          $region_id [地区id]
+     * @param   [array|int]          $region_ids [地区id]
      */
-    public static function RegionName($region_id = 0)
+    public static function RegionName($region_ids = 0)
     {
-        return empty($region_id) ? null : Db::name('Region')->where(['id'=>intval($region_id)])->value('name');
+        if(empty($region_ids))
+        {
+            return null;
+        }
+
+        // 参数处理查询数据
+        if(is_array($region_ids))
+        {
+            $region_ids = array_filter(array_unique($region_ids));
+        }
+        if(!empty($region_ids))
+        {
+            $data = Db::name('Region')->where(['id'=>$region_ids])->column('name', 'id');
+        }
+
+        // id数组则直接返回
+        if(is_array($region_ids))
+        {
+            return empty($data) ? [] : $data;
+        }
+        return (!empty($data) && is_array($data) && array_key_exists($region_ids, $data)) ? $data[$region_ids] : null;
     }
 
     /**

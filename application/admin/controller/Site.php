@@ -13,6 +13,7 @@ namespace app\admin\controller;
 use app\service\ConfigService;
 use app\service\GoodsService;
 use app\service\SiteService;
+use app\service\ResourcesService;
 
 /**
  * 站点设置
@@ -123,7 +124,7 @@ class Site extends Common
 		}
 
 		// 编辑器文件存放地址
-        $this->assign('editor_path_type', 'common');
+        $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('common'));
 
         // 视图
         $view = 'site/'.$this->nav_type.'/'.$this->view_type;

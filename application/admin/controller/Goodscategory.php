@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\GoodsService;
+use app\service\ResourcesService;
 
 /**
  * 分类管理
@@ -59,7 +60,7 @@ class GoodsCategory extends Common
         $this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
 
         // 编辑器文件存放地址
-		$this->assign('editor_path_type', 'goods_category');
+		$this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('goods_category'));
 
 		return $this->fetch();
 	}
