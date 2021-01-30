@@ -737,6 +737,23 @@ i.file-preview.file-type-psd{
     padding: 2px 0;
 }
 
+/**
+ * 选择计数
+ */
+#fileList .select-count {
+    position: absolute;
+    top: 25px;
+    left: 5px;
+    background: #1194fa;
+    color: #fff;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 15px;
+    min-width: 12px;
+    text-align: center;
+    display: none;
+}
+
 
 /**
  * 右侧小导航

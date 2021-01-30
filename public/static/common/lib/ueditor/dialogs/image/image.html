@@ -93,5 +93,17 @@
     </div>
     <script type="text/javascript" src="image.js"></script>
 
+    <!-- 拖拽 -->
+    <script type='text/javascript' src="../../../dragsort/jquery.dragsort-0.5.2.min.js"></script>
+    <script type="text/javascript">
+        $(function()
+        {
+            // 上传预览拖拽排序
+            $('ul.filelist').dragsort({
+                dragSelector: 'img',
+                placeHolderTemplate: '<li></li>'
+            });
+        });
+    </script>
 </body>
 </html>

@@ -180,13 +180,61 @@
                     li = target.parentNode;
 
                 if (li.tagName.toLowerCase() == 'li') {
+                    // 选择顺序 start
+                    var $select_count_container = $(li).find('.select-count');
+                    // 选择顺序 end
+
                     if (domUtils.hasClass(li, 'selected')) {
                         domUtils.removeClasses(li, 'selected');
+
+                        // 选择顺序 start
+                        $select_count_container.css('display', 'none');
+                        $select_count_container.text('');
+                        // 选择顺序 end
                     } else {
                         domUtils.addClass(li, 'selected');
+
+                        // 选择顺序 start
+                        var count = 0;
+                        $($G('videoList')).find('li.selected').each(function(k, v)
+                        {
+                            var temp = parseInt($(this).find('.select-count').text());
+                            if(temp > count)
+                            {
+                                count = temp;
+                            }
+                        });
+                        $select_count_container.css('display', 'block');
+                        $select_count_container.text(count+1);
+                        // 选择顺序 end
                     }
+
+                    // 选择顺序 start
+                    _this.selectSortHandle();
+                    // 选择顺序 end
                 }
             });
+        },
+        /* 选择顺序处理 */
+        selectSortHandle: function()
+        {
+            var arr = [];
+            $($G('videoList')).find('li.selected').each(function(k, v)
+            {
+                var count = parseInt($(this).find('.select-count').text())-1;
+                arr[count] = {
+                    "count": count,
+                    "e": $(this)
+                };
+            });
+            if(arr.length > 0)
+            {
+                arr = arr.sort();
+                for(var i in arr)
+                {
+                    $(arr[i]['e']).find('.select-count').text(parseInt(i)+1);
+                }
+            }
         },
         /* 初始化第一次的数据 */
         initData: function () {
@@ -275,6 +323,14 @@
                     original.innerHTML = list[i].original;
                     item.appendChild(original);
                     // 原名功能 end
+                    
+                    // 选择计数 start
+                    var select_count = document.createElement('span');
+                    select_count.setAttribute('class', 'select-count');
+                    select_count.style.display = 'none';
+                    select_count.innerHTML = '';
+                    item.appendChild(select_count);
+                    // 选择计数 end
 
                     // 视频添加删除功能 start
                     item.appendChild($("<span class='delbtn' data-id='" + list[i].id + "'>x</span>").click(function() {
@@ -287,8 +343,16 @@
                         } finally {
                             if(!confirm("确定要删除吗？")) return;
                             $.post(editor.getOpt("serverUrl") + "?action=deletefile", { "id": del.attr("data-id") }, function(response) {
-                                if (response.code == 0) del.parent().remove();
-                                else alert(response.msg);
+                                if (response.code == 0)
+                                {
+                                    del.parent().remove();
+
+                                    // 选择顺序 start
+                                    _this.selectSortHandle();
+                                    // 选择顺序 end
+                                } else {
+                                    alert(response.msg);
+                                }
                             });
                         }
                     })[0]);
@@ -304,16 +368,20 @@
                 if (domUtils.hasClass(lis[i], 'selected')) {
                     var video = lis[i].firstChild,
                         src = video.getAttribute('_src');
-                    list.push({
-                        src: src,
-                        _src: src,
-                        alt: src.substr(src.lastIndexOf('/') + 1),
-                        floatStyle: align
-                    });
+                    if((lis[i] || null) != null)
+                    {
+                        var index = parseInt($(lis[i]).find('.select-count').text())-1;
+                        list[index] = {
+                            src: src,
+                            _src: src,
+                            alt: src.substr(src.lastIndexOf('/') + 1),
+                            floatStyle: align
+                        }
+                    }
                 }
 
             }
-            return list;
+            return list.length ? list.sort() : list;
         }
     };
 
@@ -964,11 +1032,16 @@
                     var responseText = (ret._raw || ret),
                         json = utils.str2json(responseText);
                     if (json.code == 0) {
-                        uploadVideoList.push({
+                        // uploadVideoList.push({
+                        //     'url': json.data.url,
+                        //     'type': json.data.type,
+                        //     'original':json.data.original
+                        // });
+                        uploadVideoList[$file.index()] = {
                             'url': json.data.url,
                             'type': json.data.type,
                             'original':json.data.original
-                        });
+                        };
                         $file.append('<span class="success"></span>');
                     } else {
                         $file.find('.error').text(json.msg).show();
