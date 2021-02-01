@@ -669,7 +669,7 @@
             });
             if(arr.length > 0)
             {
-                arr = arr.sort();
+                arr = arr.sort().filter(a=>a);
                 for(var i in arr)
                 {
                     $(arr[i]['e']).find('.select-count').text(parseInt(i)+1);
@@ -857,7 +857,7 @@
                     }
                 }
             }
-            return list.length ? list.sort() : list;
+            return list.length ? list.sort().filter(a=>a) : list;
         }
     };
 
