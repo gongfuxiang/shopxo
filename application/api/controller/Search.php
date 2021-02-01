@@ -70,7 +70,7 @@ class Search extends Common
 
         // 商品规格
         $result['goods_spec_list'] = SearchService::SearchGoodsSpecValueList($this->data_request);
-        
+
         return BaseService::DataReturn($result);
     }
 }

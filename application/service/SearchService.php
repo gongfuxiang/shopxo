@@ -117,6 +117,14 @@ class SearchService
      */
     public static function SearchWhereHandle($params = [])
     {
+        // 搜索商品条件处理钩子
+        $hook_name = 'plugins_service_search_goods_list_where';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+        ]);
+
         // 基础条件
         $where_base = [
             ['g.is_delete_time', '=', 0],
@@ -389,7 +397,12 @@ class SearchService
      */
     public static function ScreeningPriceList($params = [])
     {
-        return Db::name('ScreeningPrice')->field('id,name,min_price,max_price')->where(['is_enable'=>1])->order('sort asc')->select();
+        $data = [];
+        if(MyC('home_search_is_price', 0) == 1)
+        {
+            $data = Db::name('ScreeningPrice')->field('id,name,min_price,max_price')->where(['is_enable'=>1])->order('sort asc')->select();
+        }
+        return $data;
     }
 
     /**
@@ -403,18 +416,23 @@ class SearchService
      */
     public static function SearchGoodsParamsValueList($params = [])
     {
-        // 搜索条件
-        $where = self::SearchWhereHandle($params);
-        $base_where = $where['base'];
-        $where_keywords = $where['keywords'];
-        $where_screening_price = $where['screening_price'];
+        $data = [];
+        if(MyC('home_search_is_params', 0) == 1)
+        {
+            // 搜索条件
+            $where = self::SearchWhereHandle($params);
+            $base_where = $where['base'];
+            $where_keywords = $where['keywords'];
+            $where_screening_price = $where['screening_price'];
 
-        // 一维数组、参数值去重
-        return Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->join(['__GOODS_PARAMS__'=>'gp'], 'g.id=gp.goods_id')->where($base_where)->where(function($query) use($where_keywords) {
-            $query->whereOr($where_keywords);
-        })->where(function($query) use($where_screening_price) {
-            $query->whereOr($where_screening_price);
-        })->group('gp.value')->field('gp.value')->select();
+            // 一维数组、参数值去重
+            $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->join(['__GOODS_PARAMS__'=>'gp'], 'g.id=gp.goods_id')->where($base_where)->where(function($query) use($where_keywords) {
+                $query->whereOr($where_keywords);
+            })->where(function($query) use($where_screening_price) {
+                $query->whereOr($where_screening_price);
+            })->group('gp.value')->field('gp.value')->select();
+        }
+        return $data;
     }
 
     /**
@@ -428,18 +446,23 @@ class SearchService
      */
     public static function SearchGoodsSpecValueList($params = [])
     {
-        // 搜索条件
-        $where = self::SearchWhereHandle($params);
-        $base_where = $where['base'];
-        $where_keywords = $where['keywords'];
-        $where_screening_price = $where['screening_price'];
+        $data = [];
+        if(MyC('home_search_is_spec', 0) == 1)
+        {
+            // 搜索条件
+            $where = self::SearchWhereHandle($params);
+            $base_where = $where['base'];
+            $where_keywords = $where['keywords'];
+            $where_screening_price = $where['screening_price'];
 
-        // 一维数组、参数值去重
-        return Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->join(['__GOODS_SPEC_VALUE__'=>'gsv'], 'g.id=gsv.goods_id')->where($base_where)->where(function($query) use($where_keywords) {
-            $query->whereOr($where_keywords);
-        })->where(function($query) use($where_screening_price) {
-            $query->whereOr($where_screening_price);
-        })->group('gsv.value')->field('gsv.value')->select();
+            // 一维数组、参数值去重
+            $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->join(['__GOODS_SPEC_VALUE__'=>'gsv'], 'g.id=gsv.goods_id')->where($base_where)->where(function($query) use($where_keywords) {
+                $query->whereOr($where_keywords);
+            })->where(function($query) use($where_screening_price) {
+                $query->whereOr($where_screening_price);
+            })->group('gsv.value')->field('gsv.value')->select();
+        }
+        return $data;
     }
 
     /**

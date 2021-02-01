@@ -85,6 +85,9 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
 .popup-not-title .am-popup-inner {
     padding-top: 0;
     background: #fff;
+    border: 1px solid #e8e6e6;
+    -webkit-box-shadow: 0 0 30px rgba(0,0,0,0.4);
+    box-shadow: 0 0 30px rgba(0,0,0,0.4);
 }
 .popup-not-title .am-close {
     position: absolute;
@@ -216,7 +219,7 @@ iframe { border: 0; }
 /**
  * 公共图片上传
  */
-.am-form-file input[type="file"] { overflow:hidden; width: 96px !important; height: 28px; top: 10px; }
+.am-form-file input[type="file"] { overflow:hidden; width: 90px !important; height: 28px; top: 0; }
 .am-form-file input.original-images-url { display: -webkit-inline-box !important; width: calc(100% - 110px) !important; background: #f5f5f5 !important; float: right; }
 .am-form-file i.original-images-url-delete { position: absolute; right: 3px; margin-top: 5px; cursor: pointer; background: #f5f5f5; padding: 0px 10px; }
 .am-form-file input.original-images-url-delete {  padding-right: 35px !important; }
