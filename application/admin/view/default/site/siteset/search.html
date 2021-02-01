@@ -36,6 +36,31 @@
                 </div>
             </div>
 
+            <div class="am-form-group">
+                <label>{{$data.home_search_is_price.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_price.describe}}</span></label>
+                <select name="{{$data.home_search_is_price.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_price.error_tips}}" required>
+                    {{foreach $site_site_state_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_search_is_price']['value']) and $data['home_search_is_price']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+            <div class="am-form-group">
+                <label>{{$data.home_search_is_params.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_params.describe}}</span></label>
+                <select name="{{$data.home_search_is_params.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_params.error_tips}}" required>
+                    {{foreach $site_site_state_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_search_is_params']['value']) and $data['home_search_is_params']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+            <div class="am-form-group">
+                <label>{{$data.home_search_is_spec.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_spec.describe}}</span></label>
+                <select name="{{$data.home_search_is_spec.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_spec.error_tips}}" required>
+                    {{foreach $site_site_state_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_search_is_spec']['value']) and $data['home_search_is_spec']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <input type="hidden" name="view_type" value="{{$view_type}}" />

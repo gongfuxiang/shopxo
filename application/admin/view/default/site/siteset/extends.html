@@ -27,6 +27,15 @@
                             {{/foreach}}
                         </select>
                     </div>
+
+                    <div class="am-form-group">
+                        <label>{{$data.common_is_pay_price_must_max_equal.name}}<span class="am-form-group-label-tips">{{$data.common_is_pay_price_must_max_equal.describe}}</span></label>
+                        <select name="{{$data.common_is_pay_price_must_max_equal.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_pay_price_must_max_equal.error_tips}}" required>
+                            {{foreach $site_site_state_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['common_is_pay_price_must_max_equal']['value']) and $data['common_is_pay_price_must_max_equal']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
                 </div>
             </div>
 

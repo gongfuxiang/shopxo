@@ -43,7 +43,7 @@
 
             <div class="am-form-group">
                 <label>版本<span class="am-form-group-label-tips">主版本.次版本号.修订号，每个段不超过6位，如 1.0.0</span></label>
-                <input type="text" name="version" placeholder="版本" minlength="2" maxlength="16" data-validation-message="版本格式有误" pattern="^[0-9]{1,6}\.[0-9]{1,6}\.[0-9]{1,6}$" class="am-radius" {{if !empty($data)}} value="{{$data.version}}"{{/if}} required />
+                <input type="text" name="version" placeholder="版本" minlength="5" maxlength="18" data-validation-message="版本格式有误" pattern="^[0-9]{1,6}\.[0-9]{1,6}\.[0-9]{1,6}$" class="am-radius" {{if !empty($data)}} value="{{$data.version}}"{{/if}} required />
             </div>
 
             <div class="am-form-group am-form-file">
