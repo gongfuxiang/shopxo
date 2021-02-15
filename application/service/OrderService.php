@@ -23,6 +23,7 @@ use app\service\UserService;
 use app\service\GoodsService;
 use app\service\OrderAftersaleService;
 use app\service\OrderCurrencyService;
+use app\service\WarehouseService;
 
 /**
  * 订单服务层
@@ -1043,9 +1044,12 @@ class OrderService
             // 仓库信息
             if(in_array('warehouse_id', $keys))
             {
-                // 地区数据
                 $we_ids = array_unique(array_column($data, 'warehouse_id'));
-                $warehouse_list = Db::name('Warehouse')->where(['id'=>$we_ids])->column('name', 'id');
+                $warehouse_list = WarehouseService::DataHandle(Db::name('Warehouse')->where(['id'=>$we_ids])->field('id,name')->select());
+                if(!empty($warehouse_list))
+                {
+                    $warehouse_list = array_column($warehouse_list, null, 'id');
+                }
             }
 
             // 默认货币
@@ -1095,7 +1099,16 @@ class OrderService
                 // 订单所属仓库
                 if(isset($v['warehouse_id']))
                 {
-                    $v['warehouse_name'] = (!empty($warehouse_list) && is_array($warehouse_list) && array_key_exists($v['warehouse_id'], $warehouse_list)) ? $warehouse_list[$v['warehouse_id']] : '';
+                    if(!empty($warehouse_list) && is_array($warehouse_list) && array_key_exists($v['warehouse_id'], $warehouse_list))
+                    {
+                        $v['warehouse_name'] = $warehouse_list[$v['warehouse_id']]['name'];
+                        $v['warehouse_icon'] = $warehouse_list[$v['warehouse_id']]['icon'];
+                        $v['warehouse_url'] = $warehouse_list[$v['warehouse_id']]['url'];
+                    } else {
+                        $v['warehouse_name'] = '';
+                        $v['warehouse_icon'] = '';
+                        $v['warehouse_url'] = '';
+                    }
                 }
 
                 // 订单模式处理

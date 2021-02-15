@@ -16,6 +16,7 @@ use app\service\UserService;
 use app\service\UserAddressService;
 use app\service\PaymentService;
 use app\service\BuyService;
+use app\service\SeoService;
 
 /**
  * 购买
@@ -111,6 +112,9 @@ class Buy extends Common
 
                 // 钩子
                 $this->PluginsHook($buy_ret['data'], $params);
+
+                // 浏览器名称
+                $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单确认', 1));
 
                 return $this->fetch();
             } else {

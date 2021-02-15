@@ -472,7 +472,7 @@ class PaymentService
         }
 
         // 文件格式化校验
-        $type = array('application/zip', 'application/octet-stream', 'application/x-zip-compressed');
+        $type = ResourcesService::ZipExtTypeList();
         if(!in_array($_FILES['file']['type'], $type))
         {
             return DataReturn('文件格式有误，请上传zip压缩包', -2);

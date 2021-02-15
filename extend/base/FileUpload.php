@@ -34,7 +34,7 @@ class FileUpload
      */
     public function __construct($params = [])
     {
-        $this->config['root_path'] = isset($params['root_path']) ? $params['root_path'] : ROOT.'public';
+        $this->config['dir'] = isset($params['dir']) ? $params['dir'] : ROOT.'public';
         $this->config['path'] = isset($params['path']) ? $params['path'] : DS.'static'.DS.'upload'.DS.'file'.DS.date('Y').DS.date('m').DS.date('d').DS;
     }
 
@@ -55,11 +55,11 @@ class FileUpload
         $error = FileUploadError($name, $index);
         if($error !== true)
         {
-            return ['status'=>false, 'msg'=>$error];
+            return DataReturn($error, -1);
         }
 
         // 存储目录校验
-        $dir = str_replace(['//', '\\\\'], ['/', '\\'], $this->config['root_path'].$this->config['path']);
+        $dir = str_replace(['//', '\\\\'], ['/', '\\'], $this->config['dir'].$this->config['path']);
         $this->IsMkdir($dir);
 
         // 临时文件数据
@@ -85,18 +85,19 @@ class FileUpload
         if(move_uploaded_file($temp_file, $dir.$filename))
         {
             $data = [
-                'name'          => $original_name,
-                'url'           => $this->config['path'].$filename,
-                'file_path'     => $this->config['path'],
-                'file_name'     => $filename,
-                'file_ext'      => $ext,
-                'file_size'     => $size,
-                'file_type'     => $type,
-                'file_hash'     => hash_file('sha256', $dir.$filename, false),
+                'title' => $original_name,
+                'url'   => $this->config['path'].$filename,
+                'path'  => $this->config['path'],
+                'name'  => $filename,
+                'ext'   => $ext,
+                'size'  => $size,
+                'type'  => $type,
+                'hash'  => hash_file('sha256', $dir.$filename, false),
+                'md5'   => md5_file($dir.$filename),
             ];
-            return ['status'=>true, 'msg'=>'上传成功', 'data'=>$data];
+            return DataReturn('上传成功', 0, $data);
         }
-        return ['status'=>false, 'msg'=>'文件存储失败'];
+        return DataReturn('文件存储失败', -1);
     }
 
     /**
@@ -127,7 +128,7 @@ class FileUpload
      */
     private function RandNewFilename()
     {
-        return date('YmdHis').rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
+        return date('YmdHis').GetNumberCode();
     }
 }
 ?>

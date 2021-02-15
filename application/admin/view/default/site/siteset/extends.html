@@ -36,6 +36,15 @@
                             {{/foreach}}
                         </select>
                     </div>
+
+                    <div class="am-form-group">
+                        <label>{{$data.home_header_top_is_home.name}}<span class="am-form-group-label-tips">{{$data.home_header_top_is_home.describe}}</span></label>
+                        <select name="{{$data.home_header_top_is_home.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_header_top_is_home.error_tips}}" required>
+                            {{foreach $site_site_state_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_header_top_is_home']['value']) and $data['home_header_top_is_home']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
                 </div>
             </div>
 

@@ -70,7 +70,6 @@ class WarehouseGoods
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'id',
-                        'where_type'            => 'like',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereGoodsInfo',
                         'placeholder'           => '请输入商品名称/型号',

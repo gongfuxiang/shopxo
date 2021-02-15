@@ -24,10 +24,44 @@
 
     <!-- 基础信息 -->
     <p class="am-margin-bottom-sm">
+        <!-- 订单号 -->
         <strong class="am-icon-bookmark-o"> {{$module_data.order_no}}</strong>
+
+        <!-- 仓库信息 -->
         {{if !empty($module_data['warehouse_name'])}}
-            <span class="am-fr"> {{$module_data.warehouse_name}}</span>
+            <span class="warehouse-item-container am-fr">
+                {{if !empty($module_data['warehouse_icon'])}}<i class="{{$module_data.warehouse_icon}}"></i>{{/if}}
+                {{if empty($module_data['warehouse_url'])}}
+                    <strong class="warehouse-name">{{$module_data.warehouse_name}}</strong>
+                {{else /}}
+                    <a href="{{$module_data.warehouse_url}}" target="_blank" class="text-deco-none">
+                        <strong class="warehouse-name">{{$module_data.warehouse_name}}</strong>
+                    </a>
+                {{/if}}
+            </span>
         {{/if}}
+
+        <!-- 订单列表基础导航底部-开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_user_order_list_base_nav_bottom</span>
+            </div>
+        {{/if}}
+        {{php}}
+            $hook_name = 'plugins_view_user_order_list_base_nav_bottom';
+            $hook_data = Hook::listen($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$module_data]);
+            if(!empty($hook_data) && is_array($hook_data))
+            {
+                foreach($hook_data as $hook)
+                {
+                    if(is_string($hook) || is_int($hook))
+                    {
+                        echo htmlspecialchars_decode($hook);
+                    }
+                }
+            }
+        {{/php}}
+        <!-- 订单列表基础导航底部-结束 -->
     </p>
 
     <!-- 用户订单列表基础商品顶部-开始 -->

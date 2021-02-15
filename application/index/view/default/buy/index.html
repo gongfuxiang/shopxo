@@ -293,7 +293,18 @@
                                 {{/php}}
                                 <!-- 分组导航内部开始钩子-结束 -->
 
-                                <strong>{{$v.name}}{{if !empty($v['alias'])}}<span class="am-badge am-badge-secondary-plain am-radius am-margin-left-xs">{{$v.alias}}</span>{{/if}}</strong>
+                                <!-- 仓库信息 -->
+                                <span class="warehouse-item-container">
+                                    {{if !empty($v['icon'])}}<i class="{{$v.icon}}"></i>{{/if}}
+                                    {{if empty($v['url'])}}
+                                        <strong class="warehouse-name">{{$v.name}}</strong>
+                                    {{else /}}
+                                        <a href="{{$v.url}}" target="_blank" class="text-deco-none">
+                                            <strong class="warehouse-name">{{$v.name}}</strong>
+                                        </a>
+                                    {{/if}}
+                                    {{if !empty($v['alias'])}}<span class="am-badge am-badge-secondary-plain am-radius am-margin-left-xs">{{$v.alias}}</span>{{/if}}
+                                </span>
 
                                 <!-- 分组导航内部中间钩子-开始 -->
                                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
@@ -317,6 +328,7 @@
                                 {{/php}}
                                 <!-- 分组导航内部中间钩子-结束 -->
 
+                                <!-- 地理位置 -->
                                 {{if isset($v['lng']) and isset($v['lat']) and $v['lng'] neq 0 and $v['lat'] neq 0}}
                                     <div class="am-fr">
                                         <a href="javascript:;" class="am-badge am-badge-default am-radius am-icon-map-marker submit-map-popup" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}"> 查看地图</a>

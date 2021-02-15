@@ -37,6 +37,22 @@
             </div>
 
             <div class="am-form-group">
+                <label>{{$data.home_search_is_brand.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_brand.describe}}</span></label>
+                <select name="{{$data.home_search_is_brand.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_brand.error_tips}}" required>
+                    {{foreach $site_site_state_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_search_is_brand']['value']) and $data['home_search_is_brand']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+            <div class="am-form-group">
+                <label>{{$data.home_search_is_category.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_category.describe}}</span></label>
+                <select name="{{$data.home_search_is_category.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_category.error_tips}}" required>
+                    {{foreach $site_site_state_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_search_is_category']['value']) and $data['home_search_is_category']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+            <div class="am-form-group">
                 <label>{{$data.home_search_is_price.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_price.describe}}</span></label>
                 <select name="{{$data.home_search_is_price.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_price.error_tips}}" required>
                     {{foreach $site_site_state_list as $v}}

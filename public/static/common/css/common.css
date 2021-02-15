@@ -5,13 +5,14 @@
 ul { list-style: none; }
 .none { display:none !important; }
 .block { display:block !important; }
+.text-deco-none { text-decoration: none !important; }
+.text-deco-line { text-decoration: underline !important; }
 
 /* 没数据 */
 .table-no {text-align:center;padding:115px 0;background:#FFF !important;color: #888; }
 
 /* 公共dl样式 */
-.dl-content dt { float: left; padding-left: 5px; overflow: hidden; clear: left;  
-        width: 120px; }
+.dl-content dt { float: left; padding-left: 5px; overflow: hidden; width: 120px; }
 .dl-content dd { padding-left: 120px; }
 .dl-content dd:not(:last-child) { border-bottom: 1px solid #efefef; }
 .dl-content dt, .dl-content dd { font-weight: normal !important; text-align: left; margin-top: 0px; line-height: 20px; min-height: 40px; padding-top: 10px; padding-bottom: 10px; }
@@ -161,7 +162,7 @@ iframe { border: 0; }
     .region-linkage select:not(:first-child) { margin-bottom: 5px; }
 
     /* 表单 */
-    form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block { padding: 5px 0 10px 0px; }
+    form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block { padding: 15px 0 10px 0px; }
 }
 
 /**

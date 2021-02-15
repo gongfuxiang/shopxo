@@ -1433,7 +1433,7 @@ class GoodsService
                     return DataReturn('规格名称列之间不能重复['.implode(',', array_unique($repeat_names_all)).']', -1);
                 }
             } else {
-                if(empty($data[0][0]) || $data[0][0] <= 0)
+                if(!isset($data[0][0]) || $data[0][0] < 0)
                 {
                     return DataReturn('请填写有效的规格销售价格', -1);
                 }

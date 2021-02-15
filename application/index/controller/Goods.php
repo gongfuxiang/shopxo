@@ -191,7 +191,19 @@ class Goods extends Common
             // 商品页面购买导航顶部钩子
             'plugins_view_goods_detail_buy_nav_top',
 
-            // 商品页面基础信息面板底部钩子
+            // 商品页右侧内容顶部钩子
+            'plugins_view_goods_detail_right_content_top',
+
+            // 商品页右侧内容底部钩子
+            'plugins_view_goods_detail_right_content_bottom',
+
+            // 商品页右侧内容内部顶部钩子
+            'plugins_view_goods_detail_right_content_inside_top',
+
+            // 商品页右侧内容内部底部钩子
+            'plugins_view_goods_detail_right_content_inside_bottom',
+
+            // 商品页基础信息底部钩子
             'plugins_view_goods_detail_base_bottom',
 
             // 商品页面tabs顶部钩子
@@ -209,7 +221,10 @@ class Goods extends Common
             // 商品页面基础信息面板售价顶部钩子
             'plugins_view_goods_detail_panel_price_top',
 
-            // 商品页面基础信息购买小导航里面钩子
+            // 商品页面基础信息购买小导航内部前面钩子
+            'plugins_view_goods_detail_base_buy_nav_min_inside_begin',
+
+            // 商品页面基础信息购买小导航内部中间钩子
             'plugins_view_goods_detail_base_buy_nav_min_inside',
         ];
         foreach($hook_arr as $hook_name)

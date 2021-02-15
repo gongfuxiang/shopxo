@@ -654,5 +654,23 @@ class ResourcesService
 
         return $value;
     }
+
+    /**
+     * zip压缩包扩展可用格式
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-02-02
+     * @desc    description
+     * @param   array           $params [description]
+     */
+    public static function ZipExtTypeList($params = [])
+    {
+        return [
+            'application/zip',
+            'application/octet-stream',
+            'application/x-zip-compressed',
+        ];
+    }
 }
 ?>

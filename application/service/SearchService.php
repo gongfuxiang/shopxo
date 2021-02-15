@@ -335,40 +335,45 @@ class SearchService
      */
     public static function CategoryBrandList($params = [])
     {
-        // 基础条件
-        $brand_where = [
-            ['is_enable', '=', 1],
-        ];
-
-        // 搜索条件
-        $where = self::SearchWhereHandle($params);
-        $base_where = $where['base'];
-        $where_keywords = $where['keywords'];
-        $where_screening_price = $where['screening_price'];
-
-        // 一维数组、参数值去重
-        if(!empty($base_where) || !empty($where_keywords) || !empty($where_screening_price))
+        $data = [];
+        if(MyC('home_search_is_brand', 0) == 1)
         {
-            $ids = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($base_where)->where(function($query) use($where_keywords) {
-                $query->whereOr($where_keywords);
-            })->where(function($query) use($where_screening_price) {
-                $query->whereOr($where_screening_price);
-            })->group('g.brand_id')->column('g.brand_id');
-            if(!empty($ids))
-            {
-                $brand_where[] = ['id', 'in', array_unique($ids)];
-            }
-        }
+            // 基础条件
+            $brand_where = [
+                ['is_enable', '=', 1],
+            ];
 
-        // 获取品牌列表
-        $data_params = [
-            'field'     => 'id,name,logo,website_url',
-            'where'     => $brand_where,
-            'm'         => 0,
-            'n'         => 0,
-        ];
-        $ret = BrandService::BrandList($data_params);
-        return $ret['data'];
+            // 搜索条件
+            $where = self::SearchWhereHandle($params);
+            $base_where = $where['base'];
+            $where_keywords = $where['keywords'];
+            $where_screening_price = $where['screening_price'];
+
+            // 一维数组、参数值去重
+            if(!empty($base_where) || !empty($where_keywords) || !empty($where_screening_price))
+            {
+                $ids = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($base_where)->where(function($query) use($where_keywords) {
+                    $query->whereOr($where_keywords);
+                })->where(function($query) use($where_screening_price) {
+                    $query->whereOr($where_screening_price);
+                })->group('g.brand_id')->column('g.brand_id');
+                if(!empty($ids))
+                {
+                    $brand_where[] = ['id', 'in', array_unique($ids)];
+                }
+            }
+
+            // 获取品牌列表
+            $data_params = [
+                'field'     => 'id,name,logo,website_url',
+                'where'     => $brand_where,
+                'm'         => 0,
+                'n'         => 0,
+            ];
+            $ret = BrandService::BrandList($data_params);
+            $data = empty($ret['data']) ? [] : $ret['data'];
+        }
+        return $data;
     }
 
     /**
@@ -382,8 +387,13 @@ class SearchService
      */
     public static function GoodsCategoryList($params = [])
     {
-        $pid = empty($params['category_id']) ? 0 : intval($params['category_id']);
-        return GoodsService::GoodsCategoryList(['where'=>['pid'=>$pid], 'field'=>'id,name']);
+        $data = [];
+        if(MyC('home_search_is_category', 0) == 1)
+        {
+            $pid = empty($params['category_id']) ? 0 : intval($params['category_id']);
+            $data = GoodsService::GoodsCategoryList(['where'=>['pid'=>$pid], 'field'=>'id,name']);
+        }
+        return $data;
     }
 
     /**

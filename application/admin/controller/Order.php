@@ -25,10 +25,11 @@ class Order extends Common
 {
     /**
      * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
      */
     public function __construct()
     {
@@ -44,10 +45,11 @@ class Order extends Common
 
     /**
      * 订单列表
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
      */
     public function Index()
     {
@@ -96,10 +98,11 @@ class Order extends Common
 
     /**
      * 详情
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-08-05T08:21:54+0800
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
      */
     public function Detail()
     {
@@ -130,11 +133,12 @@ class Order extends Common
     }
 
     /**
-     * [Delete 订单删除]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-15T11:03:30+0800
+     * 订单删除
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
      */
     public function Delete()
     {
@@ -154,11 +158,12 @@ class Order extends Common
     }
 
     /**
-     * [Cancel 订单取消]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-15T11:03:30+0800
+     * 订单取消
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
      */
     public function Cancel()
     {
@@ -177,11 +182,12 @@ class Order extends Common
     }
 
     /**
-     * [Delivery 订单发货/取货]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-15T11:03:30+0800
+     * 订单发货/取货
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
      */
     public function Delivery()
     {
@@ -199,11 +205,12 @@ class Order extends Common
     }
 
     /**
-     * [Collect 订单收货]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-15T11:03:30+0800
+     * 订单收货
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
      */
     public function Collect()
     {
@@ -222,11 +229,12 @@ class Order extends Common
     }
 
     /**
-     * [Confirm 订单确认]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-15T11:03:30+0800
+     * 订单确认
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
      */
     public function Confirm()
     {
@@ -246,7 +254,7 @@ class Order extends Common
 
     /**
      * 订单支付
-     * @author   Devil
+     * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2018-09-28

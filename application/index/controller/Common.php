@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use think\facade\Hook;
 use think\Controller;
+use think\facade\Hook;
 use app\module\FormHandleModule;
 use app\service\SystemService;
 use app\service\ResourcesService;

@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 use app\service\RegionService;
 use app\service\WarehouseGoodsService;
 
@@ -39,7 +40,7 @@ class WarehouseService
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'level desc, id desc' : trim($params['order_by']);
         $data = Db::name('Warehouse')->field($field)->where($where)->order($order_by)->select();
-        return DataReturn('处理成功', 0, self::DataHandle($data));
+        return DataReturn('处理成功', 0, self::DataHandle($data, $params));
     }
 
     /**
@@ -49,14 +50,18 @@ class WarehouseService
      * @version 1.0.0
      * @date    2020-07-18
      * @desc    description
-     * @param   [array]          $data [仓库数据]
+     * @param   [array]          $data      [仓库数据]
+     * @param   [array]          $params    [输入参数]
      */
-    public static function DataHandle($data)
+    public static function DataHandle($data, $params = [])
     {
         if(!empty($data))
         {
             // 字段列表
             $keys = ArrayKeys($data);
+
+            // 基础数据
+            $data_key_field = empty($params['data_key_field']) ? 'id' : $params['data_key_field'];
 
             // 获取商品信息
             if(in_array('province', $keys) && in_array('city', $keys) && in_array('county', $keys))
@@ -69,6 +74,25 @@ class WarehouseService
             // 循环处理数据
             foreach($data as &$v)
             {
+                // 数据主键id
+                $data_id = isset($v[$data_key_field]) ? $v[$data_key_field] : 0;
+
+                // 仓库处理前钩子
+                $hook_name = 'plugins_service_warehouse_handle_inside_begin';
+                Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'warehouse'     => &$v,
+                    'warehouse_id'  => $data_id,
+                ]);
+
+                // icon
+                $v['icon'] = 'am-icon-cube';
+
+                // url地址
+                $v['url'] = '';
+
                 // 地区
                 if(isset($v['province']))
                 {
@@ -92,7 +116,26 @@ class WarehouseService
                 {
                     $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
                 }
+
+                // 仓库处理后钩子
+                $hook_name = 'plugins_service_warehouse_handle_inside_end';
+                Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => &$params,
+                    'warehouse'     => &$v,
+                    'warehouse_id'  => $data_id,
+                ]);
             }
+
+            // 仓库处理列表钩子
+            $hook_name = 'plugins_service_warehouse_handle_end';
+            Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
         }
         return $data;
     }

@@ -275,9 +275,9 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 @media only screen and (min-width:640px) {
     /*导航固定*/
     ul.am-tabs-nav.am-nav.am-nav-tabs {margin-right:10px ;margin-left: 10px;width: auto;}
-    .scoll{float: left;width: calc(45% - 10px);max-width:360px;padding-right:20px; }
+    .scoll{float: left;width: calc(45% - 20px);}
     .scoll .slider-content { border: 1px solid #eee; }
-    .clearfix-right{float:left;width:55%;min-height: 270px;}
+    .clearfix-right{float:right;width:55%;min-height: 270px;}
     .iteminfo_parameter.freight{display: block;margin-top: 10px;margin-bottom:10px ;}
     .iteminfo_parameter.freight dt{margin-left:-70px ;float: left;margin-right:10px ;padding-top:5px ;padding-bottom:20px ;}
     .buy-nav{position: static; margin-top: 20px; overflow: hidden; }
@@ -354,7 +354,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
         
     .scoll{display: none;}
     .item-inform{max-width:1000px; background:#fff; margin-top: 20px; margin-bottom: 30px; }
-    .clearfix-left{display:block;float: left;width:360px;}
+    .clearfix-left{display:block;float: left;width:350px;}
     .clearfix-right{width:calc(100% - 370px);margin-left:10px;}
     .freight{width:400px;float: left;}
     .iteminfo_parameter.freight dt{padding-top:6px ;padding-bottom:0px ;}
@@ -407,7 +407,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 /* 小于1025 */
 @media only screen and (max-width:1025px) {
     ul.am-tabs-nav.am-nav.am-nav-tabs { width:100% !important; left: 0px !important; }
-    .goods-detail { padding: 10px; }
+    .goods-detail { padding: 10px 5px; }
 }
 
 /* 手机模式下 */

@@ -65,7 +65,6 @@ class GoodsFavor
                     'search_config' => [
                         'form_type'             => 'input',
                         'form_name'             => 'f.user_id',
-                        'where_type'            => 'like',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereValueUserInfo',
                         'placeholder'           => '请输入用户名/昵称/手机/邮箱',

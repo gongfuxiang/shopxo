@@ -140,7 +140,18 @@
                             {{if !empty($data['warehouse_name'])}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">出货服务：</div>
-                                    <div class="items-detail am-fl">{{$data.warehouse_name}}</div>
+                                    <div class="items-detail am-fl">
+                                        <span class="warehouse-item-container">
+                                            {{if !empty($data['warehouse_icon'])}}<i class="{{$data.warehouse_icon}}"></i>{{/if}}
+                                            {{if empty($data['warehouse_url'])}}
+                                                <strong class="warehouse-name">{{$data.warehouse_name}}</strong>
+                                            {{else /}}
+                                                <a href="{{$data.warehouse_url}}" target="_blank" class="text-deco-none">
+                                                    <strong class="warehouse-name">{{$data.warehouse_name}}</strong>
+                                                </a>
+                                            {{/if}}
+                                        </span>
+                                    </div>
                                 </div>
                             {{/if}}
                             <div class="items am-cf">

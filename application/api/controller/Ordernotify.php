@@ -34,13 +34,14 @@ class OrderNotify extends Common
         // 调用父类前置方法
         parent::__construct();
     }
-
+    
     /**
-     * [Notify 支付异步处理]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-03-04T14:35:38+0800
+     * 支付异步处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-09-12
+     * @desc    description
      */
     public function Notify()
     {
@@ -111,7 +112,7 @@ class OrderNotify extends Common
             $payment_obj = new $payment();
             if(method_exists($payment_obj, $action))
             {
-                return $payment_obj->$action();
+                return $payment_obj->$action($this->data_request);
             }
         }
         return '';
