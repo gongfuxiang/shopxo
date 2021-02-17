@@ -404,7 +404,7 @@ class StatisticalService
                 // 当前日期名称
                 $name_arr[] = $day['name'];
 
-                // 根据支付名称获取数量
+                // 根据状态获取数量
                 foreach($status_arr as $status)
                 {
                     // 获取订单
@@ -466,7 +466,7 @@ class StatisticalService
                 // 当前日期名称
                 $name_arr[] = $day['name'];
 
-                // 根据支付名称获取数量
+                // 根据状态获取数量
                 foreach($status_arr as $status)
                 {
                     // 获取订单
