@@ -318,7 +318,7 @@ class PluginsService
     }
 
     /**
-     * 应用控制器调用
+     * 应用回调事件调用
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -329,13 +329,6 @@ class PluginsService
      */
     public static function PluginsEventCall($plugins, $action, $params = [])
     {
-        // 应用校验
-        $ret = self::PluginsCheck($plugins);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
-
         // 应用事件
         $plugins = '\app\plugins\\'.$plugins.'\\Event';
         if(!class_exists($plugins))
