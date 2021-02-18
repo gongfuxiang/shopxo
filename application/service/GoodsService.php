@@ -46,7 +46,7 @@ class GoodsService
             return null;
         }
         $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended' : $params['field'];
-        $data = self::GoodsCategoryDataDealWith([Db::name('GoodsCategory')->field($field)->where(['is_enable'=>1, 'id'=>intval($params['id'])])->find()]);
+        $data = self::GoodsCategoryDataHandle([Db::name('GoodsCategory')->field($field)->where(['is_enable'=>1, 'id'=>intval($params['id'])])->find()]);
         return empty($data[0]) ? null : $data[0];
     }
 
@@ -144,7 +144,7 @@ class GoodsService
 
         $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc' : $params['field'];
         $data = Db::name('GoodsCategory')->field($field)->where($where)->order($order_by)->limit($m, $n)->select();
-        return self::GoodsCategoryDataDealWith($data);
+        return self::GoodsCategoryDataHandle($data);
     }
 
     /**
@@ -156,7 +156,7 @@ class GoodsService
      * @desc    description
      * @param   [array]          $data [商品分类数据 二维数组]
      */
-    public static function GoodsCategoryDataDealWith($data)
+    public static function GoodsCategoryDataHandle($data)
     {
         if(!empty($data) && is_array($data))
         {
@@ -164,13 +164,12 @@ class GoodsService
             {
                 if(is_array($v))
                 {
-                    if(isset($v['icon']))
+                    if(array_key_exists('icon', $v))
                     {
                         $v['icon'] = ResourcesService::AttachmentPathViewHandle($v['icon']);
                     }
-                    if(isset($v['big_images']))
+                    if(array_key_exists('big_images', $v))
                     {
-                        $v['big_images_old'] = $v['big_images'];
                         $v['big_images'] = ResourcesService::AttachmentPathViewHandle($v['big_images']);
                     }
                 }
@@ -2302,12 +2301,11 @@ class GoodsService
         $data = Db::name('GoodsCategory')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
+            $data = self::GoodsCategoryDataHandle($data);
             foreach($data as &$v)
             {
-                $v['is_son']            =   (Db::name('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['icon_url']          =   ResourcesService::AttachmentPathViewHandle($v['icon']);
-                $v['big_images_url']    =   ResourcesService::AttachmentPathViewHandle($v['big_images']);
-                $v['json']              =   json_encode($v);
+                $v['is_son']    = (Db::name('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
+                $v['json']      = json_encode($v);
             }
             return DataReturn('操作成功', 0, $data);
         }
@@ -2427,7 +2425,8 @@ class GoodsService
         // 删除大分类缓存
         cache(config('shopxo.cache_goods_category_key'), null);
 
-        return DataReturn('操作成功', 0, json_encode($data));
+        $res = self::GoodsCategoryDataHandle([$data]);
+        return DataReturn('操作成功', 0, json_encode($res[0]));
     }
 
     /**

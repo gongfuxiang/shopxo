@@ -73,12 +73,31 @@ class ExpressService
             $where['is_enable'] = intval($params['is_enable']);
         }
         $data = Db::name('Express')->where($where)->field('id,icon,name,sort,is_enable')->order('sort asc')->select();
+        return self::DataHandle($data);
+    }
+
+    /**
+     * 数据处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-06
+     * @desc    description
+     * @param   [array]          $data [二维数组]
+     */
+    public static function DataHandle($data)
+    {
         if(!empty($data) && is_array($data))
         {
             foreach($data as &$v)
             {
-                $v['icon_old'] = $v['icon'];
-                $v['icon'] = ResourcesService::AttachmentPathViewHandle($v['icon']);
+                if(is_array($v))
+                {
+                    if(array_key_exists('icon', $v))
+                    {
+                        $v['icon'] = ResourcesService::AttachmentPathViewHandle($v['icon']);
+                    }
+                }
             }
         }
         return $data;
@@ -102,11 +121,11 @@ class ExpressService
         $data = Db::name('Express')->field($field)->where(['pid'=>$id])->order('sort asc')->select();
         if(!empty($data))
         {
+            $data = self::DataHandle($data);
             foreach($data as &$v)
             {
-                $v['is_son']            =   (Db::name('Express')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['icon_url']          =   ResourcesService::AttachmentPathViewHandle($v['icon']);
-                $v['json']              =   json_encode($v);
+                $v['is_son']    = (Db::name('Express')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
+                $v['json']      = json_encode($v);
             }
             return DataReturn('操作成功', 0, $data);
         }
@@ -173,7 +192,9 @@ class ExpressService
                 $data['id'] = $params['id'];
             }
         }
-        return DataReturn('操作成功', 0, json_encode($data));
+
+        $res = self::DataHandle([$data]);
+        return DataReturn('操作成功', 0, json_encode($res[0]));
     }
 
     /**

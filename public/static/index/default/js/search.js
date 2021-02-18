@@ -85,7 +85,13 @@ function GetGoodsList(page)
             } else {
                 Prompt(result.msg);
             }
-            $('.map-result-count').text(result.data.total || 0);
+
+            // 总数处理
+            var total = result.data.total || 0;
+            if(total > 0 || $('.search-list li').length == 0)
+            {
+                $('.map-result-count').text(total);
+            }
         },
         error:function(xhr, type)
         {

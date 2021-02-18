@@ -668,9 +668,9 @@ function TreeItemHtmlHandle(item, id, level, is_add_node, is_delete_all)
 		son_css = 'padding-left:'+tmp_level+'px;';
 	}
 	html += '<span style="'+son_css+'">';
-	if((item['icon_url'] || null) != null)
+	if((item['icon'] || null) != null)
 	{
-		html += '<a href="'+item['icon_url']+'" target="_blank"><img src="'+item['icon_url']+'" width="20" height="20" class="am-vertical-align-middle am-margin-right-xs" /></a>';
+		html += '<a href="'+item['icon']+'" target="_blank"><img src="'+item['icon']+'" width="20" height="20" class="am-vertical-align-middle am-margin-right-xs" /></a>';
 	}
 	html += '<span>'+(item['name_alias'] || item['name'])+'</span>';
 	html += '</span>';
