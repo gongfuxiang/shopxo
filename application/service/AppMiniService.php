@@ -349,6 +349,13 @@ class AppMiniService
             }
         }
 
+        // 历史信息更新
+        $ret = self::HistoryUpdateHandle($new_dir);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 生成压缩包
         $zip = new \base\ZipFolder();
         if(!$zip->zip($new_dir.'.zip', $new_dir))
@@ -514,6 +521,13 @@ class AppMiniService
             return $ret;
         }
 
+        // 历史信息更新
+        $ret = self::HistoryUpdateHandle($new_dir);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 生成压缩包
         $zip = new \base\ZipFolder();
         if(!$zip->zip($new_dir.'.zip', $new_dir))
@@ -528,13 +542,43 @@ class AppMiniService
     }
 
     /**
+     * 历史信息更新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-02-18
+     * @desc    description
+     * @param   [string]          $new_dir [新源码包目录]
+     */
+    public static function HistoryUpdateHandle($new_dir)
+    {
+        // 配置信息
+        $file = $new_dir.DS.'app.json';
+        $config = json_decode(file_get_contents($file), true);
+        if(empty($config['history']))
+        {
+            $config['history'] = [];
+        }
+        $config['history'][] = [
+            'host'  => __MY_HOST__,
+            'url'   => __MY_URL__,
+            'ip'    => __MY_ADDR__,
+            'time'  => date('Y-m-d H:i:s'),
+        ];
+        if(@file_put_contents($file, JsonFormat($config)) === false)
+        {
+            return DataReturn('新应用配置文件更新失败', -11);
+        }
+    }
+
+    /**
      * 扩展处理 - 微信
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2018-12-21
      * @desc    description
-     * @param   [string]          $new_dir [新得源码包目录]
+     * @param   [string]          $new_dir [新源码包目录]
      */
     private static function ExtendHandleWeixin($new_dir)
     {
@@ -543,14 +587,14 @@ class AppMiniService
         {
             // app.json
             $file = $new_dir.DS.'app.json';
-            $data = json_decode(file_get_contents($file), true);
-            if(is_array($data) && isset($data['plugins']))
+            $config = json_decode(file_get_contents($file), true);
+            if(is_array($config) && isset($config['plugins']))
             {
-                $data['plugins']['goodsSharePlugin'] = [
+                $config['plugins']['goodsSharePlugin'] = [
                     'version'   => MyC('common_app_is_good_thing_ver', '4.0.1', true),
                     'provider'  => 'wx56c8f077de74b07c',
                 ];
-                if(file_put_contents($file, JsonFormat($data)) === false)
+                if(file_put_contents($file, JsonFormat($config)) === false)
                 {
                     return DataReturn('好物推荐主配置失败', -50);
                 }
@@ -558,11 +602,11 @@ class AppMiniService
 
             // goods-detail.json
             $file = $new_dir.DS.'pages'.DS.'goods-detail'.DS.'goods-detail.json';
-            $data = json_decode(file_get_contents($file), true);
-            if(is_array($data) && isset($data['usingComponents']))
+            $config = json_decode(file_get_contents($file), true);
+            if(is_array($config) && isset($config['usingComponents']))
             {
-                $data['usingComponents']['share-button'] = 'plugin://goodsSharePlugin/share-button';
-                if(file_put_contents($file, JsonFormat($data)) === false)
+                $config['usingComponents']['share-button'] = 'plugin://goodsSharePlugin/share-button';
+                if(file_put_contents($file, JsonFormat($config)) === false)
                 {
                     return DataReturn('好物推荐商品配置失败', -51);
                 }
@@ -574,14 +618,14 @@ class AppMiniService
         {
             // app.json
             $file = $new_dir.DS.'app.json';
-            $data = json_decode(file_get_contents($file), true);
-            if(is_array($data) && isset($data['plugins']))
+            $config = json_decode(file_get_contents($file), true);
+            if(is_array($config) && isset($config['plugins']))
             {
-                $data['plugins']['live-player-plugin'] = [
+                $config['plugins']['live-player-plugin'] = [
                     'version'   => MyC('common_app_weixin_liveplayer_ver', '1.2.7', true),
                     'provider'  => 'wx2b03c6e691cd7370',
                 ];
-                if(file_put_contents($file, JsonFormat($data)) === false)
+                if(file_put_contents($file, JsonFormat($config)) === false)
                 {
                     return DataReturn('直播配置失败', -50);
                 }

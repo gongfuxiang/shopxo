@@ -332,6 +332,27 @@ class ThemeService
             }
         }
 
+        // 配置文件历史信息更新
+        $new_config_file = $new_dir.DS.'_html_'.DS.'config.json';
+        if(!file_exists($new_config_file))
+        {
+            return DataReturn('新配置文件有误', -10);
+        }
+        if(empty($config['history']))
+        {
+            $config['history'] = [];
+        }
+        $config['history'][] = [
+            'host'  => __MY_HOST__,
+            'url'   => __MY_URL__,
+            'ip'    => __MY_ADDR__,
+            'time'  => date('Y-m-d H:i:s'),
+        ];
+        if(@file_put_contents($new_config_file, JsonFormat($config)) === false)
+        {
+            return DataReturn('新应用配置文件更新失败', -11);
+        }
+
         // 生成压缩包
         $zip = new \base\ZipFolder();
         if(!$zip->zip($new_dir.'.zip', $new_dir))
