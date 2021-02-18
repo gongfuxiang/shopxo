@@ -133,13 +133,14 @@ class PluginsAdminService
         }
 
         // 数据处理
-        $config = self::GetPluginsConfig($params['id']);;
+        $plugins = $params['id'];
+        $config = self::GetPluginsConfig($plugins);
         if($config !== false && !empty($config['base']) && !empty($config['base']['name']))
         {
-            $cache = PluginsService::PluginsCacheData($params['id']);
+            $cache = PluginsService::PluginsCacheData($plugins);
             $data = [
                 'name'      => $config['base']['name'],
-                'plugins'   => $params['id'],
+                'plugins'   => $plugins,
                 'data'      => empty($cache) ? '' : json_encode($cache),
                 'is_enable' => 0,
                 'add_time'  => time(),
@@ -148,6 +149,9 @@ class PluginsAdminService
             // 添加数据
             if(Db::name('Plugins')->insertGetId($data) > 0)
             {
+                // 插件事件回调
+                PluginsService::PluginsEventCall($plugins, 'Install', $params);
+
                return DataReturn('安装成功');
             } else {
                 return DataReturn('安装失败', -100);
@@ -178,7 +182,8 @@ class PluginsAdminService
         Db::startTrans();
 
         // 开始卸载
-        if(DB::name('Plugins')->where(['plugins'=>$params['id']])->delete())
+        $plugins = $params['id'];
+        if(DB::name('Plugins')->where(['plugins'=>$plugins])->delete())
         {
             // 钩子部署
             $ret = self::PluginsHookDeployment();
@@ -186,6 +191,10 @@ class PluginsAdminService
             {
                 // 提交事务
                 Db::commit();
+
+                // 插件事件回调
+                PluginsService::PluginsEventCall($plugins, 'Uninstall', $params);
+
                 return DataReturn('卸载成功');
             }
         } else {
@@ -391,13 +400,14 @@ class PluginsAdminService
         }
 
         // 应用是否存在
-        if(!file_exists(APP_PATH.'plugins'.DS.$params['id']))
+        $plugins = $params['id'];
+        if(!file_exists(APP_PATH.'plugins'.DS.$plugins))
         {
            return DataReturn('应用不存在', -10); 
         }
         
         // 获取应用标记
-        $data = Db::name('Plugins')->where(['plugins'=>$params['id']])->find();
+        $data = Db::name('Plugins')->where(['plugins'=>$plugins])->find();
         if(!empty($data['is_enable']))
         {
            return DataReturn('请先卸载应用', -10);
@@ -408,16 +418,16 @@ class PluginsAdminService
         if($ret['code'] == 0)
         {
             // 是否需要删除应用数据,sql运行
-            $is_delete_static = (isset($params['value']) && $params['value'] == 1);
+            $is_delete_data = (isset($params['value']) && $params['value'] == 1);
 
             // 删除数据
-            if($is_delete_static === true)
+            if($is_delete_data === true)
             {
                 // 删除缓存
-                PluginsService::PluginsCacheDelete($params['id']);
+                PluginsService::PluginsCacheDelete($plugins);
 
                 // 执行卸载sql
-                $uninstall_sql = APP_PATH.'plugins'.DS.$params['id'].DS.'uninstall.sql';
+                $uninstall_sql = APP_PATH.'plugins'.DS.$plugins.DS.'uninstall.sql';
                 if(file_exists($uninstall_sql))
                 {
                     SqlconsoleService::Implement(['sql'=>file_get_contents($uninstall_sql)]);
@@ -425,10 +435,13 @@ class PluginsAdminService
             }
 
             // 删除数据库附件
-            ResourcesService::AttachmentPathTypeDelete('plugins_'.$params['id']);
+            ResourcesService::AttachmentPathTypeDelete('plugins_'.$plugins);
 
             // 删除应用文件
-            self::PluginsResourcesDelete($params['id'], $is_delete_static);
+            self::PluginsResourcesDelete($plugins, $is_delete_data);
+
+            // 插件事件回调
+            PluginsService::PluginsEventCall($plugins, 'Delete', $params);
 
             return DataReturn('删除成功');
         }
@@ -443,9 +456,9 @@ class PluginsAdminService
      * @date    2019-02-13
      * @desc    description
      * @param   [string]          $plugins          [唯一标记]
-     * @param   [boolean]         $is_delete_static [是否删除应用数据]
+     * @param   [boolean]         $is_delete_data   [是否删除应用数据]
      */
-    private static function PluginsResourcesDelete($plugins, $is_delete_static = false)
+    private static function PluginsResourcesDelete($plugins, $is_delete_data = false)
     {
         \base\FileUtil::UnlinkDir(APP_PATH.'plugins'.DS.$plugins);
         \base\FileUtil::UnlinkDir(APP_PATH.'plugins'.DS.'view'.DS.$plugins);
@@ -454,7 +467,7 @@ class PluginsAdminService
         \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images'.DS.$plugins);
 
         // 是否需要删除应用数据
-        if($is_delete_static === true)
+        if($is_delete_data === true)
         {
             \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'upload'.DS.'images'.DS.'plugins_'.$plugins);
             \base\FileUtil::UnlinkDir(ROOT.'public'.DS.'static'.DS.'upload'.DS.'video'.DS.'plugins_'.$plugins);
@@ -1039,7 +1052,7 @@ php;
         ];
 
         // 包名
-        $plugins_name = '';
+        $plugins = '';
 
         // 开始解压文件
         $resource = zip_open($_FILES['file']['tmp_name']);
@@ -1056,11 +1069,11 @@ php;
                 $file = zip_entry_name($temp_resource);
 
                 // 获取包名
-                if(empty($plugins_name))
+                if(empty($plugins))
                 {
                     // 应用名称
-                    $plugins_name = substr($file, 0, strpos($file, '/'));
-                    if(empty($plugins_name))
+                    $plugins = substr($file, 0, strpos($file, '/'));
+                    if(empty($plugins))
                     {
                         // 应用名称为空、则校验是否为支付插件
                         $file_size = zip_entry_filesize($temp_resource);
@@ -1075,7 +1088,7 @@ php;
                     }
 
                     // 应用不存在则添加
-                    $ret = self::PluginsVerification($plugins_name);
+                    $ret = self::PluginsVerification($plugins);
                     if($ret['code'] != 0)
                     {
                         zip_entry_close($temp_resource);
@@ -1083,7 +1096,7 @@ php;
                     }
 
                     // 应用是否存在
-                    $ret = self::PluginsExist($plugins_name);
+                    $ret = self::PluginsExist($plugins);
                     if($ret['code'] != 0)
                     {
                         zip_entry_close($temp_resource);
@@ -1116,7 +1129,7 @@ php;
                             }
 
                             // 匹配成功文件路径处理、跳出循环
-                            $file = str_replace($plugins_name.'/'.$dir_key.'/', '', $dir_value.$file);
+                            $file = str_replace($plugins.'/'.$dir_key.'/', '', $dir_value.$file);
                             $is_has_find = true;
                             break;
                         }
@@ -1150,14 +1163,17 @@ php;
         }
 
         // 附件同步到数据库
-        ResourcesService::AttachmentDiskFilesToDb('plugins_'.$plugins_name);
+        ResourcesService::AttachmentDiskFilesToDb('plugins_'.$plugins);
 
         // sql运行
-        $install_sql = APP_PATH.'plugins'.DS.$plugins_name.DS.'install.sql';
-        if(!empty($plugins_name) && file_exists($install_sql))
+        $install_sql = APP_PATH.'plugins'.DS.$plugins.DS.'install.sql';
+        if(!empty($plugins) && file_exists($install_sql))
         {
             SqlconsoleService::Implement(['sql'=>file_get_contents($install_sql)]);
         }
+
+        // 插件事件回调
+        PluginsService::PluginsEventCall($plugins, 'Upload', $params);
 
         return DataReturn('安装成功');
     }
@@ -1326,7 +1342,11 @@ php;
         // 开始下载
         if(\base\FileUtil::DownloadFile($new_dir.'.zip', $config['base']['name'].'.zip'))
         {
+            // 删除文件
             @unlink($new_dir.'.zip');
+
+            // 插件事件回调
+            PluginsService::PluginsEventCall($plugins, 'Download', $params);
         } else {
             return DataReturn('下载失败', -100);
         }
