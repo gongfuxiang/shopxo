@@ -140,6 +140,9 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
     margin-left: 0;
     margin-top: 0;
 }
+.am-modal-dialog .am-modal-bd {
+    background: #fff;
+}
 
 
 /**

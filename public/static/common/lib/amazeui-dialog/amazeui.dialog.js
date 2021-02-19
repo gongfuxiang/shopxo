@@ -14,14 +14,17 @@ var dialog = dialog || {};
 
 dialog.alert = function(options) {
   options = options || {};
-  options.title = options.title || '提示';
+  options.title = options.title || null;
   options.content = options.content || '提示内容';
   options.onConfirm = options.onConfirm || function() {
     };
   var html = [];
   html.push('<div class="am-modal am-modal-alert" tabindex="-1">');
   html.push('<div class="am-modal-dialog">');
-  html.push('<div class="am-modal-hd">' + options.title + '</div>');
+  if(options.title !== null)
+  {
+    html.push('<div class="am-modal-hd">' + options.title + '</div>');
+  }
   html.push('<div class="am-modal-bd">' + options.content + '</div>');
   html.push('<div class="am-modal-footer"><span class="am-modal-btn">确定</span></div>');
   html.push('</div>');

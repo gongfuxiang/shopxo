@@ -546,7 +546,13 @@ class GoodsService
                 // 虚拟商品展示数据
                 if(isset($v['fictitious_goods_value']))
                 {
-                    $v['fictitious_goods_value'] = ResourcesService::ContentStaticReplace($v['fictitious_goods_value'], 'get');
+                    // 非后台模块移除该字段、避免数据泄露
+                    if(strtolower(request()->module()) != 'admin')
+                    {
+                        unset($v['fictitious_goods_value']);
+                    } else {
+                        $v['fictitious_goods_value'] = ResourcesService::ContentStaticReplace($v['fictitious_goods_value'], 'get');
+                    }
                 }
 
                 // 产地

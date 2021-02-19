@@ -301,6 +301,12 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
         text-align: left;
     }
 }
+@media only screen and (min-width:1025px) {
+    .buy-nav {
+        padding-left: 65px;
+        margin-top: 10px !important;
+    }
+}
 @media only screen and (max-width:641px) {
     .buy-nav .buy-submit-container,
     .goods-not-buy-tips {

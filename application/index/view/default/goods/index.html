@@ -501,7 +501,8 @@
                                             <a href="{{if empty($v['value'])}}javascript:;{{else /}}tel:{{$v.value}}{{/if}}" 
                                             class="buy-btn {{if !empty($v['class'])}}{{$v.class}}{{/if}}" 
                                             {{if !empty($v['title'])}}title="{{$v.title}}"{{/if}} 
-                                            data-type="{{$v.type}}">
+                                            data-type="{{$v.type}}" 
+                                            data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">
                                                 {{if !empty($v['icon'])}}
                                                     <i class="{{$v.icon}}"></i>
                                                 {{/if}}
@@ -512,7 +513,8 @@
                                             <button type="button" 
                                             class="buy-btn {{$v.type}}-submit {{if !empty($v['color']) and $v['color'] eq 'second'}}buy-btn-second {{/if}} {{if !empty($v['class'])}}{{$v.class}} {{/if}}" 
                                             {{if !empty($v['title'])}}title="{{$v.title}}"{{/if}} 
-                                            data-type="{{$v.type}}">
+                                            data-type="{{$v.type}}" 
+                                            data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">
                                                 {{if !empty($v['icon'])}}
                                                     <i class="{{$v.icon}}"></i>
                                                 {{/if}}
