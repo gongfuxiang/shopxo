@@ -2570,6 +2570,108 @@ class GoodsService
     }
 
     /**
+     * 商品购买按钮列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-02-19
+     * @desc    description
+     * @param   [array]          $goods  [商品信息]
+     */
+    public static function GoodsBuyButtonList($goods)
+    {
+        // 错误信息
+        $error = '';
+
+        // 是否已下架、还有库存
+        if($goods['is_shelves'] != 1)
+        {
+            $error = '已下架';
+        } else {
+            if($goods['inventory'] <= 0)
+            {
+                $error = '没货了';
+            }
+        }
+
+        // 按钮列表
+        // color 颜色类型[main主, second次]（默认 main）
+        // type 类型[show展示, buy购买, cart加入购物车, other其他值]
+        // name 名称
+        // title 元素title说明（可选）
+        // value 数据值（可选）
+        // icon icon类名称（可选）
+        // class 自定义类名称（可选）
+        $data = [];
+        if(empty($error))
+        {
+            // 获取商品类型
+            $res = self::GoodsSalesModelType($goods['id'], $goods['site_type']);
+
+            // 是否展示型
+            if($res['data'] == 1)
+            {
+                $data[] = [
+                    'color' => 'main',
+                    'type'  => 'show',
+                    'name'  => MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
+                    'value' => MyC('common_customer_store_tel'),
+                    'icon'  => 'am-icon-phone', 
+                ];
+            } else {
+                // web端class
+                $class_name = (APPLICATION == 'web') ? 'buy-event login-event' : '';
+
+                // 购买
+                $data[] = [
+                    'color' => 'main',
+                    'type'  => 'buy',
+                    'title' => '点此按钮到下一步确认购买信息',
+                    'name'  => (MyC('common_order_is_booking', 0, true) == 1) ? '立即预约' : '立即购买',
+                    'class' => $class_name,
+                ];
+
+                // 商品类型是否和当前站点类型一致
+                $res = self::IsGoodsSiteTypeConsistent($goods['id'], $goods['site_type']);
+                if($res['code'] == 0)
+                {
+                    // 加入购物车
+                    $data[] = [
+                        'color' => 'second',
+                        'type'  => 'cart',
+                        'title' => '加入购物车',
+                        'name'  => '加入购物车',
+                        'class' => $class_name,
+                    ];
+                }
+            }
+        }
+
+        // 商品购买导航按钮钩子
+        $hook_name = 'plugins_service_goods_buy_nav_button_handle';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'goods'         => $goods,
+            'data'          => &$data,
+            'error'         => &$error,
+        ]);
+
+        // 是否存在按钮数据
+        if(empty($data) && empty($error))
+        {
+            $error = '暂停销售';
+        }
+
+        // 返回数据
+        return [
+            'count' => (!empty($data) && is_array($data)) ? count($data) : 0,
+            'data'  => $data,
+            'error' => $error,
+        ];
+    }
+
+    /**
      * 商品二维码生成
      * @author  Devil
      * @blog    http://gong.gg/

@@ -20,10 +20,7 @@ Page({
     goods_favor_icon: '/images/goods-detail-favor-icon-0.png',
     temp_buy_number: 1,
     buy_event_type: 'buy',
-    nav_submit_text: '立即购买',
-    nav_submit_is_disabled: true,
-    common_site_type: 0,
-    is_goods_site_type_consistent: 0,
+    buy_button: {},
 
     goods_spec_base_price: 0,
     goods_spec_base_original_price: 0,
@@ -153,11 +150,7 @@ Page({
               temp_buy_number: data.goods.buy_min_number || 1,
               goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
               goods_favor_icon: '/images/goods-detail-favor-icon-' + data.goods.is_favor+'.png',
-
-              nav_submit_text: data.nav_submit_text,
-              nav_submit_is_disabled: data.nav_submit_is_disabled,
-              common_site_type: data.common_site_type || 0,
-              is_goods_site_type_consistent: data.is_goods_site_type_consistent || 0,
+              buy_button: data.buy_button || null,
 
               goods_spec_base_price: data.goods.price,
               goods_spec_base_original_price: data.goods.original_price,
@@ -262,14 +255,26 @@ Page({
     });
   },
 
-  // 加入购物车
-  cart_submit_event(e) {
-    this.setData({ popup_status: true, buy_event_type: 'cart' });
-  },
+  // 导航购买按钮事件
+  nav_buy_submit_event(e) {
+    var type = e.currentTarget.dataset.type || 'buy';
+    switch(type)
+    {
+      // 展示型、拨打电话
+      case 'show' :
+        app.call_tel(this.data.common_app_customer_service_tel);
+        break;
+      
+      // 购买、加入购物车
+      case 'buy' :
+      case 'cart' :
+        this.setData({ popup_status: true, buy_event_type: type });
+        break;
 
-  // 立即购买
-  buy_submit_event(e) {
-    this.setData({ popup_status: true, buy_event_type: 'buy'});
+      // 默认
+      default :
+        app.showToast('事件未处理');
+    }
   },
 
   // 收藏事件
@@ -865,8 +870,8 @@ Page({
     }
   },
 
-  // 展示型事件
-  exhibition_submit_event(e) {
+  // 拨打电话
+  tel_event(e) {
     app.call_tel(this.data.common_app_customer_service_tel);
   },
 

@@ -106,50 +106,15 @@ class Goods extends Common
         $category = GoodsService::GoodsCategoryNames($goods_id);
         $goods['category_names'] = $category['data'];
 
-        // 站点模式
-        // 商品销售模式
-        $ret = GoodsService::GoodsSalesModelType($goods_id, $goods['site_type']);
-        $common_site_type = $ret['data'];
-
-        // 商品类型是否一致
-        $ret = GoodsService::IsGoodsSiteTypeConsistent($goods_id, $goods['site_type']);
-        $is_goods_site_type_consistent = ($ret['code'] == 0) ? 1 : 0;
+        // 商品购买按钮列表
+        $buy_button = GoodsService::GoodsBuyButtonList($goods);
 
         // 数据返回
         $result = [
-            'goods'                             => $goods,
-            'nav_submit_text'                   => '立即购买',
-            'nav_submit_is_disabled'            => false,
-            'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
-            'common_site_type'                  => (int) $common_site_type,
-            'is_goods_site_type_consistent'     => $is_goods_site_type_consistent,
+            'goods'                 => $goods,
+            'common_cart_total'     => BuyService::UserCartTotal(['user'=>$this->user]),
+            'buy_button'            => $buy_button,
         ];
-
-        // 是否开启预约
-        if(MyC('common_order_is_booking') == 1)
-        {
-            $result['nav_submit_text'] = '立即预约';
-        }
-
-        // 是否已下架、还有库存
-        if($goods['is_shelves'] != 1)
-        {
-            $result['nav_submit_text'] = '已下架';
-            $result['nav_submit_is_disabled'] = true;
-        } else {
-            if($goods['inventory'] <= 0)
-            {
-                $result['nav_submit_text'] = '没货了';
-                $result['nav_submit_is_disabled'] = true;
-            }
-        }
-
-        // 站点模式 - 是否展示型
-        if($common_site_type == 1)
-        {
-            $result['nav_submit_text'] = MyC('common_is_exhibition_mode_btn_text', '立即咨询', true);
-        }
-
         return BaseService::DataReturn($result);
     }
 

@@ -136,19 +136,12 @@ class Goods extends Common
             $like_goods = GoodsService::GoodsList($params);
             $this->assign('detail_like_goods', $like_goods['data']);
 
-            // 站点类型 - 展示型模式操作名称
-            $this->assign('common_is_exhibition_mode_btn_text', MyC('common_is_exhibition_mode_btn_text', '立即咨询', true));
+            // 商品购买按钮列表
+            $buy_button = GoodsService::GoodsBuyButtonList($goods);
+            $this->assign('buy_button', $buy_button);
 
             // 是否商品详情页展示相册
             $this->assign('common_is_goods_detail_show_photo', MyC('common_is_goods_detail_show_photo', 0, true));
-
-            // 商品销售模式
-            $ret = GoodsService::GoodsSalesModelType($goods_id, $goods['site_type']);
-            $this->assign('common_site_type', $ret['data']);
-
-            // 商品类型是否一致
-            $ret = GoodsService::IsGoodsSiteTypeConsistent($goods_id, $goods['site_type']);
-            $this->assign('is_goods_site_type_consistent', ($ret['code'] == 0) ? 1 : 0);
 
             return $this->fetch();
         }

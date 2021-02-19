@@ -434,114 +434,113 @@
                 {{/if}}
 
                 <!-- 购买导航 -->
-                <div class="buy-nav {{if $common_site_type eq 1}}exhibition-nav{{else /}}{{if isset($is_goods_site_type_consistent) and $is_goods_site_type_consistent neq 1}}site-type-not-consistent-nav{{/if}}{{/if}}">
-                    {{if !empty($goods.is_shelves)}}
-                        {{if $goods['inventory'] gt 0}}
-                            <div class="buy-nav-opt">
-                                <!-- 商品页面基础信息购买小导航内部前面钩子 开始 -->
-                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                                    <div class="plugins-tag">
-                                        <span>plugins_view_goods_detail_base_buy_nav_min_inside_begin</span>
-                                    </div>
-                                {{/if}}
-                                {{if !empty($plugins_view_goods_detail_base_buy_nav_min_inside_begin_data) and is_array($plugins_view_goods_detail_base_buy_nav_min_inside_begin_data)}}
-                                    {{foreach $plugins_view_goods_detail_base_buy_nav_min_inside_begin_data as $hook}}
-                                        {{if is_string($hook) or is_int($hook)}}
-                                            {{$hook|raw}}
-                                        {{/if}}
-                                    {{/foreach}}
-                                {{/if}}
-                                <!-- 商品页面基础信息购买小导航内部前面钩子 结束 -->
-
-                                <!-- 首页 -->
-                                <a href="{{$Think.__MY_URL__}}" class=nav-min-home-submit>
-                                    <span class="nav-icon nav-icon-home">
-                                        <i class="am-icon-home am-icon-fw"></i>
-                                        <em>首页</em>
-                                    </span>
-                                </a>
-
-                                <!-- 收藏 -->
-                                {{if isset($goods['is_favor']) and $goods['is_favor'] eq 1}}
-                                    <span class="nav-icon login-event favor-submit text-active" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
-                                        <i class="am-icon-heart am-icon-fw"></i>
-                                        <em class="goods-favor-text">已收藏</em>
-                                        <em class="goods-favor-count">({{$goods.favor_count}})</em>
-                                    </span>
-                                {{else /}}
-                                    <span class="nav-icon favor-submit login-event" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
-                                        <i class="am-icon-heart am-icon-fw"></i>
-                                        <em class="goods-favor-text">收藏</em>
-                                        <em class="goods-favor-count">({{$goods.favor_count}})</em>
-                                    </span>
-                                {{/if}}
-
-                                <!-- 商品页面基础信息购买小导航内部后面钩子 开始 -->
-                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-                                    <div class="plugins-tag">
-                                        <span>plugins_view_goods_detail_base_buy_nav_min_inside</span>
-                                    </div>
-                                {{/if}}
-                                {{if !empty($plugins_view_goods_detail_base_buy_nav_min_inside_data) and is_array($plugins_view_goods_detail_base_buy_nav_min_inside_data)}}
-                                    {{foreach $plugins_view_goods_detail_base_buy_nav_min_inside_data as $hook}}
-                                        {{if is_string($hook) or is_int($hook)}}
-                                            {{$hook|raw}}
-                                        {{/if}}
-                                    {{/foreach}}
-                                {{/if}}
-                                <!-- 商品页面基础信息购买小导航内部后面钩子 结束 -->
+                <div class="buy-nav">
+                    <div class="buy-nav-opt {{if !empty($buy_button) and isset($buy_button['count'])}}buy-nav-opt-button-number-{{$buy_button.count}}{{/if}}">
+                        <!-- 商品页面基础信息购买小导航内部前面钩子 开始 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_goods_detail_base_buy_nav_min_inside_begin</span>
                             </div>
-
-                            {{if $common_site_type eq 1}}
-                                <!-- 站点模式 1 展示型 -->
-                                <div class="submit">
-                                    <div class="clearfix tb-btn tb-btn-basket" data-type="cart">
-                                        <a href="{{if empty($common_customer_store_tel)}}javascript:;{{else /}}tel:{{$common_customer_store_tel}}{{/if}}">
-                                            <button title="{{$common_is_exhibition_mode_btn_text}}" href="javascript:;" type="button"><i class="am-icon-phone"></i> {{$common_is_exhibition_mode_btn_text}}</button>
-                                        </a>
-                                    </div>
-                                </div>
-
-                            {{else /}}
-                                <!-- 销售型,自提点,虚拟销售 -->
-                                <div class="submit">
-                                    <div class="clearfix tb-btn tb-btn-buy buy-event login-event buy-submit" data-type="buy">
-                                        <button title="点此按钮到下一步确认购买信息" href="javascript:;" type="button">{{if $common_order_is_booking eq 1}}立即预约{{else /}}立即购买{{/if}}</button>
-                                    </div>
-                                </div>
-
-                                {{if isset($is_goods_site_type_consistent) and $is_goods_site_type_consistent eq 1}}
-                                    <!-- 商品类型是否与系统类型一致 -->
-                                    <div class="submit">
-                                        <div class="clearfix tb-btn tb-btn-basket buy-event login-event cart-submit" data-type="cart">
-                                            <button title="加入购物车" href="javascript:;" type="button"><i></i>加入购物车</button>
-                                        </div>
-                                    </div>
-                                {{/if}}
-
-                                <!-- 购买表单 -->
-                                <form action="{{:MyUrl('index/buy/index')}}" method="post" class="buy-form">
-                                    <input type="hidden" name="goods_id" value="{{$goods.id}}" />
-                                    <input type="hidden" name="buy_type" value="goods" />
-                                    <input type="hidden" name="stock" value="1" />
-                                    <input type="hidden" name="spec" value="" />
-                                    <button type="submit"></button>
-                                </form>
-
-                                <!-- 加入购物车表单 -->
-                                <form action="{{:MyUrl('index/cart/save')}}" method="post" class="cart-form" request-type="ajax-fun" request-value="CartSubmitBack">
-                                    <input type="hidden" name="goods_id" value="{{$goods.id}}" />
-                                    <input type="hidden" name="stock" value="1" />
-                                    <input type="hidden" name="spec" value="" />
-                                    <button type="submit" class="am-hide"></button>
-                                </form>
-                            {{/if}}
-                        {{else /}}
-                            <p class="goods-not-buy-tips">没货了</p>
                         {{/if}}
-                    {{/if}}
-                    {{if $goods.is_shelves neq 1}}
-                        <p class="goods-not-buy-tips">商品已下架</p>
+                        {{if !empty($plugins_view_goods_detail_base_buy_nav_min_inside_begin_data) and is_array($plugins_view_goods_detail_base_buy_nav_min_inside_begin_data)}}
+                            {{foreach $plugins_view_goods_detail_base_buy_nav_min_inside_begin_data as $hook}}
+                                {{if is_string($hook) or is_int($hook)}}
+                                    {{$hook|raw}}
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+                        <!-- 商品页面基础信息购买小导航内部前面钩子 结束 -->
+
+                        <!-- 首页 -->
+                        <a href="{{$Think.__MY_URL__}}" class=nav-min-home-submit>
+                            <span class="nav-icon nav-icon-home">
+                                <i class="am-icon-home am-icon-fw"></i>
+                                <em>首页</em>
+                            </span>
+                        </a>
+
+                        <!-- 收藏 -->
+                        {{if isset($goods['is_favor']) and $goods['is_favor'] eq 1}}
+                            <span class="nav-icon login-event favor-submit text-active" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                                <i class="am-icon-heart am-icon-fw"></i>
+                                <em class="goods-favor-text">已收藏</em>
+                                <em class="goods-favor-count">({{$goods.favor_count}})</em>
+                            </span>
+                        {{else /}}
+                            <span class="nav-icon favor-submit login-event" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
+                                <i class="am-icon-heart am-icon-fw"></i>
+                                <em class="goods-favor-text">收藏</em>
+                                <em class="goods-favor-count">({{$goods.favor_count}})</em>
+                            </span>
+                        {{/if}}
+
+                        <!-- 商品页面基础信息购买小导航内部后面钩子 开始 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_goods_detail_base_buy_nav_min_inside</span>
+                            </div>
+                        {{/if}}
+                        {{if !empty($plugins_view_goods_detail_base_buy_nav_min_inside_data) and is_array($plugins_view_goods_detail_base_buy_nav_min_inside_data)}}
+                            {{foreach $plugins_view_goods_detail_base_buy_nav_min_inside_data as $hook}}
+                                {{if is_string($hook) or is_int($hook)}}
+                                    {{$hook|raw}}
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+                        <!-- 商品页面基础信息购买小导航内部后面钩子 结束 -->
+                    </div>
+
+                    <!-- 购买容器 -->
+                    {{if !empty($buy_button) and !empty($buy_button['count']) and !empty($buy_button['data']) and is_array($buy_button['data'])}}
+                        <!-- 购买按钮列表 -->
+                        <div class="buy-submit-container buy-submit-container-number-{{$buy_button.count}}">
+                            {{foreach $buy_button.data as $v}}
+                                {{if !empty($v['type']) and !empty($v['name'])}}
+                                    {{switch $v.type}}
+                                        {{case show}}
+                                            <a href="{{if empty($v['value'])}}javascript:;{{else /}}tel:{{$v.value}}{{/if}}" 
+                                            class="buy-btn {{if !empty($v['class'])}}{{$v.class}}{{/if}}" 
+                                            {{if !empty($v['title'])}}title="{{$v.title}}"{{/if}} 
+                                            data-type="{{$v.type}}">
+                                                {{if !empty($v['icon'])}}
+                                                    <i class="{{$v.icon}}"></i>
+                                                {{/if}}
+                                                {{$v.name}}
+                                            </a>
+                                        {{/case}}
+                                        {{default /}}
+                                            <button type="button" 
+                                            class="buy-btn {{$v.type}}-submit {{if !empty($v['color']) and $v['color'] eq 'second'}}buy-btn-second {{/if}} {{if !empty($v['class'])}}{{$v.class}} {{/if}}" 
+                                            {{if !empty($v['title'])}}title="{{$v.title}}"{{/if}} 
+                                            data-type="{{$v.type}}">
+                                                {{if !empty($v['icon'])}}
+                                                    <i class="{{$v.icon}}"></i>
+                                                {{/if}}
+                                                {{$v.name}}
+                                            </button>
+                                    {{/switch}}
+                                {{/if}}
+                            {{/foreach}}
+                        </div>
+
+                        <!-- 购买表单 -->
+                        <form action="{{:MyUrl('index/buy/index')}}" method="post" class="buy-form">
+                            <input type="hidden" name="goods_id" value="{{$goods.id}}" />
+                            <input type="hidden" name="buy_type" value="goods" />
+                            <input type="hidden" name="stock" value="1" />
+                            <input type="hidden" name="spec" value="" />
+                            <button type="submit"></button>
+                        </form>
+
+                        <!-- 加入购物车表单 -->
+                        <form action="{{:MyUrl('index/cart/save')}}" method="post" class="cart-form" request-type="ajax-fun" request-value="CartSubmitBack">
+                            <input type="hidden" name="goods_id" value="{{$goods.id}}" />
+                            <input type="hidden" name="stock" value="1" />
+                            <input type="hidden" name="spec" value="" />
+                            <button type="submit" class="am-hide"></button>
+                        </form>
+                    {{else /}}
+                        <p class="goods-not-buy-tips">{{if empty($buy_button['error'])}}暂停销售{{else /}}{{$buy_button.error}}{{/if}}</p>
                     {{/if}}
                 </div>
 

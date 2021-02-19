@@ -275,8 +275,8 @@ class Weixin
             // APP支付
             case 'APP' :
                 $pay_data = array(
-                    'appid'         => $this->pay_params['appid'],
-                    'partnerid'     => $this->pay_params['mch_id'],
+                    'appid'         => $pay_params['appid'],
+                    'partnerid'     => $pay_params['mch_id'],
                     'prepayid'      => $data['prepay_id'],
                     'package'       => 'Sign=WXPay',
                     'noncestr'      => md5(time().rand()),
