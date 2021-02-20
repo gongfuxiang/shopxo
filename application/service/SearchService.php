@@ -197,10 +197,29 @@ class SearchService
                     $temp = explode('-', $v);
                     if(count($temp) == 2)
                     {
-                        $where_screening_price[] = [
-                            ['min_price', 'EGT', $temp[0]],
-                            ['min_price', 'LT', $temp[1]],
-                        ];
+                        // 最小金额等于0、最大金额大于0
+                        if(empty($temp[0]) && !empty($temp[1]))
+                        {
+                            $where_screening_price[] = [
+                                ['min_price', 'elt', $temp[1]],
+                            ];
+
+                        // 最小金额大于0、最大金额大于0
+                        // 最小金额等于0、最大金额等于0
+                        } elseif((!empty($temp[0]) && !empty($temp[1])) || (empty($temp[0]) && empty($temp[1])))
+                        {
+                            $where_screening_price[] = [
+                                ['min_price', 'egt', $temp[0]],
+                                ['min_price', 'elt', $temp[1]],
+                            ];
+
+                        // 最小金额大于0、最大金额等于0
+                        } elseif(!empty($temp[0]) && empty($temp[1]))
+                        {
+                            $where_screening_price[] = [
+                                ['min_price', 'egt', $temp[0]],
+                            ];
+                        }
                     }
                 }
             }
