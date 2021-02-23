@@ -46,6 +46,16 @@ class Index extends Common
 	 */
 	public function Index()
 	{
+		// 默认进入页面初始化
+		$to_url = MyUrl('admin/index/init');
+
+		// 是否指定页面地址
+		if(!empty($this->data_request['to_url']))
+		{
+			$to_url = base64_decode(urldecode($this->data_request['to_url']));
+		}
+
+		$this->assign('to_url', $to_url);
 		return $this->fetch();
 	}
 

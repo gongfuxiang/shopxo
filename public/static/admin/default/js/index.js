@@ -1,6 +1,16 @@
 $(function()
 {
     /**
+     * 指定url地址
+     */
+    var to_url = GetQueryValue('to_url') || null;
+    console.log(to_url)
+    if(to_url != null)
+    {
+        console.log(to_url);
+    }
+
+    /**
      * url加载
      */
     $(document).on('click', '.common-left-menu li a, .common-nav-top li a, .menu-mini-container-popup ul li a', function()

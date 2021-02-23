@@ -331,6 +331,11 @@ input.add,input.min{width:15px}
 .am-footer-miscs .powered a span.o {
     color: #e6000e;
 }
+.am-footer-miscs .footer-icp img {
+    width: 14px;
+    height: 14px;
+    vertical-align: sub;
+}
 @media only screen and (max-width:1025px) {
     .am-footer-default  .am-container {
         padding: 0 5px;

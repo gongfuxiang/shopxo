@@ -28,7 +28,7 @@ if(substr($cdn_public_host, -1) != DS)
 // 配置信息
 return [
     // 开发模式
-    'is_develop'                            => false,
+    'is_develop'                            => true,
 
     // 默认编码
     'default_charset'                       => 'utf-8',
@@ -85,8 +85,9 @@ return [
     // 应用商店地址
     'website_url'                           => 'https://shopxo.net/',
     'store_url'                             => 'https://store.shopxo.net/',
-    'store_payment_url'                     => 'https://store.shopxo.net/payment.html',
-    'store_theme_url'                       => 'https://store.shopxo.net/theme.html',
+    'store_payment_url'                     => 'https://store.shopxo.net/',
+    'store_theme_url'                       => 'https://store.shopxo.net/',
+    'store_download_url'                    => 'http://dev.shopxo.net/index.php?s=store-package-onine.html',
 
     // 开启U带域名
     'url_domain_deploy'                     => true,

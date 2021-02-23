@@ -225,44 +225,6 @@
         {{/if}}
         <!-- 订单确认页面地址底部钩子-结束 -->
 
-        <!-- 支付方式 -->
-        {{if $common_order_is_booking neq 1}}
-            <div class="buy-items business-item payment" data-field="payment_id">
-                <h3>选择支付</h3>
-                {{if !empty($payment_list)}}
-                    <ul class="payment-list">
-                        {{foreach $payment_list as $payment}}
-                            <li data-value="{{$payment.id}}" class="{{if isset($params['payment_id']) and $params['payment_id'] eq $payment['id']}}selected{{/if}}">
-                                {{if !empty($payment.logo)}}
-                                    <img src="{{$payment.logo}}" />
-                                {{/if}}
-                                <span>{{$payment.name}}</span>
-                                <i class="icon-active"></i>
-                            </li>
-                        {{/foreach}}
-                    </ul>
-                {{/if}}
-                {{if empty($payment_list)}}
-                    <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
-                {{/if}}
-            </div>
-        {{/if}}
-
-        <!-- 订单确认页面支付方式底部钩子-开始 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
-            <div class="plugins-tag">
-                <span>plugins_view_buy_payment_bottom</span>
-            </div>
-        {{/if}}
-        {{if !empty($plugins_view_buy_payment_bottom_data) and is_array($plugins_view_buy_payment_bottom_data)}}
-            {{foreach $plugins_view_buy_payment_bottom_data as $hook}}
-                {{if is_string($hook) or is_int($hook)}}
-                    {{$hook|raw}}
-                {{/if}}
-            {{/foreach}}
-        {{/if}}
-        <!-- 订单确认页面支付方式底部钩子-结束 -->
-
         <!-- 商品分组订单信息 -->
         <div class="buy-items">
             <h3>订单信息</h3>
@@ -549,9 +511,47 @@
             {{/foreach}}
         {{/if}}
         <!-- 订单确认页面分组商品底部钩子-结束 -->
+
+        <!-- 支付方式 -->
+        {{if $common_order_is_booking neq 1}}
+            <div class="buy-items business-item payment" data-field="payment_id">
+                <h3>选择支付</h3>
+                {{if !empty($payment_list)}}
+                    <ul class="payment-list">
+                        {{foreach $payment_list as $payment}}
+                            <li data-value="{{$payment.id}}" class="{{if isset($params['payment_id']) and $params['payment_id'] eq $payment['id']}}selected{{/if}}">
+                                {{if !empty($payment.logo)}}
+                                    <img src="{{$payment.logo}}" />
+                                {{/if}}
+                                <span>{{$payment.name}}</span>
+                                <i class="icon-active"></i>
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                {{/if}}
+                {{if empty($payment_list)}}
+                    <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
+                {{/if}}
+            </div>
+        {{/if}}
+
+        <!-- 订单确认页面支付方式底部钩子-开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_payment_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_payment_bottom_data) and is_array($plugins_view_buy_payment_bottom_data)}}
+            {{foreach $plugins_view_buy_payment_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <!-- 订单确认页面支付方式底部钩子-结束 -->
         
         <!-- 留言 -->
-        <div class="buy-message am-margin-top-lg">
+        <div class="buy-message am-margin-top-sm">
             <div class="order-extra">
                 <label>买家留言</label>
                 <input type="text" class="memo-input" title="选填,对本次交易的说明（建议填写已经和卖家达成一致的说明）" placeholder="选填,建议填写和卖家达成一致的说明" />

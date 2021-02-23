@@ -990,19 +990,31 @@ function FileSizeByteToUnit($bit)
  */
 function SyncJob($url, $port = 80, $time = 30)
 {
-    $url_str = str_replace(array('http://', 'https://'), '', $url);
-    $location = strpos($url_str, '/');
-    $host = substr($url_str, 0, $location);
-    $fp = fsockopen($host, $port, $errno, $errstr, $time);
-    if($fp)
+    // curl
+    if(function_exists('curl_init'))
     {
-        $out = "GET ".str_replace($host, '', $url_str)." HTTP/1.1\r\n";
-        $out .= "Host: ".$host."\r\n";
-        $out .= "Content-type: application/x-www-form-urlencoded\r\n";
-        $out .= "Connection: Close\r\n\r\n";
-        fputs($fp, $out);
-        fclose($fp);
+        CurlGet($url, 1);
+        return true;
+
+    // fsockopen
+    } elseif(function_exists('fsockopen'))
+    {
+        $url_str = str_replace(array('http://', 'https://'), '', $url);
+        $location = strpos($url_str, '/');
+        $host = substr($url_str, 0, $location);
+        $fp = fsockopen($host, $port, $errno, $errstr, $time);
+        if($fp)
+        {
+            $out = "GET ".str_replace($host, '', $url_str)." HTTP/1.1\r\n";
+            $out .= "Host: ".$host."\r\n";
+            $out .= "Content-type: application/x-www-form-urlencoded\r\n";
+            $out .= "Connection: Close\r\n\r\n";
+            fputs($fp, $out);
+            fclose($fp);
+        }
+        return true;
     }
+    return false;
 }
 
 /**
@@ -1597,11 +1609,13 @@ function CurlGet($url, $timeout = 10)
  * @param    [string]   $url        [请求地址]
  * @param    [array]    $post       [发送的post数据]
  * @param    [boolean]  $is_json    [是否使用 json 数据发送]
+ * @param    [int]      $timeout    [超时时间]
  * @return   [mixed]                [请求返回的数据]
  */
-function CurlPost($url, $post, $is_json = false)
+function CurlPost($url, $post, $is_json = false, $timeout = 30)
 {
     $ch = curl_init();
+    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HEADER, false);

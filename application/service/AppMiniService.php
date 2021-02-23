@@ -622,7 +622,7 @@ class AppMiniService
             if(is_array($config) && isset($config['plugins']))
             {
                 $config['plugins']['live-player-plugin'] = [
-                    'version'   => MyC('common_app_weixin_liveplayer_ver', '1.2.7', true),
+                    'version'   => MyC('common_app_weixin_liveplayer_ver', '1.2.8', true),
                     'provider'  => 'wx2b03c6e691cd7370',
                 ];
                 if(file_put_contents($file, JsonFormat($config)) === false)

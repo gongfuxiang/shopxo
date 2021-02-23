@@ -1913,6 +1913,30 @@ function HtmlToString(html_str)
 	return ToTxt(html_str).replace(/\&lt\;br[\&ensp\;|\&emsp\;]*[\/]?\&gt\;|\r\n|\n/g, '<br/>');
 }
 
+/**
+ * 获取浏览器参数
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-02-22
+ * @desc    description
+ * @param   {[string]}        field [参数字段名称]
+ */
+function GetQueryValue(field)
+{
+	var query = window.location.search.substring(1);
+	var vars = query.split('&');
+	for(var i=0;i<vars.length;i++)
+	{
+		var pair = vars[i].split('=');
+		if(pair[0] == field)
+		{
+			return pair[1];
+		}
+	}
+	return false;
+}
+
 
 
 // 公共数据操作

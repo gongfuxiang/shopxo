@@ -72,7 +72,11 @@ class StoreService
      */
     public static function RequestParamsString($params = [])
     {
-        return '?ver='.APPLICATION_VERSION.'&url='.urlencode(__MY_URL__).'&host='.urlencode(__MY_HOST__).'&ip='.urlencode(__MY_ADDR__);
+        // 当前管理员后台地址
+        $admin_url = explode('?', __MY_VIEW_URL__);
+
+        // 拼接商店请求参数地址
+        return '?ver='.urldecode(base64_encode(APPLICATION_VERSION)).'&url='.urlencode(base64_encode(__MY_URL__)).'&host='.urlencode(base64_encode(__MY_HOST__)).'&ip='.urlencode(base64_encode(__MY_ADDR__)).'&admin_url='.urlencode(base64_encode($admin_url[0]));
     }
 }
 ?>

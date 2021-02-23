@@ -1032,6 +1032,21 @@ php;
             return DataReturn('文件格式有误，请上传zip压缩包', -2);
         }
 
+        // 上传处理
+        return self::PluginsUploadHandle($_FILES['file']['tmp_name'], $params);
+    }
+
+    /**
+     * 应用上传处理
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-12-19T00:53:45+0800
+     * @param    [string]         $package_file [软件包地址]
+     * @param    [array]          $params       [输入参数]
+     */
+    public static function PluginsUploadHandle($package_file, $params = [])
+    {
         // 权限校验
         $ret = self::PowerCheck();
         if($ret['code'] != 0)
@@ -1055,7 +1070,7 @@ php;
         $plugins = '';
 
         // 开始解压文件
-        $resource = zip_open($_FILES['file']['tmp_name']);
+        $resource = zip_open($package_file);
         if(!is_resource($resource))
         {
             return DataReturn('压缩包打开失败['.$resource.']', -10);
