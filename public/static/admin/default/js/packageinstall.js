@@ -70,7 +70,7 @@ function RequestHandle(key, opt, msg)
                         setTimeout(function()
                         {
                             window.location.href = admin_url;
-                        }, 3000);
+                        }, 2000);
                         break;
                 }
             } else {

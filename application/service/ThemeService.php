@@ -123,6 +123,22 @@ class ThemeService
             return DataReturn('文件格式有误，请上传zip压缩包', -2);
         }
 
+        // 上传处理
+        return self::ThemeUploadHandle($_FILES['theme']['tmp_name'], $params);
+    }
+    
+    /**
+     * 模板上传处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-17
+     * @desc    description
+     * @param   [string]         $package_file [软件包地址]
+     * @param   [array]          $params       [输入参数]
+     */
+    public static function ThemeUploadHandle($package_file, $params = [])
+    {
         // 目录是否有权限
         if(!is_writable(ROOT.self::$html_path))
         {
@@ -140,7 +156,7 @@ class ThemeService
         ];
 
         // 开始解压文件
-        $resource = zip_open($_FILES['theme']['tmp_name']);
+        $resource = zip_open($package_file);
         while(($temp_resource = zip_read($resource)) !== false)
         {
             if(zip_entry_open($resource, $temp_resource))
@@ -204,7 +220,7 @@ class ThemeService
                 }
             }
         }
-        return DataReturn('安装成功');
+        return DataReturn('安装成功', 0);
     }
 
     /**

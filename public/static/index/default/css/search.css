@@ -65,6 +65,7 @@
     display: block;
     margin: 0 auto;
     margin-top: 2px;
+    max-width: 100%;
 }
 .map-text-items ul li {
     float: left;

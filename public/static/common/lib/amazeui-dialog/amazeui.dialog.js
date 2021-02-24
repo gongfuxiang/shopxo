@@ -35,7 +35,11 @@ dialog.alert = function(options) {
     .modal()
     .on('closed.modal.amui', function() {
       options.onConfirm();
-      $(this).remove();
+      var $this = $(this);
+      setTimeout(function()
+      {
+        $this.remove();
+      }, 2000);
     });
 };
 
@@ -68,7 +72,11 @@ dialog.confirm = function(options) {
       options.onCancel();
     }
   }).on('closed.modal.amui', function() {
-    $(this).remove();
+    var $this = $(this);
+      setTimeout(function()
+      {
+        $this.remove();
+      }, 2000);
   });
 };
 
@@ -88,7 +96,11 @@ dialog.loading = function(options) {
 
   return $(html.join('')).appendTo('body').modal()
     .on('closed.modal.amui', function() {
-      $(this).remove();
+      var $this = $(this);
+      setTimeout(function()
+      {
+        $this.remove();
+      }, 2000);
     });
 };
 
@@ -160,7 +172,11 @@ dialog.popup = function(options) {
   html.push('</div>');
   return $(html.join('')).appendTo('body').modal()
     .on('closed.modal.amui', function() {
-      $(this).remove();
+      var $this = $(this);
+      setTimeout(function()
+      {
+        $this.remove();
+      }, 2000);
       options.onClose();
     });
 };

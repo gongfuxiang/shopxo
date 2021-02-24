@@ -12,6 +12,8 @@ namespace app\service;
 
 use think\Db;
 use app\service\PluginsAdminService;
+use app\service\PaymentService;
+use app\service\ThemeService;
 
 /**
  * 软件安装服务层
@@ -40,11 +42,47 @@ class PackageInstallService
         // 类型
         $type = empty($params['type']) ? '' : $params['type'];
 
+        // 适配终端
+        $terminal = empty($params['terminal']) ? '' : $params['terminal'];
+
+        // 返回页面url地址
+        switch($type)
+        {
+            // 功能插件
+            case 'plugins' :
+                $url = MyUrl('admin/pluginsadmin/index');
+                break;
+
+            // 支付插件
+            case 'payment' :
+                $url = MyUrl('admin/payment/index');
+                break;
+
+            // web端主题
+            case 'webtheme' :
+                $url = MyUrl('admin/theme/index');
+                break;
+
+            // 小程序主题
+            case 'minitheme' :
+                $url = MyUrl('admin/appmini/index');
+                break;
+
+            // app主题
+            case 'apptheme' :
+                $url = MyUrl('admin/app/index');
+                break;
+
+            default :
+                $url = '';
+        }
+
         return [
             'id'        => $id,
             'type'      => $type,
+            'terminal'  => $terminal,
             'url'       => MyUrl('admin/packageinstall/install'),
-            'admin_url' => MyUrl('admin/index/index', ['to_url'=>urldecode(base64_encode(MyUrl('admin/pluginsadmin/index')))]),
+            'admin_url' => MyUrl('admin/index/index', ['to_url'=>urlencode(base64_encode($url))]),
         ];
     }
 
@@ -71,7 +109,7 @@ class PackageInstallService
         {
             // 获取url地址
             case 'url' :
-                $ret = self::UrlHandle($params['id']);
+                $ret = self::UrlHandle($params);
                 break;
 
             // 下载软件包
@@ -113,9 +151,26 @@ class PackageInstallService
                 $ret = PluginsAdminService::PluginsUploadHandle($res['url'], $params);
                 break;
 
+            // 支付插件
+            case 'payment' :
+                $ret = PaymentService::UploadHandle($res['url'], $params);
+                break;
+
+            // web主题
+            case 'webtheme' :
+                $ret = ThemeService::ThemeUploadHandle($res['url'], $params);
+                break;
+
+            // 小程序主题
+            case 'minitheme' :
+                echo '<pre>';
+                print_r($res);
+                print_r($params);die;
+                break;
+
             // 默认
             default :
-                $ret = DataReturn('插件操作类型有误', -1);
+                $ret = DataReturn('插件操作类型未定义['.$params['type'].']', -1);
         }
 
         // 移除session
@@ -166,18 +221,19 @@ class PackageInstallService
      * @version 1.0.0
      * @date    2021-02-22
      * @desc    description
-     * @param   [int]          $goods_id [商品id]
+     * @param   [array]          $params [输入参数]
      */
-    public static function UrlHandle($goods_id)
+    public static function UrlHandle($params)
     {
         // 获取下载地址
         $url = config('shopxo.store_download_url');
         $data = [
-            'goods_id'  => $goods_id,
+            'goods_id'  => $params['id'],
             'url'       => __MY_URL__,
             'host'      => __MY_HOST__,
             'ip'        => __MY_ADDR__,
             'ver'       => APPLICATION_VERSION,
+            'terminal'  => empty($params['terminal']) ? '' : $params['terminal'],
         ];
         $ret = self::HttpRequest($url, $data);
         if(!empty($ret) && isset($ret['code']) && $ret['code'] == 0)
@@ -301,6 +357,12 @@ class PackageInstallService
         if($error)
         {
             return DataReturn("curl出错，错误码:$error", -1);
+        }
+
+        // 是否json格式数据
+        if(substr($reponse, 0, 1) != '{')
+        {
+            return DataReturn("返回数据格式有误:$reponse", -1);
         }
         return json_decode($reponse, true);
     }

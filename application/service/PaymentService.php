@@ -454,16 +454,6 @@ class PaymentService
      */
     public static function Upload($params = [])
     {
-        // 初始化
-        self::Init();
-
-        // 权限
-        $ret = self::PowerCheck();
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
-
         // 文件上传校验
         $error = FileUploadError('file');
         if($error !== true)
@@ -478,8 +468,34 @@ class PaymentService
             return DataReturn('文件格式有误，请上传zip压缩包', -2);
         }
 
+        // 上传处理
+        return self::UploadHandle($_FILES['file']['tmp_name'], $params);
+    }
+
+    /**
+     * 上传插件处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-17
+     * @desc    description
+     * @param   [string]         $package_file [软件包地址]
+     * @param   [array]          $params       [输入参数]
+     */
+    public static function UploadHandle($package_file, $params = [])
+    {
+        // 初始化
+        self::Init();
+
+        // 权限
+        $ret = self::PowerCheck();
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 开始解压文件
-        $resource = zip_open($_FILES['file']['tmp_name']);
+        $resource = zip_open($package_file);
         if(!is_resource($resource))
         {
             return DataReturn('压缩包打开失败['.$resource.']', -10);
