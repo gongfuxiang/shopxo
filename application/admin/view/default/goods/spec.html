@@ -1,8 +1,9 @@
 <!-- 规格快捷操作 -->
 <div class="spec-quick am-margin-bottom-lg">
-    <div class="am-margin-left-xs">
+    <div>
         <div class="am-alert am-alert-warning am-radius" data-am-alert>
-            快捷操作可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。
+            <button type="button" class="am-close">&times;</button>
+            <p>快捷操作可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。</p>
         </div>
         <span class="business-operations-submit quick-spec-title-add">+快捷操作</span>
         <span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created">生成规格</span>
@@ -44,11 +45,11 @@
 </div>
 
 <!-- 规格常规操作 -->
-<div class="am-margin-left-xs">
+<div>
     <span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
     <span class="business-operations-submit am-margin-left-sm specifications-nav-set-all am-icon-cogs" data-am-modal="{target: '#spec-popup-all-operation'}"> 高级批量设置</span>
 </div>
-<div class="goods-specifications business-form-group am-form-group-refreshing am-padding-top-sm">
+<div class="goods-specifications am-padding-top-sm">
     <!-- 规格列表 -->
     <div class="specifications-container am-scrollable-horizontal">
         <table class="am-table am-table-bordered am-table-centered specifications-table am-margin-bottom-sm am-table-striped am-table-hover table-thead-beautify am-margin-bottom-0">
@@ -169,7 +170,7 @@
         <span class="business-operations-submit specifications-line-add">+添加一行</span>
     </div>
     <div class="spec-images-list">
-        <div class="am-alert am-alert-warning am-radius" data-am-alert>
+        <div class="am-alert am-radius">
             规格名称与规格值保持一致，相同规格名称添加一次即可，重复添加则后面覆盖前面，顺序不影响前端展示效果。
             <span class="business-operations-submit specifications-line-images-add">+添加规格图片</span>
             <span class="business-operations-submit specifications-line-images-auto-add am-margin-left-sm am-icon-dot-circle-o"> 第<input type="text" class="am-inline-block am-text-center am-margin-horizontal-xs am-radius" value="1" />列规格自动生成</span>
