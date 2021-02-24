@@ -20,6 +20,7 @@ function RequestHandle(key, opt, msg)
     // 获取参数值
     var id = $container.data('id') || 0;
     var type = $container.data('type') || null;
+    var terminal = $container.data('terminal') || null;
     var url = $container.data('url') || null;
     var admin_url = $container.data('admin-url') || null;
     if(id == 0 || type == null || url == null)
@@ -45,7 +46,7 @@ function RequestHandle(key, opt, msg)
         type: 'POST',
         dataType: 'json',
         timeout: 30000,
-        data: {"id":id, "type":type, "opt":opt, "key":key || ''},
+        data: {"id":id, "type":type, "opt":opt, "key":key || '', "terminal":terminal || ''},
         success: function(result)
         {
             if((result || null) != null && result.code == 0)
