@@ -14,6 +14,7 @@ use think\Db;
 use app\service\PluginsAdminService;
 use app\service\PaymentService;
 use app\service\ThemeService;
+use app\service\AppMiniService;
 
 /**
  * 软件安装服务层
@@ -163,9 +164,12 @@ class PackageInstallService
 
             // 小程序主题
             case 'minitheme' :
-                echo '<pre>';
-                print_r($res);
-                print_r($params);die;
+                if(empty($params['terminal']))
+                {
+                    return DataReturn('未指定小程序终端类型', -1);
+                }
+                $params['application_name'] = $params['terminal'];
+                $ret = AppMiniService::ThemeUploadHandle($res['url'], $params);
                 break;
 
             // 默认

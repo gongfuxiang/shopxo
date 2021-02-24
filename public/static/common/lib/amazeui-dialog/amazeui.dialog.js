@@ -14,25 +14,41 @@ var dialog = dialog || {};
 
 dialog.alert = function(options) {
   options = options || {};
+  options.class_name = options.class_name || '';
   options.title = options.title || null;
   options.content = options.content || '提示内容';
+  options.isClose = options.isClose || false;
+  options.isBtn = options.isBtn || false;
+  options.config = options.config || {};
   options.onConfirm = options.onConfirm || function() {
     };
   var html = [];
-  html.push('<div class="am-modal am-modal-alert" tabindex="-1">');
+  html.push('<div class="am-modal am-modal-alert '+options.class_name+'" tabindex="-1">');
   html.push('<div class="am-modal-dialog">');
-  if(options.title !== null)
+  if(options.title !== null || options.isClose === true)
   {
-    html.push('<div class="am-modal-hd">' + options.title + '</div>');
+    html.push('<div class="am-modal-hd">');
+    if(options.title !== null)
+    {
+      html.push('<span>'+options.title+'</span>');
+    }
+    if(options.isClose === true)
+    {
+      html.push('<a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>');
+    }
+    html.push('</div>');
   }
   html.push('<div class="am-modal-bd">' + options.content + '</div>');
-  html.push('<div class="am-modal-footer"><span class="am-modal-btn">确定</span></div>');
+  if(options.isBtn)
+  {
+    html.push('<div class="am-modal-footer"><span class="am-modal-btn">确定</span></div>');
+  }
   html.push('</div>');
   html.push('</div>');
 
   return $(html.join(''))
     .appendTo('body')
-    .modal()
+    .modal(options.config)
     .on('closed.modal.amui', function() {
       options.onConfirm();
       var $this = $(this);

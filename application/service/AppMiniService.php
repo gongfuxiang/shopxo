@@ -162,9 +162,6 @@ class AppMiniService
      */
     public static function ThemeUpload($params = [])
     {
-        // 初始化
-        self::Init($params);
-
         // 文件上传校验
         $error = FileUploadError('theme');
         if($error !== true)
@@ -179,6 +176,24 @@ class AppMiniService
             return DataReturn('文件格式有误，请上传zip压缩包', -2);
         }
 
+        // 上传处理
+        return self::ThemeUploadHandle($_FILES['file']['tmp_name'], $params);
+    }
+
+    /**
+     * 模板上传处理
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2018-12-19T00:53:45+0800
+     * @param    [string]         $package_file [软件包地址]
+     * @param    [array]          $params       [输入参数]
+     */
+    public static function ThemeUploadHandle($package_file, $params = [])
+    {
+        // 初始化
+        self::Init($params);
+
         // 主题目录
         $dir = self::$old_path.DS;
 
@@ -189,7 +204,7 @@ class AppMiniService
         }
 
         // 开始解压文件
-        $resource = zip_open($_FILES['theme']['tmp_name']);
+        $resource = zip_open($package_file);
         while(($temp_resource = zip_read($resource)) !== false)
         {
             if(zip_entry_open($resource, $temp_resource))
