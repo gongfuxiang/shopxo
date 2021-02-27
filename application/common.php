@@ -11,6 +11,46 @@
 
 // 应用公共文件
 
+
+/**
+ * 根据url地址解析顶级域名
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-02-25
+ * @desc    description
+ * @param   [string]          $url [url地址]
+ */
+function GetUrlHost($url)
+{
+    // 地址解析
+    $arr = parse_url(strtolower($url));
+    $host = (count($arr) == 1) ? $arr['path'] : $arr['host'];
+
+    // 是否存在斜杠
+    if(stripos($host, '/') !== false)
+    {
+        $slash = explode('/', $host);
+        $host = $slash[0];
+    }
+
+    // 查看是几级域名
+    $data = explode('.', $host);
+    $n = count($data);
+
+    // 判断是否是双后缀
+    $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev)\.cn$/';
+    if(($n > 2) && preg_match($preg, $host))
+    {
+        // 双后缀取后3位
+        $host = $data[$n-3].'.'.$data[$n-2].'.'.$data[$n-1];
+    } else {
+        // 非双后缀取后两位
+        $host = $data[$n-2].'.'.$data[$n-1];
+    }
+    return $host;
+}
+
 /**
  * 文件配置数据读写
  * @author  Devil
@@ -1809,6 +1849,19 @@ function CheckIp($ip)
 function CheckUrl($url)
 {
     return (preg_match('/'.lang('common_regex_url').'/', $url) == 1) ? true : false;
+}
+
+/**
+ * [CheckVersion 版本号校验]
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  0.0.1
+ * @datetime 2016-12-03T21:58:54+0800
+ * @param    [string] $ver [版本]
+ */
+function CheckVersion($ver)
+{
+    return (preg_match('/'.lang('common_regex_version').'/', $ver) == 1) ? true : false;
 }
 
 /**

@@ -1570,7 +1570,7 @@ class UserService
                 // token生成并存储缓存
                 if($user['is_mandatory_bind_mobile'] == 0 || ($user['is_mandatory_bind_mobile'] == 1 && !empty($user['mobile'])))
                 {
-                    $user['token'] = md5(md5($user['id'].time()).rand(100, 1000000));
+                    $user['token'] = self::CreatedUserToken($user['id']);
                     cache(config('shopxo.cache_user_info').$user['token'], $user);
 
                     // 非token数据库校验，则重新生成token更新到数据库
@@ -1591,6 +1591,20 @@ class UserService
         }
 
         return $user;
+    }
+
+    /**
+     * 用户token生成
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-02-26
+     * @desc    description
+     * @param   [int]          $user_id [用户id]
+     */
+    public static function CreatedUserToken($user_id)
+    {
+        return md5(md5($user_id.time()).rand(100, 1000000));
     }
 
     /**

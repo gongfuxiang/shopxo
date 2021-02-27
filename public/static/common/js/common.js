@@ -417,15 +417,20 @@ function FromInit(form_name)
 					// 拼接参数跳转
 					case 'jump' :
 						var params = GetFormVal(form_name, true);
+						var pv = '';
 						for(var i in params)
 						{
-							var value = encodeURIComponent(params[i]);
-							if(value == undefined || value == '')
+							if(params[i] != undefined && params[i] != '')
 							{
-								value = null;
+								pv += i+'='+encodeURIComponent(params[i])+'&';
 							}
-							request_value = UrlFieldReplace(i, value, request_value)
 						}
+						if(pv != '')
+						{
+							var join = (request_value.indexOf('?') >= 0) ? '&' : '?';
+							request_value += join+pv.substr(0, pv.length-1);
+						}
+
 						window.location.href = request_value;
 						return false;
 						break;

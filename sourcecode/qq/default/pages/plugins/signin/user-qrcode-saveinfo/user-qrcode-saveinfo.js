@@ -74,11 +74,13 @@ Page({
       data['id'] = this.data.data.id || 0;
     }
     // 数据验证
-    var validation = [
-      {fields: 'name', msg: '请填写联系人姓名格式 2~30 个字符之间'},
-      {fields: 'tel', msg: '请填写联系人电话 6~15 个字符'},
-      {fields: 'address', msg: '请填写联系人地址、最多230个字符'}
-    ];
+    var validation = [];
+    if((this.data.data_base || null) != null && (this.data.data_base.is_qrcode_must_userinfo || 0) == 1)
+    {
+      validation.push({fields: 'name', msg: '请填写联系人姓名格式 2~30 个字符之间'});
+      validation.push({fields: 'tel', msg: '请填写联系人电话 6~15 个字符'});
+      validation.push({fields: 'address', msg: '请填写联系人地址、最多230个字符'});
+    }
     if(app.fields_check(data, validation))
     {
       qq.showLoading({title: '提交中...'});
