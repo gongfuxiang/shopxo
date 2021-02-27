@@ -239,6 +239,10 @@ class PackageInstallService
             'ver'       => APPLICATION_VERSION,
             'terminal'  => empty($params['terminal']) ? '' : $params['terminal'],
         ];
+        foreach($data as $k=>$v)
+        {
+            $data[$k] = urldecode(base64_encode($v));
+        }
         $ret = self::HttpRequest($url, $data);
         if(!empty($ret) && isset($ret['code']) && $ret['code'] == 0)
         {

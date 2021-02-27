@@ -42,7 +42,7 @@ class PackageInstall extends Common
     }
 
     /**
-     * 功能插件安装
+     * 获取安装参数
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
