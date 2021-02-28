@@ -2,7 +2,7 @@
  * 布局基础样式
  */
 .form-inventory-container {
-    margin-bottom: 80px;
+    padding-bottom: 80px;
 }
 .form-inventory-submit {
     position: fixed;
