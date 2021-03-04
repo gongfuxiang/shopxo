@@ -44,49 +44,135 @@ class User extends Common
     }
 
     /**
-     * [Reg 用户注册-数据添加]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-07T00:08:36+0800
+     * 用户登录
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function Login()
+    {
+        return UserService::Login($this->data_post);
+    }
+
+    /**
+     * 用户登录-验证码发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function LoginVerifySend()
+    {
+        return UserService::LoginVerifySend($this->data_post);
+    }
+
+    /**
+     * 用户注册
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function Reg()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 调用服务层
-        return UserService::AppReg($this->data_post);
+        return UserService::Reg($this->data_post);
     }
 
     /**
-     * [RegVerifySend 用户注册-验证码发送]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-05T19:17:10+0800
+     * 用户注册-验证码发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function RegVerifySend()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 调用服务层
-        return UserService::AppUserBindVerifySend($this->data_post);
+        return UserService::RegVerifySend($this->data_post);
     }
 
     /**
-     * [GetAlipayUserInfo 支付宝用户授权]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2017-09-23T21:52:49+0800
+     * 密码找回
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function ForgetPwd()
+    {
+        return UserService::ForgetPwd($this->data_post);
+    }
+
+    /**
+     * 密码找回-验证码发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function ForgetPwdVerifySend()
+    {
+        return UserService::ForgetPwdVerifySend($this->data_post);
+    }
+
+    /**
+     * 用户-验证码显示
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function UserVerifyEntry()
+    {
+        $params = [
+                'width'         => 100,
+                'height'        => 26,
+                'key_prefix'    => input('type', 'user_reg'),
+            ];
+        $verify = new \base\Verify($params);
+        $verify->Entry();
+    }
+
+    /**
+     * app用户手机绑定
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function AppMobileBind()
+    {
+        return UserService::AppMobileBind($this->data_post);
+    }
+
+    /**
+     * app用户手机绑定-验证码发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function AppMobileBindVerifySend()
+    {
+        return UserService::AppMobileBindVerifySend($this->data_post);
+    }
+
+    /**
+     * 支付宝用户授权
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function AlipayUserAuth()
     {
@@ -634,19 +720,6 @@ class User extends Common
         $this->data_post['mobile'] = $mobile;
         $this->data_post['is_onekey_mobile_bind'] = 1;
         return UserService::AuthUserProgram($this->data_post, APPLICATION_CLIENT_TYPE.'_openid');
-    }
-
-    /**
-     * 用户登录
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-03-04
-     * @desc    description
-     */
-    public function Login()
-    {
-        return UserService::Login($this->data_post);
     }
 }
 ?>

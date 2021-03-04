@@ -822,7 +822,7 @@ class UserService
                 return $ret;
             }
 
-            // 登录返回
+            // 成功返回
             if(APPLICATION == 'app')
             {
                 $result = self::AppUserInfoHandle($user_id);
@@ -985,7 +985,14 @@ class UserService
             // 用户登录session纪录
             if(self::UserLoginRecord($user_ret['data']['user_id']))
             {
-                return DataReturn('注册成功', 0, $user_ret);
+                // 成功返回
+                if(APPLICATION == 'app')
+                {
+                    $result = self::AppUserInfoHandle($user_ret['data']['user_id']);
+                } else {
+                    $result = $user_ret['data'];
+                }
+                return DataReturn('注册成功', 0, $result);
             }
             return DataReturn('注册成功，请到登录页面登录帐号');
         } else {
@@ -1934,13 +1941,14 @@ class UserService
             $body_html = [];
 
             // 注册成功后钩子
+            $user = Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find();
             $hook_name = 'plugins_service_user_register_end';
             $ret = HookReturnHandle(Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => &$params,
                 'user_id'       => $user_id,
-                'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find(),
+                'user'          => $user,
                 'body_html'     => &$body_html,
             ]));
             if(isset($ret['code']) && $ret['code'] != 0)
@@ -1960,7 +1968,7 @@ class UserService
     }
 
     /**
-     * app用户注册
+     * app用户手机绑定
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -1968,7 +1976,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AppReg($params = [])
+    public static function AppMobileBind($params = [])
     {
         // 数据验证
         $p = [
@@ -1989,8 +1997,8 @@ class UserService
             return DataReturn($ret, -1);
         }
 
-        // 用户注册前校验钩子
-        $hook_name = 'plugins_service_user_app_register_begin_check';
+        // 用户手机绑定前校验钩子
+        $hook_name = 'plugins_service_user_app_mobile_bind_begin_check';
         $ret = HookReturnHandle(Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
@@ -2009,7 +2017,7 @@ class UserService
 
         // 验证码校验
         $verify_params = [
-            'key_prefix' => 'bind_'.md5($params['mobile']),
+            'key_prefix' => 'user_bind_'.md5($params['mobile']),
             'expire_time' => MyC('common_verify_expire_time')
         ];
         $obj = new \base\Sms($verify_params);
@@ -2128,7 +2136,7 @@ class UserService
     }
 
     /**
-     * app用户绑定验证码发送
+     * app用户手机绑定验证码发送
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -2136,7 +2144,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AppUserBindVerifySend($params = [])
+    public static function AppMobileBindVerifySend($params = [])
     {
         // 数据验证
         $p = [
@@ -2160,8 +2168,8 @@ class UserService
 
         // 验证码公共基础参数
         $verify_params = [
-            'key_prefix' => 'bind_'.md5($params['mobile']),
-            'expire_time' => MyC('common_verify_expire_time'),
+            'key_prefix'    => 'user_bind_'.md5($params['mobile']),
+            'expire_time'   => MyC('common_verify_expire_time'),
             'interval_time' => MyC('common_verify_interval_time'),
         ];
 

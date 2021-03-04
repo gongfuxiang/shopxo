@@ -81,7 +81,7 @@ Page({
       this.setData({verify_submit_text: '发送中', verify_loading: true, verify_disabled: true});
 
       qq.request({
-        url: app.get_request_url('regverifysend', 'user'),
+        url: app.get_request_url('appmobilebindverifysend', 'user'),
         method: 'POST',
         data: {mobile: this.data.mobile},
         dataType: 'json',
@@ -148,7 +148,7 @@ Page({
 
       // 网络请求
       qq.request({
-        url: app.get_request_url('reg', 'user'),
+        url: app.get_request_url('appmobilebind', 'user'),
         method: 'POST',
         data: e.detail.value,
         dataType: 'json',

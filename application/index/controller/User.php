@@ -371,11 +371,11 @@ class User extends Common
      */
     public function UserVerifyEntry()
     {
-        $params = array(
+        $params = [
                 'width'         => 100,
                 'height'        => 26,
                 'key_prefix'    => input('type', 'user_reg'),
-            );
+            ];
         $verify = new \base\Verify($params);
         $verify->Entry();
     }
