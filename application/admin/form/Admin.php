@@ -111,6 +111,16 @@ class Admin
                     ],
                 ],
                 [
+                    'label'         => '邮箱',
+                    'view_type'     => 'field',
+                    'view_key'      => 'email',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
                     'label'         => '角色组',
                     'view_type'     => 'field',
                     'view_key'      => 'role_name',

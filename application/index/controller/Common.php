@@ -412,6 +412,10 @@ class Common extends Controller
         {
             $this->assign('is_load_baidu_map_api', 1);
         }
+
+        // 登录/注册方式
+        $this->assign('home_user_login_type', MyC('home_user_login_type', [], true));
+        $this->assign('home_user_reg_type', MyC('home_user_reg_type', [], true));
     }
 
     /**

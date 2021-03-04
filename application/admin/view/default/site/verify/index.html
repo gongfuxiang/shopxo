@@ -28,10 +28,10 @@
                 </div>
             </div>
             <div class="am-form-group">
-                <label>{{$data.home_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_img_verify_state.describe}}</span></label>
-                <select name="{{$data.home_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_img_verify_state.error_tips}}" required>
-                    {{foreach $site_img_verify_state_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_img_verify_state']['value']) and $data['home_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                <label>{{$data.common_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.common_img_verify_state.describe}}</span></label>
+                <select name="{{$data.common_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_img_verify_state.error_tips}}" required>
+                    {{foreach $common_close_open_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['common_img_verify_state']['value']) and $data['common_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
             </div>
@@ -40,7 +40,7 @@
                 <label>{{$data.common_images_verify_rules.name}}<span class="am-form-group-label-tips">{{$data.common_images_verify_rules.describe}}</span></label>
                 <select name="{{$data.common_images_verify_rules.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.common_images_verify_rules.name}}" >
                     {{foreach $site_images_verify_rules_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['common_images_verify_rules']['value']) and in_array($v['value'], explode(',', $data['common_images_verify_rules']['value']))}}selected{{/if}}>{{$v.name}}</option>
+                        <option value="{{$v.value}}" {{if isset($data['common_images_verify_rules']['value']) and in_array($v['value'], $data['common_images_verify_rules']['value'])}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
             </div>

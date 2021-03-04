@@ -443,33 +443,23 @@ ul.am-dropdown-content > .am-active > a:focus,
 }
 
 /**
- * PC
+ * 公共登录窗口
  */
 @media only screen and (min-width: 641px) {
-    /**
-     * 图片验证码
-     */
-    #verify-img-value { float: left; width: 50%; margin-right: 5px; }
-
-    /**
-     * 公共登录窗口
-     */
-    .common-login-modal { max-width: 400px; height: 408px; left: calc(50% - 200px); top: calc(50% - 204px); margin-left: 0; margin-top: 0; }
+    .common-login-modal {
+        max-width: 400px;
+        height: 408px;
+        left: calc(50% - 200px);
+        top: calc(50% - 204px);
+        margin-left: 0;
+        margin-top: 0;
+    }
 }
-
-/**
- * 手机
- */
 @media only screen and (max-width: 641px) {
-    /**
-     * 图片验证码
-     */
-    #verify-img-value { margin-bottom: 10px; }
-
-    /**
-     * 公共登录窗口
-     */
-    .common-login-modal { height: 410px; top: calc(100% - 410px);}
+    .common-login-modal {
+        height: 410px;
+        top: calc(100% - 410px);
+    }
 }
 
 
@@ -728,6 +718,7 @@ table.am-table .am-btn-danger:hover {
 .am-tabs-d2 .am-tabs-bd {
     border: none;
     z-index: 0;
+    background: #fff;
 }
 .am-tabs-d2 .am-tabs-bd .am-tab-panel {
     padding: 0;

@@ -5,44 +5,93 @@
 	<div class="content">
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/config/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/config/index')}}">
-			<div class="am-form-group">
-				<label>{{$data.admin_excel_charset.name}}<span class="am-form-group-label-tips">{{$data.admin_excel_charset.describe}}</span></label>
-				<select name="{{$data.admin_excel_charset.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_excel_charset.error_tips}}" required>
-					{{foreach $common_excel_charset_list as $v}}
-						<option value="{{$v.id}}" {{if isset($data['admin_excel_charset']['value']) and $data['admin_excel_charset']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-					{{/foreach}}
-				</select>
-			</div>
-
-			<div class="am-form-group">
-				<label>{{$data.admin_login_info_bg_images_rand.name}}<span class="am-form-group-label-tips">{{$data.admin_login_info_bg_images_rand.describe}}</span></label>
-				<select name="{{$data.admin_login_info_bg_images_rand.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_login_info_bg_images_rand.error_tips}}" required>
-					{{foreach $common_is_enable_list as $v}}
-						<option value="{{$v.id}}" {{if isset($data['admin_login_info_bg_images_rand']['value']) and $data['admin_login_info_bg_images_rand']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-					{{/foreach}}
-				</select>
-				<div class="am-alert am-alert-warning" data-am-alert>
-                    <p>1. 默认背景图片位于[ public/static/admin/default/images/login ]目录下</p>
-                    <p>2. 变更图片后、需要在[ application/admin/controller/Admin.php ]文件中[ LoginInfo ]方法中修改[ bg_images_list ]变量</p>
+            <!-- 基础配置 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">基础配置</h3>
                 </div>
-			</div>
-
-			<div class="am-form-group">
-				<label>{{$data.common_page_size.name}}<span class="am-form-group-label-tips">{{$data.common_page_size.describe}}</span></label>
-				<input type="number" name="{{$data.common_page_size.only_tag}}" placeholder="{{$data.common_page_size.name}}" pattern="{{:lang('common_regex_page_number')}}" data-validation-message="{{$data.common_page_size.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_page_size.value}}"{{/if}} required />
-			</div>
-			<div class="am-form-group">
-				<label>{{$data.common_spec_add_max_number.name}}<span class="am-form-group-label-tips">{{$data.common_spec_add_max_number.describe}}</span></label>
-				<input type="number" name="{{$data.common_spec_add_max_number.only_tag}}" placeholder="{{$data.common_spec_add_max_number.describe}}" data-validation-message="{{$data.common_spec_add_max_number.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_spec_add_max_number.value}}"{{/if}} />
-			</div>
-
-			<div class="am-form-group">
-				<label>{{$data.common_baidu_map_ak.name}}<span class="am-form-group-label-tips">{{$data.common_baidu_map_ak.describe}}</span></label>
-				<input type="text" name="{{$data.common_baidu_map_ak.only_tag}}" placeholder="{{$data.common_baidu_map_ak.describe}}" data-validation-message="{{$data.common_baidu_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_baidu_map_ak.value}}"{{/if}} />
-				<div class="am-alert am-alert-warning" data-am-alert>
-                	请到百度地图开放平台申请，<a href="https://ask.shopxo.net/article/142" target="_blank">查看配置教程 <i class="am-icon-external-link"></i></a>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-form-group">
+                        <label>{{$data.admin_excel_charset.name}}<span class="am-form-group-label-tips">{{$data.admin_excel_charset.describe}}</span></label>
+                        <select name="{{$data.admin_excel_charset.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_excel_charset.error_tips}}" required>
+                            {{foreach $common_excel_charset_list as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['admin_excel_charset']['value']) and $data['admin_excel_charset']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_page_size.name}}<span class="am-form-group-label-tips">{{$data.common_page_size.describe}}</span></label>
+                        <input type="number" name="{{$data.common_page_size.only_tag}}" placeholder="{{$data.common_page_size.name}}" pattern="{{:lang('common_regex_page_number')}}" data-validation-message="{{$data.common_page_size.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_page_size.value}}"{{/if}} required />
+                    </div>
                 </div>
-			</div>
+            </div>
+
+            <!-- 登录 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">登录</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-form-group">
+                        <label>{{$data.admin_login_info_bg_images_rand.name}}<span class="am-form-group-label-tips">{{$data.admin_login_info_bg_images_rand.describe}}</span></label>
+                        <select name="{{$data.admin_login_info_bg_images_rand.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_login_info_bg_images_rand.error_tips}}" required>
+                            {{foreach $common_is_enable_list as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['admin_login_info_bg_images_rand']['value']) and $data['admin_login_info_bg_images_rand']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            <p>1. 默认背景图片位于[ public/static/admin/default/images/login ]目录下</p>
+                            <p>2. 变更图片后、需要在[ application/admin/controller/Admin.php ]文件中[ LoginInfo ]方法中修改[ bg_images_list ]变量</p>
+                        </div>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.admin_login_type.name}}<span class="am-form-group-label-tips">{{$data.admin_login_type.describe}}</span></label>
+                        <select name="{{$data.admin_login_type.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.admin_login_type.name}}" data-validation-message="{{$data.admin_login_type.error_tips}}" required>
+                            {{foreach $common_login_type_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['admin_login_type']['value']) and in_array($v['value'], $data['admin_login_type']['value'])}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.admin_login_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.admin_login_img_verify_state.describe}}</span></label>
+                        <select name="{{$data.admin_login_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_login_img_verify_state.error_tips}}" required>
+                            {{foreach $common_close_open_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['admin_login_img_verify_state']['value']) and $data['admin_login_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 商品 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">商品</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-form-group">
+                        <label>{{$data.common_spec_add_max_number.name}}<span class="am-form-group-label-tips">{{$data.common_spec_add_max_number.describe}}</span></label>
+                        <input type="number" name="{{$data.common_spec_add_max_number.only_tag}}" placeholder="{{$data.common_spec_add_max_number.describe}}" data-validation-message="{{$data.common_spec_add_max_number.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_spec_add_max_number.value}}"{{/if}} />
+                    </div>
+                </div>
+            </div>
+
+            <!-- 扩展 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">扩展</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-form-group">
+                        <label>{{$data.common_baidu_map_ak.name}}<span class="am-form-group-label-tips">{{$data.common_baidu_map_ak.describe}}</span></label>
+                        <input type="text" name="{{$data.common_baidu_map_ak.only_tag}}" placeholder="{{$data.common_baidu_map_ak.describe}}" data-validation-message="{{$data.common_baidu_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_baidu_map_ak.value}}"{{/if}} />
+                        <div class="am-alert am-alert-warning" data-am-alert>
+                            请到百度地图开放平台申请，<a href="https://ask.shopxo.net/article/142" target="_blank">查看配置教程 <i class="am-icon-external-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
 			</div>

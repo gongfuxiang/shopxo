@@ -9,12 +9,38 @@
     <div class="content">
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'login'])}}" enctype="multipart/form-data">
+            <!-- 基础配置 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">基础配置</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-form-group">
+                        <label>{{$data.home_user_login_type.name}}<span class="am-form-group-label-tips">{{$data.home_user_login_type.describe}}</span></label>
+                        <select name="{{$data.home_user_login_type.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.home_user_login_type.name}}" data-validation-message="{{$data.home_user_login_type.error_tips}}">
+                            {{foreach $common_login_type_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_user_login_type']['value']) and in_array($v['value'], $data['home_user_login_type']['value'])}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label>{{$data.home_user_login_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_login_img_verify_state.describe}}</span></label>
+                        <select name="{{$data.home_user_login_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_login_img_verify_state.error_tips}}" required>
+                            {{foreach $common_close_open_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_user_login_img_verify_state']['value']) and $data['home_user_login_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
             <!-- 图片1 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">图片1</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label class="block">{{$data.home_site_user_login_ad1_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad1_images.describe}}</span></label>
                         <ul class="plug-file-upload-view home_site_user_login_ad1_images-images-view" data-form-name="home_site_user_login_ad1_images" data-max-number="1" data-dialog-type="images">
@@ -49,7 +75,7 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">图片2</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label class="block">{{$data.home_site_user_login_ad2_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad2_images.describe}}</span></label>
                         <ul class="plug-file-upload-view home_site_user_login_ad2_images-images-view" data-form-name="home_site_user_login_ad2_images" data-max-number="1" data-dialog-type="images">
@@ -84,7 +110,7 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">图片3</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label class="block">{{$data.home_site_user_login_ad3_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_login_ad3_images.describe}}</span></label>
                         <ul class="plug-file-upload-view home_site_user_login_ad3_images-images-view" data-form-name="home_site_user_login_ad3_images" data-max-number="1" data-dialog-type="images">
@@ -112,24 +138,6 @@
                         </button>
                     </div>
                 </div>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.home_user_login_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_login_state.describe}}</span></label>
-                <select name="{{$data.home_user_login_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_login_state.error_tips}}" required>
-                    {{foreach $site_user_login_state_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_user_login_state']['value']) and $data['home_user_login_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.home_user_login_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_login_img_verify_state.describe}}</span></label>
-                <select name="{{$data.home_user_login_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_login_img_verify_state.error_tips}}" required>
-                    {{foreach $site_img_verify_state_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_user_login_img_verify_state']['value']) and $data['home_user_login_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
             </div>
 
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">

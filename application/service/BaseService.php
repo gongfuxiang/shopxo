@@ -55,6 +55,13 @@ class BaseService
             'home_user_address_idcard_status'   => (int) MyC('home_user_address_idcard_status', 0),
             'common_order_close_limit_time'     => (int) MyC('common_order_close_limit_time', 30, true),
             'common_order_success_limit_time'   => (int) MyC('common_order_success_limit_time', 21600, true),
+            'common_img_verify_state'           => (int) MyC('common_img_verify_state', 0, true),
+            'home_user_login_img_verify_state'  => (int) MyC('home_user_login_img_verify_state', 0, true),
+            'home_user_register_img_verify_state'=> (int) MyC('home_user_register_img_verify_state', 0, true),
+            'home_is_enable_userregister_agreement'=> (int) MyC('home_is_enable_userregister_agreement', 0, true),
+            'common_register_is_enable_audit'   => (int) MyC('common_register_is_enable_audit', 0, true),
+            'home_user_login_type'              => MyC('home_user_login_type', [], true),
+            'home_user_reg_type'                => MyC('home_user_reg_type', [], true),
 
             // 订单相关
             'home_is_enable_order_bulk_pay'     => (int) MyC('home_is_enable_order_bulk_pay', 0),

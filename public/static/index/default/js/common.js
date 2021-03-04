@@ -105,7 +105,7 @@ $(function()
         // 是否登录
         if(__user_id__ == 0)
         {
-            ModalLoad(__modal_login_url__, '登录', 'common-login-modal');
+            ModalLoad(__modal_login_url__, '', 'common-login-modal');
             return false;
         }
     });

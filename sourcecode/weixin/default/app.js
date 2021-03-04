@@ -73,7 +73,7 @@ App({
 
     // 请求地址
     request_url: "{{request_url}}",
-    // request_url: 'http://shopxo.com/',
+     request_url: 'http://shopxo.com/',
     // request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
@@ -231,12 +231,12 @@ App({
     var self = this;
     wx.checkSession({
       success: function () {
-        var openid = wx.getStorageSync(self.data.cache_user_login_key) || null;
-        if (openid == null)
+        var login_data = wx.getStorageSync(self.data.cache_user_login_key) || null;
+        if (login_data == null)
         {
           self.user_login(object, method);
         } else {
-          self.get_user_login_info(object, method, openid, auth_data);
+          self.get_user_login_info(object, method, login_data, auth_data);
         }
       },
       fail: function () {
@@ -253,8 +253,8 @@ App({
    * auth_data  授权数据
    */
   user_login(object, method) {
-    var openid = wx.getStorageSync(this.data.cache_user_login_key) || null;
-    if (openid == null)
+    var login_data = wx.getStorageSync(this.data.cache_user_login_key) || null;
+    if (login_data == null)
     {
       var self = this;
       // 加载loding
@@ -270,6 +270,7 @@ App({
               dataType: 'json',
               header: { 'content-type': 'application/x-www-form-urlencoded' },
               success: (res) => {
+                console.log(res.data);
                 wx.hideLoading();
                 if (res.data.code == 0) {
                   var data = res.data.data;
@@ -289,7 +290,7 @@ App({
                   } else {
                     wx.setStorage({
                       key: self.data.cache_user_login_key,
-                      data: data.openid
+                      data: data
                     });
                     self.login_to_auth();
                   }
@@ -338,24 +339,24 @@ App({
    * 获取用户授权信息
    * object     回调操作对象
    * method     回调操作对象的函数
-   * openid     用户openid
+   * login_data 登录信息
    * auth_data  授权数据
    */
-  get_user_login_info(object, method, openid, auth_data) {
+  get_user_login_info(object, method, login_data, auth_data) {
     // 邀请人参数
     var params = wx.getStorageSync(this.data.cache_launch_info_key) || null;
     var referrer = (params == null) ? 0 : (params.referrer || 0);
 
-    // 远程解密数据
+    // 用户信息处理
     wx.showLoading({ title: "授权中..." });
     var self = this;
     wx.request({
       url: self.get_request_url('wechatuserinfo', 'user'),
       method: 'POST',
       data: {
-        "encrypted_data": auth_data.encryptedData,
-        "iv": auth_data.iv,
-        "openid": openid,
+        "auth_data": JSON.stringify(auth_data),
+        "openid": login_data.openid,
+        "unionid": login_data.unionid,
         "referrer": referrer
       },
       dataType: 'json',

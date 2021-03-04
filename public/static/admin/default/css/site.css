@@ -16,14 +16,6 @@ ul.home_site_user_register_bg_images-images-view li {
 }
 
 /**
- * 带面板
- */
-.am-panel .am-form-group:last-child {
-    border-bottom: 0;
-}
-
-
-/**
  * 地址添加/编辑
  */
 .address-list .edit-submit,

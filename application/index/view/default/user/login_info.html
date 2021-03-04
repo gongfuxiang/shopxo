@@ -23,8 +23,8 @@
             {{/if}}
         </div>
     	<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 container-right">
-            <div class="forgetpwd-top">
-                {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')) or in_array('username', MyC('home_user_reg_state'))}}
+            <div class="login-top">
+                {{if !empty($home_user_reg_type)}}
                     <span class="">还没有帐号？</span>
                     <a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">注册</a>
                 {{/if}}
@@ -44,54 +44,31 @@
                 {{/if}}
             </div>
             <div class="user-form-container">
-        		<!-- form start -->
-        		<form class="am-form form-validation am-padding-bottom-sm" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="LoginSuccessBack">
-    				<div class="am-form-group am-form-group-refreshing">
-    					<label>登录账号</label>
-    					<input type="text" name="accounts" class="am-radius" minlength="1" placeholder="用户名/手机/邮箱" data-validation-message="请填写登录账号" required />
-    				</div>
-
-    				<div class="am-form-group am-form-group-refreshing am-margin-top-xs">
-    					<label>登录密码</label>
-    					<input type="password" name="pwd" class="am-radius" placeholder="登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" required />
-    				</div>
-
-                    {{if MyC('home_user_login_img_verify_state') eq 1}}
-                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                            <label>验证码</label>
-                            <div class="am-input-group am-input-group-sm">
-                                <input type="text" name="verify" class="am-radius" placeholder="验证码" minlength="4" maxlength="4" data-validation-message="请输入图片验证码" required />
-                                <span class="am-input-group-btn">
-                                    <span class="am-btn am-btn-default am-radius form-verify">
-                                        <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'login'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+'#'+Math.random();" />
-                                        <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('form-verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'login'])}}#'+Math.random();">更换一张</a>
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                    {{/if}}
-    				
-    				<div class="am-form-group am-form-group-refreshing am-margin-top-sm">
-    					<button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '登录中...'}">登录</button>
-    					<a href="{{:MyUrl('index/user/forgetpwdinfo')}}" class="am-fr">忘记密码？</a>
-    				</div>
-    			</form>
-                <!-- form end -->
+        		{{if count($home_user_login_type) gt 0}}
+                    {{include file="user/login_content" /}}
+                {{else /}}
+                    <div class="am-text-center am-padding-vertical-lg register-close"><i class="am-icon-warning"></i> 暂时关闭了登录</div>
+                {{/if}}
     		</div>
     	</div>
     </div>
 </div>
 <!-- conntent end  -->
 
+<!-- 图片验证码  -->
+{{if MyC('common_img_verify_state') eq 1}}
+    {{include file="user/images_verify" type="user_login" /}}
+{{/if}}
+
 {{include file="public/footer" /}}
 
 <script type="text/javascript">
 // 登录成功回调
-function LoginSuccessBack(e)
+function LoginBackHandle(e)
 {
+    $.AMUI.progress.done();
     if(e.code == 0)
     {
-        $.AMUI.progress.done();
         Prompt(e.msg, 'success');
 
         // 登录返回html处理
@@ -105,8 +82,7 @@ function LoginSuccessBack(e)
             window.location.href = '{{$referer_url}}';
         }, 1500);
     } else {
-        $('form.form-validation').find('button[type="submit"]').button('reset');
-        $.AMUI.progress.done();
+        $('form.am-form').find('button[type="submit"]').button('reset');
         Prompt(e.msg);
     }
 }

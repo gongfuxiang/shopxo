@@ -14,9 +14,9 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">基础配置</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <!-- 提示 -->
-                    <div class="am-alert am-alert-warning am-radius" data-am-alert>
+                    <div class="am-alert am-alert-warning am-radius am-margin-top-xs" data-am-alert>
                         <button type="button" class="am-close">&times;</button>
                         <p class="am-text-xs">1. 销售型、常规电商流程，用户选择收货地址下单支付 -> 商家发货 -> 确认收货 -> 订单完成</p>
                         <p class="am-text-xs">2. 展示型、仅展示产品，可发起咨询（不能下单）</p>
@@ -69,7 +69,7 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">展示型</span>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label>{{$data.common_is_exhibition_mode_btn_text.name}}<span class="am-form-group-label-tips">{{$data.common_is_exhibition_mode_btn_text.describe}}</span></label>
                         <input type="text" name="{{$data.common_is_exhibition_mode_btn_text.only_tag}}" placeholder="{{$data.common_is_exhibition_mode_btn_text.describe}}" data-validation-message="{{$data.common_is_exhibition_mode_btn_text.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_is_exhibition_mode_btn_text.value}}"{{/if}} />
@@ -82,7 +82,7 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">自提点</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <ul class="am-list am-list-static am-list-border am-list-striped am-form-group am-btn-sm am-form-group-refreshing am-margin-bottom-0 am-padding-bottom-0 address-list">
                         {{if !empty($sitetype_address_list) and is_array($sitetype_address_list)}}
                             {{foreach $sitetype_address_list as $address}}
@@ -104,7 +104,7 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">虚拟销售</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label>{{$data.common_site_fictitious_return_title.name}}<span class="am-form-group-label-tips">{{$data.common_site_fictitious_return_title.describe}}</span></label>
                         <input type="text" name="{{$data.common_site_fictitious_return_title.only_tag}}" placeholder="{{$data.common_site_fictitious_return_title.describe}}" data-validation-message="{{$data.common_site_fictitious_return_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_site_fictitious_return_title.value}}"{{/if}} />

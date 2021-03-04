@@ -124,6 +124,13 @@ class AdminService
                 'error_msg'         => '手机号码格式错误',
             ],
             [
+                'checked_type'      => 'fun',
+                'key_name'          => 'email',
+                'checked_data'      => 'CheckEmail',
+                'is_checked'        => 1,
+                'error_msg'         => '电子邮箱格式错误、最多60个字符',
+            ],
+            [
                 'checked_type'      => 'in',
                 'key_name'          => 'gender',
                 'checked_data'      => [0,1,2],
@@ -134,6 +141,22 @@ class AdminService
                 'key_name'          => 'status',
                 'checked_data'      => array_column(lang('common_admin_status_list'), 'value'),
                 'error_msg'         => '状态值范围不正确',
+            ],
+            [
+                'checked_type'      => 'unique',
+                'key_name'          => 'mobile',
+                'checked_data'      => 'Admin',
+                'checked_key'       => 'id',
+                'is_checked'        => 1,
+                'error_msg'         => '手机号码已存在[{$var}]',
+            ],
+            [
+                'checked_type'      => 'unique',
+                'key_name'          => 'email',
+                'checked_data'      => 'Admin',
+                'checked_key'       => 'id',
+                'is_checked'        => 1,
+                'error_msg'         => '电子邮箱已存在[{$var}]',
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -203,7 +226,8 @@ class AdminService
             'username'      => $params['username'],
             'login_salt'    => $salt,
             'login_pwd'     => LoginPwdEncryption($params['login_pwd'], $salt),
-            'mobile'        => isset($params['mobile']) ? $params['mobile'] : '',
+            'mobile'        => empty($params['mobile']) ? '' : $params['mobile'],
+            'email'         => empty($params['email']) ? '' : $params['email'],
             'gender'        => intval($params['gender']),
             'status'        => intval($params['status']),
             'role_id'       => intval($params['role_id']),
@@ -260,7 +284,8 @@ class AdminService
 
         // 数据
         $data = [
-            'mobile'        => isset($params['mobile']) ? $params['mobile'] : '',
+            'mobile'        => empty($params['mobile']) ? '' : $params['mobile'],
+            'email'         => empty($params['email']) ? '' : $params['email'],
             'gender'        => intval($params['gender']),
             'status'        => intval($params['status']),
             'upd_time'      => time(),
@@ -340,26 +365,15 @@ class AdminService
         // 请求参数
         $p = [
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'username',
-                'error_msg'         => '用户名不能为空',
+                'checked_type'      => 'in',
+                'key_name'          => 'type',
+                'checked_data'      => array_column(lang('common_login_type_list'), 'value'),
+                'error_msg'         => '登录类型有误',
             ],
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'login_pwd',
-                'error_msg'         => '密码不能为空',
-            ],
-            [
-                'checked_type'      => 'fun',
-                'key_name'          => 'username',
-                'checked_data'      => 'CheckUserName',
-                'error_msg'         => '用户名格式 5~18 个字符（可以是字母数字下划线）',
-            ],
-            [
-                'checked_type'      => 'fun',
-                'key_name'          => 'login_pwd',
-                'checked_data'      => 'CheckLoginPwd',
-                'error_msg'         => '密码格式 6~18 个字符',
+                'key_name'          => 'accounts',
+                'error_msg'         => '登录账号不能为空',
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -368,18 +382,108 @@ class AdminService
             return DataReturn($ret, -1);
         }
 
+        // 是否开启用户注册
+        if(!in_array($params['type'], MyC('admin_login_type', [], true)))
+        {
+            return DataReturn('暂时关闭登录', -1);
+        }
+
+        // 账户校验
+        $ac = self::LoginAccountsCheck($params);
+        if($ac['code'] != 0)
+        {
+            return $ac;
+        }
+
+        // 验证参数
+        $verify_params = [
+            'key_prefix'    => 'admin_login_'.md5($params['accounts']),
+            'expire_time'   => MyC('common_verify_expire_time'),
+        ];
+
+        // 帐号密码登录需要校验密码
+        if($params['type'] == 'username')
+        {
+            // 请求参数
+            $p = [
+                [
+                    'checked_type'      => 'empty',
+                    'key_name'          => 'pwd',
+                    'error_msg'         => '密码格式 6~18 个字符之间',
+                ],
+                [
+                    'checked_type'      => 'fun',
+                    'key_name'          => 'pwd',
+                    'checked_data'      => 'CheckLoginPwd',
+                    'error_msg'         => '密码格式 6~18 个字符',
+                ],
+            ];
+            $ret = ParamsChecked($params, $p);
+            if($ret !== true)
+            {
+                return DataReturn($ret, -1);
+            }
+
+            // 帐号密码登录是否开启图片验证码
+            $verify_params['key_prefix'] = 'admin_login';
+            $verify = self::IsImaVerify($params, $verify_params, MyC('admin_login_img_verify_state'));
+            if($verify['code'] != 0)
+            {
+                return $verify;
+            }
+        } else {
+            // 账户类型
+            $obj = null;
+            switch($params['type'])
+            {
+                // 短信
+                case 'sms' :
+                    $obj = new \base\Sms($verify_params);
+                    break;
+
+                // 邮箱
+                case 'email' :
+                    $obj = new \base\Email($verify_params);
+                    break;
+
+                // 未知的字段
+                 default :
+                    return DataReturn('验证类型有误', -1);
+            }
+
+            // 验证码校验
+            // sms, email
+            if(isset($obj) && is_object($obj))
+            {
+                // 是否已过期
+                if(!$obj->CheckExpire())
+                {
+                    return DataReturn('验证码已过期', -10);
+                }
+                // 是否正确
+                if(!$obj->CheckCorrect($params['verify']))
+                {
+                    return DataReturn('验证码错误', -11);
+                }
+            }
+        }
+
         // 获取管理员
-        $admin = Db::name('Admin')->field('id,username,login_pwd,login_salt,mobile,login_total,role_id')->where(['username'=>$params['username'], 'status'=>0])->find();
+        $admin = Db::name('Admin')->field('id,username,mobile,email,login_pwd,login_salt,login_total,role_id')->where([$ac['data']=>$params['accounts'], 'status'=>0])->find();
         if(empty($admin))
         {
             return DataReturn('账户异常', -2);
         }
 
         // 密码校验
-        $login_pwd = LoginPwdEncryption($params['login_pwd'], $admin['login_salt']);
-        if($login_pwd != $admin['login_pwd'])
+        // 帐号密码登录需要校验密码
+        if($params['type'] == 'username')
         {
-            return DataReturn('密码错误', -3);
+            $pwd = LoginPwdEncryption($params['pwd'], $admin['login_salt']);
+            if($pwd != $admin['login_pwd'])
+            {
+                return DataReturn('密码错误', -3);
+            }
         }
 
         // 种session
@@ -388,13 +492,16 @@ class AdminService
         // 返回数据,更新数据库
         if(self::LoginInfo())
         {
-            $login_salt = GetNumberCode(6);
-            $data = array(
-                    'login_salt'    =>  $login_salt,
-                    'login_pwd'     =>  LoginPwdEncryption($params['login_pwd'], $login_salt),
+            $data = [
                     'login_total'   =>  $admin['login_total']+1,
                     'login_time'    =>  time(),
-                );
+                ];
+            if($params['type'] == 'username')
+            {
+                $login_salt = GetNumberCode(6);
+                $data['login_salt'] = $login_salt;
+                $data['login_pwd'] = LoginPwdEncryption($params['pwd'], $login_salt);
+            }
             if(Db::name('Admin')->where(['id'=>$admin['id']])->update($data))
             {
                 // 清空权限缓存数据
@@ -434,6 +541,7 @@ class AdminService
      */
     public static function LoginSession($admin)
     {
+        unset($admin['login_pwd'], $admin['login_salt']);
         return session(self::$admin_login_key, $admin);
     }
 
@@ -448,6 +556,235 @@ class AdminService
     public static function LoginLogout()
     {
         return session(self::$admin_login_key, null);
+    }
+
+    /**
+     * 管理员登录验证码发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function LoginVerifySend($params = [])
+    {
+        // 数据验证
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'accounts',
+                'error_msg'         => '账号不能为空',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'type',
+                'checked_data'      => array_column(lang('common_login_type_list'), 'value'),
+                'error_msg'         => '登录类型有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 是否开启用户注册
+        if(!in_array($params['type'], MyC('admin_login_type', [], true)))
+        {
+            return DataReturn('暂时关闭登录', -1);
+        }
+
+        // 验证码基础参数
+        $verify_params = [
+            'key_prefix'    => 'admin_login',
+            'expire_time'   => MyC('common_verify_expire_time'),
+            'interval_time' => MyC('common_verify_interval_time'),
+        ];
+
+        // 是否开启图片验证码
+        $verify = self::IsImaVerify($params, $verify_params, MyC('common_img_verify_state'));
+        if($verify['code'] != 0)
+        {
+            return $verify;
+        }
+
+        // 账户校验
+        $ac = self::LoginAccountsCheck($params);
+        if($ac['code'] != 0)
+        {
+            return $ac;
+        }
+
+        // 验证码基础参数 key
+        $verify_params['key_prefix'] = 'admin_login_'.md5($params['accounts']);
+
+        // 发送验证码
+        $code = GetNumberCode(4);
+        switch($params['type'])
+        {
+            // 短信
+            case 'sms' :
+                $obj = new \base\Sms($verify_params);
+                $status = $obj->SendCode($params['accounts'], $code, MyC('admin_sms_login_template'));
+                break;
+
+            // 邮箱
+            case 'email' :
+                $obj = new \base\Email($verify_params);
+                $email_params = [
+                        'email'     =>  $params['accounts'],
+                        'content'   =>  MyC('admin_email_login_template'),
+                        'title'     =>  MyC('home_site_name').' - 管理员登录',
+                        'code'      =>  $code,
+                    ];
+                $status = $obj->SendHtml($email_params);
+                break;
+
+            // 默认
+            default :
+                return DataReturn('该类型不支持验证码发送', -2);
+        }
+        
+        // 状态
+        if($status)
+        {
+            // 清除验证码
+            if(isset($verify['data']) && is_object($verify['data']))
+            {
+                $verify['data']->Remove();
+            }
+
+            return DataReturn('发送成功'.$code, 0);
+        }
+        return DataReturn('发送失败'.'['.$obj->error.']', -100);
+    }
+
+    /**
+     * 登录账户校验
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    private static function LoginAccountsCheck($params = [])
+    {
+        $field = '';
+        switch($params['type'])
+        {
+            // 手机
+            case 'sms' :
+                // 手机号码格式
+                if(!CheckMobile($params['accounts']))
+                {
+                     return DataReturn('手机号码格式错误', -2);
+                }
+
+                // 手机号码是否存在
+                if(!self::IsExistAccounts($params['accounts'], 'mobile'))
+                {
+                     return DataReturn('手机号码不存在', -3);
+                }
+                $field = 'mobile';
+                break;
+
+            // 邮箱
+            case 'email' :
+                // 电子邮箱格式
+                if(!CheckEmail($params['accounts']))
+                {
+                     return DataReturn('电子邮箱格式错误', -2);
+                }
+
+                // 电子邮箱是否存在
+                if(!self::IsExistAccounts($params['accounts'], 'email'))
+                {
+                     return DataReturn('电子邮箱不存在', -3);
+                }
+                $field = 'email';
+                break;
+
+            // 用户名
+            case 'username' :
+                // 用户名格式
+                if(!CheckUserName($params['accounts']))
+                {
+                     return DataReturn('用户名格式由 字母数字下划线 2~18 个字符', -2);
+                }
+
+                // 用户名是否存在
+                if(!self::IsExistAccounts($params['accounts'], 'username'))
+                {
+                     return DataReturn('帐号不存在', -3);
+                }
+                $field = 'username';
+                break;
+        }
+        return DataReturn('操作成功', 0, $field);
+    }
+
+    /**
+     * 
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-03-08T10:27:14+0800
+     * @param    [string] $accounts     [账户名称]
+     * @param    [string] $field        [字段名称]
+     * @return   [boolean]              [存在true, 不存在false]
+     */
+    
+    /**
+     * 账户是否存在
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
+     * @param   [string] $accounts     [账户名称]
+     * @param   [string] $field        [字段名称]
+     * @return  [boolean]              [存在true, 不存在false]
+     */
+    private static function IsExistAccounts($accounts, $field = 'username')
+    {
+        $id = Db::name('Admin')->where(array($field=>$accounts))->value('id');
+        return !empty($id);
+    }
+    
+    /**
+     * 是否开启图片验证码校验
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
+     * @param   [array]    $params         [输入参数]
+     * @param   [array]    $verify_params  [配置参数]
+     * @param   [int]      $status         [状态 0未开启, 1已开启]
+     * @return  [object]                   [图片验证码类对象]
+     */
+    private static function IsImaVerify($params, $verify_params, $status = 0)
+    {
+        if($status == 1)
+        {
+            if(empty($params['verify']))
+            {
+                return DataReturn('图片验证码为空', -10);
+            }
+            $verify = new \base\Verify($verify_params);
+            if(!$verify->CheckExpire())
+            {
+                return DataReturn('验证码已过期', -11);
+            }
+            if(!$verify->CheckCorrect($params['verify']))
+            {
+                return DataReturn('验证码错误', -12);
+            }
+            return DataReturn('验证成功', 0, $verify);
+        }
+        return DataReturn('验证成功', 0);
     }
 }
 ?>

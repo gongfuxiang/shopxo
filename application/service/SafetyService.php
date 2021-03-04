@@ -163,7 +163,7 @@ class SafetyService
      */
     private static function IsImaVerify($params, $verify_params)
     {
-        if(MyC('home_img_verify_state') == 1)
+        if(MyC('common_img_verify_state') == 1)
         {
             if(empty($params['verify']))
             {

@@ -18,11 +18,11 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">基础配置</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label>{{$data.home_index_friendship_link_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_friendship_link_status.describe}}</span></label>
                         <select name="{{$data.home_index_friendship_link_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_friendship_link_status.error_tips}}" required>
-                            {{foreach $site_site_state_list as $v}}
+                            {{foreach $common_close_open_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['home_index_friendship_link_status']['value']) and $data['home_index_friendship_link_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -31,7 +31,7 @@
                     <div class="am-form-group">
                         <label>{{$data.common_is_pay_price_must_max_equal.name}}<span class="am-form-group-label-tips">{{$data.common_is_pay_price_must_max_equal.describe}}</span></label>
                         <select name="{{$data.common_is_pay_price_must_max_equal.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_pay_price_must_max_equal.error_tips}}" required>
-                            {{foreach $site_site_state_list as $v}}
+                            {{foreach $common_close_open_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['common_is_pay_price_must_max_equal']['value']) and $data['common_is_pay_price_must_max_equal']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -40,7 +40,7 @@
                     <div class="am-form-group">
                         <label>{{$data.home_header_top_is_home.name}}<span class="am-form-group-label-tips">{{$data.home_header_top_is_home.describe}}</span></label>
                         <select name="{{$data.home_header_top_is_home.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_header_top_is_home.error_tips}}" required>
-                            {{foreach $site_site_state_list as $v}}
+                            {{foreach $common_close_open_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['home_header_top_is_home']['value']) and $data['home_header_top_is_home']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -53,11 +53,11 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">快捷导航</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label>{{$data.home_navigation_main_quick_status.name}}<span class="am-form-group-label-tips">{{$data.home_navigation_main_quick_status.describe}}</span></label>
                         <select name="{{$data.home_navigation_main_quick_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_navigation_main_quick_status.error_tips}}" required>
-                            {{foreach $site_site_state_list as $v}}
+                            {{foreach $common_close_open_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['home_navigation_main_quick_status']['value']) and $data['home_navigation_main_quick_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -74,11 +74,11 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">用户地址</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label>{{$data.home_user_address_map_status.name}}<span class="am-form-group-label-tips">{{$data.home_user_address_map_status.describe}}</span></label>
                         <select name="{{$data.home_user_address_map_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_address_map_status.error_tips}}" required>
-                            {{foreach $site_site_state_list as $v}}
+                            {{foreach $common_close_open_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['home_user_address_map_status']['value']) and $data['home_user_address_map_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -86,7 +86,7 @@
                     <div class="am-form-group">
                         <label>{{$data.home_user_address_idcard_status.name}}<span class="am-form-group-label-tips">{{$data.home_user_address_idcard_status.describe}}</span></label>
                         <select name="{{$data.home_user_address_idcard_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_address_idcard_status.error_tips}}" required>
-                            {{foreach $site_site_state_list as $v}}
+                            {{foreach $common_close_open_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['home_user_address_idcard_status']['value']) and $data['home_user_address_idcard_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>

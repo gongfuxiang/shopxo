@@ -16,35 +16,17 @@
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-return array(
-    // 站点关闭状态列表
-    'site_site_state_list'          =>  array(
-            0 => array('value' => 0, 'name' => '关闭', 'checked' => true),
-            1 => array('value' => 1, 'name' => '开启'),
-        ),
-
-    // 是否开启用户登录
-    'site_user_login_state_list'            =>  array(
-            0 => array('value' => 0, 'name' => '关闭'),
-            1 => array('value' => 1, 'name' => '开启', 'checked' => true),
-        ),
-
-    // 获取验证码-强制使用图片验证码状态列表
-    'site_img_verify_state_list'        =>  array(
-            0 => array('value' => 0, 'name' => '关闭'),
-            1 => array('value' => 1, 'name' => '开启', 'checked' => true),
-        ),
-
+return [
     // 图片验证码
-    'site_images_verify_rules_list'  => array(
-            0 => array('value' => 'bgcolor', 'name' => '彩色背景'),
-            1 => array('value' => 'textcolor', 'name' => '彩色文本'),
-            2 => array('value' => 'point', 'name' => '干扰点'),
-            3 => array('value' => 'line', 'name' => '干扰线'),
-        ),
+    'site_images_verify_rules_list'  => [
+            0 => ['value' => 'bgcolor', 'name' => '彩色背景'],
+            1 => ['value' => 'textcolor', 'name' => '彩色文本'],
+            2 => ['value' => 'point', 'name' => '干扰点'],
+            3 => ['value' => 'line', 'name' => '干扰线'],
+        ],
 
     // 时区
-    'site_timezone_list' => array(
+    'site_timezone_list' => [
         'Pacific/Pago_Pago' => '(标准时-11:00) 中途岛、萨摩亚群岛',
         'Pacific/Rarotonga' => '(标准时-10:00) 夏威夷',
         'Pacific/Gambier' => '(标准时-9:00) 阿拉斯加',
@@ -69,15 +51,15 @@ return array(
         'Australia/Adelaide' => '(标准时+10:00) 悉尼、关岛',
         'Australia/Currie' => '(标准时+11:00) 马加丹、索罗门群岛',
         'Pacific/Fiji' => '(标准时+12:00) 奥克兰、惠灵顿、堪察加半岛'
-    ),
+    ],
 
     // seo
     // url模式列表
-    'seo_url_model_list'        =>  array(
-            0 => array('value' => 0, 'name' => '兼容模式', 'checked' => true),
-            1 => array('value' => 1, 'name' => 'PATHINFO模式'),
-            2 => array('value' => 2, 'name' => 'PATHINFO模式+短地址'),
-        ),
+    'seo_url_model_list'        =>  [
+            0 => ['value' => 0, 'name' => '兼容模式', 'checked' => true],
+            1 => ['value' => 1, 'name' => 'PATHINFO模式'],
+            2 => ['value' => 2, 'name' => 'PATHINFO模式+短地址'],
+        ],
 
     // 用户excel导出标题列表
     'excel_user_title_list'     =>  [
@@ -126,5 +108,5 @@ return array(
                     'type' => 'string',
                 ],
         ],
-);
+];
 ?>

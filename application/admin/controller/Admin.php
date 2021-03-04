@@ -23,12 +23,13 @@ use app\service\AdminService;
 class Admin extends Common
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
+     * 构造方法
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
+     */
 	public function __construct()
 	{
 		// 调用父类前置方法
@@ -36,11 +37,12 @@ class Admin extends Common
 	}
 
 	/**
-     * [Index 管理员列表]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
+     * 管理员列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
      */
 	public function Index()
 	{
@@ -81,10 +83,11 @@ class Admin extends Common
 
 	/**
      * 详情
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-08-05T08:21:54+0800
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
      */
     public function Detail()
     {
@@ -109,11 +112,12 @@ class Admin extends Common
     }
 
 	/**
-     * [SaveInfo 管理员添加/编辑页面]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
+     * 管理员添加/编辑页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
      */
 	public function SaveInfo()
 	{
@@ -178,11 +182,12 @@ class Admin extends Common
 	}
 
 	/**
-     * [Save 管理员添加/编辑]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-07T21:58:19+0800
+     * 管理员添加/编辑
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
      */
 	public function Save()
 	{
@@ -211,12 +216,13 @@ class Admin extends Common
 	}
 
 	/**
-	 * [Delete 管理员删除]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-09T21:13:47+0800
-	 */
+     * 管理员删除
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
+     */
 	public function Delete()
 	{
 		// 是否ajax
@@ -238,11 +244,12 @@ class Admin extends Common
 	}
 
 	/**
-	 * [LoginInfo 登录页面]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:55:53+0800
+     * 登录页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
      */
 	public function LoginInfo()
 	{
@@ -251,6 +258,9 @@ class Admin extends Common
 		{
 			return redirect(MyUrl('admin/index/index'));
 		}
+
+        // 登录方式
+        $this->assign('admin_login_type', MyC('admin_login_type', [], true));
 
         // 背景图片
         $host = config('shopxo.attachment_host');
@@ -285,12 +295,13 @@ class Admin extends Common
 	}
 
 	/**
-	 * [Login 管理员登录]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T21:46:49+0800
-	 */
+     * 管理员登录
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
+     */
 	public function Login()
 	{
 		// 是否ajax
@@ -304,13 +315,53 @@ class Admin extends Common
 		return AdminService::Login($params);
 	}
 
+    /**
+     * 验证码显示
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
+     */
+    public function AdminVerifyEntry()
+    {
+        $params = [
+                'width'         => 100,
+                'height'        => 26,
+                'key_prefix'    => 'admin_login',
+            ];
+        $verify = new \base\Verify($params);
+        $verify->Entry();
+    }
+
+    /**
+     * 登录验证码发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
+     */
+    public function LoginVerifySend()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 调用服务层
+        return AdminService::LoginVerifySend($this->data_post);
+    }
+
 	/**
-	 * [Logout 退出]
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-05T14:31:23+0800
-	 */
+     * 退出
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-03
+     * @desc    description
+     */
 	public function Logout()
 	{
         AdminService::LoginLogout();

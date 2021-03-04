@@ -14,7 +14,7 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">基础配置</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label>{{$data.common_is_login_answer.name}}<span class="am-form-group-label-tips">{{$data.common_is_login_answer.describe}}</span></label>
                         <select name="{{$data.common_is_login_answer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_login_answer.error_tips}}" required>
@@ -31,8 +31,8 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">定时脚本配置</h3>
                 </div>
-                <div class="am-panel-bd">
-                    <div class="am-alert am-alert-warning" data-am-alert>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-alert am-alert-warning am-margin-top-xs" data-am-alert>
                         <button type="button" class="am-close">&times;</button>
                         <p>建议将脚本地址添加到linux定时任务定时请求即可（结果 sucs:0, fail:0 冒号后面则是处理的数据条数，sucs成功，fali失败）</p>
                     </div>
@@ -82,8 +82,8 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">CDN配置</h3>
                 </div>
-                <div class="am-panel-bd">
-                    <div class="am-alert am-alert-warning" data-am-alert>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-alert am-alert-warning am-margin-top-xs" data-am-alert>
                         <button type="button" class="am-close">&times;</button>
                         <p>未设置则使用当前站点域名[ <a href="{{$my_public_url}}" target="_blank">{{$my_public_url}}</a> ]</p>
                     </div>

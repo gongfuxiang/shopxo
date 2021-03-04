@@ -148,17 +148,14 @@ class Site extends Common
 		// 时区
 		$this->assign('site_timezone_list', lang('site_timezone_list'));
 
-		// 站点状态
-		$this->assign('site_site_state_list', lang('site_site_state_list'));
+		// 关闭开启
+		$this->assign('common_close_open_list', lang('common_close_open_list'));
+
+		// 登录方式
+		$this->assign('common_login_type_list', lang('common_login_type_list'));
 
 		// 用户注册类型列表
-		$this->assign('common_user_reg_state_list', lang('common_user_reg_state_list'));
-
-		// 是否开启用户登录
-		$this->assign('site_user_login_state_list', lang('site_user_login_state_list'));
-
-		// 获取验证码-开启图片验证码
-		$this->assign('site_img_verify_state_list', lang('site_img_verify_state_list'));
+		$this->assign('common_user_reg_type_list', lang('common_user_reg_type_list'));
 
 		// 图片验证码规则
 		$this->assign('site_images_verify_rules_list', lang('site_images_verify_rules_list'));
@@ -276,12 +273,13 @@ class Site extends Common
 		{
 			// 用户注册
 			case 'register' :
-				$field_list[] = 'home_user_reg_state';
+				$field_list[] = 'home_user_reg_type';
 				$field_list[] = 'home_site_user_register_bg_images';
 				break;
 
 			// 用户登录
 			case 'login' :
+				$field_list[] = 'home_user_login_type';
 				$field_list[] = 'home_site_user_login_ad1_images';
 				$field_list[] = 'home_site_user_login_ad2_images';
 				$field_list[] = 'home_site_user_login_ad3_images';

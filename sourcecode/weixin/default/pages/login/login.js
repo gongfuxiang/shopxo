@@ -48,7 +48,12 @@ Page({
    * 登录授权事件
    */
   get_user_info_event(e) {
-    this.user_auth_code(e.detail);
+    wx.getUserProfile({
+      desc: '注册使用',
+      success: (res) => {
+        this.user_auth_code(res.userInfo);
+      }
+    });
   },
 
   /**
@@ -56,7 +61,7 @@ Page({
    * auth_data  授权数据
    */
   user_auth_code(auth_data) {
-    if ((auth_data.encryptedData || null) != null && (auth_data.iv || null) != null) {
+    if ((auth_data || null) != null) {
       app.user_auth_login(this, 'user_auth_back_event', auth_data);
     } else {
       app.showToast("授权失败");

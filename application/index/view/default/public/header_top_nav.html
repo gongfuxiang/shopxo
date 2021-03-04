@@ -21,10 +21,10 @@
                     {{if empty($user)}}
                         <em>您好，欢迎来到</em>
                         <em>{{:MyC('home_site_name')}}</em>
-                        {{if MyC('home_user_login_state') eq 1}}
+                        {{if !empty($home_user_login_type)}}
                             [<a href="{{:MyUrl('index/user/logininfo')}}">登录</a>]
                         {{/if}}
-                        {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')) or in_array('username', MyC('home_user_reg_state'))}}
+                        {{if !empty($home_user_reg_type)}}
                             [<a href="{{:MyUrl('index/user/regInfo')}}">注册</a>]
                         {{/if}}
                     {{else /}}

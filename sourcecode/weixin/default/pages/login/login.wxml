@@ -23,5 +23,5 @@
 <!-- 获取用户信息授权 -->
 <view wx:else class="user-login tc">
   <view class="cr-888 fs-12">确认登录授权，为您提供更优质的服务</view>
-  <button type="primary" size="mini" open-type="getUserInfo" bindgetuserinfo="get_user_info_event">授权登录</button>
+  <button type="primary" size="mini" bindtap="get_user_info_event">授权登录</button>
 </view>

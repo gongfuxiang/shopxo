@@ -140,11 +140,11 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
     margin-left: 0;
     margin-top: 0;
 }
+.am-modal-dialog,
 .am-modal-dialog .am-modal-hd,
 .am-modal-dialog .am-modal-bd {
     background: #fff;
 }
-
 
 /**
  * iframe
@@ -783,4 +783,28 @@ button.colorpicker-submit img {
 .pagination-input {
     width: 50px;
     vertical-align: inherit !important;
+}
+
+/**
+ * 编辑器宽度自适应
+ */
+.edui-default .edui-editor,
+.edui-default .edui-editor-iframeholder {
+    width: 100% !important;
+}
+
+/**
+ * 图片验证码
+ */
+@media only screen and (min-width: 641px) {
+    #verify-img-value {
+        float: left;
+        width: 50%;
+        margin-right: 5px;
+    }
+}
+@media only screen and (max-width: 641px) {
+    #verify-img-value {
+        margin-bottom: 10px;
+    }
 }

@@ -48,10 +48,11 @@ $(function()
 				toolbars: toolbars,
 				initialFrameHeight : 150
 			}
+		UE.getEditor('admin_email_login_template', config);
 		UE.getEditor('common_email_currency_template', config);
+		UE.getEditor('home_email_login_template', config);
 		UE.getEditor('email_user_reg', config);
 		UE.getEditor('email_user_forget_pwd', config);
-		UE.getEditor('email_user_student_binding', config);
 		UE.getEditor('email_user_email_binding', config);
 	}
 });

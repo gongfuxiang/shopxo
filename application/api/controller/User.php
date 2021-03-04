@@ -165,11 +165,19 @@ class User extends Common
         $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->GetAuthSessionKey($this->data_post);
         if($result['status'] == 0)
         {
+            // unionid
+            $unionid = empty($result['data']['unionid']) ? '' : $result['data']['unionid'];
+
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $result['data']);
+            $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $result['data']['openid']);
+            if(empty($user) && !empty($unionid))
+            {
+                // 根据unionid获取数据
+                $user = UserService::AppUserInfoHandle(null, 'weixin_unionid', $unionid);
+            }
             if(empty($user))
             {
-                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']]);
+                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid'], 'unionid'=>$unionid]);
             }
 
             // 标记用户存在
@@ -198,14 +206,9 @@ class User extends Common
             ],
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'encrypted_data',
-                'error_msg'         => '解密数据为空',
+                'key_name'          => 'auth_data',
+                'error_msg'         => '授权数据为空',
             ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'iv',
-                'error_msg'         => 'iv为空,请重试',
-            ]
         ];
         $ret = ParamsChecked($this->data_post, $p);
         if($ret !== true)
@@ -217,17 +220,17 @@ class User extends Common
         $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $this->data_post['openid']);
         if(empty($user))
         {
-            $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
-            if($result['status'] == 0 && !empty($result['data']))
-            {
-                $result['nickname'] = isset($result['data']['nickName']) ? $result['data']['nickName'] : '';
-                $result['avatar'] = isset($result['data']['avatarUrl']) ? $result['data']['avatarUrl'] : '';
-                $result['gender'] = empty($result['data']['gender']) ? 0 : (($result['data']['gender'] == 2) ? 1 : 2);
-                $result['weixin_unionid'] = isset($result['data']['unionId']) ? $result['data']['unionId'] : '';
-                $result['openid'] = $result['data']['openId'];
-                $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
-                return UserService::AuthUserProgram($result, 'weixin_openid');
-            }
+            // 字段名称不一样参数处理
+            $auth_data = is_array($this->data_post['auth_data']) ? $this->data_post['auth_data'] : json_decode($this->data_post['auth_data'], true);
+            $auth_data['nickname'] = isset($auth_data['nickName']) ? $auth_data['nickName'] : '';
+            $auth_data['avatar'] = isset($auth_data['avatarUrl']) ? $auth_data['avatarUrl'] : '';
+            $auth_data['gender'] = empty($auth_data['gender']) ? 0 : (($auth_data['gender'] == 2) ? 1 : 2);
+
+            // 公共参数处理
+            $auth_data['weixin_unionid'] = isset($this->data_post['unionid']) ? $this->data_post['unionid'] : '';
+            $auth_data['openid'] = $this->data_post['openid'];
+            $auth_data['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
+            return UserService::AuthUserProgram($auth_data, 'weixin_openid');
         } else {
             return DataReturn('授权成功', 0, $user);
         }
@@ -631,6 +634,19 @@ class User extends Common
         $this->data_post['mobile'] = $mobile;
         $this->data_post['is_onekey_mobile_bind'] = 1;
         return UserService::AuthUserProgram($this->data_post, APPLICATION_CLIENT_TYPE.'_openid');
+    }
+
+    /**
+     * 用户登录
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function Login()
+    {
+        return UserService::Login($this->data_post);
     }
 }
 ?>

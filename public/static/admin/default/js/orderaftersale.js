@@ -7,6 +7,9 @@ $(function()
     // 弹窗数据初始化
     function PopupInit($popup, data)
     {
+        // 数据处理
+        data = JSON.parse(decodeURIComponent(data));
+
         // 用户信息
         $popup.find('input[name="id"]').val(data.id);
         $popup.find('.user-info img').attr('src', data.user.avatar || $popup.find('.user-info img').attr('src'));

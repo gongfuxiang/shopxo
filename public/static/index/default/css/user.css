@@ -54,40 +54,6 @@
     padding: 5px 10px !important;
 }
 
-
-/**
- * 注册
- */
-.user-register-container {
-    background-color: #FAFAFA;
-    width: 100%;
-    overflow: hidden;
-}
-.register-container .am-tabs {
-    margin: 0;
-}
-.register-container .am-tabs .am-tabs-bd, .register-container .register-content .register-close {
-    background: #fff;
-}
-.register-container .register-content .register-close {
-    color: #666;
-}
-.register-container .am-tabs-d2 .am-tabs-nav a {
-    text-decoration: none;
-}
-.register-container .am-tabs-d2 .am-tabs-nav > .am-active a {
-    color: #d2364c;
-}
-.register-container .am-tabs-d2 .am-tabs-nav > .am-active {
-    border-bottom: 2px solid #d2364c;
-}
-.register-container .am-tabs-d2 .am-tabs-nav > .am-active:after {
-    border-bottom-color: #d2364c;
-}
-.register-container .am-tabs-d2 .am-tabs-bd {
-    z-index: 0;
-}
-
 /**
  * 表单验证码
  */
@@ -129,16 +95,14 @@
     color: #d2364c;
 }
 
-
 /**
  * 弹窗图片验证码
  */
-.my-content .verify-submit-win{ margin-top: 20px; display: block; }
-.my-content .reg-switch-tips { font-weight: 100; font-size: 12px; color: #f87689; margin-left: 20px; }
-.my-content #verify-win .am-modal-bd { margin-top: 10px; }
-.my-content #verify-win .am-modal-bd .base { overflow: hidden; }
-.my-content #verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }
-.my-content #verify-img { vertical-align: middle; border: 1px solid #ccc; }
+#verify-win .verify-submit-win{ margin-top: 20px; display: block; }
+#verify-win .am-modal-bd { margin-top: 10px; }
+#verify-win .am-modal-bd .base { overflow: hidden; }
+#verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }
+#verify-img { vertical-align: middle; border: 1px solid #ccc; }
 
 
 /**
@@ -146,7 +110,5 @@
  */
 .login-modal-container {
     padding: 0;
-}
-.login-modal-container-top {
-    margin: 10px 0;
+    background: #fff;
 }

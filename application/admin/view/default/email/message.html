@@ -9,21 +9,46 @@
 	<div class="content">
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/email/index', ['type'=>'message'])}}">
-			<div class="am-form-group">
-				<label>{{$data.common_email_currency_template.name}}<span class="am-form-group-label-tips">{{$data.common_email_currency_template.describe}}</span></label>
-				<script type="text/plain" id="common_email_currency_template" name="{{$data.common_email_currency_template.only_tag}}">{{if !empty($data)}}{{$data.common_email_currency_template.value|raw}}{{/if}}</script>
-			</div>
-			<div class="am-form-group">
-				<label>{{$data.home_email_user_reg.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_reg.describe}}</span></label>
-				<script type="text/plain" id="email_user_reg" name="{{$data.home_email_user_reg.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_reg.value|raw}}{{/if}}</script>
-			</div>
-			<div class="am-form-group">
-				<label>{{$data.home_email_user_forget_pwd.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_forget_pwd.describe}}</span></label>
-				<script type="text/plain" id="email_user_forget_pwd" name="{{$data.home_email_user_forget_pwd.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_forget_pwd.value|raw}}{{/if}}</script>
-			</div>
-			<div class="am-form-group">
-				<label>{{$data.home_email_user_email_binding.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_email_binding.describe}}</span></label>
-				<script type="text/plain" id="email_user_email_binding" name="{{$data.home_email_user_email_binding.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_email_binding.value|raw}}{{/if}}</script>
+			<!-- 后台 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">后台</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                	<div class="am-form-group">
+						<label>{{$data.admin_email_login_template.name}}<span class="am-form-group-label-tips">{{$data.admin_email_login_template.describe}}</span></label>
+						<script type="text/plain" id="admin_email_login_template" name="{{$data.admin_email_login_template.only_tag}}">{{if !empty($data)}}{{$data.admin_email_login_template.value|raw}}{{/if}}</script>
+					</div>
+                </div>
+            </div>
+
+			<!-- 前端 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">前端</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+					<div class="am-form-group">
+						<label>{{$data.common_email_currency_template.name}}<span class="am-form-group-label-tips">{{$data.common_email_currency_template.describe}}</span></label>
+						<script type="text/plain" id="common_email_currency_template" name="{{$data.common_email_currency_template.only_tag}}">{{if !empty($data)}}{{$data.common_email_currency_template.value|raw}}{{/if}}</script>
+					</div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_email_login_template.name}}<span class="am-form-group-label-tips">{{$data.home_email_login_template.describe}}</span></label>
+                        <script type="text/plain" id="home_email_login_template" name="{{$data.home_email_login_template.only_tag}}">{{if !empty($data)}}{{$data.home_email_login_template.value|raw}}{{/if}}</script>
+                    </div>
+					<div class="am-form-group">
+						<label>{{$data.home_email_user_reg.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_reg.describe}}</span></label>
+						<script type="text/plain" id="email_user_reg" name="{{$data.home_email_user_reg.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_reg.value|raw}}{{/if}}</script>
+					</div>
+					<div class="am-form-group">
+						<label>{{$data.home_email_user_forget_pwd.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_forget_pwd.describe}}</span></label>
+						<script type="text/plain" id="email_user_forget_pwd" name="{{$data.home_email_user_forget_pwd.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_forget_pwd.value|raw}}{{/if}}</script>
+					</div>
+					<div class="am-form-group">
+						<label>{{$data.home_email_user_email_binding.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_email_binding.describe}}</span></label>
+						<script type="text/plain" id="email_user_email_binding" name="{{$data.home_email_user_email_binding.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_email_binding.value|raw}}{{/if}}</script>
+					</div>
+				</div>
 			</div>
 			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>

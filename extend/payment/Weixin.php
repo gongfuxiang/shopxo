@@ -264,7 +264,7 @@ class Weixin
                 $pay_data['paySign'] = $this->GetSign($pay_data);
 
                 // 微信中
-                if(ApplicationClientType() == 'h5' && IsWeixinEnv())
+                if(APPLICATION == 'web' && IsWeixinEnv())
                 {
                     $this->PayHtml($pay_data, $redirect_url);
                 } else {

@@ -44,11 +44,12 @@ class User extends Common
     }
 
     /**
-     * [GetrefererUrl 获取上一个页面地址]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-09T15:46:16+0800
+     * 获取上一个页面地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     private function GetrefererUrl()
     {
@@ -70,11 +71,12 @@ class User extends Common
     }
 
     /**
-     * [Index 用户中心]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-02T22:48:35+0800
+     * 用户中心
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function Index()
     {
@@ -192,11 +194,12 @@ class User extends Common
     }
 
     /**
-     * [ForgetPwdInfo 密码找回]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-10T17:06:47+0800
+     * 密码找回
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function ForgetPwdInfo()
     {
@@ -217,15 +220,16 @@ class User extends Common
     }
 
     /**
-     * [RegInfo 用户注册页面]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-02T22:48:35+0800
+     * 用户注册页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function RegInfo()
     {
-        $reg_all = MyC('home_user_reg_state');
+        $reg_all = MyC('home_user_reg_type');
         if(!empty($reg_all))
         {
             if(empty($this->user))
@@ -251,15 +255,16 @@ class User extends Common
     }
 
     /**
-     * [LoginInfo 用户登录页面]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-02T22:48:35+0800
+     * 用户登录页面
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function LoginInfo()
     {
-        if(MyC('home_user_login_state') == 1)
+        if(count(MyC('home_user_login_type', [], true)) > 0)
         {
             if(empty($this->user))
             {
@@ -286,10 +291,10 @@ class User extends Common
 
     /**
      * modal弹窗登录
-     * @author   Devil
+     * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2018-09-13
+     * @date    2021-03-04
      * @desc    description
      */
     public function ModalLoginInfo()
@@ -297,7 +302,7 @@ class User extends Common
         $this->assign('is_header', 0);
         $this->assign('is_footer', 0);
 
-        if(MyC('home_user_login_state') == 1)
+        if(count(MyC('home_user_login_type', [], true)) > 0)
         {
             if(empty($this->user))
             {
@@ -317,11 +322,12 @@ class User extends Common
     }
 
     /**
-     * [Reg 用户注册-数据添加]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-07T00:08:36+0800
+     * 用户注册-数据添加
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function Reg()
     {
@@ -332,15 +338,16 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::Reg(input('post.'));
+        return UserService::Reg($this->data_post);
     }
 
     /**
-     * [Login 用户登录]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-09T10:57:31+0800
+     * 用户登录
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function Login()
     {
@@ -351,33 +358,55 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::Login(input('post.'));
+        return UserService::Login($this->data_post);
     }
 
     /**
-     * [UserVerifyEntry 用户-验证码显示]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-05T15:10:21+0800
+     * 用户-验证码显示
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function UserVerifyEntry()
     {
         $params = array(
-                'width' => 100,
-                'height' => 26,
-                'key_prefix' => input('type', 'reg'),
+                'width'         => 100,
+                'height'        => 26,
+                'key_prefix'    => input('type', 'user_reg'),
             );
         $verify = new \base\Verify($params);
         $verify->Entry();
     }
 
     /**
-     * [RegVerifySend 用户注册-验证码发送]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-05T19:17:10+0800
+     * 用户登录-验证码发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function LoginVerifySend()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 调用服务层
+        return UserService::LoginVerifySend($this->data_post);
+    }
+
+    /**
+     * 用户注册-验证码发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function RegVerifySend()
     {
@@ -388,15 +417,16 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::RegVerifySend(input('post.'));
+        return UserService::RegVerifySend($this->data_post);
     }
 
     /**
-     * [ForgetPwdVerifySend 密码找回验证码发送]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-10T17:35:03+0800
+     * 密码找回-验证码发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function ForgetPwdVerifySend()
     {
@@ -407,15 +437,16 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::ForgetPwdVerifySend(input('post.'));
+        return UserService::ForgetPwdVerifySend($this->data_post);
     }
 
     /**
-     * [ForgetPwd 密码找回]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-03-10T17:55:42+0800
+     * 密码找回
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function ForgetPwd()
     {
@@ -426,15 +457,16 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::ForgetPwd(input('post.'));
+        return UserService::ForgetPwd($this->data_post);
     }
 
     /**
-     * [Logout 退出]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-05T14:31:23+0800
+     * 退出
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
      */
     public function Logout()
     {

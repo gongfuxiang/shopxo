@@ -18,11 +18,11 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">基础</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label>{{$data.home_index_banner_left_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_banner_left_status.describe}}</span></label>
                         <select name="{{$data.home_index_banner_left_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_banner_left_status.error_tips}}" required>
-                            {{foreach $site_site_state_list as $v}}
+                            {{foreach $common_close_open_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['home_index_banner_left_status']['value']) and $data['home_index_banner_left_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -30,7 +30,7 @@
                     <div class="am-form-group">
                         <label>{{$data.home_index_banner_right_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_banner_right_status.describe}}</span></label>
                         <select name="{{$data.home_index_banner_right_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_banner_right_status.error_tips}}" required>
-                            {{foreach $site_site_state_list as $v}}
+                            {{foreach $common_close_open_list as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['home_index_banner_right_status']['value']) and $data['home_index_banner_right_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -102,7 +102,7 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">自动模式</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label>{{$data.home_index_floor_goods_max_count.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_max_count.describe}}</span></label>
                         <div class="am-input-group am-input-group-sm">
@@ -146,7 +146,7 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">手动模式</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label>{{$data.home_index_floor_manual_mode_goods.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_manual_mode_goods.describe}}</span></label>
                         <div class="am-alert am-alert-warning" data-am-alert>

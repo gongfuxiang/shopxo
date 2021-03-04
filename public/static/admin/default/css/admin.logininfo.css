@@ -35,12 +35,12 @@ body {
 }
 @media only screen and (max-width: 641px) {
     .account-pages {
-        padding-top: 15%;
+        padding-top: 10%;
     }
 }
 @media only screen and (min-width: 641px) {
     .account-pages {
-        padding-top: 10%;
+        padding-top: 6%;
     }
 }
 .wrapper-page {
@@ -54,7 +54,6 @@ body {
     }
 }
 .admin-login {
-    padding: 20px;
     box-shadow: 0 0px 8px 0 rgba(0,0,0,0.06),0 1px 0px 0 rgba(0,0,0,0.02);
     -webkit-border-radius: 5px;
     border-radius: 5px;
@@ -69,8 +68,51 @@ body {
     color: #0e90d2;
     text-shadow: -2px 1px #fff;
 }
+.admin-login .am-form-group {
+    padding: 5px 0 !important;
+}
+.admin-login .form-verify a.form-verify-tips {
+    font-size: 12px;
+    text-decoration: none;
+    line-height: 28px;
+    color: #FFF;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr='#7F000000', endColorstr='#7F000000');
+    background: rgba(0,0,0,0.5);
+    text-align: center;
+    display: none;
+    width: 102px;
+    height: 28px;
+    position: absolute;
+    z-index: 1;
+    top: -1px;
+    left: -1px;
+}
 @media only screen and (min-width: 641px) {
-    .admin-login .am-form-group {
-        padding: 0 !important;
+    .admin-login {
+        max-width: 360px;
     }
+    .admin-login .form-verify:hover a.form-verify-tips {
+        display: block;
+    }
+}
+
+/**
+ * 弹窗图片验证码
+ */
+#verify-img {
+    vertical-align:middle;
+    border:1px solid #ccc;
+}
+#verify-win .verify-submit-win {
+    margin-top:20px;
+    display:block;
+}
+#verify-win .am-modal-bd {
+    margin-top:10px;
+}
+#verify-win .am-modal-bd .base {
+    overflow:hidden;
+}
+#verify-win .am-modal-bd .base .verify-tips {
+    font-size:12px;
 }

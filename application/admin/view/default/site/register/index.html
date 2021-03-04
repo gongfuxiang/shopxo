@@ -10,6 +10,42 @@
         <!-- form start -->
         <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'register'])}}" enctype="multipart/form-data">
             <div class="am-form-group">
+                <label>{{$data.home_user_reg_type.name}}<span class="am-form-group-label-tips">{{$data.home_user_reg_type.describe}}</span></label>
+                <select name="{{$data.home_user_reg_type.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.home_user_reg_type.name}}">
+                    {{foreach $common_user_reg_type_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_user_reg_type']['value']) and in_array($v['value'], $data['home_user_reg_type']['value'])}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{$data.home_user_register_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_register_img_verify_state.describe}}</span></label>
+                <select name="{{$data.home_user_register_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_register_img_verify_state.error_tips}}" required>
+                    {{foreach $common_close_open_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_user_register_img_verify_state']['value']) and $data['home_user_register_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{$data.common_register_is_enable_audit.name}}<span class="am-form-group-label-tips">{{$data.common_register_is_enable_audit.describe}}</span></label>
+                <select name="{{$data.common_register_is_enable_audit.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_register_is_enable_audit.error_tips}}" required>
+                    {{foreach $common_close_open_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['common_register_is_enable_audit']['value']) and $data['common_register_is_enable_audit']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
+                <label>{{$data.home_is_enable_userregister_agreement.name}}<span class="am-form-group-label-tips">{{$data.home_is_enable_userregister_agreement.describe}}</span></label>
+                <select name="{{$data.home_is_enable_userregister_agreement.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_is_enable_userregister_agreement.error_tips}}" required>
+                    {{foreach $common_close_open_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_is_enable_userregister_agreement']['value']) and $data['home_is_enable_userregister_agreement']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
                 <label class="block">{{$data.home_site_user_register_bg_images.name}}<span class="am-form-group-label-tips">{{$data.home_site_user_register_bg_images.describe}}</span></label>
                 <ul class="plug-file-upload-view home_site_user_register_bg_images-images-view" data-form-name="home_site_user_register_bg_images" data-max-number="1" data-dialog-type="images">
                     {{if !empty($data['home_site_user_register_bg_images']['value'])}}
@@ -21,42 +57,6 @@
                     {{/if}}
                 </ul>
                 <div class="plug-file-upload-submit" data-view-tag="ul.home_site_user_register_bg_images-images-view">+选择图片</div>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.home_user_reg_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_reg_state.describe}}</span></label>
-                <select name="{{$data.home_user_reg_state.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.home_user_reg_state.name}}" >
-                    {{foreach $common_user_reg_state_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_user_reg_state']['value']) and in_array($v['value'], explode(',', $data['home_user_reg_state']['value']))}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.home_user_register_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.home_user_register_img_verify_state.describe}}</span></label>
-                <select name="{{$data.home_user_register_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_user_register_img_verify_state.error_tips}}" required>
-                    {{foreach $site_img_verify_state_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_user_register_img_verify_state']['value']) and $data['home_user_register_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.common_register_is_enable_audit.name}}<span class="am-form-group-label-tips">{{$data.common_register_is_enable_audit.describe}}</span></label>
-                <select name="{{$data.common_register_is_enable_audit.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_register_is_enable_audit.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_register_is_enable_audit']['value']) and $data['common_register_is_enable_audit']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.home_is_enable_userregister_agreement.name}}</label>
-                <select name="{{$data.home_is_enable_userregister_agreement.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_is_enable_userregister_agreement.error_tips}}" required>
-                    {{foreach $site_img_verify_state_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_is_enable_userregister_agreement']['value']) and $data['home_is_enable_userregister_agreement']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
             </div>
             
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">

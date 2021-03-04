@@ -52,6 +52,8 @@ class Config extends Common
 		// 静态数据
 		$this->assign('common_excel_charset_list', lang('common_excel_charset_list'));
 		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
+		$this->assign('common_login_type_list', lang('common_login_type_list'));
+        $this->assign('common_close_open_list', lang('common_close_open_list'));
 
 		// 配置信息
 		$this->assign('data', ConfigService::ConfigList());
@@ -83,15 +85,41 @@ class Config extends Common
 	 */
 	public function Save()
 	{
-		// 数据处理
-		// 商店二维码
-		if(!isset($_POST['common_customer_store_qrcode']))
+		// 参数
+		$params = $_POST;
+
+		// 字段不存在赋值
+		$empty_value_field_list = [
+			'common_customer_store_qrcode'=>'',
+		];
+		if(!empty($empty_value_field_list))
 		{
-			$_POST['common_customer_store_qrcode'] = '';
+			foreach($empty_value_field_list as $fk=>$fv)
+			{
+				if(!isset($params[$fk]))
+				{
+					$params[$fk] = $fv;
+				}
+			}
+		}
+
+		// 默认值字段处理
+		$default_value_field_list = [
+			'admin_login_type'=>'username',
+		];
+		if(!empty($default_value_field_list))
+		{
+			foreach($default_value_field_list as $fk=>$fv)
+			{
+				if(empty($params[$fk]))
+				{
+					$params[$fk] = $fv;
+				}
+			}
 		}
 		
 		// 保存
-		return ConfigService::ConfigSave($_POST);
+		return ConfigService::ConfigSave($params);
 	}
 }
 ?>

@@ -50,12 +50,12 @@
                         <a href="{{:MyUrl('index/user/logout')}}" class="member-logout">退出</a>
                     {{/if}}
                 </div>
-                {{if empty($user) and (MyC('home_user_login_state') eq 1 or in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')))}}
+                {{if empty($user) and (!empty($home_user_login_type) or !empty($home_user_reg_type))}}
                     <div class="member-login">
-                        {{if MyC('home_user_login_state') eq 1}}
+                        {{if !empty($home_user_login_type)}}
                             <a class="am-btn-primary btn am-fl" href="{{:MyUrl('index/user/loginInfo')}}">登录</a>
                         {{/if}}
-                        {{if in_array('sms', MyC('home_user_reg_state')) or in_array('email', MyC('home_user_reg_state')) or in_array('username', MyC('home_user_reg_state'))}}
+                        {{if !empty($home_user_reg_type)}}
                             <a class="am-btn-primary btn am-fr" href="{{:MyUrl('index/user/regInfo')}}">注册</a>
                         {{/if}}
                     </div>

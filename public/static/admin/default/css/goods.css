@@ -4,14 +4,6 @@
 .dl-content img {
     max-width: 100%;
 }
-.am-panel .am-form-group:last-child,
-.am-panel .business-form-group:last-child {
-    border-bottom: 0;
-}
-.edui-default .edui-editor,
-.edui-default .edui-editor-iframeholder {
-    width: 100% !important;
-}
 
 /**
  * 滚动导航

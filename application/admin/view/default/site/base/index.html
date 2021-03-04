@@ -14,7 +14,7 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">基础配置</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
 					<div class="am-form-group">
 						<label>{{$data.home_site_name.name}}</label>
 						<input type="text" name="{{$data.home_site_name.only_tag}}" minlength="1" placeholder="{{$data.home_site_name.name}}" data-validation-message="{{$data.home_site_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_name.value}}"{{/if}} required />
@@ -74,11 +74,11 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">站点状态</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
 					<div class="am-form-group">
 						<label>{{$data.home_site_state.name}}<span class="am-form-group-label-tips">{{$data.home_site_state.describe}}</span></label>
 						<select name="{{$data.home_site_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_site_state.error_tips}}" required>
-							{{foreach $site_site_state_list as $v}}
+							{{foreach $common_close_open_list as $v}}
 								<option value="{{$v.value}}" {{if isset($data['home_site_state']['value']) and $data['home_site_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
 							{{/foreach}}
 						</select>
@@ -95,7 +95,7 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">备案信息</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
                 	<div class="am-form-group">
 		                <label>{{$data.home_site_icp.name}}<span class="am-form-group-label-tips">{{$data.home_site_icp.describe}}</span></label>
 		                <input type="text" name="{{$data.home_site_icp.only_tag}}" placeholder="{{$data.home_site_icp.describe}}" data-validation-message="{{$data.home_site_icp.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_icp.value}}"{{/if}} />
@@ -117,7 +117,7 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">其它</h3>
                 </div>
-                <div class="am-panel-bd">
+                <div class="am-panel-bd am-padding-vertical-xs">
 					<div class="am-form-group">
 						<label>{{$data.home_static_cache_version.name}}<span class="am-form-group-label-tips">{{$data.home_static_cache_version.describe}}</span></label>
 						<input type="text" name="{{$data.home_static_cache_version.only_tag}}" placeholder="{{$data.home_static_cache_version.describe}}" data-validation-message="{{$data.home_static_cache_version.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_static_cache_version.value}}"{{/if}} />

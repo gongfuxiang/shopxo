@@ -36,6 +36,7 @@ class ConfigService
             'home_index_floor_top_right_keywords',
             'home_index_floor_manual_mode_goods',
             'home_index_floor_left_top_category',
+            'admin_email_login_template',
         ];
 
     // 附件字段列表
@@ -55,8 +56,10 @@ class ConfigService
 
     // 字符串转数组字段列表, 默认使用英文逗号处理 [ , ]
     public static $string_to_array_field_list = [
-        'home_user_reg_state',
         'common_images_verify_rules',
+        'home_user_login_type',
+        'home_user_reg_type',
+        'admin_login_type',
     ];
 
     /**
@@ -71,7 +74,22 @@ class ConfigService
     public static function ConfigList($params = [])
     {
         $field = isset($params['field']) ? $params['field'] : 'only_tag,name,describe,value,error_tips';
-        return Db::name('Config')->column($field);
+        $data = Db::name('Config')->column($field);
+        if(!empty($data))
+        {
+            foreach($data as $k=>&$v)
+            {
+                // 字符串转数组
+                foreach(self::$string_to_array_field_list as $fv)
+                {
+                    if($k == $fv)
+                    {
+                        $v['value'] = (!isset($v['value']) || $v['value'] == '') ? [] : explode(',', $v['value']);
+                    }
+                }
+            }
+        }
+        return $data;
     }
 
     /**
@@ -197,12 +215,12 @@ class ConfigService
             $data = Db::name('Config')->column('value', 'only_tag');
 
             // 数据处理
-            // 开启用户注册列表
-            foreach(self::$string_to_array_field_list as $field)
+            // 字符串转数组
+            foreach(self::$string_to_array_field_list as $fv)
             {
-                if(isset($data[$field]))
+                if(isset($data[$fv]))
                 {
-                    $data[$field] = empty($data[$field]) ? [] : explode(',', $data[$field]);
+                    $data[$fv] = ($data[$fv] == '') ? [] : explode(',', $data[$fv]);
                 }
             }
 

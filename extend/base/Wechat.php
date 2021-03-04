@@ -118,7 +118,7 @@ class Wechat
 
             // 缓存存储
             cache($key, $result);
-            return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result['openid']];
+            return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
         }
         return ['status'=>-1, 'msg'=>$result['errmsg']];
     }
@@ -204,8 +204,9 @@ class Wechat
      * @version 1.0.0
      * @date    2020-08-26
      * @desc    description
+     * @param   [array]          $params [输入参数]
      */
-    public function GetSignPackage()
+    public function GetSignPackage($params = [])
     {
         $access_token = $this->GetAccessToken();
         if(!empty($access_token))
@@ -214,7 +215,7 @@ class Wechat
             $ticket = $this->GetTicket($access_token);
 
             // 注意 URL 一定要动态获取，不能 hardcode.
-            $url = __MY_VIEW_URL__;
+            $url = empty($params['url']) ? __MY_VIEW_URL__ : urldecode(htmlspecialchars_decode($params['url']));
 
             $timestamp = time();
             $nonce_str = $this->CreateNonceStr();

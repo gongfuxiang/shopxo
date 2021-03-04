@@ -621,54 +621,135 @@ class UserService
             return $ret;
         }
 
-        // 是否开启用户登录
-        if(MyC('home_user_login_state') != 1)
-        {
-            return DataReturn('暂时关闭用户登录', -1);
-        }
-
-        // 登录帐号格式校验
-        if(empty($params['accounts']))
-        {
-            return DataReturn('登录账号有误', -1);
-        }
-
-        // 密码
-        $pwd = trim($params['pwd']);
-        if(!CheckLoginPwd($pwd))
-        {
-            return DataReturn('密码格式 6~18 个字符之间', -2);
-        }
-
-        // 是否开启图片验证码
-        $verify_params = [
-            'key_prefix' => 'login',
-            'expire_time' => MyC('common_verify_expire_time'),
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'type',
+                'checked_data'      => array_column(lang('common_login_type_list'), 'value'),
+                'error_msg'         => '登录类型有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'accounts',
+                'error_msg'         => '登录账号不能为空',
+            ],
         ];
-        $verify = self::IsImaVerify($params, $verify_params, MyC('home_user_login_img_verify_state'));
-        if($verify['code'] != 0)
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
         {
-            return $verify;
+            return DataReturn($ret, -1);
+        }
+
+        // 是否开启用户注册
+        if(!in_array($params['type'], MyC('home_user_login_type', [], true)))
+        {
+            return DataReturn('暂时关闭登录', -1);
+        }
+
+        // 账户校验
+        $ac = self::UserLoginAccountsCheck($params);
+        if($ac['code'] != 0)
+        {
+            return $ac;
+        }
+
+        // 验证参数
+        $verify_params = [
+            'key_prefix'    => 'user_login_'.md5($params['accounts']),
+            'expire_time'   => MyC('common_verify_expire_time'),
+        ];
+
+        // 帐号密码登录需要校验密码
+        if($params['type'] == 'username')
+        {
+            // 请求参数
+            $p = [
+                [
+                    'checked_type'      => 'empty',
+                    'key_name'          => 'pwd',
+                    'error_msg'         => '密码格式 6~18 个字符之间',
+                ],
+                [
+                    'checked_type'      => 'fun',
+                    'key_name'          => 'pwd',
+                    'checked_data'      => 'CheckLoginPwd',
+                    'error_msg'         => '密码格式 6~18 个字符',
+                ],
+            ];
+            $ret = ParamsChecked($params, $p);
+            if($ret !== true)
+            {
+                return DataReturn($ret, -1);
+            }
+
+            // 帐号密码登录是否开启图片验证码
+            $verify_params['key_prefix'] = 'user_login';
+            $verify = self::IsImaVerify($params, $verify_params, MyC('home_user_login_img_verify_state'));
+            if($verify['code'] != 0)
+            {
+                return $verify;
+            }
+        } else {
+            // 账户类型
+            $obj = null;
+            switch($params['type'])
+            {
+                // 短信
+                case 'sms' :
+                    $obj = new \base\Sms($verify_params);
+                    break;
+
+                // 邮箱
+                case 'email' :
+                    $obj = new \base\Email($verify_params);
+                    break;
+
+                // 未知的字段
+                 default :
+                    return DataReturn('验证类型有误', -1);
+            }
+
+            // 验证码校验
+            // sms, email
+            if(isset($obj) && is_object($obj))
+            {
+                // 是否已过期
+                if(!$obj->CheckExpire())
+                {
+                    return DataReturn('验证码已过期', -10);
+                }
+                // 是否正确
+                if(!$obj->CheckCorrect($params['verify']))
+                {
+                    return DataReturn('验证码错误', -11);
+                }
+            }
         }
 
         // 获取用户账户信息
-        $where = array('username|mobile|email' => $params['accounts'], 'is_delete_time'=>0);
+        $where = [$ac['data'] => $params['accounts'], 'is_delete_time'=>0];
         $user = Db::name('User')->field('id,pwd,salt,status')->where($where)->find();
         if(empty($user))
         {
             return DataReturn('帐号不存在', -3);
         }
 
+        // 密码校验
+        // 帐号密码登录需要校验密码
+        if($params['type'] == 'username')
+        {
+            $pwd = LoginPwdEncryption($params['pwd'], $user['salt']);
+            if($pwd != $user['pwd'])
+            {
+                return DataReturn('密码错误', -4);
+            }
+        }
+
         // 用户状态
         if(in_array($user['status'], [2,3]))
         {
             return DataReturn(lang('common_user_status_list')[$user['status']]['tips'], -10);
-        }
-
-        // 密码校验
-        if(LoginPwdEncryption($pwd, $user['salt']) != $user['pwd'])
-        {
-            return DataReturn('密码错误', -4);
         }
 
         // 用户登录前钩子
@@ -684,13 +765,16 @@ class UserService
             return $ret;
         }
 
-        // 更新用户密码
-        $salt = GetNumberCode(6);
-        $data = array(
-                'pwd'       =>  LoginPwdEncryption($pwd, $salt),
-                'salt'      =>  $salt,
+        // 返回数据,更新数据库
+        $data = [
                 'upd_time'  =>  time(),
-            );
+            ];
+        if($params['type'] == 'username')
+        {
+            $salt = GetNumberCode(6);
+            $data['salt'] = $salt;
+            $data['pwd'] = LoginPwdEncryption($params['pwd'], $salt);
+        }
         if(Db::name('User')->where(['id'=>$user['id']])->update($data) !== false)
         {
             // 清除图片验证码
@@ -723,13 +807,14 @@ class UserService
             $body_html = [];
 
             // 用户登录后钩子
+            $user = Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find();
             $hook_name = 'plugins_service_user_login_end';
             $ret = HookReturnHandle(Hook::listen($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => &$params,
                 'user_id'       => $user_id,
-                'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find(),
+                'user'          => $user,
                 'body_html'     => &$body_html,
             ]));
             if(isset($ret['code']) && $ret['code'] != 0)
@@ -738,9 +823,14 @@ class UserService
             }
 
             // 登录返回
-            $result = [
-                'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
-            ];
+            if(APPLICATION == 'app')
+            {
+                $result = self::AppUserInfoHandle($user_id);
+            } else {
+                $result = [
+                    'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
+                ];
+            }
             return DataReturn('登录成功', 0, $result);
         }
         return DataReturn('登录失效，请重新登录', -100);
@@ -772,7 +862,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(lang('common_user_reg_state_list'), 'value'),
+                'checked_data'      => array_column(lang('common_user_reg_type_list'), 'value'),
                 'error_msg'         => '注册类型有误',
             ],
             [
@@ -801,7 +891,7 @@ class UserService
         }
 
         // 是否开启用户注册
-        if(!in_array($params['type'], MyC('home_user_reg_state')))
+        if(!in_array($params['type'], MyC('home_user_reg_type', [], true)))
         {
             return DataReturn('暂时关闭用户注册', -1);
         }
@@ -827,11 +917,12 @@ class UserService
 
         // 验证码校验
         $verify_params = [
-            'key_prefix' => 'reg_'.md5($params['accounts']),
-            'expire_time' => MyC('common_verify_expire_time'),
+            'key_prefix'    => 'user_reg_'.md5($params['accounts']),
+            'expire_time'   => MyC('common_verify_expire_time'),
         ];
 
         // 账户类型
+        $obj = null;
         switch($params['type'])
         {
             // 短信
@@ -1007,6 +1098,167 @@ class UserService
     }
 
     /**
+     * 用户登录账户校验
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-03-10T10:06:29+0800
+     * @param   [array]          $params [输入参数]
+     */
+    private static function UserLoginAccountsCheck($params = [])
+    {
+        $field = '';
+        switch($params['type'])
+        {
+            // 手机
+            case 'sms' :
+                // 手机号码格式
+                if(!CheckMobile($params['accounts']))
+                {
+                     return DataReturn('手机号码格式错误', -2);
+                }
+
+                // 手机号码是否不存在
+                if(!self::IsExistAccounts($params['accounts'], 'mobile'))
+                {
+                     return DataReturn('手机号码不存在', -3);
+                }
+                $field = 'mobile';
+                break;
+
+            // 邮箱
+            case 'email' :
+                // 电子邮箱格式
+                if(!CheckEmail($params['accounts']))
+                {
+                     return DataReturn('电子邮箱格式错误', -2);
+                }
+
+                // 电子邮箱是否不存在
+                if(!self::IsExistAccounts($params['accounts'], 'email'))
+                {
+                     return DataReturn('电子邮箱不存在', -3);
+                }
+                $field = 'email';
+                break;
+
+            // 用户名
+            case 'username' :
+                $field = 'username|mobile|email';
+
+                // 帐号是否不存在
+                if(!self::IsExistAccounts($params['accounts'], 'username|mobile|email'))
+                {
+                     return DataReturn('登录帐号不存在', -3);
+                }
+                break;
+        }
+        return DataReturn('操作成功', 0, $field);
+    }
+
+    /**
+     * 用户登录-验证码发送
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-03-10T10:06:29+0800
+     * @param   [array]          $params [输入参数]
+     */
+    public static function LoginVerifySend($params = [])
+    {
+        // 数据验证
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'accounts',
+                'error_msg'         => '账号不能为空',
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'type',
+                'checked_data'      => array_column(lang('common_login_type_list'), 'value'),
+                'error_msg'         => '登录类型有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 是否开启用户注册
+        if(!in_array($params['type'], MyC('home_user_login_type', [], true)))
+        {
+            return DataReturn('暂时关闭登录', -1);
+        }
+
+        // 验证码基础参数
+        $verify_params = [
+            'key_prefix'    => 'user_login',
+            'expire_time'   => MyC('common_verify_expire_time'),
+            'interval_time' => MyC('common_verify_interval_time'),
+        ];
+
+        // 是否开启图片验证码
+        $verify = self::IsImaVerify($params, $verify_params, MyC('common_img_verify_state'));
+        if($verify['code'] != 0)
+        {
+            return $verify;
+        }
+
+        // 账户校验
+        $ac = self::UserLoginAccountsCheck($params);
+        if($ac['code'] != 0)
+        {
+            return $ac;
+        }
+
+        // 验证码基础参数 key
+        $verify_params['key_prefix'] = 'user_login_'.md5($params['accounts']);
+
+        // 发送验证码
+        $code = GetNumberCode(4);
+        switch($params['type'])
+        {
+            // 短信
+            case 'sms' :
+                $obj = new \base\Sms($verify_params);
+                $status = $obj->SendCode($params['accounts'], $code, MyC('home_sms_login_template'));
+                break;
+
+            // 邮箱
+            case 'email' :
+                $obj = new \base\Email($verify_params);
+                $email_params = array(
+                        'email'     =>  $params['accounts'],
+                        'content'   =>  MyC('home_email_login_template'),
+                        'title'     =>  MyC('home_site_name').' - 用户登录',
+                        'code'      =>  $code,
+                    );
+                $status = $obj->SendHtml($email_params);
+                break;
+
+            // 默认
+            default :
+                return DataReturn('该类型不支持验证码发送', -2);
+        }
+        
+        // 状态
+        if($status)
+        {
+            // 清除验证码
+            if(isset($verify['data']) && is_object($verify['data']))
+            {
+                $verify['data']->Remove();
+            }
+
+            return DataReturn('发送成功', 0);
+        } else {
+            return DataReturn('发送失败'.'['.$obj->error.']', -100);
+        }
+    }
+
+    /**
      * 用户注册-验证码发送
      * @author   Devil
      * @blog     http://gong.gg/
@@ -1026,7 +1278,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(lang('common_user_reg_state_list'), 'value'),
+                'checked_data'      => array_column(lang('common_user_reg_type_list'), 'value'),
                 'error_msg'         => '注册类型有误',
             ],
         ];
@@ -1037,20 +1289,20 @@ class UserService
         }
 
         // 是否开启用户注册
-        if(!in_array($params['type'], MyC('home_user_reg_state')))
+        if(!in_array($params['type'], MyC('home_user_reg_type', [], true)))
         {
             return DataReturn('暂时关闭用户注册');
         }
 
         // 验证码基础参数
         $verify_params = [
-            'key_prefix' => 'reg',
-            'expire_time' => MyC('common_verify_expire_time'),
-            'interval_time' =>  MyC('common_verify_interval_time'),
+            'key_prefix'    => 'user_reg',
+            'expire_time'   => MyC('common_verify_expire_time'),
+            'interval_time' => MyC('common_verify_interval_time'),
         ];
 
         // 是否开启图片验证码
-        $verify = self::IsImaVerify($params, $verify_params, MyC('home_img_verify_state'));
+        $verify = self::IsImaVerify($params, $verify_params, MyC('common_img_verify_state'));
         if($verify['code'] != 0)
         {
             return $verify;
@@ -1064,7 +1316,7 @@ class UserService
         }
 
         // 验证码基础参数 key
-        $verify_params['key_prefix'] = 'reg_'.md5($params['accounts']);
+        $verify_params['key_prefix'] = 'user_reg_'.md5($params['accounts']);
 
         // 发送验证码
         $code = GetNumberCode(4);
@@ -1126,13 +1378,13 @@ class UserService
 
         // 验证码基础参数
         $verify_params = [
-            'key_prefix' => 'forget',
-            'expire_time' => MyC('common_verify_expire_time'),
-            'interval_time' =>  MyC('common_verify_interval_time'),
+            'key_prefix'    => 'user_forget',
+            'expire_time'   => MyC('common_verify_expire_time'),
+            'interval_time' => MyC('common_verify_interval_time'),
         ];
 
         // 是否开启图片验证码
-        $verify = self::IsImaVerify($params, $verify_params, MyC('home_img_verify_state'));
+        $verify = self::IsImaVerify($params, $verify_params, MyC('common_img_verify_state'));
         if($verify['code'] != 0)
         {
             return $verify;
@@ -1146,7 +1398,7 @@ class UserService
         }
 
         // 验证码基础参数 key
-        $verify_params['key_prefix'] = 'forget_'.md5($params['accounts']);
+        $verify_params['key_prefix'] = 'user_forget_'.md5($params['accounts']);
 
         // 验证码
         $code = GetNumberCode(4);
@@ -1264,9 +1516,9 @@ class UserService
 
         // 验证码校验
         $verify_params = [
-            'key_prefix' => 'forget_'.md5($params['accounts']),
-            'expire_time' => MyC('common_verify_expire_time'),
-            'interval_time' =>  MyC('common_verify_interval_time'),
+            'key_prefix'    => 'user_forget_'.md5($params['accounts']),
+            'expire_time'   => MyC('common_verify_expire_time'),
+            'interval_time' => MyC('common_verify_interval_time'),
         ];
         switch($ret['data'])
         {

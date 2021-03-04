@@ -43,8 +43,9 @@ $(function()
 			if($this.data('verify') == 1)
 			{
 				// 开启图片验证码窗口
-				$('#verify-win').modal('open');
+				$('#verify-win').modal({closeViaDimmer:false});
 				$verify_img.trigger("click");
+				$verify.val('');
 				$verify.focus();
 				return false;
 			}

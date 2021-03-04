@@ -8113,11 +8113,7 @@ UE.Editor.defaultOptions = function(editor){
         });
 
         function showErrorMsg(msg) {
-            console && console.error(msg);
-            //me.fireEvent('showMessage', {
-            //    'title': msg,
-            //    'type': 'error'
-            //});
+            console && console.info(msg);
         }
     };
 
@@ -8245,6 +8241,7 @@ UE.ajax = function() {
                 }
             }
         };
+        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         if (method == "POST") {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send(submitStr);

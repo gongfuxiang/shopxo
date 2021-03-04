@@ -11,6 +11,20 @@
 
 // 应用公共文件
 
+/**
+ * 是否base64加密的字符串
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-02-28
+ * @desc    description
+ * @param   [string]          $str [base加密的字符串]
+ */
+function IsBase64($str)
+{
+    $str = urldecode($str);
+    return ($str == base64_encode(base64_decode($str)));
+}
 
 /**
  * 根据url地址解析顶级域名
@@ -1167,6 +1181,12 @@ function MyUrl($path, $params=[])
         $url = str_replace($script_name, 'index.php', $url);
     }
 
+    // 开启伪静态则则去除index.php
+    if(MyC('home_seo_url_model', 0) != 0)
+    {
+        $url = str_replace('index.php', '', $url);
+    }
+
     return $url;
 }
 
@@ -1214,6 +1234,12 @@ function PluginsHomeUrl($plugins_name, $plugins_control = '', $plugins_action = 
     // 避免从后台生成url入口错误
     $url = str_replace(CurrentScriptName(), 'index.php', $url);
 
+    // 开启伪静态则则去除index.php
+    if(MyC('home_seo_url_model', 0) != 0)
+    {
+        $url = str_replace('index.php', '', $url);
+    }
+
     return $url;
 }
 
@@ -1248,6 +1274,12 @@ function PluginsAdminUrl($plugins_name, $plugins_control, $plugins_action, $para
     if(__MY_HTTP__ == 'https' && substr($url, 0, 5) != 'https')
     {
         $url = 'https'.mb_substr($url, 4, null, 'utf-8');
+    }
+
+    // 开启伪静态则则去除index.php
+    if(MyC('home_seo_url_model', 0) != 0)
+    {
+        $url = str_replace('index.php', '', $url);
     }
 
     return $url;
