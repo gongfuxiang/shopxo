@@ -251,17 +251,17 @@ function RegisterSuccessBack(e)
     {
         $.AMUI.progress.done();
         Prompt(e.msg, 'success');
-console.log(e.data)
+
         // 登录返回html处理
         if((e.data.body_html || null) != null)
         {
             $('body').append(e.data.body_html);
         }
 
-        // setTimeout(function()
-        // {
-        //     window.location.href = '{{$referer_url}}';
-        // }, 1500);
+        setTimeout(function()
+        {
+            window.location.href = '{{$referer_url}}';
+        }, 1500);
     } else {
         $('.register-container form.am-form').find('button[type="submit"]').button('reset');
         $.AMUI.progress.done();
