@@ -15,6 +15,7 @@ function AddressModalHandle(data)
     $(function()
     {
         // 参数处理
+        var logo = data.logo || null;
         var alias = data.alias || null;
         var name = data.name || null;
         var tel = data.tel || null;
@@ -37,7 +38,12 @@ function AddressModalHandle(data)
 
         // 数据拼接
         var html = '<li>';
-            html += '<span>'+data['province_name']+' '+data['city_name']+' '+data['county_name']+' '+address+'（'+name+'-'+tel+'）';
+            if(logo != null)
+            {
+                html += '<img src="'+logo+'" alt="'+name+'" class="am-img-thumbnail am-radius address-logo" /> ';
+            }
+            html += '<span class="address-content">';
+            html += '<span class="address-text">'+data['province_name']+' '+data['city_name']+' '+data['county_name']+' '+address+'（'+name+'-'+tel+'）</span>';
             if(alias != null)
             {
                 html += '<span class="am-badge am-radius am-badge-success am-margin-left-xs">'+alias+'</span>';
@@ -96,6 +102,10 @@ $(function()
         $popup_address.modal();
         $popup_address.attr('data-type', 'add');
 
+        // logo
+        $popup_address.find('.sitetype-logo input[name="logo"]').val('');
+        $popup_address.find('.sitetype-logo img').attr('src', $popup_address.data('default-logo'));
+
         // 清空数据
         FormDataFill({"alias":"", "name":"", "tel":"", "address":"", "province":0, "city":0, "county":0, "lng":"", "lat":""}, 'form.form-validation-address');
 
@@ -143,6 +153,10 @@ $(function()
             Prompt('地址不存在');
             return false;
         }
+
+        // logo
+        $popup_address.find('.sitetype-logo input[name="logo"]').val(item.logo || '');
+        $popup_address.find('.sitetype-logo img').attr('src', item.logo || $popup_address.data('default-logo'));
 
         // 数据填充
         FormDataFill(item, 'form.form-validation-address');

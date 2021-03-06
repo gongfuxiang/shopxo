@@ -82,12 +82,20 @@
                 <div class="am-panel-hd">
                     <h3 class="am-panel-title">自提点</h3>
                 </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
+                <div class="am-panel-bd">
                     <ul class="am-list am-list-static am-list-border am-list-striped am-form-group am-btn-sm am-form-group-refreshing am-margin-bottom-0 am-padding-bottom-0 address-list">
                         {{if !empty($sitetype_address_list) and is_array($sitetype_address_list)}}
                             {{foreach $sitetype_address_list as $address}}
                                 <li>
-                                    <span>{{$address.province_name}} {{$address.city_name}} {{$address.county_name}} {{$address.address}}（{{$address.name}}-{{$address.tel}}）{{if !empty($address['alias'])}}<span class="am-badge am-radius am-badge-success am-margin-left-xs">{{$address.alias}}</span>{{/if}}</span>
+                                    {{if !empty($address['logo'])}}
+                                        <img src="{{$address.logo}}" alt="{{$address.name}}" class="am-img-thumbnail am-radius address-logo" />
+                                    {{/if}}
+                                    <span class="address-content">
+                                        <span class="address-text">{{$address.province_name}} {{$address.city_name}} {{$address.county_name}} {{$address.address}}（{{$address.name}}-{{$address.tel}}）</span>
+                                        {{if !empty($address['alias'])}}
+                                            <span class="am-badge am-radius am-badge-success am-margin-left-xs">{{$address.alias}}</span>
+                                        {{/if}}
+                                    </span>
                                     <span class="am-badge am-radius am-icon-remove delete-submit"> 移除</span>
                                     <span class="am-badge am-radius am-icon-edit edit-submit"> 编辑</span>
                                 </li>
@@ -127,7 +135,7 @@
 <!-- right content end  -->
 
 <!-- 自提点地址添加弹层 -->
-<div class="am-popup" id="popup-address-win">
+<div class="am-popup" id="popup-address-win" data-default-logo="{{$attachment_host}}/static/admin/default/images/default-images.jpg">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
             <h4 class="am-popup-title">地址添加</h4>
@@ -135,23 +143,33 @@
         </div>
         <div class="am-popup-bd">
             <form class="am-form form-validation-address" method="post" request-type="sync" request-value="ViewAddressModalBack">
+                <div class="am-form-group am-form-file">
+                    <label class="block">logo图片<span class="am-form-group-label-tips-must">必传</span><span class="am-form-group-label-tips">建议300x300px</span></label>
+                    <ul class="plug-file-upload-view sitetype-logo" data-form-name="logo" data-max-number="1" data-delete="0" data-dialog-type="images">
+                        <li>
+                            <input type="text" name="logo" value="" data-validation-message="请上传logo图片" required />
+                            <img src="{{$attachment_host}}/static/admin/default/images/default-images.jpg" />
+                        </li>
+                    </ul>
+                    <div class="plug-file-upload-submit" data-view-tag="ul.sitetype-logo">+上传图片</div>
+                </div>
                 <div class="am-form-group">
-                    <label>别名</label>
+                    <label>别名<span class="am-form-group-label-tips">选填</span></label>
                     <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" />
                 </div>
 
                 <div class="am-form-group">
-                    <label>联系人</label>
+                    <label>联系人<span class="am-form-group-label-tips-must">必填</span></label>
                     <input type="text" name="name" placeholder="联系人" minlength="2" maxlength="16" data-validation-message="联系人格式 2~16 个字符之间" class="am-radius" required />
                 </div>
                 <div class="am-form-group">
-                    <label>联系电话</label>
+                    <label>联系电话<span class="am-form-group-label-tips-must">必填</span></label>
                     <input type="text" name="tel" placeholder="联系电话" minlength="6" maxlength="30" data-validation-message="联系电话格式有误" class="am-radius" required />
                 </div>
 
                 {{include file="lib/region_linkage" /}}
                 <div class="am-form-group">
-                    <label>详细地址</label>
+                    <label>详细地址<span class="am-form-group-label-tips-must">必填</span></label>
                     <div class="am-input-group am-input-group-sm">
                         <input type="hidden" name="lng" id="form-lng" />
                         <input type="hidden" name="lat" id="form-lat" />

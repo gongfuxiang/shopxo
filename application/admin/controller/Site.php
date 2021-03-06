@@ -311,6 +311,7 @@ class Site extends Common
 					foreach($address as $k=>$v)
 					{
 						$address[$k]['id'] = $k;
+						$address[$k]['logo'] = ResourcesService::AttachmentPathHandle($v['logo']);
 					}
 					$params['common_self_extraction_address'] = json_encode($address, JSON_UNESCAPED_UNICODE);
 				}

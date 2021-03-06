@@ -359,6 +359,13 @@ class ConfigService
                 $data = $temp_data;
             }
         }
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
+            }
+        }
 
         // 自提点地址列表数据钩子
         $hook_name = 'plugins_service_site_extraction_address_list';

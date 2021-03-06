@@ -18,6 +18,12 @@ ul.home_site_user_register_bg_images-images-view li {
 /**
  * 地址添加/编辑
  */
+.address-list .address-logo {
+    width: 18px;
+    height: 18px;
+    margin-right: 2px;
+    vertical-align: text-top;
+}
 .address-list .edit-submit,
 .address-list .delete-submit {
     cursor: pointer;
