@@ -40,15 +40,18 @@ return array (
   array (
     0 => 'app\\plugins\\store\\Hook',
     1 => 'app\\plugins\\share\\Hook',
+    2 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\store\\Hook',
     1 => 'app\\plugins\\share\\Hook',
+    2 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
     0 => 'app\\plugins\\store\\Hook',
+    1 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_users_center_left_menu_handle' => 
   array (
@@ -109,6 +112,7 @@ return array (
   'plugins_service_buy_order_insert_end' => 
   array (
     0 => 'app\\plugins\\store\\Hook',
+    1 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_system_begin' => 
   array (
@@ -117,10 +121,12 @@ return array (
   'plugins_view_buy_form_inside' => 
   array (
     0 => 'app\\plugins\\store\\Hook',
+    1 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_view_buy_base_confirm_top' => 
   array (
     0 => 'app\\plugins\\store\\Hook',
+    1 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_view_admin_order_list_operate' => 
   array (
@@ -129,6 +135,7 @@ return array (
   'plugins_service_order_status_change_history_success_handle' => 
   array (
     0 => 'app\\plugins\\store\\Hook',
+    1 => 'app\\plugins\\points\\Hook',
   ),
   'plugins_service_order_aftersale_audit_handle_end' => 
   array (
@@ -150,6 +157,46 @@ return array (
   'plugins_view_goods_detail_photo_bottom' => 
   array (
     0 => 'app\\plugins\\share\\Hook',
+  ),
+  'plugins_service_quick_navigation_pc' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_h5' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_weixin' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_alipay' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_baidu' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_qq' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_quick_navigation_toutiao' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_goods_handle_end' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_buy_group_goods_handle' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
+  ),
+  'plugins_service_base_data_return_api_buy_index' => 
+  array (
+    0 => 'app\\plugins\\points\\Hook',
   ),
 );
 ?>

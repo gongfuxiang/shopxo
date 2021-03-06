@@ -327,8 +327,7 @@ class IntegralService
      */
     public static function UserIntegral($user_id)
     {
-        $data = Db::name('User')->where(['id'=>$user_id])->field('integral,locking_integral')->find();
-        return DataReturn('success', 0, $data);
+        return Db::name('User')->where(['id'=>$user_id])->field('integral,locking_integral')->find();
     }
 }
 ?>

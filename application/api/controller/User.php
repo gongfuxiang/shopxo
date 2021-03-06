@@ -618,8 +618,8 @@ class User extends Common
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1, 'is_aftersale'=>1]);
 
         // 用户积分
-        $user_integral_data = IntegralService::UserIntegral($params['user']['id']);
-        $user_integral = (isset($user_integral_data['data']) && isset($user_integral_data['data']['integral'])) ? $user_integral_data['data']['integral'] : 0;
+        $integral = IntegralService::UserIntegral($params['user']['id']);
+        $user_integral = (!empty($integral) && !empty($integral['integral'])) ? $integral['integral'] : 0;
 
         // 初始化数据
         $result = array(

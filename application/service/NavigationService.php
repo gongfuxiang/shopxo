@@ -1041,8 +1041,8 @@ class NavigationService
             $user_goods_browse_count = GoodsBrowseService::GoodsBrowseTotal($where);
 
             // 用户积分
-            $user_integral_data = IntegralService::UserIntegral($params['user']['id']);
-            $user_integral = (isset($user_integral_data['data']) && isset($user_integral_data['data']['integral'])) ? $user_integral_data['data']['integral'] : 0;
+            $integral = IntegralService::UserIntegral($params['user']['id']);
+            $user_integral = (!empty($integral) && !empty($integral['integral'])) ? $integral['integral'] : 0;
         }
         
         // 列表
