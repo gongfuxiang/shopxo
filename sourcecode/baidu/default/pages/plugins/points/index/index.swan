@@ -11,7 +11,7 @@
         <image bindtap="preview_event" src="{{user.avatar || avatar_default}}" mode="widthFix" class="dis-block" />
       </view>
       <view class="user-name">{{user.user_name_view}}</view>
-      <view class="user-desc">当前可用 {{user.integral}} 积分</view>
+      <view class="user-desc">当前可用 {{user_integral.integral || 0}} 积分</view>
     </block>
 
     <!-- 按钮组 -->

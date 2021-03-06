@@ -7,6 +7,7 @@ Page({
     params: null,
     user: null,
     data_base: null,
+    user_integral: null,
     avatar_default: app.data.default_user_head_src
   },
 
@@ -38,6 +39,7 @@ Page({
           var data = res.data.data;
           self.setData({
             data_base: data.base || null,
+            user_integral: data.user_integral || null,
             data_list_loding_msg: '',
             data_list_loding_status: 0,
             data_bottom_line_status: true
