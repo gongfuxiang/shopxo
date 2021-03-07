@@ -232,6 +232,10 @@ ul.address-list, .business-item ul { overflow: hidden; }
   padding: 10px 5px;
   border-color: #eee;
 }
+#extraction-address-popup .address-logo {
+  width: 38px;
+  height: 38px;
+}
 #extraction-address-popup .am-list > li:first-child {
   border-top: 0;
 }

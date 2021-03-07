@@ -103,8 +103,7 @@ $(function()
         $popup_address.attr('data-type', 'add');
 
         // logo
-        $popup_address.find('.sitetype-logo input[name="logo"]').val('');
-        $popup_address.find('.sitetype-logo img').attr('src', $popup_address.data('default-logo'));
+        $popup_address.find('.sitetype-logo').html('');
 
         // 清空数据
         FormDataFill({"alias":"", "name":"", "tel":"", "address":"", "province":0, "city":0, "county":0, "lng":"", "lat":""}, 'form.form-validation-address');
@@ -155,8 +154,16 @@ $(function()
         }
 
         // logo
-        $popup_address.find('.sitetype-logo input[name="logo"]').val(item.logo || '');
-        $popup_address.find('.sitetype-logo img').attr('src', item.logo || $popup_address.data('default-logo'));
+        var html = '';
+        if((item.logo || null) != null)
+        {
+            html += '<li>';
+            html += '<input type="text" name="logo" value="'+item.logo+'" data-validation-message="请上传logo图片" required />';
+            html += '<img src="'+item.logo+'" alt="'+item.name+'" />';
+            html += '<i>×</i>';
+            html += '</li>';
+        }
+        $popup_address.find('.sitetype-logo').html(html);
 
         // 数据填充
         FormDataFill(item, 'form.form-validation-address');
