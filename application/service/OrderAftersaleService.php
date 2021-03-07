@@ -986,6 +986,16 @@ class OrderAftersaleService
             return $ret;
         }
 
+        // 已完成订单、商品销量释放
+        if($order['data']['status'] == 4 && $aftersale['number'] > 0)
+        {
+            if(!Db::name('Goods')->where(['id'=>intval($aftersale['goods_id'])])->setDec('sales_count', $aftersale['number']))
+            {
+                Db::rollback();
+                return DataReturn('商品销量释放失败', -1);
+            }
+        }
+
         // 消息通知
         $detail = '订单退款成功，金额'.PriceBeautify($aftersale['price']).'元';
         MessageService::MessageAdd($order['data']['user_id'], '订单退款', $detail, '订单售后', $order['data']['id']);
