@@ -10,13 +10,13 @@ Page({
     user_location_cache_key: app.data.cache_userlocation_key,
     user_location: null,
     is_first: 1,
-    home_buy_extraction_address_position: 0,
+    home_extraction_address_position: 0,
   },
 
   onLoad(params) {
     this.setData({
       params: params,
-      home_buy_extraction_address_position: app.get_config('config.home_buy_extraction_address_position', 0),
+      home_extraction_address_position: app.get_config('config.home_extraction_address_position', 0),
     });
   },
 
@@ -25,7 +25,7 @@ Page({
     wx.removeStorage({key: this.data.user_location_cache_key});
 
     // 是否获取位置
-    if((this.data.params.is_buy || 0) == 1 && this.data.home_buy_extraction_address_position == 1)
+    if((this.data.params.is_buy || 0) == 1 && this.data.home_extraction_address_position == 1)
     {
       wx.navigateTo({
         url: '/pages/common/open-setting-location/open-setting-location'
@@ -37,7 +37,7 @@ Page({
     wx.setNavigationBarTitle({ title: app.data.common_pages_title.extraction_address });
 
     // 是否需要选择地理位置
-    if(this.data.home_buy_extraction_address_position == 1)
+    if(this.data.home_extraction_address_position == 1)
     {
       // 首次不请求数据
       if(this.data.is_first == 0)

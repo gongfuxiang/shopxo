@@ -65,7 +65,7 @@ class BaseService
 
             // 订单相关
             'home_is_enable_order_bulk_pay'     => (int) MyC('home_is_enable_order_bulk_pay', 0),
-            'home_buy_extraction_address_position'=> (int) MyC('home_buy_extraction_address_position', 0),
+            'home_extraction_address_position'  => (int) MyC('home_extraction_address_position', 0),
 
             // 用户中心相关
             'common_user_center_notice'         => MyC('common_user_center_notice', null, true),
