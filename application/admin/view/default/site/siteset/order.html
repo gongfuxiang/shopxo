@@ -22,15 +22,6 @@
                 </select>
             </div>
 
-            <div class="am-form-group">
-                <label>{{$data.home_buy_extraction_address_position.name}}<span class="am-form-group-label-tips">{{$data.home_buy_extraction_address_position.describe}}</span></label>
-                <select name="{{$data.home_buy_extraction_address_position.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_buy_extraction_address_position.error_tips}}" required>
-                    {{foreach $common_close_open_list as $v}}
-                        <option value="{{$v.value}}" {{if isset($data['home_buy_extraction_address_position']['value']) and $data['home_buy_extraction_address_position']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <input type="hidden" name="view_type" value="{{$view_type}}" />

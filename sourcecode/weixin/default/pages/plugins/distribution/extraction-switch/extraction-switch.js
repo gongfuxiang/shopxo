@@ -24,7 +24,7 @@ Page({
     wx.removeStorage({key: this.data.user_location_cache_key});
 
     // 是否获取位置
-    if((this.data.params.is_buy || 0) == 1 && this.data.home_buy_extraction_address_position == 1)
+    if(this.data.home_buy_extraction_address_position == 1)
     {
       wx.navigateTo({
         url: '/pages/common/open-setting-location/open-setting-location'
@@ -71,6 +71,22 @@ Page({
         data_bottom_line_status: false,
       });
     }
+  },
+
+  // 地址信息初始化
+  user_location_init() {
+    var result = wx.getStorageSync(this.data.user_location_cache_key) || null;
+    var data = null;
+    if (result != null)
+    {
+      data = {
+        name: result.name || null,
+        address: result.address || null,
+        lat: result.latitude || null,
+        lng: result.longitude || null
+      }
+    }
+    this.setData({user_location: data});
   },
 
   // 获取数据列表
