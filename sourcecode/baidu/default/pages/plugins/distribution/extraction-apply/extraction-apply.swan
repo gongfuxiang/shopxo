@@ -1,17 +1,30 @@
 <form bindsubmit="form_submit" class="form-container oh">
+  <view class="form-gorup bg-white form-container-upload oh">
+    <view class="form-gorup-title">logo图片<text class="form-group-tips">选传，建议300x300px</text></view>
+    <view class="form-upload-data fl">
+      <block s-if="(extraction_data.logo || null) != null">
+        <view class="item fl">
+          <text class="delete-icon" bindtap="upload_delete_event">x</text>
+          <image src="{{extraction_data.logo}}" bindtap="upload_show_event" mode="aspectFill" />
+        </view>
+      </block>
+    </view>
+    <image class="upload-icon" src="/images/default-upload-icon.png" mode="aspectFill" bindtap="file_upload_event" />
+  </view>
+
   <view class="form-gorup bg-white">
     <view class="form-gorup-title">别名<text class="form-group-tips">选填</text></view>
-    <input type="text" name="alias" value="{=extraction_data.alias || ''=}" placeholder-class="cr-ccc" class="cr-666" placeholder="别名格式最多 16 个字符" />
+    <input type="text" name="alias" value="{{extraction_data.alias || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="别名格式最多 16 个字符" />
   </view>
 
   <view class="form-gorup bg-white">
     <view class="form-gorup-title">联系人<text class="form-group-tips-must">必填</text></view>
-    <input type="text" name="name" value="{=extraction_data.name || ''=}" placeholder-class="cr-ccc" class="cr-666" placeholder="联系人格式 2~16 个字符之间" />
+    <input type="text" name="name" value="{{extraction_data.name || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="联系人格式 2~16 个字符之间" />
   </view>
 
   <view class="form-gorup bg-white">
     <view class="form-gorup-title">联系电话<text class="form-group-tips-must">必填</text></view>
-    <input type="text" name="tel" value="{=extraction_data.tel || ''=}" placeholder-class="cr-ccc" class="cr-666" placeholder="座机 或 手机" />
+    <input type="text" name="tel" value="{{extraction_data.tel || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="座机 或 手机" />
   </view>
 
   <view class="form-gorup bg-white">
@@ -39,7 +52,7 @@
 
   <view class="form-gorup bg-white">
     <view class="form-gorup-title">详细地址<text class="form-group-tips-must">必填</text></view>
-    <input type="text" name="address" value="{=extraction_data.address || ''=}" placeholder-class="cr-ccc" class="cr-666" placeholder="详细地址格式 1~80 个字符之间" />
+    <input type="text" name="address" value="{{extraction_data.address || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="详细地址格式 1~80 个字符之间" />
   </view>
 
   <view class="form-gorup bg-white">

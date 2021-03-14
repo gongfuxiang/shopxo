@@ -7,7 +7,7 @@
                 <ul class="am-avg-sm-3 am-avg-md-4 am-avg-lg-4 left-main-quick-content">
                     {{foreach $nav_quick as $nav}}
                         {{if !empty($nav['images_url']) and !empty($nav['name'])}}
-                            <li class="am-text-center am-padding-sm {{if isset($nav['class_name'])}}{{$nav.class_name}}{{/if}}">
+                            <li class="am-text-center am-padding-sm {{if isset($nav['class_name'])}}{{$nav.class_name}}{{/if}}" {{if !empty($nav['data_value'])}}data-value="{{$nav.data_value}}"{{/if}}>
                                 {{if isset($nav['event_type']) and isset($nav['event_value']) and in_array($nav['event_type'], [3,4])}}
                                     {{switch nav.event_type}}
                                         {{case 3}}

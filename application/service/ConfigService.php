@@ -339,9 +339,10 @@ class ConfigService
      * @version 1.0.0
      * @date    2019-11-13
      * @desc    description
-     * @param   [string]          $value [自提的配置数据]
+     * @param   [string]          $value  [自提的配置数据]
+     * @param   [array]           $params [输入参数]
      */
-    public static function SiteTypeExtractionAddressList($value = null)
+    public static function SiteTypeExtractionAddressList($value = null, $params = [])
     {
         // 未指定内容则从缓存读取
         if(empty($value))
@@ -363,7 +364,10 @@ class ConfigService
         {
             foreach($data as &$v)
             {
-                $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
+                if(array_key_exists('logo', $v))
+                {
+                    $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
+                }
             }
         }
 
@@ -374,6 +378,27 @@ class ConfigService
             'is_backend'    => true,
             'data'          => &$data,
         ]);
+
+        // 数据距离处理
+        if(!empty($data) && is_array($data) && !empty($params) && !empty($params['lng']) && !empty($params['lat']))
+        {
+            $unit = 'km';
+            foreach($data as &$v)
+            {
+                if(!empty($v) && is_array($v))
+                {
+                    // 计算距离
+                    $v['distance_value'] = \base\GeoTransUtil::GetDistance($v['lng'], $v['lat'], $params['lng'], $params['lat'], 2);
+                    $v['distance_unit'] = $unit;
+                }
+            }
+
+            // 根据距离排序
+            if(count($data) > 1)
+            {
+                $data = ArrayQuickSort($data, 'distance_value');
+            }
+        }
 
         return DataReturn('操作成功', 0, $data);
     }

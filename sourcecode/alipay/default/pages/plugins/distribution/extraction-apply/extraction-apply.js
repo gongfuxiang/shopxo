@@ -11,6 +11,7 @@ Page({
     province_id: null,
     city_id: null,
     county_id: null,
+    editor_path_type: '',
 
     default_province: "请选择省",
     default_city: "请选择市",
@@ -77,29 +78,31 @@ Page({
       header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         if (res.data.code == 0) {
-          var data = res.data.data || null;
+          var data = res.data.data;
+          var extraction_data = data.extraction_data || null;
           self.setData({
-            extraction_data: data,
+            extraction_data: extraction_data || null,
+            editor_path_type: data.editor_path_type || '',
           });
 
           // 数据设置
-          if(data != null)
+          if(extraction_data != null)
           {
             self.setData({
-              province_id: data.province || null,
-              city_id: data.city || null,
-              county_id: data.county || null,
+              province_id: extraction_data.province || null,
+              city_id: extraction_data.city || null,
+              county_id: extraction_data.county || null,
             });
 
             // 地理位置
-            var lng = data.lng || null;
-            var lat = data.lat || null;
+            var lng = extraction_data.lng || null;
+            var lat = extraction_data.lat || null;
             if (lng != null && lat != null)
             {
               self.setData({ user_location: {
                 lng: lng,
                 lat: lat,
-                address: data.address || '',
+                address: extraction_data.address || '',
               }});
             }
           }
@@ -324,6 +327,10 @@ Page({
       { fields: "lat", msg: "请选择地理位置" }
     ];
 
+    // logo
+    form_data['logo'] = this.data.extraction_data.logo || '';
+
+    // 地区
     form_data["province"] = self.data.province_id;
     form_data["city"] = self.data.city_id;
     form_data["county"] = self.data.county_id;
@@ -398,6 +405,87 @@ Page({
         self.setData({ form_submit_disabled_status: false });
         my.hideLoading();
         app.showToast("服务器请求出错");
+      }
+    });
+  },
+
+  // 上传图片预览
+  upload_show_event(e) {
+    my.previewImage({
+      current: 0,
+      urls: [this.data.extraction_data.logo],
+    });
+  },
+
+  // 图片删除
+  upload_delete_event(e) {
+    var self = this;
+    my.showModal({
+      title: '温馨提示',
+      content: '删除后不可恢复、继续吗？',
+      success(res) {
+        if (res.confirm) {
+          var temp_data = self.data.extraction_data || {};
+          temp_data['logo'] = '';
+          self.setData({
+            extraction_data: temp_data,
+          });
+        }
+      }
+    });
+  },
+
+  // 文件上传
+  file_upload_event(e) {
+    var self = this;
+    my.chooseImage({
+      count: 1,
+      success(res) {
+        var success = 0;
+        var fail = 0;
+        var length = res.tempFilePaths.length;
+        var count = 0;
+        self.upload_one_by_one(res.tempFilePaths, success, fail, count, length);
+      }
+    });
+  },
+
+  // 采用递归的方式上传多张
+  upload_one_by_one(img_paths, success, fail, count, length) {
+    var self = this;
+    my.uploadFile({
+      url: app.get_request_url("index", "ueditor"),
+      filePath: img_paths[count],
+      name: 'upfile',
+      formData: {
+        action: 'uploadimage',
+        path_type: self.data.editor_path_type
+      },
+      success: function (res) {
+        success++;
+        if (res.statusCode == 200) {
+          var data = (typeof (res.data) == 'object') ? res.data : JSON.parse(res.data);
+          if (data.code == 0 && (data.data.url || null) != null) {
+            var temp_data = self.data.extraction_data || {};
+            temp_data['logo'] = data.data.url;
+            self.setData({ extraction_data: temp_data });
+          } else {
+            app.showToast(data.msg);
+          }
+        }
+      },
+      fail: function (e) {
+        fail++;
+      },
+      complete: function (e) {
+        count++; // 下一张
+        if (count >= length) {
+          // 上传完毕，作一下提示
+          //app.showToast('上传成功' + success +'张', 'success');
+        } else {
+          // 递归调用，上传下一张
+          self.upload_one_by_one(img_paths, success, fail, count, length);
+        }
       }
     });
   },

@@ -312,6 +312,7 @@ class QuickNavService
 
         // 快捷导航钩子
         // web端数据参数可以自定义新增 class_name 名称、方便非url事件使用js控制点击事件
+        // 支持标签自定义数据值 data_value  名称、方便自定义事件响应需要依赖的数据
         $hook_name = 'plugins_service_quick_navigation_'.$platform;
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,

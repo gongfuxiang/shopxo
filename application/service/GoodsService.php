@@ -2094,17 +2094,12 @@ class GoodsService
         // 有规格值
         if(!empty($params['spec']))
         {
-            $value = [];
             // 规格不为数组则为json字符串
             if(!is_array($params['spec']))
             {
                 $params['spec'] = json_decode(htmlspecialchars_decode($params['spec']), true);
             }
-            foreach($params['spec'] as $v)
-            {
-                $value[] = $v['value'];
-            }
-            $where['value'] = $value;
+            $where['value'] = array_column($params['spec'], 'value');
 
             // 获取规格值基础值id
             $ids = Db::name('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
@@ -2217,16 +2212,11 @@ class GoodsService
         ];
 
         // 规格不为数组则为json字符串
-        $value = [];
         if(!is_array($params['spec']))
         {
             $params['spec'] = json_decode(htmlspecialchars_decode($params['spec']), true);
         }
-        foreach($params['spec'] as $v)
-        {
-            $value[] = $v['value'];
-        }
-        $where['value'] = $value;
+        $where['value'] = array_column($params['spec'], 'value');
 
         // 获取规格值基础值id
         $ids = Db::name('GoodsSpecValue')->where($where)->column('goods_spec_base_id');

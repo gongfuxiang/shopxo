@@ -12,6 +12,43 @@
 // 应用公共文件
 
 /**
+ * 文件快速排序
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-03-09
+ * @desc    description
+ * @param  [array] $data [需要排序的数据（选择一个基准元素，将待排序分成小和打两罐部分，以此类推递归的排序划分两罐部分）]
+ * @param  [array]       [数组字段]
+ * @return [array]       [排序好的数据，从小到大排序]
+ */
+function ArrayQuickSort($data, $field)
+{
+    if(!empty($data) && is_array($data))
+    {
+        $len = count($data);
+        if($len <= 1) return $data;
+
+        $base = $data[0];
+        $left_array = array();
+        $right_array = array();
+        for($i=1; $i<$len; $i++)
+        {
+            if($base[$field] > $data[$i][$field])
+            {
+                $left_array[] = $data[$i];
+            } else {
+                $right_array[] = $data[$i];
+            }
+        }
+        if(!empty($left_array)) $left_array = ArrayQuickSort($left_array, $field);
+        if(!empty($right_array)) $right_array = ArrayQuickSort($right_array, $field);
+
+        return array_merge($left_array, array($base), $right_array);
+    }
+}
+
+/**
  * 是否base64加密的字符串
  * @author  Devil
  * @blog    http://gong.gg/

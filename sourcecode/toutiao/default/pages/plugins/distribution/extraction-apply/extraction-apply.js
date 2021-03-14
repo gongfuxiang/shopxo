@@ -11,14 +11,19 @@ Page({
     province_id: null,
     city_id: null,
     county_id: null,
+    editor_path_type: '',
+
     default_province: "请选择省",
     default_city: "请选择市",
     default_county: "请选择区/县",
+
     province_value: null,
     city_value: null,
     county_value: null,
+
     user_location_cache_key: app.data.cache_userlocation_key,
     user_location: null,
+
     form_submit_disabled_status: false
   },
 
@@ -79,36 +84,40 @@ Page({
       },
       success: res => {
         if (res.data.code == 0) {
-          var data = res.data.data || null;
+          var data = res.data.data;
+          var extraction_data = data.extraction_data || null;
           self.setData({
-            extraction_data: data
-          }); // 数据设置
+            extraction_data: extraction_data || null,
+            editor_path_type: data.editor_path_type || '',
+          });
 
-          if (data != null) {
+          // 数据设置
+          if(extraction_data != null)
+          {
             self.setData({
-              province_id: data.province || null,
-              city_id: data.city || null,
-              county_id: data.county || null
-            }); // 地理位置
+              province_id: extraction_data.province || null,
+              city_id: extraction_data.city || null,
+              county_id: extraction_data.county || null,
+            });
 
-            var lng = (data.lng || 0) <= 0 ? null : data.lng;
-            var lat = (data.lat || 0) <= 0 ? null : data.lat;
-
-            if (lng != null && lat != null) {
-              self.setData({
-                user_location: {
-                  lng: lng,
-                  lat: lat,
-                  address: data.address || ''
-                }
-              });
+            // 地理位置
+            var lng = extraction_data.lng || null;
+            var lat = extraction_data.lat || null;
+            if (lng != null && lat != null)
+            {
+              self.setData({ user_location: {
+                lng: lng,
+                lat: lat,
+                address: extraction_data.address || '',
+              }});
             }
-          } // 获取城市、区县
-
-
+          }
+          
+          // 获取城市、区县
           self.get_city_list();
-          self.get_county_list(); // 半秒后初始化数据
+          self.get_county_list();
 
+          // 半秒后初始化数据
           setTimeout(function () {
             self.init_region_value();
           }, 500);
@@ -332,35 +341,26 @@ Page({
 
   // 数据提交
   form_submit(e) {
-    var self = this; // 表单数据
+    var self = this;
+    // 表单数据
+    var form_data = e.detail.value;
 
-    var form_data = e.detail.value; // 数据校验
+    // 数据校验
+    var validation = [
+      { fields: "name", msg: "请填写联系人" },
+      { fields: "tel", msg: "请填写联系电话" },
+      { fields: "province", msg: "请选择省份" },
+      { fields: "city", msg: "请选择城市" },
+      { fields: "county", msg: "请选择区县" },
+      { fields: "address", msg: "请填写详细地址" },
+      { fields: "lng", msg: "请选择地理位置" },
+      { fields: "lat", msg: "请选择地理位置" }
+    ];
 
-    var validation = [{
-      fields: "name",
-      msg: "请填写联系人"
-    }, {
-      fields: "tel",
-      msg: "请填写联系电话"
-    }, {
-      fields: "province",
-      msg: "请选择省份"
-    }, {
-      fields: "city",
-      msg: "请选择城市"
-    }, {
-      fields: "county",
-      msg: "请选择区县"
-    }, {
-      fields: "address",
-      msg: "请填写详细地址"
-    }, {
-      fields: "lng",
-      msg: "请输入经度"
-    }, {
-      fields: "lat",
-      msg: "请输入纬度"
-    }];
+    // logo
+    form_data['logo'] = this.data.extraction_data.logo || '';
+
+    // 地区
     form_data["province"] = self.data.province_id;
     form_data["city"] = self.data.city_id;
     form_data["county"] = self.data.county_id; // 地理位置
@@ -430,6 +430,87 @@ Page({
         app.showToast("服务器请求出错");
       }
     });
-  }
+  },
+
+  // 上传图片预览
+  upload_show_event(e) {
+    tt.previewImage({
+      current: this.data.extraction_data.logo,
+      urls: [this.data.extraction_data.logo],
+    });
+  },
+
+  // 图片删除
+  upload_delete_event(e) {
+    var self = this;
+    tt.showModal({
+      title: '温馨提示',
+      content: '删除后不可恢复、继续吗？',
+      success(res) {
+        if (res.confirm) {
+          var temp_data = self.data.extraction_data || {};
+          temp_data['logo'] = '';
+          self.setData({
+            extraction_data: temp_data,
+          });
+        }
+      }
+    });
+  },
+
+  // 文件上传
+  file_upload_event(e) {
+    var self = this;
+    tt.chooseImage({
+      count: 1,
+      success(res) {
+        var success = 0;
+        var fail = 0;
+        var length = res.tempFilePaths.length;
+        var count = 0;
+        self.upload_one_by_one(res.tempFilePaths, success, fail, count, length);
+      }
+    });
+  },
+
+  // 采用递归的方式上传多张
+  upload_one_by_one(img_paths, success, fail, count, length) {
+    var self = this;
+    tt.uploadFile({
+      url: app.get_request_url("index", "ueditor"),
+      filePath: img_paths[count],
+      name: 'upfile',
+      formData: {
+        action: 'uploadimage',
+        path_type: self.data.editor_path_type
+      },
+      success: function (res) {
+        success++;
+        if (res.statusCode == 200) {
+          var data = (typeof (res.data) == 'object') ? res.data : JSON.parse(res.data);
+          if (data.code == 0 && (data.data.url || null) != null) {
+            var temp_data = self.data.extraction_data || {};
+            temp_data['logo'] = data.data.url;
+            self.setData({ extraction_data: temp_data });
+          } else {
+            app.showToast(data.msg);
+          }
+        }
+      },
+      fail: function (e) {
+        fail++;
+      },
+      complete: function (e) {
+        count++; // 下一张
+        if (count >= length) {
+          // 上传完毕，作一下提示
+          //app.showToast('上传成功' + success +'张', 'success');
+        } else {
+          // 递归调用，上传下一张
+          self.upload_one_by_one(img_paths, success, fail, count, length);
+        }
+      }
+    });
+  },
 
 });

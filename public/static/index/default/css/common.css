@@ -458,7 +458,7 @@ ul.am-dropdown-content > .am-active > a:focus,
 @media only screen and (max-width: 641px) {
     .common-login-modal {
         height: 410px;
-        top: calc(100% - 410px);
+        top: calc(50% - 210px);
     }
 }
 

@@ -433,3 +433,158 @@ textarea {
 .common-online-service {
   bottom: 35%;
 }
+
+/**
+ * 公共样式
+ */
+.margin-top-xs {
+  margin-top: 5rpx;
+}
+.margin-top-sm {
+  margin-top: 10rpx;
+}
+.margin-top, .margin-top-default {
+  margin-top: 15rpx;
+}
+.margin-top-lg {
+  margin-top: 20rpx;
+}
+.margin-top-xl {
+  margin-top: 25rpx;
+}
+.margin-top-xxl {
+  margin-top: 30rpx;
+}
+
+.margin-right-xs {
+  margin-right: 5rpx;
+}
+.margin-right-sm {
+  margin-right: 10rpx;
+}
+.margin-right, .margin-right-default {
+  margin-right: 15rpx;
+}
+.margin-right-lg {
+  margin-right: 20rpx;
+}
+.margin-right-xl {
+  margin-right: 25rpx;
+}
+.margin-right-xxl {
+  margin-right: 30rpx;
+}
+
+.margin-left-xs {
+  margin-left: 5rpx;
+}
+.margin-left-sm {
+  margin-left: 10rpx;
+}
+.margin-left, .margin-left-default {
+  margin-left: 15rpx;
+}
+.margin-left-lg {
+  margin-left: 20rpx;
+}
+.margin-left-xl {
+  margin-left: 25rpx;
+}
+.margin-left-xxl {
+  margin-left: 30rpx;
+}
+
+.margin-bottom-xs {
+  margin-bottom: 5rpx;
+}
+.margin-bottom-sm {
+  margin-bottom: 10rpx;
+}
+.margin-bottom, .margin-bottom-default {
+  margin-bottom: 15rpx;
+}
+.margin-bottom-lg {
+  margin-bottom: 20rpx;
+}
+.margin-bottom-xl {
+  margin-bottom: 25rpx;
+}
+.margin-bottom-xxl {
+  margin-bottom: 30rpx;
+}
+
+.padding-top-xs {
+  padding-top: 5rpx;
+}
+.padding-top-sm {
+  padding-top: 10rpx;
+}
+.padding-top, .padding-top-default {
+  padding-top: 15rpx;
+}
+.padding-top-lg {
+  padding-top: 20rpx;
+}
+.padding-top-xl {
+  padding-top: 25rpx;
+}
+.padding-top-xxl {
+  padding-top: 30rpx;
+}
+
+.padding-right-xs {
+  padding-right: 5rpx;
+}
+.padding-right-sm {
+  padding-right: 10rpx;
+}
+.padding-right, .padding-right-default {
+  padding-right: 15rpx;
+}
+.padding-right-lg {
+  padding-right: 20rpx;
+}
+.padding-right-xl {
+  padding-right: 25rpx;
+}
+.padding-right-xxl {
+  padding-right: 30rpx;
+}
+
+.padding-left-xs {
+  padding-left: 5rpx;
+}
+.padding-left-sm {
+  padding-left: 10rpx;
+}
+.padding-left, .padding-left-default {
+  padding-left: 15rpx;
+}
+.padding-left-lg {
+  padding-left: 20rpx;
+}
+.padding-left-xl {
+  padding-left: 25rpx;
+}
+.padding-left-xxl {
+  padding-left: 30rpx;
+}
+
+.padding-bottom-xs {
+  padding-bottom: 5rpx;
+}
+.padding-bottom-sm {
+  padding-bottom: 10rpx;
+}
+.padding-bottom, .padding-bottom-default {
+  padding-bottom: 15rpx;
+}
+.padding-bottom-lg {
+  padding-bottom: 20rpx;
+}
+.padding-bottom-xl {
+  padding-bottom: 25rpx;
+}
+.padding-bottom-xxl {
+  padding-bottom: 30rpx;
+}

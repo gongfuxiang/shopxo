@@ -337,7 +337,7 @@ Page({
       });
     } else if (this.data.common_site_type == 2 || this.data.common_site_type == 4 && this.data.site_model == 2) {
       swan.navigateTo({
-        url: '/pages/extraction-address/extraction-address?is_back=1'
+        url: '/pages/extraction-address/extraction-address?is_back=1&is_buy=1'
       });
     } else {
       app.showToast('当前模式不允许使用地址');

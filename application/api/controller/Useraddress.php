@@ -134,7 +134,9 @@ class UserAddress extends Common
      */
     public function Extraction()
     {
-        return ConfigService::SiteTypeExtractionAddressList();
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        return ConfigService::SiteTypeExtractionAddressList(null, $params);
     }
 
     /**

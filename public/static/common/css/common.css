@@ -569,7 +569,7 @@ button.colorpicker-submit img {
     background: #e8e6e6;
     min-width: 100px;
     position: sticky;
-    z-index: 1;
+    z-index: 1011;
     top: 0;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-xxxl {
@@ -605,11 +605,11 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table tr td.am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr td.am-grid-fixed-right {
     background: #fff;
-    z-index: 2;
+    z-index: 1011;
 }
 .am-table-scrollable-horizontal .am-table tr th.am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr th.am-grid-fixed-right {
-    z-index: 3;
+    z-index: 1012;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-left {
     -webkit-box-shadow: 1px 0px 1px #ddd;
