@@ -45,6 +45,9 @@ Page({
     }
     swan.setNavigationBarTitle({title: title});
 
+    // 初始化配置
+    this.init_config();
+
     // 清除位置缓存信息
     swan.removeStorage({key: this.data.user_location_cache_key});
     this.init();
@@ -136,7 +139,7 @@ Page({
               }});
             }
           }
-          
+
           // 获取城市、区县
           self.get_city_list();
           self.get_county_list();

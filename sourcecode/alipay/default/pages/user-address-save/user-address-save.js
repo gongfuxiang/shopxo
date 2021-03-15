@@ -45,6 +45,9 @@ Page({
     }
     my.setNavigationBar({title: title});
 
+    // 初始化配置
+    this.init_config();
+
     // 清除位置缓存信息
     my.removeStorage({key: this.data.user_location_cache_key});
     this.init();

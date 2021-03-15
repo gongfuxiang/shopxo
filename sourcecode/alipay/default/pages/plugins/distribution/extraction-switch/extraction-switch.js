@@ -5,7 +5,6 @@ Page({
     data_bottom_line_status: false,
     data_list: [],
     params: null,
-    is_default: 0,
 
     user_location_cache_key: app.data.cache_userlocation_key,
     user_location: null,
@@ -25,7 +24,7 @@ Page({
     my.removeStorage({key: this.data.user_location_cache_key});
 
     // 是否获取位置
-    if((this.data.params.is_buy || 0) == 1 && this.data.home_extraction_address_position == 1)
+    if(this.data.home_extraction_address_position == 1)
     {
       my.navigateTo({
         url: '/pages/common/open-setting-location/open-setting-location'
@@ -93,7 +92,7 @@ Page({
   // 获取数据列表
   get_data_list() {
     // 加载loding
-    my.showLoading({ title: "加载中..." });
+    my.showLoading({ content: "加载中..." });
     this.setData({
       data_list_loding_status: 1
     });
@@ -108,9 +107,9 @@ Page({
       data['lat'] = this.data.user_location.lat;
     }
 
-    // 获取数据
+    // 请求接口
     my.request({
-      url: app.get_request_url("extraction", "useraddress"),
+      url: app.get_request_url("switchinfo", "extraction", "distribution"),
       method: "POST",
       data: data,
       dataType: "json",
@@ -118,19 +117,10 @@ Page({
         my.hideLoading();
         my.stopPullDownRefresh();
         if (res.data.code == 0) {
-          if (res.data.data.length > 0) {
-            // 获取当前默认地址
-            var is_default = 0;
-            for (var i in res.data.data) {
-              if (res.data.data[i]['is_default'] == 1) {
-                is_default = res.data.data[i]['id'];
-              }
-            }
-
-            // 设置数据
+          var data = res.data.data;
+          if (data.extraction_address.length > 0) {
             this.setData({
-              data_list: res.data.data,
-              is_default: is_default,
+              data_list: data.extraction_address,
               data_list_loding_status: 3,
               data_bottom_line_status: true,
             });
@@ -194,4 +184,42 @@ Page({
     }
   },
 
+  // 切换选择事件
+  address_switch_event(e) {
+    var index = e.currentTarget.dataset.index || 0;
+    var temp_data = this.data.data_list;
+    if((temp_data[index] || null) == null)
+    {
+      app.showToast('数据有误');
+      return false;
+    }
+
+    // 请求切换
+    var self = this;
+    my.showLoading({ content: "处理中..." });
+    my.request({
+      url: app.get_request_url("switchsave", "extraction", "distribution"),
+      method: "POST",
+      data: {"id":temp_data[index]['id'], "value":temp_data[index]['id_old'] || 0},
+      dataType: "json",
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      success: res => {
+        my.hideLoading();
+        if (res.data.code == 0) {
+          app.showToast(res.data.msg, "success");
+          self.get_data_list();
+        } else {
+          if (app.is_login_check(res.data)) {
+            app.showToast(res.data.msg);
+          } else {
+            app.showToast('提交失败，请重试！');
+          }
+        }
+      },
+      fail: () => {
+        my.hideLoading();
+        app.showToast("服务器请求出错");
+      }
+    });
+  },
 });

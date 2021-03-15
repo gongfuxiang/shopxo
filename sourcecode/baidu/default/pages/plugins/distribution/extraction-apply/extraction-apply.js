@@ -326,7 +326,7 @@ Page({
     ];
 
     // logo
-    form_data['logo'] = this.data.extraction_data.logo || '';
+    form_data['logo'] = (this.data.extraction_data || null) != null ? (this.data.extraction_data.logo || '') : '';
 
     // 地区
     form_data["province"] = self.data.province_id;

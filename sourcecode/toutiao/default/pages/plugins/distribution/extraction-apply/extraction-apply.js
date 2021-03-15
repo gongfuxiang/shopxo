@@ -24,20 +24,16 @@ Page({
     user_location_cache_key: app.data.cache_userlocation_key,
     user_location: null,
 
-    form_submit_disabled_status: false
+    form_submit_disabled_status: false,
   },
 
   onLoad(params) {
-    this.setData({
-      params: params
-    });
+    this.setData({ params: params });
   },
 
   onReady: function () {
     // 清除位置缓存信息
-    tt.removeStorage({
-      key: this.data.user_location_cache_key
-    });
+    tt.removeStorage({key: this.data.user_location_cache_key});
     this.init();
   },
 
@@ -47,7 +43,6 @@ Page({
 
   init() {
     var user = app.get_user_info(this, "init");
-
     if (user != false) {
       // 用户未绑定用户则转到登录页面
       if (app.user_is_need_login(user)) {
@@ -56,7 +51,7 @@ Page({
         });
         this.setData({
           data_list_loding_status: 2,
-          data_list_loding_msg: '请先绑定手机号码'
+          data_list_loding_msg: '请先绑定手机号码',
         });
         return false;
       } else {
@@ -66,7 +61,7 @@ Page({
     } else {
       this.setData({
         data_list_loding_status: 2,
-        data_list_loding_msg: '请先授权用户信息'
+        data_list_loding_msg: '请先授权用户信息',
       });
     }
   },
@@ -79,9 +74,7 @@ Page({
       method: "POST",
       data: {},
       dataType: "json",
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         if (res.data.code == 0) {
           var data = res.data.data;
@@ -135,10 +128,10 @@ Page({
 
   // 地区数据初始化
   init_region_value() {
-    this.setData({
+     this.setData({
       province_value: this.get_region_value("province_list", "province_id"),
       city_value: this.get_region_value("city_list", "city_id"),
-      county_value: this.get_region_value("county_list", "county_id")
+      county_value: this.get_region_value("county_list", "county_id"),
     });
   },
 
@@ -164,9 +157,7 @@ Page({
       method: "POST",
       data: {},
       dataType: "json",
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         if (res.data.code == 0) {
           var data = res.data.data;
@@ -194,9 +185,7 @@ Page({
           pid: self.data.province_id
         },
         dataType: "json",
-        header: {
-          'content-type': 'application/x-www-form-urlencoded'
-        },
+        header: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
           if (res.data.code == 0) {
             var data = res.data.data;
@@ -217,7 +206,6 @@ Page({
   // 获取区/县
   get_county_list() {
     var self = this;
-
     if (self.data.city_id) {
       // 加载loding
       tt.request({
@@ -227,9 +215,7 @@ Page({
           pid: self.data.city_id
         },
         dataType: "json",
-        header: {
-          'content-type': 'application/x-www-form-urlencoded'
-        },
+        header: { 'content-type': 'application/x-www-form-urlencoded' },
         success: res => {
           if (res.data.code == 0) {
             var data = res.data.data;
@@ -250,7 +236,6 @@ Page({
   // 省份事件
   select_province_event(e) {
     var index = e.detail.value || 0;
-
     if (index >= 0) {
       var data = this.data.province_list[index];
       this.setData({
@@ -268,7 +253,6 @@ Page({
   // 市事件
   select_city_event(e) {
     var index = e.detail.value || 0;
-
     if (index >= 0) {
       var data = this.data.city_list[index];
       this.setData({
@@ -284,7 +268,6 @@ Page({
   // 区/县事件
   select_county_event(e) {
     var index = e.detail.value || 0;
-
     if (index >= 0) {
       var data = this.data.county_list[index];
       this.setData({
@@ -297,7 +280,6 @@ Page({
   // 省市区未按照顺序选择提示
   region_select_error_event(e) {
     var value = e.currentTarget.dataset.value || null;
-
     if (value != null) {
       app.showToast(value);
     }
@@ -310,33 +292,20 @@ Page({
     });
   },
 
-  // 复制百度地图坐标拾取地址
-  baidu_map_copy_event(e) {
-    tt.setClipboardData({
-      data: 'https://lbs.amap.com/console/show/picker',
-      success(res) {
-        app.showToast('复制成功', 'success');
-      }
-    });
-  },
-
   // 地址信息初始化
   user_location_init() {
     var result = tt.getStorageSync(this.data.user_location_cache_key) || null;
     var data = null;
-
-    if (result != null) {
+    if (result != null)
+    {
       data = {
         name: result.name || null,
         address: result.address || null,
         lat: result.latitude || null,
         lng: result.longitude || null
-      };
+      }
     }
-
-    this.setData({
-      user_location: data
-    });
+    this.setData({user_location: data});
   },
 
   // 数据提交
@@ -358,26 +327,45 @@ Page({
     ];
 
     // logo
-    form_data['logo'] = this.data.extraction_data.logo || '';
+    form_data['logo'] = (this.data.extraction_data || null) != null ? (this.data.extraction_data.logo || '') : '';
 
     // 地区
     form_data["province"] = self.data.province_id;
     form_data["city"] = self.data.city_id;
-    form_data["county"] = self.data.county_id; // 地理位置
+    form_data["county"] = self.data.county_id;
+
+    // 地理位置
+    var lng = 0;
+    var lat = 0;
+    if((self.data.user_location || null) != null) {
+      lng = self.data.user_location.lng || 0;
+      lat = self.data.user_location.lat || 0;
+    }
+    if((self.data.extraction_data || null) != null) {
+      if((lng || null) == null) {
+        lng = self.data.extraction_data.lng || 0;
+      }
+      if((lat || null) == null) {
+        lat = self.data.extraction_data.lat || 0;
+      }
+    }
+    form_data["lng"] = lng;
+    form_data["lat"] = lat;
 
     // 验证提交表单
     if (app.fields_check(form_data, validation)) {
-      if ((self.data.extraction_data || null) != null && (self.data.extraction_data.status || 0) == 1) {
+      if ((self.data.extraction_data || null) != null && (self.data.extraction_data.status || 0) == 1)
+      {
         tt.showModal({
           title: '温馨提示',
           content: '数据需重新审核后方可生效',
           confirmText: '确认',
           cancelText: '暂不',
-          success: result => {
+          success: (result) => {
             if (result.confirm) {
               self.request_data_save(form_data);
             }
-          }
+          },
         });
       } else {
         self.request_data_save(form_data);
@@ -388,33 +376,23 @@ Page({
   // 数据保存
   request_data_save(data) {
     var self = this;
-    self.setData({
-      form_submit_disabled_status: true
-    });
-    tt.showLoading({
-      title: "处理中..."
-    });
+    self.setData({ form_submit_disabled_status: true });
+    tt.showLoading({ title: "处理中..." });
     tt.request({
       url: app.get_request_url("applysave", "extraction", "distribution"),
       method: "POST",
       data: data,
       dataType: "json",
-      header: {
-        'content-type': 'application/x-www-form-urlencoded'
-      },
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         tt.hideLoading();
-
         if (res.data.code == 0) {
           app.showToast(res.data.msg, "success");
           setTimeout(function () {
             tt.navigateBack();
           }, 1000);
         } else {
-          self.setData({
-            form_submit_disabled_status: false
-          });
-
+          self.setData({ form_submit_disabled_status: false });
           if (app.is_login_check(res.data)) {
             app.showToast(res.data.msg);
           } else {
@@ -423,9 +401,7 @@ Page({
         }
       },
       fail: () => {
-        self.setData({
-          form_submit_disabled_status: false
-        });
+        self.setData({ form_submit_disabled_status: false });
         tt.hideLoading();
         app.showToast("服务器请求出错");
       }

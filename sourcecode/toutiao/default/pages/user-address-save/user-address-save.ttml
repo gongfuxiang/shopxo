@@ -43,13 +43,13 @@
             <input type="text" name="address" value="{{address_data.address || ''}}" maxlength="80" placeholder-class="cr-ccc" class="cr-666" placeholder="详细地址格式 1~80 个字符之间" />
         </view>
 
-        <!-- <view tt:if="{{home_user_address_map_status == 1}}" class="form-gorup bg-white">
+        <view tt:if="{{home_user_address_map_status == 1}}" class="form-gorup bg-white">
             <view class="form-gorup-title">地理位置<text class="form-group-tips-must">必选</text></view>
             <view bindtap="choose_location_event" class="form-gorup-text">
             <view tt:if="{{(user_location || null) == null && (address_data.address || null) == null}}" class="cr-888">请选择地理位置</view>
             <view tt:else class="cr-666">{{((user_location || null) != null && (user_location.name || null) != null) ? user_location.name+' ' : ''}}{{user_location.address || address_data.address || ''}}</view>
             </view>
-        </view> -->
+        </view>
 
         <view class="form-gorup bg-white">
             <view class="form-gorup-title">是否默认<text class="form-group-tips">选填</text></view>

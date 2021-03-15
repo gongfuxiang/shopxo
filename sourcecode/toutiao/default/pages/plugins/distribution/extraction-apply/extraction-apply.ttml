@@ -1,4 +1,17 @@
 <form bindsubmit="form_submit" class="form-container oh">
+  <view class="form-gorup bg-white form-container-upload oh">
+    <view class="form-gorup-title">logo图片<text class="form-group-tips">选传，建议300x300px</text></view>
+    <view class="form-upload-data fl">
+      <block tt:if="{{(extraction_data.logo || null) != null}}">
+        <view class="item fl">
+          <text class="delete-icon" bindtap="upload_delete_event">x</text>
+          <image src="{{extraction_data.logo}}" bindtap="upload_show_event" mode="aspectFill" />
+        </view>
+      </block>
+    </view>
+    <image class="upload-icon" src="/images/default-upload-icon.png" mode="aspectFill" bindtap="file_upload_event" />
+  </view>
+
   <view class="form-gorup bg-white">
     <view class="form-gorup-title">别名<text class="form-group-tips">选填</text></view>
     <input type="text" name="alias" value="{{extraction_data.alias || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="别名格式最多 16 个字符" />
@@ -43,12 +56,10 @@
   </view>
 
   <view class="form-gorup bg-white">
-    <view class="form-gorup-title">地理位置<text class="form-group-tips-must">必填</text></view>
-    <input type="digit" name="lng" value="{{extraction_data.lng || ''}}" placeholder-class="cr-ccc" class="cr-666 br-b" placeholder="请输入经度，如：116.397451" />
-    <input type="digit" name="lat" value="{{extraction_data.lat || ''}}" placeholder-class="cr-ccc" class="cr-666" placeholder="请输入纬度，如：39.909187" />
-    <view class="tips">
-      由于当前系统不支持位置选择，您可以登录电脑端使用高德拾取坐标系统获取相应的经纬度填写对应输入框，地址：https://lbs.amap.com/console/show/picker ，可复制地址去浏览器粘贴打开。
-      <button type="primary" size="mini" hover-class="none" bindtap="baidu_map_copy_event">点击复制地址</button>
+    <view class="form-gorup-title">地理位置<text class="form-group-tips-must">必选</text></view>
+    <view bindtap="choose_location_event" class="form-gorup-text">
+      <view tt:if="{{(user_location || null) == null}}" class="cr-888">请选择地理位置</view>
+      <view tt:else class="cr-666">{{((user_location || null) != null && (user_location.name || null) != null) ? user_location.name+' ' : ''}}{{user_location.address || ''}}</view>
     </view>
   </view>
 

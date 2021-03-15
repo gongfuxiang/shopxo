@@ -45,6 +45,9 @@ Page({
     }
     tt.setNavigationBarTitle({title: title});
 
+    // 初始化配置
+    this.init_config();
+
     // 清除位置缓存信息
     tt.removeStorage({key: this.data.user_location_cache_key});
     this.init();
@@ -445,11 +448,11 @@ Page({
     ];
 
     // 是否开启了地理位置选择
-    // if(self.data.home_user_address_map_status == 1)
-    // {
-    //   validation.push({ fields: "lng", msg: "请选择地理位置" });
-    //   validation.push({ fields: "lat", msg: "请选择地理位置" });
-    // }
+    if(self.data.home_user_address_map_status == 1)
+    {
+      validation.push({ fields: "lng", msg: "请选择地理位置" });
+      validation.push({ fields: "lat", msg: "请选择地理位置" });
+    }
 
     // 是否开启了用户身份证信息
     if(self.data.home_user_address_idcard_status == 1)
@@ -472,22 +475,22 @@ Page({
     form_data['is_default'] = form_data.is_default == true ? 1 : 0;
 
     // 地理位置
-    // var lng = 0;
-    // var lat = 0;
-    // if((self.data.user_location || null) != null) {
-    //   lng = self.data.user_location.lng || 0;
-    //   lat = self.data.user_location.lat || 0;
-    // }
-    // if((self.data.address_data || null) != null) {
-    //   if((lng || null) == null) {
-    //     lng = self.data.address_data.lng || 0;
-    //   }
-    //   if((lat || null) == null) {
-    //     lat = self.data.address_data.lat || 0;
-    //   }
-    // }
-    // form_data['lng'] = lng;
-    // form_data['lat'] = lat;
+    var lng = 0;
+    var lat = 0;
+    if((self.data.user_location || null) != null) {
+      lng = self.data.user_location.lng || 0;
+      lat = self.data.user_location.lat || 0;
+    }
+    if((self.data.address_data || null) != null) {
+      if((lng || null) == null) {
+        lng = self.data.address_data.lng || 0;
+      }
+      if((lat || null) == null) {
+        lat = self.data.address_data.lat || 0;
+      }
+    }
+    form_data['lng'] = lng;
+    form_data['lat'] = lat;
 
     // 验证提交表单
     if (app.fields_check(form_data, validation)) {
