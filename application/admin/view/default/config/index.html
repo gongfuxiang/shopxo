@@ -4,7 +4,7 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/config/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/config/index')}}">
+		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/config/index')}}">
             <!-- 基础配置 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">

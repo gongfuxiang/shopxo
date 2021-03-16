@@ -2,9 +2,9 @@
 // +----------------------------------------------------------------------
 // | ShopXO 国内领先企业级B2C免费开源电商系统
 // +----------------------------------------------------------------------
-// | Copyright (c) 2011~2019 http://shopxo.net All rights reserved.
+// | Copyright (c) 2011~2099 http://shopxo.net All rights reserved.
 // +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// | Licensed ( https://opensource.org/licenses/mit-license.php )
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
@@ -58,6 +58,7 @@ class Config extends Common
 		// 配置信息
 		$this->assign('data', ConfigService::ConfigList());
 		
+		$this->assign('view_type', 'index');
 		return $this->fetch();
 	}
 
@@ -73,6 +74,7 @@ class Config extends Common
 		// 配置信息
 		$this->assign('data', ConfigService::ConfigList());
 		
+		$this->assign('view_type', 'store');
 		return $this->fetch();
 	}
 
@@ -89,9 +91,18 @@ class Config extends Common
 		$params = $_POST;
 
 		// 字段不存在赋值
-		$empty_value_field_list = [
-			'common_customer_store_qrcode'=>'',
-		];
+		$empty_value_field_list = [];
+
+		// 页面类型
+		$view_type = empty($this->data_request['view_type']) ? 'index' : $this->data_request['view_type'];
+		switch($view_type)
+		{
+			case 'store' :
+				$empty_value_field_list['common_customer_store_qrcode'] = '';
+				break;
+		}
+
+		// 空字段处理
 		if(!empty($empty_value_field_list))
 		{
 			foreach($empty_value_field_list as $fk=>$fv)
