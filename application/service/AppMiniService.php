@@ -570,6 +570,14 @@ class AppMiniService
         // 配置信息
         $file = $new_dir.DS.'app.json';
         $config = json_decode(file_get_contents($file), true);
+
+        // 插件配置为空防止成为数组
+        if(array_key_exists('plugins', $config) && empty($config['plugins']))
+        {
+            $config['plugins'] = (object) [];
+        }
+
+        // 历史信息
         if(empty($config['history']))
         {
             $config['history'] = [];
