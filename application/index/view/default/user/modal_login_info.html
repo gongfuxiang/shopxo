@@ -10,6 +10,11 @@
 </div>
 <!-- conntent end  -->
 
+<!-- 图片验证码  -->
+{{if MyC('common_img_verify_state') eq 1}}
+    {{include file="user/images_verify" type="user_login" /}}
+{{/if}}
+
 {{include file="public/footer" /}}
 
 <script type="text/javascript">
@@ -37,4 +42,3 @@
         }
     }
 </script>
-
