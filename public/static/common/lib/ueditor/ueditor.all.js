@@ -23243,31 +23243,31 @@ UE.plugins['catchremoteimage'] = function () {
                 //成功抓取
                 success: function (r) {
                     try {
-                        var info = r.code == 0 ? r:eval("(" + r.responseText + ")");
+                        var info = ((r.status || 0) == 200 && (r.responseText || null) != null) ? eval("(" + r.responseText + ")") : null;
+                        if(info == null || info.code != 0)
+                        {
+                            return;
+                        }
                     } catch (e) {
                         return;
                     }
 
                     /* 获取源路径和新路径 */
-                    var i, j, ci, cj, oldSrc, newSrc, list = info.data || null;
-                    if(list == null || list.length <= 0)
+                    var i, newSrc, list = info.data || null;
+                    if(list == null || list.length <= 0 || list.length != imgs.length)
                     {
                         return;
                     }
 
                     // 循环处理图片替换
-                    for (i = 0; ci = imgs[i++];) {
-                        oldSrc = ci.getAttribute("_src") || ci.src || "";
-                        for (j = 0; cj = list[j++];) {
-                            if((cj.url || null) != null)
-                            {
-                                newSrc = catcherUrlPrefix + cj.url;
-                                domUtils.setAttributes(ci, {
-                                    "src": newSrc,
-                                    "_src": newSrc
-                                });
-                            }
-                            break;
+                    for (i = 0; i<imgs.length;i++) {
+                        if((list[i] || null) != null && (list[i]['url'] || null) != null)
+                        {
+                            newSrc = catcherUrlPrefix + list[i]['url'];
+                            domUtils.setAttributes(imgs[i], {
+                                "src": newSrc,
+                                "_src": newSrc
+                            });
                         }
                     }
                     me.fireEvent('catchremotesuccess')

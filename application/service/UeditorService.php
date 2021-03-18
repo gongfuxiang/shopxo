@@ -171,6 +171,10 @@ class UeditorService
         $data = $up->getFileInfo();
         if(isset($data['state']) && $data['state'] == 'SUCCESS')
         {
+            if($attachment_type == 'scrawl')
+            {
+                $attachment_type = 'image';
+            }
             $data['type'] = $attachment_type;
             $data['path_type'] = self::$path_type;
             return ResourcesService::AttachmentAdd($data);
@@ -292,7 +296,7 @@ class UeditorService
             $data = $up->getFileInfo();
             if(isset($data['state']) && $data['state'] == 'SUCCESS')
             {
-                $data['type'] = 'remote';
+                $data['type'] = 'image';
                 $data['path_type'] = self::$path_type;
                 $ret = ResourcesService::AttachmentAdd($data);
                 if($ret['code'] == 0)
