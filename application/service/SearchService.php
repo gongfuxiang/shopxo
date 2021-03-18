@@ -45,7 +45,7 @@ class SearchService
         
         // 搜索条件
         $where = self::SearchWhereHandle($params);
-        $base_where = $where['base'];
+        $where_base = $where['base'];
         $where_keywords = $where['keywords'];
         $where_screening_price = $where['screening_price'];
 
@@ -69,7 +69,7 @@ class SearchService
             'hook_name'                 => $hook_name,
             'is_backend'                => true,
             'params'                    => &$params,
-            'base_where'                => &$base_where,
+            'where_base'                => &$where_base,
             'where_keywords'            => &$where_keywords,
             'where_screening_price'     => &$where_screening_price,
             'field'                     => &$field,
@@ -80,7 +80,7 @@ class SearchService
         ]);
 
         // 获取商品总数
-        $result['total'] = (int) Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($base_where)->where(function($query) use($where_keywords) {
+        $result['total'] = (int) Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
             $query->whereOr($where_keywords);
         })->where(function($query) use($where_screening_price) {
             $query->whereOr($where_screening_price);
@@ -90,7 +90,7 @@ class SearchService
         if($result['total'] > 0)
         {
             // 查询数据
-            $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field($field)->where($base_where)->where(function($query) use($where_keywords) {
+            $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field($field)->where($where_base)->where(function($query) use($where_keywords) {
                 $query->whereOr($where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);
@@ -138,7 +138,7 @@ class SearchService
             $keywords = explode(' ', $params['wd']);
             foreach($keywords as $kv)
             {
-                $where_keywords[] = ['g.title|g.model|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords', 'like', '%'.$kv.'%'];
+                $where_keywords[] = ['g.title|g.simple_desc', 'like', '%'.$kv.'%'];
             }
         }
 
@@ -234,7 +234,7 @@ class SearchService
             }
             if(!empty($params['goods_params_values']))
             {
-                $ids = Db::name('GoodsParams')->where(['value'=>$params['goods_params_values']])->column('goods_id');
+                $ids = Db::name('GoodsParams')->where(['value'=>$params['goods_params_values'], 'type'=>2])->column('goods_id');
                 if(!empty($ids))
                 {
                     $where_base[] = ['g.id', 'in', $ids];
@@ -364,14 +364,14 @@ class SearchService
 
             // 搜索条件
             $where = self::SearchWhereHandle($params);
-            $base_where = $where['base'];
+            $where_base = $where['base'];
             $where_keywords = $where['keywords'];
             $where_screening_price = $where['screening_price'];
 
             // 一维数组、参数值去重
-            if(!empty($base_where) || !empty($where_keywords) || !empty($where_screening_price))
+            if(!empty($where_base) || !empty($where_keywords) || !empty($where_screening_price))
             {
-                $ids = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($base_where)->where(function($query) use($where_keywords) {
+                $ids = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
                     $query->whereOr($where_keywords);
                 })->where(function($query) use($where_screening_price) {
                     $query->whereOr($where_screening_price);
@@ -450,12 +450,15 @@ class SearchService
         {
             // 搜索条件
             $where = self::SearchWhereHandle($params);
-            $base_where = $where['base'];
+            $where_base = $where['base'];
             $where_keywords = $where['keywords'];
             $where_screening_price = $where['screening_price'];
 
+            // 仅搜索基础参数
+            $where_base[] = ['gp.type', '=', 2];
+
             // 一维数组、参数值去重
-            $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->join(['__GOODS_PARAMS__'=>'gp'], 'g.id=gp.goods_id')->where($base_where)->where(function($query) use($where_keywords) {
+            $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->join(['__GOODS_PARAMS__'=>'gp'], 'g.id=gp.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
                 $query->whereOr($where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);
@@ -480,12 +483,12 @@ class SearchService
         {
             // 搜索条件
             $where = self::SearchWhereHandle($params);
-            $base_where = $where['base'];
+            $where_base = $where['base'];
             $where_keywords = $where['keywords'];
             $where_screening_price = $where['screening_price'];
 
             // 一维数组、参数值去重
-            $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->join(['__GOODS_SPEC_VALUE__'=>'gsv'], 'g.id=gsv.goods_id')->where($base_where)->where(function($query) use($where_keywords) {
+            $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->join(['__GOODS_SPEC_VALUE__'=>'gsv'], 'g.id=gsv.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
                 $query->whereOr($where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);

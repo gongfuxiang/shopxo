@@ -59,21 +59,46 @@ class BrandService
     {
         if(!empty($data))
         {
-            // 分类名称
-            $cnames = [];
-            $cids = array_column($data, 'brand_category_id');
-            if(!empty($cids))
+            // 字段列表
+            $keys = ArrayKeys($data);
+
+            // 分类信息
+            // 获取所有品牌关联的分类数据
+            $category_group = [];
+            if(in_array('id', $keys))
             {
-                $cnames = Db::name('BrandCategory')->where(['id'=>$cids])->column('name', 'id');
+                $category = Db::name('BrandCategoryJoin')->where(['brand_id'=>array_column($data, 'id')])->field('brand_id,brand_category_id')->select();
+                if(!empty($category))
+                {
+                    $ids = array_unique(array_column($category, 'brand_category_id'));
+                    $names = Db::name('BrandCategory')->where(['id'=>$ids])->column('name', 'id');
+                    foreach($category as $c)
+                    {
+                        if(!array_key_exists($c['brand_id'], $category_group))
+                        {
+                            $category_group[$c['brand_id']]['ids'] = [];
+                            $category_group[$c['brand_id']]['names'] = [];
+                        }
+                        $category_group[$c['brand_id']]['ids'][] = $c['brand_category_id'];
+                        $category_group[$c['brand_id']]['names'][] = $names[$c['brand_category_id']];
+                    }
+                }
             }
+
+            // 数处理
             foreach($data as &$v)
             {
                 // 分类名称
                 if(isset($v['id']))
                 {
-                    $v['brand_category_ids'] = Db::name('BrandCategoryJoin')->where(['brand_id'=>$v['id']])->column('brand_category_id');
-                    $category_name = Db::name('BrandCategory')->where(['id'=>$v['brand_category_ids']])->column('name');
-                    $v['brand_category_text'] = implode('，', $category_name);
+                    if(array_key_exists($v['id'], $category_group))
+                    {
+                        $v['brand_category_ids'] = $category_group[$v['id']]['ids'];
+                        $v['brand_category_text'] = implode('，', $category_group[$v['id']]['names']);
+                    } else {
+                        $v['brand_category_ids'] = [];
+                        $v['brand_category_text'] = '';
+                    }
                 }
 
                 // logo
