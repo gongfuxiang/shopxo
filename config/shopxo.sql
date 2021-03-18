@@ -46,7 +46,7 @@ CREATE TABLE `s_admin` (
 
 LOCK TABLES `s_admin` WRITE;
 /*!40000 ALTER TABLE `s_admin` DISABLE KEYS */;
-INSERT INTO `s_admin` VALUES (1,'admin','d86feb1969a1c5a355f9fda44593eec9','989144','17602128368','s@zz.ge',0,0,692,1614848856,1,1481350313,1614848238),(4,'shopxo','c547c7fdfc244cef6747b306d390cc12','898429','','fuxiang.gong@qq.com',0,0,9,1614781978,13,1580807200,1614782415);
+INSERT INTO `s_admin` VALUES (1,'admin','0e54ffaecf777fa470062d8d82892b5d','057807','','s@zz.ge',0,0,693,1616047324,1,1481350313,1616047300),(4,'shopxo','c547c7fdfc244cef6747b306d390cc12','898429','','',0,0,9,1614781978,13,1580807200,1616047308);
 /*!40000 ALTER TABLE `s_admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -579,7 +579,7 @@ CREATE TABLE `s_goods` (
   KEY `brand_id` (`brand_id`),
   KEY `sales_count` (`sales_count`),
   KEY `is_delete_time` (`is_delete_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -892,7 +892,7 @@ CREATE TABLE `s_goods_photo` (
   KEY `goods_id` (`goods_id`),
   KEY `is_show` (`is_show`),
   KEY `sort` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=974 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品相册图片';
+) ENGINE=InnoDB AUTO_INCREMENT=843 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品相册图片';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -925,7 +925,7 @@ CREATE TABLE `s_goods_spec_base` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1564 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格基础';
+) ENGINE=InnoDB AUTO_INCREMENT=1406 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格基础';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2136,7 +2136,7 @@ CREATE TABLE `s_warehouse_goods` (
   KEY `goods_id` (`goods_id`),
   KEY `is_enable` (`is_enable`),
   KEY `inventory` (`inventory`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='仓库商品';
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='仓库商品';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2171,7 +2171,7 @@ CREATE TABLE `s_warehouse_goods_spec` (
   KEY `goods_id` (`goods_id`),
   KEY `md5_key` (`md5_key`),
   KEY `inventory` (`inventory`)
-) ENGINE=InnoDB AUTO_INCREMENT=1582 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='仓库商品规格';
+) ENGINE=InnoDB AUTO_INCREMENT=1421 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='仓库商品规格';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2193,4 +2193,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-18 13:21:12
+-- Dump completed on 2021-03-18 14:02:23
