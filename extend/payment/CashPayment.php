@@ -130,15 +130,24 @@ class CashPayment
                         <meta charset="utf-8">
                         <title>支付信息</title>
                         <style>
-                          body{color:#333;}
+                          body{color:#333;background: #f7f7f7;}
                           h1 {text-align:center;}
                           h1,.content {margin-top:50px;}
-                          .content { text-align: left;margin:0 auto;max-width:800px;height:auto;border: 6px solid #eee;padding: 20px;}
-                          ul {margin:0 0 15px 0;padding:0;background: #f5f5f5;border: 1px solid #eaeaea;}
+                          .content { text-align: left;margin:0 auto;max-width:800px;height:auto;border: 1px solid #e5e5e5;padding: 30px;background:#fff;}
+                          ul {margin:0 0 15px 0;padding:0;background: #fcfcfc;border: 1px solid #eeeeee;}
                           ul li {list-style-type:none;line-height:42px;font-size:16px;padding: 0 10px;}
-                          ul li:not(:last-child) {border-bottom: 1px solid #eee;}
+                          ul li:not(:last-child) {border-bottom: 1px solid #f2f2f2;}
                           .content img {width: 100%;}
                           .content .tips {margin-bottom: 15px;font-size: 14px;background: #ffddaa;border: 1px solid #ffb342;color: #875100;padding: 5px 10px;line-height: 22px;}
+                          .content .pay-price strong {color:#c00;}
+                          .content .pay-price,.content .tips-time {margin-bottom: 15px;font-size: 16px;line-height: 24px;}
+                          .content .tips-time {color:#2196f3;}
+                          .content .tips-time strong {color:#f00;}
+                          .content .btn-list{text-align: center;padding: 10px 0;margin-top:30px;}
+                          .content .btn-list a:not(:last-child) {margin-right:50px;}
+                          .content .btn-list a {text-decoration: none;background: #666;padding: 5px 10px;border-radius: 2px;color: #fff;}
+                          .content .btn-list a:first-child{background: #d2364c;}
+                          .content .btn-list a:last-child{background: #4caf50;}
                         </style>
                         </head>
                         <body>
@@ -157,6 +166,13 @@ class CashPayment
                 $html .= '</ul>';
             }
 
+            // 支付金额
+            $html .= '<p class="pay-price">打款金额：<strong>￥'.$params['total_price'].'</strong></p>';
+
+            // 订单关闭提示
+            $order_close_time = time()+((MyC('common_order_close_limit_time', 30, true)-5)*60);
+            $html .= '<p class="tips-time">订单预计[ <strong>'.date('m月d号H点i分', $order_close_time).'</strong> ]自动关闭、请尽快完成支付，打款备注：<strong>'.$params['order_no'].'</strong></p>';
+
             // 特别提示文字
             if(!empty($this->config['tips']))
             {
@@ -168,6 +184,11 @@ class CashPayment
             {
                 $html .= '<img src="'.$this->config['images_url'].'" alt="支付信息" />';
             }
+
+            // 导航入口
+            $home_url = __MY_URL__;
+            $order_url = MyUrl('index/order/index');
+            $html .= '<div class="btn-list"><a href="'.$home_url.'">回到首页</a><a href="'.$order_url.'">进入我的订单</a></div>';
                             
             $html .= '</div>
                     </body>

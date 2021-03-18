@@ -15,6 +15,7 @@ use app\service\PaymentService;
 use app\service\GoodsCommentsService;
 use app\service\ConfigService;
 use app\service\SeoService;
+use app\service\ResourcesService;
 
 /**
  * 订单管理
