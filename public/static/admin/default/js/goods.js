@@ -674,6 +674,10 @@ $(function()
                         $('.specifications-table').find('tbody tr:last').find('td:eq('+k+') input').val(temp_spec[k]);
                     }
                 }
+
+                // 清空扩展数据
+                $('.specifications-table .line-extend-input').val('');
+
                 Prompt('生成成功', 'success');
             },
             onCancel: function(){}
