@@ -274,34 +274,40 @@ class UeditorService
             );
         $field_name = self::$current_config['catcherFieldName'];
 
-        /* 抓取远程图片 */
+        // 当前站点域名或者附件域名不下载
+        $cdn_attachment_host = MyFileConfig('common_cdn_attachment_host', '', __MY_PUBLIC_URL__, true);
+
+        // 抓取远程图片
         $list = array();
         $source = isset(self::$params[$field_name]) ? self::$params[$field_name] : self::$params[$field_name];
         foreach($source as $imgUrl)
         {
-            $up = new \base\Uploader($imgUrl, $temp_config, "remote");
-            /**
-             * 得到上传文件所对应的各个参数,数组结构
-             * array(
-             *     "state" => "",          //上传状态，上传成功时必须返回"SUCCESS"
-             *     "url" => "",            //返回的地址
-             *     "path" => "",           //绝对地址
-             *     "title" => "",          //新文件名
-             *     "original" => "",       //原始文件名
-             *     "type" => ""            //文件类型
-             *     "size" => "",           //文件大小
-             *     "hash" => "",           //sha256值
-             * )
-             */
-            $data = $up->getFileInfo();
-            if(isset($data['state']) && $data['state'] == 'SUCCESS')
+            if(GetUrlHost($imgUrl) != $cdn_attachment_host)
             {
-                $data['type'] = 'image';
-                $data['path_type'] = self::$path_type;
-                $ret = ResourcesService::AttachmentAdd($data);
-                if($ret['code'] == 0)
+                $up = new \base\Uploader($imgUrl, $temp_config, "remote");
+                /**
+                 * 得到上传文件所对应的各个参数,数组结构
+                 * array(
+                 *     "state" => "",          //上传状态，上传成功时必须返回"SUCCESS"
+                 *     "url" => "",            //返回的地址
+                 *     "path" => "",           //绝对地址
+                 *     "title" => "",          //新文件名
+                 *     "original" => "",       //原始文件名
+                 *     "type" => ""            //文件类型
+                 *     "size" => "",           //文件大小
+                 *     "hash" => "",           //sha256值
+                 * )
+                 */
+                $data = $up->getFileInfo();
+                if(isset($data['state']) && $data['state'] == 'SUCCESS')
                 {
-                    array_push($list, $ret['data']);
+                    $data['type'] = 'image';
+                    $data['path_type'] = self::$path_type;
+                    $ret = ResourcesService::AttachmentAdd($data);
+                    if($ret['code'] == 0)
+                    {
+                        array_push($list, $ret['data']);
+                    }
                 }
             }
         }
