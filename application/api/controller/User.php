@@ -307,7 +307,7 @@ class User extends Common
         if(empty($user))
         {
             // 字段名称不一样参数处理
-            $auth_data = is_array($this->data_post['auth_data']) ? $this->data_post['auth_data'] : json_decode($this->data_post['auth_data'], true);
+            $auth_data = is_array($this->data_post['auth_data']) ? $this->data_post['auth_data'] : json_decode(htmlspecialchars_decode($this->data_post['auth_data']), true);
             $auth_data['nickname'] = isset($auth_data['nickName']) ? $auth_data['nickName'] : '';
             $auth_data['avatar'] = isset($auth_data['avatarUrl']) ? $auth_data['avatarUrl'] : '';
             $auth_data['gender'] = empty($auth_data['gender']) ? 0 : (($auth_data['gender'] == 2) ? 1 : 2);
