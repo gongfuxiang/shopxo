@@ -119,6 +119,13 @@ $(function()
 
         if($('.specifications-table th.table-title').length <= 0)
         {
+            // 防止用户操作删除了第一条数据、首行移除指定class
+            ($('.specifications-table tr.line-not-first').length >= $('.specifications-table tr').length)
+            {
+                $('.specifications-table').find('tbody tr:first').removeClass('line-not-first');
+            }
+
+            // 移除多余的规格行
             $('.specifications-table tr.line-not-first').remove();
         }
     });
@@ -661,6 +668,7 @@ $(function()
                 for(var i=1; i<data.length; i++)
                 {
                     // 添加规格值
+                    var index = parseInt(Math.random()*1000001);
                     var html = $('.specifications-table').find('tbody tr:last').prop('outerHTML');
                     $('.specifications-table').append(html);
                     $('.specifications-table').find('tbody tr:last').attr('class', 'line-'+index+' line-not-first');
