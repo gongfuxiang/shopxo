@@ -243,9 +243,9 @@ class SafetyService
 
         // 发送验证码
         $verify_params = array(
-                'key_prefix' => md5('safety_'.$accounts),
-                'expire_time' => MyC('common_verify_expire_time'),
-                'interval_time' =>  MyC('common_verify_interval_time'),
+                'key_prefix'    => md5('safety_'.$accounts),
+                'expire_time'   => MyC('common_verify_expire_time'),
+                'interval_time' => MyC('common_verify_interval_time'),
             );
         $code = GetNumberCode(4);
         if($params['type'] == 'sms')

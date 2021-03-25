@@ -389,9 +389,24 @@ class Weixin
             'trade_type'        => $trade_type,
             'attach'            => empty($params['attach']) ? $params['site_name'].'-'.$params['name'] : $params['attach'],
             'sign_type'         => 'MD5',
+            'time_expire'       => $this->OrderAutoCloseTime(),
         ];
         $data['sign'] = $this->GetSign($data);
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 订单自动关闭的时间
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-24
+     * @desc    description
+     */
+    public function OrderAutoCloseTime()
+    {
+        $time = intval(MyC('common_order_close_limit_time', 30, true))*60;
+        return date('YmdHis', time()+$time);
     }
 
     /**

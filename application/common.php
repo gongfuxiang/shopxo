@@ -88,6 +88,10 @@ function GetUrlHost($url)
     // 查看是几级域名
     $data = explode('.', $host);
     $n = count($data);
+    if(count($data) == 1)
+    {
+        return $host;
+    }
 
     // 判断是否是双后缀
     $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev)\.cn$/';

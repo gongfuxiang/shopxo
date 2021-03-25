@@ -275,14 +275,14 @@ class UeditorService
         $field_name = self::$current_config['catcherFieldName'];
 
         // 当前站点域名或者附件域名不下载
-        $cdn_attachment_host = MyFileConfig('common_cdn_attachment_host', '', __MY_PUBLIC_URL__, true);
+        $attachment_host = GetUrlHost(config('shopxo.attachment_host'));
 
         // 抓取远程图片
         $list = array();
         $source = isset(self::$params[$field_name]) ? self::$params[$field_name] : self::$params[$field_name];
         foreach($source as $imgUrl)
         {
-            if(GetUrlHost($imgUrl) != $cdn_attachment_host)
+            if(GetUrlHost($imgUrl) != $attachment_host)
             {
                 $up = new \base\Uploader($imgUrl, $temp_config, "remote");
                 /**

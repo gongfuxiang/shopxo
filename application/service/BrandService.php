@@ -72,15 +72,21 @@ class BrandService
                 {
                     $ids = array_unique(array_column($category, 'brand_category_id'));
                     $names = Db::name('BrandCategory')->where(['id'=>$ids])->column('name', 'id');
-                    foreach($category as $c)
+                    if(!empty($names))
                     {
-                        if(!array_key_exists($c['brand_id'], $category_group))
+                        foreach($category as $c)
                         {
-                            $category_group[$c['brand_id']]['ids'] = [];
-                            $category_group[$c['brand_id']]['names'] = [];
+                            if(array_key_exists($c['brand_category_id'], $names))
+                            {
+                                if(!array_key_exists($c['brand_id'], $category_group))
+                                {
+                                    $category_group[$c['brand_id']]['ids'] = [];
+                                    $category_group[$c['brand_id']]['names'] = [];
+                                }
+                                $category_group[$c['brand_id']]['ids'][] = $c['brand_category_id'];
+                                $category_group[$c['brand_id']]['names'][] = $names[$c['brand_category_id']];
+                            }
                         }
-                        $category_group[$c['brand_id']]['ids'][] = $c['brand_category_id'];
-                        $category_group[$c['brand_id']]['names'][] = $names[$c['brand_category_id']];
                     }
                 }
             }

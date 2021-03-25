@@ -130,20 +130,21 @@ class AlipayMini
 
         // 支付参数
         $parameter = array(
-            'app_id'                =>  $this->config['appid'],
-            'method'                =>  'alipay.trade.create',
-            'format'                =>  'JSON',
-            'charset'               =>  'utf-8',
-            'sign_type'             =>  'RSA2',
-            'timestamp'             =>  date('Y-m-d H:i:s'),
-            'version'               =>  '1.0',
-            'notify_url'            =>  $params['notify_url'],
+            'app_id'                => $this->config['appid'],
+            'method'                => 'alipay.trade.create',
+            'format'                => 'JSON',
+            'charset'               => 'utf-8',
+            'sign_type'             => 'RSA2',
+            'timestamp'             => date('Y-m-d H:i:s'),
+            'version'               => '1.0',
+            'notify_url'            => $params['notify_url'],
         );
         $biz_content = array(
-            'subject'               =>  $params['name'],
-            'out_trade_no'          =>  $params['order_no'],
-            'total_amount'          =>  $params['total_price'],
-            'buyer_id'              =>  $params['user']['alipay_openid'],
+            'subject'               => $params['name'],
+            'out_trade_no'          => $params['order_no'],
+            'total_amount'          => $params['total_price'],
+            'buyer_id'              => $params['user']['alipay_openid'],
+            'timeout_express'       => $this->OrderAutoCloseTime(),
         );
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
 
@@ -170,6 +171,19 @@ class AlipayMini
 
         // 直接返回支付信息
         return DataReturn($result[$key]['sub_msg'].'['.$result[$key]['sub_code'].']', -1000);
+    }
+
+    /**
+     * 订单自动关闭的时间
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-24
+     * @desc    description
+     */
+    public function OrderAutoCloseTime()
+    {
+        return intval(MyC('common_order_close_limit_time', 30, true)).'m';
     }
 
     /**
