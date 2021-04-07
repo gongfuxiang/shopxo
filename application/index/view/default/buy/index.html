@@ -49,14 +49,14 @@
         {{if $common_site_type eq 4}}
             <div data-am-widget="tabs" class="am-tabs am-tabs-d2 buy-header-nav">
                 <ul class="am-tabs-nav am-cf">
-                    <li {{if !isset($params['site_model']) or (isset($params['site_model']) and $params.site_model eq 0)}}class="am-active"{{/if}}><a href="javascript:;" data-value="0">快递邮寄</a></li>
-                    <li {{if isset($params['site_model']) and $params.site_model eq 2}}class="am-active"{{/if}}><a href="javascript:;" data-value="2">自提点取货</a></li>
+                    <li {{if isset($base['site_model']) and $base['site_model'] eq 0}}class="am-active"{{/if}}><a href="javascript:;" data-value="0">快递邮寄</a></li>
+                    <li {{if isset($base['site_model']) and $base['site_model'] eq 2}}class="am-active"{{/if}}><a href="javascript:;" data-value="2">自提点取货</a></li>
                 </ul>
             </div>
         {{/if}}
 
         <!-- 销售型 - 用户地址 -->
-        {{if $common_site_type eq 0 or ($common_site_type eq 4 and (!isset($params['site_model']) or isset($params['site_model']) and $params.site_model eq 0))}}
+        {{if isset($base['site_model']) and $base['site_model'] eq 0}}
             <div class="address user-address-container">
                 <div class="control">
                     <h3>
@@ -117,7 +117,7 @@
         {{/if}}
 
         <!-- 自提点 - 自提地址 -->
-        {{if $common_site_type eq 2 or ($common_site_type eq 4 and isset($params['site_model']) and $params.site_model eq 2)}}
+        {{if isset($base['site_model']) and $base['site_model'] eq 2}}
             <div class="address extraction-address-container">
                 <div class="control">
                     <h3>确认自提点地址</h3>
@@ -648,7 +648,7 @@
                     <input type="hidden" name="address_id" value="{{if isset($base['address']) and isset($base['address']['id'])}}{{$base.address.id}}{{else /}}{{if isset($params['address_id'])}}{{$params.address_id}}{{else /}}-1{{/if}}{{/if}}" />
                     <input type="hidden" name="payment_id" value="{{if isset($params['payment_id'])}}{{$params.payment_id}}{{else /}}0{{/if}}" />
                     <input type="hidden" name="user_note" value="" />
-                    <input type="hidden" name="site_model" value="{{if isset($params['site_model'])}}{{$params.site_model}}{{else /}}0{{/if}}" />
+                    <input type="hidden" name="site_model" value="{{if isset($base['site_model'])}}{{$base.site_model}}{{else /}}0{{/if}}" />
                     <!-- 订单确认页面提交订单表单内部钩子-开始 -->
                     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
                         <div class="plugins-tag">

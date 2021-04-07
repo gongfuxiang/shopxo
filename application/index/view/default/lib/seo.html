@@ -1,0 +1,12 @@
+<div class="am-form-group">
+    <label>SEO标题<span class="am-form-group-label-tips">一般不超过80个字符</span></label>
+    <input type="text" name="seo_title" placeholder="SEO标题" maxlength="100" data-validation-message="SEO标题格式 最多80个字符" class="am-radius" {{if !empty($data['seo_title'])}} value="{{$data.seo_title}}"{{/if}} />
+</div>
+<div class="am-form-group">
+    <label>SEO关键字<span class="am-form-group-label-tips">一般不超过100个字符，多个关键字以半圆角逗号 [ , ] 隔开</span></label>
+    <input type="text" name="seo_keywords" placeholder="SEO关键字" maxlength="130" data-validation-message="SEO关键字格式 最多130个字符" class="am-radius" {{if !empty($data['seo_keywords'])}} value="{{$data.seo_keywords}}"{{/if}} />
+</div>
+<div class="am-form-group">
+    <label>SEO描述<span class="am-form-group-label-tips">一般不超过200个字符</span></label>
+    <textarea rows="4" name="seo_desc" maxlength="230" class="am-radius" placeholder="SEO描述" data-validation-message="SEO描述格式 最多230个字符">{{if !empty($data['seo_desc'])}}{{$data.seo_desc}}{{/if}}</textarea>
+</div>

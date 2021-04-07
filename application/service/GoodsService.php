@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\Db;
 use think\facade\Hook;
+use app\service\BaseService;
 use app\service\ResourcesService;
 use app\service\BrandService;
 use app\service\RegionService;
@@ -2625,6 +2626,7 @@ class GoodsService
                     'title' => '点此按钮到下一步确认购买信息',
                     'name'  => (MyC('common_order_is_booking', 0, true) == 1) ? '立即预约' : '立即购买',
                     'class' => $class_name,
+                    'icon'  => '',
                 ];
 
                 // 商品类型是否和当前站点类型一致
@@ -2638,6 +2640,7 @@ class GoodsService
                         'title' => '加入购物车',
                         'name'  => '加入购物车',
                         'class' => $class_name,
+                        'icon'  => 'am-icon-opencart',
                     ];
                 }
             }
@@ -2689,7 +2692,7 @@ class GoodsService
         $path = 'static'.DS.'upload'.DS.'images'.DS.'goods_qrcode'.DS.APPLICATION_CLIENT_TYPE.DS.date('Y', $add_time).DS.date('m', $add_time).DS.date('d', $add_time).DS;
 
         // 名称增加站点模式（站点模式不一样商品url地址也会不一样）
-        $filename = $goods_id.MyC('common_site_type', 0, true).'.png';
+        $filename = $goods_id.BaseService::SiteTypeValue().'.png';
 
         // 二维码处理参数
         $params = [

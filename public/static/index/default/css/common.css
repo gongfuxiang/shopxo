@@ -895,6 +895,7 @@ img.common-user-icon {
     .user-offcanvas-bar:after {content:none;}
     .user-main { padding: 0 5px; }
     .user-content-body { padding: 0 0 5px 10px; }
+    .user-offcanvas-bar ul.user-sidebar-list { padding-bottom: 1px; }
 }
 @media only screen and (min-width: 1025px) {
     .user-main { padding: 0; }
@@ -905,6 +906,7 @@ img.common-user-icon {
     .user-offcanvas-bar:after {background:#BABABA;}
     .user-sidebar-list a:hover,.user-sidebar-list a:active {-webkit-transition:background-color .3s ease;-moz-transition:background-color .3s ease;-ms-transition:background-color .3s ease;-o-transition:background-color .3s ease;transition:background-color .3s ease;background:#E4E4E4;}
     .user-content-body { padding: 0 5px 5px 5px; }
+    .user-offcanvas-bar ul { margin-bottom: 0; }
 }
 .user-main { padding-top: 10px; }
 

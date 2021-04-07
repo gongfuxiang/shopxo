@@ -104,6 +104,10 @@ class UserAddressService
     {
         if(!empty($data))
         {
+            // 地区
+            $region_ids = array_unique(array_merge(array_column($data, 'province'), array_column($data, 'city'), array_column($data, 'county')));
+            $region = empty($region_ids) ? [] : RegionService::RegionName($region_ids);
+
             $users = [];
             foreach($data as &$v)
             {
@@ -118,9 +122,14 @@ class UserAddressService
                 }
 
                 // 地区
-                $v['province_name'] = RegionService::RegionName($v['province']);
-                $v['city_name'] = RegionService::RegionName($v['city']);
-                $v['county_name'] = RegionService::RegionName($v['county']);
+                $v['province_name'] = (!empty($v['province']) && !empty($region) && array_key_exists($v['province'], $region)) ? $region[$v['province']] : '';
+                $v['city_name'] = (!empty($v['city']) && !empty($region) && array_key_exists($v['city'], $region)) ? $region[$v['city']] : '';
+                $v['county_name'] = (!empty($v['county']) && !empty($region) && array_key_exists($v['county'], $region)) ? $region[$v['county']] : '';
+
+                // 地区
+                $v['province_name'] = (!empty($v['province']) && array_key_exists($v['province'], $region)) ? $region[$v['province']] : '';
+                $v['city_name'] = (!empty($v['city']) && array_key_exists($v['city'], $region)) ? $region[$v['city']] : '';
+                $v['county_name'] = (!empty($v['county']) && array_key_exists($v['county'], $region)) ? $region[$v['county']] : '';
 
                 // 附件
                 if(isset($v['idcard_front']))
@@ -347,7 +356,6 @@ class UserAddressService
         $is_default = isset($params['is_default']) ? intval($params['is_default']) : 0;
         $data = [
             'alias'             => empty($params['alias']) ? '' : $params['alias'],
-            'address'           => $params['address'],
             'name'              => $params['name'],
             'tel'               => $params['tel'],
             'province'          => intval($params['province']),

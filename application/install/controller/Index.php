@@ -335,8 +335,11 @@ php;
         // sql文件
         $sql = file_get_contents(ROOT.'config/shopxo.sql');
 
-        //替换表前缀
-        $sql = str_replace("`s_", " `{$params['DB_PREFIX']}", $sql);
+        // 替换表前缀
+        if($params['DB_PREFIX'] != 'sxo_')
+        {
+            $sql = str_replace("`sxo_", " `{$params['DB_PREFIX']}", $sql);
+        }
 
         // 编码替换,utf8mb4则做替换操作
         $charset = $this->charset_type_list[$params['DB_CHARSET']];

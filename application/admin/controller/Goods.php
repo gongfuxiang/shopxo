@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use think\facade\Hook;
+use app\service\BaseService;
 use app\service\GoodsService;
 use app\service\RegionService;
 use app\service\BrandService;
@@ -173,11 +174,11 @@ class Goods extends Common
 			$data = $ret['data'][0];
 
 			// 获取商品编辑规格
-			$specifications = GoodsService::GoodsEditSpecifications($ret['data'][0]['id']);
+			$specifications = GoodsService::GoodsEditSpecifications($data['id']);
             $this->assign('specifications', $specifications);
 
             // 获取商品编辑参数
-            $parameters = GoodsService::GoodsEditParameters($ret['data'][0]['id']);
+            $parameters = GoodsService::GoodsEditParameters($data['id']);
             $this->assign('parameters', $parameters);
 		}
 
@@ -197,7 +198,7 @@ class Goods extends Common
         // 站点类型
         $this->assign('common_site_type_list', lang('common_site_type_list'));
         // 当前系统设置的站点类型
-        $this->assign('common_site_type', MyC('common_site_type', 0, true));
+        $this->assign('common_site_type', BaseService::SiteTypeValue());
 
         // 商品参数类型
         $this->assign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));

@@ -1,6 +1,19 @@
 $(function()
 {
-    // 支付操作
+    // 混合列表选择
+    $('.business-item ul li').on('click', function()
+    {
+        if($(this).hasClass('selected'))
+        {
+            $('form input[name='+$(this).parent().data('type')+'_id]').val(0);
+            $(this).removeClass('selected');
+        } else {
+            $('form input[name='+$(this).parent().data('type')+'_id]').val($(this).data('value'));
+            $(this).addClass('selected').siblings('li').removeClass('selected');
+        }
+    });
+
+    // 发货操作
     $('.submit-delivery').on('click', function()
     {
         $('form.delivery-form input[name=id]').val($(this).data('id'));
@@ -12,19 +25,6 @@ $(function()
         $('ul.express-list li.selected').removeClass('selected');
         if(express_id != 0) {
             $('.express-items-'+express_id).addClass('selected').siblings('li').removeClass('selected');
-        }
-    });
-
-    // 混合列表选择
-    $('.business-item ul li').on('click', function()
-    {
-        if($(this).hasClass('selected'))
-        {
-            $('form input[name='+$(this).parent().data('type')+'_id]').val(0);
-            $(this).removeClass('selected');
-        } else {
-            $('form input[name='+$(this).parent().data('type')+'_id]').val($(this).data('value'));
-            $(this).addClass('selected').siblings('li').removeClass('selected');
         }
     });
 

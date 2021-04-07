@@ -39,7 +39,7 @@ class BaseService
         // 配置信息
         $config = [
             // 基础
-            'common_site_type'                  => (int) MyC('common_site_type', 0, true),
+            'common_site_type'                  => self::SiteTypeValue(),
             'common_shop_notice'                => MyC('common_shop_notice', null, true),
             'common_app_is_enable_search'       => (int) MyC('common_app_is_enable_search', 1),
             'common_app_is_enable_answer'       => (int) MyC('common_app_is_enable_answer', 1),
@@ -134,7 +134,7 @@ class BaseService
         $controller_name = strtolower(request()->controller());
         $action_name = strtolower(request()->action());
 
-        // 接口返回信息钩子
+        // 钩子
         $hook_name = 'plugins_service_base_data_return_'.$module_name.'_'.$controller_name.'_'.$action_name;
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
@@ -144,6 +144,30 @@ class BaseService
         ]);
 
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 站点类型
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-04
+     * @desc    description
+     */
+    public static function SiteTypeValue()
+    {
+        // 当前站点类型、默认销售型（0销售型, 1展示型, 2自提点, 3虚拟销售, 4销售+自提）
+        $value = (int) MyC('common_site_type', 0, true);
+
+        // 钩子
+        $hook_name = 'plugins_service_base_site_type_value';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'value'         => &$value,
+        ]);
+
+        return $value;
     }
 }
 ?>

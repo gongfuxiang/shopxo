@@ -152,7 +152,7 @@ class NavigationService
         ]);
 
         // 缓存
-        cache(config('shopxo.cache_common_home_nav_'.$nav_type.'_key'), $data);
+        cache(config('shopxo.cache_common_home_nav_'.$nav_type.'_key'), $data, 60);
         return $data;
     }
 
@@ -845,7 +845,7 @@ class NavigationService
                         'is_system' =>  1,
                     ],
                     [
-                        'name'      =>  '我的收藏',
+                        'name'      =>  '商品收藏',
                         'url'       =>  MyUrl('index/usergoodsfavor/index'),
                         'contains'  =>  ['indexusergoodsfavorindex'],
                         'is_show'   =>  1,

@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use think\facade\Hook;
+use app\service\BaseService;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\UserAddressService;
@@ -58,7 +59,7 @@ class Buy extends Common
             return redirect(MyUrl('index/buy/index'));
         } else {
             // 站点类型，是否开启了展示型
-            if(MyC('common_site_type', 0, true) == 1)
+            if(BaseService::SiteTypeValue() == 1)
             {
                 $this->assign('msg', '展示型不允许提交订单');
                 return $this->fetch('public/tips_error');
@@ -101,11 +102,6 @@ class Buy extends Common
                 {
                     unset($params['address_id']);
                 }
- 
-                // 页面数据
-                $this->assign('base', $buy_base);
-                $this->assign('buy_goods', $buy_goods);
-                $this->assign('params', $params);
 
                 // 加载百度地图api
                 $this->assign('is_load_baidu_map_api', 1);
@@ -116,6 +112,10 @@ class Buy extends Common
                 // 浏览器名称
                 $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单确认', 1));
 
+                // 页面数据
+                $this->assign('base', $buy_base);
+                $this->assign('buy_goods', $buy_goods);
+                $this->assign('params', $params);
                 return $this->fetch();
             } else {
                 $this->assign('msg', isset($ret['msg']) ? $ret['msg'] : '参数错误');

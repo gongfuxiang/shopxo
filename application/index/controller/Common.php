@@ -14,6 +14,7 @@ use think\Controller;
 use think\facade\Hook;
 use app\module\FormHandleModule;
 use app\service\SystemService;
+use app\service\BaseService;
 use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\NavigationService;
@@ -299,7 +300,7 @@ class Common extends Controller
         $this->assign('currency_symbol', ResourcesService::CurrencyDataSymbol());
 
         // 站点类型
-        $this->assign('common_site_type', MyC('common_site_type', 0, true));
+        $this->assign('common_site_type', BaseService::SiteTypeValue());
 
         // 预约模式
         $this->assign('common_order_is_booking', MyC('common_order_is_booking', 0, true));
@@ -403,6 +404,9 @@ class Common extends Controller
         $this->assign('home_site_icp', MyC('home_site_icp'));
         $this->assign('home_site_security_record_name', MyC('home_site_security_record_name'));
         $this->assign('home_site_security_record_url', MyC('home_site_security_record_url'));
+
+        // 默认不加载放大镜
+        $this->assign('is_load_imagezoom', 0);
 
         // 默认不加载百度地图api
         $this->assign('is_load_baidu_map_api', 0);

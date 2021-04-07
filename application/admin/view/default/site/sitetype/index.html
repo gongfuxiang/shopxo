@@ -33,34 +33,6 @@
                             {{/foreach}}
                         </select>
                     </div>
-
-                    <!-- 是否预约模式 -->
-                    <div class="am-form-group">
-                        <label>{{$data.common_order_is_booking.name}}<span class="am-form-group-label-tips">{{$data.common_order_is_booking.describe}}</span></label>
-                        <select name="{{$data.common_order_is_booking.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_order_is_booking.error_tips}}" required>
-                            {{foreach $common_is_text_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_order_is_booking']['value']) and $data['common_order_is_booking']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                            {{/foreach}}
-                        </select>
-                    </div>
-
-                    <!-- 库存 -->
-                    <div class="am-form-group">
-                        <label>{{$data.common_is_deduction_inventory.name}}<span class="am-form-group-label-tips">{{$data.common_is_deduction_inventory.describe}}</span></label>
-                        <select name="{{$data.common_is_deduction_inventory.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_deduction_inventory.error_tips}}" required>
-                            {{foreach $common_is_text_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_is_deduction_inventory']['value']) and $data['common_is_deduction_inventory']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                            {{/foreach}}
-                        </select>
-                    </div>
-                    <div class="am-form-group">
-                        <label>{{$data.common_deduction_inventory_rules.name}}<span class="am-form-group-label-tips">{{$data.common_deduction_inventory_rules.describe}}</span></label>
-                        <select name="{{$data.common_deduction_inventory_rules.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_deduction_inventory_rules.error_tips}}" required>
-                            {{foreach $common_deduction_inventory_rules_list as $v}}
-                                <option value="{{$v.id}}" {{if isset($data['common_deduction_inventory_rules']['value']) and $data['common_deduction_inventory_rules']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                            {{/foreach}}
-                        </select>
-                    </div>
                 </div>
             </div>
 

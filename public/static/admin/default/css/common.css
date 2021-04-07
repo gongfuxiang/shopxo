@@ -655,11 +655,3 @@ table.am-table .am-btn-danger:hover {
     overflow-x: auto;
     overflow-y: auto;
 }
-
-/**
- * 表单带面板
- */
-form .am-panel .am-form-group:last-child,
-form .am-panel .business-form-group:last-child {
-    border-bottom: 0;
-}

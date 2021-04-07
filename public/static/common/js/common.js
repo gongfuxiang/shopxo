@@ -813,8 +813,18 @@ function TreeFormSaveBackHandle(e)
         				Tree(json.pid, $('#tree').data('node-url'), 1, 1, 1);
         			} else {
         				json['json'] = e.data;
+
+        				// 拼接html数据
 	        			var html = TreeItemHtmlHandle(json, 0, 1, 1);
-        				$('#tree table tbody').append(html);
+
+	        			// 首次则增加table标签容器
+	        			if($('#tree table tbody').length > 0)
+	        			{
+	        				$('#tree table tbody').append(html);
+	        				
+	        			} else {
+	        				$('#tree').html('<table class="am-table am-table-striped am-table-hover"><tbody>'+html+'</tbody></table>');
+	        			}
         				// 刚刚创建的数据不支持新增操作
         				// 因为级数据还不在父级选择节点数据中
         				// 需要刷新页面重新加载数据
@@ -1672,7 +1682,7 @@ function TreeFormInit()
 	$title.text($title.attr('data-add-title'));
 
 	// 填充数据
-	var data = {"id":"", "pid":0, "name":"", "sort":0, "is_enable":1, "icon":""};
+	var data = {"id":"", "pid":0, "name":"", "sort":0, "is_enable":1, "icon":"", "seo_title":"", "seo_keywords":"", "seo_desc":""};
 
 	// 额外处理数据
 	data = FunSaveWinAdditional(data, 'init');

@@ -66,33 +66,37 @@
                     <label>身份证号码<span class="am-form-group-label-tips">选填，请务必与上传的身份证件号码保持一致</span></label>
                     <input type="text" name="idcard_number" placeholder="身份证号码" minlength="0" maxlength="18" data-validation-message="身份证号码格式最多 18 个字符" class="am-radius" {{if !empty($data['idcard_number'])}} value="{{$data.idcard_number}}"{{/if}} />
                 </div>
-                <div class="am-form-group plug-file-upload-view">
-                    <label>身份证照片<span class="am-form-group-label-tips">选填，请使用身份证原件拍摄，图片要清晰</span></label>
-                    <div class="am-nbfc user-address-idcard-images">
-                        <div class="am-fl">
-                            <ul class="plug-file-upload-view images-idcard_front" data-form-name="idcard_front" data-max-number="1" data-dialog-type="images">
-                                <li>
-                                    {{if !empty($data['idcard_front_old'])}}
-                                        <input type="text" name="idcard_front" value="{{$data.idcard_front_old}}" />
-                                    {{/if}}
-                                    <img src="{{if empty($data['idcard_front'])}}{{$attachment_host}}/static/common/images/default-idcard-front.jpg{{else /}}{{$data.idcard_front}}{{/if}}" />
-                                </li>
-                            </ul>
-                            <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_front">+上传人像面图片</div>
-                        </div>
-                        <div class="am-fl am-margin-left-lg">
-                            <ul class="plug-file-upload-view images-idcard_back" data-form-name="idcard_back" data-max-number="1" data-dialog-type="images">
-                                <li>
-                                    {{if !empty($data['idcard_back_old'])}}
-                                        <input type="text" name="idcard_back" value="{{$data.idcard_back_old}}" />
-                                    {{/if}}
-                                    <img src="{{if empty($data['idcard_back'])}}{{$attachment_host}}/static/common/images/default-idcard-back.jpg{{else /}}{{$data.idcard_back}}{{/if}}" />
-                                </li>
-                            </ul>
-                            <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_back">+上传国微面图片</div>
+                {{if empty($data) or empty($data['user_id'])}}
+                    <p class="am-text-center am-text-warning am-margin-top-sm">先关联用户后再上传身份证图片</p>
+                {{else /}}
+                    <div class="am-form-group plug-file-upload-view">
+                        <label>身份证照片<span class="am-form-group-label-tips">选填，请使用身份证原件拍摄，图片要清晰</span></label>
+                        <div class="am-nbfc user-address-idcard-images">
+                            <div class="am-fl">
+                                <ul class="plug-file-upload-view images-idcard_front" data-form-name="idcard_front" data-max-number="1" data-dialog-type="images">
+                                    <li>
+                                        {{if !empty($data['idcard_front_old'])}}
+                                            <input type="text" name="idcard_front" value="{{$data.idcard_front_old}}" />
+                                        {{/if}}
+                                        <img src="{{if empty($data['idcard_front'])}}{{$attachment_host}}/static/common/images/default-idcard-front.jpg{{else /}}{{$data.idcard_front}}{{/if}}" />
+                                    </li>
+                                </ul>
+                                <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_front">+上传人像面图片</div>
+                            </div>
+                            <div class="am-fl am-margin-left-lg">
+                                <ul class="plug-file-upload-view images-idcard_back" data-form-name="idcard_back" data-max-number="1" data-dialog-type="images">
+                                    <li>
+                                        {{if !empty($data['idcard_back_old'])}}
+                                            <input type="text" name="idcard_back" value="{{$data.idcard_back_old}}" />
+                                        {{/if}}
+                                        <img src="{{if empty($data['idcard_back'])}}{{$attachment_host}}/static/common/images/default-idcard-back.jpg{{else /}}{{$data.idcard_back}}{{/if}}" />
+                                    </li>
+                                </ul>
+                                <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_back">+上传国微面图片</div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                {{/if}}
             </div>
 
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">

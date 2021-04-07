@@ -81,7 +81,7 @@ class SearchService
 
         // 获取商品总数
         $result['total'] = (int) Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
-            $query->whereOr($where_keywords);
+            self::SearchKeywordsWhereJoinType($query, $where_keywords);
         })->where(function($query) use($where_screening_price) {
             $query->whereOr($where_screening_price);
         })->count('DISTINCT g.id');
@@ -91,7 +91,7 @@ class SearchService
         {
             // 查询数据
             $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->field($field)->where($where_base)->where(function($query) use($where_keywords) {
-                $query->whereOr($where_keywords);
+                self::SearchKeywordsWhereJoinType($query, $where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);
             })->group('g.id')->order($order_by)->limit($m, $n)->select();
@@ -104,6 +104,31 @@ class SearchService
             $result['page_total'] = ceil($result['total']/$n);
         }
         return DataReturn('处理成功', 0, $result);
+    }
+
+    /**
+     * 关键字搜索关系类型
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-02
+     * @desc    description
+     * @param   [object]          $query          [查询对象]
+     * @param   [array]           $where_keywords [搜索关键字]
+     */
+    public static function SearchKeywordsWhereJoinType($query, $where_keywords)
+    {
+        // 搜索关键字默认或的关系
+        $join = 'whereOr';
+
+        // 是否开启并且关系
+        if(MyC('home_search_is_keywords_where_and') == 1)
+        {
+            $join = 'where';
+        }
+
+        // 条件设置
+        $query->$join($where_keywords);
     }
 
     /**
@@ -372,7 +397,7 @@ class SearchService
             if(!empty($where_base) || !empty($where_keywords) || !empty($where_screening_price))
             {
                 $ids = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
-                    $query->whereOr($where_keywords);
+                    self::SearchKeywordsWhereJoinType($query, $where_keywords);
                 })->where(function($query) use($where_screening_price) {
                     $query->whereOr($where_screening_price);
                 })->group('g.brand_id')->column('g.brand_id');
@@ -459,7 +484,7 @@ class SearchService
 
             // 一维数组、参数值去重
             $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->join(['__GOODS_PARAMS__'=>'gp'], 'g.id=gp.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
-                $query->whereOr($where_keywords);
+                self::SearchKeywordsWhereJoinType($query, $where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);
             })->group('gp.value')->field('gp.value')->select();
@@ -489,7 +514,7 @@ class SearchService
 
             // 一维数组、参数值去重
             $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->join(['__GOODS_SPEC_VALUE__'=>'gsv'], 'g.id=gsv.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
-                $query->whereOr($where_keywords);
+                self::SearchKeywordsWhereJoinType($query, $where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);
             })->group('gsv.value')->field('gsv.value')->select();

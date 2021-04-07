@@ -85,8 +85,8 @@ class StatisticalService
             self::$seven_time_end = time();
 
             // 上月
-            self::$last_month_time_start = strtotime(date('Y-m-01 00:00:00', strtotime('-1 month')));
-            self::$last_month_time_end = strtotime(date('Y-m-t 23:59:59', strtotime('-1 month')));
+            self::$last_month_time_start = strtotime(date('Y-m-01 00:00:00', strtotime('-1 month', strtotime(date('Y-m', time())))));
+            self::$last_month_time_end = strtotime(date('Y-m-t 23:59:59', strtotime('-1 month', strtotime(date('Y-m', time())))));
 
             // 当月
             self::$same_month_time_start = strtotime(date('Y-m-01 00:00:00'));

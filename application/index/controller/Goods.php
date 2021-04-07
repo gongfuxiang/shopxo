@@ -143,6 +143,9 @@ class Goods extends Common
             // 是否商品详情页展示相册
             $this->assign('common_is_goods_detail_show_photo', MyC('common_is_goods_detail_show_photo', 0, true));
 
+            // 加载放大镜
+            $this->assign('is_load_imagezoom', 1);
+
             return $this->fetch();
         }
     }

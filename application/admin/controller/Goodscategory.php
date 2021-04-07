@@ -50,11 +50,8 @@ class GoodsCategory extends Common
      */
 	public function Index()
 	{
-		// 是否启用
-		$this->assign('common_is_enable_list', lang('common_is_enable_list'));
-
-        // 是否
-        $this->assign('common_is_text_list', lang('common_is_text_list'));
+		// 静态数据
+		$this->assign('common_is_text_list', lang('common_is_text_list'));
 
         // 商品分类
         $this->assign('goods_category_list', GoodsService::GoodsCategoryAll());

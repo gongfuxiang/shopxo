@@ -5,7 +5,7 @@
 {{if !empty($module_data['lat'])}}
     <p class="am-margin-top-xs"><span>纬度：</span>{{$module_data.lat}}</p>
 {{/if}}
-{{if !empty($module_data['lng']) and !empty($module_data['lat'])}}
+{{if !empty($module_data['lng']) and !empty($module_data['lat']) and $module_data['lng'] neq 0 and $module_data['lat'] neq 0}}
     <div class="am-margin-top-xs">
         <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$module_data.lng}}" data-lat="{{$module_data.lat}}"> 查看位置</button>
     </div>

@@ -808,3 +808,11 @@ button.colorpicker-submit img {
         margin-bottom: 10px;
     }
 }
+
+/**
+ * 表单带面板
+ */
+form .am-panel .am-form-group:last-child,
+form .am-panel .business-form-group:last-child {
+    border-bottom: 0;
+}

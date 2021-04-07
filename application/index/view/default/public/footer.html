@@ -28,7 +28,9 @@
 <script type='text/javascript' src="{{$public_host}}static/common/lib/assets/js/amazeui.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 图片放大镜 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/imagezoom/jquery.imagezoom.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{if isset($is_load_imagezoom) and $is_load_imagezoom eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/imagezoom/jquery.imagezoom.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}}
 
 <!-- echarts 图表 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/echarts.min.js?v={{:MyC('home_static_cache_version')}}"></script>

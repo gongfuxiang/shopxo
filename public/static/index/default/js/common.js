@@ -100,10 +100,10 @@ $(function()
     });
 
     // 登录事件
-    $('.login-event').on('click', function()
+    $(document).on('click', '.login-event', function()
     {
         // 是否登录
-        if(__user_id__ == 0)
+        if((__user_id__ || 0) == 0)
         {
             ModalLoad(__modal_login_url__, '', 'common-login-modal');
             return false;

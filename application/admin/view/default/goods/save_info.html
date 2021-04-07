@@ -372,7 +372,7 @@
 			                    <span>plugins_view_admin_goods_save</span>
 			                </div>
 			            {{/if}}
-						{{if !empty($plugins_view_admin_goods_save_data) and is_array($plugins_view_admin_goods_save_data)}}
+						{{if !empty($plugins_view_admin_goods_save_data) and is_array($plugins_view_admin_goods_save_data) and !empty(array_filter($plugins_view_admin_goods_save_data))}}
 							{{foreach $plugins_view_admin_goods_save_data as $hook}}
 			                    {{if is_string($hook) or is_int($hook)}}
 			                        {{$hook|raw}}
