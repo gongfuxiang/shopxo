@@ -230,42 +230,50 @@ class Uploader
 
         // 存储图片、使用GD存储图片、防止图片包含木马
         // 如未安装相应的gd库则直接存储文件
+        // 未开启重新绘制
         $is_move = false;
-        switch($this->fileType)
+
+        // 是否开启图片重新绘制
+        if(MyC('is_upload_images_redraw', 0) == 1)
         {
-            case '.png':
-                if(function_exists('imagecreatefrompng'))
-                {
-                    $image = imagecreatefrompng($file["tmp_name"]); //PNG
-                    imagesavealpha($image, true); //这里很重要 意思是不要丢了$sourePic图像的透明色;
-                    $width = imagesx($image); //图宽度
-                    $heigh = imagesy($image); //图高度
-                    $thumb = imagecreatetruecolor($width, $heigh);
-                    imagealphablending($thumb, false); //这里很重要,意思是不合并颜色,直接用$img图像颜色替换,包括透明色;
-                    imagesavealpha($thumb, true); //这里很重要,意思是不要丢了$thumb图像的透明色;
-                    if(imagecopyresampled($thumb, $image, 0, 0, 0, 0, $width, $heigh, $width, $heigh))
+            switch($this->fileType)
+            {
+                case '.png':
+                    if(function_exists('imagecreatefrompng'))
                     {
-                        imagepng($thumb, $this->filePath);
+                        $image = imagecreatefrompng($file["tmp_name"]); //PNG
+                        imagesavealpha($image, true); //这里很重要 意思是不要丢了$sourePic图像的透明色;
+                        $width = imagesx($image); //图宽度
+                        $heigh = imagesy($image); //图高度
+                        $thumb = imagecreatetruecolor($width, $heigh);
+                        imagealphablending($thumb, false); //这里很重要,意思是不合并颜色,直接用$img图像颜色替换,包括透明色;
+                        imagesavealpha($thumb, true); //这里很重要,意思是不要丢了$thumb图像的透明色;
+                        if(imagecopyresampled($thumb, $image, 0, 0, 0, 0, $width, $heigh, $width, $heigh))
+                        {
+                            imagepng($thumb, $this->filePath);
+                        }
+                    } else {
+                        $is_move = true;
                     }
-                } else {
-                    $is_move = true;
-                }
-                break;
-            case '.gif':
-                if(function_exists('imagecreatefromgif'))
-                {
-                    @imagegif(@imagecreatefromgif($file["tmp_name"]), $this->filePath);
-                } else {
-                    $is_move = true;
-                }
-                break;
-            default:
-                if(function_exists('imagecreatefromjpeg'))
-                {
-                    @imagejpeg(@imagecreatefromjpeg($file["tmp_name"]), $this->filePath, 100);
-                } else {
-                    $is_move = true;
-                }
+                    break;
+                case '.gif':
+                    if(function_exists('imagecreatefromgif'))
+                    {
+                        @imagegif(@imagecreatefromgif($file["tmp_name"]), $this->filePath);
+                    } else {
+                        $is_move = true;
+                    }
+                    break;
+                default:
+                    if(function_exists('imagecreatefromjpeg'))
+                    {
+                        @imagejpeg(@imagecreatefromjpeg($file["tmp_name"]), $this->filePath, 100);
+                    } else {
+                        $is_move = true;
+                    }
+            }
+        } else {
+            $is_move = true;
         }
 
         // 是否需要直接存储文件
