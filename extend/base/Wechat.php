@@ -111,7 +111,7 @@ class Wechat
         // 请求获取session_key
         $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$this->_appid.'&secret='.$this->_appsecret.'&js_code='.$params['authcode'].'&grant_type=authorization_code';
         $result = $this->HttpRequestGet($url);
-        if(!empty($result['openid']))
+        if(!empty($result) && !empty($result['openid']))
         {
             // 缓存SessionKey
             $key = 'wechat_user_login_'.$result['openid'];
@@ -279,7 +279,7 @@ class Wechat
         // 网络请求
         $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$this->_appid.'&secret='.$this->_appsecret;
         $result = $this->HttpRequestGet($url);
-        if(!empty($result['access_token']))
+        if(!empty($result) && !empty($result['access_token']))
         {
             // 缓存存储
             $result['expires_in'] += time();
@@ -315,7 +315,7 @@ class Wechat
         // 网络请求
         $url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='.$access_token.'&type='.$type;
         $result = $this->HttpRequestGet($url);
-        if(!empty($result['ticket']))
+        if(!empty($result) && !empty($result['ticket']))
         {
             // 缓存存储
             $result['expires_in'] += time();

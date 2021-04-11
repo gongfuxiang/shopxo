@@ -107,7 +107,7 @@ class QQ
         // 请求获取session_key
         $url = 'https://api.q.qq.com/sns/jscode2session?appid='.$this->_appid.'&secret='.$this->_appsecret.'&js_code='.$authcode.'&grant_type=authorization_code';
         $result = $this->HttpRequestGet($url);
-        if(!empty($result['openid']))
+        if(!empty($result) && !empty($result['openid']))
         {
             // 从缓存获取用户信息
             $key = 'qq_user_login_'.$result['openid'];
@@ -143,7 +143,7 @@ class QQ
         // 网络请求
         $url = 'https://api.q.qq.com/api/getToken?grant_type=client_credential&appid='.$this->_appid.'&secret='.$this->_appsecret;
         $result = $this->HttpRequestGet($url);
-        if(!empty($result['access_token']))
+        if(!empty($result) && !empty($result['access_token']))
         {
             // 缓存存储
             $result['expires_in'] += time();
