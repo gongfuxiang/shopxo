@@ -60,6 +60,7 @@ class ConfigService
         'home_user_login_type',
         'home_user_reg_type',
         'admin_login_type',
+        'home_search_params_type',
     ];
 
     /**

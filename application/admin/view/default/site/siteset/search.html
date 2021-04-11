@@ -77,6 +77,14 @@
                 </select>
             </div>
             <div class="am-form-group">
+                <label>{{$data.home_search_params_type.name}}<span class="am-form-group-label-tips">{{$data.home_search_params_type.describe}}</span></label>
+                <select name="{{$data.home_search_params_type.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.home_search_params_type.name}}" data-validation-message="{{$data.home_search_params_type.error_tips}}">
+                    {{foreach $common_goods_parameters_type_list as $v}}
+                        <option value="{{$v.value}}" {{if isset($data['home_search_params_type']['value']) and in_array($v['value'], $data['home_search_params_type']['value'])}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+            <div class="am-form-group">
                 <label>{{$data.home_search_is_spec.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_spec.describe}}</span></label>
                 <select name="{{$data.home_search_is_spec.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_spec.error_tips}}" required>
                     {{foreach $common_close_open_list as $v}}

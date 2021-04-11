@@ -259,7 +259,7 @@ class SearchService
             }
             if(!empty($params['goods_params_values']))
             {
-                $ids = Db::name('GoodsParams')->where(['value'=>$params['goods_params_values'], 'type'=>2])->column('goods_id');
+                $ids = Db::name('GoodsParams')->where(['value'=>$params['goods_params_values'], 'type'=>self::SearchParamsWhereTypeValue()])->column('goods_id');
                 if(!empty($ids))
                 {
                     $where_base[] = ['g.id', 'in', $ids];
@@ -289,6 +289,32 @@ class SearchService
             'keywords'          => $where_keywords,
             'screening_price'   => $where_screening_price,
         ];
+    }
+
+    /**
+     * 参数搜索条件类型
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-11
+     * @desc    description
+     */
+    public static function SearchParamsWhereTypeValue()
+    {
+        // 获取配置
+        $value = MyC('home_search_params_type');
+        if(empty($value))
+        {
+            $value = [2];
+        }
+
+        // 是否为数组
+        if(!is_array($value))
+        {
+            $value = explode(',', $value);
+        }
+
+        return $value;
     }
 
     /**
@@ -480,7 +506,7 @@ class SearchService
             $where_screening_price = $where['screening_price'];
 
             // 仅搜索基础参数
-            $where_base[] = ['gp.type', '=', 2];
+            $where_base[] = ['gp.type', 'in', self::SearchParamsWhereTypeValue()];
 
             // 一维数组、参数值去重
             $data = Db::name('Goods')->alias('g')->join(['__GOODS_CATEGORY_JOIN__'=>'gci'], 'g.id=gci.goods_id')->join(['__GOODS_PARAMS__'=>'gp'], 'g.id=gp.goods_id')->where($where_base)->where(function($query) use($where_keywords) {

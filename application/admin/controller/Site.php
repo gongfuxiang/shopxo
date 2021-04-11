@@ -179,6 +179,9 @@ class Site extends Common
 		// 首页楼层数据类型
 		$this->assign('common_site_floor_data_type_list', lang('common_site_floor_data_type_list'));
 
+		// 搜索参数类型
+		$this->assign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));
+
 		// 主导航
 		$this->assign('second_nav_list', [
 			[
@@ -333,6 +336,11 @@ class Site extends Common
 						$params['home_index_floor_manual_mode_goods'] = empty($params['home_index_floor_manual_mode_goods']) ? '' : json_encode($params['home_index_floor_manual_mode_goods'], JSON_UNESCAPED_UNICODE);
 						// 楼层左侧分类
 						$params['home_index_floor_left_top_category'] = empty($params['home_index_floor_left_top_category']) ? '' : json_encode($params['home_index_floor_left_top_category'], JSON_UNESCAPED_UNICODE);
+						break;
+
+					// 搜索
+					case 'search' :
+						$field_list[] = 'home_search_params_type';
 						break;
 				}
 				break;
