@@ -246,6 +246,10 @@ class Site extends Common
 				'type'	=> 'order',
 			],
 			[
+				'name'	=> '优惠',
+				'type'	=> 'discount',
+			],
+			[
 				'name'	=> '扩展',
 				'type'	=> 'extends',
 			],

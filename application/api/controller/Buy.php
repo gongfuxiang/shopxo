@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\PaymentService;
@@ -73,7 +73,7 @@ class Buy extends Common
                 'common_site_type'  => (int) $buy_base['common_site_type'],
             ];
 
-            return BaseService::DataReturn($result);
+            return SystemBaseService::DataReturn($result);
         }
         return $buy_ret;
     }

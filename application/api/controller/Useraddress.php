@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\ConfigService;
 use app\service\UserAddressService;
 use app\service\ResourcesService;
@@ -54,7 +54,7 @@ class UserAddress extends Common
         $result = [
             'data'  => $ret['data'],
         ];
-        return BaseService::DataReturn($result);
+        return SystemBaseService::DataReturn($result);
     }
 
     /**
@@ -76,7 +76,7 @@ class UserAddress extends Common
             'data'              => empty($data['data']) ? null : $data['data'],
             'editor_path_type'  => ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($this->user['id'])),
         ];
-        return BaseService::DataReturn($result);
+        return SystemBaseService::DataReturn($result);
     }
 
     /**

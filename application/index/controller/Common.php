@@ -14,7 +14,7 @@ use think\Controller;
 use think\facade\Hook;
 use app\module\FormHandleModule;
 use app\service\SystemService;
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\NavigationService;
@@ -169,6 +169,9 @@ class Common extends Controller
         // 用户登录页面顶部钩子
         $this->assign('plugins_view_user_login_info_top_data', Hook::listen('plugins_view_user_login_info_top', ['hook_name'=>'plugins_view_user_login_info_top', 'is_backend'=>false, 'user'=>$this->user]));
 
+        // 用户登录内容页面底部钩子
+        $this->assign('plugins_view_user_login_content_bottom_data', Hook::listen('plugins_view_user_login_content_bottom', ['hook_name'=>'plugins_view_user_login_content_bottom', 'is_backend'=>false, 'user'=>$this->user]));
+
         // 用户注册页面钩子
         $this->assign('plugins_view_user_reg_info_data', Hook::listen('plugins_view_user_reg_info', ['hook_name'=>'plugins_view_user_reg_info', 'is_backend'=>false, 'user'=>$this->user]));
 
@@ -300,7 +303,7 @@ class Common extends Controller
         $this->assign('currency_symbol', ResourcesService::CurrencyDataSymbol());
 
         // 站点类型
-        $this->assign('common_site_type', BaseService::SiteTypeValue());
+        $this->assign('common_site_type', SystemBaseService::SiteTypeValue());
 
         // 预约模式
         $this->assign('common_order_is_booking', MyC('common_order_is_booking', 0, true));
@@ -420,6 +423,9 @@ class Common extends Controller
         // 登录/注册方式
         $this->assign('home_user_login_type', MyC('home_user_login_type', [], true));
         $this->assign('home_user_reg_type', MyC('home_user_reg_type', [], true));
+
+        // 底部信息
+        $this->assign('home_theme_footer_bottom_powered', htmlspecialchars_decode(MyC('home_theme_footer_bottom_powered')));
     }
 
     /**

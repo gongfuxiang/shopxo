@@ -11,7 +11,7 @@
 namespace app\index\controller;
 
 use think\facade\Hook;
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\UserAddressService;
@@ -59,7 +59,7 @@ class Buy extends Common
             return redirect(MyUrl('index/buy/index'));
         } else {
             // 站点类型，是否开启了展示型
-            if(BaseService::SiteTypeValue() == 1)
+            if(SystemBaseService::SiteTypeValue() == 1)
             {
                 $this->assign('msg', '展示型不允许提交订单');
                 return $this->fetch('public/tips_error');

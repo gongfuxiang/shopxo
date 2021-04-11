@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\AnswerService;
 
 /**
@@ -77,7 +77,7 @@ class Answer extends Common
             'page_total'    => $page_total,
             'data'          => $data['data'],
         ];
-        return BaseService::DataReturn($result);
+        return SystemBaseService::DataReturn($result);
     }
 
     /**

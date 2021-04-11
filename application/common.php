@@ -358,7 +358,7 @@ function ArrayKeys($data)
  */
 function GoodsSalesModelType($site_type)
 {
-    return ($site_type == -1) ? \app\service\BaseService::SiteTypeValue() : $site_type;
+    return ($site_type == -1) ? \app\service\SystemBaseService::SiteTypeValue() : $site_type;
 }
 
 /**
@@ -380,7 +380,7 @@ function IsGoodsSiteTypeConsistent($site_type)
     }
 
     // 系统站点类型
-    $common_site_type = \app\service\BaseService::SiteTypeValue();
+    $common_site_type = \app\service\SystemBaseService::SiteTypeValue();
 
     // 是否一致
     if($common_site_type == $site_type)

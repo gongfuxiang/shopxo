@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\OrderAftersaleService;
 use app\service\ResourcesService;
 
@@ -81,7 +81,7 @@ class Orderaftersale extends Common
             'page_total'    => $page_total,
             'data'          => $data['data'],
         ];
-        return BaseService::DataReturn($result);
+        return SystemBaseService::DataReturn($result);
     }
 
     /**
@@ -141,7 +141,7 @@ class Orderaftersale extends Common
                 'return_goods_address'      => MyC('home_order_aftersale_return_goods_address', '管理员未填写', true),
                 'editor_path_type'          => ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id)),
             ];
-            return BaseService::DataReturn($result);
+            return SystemBaseService::DataReturn($result);
         }
         return DataReturn($ret['msg'], -1);
     }

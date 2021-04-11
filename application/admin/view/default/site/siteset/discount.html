@@ -1,0 +1,38 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <!-- second nav start -->
+    {{include file="site/public/nav" /}}
+    <!-- second nav end -->
+
+    <div class="content">
+        <!-- nav start -->
+        {{include file="site/public/siteset_nav" /}}
+        <!-- nav end -->
+
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
+            <div class="am-form-group">
+                <label>{{$data.is_close_goods_discount_overlap.name}}<span class="am-form-group-label-tips">{{$data.is_close_goods_discount_overlap.describe}}</span></label>
+                <select name="{{$data.is_close_goods_discount_overlap.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.is_close_goods_discount_overlap.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['is_close_goods_discount_overlap']['value']) and $data['is_close_goods_discount_overlap']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <input type="hidden" name="view_type" value="{{$view_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\BuyService;
 
 /**
@@ -53,7 +53,7 @@ class Cart extends Common
             'common_cart_total' => BuyService::UserCartTotal(['user'=>$this->user]),
         ];
 
-        return BaseService::DataReturn($result);
+        return SystemBaseService::DataReturn($result);
     }
 
     /**

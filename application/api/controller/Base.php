@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 
 /**
  * 基础公共接口
@@ -35,7 +35,7 @@ class Base extends Common
         // 参数
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return BaseService::Common($params);
+        return SystemBaseService::Common($params);
     }
 }
 ?>

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\AppHomeNavService;
 
 /**
@@ -46,7 +46,7 @@ class Navigation extends Common
     {
         // 获取轮播
         $result = AppHomeNavService::AppHomeNav();
-        return BaseService::DataReturn($result);
+        return SystemBaseService::DataReturn($result);
     }
 }
 ?>

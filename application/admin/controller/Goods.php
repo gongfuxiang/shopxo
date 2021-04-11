@@ -11,7 +11,7 @@
 namespace app\admin\controller;
 
 use think\facade\Hook;
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\GoodsService;
 use app\service\RegionService;
 use app\service\BrandService;
@@ -198,7 +198,7 @@ class Goods extends Common
         // 站点类型
         $this->assign('common_site_type_list', lang('common_site_type_list'));
         // 当前系统设置的站点类型
-        $this->assign('common_site_type', BaseService::SiteTypeValue());
+        $this->assign('common_site_type', SystemBaseService::SiteTypeValue());
 
         // 商品参数类型
         $this->assign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));

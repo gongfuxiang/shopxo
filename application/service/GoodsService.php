@@ -12,7 +12,7 @@ namespace app\service;
 
 use think\Db;
 use think\facade\Hook;
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\ResourcesService;
 use app\service\BrandService;
 use app\service\RegionService;
@@ -2692,7 +2692,7 @@ class GoodsService
         $path = 'static'.DS.'upload'.DS.'images'.DS.'goods_qrcode'.DS.APPLICATION_CLIENT_TYPE.DS.date('Y', $add_time).DS.date('m', $add_time).DS.date('d', $add_time).DS;
 
         // 名称增加站点模式（站点模式不一样商品url地址也会不一样）
-        $filename = $goods_id.BaseService::SiteTypeValue().'.png';
+        $filename = $goods_id.SystemBaseService::SiteTypeValue().'.png';
 
         // 二维码处理参数
         $params = [

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\ToutiaoService;
 
 /**
@@ -52,7 +52,7 @@ class Toutiao extends Common
         $params = $this->data_post;
         $params['user'] = $this->user;
         $ret = ToutiaoService::Pay($params);
-        return BaseService::DataReturn($ret['data']);
+        return SystemBaseService::DataReturn($ret['data']);
     }
 }
 ?>

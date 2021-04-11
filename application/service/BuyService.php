@@ -12,7 +12,7 @@ namespace app\service;
 
 use think\Db;
 use think\facade\Hook;
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\GoodsService;
 use app\service\UserService;
 use app\service\UserAddressService;
@@ -698,7 +698,7 @@ class BuyService
 
             // 站点模式 0销售, 2自提, 4销售+自提, 则其它正常模式
             $user_site_model = isset($params['site_model']) ? intval($params['site_model']) : 0;
-            $common_site_type = BaseService::SiteTypeValue();
+            $common_site_type = SystemBaseService::SiteTypeValue();
             $site_model = ($common_site_type == 4) ? $user_site_model : $common_site_type;
 
             // 商品销售模式
@@ -952,7 +952,7 @@ class BuyService
     public static function OrderInsert($params = [])
     {
         // 站点类型，是否开启了展示型
-        $common_site_type = BaseService::SiteTypeValue();
+        $common_site_type = SystemBaseService::SiteTypeValue();
         if($common_site_type == 1)
         {
             return DataReturn('展示型不允许提交订单', -1);

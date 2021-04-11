@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\GoodsService;
 use app\service\BuyService;
 use app\service\GoodsCommentsService;
@@ -115,7 +115,7 @@ class Goods extends Common
             'common_cart_total'     => BuyService::UserCartTotal(['user'=>$this->user]),
             'buy_button'            => $buy_button,
         ];
-        return BaseService::DataReturn($result);
+        return SystemBaseService::DataReturn($result);
     }
 
     /**
@@ -190,7 +190,7 @@ class Goods extends Common
         $result = [
             'category'  => GoodsService::GoodsCategoryAll($this->data_post),
         ];
-        return BaseService::DataReturn($result);
+        return SystemBaseService::DataReturn($result);
     }
 
     /**
@@ -256,7 +256,7 @@ class Goods extends Common
             'page_total'        => $page_total,
             'data'              => $ret['data'],
         ];
-        return BaseService::DataReturn($result);
+        return SystemBaseService::DataReturn($result);
     }
 }
 ?>

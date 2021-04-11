@@ -10,21 +10,25 @@
 // +----------------------------------------------------------------------
 namespace app\service;
 
+use think\Db;
 use think\facade\Hook;
 use app\service\ResourcesService;
 use app\service\QuickNavService;
 use app\service\PluginsService;
 
 /**
- * 基础公共信息服务层
+ * 系统基础公共信息服务层
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2020-09-12
  * @desc    description
  */
-class BaseService
+class SystemBaseService
 {
+    // 商品优惠使用记录key
+    public static $plugins_goods_discount_record_key = 'plugins_use_goods_discount_record_';
+
     /**
      * 公共配置信息
      * @author  Devil
@@ -168,6 +172,161 @@ class BaseService
         ]);
 
         return $value;
+    }
+
+    /**
+     * 是否使用商品优化记录
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-09
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     * @param   [string]       $plugins  [插件名称]
+     */
+    public static function IsGoodsDiscountRecord($goods_id, $plugins)
+    {
+        // 获取记录
+        $data = self::GetGoodsDiscountRecord($goods_id);
+
+        // 当前插件是否存在优惠记录
+        return in_array($plugins, $data);
+    }
+
+    /**
+     * 商品优化记录
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-09
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     * @param   [string]       $plugins  [插件名称]
+     * @param   [int]          $is_use [是否使用（0否, 1是）]
+     */
+    public static function GoodsDiscountRecord($goods_id, $plugins, $is_use = 0)
+    {
+        // 记录key
+        $key = self::$plugins_goods_discount_record_key.$goods_id;
+
+        // 获取记录
+        $data = self::GetGoodsDiscountRecord($goods_id);
+
+        // 是否存在
+        $index = array_search($plugins, $data);
+
+        // 是否使用优惠
+        if($is_use == 1)
+        {
+            // 存储记录
+            if($index === false)
+            {
+                $data[] = $plugins;
+            }
+            session($key, $data);
+        } else {
+            if($index !== false)
+            {
+                unset($data[$index]);
+                sort($data);
+            }
+        }
+
+        session($key, empty($data) ? null : $data);
+        return true;
+    }
+
+    /**
+     * 获取使用商品优化记录
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-09
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     */
+    public static function GetGoodsDiscountRecord($goods_id)
+    {
+        $res = session(self::$plugins_goods_discount_record_key.$goods_id);
+        return empty($res) ? [] : $res;
+    }
+
+    /**
+     * 商品是否支持折扣
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-08
+     * @desc    description
+     * @param   [array]          $params     [输入参数]
+     * @param   [string]         $plugins    [插件名称]
+     */
+    public static function IsGoodsDiscount($params = [], $plugins = '')
+    {
+        // 默认支持
+        $status = true;
+
+        // 是否关闭商品优惠重叠
+        // 采用钩子进行处理
+        if(MyC('is_close_goods_discount_overlap', 0) == 1 && !empty($params) && !empty($params['hook_name']))
+        {
+            switch($params['hook_name'])
+            {
+                // 商品处理结束
+                case 'plugins_service_goods_handle_end' :
+                    if(!empty($params['goods']) && !empty($params['goods']['id']))
+                    {
+                        $old = Db::name('Goods')->field('price,min_price,max_price')->find($params['goods']['id']);
+                        if(!empty($old))
+                        {
+                            // 展示销售价格
+                            if($status && isset($params['goods']['price']))
+                            {
+                                $temp = explode('-', $params['goods']['price']);
+                                $temp_old = explode('-', $old['price']);
+                                if($temp[count($temp)-1] < $temp_old[count($temp_old)-1])
+                                {
+                                    $status = false;
+                                }
+                            }
+
+                            // 最低价
+                            if($status && isset($params['goods']['min_price']))
+                            {
+                                if($params['goods']['min_price'] < $old['min_price'])
+                                {
+                                    $status = false;
+                                }
+                            }
+
+                            // 最高价
+                            if($status && isset($params['goods']['max_price']))
+                            {
+                                if($params['goods']['max_price'] < $old['max_price'])
+                                {
+                                    $status = false;
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                // 获取规格详情
+                case 'plugins_service_goods_spec_base' :
+                    if(!empty($params['data']) && !empty($params['data']['spec_base']) && !empty($params['data']['spec_base']['id']) && !empty($params['data']['spec_base']['goods_id']) && isset($params['data']['spec_base']['price']))
+                    {
+                        $price_old = Db::name('GoodsSpecBase')->where(['id'=>$params['data']['spec_base']['id']])->value('price');
+                        if($status && $params['data']['spec_base']['price'] < $price_old)
+                        {
+                            $status = false;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        // 返回状态、默认支持
+        return $status;
     }
 }
 ?>

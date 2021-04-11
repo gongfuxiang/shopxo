@@ -53,7 +53,7 @@ class PluginsService
                 self::PluginsCacheStorage($plugins, $data);
             }
         }
-        return DataReturn('处理成功', 0, $data);
+        return DataReturn('处理成功', 0, empty($data) ? [] : $data);
     }
 
     /**

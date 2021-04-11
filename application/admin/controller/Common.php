@@ -263,6 +263,9 @@ class Common extends Controller
 
         // 默认不加载百度地图api
         $this->assign('is_load_baidu_map_api', 0);
+
+        // 站点名称
+        $this->assign('admin_theme_site_name', MyC('admin_theme_site_name', 'ShopXO', true));
 	}
 
     /**

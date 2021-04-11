@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\IntegralService;
 
 /**
@@ -78,7 +78,7 @@ class UserIntegral extends Common
             'page_total'    => $page_total,
             'data'          => $data['data'],
         ];
-        return BaseService::DataReturn($result);
+        return SystemBaseService::DataReturn($result);
     }
 
 }

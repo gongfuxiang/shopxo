@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\GoodsService;
 use app\service\BannerService;
 use app\service\AppHomeNavService;
@@ -54,7 +54,7 @@ class Index extends Common
 			'data_list'			=> GoodsService::HomeFloorList(),
 			'common_cart_total'	=> BuyService::UserCartTotal(['user'=>$this->user]),
 		];
-		return BaseService::DataReturn($result);
+		return SystemBaseService::DataReturn($result);
 	}
 }
 ?>

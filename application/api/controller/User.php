@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
-use app\service\BaseService;
+use app\service\SystemBaseService;
 use app\service\UserService;
 use app\service\OrderService;
 use app\service\GoodsService;
@@ -638,7 +638,7 @@ class User extends Common
         );
 
         // 返回数据
-        return BaseService::DataReturn($result);
+        return SystemBaseService::DataReturn($result);
     }
 
     /**
