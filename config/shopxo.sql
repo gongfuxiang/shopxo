@@ -980,8 +980,7 @@ CREATE TABLE `sxo_goods_spec_value` (
   `add_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
   PRIMARY KEY (`id`),
   KEY `goods_id` (`goods_id`),
-  KEY `goods_spec_base_id` (`goods_spec_base_id`),
-  KEY `value` (`value`)
+  KEY `goods_spec_base_id` (`goods_spec_base_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2777 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='商品规格值';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -2192,4 +2191,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-11 23:35:14
+-- Dump completed on 2021-04-12  0:03:37
