@@ -32,7 +32,7 @@ class Verify
 	private $use_text_color_back;
 	private $key_verify;
 	private $expire_time;
-	private $user_uid;
+	private $uid;
 
 	/**
 	 * [__construct 构造方法]
@@ -67,7 +67,7 @@ class Verify
 		$this->expire_time = isset($param['expire_time']) ? intval($param['expire_time']) : 30;
 
 		// 用户唯一uid
-		$this->user_uid = ResourcesService::UserUniqueId();
+		$this->uid = ResourcesService::UserUniqueId();
 	}
 
 	/**
@@ -153,11 +153,11 @@ class Verify
 	public function CheckExpire()
 	{
 		// 空uid则存储session
-		if(empty($this->user_uid))
+		if(empty($this->uid))
 		{
 			$data = session($this->key_verify);
 		} else {
-			$data = cache($this->key_verify.$this->user_uid);
+			$data = cache($this->key_verify.$this->uid);
 		}
 
 		if(!empty($data) && isset($data['time']))
@@ -179,11 +179,11 @@ class Verify
 	public function CheckCorrect($verify = '')
 	{
 		// 空uid则存储session
-		if(empty($this->user_uid))
+		if(empty($this->uid))
 		{
 			$data = session($this->key_verify);
 		} else {
-			$data = cache($this->key_verify.$this->user_uid);
+			$data = cache($this->key_verify.$this->uid);
 		}
 		if(!empty($data) && isset($data['verify']))
 		{
@@ -207,11 +207,11 @@ class Verify
 	public function Remove()
 	{
 		// 空uid则处理session
-		if(empty($this->user_uid))
+		if(empty($this->uid))
 		{
 			session($this->key_verify, null);
 		} else {
-			cache($this->key_verify.$this->user_uid, null);
+			cache($this->key_verify.$this->uid, null);
 		}
 	}
 
@@ -230,11 +230,11 @@ class Verify
 		];
 
 		// 空uid则存储session
-		if(empty($this->user_uid))
+		if(empty($this->uid))
 		{
 			session($this->key_verify, $data);
 		} else {
-			cache($this->key_verify.$this->user_uid, $data, $this->expire_time);
+			cache($this->key_verify.$this->uid, $data, $this->expire_time);
 		}
 	}
 
