@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace base;
 
+use app\service\ResourcesService;
+
 /**
  * 验证码驱动
  * @author   Devil
@@ -30,6 +32,7 @@ class Verify
 	private $use_text_color_back;
 	private $key_verify;
 	private $expire_time;
+	private $user_uid;
 
 	/**
 	 * [__construct 构造方法]
@@ -62,6 +65,9 @@ class Verify
 		$this->use_text_color_back = isset($param['use_text_color_back']) ? $param['use_text_color_back'] : in_array('textcolor', $rules);
 		$this->key_verify = isset($param['key_prefix']) ? trim($param['key_prefix']).'_verify_code' : '_verify_code';
 		$this->expire_time = isset($param['expire_time']) ? intval($param['expire_time']) : 30;
+
+		// 用户唯一uid
+		$this->user_uid = ResourcesService::UserUniqueId();
 	}
 
 	/**
@@ -146,9 +152,16 @@ class Verify
 	 */
 	public function CheckExpire()
 	{
-		if(isset($_SESSION[$this->key_verify]))
+		// 空uid则存储session
+		if(empty($this->user_uid))
 		{
-			$data = $_SESSION[$this->key_verify];
+			$data = session($this->key_verify);
+		} else {
+			$data = cache($this->key_verify.$this->user_uid);
+		}
+
+		if(!empty($data) && isset($data['time']))
+		{
 			return (time() <= $data['time']+$this->expire_time);
 		}
 		return false;
@@ -165,13 +178,20 @@ class Verify
 	 */
 	public function CheckCorrect($verify = '')
 	{
-		if(isset($_SESSION[$this->key_verify]['verify']))
+		// 空uid则存储session
+		if(empty($this->user_uid))
+		{
+			$data = session($this->key_verify);
+		} else {
+			$data = cache($this->key_verify.$this->user_uid);
+		}
+		if(!empty($data) && isset($data['verify']))
 		{
 			if(empty($verify) && isset($_POST['verify']))
 			{
 				$verify = trim($_POST['verify']);
 			}
-			return ($_SESSION[$this->key_verify]['verify'] == strtolower($verify));
+			return ($data['verify'] == strtolower($verify));
 		}
 		return false;
 	}
@@ -186,9 +206,12 @@ class Verify
 	 */
 	public function Remove()
 	{
-		if(isset($_SESSION[$this->key_verify]))
+		// 空uid则处理session
+		if(empty($this->user_uid))
 		{
-			unset($_SESSION[$this->key_verify]);
+			session($this->key_verify, null);
+		} else {
+			cache($this->key_verify.$this->user_uid, null);
 		}
 	}
 
@@ -201,10 +224,18 @@ class Verify
 	 */
 	private function KindofSession()
 	{
-		$_SESSION[$this->key_verify] = array(
-				'verify' => $this->rand_string,
-				'time' => time(),
-			);
+		$data = [
+			'verify'	=> $this->rand_string,
+			'time'		=> time(),
+		];
+
+		// 空uid则存储session
+		if(empty($this->user_uid))
+		{
+			session($this->key_verify, $data);
+		} else {
+			cache($this->key_verify.$this->user_uid, $data, $this->expire_time);
+		}
 	}
 
 	/**

@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\Db;
 use think\facade\Hook;
+use app\service\UserService;
 
 /**
  * 资源服务层
@@ -671,6 +672,29 @@ class ResourcesService
             'application/octet-stream',
             'application/x-zip-compressed',
         ];
+    }
+
+    /**
+     * 获取用户唯一id
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-15
+     * @desc    未登录取[uuid]前端传过来的uuid、已登录取[用户id]、都没有则返回空字符串
+     */
+    public static function UserUniqueId()
+    {
+        // 取参数uuid、默认空
+        $uid = input('uuid', '');
+
+        // 用户信息
+        $user = UserService::LoginUserInfo();
+        if(!empty($user) && !empty($user['id']))
+        {
+            $uid = $user['id'];
+        }
+
+        return empty($uid) ? '' : md5($uid);
     }
 }
 ?>
