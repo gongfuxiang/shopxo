@@ -283,7 +283,7 @@ class IntegralService
         }
 
         // 订单详情
-        $order_detail = Db::name('OrderDetail')->field('id,user_id,order_id,goods_id,total_price,refund_price')->find(intval($params['order_detail_id']));
+        $order_detail = Db::name('OrderDetail')->field('id,user_id,order_id,goods_id,price,total_price,refund_price,returned_quantity')->find(intval($params['order_detail_id']));
         if(empty($order_detail))
         {
             return DataReturn('订单详情不存在或已删除，终止操作', 0);
@@ -300,17 +300,29 @@ class IntegralService
         $give_rate = Db::name('Goods')->where(['id'=>$order_detail['goods_id']])->value('give_integral');
         if($give_rate > 0 && $give_rate <= 100)
         {
-            $give_integral = intval(($give_rate/100)*$order_detail['refund_price']);
-            if($give_integral >= 1)
+            // 存在退款金额则使用退款金额
+            // 未存在退款金额则判断是否存在退款数量
+            // 存在退款数量则使用退款数量*单价金额计算（防止订单退款金额为空仅存在退款数量）
+            $refund_integral = 0;
+            if($order_detail['refund_price'] > 0)
+            {
+                $refund_integral = intval(($give_rate/100)*$order_detail['refund_price']);
+            } else {
+                if($order_detail['returned_quantity'] > 0)
+                {
+                    $refund_integral = intval(($give_rate/100)*($order_detail['price']*$order_detail['returned_quantity']));
+                }
+            }
+            if($refund_integral >= 1)
             {
                 // 用户积分添加
-                if(!Db::name('User')->where(['id'=>$user['id']])->setDec('integral', $give_integral))
+                if(!Db::name('User')->where(['id'=>$user['id']])->setDec('integral', $refund_integral))
                 {
                     return DataReturn('用户积分释放失败['.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -10);
                 }
 
                 // 积分日志
-                self::UserIntegralLogAdd($user['id'], $user['integral'], $give_integral, '订单商品发生售后收回', 0);
+                self::UserIntegralLogAdd($user['id'], $user['integral'], $refund_integral, '订单商品发生售后收回', 0);
             }
         }
         return DataReturn('操作成功', 0);
