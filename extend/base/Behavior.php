@@ -11,7 +11,7 @@
 namespace base;
 
 /**
- * 行为信息驱动
+ * 基础信息驱动
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -237,7 +237,7 @@ class Behavior
 	 */
 	public function GetServerIP()
 	{
-		return empty($_SERVER['SERVER_ADDR']) ? '' : $_SERVER['SERVER_ADDR'];
+		return __MY_ADDR__;
 	}
 
 	/**
