@@ -13,6 +13,7 @@ namespace app\service;
 use think\Db;
 use app\service\ResourcesService;
 use app\service\PluginsAdminService;
+use app\service\StoreService;
 
 /**
  * 应用服务层
@@ -295,15 +296,15 @@ class PluginsService
 
         // 应用控制器
         $control = ucfirst($control);
-        $plugins = '\app\plugins\\'.$plugins.'\\'.$group.'\\'.$control;
-        if(!class_exists($plugins))
+        $plugins_class = '\app\plugins\\'.$plugins.'\\'.$group.'\\'.$control;
+        if(!class_exists($plugins_class))
         {
             return DataReturn('应用控制器未定义['.$control.']', -1);
         }
 
         // 调用方法
         $action = ucfirst($action);
-        $obj = new $plugins($params);
+        $obj = new $plugins_class($params);
         if(!method_exists($obj, $action))
         {
             return DataReturn('应用方法未定义['.$action.']', -1);
@@ -314,6 +315,35 @@ class PluginsService
         {
             $params = $params['data_request'];
         }
+
+        // 安全判断
+        if(config('shopxo.is_develop') === false)
+        {
+            $key = 'plugins_legal_check_'.$plugins;
+            $status = cache($key);
+            if(empty($status))
+            {
+                $config = PluginsAdminService::GetPluginsConfig($plugins);
+                if(!empty($config) && is_array($config))
+                {
+                    unset($config['hook']);
+                } else {
+                    $config = [];
+                }
+                $check_params = [
+                    'config'    => $config,
+                    'plugins'   => $plugins,
+                ];
+                $ret = StoreService::PluginsLegalCheck($check_params);
+                if($ret['code'] != 0)
+                {
+                    return $ret;
+                }
+                cache($key, 1, 600);
+            }
+        }
+
+        // 调用对应插件
         return DataReturn('调用成功', 0, $obj->$action($params));
     }
 

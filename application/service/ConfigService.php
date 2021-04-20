@@ -37,6 +37,7 @@ class ConfigService
             'home_index_floor_manual_mode_goods',
             'home_index_floor_left_top_category',
             'admin_email_login_template',
+            'home_email_login_template',
         ];
 
     // 附件字段列表
@@ -61,6 +62,43 @@ class ConfigService
         'home_user_reg_type',
         'admin_login_type',
         'home_search_params_type',
+    ];
+
+    // 需要文件缓存的key
+    public static $file_cache_keys = [
+        // 伪静态后缀
+        'home_seo_url_html_suffix',
+
+        // 前端默认主题
+        'common_default_theme',
+
+        // 时区
+        'common_timezone',
+
+        // 是否开启redis缓存
+        'common_data_is_use_cache',
+        'common_cache_data_redis_host',
+        'common_cache_data_redis_port',
+        'common_cache_data_redis_password',
+        'common_cache_data_redis_expire',
+        'common_cache_data_redis_prefix',
+
+        // session是否开启redis缓存
+        'common_session_is_use_cache',
+        'common_cache_session_redis_host',
+        'common_cache_session_redis_port',
+        'common_cache_session_redis_password',
+        'common_cache_session_redis_expire',
+        'common_cache_session_redis_prefix',
+
+        // cdn地址
+        'common_cdn_attachment_host',
+        'common_cdn_public_host',
+
+        // 编辑器配置信息
+        'home_max_limit_image',
+        'home_max_limit_video',
+        'home_max_limit_file',
     ];
 
     /**
@@ -238,7 +276,10 @@ class ConfigService
                 cache($k, $v);
 
                 // 数据文件缓存
-                MyFileConfig($k, $v);
+                if(array_key_exists($k, self::$file_cache_keys))
+                {
+                    MyFileConfig($k, $v);
+                }
             }
 
             // 所有配置缓存集合

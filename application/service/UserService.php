@@ -1826,19 +1826,13 @@ class UserService
             // 基础处理
             if(isset($user['id']))
             {
-                // token生成并存储缓存
-                if($user['is_mandatory_bind_mobile'] == 0 || ($user['is_mandatory_bind_mobile'] == 1 && !empty($user['mobile'])))
+                // 非token数据库校验，则重新生成token更新到数据库
+                if($where_field != 'token')
                 {
+                    // token生成并存储缓存
                     $user['token'] = self::CreatedUserToken($user['id']);
+                    Db::name('User')->where(['id'=>$user['id']])->update(['token'=>$user['token'], 'upd_time'=>time()]);
                     cache(config('shopxo.cache_user_info').$user['token'], $user);
-
-                    // 非token数据库校验，则重新生成token更新到数据库
-                    if($where_field != 'token')
-                    {
-                        Db::name('User')->where(['id'=>$user['id']])->update(['token'=>$user['token'], 'upd_time'=>time()]);
-                    }
-                } else {
-                    $user['token'] = '';
                 }
 
                 // 用户登录纪录处理
@@ -2033,73 +2027,110 @@ class UserService
             return DataReturn('验证码错误', -11);
         }
 
-        // 用户信息
-        $accounts_field = APPLICATION_CLIENT_TYPE.'_openid';
-        if(empty($params[$accounts_field]))
-        {
-            return DataReturn('用户openid不能为空', -20);
-        }
+        // 用户更新数据
+        $data = [
+            'mobile'    => $params['mobile'],
+        ];
 
-        // 用户数据
-        $data = array(
-            $accounts_field     => $params[$accounts_field],
-            'mobile'            => $params['mobile'],
-        );
+        // 是否小程序请求
+        $is_appmini = array_key_exists(APPLICATION_CLIENT_TYPE, lang('common_appmini_type'));
 
-        // 获取用户信息
+        // 手机号码获取用户信息
         $mobile_user = Db::name('User')->where([
             ['mobile', '=', $data['mobile']],
             ['is_delete_time', '=', 0],
         ])->find();
-        $open_user = Db::name('User')->where([
-            [$accounts_field, '=', $params[$accounts_field]],
-            ['is_delete_time', '=', 0],
-        ])->find();
-
-        // 如果手机号码存在，并且openid也已存在，则更新掉之前的openid
-        if(!empty($mobile_user))
-        {
-            if(!empty($open_user))
-            {
-                Db::name('User')->where(['id'=>$open_user['id']])->update([$accounts_field=>'', 'upd_time'=>time()]);
-            }
-        } else {
-            $mobile_user = $open_user;
-        }
-
-        // 如果用户不存在则新增用户状态字段
-        if(empty($mobile_user) && empty($open_user))
-        {
-            // 是否需要审核
-            $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
-            $data['status'] = ($common_register_is_enable_audit == 1) ? 3 : 0;
-        }
 
         // 额外信息
-        if(empty($mobile_user['nickname']) && !empty($params['nickname']))
+        if(empty($mobile_user))
         {
-            $data['nickname'] = $params['nickname'];
+            if(empty($mobile_user['nickname']) && !empty($params['nickname']))
+            {
+                $data['nickname'] = $params['nickname'];
+            }
+            if(empty($mobile_user['avatar']) && !empty($params['avatar']))
+            {
+                $data['avatar'] = $params['avatar'];
+            }
+            if(empty($mobile_user['province']) && !empty($params['province']))
+            {
+                $data['province'] = $params['province'];
+            }
+            if(empty($mobile_user['city']) && !empty($params['city']))
+            {
+                $data['city'] = $params['city'];
+            }
+            if(empty($mobile_user) && isset($params['gender']))
+            {
+                $data['gender'] = intval($params['gender']);
+            }
         }
-        if(empty($mobile_user['avatar']) && !empty($params['avatar']))
+
+        // 小程序请求处理
+        if($is_appmini)
         {
-            $data['avatar'] = $params['avatar'];
-        }
-        if(empty($mobile_user['province']) && !empty($params['province']))
-        {
-            $data['province'] = $params['province'];
-        }
-        if(empty($mobile_user['city']) && !empty($params['city']))
-        {
-            $data['city'] = $params['city'];
-        }
-        if(empty($mobile_user) && isset($params['gender']))
-        {
-            $data['gender'] = intval($params['gender']);
+            // openid必须存在
+            $accounts_field = APPLICATION_CLIENT_TYPE.'_openid';
+            if(empty($params[$accounts_field]))
+            {
+                return DataReturn('用户openid不能为空', -20);
+            }
+
+            // openid数据
+            $data[$accounts_field] = $params[$accounts_field];
+
+            // 小程序请求获取用户信息
+            $open_user = Db::name('User')->where([
+                [$accounts_field, '=', $params[$accounts_field]],
+                ['is_delete_time', '=', 0],
+            ])->find();
+
+            // 如果手机号码存在，并且openid也已存在，则更新掉之前的openid
+            if(!empty($mobile_user))
+            {
+                if(!empty($open_user))
+                {
+                    Db::name('User')->where(['id'=>$open_user['id']])->update([$accounts_field=>'', 'upd_time'=>time()]);
+                }
+            } else {
+                $mobile_user = $open_user;
+            }
+        } else {
+            // 获取当前登录用户
+            // 如果手机号码已经存在帐号、当前用户已登录
+            $user = self::LoginUserInfo();
+            if(!empty($user))
+            {
+                // 手机帐号信息是否存在
+                if(!empty($mobile_user))
+                {
+                    // id不一致则提示错误
+                    if($user['id'] != $mobile_user['id'])
+                    {
+                        return DataReturn('手机已绑定、请换手机号重试', -50);
+                    }
+                    
+                    // 是否与当前帐号的手机号码一致
+                    if(!empty($user['mobile']) && $user['mobile'] == $mobile_user['mobile'])
+                    {
+                        return DataReturn('请使用新的手机号', -51);
+                    }
+                }
+
+                // 当前用户赋值手机帐号信息
+                $mobile_user = $user;
+            }
         }
 
         // 不存在添加/则更新
         if(empty($mobile_user))
         {
+            // 如果用户不存在则新增用户状态字段
+            // 是否需要审核
+            $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
+            $data['status'] = ($common_register_is_enable_audit == 1) ? 3 : 0;
+
+            // 新增用户
             $user_ret = self::UserInsert($data, $params);
             if($user_ret['code'] == 0)
             {
@@ -2108,17 +2139,22 @@ class UserService
                 return $user_ret;
             }
         } else {
-            // 用户unionid
-            $unionid = self::UserUnionidHandle($params);
-            if(!empty($unionid['field']) && !empty($unionid['value']))
+            // 小程序请求处理
+            if($is_appmini)
             {
-                if(empty($mobile_user[$unionid['field']]))
+                // 用户unionid
+                $unionid = self::UserUnionidHandle($params);
+                if(!empty($unionid['field']) && !empty($unionid['value']))
                 {
-                    // unionid放入用户data中
-                    $data[$unionid['field']] = $unionid['value'];
+                    if(empty($mobile_user[$unionid['field']]))
+                    {
+                        // unionid放入用户data中
+                        $data[$unionid['field']] = $unionid['value'];
+                    }
                 }
             }
 
+            // 帐号信息更新
             $data['upd_time'] = time();
             if(Db::name('User')->where(['id'=>$mobile_user['id']])->update($data))
             {

@@ -5,7 +5,7 @@
 html, body {
     background: #f5f5f5;
 }
-.echarts-container, .echarts-combination-container-2 li {
+.block-container, .block-combination-container-2 li {
     width: 100%;
     background: #fff !important;
     padding: 10px;
@@ -13,17 +13,17 @@ html, body {
     border-radius: 3px;
     overflow: hidden;;
 }
-.echarts-container, .echarts-combination-container-2 li {
+.block-container, .block-combination-container-2 li {
     position: relative;
 }
-.echarts-container {
+.block-container {
     margin-bottom: 20px;
 }
 
-.echarts-container .echarts-title, .echarts-combination-container-2 li .echarts-title {
+.block-container .echarts-title, .block-combination-container-2 li .echarts-title {
     margin-left: 10px;
 }
-.echarts-container .echarts-title .icon, .echarts-combination-container-2 li .echarts-title .icon {
+.block-container .echarts-title .icon, .block-combination-container-2 li .echarts-title .icon {
     background: #3f82fe;
     display: block;
     width: 5px;
@@ -32,31 +32,31 @@ html, body {
     left: 10px;
     top: 13px;
 }
-.echarts-container .echarts-title .title, .echarts-combination-container-2 li .echarts-title .title {
+.block-container .echarts-title .title, .block-combination-container-2 li .echarts-title .title {
     color: #666;
     font-size: 14px;
     margin-left: 5px;
 }
 @media only screen and (min-width: 641px) {
-    .echarts-combination-container-2 {
+    .block-combination-container-2 {
         margin-bottom: 20px;
     }
-    .echarts-combination-container-2 li {
+    .block-combination-container-2 li {
         width: calc(50% - 10px);
     }
-    .echarts-combination-container-2 li:nth-child(1) {
+    .block-combination-container-2 li:nth-child(1) {
         float: left;
         top: 0;
         left: 0;
     }
-    .echarts-combination-container-2 li:nth-child(2) {
+    .block-combination-container-2 li:nth-child(2) {
         float: right;
         top: 0;
         right: 0;
     }
 }
 @media only screen and (max-width: 641px) {
-    .echarts-combination-container-2 li {
+    .block-combination-container-2 li {
         margin-bottom: 20px;
     }
 }
@@ -167,4 +167,103 @@ html, body {
 }
 .dl-content dd:last-child {
     border-bottom: 0;
+}
+
+/**
+ * 顶部基础
+ */
+.base-content-top {
+    margin-bottom: 10px;
+}
+.base-content-top .vip {
+    border-radius: 2px;
+    padding: 0 6px;
+    background: #e1e1e1;
+    color: #666;
+}
+.base-content-top .vip-active {
+    background: #ffe500;
+    color: #c97e10;
+}
+.base-content-top .ad-content:hover {
+    color: #f44336;
+}
+.inspect-upgrade-submit i {
+    background: #f00;
+    display: inline-block;
+    padding: 3px;
+    vertical-align: super;
+    margin-left: 2px;
+    border-radius: 15px;
+}
+@media only screen and (max-width: 641px) {
+    .base-content-top .left-content,
+    .base-content-top .right-content {
+        width: 100%;
+    }
+    .base-content-top .right-content {
+        margin-top: 10px;
+        border-top: 1px dashed #eee;
+        padding-top: 10px;
+    }
+    .base-content-top .left-content .ad-content,
+    .base-content-top .right-content .right-base {
+        float: right;
+    }
+}
+
+/**
+ * 商店帐号信息
+ */
+#store-accounts-popup {
+    width: 360px;
+    height: 350px;
+    left: 50%;
+    top: 50%;
+}
+@media (min-width: 630px) {
+    #store-accounts-popup {
+        margin-left: -180px;
+        margin-top: -175px;
+    }
+}
+@media only screen and (max-width: 641px) {
+    #store-accounts-popup {
+        left: calc(50% - 180px);
+        top: calc(50% - 175px);
+    }
+}
+
+/**
+ * 更新信息展示
+ */
+#inspect-upgrade-popup .am-popup-bd {
+    padding-bottom: 50px;
+    overflow: auto;
+}
+#inspect-upgrade-popup .upgrade-title span {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 16px;
+}
+#inspect-upgrade-popup .upgrade-title * {
+    vertical-align: middle;
+}
+#inspect-upgrade-popup .upgrade-content-item ul li {
+    line-height: 26px;
+    min-height: 26px;
+}
+#inspect-upgrade-popup .upgrade-bottom {
+    position: fixed;
+    left: 0;
+    bottom: 0px;
+    width: 100%;
+    height: 70px;
+    padding: 0 25px;
+}
+#inspect-upgrade-popup .upgrade-bottom-content {
+    background: #fff;
+    padding: 10px 20px 0 0;
+    height: 50px;
+    border-top: 1px solid #ececec;
 }

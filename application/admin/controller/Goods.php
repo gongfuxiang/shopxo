@@ -188,7 +188,7 @@ class Goods extends Common
 		// 商品分类
 		$this->assign('goods_category_list', GoodsService::GoodsCategoryAll());
 
-		// 品牌分类
+		// 品牌
 		$this->assign('brand_list', BrandService::CategoryBrand());
 
 		// 规格扩展数据

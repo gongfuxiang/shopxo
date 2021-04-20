@@ -11,6 +11,8 @@
 namespace app\admin\controller;
 
 use app\service\StatisticalService;
+use app\service\StoreService;
+use app\service\ConfigService;
 
 /**
  * 首页
@@ -112,7 +114,69 @@ class Index extends Common
 		$goods_hot_sale = StatisticalService::GoodsHotSaleSevenTodayTotal();
 		$this->assign('goods_hot_sale', $goods_hot_sale['data']);
 
+		// 配置信息
+		$config = ConfigService::ConfigList();
+		$this->assign('config_data', $config);
+
+		// 站点商店信息
+		$site_store_info = StoreService::SiteStoreInfo();
+		if(empty($site_store_info))
+		{
+			$site_params = [
+				'common_store_accounts'	=> MyC('common_store_accounts'),
+				'common_store_password'	=> MyC('common_store_password'),
+			];
+			$res = StoreService::SiteStoreAccountsBind($site_params);
+			if($res['code'] == 0)
+			{
+				$site_store_info = StoreService::SiteStoreInfo();
+			}
+		}
+		$this->assign('site_store_info', $site_store_info);
+
 		return $this->fetch();
+	}
+
+	/**
+	 * 应用商店帐号绑定
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2021-04-16
+	 * @desc    description
+	 */
+	public function StoreAccountsBind()
+	{
+		// 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = $this->data_request;
+        return StoreService::SiteStoreAccountsBind($params);
+	}
+
+	/**
+	 * 检查更新
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2021-04-16
+	 * @desc    description
+	 */
+	public function InspectUpgrade()
+	{
+		// 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = $this->data_request;
+        return StoreService::SiteInspectUpgrade($params);
 	}
 }
 ?>

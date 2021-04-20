@@ -3,8 +3,39 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
+		<!-- 顶部基础信息 -->
+		<div class="block-container base-content-top am-nbfc">
+			<div class="am-fl am-nbfc left-content">
+				<!-- 帐号信息 -->
+				{{if !empty($site_store_info) and !empty($site_store_info['user'])}}
+					<i class="am-icon-user"></i>
+					<span>{{$site_store_info.user.user_name_view}}</span>
+					<a href="javascript:;" class="am-margin-left-xs" data-am-modal="{target: '#store-accounts-popup'}">修改</a>
+				{{else /}}
+					<a href="javascript:;" class="am-margin-left-xs" data-am-modal="{target: '#store-accounts-popup'}">绑定ShopXO商店账户</a>
+				{{/if}}
+
+				<!-- 广告 -->
+				{{if !empty($site_store_info) and !empty($site_store_info['adverts']) and !empty($site_store_info['adverts']['name'])}}
+					<a class="am-margin-left-sm am-text-danger ad-content {{if !empty($site_store_info['adverts']['icon'])}}{{$site_store_info.adverts.icon}}{{/if}}" {{if empty($site_store_info['adverts']['url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.adverts.url}}" target="_blank"{{/if}}> {{$site_store_info.adverts.name}}</a>
+				{{/if}}
+			</div>
+			<div class="am-fr am-nbfc right-content">
+				<!-- VIP授权信息 -->
+				{{if !empty($site_store_info) and !empty($site_store_info['vip']) and !empty($site_store_info['vip']['auth_view'])}}
+					<a class="am-icon-diamond vip {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '授权主体：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}> {{$site_store_info.vip.auth_view}}</a>
+				{{/if}}
+
+				<!-- 右侧版本信息及更新检查 -->
+				<span class="right-base">
+					<a href="https://ask.shopxo.net/article/148" target="_blank" class="am-margin-left-xs">{{$Think.APPLICATION_VERSION}}</a>
+					<a href="javascript:;" class="am-margin-left-sm inspect-upgrade-submit" data-url="{{:MyUrl('admin/index/inspectupgrade')}}">检查更新{{if !empty($site_store_info) and !empty($site_store_info['upgrade']) and !empty($site_store_info['upgrade']['version_old']) and $site_store_info['upgrade']['version_old'] eq $Think.APPLICATION_VERSION}}<i></i>{{/if}}</a>
+				</span>
+			</div>
+		</div>
+
 		<!-- 基础统计 -->
-		<div class="echarts-container shopxo-base">
+		<div class="block-container shopxo-base">
 			<div class="echarts-title">
 				<span class="icon"></span>
 				<span class="title">商城统计</span>
@@ -106,7 +137,7 @@
 		</div>
 
 		<!-- 近30日订单成交金额走势 -->
-		<div class="echarts-container">
+		<div class="block-container">
 			<div class="echarts-title">
 				<span class="icon"></span>
 				<span class="title">近30日订单成交金额走势</span>
@@ -115,7 +146,7 @@
 		</div>
 
 		<!-- 近30日订单交易走势 -->
-		<div class="echarts-container">
+		<div class="block-container">
 			<div class="echarts-title">
 				<span class="icon"></span>
 				<span class="title">近30日订单交易走势</span>
@@ -124,7 +155,7 @@
 		</div>
 
 		<!-- 组合 -->
-		<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 echarts-combination-container-2">
+		<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2">
 			<li>
 				<!-- 近30日热销商品 -->
 				<div class="echarts-title">
@@ -145,7 +176,7 @@
 		</ul>
 
 		<!-- 系统信息 -->
-		<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 echarts-combination-container-2">
+		<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2 am-padding-bottom-sm">
 			<li>
 				<div class="echarts-title">
 					<span class="icon"></span>
@@ -213,6 +244,51 @@
 	</div>
 </div>
 <!-- right content end  -->
+
+<!-- 应用商店账户绑定 -->
+<div class="am-popup popup-not-title" id="store-accounts-popup">
+    <div class="am-popup-inner">
+        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <div class="am-popup-bd">
+            <!-- form start -->
+			<form class="am-form form-validation view-save" action="{{:MyUrl('admin/index/storeaccountsbind')}}" method="POST" request-type="ajax-reload">
+				<div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+					<label>账号<span class="am-form-group-label-tips-must">必填</span></label>
+					<input type="text" name="common_store_accounts" placeholder="用户名/手机/邮箱" data-validation-message="账号格式1~30个字符" class="am-radius" value="{{if !empty($config_data) and !empty($config_data['common_store_accounts'])}}{{$config_data.common_store_accounts.value}}{{/if}}" required />
+				</div>
+				<div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+					<label>密码<span class="am-form-group-label-tips-must">必填</span></label>
+					<input type="password" name="common_store_password" placeholder="登录密码" data-validation-message="登录密码格式6~30个字符" class="am-radius" value="{{if !empty($config_data) and !empty($config_data['common_store_password'])}}{{$config_data.common_store_password.value}}{{/if}}" required />
+				</div>
+				
+				<div class="am-form-group am-form-group-refreshing am-margin-top-sm">
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'绑定中...'}">绑定</button>
+				</div>
+				<div class="am-margin-top-xr am-text-right am-padding-right-xs">
+					<a href="https://store.shopxo.net/regster.html" target="_blank">未有账号，去注册</a>
+				</div>
+				<p class="am-text-warning am-text-center am-margin-top-sm">一个账号支持绑定多台ShopXO商城</p>
+			</form>
+	        <!-- form end -->
+        </div>
+    </div>
+</div>
+
+<!-- 检查更新显示信息 -->
+<div class="am-popup popup-not-title" id="inspect-upgrade-popup">
+    <div class="am-popup-inner">
+        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <div class="am-popup-bd">
+        	<div class="upgrade-content"></div>
+			<div class="upgrade-bottom am-text-right">
+				<div class="upgrade-bottom-content">
+					<button type="button" class="am-btn am-btn-default am-radius am-btn-xs" data-am-modal-close>取消</button>
+					<button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-sm am-hide inspect-upgrade-confirm">立即更新</button>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
 
 <!-- footer start -->
 {{include file="public/footer" /}}

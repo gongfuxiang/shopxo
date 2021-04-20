@@ -76,7 +76,11 @@ function GetUrlHost($url)
 {
     // 地址解析
     $arr = parse_url(strtolower($url));
-    $host = (count($arr) == 1) ? $arr['path'] : $arr['host'];
+    $host = (count($arr) == 1) ? $arr['path'] : (empty($arr['host']) ? '' : $arr['host']);
+    if(empty($host))
+    {
+        return $url;
+    }
 
     // 是否存在斜杠
     if(stripos($host, '/') !== false)

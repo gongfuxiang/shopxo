@@ -178,4 +178,89 @@ $(function()
         }
     });
 
+    // 检查更新
+    $('.inspect-upgrade-submit').on('click', function()
+    {
+        // 基础信息
+        var $inspect_upgrade_popup = $('#inspect-upgrade-popup');
+        AMUI.dialog.loading({title: '正在获取最新内容、请稍候...'});
+
+        // ajax请求
+        $.ajax({
+            url: $(this).data('url'),
+            type: 'POST',
+            dataType: 'json',
+            timeout: 30000,
+            data: {},
+            success: function(result)
+            {
+                AMUI.dialog.loading('close');
+                if(result.code == 0)
+                {
+                    // html内容处理
+                    // 基础信息
+                    var html = '<p class="upgrade-title">';
+                        html += '<i class="am-icon-info-circle am-icon-md am-text-warning"></i>';
+                        html += '<span class="am-margin-left-xs">'+result.data.title+'</span>';
+                        html += '</p>';
+                        html += '<div class="am-alert upgrade-base">';
+                        html += '<span class="upgrade-ver">更新版本：'+result.data.version_new+'</span>';
+                        html += '<span class="upgrade-date am-margin-left-sm">更新日期：'+result.data.add_time+'</span>';
+                        // 是否带指定链接和链接名称
+                        if((result.data.go_title || null) != null && (result.data.go_url || null) != null)
+                        {
+                            html += '<a href="'+result.data.go_url+'" class="upgrade-go-detail am-margin-left-lg" target="_blank">'+result.data.go_title+'</a>';
+                        }
+                        html += '</div>';
+
+                        // 提示信息
+                        if((result.data.tips || null) != null)
+                        {
+                            html += '<div class="am-alert am-alert-danger">';
+                            html += '<p class="am-text-danger">'+result.data.tips+'</p>';
+                            html += '</div>';
+                        }
+
+                        // 更新内容介绍
+                        if((result.data.content || null) != null && result.data.content.length > 0)
+                        {
+                            html += '<div class="am-alert am-alert-secondary upgrade-content-item">';
+                            html += '<ul>';
+                            for(var i in result.data.content)
+                            {
+                                html += '<li>'+result.data.content[i]+'</li>';
+                            }
+                            html += '</ul>';
+                            html += '</div>';
+                        }
+                    $inspect_upgrade_popup.find('.upgrade-content').html(html);
+
+                    // 是否支持在线自动更新
+                    if((result.data.is_auto || 0) == 1)
+                    {
+                        $inspect_upgrade_popup.find('.inspect-upgrade-confirm').removeClass('am-hide');
+                    } else {
+                        $inspect_upgrade_popup.find('.inspect-upgrade-confirm').addClass('am-hide');
+                    }
+
+                    // 打开弹窗
+                    $inspect_upgrade_popup.modal('open');
+                } else {
+                    Prompt(result.msg);
+                }
+            },
+            error: function(xhr, type)
+            {
+                AMUI.dialog.loading('close');
+                Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+            }
+        });
+    });
+
+    // 系统更新确认
+    $('.inspect-upgrade-confirm').on('click', function()
+    {
+        Prompt('开发中...');
+    });
+
 });

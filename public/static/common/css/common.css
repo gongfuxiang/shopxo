@@ -145,6 +145,15 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
 .am-modal-dialog .am-modal-bd {
     background: #fff;
 }
+.am-modal-dialog {
+    width: auto;
+}
+.am-modal-dialog .am-modal-bd {
+    padding: 10px 30px;
+}
+.am-modal-dialog .am-modal-bd span {
+    vertical-align: middle;
+}
 
 /**
  * iframe

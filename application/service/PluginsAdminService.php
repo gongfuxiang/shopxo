@@ -215,7 +215,7 @@ class PluginsAdminService
      * @desc    description
      * @param   [string]          $plugins [插件名称]
      */
-    private static function GetPluginsConfig($plugins)
+    public static function GetPluginsConfig($plugins)
     {
         $config = [];
         $file = APP_PATH.'plugins'.DS.$plugins.DS.'config.json';
