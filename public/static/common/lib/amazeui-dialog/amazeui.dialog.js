@@ -55,7 +55,7 @@ dialog.alert = function(options) {
       setTimeout(function()
       {
         $this.remove();
-      }, 2000);
+      }, 1000);
     });
 };
 
@@ -92,32 +92,32 @@ dialog.confirm = function(options) {
       setTimeout(function()
       {
         $this.remove();
-      }, 2000);
+      }, 1000);
   });
 };
 
 dialog.loading = function(options) {
-  options = options || {};
-  options.title = options.title || '正在载入...';
+  if(options == 'close') {
+    $('#my-modal-loading').modal('close');
+  } else {
+    options = options || {};
+    options.title = options.title || '正在载入...';
 
-  var html = [];
-  html.push('<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">');
-  html.push('<div class="am-modal-dialog">');
-  html.push('<div class="am-modal-hd">' + options.title + '</div>');
-  html.push('<div class="am-modal-bd">');
-  html.push('<span class="am-icon-spinner am-icon-spin"></span>');
-  html.push('</div>');
-  html.push('</div>');
-  html.push('</div>');
+    var html = [];
+    html.push('<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">');
+    html.push('<div class="am-modal-dialog">');
+    html.push('<div class="am-modal-bd">');
+    html.push('<span class="am-icon-spinner am-icon-spin"></span>');
+    html.push('<span class="am-margin-left-xs">' + options.title + '</span>');
+    html.push('</div>');
+    html.push('</div>');
+    html.push('</div>');
 
-  return $(html.join('')).appendTo('body').modal()
-    .on('closed.modal.amui', function() {
-      var $this = $(this);
-      setTimeout(function()
-      {
-        $this.remove();
-      }, 2000);
-    });
+    return $(html.join('')).appendTo('body').modal()
+      .on('closed.modal.amui', function() {
+        $(this).remove();
+      });
+  }
 };
 
 dialog.actions = function(options) {
@@ -192,7 +192,7 @@ dialog.popup = function(options) {
       setTimeout(function()
       {
         $this.remove();
-      }, 2000);
+      }, 1000);
       options.onClose();
     });
 };
