@@ -1,3 +1,6 @@
+// 表单初始化
+FromInit('form.form-validation-store-accounts');
+
 /**
  * 商品参数数据创建
  * @author  Devil
@@ -75,8 +78,143 @@ function FormTableHeightHandle()
     }
 }
 
+/**
+ * 软件更新异步请求步骤
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-02-22
+ * @desc    description
+ * @param   {[string]}        url       [url地址]
+ * @param   {[string]}        type      [操作类型（plugins、payment、webtheme、minitheme）]
+ * @param   {[string]}        value     [操作标识值]
+ * @param   {[string]}        opt       [操作类型（url 获取下载地址， download 下载插件包， upgrade 安装插件包）]
+ * @param   {[string]}        key       [操作key（仅download和install需要）]
+ * @param   {[string]}        terminal  [小程序需要的指定端值]
+ * @param   {[string]}        msg       [提示信息]
+ */
+function PackageUpgradeRequestHandle(params)
+{
+    // 参数处理
+    if((params || null) == null)
+    {
+        Prompt('操作参数有误');
+        return false;
+    }
+    var url = params.url || null;
+    var type = params.type || null;
+    var value = params.value || null;
+    var key = params.key || '';
+    var terminal = params.terminal || '';
+    var opt = params.opt || 'url';
+    var msg = params.msg || '正在获取中...';
+
+    // 加载提示
+    AMUI.dialog.loading({title: msg});
+
+    // ajax
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        timeout: 305000,
+        data: {"plugins_type":type, "plugins_value":value, "plugins_terminal":terminal, "opt":opt, "key":key},
+        success: function(result)
+        {
+            if((result || null) != null && result.code == 0)
+            {
+                switch(opt)
+                {
+                    // 获取下载地址
+                    case 'url' :
+                        params['key'] = result.data;
+                        params['opt'] = 'download';
+                        params['msg'] = '正在下载中...';
+                        PackageUpgradeRequestHandle(params);
+                        break;
+
+                    // 下载插件包
+                    case 'download' :
+                        params['key'] = result.data;
+                        params['opt'] = 'upgrade';
+                        params['msg'] = '正在更新中...';
+                        PackageUpgradeRequestHandle(params);
+                        break;
+
+                    // 更新完成
+                    case 'upgrade' :
+                        Prompt(result.msg, 'success');
+                        setTimeout(function()
+                        {
+                            window.location.reload();
+                        }, 1500);
+                        break;
+                }
+            } else {
+                AMUI.dialog.loading('close');
+                Prompt(((result || null) == null) ? '返回数据格式错误' : (result.msg || '异常错误'));
+            }
+        },
+        error: function(xhr, type)
+        {
+            AMUI.dialog.loading('close');
+            Prompt(HtmlToString(xhr.responseText) || '异常错误');
+        }
+    });
+}
+
 $(function()
 {
+    // 插件更新操作事件
+    $(document).on('click', '.package-upgrade-event', function()
+    {
+        // 参数处理
+        var json = $(this).attr('data-json') || null;
+        if(json != null)
+        {
+            var json = JSON.parse(decodeURIComponent(json)) || null;
+        }
+        var name = $(this).data('name') || null;
+        var type = $(this).data('type') || null;
+        var value = $(this).data('value') || null;
+        var terminal = $(this).data('terminal') || '';
+        if(name == null || type == null || value == null || json == null)
+        {
+            Prompt('操作事件参数配置有误');
+            return false;
+        }
+        
+        // 数据处理打开弹窗
+        var $modal = $('#package-upgrade-modal');
+        $modal.find('.upgrade-name').text(name);
+        $modal.find('.upgrade-date').text(' '+json.add_time);
+        $modal.find('.upgrade-version').text(' '+json.version_new);
+        $modal.find('.am-scrollable-vertical').html(json.describe.join('<br />'));
+        $modal.find('.package-upgrade-submit').attr('data-type', type).attr('data-value', value).attr('data-terminal', terminal);
+        $modal.modal({
+            closeViaDimmer: false,
+            width: 330,
+            height: 257
+        });
+    });
+
+    // 插件更新操作确认
+    $(document).on('click', '.package-upgrade-submit', function()
+    {
+        // 基础配置、url、插件类型、标识值、小程序终端类型
+        var url = $(this).attr('data-url') || null;
+        var type = $(this).attr('data-type') || null;
+        var value = $(this).attr('data-value') || null;
+        var terminal = $(this).attr('data-terminal') || '';
+        if(url == null || type == null || value == null)
+        {
+            Prompt('操作参数有误');
+            return false;
+        }
+        $('#package-upgrade-modal').modal('close');
+        PackageUpgradeRequestHandle({"url":url, "type":type, "value":value, "terminal":terminal});
+    });
+
     // 商品规格和参数上下移动
     $('.specifications-table,.parameters-table').on('click', '.line-move', function()
     {

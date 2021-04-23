@@ -74,12 +74,16 @@ class Appmini extends Common
 		{
 			// 首页
 			case 'index' :
+				// 默认主题
+				$this->assign('theme', AppMiniService::DefaultTheme());
+
 				// 获取主题列表
 				$data = AppMiniService::ThemeList($this->params);
 				$this->assign('data_list', $data);
 
-				// 默认主题
-				$this->assign('theme', AppMiniService::$default_theme);
+				// 插件更新信息
+	            $upgrade = AppMiniService::AppMiniUpgradeInfo(['terminal'=>$this->params['application_name'], 'data'=>$data]);
+	            $this->assign('upgrade_info', $upgrade['data']);
 				break;
 
 			// 源码包列表
@@ -209,7 +213,12 @@ class Appmini extends Common
 	{
 		$key = AppMiniService::DefaultThemeKey($this->params);
 		$params[$key] = empty($this->data_request['theme']) ? 'default' : $this->data_request['theme'];
-		return ConfigService::ConfigSave($params);
+		$ret = ConfigService::ConfigSave($params);
+		if($ret['code'] == 0)
+		{
+			$ret['msg'] = '切换成功';
+		}
+		return $ret;
 	}
 
 	/**

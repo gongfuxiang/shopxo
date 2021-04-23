@@ -2,11 +2,9 @@
     <li {{if $view_type eq 'home'}}class="am-active"{{/if}}>
         <a href="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>'home'])}}">应用管理</a>
     </li>
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-        <li {{if $view_type eq 'upload'}}class="am-active"{{/if}}>
-            <a href="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>'upload'])}}">上传应用</a>
-        </li>
-    {{/if}}
+    <li {{if $view_type eq 'upload'}}class="am-active"{{/if}}>
+        <a href="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>'upload'])}}">上传应用</a>
+    </li>
     <li class="fr">
         <a class="am-margin-left-sm" href="{{$store_url}}" target="_blank">更多插件下载 <i class="am-icon-external-link"></i></a>
     </li>

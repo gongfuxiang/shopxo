@@ -2,50 +2,53 @@
 
 <!-- right content start  -->
 <div class="content-right">
-	<div class="content">
-		<!-- nav start -->
-		{{include file="theme/nav" /}}
-		<!-- nav end -->
+    <div class="content">
+        <!-- nav start -->
+        {{include file="theme/nav" /}}
+        <!-- nav end -->
 
-		<!-- list start -->
-		{{if !empty($data_list)}}
-			<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-bordered data-list" data-am-gallery="{}" data-select-url="{{:MyUrl('admin/theme/save')}}">
-				{{foreach $data_list as $v}}
-					<li id="data-list-{{$v.theme}}">
-						<div class="am-gallery-item am-radius am-padding-0 {{if $v['theme'] eq $theme}}theme-active{{/if}}">
-							<a href="javascript:;" class="select-theme am-block" data-theme="{{$v.theme}}">
-								<img src="{{$v.preview}}" alt="{{$v.name}}" class="am-block" />
-							</a>
-							<div class="am-gallery-item-bottom am-padding-sm">
-								<h3 class="am-gallery-title am-margin-top-0">
-									{{$v.name}}
-									<div class="am-fr am-text-right">
-										{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-											<a href="{{:MyUrl('admin/theme/download', ['id'=>$v['theme']])}}" class="am-icon-trash-o am-icon-download" title="打包"></a>
-										{{/if}}
-										{{if $v.is_delete eq 1}}
-											<a href="javascript:;" class="am-icon-trash-o submit-delete am-margin-left-sm" title="删除" data-url="{{:MyUrl('admin/theme/delete')}}" data-id="{{$v.theme}}"></a>
-										{{/if}}
-									</div>
-								</h3>
-								<div class="am-gallery-desc">作者：
-									{{if empty($v['home'])}}
-										{{$v.author}}
-									{{else /}}
-										<a href="{{$v.home}}" target="_blank">{{$v.author}}</a>
-									{{/if}}
-								</div>
-								<div class="am-gallery-desc">适用版本：{{$v.ver}}</div>
-							</div>
-						</div>
-					</li>
-				{{/foreach}}
-			<ul>
-		{{else /}}
-			{{include file="public/not_data" /}}
-		{{/if}}
-		<!-- lis end -->
-	</div>
+        <!-- list start -->
+        {{if !empty($data_list)}}
+            <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-bordered data-list" data-am-gallery="{}" data-select-url="{{:MyUrl('admin/theme/save')}}">
+                {{foreach $data_list as $v}}
+                    <li id="data-list-{{$v.theme}}">
+                        <div class="am-gallery-item am-radius am-padding-0 {{if $v['theme'] eq $theme}}theme-active{{/if}}">
+                            <a href="javascript:;" class="select-theme am-block" data-theme="{{$v.theme}}">
+                                <img src="{{$v.preview}}" alt="{{$v.name}}" class="am-block" />
+                            </a>
+                            <div class="am-gallery-item-bottom am-padding-sm">
+                                <h3 class="am-gallery-title am-margin-top-0">
+                                    {{$v.name}}
+                                    <div class="am-fr am-text-right">
+                                        {{if !empty($upgrade_info) and isset($upgrade_info[$v['theme']]) and $upgrade_info[$v['theme']]['version_new'] neq $v['ver']}}
+                                            <a href="javascript:;" class="am-icon-refresh am-text-danger package-upgrade-event" title="更新" data-type="webtheme" data-name="{{$v.name}}" data-value="{{$v.theme}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['theme']]))}}"></a>
+                                        {{/if}}
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                            <a href="{{:MyUrl('admin/theme/download', ['id'=>$v['theme']])}}" class="am-icon-trash-o am-icon-download am-margin-left-sm" title="打包"></a>
+                                        {{/if}}
+                                        {{if $v.is_delete eq 1}}
+                                            <a href="javascript:;" class="am-icon-trash-o submit-delete am-margin-left-sm am-text-warning" title="删除" data-url="{{:MyUrl('admin/theme/delete')}}" data-id="{{$v.theme}}"></a>
+                                        {{/if}}
+                                    </div>
+                                </h3>
+                                <div class="am-gallery-desc">作者：
+                                    {{if empty($v['home'])}}
+                                        {{$v.author}}
+                                    {{else /}}
+                                        <a href="{{$v.home}}" target="_blank">{{$v.author}}</a>
+                                    {{/if}}
+                                </div>
+                                <div class="am-gallery-desc">适用版本：{{$v.ver}}</div>
+                            </div>
+                        </div>
+                    </li>
+                {{/foreach}}
+            <ul>
+        {{else /}}
+            {{include file="public/not_data" /}}
+        {{/if}}
+        <!-- lis end -->
+    </div>
 </div>
 <!-- right content end  -->
 

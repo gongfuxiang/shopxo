@@ -1,5 +1,5 @@
 /**
- * 异步请求步骤
+ * 软件安装异步请求步骤
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -45,7 +45,7 @@ function RequestHandle(key, opt, msg)
         url: url,
         type: 'POST',
         dataType: 'json',
-        timeout: 30000,
+        timeout: 305000,
         data: {"id":id, "type":type, "opt":opt, "key":key || '', "terminal":terminal || ''},
         success: function(result)
         {

@@ -213,28 +213,6 @@ html, body {
 }
 
 /**
- * 商店帐号信息
- */
-#store-accounts-popup {
-    width: 360px;
-    height: 350px;
-    left: 50%;
-    top: 50%;
-}
-@media (min-width: 630px) {
-    #store-accounts-popup {
-        margin-left: -180px;
-        margin-top: -175px;
-    }
-}
-@media only screen and (max-width: 641px) {
-    #store-accounts-popup {
-        left: calc(50% - 180px);
-        top: calc(50% - 175px);
-    }
-}
-
-/**
  * 更新信息展示
  */
 #inspect-upgrade-popup .am-popup-bd {

@@ -13,6 +13,8 @@ namespace app\admin\controller;
 use app\service\StoreService;
 use app\service\PluginsAdminService;
 use app\service\ResourcesService;
+use app\service\PluginsService;
+use app\service\PluginsUpgradeService;
 
 /**
  * 应用管理
@@ -66,8 +68,14 @@ class Pluginsadmin extends Common
         // 页面类型
         if($this->view_type == 'home')
         {
+            // 插件列表
             $ret = PluginsAdminService::PluginsList();
             $this->assign('data_list', $ret['data']);
+
+            // 插件更新信息
+            $upgrade = PluginsService::PluginsUpgradeInfo($ret['data']);
+            $this->assign('upgrade_info', $upgrade['data']);
+
             return $this->fetch();
         } else {
             return $this->fetch('upload');
@@ -287,6 +295,26 @@ class Pluginsadmin extends Common
 
         // 开始操作
         return PluginsAdminService::SortSave($this->data_post);
+    }
+
+    /**
+     * 插件更新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-01-05
+     * @desc    description
+     */
+    public function Upgrade()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->error('非法访问');
+        }
+
+        // 开始操作
+        return PluginsUpgradeService::Run($this->data_post);
     }
 }
 ?>

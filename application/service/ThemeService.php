@@ -313,16 +313,12 @@ class ThemeService
         }
 
         // 获取配置信息
-        $config_file = ROOT.self::$html_path.$theme.DS.'config.json';
-        if(!file_exists($config_file))
+        $config_res = self::ThemeConfig($theme);
+        if($config_res['code'] != 0)
         {
-            return DataReturn('主题配置文件不存在', -1);
+            return $config_res;
         }
-        $config = json_decode(file_get_contents($config_file), true);
-        if(empty($config))
-        {
-            return DataReturn('主题配置信息有误', -1);
-        }
+        $config = $config_res['data'];
 
         // 目录不存在则创建
         $new_dir = ROOT.'runtime'.DS.'data'.DS.'theme_package'.DS.$theme;
@@ -386,6 +382,77 @@ class ThemeService
         } else {
             return DataReturn('下载失败', -100);
         }
+    }
+
+    /**
+     * 主题配置信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-22
+     * @desc    description
+     * @param   [string]          $theme [主题标识]
+     */
+    public static function ThemeConfig($theme)
+    {
+        // 获取配置信息
+        $config_file = ROOT.self::$html_path.$theme.DS.'config.json';
+        if(!file_exists($config_file))
+        {
+            return DataReturn('主题配置文件不存在', -1);
+        }
+        $config = json_decode(file_get_contents($config_file), true);
+        if(empty($config))
+        {
+            return DataReturn('主题配置信息有误', -1);
+        }
+        return DataReturn('success', 0, $config);
+    }
+
+    /**
+     * web主题更新信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-22
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function ThemeUpgradeInfo($params = [])
+    {
+        if(!empty($params))
+        {
+            // 数据处理
+            $data = [];
+            foreach($params as $v)
+            {
+                if(!empty($v['name']) && !empty($v['ver']) && !empty($v['theme']) && !empty($v['author']))
+                {
+                    $data[] = [
+                        'plugins'   => $v['theme'],
+                        'name'      => $v['name'],
+                        'ver'       => $v['ver'],
+                        'author'    => $v['author'],
+                    ];
+                }
+            }
+            if(!empty($data))
+            {
+                // 获取更新信息
+                $request_params = [
+                    'plugins_type'  => 'webtheme',
+                    'plugins_data'  => $data,
+                ];
+                $res = StoreService::PluginsUpgradeInfo($request_params);
+                if(!empty($res['data']))
+                {
+                    $res['data'] = array_column($res['data'], null, 'plugins');
+                }
+                return $res;
+            }
+        }
+
+        return DataReturn('无插件数据', 0);
     }
 }
 ?>

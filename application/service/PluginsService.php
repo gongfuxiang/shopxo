@@ -324,15 +324,17 @@ class PluginsService
             if(empty($status))
             {
                 $config = PluginsAdminService::GetPluginsConfig($plugins);
-                if(!empty($config) && is_array($config))
+                if(empty($config) || empty($config['base']))
                 {
-                    unset($config['hook']);
-                } else {
-                    $config = [];
+                    return DataReturn('应用插件配置信息有误', -1);
                 }
+ 
                 $check_params = [
+                    'type'      => 'plugins',
                     'config'    => $config,
                     'plugins'   => $plugins,
+                    'author'    => $config['base']['author'],
+                    'ver'       => $config['base']['version'],
                 ];
                 $ret = StoreService::PluginsLegalCheck($check_params);
                 if($ret['code'] != 0)
@@ -354,7 +356,7 @@ class PluginsService
      * @version  1.0.0
      * @date     2020-01-02
      * @param    [string]          $plugins        [应用标记]
-     * @param    [string]          $action         [事件方法(Upload 上传, Install 安装, Uninstall 卸载, Download 下载, Delete 删除)]
+     * @param    [string]          $action         [事件方法(Upload 上传, Install 安装, Uninstall 卸载, Download 下载, Upgrade 更新, Delete 删除)]
      * @param    [array]           $params         [输入参数]
      */
     public static function PluginsEventCall($plugins, $action, $params = [])
@@ -404,6 +406,52 @@ class PluginsService
             $data = null;
         }
         return $data;
+    }
+
+    /**
+     * 插件更新信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-21
+     * @desc    description
+     * @param   [array]           $params [输入参数、插件信息]
+     */
+    public static function PluginsUpgradeInfo($params = [])
+    {
+        if(!empty($params) && !empty($params['db_data']) && is_array($params['db_data']))
+        {
+            // 数据处理
+            $data = [];
+            foreach($params['db_data'] as $v)
+            {
+                if(!empty($v['name']) && !empty($v['version']) && !empty($v['plugins']) && !empty($v['author']))
+                {
+                    $data[] = [
+                        'plugins'   => $v['plugins'],
+                        'name'      => $v['name'],
+                        'ver'       => $v['version'],
+                        'author'    => $v['author'],
+                    ];
+                }
+            }
+            if(!empty($data))
+            {
+                // 获取更新信息
+                $request_params = [
+                    'plugins_type'  => 'plugins',
+                    'plugins_data'  => $data,
+                ];
+                $res = StoreService::PluginsUpgradeInfo($request_params);
+                if(!empty($res['data']))
+                {
+                    $res['data'] = array_column($res['data'], null, 'plugins');
+                }
+                return $res;
+            }
+        }
+
+        return DataReturn('无插件数据', 0);
     }
 }
 ?>

@@ -935,7 +935,7 @@ php;
     }
 
     /**
-     * 应用添加
+     * 应用是否存在
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -945,13 +945,7 @@ php;
      */
     private static function PluginsExist($plugins)
     {
-        // 应用是否存在
-        if(is_dir(APP_PATH.'plugins'.DS.$plugins))
-        {
-            return DataReturn('应用名称已存在['.$plugins.']', -1);
-        }
-
-        return DataReturn('添加成功', 0);
+        return is_dir(APP_PATH.'plugins'.DS.$plugins);
     }
 
     /**
@@ -1055,16 +1049,7 @@ php;
         }
 
         // 资源目录
-        $dir_list = [
-            '_controller_'      => APP_PATH.'plugins'.DS,
-            '_view_'            => APP_PATH.'plugins'.DS.'view'.DS,
-            '_css_'             => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS,
-            '_js_'              => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'js'.DS,
-            '_images_'          => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images'.DS,
-            '_uploadfile_'      => ROOT.'public'.DS.'static'.DS.'upload'.DS.'file'.DS,
-            '_uploadimages_'    => ROOT.'public'.DS.'static'.DS.'upload'.DS.'images'.DS,
-            '_uploadvideo_'     => ROOT.'public'.DS.'static'.DS.'upload'.DS.'video'.DS,
-        ];
+        $dir_list = self::PluginsDirStructureMapping();
 
         // 包名
         $plugins = '';
@@ -1111,11 +1096,10 @@ php;
                     }
 
                     // 应用是否存在
-                    $ret = self::PluginsExist($plugins);
-                    if($ret['code'] != 0)
+                    if(self::PluginsExist($plugins))
                     {
                         zip_entry_close($temp_resource);
-                        return $ret;
+                        return DataReturn('应用名称已存在['.$plugins.']', -1);
                     }
                 }
 
@@ -1191,6 +1175,28 @@ php;
         PluginsService::PluginsEventCall($plugins, 'Upload', $params);
 
         return DataReturn('安装成功');
+    }
+
+    /**
+     * 插件目录结构
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-22
+     * @desc    description
+     */
+    public static function PluginsDirStructureMapping()
+    {
+        return [
+            '_controller_'      => APP_PATH.'plugins'.DS,
+            '_view_'            => APP_PATH.'plugins'.DS.'view'.DS,
+            '_css_'             => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'css'.DS,
+            '_js_'              => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'js'.DS,
+            '_images_'          => ROOT.'public'.DS.'static'.DS.'plugins'.DS.'images'.DS,
+            '_uploadfile_'      => ROOT.'public'.DS.'static'.DS.'upload'.DS.'file'.DS,
+            '_uploadimages_'    => ROOT.'public'.DS.'static'.DS.'upload'.DS.'images'.DS,
+            '_uploadvideo_'     => ROOT.'public'.DS.'static'.DS.'upload'.DS.'video'.DS,
+        ];
     }
 
     /**
@@ -1365,6 +1371,156 @@ php;
         } else {
             return DataReturn('下载失败', -100);
         }
+    }
+
+    /**
+     * 插件更新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-22
+     * @desc    description
+     * @param   [string]          $package_file     [插件包文件]
+     * @param   [array]           $params           [输入参数]
+     */
+    public static function PluginsUpgradeHandle($package_file, $params = [])
+    {
+        // 权限校验
+        $ret = self::PowerCheck();
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 基础业务参数
+        if(empty($params['plugins_value']))
+        {
+            return DataReturn('插件标识为空', -1);
+        }
+
+        // 应用是否存在
+        if(!self::PluginsExist($params['plugins_value']))
+        {
+            return DataReturn('应用不已存在['.$params['plugins_value'].']、请先安装', -1);
+        }
+
+        // 资源目录
+        $dir_list = self::PluginsDirStructureMapping();
+
+        // 包名
+        $plugins = '';
+
+        // 开始解压文件
+        $resource = zip_open($package_file);
+        if(!is_resource($resource))
+        {
+            return DataReturn('压缩包打开失败['.$resource.']', -10);
+        }
+
+        // 处理文件
+        while(($temp_resource = zip_read($resource)) !== false)
+        {
+            if(zip_entry_open($resource, $temp_resource))
+            {
+                // 当前压缩包中项目名称
+                $file = zip_entry_name($temp_resource);
+
+                // 获取包名
+                if(empty($plugins))
+                {
+                    // 应用名称
+                    $plugins = substr($file, 0, strpos($file, '/'));
+                    if(empty($plugins))
+                    {
+                        // 应用名称为空、则校验是否为支付插件
+                        $file_size = zip_entry_filesize($temp_resource);
+                        $file_content = zip_entry_read($temp_resource, $file_size);
+                        if(stripos($file_content, 'namespace payment') !== false)
+                        {
+                            return DataReturn('支付插件请到[ 网站管理->支付方式 ]模块里面去上传安装', -1);
+                        }
+
+                        // 不是支付插件则提示插件包错误
+                        return DataReturn('插件包有误', -30);
+                    }
+
+                    // 应用是否存在
+                    if($plugins != $params['plugins_value'])
+                    {
+                        zip_entry_close($temp_resource);
+                        return DataReturn('应用标识与指定不一致['.$plugins.'<>'.$params['plugins_value'].']', -1);
+                    }
+                }
+
+                // 排除临时文件和临时目录
+                if(strpos($file, '/.') === false && strpos($file, '__') === false)
+                {
+                    // 文件包对应系统所在目录
+                    $is_has_find = false;
+                    foreach($dir_list as $dir_key=>$dir_value)
+                    {
+                        if(strpos($file, $dir_key) !== false)
+                        {
+                            // 仅控制器模块支持php文件
+                            if($dir_key != '_controller_')
+                            {
+                                // 排除后缀文件
+                                $pos = strripos($file, '.');
+                                if($pos !== false)
+                                {
+                                    $info = pathinfo($file);
+                                    if(isset($info['extension']) && in_array($info['extension'], self::$exclude_ext))
+                                    {
+                                        continue;
+                                    }
+                                }
+                            }
+
+                            // 匹配成功文件路径处理、跳出循环
+                            $file = str_replace($plugins.'/'.$dir_key.'/', '', $dir_value.$file);
+                            $is_has_find = true;
+                            break;
+                        }
+                    }
+
+                    // 没有匹配到则指定目录跳过
+                    if($is_has_find == false)
+                    {
+                        continue;
+                    }
+
+                    // 截取文件路径
+                    $file_path = substr($file, 0, strrpos($file, '/'));
+
+                    // 路径不存在则创建
+                    \base\FileUtil::CreateDir($file_path);
+
+                    // 如果不是目录则写入文件
+                    if(!is_dir($file))
+                    {
+                        // 读取这个文件
+                        $file_size = zip_entry_filesize($temp_resource);
+                        $file_content = zip_entry_read($temp_resource, $file_size);
+                        @file_put_contents($file, $file_content);
+                    }
+
+                    // 关闭目录项  
+                    zip_entry_close($temp_resource);
+                }
+            }
+        }
+
+        // 更新sql
+        $sql_file = APP_PATH.'plugins'.DS.$plugins.DS.'update.sql';
+        if(!empty($plugins) && file_exists($sql_file))
+        {
+            SqlconsoleService::Implement(['sql'=>file_get_contents($sql_file)]);
+        }
+
+        // 插件事件回调
+        PluginsService::PluginsEventCall($plugins, 'Upgrade', $params);
+
+        return DataReturn('更新成功');
     }
 
     /**

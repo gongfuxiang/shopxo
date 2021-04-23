@@ -30,6 +30,9 @@ class StoreService
     // 远程插件安全合法校验接口
     public static $store_plugins_legal_check_url = 'https://store.shopxo.net/index.php?s=/api/plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginslegalcheck';
 
+    // 远程插件更新信息接口
+    public static $store_plugins_upgrade_info_url = 'https://store.shopxo.net/index.php?s=/api/plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginsupgradeinfo';
+
     // 站点商店数据缓存key
     public static $site_store_info_key = 'admin_site_store_info_data';
 
@@ -146,8 +149,34 @@ class StoreService
             return $ret;
         }
 
+        // 绑定处理
+        return self::SiteStoreAccountsBindHandle($params['common_store_accounts'], $params['common_store_password']);
+    }
+
+    /**
+     * 站点应用商店帐号绑定处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-16
+     * @desc    description
+     * @param   [string]          $accounts [帐号]
+     * @param   [string]          $password [密码]
+     */
+    public static function SiteStoreAccountsBindHandle($accounts = '', $password = '')
+    {
+        // 帐号信息
+        if(empty($accounts))
+        {
+            $accounts = MyC('common_store_accounts');
+        }
+        if(empty($password))
+        {
+            $password = MyC('common_store_password');
+        }
+
         // 获取信息
-        $res = self::RemoteStoreData($params['common_store_accounts'], $params['common_store_password'], self::$store_site_info_url);
+        $res = self::RemoteStoreData($accounts, $password, self::$store_site_info_url);
         if($res['code'] == 0)
         {
             // 存储缓存、取远程给的时间，未拿到时间则默认30分钟
@@ -187,19 +216,51 @@ class StoreService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function PluginsLegalCheck($params)
+    public static function PluginsLegalCheck($params = [])
     {
+        // 参数校验
+        if(empty($params) || empty($params['type']) || empty($params['plugins']) || empty($params['author']) || empty($params['ver']))
+        {
+            return DataReturn('插件参数有误', -1);
+        }
+
         // 帐号信息
         $accounts = MyC('common_store_accounts');
         $password = MyC('common_store_password');
 
         // 获取信息
         $request_params = [
-            'plugins_type'      => 0,
+            'plugins_type'      => $params['type'],
             'plugins_value'     => $params['plugins'],
-            'plugins_config'    => empty($params['config']) ? [] : $params['config'],
+            'plugins_author'    => $params['author'],
+            'plugins_ver'       => $params['ver'],
+            'plugins_config'    => $params['config'],
         ];
         return self::RemoteStoreData($accounts, $password, self::$store_plugins_legal_check_url, $request_params);
+    }
+
+    /**
+     * 插件更新信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-21
+     * @desc    description
+     * @param   [array]           $params [输入参数、插件信息]
+     */
+    public static function PluginsUpgradeInfo($params = [])
+    {
+        if(!empty($params) && !empty($params['plugins_type']) && !empty($params['plugins_data']) && is_array($params['plugins_data']))
+        {
+            // 帐号信息
+            $accounts = MyC('common_store_accounts');
+            $password = MyC('common_store_password');
+
+            // 获取更新信息
+            return self::RemoteStoreData($accounts, $password, self::$store_plugins_upgrade_info_url, $params);
+        }
+
+        return DataReturn('无插件数据', 0);
     }
 
     /**

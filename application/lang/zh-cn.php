@@ -147,6 +147,13 @@ return [
             'qq' => ['value' => 'qq', 'name' => 'QQ小程序'],
         ],
 
+    // app平台
+    'common_app_type'          =>  [
+            'ios' => ['value' => 'ios', 'name' => '苹果APP'],
+            'android' => ['value' => 'android', 'name' => '安卓APP'],
+        ],
+            
+
     // 小程序平台
     'common_appmini_type'          =>  [
             'weixin' => ['value' => 'weixin', 'name' => '微信小程序'],

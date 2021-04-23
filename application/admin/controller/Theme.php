@@ -65,12 +65,16 @@ class Theme extends Common
         // 是否默认首页
 		if($this->view_type == 'index')
 		{
+            // 默认主题
+            $this->assign('theme', ThemeService::DefaultTheme());
+
             // 获取主题列表
             $data = ThemeService::ThemeList();
             $this->assign('data_list', $data);
 
-			// 默认主题
-			$this->assign('theme', ThemeService::DefaultTheme());
+            // 插件更新信息
+            $upgrade = ThemeService::ThemeUpgradeInfo($data);
+            $this->assign('upgrade_info', $upgrade['data']);
 		}
         return $this->fetch($this->view_type);
 	}
@@ -85,7 +89,12 @@ class Theme extends Common
 	public function Save()
 	{
         $params['common_default_theme'] = empty($this->data_request['theme']) ? 'default' : $this->data_request['theme'];
-		return ConfigService::ConfigSave($params);
+		$ret = ConfigService::ConfigSave($params);
+        if($ret['code'] == 0)
+        {
+            $ret['msg'] = '切换成功';
+        }
+        return $ret;
 	}
 
 	/**

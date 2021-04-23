@@ -1673,9 +1673,10 @@ function IsJson($jsonstr)
  * @version 1.0.0
  * @date    2020-08-07
  * @desc    description
- * @param   [string]          $value [本地文件路径或者远程url地址]
+ * @param   [string]          $value        [本地文件路径或者远程url地址]
+ * @param   [int]             $timeout      [超时时间（默认10秒）]
  */
-function RequestGet($value)
+function RequestGet($value, $timeout = 10)
 {
     // 远程
     if(substr($value, 0, 4) == 'http')
@@ -1683,7 +1684,7 @@ function RequestGet($value)
         // 是否有curl模块
         if(function_exists('curl_init'))
         {
-            return CurlGet($value);
+            return CurlGet($value, $timeout);
         }
         return file_get_contents($value);
     }

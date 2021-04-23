@@ -17,6 +17,7 @@ use app\service\AdminService;
 use app\service\AdminPowerService;
 use app\service\ConfigService;
 use app\service\ResourcesService;
+use app\service\StoreService;
 
 /**
  * 管理员公共控制器
@@ -266,6 +267,18 @@ class Common extends Controller
 
         // 站点名称
         $this->assign('admin_theme_site_name', MyC('admin_theme_site_name', 'ShopXO', true));
+
+        // 站点商店信息
+        $site_store_info = StoreService::SiteStoreInfo();
+        if(empty($site_store_info))
+        {
+            $res = StoreService::SiteStoreAccountsBindHandle();
+            if($res['code'] == 0)
+            {
+                $site_store_info = StoreService::SiteStoreInfo();
+            }
+        }
+        $this->assign('site_store_info', $site_store_info);
 	}
 
     /**

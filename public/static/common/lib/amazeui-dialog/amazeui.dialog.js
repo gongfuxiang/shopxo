@@ -103,20 +103,25 @@ dialog.loading = function(options) {
     options = options || {};
     options.title = options.title || '正在载入...';
 
-    var html = [];
-    html.push('<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">');
-    html.push('<div class="am-modal-dialog">');
-    html.push('<div class="am-modal-bd">');
-    html.push('<span class="am-icon-spinner am-icon-spin"></span>');
-    html.push('<span class="am-margin-left-xs">' + options.title + '</span>');
-    html.push('</div>');
-    html.push('</div>');
-    html.push('</div>');
+    if($('#my-modal-loading').length > 0)
+    {
+      $('#my-modal-loading .am-modal-bd .am-margin-left-xs').text(options.title);
+    } else {
+      var html = [];
+      html.push('<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">');
+      html.push('<div class="am-modal-dialog">');
+      html.push('<div class="am-modal-bd">');
+      html.push('<span class="am-icon-spinner am-icon-spin"></span>');
+      html.push('<span class="am-margin-left-xs">' + options.title + '</span>');
+      html.push('</div>');
+      html.push('</div>');
+      html.push('</div>');
 
-    return $(html.join('')).appendTo('body').modal()
-      .on('closed.modal.amui', function() {
-        $(this).remove();
-      });
+      return $(html.join('')).appendTo('body').modal()
+        .on('closed.modal.amui', function() {
+          $(this).remove();
+        });
+    }
   }
 };
 

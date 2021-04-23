@@ -23,11 +23,14 @@
                                 <h3 class="am-gallery-title am-margin-top-0">
                                     {{$v.name}}
                                     <div class="am-fr am-text-right">
+                                        {{if !empty($upgrade_info) and isset($upgrade_info[$v['theme']]) and $upgrade_info[$v['theme']]['version_new'] neq $v['ver']}}
+                                            <a href="javascript:;" class="am-icon-refresh am-text-danger package-upgrade-event" title="更新" data-type="minitheme" data-name="{{$v.name}}" data-value="{{$v.theme}}" data-terminal="{{$nav_type}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['theme']]))}}"></a>
+                                        {{/if}}
                                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                            <a href="{{:MyUrl('admin/appmini/themedownload', ['id'=>$v['theme'], 'nav_type'=>$nav_type])}}" class="am-icon-trash-o am-icon-download" title="打包"></a>
+                                            <a href="{{:MyUrl('admin/appmini/themedownload', ['id'=>$v['theme'], 'nav_type'=>$nav_type])}}" class="am-icon-trash-o am-icon-download am-margin-left-sm" title="打包"></a>
                                         {{/if}}
                                         {{if $v.is_delete eq 1}}
-                                            <a href="javascript:;" class="am-icon-trash-o submit-delete am-margin-left-sm" title="删除" data-url="{{:MyUrl('admin/appmini/themedelete', ['nav_type'=>$nav_type])}}" data-id="{{$v.theme}}"></a>
+                                            <a href="javascript:;" class="am-icon-trash-o submit-delete am-margin-left-sm am-text-warning" title="删除" data-url="{{:MyUrl('admin/appmini/themedelete', ['nav_type'=>$nav_type])}}" data-id="{{$v.theme}}"></a>
                                         {{/if}}
                                     </div>
                                 </h3>

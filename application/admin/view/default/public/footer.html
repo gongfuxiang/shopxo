@@ -1,3 +1,53 @@
+<!-- 应用商店账户绑定 -->
+<div class="am-popup popup-not-title" id="store-accounts-popup">
+    <div class="am-popup-inner">
+        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <div class="am-popup-bd">
+            <!-- form start -->
+            <form class="am-form form-validation-store-accounts view-save" action="{{:MyUrl('admin/index/storeaccountsbind')}}" method="POST" request-type="ajax-reload">
+                <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+                    <label>账号<span class="am-form-group-label-tips-must">必填</span></label>
+                    <input type="text" name="common_store_accounts" placeholder="用户名/手机/邮箱" data-validation-message="账号格式1~30个字符" class="am-radius" value="{{:MyC('common_store_accounts', '', true)}}" required />
+                </div>
+                <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+                    <label>密码<span class="am-form-group-label-tips-must">必填</span></label>
+                    <input type="password" name="common_store_password" placeholder="登录密码" data-validation-message="登录密码格式6~30个字符" class="am-radius" value="{{:MyC('common_store_password', '', true)}}" required />
+                </div>
+                
+                <div class="am-form-group am-form-group-refreshing am-margin-top-sm">
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'绑定中...'}">绑定</button>
+                </div>
+                <div class="am-margin-top-xr am-text-right am-padding-right-xs">
+                    <a href="https://store.shopxo.net/regster.html" target="_blank">未有账号，去注册</a>
+                </div>
+                <p class="am-text-warning am-text-center am-margin-top-sm">一个账号支持绑定多台ShopXO商城</p>
+            </form>
+            <!-- form end -->
+        </div>
+    </div>
+</div>
+
+<!-- 插件包更新弹窗 -->
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="package-upgrade-modal">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">
+            <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd">
+            <p class="am-margin-bottom-sm"><strong class="upgrade-name">...</strong></p>
+            <div class="am-scrollable-vertical am-text-left"></div>
+            <div class="am-text-left am-nbfc am-margin-top-sm">
+                <span class="am-icon-calendar-check-o upgrade-date"> ...</span>
+                <span class="am-icon-vimeo am-margin-left-sm upgrade-version"> ...</span>
+                <div class="am-fr">
+                    <button type="button" class="am-btn am-btn-default am-radius am-btn-xs" data-am-modal-close>取消</button>
+                    <button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-sm package-upgrade-submit" data-type="" data-value="" data-url="{{:MyUrl('admin/packageupgrade/upgrade')}}">更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- commom html -->
 <textarea id="upload-editor-view" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}" style="display: none;"></textarea>
 

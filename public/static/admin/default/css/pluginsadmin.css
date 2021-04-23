@@ -76,10 +76,12 @@
     height: 28px;
     border-radius: 2px;
     font-size: 12px;
-    line-height: 24px;
+    line-height: 14px;
 }
-.content ul.am-gallery-bordered li .submit-state.am-default {
-    background-color: #e6e6e6;
+.content ul.am-gallery-bordered li .submit-state.am-success {
+    border: 1px solid #4caf50;
+    background-color: #4caf50;
+    color: #fff;
 }
 .content ul.am-gallery-bordered li .submit-move {
     cursor: move !important;

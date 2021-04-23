@@ -26,6 +26,12 @@
                         <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-check submit-move-sort-save am-hide"> 保存</button>
                         <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-margin-left-xs am-icon-close submit-move-sort-cancel am-hide"> 取消</button>
                     </p>
+                    {{if empty($site_store_info)}}
+                        <p>
+                            <span>3. 绑定ShopXO应用商店帐号、获取插件最新版本信息、在线安装及更新</span>
+                            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg" data-am-modal="{target: '#store-accounts-popup'}"> 绑定ShopXO商店账户</button>
+                        </p>
+                    {{/if}}
                 </div>
                 <!-- 已安装 -->
                 <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-avg-md-2 am-avg-lg-3 am-gallery-bordered already-install" data-am-gallery="{}" data-sort-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
@@ -51,13 +57,17 @@
                                         
                                         <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-circle-o submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/uninstall')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="卸载可能会丢失插件基础配置数据不可恢复、确认操作吗？" title="卸载"></button>
 
-                                        <a href="javascript:;" class="am-icon-btn am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{else /}}am-default{{/if}}" data-url="{{:MyUrl('admin/pluginsadmin/statusupdate')}}" data-id="{{$v.plugins}}" data-state="{{$v['is_enable']}}" data-is-update-status="1" title="状态"></a>
+                                        <a href="javascript:;" class="am-btn am-btn-default am-btn-xs am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{/if}}" data-url="{{:MyUrl('admin/pluginsadmin/statusupdate')}}" data-id="{{$v.plugins}}" data-state="{{$v['is_enable']}}" data-is-update-status="1" title="状态"></a>
 
                                         {{if isset($v['is_home']) and $v['is_home'] eq true}}
                                             <a href="{{:PluginsHomeUrl($v['plugins'], 'index', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-home" title="首页" target="_blank"></a>
                                         {{/if}}
 
                                         <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-arrows submit-move am-hide" title="排序"></button>
+
+                                        {{if !empty($upgrade_info) and isset($upgrade_info[$v['plugins']]) and $upgrade_info[$v['plugins']]['version_new'] neq $v['version']}}
+                                            <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-refresh package-upgrade-event" title="更新" data-type="plugins" data-name="{{$v.name}}" data-value="{{$v.plugins}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['plugins']]))}}"></button>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </li>

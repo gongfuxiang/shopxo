@@ -64,6 +64,12 @@ class Payment extends Common
         // 应用商店
         $this->assign('store_payment_url', StoreService::StorePaymentUrl());
 
+        // 插件更新信息
+        $upgrade = PaymentService::PaymentUpgradeInfo($ret['data']);
+        $this->assign('upgrade_info', $upgrade['data']);
+        // print_r($upgrade);
+        // print_r($ret['data']);
+
         return $this->fetch();
 	}
 

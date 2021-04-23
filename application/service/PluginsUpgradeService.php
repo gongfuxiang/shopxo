@@ -17,86 +17,31 @@ use app\service\ThemeService;
 use app\service\AppMiniService;
 
 /**
- * 软件安装服务层
+ * 插件更新服务层
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
- * @date    2020-09-12
+ * @date    2021-04-22
  * @desc    description
  */
-class PackageInstallService
+class PluginsUpgradeService
 {
+    // 输入参数
+    public static $params;
+
+    // 远程插件更新接口
+    public static $store_plugins_upgrade_url = 'https://store.shopxo.net/index.php?s=/api/plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginsupgradeurl';
+
     /**
-     * 获取安装参数
+     * 更新入口
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2021-02-22
+     * @date    2021-04-22
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function RequestInstallParams($params = [])
-    {
-        // 商店商品id
-        $id = empty($params['id']) ? 0 : intval($params['id']);
-
-        // 类型
-        $type = empty($params['type']) ? '' : $params['type'];
-
-        // 适配终端
-        $terminal = empty($params['terminal']) ? '' : $params['terminal'];
-
-        // 返回页面url地址
-        switch($type)
-        {
-            // 功能插件
-            case 'plugins' :
-                $url = MyUrl('admin/pluginsadmin/index');
-                break;
-
-            // 支付插件
-            case 'payment' :
-                $url = MyUrl('admin/payment/index');
-                break;
-
-            // web端主题
-            case 'webtheme' :
-                $url = MyUrl('admin/theme/index');
-                break;
-
-            // 小程序主题
-            case 'minitheme' :
-                $url = MyUrl('admin/appmini/index');
-                break;
-
-            // app主题
-            case 'apptheme' :
-                $url = MyUrl('admin/app/index');
-                break;
-
-            default :
-                $url = '';
-        }
-
-        return [
-            'id'        => $id,
-            'type'      => $type,
-            'terminal'  => $terminal,
-            'url'       => MyUrl('admin/packageinstall/install'),
-            'admin_url' => MyUrl('admin/index/index', ['to_url'=>urlencode(base64_encode($url))]),
-        ];
-    }
-
-    /**
-     * 软件安装
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-02-22
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function Install($params = [])
+    public static function Run($params = [])
     {
         // 参数校验
         $ret = self::ParamsCheck($params);
@@ -105,51 +50,58 @@ class PackageInstallService
             return $ret;
         }
 
+        // 插件信息获取
+        $config = self::ConfigInit();
+        if($config['code'] != 0)
+        {
+            return $config;
+        }
+
         // 操作类型
-        switch($params['opt'])
+        switch(self::$params['opt'])
         {
             // 获取url地址
             case 'url' :
-                $ret = self::UrlHandle($params);
+                $ret = self::UrlHandle(self::$params);
                 break;
 
             // 下载软件包
             case 'download' :
-                $ret = self::DownloadHandle($params['key']);
+                $ret = self::DownloadHandle(self::$params['key']);
                 break;
 
-            // 安装软件包
-            case 'install' :
-                $ret = self::InstallHandle($params);
+            // 更新软件包
+            case 'upgrade' :
+                $ret = self::UpgradeHandle(self::$params);
                 break;
         }
         return $ret;
     }
 
     /**
-     * 安装软件包
+     * 更新软件包
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2021-02-22
+     * @date    2021-04-22
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function InstallHandle($params)
+    public static function UpgradeHandle($params)
     {
         // 获取目录文件
         $res = self::DirFileData($params['key']);
         if(!file_exists($res['url']))
         {
-            return DataReturn('软件包不存在、请重新安装', -1);
+            return DataReturn('软件包不存在、请重新更新', -1);
         }
 
         // 根据插件类型调用安装程序
-        switch($params['type'])
+        switch($params['plugins_type'])
         {
             // 功能插件
             case 'plugins' :
-                $ret = PluginsAdminService::PluginsUploadHandle($res['url'], $params);
+                $ret = PluginsAdminService::PluginsUpgradeHandle($res['url'], $params);
                 break;
 
             // 支付插件
@@ -164,17 +116,17 @@ class PackageInstallService
 
             // 小程序主题
             case 'minitheme' :
-                if(empty($params['terminal']))
+                if(empty($params['plugins_terminal']))
                 {
-                    return DataReturn('未指定小程序终端类型', -1);
+                    return DataReturn('未指定终端类型', -1);
                 }
-                $params['application_name'] = $params['terminal'];
+                $params['application_name'] = $params['plugins_terminal'];
                 $ret = AppMiniService::ThemeUploadHandle($res['url'], $params);
                 break;
 
             // 默认
             default :
-                $ret = DataReturn('插件操作类型未定义['.$params['type'].']', -1);
+                $ret = DataReturn('插件操作类型未定义['.$params['plugins_type'].']', -1);
         }
 
         // 移除session
@@ -183,6 +135,11 @@ class PackageInstallService
         // 删除本地文件
         \base\FileUtil::UnlinkFile($res['url']);
 
+        // 返回提示
+        if($ret['code'] == 0)
+        {
+            $ret['msg'] = '更新成功';
+        }
         return $ret;
     }
 
@@ -191,7 +148,7 @@ class PackageInstallService
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2021-02-22
+     * @date    2021-04-22
      * @desc    description
      * @param   [string]          $key [缓存key]
      */
@@ -223,27 +180,18 @@ class PackageInstallService
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2021-02-22
+     * @date    2021-04-22
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function UrlHandle($params)
+    public static function UrlHandle($params = [])
     {
-        // 获取下载地址
-        $url = config('shopxo.store_download_url');
-        $data = [
-            'goods_id'  => $params['id'],
-            'url'       => __MY_URL__,
-            'host'      => __MY_HOST__,
-            'ip'        => __MY_ADDR__,
-            'ver'       => APPLICATION_VERSION,
-            'terminal'  => empty($params['terminal']) ? '' : $params['terminal'],
-        ];
-        foreach($data as $k=>$v)
-        {
-            $data[$k] = urldecode(base64_encode($v));
-        }
-        $ret = self::HttpRequest($url, $data);
+        // 帐号信息
+        $accounts = MyC('common_store_accounts');
+        $password = MyC('common_store_password');
+
+        // 获取信息
+        $ret = StoreService::RemoteStoreData($accounts, $password, self::$store_plugins_upgrade_url, $params);
         if(!empty($ret) && isset($ret['code']) && $ret['code'] == 0)
         {
             $key = md5($ret['data']);
@@ -258,7 +206,7 @@ class PackageInstallService
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2021-02-22
+     * @date    2021-04-22
      * @desc    description
      * @param   [string]          $key [缓存key]
      */
@@ -266,7 +214,7 @@ class PackageInstallService
     {
         // 将软件包下载到磁盘
         $dir = ROOT;
-        $path = 'runtime'.DS.'data'.DS.'plugins_package_install'.DS;
+        $path = 'runtime'.DS.'data'.DS.'plugins_package_upgrade'.DS;
         $filename = $key.'.zip';
 
         // 目录不存在则创建
@@ -281,11 +229,84 @@ class PackageInstallService
     }
 
     /**
+     * 配置信息初始化
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-22
+     * @desc    description
+     */
+    public static function ConfigInit()
+    {
+        // 根据插件类型获取不通的配置信息
+        switch(self::$params['plugins_type'])
+        {
+            // 功能插件
+            case 'plugins' :
+                $config = PluginsAdminService::GetPluginsConfig(self::$params['plugins_value']);
+                if(empty($config) || empty($config['base']))
+                {
+                    return DataReturn('应用插件配置信息有误', -1);
+                }
+                self::$params['plugins_config'] = $config;
+                self::$params['plugins_ver'] = $config['base']['version'];
+                self::$params['plugins_author'] = $config['base']['author'];
+                break;
+
+            // 支付插件
+            case 'payment' :
+                $config = PaymentService::GetPaymentConfig(self::$params['plugins_value']);
+                if(empty($config))
+                {
+                    return DataReturn('支付插件配置信息有误', -1);
+                }
+                self::$params['plugins_config'] = $config['base'];
+                self::$params['plugins_ver'] = $config['base']['version'];
+                self::$params['plugins_author'] = $config['base']['author'];
+                break;
+
+            // web主题
+            case 'webtheme' :
+                $config = ThemeService::ThemeConfig(self::$params['plugins_value']);
+                if($config['code'] != 0)
+                {
+                    return $config;
+                }
+                self::$params['plugins_config'] = $config['data'];
+                self::$params['plugins_ver'] = $config['data']['ver'];
+                self::$params['plugins_author'] = $config['data']['author'];
+                break;
+
+            // 小程序主题
+            case 'minitheme' :
+                if(empty(self::$params['plugins_terminal']))
+                {
+                    return DataReturn('未指定终端类型', -1);
+                }
+                self::$params['application_name'] = self::$params['plugins_terminal'];
+                $config = AppMiniService::MiniThemeConfig(self::$params['plugins_value'], self::$params);
+                if($config['code'] != 0)
+                {
+                    return $config;
+                }
+                self::$params['plugins_config'] = $config['data'];
+                self::$params['plugins_ver'] = $config['data']['ver'];
+                self::$params['plugins_author'] = $config['data']['author'];
+                break;
+
+            // 默认
+            default :
+                return DataReturn('插件操作类型未定义['.self::$params['plugins_type'].']', -1);
+        }
+        return DataReturn('success', 0);
+    }
+
+    /**
      * 输入参数校验
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2021-02-22
+     * @date    2021-04-22
      * @desc    description
      * @param   [array]           $params [输入参数]
      */
@@ -295,18 +316,18 @@ class PackageInstallService
         $p = [
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '商品id有误',
+                'key_name'          => 'plugins_type',
+                'error_msg'         => '更新类型有误',
             ],
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'type',
-                'error_msg'         => '插件类型有误',
+                'key_name'          => 'plugins_value',
+                'error_msg'         => '插件标识有误',
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'opt',
-                'checked_data'      => ['url', 'download', 'install'],
+                'checked_data'      => ['url', 'download', 'upgrade'],
                 'error_msg'         => '操作类型有误',
             ],
         ];
@@ -317,62 +338,13 @@ class PackageInstallService
         }
 
         // 下载和安装需要校验key
-        if(in_array($params['opt'], ['download', 'install']) && empty($params['key']))
+        if(in_array($params['opt'], ['download', 'upgrade']) && empty($params['key']))
         {
             return DataReturn('操作key有误', -1);
         }
 
+        self::$params = $params;
         return DataReturn('success', 0);
-    }
-
-    /**
-     * 网络请求
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-02-22
-     * @desc    description
-     * @param    [string]          $url  [请求url]
-     * @param    [array]           $data [发送数据]
-     * @return   [json]                  [请求返回数据]
-     */
-    public static function HttpRequest($url, $data)
-    {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_FAILONERROR, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-        $body_string = '';
-        if(is_array($data) && 0 < count($data))
-        {
-            foreach($data as $k => $v)
-            {
-                $body_string .= $k.'='.urlencode($v).'&';
-            }
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $body_string);
-        }
-        $headers = [
-            'Content-type: application/x-www-form-urlencoded;charset=UTF-8',
-            'X-Requested-With: XMLHttpRequest',
-        ];
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        $reponse = curl_exec($ch);
-        $error = curl_errno($ch);
-        curl_close($ch);
-        if($error)
-        {
-            return DataReturn("curl出错，错误码:$error", -1);
-        }
-
-        // 是否json格式数据
-        if(substr($reponse, 0, 1) != '{')
-        {
-            return DataReturn("返回数据格式有误:$reponse", -1);
-        }
-        return json_decode($reponse, true);
     }
 }
 ?>

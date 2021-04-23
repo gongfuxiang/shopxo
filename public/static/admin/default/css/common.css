@@ -655,3 +655,37 @@ table.am-table .am-btn-danger:hover {
     overflow-x: auto;
     overflow-y: auto;
 }
+
+/**
+ * 商店帐号信息
+ */
+#store-accounts-popup {
+    width: 360px;
+    height: 350px;
+    left: 50%;
+    top: 50%;
+}
+@media (min-width: 630px) {
+    #store-accounts-popup {
+        margin-left: -180px;
+        margin-top: -175px;
+    }
+}
+@media only screen and (max-width: 641px) {
+    #store-accounts-popup {
+        left: calc(50% - 180px);
+        top: calc(50% - 175px);
+    }
+}
+
+/**
+ * 插件更新弹窗
+ */
+#package-upgrade-modal .am-scrollable-vertical {
+    height: 160px;
+    border: 1px solid #eee;
+    padding: 5px;
+}
+#package-upgrade-modal .am-modal-bd {
+    padding: 0 10px 10px 10px;
+}

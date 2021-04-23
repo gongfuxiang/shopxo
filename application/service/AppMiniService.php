@@ -177,7 +177,7 @@ class AppMiniService
         }
 
         // 上传处理
-        return self::ThemeUploadHandle($_FILES['file']['tmp_name'], $params);
+        return self::ThemeUploadHandle($_FILES['theme']['tmp_name'], $params);
     }
 
     /**
@@ -339,16 +339,12 @@ class AppMiniService
         }
 
         // 获取配置信息
-        $config_file = self::$old_path.DS.$theme.DS.'config.json';
-        if(!file_exists($config_file))
+        $config_res = self::MiniThemeConfig($theme, $params);
+        if($config_res['code'] != 0)
         {
-            return DataReturn('主题配置文件不存在', -1);
+            return $config_res;
         }
-        $config = json_decode(file_get_contents($config_file), true);
-        if(empty($config))
-        {
-            return DataReturn('主题配置信息有误', -1);
-        }
+        $config = $config_res['data'];
 
         // 目录不存在则创建
         $new_dir = ROOT.'runtime'.DS.'data'.DS.'theme_appmini_package'.DS.$theme;
@@ -382,12 +378,43 @@ class AppMiniService
         \base\FileUtil::UnlinkDir($new_dir);
 
         // 开始下载
-        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $config['name'].'.zip'))
+        $appmini_type = lang('common_appmini_type');
+        $application_name = array_key_exists(self::$application_name, $appmini_type) ? $appmini_type[self::$application_name]['name'].'-' : '';
+        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $application_name.$config['name'].'.zip'))
         {
             @unlink($new_dir.'.zip');
         } else {
             return DataReturn('下载失败', -100);
         }
+    }
+
+    /**
+     * 主题配置信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-22
+     * @desc    description
+     * @param   [string]         $theme     [主题标识]
+     * @param   [array]          $params    [输入参数]
+     */
+    public static function MiniThemeConfig($theme, $params)
+    {
+        // 初始化
+        self::Init($params);
+
+        // 获取配置信息
+        $config_file = self::$old_path.DS.$theme.DS.'config.json';
+        if(!file_exists($config_file))
+        {
+            return DataReturn('小程序主题配置文件不存在', -1);
+        }
+        $config = json_decode(file_get_contents($config_file), true);
+        if(empty($config))
+        {
+            return DataReturn('主小程序题配置信息有误', -1);
+        }
+        return DataReturn('success', 0, $config);
     }
 
     /**
@@ -726,6 +753,53 @@ class AppMiniService
         }
 
         return DataReturn('成功['.$sucs.'],失败['.$fail.']');
+    }
+
+    /**
+     * 小程序主题更新信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-22
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AppMiniUpgradeInfo($params = [])
+    {
+        if(!empty($params) && !empty($params['data']) && !empty($params['terminal']))
+        {
+            // 数据处理
+            $data = [];
+            foreach($params['data'] as $v)
+            {
+                if(!empty($v['name']) && !empty($v['ver']) && !empty($v['theme']) && !empty($v['author']))
+                {
+                    $data[] = [
+                        'plugins'   => $v['theme'],
+                        'name'      => $v['name'],
+                        'ver'       => $v['ver'],
+                        'author'    => $v['author'],
+                    ];
+                }
+            }
+            if(!empty($data))
+            {
+                // 获取更新信息
+                $request_params = [
+                    'plugins_type'      => 'minitheme',
+                    'plugins_data'      => $data,
+                    'plugins_terminal'  => $params['terminal'],
+                ];
+                $res = StoreService::PluginsUpgradeInfo($request_params);
+                if(!empty($res['data']))
+                {
+                    $res['data'] = array_column($res['data'], null, 'plugins');
+                }
+                return $res;
+            }
+        }
+
+        return DataReturn('无插件数据', 0);
     }
 }
 ?>

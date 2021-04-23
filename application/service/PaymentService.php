@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\Db;
 use app\service\ResourcesService;
+use app\service\StoreService;
 
 /**
  * 支付方式服务层
@@ -138,7 +139,7 @@ class PaymentService
      * @desc    description
      * @param   [string]          $payment [模块名称]
      */
-    private static function GetPaymentConfig($payment)
+    public static function GetPaymentConfig($payment)
     {
         $payment = '\payment\\'.$payment;
         if(class_exists($payment))
@@ -944,6 +945,52 @@ php;
             }
         }
         return DataReturn('校验成功', 0);
+    }
+
+    /**
+     * 支付插件更新信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-22
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PaymentUpgradeInfo($params = [])
+    {
+        if(!empty($params))
+        {
+            // 数据处理
+            $data = [];
+            foreach($params as $v)
+            {
+                if(!empty($v['name']) && !empty($v['version']) && !empty($v['payment']) && !empty($v['author']))
+                {
+                    $data[] = [
+                        'plugins'   => $v['payment'],
+                        'name'      => $v['name'],
+                        'ver'       => $v['version'],
+                        'author'    => $v['author'],
+                    ];
+                }
+            }
+            if(!empty($data))
+            {
+                // 获取更新信息
+                $request_params = [
+                    'plugins_type'  => 'payment',
+                    'plugins_data'  => $data,
+                ];
+                $res = StoreService::PluginsUpgradeInfo($request_params);
+                if(!empty($res['data']))
+                {
+                    $res['data'] = array_column($res['data'], null, 'plugins');
+                }
+                return $res;
+            }
+        }
+
+        return DataReturn('无插件数据', 0);
     }
 }
 ?>
