@@ -301,6 +301,10 @@ class SystemUpgradeService
         // 帐号信息
         $accounts = MyC('common_store_accounts');
         $password = MyC('common_store_password');
+        if(empty($accounts) || empty($password))
+        {
+            return DataReturn('请先绑定应用商店帐号', -1);
+        }
 
         // 获取信息
         $ret = StoreService::RemoteStoreData($accounts, $password, self::$store_plugins_upgrade_url, $params);

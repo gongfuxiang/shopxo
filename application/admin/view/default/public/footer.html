@@ -1,7 +1,9 @@
 <!-- 应用商店账户绑定 -->
 <div class="am-popup popup-not-title" id="store-accounts-popup">
     <div class="am-popup-inner">
-        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        {{if empty($site_store_info) or empty($site_store_info['base']) or !isset($site_store_info['base']['is_user_not_cloae_accounts_popup']) or $site_store_info['base']['is_user_not_cloae_accounts_popup'] eq 0}}
+            <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        {{/if}}
         <div class="am-popup-bd">
             <!-- form start -->
             <form class="am-form form-validation-store-accounts view-save" action="{{:MyUrl('admin/index/storeaccountsbind')}}" method="POST" request-type="ajax-reload">
@@ -165,3 +167,13 @@
         {{/if}}
     {{/foreach}}
 {{/if}}
+
+<script type="text/javascript">
+$(function()
+{
+    // 绑定商店帐号
+    {{if !empty($site_store_info) and !empty($site_store_info['base']) and isset($site_store_info['base']['is_user_force_bind_accounts']) and $site_store_info['base']['is_user_force_bind_accounts'] eq 1 and !in_array($module_name.$controller_name.$action_name, ['adminindexindex', 'adminadminlogininfo']) and empty($site_store_info['user'])}}
+        StoreAccountsPopupOpen();
+    {{/if}}
+});
+</script>

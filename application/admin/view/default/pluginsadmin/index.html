@@ -26,10 +26,10 @@
                         <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-check submit-move-sort-save am-hide"> 保存</button>
                         <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-margin-left-xs am-icon-close submit-move-sort-cancel am-hide"> 取消</button>
                     </p>
-                    {{if empty($site_store_info)}}
+                    {{if empty($site_store_info) or empty($site_store_info['user'])}}
                         <p>
                             <span>3. 绑定ShopXO应用商店帐号、获取插件最新版本信息、在线安装及更新</span>
-                            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg" data-am-modal="{target: '#store-accounts-popup'}"> 绑定ShopXO商店账户</button>
+                            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> 绑定ShopXO商店账户</button>
                         </p>
                     {{/if}}
                 </div>

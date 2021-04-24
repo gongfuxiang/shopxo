@@ -10,9 +10,9 @@
 				{{if !empty($site_store_info) and !empty($site_store_info['user'])}}
 					<i class="am-icon-user"></i>
 					<span>{{$site_store_info.user.user_name_view}}</span>
-					<a href="javascript:;" class="am-margin-left-xs" data-am-modal="{target: '#store-accounts-popup'}">修改</a>
+					<a href="javascript:;" class="am-margin-left-xs store-accounts-event">修改</a>
 				{{else /}}
-					<a href="javascript:;" class="am-margin-left-xs" data-am-modal="{target: '#store-accounts-popup'}">绑定ShopXO商店账户</a>
+					<a href="javascript:;" class="am-margin-left-xs store-accounts-event">绑定ShopXO商店账户</a>
 				{{/if}}
 
 				<!-- 广告 -->

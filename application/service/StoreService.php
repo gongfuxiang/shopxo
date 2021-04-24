@@ -165,7 +165,7 @@ class StoreService
      */
     public static function SiteStoreAccountsBindHandle($accounts = '', $password = '')
     {
-        // 帐号信息
+        // 帐号信息、站点初始化信息接口、帐号信息可以为空
         if(empty($accounts))
         {
             $accounts = MyC('common_store_accounts');
@@ -189,7 +189,7 @@ class StoreService
     }
 
     /**
-     * 检查更新
+     * 站点检查更新
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -227,6 +227,10 @@ class StoreService
         // 帐号信息
         $accounts = MyC('common_store_accounts');
         $password = MyC('common_store_password');
+        if(empty($accounts) || empty($password))
+        {
+            return DataReturn('请先绑定应用商店帐号', -1);
+        }
 
         // 获取信息
         $request_params = [
@@ -255,6 +259,10 @@ class StoreService
             // 帐号信息
             $accounts = MyC('common_store_accounts');
             $password = MyC('common_store_password');
+            if(empty($accounts) || empty($password))
+            {
+                return DataReturn('请先绑定应用商店帐号', -1);
+            }
 
             // 获取更新信息
             return self::RemoteStoreData($accounts, $password, self::$store_plugins_upgrade_info_url, $params);
@@ -277,12 +285,6 @@ class StoreService
      */
     public static function RemoteStoreData($accounts, $password, $url, $params = [])
     {
-        // 帐号信息
-        if(empty($accounts) || empty($password))
-        {
-            return DataReturn('请先绑定应用商店帐号', -1);
-        }
-
         // 基础数据获取
         $bo = new \base\Behavior();
 

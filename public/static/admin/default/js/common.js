@@ -163,6 +163,21 @@ function PackageUpgradeRequestHandle(params)
     });
 }
 
+/**
+ * 打开商店帐号绑定弹窗
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-04-24
+ * @desc    description
+ */
+function StoreAccountsPopupOpen()
+{
+    $('#store-accounts-popup').modal({
+        closeViaDimmer: false
+    });
+}
+
 $(function()
 {
     // 插件更新操作事件
@@ -193,7 +208,7 @@ $(function()
         $modal.find('.package-upgrade-submit').attr('data-type', type).attr('data-value', value).attr('data-terminal', terminal);
         $modal.modal({
             closeViaDimmer: false,
-            width: 330,
+            width: 310,
             height: 257
         });
     });
@@ -213,6 +228,12 @@ $(function()
         }
         $('#package-upgrade-modal').modal('close');
         PackageUpgradeRequestHandle({"url":url, "type":type, "value":value, "terminal":terminal});
+    });
+
+    // 商店帐号绑定事件
+    $(document).on('click', '.store-accounts-event', function()
+    {
+        StoreAccountsPopupOpen();
     });
 
     // 商品规格和参数上下移动
