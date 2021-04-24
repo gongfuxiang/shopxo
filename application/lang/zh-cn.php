@@ -152,7 +152,6 @@ return [
             'ios' => ['value' => 'ios', 'name' => '苹果APP'],
             'android' => ['value' => 'android', 'name' => '安卓APP'],
         ],
-            
 
     // 小程序平台
     'common_appmini_type'          =>  [

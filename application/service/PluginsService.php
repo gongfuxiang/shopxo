@@ -320,8 +320,8 @@ class PluginsService
         if(config('shopxo.is_develop') === false)
         {
             $key = 'plugins_legal_check_'.$plugins;
-            $status = cache($key);
-            if(empty($status))
+            $ret = cache($key);
+            if(empty($ret))
             {
                 $config = PluginsAdminService::GetPluginsConfig($plugins);
                 if(empty($config) || empty($config['base']))
@@ -337,11 +337,11 @@ class PluginsService
                     'ver'       => $config['base']['version'],
                 ];
                 $ret = StoreService::PluginsLegalCheck($check_params);
-                if($ret['code'] != 0)
-                {
-                    return $ret;
-                }
-                cache($key, 1, 600);
+                cache($key, $ret, 600);
+            }
+            if($ret['code'] != 0)
+            {
+                return $ret;
             }
         }
 

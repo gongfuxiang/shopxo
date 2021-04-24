@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use app\service\StatisticalService;
 use app\service\StoreService;
+use app\service\SystemUpgradeService;
 
 /**
  * 首页
@@ -156,6 +157,27 @@ class Index extends Common
         // 开始处理
         $params = $this->data_request;
         return StoreService::SiteInspectUpgrade($params);
+	}
+
+	/**
+	 * 检查更新确认
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2021-04-16
+	 * @desc    description
+	 */
+	public function InspectUpgradeConfirm()
+	{
+		// 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = $this->data_request;
+        return SystemUpgradeService::Run($params);
 	}
 }
 ?>

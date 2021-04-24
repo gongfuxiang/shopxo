@@ -1,3 +1,85 @@
+/**
+ * 系统更新异步请求步骤
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-02-22
+ * @desc    description
+ * @param   {[string]}        url   [url地址]
+ * @param   {[string]}        opt   [操作类型（url 获取下载地址， download_system 下载系统包， download_upgrade 下载升级包， upgrade 更新操作）]
+ * @param   {[string]}        msg   [提示信息]
+ */
+function SystemUpgradeRequestHandle(params)
+{
+    // 参数处理
+    if((params || null) == null)
+    {
+        Prompt('操作参数有误');
+        return false;
+    }
+    var url = params.url || null;
+    var opt = params.opt || 'url';
+    var msg = params.msg || '正在获取中...';
+
+    // 加载提示
+    AMUI.dialog.loading({title: msg});
+
+    // ajax
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        timeout: 305000,
+        data: {"opt":opt},
+        success: function(result)
+        {
+            if((result || null) != null && result.code == 0)
+            {
+                switch(opt)
+                {
+                    // 获取下载地址
+                    case 'url' :
+                        params['opt'] = 'download_system';
+                        params['msg'] = '系统包正在下载中...';
+                        SystemUpgradeRequestHandle(params);
+                        break;
+
+                    // 下载系统包
+                    case 'download_system' :
+                        params['opt'] = 'download_upgrade';
+                        params['msg'] = '升级包正在下载中...';
+                        SystemUpgradeRequestHandle(params);
+                        break;
+
+                    // 下载升级包
+                    case 'download_upgrade' :
+                        params['opt'] = 'upgrade';
+                        params['msg'] = '正在更新中...';
+                        SystemUpgradeRequestHandle(params);
+                        break;
+
+                    // 更新完成
+                    case 'upgrade' :
+                        Prompt(result.msg, 'success');
+                        setTimeout(function()
+                        {
+                            window.location.reload();
+                        }, 1500);
+                        break;
+                }
+            } else {
+                AMUI.dialog.loading('close');
+                Prompt(((result || null) == null) ? '返回数据格式错误' : (result.msg || '异常错误'));
+            }
+        },
+        error: function(xhr, type)
+        {
+            AMUI.dialog.loading('close');
+            Prompt(HtmlToString(xhr.responseText) || '异常错误');
+        }
+    });
+}
+
 $(function()
 {
     /**
@@ -179,10 +261,10 @@ $(function()
     });
 
     // 检查更新
+    var $inspect_upgrade_popup = $('#inspect-upgrade-popup');
     $('.inspect-upgrade-submit').on('click', function()
     {
         // 基础信息
-        var $inspect_upgrade_popup = $('#inspect-upgrade-popup');
         AMUI.dialog.loading({title: '正在获取最新内容、请稍候...'});
 
         // ajax请求
@@ -260,7 +342,7 @@ $(function()
     // 系统更新确认
     $('.inspect-upgrade-confirm').on('click', function()
     {
-        Prompt('开发中...');
+        $inspect_upgrade_popup.modal('close');
+        SystemUpgradeRequestHandle({"url": $(this).data('url')});
     });
-
 });
