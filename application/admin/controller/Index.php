@@ -133,6 +133,9 @@ class Index extends Common
             return $this->error('非法访问');
         }
 
+        // 权限校验
+		$this->IsPower();
+
         // 开始处理
         $params = $this->data_request;
         return StoreService::SiteStoreAccountsBind($params);
@@ -154,6 +157,9 @@ class Index extends Common
             return $this->error('非法访问');
         }
 
+        // 权限校验
+		$this->IsPower();
+
         // 开始处理
         $params = $this->data_request;
         return StoreService::SiteInspectUpgrade($params);
@@ -174,6 +180,9 @@ class Index extends Common
         {
             return $this->error('非法访问');
         }
+
+        // 权限校验
+		$this->IsPower();
 
         // 开始处理
         $params = $this->data_request;

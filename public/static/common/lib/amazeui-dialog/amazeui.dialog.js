@@ -72,7 +72,7 @@ dialog.confirm = function(options) {
   html.push('<div class="am-modal am-modal-confirm" tabindex="-1">');
   html.push('<div class="am-modal-dialog">');
   html.push('<div class="am-modal-hd">' + options.title + '</div>');
-  html.push('<div class="am-modal-bd">' + options.content + '</div>');
+  html.push('<div class="am-modal-bd"><div class="am-padding-horizontal-xl am-padding-vertical-xs">' + options.content + '</div></div>');
   html.push('<div class="am-modal-footer">');
   html.push('<span class="am-modal-btn" data-am-modal-cancel>取消</span>');
   html.push('<span class="am-modal-btn" data-am-modal-confirm>确定</span>');
@@ -110,9 +110,11 @@ dialog.loading = function(options) {
       var html = [];
       html.push('<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">');
       html.push('<div class="am-modal-dialog">');
-      html.push('<div class="am-modal-bd">');
+      html.push('<div class="am-modal-bd am-padding-vertical-0">');
+      html.push('<div class="am-padding-horizontal-sm am-padding-vertical-sm">');
       html.push('<span class="am-icon-spinner am-icon-spin"></span>');
       html.push('<span class="am-margin-left-xs">' + options.title + '</span>');
+      html.push('</div>');
       html.push('</div>');
       html.push('</div>');
       html.push('</div>');

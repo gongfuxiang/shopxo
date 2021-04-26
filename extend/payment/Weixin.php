@@ -418,7 +418,8 @@ class Weixin
     {
         $arr = [
             'weixin'    => $this->config['mini_appid'],
-            'app'    => $this->config['app_appid'],
+            'ios'       => $this->config['app_appid'],
+            'android'   => $this->config['app_appid'],
         ];
         return array_key_exists($client_type, $arr) ? $arr[$client_type] : $this->config['appid'];
     }

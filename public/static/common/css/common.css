@@ -8,6 +8,13 @@ ul { list-style: none; }
 .text-deco-none { text-decoration: none !important; }
 .text-deco-line { text-decoration: underline !important; }
 
+/**
+ * 表单组件
+ */
+.am-form select, .am-form textarea, .am-form input[type="text"], .am-form input[type="password"], .am-form input[type="datetime"], .am-form input[type="datetime-local"], .am-form input[type="date"], .am-form input[type="month"], .am-form input[type="time"], .am-form input[type="week"], .am-form input[type="number"], .am-form input[type="email"], .am-form input[type="url"], .am-form input[type="search"], .am-form input[type="tel"], .am-form input[type="color"], .am-form-field {
+    line-height: 1.4;
+}
+
 /* 没数据 */
 .table-no {text-align:center;padding:115px 0;background:#FFF !important;color: #888; }
 
@@ -39,13 +46,13 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
 .chosen-container { width: 100% !important; }
 .am-tagsinput { display: block; padding: 2px 5px; border-radius: 2px; }
 .chosen-choices, .chosen-single { border-radius: 2px; }
-.chosen-choices li.search-field input[type="text"] { height: 28px !important; }
+.chosen-choices li.search-field input[type="text"] { height: 30px !important; }
 .chosen-choices li.search-field input[type="text"]:hover,
 .am-tagsinput input[type="text"]:hover { box-shadow: 0 0 0 #fff !important; border: 0 !important; }
 .chosen-choices li.search-field input[type="text"]:focus,
 .am-tagsinput input[type="text"]:focus { border-color: #fff; -webkit-box-shadow: inset 0 0 0 0 !important; box-shadow: inset 0 0 0 0 !important; }
-.chosen-choices { padding: 0px 3px !important; min-height: 28px; }
-.chosen-container-single .chosen-single { height: 28px; line-height: 28px; }
+.chosen-choices { padding: 0px 3px !important; min-height: 30px; }
+.chosen-container-single .chosen-single { height: 30px; line-height: 30px; }
 .chosen-container-multi .chosen-choices li.search-field { padding-left: 3px; }
 .chosen-container-single .chosen-single { color: #444 !important; }
 .chosen-container-single .chosen-default { color: #999 !important; }
@@ -147,9 +154,6 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
 }
 .am-modal-dialog {
     width: auto;
-}
-.am-modal-dialog .am-modal-bd {
-    padding: 10px 30px;
 }
 .am-modal-dialog .am-modal-bd span {
     vertical-align: middle;
