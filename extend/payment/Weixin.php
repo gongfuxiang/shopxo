@@ -64,6 +64,16 @@ class Weixin
                 'element'       => 'input',
                 'type'          => 'text',
                 'default'       => '',
+                'name'          => 'app_appid',
+                'placeholder'   => '开放平台AppID',
+                'title'         => '开放平台AppID',
+                'is_required'   => 0,
+                'message'       => '请填写微信开放平台APP支付分配的AppID',
+            ],
+            [
+                'element'       => 'input',
+                'type'          => 'text',
+                'default'       => '',
                 'name'          => 'appid',
                 'placeholder'   => '公众号/服务号AppID',
                 'title'         => '公众号/服务号AppID',
@@ -370,7 +380,7 @@ class Weixin
         }
 
         // appid
-        $appid = ($client_type == 'weixin') ? $this->config['mini_appid'] :  $this->config['appid'];
+        $appid = $this->PayAppID($client_type);
 
         // 异步地址处理
         $notify_url = ($client_type == 'qq') ? 'https://api.q.qq.com/wxpay/notify' : $this->GetNotifyUrl($params);
@@ -393,6 +403,24 @@ class Weixin
         ];
         $data['sign'] = $this->GetSign($data);
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * appid获取
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-25
+     * @desc    description
+     * @param   [string]          $client_type [客户端类型]
+     */
+    public function PayAppID($client_type)
+    {
+        $arr = [
+            'weixin'    => $this->config['mini_appid'],
+            'app'    => $this->config['app_appid'],
+        ];
+        return array_key_exists($client_type, $arr) ? $arr[$client_type] : $this->config['appid'];
     }
 
     /**
@@ -546,7 +574,7 @@ class Weixin
         $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
 
         // appid，默认使用公众号appid
-        $appid = (!isset($params['client_type']) || in_array($params['client_type'], ['pc', 'h5'])) ? $this->config['appid'] : $this->config['mini_appid'];
+        $appid = $this->PayAppID($params['client_type']);
 
         // 请求参数
         $data = [

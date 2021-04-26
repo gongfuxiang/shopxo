@@ -43,6 +43,14 @@
                     {{/foreach}}
                 </select>
             </div>
+            <div class="am-form-group">
+                <label>{{$data.home_search_is_keywords_seo_fields.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_keywords_seo_fields.describe}}</span></label>
+                <select name="{{$data.home_search_is_keywords_seo_fields.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_is_keywords_seo_fields.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['home_search_is_keywords_seo_fields']['value']) and $data['home_search_is_keywords_seo_fields']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
 
             <div class="am-form-group">
                 <label>{{$data.home_search_is_brand.name}}<span class="am-form-group-label-tips">{{$data.home_search_is_brand.describe}}</span></label>

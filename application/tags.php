@@ -38,6 +38,7 @@ return array (
     1 => 'app\\plugins\\shop\\Hook',
     2 => 'app\\plugins\\multilingual\\Hook',
     3 => 'app\\plugins\\store\\Hook',
+    4 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_js' => 
   array (
@@ -45,6 +46,7 @@ return array (
     1 => 'app\\plugins\\shop\\Hook',
     2 => 'app\\plugins\\multilingual\\Hook',
     3 => 'app\\plugins\\store\\Hook',
+    4 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
@@ -56,36 +58,44 @@ return array (
   array (
     0 => 'app\\plugins\\points\\Hook',
     1 => 'app\\plugins\\multilingual\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_quick_navigation_h5' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
     1 => 'app\\plugins\\multilingual\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_quick_navigation_weixin' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_quick_navigation_alipay' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_quick_navigation_baidu' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_quick_navigation_qq' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_quick_navigation_toutiao' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
+    1 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_goods_handle_end' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
     1 => 'app\\plugins\\shop\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_view_buy_form_inside' => 
   array (
@@ -107,12 +117,14 @@ return array (
     0 => 'app\\plugins\\points\\Hook',
     1 => 'app\\plugins\\shop\\Hook',
     2 => 'app\\plugins\\store\\Hook',
+    3 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_order_status_change_history_success_handle' => 
   array (
     0 => 'app\\plugins\\points\\Hook',
     1 => 'app\\plugins\\shop\\Hook',
     2 => 'app\\plugins\\store\\Hook',
+    3 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_base_data_return_api_buy_index' => 
   array (
@@ -128,12 +140,14 @@ return array (
   array (
     0 => 'app\\plugins\\shop\\Hook',
     1 => 'app\\plugins\\store\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\shop\\Hook',
     1 => 'app\\plugins\\multilingual\\Hook',
     2 => 'app\\plugins\\store\\Hook',
+    3 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_service_goods_save_handle' => 
   array (
@@ -177,6 +191,7 @@ return array (
   array (
     0 => 'app\\plugins\\shop\\Hook',
     1 => 'app\\plugins\\store\\Hook',
+    2 => 'app\\plugins\\distribution\\Hook',
   ),
   'plugins_view_admin_goods_save' => 
   array (
@@ -251,6 +266,38 @@ return array (
   'plugins_service_system_begin' => 
   array (
     0 => 'app\\plugins\\store\\Hook',
+  ),
+  'plugins_service_site_extraction_address_list' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_goods_spec_extends_handle' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_admin_user_save' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_user_save_handle' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_service_goods_spec_base' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_view_goods_detail_panel_price_top' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_module_form_admin_user_index' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
+  ),
+  'plugins_module_form_admin_user_detail' => 
+  array (
+    0 => 'app\\plugins\\distribution\\Hook',
   ),
 );
 ?>

@@ -3,6 +3,14 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
+		<!-- 顶部提示信息 -->
+		{{if !empty($site_store_info) and !empty($site_store_info['base']) and !empty($site_store_info['base']['site_top_notice'])}}
+			<div class="am-alert am-alert-danger" data-am-alert>
+				<button type="button" class="am-close">&times;</button>
+				<p>{{$site_store_info.base.site_top_notice|raw}}</p>
+			</div>
+		{{/if}}
+
 		<!-- 顶部基础信息 -->
 		<div class="block-container base-content-top am-nbfc">
 			<div class="am-fl am-nbfc left-content">

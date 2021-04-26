@@ -64,6 +64,16 @@ class QQ
                 'element'       => 'input',
                 'type'          => 'text',
                 'default'       => '',
+                'name'          => 'app_appid',
+                'placeholder'   => '开放平台AppID',
+                'title'         => '开放平台AppID',
+                'is_required'   => 0,
+                'message'       => '请填写QQ开放平台APP支付分配的AppID',
+            ],
+            [
+                'element'       => 'input',
+                'type'          => 'text',
+                'default'       => '',
                 'name'          => 'appid',
                 'placeholder'   => 'QQ小程序ID',
                 'title'         => 'QQ小程序ID',
@@ -250,7 +260,7 @@ class QQ
             // APP支付
             case 'APP' :
                 $pay_data = array(
-                    'appid'         => $this->pay_params['appid'],
+                    'appid'         => $this->pay_params['app_appid'],
                     'partnerid'     => $this->pay_params['mch_id'],
                     'prepayid'      => $data['prepay_id'],
                     'package'       => 'Sign=WXPay',
@@ -275,7 +285,11 @@ class QQ
      */
     private function GetPayParams($params = [])
     {
-        $trade_type = empty($params['trade_type']) ? $this->GetTradeType() : $params['trade_type'];
+        // 平台
+        $client_type = ApplicationClientType();
+
+        // 支付类型
+        $trade_type = empty($params['trade_type']) ? $this->GetTradeType($client_type) : $params['trade_type'];
         if(empty($trade_type))
         {
             return DataReturn('支付类型不匹配', -1);
@@ -284,9 +298,12 @@ class QQ
         // 异步地址处理
         $notify_url = (__MY_HTTP__ == 'https' && isset($this->config['agreement']) && $this->config['agreement'] == 1) ? 'http'.mb_substr($params['notify_url'], 5, null, 'utf-8') : $params['notify_url'];
 
+        // appid
+        $appid = $this->PayAppID($client_type);
+
         // 请求参数
         $data = [
-            'appid'             => $this->config['appid'],
+            'appid'             => $appid,
             'mch_id'            => $this->config['mch_id'],
             'nonce_str'         => md5(time().$params['order_no']),
             'body'              => $params['site_name'].'-'.$params['name'],
@@ -303,18 +320,33 @@ class QQ
     }
 
     /**
+     * appid获取
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-04-25
+     * @desc    description
+     * @param   [string]          $client_type [客户端类型]
+     */
+    public function PayAppID($client_type)
+    {
+        $arr = [
+            'app'    => $this->config['app_appid'],
+        ];
+        return array_key_exists($client_type, $arr) ? $arr[$client_type] : $this->config['appid'];
+    }
+
+    /**
      * 获取支付交易类型
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2019-01-08
+     * @param   [string]          $client_type [客户端类型]
      * @desc    description
      */
-    private function GetTradeType()
+    private function GetTradeType($client_type)
     {
-        // 平台
-        $client_type = ApplicationClientType();
-
         // 平台类型定义
         $type_all = [
             'pc'        => 'NATIVE',
@@ -410,7 +442,7 @@ class QQ
 
         // 请求参数
         $data = [
-            'appid'             => $this->config['appid'],
+            'appid'             => $this->PayAppID($params['client_type']),
             'mch_id'            => $this->config['mch_id'],
             'nonce_str'         => md5(time().rand().$params['order_no']),
             'transaction_id'    => $params['trade_no'],

@@ -160,10 +160,15 @@ class SearchService
         $where_keywords = [];
         if(!empty($params['wd']))
         {
+            $keywords_fields = 'g.title|g.simple_desc';
+            if(MyC('home_search_is_keywords_seo_fields') == 1)
+            {
+                $keywords_fields .= '|g.seo_title|g.seo_keywords|g.seo_desc';
+            }
             $keywords = explode(' ', $params['wd']);
             foreach($keywords as $kv)
             {
-                $where_keywords[] = ['g.title|g.simple_desc', 'like', '%'.$kv.'%'];
+                $where_keywords[] = [$keywords_fields, 'like', '%'.$kv.'%'];
             }
         }
 
