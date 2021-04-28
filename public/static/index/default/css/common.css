@@ -29,7 +29,7 @@ button { outline: none; }
 .am-input-group-sm > .am-form-field,
 .am-input-group-sm > .am-input-group-label,
 .am-input-group-sm > .am-input-group-btn > .am-btn {
-    height: 28px;
+    height: 30px;
     font-size: 12px !important;
 }
 .am-input-group-sm > .am-input-group-label {

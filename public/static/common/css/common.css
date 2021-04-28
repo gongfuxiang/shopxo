@@ -374,6 +374,9 @@ ul.plug-file-upload-view-file li {
 .am-checkbox .am-icon-checked, .am-radio .am-icon-checked, .am-checkbox-inline .am-icon-checked, .am-radio-inline .am-icon-checked, .am-checkbox .am-icon-checked, .am-radio .am-icon-checked, .am-checkbox-inline .am-icon-checked, .am-radio-inline .am-icon-checked, .am-checkbox .am-icon-unchecked, .am-radio .am-icon-unchecked, .am-checkbox-inline .am-icon-unchecked, .am-radio-inline .am-icon-unchecked {
     font-size: 16px;
 }
+.am-btn {
+    padding: 0.6em 1em;
+}
 
 /**
  * 颜色选择插件
@@ -812,7 +815,7 @@ button.colorpicker-submit img {
 @media only screen and (min-width: 641px) {
     #verify-img-value {
         float: left;
-        width: 50%;
+        width: 40%;
         margin-right: 5px;
     }
 }

@@ -133,7 +133,7 @@ class User extends Common
     {
         $params = [
                 'width'         => 100,
-                'height'        => 26,
+                'height'        => 28,
                 'key_prefix'    => input('type', 'user_reg'),
             ];
         $verify = new \base\Verify($params);

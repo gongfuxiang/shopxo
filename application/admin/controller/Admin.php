@@ -327,7 +327,7 @@ class Admin extends Common
     {
         $params = [
                 'width'         => 100,
-                'height'        => 26,
+                'height'        => 28,
                 'key_prefix'    => 'admin_login',
             ];
         $verify = new \base\Verify($params);

@@ -35,11 +35,17 @@
     .my-content {
         padding: 20px 0 30px 0;
     }
+    .user-login-container .container-right {
+        padding: 0 15%;
+    }
 }
 
 /**
  * 表单
  */
+.register-container {
+    max-width: 380px;
+}
 .user-form-container, .register-container .register-content {
     background: rgba(0,0,0,0.15);
     padding: 10px;
@@ -63,14 +69,14 @@
 .my-content form.am-form .form-verify a.form-verify-tips {
     font-size: 12px;
     text-decoration: none;
-    line-height: 28px;
+    line-height: 30px;
     color: #FFF;
     filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr='#7F000000', endColorstr='#7F000000');
     background: rgba(0,0,0,0.5);
     text-align: center;
     display: none;
     width: 102px;
-    height: 28px;
+    height: 30px;
     position: absolute;
     z-index: 1;
     top: -1px;

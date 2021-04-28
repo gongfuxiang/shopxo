@@ -46,7 +46,7 @@ body {
 .wrapper-page {
     margin: auto;
     position: relative;
-    width: 420px;
+    max-width: 360px;
 }
 @media (max-width: 768px) {
     .wrapper-page {
@@ -74,14 +74,14 @@ body {
 .admin-login .form-verify a.form-verify-tips {
     font-size: 12px;
     text-decoration: none;
-    line-height: 28px;
+    line-height: 30px;
     color: #FFF;
     filter: progid:DXImageTransform.Microsoft.gradient(enabled='true', startColorstr='#7F000000', endColorstr='#7F000000');
     background: rgba(0,0,0,0.5);
     text-align: center;
     display: none;
     width: 102px;
-    height: 28px;
+    height: 30px;
     position: absolute;
     z-index: 1;
     top: -1px;
