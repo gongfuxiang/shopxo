@@ -380,7 +380,7 @@ class AppMiniService
         // 开始下载
         $appmini_type = lang('common_appmini_type');
         $application_name = array_key_exists(self::$application_name, $appmini_type) ? $appmini_type[self::$application_name]['name'].'-' : '';
-        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $application_name.$config['name'].'.zip'))
+        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $application_name.$config['name'].'_v'.$config['ver'].'.zip'))
         {
             @unlink($new_dir.'.zip');
         } else {

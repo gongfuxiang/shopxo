@@ -38,6 +38,7 @@ class ConfigService
             'home_index_floor_left_top_category',
             'admin_email_login_template',
             'home_email_login_template',
+            'home_site_security_record_url',
         ];
 
     // 附件字段列表

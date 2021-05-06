@@ -376,7 +376,7 @@ class ThemeService
         \base\FileUtil::UnlinkDir($new_dir);
 
         // 开始下载
-        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $config['name'].'.zip'))
+        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $config['name'].'_v'.$config['ver'].'.zip'))
         {
             @unlink($new_dir.'.zip');
         } else {

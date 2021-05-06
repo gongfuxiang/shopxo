@@ -1402,7 +1402,7 @@ php;
         \base\FileUtil::UnlinkDir($new_dir);
 
         // 开始下载
-        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $config['base']['name'].'.zip'))
+        if(\base\FileUtil::DownloadFile($new_dir.'.zip', $config['base']['name'].'_v'.$config['base']['version'].'.zip'))
         {
             // 删除文件
             @unlink($new_dir.'.zip');
