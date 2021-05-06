@@ -403,9 +403,9 @@ ul {margin-top:0;}
 .admin-sidebar {height:100%;overflow-x:hidden;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
 .admin-sidebar .am-icon-angle-down {margin-top: 2px;}
 @media only screen and (min-width:641px) {
-    header { left: 129px; }
+    header { left: 159px; }
     header .am-topbar-brand, .am-topbar-nav > li > a { line-height: 32px; }
-  .admin-sidebar {display:block;width:130px;z-index:1; position: fixed; top: 0; left: 0;}
+  .admin-sidebar {display:block;width:160px;z-index:1; position: fixed; top: 0; left: 0;}
   .admin-offcanvas-bar {position:static;width:auto;background:none;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);overflow-y:visible;min-height:100%;}
   .admin-offcanvas-bar:after {content:none;}
 }
