@@ -146,6 +146,7 @@ class SystemUpgradeService
         // 需要处理的文件
         $handle_file_arr = [
             'update.sql',
+            'power.sql',
         ];
 
         while(($temp_resource = zip_read($resource)) !== false)

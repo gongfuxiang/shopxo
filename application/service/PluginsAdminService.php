@@ -1460,6 +1460,13 @@ php;
             SqlconsoleService::Implement(['sql'=>file_get_contents($sql_file)]);
         }
 
+        // 钩子部署
+        $ret = self::PluginsHookDeployment();
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 插件事件回调
         PluginsService::PluginsEventCall($plugins, 'Upgrade', $params);
 
