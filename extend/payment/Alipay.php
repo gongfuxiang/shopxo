@@ -50,7 +50,7 @@ class Alipay
         // 基础信息
         $base = [
             'name'          => '支付宝',  // 插件名称
-            'version'       => '1.1.1',  // 插件版本
+            'version'       => '1.1.2',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc','h5', 'ios', 'android', 'toutiao'], // 适用终端 默认全部 ['pc', 'h5', 'ios', 'android', 'alipay', 'weixin', 'baidu', 'toutiao']
             'desc'          => '2.0版本，适用PC+H5+APP+头条小程序，即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="http://www.alipay.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
@@ -183,7 +183,7 @@ class Alipay
             'product_code'          => 'QUICK_MSECURITY_PAY',
             'subject'               => $params['name'],
             'out_trade_no'          => $params['order_no'],
-            'total_amount'          => $params['total_price'],
+            'total_amount'          => (string) $params['total_price'],
             'timeout_express'       => $this->OrderAutoCloseTime(),
         );
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
@@ -237,7 +237,7 @@ class Alipay
             'product_code'          => 'QUICK_WAP_WAY',
             'subject'               => $params['name'],
             'out_trade_no'          => $params['order_no'],
-            'total_amount'          => $params['total_price'],
+            'total_amount'          => (string) $params['total_price'],
             'timeout_express'       => $this->OrderAutoCloseTime(),
         );
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
@@ -276,7 +276,7 @@ class Alipay
             'product_code'          => 'FAST_INSTANT_TRADE_PAY',
             'subject'               => $params['name'],
             'out_trade_no'          => $params['order_no'],
-            'total_amount'          => $params['total_price'],
+            'total_amount'          => (string) $params['total_price'],
             'timeout_express'       => $this->OrderAutoCloseTime(),
         );
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
@@ -434,7 +434,7 @@ class Alipay
         $biz_content = array(
             'out_trade_no'          =>  $params['order_no'],
             'trade_no'              =>  $params['trade_no'],
-            'refund_amount'         =>  $params['refund_price'],
+            'refund_amount'         =>  (string) $params['refund_price'],
             'refund_reason'         =>  $refund_reason,
         );
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
