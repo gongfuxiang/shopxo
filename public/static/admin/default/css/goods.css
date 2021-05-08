@@ -72,7 +72,6 @@
     position: absolute;
     top: 0px;
     right: 0px;
-    z-index: 2;
 }
 .specifications-table th {
     min-width: 100px;
