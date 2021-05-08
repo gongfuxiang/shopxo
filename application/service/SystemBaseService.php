@@ -46,31 +46,97 @@ class SystemBaseService
             // 基础
             'common_site_type'                  => self::SiteTypeValue(),
             'common_shop_notice'                => MyC('common_shop_notice', null, true),
+
+            // 手机端相关配置
             'common_app_is_enable_search'       => (int) MyC('common_app_is_enable_search', 1),
             'common_app_is_enable_answer'       => (int) MyC('common_app_is_enable_answer', 1),
             'common_app_is_header_nav_fixed'    => (int) MyC('common_app_is_header_nav_fixed', 0),
             'common_app_is_online_service'      => (int) MyC('common_app_is_online_service', 0),
             'common_app_customer_service_tel'   => MyC('common_app_customer_service_tel', null, true),
-            'common_order_is_booking'           => (int) MyC('common_order_is_booking'),
-            'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
-            'common_user_is_mandatory_bind_mobile'=> (int) MyC('common_user_is_mandatory_bind_mobile', 0),
-            'common_user_is_onekey_bind_mobile' => (int) MyC('common_user_is_onekey_bind_mobile', 0),
+
+            // 扩展项-留言、问答
+            'common_is_login_answer'                => (int) MyC('common_is_login_answer', 0, true),
+
+            // 扩展项-订单
+            'common_order_close_limit_time'         => (int) MyC('common_order_close_limit_time', 30, true),
+            'common_order_success_limit_time'       => (int) MyC('common_order_success_limit_time', 21600, true),
+            'common_pay_log_order_close_limit_time' => (int) MyC('common_pay_log_order_close_limit_time', 30, true),
+
+            // 扩展项-CDN
+            'common_cdn_attachment_host'        => MyC('common_cdn_attachment_host', null, true),
+            'common_cdn_public_host'            => MyC('common_cdn_public_host', null, true),
+
+            // 验证码
+            'common_verify_expire_time'         => (int) MyC('common_verify_expire_time', 600, true),
+            'common_verify_interval_time'       => (int) MyC('common_verify_interval_time', 60, true),
+            'common_img_verify_state'           => (int) MyC('common_img_verify_state', 0, true),
+
+            // 密码找回
+            'home_site_user_forgetpwd_ad_images'=> self::SiteAdConfigImagesMgerge('home_site_user_forgetpwd'),
+
+            // 用户登录
+            'home_user_login_type'              => MyC('home_user_login_type', [], true),
+            'home_user_login_img_verify_state'  => (int) MyC('home_user_login_img_verify_state', 0, true),
+            'home_site_user_login_ad_images'    => self::SiteAdConfigImagesMgerge('home_site_user_login'),
+
+            // 注册
+            'home_user_reg_type'                    => MyC('home_user_reg_type', [], true),
+            'home_user_register_img_verify_state'   => (int) MyC('home_user_register_img_verify_state', 0, true),
+            'common_register_is_enable_audit'       => (int) MyC('common_register_is_enable_audit', 0, true),
+            'home_is_enable_userregister_agreement' => (int) MyC('home_is_enable_userregister_agreement', 0, true),
+            'home_site_user_register_bg_images'     => ResourcesService::AttachmentPathViewHandle(MyC('home_site_user_register_bg_images')),
+
+            // 用户帐号绑定
+            'common_user_is_onekey_bind_mobile'     => (int) MyC('common_user_is_onekey_bind_mobile', 0),
+            'common_user_is_mandatory_bind_mobile'  => (int) MyC('common_user_is_mandatory_bind_mobile', 0),
+
+            // 站点信息
+            'home_site_name'                    => MyC('home_site_name', null, true),
+            'home_site_logo'                    => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo')),
+            'home_site_logo_wap'                => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo_wap')),
+            'home_site_desktop_icon'            => ResourcesService::AttachmentPathViewHandle(MyC('home_site_desktop_icon')),
+            'home_site_state'                   => (int) MyC('home_site_state', 0, true),
+            'home_site_close_reason'            => MyC('home_site_close_reason', null, true),
+
+            // 备案信息
+            'home_site_icp'                     => MyC('home_site_icp', null, true),
+            'home_site_security_record_name'    => MyC('home_site_security_record_name', null, true),
+            'home_site_security_record_url'     => MyC('home_site_security_record_url', null, true),
+
+            // css/js版本值
+            'home_static_cache_version'         => MyC('home_static_cache_version', null, true),
+
+            // 底部代码
+            'home_footer_info'                  => MyC('home_footer_info', null, true),
+
+            // 首页设置参数
+            'home_index_banner_left_status'     => (int) MyC('home_index_banner_left_status', 1),
+            'home_index_banner_right_status'    => (int) MyC('home_index_banner_right_status', 1),
+
+            // 搜索相关
+            'home_search_limit_number'          => (int) MyC('home_search_limit_number', 20, true),
+            'home_search_is_brand'              => (int) MyC('home_search_is_brand', 1),
+            'home_search_is_category'           => (int) MyC('home_search_is_category', 1),
+            'home_search_is_price'              => (int) MyC('home_search_is_price', 1),
+            'home_search_is_params'             => (int) MyC('home_search_is_params', 1),
+            'home_search_is_spec'               => (int) MyC('home_search_is_spec', 1),
+
+            // 站点设置-扩展-基础
+            'home_index_friendship_link_status' => (int) MyC('home_index_friendship_link_status', 0, true),
+            'home_header_top_is_home'           => (int) MyC('home_header_top_is_home', 1),
+
+            // 站点设置-扩展-快捷导航
             'home_navigation_main_quick_status' => (int) MyC('home_navigation_main_quick_status', 0),
+            'home_navigation_main_quick_name'   => MyC('home_navigation_main_quick_name', '百宝箱', true),
+
+            // 站点设置-扩展-用户地址
             'home_user_address_map_status'      => (int) MyC('home_user_address_map_status', 0),
             'home_user_address_idcard_status'   => (int) MyC('home_user_address_idcard_status', 0),
-            'common_order_close_limit_time'     => (int) MyC('common_order_close_limit_time', 30, true),
-            'common_order_success_limit_time'   => (int) MyC('common_order_success_limit_time', 21600, true),
-            'common_img_verify_state'           => (int) MyC('common_img_verify_state', 0, true),
-            'home_user_login_img_verify_state'  => (int) MyC('home_user_login_img_verify_state', 0, true),
-            'home_user_register_img_verify_state'=> (int) MyC('home_user_register_img_verify_state', 0, true),
-            'home_is_enable_userregister_agreement'=> (int) MyC('home_is_enable_userregister_agreement', 0, true),
-            'common_register_is_enable_audit'   => (int) MyC('common_register_is_enable_audit', 0, true),
-            'home_user_login_type'              => MyC('home_user_login_type', [], true),
-            'home_user_reg_type'                => MyC('home_user_reg_type', [], true),
+            'home_extraction_address_position'  => (int) MyC('home_extraction_address_position', 0),
 
             // 订单相关
             'home_is_enable_order_bulk_pay'     => (int) MyC('home_is_enable_order_bulk_pay', 0),
-            'home_extraction_address_position'  => (int) MyC('home_extraction_address_position', 0),
+            'common_order_is_booking'           => (int) MyC('common_order_is_booking'),
 
             // 用户中心相关
             'common_user_center_notice'         => MyC('common_user_center_notice', null, true),
@@ -84,6 +150,22 @@ class SystemBaseService
             'common_app_is_good_thing'          => (int) MyC('common_app_is_good_thing'),
             'common_app_is_poster_share'        => (int) MyC('common_app_is_poster_share'),
             'common_is_goods_detail_show_photo' => (int) MyC('common_is_goods_detail_show_photo', 0, true),
+            'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
+
+            // 百度地图密钥
+            'common_baidu_map_ak'               => MyC('common_baidu_map_ak', null, true),
+
+            // 商店信息
+            'common_customer_store_tel'         => MyC('common_customer_store_tel', null, true),
+            'common_customer_store_email'       => MyC('common_customer_store_email', null, true),
+            'common_customer_store_address'     => MyC('common_customer_store_address', null, true),
+            'common_customer_store_qrcode'      => ResourcesService::AttachmentPathViewHandle(MyC('common_customer_store_qrcode')),
+
+            // SEO信息
+            'home_seo_site_title'               => MyC('home_seo_site_title', null, true),
+            'home_seo_site_keywords'            => MyC('home_seo_site_keywords', null, true),
+            'home_seo_site_description'         => MyC('home_seo_site_description', null, true),
+            
         ];
 
         // 支付宝小程序在线客服
@@ -121,6 +203,35 @@ class SystemBaseService
         ]);
 
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 站点相关多张广告图片配置信息合并
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-05-08
+     * @desc    description
+     * @param   [string]            $type   [类型]
+     * @param   [int]               $count  [数量、默认3]
+     */
+    public static function SiteAdConfigImagesMgerge($type, $count = 3)
+    {
+        $data = [];
+        $key = $type.'_ad';
+        for($i=1; $i<=$count; $i++)
+        {
+            $img = ResourcesService::AttachmentPathViewHandle(MyC($key.$i.'_images'));
+            if(!empty($img))
+            {
+                $data[] = [
+                    'images'    => $img,
+                    'url'       => MyC($key.$i.'_url', null, true),
+                    'bg_color'  => MyC($key.$i.'_bg_color', null, true),
+                ];
+            }
+        }
+        return $data;
     }
 
     /**
