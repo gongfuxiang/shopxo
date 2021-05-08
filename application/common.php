@@ -135,7 +135,7 @@ function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
     // 删除
     if($value === null)
     {
-        return \base\FileUtil::UnlinkFile($aim_url);
+        return \base\FileUtil::UnlinkFile($file);
     } else {
         // 读内容
         if($value === '')
