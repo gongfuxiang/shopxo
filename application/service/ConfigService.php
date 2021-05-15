@@ -277,7 +277,7 @@ class ConfigService
                 cache($k, $v);
 
                 // 数据文件缓存
-                if(array_key_exists($k, self::$file_cache_keys))
+                if(in_array($k, self::$file_cache_keys))
                 {
                     MyFileConfig($k, $v);
                 }
