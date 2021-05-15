@@ -56,13 +56,12 @@ class QrCode extends Common
     public function Download()
     {
         $params = input();
-        if(empty($params['url']))
+        $ret = (new \base\Qrcode())->Download($params);
+        if(!empty($ret) && isset($ret['code']) && $ret['code'] != 0)
         {
-            $this->assign('msg', 'url参数为空');
+            $this->assign('msg', $ret['msg']);
             return $this->fetch('public/tips_error');
         }
-
-        (new \base\Qrcode())->Download($params);
     }
 }
 ?>

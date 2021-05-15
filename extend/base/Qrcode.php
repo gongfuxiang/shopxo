@@ -180,7 +180,17 @@ class Qrcode
     public function Download($params = [])
     {
         // 图片地址
-        $url = base64_decode(urldecode($params['url']));
+        $url = empty($params['url']) ? '' : base64_decode(urldecode($params['url']));
+        if(empty($url))
+        {
+            return DataReturn('url地址有误', -1);
+        }
+
+        // 域名验证、仅支持下载当前域名下的文件
+        if(GetUrlHost(__MY_HOST__) != GetUrlHost($url))
+        {
+            return DataReturn('url地址非法', -1);
+        }
 
         // 随机文件名
         $filename = empty($params['filename']) ? date('YmdHis').GetNumberCode().'.png' : $params['filename'].'.png';
