@@ -186,8 +186,12 @@ class Qrcode
             return DataReturn('url地址有误', -1);
         }
 
-        // 域名验证、仅支持下载当前域名下的文件
-        if(GetUrlHost(__MY_HOST__) != GetUrlHost($url))
+        // 验证下载地址域名
+        $domain_arr = [
+            GetUrlHost(config('shopxo.attachment_host')),
+            GetUrlHost(__MY_HOST__),
+        ];
+        if(!in_array(GetUrlHost($url), $domain_arr))
         {
             return DataReturn('url地址非法', -1);
         }
