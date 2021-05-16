@@ -244,8 +244,18 @@ class Alipay
 
         // 生成签名参数+签名
         $parameter['sign'] = $this->MyRsaSign($this->GetSignContent($parameter));
+
+        // 接口则直接返回
+        if(APPLICATION == 'app')
+        {
+            $result = [
+                'data'  => $parameter,
+                'url'   => 'https://openapi.alipay.com/gateway.do?charset=utf-8',
+            ];
+            return DataReturn('success', 0, $result);
+        }
         
-        // 输出执行form表单post提交
+        // web端输出执行form表单post提交
         exit($this->BuildRequestForm($parameter));
     }
 
