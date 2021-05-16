@@ -15,13 +15,21 @@
         return this.each(function(){
             var obj = $(this);
             obj.bind(opts.event,function(){
-                //定位
+                // 上、左距离、浮动类型处理
+                var top_inc = parseInt($(this).data('top-inc')) || 0;
+                var top_dec = parseInt($(this).data('top-dec')) || 0;
+                var left_inc = parseInt($(this).data('left-inc')) || 0;
+                var left_dec = $(this).data('left-inc') == undefined ? 1 : parseInt($(this).data('left-dec')) || 0;
+                var position = $(this).data('position') || 'absolute';
+
+                // 定位
                 var ttop  = $(this).offset().top;  //控件的定位点高
-                var thei  = $(this).height();  //控件本身的高
+                var thei  = $(this).outerHeight();  //控件本身的高
                 var tleft = $(this).offset().left+$(this).outerWidth()-232;  //控件的定位点宽
                 $("#colorpanel").css({
-                    top:ttop+thei+16,
-                    left:tleft
+                    "top":ttop+thei+top_inc-top_dec,
+                    "left":tleft+left_inc-left_dec,
+                    "position":position
                 }).show();
                 var target = opts.target ? $(opts.target) : obj;
                 if(target.data("color") == null){
@@ -82,12 +90,12 @@
                     }
                 }
             }
-            colorTable='<table width=232 border="0" cellspacing="0" cellpadding="0" style="border:1px solid #000;height: 24px;line-height: 21px;">'
+            colorTable='<table width=232 border="0" cellspacing="0" cellpadding="0" style="border:1px solid #333;height: 24px;line-height: 21px;">'
             +'<tr><td colspan=21 bgcolor=#cccccc>'
             +'<table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse">'
-            +'<tr><td width="3"><td><input type="text" id="DisColor" size="3" disabled style="border:solid 1px #000000;background-color:#ffff00"></td>'
-            +'<td width="3"><td><input type="text" id="HexColor" size="7" style="border:inset 1px;font-family:Arial;" value="#000000"><a href="javascript:void(0);" id="_determine">确定</a> | <a href="javascript:void(0);" id="_cclose">关闭</a> | <a href="javascript:void(0);" id="_creset">清除</a></td></tr></table></td></table>'
-            +'<table id="CT" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse" bordercolor="000000"  style="cursor:pointer;">'
+            +'<tr><td width="3"><td><input type="text" id="DisColor" size="3" disabled style="border:solid 1px #000000;background-color:#000000;padding:0;"></td>'
+            +'<td width="3"><td><input type="text" id="HexColor" style="border:inset 1px;font-family:Arial;width:58px;" value="#000000"><a href="javascript:void(0);" id="_determine">确定</a> | <a href="javascript:void(0);" id="_cclose">关闭</a> | <a href="javascript:void(0);" id="_creset">清除</a></td></tr></table></td></table>'
+            +'<table id="CT" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border-color:#333;border-width:0 1px 1px 1px;border-style:solid;">'
             +colorTable+'</table>';
             $("#colorpanel").html(colorTable);
             $("#_cclose").on('click',function(){

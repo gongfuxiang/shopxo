@@ -1,5 +1,11 @@
 <ul class="am-nav am-nav-pills table-nav second-nav">
-    <li {{if $nav_type eq 'register'}}class="am-active"{{/if}} data-type="register">
-        <a href="{{:MyUrl('admin/agreement/index', ['nav_type'=>'register'])}}">用户注册协议</a>
-    </li>
+    {{foreach $nav_data as $v}}
+        <li {{if $nav_type eq $v['type']}}class="am-active"{{/if}} data-type="{{$v.type}}">
+            <a href="{{:MyUrl('admin/agreement/index', ['nav_type'=>$v['type']])}}">{{$v.name}}</a>
+        </li>
+    {{/foreach}}
 </ul>
+<div class="am-alert am-margin-sm" data-am-alert>
+    <button type="button" class="am-close">&times;</button>
+    <p>前端访问协议地址增加参数 is_content=0 则仅展示纯协议内容</p>
+</div>

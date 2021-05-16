@@ -97,7 +97,8 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
     -webkit-box-shadow: 0 0 30px rgba(0,0,0,0.4);
     box-shadow: 0 0 30px rgba(0,0,0,0.4);
 }
-.popup-not-title .am-close {
+.popup-not-title .am-close,
+.modal-dialog-not-title .am-close {
     position: absolute;
     right: 10px;
     top: 10px;
@@ -112,7 +113,12 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
     height: 32px;
     z-index: 1;
 }
-.popup-not-title .am-close:hover {
+.modal-dialog-not-title .am-close {
+    top: -15px;
+    right: -15px;
+}
+.popup-not-title .am-close:hover,
+.modal-dialog-not-title .am-close:hover {
     background: #f22a30;
 }
 .am-popup-hd .am-close, .am-popup-hd .am-full {
@@ -585,7 +591,7 @@ button.colorpicker-submit img {
     background: #e8e6e6;
     min-width: 100px;
     position: sticky;
-    z-index: 1011;
+    z-index: 1;
     top: 0;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-xxxl {
@@ -621,11 +627,11 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table tr td.am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr td.am-grid-fixed-right {
     background: #fff;
-    z-index: 1011;
+    z-index: 1;
 }
 .am-table-scrollable-horizontal .am-table tr th.am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr th.am-grid-fixed-right {
-    z-index: 1012;
+    z-index: 2;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-left {
     -webkit-box-shadow: 1px 0px 1px #ddd;

@@ -1,16 +1,20 @@
 {{include file="public/header" /}}
 
-<!-- header top nav -->
-{{include file="public/header_top_nav" /}}
+<!-- header nav start -->
+{{if isset($is_header) and $is_header eq 1}}
+    <!-- header top nav -->
+    {{include file="public/header_top_nav" /}}
 
-<!-- search -->
-{{include file="public/nav_search" /}}
+    <!-- search -->
+    {{include file="public/nav_search" /}}
 
-<!-- header nav -->
-{{include file="public/header_nav" /}}
+    <!-- header nav -->
+    {{include file="public/header_nav" /}}
 
-<!-- goods category -->
-{{include file="public/goods_category" /}}
+    <!-- goods category -->
+    {{include file="public/goods_category" /}}
+{{/if}}
+<!-- header nav end -->
 
 <!-- content -->
 <div class="am-container">

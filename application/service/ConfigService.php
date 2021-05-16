@@ -32,6 +32,7 @@ class ConfigService
             'home_email_user_email_binding',
             'home_site_close_reason',
             'common_agreement_userregister',
+            'common_agreement_userprivacy',
             'common_self_extraction_address',
             'home_index_floor_top_right_keywords',
             'home_index_floor_manual_mode_goods',

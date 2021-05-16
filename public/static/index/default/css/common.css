@@ -98,7 +98,7 @@ input.add,input.min{width:15px}
 .mobile-navigation li.active a{ color:#d2364c; }
 .hot-icon { position: absolute; top: 1%; left: 53%; z-index: 2; border: 1px solid #fff; }
 
-@media only screen and (min-width: 640px) {
+@media only screen and (min-width: 641px) {
     .am-container {padding-left:0px;padding-right:0px ;}
     .nav-search{background: #fff; margin: 20px 0 5px 0;}
     .header-top { display:block;}
@@ -455,7 +455,7 @@ ul.am-dropdown-content > .am-active > a:focus,
         margin-top: 0;
     }
 }
-@media only screen and (max-width: 641px) {
+@media only screen and (max-width: 640px) {
     .common-login-modal {
         height: 410px;
         top: calc(50% - 210px);
@@ -811,7 +811,7 @@ table.am-table .am-btn-danger:hover {
         width: 100%;
     }
 }
-@media only screen and (max-width:641px) {
+@media only screen and (max-width:640px) {
     .shop-navigation {
         background: #d2354c;
         margin-top: 0;
@@ -889,7 +889,7 @@ img.common-user-icon {
 .user-content {display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;background:#fff;}
 
 .user-offcanvas-bar { z-index: 900; }
-@media only screen and (min-width:640px) {
+@media only screen and (min-width:641px) {
     .user-sidebar {display:block;position:relative;background:none; border-top: 5px solid #ED5564;z-index: 0;}
     .user-offcanvas-bar {position:static;width:auto;background:none;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);overflow-y:hidden;}
     .user-offcanvas-bar:after {content:none;}
@@ -934,7 +934,7 @@ button { outline: none !important; }
 .common-cropper-popup .am-form-group { width: auto; }
 .common-cropper-popup form.am-form .am-form-group-refreshing { padding: 0 !important; }
 .common-cropper-popup .am-form-file input[type="file"] { width: 106px !important; top: 0; }
-@media only screen and (max-width:641px){
+@media only screen and (max-width:640px){
     .common-cropper-popup .img-preview { margin-left:10px; }
     .common-cropper-popup .preview-md,
     .common-cropper-popup .preview-sm { margin:0 0 5px 8px; }

@@ -79,6 +79,7 @@
                                             <input type="text" name="idcard_front" value="{{$data.idcard_front_old}}" />
                                         {{/if}}
                                         <img src="{{if empty($data['idcard_front'])}}{{$attachment_host}}/static/common/images/default-idcard-front.jpg{{else /}}{{$data.idcard_front}}{{/if}}" />
+                                        <i>×</i>
                                     </li>
                                 </ul>
                                 <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_front">+上传人像面图片</div>
@@ -90,6 +91,7 @@
                                             <input type="text" name="idcard_back" value="{{$data.idcard_back_old}}" />
                                         {{/if}}
                                         <img src="{{if empty($data['idcard_back'])}}{{$attachment_host}}/static/common/images/default-idcard-back.jpg{{else /}}{{$data.idcard_back}}{{/if}}" />
+                                        <i>×</i>
                                     </li>
                                 </ul>
                                 <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_back">+上传国微面图片</div>

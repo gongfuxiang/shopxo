@@ -65,7 +65,7 @@ class ResourcesService
 
     /**
      * 附件路径处理
-     * @author   Devil
+     * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2018-12-12
@@ -89,12 +89,12 @@ class ResourcesService
 
     /**
      * 附件集合处理
-     * @author   Devil
+     * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2018-08-07
      * @desc    description
-     * @param    [array]          $params [输入参数]
+     * @param   [array]          $params [输入参数]
      * @param   [array]           $data   [字段列表]
      */
     public static function AttachmentParams($params, $data)
@@ -117,7 +117,7 @@ class ResourcesService
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2019-01-13T15:13:30+0800
-     * @param    [type]                   $value [description]
+     * @param    [string]                   $value [description]
      */
     public static function AttachmentPathViewHandle($value)
     {

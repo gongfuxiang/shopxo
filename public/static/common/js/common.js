@@ -2556,16 +2556,27 @@ $(function()
 	        fillcolor:true,
 	        success:function(o, color)
 	        {
-	        	var style = o.context.dataset.colorStyle || 'color';
-	            $(o.context.dataset.inputTag).css(style, color);
+	        	var style_arr = (o.context.dataset.colorStyle || 'color').split('|');
+	        	var style_value = {};
+	        	for(var i in style_arr)
+	        	{
+	        		style_value[style_arr[i]] = color;
+	        	}
+	            $(o.context.dataset.inputTag).css(style_value);
 	            $(o.context.dataset.colorTag).val(color);
 	            $(o.context.dataset.colorTag).trigger('change');
 	        },
 	        reset:function(o)
 	        {
-	        	var style = o.context.dataset.colorStyle || 'color';
-	            $(o.context.dataset.inputTag).css(style, '');
-	            $(o.context.dataset.colorTag).val('');
+	        	var color = '';
+	        	var style_arr = (o.context.dataset.colorStyle || 'color').split('|');
+	        	var style_value = {};
+	        	for(var i in style_arr)
+	        	{
+	        		style_value[style_arr[i]] = color;
+	        	}
+	            $(o.context.dataset.inputTag).css(style_value);
+	            $(o.context.dataset.colorTag).val(color);
 	            $(o.context.dataset.colorTag).trigger('change');
 	        }
 	    });

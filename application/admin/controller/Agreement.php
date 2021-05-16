@@ -57,6 +57,19 @@ class Agreement extends Common
         // 编辑器文件存放地址
         $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue('agreement'));
 
+        // 导航数据
+        $nav_data = [
+            [
+                'name'  => '用户注册协议',
+                'type'  => 'register',
+            ],
+            [
+                'name'  => '用户隐私政策',
+                'type'  => 'privacy',
+            ]
+        ];
+        $this->assign('nav_data', $nav_data);
+
         // 导航/视图
         $nav_type = input('nav_type', 'register');
         $this->assign('nav_type', $nav_type);

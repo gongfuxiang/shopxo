@@ -207,6 +207,21 @@ class OrderService
             }
         }
 
+        // 是否指定同步回调地址
+        if(!empty($params['redirect_url']))
+        {
+            $redirect_url = base64_decode(urldecode($params['redirect_url']));
+            if(!empty($redirect_url))
+            {
+                // 赋值同步返回地址
+                $call_back_url = $redirect_url;
+            }
+        }
+        if(empty($redirect_url))
+        {
+            $redirect_url = MyUrl('index/order/index');
+        }
+
         // 新增支付日志
         $pay_log = self::OrderPayLogInsert([
             'user_id'       => $params['user']['id'],
@@ -235,7 +250,7 @@ class OrderService
             'client_type'   => $client_type,
             'notify_url'    => $url.'_notify.php',
             'call_back_url' => $call_back_url,
-            'redirect_url'  => MyUrl('index/order/index'),
+            'redirect_url'  => $redirect_url,
             'site_name'     => MyC('home_site_name', 'ShopXO', true),
             'ajax_url'      => MyUrl('index/order/paycheck'),
         ];
