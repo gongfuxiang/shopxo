@@ -104,7 +104,7 @@ function GetFormVal(element, is_json)
 		var name = $(this).parents('select').attr('name');
 		if(name != undefined && name != '')
 		{
-			if($(this).is(':selected') && tmp.value != undefined && tmp.value != '')
+			if($(this).is(':selected'))
 			{
 				// 多选择
 				if($(this).parents('select').attr('multiple') != undefined)
@@ -118,7 +118,10 @@ function GetFormVal(element, is_json)
 					i++;
 				} else {
 					// 单选择
-					object.append(name, tmp.value);
+					if(object[name] == undefined)
+					{
+						object.append(name, tmp.value);
+					}
 				}
 			}
 		}
