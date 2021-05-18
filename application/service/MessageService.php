@@ -63,7 +63,7 @@ class MessageService
             ]);
             return true;
         }
-        return facade;
+        return false;
     }
 
     /**
