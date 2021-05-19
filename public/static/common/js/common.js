@@ -106,21 +106,22 @@ function GetFormVal(element, is_json)
 		{
 			if($(this).is(':selected'))
 			{
-				// 多选择
+				var value = (tmp.value == undefined) ? '' : tmp.value;
 				if($(this).parents('select').attr('multiple') != undefined)
 				{
+					// 多选择
 					if(tmp_all[name] == undefined)
 					{
 						tmp_all[name] = [];
 						i = 0;
 					}
-					tmp_all[name][i] = tmp.value;
+					tmp_all[name][i] = value;
 					i++;
 				} else {
 					// 单选择
 					if(object[name] == undefined)
 					{
-						object.append(name, tmp.value);
+						object.append(name, value);
 					}
 				}
 			}
