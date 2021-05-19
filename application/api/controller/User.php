@@ -193,9 +193,16 @@ class User extends Common
                 return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['user_id']]);
             }
 
+            // 用户状态
+            $ret = UserService::UserStatusCheck('id', $user['id']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+
             // 标记用户存在
             $user['is_user_exist'] = 1;
-            return DataReturn('授权成功', 0, $user);
+            return DataReturn('授权登录成功', 0, $user);
         }
         return DataReturn($result['msg'], -100);
     }
@@ -232,6 +239,12 @@ class User extends Common
             $this->data_post['gender'] = empty($this->data_post['gender']) ? 0 : (($this->data_post['gender'] == 'f') ? 1 : 2);
             return UserService::AuthUserProgram($this->data_post, 'alipay_openid');
         } else {
+            // 用户状态
+            $ret = UserService::UserStatusCheck('id', $user['id']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
             return DataReturn('授权成功', 0, $user);
         }
         return DataReturn('获取用户信息失败', -100);
@@ -264,6 +277,13 @@ class User extends Common
             if(empty($user))
             {
                 return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid'], 'unionid'=>$unionid]);
+            }
+
+            // 用户状态
+            $ret = UserService::UserStatusCheck('id', $user['id']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
             }
 
             // 标记用户存在
@@ -318,6 +338,12 @@ class User extends Common
             $auth_data['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
             return UserService::AuthUserProgram($auth_data, 'weixin_openid');
         } else {
+            // 用户状态
+            $ret = UserService::UserStatusCheck('id', $user['id']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
             return DataReturn('授权成功', 0, $user);
         }
         return DataReturn(empty($result['msg']) ? '获取用户信息失败' : $result['msg'], -100);
@@ -346,6 +372,13 @@ class User extends Common
             if(empty($user))
             {
                 return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']]);
+            }
+
+            // 用户状态
+            $ret = UserService::UserStatusCheck('id', $user['id']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
             }
 
             // 标记用户存在
@@ -412,6 +445,12 @@ class User extends Common
                 return DataReturn($result['msg'], -1);
             }
         } else {
+            // 用户状态
+            $ret = UserService::UserStatusCheck('id', $user['id']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
             return DataReturn('授权成功', 0, $user);
         }
         return DataReturn(empty($result['msg']) ? '获取用户信息失败' : $result['msg'], -100);
@@ -439,6 +478,13 @@ class User extends Common
             if(empty($user))
             {
                 return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']]);
+            }
+
+            // 用户状态
+            $ret = UserService::UserStatusCheck('id', $user['id']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
             }
 
             // 标记用户存在
@@ -492,6 +538,12 @@ class User extends Common
                 return UserService::AuthUserProgram($result, 'toutiao_openid');
             }
         } else {
+            // 用户状态
+            $ret = UserService::UserStatusCheck('id', $user['id']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
             return DataReturn('授权成功', 0, $user);
         }
         return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
@@ -522,6 +574,13 @@ class User extends Common
             if(empty($user))
             {
                 return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result]);
+            }
+
+            // 用户状态
+            $ret = UserService::UserStatusCheck('id', $user['id']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
             }
 
             // 标记用户存在
@@ -581,6 +640,12 @@ class User extends Common
                 return UserService::AuthUserProgram($result, 'qq_openid');
             }
         } else {
+            // 用户状态
+            $ret = UserService::UserStatusCheck('id', $user['id']);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
             return DataReturn('授权成功', 0, $user);
         }
         return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);

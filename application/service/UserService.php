@@ -979,7 +979,7 @@ class UserService
             // 是否需要审核
             if($common_register_is_enable_audit == 1)
             {
-                return DataReturn('注册成功，请等待审核');
+                return DataReturn('用户等待审核中', -110);
             }
 
             // 用户登录session纪录
@@ -1666,6 +1666,12 @@ class UserService
         $user = self::AppUserInfoHandle(null, $field, $params['openid']);
         if(!empty($user))
         {
+            // 用户状态
+            if($user['status'] != 0)
+            {
+                return DataReturn('用户待审核', -301);
+            }
+
             // 如果是一键登录、如当前用户不存在手机号码则绑定
             if(empty($user['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
             {
@@ -1681,11 +1687,19 @@ class UserService
                     {
                         return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user['id']));
                     }
+                } else {
+                    if($user['id'] != $temp['id'])
+                    {
+                        return DataReturn('手机已绑定其他帐号', -1);
+                    }
                 }
             }
 
             return DataReturn('授权成功', 0, $user);
         } else {
+            // 是否需要添加用户
+            $is_insert_user = false;
+
             // 用户unionid
             $unionid = self::UserUnionidHandle($params);
             if(!empty($unionid['field']) && !empty($unionid['value']))
@@ -1694,6 +1708,12 @@ class UserService
                 $user_unionid = self::AppUserInfoHandle(null, $unionid['field'], $unionid['value']);
                 if(!empty($user_unionid))
                 {
+                    // 用户状态
+                    if($user_unionid['status'] != 0)
+                    {
+                        return DataReturn('用户待审核', -301);
+                    }
+
                     // openid绑定
                     $upd_data = [
                         $field      => $params['openid'],
@@ -1701,13 +1721,18 @@ class UserService
                     ];
 
                     // 如果是一键登录、如当前用户不存在手机号码则绑定
-                    if(empty($user['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
+                    if(empty($user_unionid['mobile']) && !empty($data['mobile']) && $is_onekey_mobile_bind == 1)
                     {
                         // 手机号码不存在则绑定到当前账号下
                         $temp = self::AppUserInfoHandle(null, 'mobile', $data['mobile']);
                         if(empty($temp))
                         {
                             $upd_data['mobile'] = $data['mobile'];
+                        } else {
+                            if($user_unionid['id'] != $temp['id'])
+                            {
+                                return DataReturn('手机已绑定其他帐号', -1);
+                            }
                         }
                     }
                     if(Db::name('User')->where(['id'=>$user_unionid['id']])->update($upd_data))
@@ -1723,13 +1748,7 @@ class UserService
             // 不强制绑定手机则写入用户信息
             if(intval(MyC('common_user_is_mandatory_bind_mobile')) != 1)
             {
-                $ret = self::UserInsert($data, $params);
-                if($ret['code'] == 0)
-                {
-                    return DataReturn('授权成功', 0, self::AppUserInfoHandle($ret['data']['user_id']));
-                } else {
-                    return $ret;
-                }
+                $is_insert_user = true;
             } else {
                 // 强制绑定手机号码、是否一键获取操作绑定
                 if($is_onekey_mobile_bind == 1 && !empty($data['mobile']))
@@ -1743,20 +1762,39 @@ class UserService
                             $field      => $params['openid'],
                             'upd_time'  => time(),
                         ];
+                        if(!empty($unionid['field']) && !empty($unionid['value']))
+                        {
+                            $upd_data[$unionid['field']] = $unionid['value'];
+                        }
                         if(Db::name('User')->where(['id'=>$user['id']])->update($upd_data))
                         {
                             return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user['id']));
                         }
                     } else {
-                        $ret = self::UserInsert($data, $params);
-                        if($ret['code'] == 0)
-                        {
-                            return DataReturn('绑定成功', 0, self::AppUserInfoHandle($ret['data']['user_id']));
-                        } else {
-                            return $ret;
-                        }
+                        $is_insert_user = true;
                     }
                 }
+            }
+
+            // 添加用户
+            if($is_insert_user)
+            {
+                // 是否需要审核
+                $common_register_is_enable_audit = MyC('common_register_is_enable_audit', 0);
+                $data['status'] = ($common_register_is_enable_audit == 1) ? 3 : 0;
+
+                // 添加用户
+                $ret = self::UserInsert($data, $params);
+                if($ret['code'] == 0)
+                {
+                    // 是否需要审核
+                    if($common_register_is_enable_audit == 1)
+                    {
+                        return DataReturn('用户等待审核中', -110);
+                    }
+                    return DataReturn('授权成功', 0, self::AppUserInfoHandle($ret['data']['user_id']));
+                }
+                return $ret;
             }
         }
         return DataReturn('授权成功', 0, self::AppUserInfoHandle(null, null, null, $data));
