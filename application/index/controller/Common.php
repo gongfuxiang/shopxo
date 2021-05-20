@@ -169,6 +169,9 @@ class Common extends Controller
         // 用户登录页面顶部钩子
         $this->assign('plugins_view_user_login_info_top_data', Hook::listen('plugins_view_user_login_info_top', ['hook_name'=>'plugins_view_user_login_info_top', 'is_backend'=>false, 'user'=>$this->user]));
 
+        // 用户登录内底部钩子
+        $this->assign('plugins_view_user_login_inside_bottom_data', Hook::listen('plugins_view_user_login_inside_bottom', ['hook_name'=>'plugins_view_user_login_inside_bottom', 'is_backend'=>false, 'user'=>$this->user]));
+
         // 用户登录内容页面底部钩子
         $this->assign('plugins_view_user_login_content_bottom_data', Hook::listen('plugins_view_user_login_content_bottom', ['hook_name'=>'plugins_view_user_login_content_bottom', 'is_backend'=>false, 'user'=>$this->user]));
 
@@ -177,6 +180,9 @@ class Common extends Controller
 
         // 用户注册页面顶部钩子
         $this->assign('plugins_view_user_reg_info_top_data', Hook::listen('plugins_view_user_reg_info_top', ['hook_name'=>'plugins_view_user_reg_info_top', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 用户注册页面内底部钩子
+        $this->assign('plugins_view_user_reg_info_inside_bottom_data', Hook::listen('plugins_view_user_reg_info_inside_bottom', ['hook_name'=>'plugins_view_user_reg_info_inside_bottom', 'is_backend'=>false, 'user'=>$this->user]));
 
         // 用户注册页面底部钩子
         $this->assign('plugins_view_user_reg_info_bottom_data', Hook::listen('plugins_view_user_reg_info_bottom', ['hook_name'=>'plugins_view_user_reg_info_bottom', 'is_backend'=>false, 'user'=>$this->user]));

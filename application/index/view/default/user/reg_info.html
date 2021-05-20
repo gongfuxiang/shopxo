@@ -154,6 +154,8 @@
                                                     <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意协议" data-am-ucheck required /> 阅读并同意
                                                 </label>
                                                 <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
+                                                <span>与</span>
+                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userprivacy'])}}" target="_blank">《隐私政策》</a>
                                             </div>
                                         {{/if}}
 
@@ -200,6 +202,8 @@
                                                     <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意协议" data-am-ucheck required /> 阅读并同意
                                                 </label>
                                                 <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
+                                                <span>与</span>
+                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userprivacy'])}}" target="_blank">《隐私政策》</a>
                                             </div>
                                         {{/if}}
 
@@ -210,6 +214,20 @@
                                     </form>
                                     <!-- form end -->
                                 </div>
+                            {{/if}}
+
+                            <!-- 用户注册页面内底部钩子 -->
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                <div class="plugins-tag">
+                                    <span>plugins_view_user_reg_info_inside_bottom</span>
+                                </div>
+                            {{/if}}
+                            {{if !empty($plugins_view_user_reg_info_inside_bottom_data) and is_array($plugins_view_user_reg_info_inside_bottom_data)}}
+                                {{foreach $plugins_view_user_reg_info_inside_bottom_data as $hook}}
+                                    {{if is_string($hook) or is_int($hook)}}
+                                        {{$hook|raw}}
+                                    {{/if}}
+                                {{/foreach}}
                             {{/if}}
                         </div>
                     </div>

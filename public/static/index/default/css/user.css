@@ -54,7 +54,7 @@
 .my-content form.am-form {
     background: #fff;
     overflow: hidden;
-    padding-top: 10px;
+    padding: 10px 10px 15px 10px;
 }
 .my-content form.am-form .am-form-group {
     padding: 5px 10px !important;

@@ -107,9 +107,25 @@
             </div>
         {{/if}}
 
-        <div class="am-padding-sm am-nbfc">
-            <a href="{{:MyUrl('index/user/reginfo')}}" target="_blank" class="am-fl">免费注册</a>
-            <a href="{{:MyUrl('index/user/forgetpwdinfo')}}" target="_blank" class="am-fr">忘记密码？</a>
+        <div class="am-padding-horizontal-xs am-padding-vertical-xs am-margin-bottom-sm am-nbfc">
+            <!-- 用户登录内底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_login_inside_bottom</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_user_login_inside_bottom_data) and is_array($plugins_view_user_login_inside_bottom_data)}}
+                {{foreach $plugins_view_user_login_inside_bottom_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+            <!-- 右侧快捷入口 -->
+            <div class="am-fr">
+                <a href="{{:MyUrl('index/user/reginfo')}}" target="_blank" class="am-text-danger am-margin-right-sm">免费注册</a>
+                <a href="{{:MyUrl('index/user/forgetpwdinfo')}}" target="_blank">忘记密码</a>
+            </div>
         </div>
     </div>
 </div>
