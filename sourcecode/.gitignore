@@ -1,4 +1,5 @@
 project.config.json
 project.swan.json
 .swan
+.vscode-swan
 .DS_Store

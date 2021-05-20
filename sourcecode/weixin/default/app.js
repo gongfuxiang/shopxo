@@ -270,7 +270,6 @@ App({
               dataType: 'json',
               header: { 'content-type': 'application/x-www-form-urlencoded' },
               success: (res) => {
-                console.log(res.data);
                 wx.hideLoading();
                 if (res.data.code == 0) {
                   var data = res.data.data;

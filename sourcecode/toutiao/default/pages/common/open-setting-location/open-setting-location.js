@@ -20,7 +20,6 @@ Page({
     var self = this;
     tt.getSetting({
       success(res) {
-        console.log(res)
         if (!res.authSetting[self.data.auth]) {
           tt.authorize({
             scope: self.data.auth,
