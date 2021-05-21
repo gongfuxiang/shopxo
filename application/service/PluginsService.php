@@ -317,7 +317,7 @@ class PluginsService
         }
 
         // 安全判断
-        if(config('shopxo.is_develop') === false)
+        if(config('shopxo.is_develop') === false && strtolower(request()->module()) == 'admin')
         {
             $key = 'plugins_legal_check_'.$plugins;
             $ret = cache($key);
