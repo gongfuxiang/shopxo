@@ -1879,6 +1879,17 @@ class UserService
                     self::UserLoginRecord($user['id'], true);
                 }
             }
+
+            // 用户信息钩子
+            $hook_name = 'plugins_service_user_app_info_handle';
+            Hook::listen($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'user_id'       => $user_id,
+                'where_field'   => $where_field,
+                'where_value'   => $where_value,
+                'user'          => &$user,
+            ]);
         }
 
         return $user;
