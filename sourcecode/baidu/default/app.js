@@ -259,7 +259,7 @@ App({
       // 加载loding
       swan.showLoading({ title: "授权中..." });
 
-      swan.login({
+      swan.getLoginCode({
         success: function (res) {
           swan.request({
             url: self.get_request_url("baiduuserauth", "user"),

@@ -243,6 +243,62 @@ function IsWeixinEnv()
 }
 
 /**
+ * 是否微信环境
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-08-26
+ * @desc    description
+ * @return  [boolean] [否false, 是true]
+ */
+function IsDingdingEnv()
+{
+    return (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'DingTalk') !== false);
+}
+
+/**
+ * 是否QQ环境
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-08-26
+ * @desc    description
+ * @return  [boolean] [否false, 是true]
+ */
+function IsQQEnv()
+{
+    return (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MQQBrowser') !== false);
+}
+
+/**
+ * 是否支付宝环境
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-08-26
+ * @desc    description
+ * @return  [boolean] [否false, 是true]
+ */
+function IsAlipayEnv()
+{
+    return (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'AlipayClient') !== false);
+}
+
+/**
+ * 是否新浪微博环境
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-08-26
+ * @desc    description
+ * @return  [boolean] [否false, 是true]
+ */
+function IsWeiboEnv()
+{
+    return (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'Weibo') !== false);
+}
+
+/**
  * 笛卡尔积生成规格
  * @author  Devil
  * @blog    http://gong.gg/
@@ -1755,7 +1811,7 @@ function CurlPost($url, $post, $is_json = false, $timeout = 30)
     } else {
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                "Content-Type: application/x-www-form-urlencoded",
+                "Content-Type: application/x-www-form-urlencoded; charset=utf-8",
                 "cache-control: no-cache"
             )
         );

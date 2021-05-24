@@ -42,12 +42,14 @@ return array (
     1 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
     2 => 'app\\plugins\\coupon\\Hook',
     3 => 'app\\plugins\\distribution\\Hook',
+    4 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_js' => 
   array (
     0 => 'app\\plugins\\shop\\Hook',
     1 => 'app\\plugins\\coupon\\Hook',
     2 => 'app\\plugins\\distribution\\Hook',
+    3 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_navigation_header_handle' => 
   array (
@@ -67,6 +69,7 @@ return array (
     1 => 'app\\plugins\\excellentbuyreturntocash\\Hook',
     2 => 'app\\plugins\\coupon\\Hook',
     3 => 'app\\plugins\\distribution\\Hook',
+    4 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_goods_save_handle' => 
   array (
@@ -128,6 +131,7 @@ return array (
   array (
     0 => 'app\\plugins\\shop\\Hook',
     1 => 'app\\plugins\\distribution\\Hook',
+    2 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_module_form_admin_goods_index' => 
   array (
@@ -169,6 +173,7 @@ return array (
   'plugins_service_user_register_end' => 
   array (
     0 => 'app\\plugins\\coupon\\Hook',
+    1 => 'app\\plugins\\thirdpartylogin\\Hook',
   ),
   'plugins_service_base_data_return_api_goods_detail' => 
   array (
@@ -205,6 +210,7 @@ return array (
   'plugins_service_goods_spec_base' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_view_goods_detail_panel_price_top' => 
   array (
@@ -221,30 +227,69 @@ return array (
   'plugins_service_quick_navigation_pc' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_h5' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_weixin' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_alipay' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_baidu' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_qq' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
   ),
   'plugins_service_quick_navigation_toutiao' => 
   array (
     0 => 'app\\plugins\\distribution\\Hook',
+    1 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_view_common_bottom' => 
+  array (
+    0 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_service_currency_data' => 
+  array (
+    0 => 'app\\plugins\\exchangerate\\Hook',
+  ),
+  'plugins_view_user_login_inside_bottom' => 
+  array (
+    0 => 'app\\plugins\\thirdpartylogin\\Hook',
+  ),
+  'plugins_view_user_reg_info_inside_bottom' => 
+  array (
+    0 => 'app\\plugins\\thirdpartylogin\\Hook',
+  ),
+  'plugins_view_user_login_info_top' => 
+  array (
+    0 => 'app\\plugins\\thirdpartylogin\\Hook',
+  ),
+  'plugins_view_user_reg_info' => 
+  array (
+    0 => 'app\\plugins\\thirdpartylogin\\Hook',
+  ),
+  'plugins_service_user_login_end' => 
+  array (
+    0 => 'app\\plugins\\thirdpartylogin\\Hook',
+  ),
+  'plugins_service_users_personal_show_field_list_handle' => 
+  array (
+    0 => 'app\\plugins\\thirdpartylogin\\Hook',
   ),
 );
 ?>
