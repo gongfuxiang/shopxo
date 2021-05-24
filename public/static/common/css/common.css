@@ -5,6 +5,7 @@
 ul { list-style: none; }
 .none { display:none !important; }
 .block { display:block !important; }
+.vertical-middle { vertical-align: middle !important; }
 .text-deco-none { text-decoration: none !important; }
 .text-deco-line { text-decoration: underline !important; }
 
