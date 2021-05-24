@@ -36,7 +36,9 @@
         padding: 20px 0 30px 0;
     }
     .user-login-container .container-right {
-        padding: 0 15%;
+        max-width: 380px;
+        float: none !important;
+        margin: 0 auto;
     }
 }
 
