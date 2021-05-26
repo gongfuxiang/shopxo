@@ -47,6 +47,10 @@ class SystemBaseService
             'common_site_type'                  => self::SiteTypeValue(),
             'common_shop_notice'                => MyC('common_shop_notice', null, true),
 
+            // 协议、注册协议、隐私协议
+            'agreement_userregister_url'        => MyUrl('index/agreement/index', ['document'=>'userregister', 'is_content'=>1]),
+            'agreement_userprivacy_url'         => MyUrl('index/agreement/index', ['document'=>'userprivacy', 'is_content'=>1]),
+
             // 手机端相关配置
             'common_app_is_enable_search'       => (int) MyC('common_app_is_enable_search', 1),
             'common_app_is_enable_answer'       => (int) MyC('common_app_is_enable_answer', 1),
