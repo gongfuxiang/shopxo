@@ -58,9 +58,6 @@ page{
 .user-login {
   padding-top: 30%;
 }
-.user-login button {
-  margin-top: 30rpx;
-}
 
 /**
  * 登录确认

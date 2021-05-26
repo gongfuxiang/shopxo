@@ -565,7 +565,7 @@ App({
         switch(type) {
           // web
           case 0 :
-            my.navigateTo({url: '/pages/web-view/web-view?url='+encodeURIComponent(value)});
+            this.open_web_view(value);
             break;
 
           // 内部页面
@@ -600,6 +600,14 @@ App({
         }
       }
     },
+
+    /**
+   * 打开 webview页面
+   * value    [string]  url地址
+   */
+  open_web_view(value) {
+    my.navigateTo({url: '/pages/web-view/web-view?url='+encodeURIComponent(value)});
+  },
 
   /**
    * 是否需要绑定手机号码

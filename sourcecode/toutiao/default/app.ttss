@@ -102,6 +102,7 @@ textarea {
 .oh { overflow: hidden; }
 .dis-none { display: none; }
 .dis-block { display: block; }
+.dis-inline { display: inline; }
 
 .cr-main { color: #d2364c; }
 .cr-666 { color: #666; }

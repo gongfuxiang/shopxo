@@ -190,6 +190,28 @@ Page({
         }
       });
     }
-  }
+  },
+
+  // 协议事件
+  agreement_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if(value == null)
+    {
+      app.showToast('协议类型有误');
+      return false;
+    }
+
+    // 是否存在协议 url 地址
+    var key = 'agreement_'+value+'_url';
+    var url = app.get_config('config.'+key) || null;
+    if(url == null)
+    {
+      app.showToast('协议url地址有误');
+      return false;
+    }
+
+    // 打开 webview
+    app.open_web_view(url);
+  },
 
 });

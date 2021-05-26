@@ -515,7 +515,7 @@ App({
       switch (type) {
         // web
         case 0:
-          swan.navigateTo({ url: '/pages/web-view/web-view?url=' + encodeURIComponent(value) });
+          this.open_web_view(value);
           break;
 
         // 内部页面
@@ -549,6 +549,14 @@ App({
           break;
       }
     }
+  },
+
+  /**
+   * 打开 webview页面
+   * value    [string]  url地址
+   */
+  open_web_view(value) {
+    swan.navigateTo({ url: '/pages/web-view/web-view?url=' + encodeURIComponent(value) });
   },
 
   /**

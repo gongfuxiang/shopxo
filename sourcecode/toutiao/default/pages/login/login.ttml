@@ -10,6 +10,14 @@
 </view>
 
 <view tt:if="{{user == null}}" class="user-login tc">
-  <view class="cr-888 fs-12">确认登录授权，为您提供更优质的服务</view>
-  <button type="primary" size="mini" bindtap="get_user_info_event">授权登录</button>
+  <view>确认登录授权，为您提供更优质的服务</view>
+  <view class="margin-top-sm padding-bottom-xxl">
+    阅读并同意 《<span class="cr-main" bindtap="agreement_event" data-value="userregister">服务协议</span>》 与 《<span class="cr-main" bindtap="agreement_event" data-value="userprivacy">隐私政策</span>》
+  </view>
+  <view class="margin-top-xxl">
+    <navigator open-type="navigateBack" hover-class="none" class="dis-inline margin-right-lg">
+      <button type="default" size="mini" class="cr-888 br" hover-class="none">取消</button>
+    </navigator>
+    <button type="primary" size="mini" bindtap="get_user_info_event" class="margin-left-lg">同意授权登录</button>
+  </view>
 </view>
