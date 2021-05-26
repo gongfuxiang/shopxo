@@ -358,6 +358,9 @@ class Common extends Controller
         $this->assign('is_header', 1);
         $this->assign('is_footer', 1);
 
+        // 价格正则
+        $this->assign('default_price_regex', lang('common_regex_price'));
+
         // 附件host地址
         $this->assign('attachment_host', config('shopxo.attachment_host'));
 

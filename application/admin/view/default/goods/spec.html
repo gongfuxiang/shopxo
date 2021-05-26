@@ -91,7 +91,7 @@
                 {{if empty($specifications['value'])}}
                     <tr class="line-0" data-line-tag=".line-0">
                         <td class="am-text-middle value-start">
-                            <input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" required />
+                            <input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的销售金额" required />
                         </td>
                         <td class="am-text-middle">
                             <input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" />
@@ -103,7 +103,7 @@
                             <input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" />
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的原价" />
+                            <input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的原价" />
                         </td>
                         <td class="am-text-middle">
                             <input type="hidden" name="specifications_extends[]" value="" class="line-extend-input" />
@@ -132,7 +132,7 @@
 
                                     {{case base}}
                                         <td class="am-text-middle value-start">
-                                            <input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" value="{{$v.data.price}}" required />
+                                            <input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的销售金额" value="{{$v.data.price}}" required />
                                         </td>
                                         <td class="am-text-middle">
                                             <input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" value="{{if $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}" />
@@ -144,7 +144,7 @@
                                             <input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" value="{{$v.data.barcode}}" />
                                         </td>
                                         <td class="am-text-middle">
-                                            <input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的原价" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
+                                            <input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的原价" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
                                         </td>
                                         <td class="am-text-middle">
                                             <input type="hidden" name="specifications_extends[]" value="{{$v.data.extends}}" class="line-extend-input" />
@@ -212,7 +212,7 @@
             <div class="am-alert am-alert-secondary spec-title-container"></div>
             <div class="am-form-group">
                 <label class="block">销售价格</label>
-                <input type="text" placeholder="价格" class="am-radius popup_all_price" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的销售金额" />
+                <input type="text" placeholder="价格" class="am-radius popup_all_price" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的销售金额" />
             </div>
             <div class="am-form-group">
                 <label class="block">重量</label>
@@ -228,7 +228,7 @@
             </div>
             <div class="am-form-group">
                 <label class="block">原价</label>
-                <input type="text" placeholder="原价" class="am-radius popup_all_original_price" pattern="^([0-9]{1}\d{0,6})(\.\d{1,2})?$" data-validation-message="请填写有效的原价" />
+                <input type="text" placeholder="原价" class="am-radius popup_all_original_price" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的原价" />
             </div>
             <div class="am-form-group am-form-group-refreshing am-text-center">
                 <button type="button" class="am-btn am-btn-warning am-radius am-btn-sm am-margin-right-lg" data-am-modal-close>取消</button>

@@ -244,6 +244,9 @@ class Common extends Controller
         $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$this->action_name.'.js') ? '.'.$this->action_name.'.js' : '.js';
         $this->assign('module_js', file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '');
 
+        // 价格正则
+        $this->assign('default_price_regex', lang('common_regex_price'));
+
 		// 附件host地址
         $this->assign('attachment_host', config('shopxo.attachment_host'));
 
