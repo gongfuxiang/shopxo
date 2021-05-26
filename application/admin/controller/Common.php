@@ -270,12 +270,10 @@ class Common extends Controller
 
         // 站点商店信息
         $site_store_info = StoreService::SiteStoreInfo();
-        //print_r($site_store_info);
         if(empty($site_store_info))
         {
             $res = StoreService::SiteStoreAccountsBindHandle();
-
-            if($res['code'] == 0)
+            if(!empty($res) && isset($res['code']) && $res['code'] == 0)
             {
                 $site_store_info = StoreService::SiteStoreInfo();
             }

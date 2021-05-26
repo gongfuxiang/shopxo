@@ -63,8 +63,8 @@ class Agreement extends Common
             $data = $ret['data'];
         }
 
-        // 是否隐藏头尾、默认显示
-        $is_content = isset($params['is_content']) ? intval($params['is_content']) : 1;
+        // 是否仅展示内容
+        $is_content = (isset($params['is_content']) && $params['is_content'] == 1) ? 0 : 1;
         $this->assign('is_header', $is_content);
         $this->assign('is_footer', $is_content);
         $this->assign('data', $data);
