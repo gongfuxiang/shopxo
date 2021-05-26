@@ -179,8 +179,8 @@ class StoreService
         $res = self::RemoteStoreData($accounts, $password, self::$store_site_info_url);
         if($res['code'] == 0)
         {
-            // 存储缓存、取远程给的时间，未拿到时间则默认30分钟
-            $cache_time = (empty($res['data']['base']) || empty($res['data']['base']['cache_time'])) ? 1800 : intval($res['data']['base']['cache_time']);
+            // 存储缓存、取远程给的时间，未拿到时间则默认60分钟
+            $cache_time = (empty($res['data']['base']) || empty($res['data']['base']['cache_time'])) ? 3600 : intval($res['data']['base']['cache_time']);
             cache(self::$site_store_info_key, $res['data'], $cache_time);
 
             return DataReturn('绑定成功', 0);

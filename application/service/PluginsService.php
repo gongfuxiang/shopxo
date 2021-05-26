@@ -337,7 +337,7 @@ class PluginsService
                     'ver'       => $config['base']['version'],
                 ];
                 $ret = StoreService::PluginsLegalCheck($check_params);
-                cache($key, $ret, 600);
+                cache($key, $ret, 3600);
             }
             if($ret['code'] != 0)
             {
