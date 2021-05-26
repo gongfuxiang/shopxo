@@ -1285,7 +1285,7 @@ function MyUrl($path, $params=[])
     // 开启伪静态则则去除index.php
     if(MyC('home_seo_url_model', 0) != 0)
     {
-        $url = str_replace('index.php', '', $url);
+        $url = str_replace(['/index.php?s='], '', $url);
     }
 
     return $url;
@@ -1338,7 +1338,7 @@ function PluginsHomeUrl($plugins_name, $plugins_control = '', $plugins_action = 
     // 开启伪静态则则去除index.php
     if(MyC('home_seo_url_model', 0) != 0)
     {
-        $url = str_replace('index.php', '', $url);
+        $url = str_replace(['/index.php?s='], '', $url);
     }
 
     return $url;
