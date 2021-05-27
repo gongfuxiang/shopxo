@@ -3,44 +3,46 @@
 <!-- right content start  -->
 <div class="content-right">
 	<div class="content">
-		<!-- 顶部提示信息 -->
-		{{if !empty($site_store_info) and !empty($site_store_info['base']) and !empty($site_store_info['base']['site_top_notice'])}}
-			<div class="am-alert am-alert-danger" data-am-alert>
-				<button type="button" class="am-close">&times;</button>
-				<p>{{$site_store_info.base.site_top_notice|raw}}</p>
+		{{if $is_system_show_base eq 1}}
+			<!-- 顶部提示信息 -->
+			{{if !empty($site_store_info) and !empty($site_store_info['base']) and !empty($site_store_info['base']['site_top_notice'])}}
+				<div class="am-alert am-alert-danger" data-am-alert>
+					<button type="button" class="am-close">&times;</button>
+					<p>{{$site_store_info.base.site_top_notice|raw}}</p>
+				</div>
+			{{/if}}
+
+			<!-- 顶部基础信息 -->
+			<div class="block-container base-content-top am-nbfc">
+				<div class="am-fl am-nbfc left-content">
+					<!-- 帐号信息 -->
+					{{if !empty($site_store_info) and !empty($site_store_info['user'])}}
+						<i class="am-icon-user"></i>
+						<span>{{$site_store_info.user.user_name_view}}</span>
+						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">修改</a>
+					{{else /}}
+						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">绑定ShopXO商店账户</a>
+					{{/if}}
+
+					<!-- 广告 -->
+					{{if !empty($site_store_info) and !empty($site_store_info['adverts']) and !empty($site_store_info['adverts']['name'])}}
+						<a class="am-margin-left-sm am-text-danger ad-content {{if !empty($site_store_info['adverts']['icon'])}}{{$site_store_info.adverts.icon}}{{/if}}" {{if empty($site_store_info['adverts']['url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.adverts.url}}" target="_blank"{{/if}}> {{$site_store_info.adverts.name}}</a>
+					{{/if}}
+				</div>
+				<div class="am-fr am-nbfc right-content">
+					<!-- VIP授权信息 -->
+					{{if !empty($site_store_info) and !empty($site_store_info['vip']) and !empty($site_store_info['vip']['auth_view'])}}
+						<a class="am-icon-diamond vip {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '授权主体：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}> {{$site_store_info.vip.auth_view}}</a>
+					{{/if}}
+
+					<!-- 右侧版本信息及更新检查 -->
+					<span class="right-base">
+						<a href="https://ask.shopxo.net/article/148" target="_blank" class="am-margin-left-xs">{{$Think.APPLICATION_VERSION}}</a>
+						<a href="javascript:;" class="am-margin-left-sm inspect-upgrade-submit" data-url="{{:MyUrl('admin/index/inspectupgrade')}}">检查更新{{if !empty($site_store_info) and !empty($site_store_info['upgrade']) and !empty($site_store_info['upgrade']['version_old']) and $site_store_info['upgrade']['version_old'] eq $Think.APPLICATION_VERSION}}<i></i>{{/if}}</a>
+					</span>
+				</div>
 			</div>
 		{{/if}}
-
-		<!-- 顶部基础信息 -->
-		<div class="block-container base-content-top am-nbfc">
-			<div class="am-fl am-nbfc left-content">
-				<!-- 帐号信息 -->
-				{{if !empty($site_store_info) and !empty($site_store_info['user'])}}
-					<i class="am-icon-user"></i>
-					<span>{{$site_store_info.user.user_name_view}}</span>
-					<a href="javascript:;" class="am-margin-left-xs store-accounts-event">修改</a>
-				{{else /}}
-					<a href="javascript:;" class="am-margin-left-xs store-accounts-event">绑定ShopXO商店账户</a>
-				{{/if}}
-
-				<!-- 广告 -->
-				{{if !empty($site_store_info) and !empty($site_store_info['adverts']) and !empty($site_store_info['adverts']['name'])}}
-					<a class="am-margin-left-sm am-text-danger ad-content {{if !empty($site_store_info['adverts']['icon'])}}{{$site_store_info.adverts.icon}}{{/if}}" {{if empty($site_store_info['adverts']['url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.adverts.url}}" target="_blank"{{/if}}> {{$site_store_info.adverts.name}}</a>
-				{{/if}}
-			</div>
-			<div class="am-fr am-nbfc right-content">
-				<!-- VIP授权信息 -->
-				{{if !empty($site_store_info) and !empty($site_store_info['vip']) and !empty($site_store_info['vip']['auth_view'])}}
-					<a class="am-icon-diamond vip {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '授权主体：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}> {{$site_store_info.vip.auth_view}}</a>
-				{{/if}}
-
-				<!-- 右侧版本信息及更新检查 -->
-				<span class="right-base">
-					<a href="https://ask.shopxo.net/article/148" target="_blank" class="am-margin-left-xs">{{$Think.APPLICATION_VERSION}}</a>
-					<a href="javascript:;" class="am-margin-left-sm inspect-upgrade-submit" data-url="{{:MyUrl('admin/index/inspectupgrade')}}">检查更新{{if !empty($site_store_info) and !empty($site_store_info['upgrade']) and !empty($site_store_info['upgrade']['version_old']) and $site_store_info['upgrade']['version_old'] eq $Think.APPLICATION_VERSION}}<i></i>{{/if}}</a>
-				</span>
-			</div>
-		</div>
 
 		<!-- 基础统计 -->
 		<div class="block-container shopxo-base">
@@ -163,7 +165,7 @@
 		</div>
 
 		<!-- 组合 -->
-		<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2">
+		<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2 {{if $is_system_show_base eq 0}}am-padding-bottom-sm{{/if}}">
 			<li>
 				<!-- 近30日热销商品 -->
 				<div class="echarts-title">
@@ -184,71 +186,73 @@
 		</ul>
 
 		<!-- 系统信息 -->
-		<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2 am-padding-bottom-sm">
-			<li>
-				<div class="echarts-title">
-					<span class="icon"></span>
-					<span class="title">系统信息</span>
-				</div>
-				<dl class="dl-content">
-					<dt>软件版本</dt>
-					<dd>{{$data.ver}}</dd>
+		{{if $is_system_show_base eq 1}}
+			<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2 am-padding-bottom-sm">
+				<li>
+					<div class="echarts-title">
+						<span class="icon"></span>
+						<span class="title">系统信息</span>
+					</div>
+					<dl class="dl-content">
+						<dt>软件版本</dt>
+						<dd>{{$data.ver}}</dd>
 
-					<dt>操作系统</dt>
-					<dd>{{$data.os_ver}}</dd>
+						<dt>操作系统</dt>
+						<dd>{{$data.os_ver}}</dd>
 
-					<dt>PHP版本</dt>
-					<dd>{{$data.php_ver}}</dd>
+						<dt>PHP版本</dt>
+						<dd>{{$data.php_ver}}</dd>
 
-					<dt>MySQL版本</dt>
-					<dd>{{$data.mysql_ver}}</dd>
+						<dt>MySQL版本</dt>
+						<dd>{{$data.mysql_ver}}</dd>
 
-					<dt>服务器端信息</dt>
-					<dd>{{$data.server_ver}}</dd>
+						<dt>服务器端信息</dt>
+						<dd>{{$data.server_ver}}</dd>
 
-					<dt>当前域名</dt>
-					<dd>{{$data.host}}</dd>
-				</dl>
-			</li>
+						<dt>当前域名</dt>
+						<dd>{{$data.host}}</dd>
+					</dl>
+				</li>
 
-			<li>
-				<div class="echarts-title">
-					<span class="icon"></span>
-					<span class="title">开发团队</span>
-				</div>
-				<dl class="dl-content">
-					<dt>公司官网</dt>
-					<dd>
-						<a href="http://zongzhige.com/" target="_blank">上海纵之格科技有限公司</a>
-					</dd>
+				<li>
+					<div class="echarts-title">
+						<span class="icon"></span>
+						<span class="title">开发团队</span>
+					</div>
+					<dl class="dl-content">
+						<dt>公司官网</dt>
+						<dd>
+							<a href="http://zongzhige.com/" target="_blank">上海纵之格科技有限公司</a>
+						</dd>
 
-					<dt>技术支持</dt>
-					<dd>
-						<a href="http://shopxo.net/" target="_blank">ShopXO企业级电商系统提供商</a>
-					</dd>
+						<dt>技术支持</dt>
+						<dd>
+							<a href="http://shopxo.net/" target="_blank">ShopXO企业级电商系统提供商</a>
+						</dd>
 
-					<dt>交流社区</dt>
-					<dd>
-						<a href="http://ask.shopxo.net/" target="_blank">ShopXO交流社区</a>
-					</dd>
+						<dt>交流社区</dt>
+						<dd>
+							<a href="http://ask.shopxo.net/" target="_blank">ShopXO交流社区</a>
+						</dd>
 
-					<dt>开源协议</dt>
-					<dd>
-						<a href="http://ask.shopxo.net/article/15" target="_blank">查看开源协议</a>
-					</dd>
+						<dt>开源协议</dt>
+						<dd>
+							<a href="http://ask.shopxo.net/article/15" target="_blank">查看开源协议</a>
+						</dd>
 
-					<dt>研发成员</dt>
-					<dd>
-						<a href="http://gong.gg/" target="_blank">龚哥哥</a>
-					</dd>
+						<dt>研发成员</dt>
+						<dd>
+							<a href="http://gong.gg/" target="_blank">龚哥哥</a>
+						</dd>
 
-					<dt>更新日志</dt>
-					<dd>
-						<a href="http://ask.shopxo.net/article/148" target="_blank">查看更新日志</a>
-					</dd>
-				</dl>
-			</li>
-		</ul>
+						<dt>更新日志</dt>
+						<dd>
+							<a href="http://ask.shopxo.net/article/148" target="_blank">查看更新日志</a>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+		{{/if}}
 	</div>
 </div>
 <!-- right content end  -->

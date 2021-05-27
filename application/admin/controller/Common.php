@@ -282,6 +282,10 @@ class Common extends Controller
             }
         }
         $this->assign('site_store_info', $site_store_info);
+
+        // 系统基础信息
+        $is_system_show_base = (empty($site_store_info) || empty($site_store_info['vip']) || !isset($site_store_info['vip']['status']) || $site_store_info['vip']['status'] == 0 || ($site_store_info['vip']['status'] == 1 && (AdminIsPower('index', 'storeaccountsbind') || AdminIsPower('index', 'inspectupgrade')))) ? 1 : 0;
+        $this->assign('is_system_show_base', $is_system_show_base);
 	}
 
     /**
