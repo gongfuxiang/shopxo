@@ -667,7 +667,7 @@ App({
   // 拨打电话
   call_tel(value) {
     if ((value || null) != null) {
-      wx.makePhoneCall({ phoneNumber: value });
+      wx.makePhoneCall({ phoneNumber: value.toString() });
     }
   },
 

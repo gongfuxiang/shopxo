@@ -781,7 +781,7 @@ App({
   // 拨打电话
   call_tel(value) {
     if ((value || null) != null) {
-      tt.makePhoneCall({ phoneNumber: value });
+      tt.makePhoneCall({ phoneNumber: value.toString() });
     }
   },
 

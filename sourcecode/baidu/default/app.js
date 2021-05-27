@@ -658,7 +658,7 @@ App({
   // 拨打电话
   call_tel(value) {
     if ((value || null) != null) {
-      swan.makePhoneCall({ phoneNumber: value });
+      swan.makePhoneCall({ phoneNumber: value.toString() });
     }
   },
 

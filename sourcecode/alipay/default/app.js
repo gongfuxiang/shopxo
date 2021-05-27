@@ -718,7 +718,7 @@ App({
   // 拨打电话
   call_tel(value) {
     if ((value || null) != null) {
-      my.makePhoneCall({ number: value });
+      my.makePhoneCall({ number: value.toString() });
     }
   },
 

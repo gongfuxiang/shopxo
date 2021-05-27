@@ -181,7 +181,7 @@
       <block tt:if="{{(buy_button.data || null) != null && buy_button.data.length > 0}}">
         <block tt:for="{{buy_button.data}}" tt:key="key">
           <block tt:if="{{(item.name || null) != null && (item.type || null) != null}}">
-            <button class="fl bg-{{(item.color || 'main') == 'main' ? 'main' : 'warning'}}" type="default" bindtap="nav_buy_submit_event" data-type="{{item.type}}" hover-class="none">{{item.name}}</button>
+            <button class="fl bg-{{(item.color || 'main') == 'main' ? 'main' : 'warning'}}" type="default" bindtap="nav_buy_submit_event" data-type="{{item.type}}" data-value="{{item.value || ''}}" hover-class="none">{{item.name}}</button>
           </block>
         </block>
       </block>

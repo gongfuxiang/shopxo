@@ -258,11 +258,12 @@ Page({
   // 导航购买按钮事件
   nav_buy_submit_event(e) {
     var type = e.currentTarget.dataset.type || 'buy';
+    var value = e.currentTarget.dataset.value || null;
     switch(type)
     {
       // 展示型、拨打电话
       case 'show' :
-        app.call_tel(this.data.common_app_customer_service_tel);
+        app.call_tel(value || this.data.common_app_customer_service_tel);
         break;
       
       // 购买、加入购物车
@@ -868,11 +869,6 @@ Page({
         }
       }
     }
-  },
-
-  // 拨打电话
-  tel_event(e) {
-    app.call_tel(this.data.common_app_customer_service_tel);
   },
 
   // 自定义分享

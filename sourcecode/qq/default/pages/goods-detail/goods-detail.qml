@@ -181,7 +181,7 @@
       <block qq:if="{{(buy_button.data || null) != null && buy_button.data.length > 0}}">
         <block qq:for="{{buy_button.data}}" qq:key="key">
           <block qq:if="{{(item.name || null) != null && (item.type || null) != null}}">
-            <button class="fl bg-{{(item.color || 'main') == 'main' ? 'main' : 'warning'}}" type="default" bindtap="nav_buy_submit_event" data-type="{{item.type}}" hover-class="none">{{item.name}}</button>
+            <button class="fl bg-{{(item.color || 'main') == 'main' ? 'main' : 'warning'}}" type="default" bindtap="nav_buy_submit_event" data-type="{{item.type}}" data-value="{{item.value || ''}}" hover-class="none">{{item.name}}</button>
           </block>
         </block>
       </block>
