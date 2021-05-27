@@ -10,7 +10,7 @@
 .line-price { color: #3c3c3c; }
 .line-price, strong.total-price-content, .nav-total-price { font-weight: 700; }
 .stock-tag { width: 100px; }
-.stock-tag .am-form-field { padding: 3px; height: 25px; text-align: center; font-size: 16px !important; }
+.stock-tag .am-form-field { padding: 3px; height: 25px; text-align: center; font-size: 14px !important; width: 80px; }
 .stock-tag .am-input-group-label { line-height: 23px; height: 25px; font-size: 14px !important; padding: 0 10px; }
 .stock-tag .am-input-group-label, .cart-nav label { cursor: pointer; }
 .selected-tips strong, .nav-total-price { font-size: 16px; }
