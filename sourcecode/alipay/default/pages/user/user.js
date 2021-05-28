@@ -33,9 +33,6 @@ Page({
 
   onShow() {
     my.setNavigationBar({title: app.data.common_pages_title.user});
-
-    // 主题颜色
-    app.set_nav_bg_color_main();
     
     // 数据加载
     this.init();

@@ -10,10 +10,7 @@ page, textarea {
     font-size: 28rpx;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="idcard"],
-input[type="digit"],
+input,
 textarea { 
     -webkit-appearance: none; 
     border-radius: 5px; 

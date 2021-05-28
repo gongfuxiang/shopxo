@@ -9,7 +9,6 @@ Page({
   },
 
   onLoad() {
-    app.set_nav_bg_color_main('#1d1611');
     this.init();
   },
 

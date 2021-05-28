@@ -16,10 +16,6 @@ Page({
     this.init();
   },
 
-  onShow() {
-    app.set_nav_bg_color_main('#1d1611');
-  },
-
   init() {
     var user = app.get_user_info(this, 'init');
     if (user != false) {

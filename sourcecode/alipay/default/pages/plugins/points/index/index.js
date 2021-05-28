@@ -19,7 +19,6 @@ Page({
   },
 
   onShow() {
-    app.set_nav_bg_color_main('#fe3e28');
     this.get_data();
   },
 

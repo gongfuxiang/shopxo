@@ -777,26 +777,6 @@ App({
     }
   },
 
-  // 窗口背景色设置
-  set_nav_bg_color_main(color) {
-    // 默认主色
-    if((color || null) == null)
-    {
-      color = '#d2364c';
-    }
-
-    // 窗口和下拉顶部背景色
-    my.setBackgroundColor({
-      backgroundColorTop: color,
-      backgroundColorBottom: '#f5f5f5',
-    });
-
-    // 下拉文字颜色
-    my.setBackgroundTextStyle({
-      textStyle: 'light',
-    });
-  },
-
   /**
    * 获取配置信息、可指定key和默认值
    * key              数据key（支持多级读取、以 . 分割key名称）

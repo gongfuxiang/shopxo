@@ -16,10 +16,6 @@ Page({
     this.init();
   },
 
-  onShow() {
-    app.set_nav_bg_color_main('#ff6a80');
-  },
-
   init() {
     var self = this;
     my.showLoading({ content: "加载中..." });
@@ -83,6 +79,20 @@ Page({
   // 下拉刷新
   onPullDownRefresh() {
     this.init();
+  },
+
+  // 头像查看
+  avatar_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if (value != null)
+    {
+      my.previewImage({
+        current: 0,
+        urls: [value]
+      });
+    } else {
+      app.showToast('头像地址有误');
+    }
   },
 
 });

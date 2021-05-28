@@ -16,9 +16,7 @@ Page({
     currency_symbol: app.data.currency_symbol,
   },
   
-  onShow() {
-    app.set_nav_bg_color_main('#1d1611');
-    
+  onShow() {    
     // 数据加载
     this.init();
 

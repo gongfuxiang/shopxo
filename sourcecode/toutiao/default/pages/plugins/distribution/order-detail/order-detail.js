@@ -96,6 +96,20 @@ Page({
   // 下拉刷新
   onPullDownRefresh() {
     this.init();
+  },
+
+  // 头像查看
+  avatar_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+
+    if (value != null) {
+      tt.previewImage({
+        current: value,
+        urls: [value]
+      });
+    } else {
+      app.showToast('头像地址有误');
+    }
   }
 
 });

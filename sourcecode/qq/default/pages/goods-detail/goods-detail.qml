@@ -10,7 +10,7 @@
     qq:if="{{goods_photo.length > 0}}">
     <block qq:for="{{goods_photo}}" qq:key="key">
       <swiper-item>
-        <image class="swiper-item wh-auto" bindtap="goods_photo_view_event" data-index="{{index}}" src="{{item.images}}" mode="aspectFit" bindtap="goods_photo_view_event" />
+        <image class="swiper-item wh-auto" bindtap="goods_photo_view_event" data-index="{{index}}" src="{{item.images}}" mode="aspectFit" />
       </swiper-item>
     </block>
   </swiper>

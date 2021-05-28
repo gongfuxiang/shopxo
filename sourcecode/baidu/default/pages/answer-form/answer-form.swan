@@ -10,7 +10,7 @@
     </view>
 
     <view class="bottom-btn-box fixed">
-        <button type="default" formType="submit" class="my-btn-default" hover-class="none" bindtap="submit_event" loading="{{form_submit_loading}}" disabled="{{form_submit_loading}}">提交</button>
+        <button type="default" formType="submit" class="my-btn-default" hover-class="none" loading="{{form_submit_loading}}" disabled="{{form_submit_loading}}">提交</button>
     </view>
 </form>
 

@@ -38,10 +38,6 @@ Page({
     this.init();
   },
 
-  onShow() {
-    app.set_nav_bg_color_main('#ff6a80');
-  },
-
   init() {
     var user = app.get_user_info(this, 'init');
     if (user != false) {
@@ -169,5 +165,19 @@ Page({
       data_page: 1,
     });
     this.get_data_list(1);
+  },
+
+  // 头像查看
+  avatar_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if (value != null)
+    {
+      my.previewImage({
+        current: 0,
+        urls: [value]
+      });
+    } else {
+      app.showToast('头像地址有误');
+    }
   },
 });

@@ -20,7 +20,6 @@ Page({
   },
 
   onShow() {
-    app.set_nav_bg_color_main('#ff6a80');
     this.init();
   },
 

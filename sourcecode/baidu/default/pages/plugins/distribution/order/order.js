@@ -160,5 +160,18 @@ Page({
       data_page: 1
     });
     this.get_data_list(1);
+  },
+
+  // 头像查看
+  avatar_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if (value != null) {
+      swan.previewImage({
+        current: value,
+        urls: [value]
+      });
+    } else {
+      app.showToast('头像地址有误');
+    }
   }
 });

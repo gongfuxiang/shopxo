@@ -27,10 +27,7 @@ Page({
     plugins_limitedtimediscount_timer: null,
   },
   
-  onShow() {
-    // 主题颜色
-    app.set_nav_bg_color_main();
-    
+  onShow() {    
     // 数据加载
     this.init();
 

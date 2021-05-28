@@ -10,7 +10,7 @@
     a:if="{{goods_photo.length > 0}}">
     <block a:for="{{goods_photo}}">
       <swiper-item>
-        <image class="swiper-item wh-auto" onTap="goods_photo_view_event" data-index="{{index}}" src="{{item.images}}" mode="aspectFit" onTap="banner_event" />
+        <image class="swiper-item wh-auto" onTap="goods_photo_view_event" data-index="{{index}}" src="{{item.images}}" mode="aspectFit" />
       </swiper-item>
     </block>
   </swiper>

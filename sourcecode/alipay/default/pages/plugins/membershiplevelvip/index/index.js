@@ -13,10 +13,6 @@ Page({
     this.init();
   },
 
-  onShow() {
-    app.set_nav_bg_color_main('#1d1611');
-  },
-
   init() {
     // 获取数据
     this.get_data_list();

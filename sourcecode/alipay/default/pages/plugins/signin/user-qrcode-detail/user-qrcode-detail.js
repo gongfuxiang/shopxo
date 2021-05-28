@@ -16,10 +16,6 @@ Page({
     this.init();
   },
 
-  onShow() {
-    app.set_nav_bg_color_main('#f6b015');
-  },
-
   init() {
     var self = this;
     my.showLoading({ content: "加载中..." });

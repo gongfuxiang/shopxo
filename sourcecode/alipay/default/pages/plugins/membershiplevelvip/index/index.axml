@@ -5,7 +5,7 @@
   </view>
   <view class="submit">
     <navigator url="/pages/plugins/membershiplevelvip/buy/buy" hover-class="none">
-      <button size="mini" type="default" hover-class="none" onTap="buy_event">
+      <button size="mini" type="default" hover-class="none">
         {{data_base.banner_middle_name || '开通会员'}}
       </button>
     </navigator>
