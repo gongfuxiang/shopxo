@@ -267,7 +267,7 @@ function IsDingdingEnv()
  */
 function IsQQEnv()
 {
-    return (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'MQQBrowser') !== false);
+    return (!empty($_SERVER['HTTP_USER_AGENT']) && stripos($_SERVER['HTTP_USER_AGENT'], 'QQ/') !== false);
 }
 
 /**
