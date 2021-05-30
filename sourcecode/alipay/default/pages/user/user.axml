@@ -57,7 +57,7 @@
 
   <view class="nav-item br-b" onTap="clear_storage">
     <image src="/images/user-nav-cache-icon.png" class="item-icon" mode="widthFix" />
-    <text class="item-name">安全退出</text>
+    <text class="item-name">清除缓存</text>
   </view>
 
   <view a:if="{{(customer_service_tel || null) != null}}" class="nav-item" onTap="call_event">
