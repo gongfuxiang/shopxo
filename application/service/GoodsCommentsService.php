@@ -283,6 +283,7 @@ class GoodsCommentsService
                 $v['reply_time_date'] = empty($v['reply_time']) ? null : date('Y-m-d', $v['reply_time']);
 
                 // 评论时间
+                $v['add_time_hour'] = date('H:i:s', $v['add_time']);
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
                 $v['add_time_date'] = date('Y-m-d', $v['add_time']);
 

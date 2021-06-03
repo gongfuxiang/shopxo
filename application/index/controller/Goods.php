@@ -100,15 +100,42 @@ class Goods extends Common
             $qrcode_url = ($qrcode['code'] == 0 && isset($qrcode['data']['url'])) ? $qrcode['data']['url'] : '';
             $this->assign('qrcode_url', $qrcode_url);
 
-            // 商品评分
-            $goods_score = GoodsCommentsService::GoodsCommentsScore($goods_id);
-            $this->assign('goods_score', $goods_score['data']);
-
             // 商品访问统计
             GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
 
             // 用户商品浏览
             GoodsBrowseService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
+
+            // 商品购买按钮列表
+            $buy_button = GoodsService::GoodsBuyButtonList($goods);
+            $this->assign('buy_button', $buy_button);
+
+            // 中间tabs导航
+            $middle_tabs_nav = GoodsService::GoodsDetailMiddleTabsNavList($goods);
+            $this->assign('middle_tabs_nav', $middle_tabs_nav);
+
+            // 详情商品评分
+            if(!empty($middle_tabs_nav) && in_array('comments', $middle_tabs_nav['type']))
+            {
+                $goods_score = GoodsCommentsService::GoodsCommentsScore($goods_id);
+                $this->assign('goods_score', $goods_score['data']);
+            }
+
+            // 详情tab商品 猜你喜欢
+            if(!empty($middle_tabs_nav) && in_array('guess_you_like', $middle_tabs_nav['type']))
+            {
+                $params = [
+                    'where'     => [
+                        'is_delete_time'    => 0,
+                        'is_shelves'        => 1,
+                    ],
+                    'order_by'  => 'sales_count desc',
+                    'field'     => 'id,title,title_color,price,images',
+                    'n'         => 16,
+                ];
+                $like_goods = GoodsService::GoodsList($params);
+                $this->assign('detail_like_goods', $like_goods['data']);
+            }
 
             // 左侧商品 看了又看
             $params = [
@@ -122,23 +149,6 @@ class Goods extends Common
             ];
             $right_goods = GoodsService::GoodsList($params);
             $this->assign('left_goods', $right_goods['data']);
-
-            // 详情tab商品 猜你喜欢
-            $params = [
-                'where'     => [
-                    'is_delete_time'    => 0,
-                    'is_shelves'        => 1,
-                ],
-                'order_by'  => 'sales_count desc',
-                'field'     => 'id,title,title_color,price,images',
-                'n'         => 16,
-            ];
-            $like_goods = GoodsService::GoodsList($params);
-            $this->assign('detail_like_goods', $like_goods['data']);
-
-            // 商品购买按钮列表
-            $buy_button = GoodsService::GoodsBuyButtonList($goods);
-            $this->assign('buy_button', $buy_button);
 
             // 是否商品详情页展示相册
             $this->assign('common_is_goods_detail_show_photo', MyC('common_is_goods_detail_show_photo', 0, true));
@@ -206,7 +216,16 @@ class Goods extends Common
             'plugins_view_goods_detail_tabs_top',
 
             // 商品页面tabs顶部钩子
+            'plugins_view_goods_detail_tabs_content',
+
+            // 商品页面tabs内容钩子
             'plugins_view_goods_detail_tabs_bottom',
+
+            // 详情内容顶部钩子
+            'plugins_view_goods_detail_content_top',
+
+            // 详情内容底部钩子
+            'plugins_view_goods_detail_content_bottom',
 
             // 商品页面左侧顶部钩子
             'plugins_view_goods_detail_left_top',

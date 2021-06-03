@@ -472,11 +472,11 @@ class UserService
         // 邮箱/手机
         if(isset($user['mobile']))
         {
-            $user['mobile_security']=   empty($user['mobile']) ? '' : substr($user['mobile'], 0, 3).'***'.substr($user['mobile'], -3);
+            $user['mobile_security']=   empty($user['mobile']) ? '' : mb_substr($user['mobile'], 0, 3, 'utf-8').'***'.mb_substr($user['mobile'], -3, null, 'utf-8');
         }
         if(isset($user['email']))
         {
-            $user['email_security'] =   empty($user['email']) ? '' : substr($user['email'], 0, 3).'***'.substr($user['email'], -3);
+            $user['email_security'] =   empty($user['email']) ? '' : mb_substr($user['email'], 0, 3, 'utf-8').'***'.mb_substr($user['email'], -3, null, 'utf-8');
         }
 
         // 显示名称,根据规则优先展示
@@ -2330,7 +2330,7 @@ class UserService
             }
             if(!empty($user_ids))
             {
-                $data = Db::name('User')->where(['id'=>$user_ids])->column('username,nickname,mobile,email,avatar', 'id');
+                $data = Db::name('User')->where(['id'=>$user_ids])->column('username,nickname,mobile,email,avatar,province,city', 'id');
             }
 
             // 数据处理

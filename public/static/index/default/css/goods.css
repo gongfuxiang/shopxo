@@ -106,7 +106,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 
 
 /*导航*/
-.introduce-main .am-nav > li > a{padding:4px 0px;font-size: 12px;}
+.introduce-main .am-nav > li > a{padding:7px 0px;font-size: 12px;}
 .introduce-main .am-nav-tabs > li > a { margin-right:0px;}
 .introduce-main .am-nav-tabs > li {border-top: 2px solid #f5f5f5;}
 .introduce-main .am-nav-tabs > li.am-active { border-bottom: 2px solid #F03726; }
@@ -123,8 +123,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .introduce .am-tabs-nav li a,
 .introduce .am-tabs-nav li.am-active a,
 .introduce .am-tabs-nav li{cursor: pointer !important;}
-.introduce .am-nav-tabs > li span{font-size:14px;font-weight:500;}
-.introduce .am-nav-tabs > li.am-active span{color: #E4393C;}
+.introduce .am-nav-tabs > li.am-active{color: #E4393C;}
 
 /**
  * 小导航基础容器

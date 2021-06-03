@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\Db;
+use think\facade\Hook;
 
 /**
  * 支付日志服务层
@@ -105,7 +106,23 @@ class PayLogService
             $res = Db::name('PayLogValue')->insertAll($value_data);
             if($res >= count($params['business_ids']))
             {
+                // 日志 id 加入数组中
                 $data['id'] = $pay_log_id;
+
+                // 支付日志添加成功钩子
+                $hook_name = 'plugins_service_paylog_insert_success';
+                $ret = HookReturnHandle(Hook::listen($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => $params,
+                    'data'          => $data,
+                ]));
+                if(isset($ret['code']) && $ret['code'] != 0)
+                {
+                    return $ret;
+                }
+
+                // 返回成功
                 return DataReturn('添加成功', 0, $data);
             }
         }

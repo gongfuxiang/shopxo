@@ -66,7 +66,7 @@ input.add,input.min{width:15px}
 #goods-category { position: relative; top: -45px; }
 
 /* 搜索 */
-.nav-search{top:0;left:0;width:100%;z-index:1000; margin:0px auto;background:#fff; padding-top: 5px; position: relative;}
+.nav-search{top:0;left:0;width:100%;margin:0px auto;background:#fff; padding-top: 5px; position: relative;}
 .nav-search .logo{height:30px;width:95px; margin: 0 auto; display: -webkit-inline-box;}
 .logo img{width: 100%; vertical-align: middle;}
  

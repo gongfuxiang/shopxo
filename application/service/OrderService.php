@@ -222,6 +222,25 @@ class OrderService
             $redirect_url = MyUrl('index/order/index');
         }
 
+        // 发起支付前处理钩子
+        $hook_name = 'plugins_service_order_pay_launch_begin';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'user'          => $params['user'],
+            'business_ids'  => $order_ids,
+            'business_nos'  => $order_nos,
+            'total_price'   => $total_price,
+            'payment'       => $payment['payment'],
+            'payment_name'  => $payment['name'],
+            'client_type'   => $client_type,
+            'params'        => &$params,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 新增支付日志
         $pay_log = self::OrderPayLogInsert([
             'user_id'       => $params['user']['id'],

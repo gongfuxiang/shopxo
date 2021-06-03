@@ -57,7 +57,7 @@ text-align: center;float:none}
 
 @media only screen and (min-width: 640px) {
     /*标题*/
-    .items-nav-title{background: #fff; border-bottom: 2px solid #000;}
+    .items-nav-title{background: #fff; border-bottom: 2px solid #666;}
     .am-container {padding-left:0px;padding-right:0px ;}
     .home-floor{width:100%;background:#fff;overflow:visible;}
 

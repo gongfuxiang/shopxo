@@ -652,128 +652,170 @@
                 {{/foreach}}
             {{/if}}
 
-            <!-- tab -->
-            <div class="am-tabs" data-am-tabs="{noSwipe: 1}">
-                <ul class="am-avg-sm-3 am-tabs-nav am-nav am-nav-tabs" data-am-sticky="{animation: 'slide-top'}">
-                    <li class="am-active">
-                        <a href="javascript:;">
-                            <span class="index-needs-dt-txt">详情</span>
-                        </a>
-                    </li>
-                    <li class="tabs-comment">
-                        <a href="javascript:;">
-                            <span class="index-needs-dt-txt">评论({{$goods.comments_count}})</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
-                            <span class="index-needs-dt-txt">猜你喜欢</span>
-                        </a>
-                    </li>
-                </ul>
+            <!-- tab区块 -->
+            {{if !empty($middle_tabs_nav) and !empty($middle_tabs_nav['nav']) and !empty($middle_tabs_nav['type']) and is_array($middle_tabs_nav['nav']) and is_array($middle_tabs_nav['type'])}}
+                <div class="am-tabs" data-am-tabs="{noSwipe: 1}">
+                    <!-- tab导航 -->
+                    <ul class="am-avg-sm-{{:count($middle_tabs_nav['nav'])}} am-tabs-nav am-nav am-nav-tabs" data-am-sticky="{animation: 'slide-top'}">
+                        {{foreach $middle_tabs_nav.nav as $k=>$v}}
+                            <li class="{{if isset($v['active']) and $v['active'] eq 1}}am-active{{/if}} goods-middle-nav-{{$v.type}}">
+                                <a href="[data-tab-panel-{{$k}}]" data-type="{{$v.type}}" data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">{{$v.name}}</a>
+                            </li>
+                        {{/foreach}}
+                    </ul>
 
-                <!-- 详情 -->
-                <div class="am-tabs-bd">
-                    <div class="am-tab-panel am-fade am-in am-active">
-                        {{if !empty($goods['parameters']) and !empty($goods['parameters']['detail'])}}
-                            <!-- 商品详情参数 -->
-                            <div class="am-cf tabs-nav-base-container">
-                                <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-padding-vertical-xs parameters-content parameters-detail">
-                                    {{foreach $goods.parameters.detail as $v}}
-                                        <li class="am-padding-vertical-xs am-padding-horizontal-sm am-text-truncate">
-                                            <span>{{$v.name}}:</span>
-                                            <span>{{$v.value}}</span>
-                                        </li>
-                                    {{/foreach}}
-                                </ul>
+                    <!-- tab内容 -->
+                    <div class="am-tabs-bd">
+                        <!-- 详情 -->
+                        {{if in_array('detail', $middle_tabs_nav['type'])}}
+                            <div class="am-tab-panel am-in am-active">
+                                {{if !empty($goods['parameters']) and !empty($goods['parameters']['detail'])}}
+                                    <!-- 商品详情参数 -->
+                                    <div class="am-cf tabs-nav-base-container">
+                                        <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-padding-vertical-xs parameters-content parameters-detail">
+                                            {{foreach $goods.parameters.detail as $v}}
+                                                <li class="am-padding-vertical-xs am-padding-horizontal-sm am-text-truncate">
+                                                    <span>{{$v.name}}:</span>
+                                                    <span>{{$v.value}}</span>
+                                                </li>
+                                            {{/foreach}}
+                                        </ul>
+                                    </div>
+                                {{/if}}
+
+                                <!-- 详情内容 -->
+                                <div class="detail-content am-margin-top-sm">
+                                    <!-- 详情内容顶部钩子 -->
+                                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                        <div class="plugins-tag">
+                                            <span>plugins_view_goods_detail_content_top</span>
+                                        </div>
+                                    {{/if}}
+                                    {{if !empty($plugins_view_goods_detail_content_top_data) and is_array($plugins_view_goods_detail_content_top_data)}}
+                                        {{foreach $plugins_view_goods_detail_content_top_data as $hook}}
+                                            {{if is_string($hook) or is_int($hook)}}
+                                                {{$hook|raw}}
+                                            {{/if}}
+                                        {{/foreach}}
+                                    {{/if}}
+
+                                    <!-- 详情相册 -->
+                                    {{if isset($common_is_goods_detail_show_photo) and $common_is_goods_detail_show_photo eq 1 and !empty($goods.photo)}}
+                                        <div class="content-photo">
+                                            {{foreach $goods.photo as $photo}}
+                                                <li>
+                                                    <img src="{{$photo.images}}" title="{{$goods.title}}" />
+                                                </li>
+                                            {{/foreach}}
+                                        </div>
+                                    {{/if}}
+                                    <!-- web详情 -->
+                                    <div class="content-web am-scrollable-horizontal">{{$goods.content_web|raw}}</div>
+
+                                    <!-- 详情内容底部钩子 -->
+                                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                        <div class="plugins-tag">
+                                            <span>plugins_view_goods_detail_content_bottom</span>
+                                        </div>
+                                    {{/if}}
+                                    {{if !empty($plugins_view_goods_detail_content_bottom_data) and is_array($plugins_view_goods_detail_content_bottom_data)}}
+                                        {{foreach $plugins_view_goods_detail_content_bottom_data as $hook}}
+                                            {{if is_string($hook) or is_int($hook)}}
+                                                {{$hook|raw}}
+                                            {{/if}}
+                                        {{/foreach}}
+                                    {{/if}}
+                                </div>
                             </div>
                         {{/if}}
 
-                        <!-- 详情内容 -->
-                        <div class="detail-content am-margin-top-sm">
-                            {{if isset($common_is_goods_detail_show_photo) and $common_is_goods_detail_show_photo eq 1 and !empty($goods.photo)}}
-                                <!-- 详情相册 -->
-                                <div class="content-photo">
-                                    {{foreach $goods.photo as $photo}}
-                                        <li>
-                                            <img src="{{$photo.images}}" title="{{$goods.title}}" />
-                                        </li>
-                                    {{/foreach}}
+                        <!-- 评论 -->
+                        {{if in_array('comments', $middle_tabs_nav['type'])}}
+                            <div class="am-tab-panel goods-comment" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comments')}}">
+                                <div class="am-cf tabs-nav-base-container score-container">
+                                    <div class="score am-fl">
+                                        <p class="name">动态评分</p>
+                                        <p class="value">{{$goods_score.avg}}</p>
+                                    </div>
+                                    <div class="am-progress am-fr">
+                                        {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}}
+                                            {{foreach $goods_score.rating as $score}}
+                                                {{if $score.portion gt 0}}
+                                                    <div class="am-progress-bar 
+                                                        {{switch score.rating}}
+                                                            {{case 1}}
+                                                                am-progress-bar-danger
+                                                            {{/case}}
+                                                            {{case 2}}
+                                                                am-progress-bar-warning
+                                                            {{/case}}
+                                                            {{case 3}}
+                                                                am-progress-bar-secondary
+                                                            {{/case}}
+                                                            {{case 5}}
+                                                                am-progress-bar-success
+                                                            {{/case}}
+                                                        {{/switch}}"
+                                                        style="width: {{$score.portion}}%">{{$score.name}}({{$score.portion}}%)</div>
+                                                    {{/if}}
+                                            {{/foreach}}
+                                        {{else /}}
+                                            没有评分数据
+                                        {{/if}}
+                                    </div>
                                 </div>
-                            {{/if}}
-                            <!-- web详情 -->
-                            <div class="content-web am-scrollable-horizontal">{{$goods.content_web|raw}}</div>
-                        </div>
-                    </div>
-
-                    <!-- 评论 -->
-                    <div class="am-tab-panel am-fade goods-comment" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comments')}}">
-                        <div class="am-cf tabs-nav-base-container score-container">
-                            <div class="score am-fl">
-                                <p class="name">动态评分</p>
-                                <p class="value">{{$goods_score.avg}}</p>
+                                <div class="goods-comment-content"></div>
+                                <div class="table-no goods-page-no-data none">
+                                    <i class="am-icon-warning"></i>
+                                    <span>没有评论数据</span>
+                                </div>
+                                <div class="goods-page-container"></div>
                             </div>
-                            <div class="am-progress am-fr">
-                                {{if isset($goods_score['avg']) and $goods_score['avg'] gt 0 and !empty($goods_score['rating'])}}
-                                    {{foreach $goods_score.rating as $score}}
-                                        {{if $score.portion gt 0}}
-                                            <div class="am-progress-bar 
-                                                {{switch score.rating}}
-                                                    {{case 1}}
-                                                        am-progress-bar-danger
-                                                    {{/case}}
-                                                    {{case 2}}
-                                                        am-progress-bar-warning
-                                                    {{/case}}
-                                                    {{case 3}}
-                                                        am-progress-bar-secondary
-                                                    {{/case}}
-                                                    {{case 5}}
-                                                        am-progress-bar-success
-                                                    {{/case}}
-                                                {{/switch}}"
-                                                style="width: {{$score.portion}}%">{{$score.name}}({{$score.portion}}%)</div>
-                                            {{/if}}
-                                    {{/foreach}}
-                                {{else /}}
-                                    没有评分数据
-                                {{/if}}
-                            </div>
-                        </div>
-                        <div class="goods-comment-content"></div>
-                        <div class="goods-page-container"></div>
-                        <div class="table-no goods-page-no-data none">
-                            <i class="am-icon-warning"></i>
-                            <span>没有评论数据</span>
-                        </div>
-                    </div>
+                        {{/if}}
 
-                    <!-- 猜你喜欢 -->
-                    <div class="am-tab-panel am-fade">
-                        <div class="like">
-                            <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
-                                {{if !empty($detail_like_goods)}}
-                                    {{foreach $detail_like_goods as $key=>$v}}
-                                        <li>
-                                            <div class="i-pic limit">
-                                                <a href="{{:$v['goods_url']}}">
-                                                    <img alt="{{$v.title}}" src="{{$v.images}}" />
-                                                </a>
-                                                <a href="{{:$v['goods_url']}}">
-                                                    <p class="am-text-truncate-2 am-margin-bottom-xs" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
-                                                </a>
-                                                <p class="price fl">
-                                                    <strong>{{$currency_symbol}}{{$v.price}}</strong>
-                                                </p>
-                                            </div>
-                                        </li>
-                                    {{/foreach}}
+                        <!-- 猜你喜欢 -->
+                        {{if in_array('guess_you_like', $middle_tabs_nav['type'])}}
+                            <div class="am-tab-panel">
+                                <div class="like">
+                                    <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
+                                        {{if !empty($detail_like_goods)}}
+                                            {{foreach $detail_like_goods as $key=>$v}}
+                                                <li>
+                                                    <div class="i-pic limit">
+                                                        <a href="{{:$v['goods_url']}}">
+                                                            <img alt="{{$v.title}}" src="{{$v.images}}" />
+                                                        </a>
+                                                        <a href="{{:$v['goods_url']}}">
+                                                            <p class="am-text-truncate-2 am-margin-bottom-xs" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
+                                                        </a>
+                                                        <p class="price fl">
+                                                            <strong>{{$currency_symbol}}{{$v.price}}</strong>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            {{/foreach}}
+                                        {{/if}}
+                                    </ul>
+                                </div>
+                            </div>
+                        {{/if}}
+
+                        <!-- 商品页面tabs内容钩子 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_goods_detail_tabs_content</span>
+                            </div>
+                        {{/if}}
+                        {{if !empty($plugins_view_goods_detail_tabs_content_data) and is_array($plugins_view_goods_detail_tabs_content_data)}}
+                            {{foreach $plugins_view_goods_detail_tabs_content_data as $hook}}
+                                {{if is_string($hook) or is_int($hook)}}
+                                    {{$hook|raw}}
                                 {{/if}}
-                            </ul>
-                        </div>
+                            {{/foreach}}
+                        {{/if}}
                     </div>
                 </div>
-            </div>
+            {{/if}}
 
             <!-- 商品页面tabs底部钩子 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}

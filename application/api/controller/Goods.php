@@ -106,6 +106,9 @@ class Goods extends Common
         $category = GoodsService::GoodsCategoryNames($goods_id);
         $goods['category_names'] = $category['data'];
 
+        // 中间tabs导航
+        $middle_tabs_nav = GoodsService::GoodsDetailMiddleTabsNavList($goods);
+
         // 商品购买按钮列表
         $buy_button = GoodsService::GoodsBuyButtonList($goods);
 
@@ -114,6 +117,7 @@ class Goods extends Common
             'goods'                 => $goods,
             'common_cart_total'     => BuyService::UserCartTotal(['user'=>$this->user]),
             'buy_button'            => $buy_button,
+            'middle_tabs_nav'       => $middle_tabs_nav,
         ];
         return SystemBaseService::DataReturn($result);
     }

@@ -18,6 +18,7 @@ use app\service\BrandService;
 use app\service\RegionService;
 use app\service\WarehouseGoodsService;
 use app\service\GoodsParamsService;
+use app\service\GoodsCommentsService;
 
 /**
  * 商品服务层
@@ -2667,6 +2668,57 @@ class GoodsService
             'count' => (!empty($data) && is_array($data)) ? count($data) : 0,
             'data'  => $data,
             'error' => $error,
+        ];
+    }
+
+    /**
+     * 商品详情中间tabs导航列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-02-19
+     * @desc    description
+     * @param   [array]          $goods  [商品信息]
+     */
+    public static function GoodsDetailMiddleTabsNavList($goods)
+    {
+        // 评论总数
+        $comments_count = isset($goods['comments_count']) ? $goods['comments_count'] : GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods['id'], 'is_show'=>1]);
+
+        // 列表
+        // type 类型
+        // name 名称
+        // active 选中（可选）
+        // value 数据值（可选）
+        $data = [
+            [
+                'type'      => 'detail',
+                'name'      => '详情',
+                'active'    => 1,
+            ],
+            [
+                'type'      => 'comments',
+                'name'      => '评论('.$comments_count.')',
+            ],
+            [
+                'type'      => 'guess_you_like',
+                'name'      => '猜你喜欢',
+            ]
+        ];
+
+        // 商品详情中间导航钩子
+        $hook_name = 'plugins_service_goods_detail_middle_tabs_nav_handle';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'goods'         => $goods,
+            'data'          => &$data,
+        ]);
+
+        // 返回数据
+        return [
+            'nav'   => $data,
+            'type'  => array_column($data, 'type'),
         ];
     }
 
