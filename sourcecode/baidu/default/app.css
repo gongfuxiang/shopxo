@@ -102,6 +102,7 @@ textarea {
 .dis-none { display: none; }
 .dis-block { display: block; }
 .dis-inline { display: inline; }
+.va-m { vertical-align: middle; }
 
 .cr-main { color: #d2364c; }
 .cr-666 { color: #666; }
@@ -499,6 +500,25 @@ button[disabled].bg-primary {
 /**
  * 公共样式
  */
+.margin-xs {
+  margin: 5rpx;
+}
+.margin-sm {
+  margin: 10rpx;
+}
+.margin, .margin-default {
+  margin: 15rpx;
+}
+.margin-lg {
+  margin: 20rpx;
+}
+.margin-xl {
+  margin: 25rpx;
+}
+.margin-xxl {
+  margin: 30rpx;
+}
+
 .margin-top-xs {
   margin-top: 5rpx;
 }
@@ -575,6 +595,25 @@ button[disabled].bg-primary {
   margin-bottom: 30rpx;
 }
 
+
+.padding-xs {
+  padding: 5rpx;
+}
+.padding-sm {
+  padding: 10rpx;
+}
+.padding, .padding-default {
+  padding: 15rpx;
+}
+.padding-lg {
+  padding: 20rpx;
+}
+.padding-xl {
+  padding: 25rpx;
+}
+.padding-xxl {
+  padding: 30rpx;
+}
 
 .padding-top-xs {
   padding-top: 5rpx;

@@ -200,7 +200,7 @@
     </view>
   </view>
 
-  <!-- 弹层 -->
+  <!-- 购买弹层 -->
   <component-popup prop-show="{{popup_status}}" prop-position="bottom" onClose="popup_close_event">
     <view class="goods-popup bg-white">
       <view class="close fr oh">
@@ -253,6 +253,12 @@
       <button class="goods-popup-submit bg-main" type="default" catchTap="goods_buy_confirm_event" hover-class="none">确定</button>
     </view>
   </component-popup>
+
+  <!-- 购买记录 -->
+  <view a:if="{{(plugins_salerecords_tips_content || null) != null}}" class="plugins-salerecords-tips{{plugins_salerecords_tips_ent}}">
+    <image mode="widthFix" src="{{plugins_salerecords_tips_content.user.avatar}}" class="va-m br" />
+    <text class="margin-left-sm">{{plugins_salerecords_tips_content.tips}}</text>
+  </view>
 </view>
 
 <view a:if="{{goods == null}}">

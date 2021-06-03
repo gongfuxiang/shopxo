@@ -439,3 +439,64 @@
 .goods-panel-container view:not(:first-child) {
   border-top: 1px dashed #fff1f2;
 }
+
+/**
+ * 购买记录 - 插件
+ */
+.plugins-salerecords-tips,
+.plugins-salerecords-tips-top-left,
+.plugins-salerecords-tips-top-right,
+.plugins-salerecords-tips-bottom-left,
+.plugins-salerecords-tips-bottom-right,
+.plugins-salerecords-tips-top-center,
+.plugins-salerecords-tips-bottom-center {
+  position: fixed;
+  left: calc(50% - 170rpx);
+  top: 50%;
+  background: rgb(0 0 0 / 60%);
+  border-radius: 60rpx;
+  padding: 8rpx 20rpx;
+  color: #fff;
+  z-index: 110;
+  -webkit-box-shadow: 0 8px 10px rgb(0 0 0 / 20%);
+  -moz-box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 10px rgb(0 0 0 / 20%);
+}
+.plugins-salerecords-tips image ,
+.plugins-salerecords-tips-top-left image ,
+.plugins-salerecords-tips-top-right image ,
+.plugins-salerecords-tips-bottom-left image ,
+.plugins-salerecords-tips-bottom-right image,
+.plugins-salerecords-tips-top-center image,
+.plugins-salerecords-tips-bottom-center image {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50%;
+}
+.plugins-salerecords-tips-top-left {
+  left: 5%;
+  top: 5%;
+}
+.plugins-salerecords-tips-top-right {
+  right: 5%;
+  top: 5%;
+  left: auto;
+}
+.plugins-salerecords-tips-bottom-left {
+  left: 5%;
+  bottom: 10%;
+  top: auto;
+}
+.plugins-salerecords-tips-bottom-right {
+  right: 5%;
+  bottom: 10%;
+  left: auto;
+  top: auto;
+}
+.plugins-salerecords-tips-top-center {
+  top: 5%;
+}
+.plugins-salerecords-tips-bottom-center {
+  bottom: 10%;
+  top: auto;
+}

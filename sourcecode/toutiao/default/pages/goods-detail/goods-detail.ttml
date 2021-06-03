@@ -244,6 +244,12 @@
       <button class="goods-popup-submit bg-main" type="default" catchtap="goods_buy_confirm_event" hover-class="none">确定</button>
     </view>
   </component-popup>
+
+  <!-- 购买记录 -->
+  <view tt:if="{{(plugins_salerecords_tips_content || null) != null}}" class="plugins-salerecords-tips{{plugins_salerecords_tips_ent}}">
+    <image mode="widthFix" src="{{plugins_salerecords_tips_content.user.avatar}}" class="va-m br" />
+    <text class="margin-left-sm">{{plugins_salerecords_tips_content.tips}}</text>
+  </view>
 </view>
 
 <view tt:if="{{goods == null}}">

@@ -59,6 +59,29 @@
     </view>
   </view>
 </block>
+
+<!-- 底部购买记录 -->
+<view wx:if="{{(plugins_salerecords_data || null) != null && (plugins_salerecords_data.data || null) != null && plugins_salerecords_data.data.length > 0}}" class="spacing-mb plugins-salerecords bg-white">
+  <view class="spacing-nav-title br-b">
+    <text class="line"></text>
+    <text class="text-wrapper">{{plugins_salerecords_data.base.home_bottom_title || '最新购买'}}</text>
+  </view>
+  <view wx:for="{{plugins_salerecords_data.data}}" wx:key="key" class="item oh br-b padding-sm">
+    <view class="item-content single-text fl">
+      <image mode="widthFix" src="{{item.user.avatar}}" class="va-m br" />
+      <text class="margin-left-sm">{{item.user.user_name_view}}</text>
+      <text wx:if="{{(item.user.province || null) != null}}"> - {{item.user.province}}</text>
+    </view>
+    <view class="item-content fl">
+      <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none" class="single-text">
+        <image mode="widthFix" src="{{item.images}}" class="va-m br" />
+        <text class="margin-left-sm">{{item.title}}</text>
+      </navigator>
+    </view>
+    <view class="item-content single-text fr tr padding-top-xs">{{item.add_time}}</view>
+  </view>
+</view>
+
 <view wx:if="{{data_list.length == 0}}">
   <import src="/pages/common/nodata.wxml" />
   <template is="nodata" data="{{status: data_list_loding_status}}"></template>

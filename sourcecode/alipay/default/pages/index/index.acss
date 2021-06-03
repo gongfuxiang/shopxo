@@ -102,7 +102,7 @@
 /*
  * 限时秒杀 - 插件
  */
- .limitedtimediscount {
+.limitedtimediscount {
   background: #fff;
   padding: 5rpx 10rpx 20rpx 10rpx;
   margin-bottom: 20rpx;
@@ -200,4 +200,22 @@
   position: absolute;
   right: 15rpx;
   bottom: 15rpx;
+}
+
+/**
+ * 购买记录 - 插件
+ */
+.plugins-salerecords image {
+  width: 50rpx !important;
+  height: 50rpx !important;
+  border-radius: 50%;
+}
+.plugins-salerecords .item-content {
+  width: 24%;
+}
+.plugins-salerecords .item-content:nth-child(1) {
+  width: 36%;
+}
+.plugins-salerecords .item-content:nth-child(2) {
+  width: 40%;
 }

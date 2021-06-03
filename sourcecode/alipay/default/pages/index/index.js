@@ -25,6 +25,9 @@ Page({
     plugins_limitedtimediscount_timer_title: '距离结束',
     plugins_limitedtimediscount_is_show_time: true,
     plugins_limitedtimediscount_timer: null,
+
+    // 购买记录插件
+    plugins_salerecords_data: null,
   },
   
   onShow() {    
@@ -89,6 +92,7 @@ Page({
             data_list_loding_status: data.data_list.length == 0 ? 0 : 3,
             plugins_limitedtimediscount_data: data.plugins_limitedtimediscount_data || null,
             plugins_limitedtimediscount_is_valid: ((data.plugins_limitedtimediscount_data || null) != null && (data.plugins_limitedtimediscount_data.is_valid || 0) == 1) ? 1 : 0,
+            plugins_salerecords_data: ((data.plugins_salerecords_data || null) == null || data.plugins_salerecords_data.length <= 0) ? null : data.plugins_salerecords_data,
           });
 
           // 导航购物车处理

@@ -53,6 +53,12 @@ Page({
     plugins_coupon_data: null,
     temp_coupon_receive_index: null,
     temp_coupon_receive_value: null,
+
+    // 购买记录
+    plugins_salerecords_data: null,
+    plugins_salerecords_timer: null,
+    plugins_salerecords_tips_content: null,
+    plugins_salerecords_tips_ent: '',
   },
 
   onLoad(params) {
@@ -144,6 +150,8 @@ Page({
 
               plugins_coupon_data: data.plugins_coupon_data || null,
               quick_nav_cart_count: data.common_cart_total || 0,
+
+              plugins_salerecords_data: ((data.plugins_salerecords_data || null) == null || data.plugins_salerecords_data.length <= 0) ? null : data.plugins_salerecords_data,
             });
 
             // 限时秒杀倒计时
@@ -157,6 +165,9 @@ Page({
 
             // 不能选择规格处理
             this.goods_specifications_choose_handle_dont(0);
+
+            // 购买记录提示
+            this.plugins_salerecords_tips_handle();
 
             // 页面信息设置
             this.set_page_info();
@@ -690,10 +701,50 @@ Page({
     }
   },
 
+  // 购买记录提示处理
+  plugins_salerecords_tips_handle() {
+    // 销毁之前的任务
+    clearInterval(this.data.plugins_salerecords_timer);
+
+    // 是否存在数据
+    var data = this.data.plugins_salerecords_data || null;
+    if(data != null && (data.data || null) != null && data.data.length > 0)
+    {
+      var self = this;
+      var base = data.base || null;
+      var location = (base == null || (base.goods_detail_tips_location || null) == null) ? '' : '-'+base.goods_detail_tips_location;
+      var pause = (base == null ? 5 : (base.goods_detail_time_pause || 5))*1000;
+      var interval = (base == null ? 10 : (base.goods_detail_time_interval || 10))*1000;
+      var index = 0;
+      var list = data.data;
+      var count = list.length;
+      var timer = setInterval(function()
+      {
+        self.setData({plugins_salerecords_tips_content: list[index]});
+        setTimeout(function()
+        {
+          self.setData({plugins_salerecords_tips_content: null});
+        }, pause);
+
+        // 索引处理
+        index++;
+        if(index >= count)
+        {
+          index = 0;
+        }
+      }, interval);
+      self.setData({
+        plugins_salerecords_timer: timer,
+        plugins_salerecords_tips_ent: location
+      });
+    }
+  },
+
   // 页面销毁时执行
   onUnload: function () {
     clearInterval(this.data.plugins_limitedtimediscount_timer);
     clearInterval(this.data.plugins_limitedtimediscount_timers);
+    clearInterval(this.data.plugins_salerecords_timer);
   },
 
   // 优惠劵领取事件
