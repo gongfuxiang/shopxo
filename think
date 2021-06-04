@@ -15,6 +15,9 @@ namespace think;
 // 加载基础文件
 require __DIR__ . '/thinkphp/base.php';
 
+// 引入公共入口文件
+require __DIR__.'/public/core.php';
+
 // 应用初始化
 Container::get('app')->path(__DIR__ . '/application/')->initialize();
 
