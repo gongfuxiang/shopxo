@@ -445,10 +445,12 @@ ul.am-dropdown-content > .am-active > a:focus,
 /**
  * 公共登录窗口
  */
+.common-login-modal {
+    height: 440px;
+}
 @media only screen and (min-width: 641px) {
     .common-login-modal {
         max-width: 400px;
-        height: 440px;
         left: calc(50% - 200px);
         top: calc(50% - 220px);
         margin-left: 0;
@@ -457,7 +459,6 @@ ul.am-dropdown-content > .am-active > a:focus,
 }
 @media only screen and (max-width: 640px) {
     .common-login-modal {
-        height: 410px;
         top: calc(50% - 210px);
     }
 }
