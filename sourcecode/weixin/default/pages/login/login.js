@@ -50,6 +50,7 @@ Page({
   get_user_info_event(e) {
     wx.getUserProfile({
       desc: '注册使用',
+      lang: 'zh_CN',
       success: (res) => {
         this.user_auth_code(res.userInfo);
       }
