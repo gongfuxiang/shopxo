@@ -1,8 +1,37 @@
-# ShopXO 国内领先企业级免费开源电商系统！
+<p align="center">
+<img src="https://images.gitee.com/uploads/images/2021/0605/181034_e2458b4b_488475.png" width="500" height="150" />
+</p>
+
+<div align="center">
+
+[![Gitee star](https://gitee.com/zongzhige/shopxo/badge/star.svg?theme=gvp)](https://gitee.com/zongzhige/shopxo/stargazers)
+[![Gitee fork](https://gitee.com/zongzhige/shopxo/badge/fork.svg?theme=gvp)](https://gitee.com/zongzhige/shopxo/members)
+[![GitHub stars](https://img.shields.io/github/stars/gongfuxiang/shopxo?logo=github)](https://github.com/gongfuxiang/shopxo/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/gongfuxiang/shopxo?logo=github)](https://github.com/gongfuxiang/shopxo/network)
+[![GitHub license](https://img.shields.io/badge/license-MIT-green)](https://gitee.com/zongzhige/shopxo/blob/master/LICENSE) 
+
+</div>
+
+<h3 align="center">ShopXO企业级免费开源电商系统</h3>
+
+<div align="center">
+
+```shell
+如果对您有帮助，您可以点右上角 “Star” 收藏一下 ，获取第一时间更新，谢谢！
+```
+
+</div>
+
+
+------------------------------------------------------------------------
+
+
+### 项目介绍
+#### ShopXO 国内领先企业级免费开源电商系统！
 * 求实进取、创新专注、自主研发、国内领先企业级电商系统解决方案。
 * 遵循MIT开源协议发布，无需授权、可商用、可二次开发、满足99%的电商运营需求。
 * 支持PC+H5、支付宝小程序、微信小程序、百度小程序、头条&抖音小程序、QQ小程序、APP等...。
-* 支持多商户模式运营（通过插件方式实现、即插即用）
+* 支持多仓库、多商户模式运营（组件插件化、即插即用）
 
 ### 传送门
 * 官网地址：https://shopxo.net/
