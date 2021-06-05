@@ -1332,6 +1332,7 @@ class OrderService
                 $vs['total_price'] = PriceNumberFormat($vs['buy_number']*$vs['price']);
 
                 // 规格
+                $vs['spec_text'] = null;
                 if(!empty($vs['spec']))
                 {
                     $vs['spec'] = json_decode($vs['spec'], true);
@@ -1344,7 +1345,6 @@ class OrderService
                     }
                 } else {
                     $vs['spec'] = null;
-                    $vs['spec_text'] = null;
                 }
 
                 // 虚拟销售商品 - 虚拟信息处理
