@@ -419,39 +419,62 @@ class PluginsService
      */
     public static function PluginsUpgradeInfo($params = [])
     {
-        if(!empty($params) && !empty($params['db_data']) && is_array($params['db_data']))
+        // 默认返回数据
+        $result = DataReturn('无插件数据', 0);
+
+        // 缓存记录
+        $time = 3600;
+        $key = 'plugins_upgrade_check_info';
+        $res = cache($key);
+        if(empty($res))
         {
-            // 数据处理
-            $data = [];
-            foreach($params['db_data'] as $v)
+            if(!empty($params) && !empty($params['db_data']) && is_array($params['db_data']))
             {
-                if(!empty($v['name']) && !empty($v['version']) && !empty($v['plugins']) && !empty($v['author']))
+                // 数据组装
+                $data = [];
+                foreach($params['db_data'] as $v)
                 {
-                    $data[] = [
-                        'plugins'   => $v['plugins'],
-                        'name'      => $v['name'],
-                        'ver'       => $v['version'],
-                        'author'    => $v['author'],
-                    ];
+                    if(!empty($v['name']) && !empty($v['version']) && !empty($v['plugins']) && !empty($v['author']))
+                    {
+                        $data[] = [
+                            'plugins'   => $v['plugins'],
+                            'name'      => $v['name'],
+                            'ver'       => $v['version'],
+                            'author'    => $v['author'],
+                        ];
+                    }
                 }
-            }
-            if(!empty($data))
-            {
+
                 // 获取更新信息
-                $request_params = [
-                    'plugins_type'  => 'plugins',
-                    'plugins_data'  => $data,
-                ];
-                $res = StoreService::PluginsUpgradeInfo($request_params);
-                if(!empty($res['data']))
+                if(!empty($data))
                 {
-                    $res['data'] = array_column($res['data'], null, 'plugins');
+                    // 获取更新信息
+                    $request_params = [
+                        'plugins_type'  => 'plugins',
+                        'plugins_data'  => $data,
+                    ];
+                    $result = StoreService::PluginsUpgradeInfo($request_params);
+                    if(!empty($result) && isset($result['code']) && $result['code'] == 0)
+                    {
+                        // 处理存在更新的插件数据
+                        if(!empty($result['data']))
+                        {
+                            $result['data'] = array_column($result['data'], null, 'plugins');
+                        }
+
+                        // 存储缓存
+                        cache($key, $result, $time);
+                    }
+                } else {
+                    // 存储缓存
+                    cache($key, $result, $time);
                 }
-                return $res;
             }
+        } else {
+            $result = $res;
         }
 
-        return DataReturn('无插件数据', 0);
+        return $result;
     }
 }
 ?>
