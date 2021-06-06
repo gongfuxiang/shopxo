@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://images.gitee.com/uploads/images/2021/0605/181034_e2458b4b_488475.png" width="500" height="150" />
+<img src="https://images.gitee.com/uploads/images/2021/0605/181034_e2458b4b_488475.png" width="500" />
 </p>
 
 <div align="center">
