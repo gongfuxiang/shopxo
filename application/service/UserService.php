@@ -348,6 +348,20 @@ class UserService
             $data['add_time'] = time();
             $user_id = Db::name('User')->insertGetId($data);
         }
+		
+		// 添加用户后处理钩子
+        $hook_name = 'plugins_service_user_save_success_handle';
+        $ret = HookReturnHandle(Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'data'          => &$data,
+            'user_id'       => &$user_id,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
 
         // 状态
         if(isset($user_id))
