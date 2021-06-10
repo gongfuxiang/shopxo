@@ -388,9 +388,6 @@ ul.plug-file-upload-view-file li {
 /**
  * 颜色选择插件
  */
-#colorpanel {
-    z-index: 10000;
-}
 button.colorpicker-submit:hover, button.colorpicker-submit:active, button.colorpicker-submit:focus {
     background-color: #fff;
 }

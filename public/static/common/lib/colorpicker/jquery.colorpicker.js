@@ -11,6 +11,7 @@
     var SpColorHex=new Array('FF0000','00FF00','0000FF','FFFF00','00FFFF','FF00FF');
     $.fn.colorpicker = function(options) {
         var opts = jQuery.extend({}, jQuery.fn.colorpicker.defaults, options);
+        var index = parseInt(Math.random()*1000001);
         initColor();
         return this.each(function(){
             var obj = $(this);
@@ -26,45 +27,46 @@
                 var ttop  = $(this).offset().top;  //控件的定位点高
                 var thei  = $(this).outerHeight();  //控件本身的高
                 var tleft = $(this).offset().left+$(this).outerWidth()-232;  //控件的定位点宽
-                $("#colorpanel").css({
+                $('#colorpanel'+index).css({
                     "top":ttop+thei+top_inc-top_dec,
                     "left":tleft+left_inc-left_dec,
                     "position":position
                 }).show();
                 var target = opts.target ? $(opts.target) : obj;
-                if(target.data("color") == null){
-                    target.data("color",target.css("color"));
+                if(target.data('color') == null){
+                    target.data('color',target.css('color'));
                 }
-                if(target.data("value") == null){
-                    target.data("value",target.val());
+                if(target.data('value') == null){
+                    target.data('value',target.val());
                 }
           
-                $("#_creset").bind("click",function(){
-                    target.css("color", target.data("color")).val(target.data("value"));
-                    $("#colorpanel").hide();
+                $('#_creset'+index).bind('click',function(){
+                    target.css('color', target.data('color')).val(target.data('value'));
+                    $('#colorpanel'+index).hide();
                     opts.reset(obj);
                 });
 
-                $("#_determine").bind("click",function(){
-                    var color = $("#HexColor").val();
-                    target.css("color", color);
-                    $("#colorpanel").hide();
+                $('#_determine'+index).bind('click',function(){
+                    var color = $('#HexColor'+index).val();
+                    target.css('color', color);
+                    $('#colorpanel'+index).hide();
                     opts.success(obj,color);
                 }).css({
                     "padding-left":"8px"
                 });
           
-                $("#CT tr td").unbind("click").mouseover(function(){
+                $('#CT'+index+' tr td').unbind('click').mouseover(function(){
                     var color=$(this).css("background-color");
-                    $("#DisColor").css("background",color);
-                    $("#HexColor").val($(this).attr("rel"));
+                    $('#DisColor'+index).css("background",color);
+                    $('#HexColor'+index).val($(this).attr("rel"));
                 }).click(function(){
                     var color=$(this).attr("rel");
                     color = opts.ishex ? color : getRGBColor(color);
                     if(opts.fillcolor) target.val(color);
-                    target.css("color",color);
-                    $("#colorpanel").hide();
-                    $("#_creset").unbind("click");
+                    target.css('color',color);
+                    $('#colorpanel'+index).hide();
+                    $('#_creset'+index).unbind('click');
+                    $('#_determine'+index).unbind('click');
                     opts.success(obj,color);
                 });
           
@@ -72,7 +74,7 @@
         });
     
         function initColor(){
-            $("body").append('<div id="colorpanel" style="position: absolute; display: none;"></div>');
+            $('body').append('<div id="colorpanel'+index+'" style="position: absolute; display: none;z-index:10000;"></div>');
             var colorTable = '';
             var colorValue = '';
             for(i=0;i<2;i++){
@@ -93,13 +95,15 @@
             colorTable='<table width=232 border="0" cellspacing="0" cellpadding="0" style="border:1px solid #333;height: 24px;line-height: 21px;">'
             +'<tr><td colspan=21 bgcolor=#cccccc>'
             +'<table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse">'
-            +'<tr><td width="3"><td><input type="text" id="DisColor" size="3" disabled style="border:solid 1px #000000;background-color:#000000;padding:0;"></td>'
-            +'<td width="3"><td><input type="text" id="HexColor" style="border:inset 1px;font-family:Arial;width:58px;" value="#000000"><a href="javascript:void(0);" id="_determine">确定</a> | <a href="javascript:void(0);" id="_cclose">关闭</a> | <a href="javascript:void(0);" id="_creset">清除</a></td></tr></table></td></table>'
-            +'<table id="CT" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border-color:#333;border-width:0 1px 1px 1px;border-style:solid;">'
+            +'<tr><td width="3"><td><input type="text" id="DisColor'+index+'" size="3" disabled style="border:solid 1px #000000;background-color:#000000;padding:0;"></td>'
+            +'<td width="3"><td><input type="text" id="HexColor'+index+'" style="border:inset 1px;font-family:Arial;width:58px;" value="#000000"><a href="javascript:void(0);" id="_determine'+index+'">确定</a> | <a href="javascript:void(0);" id="_cclose'+index+'">关闭</a> | <a href="javascript:void(0);" id="_creset'+index+'">清除</a></td></tr></table></td></table>'
+            +'<table id="CT'+index+'" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border-color:#333;border-width:0 1px 1px 1px;border-style:solid;">'
             +colorTable+'</table>';
-            $("#colorpanel").html(colorTable);
-            $("#_cclose").on('click',function(){
-                $("#colorpanel").hide();
+            $('#colorpanel'+index).html(colorTable);
+            $('#_cclose'+index).on('click',function(){
+                $('#colorpanel'+index).hide();
+                $('#_creset'+index).unbind('click');
+                $('#_determine'+index).unbind('click');
                 return false;
             });
         }

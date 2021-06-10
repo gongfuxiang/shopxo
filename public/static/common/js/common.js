@@ -2555,35 +2555,39 @@ $(function()
 	// 颜色选择器
 	if($('.colorpicker-submit').length > 0)
 	{
-	    $('.colorpicker-submit').colorpicker(
-	    {
-	        fillcolor:true,
-	        success:function(o, color)
-	        {
-	        	var style_arr = (o.context.dataset.colorStyle || 'color').split('|');
-	        	var style_value = {};
-	        	for(var i in style_arr)
-	        	{
-	        		style_value[style_arr[i]] = color;
-	        	}
-	            $(o.context.dataset.inputTag).css(style_value);
-	            $(o.context.dataset.colorTag).val(color);
-	            $(o.context.dataset.colorTag).trigger('change');
-	        },
-	        reset:function(o)
-	        {
-	        	var color = '';
-	        	var style_arr = (o.context.dataset.colorStyle || 'color').split('|');
-	        	var style_value = {};
-	        	for(var i in style_arr)
-	        	{
-	        		style_value[style_arr[i]] = color;
-	        	}
-	            $(o.context.dataset.inputTag).css(style_value);
-	            $(o.context.dataset.colorTag).val(color);
-	            $(o.context.dataset.colorTag).trigger('change');
-	        }
-	    });
+		$('.colorpicker-submit').each(function(k, v)
+		{
+			$(this).colorpicker(
+		    {
+		    	target: $(this),
+		        fillcolor: true,
+		        success: function(o, color)
+		        {
+		        	var style_arr = (o.context.dataset.colorStyle || 'color').split('|');
+		        	var style_value = {};
+		        	for(var i in style_arr)
+		        	{
+		        		style_value[style_arr[i]] = color;
+		        	}
+		            $(o.context.dataset.inputTag).css(style_value);
+		            $(o.context.dataset.colorTag).val(color);
+		            $(o.context.dataset.colorTag).trigger('change');
+		        },
+		        reset: function(o)
+		        {
+		        	var color = '';
+		        	var style_arr = (o.context.dataset.colorStyle || 'color').split('|');
+		        	var style_value = {};
+		        	for(var i in style_arr)
+		        	{
+		        		style_value[style_arr[i]] = color;
+		        	}
+		            $(o.context.dataset.inputTag).css(style_value);
+		            $(o.context.dataset.colorTag).val(color);
+		            $(o.context.dataset.colorTag).trigger('change');
+		        }
+		    });
+		});
 	}
 
 
