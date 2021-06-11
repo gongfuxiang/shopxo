@@ -92,7 +92,11 @@ class Site extends Common
 			// 网站设置
 			case 'siteset' :
 				// 获取商品一级分类
-				$where = ['pid'=>0, 'is_home_recommended'=>1, 'is_enable'=>1];
+				$where = [
+					['pid', '=', 0],
+					['is_home_recommended', '=', 1],
+					['is_enable', '=', 1],
+				];
             	$category = GoodsService::GoodsCategoryList(['where'=>$where]);
             	if(!empty($category))
             	{
@@ -103,7 +107,11 @@ class Site extends Common
             		foreach($category as &$c)
             		{
             			// 获取二级分类
-            			$c['items'] = GoodsService::GoodsCategoryList(['where'=>['pid'=>$c['id'], 'is_enable'=>1]]);
+            			$where = [
+							['pid', '=', $c['id']],
+							['is_enable', '=', 1],
+						];
+            			$c['items'] = GoodsService::GoodsCategoryList(['where'=>$where]);
 
             			// 配置的关键字
             			$c['config_keywords'] = array_key_exists($c['id'], $floor_keywords) ? $floor_keywords[$c['id']] : '';

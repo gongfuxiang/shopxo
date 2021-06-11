@@ -466,7 +466,10 @@ class SearchService
         if(MyC('home_search_is_category', 0) == 1)
         {
             $pid = empty($params['category_id']) ? 0 : intval($params['category_id']);
-            $data = GoodsService::GoodsCategoryList(['where'=>['pid'=>$pid], 'field'=>'id,name']);
+            $where = [
+                ['pid', '=', $pid],
+            ];
+            $data = GoodsService::GoodsCategoryList(['where'=>$where, 'field'=>'id,name']);
         }
         return $data;
     }

@@ -69,7 +69,10 @@ class GoodsService
         if(empty($data) || config('app_debug'))
         {
             // 获取分类
-            $params['where'] = ['pid'=>0, 'is_enable'=>1];
+            $params['where'] = [
+                ['pid', '=', 0],
+                ['is_enable', '=', 1],
+            ];
             $data = self::GoodsCategory($params);
 
             // 存储缓存
@@ -90,19 +93,33 @@ class GoodsService
     public static function GoodsCategory($params = [])
     {
         // 获取分类
-        $where = empty($params['where']) ? ['pid'=>0, 'is_enable'=>1] : $params['where'];
+        if(empty($params['where']))
+        {
+            $where = [
+                ['pid', '=', 0],
+                ['is_enable', '=', 1],
+            ];
+        } else {
+            $where = $params['where'];
+        }
         $data = self::GoodsCategoryList(['where'=>$where]);
         if(!empty($data))
         {
+            // 基础条件、去除pid
+            $where_base = $where;
+            $temp_column = array_column($where, 0);
+            if(in_array('pid', $temp_column))
+            {
+                unset($where_base[array_search('pid', $temp_column)]);
+                sort($where_base);
+            }
             foreach($data as &$v)
             {
-                $where['pid'] = $v['id'];
-                $v['items'] = self::GoodsCategoryList(['where'=>$where]);
+                $v['items'] = self::GoodsCategoryList(['where'=>array_merge($where_base, [['pid', '=', $v['id']]])]);
                 if(!empty($v['items']))
                 {
                     // 一次性查出所有二级下的三级、再做归类、避免sql连接超多
-                    $where['pid'] = array_column($v['items'], 'id');
-                    $itemss = self::GoodsCategoryList(['where'=>$where]);
+                    $itemss = self::GoodsCategoryList(['where'=>array_merge($where_base, [['pid', 'in', array_column($v['items'], 'id')]])]);
                     if(!empty($itemss))
                     {
                         foreach($v['items'] as &$vs)
@@ -135,7 +152,9 @@ class GoodsService
     {
         // 条件、附加必须启用状态
         $where = empty($params['where']) ? [] : $params['where'];
-        $where['is_enable'] = 1;
+
+        // 增加启用条件
+        $where[] = ['is_enable', '=', 1];
 
         // 数量、默认0,0则全部
         $m = isset($params['m']) ? intval($params['m']) : 0;
@@ -197,7 +216,11 @@ class GoodsService
         if(empty($data) || config('app_debug'))
         {
             // 商品大分类
-            $where = ['pid'=>0, 'is_home_recommended'=>1, 'is_enable'=>1];
+            $where = [
+                ['pid', '=', 0],
+                ['is_home_recommended', '=', 1],
+                ['is_enable', '=', 1],
+            ];
             $data = self::GoodsCategoryList(['where'=>$where]);
             if(!empty($data))
             {
@@ -287,7 +310,7 @@ class GoodsService
                     // 楼层左侧分类
                     if(!empty($floor_left_top_category) && !empty($floor_left_top_category[$v['id']]))
                     {
-                        $v['items'] = self::GoodsCategoryList(['where'=>['id'=>explode(',', $floor_left_top_category[$v['id']])], 'm'=>0, 'n'=>0]);
+                        $v['items'] = self::GoodsCategoryList(['where'=>[['id', 'in', explode(',', $floor_left_top_category[$v['id']])]], 'm'=>0, 'n'=>0]);
                     } else {
                         $v['items'] = [];
                     }
