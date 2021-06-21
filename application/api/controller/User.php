@@ -284,10 +284,7 @@ class User extends Common
                     if(UserService::UserOpenidBind($user['id'], $result['data']['openid'], 'weixin_openid'))
                     {
                         // 登录数据更新
-                        UserService::UserLoginRecord($user['id'], true);
-
-                        // openid加入用户数据
-                        $user['weixin_openid'] = $result['data']['openid'];
+                        $user = UserService::AppUserInfoHandle($user['id']);
                     }
                 }
             }
