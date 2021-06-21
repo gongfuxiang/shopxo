@@ -277,6 +277,19 @@ class User extends Common
             if(empty($user))
             {
                 return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid'], 'unionid'=>$unionid]);
+            } else {
+                // 如果用户openid为空则绑定到用户下面
+                if(empty($user['weixin_openid']))
+                {
+                    if(UserService::UserOpenidBind($user['id'], $result['data']['openid'], 'weixin_openid'))
+                    {
+                        // 登录数据更新
+                        self::UserLoginRecord($user['id'], true);
+
+                        // openid加入用户数据
+                        $user['weixin_openid'] = $result['data']['openid'];
+                    }
+                }
             }
 
             // 用户状态

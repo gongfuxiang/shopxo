@@ -1815,6 +1815,26 @@ class UserService
     }
 
     /**
+     * 用户openid绑定
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-06-21
+     * @desc    description
+     * @param   [int]             $user_id [用户id]
+     * @param   [string]          $openid  [openid]
+     * @param   [string]          $field   [openid 字段]
+     */
+    public static function UserOpenidBind($user_id, $openid, $field)
+    {
+        $data = [
+            $field      => $openid,
+            'upd_time'  => time(),
+        ];
+        return Db::name('User')->where(['id'=>$user_id])->update($data);
+    }
+
+    /**
      * 用户unionid处理
      * @author  Devil
      * @blog    http://gong.gg/
@@ -1823,7 +1843,7 @@ class UserService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    private static function UserUnionidHandle($params = [])
+    public static function UserUnionidHandle($params = [])
     {
         // 用户unionid列表
         // 微信用户unionid
@@ -1858,7 +1878,7 @@ class UserService
     public static function AppUserInfoHandle($user_id = null, $where_field = null, $where_value = null, $user = [])
     {
         // 获取用户信息
-        $field = 'id,username,nickname,mobile,email,avatar,alipay_openid,weixin_openid,weixin_unionid,weixin_web_openid,baidu_openid,toutiao_openid,qq_openid,qq_unionid,integral,locking_integral,referrer,add_time';
+        $field = 'id,username,nickname,mobile,email,avatar,status,alipay_openid,weixin_openid,weixin_unionid,weixin_web_openid,baidu_openid,toutiao_openid,qq_openid,qq_unionid,integral,locking_integral,referrer,add_time';
         if(!empty($user_id))
         {
             $user = self::UserInfo('id', $user_id, $field);
