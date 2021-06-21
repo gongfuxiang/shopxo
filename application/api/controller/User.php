@@ -281,10 +281,10 @@ class User extends Common
                 // 如果用户openid为空则绑定到用户下面
                 if(empty($user['weixin_openid']))
                 {
-                    if(UserService::UserOpenidBind($user['id'], $result['data']['openid'], 'weixin_openid'))
+                    if(wewe::UserOpenidBind($user['id'], $result['data']['openid'], 'weixin_openid'))
                     {
                         // 登录数据更新
-                        self::UserLoginRecord($user['id'], true);
+                        UserService::UserLoginRecord($user['id'], true);
 
                         // openid加入用户数据
                         $user['weixin_openid'] = $result['data']['openid'];
