@@ -425,11 +425,16 @@ class BaseLayout
         {
             $url = $static_url_arr[$type];
         } else {
+            // 扩展参数处理
+            if(!empty($value) && !is_array($value))
+            {
+                $value = json_decode(urldecode($value), true);
+            }
             switch($type)
             {
                 // 商品
                 case 'goods' :
-                    if(!empty($value) && $value['id'])
+                    if(!empty($value) && !empty($value['id']))
                     {
                         $url = ($client_type == 'pc') ? MyUrl('index/goods/index', ['id'=>$value['id']]) : '/pages/goods-detail/goods-detail?goods_id='.$value['id'];
                     }
@@ -438,32 +443,25 @@ class BaseLayout
                 // 商品分类
                 case 'goods_search' :
                     $gsp = [];
-                    if(!empty($value))
+                    if(!empty($value) && !empty($value['type']) && !empty($value['value']))
                     {
-                        if(!is_array($value))
+                        switch($value['type'])
                         {
-                            $value = json_decode(urldecode($value), true);
-                        }
-                        if(!empty($value) && !empty($value['type']) && !empty($value['value']))
-                        {
-                            switch($value['type'])
-                            {
-                                // 关键字
-                                case 'keywords' :
-                                    $gsp = ($client_type == 'pc') ? ['wd'=>StrToAscii($value['value'])] : '?keywords='.$value['value'];
-                                    break;
+                            // 关键字
+                            case 'keywords' :
+                                $gsp = ($client_type == 'pc') ? ['wd'=>StrToAscii($value['value'])] : '?keywords='.$value['value'];
+                                break;
 
-                                // 分类
-                                case 'category' :
-                                    $category_id = $value['value'][count($value['value'])-1]['id'];
-                                    $gsp = ($client_type == 'pc') ? ['category_id'=>$category_id] : '?category_id='.$category_id;
-                                    break;
+                            // 分类
+                            case 'category' :
+                                $category_id = $value['value'][count($value['value'])-1]['id'];
+                                $gsp = ($client_type == 'pc') ? ['category_id'=>$category_id] : '?category_id='.$category_id;
+                                break;
 
-                                // 品牌
-                                case 'brand' :
-                                    $gsp = ($client_type == 'pc') ? ['brand_id'=>$value['value']['id']] : '?brand_id='.$value['value']['id'];
-                                    break;
-                            }
+                            // 品牌
+                            case 'brand' :
+                                $gsp = ($client_type == 'pc') ? ['brand_id'=>$value['value']['id']] : '?brand_id='.$value['value']['id'];
+                                break;
                         }
                     }
                     // 默认搜索页面、无条件
