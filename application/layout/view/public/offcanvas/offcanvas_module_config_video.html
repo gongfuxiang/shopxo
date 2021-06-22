@@ -1,0 +1,63 @@
+<!-- 侧边栏 - 模块配置 - 视频 -->
+<div id="offcanvas-module-config-video" class="am-offcanvas module-offcanvas-container" data-default-images="{{$attachment_host}}/static/plugins/images/shop/renovation/module-default-images.png">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-module-offcanvas-video" request-type="sync" request-value="FormBackModuleConfigVideo">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">内容设置</div>
+                    <div class="am-panel-bd">
+                        <div class="am-form-group am-form-file am-form-group-refreshing">
+                            <label class="block">视频<span class="am-form-group-label-tips-must">必传</span></label>
+                            <ul class="plug-file-upload-view plug-file-upload-view-video module-video-type-view-video" data-form-name="content_video" data-max-number="1" data-dialog-type="video" data-delete="0">
+                                <li>
+                                    <input type="text" name="content_video" data-validation-message="请上传视频" value="" required />
+                                    <video src="" controls>your browser does not support the video tag</video>
+                                </li>
+                            </ul>
+                            <div class="plug-file-upload-submit" data-view-tag="ul.module-video-type-view-video">+上传视频</div>
+                        </div>
+
+                        <div class="am-form-group am-form-file am-form-group-refreshing">
+                            <label class="block">封面图片</label>
+                            <ul class="plug-file-upload-view module-video-type-view-images" data-form-name="content_images" data-max-number="1" data-dialog-type="images"></ul>
+                            <div class="plug-file-upload-submit" data-view-tag="ul.module-video-type-view-images">+上传图片</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 样式设置 -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">样式设置</div>
+                    <div class="am-panel-bd">
+                        <!-- 圆角 -->
+                        {{include file="../../../layout/view/public/style/border_radius" key="" required="" /}}
+
+                        <!-- 边线类型 -->
+                        {{include file="../../../layout/view/public/style/border_style_4" key="" /}}
+
+                        <!-- 边线大小 -->
+                        {{include file="../../../layout/view/public/style/border_width_color_4" key="" /}}
+
+                        <!-- 外边距 -->
+                        {{include file="../../../layout/view/public/style/margin_4" key="" /}}
+
+                        <!-- 内边距 -->
+                        {{include file="../../../layout/view/public/style/padding_4" key="" /}}
+                    </div>
+                </div>
+
+                <!-- 视频固定 -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">视频固定</div>
+                    <div class="am-panel-bd">
+                        {{include file="../../../layout/view/public/content/media_fixed" key="_media_fixed" required="" name="视频容器高度" /}}
+                    </div>
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '处理中...'}">确认</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

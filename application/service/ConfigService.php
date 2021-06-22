@@ -40,6 +40,7 @@ class ConfigService
             'admin_email_login_template',
             'home_email_login_template',
             'home_site_security_record_url',
+            'layout_index_home_data',
         ];
 
     // 附件字段列表

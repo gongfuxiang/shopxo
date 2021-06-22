@@ -562,7 +562,6 @@ button.colorpicker-submit img {
     position: relative;
 }
 .am-table-scrollable-horizontal .am-table {
-    border-collapse: collapse;
     border: 0;
     margin: 0;
 }

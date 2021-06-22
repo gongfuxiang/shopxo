@@ -85,6 +85,9 @@
 <!-- 项目公共 -->
 <script type='text/javascript' src="{{$public_host}}static/common/js/common.js?v={{:MyC('home_static_cache_version')}}"></script>
 <script type='text/javascript' src="{{$public_host}}static/index/{{$default_theme}}/js/common.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{if isset($is_load_layout_admin) and $is_load_layout_admin eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/js/layout.admin.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}}
 
 <!-- 应用插件公共js -->
 {{if !empty($plugins_js)}}

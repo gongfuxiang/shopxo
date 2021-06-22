@@ -11,11 +11,16 @@
 namespace app\index\controller;
 
 use think\facade\Hook;
+use app\layout\service\BaseLayout;
+use app\service\SeoService;
+use app\service\AdminService;
 use app\service\BannerService;
 use app\service\GoodsService;
 use app\service\ArticleService;
 use app\service\OrderService;
 use app\service\AppHomeNavService;
+use app\service\BrandService;
+use app\service\LayoutService;
 
 /**
  * 首页
@@ -52,25 +57,83 @@ class Index extends Common
         $banner = BannerService::Banner();
         $this->assign('banner_list', $banner);
 
-        // H5导航
-        $this->assign('navigation', AppHomeNavService::AppHomeNav());
+        // 数据模式
+        $floor_data_type = MyC('home_index_floor_data_type', 0, true);
+        $this->assign('floor_data_type', $floor_data_type);
 
-        // 楼层数据
-        $this->assign('goods_floor_list', GoodsService::HomeFloorList());
+        // 是否设计模式
+        $is_design = (!empty($this->data_request['save_url']) && isset($this->data_request['is_design']) && $this->data_request['is_design'] == 1 && $floor_data_type == 2 && AdminService::LoginInfo()) ? 1 : 0;
+        $this->assign('is_design', $is_design);
+        if($is_design == 1)
+        {
+            // 保存数据地址
+            $this->assign('layout_save_url', base64_decode(urldecode($this->data_request['save_url'])));
 
-        // 文章
-        $params = [
-            'where' => ['is_enable'=>1, 'is_home_recommended'=>1],
-            'field' => 'id,title,title_color,article_category_id',
-            'm' => 0,
-            'n' => 9,
-        ];
-        $article_list = ArticleService::ArticleList($params);
-        $this->assign('article_list', $article_list['data']);
+            // 设计配置数据
+            $layout_data = LayoutService::LayoutConfigAdminData('home');
+            $this->assign('layout_data', $layout_data['data']);
 
-        // 用户订单状态
-        $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
-        $this->assign('user_order_status', $user_order_status['data']);
+            // 页面列表
+            $pages_list = BaseLayout::PagesList();
+            $this->assign('pages_list', $pages_list);
+
+            // 商品搜索分类（分类）
+            $this->assign('layout_goods_category', GoodsService::GoodsCategoryAll());
+            $this->assign('layout_goods_category_field', 'gci.category_id');
+
+            // 品牌
+            $this->assign('brand_list', BrandService::CategoryBrand());
+
+            // 静态数据
+            $this->assign('border_style_type_list', BaseLayout::$border_style_type_list);
+            $this->assign('goods_view_list_show_style', BaseLayout::$goods_view_list_show_style);
+            $this->assign('many_images_view_list_show_style', BaseLayout::$many_images_view_list_show_style);
+
+            // 首页商品排序规则
+            $this->assign('goods_order_by_type_list', lang('goods_order_by_type_list'));
+            $this->assign('goods_order_by_rule_list', lang('goods_order_by_rule_list'));
+
+            // 浏览器名称
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('首页设计', 1));
+
+            // 编辑器文件存放地址定义
+            $this->assign('editor_path_type', 'index-design');
+
+            // 加载布局样式+管理
+            $this->assign('is_load_layout', 1);
+            $this->assign('is_load_layout_admin', 1);
+        } else {
+            // 数据模式
+            if($floor_data_type == 2)
+            {
+                // 设计配置数据
+                $layout_data = LayoutService::LayoutConfigData('home');
+                $this->assign('layout_data', $layout_data['data']);
+
+                // 加载布局样式
+                $this->assign('is_load_layout', 1);
+            } else {
+                // H5导航
+                $this->assign('navigation', AppHomeNavService::AppHomeNav());
+
+                // 楼层数据
+                $this->assign('goods_floor_list', GoodsService::HomeFloorList());
+
+                // 文章
+                $params = [
+                    'where' => ['is_enable'=>1, 'is_home_recommended'=>1],
+                    'field' => 'id,title,title_color,article_category_id',
+                    'm' => 0,
+                    'n' => 9,
+                ];
+                $article_list = ArticleService::ArticleList($params);
+                $this->assign('article_list', $article_list['data']);
+
+                // 用户订单状态
+                $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
+                $this->assign('user_order_status', $user_order_status['data']);
+            }
+        }
 
         // 加载百度地图api
         // 存在地图事件则载入

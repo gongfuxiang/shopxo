@@ -1,0 +1,24 @@
+{{if !empty($goods_category_list)}}
+    <div class="goods-category-choice-content am-nbfc am-padding-lg">
+        <ul class="goods-category-select-1 am-scrollable-vertical am-list am-list-border am-fl" data-level="1">
+            {{foreach $goods_category_list as $k=>$v}}
+                <li>
+                    <a href="javascript:;" data-json="{{:urlencode(json_encode($v['items']))}}" data-index="{{$k}}" data-value="{{$v.id}}">
+                        <span>{{$v.name}}</span>
+                        {{if !empty($v['items'])}}
+                            <i class="am-icon-angle-double-right am-fr"></i>
+                        {{/if}}
+                    </a>
+                </li>
+            {{/foreach}}
+        </ul>
+        <ul class="goods-category-select-2 am-scrollable-vertical am-list am-list-border am-fl am-margin-left-lg am-hide" data-level="2"></ul>
+        <ul class="goods-category-select-3 am-scrollable-vertical am-list am-list-border am-fl am-margin-left-lg am-hide" data-level="3"></ul>
+    </div>
+    <p class="already-select-tips am-margin-top-lg am-hide">
+        <span>您当前选择的商品类别是：</span>
+        <strong></strong>
+    </p>
+{{else /}}
+    <div class="table-no"><i class="am-icon-warning"></i> 无商品分类</div>
+{{/if}}

@@ -1,0 +1,56 @@
+<!-- 商品选择 -->
+<div class="am-popup popup-not-title" id="popup-module-goods-select">
+    <div class="am-popup-inner">
+        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <div class="am-popup-bd am-padding-0">
+            <form class="am-form layout-forth-selection-container" action="false">
+                <!-- 搜索 -->
+                <div class="forth-selection-container am-padding-sm" data-search-url="{{:MyUrl('index/layout/goodssearch')}}" data-data-url="{{:MyUrl('index/layout/goodsdata')}}">
+                    <input type="hidden" name="category_field" value="{{if empty($layout_goods_category_field)}}gci.category_id{{else /}}{{$layout_goods_category_field}}{{/if}}">
+                    <select class="am-radius chosen-select forth-selection-form-category" data-placeholder="分类..." data-validation-message="请选择分类">
+                        <option value="">分类...</option>
+                        {{if !empty($layout_goods_category)}}
+                            {{if empty($layout_goods_category_field) or $layout_goods_category_field eq 'gci.category_id'}}
+                                {{foreach $layout_goods_category as $v}}
+                                    <option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>一级 - {{$v.name}}</option>
+                                    {{if !empty($v['items'])}}
+                                        {{foreach $v.items as $vs}}
+                                            <option style="padding-left: 30px;" value="{{$vs.id}}" {{if !empty($data['category_ids']) and in_array($vs['id'], $data['category_ids'])}}selected{{/if}}>二级-{{$vs.name}}</option>
+                                            {{if !empty($vs['items'])}}
+                                                {{foreach $vs.items as $vss}}
+                                                    <option style="padding-left: 60px;" value="{{$vss.id}}" {{if !empty($data['category_ids']) and in_array($vss['id'], $data['category_ids'])}}selected{{/if}}>三级-{{$vss.name}}</option>
+                                                {{/foreach}}
+                                            {{/if}}
+                                        {{/foreach}}
+                                    {{/if}}
+                                {{/foreach}}
+                            {{else /}}
+                                {{foreach $layout_goods_category as $v}}
+                                    <option value="{{$v.id}}">{{$v.name}}</option>
+                                {{/foreach}}
+                            {{/if}}
+                        {{/if}}
+                    </select>
+                    <input type="text" placeholder="商品名称" class="am-radius forth-selection-form-keywords" />
+                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-icon-search search-submit" data-am-loading="{loadingText: ' 搜索中...'}"> 搜索</button>
+                </div>
+
+                <!-- 商品列表 -->
+                <div class="am-scrollable-vertical am-margin-horizontal-sm goods-list-container" data-loading-msg="搜索中...">
+                    <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered">
+                        <div class="table-no"><i class="am-icon-warning"></i> 请搜索商品</div>
+                    </ul>
+                </div>
+
+                <!-- 分页 -->
+                <div class="am-margin-top-sm am-text-center goods-page-container"></div>
+
+                <!-- 操作 -->
+                <div class="am-text-center am-padding-sm goods-bottom-operate-container">
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-sm" data-am-modal-close>取消</button>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-left-sm confirm-submit" data-am-loading="{loadingText: '处理中...'}">确认</button>   
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

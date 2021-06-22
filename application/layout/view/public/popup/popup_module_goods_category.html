@@ -1,0 +1,21 @@
+<!-- 商品分类 -->
+<div class="am-popup popup-not-title" id="popup-module-goods-category">
+    <div class="am-popup-inner">
+        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <div class="am-popup-bd am-padding-0">
+            <form class="am-form">
+                <div class="layout-category-choice">
+                    <div class="goods-category-choice am-padding-sm form-container-category">
+                        {{include file="../../../layout/view/public/common/goods_category_choice" /}}
+                    </div>
+                </div>
+
+                <!-- 操作 -->
+                <div class="am-text-center am-padding-sm goods-bottom-operate-container">
+                    <button type="button" class="am-btn am-btn-warning am-radius am-btn-xs am-margin-right-sm" data-am-modal-close>取消</button>
+                    <button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-left-sm confirm-submit" data-am-loading="{loadingText: '处理中...'}">确认</button>   
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

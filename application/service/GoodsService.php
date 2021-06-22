@@ -241,6 +241,7 @@ class GoodsService
                 // 数据模式
                 // 0 自动模式
                 // 1 手动模式
+                // 2 拖拽模式
                 $floor_data_type = MyC('home_index_floor_data_type', 0, true);
 
                 // 数据处理

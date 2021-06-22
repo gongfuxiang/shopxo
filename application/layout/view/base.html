@@ -1,0 +1,119 @@
+<!-- 布局/模块导航-->
+<div class="am-tabs renovation-tabs">
+    <ul class="am-tabs-nav am-nav am-nav-tabs">
+        <li class="am-active" data-value="structure"><a href="#renovation-tabs-structure">布局</a></li>
+        <li data-value="module"><a href="#renovation-tabs-module">模块</a></li>
+    </ul>
+    <div class="am-tabs-bd am-padding-sm">
+        <!-- 布局 -->
+        <div class="renovation-panel am-active" id="renovation-tabs-structure">
+            <div class="am-alert" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>1. 手机模式下每一块布局全部自动100%展示、从左往右依次往下排版</p>
+                <p>2. 布局宽度以100%分为12块、每一块占比（8.33%）</p>
+                <p>3. 小屏（640px及以下）、中屏（641px及以上）、大屏（1025px及以上）</p>
+            </div>
+
+            <div class="structure-drag scrollspy-nav" data-am-tabs="{noSwipe: 1}" data-am-sticky>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="100">100%</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="6:6">6 : 6</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="9:3">9 : 3</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="3:9">3 : 9</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="6:3:3">6 : 3 : 3</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="3:6:3">3 : 6 : 3</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="3:3:6">3 : 3 : 6</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="4:4:4">x 3</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="3:3:3:3">x 4</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="2:2:2:2:2:2">x 6</button>
+            </div>
+        </div>
+
+        <!-- 模块 -->
+        <div class="renovation-panel am-hide" id="renovation-tabs-module">
+            <div class="renovation-drag scrollspy-nav" data-am-tabs="{noSwipe: 1}" data-am-sticky>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="images">单图</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="many-images">多图</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="video">视频</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="goods">商品</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="title">标题</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="border">辅助线</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="height">辅助空白</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 拖拽容器-->
+<div class="layout-container am-padding-sm am-margin-top-sm">
+    {{if !empty($layout_data) and is_array($layout_data)}}
+        {{foreach $layout_data as $k=>$v}}
+            {{if !empty($v['value']) and !empty($v['children']) and is_array($v['children']) and !empty($v['value_arr']) and count($v['children']) eq count($v['value_arr'])}}
+                <div class="layout-view {{if $v['status'] eq 0}}layout-view-hidden{{/if}}" data-value="{{$v.value}}">
+                    <i class="layout-view-dragenter-icon am-icon-sort-asc am-icon-lg am-hide"></i>
+                    <div class="layout-content-submit drag-submit">
+                        <input type="checkbox" class="switch-checkbox" data-size="xs" data-on-color="success" data-off-color="warning" data-off-text="关闭" data-on-text="开启" {{if isset($v['status']) and $v['status'] eq 1}}checked="true"{{/if}} />
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-square-o layout-submit layout-submit-set"> 布局设置</button>
+                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit layout-submit-del"> 布局移除</button>
+                    </div>
+                    <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($v['config'])}}{{:urlencode(json_encode($v['config']))}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}">
+                        {{foreach $v.children as $ks=>$vs}}
+                            {{if count($v['value_arr']) eq 1}}
+                                {{include file="../../../layout/view/public/common/module_admin" /}}
+                            {{else /}}
+                                <div class="am-u-md-{{$v['value_arr'][$ks]}}">
+                                    {{include file="../../../layout/view/public/common/module_admin" /}}
+                                </div>
+                            {{/if}}
+                        {{/foreach}}
+                    </div>
+                </div>
+            {{/if}}
+        {{/foreach}}
+    {{else /}}
+        <div class="layout-container-tips">布局拖放到该区域松开鼠标即可</div>
+    {{/if}}
+</div>
+<!-- 侧边栏 - 布局 - 容器设置 -->
+{{include file="../../../layout/view/public/offcanvas/offcanvas_layout_config" /}}
+
+<!-- 侧边栏 - 模块配置 - 单图 -->
+{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_images" /}}
+
+<!-- 侧边栏 - 模块配置 - 多图 -->
+{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_many_images" /}}
+
+<!-- 侧边栏 - 模块配置 - 视频 -->
+{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_video" /}}
+
+<!-- 侧边栏 - 模块配置 - 商品 -->
+{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_goods" /}}
+
+<!-- 侧边栏 - 模块配置 - 标题 -->
+{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_title" /}}
+
+<!-- 侧边栏 - 模块配置 - 辅助线 -->
+{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_border" /}}
+
+<!-- 侧边栏 - 模块配置 - 辅助空白 -->
+{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_height" /}}
+
+<!-- 滚动设置 -->
+{{include file="../../../layout/view/public/modal/modal_module_rolling_config" /}}
+
+<!-- 列表设置 -->
+{{include file="../../../layout/view/public/modal/modal_module_list_config" /}}
+
+<!-- 关键字设置 -->
+{{include file="../../../layout/view/public/modal/modal_module_title_keywords" /}}
+
+<!-- 页面选择 -->
+{{include file="../../../layout/view/public/modal/modal_module_pages_select" /}}
+
+<!-- 商品选择 -->
+{{include file="../../../layout/view/public/popup/popup_module_goods_select" /}}
+
+<!-- 商品搜索 -->
+{{include file="../../../layout/view/public/popup/popup_module_goods_search" /}}
+
+<!-- 商品分类选择 -->
+{{include file="../../../layout/view/public/popup/popup_module_goods_category" /}}

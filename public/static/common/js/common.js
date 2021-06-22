@@ -557,10 +557,9 @@ function FormDataFill(json, tag)
 			$form.find('input[type="hidden"][name="'+i+'"], input[type="text"][name="'+i+'"], input[type="password"][name="'+i+'"], input[type="email"][name="'+i+'"], input[type="number"][name="'+i+'"], input[type="date"][name="'+i+'"], textarea[name="'+i+'"], select[name="'+i+'"], input[type="url"][name="'+i+'"]').val(json[i]);
 
 			// input radio
-			$form.find('input[type="radio"][name="'+i+'"]').each(function(temp_value, temp_tag)
+			$form.find('input[type="radio"][name="'+i+'"]').each(function(k, v)
 			{
-				var state = (json[i] == temp_value);
-				this.checked = state;
+				this.checked = (json[i] == $(this).val());
 			});
 		}
 
@@ -573,6 +572,14 @@ function FormDataFill(json, tag)
 				$form.find('select[name="pid"]').find('option[value="'+json['id']+'"]').attr('disabled', true);
 			}
 		}
+
+		// switch切换插件
+		$form.find('.am-switch').each(function(k, v)
+		{
+			var name = $(this).find('input').attr('name') || null;
+			var state = (name == null || (json[name] || 0) == 0) ? false : true;
+			$(this).find('input').bootstrapSwitch('state', state);
+		});
 
 		// 多选插件事件更新
 		if($('.chosen-select').length > 0)

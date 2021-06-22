@@ -362,6 +362,7 @@ return [
     'common_site_floor_data_type_list'           => [
             0 => ['value' => 0, 'name' => '自动模式', 'checked' => true],
             1 => ['value' => 1, 'name' => '手动模式'],
+            2 => ['value' => 2, 'name' => '拖拽模式'],
         ],
 
     // 色彩值

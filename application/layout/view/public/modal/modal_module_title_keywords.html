@@ -1,0 +1,26 @@
+<!-- 标题关键字配置 -->
+<div class="am-modal am-modal-no-btn modal-dialog-not-title" tabindex="-1" id="modal-module-title-keywords">
+    <div class="am-modal-dialog">
+        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <form class="am-form am-padding-sm am-text-left form-validation-module-modal-title-keywords" request-type="sync" request-value="FormBackModuleModalTitleKeywords">
+            <!-- 关键字 -->
+            {{include file="../../../layout/view/public/style/input_color" key="_keywords" title="关键字" placeholder="关键字" minlength="1" maxlength="8" message="关键字最多1~8个字符" value="" required="required" color_value="" tips-must="-must" tips-msg="必填" /}}
+
+            <!-- 关键字链接 -->
+            <div class="am-form-group am-form-group-refreshing">
+                <label>链接地址</label>
+                <div class="form-view-choice-container am-margin-top-xs">
+                    <input type="hidden" name="content_to_type" value="" />
+                    <input type="hidden" name="content_to_name" value="" />
+                    <input type="hidden" name="content_to_value" value="" />
+                    <div class="form-view-choice-container-content">
+                        <a href="javascript:;" class="form-view-choice-container-submit">请选择跳转链接</a>
+                    </div>
+                </div>
+            </div>
+            <div class="am-margin-top-sm">
+                <button type="submit" class="am-btn am-btn-primary am-btn-block">确认</button>
+            </div>
+        </form>
+    </div>
+</div>

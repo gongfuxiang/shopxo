@@ -1,0 +1,127 @@
+<!-- 侧边栏 - 模块配置 - 商品 -->
+<div id="offcanvas-module-config-goods" class="am-offcanvas module-offcanvas-container" data-data-url="{{:MyUrl('index/layout/goodsdata')}}">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-module-offcanvas-goods" request-type="sync" request-value="FormBackModuleConfigGoods">
+                <input type="hidden" name="goods_data_type" value="goods" />
+                <div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-margin-bottom-lg" data-am-tabs="{noSwipe: 1}">
+                    <ul class="am-tabs-nav am-cf">
+                        <li class="am-active"><a href="[data-tab-panel-0]" data-value="goods">选择商品</a></li>
+                        <li><a href="[data-tab-panel-1]" data-value="category">选择分类</a></li>
+                    </ul>
+                    <div class="am-tabs-bd am-padding-sm">
+                        <div data-tab-panel-0 class="am-tab-panel am-active">
+                            <input type="hidden" name="goods_ids" value="" />
+                            <div class="form-view-choice-container" data-value="goods">
+                                <div class="form-view-choice-container-content">
+                                    <a href="javascript:;" class="form-view-choice-container-submit">请选择商品</a>
+                                    <span class="am-form-group-label-tips-must">必选</span>
+                                    <span class="text-tips am-margin-left-sm">最多添加50件商品</span>
+                                </div>
+                            </div>
+                            <ul class="config-goods-list am-cf am-margin-top-sm"></ul>
+                        </div>
+                        <div data-tab-panel-1 class="am-tab-panel">
+                            <div class="am-form-group am-form-group-refreshing">
+                                <label>商品分类<span class="am-form-group-label-tips-must">必选</span></label>
+                                <div class="form-view-choice-container am-margin-top-xs offcanvas-config-goods-category-container" data-value="category">
+                                    <input type="hidden" name="goods_category_value" value="" />
+                                    <div class="form-view-choice-container-content">
+                                        <a href="javascript:;" class="form-view-choice-container-submit">请选择商品分类</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="am-form-group am-form-group-refreshing">
+                                <label>排序类型<span class="am-form-group-label-tips">默认综合</span></label>
+                                <select name="goods_order_by_type" class="am-radius chosen-select" data-placeholder="请选择..." data-validation-message="请选择商品排序类型">
+                                    {{foreach $goods_order_by_type_list as $k=>$v}}
+                                        <option value="{{$k}}" {{if $k eq 0}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/foreach}}
+                                </select>
+                                <div class="am-alert am-alert-warning" data-am-alert>
+                                    <button type="button" class="am-close">&times;</button>
+                                    <p>综合为：热度->销量->最新 进行 降序(desc)排序</p>
+                                </div>
+                            </div>
+                            <div class="am-form-group am-form-group-refreshing">
+                                <label>排序规则<span class="am-form-group-label-tips">默认降序(desc)</span></label>
+                                <select name="goods_order_by_rule" class="am-radius chosen-select" data-placeholder="请选择..." data-validation-message="请选择排序规则">
+                                    {{foreach $goods_order_by_rule_list as $k=>$v}}
+                                        <option value="{{$k}}" {{if $k eq 0}}selected{{/if}}>{{$v.name}}</option>
+                                    {{/foreach}}
+                                </select>
+                            </div>
+                            <div class="am-form-group am-form-group-refreshing">
+                                <label>数量</label>
+                                <input type="number" placeholder="数量" name="goods_order_limit_number" min="0" max="50" data-validation-message="数量最大50" value="10" class="am-form-field" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 内容样式 -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">内容样式</div>
+                    <div class="am-panel-bd">
+                        <!-- 行展示数量 -->
+                        {{include file="../../../layout/view/public/content/view_list_number" /}}
+
+                        <!-- 背景色 -->
+                        {{include file="../../../layout/view/public/style/background_color" key="_module" required="" /}}
+
+                        <!-- 圆角 -->
+                        {{include file="../../../layout/view/public/style/border_radius" key="_module" required="" /}}
+
+                        <!-- 边线类型 -->
+                        {{include file="../../../layout/view/public/style/border_style_4" key="_module" /}}
+
+                        <!-- 边线大小 -->
+                        {{include file="../../../layout/view/public/style/border_width_color_4" key="_module" /}}
+
+                        <!-- 外边距 -->
+                        {{include file="../../../layout/view/public/style/margin_4" key="_module" /}}
+
+                        <!-- 内边距 -->
+                        {{include file="../../../layout/view/public/style/padding_4" key="_module" /}}
+
+                        <!-- 展示模式 -->
+                        {{include file="../../../layout/view/public/content/goods_show_style" /}}
+                    </div>
+                </div>
+
+                <!-- 商品样式 -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">商品样式</div>
+                    <div class="am-panel-bd">
+                        <!-- 圆角 -->
+                        {{include file="../../../layout/view/public/style/border_radius" key="" required="" /}}
+
+                        <!-- 边线类型 -->
+                        {{include file="../../../layout/view/public/style/border_style" key="" required="" /}}
+
+                        <!-- 边线大小 -->
+                        {{include file="../../../layout/view/public/style/border_width_color" key="" required="" /}}
+
+                        <!-- 外边距 -->
+                        {{include file="../../../layout/view/public/style/margin" key="" required="" /}}
+
+                        <!-- 内边距 -->
+                        {{include file="../../../layout/view/public/style/padding" key="" required="" /}}
+                    </div>
+                </div>
+
+                <!-- 图片固定 -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">图片固定</div>
+                    <div class="am-panel-bd">
+                        {{include file="../../../layout/view/public/content/media_fixed" key="_media_fixed" required="" name="图片容器高度" /}}
+                    </div>
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '处理中...'}">确认</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

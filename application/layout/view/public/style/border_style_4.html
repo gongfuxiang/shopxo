@@ -1,0 +1,31 @@
+<div class="am-form-group am-form-group-refreshing">
+    <label>边线类型<span class="am-form-group-label-tips">上 -> 右 -> 下 -> 左</span></label>
+    <div class="am-input-group am-input-group-sm group-border-style">
+        {{if !empty($border_style_type_list)}}
+            <select name="style[key]_border_style_top" class="am-radius chosen-select" data-placeholder="上" data-validation-message="请选择边线类型">
+                <option value="">上</option>
+                {{foreach $border_style_type_list as $k=>$v}}
+                    <option value="{{$k}}">{{$v}}</option>
+                {{/foreach}}
+            </select>
+            <select name="style[key]_border_style_right" class="am-radius chosen-select" data-placeholder="右" data-validation-message="请选择边线类型">
+                <option value="">右</option>
+                {{foreach $border_style_type_list as $k=>$v}}
+                    <option value="{{$k}}">{{$v}}</option>
+                {{/foreach}}
+            </select>
+            <select name="style[key]_border_style_bottom" class="am-radius chosen-select" data-placeholder="下" data-validation-message="请选择边线类型">
+                <option value="">下</option>
+                {{foreach $border_style_type_list as $k=>$v}}
+                    <option value="{{$k}}">{{$v}}</option>
+                {{/foreach}}
+            </select>
+            <select name="style[key]_border_style_left" class="am-radius chosen-select" data-placeholder="左" data-validation-message="请选择边线类型">
+                <option value="">左</option>
+                {{foreach $border_style_type_list as $k=>$v}}
+                    <option value="{{$k}}">{{$v}}</option>
+                {{/foreach}}
+            </select>
+        {{/if}}
+    </div>
+</div>

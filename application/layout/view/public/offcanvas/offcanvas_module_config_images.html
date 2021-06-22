@@ -1,0 +1,68 @@
+<!-- 侧边栏 - 模块配置 - 图片 -->
+<div id="offcanvas-module-config-images" class="am-offcanvas module-offcanvas-container" data-default-images="{{$attachment_host}}/static/plugins/images/shop/renovation/module-default-images.png">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-module-offcanvas-images" request-type="sync" request-value="FormBackModuleConfigImages">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">内容设置</div>
+                    <div class="am-panel-bd">
+                        <div class="am-form-group am-form-file am-form-group-refreshing">
+                            <label class="block">图片<span class="am-form-group-label-tips-must">必传</span></label>
+                            <ul class="plug-file-upload-view module-images-type-images-view" data-form-name="content_images" data-max-number="1" data-delete="0" data-dialog-type="images">
+                                <li>
+                                    <input type="text" name="content_images" data-validation-message="请上传图片" value="" required />
+                                    <img src="{{$attachment_host}}/static/plugins/images/shop/renovation/module-default-images.png" />
+                                </li>
+                            </ul>
+                            <div class="plug-file-upload-submit" data-view-tag="ul.module-images-type-images-view">+上传图片</div>
+                        </div>
+                        <div class="am-form-group am-form-group-refreshing">
+                            <label>链接地址</label>
+                            <div class="form-view-choice-container am-margin-top-xs">
+                                <input type="hidden" name="content_to_type" value="" />
+                                <input type="hidden" name="content_to_name" value="" />
+                                <input type="hidden" name="content_to_value" value="" />
+                                <div class="form-view-choice-container-content">
+                                    <a href="javascript:;" class="form-view-choice-container-submit">请选择跳转链接</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 样式设置 -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">样式设置</div>
+                    <div class="am-panel-bd">
+                        <!-- 圆角 -->
+                        {{include file="../../../layout/view/public/style/border_radius" key="" required="" /}}
+
+                        <!-- 边线类型 -->
+                        {{include file="../../../layout/view/public/style/border_style_4" key="" /}}
+
+                        <!-- 边线大小 -->
+                        {{include file="../../../layout/view/public/style/border_width_color_4" key="" /}}
+
+                        <!-- 外边距 -->
+                        {{include file="../../../layout/view/public/style/margin_4" key="" /}}
+
+                        <!-- 内边距 -->
+                        {{include file="../../../layout/view/public/style/padding_4" key="" /}}
+                    </div>
+                </div>
+
+                <!-- 图片固定 -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">图片固定</div>
+                    <div class="am-panel-bd">
+                        {{include file="../../../layout/view/public/content/media_fixed" key="_media_fixed" required="" name="图片容器高度" /}}
+                    </div>
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '处理中...'}">确认</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

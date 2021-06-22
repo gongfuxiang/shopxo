@@ -184,3 +184,15 @@ text-align: center;float:none}
     .floor .goods-list .goods-items:nth-of-type(2n + 1) { border-right: 1px solid #eee; }
     .floor .goods-list .goods-items:nth-of-type(2n) { border-left: 1px solid transparent; }
 }
+
+/**
+ * 布局保存
+ */
+.layout-operate-container .am-btn {
+    padding: 4px 10px;
+}
+@media only screen and (max-width: 1025px) {
+    .layout-operate-container {
+        margin-right: 10px;
+    }
+}

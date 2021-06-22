@@ -1,0 +1,11 @@
+<div class="am-form-group am-form-group-refreshing">
+    <label>边线/颜色</label>
+    <div class="am-input-group am-input-group-sm group-border-radius-color">
+        <input type="number" placeholder="边线" name="style[key]_border_width" min="0" max="10" data-validation-message="请输入边线、最大10的数字" value="" class="am-form-field" [required] />
+        <span class="am-input-group-label">px</span>
+        <input type="hidden" name="style[key]_border_color" value="" />
+        <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-border-color[key]" data-position="fixed" data-input-tag=".module-offcanvas-container .module-style-border-color[key]" data-color-tag=".module-offcanvas-container input[name='style[key]_border_color']" data-color-style="background-color|border-color">
+            <img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
+        </a>
+    </div>
+</div>

@@ -417,6 +417,10 @@ class Common extends Controller
         $this->assign('home_site_security_record_name', MyC('home_site_security_record_name'));
         $this->assign('home_site_security_record_url', MyC('home_site_security_record_url'));
 
+        // 布局样式+管理
+        $this->assign('is_load_layout', 0);
+        $this->assign('is_load_layout_admin', 0);
+
         // 默认不加载放大镜
         $this->assign('is_load_imagezoom', 0);
 

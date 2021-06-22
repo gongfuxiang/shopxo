@@ -1,0 +1,148 @@
+<div class="layout-content-container {{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($vs['config'])}}{{:urlencode(json_encode($vs['config']))}}{{/if}}" style="{{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.style}}{{/if}}">
+    <div class="layout-content-submit-container">
+        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-gear layout-submit layout-content-submit-set"></button>
+    </div>
+    <div class="layout-content">
+        {{if !empty($vs['children']) and is_array($vs['children'])}}
+            {{foreach $vs.children as $kss=>$vss}}
+                <div class="module-view">
+                    <div class="module-view-submit-container" data-value="{{$vss.value}}" data-index="{{$k}}{{$ks}}{{$kss}}" data-doc=".module-content-index-{{$vss.value}}-{{$k}}{{$ks}}{{$kss}}">
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-reorder layout-submit module-view-submit-drag"></button>
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-folder-open-o layout-submit module-view-submit-set"></button>
+                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit module-view-submit-del"></button>
+                    </div>
+                    <div class="module-content module-content-type-{{$vss.value}} module-content-index-{{$vss.value}}-{{$k}}{{$ks}}{{$kss}}" data-json="{{if !empty($vss['config'])}}{{:urlencode(json_encode($vss['config']))}}{{/if}}">
+                        {{if !empty($vss['config'])}}
+                            <div class="module-{{$vss.value}}-container" style="{{if isset($vss['config']['frontend_config']['style'])}}{{$vss.config.frontend_config.style}}{{/if}}">
+                                {{switch vss.value}}
+                                    {{case images}}
+                                        <a href="javascript:ModuleToPrompt('{{$vss.config.content_to_name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                            <img src="{{$vss.config.content_images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                        </a>
+                                    {{/case}}
+                                    {{case many-images}}
+                                        {{switch vss.config.view_list_show_style}}
+                                            {{case rolling}}
+                                                <div class="am-slider am-slider-default am-slider-carousel {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
+                                                    <ul class="am-slides">
+                                                        {{foreach $vss.config.data_list as $i}}
+                                                            <li>
+                                                                <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                </a>
+                                                            </li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                                </div>
+                                            {{/case}}
+                                            {{case list}}
+                                                <ul class="module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                    {{foreach $vss.config.data_list as $i}}
+                                                        <li>
+                                                            <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                    {{/foreach}}
+                                                </ul>
+                                            {{/case}}
+                                            {{default /}}
+                                                <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}'>
+                                                    <ul class="am-slides">
+                                                        {{foreach $vss.config.data_list as $i}}
+                                                            <li>
+                                                                <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                </a>
+                                                            </li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                                </div>
+                                        {{/switch}}
+                                    {{/case}}
+                                    {{case video}}
+                                        <div class="module-video-content" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                            <video src="{{$vss.config.content_video}}" poster="{{if !empty($vss['config']['content_images'])}}{{$vss.config.content_images}}{{/if}}" controls class="{{$vss.config.frontend_config.media_fixed.media_ent}}">your browser does not support the video tag</video>
+                                        </div>
+                                    {{/case}}
+                                    {{case goods}}
+                                        {{switch vss.config.view_list_show_style}}
+                                            {{case rolling}}
+                                                <div class="am-slider am-slider-default am-slider-carousel {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
+                                                    <div class="am-viewport">
+                                                        <ul class="am-slides module-list-content">
+                                                            {{foreach $vss.config.data_list as $g}}
+                                                                <li>
+                                                                    <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                        <a href="{{$g.goods_url}}" target="_blank" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                            <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                        </a>
+                                                                        <div class="item-bottom">
+                                                                            <div class="module-title">
+                                                                                <a href="{{$g.goods_url}}" target="_blank">{{$g.title}}</a></div>
+                                                                            <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            {{/foreach}}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            {{/case}}
+                                            {{default /}}
+                                                <ul class="module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                    {{foreach $vss.config.data_list as $g}}
+                                                        <li>
+                                                            <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                <a href="{{$g.goods_url}}" target="_blank" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                    <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                </a>
+                                                                <div class="item-bottom">
+                                                                    <div class="module-title">
+                                                                        <a href="{{$g.goods_url}}" target="_blank">{{$g.title}}</a></div>
+                                                                    <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    {{/foreach}}
+                                                </ul>
+                                        {{/switch}}
+                                    {{/case}}
+                                    {{case title}}
+                                        <div class="module-title-content">
+                                            <span class="title-main" style="{{$vss.config.frontend_config.style_title_main}}">{{$vss.config.content_title}}</span>
+                                            {{if !empty($vss['config']['content_title_vice'])}}
+                                                <span class="title-vice" style="{{$vss.config.frontend_config.style_title_vice}}">{{$vss.config.content_title_vice}}</span>
+                                            {{/if}}
+                                            {{if !empty($vss['config']['keywords_list'])}}
+                                                <div class="keywords-content">
+                                                    {{foreach $vss.config.keywords_list as $wd}}
+                                                        <a href="javascript:ModuleToPrompt('{{$wd.content_to_name}}');" {{if !empty($wd['style_keywords_color'])}}style="color:{{$wd.style_keywords_color}};"{{/if}}>{{$wd.content_keywords}}</a>
+                                                    {{/foreach}}
+                                                </div>
+                                            {{/if}}
+                                            {{if !empty($vss['config']['content_title_more'])}}
+                                                <div class="more-content">
+                                                    <a href="javascript:ModuleToPrompt('{{$vss.config.content_to_name}}');" style="{{$vss.config.frontend_config.style_title_more}}">
+                                                        <span>{{$vss.config.content_title_more}}</span>
+                                                        <i class="am-icon-angle-right"></i>
+                                                    </a>
+                                                </div>
+                                            {{/if}}
+                                        </div>
+                                    {{/case}}
+                                {{/switch}}
+                            </div>
+                        {{else /}}
+                            <div class="am-text-center am-padding-vertical-sm am-text-primary">{{$vss.name}}</div>
+                        {{/if}}
+                    </div>
+                </div>
+            {{/foreach}}
+        {{else /}}
+            <div class="layout-content-tips">模块内容区域</div>
+        {{/if}}
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="am-form-group am-form-group-refreshing">
+    <label>边线类型</label>
+    {{if !empty($border_style_type_list)}}
+        <select name="style[key]_border_style" class="am-radius chosen-select" data-placeholder="请选择" data-validation-message="请选择边线类型" [required]>
+            <option value="">请选择</option>
+            {{foreach $border_style_type_list as $k=>$v}}
+                <option value="{{$k}}">{{$v}}</option>
+            {{/foreach}}
+        </select>
+    {{/if}}
+</div>

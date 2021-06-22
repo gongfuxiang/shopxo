@@ -43,6 +43,9 @@
                                 <option value="{{$k}}" {{if isset($data['home_index_floor_data_type']['value']) and $data['home_index_floor_data_type']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
+                        <div class="am-alert">
+                            拖拽模式需要自行进入首页设计页面<a href="{{:MyUrl('index/index/index', ['is_design'=>1, 'save_url'=>urlencode(base64_encode(MyUrl('admin/layout/layoutindexhomesave')))])}}" target="_blank" class="am-margin-left-sm">去设计页面 >></a>
+                        </div>
                     </div>
 
                     <div class="am-form-group">
