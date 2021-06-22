@@ -1293,17 +1293,12 @@ function FormBackModulePopupGoodsSearchHandle(data)
             // 输入关键字去除引号
             params['value'] = value.replace(new RegExp('"', 'g'), '').replace(new RegExp("'", 'g'), '');
             break;
-
-        // 默认
-        default :
-            Prompt('类型未处理['+type+']');
-            return false;
     }
 
     // 数据赋值并关闭弹窗
     var show_name = ModuleConfigGoodsSearchPageShowName(params);
     var $page = $modal_pages_select.find('.am-tabs-bd ul li.page-goods_search a');
-        $page.find('span').text($page.data('name')+'（'+show_name+'）');
+        $page.find('span').text($page.data('name')+show_name);
         $page.attr('data-json', encodeURIComponent(JSON.stringify(params)));
         $popup_goods_search.modal('close');
 }
@@ -1529,7 +1524,7 @@ function ModuleConfigGoodsSearchPageShowName(data)
                 break;
         }
     }
-    return name;
+    return (name || null) == null ? '' : '（'+name+'）';
 }
 
 /**
@@ -2335,10 +2330,10 @@ $(function()
                 var index = 0;
                 var type = 'category';
                 var value = null;
-                if(json != null && (json.type || null) != null && (json.value || null) != null)
+                if(json != null && (json.type || null) != null)
                 {
                     // 基础参数
-                    var arr = ['category', 'brand', 'keywords'];
+                    var arr = ['category', 'brand', 'keywords', 'other'];
                     index = arr.indexOf(json.type);
                     type = json.type;
                     value = json.value || null;
@@ -2452,7 +2447,7 @@ $(function()
                 }
 
                 // 显示名称
-                to_name += '（'+ModuleConfigGoodsSearchPageShowName(json)+'）';
+                to_name += ModuleConfigGoodsSearchPageShowName(json);
                 break;
         }
 

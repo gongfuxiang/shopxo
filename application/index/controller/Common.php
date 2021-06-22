@@ -24,6 +24,7 @@ use app\service\SearchService;
 use app\service\ConfigService;
 use app\service\LinkService;
 use app\service\UserService;
+use app\service\AdminService;
 use app\service\QuickNavService;
 
 /**
@@ -426,6 +427,9 @@ class Common extends Controller
 
         // 默认不加载百度地图api
         $this->assign('is_load_baidu_map_api', 0);
+
+        // 是否加载附件组件
+        $this->assign('is_load_upload_editor', (!empty($this->user) || AdminService::LoginInfo()) ? 1 : 0);
 
         // 存在地图事件则载入
         if(in_array(3, array_column($this->nav_quick, 'event_type')))

@@ -580,3 +580,17 @@
         margin-left: 20px;
     }
 }
+
+/**
+ * 商品搜索弹窗
+ */
+#popup-module-goods-search .am-tabs-bd {
+    padding-bottom: 50px;
+}
+.ss {
+    position: absolute;
+    left: 25px;
+    bottom: 25px;
+    width: calc(100% - 50px);
+    background: #f8f8f8;
+}
