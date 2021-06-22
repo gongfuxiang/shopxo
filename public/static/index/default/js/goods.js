@@ -165,6 +165,7 @@ function BuyCartHandle(e)
             $form.find('input[name="spec"]').val(JSON.stringify(params.spec));
             $form.find('input[name="stock"]').val(params.stock);
             $form.find('button[type="submit"]').trigger('click');
+            PoptitClose();
             break;
 
         // 默认
