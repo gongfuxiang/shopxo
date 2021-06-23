@@ -425,7 +425,7 @@ class ResourcesService
     {
         // 获取附件数据
         $where = ['path_type'=>$path_type];
-        $data = DB::name('Attachment')->where($where)->column('url');
+        $data = DB::name('Attachment')->where($where)->select();
         if(!empty($data))
         {
             // 删除数据库数据
@@ -438,13 +438,22 @@ class ResourcesService
             $path = substr(ROOT_PATH, 0, -1);
             foreach($data as $v)
             {
-                $file = $path.$v;
+                $file = $path.$v['url'];
                 if(file_exists($file) && is_writable($file))
                 {
                     \base\FileUtil::UnlinkFile($file);
                 }
             }
         }
+
+        // 附件删除成功后处理钩子
+        $hook_name = 'plugins_service_attachment_path_type_delete_success';
+        Hook::listen($hook_name, [
+            'hook_name'         => $hook_name,
+            'is_backend'        => true,
+            'data'              => $data,
+        ]);
+
         return DataReturn('删除成功', 0);
     }
 
