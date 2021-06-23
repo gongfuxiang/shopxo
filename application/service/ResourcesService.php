@@ -423,12 +423,29 @@ class ResourcesService
      */
     public static function AttachmentPathTypeDelete($path_type)
     {
-        // 请求参数
-        if(DB::name('Attachment')->where(['path_type'=>$path_type])->delete() !== false)
+        // 获取附件数据
+        $where = ['path_type'=>$path_type];
+        $data = DB::name('Attachment')->where($where)->column('url');
+        if(!empty($data))
         {
-            return DataReturn('删除成功', 0);
+            // 删除数据库数据
+            if(!DB::name('Attachment')->where($where)->delete())
+            {
+                return DataReturn('删除失败', -1);
+            }
+
+            // 删除磁盘文件
+            $path = substr(ROOT_PATH, 0, -1);
+            foreach($data as $v)
+            {
+                $file = $path.$v;
+                if(file_exists($file) && is_writable($file))
+                {
+                    \base\FileUtil::UnlinkFile($file);
+                }
+            }
         }
-        return DataReturn('删除失败', -100);
+        return DataReturn('删除成功', 0);
     }
 
     /**
