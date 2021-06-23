@@ -1,4 +1,9 @@
 /**
+ * 公共
+ */
+.layout-container [class*="am-u-"] {padding-left:0;padding-right:0;}
+
+/**
  * 布局基础
  */
 .layout-content-children,.layout-content-container{overflow:hidden;}

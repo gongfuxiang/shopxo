@@ -594,3 +594,15 @@
     width: calc(100% - 50px);
     background: #f8f8f8;
 }
+
+/**
+ * 布局保存
+ */
+.layout-operate-container .am-btn {
+    padding: 4px 10px;
+}
+@media only screen and (max-width: 1025px) {
+    .layout-operate-container {
+        margin-right: 10px;
+    }
+}

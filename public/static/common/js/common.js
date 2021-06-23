@@ -129,7 +129,7 @@ function GetFormVal(element, is_json)
 	});
 	object = ArrayTurnJson(tmp_all, object);
 
-	// input 复选框checkboox
+	// input 复选框checkbox
 	tmp_all = [];
 	i = 0;
 	$(element).find('input[type="checkbox"]').each(function(key, tmp)
@@ -138,6 +138,7 @@ function GetFormVal(element, is_json)
 		{
 			if($(this).is(':checked'))
 			{
+				console.log(tmp);
 				if(tmp_all[tmp.name] == undefined)
 				{
 					tmp_all[tmp.name] = [];
@@ -145,6 +146,12 @@ function GetFormVal(element, is_json)
 				}
 				tmp_all[tmp.name][i] = tmp.value;
 				i++;
+			} else {
+				// 滑动开关、未选中则0
+				if(typeof($(this).attr('data-am-switch')) != 'undefined')
+				{
+					tmp_all[tmp.name] = 0;
+				}
 			}
 		}
 	});

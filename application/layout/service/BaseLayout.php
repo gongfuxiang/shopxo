@@ -382,7 +382,7 @@ class BaseLayout
     public static function LayoutUrlValueHandle($type, $value)
     {
         // 当前客户端类型
-        $client_type = ApplicationClientType();
+        $client_type = APPLICATION_CLIENT_TYPE;
 
         // url地址、默认空字符串
         $url = '';
