@@ -135,6 +135,10 @@ return array (
   array (
     0 => 'app\\plugins\\shop\\Hook',
   ),
+  'plugins_view_admin_login_info' => 
+  array (
+    0 => 'app\\plugins\\shop\\Hook',
+  ),
   'plugins_view_home_floor_bottom' => 
   array (
     0 => 'app\\plugins\\salerecords\\Hook',

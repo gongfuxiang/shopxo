@@ -2962,4 +2962,60 @@ $(function()
     {
         OffcanvasConfigPagesRemove($(this), e);
     });
+
+
+    // 页面布局数据保存
+    var $layout_operate_container = $('.layout-operate-container');
+    $layout_operate_container.on('click', 'button', function()
+    {
+        // 基础配置
+        var data = $layout_operate_container.attr('data-json') || null;
+        if(data != null)
+        {
+            data = JSON.parse(decodeURIComponent(data)) || null;
+        }
+        if(data == null)
+        {
+            data = {};
+        }
+
+        // 设计配置
+        data['config'] = JSON.stringify(LayoutViewConfig());
+
+        // 保存数据
+        var $this = $(this);
+        $this.button('loading');
+        $.ajax({
+            url: $layout_operate_container.data('save-url'),
+            type: 'post',
+            data: data,
+            dataType: 'json',
+            success:function(res)
+            {
+                if(res['code'] == 0)
+                {
+                    Prompt(res.msg, 'success');
+                    setTimeout(function()
+                    {
+                        var url = $layout_operate_container.find('a').attr('href') || null;
+                        if(url == null || url == 'javascript:;')
+                        {
+                            window.location.reload();
+                        } else {
+                            window.location.href = url;
+                        }
+                    }, 1500);
+                } else {
+                    $this.button('reset');
+                    Prompt(res.msg);
+                }                
+            },
+            error:function(xhr, type)
+            {
+                $this.button('reset');
+                var msg = HtmlToString(xhr.responseText) || '异常错误';
+                Prompt(msg, null, 30);
+            }
+        });
+    });
 });

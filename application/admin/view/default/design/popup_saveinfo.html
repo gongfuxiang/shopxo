@@ -1,0 +1,73 @@
+<!-- 基础数据编辑 -->
+<div class="am-popup popup-not-title" id="popup-saveinfo">
+    <div class="am-popup-inner">
+        <span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>
+        <div class="am-popup-bd am-padding-0">
+            <form class="am-form form-validation am-padding-sm" request-type="sync" request-value="FormBackSaveinfoEdit">
+                <!-- 基础信息 -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">
+                        <h3 class="am-panel-title">基础信息</h3>
+                    </div>
+                    <div class="am-panel-bd am-padding-vertical-xs">
+                        <div class="am-form-group am-form-file">
+                            <label class="block">logo<span class="am-form-group-label-tips">选传</span><span class="am-form-group-label-tips">建议大小300*300px</span></label>
+                            <ul class="plug-file-upload-view shop-logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
+                                {{if !empty($data['logo'])}}
+                                    <li>
+                                        <input type="text" name="logo" value="{{$data.logo}}" data-validation-message="请上传logo" />
+                                        <img src="{{$data.logo}}" />
+                                        <i>×</i>
+                                    </li>
+                                {{/if}}
+                            </ul>
+                            <div class="plug-file-upload-submit" data-view-tag="ul.shop-logo-images-view">+上传logo</div>
+                        </div>
+
+                        <div class="am-form-group">
+                            <label>名称<span class="am-form-group-label-tips-must">必填</span></label>
+                            <input type="text" name="name" placeholder="名称格式1~16个字符" maxlength="16" data-validation-message="名称格式1~16个字符" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                        </div>
+
+                        <div class="am-form-group">
+                            <label class="block">是否启用<span class="am-form-group-label-tips">可选、默认是</span></label>
+                            <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_enable']) and $data['is_enable'] eq 1}}checked="true"{{/if}} />
+                        </div>
+                        <div class="am-form-group">
+                            <label class="block">是否含头部<span class="am-form-group-label-tips">可选、默认是</span></label>
+                            <input name="is_header" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_header']) and $data['is_header'] eq 1) or !isset($data['is_header'])}}checked="true"{{/if}} />
+                        </div>
+
+                        <div class="am-form-group">
+                            <label class="block">是否含尾部<span class="am-form-group-label-tips">可选、默认是</span></label>
+                            <input name="is_footer" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_footer']) and $data['is_footer'] eq 1) or !isset($data['is_footer'])}}checked="true"{{/if}} />
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SEO -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">
+                        <h3 class="am-panel-title">SEO<span class="am-form-group-label-tips">选填</span></h3>
+                    </div>
+                    <div class="am-panel-bd am-padding-vertical-xs">
+                        {{include file="lib/seo" /}}
+                    </div>
+                </div>
+
+                <!-- 操作 -->
+                <div class="am-text-center am-padding-sm am-nbfc">
+                    <input type="hidden" name="id" value="{{if !empty($data['id'])}}{{$data.id}}{{/if}}" />
+                    <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-margin-right-lg" data-am-modal-close>
+                        <i class="am-icon-paint-brush"></i>
+                        <span>取消</span>
+                    </button>
+                    <button type="submit" class="am-btn am-btn-primary am-btn-xs am-radius btn-loading-example am-margin-left-lg" data-am-loading="{loadingText:'处理中...'}">
+                        <i class="am-icon-save"></i>
+                        <span>确认</span>
+                    </button> 
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

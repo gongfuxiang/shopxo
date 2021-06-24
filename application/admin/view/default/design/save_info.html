@@ -1,0 +1,54 @@
+{{include file="public/header" /}}
+
+{{if !empty($data)}}
+    <div class="am-container">
+        <legend class="am-padding-horizontal-xs am-padding-bottom-xs">
+            <img src="{{if empty($data['logo'])}}{{$attachment_host}}/static/common/images/module-default-images.png{{else /}}{{$data.logo}}{{/if}}" class="am-img-thumbnail am-radius page-top-nav-logo" />
+            <span class="page-top-nav-title">
+                <span>{{$data.name}}</span>
+                <a href="javascript:;" class="am-icon-eyedropper am-margin-left-xs" data-am-modal="{target: '#popup-saveinfo'}"></a>
+            </span>
+            <a href="{{:MyUrl('index/design/index', ['id'=>$data['id']])}}" target="_blank" class="am-fr">查看 >></a>
+        </legend>
+        <div class="am-padding-bottom-sm">
+            <div class="layout-operate-container am-fr" data-save-url="{{:MyUrl('admin/design/save')}}" data-json="{{:urlencode(json_encode($data))}}">
+                <a href="javascript:;" class="am-btn am-btn-warning am-btn-xs am-radius window-close-event" data-msg="请确认数据是否保存、继续关闭本页吗？">关闭</a>
+                <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-margin-left-sm" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+            {{include file="../../../layout/view/base" /}}
+        </div>
+    </div>
+
+    <!-- 页面编辑-->
+    {{include file="design/popup_saveinfo" /}}
+{{else /}}
+    <div class="table-no">
+        <i class="am-icon-warning"></i>
+        <span>请先添加数据</span>
+        <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-text-secondary am-margin-left-sm"> 去添加数据 >></a>
+    </div>
+{{/if}}
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+<script type="text/javascript">
+// 基础数据保存回调处理
+function FormBackSaveinfoEdit(e)
+{
+    var $page = $('.layout-operate-container');
+    $page.attr('data-json', encodeURIComponent(JSON.stringify(e)));
+
+    // logo
+    $('.page-top-nav-logo').attr('src', e.logo || '{{$attachment_host}}/static/common/images/module-default-images.png');
+
+    // 名称
+    $('.page-top-nav-title span').text(e.name || '默认页面');
+
+    // 关闭弹窗
+    $('#popup-saveinfo').modal('close');
+}
+</script>
+
+<!-- layout formback -->
+{{include file="../../../layout/view/form_back" /}}

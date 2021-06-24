@@ -39,38 +39,4 @@ $(function()
     {
         FloorResizeHandle();
     });
-
-    // 布局保存
-    $('.layout-operate-container button').on('click', function()
-    {
-        var $this = $(this);
-        $this.button('loading');
-        $.ajax({
-            url: $('.layout-operate-container').data('save-url'),
-            type: 'post',
-            data: {"config": JSON.stringify(LayoutViewConfig())},
-            dataType: 'json',
-            success:function(res)
-            {
-                if(res['code'] == 0)
-                {
-                    Prompt(res.msg, 'success');
-                    setTimeout(function()
-                    {
-                        window.location.href = __my_url__;
-                    }, 1500);
-                } else {
-                    $this.button('reset');
-                    Prompt(res.msg);
-                }                
-            },
-            error:function(res)
-            {
-                $this.button('reset');
-                var msg = HtmlToString(xhr.responseText) || '异常错误';
-                Prompt(msg, null, 30);
-            }
-        });
-    });
-
 });

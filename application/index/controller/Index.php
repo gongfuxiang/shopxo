@@ -77,8 +77,12 @@ class Index extends Common
             $pages_list = BaseLayout::PagesList();
             $this->assign('pages_list', $pages_list);
 
+            // 商品分类
+            $goods_category = GoodsService::GoodsCategoryAll();
+            $this->assign('goods_category_list', $goods_category);
+
             // 商品搜索分类（分类）
-            $this->assign('layout_goods_category', GoodsService::GoodsCategoryAll());
+            $this->assign('layout_goods_category', $goods_category);
             $this->assign('layout_goods_category_field', 'gci.category_id');
 
             // 品牌

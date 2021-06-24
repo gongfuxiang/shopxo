@@ -84,7 +84,7 @@
     top: -28px;
     width: 100%;
     -webkit-box-shadow: 0 -5px 10px rgb(0 0 0 / 60%);
-    box-shadow: 0 -5px 10px rgb(0 0 0 / 60%);
+    box-shadow: 0 -5px 10px rgb(0 0 0 / 20%);
 }
 .layout-view .layout-submit {
     padding: 2px 5px;
@@ -253,7 +253,7 @@
     padding: 10px;
     border-top: 1px solid #dfdfdf;
     background: #f5f5f5;
-    z-index: 2;
+    z-index: 100;
 }
 .module-offcanvas-container .text-tips {
     color: #ccc;
@@ -417,9 +417,10 @@
 /**
  * 页面选择
  */
-#modal-module-pages-select .am-scrollable-vertical {
-    border-bottom: 1px solid #dedede;
-    margin-bottom: 0;
+#modal-module-pages-select .am-tabs-bd {
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    border-color: #eee;
 }
 #modal-module-pages-select .am-scrollable-vertical a {
     text-decoration: none;
@@ -432,6 +433,9 @@
     background: #f0f8ff;
 }
 #modal-module-pages-select .am-accordion-default:last-child {
+    margin-bottom: 0;
+}
+#modal-module-pages-select .am-tabs-bd ul {
     margin-bottom: 0;
 }
 #modal-module-pages-select .am-tabs-bd ul li {
@@ -586,18 +590,18 @@
  */
 #popup-module-goods-search .am-tabs-bd {
     padding-bottom: 50px;
-}
-.ss {
-    position: absolute;
-    left: 25px;
-    bottom: 25px;
-    width: calc(100% - 50px);
-    background: #f8f8f8;
+    z-index: 0;
+    border: 0;
 }
 
 /**
  * 布局保存
  */
+.page-top-nav-logo {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
 .layout-operate-container .am-btn {
     padding: 4px 10px;
 }

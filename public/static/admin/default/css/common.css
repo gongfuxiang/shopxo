@@ -40,7 +40,8 @@ time, mark, audio, video {
 .c-r {cursor:w-resize;}
 .c-p {cursor:pointer;}
 .c-m {cursor: move !important;}
-legend {padding-bottom:0.2rem !important; margin-bottom: 1rem; }
+legend {margin-bottom: 1rem; }
+legend a.am-fr{margin-top: 10px;}
 .am-popup-bd {background:#fff;}
 .cr-eee {color:#eee !important;}
 .cr-ccc {color:#ccc !important;}

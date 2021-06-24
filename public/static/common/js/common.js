@@ -2917,4 +2917,21 @@ $(function()
     	}
     });
 
+    // 关闭窗口
+    $(document).on('click', '.window-close-event', function()
+    {
+    	if(confirm($(this).data('msg') || '您确定要关闭本页吗？'))
+    	{
+			var user_agent = navigator.userAgent;
+		    if(user_agent.indexOf('Firefox') != -1 || user_agent.indexOf('Chrome') != -1)
+		    {
+		        location.href = 'about:blank';
+		    } else {
+		        window.opener = null;
+		        window.open('', '_self');
+		    }
+		    window.close();
+		}
+    });
+
 });

@@ -1,0 +1,15 @@
+<!-- 操作栏 -->
+{{if !empty($module_data)}}
+    <a class="am-btn am-btn-default am-btn-xs am-radius am-btn-block" href="{{:MyUrl('index/design/index', ['id'=>$module_data['id']])}}" target="_blank">
+        <i class="am-icon-eye"></i>
+        <span>查看</span>
+    </a>
+    <a class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block" href="{{:MyUrl('admin/design/saveinfo', array_merge($params, ['id'=>$module_data['id']]))}}" target="_blank">
+        <i class="am-icon-edit"></i>
+        <span>编辑</span>
+    </a>
+    <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('admin/design/delete')}}" data-id="{{$module_data.id}}" data-key="ids">
+        <i class="am-icon-trash-o"></i>
+        <span>删除</span>
+    </button>
+{{/if}}

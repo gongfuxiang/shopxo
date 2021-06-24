@@ -268,6 +268,10 @@ class Common extends Controller
         // 默认不加载百度地图api
         $this->assign('is_load_baidu_map_api', 0);
 
+        // 布局样式+管理
+        $this->assign('is_load_layout', 0);
+        $this->assign('is_load_layout_admin', 0);
+
         // 是否加载附件组件
         $this->assign('is_load_upload_editor', !empty($this->admin) ? 1 : 0);
 

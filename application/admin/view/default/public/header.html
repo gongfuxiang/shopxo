@@ -11,6 +11,12 @@
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/admin/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+    {{if isset($is_load_layout) and $is_load_layout eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.css?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+    {{if isset($is_load_layout_admin) and $is_load_layout_admin eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.admin.css?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/admin/{{$default_theme}}/css/iconfontmenu.css?v={{:MyC('home_static_cache_version')}}" />
     {{if !empty($plugins_css)}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$plugins_css}}?v={{:MyC('home_static_cache_version')}}" />
