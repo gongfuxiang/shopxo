@@ -395,26 +395,21 @@ class UserAddressService
 
         // 添加/更新数据
         $status = false;
-        $msg = '操作失败';
         if(empty($temp))
         {
             $data['user_id'] = $params['user']['id'];
             $data['add_time'] = time();
-            if(Db::name('UserAddress')->insertGetId($data) > 0)
+            $data_id = Db::name('UserAddress')->insertGetId($data);
+            if($data_id > 0)
             {
                 $status = true;
-                $msg = '新增成功';
-            } else {
-                $msg = '新增失败';
             }
         } else {
             $data['upd_time'] = time();
             if(Db::name('UserAddress')->where($where)->update($data))
             {
+                $data_id = $temp['id'];
                 $status = true;
-                $msg = '更新成功';
-            } else {
-                $msg = '更新失败';
             }
         }
 
@@ -434,9 +429,10 @@ class UserAddressService
             'params'        => $params,
             'data'          => $data,
             'user_id'       => $params['user']['id'],
+            'data_id'       => $data_id,
         ]);
 
-        return DataReturn($msg, $status ? 0 : -100);
+        return DataReturn('操作'.($status ? '成功' : '失败'), $status ? 0 : -100);
     }
 
     /**
