@@ -444,17 +444,19 @@ ul {margin-top:0;}
 .table-nav li a { border-top-left-radius: 2px; border-top-right-radius: 2px; }
 
 /**
- * PC
+ * 公共
  */
+.am-container {padding-left:0px;padding-right:0px ;}
 @media only screen and (min-width: 641px) {
-  /* 树 */
-  .submit { display: none; }
-  #tree tr:hover .submit { display: block !important; }
+    .submit { display: none; }
+    #tree tr:hover .submit { display: block !important; }
 }
-
-/**
- * 手机
- */
+@media only screen and (min-width: 1025px) {
+    .am-container { max-width: 1000px;}
+}
+@media only screen and (min-width: 1260px) {
+    .am-container {max-width: 1200px;}
+}
 @media only screen and (max-width: 641px) {
   
 }

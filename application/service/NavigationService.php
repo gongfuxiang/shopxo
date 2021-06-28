@@ -333,19 +333,19 @@ class NavigationService
                 'key_name'          => 'is_new_window_open',
                 'checked_data'      => [0,1],
                 'error_msg'         => '是否新窗口打开范围值有误',
-            ]
+            ],
+            [
+                'checked_type'      => 'in',
+                'key_name'          => 'nav_type',
+                'checked_data'      => ['header', 'footer'],
+                'error_msg'         => '数据类型有误',
+            ],
         ];
         switch($params['data_type'])
         {
             // 自定义导航
             case 'custom':
                 $p = [
-                    [
-                        'checked_type'      => 'in',
-                        'key_name'          => 'nav_type',
-                        'checked_data'      => ['header', 'footer'],
-                        'error_msg'         => '数据类型有误',
-                    ],
                     [
                         'checked_type'      => 'length',
                         'key_name'          => 'name',
