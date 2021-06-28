@@ -834,11 +834,13 @@ table.am-table .am-btn-danger:hover {
     .shop-navigation .am-topbar-nav {
         margin-bottom: 0;
     }
-    .shop-navigation .navigation-search 
-    {
+    .shop-navigation .navigation-search  {
         display: -webkit-box !important;
         margin-top: 8px;
         width: calc(100% - 160px);
+    }
+    .shop-navigation .navigation-search > .am-input-group {
+        width: 100%;
     }
     .shop-navigation .navigation-search input {
         border-color: #fff;

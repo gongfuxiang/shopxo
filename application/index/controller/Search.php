@@ -65,45 +65,45 @@ class Search extends Common
         if(!empty($keywords))
         {
             return redirect(MyUrl('index/search/index', ['wd'=>StrToAscii($keywords)]));
-        } else {
-            // 参数初始化
-            $this->ParamsInit();
-
-            // 品牌列表
-            $brand_list = SearchService::CategoryBrandList($this->data_request);
-            $this->assign('brand_list', $brand_list);
-
-            // 指定数据
-            $search_map_info = SearchService::SearchMapInfo($this->data_request);
-            $this->assign('search_map_info', $search_map_info);
-
-            // 商品分类
-            $category_list = SearchService::GoodsCategoryList($this->data_request);
-            $this->assign('category_list', $category_list);
-
-            // 筛选价格区间
-            $screening_price_list = SearchService::ScreeningPriceList($this->data_request);
-            $this->assign('screening_price_list', $screening_price_list);
-
-            // 商品参数
-            $goods_params_list = SearchService::SearchGoodsParamsValueList($this->data_request);
-            $this->assign('goods_params_list', $goods_params_list);
-
-            // 商品规格
-            $goods_spec_list = SearchService::SearchGoodsSpecValueList($this->data_request);
-            $this->assign('goods_spec_list', $goods_spec_list);
-
-            // 参数
-            $this->assign('params', $this->data_request);
-
-            // seo
-            $this->SetSeo($search_map_info);
-
-            // 钩子
-            $this->PluginsHook();
-
-            return $this->fetch();
         }
+
+        // 参数初始化
+        $this->ParamsInit();
+
+        // 品牌列表
+        $brand_list = SearchService::CategoryBrandList($this->data_request);
+        $this->assign('brand_list', $brand_list);
+
+        // 指定数据
+        $search_map_info = SearchService::SearchMapInfo($this->data_request);
+        $this->assign('search_map_info', $search_map_info);
+
+        // 商品分类
+        $category_list = SearchService::GoodsCategoryList($this->data_request);
+        $this->assign('category_list', $category_list);
+
+        // 筛选价格区间
+        $screening_price_list = SearchService::ScreeningPriceList($this->data_request);
+        $this->assign('screening_price_list', $screening_price_list);
+
+        // 商品参数
+        $goods_params_list = SearchService::SearchGoodsParamsValueList($this->data_request);
+        $this->assign('goods_params_list', $goods_params_list);
+
+        // 商品规格
+        $goods_spec_list = SearchService::SearchGoodsSpecValueList($this->data_request);
+        $this->assign('goods_spec_list', $goods_spec_list);
+
+        // 参数
+        $this->assign('params', $this->data_request);
+
+        // seo
+        $this->SetSeo($search_map_info);
+
+        // 钩子
+        $this->PluginsHook();
+
+        return $this->fetch();
     }
 
     /**
