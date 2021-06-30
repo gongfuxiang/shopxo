@@ -463,6 +463,15 @@ class SearchService
     public static function GoodsCategoryList($params = [])
     {
         $data = [];
+		
+		// 查询分类条件处理钩子
+        $hook_name = 'plugins_service_search_category_list_where';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+        ]);
+		
         if(MyC('home_search_is_category', 0) == 1)
         {
             $pid = empty($params['category_id']) ? 0 : intval($params['category_id']);
