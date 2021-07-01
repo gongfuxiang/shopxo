@@ -1630,18 +1630,36 @@ function OffcanvasConfigPagesChoice(obj, event)
     $modal_pages_select.find('.am-tabs-bd ul li').removeClass('active');
     $modal_pages_select.find('.am-tabs-bd ul li a').attr('data-json', '');
 
-    // 当前选中的数据
-    var $active_obj = $modal_pages_select.find('.am-tabs-bd ul li.page-'+to_type);
-    $active_obj.addClass('active');
-    $active_obj.find('a span').text(to_name);
-    $active_obj.find('a').attr('data-json', to_value);
+    // 自定义链接地址
+    if(to_type == 'pages-custom-url')
+    {
+        var form_doc = '.pages-custom-url-container';
+        if((to_value || null) == null)
+        {
+            to_value = GetFormVal(form_doc, true);
+        } else {
+            to_value = JSON.parse(decodeURIComponent(to_value));
+        }
+        FormDataFill(to_value, form_doc);
+        var index = 2;
+
+    // 常规页面选择
+    } else {
+        // 当前选中的数据
+        var $active_obj = $modal_pages_select.find('.am-tabs-bd ul li.page-'+to_type);
+        $active_obj.addClass('active');
+        $active_obj.find('a span').text(to_name);
+        $active_obj.find('a').attr('data-json', to_value);
+
+        // 当前选中的索引值
+        var index = $active_obj.parents('.am-tab-panel').index();
+        if(index == -1)
+        {
+            index = 0;
+        }
+    }
 
     // tab切换
-    var index = $active_obj.parents('.am-tab-panel').index();
-    if(index == -1)
-    {
-        index = 0;
-    }
     $modal_pages_select.find('.am-tabs-nav li').removeClass('am-active');
     $modal_pages_select.find('.am-tabs-nav li').eq(index).addClass('am-active');
     $modal_pages_select.find('.am-tabs-bd .am-tab-panel').removeClass('am-active');
@@ -2286,13 +2304,18 @@ $(function()
             $o.attr('data-json', '');
             $o.find('span').text($o.data('name'));
         });
+
+        // 自定义链接清空
+        $('.pages-custom-url-container input').val('');
     });
 
     // 页面选择切换
     $modal_pages_select.on('click',  '.am-tabs-bd ul li a', function()
     {
         // 选中状态
-        $(this).parent().addClass('active').siblings().removeClass('active');
+        var $parent = $(this).parents('.am-tab-panel');
+        $parent.find('li').removeClass('active');
+        $(this).parent().addClass('active');
 
         // 参数值
         var value = $(this).data('value') || null;
@@ -2400,55 +2423,79 @@ $(function()
     // 页面选择确认事件
     $modal_pages_select.on('click', '.pages-confirm-submit', function()
     {
-        // 参数值
-        var $obj = $modal_pages_select.find('.am-tab-panel.am-active ul li.active a');
-        var to_type = $obj.data('value') || '';
-        var to_name = $obj.data('name') || '';
-        var to_value = $obj.attr('data-json') || '';
-        var json = null;
-        if(to_value != '')
+        // 选中tab
+        var index = $modal_pages_select.find('.am-tabs-nav li.am-active').index();
+
+        // 参数值、自定义链接、常规页面选择
+        if(index == 2)
         {
-            json = JSON.parse(decodeURIComponent(to_value)) || null;
-        }
-        if(to_type == '' || to_name == '')
-        {
-            Prompt('请先选择页面');
-            return false;
-        }
-
-        // 根据类型处理
-        switch(to_type)
-        {
-            // 单一商品
-            case 'goods' :
-                if(json == null)
+            var to_type = 'pages-custom-url';
+            var to_name = '自定义链接';
+            var to_value = GetFormVal('.pages-custom-url-container', true);
+            var count = 0;
+            for(var i in to_value)
+            {
+                if((to_value[i] || null) == null)
                 {
-                    Prompt('请选择商品');
-                    return false;
+                    count++;
                 }
+            }
+            if(count >= Object.keys(to_value).length)
+            {
+                Prompt('请至少填写一个地址');
+                return false;
+            }
+            to_value = encodeURIComponent(JSON.stringify(to_value));
+        } else {
+            var $obj = $modal_pages_select.find('.am-tab-panel.am-active ul li.active a');
+            var to_type = $obj.data('value') || '';
+            var to_name = $obj.data('name') || '';
+            var to_value = $obj.attr('data-json') || '';
+            var json = null;
+            if(to_value != '')
+            {
+                json = JSON.parse(decodeURIComponent(to_value)) || null;
+            }
+            if(to_type == '' || to_name == '')
+            {
+                Prompt('请先选择页面');
+                return false;
+            }
 
-                // 选择位置是否存在
-                if($page_parent_obj == null)
-                {
-                    Prompt('请先选择链接位置');
-                    return false;
-                }
+            // 根据类型处理
+            switch(to_type)
+            {
+                // 单一商品
+                case 'goods' :
+                    if(json == null)
+                    {
+                        Prompt('请选择商品');
+                        return false;
+                    }
 
-                // 显示名称
-                to_name += '（'+json['title']+'）';
-                break;
+                    // 选择位置是否存在
+                    if($page_parent_obj == null)
+                    {
+                        Prompt('请先选择链接位置');
+                        return false;
+                    }
 
-            // 搜索页面
-            case 'goods_search' :
-                if(json == null)
-                {
-                    Prompt('请先配置商品搜索');
-                    return false;
-                }
+                    // 显示名称
+                    to_name += '（'+json['title']+'）';
+                    break;
 
-                // 显示名称
-                to_name += ModuleConfigGoodsSearchPageShowName(json);
-                break;
+                // 搜索页面
+                case 'goods_search' :
+                    if(json == null)
+                    {
+                        Prompt('请先配置商品搜索');
+                        return false;
+                    }
+
+                    // 显示名称
+                    to_name += ModuleConfigGoodsSearchPageShowName(json);
+                    break;
+            }
         }
 
         // 设置数据

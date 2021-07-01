@@ -36,6 +36,16 @@
 }
 
 /**
+ * 页面选择自定义url
+ */
+.pages-custom-url-container > .am-input-group:not(:first-child) {
+    margin-top: 5px;
+}
+.pages-custom-url-container > .am-input-group button {
+    width: 100px;
+}
+
+/**
  * 拖放模块
  */
 .structure-drag button {

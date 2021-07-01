@@ -47,7 +47,7 @@ class LayoutService
         }
 
         // 保存数据
-        $config = empty($params['config']) ? '' : (is_array($params['config']) ? json_encode($params['config'], JSON_UNESCAPED_UNICODE) : htmlspecialchars_decode($params['config'])) ;
+        $config = empty($params['config']) ? '' : BaseLayout::ConfigSaveHandle($params['config']);
         $ret = ConfigService::ConfigSave([self::$layout_key[$key]=>$config]);
         if($ret['code'] == 0)
         {
