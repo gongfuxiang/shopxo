@@ -345,6 +345,13 @@ class BaseLayout
                                                         break;
                                                 }
                                                 $res = self::GoodsDataList($p);
+                                                if(!empty($res['data']) && is_array($res['data']))
+                                                {
+                                                    foreach($res['data'] as &$g)
+                                                    {
+                                                        $g['goods_url'] = self::LayoutUrlValueHandle('goods', $g);
+                                                    }
+                                                }
                                                 $vss['config']['data_list'] = $res['data'];
                                                 break;
 

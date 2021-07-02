@@ -892,7 +892,7 @@ function FormBackModuleConfigGoodsHandle(data)
                             nav_dot_ent = show_style_value.is_nav_dot ? '' : 'slides-rolling-not-dot';
 
                             // html拼接
-                            html += '<div class="am-slider am-slider-default am-slider-carousel '+nav_dot_ent+'">';
+                            html += '<div class="am-slider am-slider-default am-slider-carousel module-goods-content '+nav_dot_ent+'">';
                             html += '<ul class="am-slides module-list-content">';
                             html += item_html;
                             html += '</ul>';
@@ -915,7 +915,7 @@ function FormBackModuleConfigGoodsHandle(data)
                             // 列表class
                             list_ent = avg+' module-list-sm-'+sm+' module-list-md-'+md+' module-list-lg-'+md+' ';
 
-                            html += '<ul class="module-list-content '+list_ent+'">';
+                            html += '<ul class="module-goods-content module-list-content '+list_ent+'">';
                             html += item_html;
                             html += '</ul>';
                             break;

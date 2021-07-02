@@ -8,14 +8,14 @@
                             <div class="module-{{$vss.value}}-container" style="{{if isset($vss['config']['frontend_config']['style'])}}{{$vss.config.frontend_config.style}}{{/if}}">
                                 {{switch vss.value}}
                                     {{case images}}
-                                        <a {{if empty($vss['config']['url'])}}href="javascript:;"{{else /}}href="{{$vss.config.url}}" target="_blank"{{/if}} class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                        <a {{if empty($vss['config']['url'])}}href="javascript:;"{{else /}}href="{{$vss.config.url}}" target="_blank"{{/if}} class="module-images-content {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
                                             <img src="{{$vss.config.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
                                         </a>
                                     {{/case}}
                                     {{case many-images}}
                                         {{switch vss.config.view_list_show_style}}
                                             {{case rolling}}
-                                                <div class="am-slider am-slider-default am-slider-carousel {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
+                                                <div class="am-slider am-slider-default am-slider-carousel module-list-content {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
                                                     <ul class="am-slides">
                                                         {{foreach $vss.config.data_list as $i}}
                                                             <li>
@@ -55,14 +55,14 @@
                                         {{/switch}}
                                     {{/case}}
                                     {{case video}}
-                                        <div class="module-video-content" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                        <div class="module-video-content {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
                                             <video src="{{$vss.config.video}}" poster="{{if !empty($vss['config']['content_images'])}}{{$vss.config.content_images}}{{/if}}" controls class="{{$vss.config.frontend_config.media_fixed.media_ent}}">your browser does not support the video tag</video>
                                         </div>
                                     {{/case}}
                                     {{case goods}}
                                         {{switch vss.config.view_list_show_style}}
                                             {{case rolling}}
-                                                <div class="am-slider am-slider-default am-slider-carousel {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
+                                                <div class="am-slider am-slider-default am-slider-carousel module-goods-content {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
                                                     <div class="am-viewport">
                                                         <ul class="am-slides module-list-content">
                                                             {{foreach $vss.config.data_list as $g}}
@@ -84,7 +84,7 @@
                                                 </div>
                                             {{/case}}
                                             {{default /}}
-                                                <ul class="module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                <ul class="module-goods-content module-list-content {{$vss.config.frontend_config.list_ent}}">
                                                     {{foreach $vss.config.data_list as $g}}
                                                         <li>
                                                             <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
@@ -127,8 +127,6 @@
                                     {{/case}}
                                 {{/switch}}
                             </div>
-                        {{else /}}
-                            <div class="am-text-center am-padding-vertical-sm am-text-primary">{{$vss.name}}</div>
                         {{/if}}
                     </div>
                 </div>

@@ -12,11 +12,6 @@
  * 模块类型样式 - 数据列表
  */
 .module-list-content li{float:left}
-.module-list-content .module-item{background:#fff}
-.module-list-content .module-item .item-bottom{margin-top:5px}
-.module-list-content .module-item .module-title{margin-bottom:5px}
-.module-list-content .module-item .module-title{max-width:100%;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:18px;height:34px;white-space:initial !important}
-.module-list-content .module-item .module-price{color:#c00;font-weight:bold;word-wrap:normal;text-overflow:ellipsis;white-space:nowrap}
 .module-list-content-avg-1{width:calc(100% + 1px);margin-left:-1px;margin-top:-1px;}
 .module-list-content-avg-2{width:calc(100% + 2px);margin-left:-2px;margin-top:-2px;}
 .module-list-content-avg-3{width:calc(100% + 3px);margin-left:-3px;margin-top:-3px;}
@@ -89,6 +84,15 @@
     .module-list-sm-11 li{width:9.09%;}
     .module-list-sm-12 li{width:8.33%;}
 }
+
+/**
+ * 商品列表
+ */
+.module-goods-content .module-item{background:#fff}
+.module-goods-content .module-item .item-bottom{margin-top:5px}
+.module-goods-content .module-item .module-title{margin-bottom:5px}
+.module-goods-content .module-item .module-title{max-width:100%;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:18px;height:34px;white-space:initial !important}
+.module-goods-content .module-item .module-price{color:#c00;font-weight:bold;word-wrap:normal;text-overflow:ellipsis;white-space:nowrap}
 
 
 /**
@@ -1891,12 +1895,6 @@
 .module-list-content li .module-item .module-price {overflow: hidden;}
 
 /**
- * 模块类型样式 - 图片
- */
-.module-content-type-images{text-align:center}
-.module-content-type-images a{display:block}
-
-/**
  * 模块类型样式 - 标题
  */
 .module-title-container .module-title-content{position:relative}
@@ -1914,6 +1912,7 @@
  */
 .layout-content img,
 .layout-content video{display:block;max-width:100%;max-height:100%}
+.layout-content .am-slider-default{background-color:transparent;}
 
 /**
  * 不展示滚动导航点

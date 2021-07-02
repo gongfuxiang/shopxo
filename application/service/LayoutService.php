@@ -67,15 +67,11 @@ class LayoutService
      */
     public static function LayoutConfigAdminData($key)
     {
-        // key 值是否存在
-        if(!array_key_exists($key, self::$layout_key))
+        if(array_key_exists($key, self::$layout_key))
         {
-            return DataReturn('布局key值有', -1);
+            return BaseLayout::ConfigAdminHandle(MyC(self::$layout_key[$key]));
         }
-
-        // 配置数据
-        $config = BaseLayout::ConfigAdminHandle(MyC(self::$layout_key[$key]));
-        return DataReturn('success', 0, $config);
+        return '';
     }
 
     /**
@@ -89,15 +85,11 @@ class LayoutService
      */
     public static function LayoutConfigData($key)
     {
-        // key 值是否存在
-        if(!array_key_exists($key, self::$layout_key))
+        if(array_key_exists($key, self::$layout_key))
         {
-            return DataReturn('布局key值有', -1);
+            return BaseLayout::ConfigHandle(MyC(self::$layout_key[$key]));
         }
-
-        // 配置数据
-        $config = BaseLayout::ConfigHandle(MyC(self::$layout_key[$key]));
-        return DataReturn('success', 0, $config);
+        return '';
     }
 }
 ?>

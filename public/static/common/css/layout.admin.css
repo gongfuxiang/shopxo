@@ -82,9 +82,6 @@
 /**
  * 布局容器-内容
  */
-.layout-view {
-    background: #fff;
-}
 .layout-view .drag-submit {
     background: #e6e6e6;
     cursor: move !important;
