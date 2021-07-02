@@ -71,7 +71,7 @@ class Index extends Common
 
             // 设计配置数据
             $layout_data = LayoutService::LayoutConfigAdminData('home');
-            $this->assign('layout_data', $layout_data['data']);
+            $this->assign('layout_data', $layout_data);
 
             // 页面列表
             $pages_list = BaseLayout::PagesList();
@@ -112,7 +112,7 @@ class Index extends Common
             {
                 // 设计配置数据
                 $layout_data = LayoutService::LayoutConfigData('home');
-                $this->assign('layout_data', $layout_data['data']);
+                $this->assign('layout_data', $layout_data);
 
                 // 加载布局样式
                 $this->assign('is_load_layout', 1);

@@ -114,6 +114,7 @@ class SystemBaseService
             'home_footer_info'                  => MyC('home_footer_info', null, true),
 
             // 首页设置参数
+            'home_index_floor_data_type'        => (int) MyC('home_index_floor_data_type', 0, true),
             'home_index_banner_left_status'     => (int) MyC('home_index_banner_left_status', 1),
             'home_index_banner_right_status'    => (int) MyC('home_index_banner_right_status', 1),
 

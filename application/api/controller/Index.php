@@ -15,6 +15,7 @@ use app\service\GoodsService;
 use app\service\BannerService;
 use app\service\AppHomeNavService;
 use app\service\BuyService;
+use app\service\LayoutService;
 
 /**
  * 首页
@@ -47,11 +48,19 @@ class Index extends Common
 	 */
 	public function Index()
 	{
+		// 数据模式
+        if(MyC('home_index_floor_data_type', 0, true) == 2)
+        {
+            $data_list = LayoutService::LayoutConfigData('home');
+        } else {
+        	$data_list = GoodsService::HomeFloorList();
+        }
+
 		// 返回数据
 		$result = [
 			'navigation'		=> AppHomeNavService::AppHomeNav(),
 			'banner_list'		=> BannerService::Banner(),
-			'data_list'			=> GoodsService::HomeFloorList(),
+			'data_list'			=> $data_list,
 			'common_cart_total'	=> BuyService::UserCartTotal(['user'=>$this->user]),
 		];
 		return SystemBaseService::DataReturn($result);

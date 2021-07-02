@@ -48,8 +48,8 @@ class UserService
             // web用户session
             $user = session(self::$user_login_key);
 
-            // token仅小程序浏览器环境和api接口环境中有效
-            if(empty($user) && !empty($params['token']) && in_array(MiniAppEnv(), config('shopxo.mini_app_type_list')))
+            // 用户信息为空，指定了token则设置登录信息
+            if(empty($user) && !empty($params['token']))
             {
                 $user = self::UserTokenData($params['token']);
                 if($user !== null && isset($user['id']))
@@ -420,14 +420,13 @@ class UserService
      * @version  0.0.1
      * @datetime 2017-03-09T11:37:43+0800
      * @param    [int]     $user_id [用户id]
-     * @param    [boolean] $is_app  [是否为app]
      * @return   [boolean]          [记录成功true, 失败false]
      */
-    public static function UserLoginRecord($user_id = 0, $is_app = false)
+    public static function UserLoginRecord($user_id = 0)
     {
         if(!empty($user_id))
         {
-            $user = Db::name('User')->field('*')->find($user_id);
+            $user = Db::name('User')->find($user_id);
             if(!empty($user))
             {
                 // 用户数据处理
@@ -442,8 +441,8 @@ class UserService
                     'user_id'       => $user_id
                 ]);
 
-                // 非app则存储session
-                if($is_app == false)
+                // web端设置session
+                if(APPLICATION == 'web')
                 {
                     // 存储session
                     session(self::$user_login_key, $user);
@@ -515,6 +514,9 @@ class UserService
         } else {
             $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
         }
+
+        // 移除特殊数据
+        unset($user['pwd'], $user['salt']);
 
         return $user;
     }
@@ -603,10 +605,8 @@ class UserService
         ];
         if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
         {
-            if(APPLICATION == 'web')
-            {
-                self::UserLoginRecord($params['user']['id']);
-            }
+            // 设置session
+            self::UserLoginRecord($params['user']['id']);
             return DataReturn('上传成功', 0);
         }
         return DataReturn('上传失败', -100);
@@ -1878,19 +1878,18 @@ class UserService
     public static function AppUserInfoHandle($user_id = null, $where_field = null, $where_value = null, $user = [])
     {
         // 获取用户信息
-        $field = 'id,username,nickname,mobile,email,avatar,status,alipay_openid,weixin_openid,weixin_unionid,weixin_web_openid,baidu_openid,toutiao_openid,qq_openid,qq_unionid,integral,locking_integral,referrer,add_time';
         if(!empty($user_id))
         {
-            $user = self::UserInfo('id', $user_id, $field);
+            $user = self::UserInfo('id', $user_id);
         } elseif(!empty($where_field) && !empty($where_value) && empty($user))
         {
-            $user = self::UserInfo($where_field, $where_value, $field);
+            $user = self::UserInfo($where_field, $where_value);
         }
 
         if(!empty($user))
         {
             // 用户信息处理
-            $user = self::GetUserViewInfo(0, $user);
+            $user = self::UserHandle($user);
 
             // 是否强制绑定手机号码
             $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));
@@ -1901,16 +1900,7 @@ class UserService
                 // 非token数据库校验，则重新生成token更新到数据库
                 if($where_field != 'token')
                 {
-                    // token生成并存储缓存
-                    $user['token'] = self::CreatedUserToken($user['id']);
-                    Db::name('User')->where(['id'=>$user['id']])->update(['token'=>$user['token'], 'upd_time'=>time()]);
-                    cache(config('shopxo.cache_user_info').$user['token'], $user);
-                }
-
-                // 用户登录纪录处理
-                if(in_array(APPLICATION_CLIENT_TYPE, ['pc', 'h5']))
-                {
-                    self::UserLoginRecord($user['id'], true);
+                    $user = self::UserTokenUpdate($user['id'], $user);
                 }
             }
 
@@ -1926,6 +1916,40 @@ class UserService
             ]);
         }
 
+        return $user;
+    }
+
+    /**
+     * 用户 token更新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-07-01
+     * @desc    description
+     * @param   [int]          $user_id [用户id]
+     * @param   [array]        $user    [指定用户信息]
+     */
+    public static function UserTokenUpdate($user_id, $user = [])
+    {
+        // 未指定用户则读取用户信息、并处理数据
+        if(empty($user))
+        {
+            $user = self::UserHandle(self::UserInfo('id', $user_id));
+        }
+        if(!empty($user))
+        {
+            // token生成并存储缓存
+            $user['token'] = self::CreatedUserToken($user_id);
+            if(Db::name('User')->where(['id'=>$user_id])->update(['token'=>$user['token'], 'upd_time'=>time()]))
+            {
+                cache(config('shopxo.cache_user_info').$user['token'], $user);
+            }
+
+            // web端用户登录纪录处理
+            self::UserLoginRecord($user_id);
+        }
+
+        // 返回用户信息
         return $user;
     }
 
