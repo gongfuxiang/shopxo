@@ -678,7 +678,7 @@
 .module-title-container .module-title-content{position:relative}
 .module-title-container .title-main{font-size:16px;font-weight:600;color:#666}
 .module-title-container .title-vice{color:#999;font-size:12px;margin-left:10px}
-.module-title-container .more-content{position:absolute;top:calc(50% - 8px);right:0}
+.module-title-container .more-content{position:absolute;top:calc(50% - 8px);right:0;font-size:12px;}
  
 /**
  * 模块内容基础样式
