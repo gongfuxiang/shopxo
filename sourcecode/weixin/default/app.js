@@ -74,7 +74,7 @@ App({
     // 请求地址
     request_url: "{{request_url}}",
      request_url: 'http://shopxo.com/',
-    // request_url: 'https://dev.shopxo.net/',
+     request_url: 'https://dev.shopxo.net/',
 
     // 基础信息
     application_title: "{{application_title}}",
@@ -908,6 +908,61 @@ App({
       });
     }
     return uuid;
+  },
+
+  // 链接地址事件
+  url_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if(value != null)
+    {
+      var temp = value.substr(0, 6);
+      if(temp == 'http:/' || temp == 'https:')
+      {
+        this.open_web_view(value);
+      } else {
+        if (this.is_tabbar_pages(value))
+        {
+          wx.switchTab({ url: value });
+        } else {
+          wx.navigateTo({ url: value });
+        }
+      }
+    }
+  },
+
+  // 剪贴板
+  text_copy_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if(value != null)
+    {
+      var self = this;
+      wx.setClipboardData({
+        data: value,
+        success (res) {
+          wx.getClipboardData({
+            success (res) {
+              self.showToast('复制成功', 'success');
+            }
+          });
+        }
+      });
+    } else {
+      this.showToast('复制内容为空');
+    }
+  },
+
+  // 图片预览
+  image_show_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if(value != null)
+    {
+      wx.previewImage({
+        current: value,
+        urls: [value]
+      });
+    } else {
+      this.showToast('图片地址为空');
+    }
   },
 
 });

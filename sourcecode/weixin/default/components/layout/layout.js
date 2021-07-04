@@ -45,22 +45,7 @@ Component({
 
     // 链接地址事件
     layout_url_event(e) {
-      var value = e.currentTarget.dataset.value || null;
-      if(value != null)
-      {
-        var temp = value.substr(0, 6);
-        if(temp == 'http:/' || temp == 'https:')
-        {
-          app.open_web_view(value);
-        } else {
-          if (app.is_tabbar_pages(value))
-          {
-            wx.switchTab({ url: value });
-          } else {
-            wx.navigateTo({ url: value });
-          }
-        }
-      }
+      app.url_event(e);
     },
   },
 });

@@ -499,3 +499,40 @@
   bottom: 10%;
   top: auto;
 }
+
+/**
+ * 多商户 - 插件
+ */
+.plugins-shop-container {
+  padding: 20rpx 10rpx;
+}
+.plugins-shop-logo {
+  width: 120rpx;
+  height: 120rpx !important;
+}
+.plugins-shop-base {
+  width: calc(100% - 190rpx);
+  padding-right: 50rpx;
+}
+.plugins-shop-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  line-height: 40rpx;
+}
+.plugins-shop-auth-icon {
+  background-color: #f4c985;
+  border: 1px solid #e7ba77;
+  border-radius: 6rpx;
+  color: #856651;
+  text-align: center;
+  padding: 2rpx 12rpx;
+  font-size: 24rpx;
+  font-weight: bold;
+  margin-right: 10rpx;
+}
+.plugins-shop-desc {
+  color: #888;
+  font-size: 24rpx;
+  min-height: 72rpx;
+    line-height: 36rpx;
+}

@@ -31,6 +31,13 @@ Page({
     goods_video_is_autoplay: false,
     popup_share_status: false,
 
+    // 导航首页按钮
+    nav_home_button_info: {
+      "name": "首页",
+      "icon": "/images/goods-detail-home-icon.png",
+      "value": "/pages/index/index"
+    },
+
     // 购物车快捷导航
     quick_nav_cart_count: 0,
 
@@ -72,6 +79,9 @@ Page({
     plugins_salerecords_timer: null,
     plugins_salerecords_tips_content: null,
     plugins_salerecords_tips_ent: '',
+
+    // 多商户
+    plugins_shop_data: null,
   },
 
   onLoad(params) {
@@ -179,6 +189,8 @@ Page({
               quick_nav_cart_count: data.common_cart_total || 0,
 
               plugins_salerecords_data: ((data.plugins_salerecords_data || null) == null || data.plugins_salerecords_data.length <= 0) ? null : data.plugins_salerecords_data,
+
+              plugins_shop_data: ((data.plugins_shop_data || null) == null || data.plugins_shop_data.length <= 0) ? null : data.plugins_shop_data,
             });
 
             // 限时秒杀倒计时
@@ -195,6 +207,18 @@ Page({
 
             // 购买记录提示
             this.plugins_salerecords_tips_handle();
+
+            // 导航首页按钮、多商户
+            if(this.data.plugins_shop_data != null)
+            {
+              this.setData({
+                nav_home_button_info: {
+                  "name": "店铺",
+                  "icon": this.data.plugins_shop_data.shop_icon,
+                  "value": "/pages/plugins/shop/detail/detail?id="+this.data.plugins_shop_data.id
+                }
+              });
+            }
           } else {
             self.setData({
               data_bottom_line_status: false,
@@ -261,9 +285,13 @@ Page({
   // 进入店铺
   shop_event(e)
   {
-    wx.switchTab({
-      url: '/pages/index/index'
-    });
+    var value = this.data.nav_home_button_info.value;
+    if(value == '/pages/index/index')
+    {
+      wx.switchTab({url: value});
+    } else {
+      wx.navigateTo({url: value});
+    }
   },
 
   // 导航购买按钮事件

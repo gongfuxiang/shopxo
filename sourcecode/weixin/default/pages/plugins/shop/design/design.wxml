@@ -1,0 +1,20 @@
+<view wx:if="{{(data || null) != null}}">
+  <!-- 头部 -->
+  <block wx:if="{{(data.is_header || 0) == 1}}">
+    <import src="/pages/plugins/shop/public/header.wxml" />
+    <template is="shop-header" data="{{data_base: data_base, shop: shop, shop_navigation: shop_navigation, shop_goods_category: shop_goods_category, shop_favor_info: shop_favor_info, search_keywords_value: search_keywords_value, header_service_status: header_service_status, nav_category_status: nav_category_status}}"></template>
+  </block>
+
+  <!-- 拖拽模式、引入拖拽数据模块 -->
+  <component-layout prop-data="{{layout_data}}"></component-layout>
+
+  <!-- 结尾 -->
+  <block wx:if="{{(data.is_footer || 0) == 1}}">
+    <import src="/pages/common/bottom_line.wxml" />
+    <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
+  </block>
+</view>
+<view wx:else>
+  <import src="/pages/common/nodata.wxml" />
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>
