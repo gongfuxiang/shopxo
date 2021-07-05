@@ -1,7 +1,7 @@
 /**
  * 排序导航
  */
- .nav-sort {
+.nav-sort {
    background: #eee;
  }
 .nav-sort-content .item {
@@ -27,7 +27,7 @@
 /**
  * 商品列表
  */
- .scroll-box {
+.scroll-box {
    height: calc(100vh - 80rpx);
  }
 .data-list {

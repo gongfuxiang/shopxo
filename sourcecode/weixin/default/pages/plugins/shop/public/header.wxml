@@ -64,7 +64,7 @@
           </block>
         </block>
         <block wx:else>
-          <view class="padding-top-xxl padding-bottom-xxl cr-888">暂无数据</view>
+          <view class="padding-top-xxl padding-bottom-xxl cr-ccc">暂无数据</view>
         </block>
       </scroll-view>
     </view>

@@ -482,6 +482,7 @@ class BaseLayout
 
             // 多商户
             'plugins-shop-home'                         => PluginsHomeUrl('shop', 'index', 'index'),
+            'plugins-shop-favor'                        => PluginsHomeUrl('shop', 'shopfavor', 'index'),
 
             // 品牌
             'plugins-brand-home'                        => PluginsHomeUrl('brand', 'index', 'index'),
@@ -530,6 +531,7 @@ class BaseLayout
 
             // 多商户
             'plugins-shop-home'                         => '/pages/plugins/shop/index/index',
+            'plugins-shop-faovr'                        => '/pages/plugins/shop/favor/favor',
 
             // 品牌
             'plugins-brand-home'                        => '/pages/plugins/brand/index/index',
@@ -940,7 +942,11 @@ class BaseLayout
                         'data'  => [
                             [
                                 'value' => 'home',
-                                'name'  => '首页',
+                                'name'  => '所有店铺',
+                            ],
+                            [
+                                'value' => 'favor',
+                                'name'  => '店铺收藏',
                             ],
                         ],
                     ],
@@ -950,7 +956,7 @@ class BaseLayout
                         'data'  => [
                             [
                                 'value' => 'home',
-                                'name'  => '首页',
+                                'name'  => '所有品牌',
                             ],
                         ],
                     ],
@@ -960,7 +966,7 @@ class BaseLayout
                         'data'  => [
                             [
                                 'value' => 'home',
-                                'name'  => '首页',
+                                'name'  => '领券中心',
                             ],
                             [
                                 'value' => 'user',
