@@ -11,6 +11,11 @@
 
 // 应用公共文件
 
+function IsUrl($value)
+{
+    return in_array(substr($value, 0, 6), ['https:', 'http:/']);
+}
+
 /**
  * 文件快速排序
  * @author  Devil

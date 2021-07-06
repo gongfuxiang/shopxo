@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use think\facade\Hook;
 use app\service\AdminService;
+use app\service\SystemBaseService;
 
 /**
  * 管理员
@@ -263,7 +264,7 @@ class Admin extends Common
         $this->assign('admin_login_type', MyC('admin_login_type', [], true));
 
         // 背景图片
-        $host = config('shopxo.attachment_host');
+        $host = SystemBaseService::AttachmentHost();
         $bg_images_list = [
             $host.'/static/admin/default/images/login/1.jpg',
             $host.'/static/admin/default/images/login/2.jpg',

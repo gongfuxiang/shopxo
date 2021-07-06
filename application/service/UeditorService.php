@@ -11,6 +11,7 @@
 namespace app\service;
 
 use app\service\ResourcesService;
+use app\service\SystemBaseService;
 
 /**
  * 百度编辑器附件服务层
@@ -275,7 +276,7 @@ class UeditorService
         $field_name = self::$current_config['catcherFieldName'];
 
         // 当前站点域名或者附件域名不下载
-        $attachment_host = GetUrlHost(config('shopxo.attachment_host'));
+        $attachment_host = GetUrlHost(SystemBaseService::AttachmentHost());
 
         // 抓取远程图片
         $list = array();

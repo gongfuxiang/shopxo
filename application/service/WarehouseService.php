@@ -14,6 +14,7 @@ use think\Db;
 use think\facade\Hook;
 use app\service\RegionService;
 use app\service\WarehouseGoodsService;
+use app\service\SystemBaseService;
 
 /**
  * 仓库服务层
@@ -71,6 +72,12 @@ class WarehouseService
                 $region = Db::name('Region')->where(['id'=>$ids])->column('name', 'id');
             }
 
+            // 附件地址
+            $host = SystemBaseService::AttachmentHost();
+
+            // 仓库icon
+            $warehouse_icon = $host.'/static/common/images/default-warehouse-icon.png';
+
             // 循环处理数据
             foreach($data as &$v)
             {
@@ -87,10 +94,8 @@ class WarehouseService
                     'warehouse_id'  => $data_id,
                 ]);
 
-                // icon
-                $v['icon'] = 'am-icon-cube';
-
-                // url地址
+                // icon、url地址
+                $v['icon'] = $warehouse_icon;
                 $v['url'] = '';
 
                 // 地区

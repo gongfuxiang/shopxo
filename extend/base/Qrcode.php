@@ -11,6 +11,7 @@
 namespace base;
 
 use app\service\ResourcesService;
+use app\service\SystemBaseService;
 
 /**
  * 二维码驱动
@@ -188,7 +189,7 @@ class Qrcode
 
         // 验证下载地址域名
         $domain_arr = [
-            GetUrlHost(config('shopxo.attachment_host')),
+            GetUrlHost(SystemBaseService::AttachmentHost()),
             GetUrlHost(__MY_HOST__),
         ];
         if(!in_array(GetUrlHost($url), $domain_arr))

@@ -474,5 +474,18 @@ class SystemBaseService
         // 获取内容
         return ConfigService::ConfigContentRow('common_agreement_'.$params['document']);
     }
+
+    /**
+     * 附件地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-07-06
+     * @desc    description
+     */
+    public static function AttachmentHost()
+    {
+        return config('shopxo.attachment_host');
+    }
 }
 ?>

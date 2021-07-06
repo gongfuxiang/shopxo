@@ -835,3 +835,14 @@ form .am-panel .am-form-group:last-child,
 form .am-panel .business-form-group:last-child {
     border-bottom: 0;
 }
+
+/**
+ * 仓库信息
+ */
+.warehouse-item-container * {
+  vertical-align: middle;
+}
+.warehouse-item-container .warehouse-icon {
+  widows: 14px;
+  height: 14px;
+}

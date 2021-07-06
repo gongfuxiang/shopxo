@@ -142,7 +142,13 @@
                                     <div class="items-title am-fl">出货服务：</div>
                                     <div class="items-detail am-fl">
                                         <span class="warehouse-item-container">
-                                            {{if !empty($data['warehouse_icon'])}}<i class="{{$data.warehouse_icon}}"></i>{{/if}}
+                                            {{if !empty($data['warehouse_icon'])}}
+                                                {{if IsUrl($data['warehouse_icon'])}}
+                                                    <img src="{{$data.warehouse_icon}}" alt="{{$data.warehouse_name}}" class="warehouse-icon" />
+                                                {{else /}}
+                                                    <i class="{{$data.warehouse_icon}}"></i>
+                                                {{/if}}
+                                            {{/if}}
                                             {{if empty($data['warehouse_url'])}}
                                                 <strong class="warehouse-name">{{$data.warehouse_name}}</strong>
                                             {{else /}}

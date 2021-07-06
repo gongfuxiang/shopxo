@@ -13,6 +13,7 @@ namespace app\service;
 use think\Db;
 use think\facade\Hook;
 use app\service\UserService;
+use app\service\SystemBaseService;
 
 /**
  * 资源服务层
@@ -36,7 +37,7 @@ class ResourcesService
     public static function ContentStaticReplace($content, $type = 'get')
     {
         // 配置文件附件url地址
-        $attachment_host = config('shopxo.attachment_host');
+        $attachment_host = SystemBaseService::AttachmentHost();
         if(empty($attachment_host))
         {
             $attachment_host = substr(__MY_PUBLIC_URL__, 0, -1);
@@ -75,7 +76,7 @@ class ResourcesService
     public static function AttachmentPathHandle($value)
     {
         // 配置文件附件url地址
-        $attachment_host = config('shopxo.attachment_host');
+        $attachment_host = SystemBaseService::AttachmentHost();
         $attachment_host_path = empty($attachment_host) ? __MY_PUBLIC_URL__ : $attachment_host.DS;
 
         // 替换处理
@@ -125,7 +126,7 @@ class ResourcesService
         {
             if(substr($value, 0, 4) != 'http')
             {
-                return config('shopxo.attachment_host').$value;
+                return SystemBaseService::AttachmentHost().$value;
             }
             return $value;
         }

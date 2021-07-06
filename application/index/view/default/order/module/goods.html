@@ -30,7 +30,13 @@
         <!-- 仓库信息 -->
         {{if !empty($module_data['warehouse_name'])}}
             <span class="warehouse-item-container am-fr">
-                {{if !empty($module_data['warehouse_icon'])}}<i class="{{$module_data.warehouse_icon}}"></i>{{/if}}
+                {{if !empty($module_data['warehouse_icon'])}}
+                    {{if IsUrl($module_data['warehouse_icon'])}}
+                        <img src="{{$module_data.warehouse_icon}}" alt="{{$module_data.warehouse_name}}" class="warehouse-icon" />
+                    {{else /}}
+                        <i class="{{$module_data.warehouse_icon}}"></i>
+                    {{/if}}
+                {{/if}}
                 {{if empty($module_data['warehouse_url'])}}
                     <strong class="warehouse-name">{{$module_data.warehouse_name}}</strong>
                 {{else /}}

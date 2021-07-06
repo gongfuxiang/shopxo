@@ -363,7 +363,7 @@ class Common extends Controller
         $this->assign('default_price_regex', lang('common_regex_price'));
 
         // 附件host地址
-        $this->assign('attachment_host', config('shopxo.attachment_host'));
+        $this->assign('attachment_host', SystemBaseService::AttachmentHost());
 
         // css/js引入host地址
         $this->assign('public_host', config('shopxo.public_host'));

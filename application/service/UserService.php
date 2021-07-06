@@ -15,6 +15,7 @@ use think\facade\Hook;
 use app\service\RegionService;
 use app\service\SafetyService;
 use app\service\ResourcesService;
+use app\service\SystemBaseService;
 
 /**
  * 用户服务层
@@ -156,7 +157,7 @@ class UserService
                     {
                         $v['avatar'] = ResourcesService::AttachmentPathViewHandle($v['avatar']);
                     } else {
-                        $v['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
+                        $v['avatar'] = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
                     }
                 }
 
@@ -512,7 +513,7 @@ class UserService
         {
             $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
         } else {
-            $user['avatar'] = config('shopxo.attachment_host').'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
+            $user['avatar'] = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(config('DEFAULT_THEME', 'default')).'/images/default-user-avatar.jpg';
         }
 
         // 移除特殊数据

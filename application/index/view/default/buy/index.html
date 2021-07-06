@@ -264,7 +264,13 @@
 
                                 <!-- 仓库信息 -->
                                 <span class="warehouse-item-container">
-                                    {{if !empty($v['icon'])}}<i class="{{$v.icon}}"></i>{{/if}}
+                                    {{if !empty($v['icon'])}}
+                                        {{if IsUrl($v['icon'])}}
+                                            <img src="{{$v.icon}}" alt="{{$v.name}}" class="warehouse-icon" />
+                                        {{else /}}
+                                            <i class="{{$v.icon}}"></i>
+                                        {{/if}}
+                                    {{/if}}
                                     {{if empty($v['url'])}}
                                         <strong class="warehouse-name">{{$v.name}}</strong>
                                     {{else /}}
