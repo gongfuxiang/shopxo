@@ -27,7 +27,6 @@ Page({
   },
 
   onLoad(params) {
-    params['id'] = 1;
     this.setData({
       params: params,
       user: app.get_user_cache_info(),
@@ -207,7 +206,7 @@ Page({
     return {
       title: this.data.data.name || this.data.data.seo_title || app.data.application_title,
       query: 'id='+this.data.data.id+'&referrer=' + user_id,
-      imageUrl: ''
+      imageUrl: this.data.data.logo || ''
     };
   },
 });

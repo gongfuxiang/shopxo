@@ -1,0 +1,14 @@
+<view wx:if="{{(data || null) != null}}">
+  <!-- 拖拽模式、引入拖拽数据模块 -->
+  <component-layout prop-data="{{layout_data}}"></component-layout>
+
+  <!-- 结尾 -->
+  <block wx:if="{{(data.is_footer || 0) == 1}}">
+    <import src="/pages/common/bottom_line.wxml" />
+    <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
+  </block>
+</view>
+<view wx:else>
+  <import src="/pages/common/nodata.wxml" />
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>
