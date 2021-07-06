@@ -23,7 +23,7 @@
           <text class="cr-666">{{item.distance_value}}</text>
           <text class="cr-888">{{item.distance_unit}}</text>
         </view>
-        <button tt:if="{{(item.lng || null) != null && (item.lat || null) != null}}" class="fr cr-666 map-submit br" type="default" size="mini" bindtap="address_map_event" data-index="{{index}}" hover-class="none">查看地图</button>
+        <button tt:if="{{(item.lng || null) != null && (item.lat || null) != null && item.lng != 0 && item.lat != 0}}" class="fr cr-666 map-submit br" type="default" size="mini" bindtap="address_map_event" data-index="{{index}}" hover-class="none">查看地图</button>
       </view>
     </view>
   </view>

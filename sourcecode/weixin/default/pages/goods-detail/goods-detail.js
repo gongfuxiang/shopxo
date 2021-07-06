@@ -17,7 +17,7 @@ Page({
     goods_content_app: [],
     popup_status: false,
     goods_favor_text: '收藏',
-    goods_favor_icon: '/images/goods-detail-favor-icon-0.png',
+    goods_favor_icon: '/images/default-favor-icon-0.png',
     temp_buy_number: 1,
     buy_event_type: 'buy',
     buy_button: {},
@@ -34,7 +34,7 @@ Page({
     // 导航首页按钮
     nav_home_button_info: {
       "name": "首页",
-      "icon": "/images/goods-detail-home-icon.png",
+      "icon": "/images/default-home-icon.png",
       "value": "/pages/index/index"
     },
 
@@ -165,7 +165,7 @@ Page({
               goods_content_app: data.goods.content_app || [],
               temp_buy_number: data.goods.buy_min_number || 1,
               goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
-              goods_favor_icon: '/images/goods-detail-favor-icon-' + data.goods.is_favor+'.png',
+              goods_favor_icon: '/images/default-favor-icon-' + data.goods.is_favor+'.png',
               buy_button: data.buy_button || null,
 
               goods_spec_base_price: data.goods.price,
@@ -343,7 +343,7 @@ Page({
               this.setData({
                 'goods.is_favor': res.data.data.status,
                 goods_favor_text: res.data.data.text,
-                goods_favor_icon: '/images/goods-detail-favor-icon-'+res.data.data.status+'.png'
+                goods_favor_icon: '/images/default-favor-icon-'+res.data.data.status+'.png'
               });
               app.showToast(res.data.msg, "success");
             } else {

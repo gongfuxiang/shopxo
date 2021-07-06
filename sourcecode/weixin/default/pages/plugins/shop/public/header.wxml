@@ -21,7 +21,7 @@
           <text class="va-m cr-666">在线客服</text>
         </view>
         <view class="fl single-text" bindtap="shop_favor_event">
-          <image src="/images/default-xingxing-icon{{shop_favor_info.status == 1 ? '-active' : ''}}.png" mode="scaleToFill" class="va-m" />
+          <image src="/images/default-favor-icon-{{shop_favor_info.status}}.png" mode="scaleToFill" class="va-m" />
           <text class="va-m {{shop_favor_info.status == 1 ? 'cr-main' : ''}}">{{shop_favor_info.text}}({{shop_favor_info.count}})</text>
         </view>
       </view>

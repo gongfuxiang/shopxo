@@ -484,5 +484,10 @@ Page({
       is_show_payment_popup: true,
       temp_pay_value: this.data.order_select_ids.join(',')
     });
-  }
+  },
+
+  // 仓库事件
+  warehouse_group_event(e) {
+    app.url_event(e);
+  },
 });

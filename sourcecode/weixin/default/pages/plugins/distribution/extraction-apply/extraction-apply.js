@@ -96,7 +96,7 @@ Page({
             // 地理位置
             var lng = extraction_data.lng || null;
             var lat = extraction_data.lat || null;
-            if (lng != null && lat != null)
+            if (lng != null && lat != null && lng != 0 && lat != 0)
             {
               self.setData({ user_location: {
                 lng: lng,

@@ -196,9 +196,14 @@
 .goods-buy-nav-btn-number-10 button {
   width: 10% !important;
 }
-.goods-buy-nav .collect { border-left: 1px solid #e1e1e1; }
-.goods-buy-nav .fl image { width: 25px; height: 25px; margin: 0 auto; }
-
+.goods-buy-nav .collect {
+  border-left: 1px solid #e1e1e1;
+}
+.goods-buy-nav .fl image {
+  width: 20px;
+  height: 20px;
+  margin: 5rpx 0;
+}
 .goods-buy-nav .dis-block {
   margin-top: -10rpx;
 }

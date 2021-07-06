@@ -50,6 +50,10 @@
 .goods-group-hd {
   padding: 20rpx 0;
 }
+.goods-group-icon {
+  width: 24rpx;
+  height: 24rpx;
+}
 .goods-group-title {
   font-weight: bold;
   vertical-align: middle;

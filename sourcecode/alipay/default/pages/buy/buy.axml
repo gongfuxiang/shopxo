@@ -36,11 +36,12 @@
     <view class="goods-group-list bg-white spacing-mb" a:for="{{goods_list}}" a:for-item="group">
       <!-- 仓库分组 -->
       <view class="goods-group-hd oh br-b">
-        <view class="fl">
-          <text class="goods-group-title">{{group.name}}</text>
-          <text a:if="{{(group.alias || null) != null}}" class="goods-group-alias">{{group.alias}}</text>
+        <view class="fl" onTap="warehouse_group_event" data-value="{{group.url || ''}}">
+          <image a:if="{{(group.icon || null) != null}}" class="goods-group-icon va-m margin-right-xs" src="{{group.icon}}" mode="aspectFit" />
+          <text class="goods-group-title va-m">{{group.name}}</text>
+          <text a:if="{{(group.alias || null) != null}}" class="goods-group-alias va-m">{{group.alias}}</text>
         </view>
-        <view a:if="{{(group.lng || null) != null && (group.lat || null) != null}}" class="fr">
+        <view a:if="{{(group.lng || null) != null && (group.lat || null) != null && group.lng != 0 && group.lat != 0}}" class="fr">
           <view class="goods-group-map-submit br" data-index="{{index}}" onTap="map_event">查看地图</view>
         </view>
       </view>

@@ -26,7 +26,7 @@
         <view class="fr oh button-list">
           <button a:if="{{(item.is_default || 0) == 0}}" class="cr-666 map-submit br" type="default" size="mini" onTap="address_switch_event" data-index="{{index}}" hover-class="none">选择</button>
           <button a:else class="cr-ccc map-submit br-main" type="default" size="mini" hover-class="none" disabled="{{true}}">默认</button>
-          <button a:if="{{(item.lng || null) != null && (item.lat || null) != null}}" class="cr-666 map-submit br" type="default" size="mini" onTap="address_map_event" data-index="{{index}}" hover-class="none">查看地图</button>
+          <button a:if="{{(item.lng || null) != null && (item.lat || null) != null && item.lng != 0 && item.lat != 0}}" class="cr-666 map-submit br" type="default" size="mini" onTap="address_map_event" data-index="{{index}}" hover-class="none">查看地图</button>
         </view>
       </view>
     </view>

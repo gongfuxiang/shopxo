@@ -19,7 +19,7 @@
           <text>设为默认地址</text>
         </view>
         <view class="fr oh submit-items">
-          <button a:if="{{(item.lng || null) != null && (item.lat || null) != null}}" class="cr-666 br" type="default" size="mini" onTap="address_map_event" data-index="{{index}}" hover-class="none">位置</button>
+          <button a:if="{{(item.lng || null) != null && (item.lat || null) != null && item.lng != 0 && item.lat != 0}}" class="cr-666 br" type="default" size="mini" onTap="address_map_event" data-index="{{index}}" hover-class="none">位置</button>
           <button class="cr-666 br" type="default" size="mini" onTap="address_edit_event" data-index="{{index}}" hover-class="none">编辑</button>
           <button class="cr-666 br" type="default" size="mini" onTap="address_delete_event" data-index="{{index}}" data-value="{{item.id}}" hover-class="none">删除</button>
         </view>

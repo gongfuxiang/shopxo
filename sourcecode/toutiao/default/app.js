@@ -1016,4 +1016,59 @@ App({
     return uuid;
   },
 
+  // 链接地址事件
+  url_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if(value != null)
+    {
+      var temp = value.substr(0, 6);
+      if(temp == 'http:/' || temp == 'https:')
+      {
+        this.open_web_view(value);
+      } else {
+        if (this.is_tabbar_pages(value))
+        {
+          tt.switchTab({ url: value });
+        } else {
+          tt.navigateTo({ url: value });
+        }
+      }
+    }
+  },
+
+  // 剪贴板
+  text_copy_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if(value != null)
+    {
+      var self = this;
+      tt.setClipboardData({
+        data: value,
+        success (res) {
+          tt.getClipboardData({
+            success (res) {
+              self.showToast('复制成功', 'success');
+            }
+          });
+        }
+      });
+    } else {
+      this.showToast('复制内容为空');
+    }
+  },
+
+  // 图片预览
+  image_show_event(e) {
+    var value = e.currentTarget.dataset.value || null;
+    if(value != null)
+    {
+      tt.previewImage({
+        current: value,
+        urls: [value]
+      });
+    } else {
+      this.showToast('图片地址为空');
+    }
+  },
+
 });

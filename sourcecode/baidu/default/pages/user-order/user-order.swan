@@ -17,7 +17,10 @@
             <image class="icon" src="/images/default-select{{tools.indexOf(order_select_ids, item.id) ? '-active' : ''}}-icon.png" mode="widthFix" />
           </view>
           <!-- 基础信息 -->
-          <text class="fl cr-666">{{item.warehouse_name}}</text>
+          <view class="fl" bindtap="warehouse_group_event" data-value="{{item.warehouse_url || ''}}">
+          <image s-if="(item.warehouse_icon || null) != null" class="warehouse-group-icon va-m margin-right-xs" src="{{item.warehouse_icon}}" mode="aspectFit" />
+          <text class="cr-666 va-m">{{item.warehouse_name}}</text>
+        </view>
           <text class="fr cr-main">{{item.status_name}}<text s-if="(item.is_under_line_text || null) != null">（{{item.is_under_line_text}}）</text></text>
       </view>
       <view s-for="detail, index in item.items" s-key="key" class="goods-item br-b-dashed oh">

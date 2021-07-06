@@ -400,4 +400,9 @@ Page({
     this.setData({plugins_points_status: !this.data.plugins_points_status});
     this.init();
   },
+
+  // 仓库事件
+  warehouse_group_event(e) {
+    app.url_event(e);
+  },
 });
