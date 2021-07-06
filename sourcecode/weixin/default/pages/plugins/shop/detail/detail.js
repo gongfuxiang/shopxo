@@ -79,6 +79,12 @@ Page({
             data_list_loding_status: 0,
             data_bottom_line_status: true,
           });
+
+          // 自动模式数据、商品列表切换处理
+          if((this.data.shop || null) != null && (this.data.shop.data_model || 0) == 0)
+          {
+            this.shop_category_tab_handle();
+          }
           
           // 收藏信息
           if((this.data.shop || null) != null)
@@ -205,9 +211,15 @@ Page({
     app.image_show_event(e);
   },
 
-  // 分类切换
+  // 分类切换事件
   shop_category_tab_event(e) {
-    var value = e.currentTarget.dataset.value || 0;  
+    this.setData({shop_category_tab_value: e.currentTarget.dataset.value || 0});
+    this.shop_category_tab_handle();
+  },
+
+  // 分类切换处理
+  shop_category_tab_handle() {
+    var value = this.data.shop_category_tab_value || 0;  
     var temp = this.data.data;
     var goods = [];
     if(temp.goods.length > 0) {
@@ -219,7 +231,6 @@ Page({
     }
 
     this.setData({
-      shop_category_tab_value: value,
       goods_list: goods,
       data_bottom_line_status: (goods.length > 0)
     });
@@ -230,7 +241,7 @@ Page({
     var user_id = app.get_user_cache_info('id', 0) || 0;
     return {
       title: this.data.shop.name || this.data.shop.seo_title || app.data.application_title,
-      desc: this.data.shop.seo_desc || app.data.application_describe,
+      desc: this.data.shop.describe || this.data.shop.seo_desc || app.data.application_describe,
       path: '/pages/plugins/shop/detail/detail?id='+this.data.shop.id+'&referrer=' + user_id
     };
   },
