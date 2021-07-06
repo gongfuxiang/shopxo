@@ -51,8 +51,8 @@
     padding: 20rpx 10rpx 20rpx 10rpx;
 }
 .warehouse-group-icon {
-  width: 24rpx;
-  height: 24rpx;
+  width: 30rpx;
+  height: 30rpx;
 }
 .submit-cancel {
     border: 1px solid #f7c3b3;

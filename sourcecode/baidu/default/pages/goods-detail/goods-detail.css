@@ -202,7 +202,7 @@
 .goods-buy-nav .fl image {
   width: 20px;
   height: 20px;
-  margin: 5rpx 0;
+  margin: 10rpx 0 5rpx 0;
 }
 .goods-buy-nav .dis-block {
   margin-top: -10rpx;
