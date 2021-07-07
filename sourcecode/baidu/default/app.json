@@ -27,6 +27,7 @@
     "pages/user-orderaftersale-detail/user-orderaftersale-detail",
     "pages/extraction-address/extraction-address",
     "pages/common/open-setting-location/open-setting-location",
+    "pages/design/design",
     "pages/plugins/coupon/index/index",
     "pages/plugins/coupon/user/user",
     "pages/plugins/distribution/user/user",
@@ -56,7 +57,12 @@
     "pages/plugins/signin/user-qrcode-saveinfo/user-qrcode-saveinfo",
     "pages/plugins/signin/user-coming-list/user-coming-list",
     "pages/plugins/points/index/index",
-    "pages/plugins/brand/index/index"
+    "pages/plugins/brand/index/index",
+    "pages/plugins/shop/index/index",
+    "pages/plugins/shop/detail/detail",
+    "pages/plugins/shop/search/search",
+    "pages/plugins/shop/design/design",
+    "pages/plugins/shop/faovr/faovr"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",

@@ -20,9 +20,7 @@ Page({
   },
 
   onShow() {
-    this.get_data(); // 显示分享菜单
-
-    app.show_share_menu();
+    this.get_data();
   },
 
   // 获取数据
@@ -115,16 +113,6 @@ Page({
       title: this.data.data_base.seo_title || '品牌 - ' + app.data.application_title,
       desc: this.data.data_base.seo_desc || app.data.application_describe,
       path: '/pages/plugins/brand/index/index?referrer=' + user_id
-    };
-  },
-
-  // 分享朋友圈
-  onShareTimeline() {
-    var user_id = app.get_user_cache_info('id', 0) || 0;
-    return {
-      title: this.data.data_base.seo_title || '品牌 - ' + app.data.application_title,
-      query: 'referrer=' + user_id,
-      imageUrl: this.data.data_base.right_images || ''
     };
   }
 

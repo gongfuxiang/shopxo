@@ -81,7 +81,7 @@
  * 客服
  */
 .header-service {
-  width: 390rpx;
+  width: 400rpx;
   position: absolute;
   left: 80rpx;
   top: 210rpx;

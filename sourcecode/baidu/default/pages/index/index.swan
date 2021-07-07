@@ -12,11 +12,14 @@
   <view class="tips">{{common_shop_notice}}</view>
 </view>
 
-<!-- 轮播 -->
-<component-banner banner="{{banner_list}}"></component-banner>
+<!-- 拖拽模式下不展示 -->
+<block s-if="home_index_floor_data_type != 2">
+  <!-- 轮播 -->
+  <component-banner banner="{{banner_list}}"></component-banner>
 
-<!-- 导航 -->
-<component-icon-nav navigation="{{navigation}}"></component-icon-nav>
+  <!-- 导航 -->
+  <component-icon-nav navigation="{{navigation}}"></component-icon-nav>
+</block>
 
 <!-- 限时秒杀 -->
 <view s-if="plugins_limitedtimediscount_is_valid == 1">
@@ -25,39 +28,47 @@
 </view>
 
 <!-- 楼层数据 -->
-<block s-if="data_list.length > 0">
-  <view s-for="floor, index in data_list" s-key="key" class="floor spacing-mb">
-    <view class="spacing-nav-title">
-      <text class="line"></text>
-      <text class="text-wrapper">{{floor.name}}</text>
-    </view>
-    <view class="floor-list">
-      <view class="word" style="background-color:{{floor.bg_color || '#eaeaea'}}">
-        <view s-if="floor.items.length > 0">
-          <block s-for="icv, icx in floor.items" s-key="ck">
-            <navigator class="word-icon" url="/pages/goods-search/goods-search?category_id={{icv.id}}" hover-class="none">
-              {{icv.name}}
-            </navigator>
-          </block>
-        </view>
-        <view s-if="floor.describe.length > 0" class="vice-name">{{floor.describe}}</view>
-        <navigator url="/pages/goods-search/goods-search?category_id={{floor.id}}" hover-class="none">
-          <image s-if="floor.big_images.length > 0" src="{{floor.big_images}}" mode="aspectFit" class="dis-block" />
-        </navigator>
+<block s-if="(data_list || nul) != null && data_list.length > 0">
+  <!-- 数据模式0,1自动+手动、2拖拽 -->
+  <block s-if="home_index_floor_data_type == 2">
+    <!-- 引入拖拽数据模块 -->
+    <component-layout data="{{data_list}}"></component-layout>
+  </block>
+  <block s-else>
+    <!-- 自动+手动 -->
+    <view s-for="floor, index in data_list" s-key="key" class="floor spacing-mb">
+      <view class="spacing-nav-title">
+        <text class="line"></text>
+        <text class="text-wrapper">{{floor.name}}</text>
       </view>
-      <view class="goods-list" s-if="floor.goods.length > 0">
-        <view s-for="goods, index in floor.goods" s-key="keys" class="goods bg-white">
-          <navigator url="/pages/goods-detail/goods-detail?goods_id={{goods.id}}" hover-class="none">
-            <image src="{{goods.images}}" mode="aspectFit" />
-            <view class="goods-base">
-              <view class="goods-title multi-text">{{goods.title}}</view>
-              <view class="sales-price">{{currency_symbol}}{{goods.min_price}}</view>
-            </view>
+      <view class="floor-list">
+        <view class="word" style="background-color:{{floor.bg_color || '#eaeaea'}}">
+          <view s-if="floor.items.length > 0">
+            <block s-for="icv, icx in floor.items" s-key="ck">
+              <navigator class="word-icon" url="/pages/goods-search/goods-search?category_id={{icv.id}}" hover-class="none">
+                {{icv.name}}
+              </navigator>
+            </block>
+          </view>
+          <view s-if="floor.describe.length > 0" class="vice-name">{{floor.describe}}</view>
+          <navigator url="/pages/goods-search/goods-search?category_id={{floor.id}}" hover-class="none">
+            <image s-if="floor.big_images.length > 0" src="{{floor.big_images}}" mode="aspectFit" class="dis-block" />
           </navigator>
         </view>
+        <view class="goods-list" s-if="floor.goods.length > 0">
+          <view s-for="goods, index in floor.goods" s-key="keys" class="goods bg-white">
+            <navigator url="/pages/goods-detail/goods-detail?goods_id={{goods.id}}" hover-class="none">
+              <image src="{{goods.images}}" mode="aspectFit" />
+              <view class="goods-base">
+                <view class="goods-title multi-text">{{goods.title}}</view>
+                <view class="sales-price">{{currency_symbol}}{{goods.min_price}}</view>
+              </view>
+            </navigator>
+          </view>
+        </view>
       </view>
     </view>
-  </view>
+  </block>
 </block>
 
 <!-- 底部购买记录 -->
