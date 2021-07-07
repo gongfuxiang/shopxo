@@ -12,7 +12,7 @@ Component({
   // 页面被展示
   didMount() {
     // 配置初始化
-    this.init_config(true);
+    this.init_config();
 
     // 数据设置
     var system = app.get_system_info();

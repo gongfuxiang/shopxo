@@ -986,17 +986,7 @@ App({
     var value = e.currentTarget.dataset.value || null;
     if(value != null)
     {
-      var self = this;
-      my.setClipboardData({
-        data: value,
-        success (res) {
-          my.getClipboardData({
-            success (res) {
-              self.showToast('复制成功', 'success');
-            }
-          });
-        }
-      });
+      console.info('官方剪贴板api已下线');
     } else {
       this.showToast('复制内容为空');
     }

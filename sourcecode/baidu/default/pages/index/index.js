@@ -70,7 +70,14 @@ Page({
       dataType: "json",
       success: res => {
         swan.stopPullDownRefresh();
-        self.setData({ load_status: 1 });
+        
+        // 获取最新缓存
+        if(this.data.load_status == 0) {
+          self.init_config(true);
+        }
+
+        // 设置首次加载状态
+        self.setData({load_status: 1});
 
         if (res.data.code == 0) {
           var data = res.data.data;

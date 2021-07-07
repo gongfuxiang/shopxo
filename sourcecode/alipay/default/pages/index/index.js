@@ -82,6 +82,13 @@ Page({
       header: { 'content-type': 'application/x-www-form-urlencoded' },
       success: res => {
         my.stopPullDownRefresh();
+        
+        // 获取最新缓存
+        if(this.data.load_status == 0) {
+          self.init_config(true);
+        }
+
+        // 设置首次加载状态
         self.setData({load_status: 1});
 
         if (res.data.code == 0) {
