@@ -1,0 +1,29 @@
+.item {
+    padding: 20rpx 10rpx;
+    position: relative;
+}
+.logo {
+    width: 140rpx;
+    height: 140rpx;
+    margin-right: 20rpx;
+}
+.title {
+    margin-bottom: 15rpx;
+    font-size: 32rpx;
+    font-weight: bold;
+}
+.describe {
+    font-size: 28rpx;
+    line-height: 42rpx;
+    min-height: 84rpx;
+    width: calc(100% - 325rpx);
+}
+
+.submit-cancel {
+    position: absolute;
+    right: 10rpx;
+    bottom: 20rpx;
+    border: 1px solid #f7c3b3;
+    color: #f7c3b3 !important;
+    padding: 0 35rpx;
+}

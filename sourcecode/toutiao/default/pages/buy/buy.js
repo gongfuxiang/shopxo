@@ -412,7 +412,6 @@ Page({
     
     var index = e.currentTarget.dataset.index || 0;
     var data = this.data.goods_list[index] || null;
-
     if (data == null) {
       app.showToast("地址有误");
       return false;

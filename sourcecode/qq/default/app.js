@@ -856,15 +856,11 @@ App({
       this.showToast('坐标有误');
       return false;
     }
-    if((address || null) == null) {
-      this.showToast('地址有误');
-      return false;
-    }
 
     // 转换坐标打开位置
     var position = this.map_bd_to_gcj(lng, lat);
     qq.openLocation({
-      name: name || '当前位置',
+      name: name || '地理位置',
       address: address || '',
       scale: scale || 18,
       longitude: position.lng,

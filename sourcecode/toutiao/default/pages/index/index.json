@@ -7,6 +7,7 @@
     "usingComponents": {
         "component-quick-nav": "/components/quick-nav/quick-nav",
         "component-icon-nav": "/components/icon-nav/icon-nav",
-        "component-banner": "/components/slider/slider"
+        "component-banner": "/components/slider/slider",
+        "component-layout": "/components/layout/layout"
     }
 }
