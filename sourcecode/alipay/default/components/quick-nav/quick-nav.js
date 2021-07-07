@@ -7,20 +7,16 @@ Component({
     system: null,
     x: 0,
     y: 0,
-    is_first: 1,
   },
 
   // 页面被展示
   didMount() {
-    // 非首次进入则重新初始化配置接口
-    if(this.data.is_first == 0) {
-      app.init_config();
-    }
+    // 配置初始化
+    this.init_config(true);
 
     // 数据设置
     var system = app.get_system_info();
     this.setData({
-      is_first: 0,
       system: system,
       x: 5,
       y: (system.windowHeight || 450)-160,

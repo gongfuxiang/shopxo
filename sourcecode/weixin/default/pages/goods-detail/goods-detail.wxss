@@ -539,5 +539,5 @@
   color: #888;
   font-size: 24rpx;
   min-height: 72rpx;
-    line-height: 36rpx;
+  line-height: 36rpx;
 }

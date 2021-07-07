@@ -12,11 +12,14 @@
   <view class="tips">{{common_shop_notice}}</view>
 </view>
 
-<!-- 轮播 -->
-<component-slider data="{{banner_list}}" />
+<!-- 拖拽模式下不展示 -->
+<block a:if="{{home_index_floor_data_type != 2}}">
+  <!-- 轮播 -->
+  <component-slider data="{{banner_list}}" />
 
-<!-- 导航 -->
-<component-icon-nav data="{{navigation}}" />
+  <!-- 导航 -->
+  <component-icon-nav data="{{navigation}}" />
+</block>
 
 <!-- 限时秒杀 -->
 <view a:if="{{plugins_limitedtimediscount_is_valid == 1}}">
@@ -25,8 +28,15 @@
 </view>
 
 <!-- 楼层数据 -->
-<block a:if="{{data_list.length > 0}}">
-  <view a:for="{{data_list}}" a:for-item="floor" class="floor spacing-mb">
+<block a:if="{{(data_list || nul) != null && data_list.length > 0}}">
+  <!-- 数据模式0,1自动+手动、2拖拽 -->
+  <block a:if="{{home_index_floor_data_type == 2}}">
+    <!-- 引入拖拽数据模块 -->
+    <component-layout data="{{data_list}}"></component-layout>
+  </block>
+  <block a:else>
+    <!-- 自动+手动 -->
+    <view a:for="{{data_list}}" a:for-item="floor" class="floor spacing-mb">
     <view class="spacing-nav-title">
       <text class="line"></text>
       <text class="text-wrapper">{{floor.name}}</text>
@@ -58,6 +68,7 @@
       </view>
     </view>
   </view>
+  </block>
 </block>
 
 <!-- 底部购买记录 -->
@@ -75,7 +86,7 @@
     <view class="item-content fl">
       <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none" class="single-text">
         <image mode="widthFix" src="{{item.images}}" class="va-m br" />
-        <text class="margin-left-sm">{{item.title}}</text>
+        <text class="margin-left-sm single-text">{{item.title}}</text>
       </navigator>
     </view>
     <view class="item-content single-text fr tr padding-top-xs">{{item.add_time}}</view>

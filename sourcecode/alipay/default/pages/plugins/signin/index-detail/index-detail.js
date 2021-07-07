@@ -209,14 +209,4 @@ Page({
       path: '/pages/plugins/signin/index-detail/index-detail?id='+this.data.data.id+'&referrer=' + user_id
     };
   },
-
-  // 分享朋友圈
-  onShareTimeline() {
-    var user_id = app.get_user_cache_info('id', 0) || 0;
-    return {
-      title: this.data.data.seo_title || '签到 - '+app.data.application_title,
-      query: 'id='+this.data.data.id+'&referrer=' + user_id,
-      imageUrl: this.data.data.right_images || ''
-    };
-  },
 });

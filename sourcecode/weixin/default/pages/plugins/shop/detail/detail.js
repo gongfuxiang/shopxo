@@ -28,6 +28,8 @@ Page({
   },
 
   onLoad(params) {
+    // 启动参数处理
+    params = app.launch_params_handle(params);
     this.setData({
       params: params,
       user: app.get_user_cache_info(),

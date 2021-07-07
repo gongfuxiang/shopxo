@@ -1,0 +1,14 @@
+<view a:if="{{(data || null) != null}}">
+  <!-- 拖拽模式、引入拖拽数据模块 -->
+  <component-layout data="{{layout_data}}"></component-layout>
+
+  <!-- 结尾 -->
+  <block a:if="{{(data.is_footer || 0) == 1}}">
+    <import src="/pages/common/bottom_line.axml" />
+    <template is="bottom_line" data="{{status: data_bottom_line_status}}"></template>
+  </block>
+</view>
+<view a:else>
+  <import src="/pages/common/nodata.axml" />
+  <template is="nodata" data="{{status: data_list_loding_status, msg: data_list_loding_msg}}"></template>
+</view>

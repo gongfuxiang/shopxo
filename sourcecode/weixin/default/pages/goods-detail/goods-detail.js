@@ -16,8 +16,6 @@ Page({
     goods_specifications_choose: [],
     goods_content_app: [],
     popup_status: false,
-    goods_favor_text: '收藏',
-    goods_favor_icon: '/images/default-favor-icon-0.png',
     temp_buy_number: 1,
     buy_event_type: 'buy',
     buy_button: {},
@@ -33,9 +31,14 @@ Page({
 
     // 导航首页按钮
     nav_home_button_info: {
-      "name": "首页",
+      "text": "首页",
       "icon": "/images/default-home-icon.png",
       "value": "/pages/index/index"
+    },
+    // 导航收藏按钮
+    nav_favor_button_info: {
+      "text": "收藏",
+      "status": 0
     },
 
     // 购物车快捷导航
@@ -164,8 +167,10 @@ Page({
               goods_specifications_choose: data.goods.specifications.choose || [],
               goods_content_app: data.goods.content_app || [],
               temp_buy_number: data.goods.buy_min_number || 1,
-              goods_favor_text: (data.goods.is_favor == 1) ? '已收藏' : '收藏',
-              goods_favor_icon: '/images/default-favor-icon-' + data.goods.is_favor+'.png',
+              nav_favor_button_info: {
+                "text": ((data.goods.is_favor == 1) ? '已' : '')+'收藏',
+                "status": data.goods.is_favor
+              },
               buy_button: data.buy_button || null,
 
               goods_spec_base_price: data.goods.price,
@@ -213,7 +218,7 @@ Page({
             {
               this.setData({
                 nav_home_button_info: {
-                  "name": "店铺",
+                  "text": "店铺",
                   "icon": this.data.plugins_shop_data.shop_icon,
                   "value": "/pages/plugins/shop/detail/detail?id="+this.data.plugins_shop_data.id
                 }
@@ -286,11 +291,11 @@ Page({
   shop_event(e)
   {
     var value = this.data.nav_home_button_info.value;
-    if(value == '/pages/index/index')
+    if (app.is_tabbar_pages(value))
     {
-      wx.switchTab({url: value});
+      wx.switchTab({ url: value });
     } else {
-      wx.navigateTo({url: value});
+      wx.navigateTo({ url: value });
     }
   },
 
@@ -342,8 +347,10 @@ Page({
             {
               this.setData({
                 'goods.is_favor': res.data.data.status,
-                goods_favor_text: res.data.data.text,
-                goods_favor_icon: '/images/default-favor-icon-'+res.data.data.status+'.png'
+                nav_favor_button_info: {
+                  "text": res.data.data.text,
+                  "status": res.data.data.status
+                }
               });
               app.showToast(res.data.msg, "success");
             } else {
@@ -354,7 +361,6 @@ Page({
           },
           fail: () => {
             wx.hideLoading();
-
             app.showToast('服务器请求出错');
           }
         });

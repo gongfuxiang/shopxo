@@ -86,7 +86,7 @@
     <view class="item-content fl">
       <navigator url="/pages/goods-detail/goods-detail?goods_id={{item.goods_id}}" hover-class="none" class="single-text">
         <image mode="widthFix" src="{{item.images}}" class="va-m br" />
-        <text class="margin-left-sm">{{item.title}}</text>
+        <text class="margin-left-sm single-text">{{item.title}}</text>
       </navigator>
     </view>
     <view class="item-content single-text fr tr padding-top-xs">{{item.add_time}}</view>

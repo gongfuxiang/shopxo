@@ -10,7 +10,8 @@ Page({
   },
 
   onLoad(params) {
-    params['id'] = 1;
+    // 启动参数处理
+    params = app.launch_params_handle(params);
     this.setData({
       params: params,
     });
@@ -36,7 +37,7 @@ Page({
         if (res.data.code == 0) {
           var data = res.data.data;
           self.setData({
-            data: data.data || null,
+            data: ((data.data || null) != null && data.data.length != 0) ? data.data : null,
             layout_data: data.layout_data || [],
             data_list_loding_msg: '',
             data_list_loding_status: 0,
@@ -46,6 +47,7 @@ Page({
           // 标题名称
           if((this.data.data || null) != null)
           {
+            console.log(this.data.data.length)
             wx.setNavigationBarTitle({title: this.data.data.name});
           }
         } else {

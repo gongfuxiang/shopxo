@@ -1,0 +1,6 @@
+{
+  "pullRefresh": true,
+  "usingComponents": {
+    "component-layout": "/components/layout/layout"
+  }
+}

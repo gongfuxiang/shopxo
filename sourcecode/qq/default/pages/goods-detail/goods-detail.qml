@@ -118,6 +118,20 @@
     </scroll-view>
   </view>
 
+  <!-- 多商户 -->
+  <view qq:if="{{plugins_shop_data != null}}" class="plugins-shop-container spacing-mt bg-white oh">
+    <navigator url="/pages/plugins/shop/detail/detail?id={{plugins_shop_data.id}}" hover-class="none">
+      <image src="{{plugins_shop_data.logo}}" mode="aspectFit" class="plugins-shop-logo fl"></image>
+      <view class="plugins-shop-base fr arrow-right">
+        <view class="plugins-shop-title single-text">
+          <text qq:if="{{plugins_shop_data.auth_type == 1}}" class="plugins-shop-auth-icon">{{plugins_shop_data.auth_type_name}}</text>
+          <text>{{plugins_shop_data.name}}</text>
+        </view>
+        <view class="plugins-shop-desc multi-text cr-888 margin-top-sm">{{plugins_shop_data.describe}}</view>
+      </view>
+    </navigator>
+  </view>
+
   <!-- 商品详情参数 -->
   <view qq:if="{{(goods.parameters || null) != null && goods.parameters.detail.length > 0}}" class="goods-parameters spacing-mt bg-white">
     <view class="spacing-nav-title">
@@ -170,12 +184,12 @@
   <!-- 底部操作 -->
   <view class="goods-buy-nav wh-auto bg-white">
     <view class="shop fl tc br-t" bindtap="shop_event">
-      <image src="/images/default-home-icon.png" mode="scaleToFill" />
-      <text class="dis-block cr-888">首页</text>
+      <image src="{{nav_home_button_info.icon}}" mode="scaleToFill" />
+      <text class="dis-block cr-888">{{nav_home_button_info.text}}</text>
     </view>
     <view class="collect fl tc br-t" bindtap="goods_favor_event">
-      <image src="{{goods_favor_icon}}" mode="scaleToFill" />
-      <text class="dis-block cr-888">{{goods_favor_text}}</text>
+      <image src="/images/default-favor-icon-{{nav_favor_button_info.status}}.png" mode="scaleToFill" />
+      <text class="dis-block {{nav_favor_button_info.status == 1 ? 'cr-main' : 'cr-888'}}">{{nav_favor_button_info.text}}</text>
     </view>
     <view class="fr goods-buy-nav-btn-number-{{buy_button.count || 0}}">
       <block qq:if="{{(buy_button.data || null) != null && buy_button.data.length > 0}}">

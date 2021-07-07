@@ -16,8 +16,6 @@ Page({
     goods_specifications_choose: [],
     goods_content_app: [],
     popup_status: false,
-    goods_favor_text: '收藏',
-    goods_favor_icon: '/images/default-favor-icon-0.png',
     temp_buy_number: 1,
     buy_event_type: 'buy',
     buy_button: {},
@@ -30,6 +28,18 @@ Page({
     show_field_price_text: null,
     goods_video_is_autoplay: false,
     popup_share_status: false,
+
+    // 导航首页按钮
+    nav_home_button_info: {
+      "text": "首页",
+      "icon": "/images/default-home-icon.png",
+      "value": "/pages/index/index"
+    },
+    // 导航收藏按钮
+    nav_favor_button_info: {
+      "text": "收藏",
+      "status": 0
+    },
 
     // 购物车快捷导航
     quick_nav_cart_count: 0,
@@ -59,6 +69,9 @@ Page({
     plugins_salerecords_timer: null,
     plugins_salerecords_tips_content: null,
     plugins_salerecords_tips_ent: '',
+
+    // 多商户
+    plugins_shop_data: null,
   },
 
   onLoad(params) {
@@ -135,8 +148,10 @@ Page({
               goods_specifications_choose: data.goods.specifications.choose || [],
               goods_content_app: data.goods.content_app || [],
               temp_buy_number: data.goods.buy_min_number || 1,
-              goods_favor_text: data.goods.is_favor == 1 ? '已收藏' : '收藏',
-              goods_favor_icon: '/images/default-favor-icon-' + data.goods.is_favor + '.png',
+              nav_favor_button_info: {
+                "text": ((data.goods.is_favor == 1) ? '已' : '')+'收藏',
+                "status": data.goods.is_favor
+              },
               buy_button: data.buy_button || null,
 
               goods_spec_base_price: data.goods.price,
@@ -152,6 +167,8 @@ Page({
               quick_nav_cart_count: data.common_cart_total || 0,
 
               plugins_salerecords_data: ((data.plugins_salerecords_data || null) == null || data.plugins_salerecords_data.length <= 0) ? null : data.plugins_salerecords_data,
+
+              plugins_shop_data: ((data.plugins_shop_data || null) == null || data.plugins_shop_data.length <= 0) ? null : data.plugins_shop_data,
             });
 
             // 限时秒杀倒计时
@@ -168,6 +185,18 @@ Page({
 
             // 购买记录提示
             this.plugins_salerecords_tips_handle();
+
+            // 导航首页按钮、多商户
+            if(this.data.plugins_shop_data != null)
+            {
+              this.setData({
+                nav_home_button_info: {
+                  "text": "店铺",
+                  "icon": this.data.plugins_shop_data.shop_icon,
+                  "value": "/pages/plugins/shop/detail/detail?id="+this.data.plugins_shop_data.id
+                }
+              });
+            }
 
             // 页面信息设置
             this.set_page_info();
@@ -229,10 +258,15 @@ Page({
   },
 
   // 进入店铺
-  shop_event(e) {
-    swan.switchTab({
-      url: '/pages/index/index'
-    });
+  shop_event(e)
+  {
+    var value = this.data.nav_home_button_info.value;
+    if (app.is_tabbar_pages(value))
+    {
+      swan.switchTab({url: value});
+    } else {
+      swan.navigateTo({url: value});
+    }
   },
 
   // 导航购买按钮事件
@@ -281,8 +315,10 @@ Page({
             if (res.data.code == 0) {
               this.setData({
                 'goods.is_favor': res.data.data.status,
-                goods_favor_text: res.data.data.text,
-                goods_favor_icon: '/images/default-favor-icon-'+res.data.data.status+'.png'
+                nav_favor_button_info: {
+                  "text": res.data.data.text,
+                  "status": res.data.data.status
+                }
               });
               app.showToast(res.data.msg, "success");
             } else {

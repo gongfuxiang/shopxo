@@ -15,13 +15,15 @@ Page({
   },
 
   onLoad(params) {
-    // 显示分享菜单
-    app.show_share_menu();
-  },
+    // 启动参数处理
+    params = app.launch_params_handle(params);
+    this.setData({params: params});
 
-  onShow() {
     // 数据加载
     this.get_data();
+
+    // 显示分享菜单
+    app.show_share_menu();
   },
 
   // 初始化

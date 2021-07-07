@@ -183,11 +183,11 @@
   <view class="goods-buy-nav wh-auto bg-white">
     <view class="shop fl tc br-t" bindtap="shop_event">
       <image src="{{nav_home_button_info.icon}}" mode="scaleToFill" />
-      <text class="dis-block cr-888">{{nav_home_button_info.name}}</text>
+      <text class="dis-block cr-888">{{nav_home_button_info.text}}</text>
     </view>
     <view class="collect fl tc br-t" bindtap="goods_favor_event">
-      <image src="{{goods_favor_icon}}" mode="scaleToFill" />
-      <text class="dis-block cr-888">{{goods_favor_text}}</text>
+      <image src="/images/default-favor-icon-{{nav_favor_button_info.status}}.png" mode="scaleToFill" />
+      <text class="dis-block {{nav_favor_button_info.status == 1 ? 'cr-main' : 'cr-888'}}">{{nav_favor_button_info.text}}</text>
     </view>
     <view class="fr goods-buy-nav-btn-number-{{buy_button.count || 0}}">
       <block wx:if="{{(buy_button.data || null) != null && buy_button.data.length > 0}}">

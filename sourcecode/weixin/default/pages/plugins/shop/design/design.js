@@ -27,6 +27,8 @@ Page({
   },
 
   onLoad(params) {
+    // 启动参数处理
+    params = app.launch_params_handle(params);
     this.setData({
       params: params,
       user: app.get_user_cache_info(),
@@ -58,7 +60,7 @@ Page({
             shop_favor_user: data.shop_favor_user || [],
             shop_navigation: data.shop_navigation || [],
             shop_goods_category: data.shop_goods_category || [],
-            data: data.data || null,
+            data: ((data.data || null) != null && data.data.length != 0) ? data.data : null,
             layout_data: data.layout_data || [],
             data_list_loding_msg: '',
             data_list_loding_status: 0,

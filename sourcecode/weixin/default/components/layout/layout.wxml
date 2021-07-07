@@ -50,8 +50,8 @@
                           autoplay="{{vss.config.data_list.length > 0}}"
                           circular="{{circular}}" style="{{vss.config.frontend_config.media_fixed.media_container_style}}">
                           <block wx:for="{{vss.config.data_list}}" wx:key="ik">
-                            <swiper-item class="{{vss.config.frontend_config.media_fixed.media_container_ent}}" bindtap="layout_url_event" data-value="{{item.url || ''}}">
-                              <image src="{{item.images}}" mode="aspectFill" class="{{vss.config.frontend_config.media_fixed.media_ent}}"></image>
+                            <swiper-item class="{{vss.config.frontend_config.media_fixed.media_container_ent}}">
+                              <image src="{{item.images}}" mode="aspectFill" class="{{vss.config.frontend_config.media_fixed.media_ent}}" bindtap="layout_url_event" data-value="{{item.url || ''}}"></image>
                             </swiper-item>
                           </block>
                         </swiper>
