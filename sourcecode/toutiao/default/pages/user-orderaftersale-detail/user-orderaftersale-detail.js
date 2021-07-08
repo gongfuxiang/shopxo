@@ -356,8 +356,7 @@ Page({
     // 数据校验
     var validation = [
       { fields: "type", msg: "请选择操作类型", is_can_zero: 1 },
-      { fields: "reason", msg: "请选择原因" },
-      { fields: "msg", msg: "请填写退款说明" }
+      { fields: "reason", msg: "请选择原因" }
     ];
     if (form_data['type'] == 1)
     {

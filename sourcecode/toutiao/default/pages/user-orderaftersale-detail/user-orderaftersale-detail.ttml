@@ -116,8 +116,8 @@
       </view>
 
       <view class="form-gorup bg-white">
-        <view class="form-gorup-title">退款说明<text class="form-group-tips-must">必填</text></view>
-        <textarea bindinput="form_msg_event" placeholder-class="cr-ccc" class="cr-666" placeholder="退款说明 5~200 个字符之间" maxlength="200" auto-height="{{true}}" value="{{form_msg}}" />
+        <view class="form-gorup-title">退款说明<text class="form-group-tips">选填</text></view>
+        <textarea bindinput="form_msg_event" placeholder-class="cr-ccc" class="cr-666" placeholder="退款说明最多200个字符" maxlength="200" auto-height="{{true}}" value="{{form_msg}}" />
       </view>
 
       <view class="form-gorup bg-white form-container-upload oh">

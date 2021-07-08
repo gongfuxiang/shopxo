@@ -246,7 +246,7 @@ Page({
       title: "请求中..."
     });
     tt.request({
-      url: app.get_request_url("pay", "toutiao"),
+      url: app.get_request_url("pay", "order"),
       method: "POST",
       data: {
         ids: order_ids,
@@ -268,31 +268,23 @@ Page({
               case 0:
                 var data = res.data.data;
                 tt.pay({
-                  orderInfo: data.order_info,
-                  service: data.service,
+                  orderInfo: data.data,
+                  service: 5,
                   success(res) {
-                    // if (res.code == 0) {
-                    //   // 数据设置
-                    //   self.order_item_pay_success_handle(index);
+                    if (res.code == 0) {
+                      // 数据设置
+                      self.order_item_pay_success_handle(order_ids);
 
-                    //   // 跳转支付页面
-                    //   tt.navigateTo({
-                    //     url: "/pages/paytips/paytips?code=9000&total_price=" +
-                    //       self.data.data_list[index]['total_price']
-                    //   });
-                    // } else {
-                    //   app.showToast('支付失败');
-                    // }
-
-                    // 由于头条支付无法监听支付状态，这里就不做接口轮询了，直接刷新页面
-                    self.setData({
-                      data_page: 1
-                    });
-                    self.get_data_list(1);
+                      // 跳转支付页面
+                      tt.navigateTo({
+                        url: "/pages/paytips/paytips?code=9000"
+                      });
+                    } else {
+                      app.showToast('支付失败');
+                    }
                   },
                   fail(res) {
-                    console.log(res, 'pay-fail');
-                    app.showToast('调起收银台失败-'+res.data.code);
+                    app.showToast('调起收银台失败-'+res.errMsg);
                   }
                 });
                 break;
@@ -342,8 +334,9 @@ Page({
   // 支付成功数据设置
   order_item_pay_success_handle(order_ids) {
     var order_ids_arr = order_ids.split(',');
-    var temp_data_list = this.data.data_list; // 数据设置
+    var temp_data_list = this.data.data_list;
 
+    // 数据设置
     for (var i in temp_data_list) {
       if (order_ids_arr.indexOf(temp_data_list[i]['id']) != -1) {
         switch (parseInt(temp_data_list[i]['order_model'])) {

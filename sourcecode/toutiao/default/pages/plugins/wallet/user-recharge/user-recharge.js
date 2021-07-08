@@ -227,7 +227,7 @@ Page({
       title: "请求中..."
     });
     tt.request({
-      url: app.get_request_url("pay", "toutiao", "wallet"),
+      url: app.get_request_url("pay", "recharge", "wallet"),
       method: "POST",
       data: {
         recharge_id: recharge_id,
@@ -236,33 +236,26 @@ Page({
       dataType: "json",
       success: res => {
         tt.hideLoading();
-
         if (res.data.code == 0) {
           var data = res.data.data;
           tt.pay({
-            orderInfo: data.order_info,
-            service: data.service,
+            orderInfo: data.data,
+            service: 5,
             success(res) {
-              // if (res.code == 0) {
-              //   // 数据设置
-              //   self.order_item_pay_success_handle(index); // 跳转支付页面
+              if (res.code == 0) {
+                // 数据设置
+                self.order_item_pay_success_handle(index);
 
-              //   tt.navigateTo({
-              //     url: "/pages/paytips/paytips?code=9000&total_price=" + self.data.data_list[index]['money']
-              //   });
-              // } else {
-              //   app.showToast('支付失败');
-              // }
-
-              // 由于头条支付无法监听支付状态，这里就不做接口轮询了，直接刷新页面
-              self.setData({
-                data_page: 1
-              });
-              self.get_data_list(1);
+                // 跳转支付页面
+                tt.navigateTo({
+                  url: "/pages/paytips/paytips?code=9000"
+                });
+              } else {
+                app.showToast('支付失败');
+              }
             },
-            fail: function (res) {
-              console.log(res, 'pay-fail')
-              app.showToast('调起收银台失败-'+res.data.code);
+            fail(res) {
+              app.showToast('调起收银台失败-'+res.errMsg);
             }
           });
         } else {
