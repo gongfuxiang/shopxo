@@ -39,7 +39,7 @@
     </view>
     <view qq:if="{{(shop.service_tel || null) != null}}" class="item br-t single-text">
       <text>电话：</text>
-      <text bindtap="text_copy_event" data-value="{{shop.service_tel}}">{{shop.service_tel}}</text>
+      <text bindtap="tel_event" data-value="{{shop.service_tel}}">{{shop.service_tel}}</text>
     </view>
     <view qq:if="{{(shop.open_week_name || null) != null && (shop.close_week_name || null) != null}}" class="item br-t single-text">
       <text>时间：</text>

@@ -222,6 +222,11 @@ Page({
     app.text_copy_event(e);
   },
 
+  // 电话
+  tel_event(e) {
+    app.call_tel(e.currentTarget.dataset.value || null);
+  },
+
   // 图片预览
   image_show_event(e) {
     app.image_show_event(e);
