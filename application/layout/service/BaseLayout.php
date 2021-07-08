@@ -708,6 +708,15 @@ class BaseLayout
             $where[] = [$category_field, 'in', $category_id];
         }
 
+        // 商品搜索列表读取钩子
+        $hook_name = 'plugins_layout_service_search_goods_begin';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'where'         => &$where,
+        ]);
+
         // 获取商品总数
         $result['total'] = GoodsService::CategoryGoodsTotal($where);
 
@@ -814,8 +823,8 @@ class BaseLayout
                 return DataReturn('数据类型未处理['.$params['data_type'].']', -1);
         }
 
-        // 商品搜索列表读取钩子
-        $hook_name = 'plugins_layout_service_search_goods_begin';
+        // 商品数据列表读取钩子
+        $hook_name = 'plugins_layout_service_goods_data_begin';
         Hook::listen($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,

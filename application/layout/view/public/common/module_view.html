@@ -60,47 +60,49 @@
                                         </div>
                                     {{/case}}
                                     {{case goods}}
-                                        {{switch vss.config.view_list_show_style}}
-                                            {{case rolling}}
-                                                <div class="am-slider am-slider-default am-slider-carousel module-goods-content {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
-                                                    <div class="am-viewport">
-                                                        <ul class="am-slides module-list-content">
-                                                            {{foreach $vss.config.data_list as $g}}
-                                                                <li>
-                                                                    <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
-                                                                        <a href="{{$g.goods_url}}" target="_blank" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                                                            <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
-                                                                        </a>
-                                                                        <div class="item-bottom">
-                                                                            <div class="module-title">
-                                                                                <a href="{{$g.goods_url}}" target="_blank">{{$g.title}}</a></div>
-                                                                            <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
+                                        {{if !empty($vss['config']['data_list']) and is_array($vss['config']['data_list'])}}
+                                            {{switch vss.config.view_list_show_style}}
+                                                {{case rolling}}
+                                                    <div class="am-slider am-slider-default am-slider-carousel module-goods-content {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
+                                                        <div class="am-viewport">
+                                                            <ul class="am-slides module-list-content">
+                                                                {{foreach $vss.config.data_list as $g}}
+                                                                    <li>
+                                                                        <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                            <a href="{{$g.goods_url}}" target="_blank" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                                <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                            </a>
+                                                                            <div class="item-bottom">
+                                                                                <div class="module-title">
+                                                                                    <a href="{{$g.goods_url}}" target="_blank">{{$g.title}}</a></div>
+                                                                                <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </li>
-                                                            {{/foreach}}
-                                                        </ul>
+                                                                    </li>
+                                                                {{/foreach}}
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            {{/case}}
-                                            {{default /}}
-                                                <ul class="module-goods-content module-list-content {{$vss.config.frontend_config.list_ent}}">
-                                                    {{foreach $vss.config.data_list as $g}}
-                                                        <li>
-                                                            <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
-                                                                <a href="{{$g.goods_url}}" target="_blank" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                                                    <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
-                                                                </a>
-                                                                <div class="item-bottom">
-                                                                    <div class="module-title">
-                                                                        <a href="{{$g.goods_url}}" target="_blank">{{$g.title}}</a></div>
-                                                                    <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
+                                                {{/case}}
+                                                {{default /}}
+                                                    <ul class="module-goods-content module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                        {{foreach $vss.config.data_list as $g}}
+                                                            <li>
+                                                                <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                    <a href="{{$g.goods_url}}" target="_blank" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                        <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                    </a>
+                                                                    <div class="item-bottom">
+                                                                        <div class="module-title">
+                                                                            <a href="{{$g.goods_url}}" target="_blank">{{$g.title}}</a></div>
+                                                                        <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </li>
-                                                    {{/foreach}}
-                                                </ul>
-                                        {{/switch}}
+                                                            </li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                            {{/switch}}
+                                        {{/if}}
                                     {{/case}}
                                     {{case title}}
                                         <div class="module-title-content">
