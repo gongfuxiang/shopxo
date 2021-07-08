@@ -18,6 +18,7 @@ use app\service\RefundLogService;
 use app\service\OrderService;
 use app\service\MessageService;
 use app\service\IntegralService;
+use app\service\WarehouseService;
 use app\plugins\wallet\service\WalletService;
 
 /**
@@ -1615,6 +1616,59 @@ class OrderAftersaleService
     public static function EditorAttachmentPathType($user_id, $order_id, $order_detail_id)
     {
         return 'order_aftersale-'.intval($user_id%(3*24)/24).'-'.$order_id.'-'.$order_detail_id;
+    }
+    
+    /**
+     * 商品退货地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-07-08
+     * @desc    description
+     * @param   [int]          $order_id [订单id]
+     */
+    public static function OrderAftersaleReturnGoodsAddress($order_id)
+    {
+        // 退货地址信息
+        $data = MyC('home_order_aftersale_return_goods_address', '管理员未填写', true);
+
+        // 是否是否仓库地址
+        if(MyC('home_order_aftersale_is_use_warehouse_address', 0, true) == 1)
+        {
+            // 获取订单所属仓库id
+            $warehouse_id = Db::name('Order')->where(['id'=>intval($order_id)])->value('warehouse_id');
+            if(!empty($warehouse_id))
+            {
+                // 获取仓库信息
+                $where = [
+                    ['id', '=', $warehouse_id],
+                ];
+                $data_params = [
+                    'm'             => 0,
+                    'n'             => 1,
+                    'where'         => $where,
+                ];
+                $ret = WarehouseService::WarehouseList($data_params);
+                $warehouse = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
+                if(!empty($warehouse) && !empty($warehouse['contacts_name']) && !empty($warehouse['contacts_tel']) && !empty($warehouse['province_name']) && !empty($warehouse['city_name']) && !empty($warehouse['county_name']) && !empty($warehouse['address']))
+                {
+                    $address = $warehouse['province_name'].$warehouse['city_name'].$warehouse['county_name'].$warehouse['address'];
+                    $data = '收件人：'.$warehouse['contacts_name'].'，电话：'.$warehouse['contacts_tel'].'，地址：'.$address;
+                }
+            }
+        }
+
+        // 订单售后退货地址钩子
+        $hook_name = 'plugins_service_order_aftersale_return_address';
+        Hook::listen($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_id'      => $order_id,
+            'data'          => &$data,
+        ]);
+
+        // 返回退货地址信息
+        return $data;
     }
 }
 ?>

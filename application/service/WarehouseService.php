@@ -64,7 +64,7 @@ class WarehouseService
             // 基础数据
             $data_key_field = empty($params['data_key_field']) ? 'id' : $params['data_key_field'];
 
-            // 获取商品信息
+            // 省市区
             if(in_array('province', $keys) && in_array('city', $keys) && in_array('county', $keys))
             {
                 // 地区数据

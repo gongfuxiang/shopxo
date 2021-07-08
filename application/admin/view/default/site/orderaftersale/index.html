@@ -25,6 +25,15 @@
             </div>
 
             <div class="am-form-group">
+                <label>{{$data.home_order_aftersale_is_use_warehouse_address.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_is_use_warehouse_address.describe}}</span></label>
+                <select name="{{$data.home_order_aftersale_is_use_warehouse_address.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_order_aftersale_is_use_warehouse_address.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['home_order_aftersale_is_use_warehouse_address']['value']) and $data['home_order_aftersale_is_use_warehouse_address']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
                 <label>{{$data.home_order_aftersale_return_launch_day.name}}<span class="am-form-group-label-tips">{{$data.home_order_aftersale_return_launch_day.describe}}</span></label>
                 <div class="am-input-group am-input-group-sm">
                     <input type="number" min="0" name="{{$data.home_order_aftersale_return_launch_day.only_tag}}" placeholder="{{$data.home_order_aftersale_return_launch_day.name}}" data-validation-message="{{$data.home_order_aftersale_return_launch_day.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_order_aftersale_return_launch_day.value}}"{{/if}} />

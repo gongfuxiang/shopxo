@@ -7,7 +7,7 @@
         <div class="am-popup-bd">
             <div class="am-alert">
                 <span>退货地址：</span>
-                <span class="am-text-warning">{{:MyC('home_order_aftersale_return_goods_address', '管理员未填写', true)}}</span>
+                <span class="am-text-warning">{{$return_goods_address}}</span>
             </div>
             <form class="am-form form-validation view-save" action="{{:MyUrl('index/orderaftersale/delivery')}}" method="POST" request-type="ajax-reload">
                 <div class="am-form-group">

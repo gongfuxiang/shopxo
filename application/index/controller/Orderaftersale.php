@@ -135,11 +135,18 @@ class Orderaftersale extends Common
             $returned = OrderAftersaleService::OrderAftersaleCalculation($order_id, $order_detail_id);
             $this->assign('returned_data', $returned['data']);
 
+            // 退货地址
+            $return_goods_address = OrderAftersaleService::OrderAftersaleReturnGoodsAddress($order_id);
+            $this->assign('return_goods_address', $return_goods_address);
+
             // 静态数据
             $this->assign('common_order_aftersale_type_list', lang('common_order_aftersale_type_list'));
 
             // 编辑器文件存放地址
             $this->assign('editor_path_type', ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id)));
+
+            // 浏览器名称
+            $this->assign('home_seo_site_title', SeoService::BrowserSeoTitle('订单售后详情', 1));
 
             // 订单售后搜索form key
             $this->assign('form_search_keywords_form_key', 'f0p');

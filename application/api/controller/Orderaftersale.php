@@ -129,6 +129,9 @@ class Orderaftersale extends Common
             // 退款退货原因
             $return_money_goods_reason = MyC('home_order_aftersale_return_money_goods_reason');
 
+            // 退货地址
+            $return_goods_address = OrderAftersaleService::OrderAftersaleReturnGoodsAddress($new_aftersale_data['order_id']);
+
             // 返回数据
             $result = [
                 'order_data'                => $ret['data'],
@@ -138,7 +141,7 @@ class Orderaftersale extends Common
                 'return_only_money_reason'  => empty($return_only_money_reason) ? [] : explode("\n", $return_only_money_reason),
                 'return_money_goods_reason' => empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason),
                 'aftersale_type_list'       => lang('common_order_aftersale_type_list'),
-                'return_goods_address'      => MyC('home_order_aftersale_return_goods_address', '管理员未填写', true),
+                'return_goods_address'      => $return_goods_address,
                 'editor_path_type'          => ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id)),
             ];
             return SystemBaseService::DataReturn($result);
