@@ -67,37 +67,39 @@
 
                     <!-- 商品 -->
                     <block qq:elif="{{vss.value == 'goods'}}">
-                      <block qq:if="{{vss.config.view_list_show_style == 'rolling'}}">
-                        <!-- 滚动 -->
-                        <view class="module-goods-content module-list-rolling">
-                          <scroll-view scroll-x>
-                            <view qq:for="{{vss.config.data_list}}" qq:key="ik" class="item">
-                              <view class="module-item {{vss.config.frontend_config.media_fixed.media_container_ent}}" style="width:{{((vss.config.view_list_show_style_value_arr || null) == null || (vss.config.view_list_show_style_value_arr.item_width || null) == null) ? 200 : vss.config.view_list_show_style_value_arr.item_width}}px;margin-left:{{((vss.config.view_list_show_style_value_arr || null) == null || (vss.config.view_list_show_style_value_arr.item_margin || null) == null || index == 0) ? 0 : vss.config.view_list_show_style_value_arr.item_margin}}px;{{vss.config.frontend_config.item_style}}{{vss.config.frontend_config.media_fixed.media_container_style}}" bindtap="layout_url_event" data-value="{{item.goods_url || ''}}">
-                                <image src="{{item.images}}" mode="widthFix" class="{{vss.config.frontend_config.media_fixed.media_ent}}"></image>
-                                <view class="item-bottom">
-                                  <view class="module-title">{{item.title}}</view>
-                                  <view class="module-price">{{currency_symbol}}{{item.price}}</view>
+                      <block qq:if="{{(vss.config.data_list || null) != null && vss.config.data_list.length > 0}}">
+                        <block qq:if="{{vss.config.view_list_show_style == 'rolling'}}">
+                          <!-- 滚动 -->
+                          <view class="module-goods-content module-list-rolling">
+                            <scroll-view scroll-x>
+                              <view qq:for="{{vss.config.data_list}}" qq:key="ik" class="item">
+                                <view class="module-item {{vss.config.frontend_config.media_fixed.media_container_ent}}" style="width:{{((vss.config.view_list_show_style_value_arr || null) == null || (vss.config.view_list_show_style_value_arr.item_width || null) == null) ? 200 : vss.config.view_list_show_style_value_arr.item_width}}px;margin-left:{{((vss.config.view_list_show_style_value_arr || null) == null || (vss.config.view_list_show_style_value_arr.item_margin || null) == null || index == 0) ? 0 : vss.config.view_list_show_style_value_arr.item_margin}}px;{{vss.config.frontend_config.item_style}}{{vss.config.frontend_config.media_fixed.media_container_style}}" bindtap="layout_url_event" data-value="{{item.goods_url || ''}}">
+                                  <image src="{{item.images}}" mode="widthFix" class="{{vss.config.frontend_config.media_fixed.media_ent}}"></image>
+                                  <view class="item-bottom">
+                                    <view class="module-title">{{item.title}}</view>
+                                    <view class="module-price">{{currency_symbol}}{{item.price}}</view>
+                                  </view>
                                 </view>
                               </view>
-                            </view>
-                          </scroll-view>
-                        </view>
-                      </block>
-                      <block qq:else>
-                        <!-- 默认列表 -->
-                        <view class="module-goods-content module-list-content {{vss.config.frontend_config.list_ent}}">
-                          <view qq:for="{{vss.config.data_list}}" qq:key="ik" class="item">
-                            <view class="module-item" style="{{vss.config.frontend_config.item_style}}">
-                              <view class="{{vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{vss.config.frontend_config.media_fixed.media_container_style}}" bindtap="layout_url_event" data-value="{{item.goods_url || ''}}">
-                                <image src="{{item.images}}" mode="widthFix" class="{{vss.config.frontend_config.media_fixed.media_ent}}"></image>
-                                <view class="item-bottom">
-                                  <view class="module-title">{{item.title}}</view>
-                                  <view class="module-price">{{currency_symbol}}{{item.price}}</view>
+                            </scroll-view>
+                          </view>
+                        </block>
+                        <block qq:else>
+                          <!-- 默认列表 -->
+                          <view class="module-goods-content module-list-content {{vss.config.frontend_config.list_ent}}">
+                            <view qq:for="{{vss.config.data_list}}" qq:key="ik" class="item">
+                              <view class="module-item" style="{{vss.config.frontend_config.item_style}}">
+                                <view class="{{vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{vss.config.frontend_config.media_fixed.media_container_style}}" bindtap="layout_url_event" data-value="{{item.goods_url || ''}}">
+                                  <image src="{{item.images}}" mode="widthFix" class="{{vss.config.frontend_config.media_fixed.media_ent}}"></image>
+                                  <view class="item-bottom">
+                                    <view class="module-title">{{item.title}}</view>
+                                    <view class="module-price">{{currency_symbol}}{{item.price}}</view>
+                                  </view>
                                 </view>
                               </view>
                             </view>
                           </view>
-                        </view>
+                        </block>
                       </block>
                     </block>
 
