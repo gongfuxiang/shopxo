@@ -71,6 +71,20 @@ Page({
     this.get_data();
   },
 
+  // 搜索事件
+  search_input_event(e) {
+    var keywords = e.detail.value || null;
+    if (keywords == null) {
+      app.showToast('请输入搜索关键字');
+      return false;
+    }
+
+    // 进入搜索页面
+    my.navigateTo({
+      url: '/pages/goods-search/goods-search?keywords='+keywords
+    });
+  },
+
   // 自定义分享
   onShareAppMessage() {
     var user_id = app.get_user_cache_info('id', 0) || 0;
