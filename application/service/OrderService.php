@@ -807,7 +807,16 @@ class OrderService
             {
                 // 事务回滚
                 Db::rollback();
-                return DataReturn($ret['msg'], -10);
+                return $ret;
+            }
+
+            // 订单商品销量增加
+            $ret = self::GoodsSalesCountInc(['order_id'=>$order['id'], 'order_status'=>2]);
+            if($ret['code'] != 0)
+            {
+                // 事务回滚
+                Db::rollback();
+                return $ret;
             }
 
             // 订单支付成功处理完毕钩子
@@ -1789,16 +1798,16 @@ class OrderService
             {
                 // 事务回滚
                 Db::rollback();
-                return DataReturn($ret['msg'], -10);
+                return $ret;
             }
 
             // 订单商品销量增加
-            $ret = self::GoodsSalesCountInc(['order_id'=>$order['id']]);
+            $ret = self::GoodsSalesCountInc(['order_id'=>$order['id'], 'order_status'=>4]);
             if($ret['code'] != 0)
             {
                 // 事务回滚
                 Db::rollback();
-                return DataReturn($ret['msg'], -10);
+                return $ret;
             }
 
             // 用户消息
@@ -2106,6 +2115,11 @@ class OrderService
                 'checked_type'      => 'empty',
                 'key_name'          => 'order_id',
                 'error_msg'         => '订单id有误',
+            ],
+            [
+                'checked_type'      => 'isset',
+                'key_name'          => 'order_status',
+                'error_msg'         => '订单状态有误',
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -2114,21 +2128,41 @@ class OrderService
             return DataReturn($ret, -1);
         }
 
-        // 获取订单商品
-        $order_detail = Db::name('OrderDetail')->field('id,goods_id,title,buy_number')->where(['order_id'=>$params['order_id']])->select();
-        if(!empty($order_detail))
+        // 增加销量规则、默认订单收货
+        $status = false;
+        if(MyC('common_goods_sales_count_inc_rules', 1) == 1)
         {
-            foreach($order_detail as $v)
+            // 订单收货责确认订单状态是收货状态
+            if($params['order_status'] == 4)
             {
-                if(Db::name('Goods')->where(['id'=>$v['goods_id']])->setInc('sales_count', $v['buy_number']) === false)
-                {
-                    return DataReturn('订单商品销量增加失败['.$v['title'].']', -10);
-                }
+                $status = true;
             }
-            return DataReturn('操作成功', 0);
         } else {
-            return DataReturn('订单有误，没有找到相关商品', -100);
+            // 订单支付状态
+            if($params['order_status'] == 2)
+            {
+                $status = true;
+            }
         }
+        if($status)
+        {
+            // 获取订单商品
+            $order_detail = Db::name('OrderDetail')->field('id,goods_id,title,buy_number')->where(['order_id'=>$params['order_id']])->select();
+            if(!empty($order_detail))
+            {
+                foreach($order_detail as $v)
+                {
+                    if(Db::name('Goods')->where(['id'=>$v['goods_id']])->setInc('sales_count', $v['buy_number']) === false)
+                    {
+                        return DataReturn('订单商品销量增加失败['.$v['title'].']', -10);
+                    }
+                }
+                return DataReturn('操作成功', 0);
+            } else {
+                return DataReturn('订单有误，没有找到相关商品', -100);
+            }
+        }
+        return DataReturn('无需处理', 0);
     }
 
     /**

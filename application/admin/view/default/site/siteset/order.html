@@ -41,6 +41,16 @@
                 </select>
             </div>
 
+            <!-- 订单商品销量 -->
+            <div class="am-form-group">
+                <label>{{$data.common_goods_sales_count_inc_rules.name}}<span class="am-form-group-label-tips">{{$data.common_goods_sales_count_inc_rules.describe}}</span></label>
+                <select name="{{$data.common_goods_sales_count_inc_rules.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_goods_sales_count_inc_rules.error_tips}}" required>
+                    {{foreach $common_sales_count_inc_rules_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_goods_sales_count_inc_rules']['value']) and $data['common_goods_sales_count_inc_rules']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
             <!-- 订单批量支付 -->
             <div class="am-form-group">
                 <label>{{$data.home_is_enable_order_bulk_pay.name}}<span class="am-form-group-label-tips">{{$data.home_is_enable_order_bulk_pay.describe}}</span></label>

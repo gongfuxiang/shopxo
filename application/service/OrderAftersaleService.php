@@ -988,7 +988,9 @@ class OrderAftersaleService
         }
 
         // 已完成订单、商品销量释放
-        if($order['data']['status'] == 4 && $aftersale['number'] > 0)
+        // 规则 订单支付、订单收货（默认）
+        $order_status = (MyC('common_goods_sales_count_inc_rules', 1) == 1) ? 4 : 2;
+        if($order['data']['status'] == $order_status && $aftersale['number'] > 0)
         {
             if(!Db::name('Goods')->where(['id'=>intval($aftersale['goods_id'])])->setDec('sales_count', $aftersale['number']))
             {

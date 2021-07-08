@@ -172,10 +172,16 @@ return [
         ],
 
     // 扣除库存规则
-    'common_deduction_inventory_rules_list'         =>  [
-            0 => ['id' => 0, 'name' => '订单确认成功', 'checked' => true],
+    'common_deduction_inventory_rules_list' =>  [
+            0 => ['id' => 0, 'name' => '订单确认成功'],
             1 => ['id' => 1, 'name' => '订单支付成功'],
             2 => ['id' => 2, 'name' => '订单发货'],
+        ],
+
+    // 商品增加销量规则
+    'common_sales_count_inc_rules_list'     =>  [
+            0 => ['id' => 0, 'name' => '订单支付'],
+            1 => ['id' => 1, 'name' => '订单收货'],
         ],
 
     // 是否已读

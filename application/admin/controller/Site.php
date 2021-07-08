@@ -180,6 +180,9 @@ class Site extends Common
 		// 扣除库存规则
 		$this->assign('common_deduction_inventory_rules_list', lang('common_deduction_inventory_rules_list'));
 
+		// 增加销量规则
+		$this->assign('common_sales_count_inc_rules_list', lang('common_sales_count_inc_rules_list'));
+
 		// 首页商品排序规则
 		$this->assign('goods_order_by_type_list', lang('goods_order_by_type_list'));
 		$this->assign('goods_order_by_rule_list', lang('goods_order_by_rule_list'));
