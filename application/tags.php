@@ -56,12 +56,10 @@ return array (
   'plugins_service_users_center_left_menu_handle' => 
   array (
     0 => 'app\\plugins\\shop\\Hook',
-    1 => 'app\\plugins\\usercdkey\\Hook',
   ),
   'plugins_service_header_navigation_top_right_handle' => 
   array (
     0 => 'app\\plugins\\shop\\Hook',
-    1 => 'app\\plugins\\usercdkey\\Hook',
   ),
   'plugins_service_goods_save_handle' => 
   array (
@@ -135,19 +133,28 @@ return array (
   array (
     0 => 'app\\plugins\\shop\\Hook',
   ),
-  'plugins_view_admin_login_info' => 
+  'plugins_layout_service_goods_data_begin' => 
   array (
     0 => 'app\\plugins\\shop\\Hook',
+  ),
+  'plugins_service_base_data_return_api_goods_detail' => 
+  array (
+    0 => 'app\\plugins\\shop\\Hook',
+    1 => 'app\\plugins\\salerecords\\Hook',
+  ),
+  'plugins_common_header' => 
+  array (
+    0 => 'app\\plugins\\dang100\\Hook',
+  ),
+  'plugins_view_common_search_right' => 
+  array (
+    0 => 'app\\plugins\\dang100\\Hook',
   ),
   'plugins_view_home_floor_bottom' => 
   array (
     0 => 'app\\plugins\\salerecords\\Hook',
   ),
   'plugins_service_base_data_return_api_index_index' => 
-  array (
-    0 => 'app\\plugins\\salerecords\\Hook',
-  ),
-  'plugins_service_base_data_return_api_goods_detail' => 
   array (
     0 => 'app\\plugins\\salerecords\\Hook',
   ),

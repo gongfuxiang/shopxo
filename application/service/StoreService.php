@@ -23,7 +23,6 @@ class StoreService
 {
     // 远程信息接口
     public static $store_site_info_url = 'https://store.shopxo.net/index.php?s=/api/plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=siteinfo';
-    //public static $store_site_info_url = 'https://www.google.com/';
 
     // 远程检查更新接口
     public static $store_inspect_upgrade_url = 'https://store.shopxo.net/index.php?s=/api/plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=inspectupgrade';
