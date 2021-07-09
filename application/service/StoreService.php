@@ -23,6 +23,7 @@ class StoreService
 {
     // 远程信息接口
     public static $store_site_info_url = 'https://store.shopxo.net/index.php?s=/api/plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=siteinfo';
+    //public static $store_site_info_url = 'https://www.google.com/';
 
     // 远程检查更新接口
     public static $store_inspect_upgrade_url = 'https://store.shopxo.net/index.php?s=/api/plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=inspectupgrade';
@@ -284,7 +285,21 @@ class StoreService
      * @param   [array]           $params   [额外参数]
      */
     public static function RemoteStoreData($accounts, $password, $url, $params = [])
-    {
+    {        
+        // http状态验证
+        $key = 'cache_store_url_http_code';
+        $time = 600;
+        $code = cache($key);
+        if($code == null)
+        {
+            $code = GetHttpCode(self::StoreUrl(), 2);
+            cache($key, $code, $time);
+        }
+        if($code != 200)
+        {
+            return DataReturn('商店网络不通', 0);
+        }
+
         // 基础数据获取
         $bo = new \base\Behavior();
 
@@ -312,7 +327,9 @@ class StoreService
         $result = json_decode($res, true);
         if(empty($result))
         {
-            return DataReturn('接口请求失败'.(empty($res) ? '' : '['.$res.']'), -1);
+            // 网络不通、返回非有效json数据则认为网络不通
+            cache($key, 0, $time);
+            return DataReturn('商店网络不通', 0);
         }
 
         // 是否非数组
