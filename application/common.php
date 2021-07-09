@@ -11,6 +11,39 @@
 
 // 应用公共文件
 
+/**
+ * 获取链接http状态码
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-07-09
+ * @desc    description
+ * @param   [string]      $url     [链接地址]
+ * @param   [int]         $timeout [超时时间（秒）]
+ */
+function GetHttpCode($url, $timeout = 5)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    curl_setopt($ch, CURLOPT_NOBODY, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_exec($ch);
+    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return $code;
+}
+
+/**
+ * 判断是否是url地址
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-07-09
+ * @desc    description
+ * @param   [string]          $value [地址值]
+ */
 function IsUrl($value)
 {
     return in_array(substr($value, 0, 6), ['https:', 'http:/']);
