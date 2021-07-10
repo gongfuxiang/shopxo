@@ -231,6 +231,7 @@
 }
 .module-offcanvas-container .am-offcanvas-content {
     color: #666;
+    overflow: hidden;
 }
 .module-offcanvas-container .am-offcanvas-bar:after {
     background: #ccc;
@@ -315,6 +316,8 @@
 }
 .group-border-style .chosen-container {
     width: 72px !important;
+    display: block;
+    float: left;
 }
 .group-border-style .chosen-container:not(:last-child) {
     margin-right: 5px;
