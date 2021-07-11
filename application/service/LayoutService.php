@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\service;
 
-use app\service\ConfigService;
+use think\Db;
 use app\layout\service\BaseLayout;
 
 /**
@@ -46,14 +46,20 @@ class LayoutService
             return DataReturn('布局key值有', -1);
         }
 
-        // 保存数据
+        // 配置信息
         $config = empty($params['config']) ? '' : BaseLayout::ConfigSaveHandle($params['config']);
-        $ret = ConfigService::ConfigSave([self::$layout_key[$key]=>$config]);
-        if($ret['code'] == 0)
+
+        // 数据保存
+        $type = self::$layout_key[$key];
+        $data = [ 
+            $type       => $config,
+            'upd_time'  => time(),
+        ];
+        if(Db::name('Layout')->where(['type'=>$type, 'is_enable'=>1])->update($data))
         {
-            $ret['msg'] = '操作成功';
+            return DataReturn('更新成功', 0);
         }
-        return $ret;
+        return DataReturn('更新失败', -1);
     }
 
     /**
@@ -69,7 +75,8 @@ class LayoutService
     {
         if(array_key_exists($key, self::$layout_key))
         {
-            return BaseLayout::ConfigAdminHandle(MyC(self::$layout_key[$key]));
+            $config = Db::name('Layout')->where(['type'=>self::$layout_key[$key], 'is_enable'=>1])->value('config');
+            return BaseLayout::ConfigAdminHandle($config);
         }
         return '';
     }
@@ -87,7 +94,8 @@ class LayoutService
     {
         if(array_key_exists($key, self::$layout_key))
         {
-            return BaseLayout::ConfigHandle(MyC(self::$layout_key[$key]));
+            $config = Db::name('Layout')->where(['type'=>self::$layout_key[$key], 'is_enable'=>1])->value('config');
+            return BaseLayout::ConfigHandle($config);
         }
         return '';
     }
