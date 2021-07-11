@@ -79,7 +79,7 @@
 ![小程序](https://images.gitee.com/uploads/images/2020/0213/091112_064306e0_488475.jpeg "xcx序.jpg")
 
 # PC端图片展示
-![PC脑端](https://images.gitee.com/uploads/images/2021/0711/154133_d4fb02cf_488475.gif "home.gif")
+![PC脑端](https://images.gitee.com/uploads/images/2021/0711/160538_1806ce71_488475.gif "home.gif")
 
 # 后台管理图片展示
 ![后台管理](https://images.gitee.com/uploads/images/2021/0711/154241_5b84f065_488475.gif "admin.gif")
