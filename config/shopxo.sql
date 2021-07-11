@@ -1699,7 +1699,7 @@ CREATE TABLE `sxo_plugins` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `plugins` (`plugins`),
   KEY `is_enable` (`is_enable`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='应用';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='应用';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1708,7 +1708,6 @@ CREATE TABLE `sxo_plugins` (
 
 LOCK TABLES `sxo_plugins` WRITE;
 /*!40000 ALTER TABLE `sxo_plugins` DISABLE KEYS */;
-INSERT INTO `sxo_plugins` VALUES (1,'用户卡密','usercdkey','{\"list_api_url\":\"\",\"resetpwd_api_url\":\"\",\"is_user_menu\":\"1\"}',0,1,1624262715,1624588837),(2,'销售记录','salerecords','{\"order_random_max_number\":\"\",\"home_bottom_number\":\"10\",\"home_bottom_title\":\"\\u65b0\\u8d2d\\u4e70\\u8bb0\\u5f55\\u6807\\u9898\\u54e6\",\"home_bottom_desc\":\"d \\u90fd\\u662f\\u653e\\u677e\\u653e\\u677e\\u5730\\u65b9\",\"goods_detail_number\":\"\",\"goods_detail_time_pause\":\"\",\"goods_detail_time_interval\":\"\",\"goods_detail_tips\":\"1\\u5206\\u949f\\u524d,30\\u79d2\\u524d,5\\u5206\\u949f\\u524d,\\u521a\\u521a\",\"goods_detail_tips_location\":\"top-left\",\"is_home_bottom\":\"1\",\"is_goods_detail\":\"1\"}',0,2,1624262715,1626017659),(3,'积分商城','points','{\"application_name\":\"\",\"goods_detail_panel\":\"\",\"goods_detail_title_icon\":\"\",\"points_desc\":\"\",\"footer_code\":\"\",\"deduction_price\":\"\",\"order_max_integral\":\"\",\"order_total_price\":\"\",\"right_images\":\"http:\\/\\/shopxo.com\\/static\\/plugins\\/images\\/points\\/default-right-images.jpg\",\"right_images_url_rules\":{\"pc\":\"\",\"h5\":\"\",\"ios\":\"\",\"android\":\"\",\"weixin\":\"\",\"alipay\":\"\",\"baidu\":\"\",\"toutiao\":\"\",\"qq\":\"\"},\"register_reward_integral\":\"5-10\",\"invite_reward_integral\":\"2-5\",\"seo_title\":\"\",\"seo_keywords\":\"\",\"seo_desc\":\"\",\"is_register_reward_integral\":\"1\",\"is_force_register\":\"1\"}',0,3,1624262715,1626017658),(5,'多商户','shop','{\"application_name\":\"\\u5e97\\u94fa\",\"seller_center_notice\":\"\",\"layout_pages_custom_doc_url\":\"https:\\/\\/ask.shopxo.net\\/article\\/103\",\"seller_agreement\":\"hello\",\"sms_sign\":\"\",\"sms_new_order_template\":\"\",\"email_new_order_template\":\"\",\"profit_settlement_limit_time\":\"43200\",\"seo_title\":\"\",\"seo_keywords\":\"\",\"seo_desc\":\"\",\"is_admin_goods_shop_show\":\"1\",\"is_admin_goods_settle_show\":\"1\",\"is_shop_favor_menu\":\"1\",\"is_seller_user_menu\":\"1\",\"is_shop_info\":\"1\",\"is_service_info\":\"1\",\"is_select_position\":\"1\",\"is_auth_fill_info\":\"1\",\"is_auth_upload_pic\":\"0\",\"is_auth_upload_more_prove\":\"0\",\"is_notice_info\":\"0\",\"is_goods_detail_shop_show\":\"1\",\"is_check_url_self_site\":\"1\",\"is_new_order_notice\":\"0\"}',0,0,1624262715,1626017655),(6,'建党100周年庆祝','dang100','{\"time_start\":\"2021-06-04 22:56:51\",\"time_end\":\"2021-07-03 22:56:54\",\"is_home\":\"0\"}',0,0,1624805161,1626017657);
 /*!40000 ALTER TABLE `sxo_plugins` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2261,4 +2260,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-11 23:46:38
+-- Dump completed on 2021-07-11 23:52:43
