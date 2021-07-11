@@ -25,7 +25,10 @@ class LayoutService
 {
     // 布局key
     public static $layout_key = [
-        'home'  => 'layout_index_home_data',
+        'home'  => [
+            'type'  => 'layout_index_home_data',
+            'name'  => '首页',
+        ],
     ];
 
     /**
@@ -46,20 +49,35 @@ class LayoutService
             return DataReturn('布局key值有', -1);
         }
 
+        // 获取配置信息
+        $key_info = self::$layout_key[$key];
+        $where = ['type'=>$key_info['type'], 'is_enable'=>1];
+        $info = Db::name('Layout')->where($where)->find();
+
         // 配置信息
         $config = empty($params['config']) ? '' : BaseLayout::ConfigSaveHandle($params['config']);
 
         // 数据保存
-        $type = self::$layout_key[$key];
         $data = [ 
-            $type       => $config,
-            'upd_time'  => time(),
+            'type'      => $key_info['type'],
+            'name'      => $key_info['name'],
+            'config'    => $config,
         ];
-        if(Db::name('Layout')->where(['type'=>$type, 'is_enable'=>1])->update($data))
+        if(empty($info))
         {
-            return DataReturn('更新成功', 0);
+            $data['add_time'] = time();
+            if(Db::name('Layout')->insertGetId($data) <= 0)
+            {
+                return DataReturn('添加失败', -1);
+            }
+        } else {
+            $data['upd_time'] = time();
+            if(!Db::name('Layout')->where(['id'=>$info['id']])->update($data))
+            {
+                return DataReturn('更新失败', -1);
+            }
         }
-        return DataReturn('更新失败', -1);
+        return DataReturn('操作成功', 0);
     }
 
     /**
@@ -75,7 +93,7 @@ class LayoutService
     {
         if(array_key_exists($key, self::$layout_key))
         {
-            $config = Db::name('Layout')->where(['type'=>self::$layout_key[$key], 'is_enable'=>1])->value('config');
+            $config = Db::name('Layout')->where(['type'=>self::$layout_key[$key]['type'], 'is_enable'=>1])->value('config');
             return BaseLayout::ConfigAdminHandle($config);
         }
         return '';
@@ -94,7 +112,7 @@ class LayoutService
     {
         if(array_key_exists($key, self::$layout_key))
         {
-            $config = Db::name('Layout')->where(['type'=>self::$layout_key[$key], 'is_enable'=>1])->value('config');
+            $config = Db::name('Layout')->where(['type'=>self::$layout_key[$key]['type'], 'is_enable'=>1])->value('config');
             return BaseLayout::ConfigHandle($config);
         }
         return '';
