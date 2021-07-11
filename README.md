@@ -31,18 +31,7 @@
 * 求实进取、创新专注、自主研发、国内领先企业级电商系统解决方案。
 * 遵循MIT开源协议发布，无需授权、可商用、可二次开发、满足99%的电商运营需求。
 * 支持PC+H5、支付宝小程序、微信小程序、百度小程序、头条&抖音小程序、QQ小程序、APP等...
-* 支持多仓库、多商户模式运营（组件插件化、即插即用）。
-
-### 传送门
-* 官网地址：https://shopxo.net/
-* 社区交流：https://ask.shopxo.net/
-* 应用商店：https://store.shopxo.net/
-* 演示地址：https://demo.shopxo.net/ （管理账户/密码可进入官网查看）
-* 支付宝小程序：https://shopxo.net/alipay.html
-* 微信小程序：https://shopxo.net/weixin.html
-* 百度小程序：https://shopxo.net/baidu.html
-* 头条&抖音小程序：https://shopxo.net/zijietiaodong.html
-* QQ小程序：https://shopxo.net/qq.html
+* 支持多仓库、多商户模式运营（组件插件化、即插即用），可视化拖拽装修。
 
 ### 小程序体验码
 ![小程序二维码](https://images.gitee.com/uploads/images/2020/1103/004316_d298a943_488475.jpeg "qrcode.jpg")
@@ -58,14 +47,14 @@
 * 官方3群：1127073697
 * 官方多商户群：782971010
 
-### 源代码平台
-* 码云：https://gitee.com/zongzhige/shopxo
-* Github：https://github.com/gongfuxiang/shopxo
+### 源代码地址
+* Gitee：https://gitee.com/zongzhige/shopxo
+* GitHub：https://github.com/gongfuxiang/shopxo
 * Coding：https://zongzhige.coding.net/public/shopxo/shopxo/git
 
 ### 部分功能特点
 ~~~
-1. 多种模式（销售+自提+虚拟+展示+销售/自提）多仓库管理、仓库独立库存
+1. 多种模式（销售+自提+虚拟+展示+销售/自提）多仓库独立库存管理、可视化拖拽装修
 2. 分销（可配置1~3级、分享赚取佣金、小程序商品海报、取货点、佣金可配置具体到SKU(比例和固定金额)）
 3. 会员等级（等级折扣(具体到商品规格)、满减、手动设置会员等级、付费购买+续费+三级返佣）
 4. 限时秒杀（独立秒杀中心、商品详情秒杀倒计时、自动开始结束）
@@ -76,6 +65,7 @@
 9. 微信小程序直播（直播卖货、海报分享）
 10. 积分商城+签到（积分抵扣、积分兑换、无限发布签到活动获取积分）
 11. 多端小程序（微信、支付宝、百度、头条/抖音、QQ）
+12. 多商户（商家入驻独立店铺、可视化拖拽装修+页面设计、不同商家自动拆单，店铺、商品、分类、结算、订单管理、数据统计）
 等等...   更多查看应用商店 https://store.shopxo.net/
 ~~~
 
@@ -89,10 +79,13 @@
 ![小程序](https://images.gitee.com/uploads/images/2020/0213/091112_064306e0_488475.jpeg "xcx序.jpg")
 
 # PC端图片展示
-![电脑端](https://images.gitee.com/uploads/images/2020/0203/000718_c4209c1f_488475.gif "home.gif")
+![PC脑端](https://images.gitee.com/uploads/images/2021/0711/154133_d4fb02cf_488475.gif "home.gif")
 
 # 后台管理图片展示
-![后台管理](https://images.gitee.com/uploads/images/2020/0203/000749_4a8b1c43_488475.gif "admin.gif")
+![后台管理](https://images.gitee.com/uploads/images/2021/0711/154241_5b84f065_488475.gif "admin.gif")
+
+# 可视化拖拽图片展示
+![可视化拖拽](https://images.gitee.com/uploads/images/2021/0711/154842_90877b0a_488475.gif "layout.gif")
 
 # 获得荣誉
 ![GVP 证书](https://images.gitee.com/uploads/images/2020/0213/002000_06d4df98_488475.jpeg "GVP高清图片.jpeg")
