@@ -77,7 +77,7 @@
 				            <div class="am-form-group">
 				                <label>{{$data.common_app_weixin_liveplayer_ver.name}}</label>
 				                <div class="am-alert am-alert-warning">
-				                    <p>1. 获取最新组件版本号，默认[ 1.2.10 ]</p>
+				                    <p>1. 获取最新组件版本号，默认[ 1.3.0 ]</p>
 				                    <p>2. 登录微信小程序平台，左侧导航[ 直播 ]，申请直播权限后等待审核通过方可使用</p>
 				                    <p>3. 点击左侧导航[ 小程序直播->接入说明 ]，找到[ 使用方法说明->1. 【直播组件】如何引入 ]，json 代码串[ plugins->live-player-plugin ]参数下的[ version ]的值填入</p>
 				                    <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/liveplayer/live-player-plugin.html" target="_blank">去获取组件版本号 <i class="am-icon-external-link"></i></a>
@@ -188,31 +188,6 @@
 							<div class="am-form-group">
 								<label>{{$data.common_app_mini_toutiao_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_appsecret.describe}}</span></label>
 								<input type="text" name="{{$data.common_app_mini_toutiao_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_appsecret.name}}" data-validation-message="{{$data.common_app_mini_toutiao_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_appsecret.value}}"{{/if}} />
-							</div>
-						</div>
-					</div>
-					<div class="am-panel am-panel-default">
-						<div class="am-panel-hd">
-							<h3 class="am-panel-title">支付配置</h3>
-						</div>
-						<div class="am-panel-bd">
-							<div class="am-alert am-alert-warning am-margin-bottom-0">
-			                    <p>1. 字节跳动小程序支持支付宝和微信支付</p>
-			                    <p>2. 支付宝需要申请APP支付权限</p>
-			                    <p>3. 微信需要申请H5支付权限</p>
-			                    <a href="https://microapp.bytedance.com/docs/zh-CN/mini-app/develop/api/open-interface/payment/mini-app-pay-plugin-reference/application-for-payment/" target="_blank">支付申请与配置 <i class="am-icon-external-link"></i></a>
-			                </div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_toutiao_pay_merchant_id.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_pay_merchant_id.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_toutiao_pay_merchant_id.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_pay_merchant_id.name}}" data-validation-message="{{$data.common_app_mini_toutiao_pay_merchant_id.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_pay_merchant_id.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_toutiao_pay_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_pay_appid.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_toutiao_pay_appid.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_pay_appid.name}}" data-validation-message="{{$data.common_app_mini_toutiao_pay_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_pay_appid.value}}"{{/if}} />
-							</div>
-							<div class="am-form-group">
-								<label>{{$data.common_app_mini_toutiao_pay_secret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_toutiao_pay_secret.describe}}</span></label>
-								<input type="text" name="{{$data.common_app_mini_toutiao_pay_secret.only_tag}}" placeholder="{{$data.common_app_mini_toutiao_pay_secret.name}}" data-validation-message="{{$data.common_app_mini_toutiao_pay_secret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_toutiao_pay_secret.value}}"{{/if}} />
 							</div>
 							<div class="am-form-group">
 								<label>{{$data.common_app_mini_toutiao_title.name}}</label>
