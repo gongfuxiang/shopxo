@@ -449,6 +449,7 @@ class UserService
                     session(self::$user_login_key, $user);
                     return (session(self::$user_login_key) !== null);
                 }
+                return true;
             }
         }
         return false;
