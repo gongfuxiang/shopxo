@@ -61,7 +61,7 @@ class BannerService
                         {
                             $v['event_value_data'] = explode('|', $v['event_value']);
                         }
-                        $v['event_value'] = $v['event_value'];
+                        $v['event_value'] = htmlspecialchars_decode($v['event_value']);
                     } else {
                         $v['event_value'] = null;
                     }

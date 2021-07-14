@@ -293,7 +293,7 @@ class AppCenterNavService
                 {
                     $v['images_url_old'] = $v['images_url'];
                     $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
-                    $v['event_value'] = empty($v['event_value']) ? null : $v['event_value'];
+                    $v['event_value'] = empty($v['event_value']) ? null : htmlspecialchars_decode($v['event_value']);
                 }
             }
             // 存储缓存

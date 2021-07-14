@@ -612,7 +612,7 @@ class BaseLayout
                     $key = 'pages_custom_url_'.$client_type;
                     if(!empty($value) && is_array($value) && array_key_exists($key, $value) && !empty($value[$key]))
                     {
-                        $url = $value[$key];
+                        $url = htmlspecialchars_decode($value[$key]);
                     }
                     break;
             }
