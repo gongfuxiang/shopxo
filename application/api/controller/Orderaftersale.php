@@ -130,7 +130,7 @@ class Orderaftersale extends Common
             $return_money_goods_reason = MyC('home_order_aftersale_return_money_goods_reason');
 
             // 退货地址
-            $return_goods_address = OrderAftersaleService::OrderAftersaleReturnGoodsAddress($new_aftersale_data['order_id']);
+            $return_goods_address = OrderAftersaleService::OrderAftersaleReturnGoodsAddress($order_id);
 
             // 返回数据
             $result = [
