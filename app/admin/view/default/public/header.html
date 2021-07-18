@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="{{:MyConfig('shopxo.default_charset', 'utf-8')}}" />
+	<link rel="shortcut icon" type="image/x-icon" href="{{$public_host}}favicon.ico" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1" />
+	<title>{{$admin_theme_site_name}}后台管理系统</title>
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/admin/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+    {{if isset($is_load_layout) and $is_load_layout eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.css?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+    {{if isset($is_load_layout_admin) and $is_load_layout_admin eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.admin.css?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/admin/{{$default_theme}}/css/iconfontmenu.css?v={{:MyC('home_static_cache_version')}}" />
+    {{if !empty($plugins_css)}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$plugins_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+	{{if !empty($module_css)}}
+		<link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
+	{{/if}}
+
+	<!-- css钩子 -->
+    {{if !empty($plugins_admin_css_data) and is_array($plugins_admin_css_data)}}
+        {{foreach $plugins_admin_css_data as $hook}}
+            {{if !empty($hook) and is_string($hook)}}
+                {{if substr($hook, 0, 4) eq 'http'}}
+                    <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
+                {{else /}}
+                    <link rel="stylesheet" type="text/css" href="{{$public_host}}{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
+                {{/if}}
+            {{elseif is_array($hook) /}}
+                {{foreach $hook as $hook_css}}
+                    {{if !empty($hook_css) and is_string($hook_css)}}
+                        {{if substr($hook_css, 0, 4) eq 'http'}}
+                            <link rel="stylesheet" type="text/css" href="{{$hook_css}}?v={{:MyC('home_static_cache_version')}}" />
+                        {{else /}}
+                            <link rel="stylesheet" type="text/css" href="{{$public_host}}{{$hook_css}}?v={{:MyC('home_static_cache_version')}}" />
+                        {{/if}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
+
+    <!-- 公共header内钩子 -->
+	{{if !empty($plugins_admin_common_header_data) and is_array($plugins_admin_common_header_data)}}
+		{{foreach $plugins_admin_common_header_data as $hook}}
+			{{if is_string($hook) or is_int($hook)}}
+				{{$hook|raw}}
+			{{/if}}
+		{{/foreach}}
+	{{/if}}
+</head>
+<script type="text/javascript">
+    var __root__ = '{{$public_host}}';
+    var __my_url__ = '{{$my_url}}';
+    var __my_public_url__ = '{{$my_public_url}}';
+    var __public__ = '{{$public_host}}';
+	var __attachment_host__ = '{{$attachment_host}}';
+    var __currency_symbol__ = '{{$currency_symbol}}';
+</script>
+<body>
+{{if $module_name.$controller_name.$action_name neq 'adminindexindex'}}
+    {{include file="public/page_loading" /}}
+{{/if}}
+
+<!-- 公共顶部钩子 -->
+{{if !empty($plugins_admin_view_common_top_data) and is_array($plugins_admin_view_common_top_data) and (!isset($is_header) or $is_header eq 1)}}
+	{{foreach $plugins_admin_view_common_top_data as $hook}}
+		{{if is_string($hook) or is_int($hook)}}
+			{{$hook|raw}}
+		{{/if}}
+	{{/foreach}}
+{{/if}}

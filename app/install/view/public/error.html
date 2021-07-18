@@ -1,0 +1,16 @@
+{{include file="public/header" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- conntent start  -->
+<div class="am-g">
+    <div class="am-text-center am-margin-xl am-padding-xl">
+        <p><i class="am-icon-info-circle am-icon-lg am-text-xl am-text-warning"></i></p>
+        <p class="am-margin-top-xs am-text-sm">{{if isset($msg)}}{{$msg}}{{else /}}异常错误{{/if}}</p>
+    </div>
+</div>
+<!-- conntent end  -->
+
+<!-- footer -->
+{{include file="public/footer" /}}

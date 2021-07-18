@@ -1,0 +1,87 @@
+{{if !empty($data)}}
+    {{foreach $data as $v}}
+        <li class="am-animation-scale-up">
+            <div class="items am-padding-bottom-xs">
+                <a href="{{$v.goods_url}}" target="_blank" class="am-block">
+                    <!-- 搜索页面商品信息顶部钩子 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_search_goods_inside_top</span>
+                        </div>
+                    {{/if}}
+                    {{php}}
+                        $hook_name = 'plugins_view_search_goods_inside_top';
+                        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v]);
+                        if(!empty($hook_data) && is_array($hook_data))
+                        {
+                            foreach($hook_data as $hook)
+                            {
+                                if(is_string($hook) || is_int($hook))
+                                {
+                                    echo htmlspecialchars_decode($hook);
+                                }
+                            }
+                        }
+                    {{/php}}
+
+                    <img src="{{$v.images}}" alt="{{$v.title}}" class="goods-images" />
+                    <div class="am-padding-xs">
+                        <p class="am-text-truncate-2 goods-title" title="{{$v.title}}">{{$v.title}}</p>
+                    </div>
+                </a>
+                <p class="am-padding-horizontal-xs am-cf">
+                    {{if isset($v['original_price']) and $v['original_price'] gt 0}}
+                        <span class="am-fl original-price">{{$currency_symbol}}{{$v.original_price}}</span>
+                    {{/if}}
+                    <span class="am-fr sales-count">销量 {{$v.sales_count}}</span>
+                </p>
+
+                <!-- 搜索页面商品信息售价顶部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_search_goods_inside_price_top</span>
+                    </div>
+                {{/if}}
+                {{php}}
+                    $hook_name = 'plugins_view_search_goods_inside_price_top';
+                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v]);
+                    if(!empty($hook_data) && is_array($hook_data))
+                    {
+                        foreach($hook_data as $hook)
+                        {
+                            if(is_string($hook) || is_int($hook))
+                            {
+                                echo htmlspecialchars_decode($hook);
+                            }
+                        }
+                    }
+                {{/php}}
+
+                <p class="price am-padding-horizontal-xs am-text-truncate">
+                    <strong>{{$currency_symbol}}{{$v.price}}</strong>
+                </p>
+
+                <!-- 搜索页面商品信息底部钩子 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_search_goods_inside_bottom</span>
+                    </div>
+                {{/if}}
+                {{php}}
+                    $hook_name = 'plugins_view_search_goods_inside_bottom';
+                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'goods_id'=>$v['id'], 'goods'=>$v]);
+                    if(!empty($hook_data) && is_array($hook_data))
+                    {
+                        foreach($hook_data as $hook)
+                        {
+                            if(is_string($hook) || is_int($hook))
+                            {
+                                echo htmlspecialchars_decode($hook);
+                            }
+                        }
+                    }
+                {{/php}}
+            </div>
+        </li>
+    {{/foreach}}
+{{/if}}

@@ -1,0 +1,46 @@
+{{include file="public/header" /}}
+
+<!-- header nav start -->
+{{if isset($is_header) and $is_header eq 1}}
+    <!-- header top nav -->
+    {{include file="public/header_top_nav" /}}
+
+    <!-- search -->
+    {{include file="public/nav_search" /}}
+
+    <!-- header nav -->
+    {{include file="public/header_nav" /}}
+
+    <!-- goods category -->
+    {{include file="public/goods_category" /}}
+{{/if}}
+<!-- header nav end -->
+
+<!-- conntent start  -->
+<div class="am-g">
+    <div class="am-text-center am-margin-top-xl am-padding-xl">
+        <p><i class="am-icon-info-circle am-icon-lg am-text-xl am-text-warning"></i></p>
+        <p class="am-margin-top-xs am-text-sm">{{if isset($msg)}}{{$msg}}{{else /}}操作失败{{/if}}</p>
+        <p class="am-margin-top-xl">
+            <a href="javascript:history.go(-1)" class="am-text-primary">返回上一页</a>
+            <span class="am-margin-left-sm"><span class="wait-time">{{if empty($wait_time)}}5{{else /}}{{$wait_time}}{{/if}}</span>秒自动返回</span>
+        </p>
+    </div>
+</div>
+<!-- conntent end  -->
+
+<!-- footer -->
+{{include file="public/footer" /}}
+<script type="text/javascript">
+    var interval = setInterval(function()
+    {
+        var time = parseInt($('.wait-time').text() || 5)-1;
+        if(time <= 0)
+        {
+            clearInterval(interval);
+            history.go(-1);
+        } else {
+            $('.wait-time').text(time);
+        }
+    }, 1000);
+</script>

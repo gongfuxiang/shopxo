@@ -155,9 +155,9 @@ class Verify
 		// 空uid则存储session
 		if(empty($this->uid))
 		{
-			$data = session($this->key_verify);
+			$data = MySession($this->key_verify);
 		} else {
-			$data = cache($this->key_verify.$this->uid);
+			$data = MyCache($this->key_verify.$this->uid);
 		}
 
 		if(!empty($data) && isset($data['time']))
@@ -181,9 +181,9 @@ class Verify
 		// 空uid则存储session
 		if(empty($this->uid))
 		{
-			$data = session($this->key_verify);
+			$data = MySession($this->key_verify);
 		} else {
-			$data = cache($this->key_verify.$this->uid);
+			$data = MyCache($this->key_verify.$this->uid);
 		}
 		if(!empty($data) && isset($data['verify']))
 		{
@@ -209,9 +209,9 @@ class Verify
 		// 空uid则处理session
 		if(empty($this->uid))
 		{
-			session($this->key_verify, null);
+			MySession($this->key_verify, null);
 		} else {
-			cache($this->key_verify.$this->uid, null);
+			MyCache($this->key_verify.$this->uid, null);
 		}
 	}
 
@@ -232,9 +232,9 @@ class Verify
 		// 空uid则存储session
 		if(empty($this->uid))
 		{
-			session($this->key_verify, $data);
+			MySession($this->key_verify, $data);
 		} else {
-			cache($this->key_verify.$this->uid, $data, $this->expire_time);
+			MyCache($this->key_verify.$this->uid, $data, $this->expire_time);
 		}
 	}
 

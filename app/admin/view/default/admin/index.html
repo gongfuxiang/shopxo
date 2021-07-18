@@ -1,0 +1,22 @@
+<!-- 继承公共的 form -->
+{{extend name="public/module/form" /}}
+
+<!-- 公共导航容器 -->
+{{block name="form_navigation"}}
+    {{if isset($admin) and isset($admin['id']) and $admin['id'] eq 1}}
+        <!-- 仅超级管理员显示的温馨提示 -->
+        <div class="am-alert am-alert-danger" data-am-alert>
+            <button type="button" class="am-close">&times;</button>
+            <p>1. admin 账户默认拥有所有权限，不可更改。</p>
+            <p>2. admin 账户不可更改，但是可以在数据表中修改[ {{:MyConfig('database.connections.mysql.prefix')}}admin ] 字段 username</p>
+        </div>
+    {{/if}}
+{{/block}}
+
+
+<!-- 表单顶部操作栏 -->
+{{block name="form_operate_top"}}
+    <a href="{{:MyUrl('admin/admin/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+    <!-- 父级内容 -->
+    {__block__}
+{{/block}}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="{{:MyConfig('shopxo.default_charset', 'utf-8')}}" />
+	<title>{{$home_seo_site_title}}</title>
+	<meta name="keywords" content="{{$home_seo_site_keywords}}" />
+	<meta name="description" content="{{$home_seo_site_description}}" />
+	<meta name="generator" content="{{$my_url}}" />
+	<meta name="application-name" content="{{$home_seo_site_title}}" />
+	<meta name="msapplication-tooltip" content="{{$home_seo_site_title}}" />
+	<meta name="msapplication-starturl" content="{{$my_url}}" />
+	<link rel="shortcut icon" type="image/x-icon" href="{{$public_host}}favicon.ico" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="{{:MyC('home_site_name')}}">
+    <link rel="apple-touch-icon" href="{{:AttachmentPathViewHandle(MyC('home_site_desktop_icon'))}}">
+    <link rel="apple-touch-icon-precomposed" href="{{:AttachmentPathViewHandle(MyC('home_site_desktop_icon'))}}">
+    
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/cropper/cropper.min.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-tagsinput/amazeui.tagsinput.css?v={{:MyC('home_static_cache_version')}}" />
+	
+	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+    <link rel="stylesheet" type="text/css" href="{{$public_host}}static/index/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+    {{if !empty($plugins_css)}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$plugins_css}}?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+    {{if isset($is_load_layout) and $is_load_layout eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.css?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+    {{if isset($is_load_layout_admin) and $is_load_layout_admin eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.admin.css?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
+	{{if !empty($module_css)}}
+		<link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
+	{{/if}}
+
+	<!-- css钩子 -->
+    {{if !empty($plugins_css_data) and is_array($plugins_css_data)}}
+        {{foreach $plugins_css_data as $hook}}
+            {{if !empty($hook) and is_string($hook)}}
+                {{if substr($hook, 0, 4) eq 'http'}}
+                    <link rel="stylesheet" type="text/css" href="{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
+                {{else /}}
+                    <link rel="stylesheet" type="text/css" href="{{$public_host}}{{$hook}}?v={{:MyC('home_static_cache_version')}}" />
+                {{/if}}
+            {{elseif is_array($hook) /}}
+                {{foreach $hook as $hook_css}}
+                    {{if !empty($hook_css) and is_string($hook_css)}}
+                        {{if substr($hook_css, 0, 4) eq 'http'}}
+                            <link rel="stylesheet" type="text/css" href="{{$hook_css}}?v={{:MyC('home_static_cache_version')}}" />
+                        {{else /}}
+                            <link rel="stylesheet" type="text/css" href="{{$public_host}}{{$hook_css}}?v={{:MyC('home_static_cache_version')}}" />
+                        {{/if}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
+
+	<script type="text/javascript">
+		var __root__ = '{{$public_host}}';
+		var __my_url__ = '{{$my_url}}';
+        var __my_public_url__ = '{{$my_public_url}}';
+		var __public__ = '{{$public_host}}';
+		var __default_theme__ = '{{$default_theme}}';
+		var __modal_login_url__ = '{{:MyUrl("index/user/modallogininfo")}}';
+		var __attachment_host__ = '{{$attachment_host}}';
+        var __seo_url_suffix__ = '{{:MyC("home_seo_url_html_suffix", "html", true)}}';
+		var __user_id__ = {{if empty($user['id'])}}0{{else /}}{{$user.id}}{{/if}};
+        var __currency_symbol__ = '{{$currency_symbol}}';
+	</script>
+	
+	<!-- 公共header内钩子 -->
+	{{if !empty($plugins_common_header_data) and is_array($plugins_common_header_data)}}
+		{{foreach $plugins_common_header_data as $hook}}
+			{{if is_string($hook) or is_int($hook)}}
+				{{$hook|raw}}
+			{{/if}}
+		{{/foreach}}
+	{{/if}}
+</head>
+<body {{if in_array(MiniAppEnv(), MyConfig('shopxo.mini_app_type_list'))}}class="mini-app-env"{{/if}}>
+<!-- css钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}
+    <div class="plugins-tag">
+        <span>plugins_css</span>
+    </div>
+{{/if}}
+
+<!-- 公共header内钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}
+	<div class="plugins-tag">
+		<span>plugins_common_header</span>
+	</div>
+{{/if}}
+
+<!-- 公共顶部钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}
+	<div class="plugins-tag">
+		<span>plugins_view_common_top</span>
+	</div>
+{{/if}}
+{{if !empty($plugins_view_common_top_data) and is_array($plugins_view_common_top_data) and (!isset($is_header) or $is_header eq 1)}}
+	{{foreach $plugins_view_common_top_data as $hook}}
+		{{if is_string($hook) or is_int($hook)}}
+			{{$hook|raw}}
+		{{/if}}
+	{{/foreach}}
+{{/if}}

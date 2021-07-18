@@ -13,7 +13,7 @@
 namespace think;
 
 // 加载基础文件
-require __DIR__ . '/thinkphp/base.php';
+require __DIR__ . '/vendor/autoload.php';
 
 // 根目录入口
 define('IS_ROOT_ACCESS', true);
@@ -21,6 +21,9 @@ define('IS_ROOT_ACCESS', true);
 // 引入公共入口文件
 require __DIR__.'/public/core.php';
 
-// 执行应用并响应
-Container::get('app')->bind('admin')->run()->send();
+// 执行HTTP应用并响应
+$http = (new App())->http;
+$response = $http->name('admin')->run();
+$response->send();
+$http->end($response);
 ?>

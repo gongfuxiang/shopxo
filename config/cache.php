@@ -9,37 +9,45 @@
 // | Author: Devil
 // +----------------------------------------------------------------------
 
-// 是否开启redis
-$common_data_is_use_cache = MyFileConfig('common_data_is_use_cache', '', 0, true);
-if($common_data_is_use_cache == 1)
-{
-    // redis配置
-    $config = [
-        // 使用redis
-        'type'      => 'redis',
-        // 连接地址
-        'host'      => MyFileConfig('common_cache_data_redis_host', '', '127.0.0.1', true),
-        // 端口号
-        'port'      => MyFileConfig('common_cache_data_redis_port', '', 6379, true),
-        // 密码
-        'password'  => MyFileConfig('common_cache_data_redis_password', '', '', true),
-        // 全局缓存有效期（0为永久有效）
-        'expire'    => MyFileConfig('common_cache_data_redis_expire', '', 0, true), 
-        // 缓存前缀
-        'prefix'    => MyFileConfig('common_cache_data_redis_prefix', '', 'shopxo', true),
-    ];
-} else {
-    // 默认配置
-    $config = [
-        // 驱动方式
-        'type'   => 'File',
-        // 缓存保存目录
-        'path'   => '',
-        // 缓存前缀
-        'prefix' => 'shopxo',
-        // 缓存有效期 0表示永久缓存
-        'expire' => 0,
-    ];
-}
-return $config;
+// +----------------------------------------------------------------------
+// | 缓存设置
+// +----------------------------------------------------------------------
+return [
+    // 默认缓存驱动
+    'default' => (MyFileConfig('common_data_is_use_cache', '', 0, true) == 1) ? 'redis' : 'file',
+
+    // 缓存连接方式配置
+    'stores'  => [
+        // 文件缓存
+        'file' => [
+            // 驱动方式
+            'type'       => 'File',
+            // 缓存保存目录
+            'path'       => '',
+            // 缓存前缀
+            'prefix'     => 'shopxo',
+            // 缓存有效期 0表示永久缓存
+            'expire'     => 0,
+            // 缓存标签前缀
+            'tag_prefix' => 'tag:',
+            // 序列化机制 例如 ['serialize', 'unserialize']
+            'serialize'  => [],
+        ],
+        // redis缓存
+        'redis'   =>  [
+            // 驱动方式
+            'type'      => 'redis',
+            // 连接地址
+            'host'      => MyFileConfig('common_cache_data_redis_host', '', '127.0.0.1', true),
+            // 端口号
+            'port'      => MyFileConfig('common_cache_data_redis_port', '', 6379, true),
+            // 密码
+            'password'  => MyFileConfig('common_cache_data_redis_password', '', '', true),
+            // 全局缓存有效期（0为永久有效）
+            'expire'    => MyFileConfig('common_cache_data_redis_expire', '', 0, true), 
+            // 缓存前缀
+            'prefix'    => MyFileConfig('common_cache_data_redis_prefix', '', 'redis_shopxo', true),
+        ], 
+    ],
+];
 ?>

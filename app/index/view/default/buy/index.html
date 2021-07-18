@@ -1,0 +1,755 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- 订单确认页面顶部钩子-开始 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>plugins_view_buy_top</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_buy_top_data) and is_array($plugins_view_buy_top_data)}}
+    {{foreach $plugins_view_buy_top_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}
+<!-- 订单确认页面顶部钩子-结束 -->
+
+<!-- content -->
+<div class="am-container">
+    <div class="link-list">
+        <!-- 订单确认页面内部顶部钩子-开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_inside_top</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_inside_top_data) and is_array($plugins_view_buy_inside_top_data)}}
+            {{foreach $plugins_view_buy_inside_top_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <!-- 订单确认页面内部顶部钩子-结束 -->
+
+        <!-- 销售+自提 -->
+        {{if $common_site_type eq 4}}
+            <div data-am-widget="tabs" class="am-tabs am-tabs-d2 buy-header-nav">
+                <ul class="am-tabs-nav am-cf">
+                    <li {{if isset($base['site_model']) and $base['site_model'] eq 0}}class="am-active"{{/if}}><a href="javascript:;" data-value="0">快递邮寄</a></li>
+                    <li {{if isset($base['site_model']) and $base['site_model'] eq 2}}class="am-active"{{/if}}><a href="javascript:;" data-value="2">自提点取货</a></li>
+                </ul>
+            </div>
+        {{/if}}
+
+        <!-- 销售型 - 用户地址 -->
+        {{if isset($base['site_model']) and $base['site_model'] eq 0}}
+            <div class="address user-address-container">
+                <div class="control">
+                    <h3>
+                        确认收货地址
+                        <button type="button" class="am-close am-fr mobile-address-close-submit">&times;</button>
+                    </h3>
+                    {{if !empty($user_address_list)}}
+                        <button class="am-btn am-btn-primary am-btn-xs address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button>
+                    {{/if}}
+                </div>
+                {{if !empty($user_address_list)}}
+                    <ul class="address-list">
+                        {{foreach $user_address_list as $address}}
+                            <li class="{{if (isset($params['address_id']) and $params['address_id'] eq $address['id']) or (!isset($params['address_id']) and isset($address['is_default']) and $address['is_default'] eq 1) or (count($user_address_list) eq 1)}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
+                                <div class="address-left">
+                                    <div class="user-base">
+                                        {{if !empty($address.alias)}}
+                                            <span class="am-badge am-badge-secondary-plain am-radius">{{$address.alias}}</span>
+                                        {{/if}}
+                                        {{if isset($address['is_default']) and $address['is_default'] eq 1}}
+                                            <span class="am-badge am-badge-success-plain am-radius">默认</span>
+                                        {{/if}}
+                                        <span class="address-detail">   
+                                            <span class="user">{{$address.name}}</span>
+                                            <span class="phone">{{$address.tel}}</span>
+                                        </span>
+                                    </div>
+                                    <div class="region">
+                                        <span class="province">{{$address.province_name}}</span>
+                                        <span class="city">{{$address.city_name}}</span>
+                                        <span class="dist">{{$address.county_name}}</span>
+                                        <span class="street">{{$address.address}}</span>
+                                    </div>
+                                </div>
+                                <div class="address-right">
+                                    <span class="am-icon-angle-right am-icon-md"></span>
+                                </div>
+                                <div class="address-operation-btn">
+                                    {{if isset($address['is_default']) and $address['is_default'] neq 1}}
+                                        <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
+                                        <span class="cut">|</span>
+                                    {{/if}}
+                                    <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}" data-popup-title="编辑地址"> 编辑</a>
+                                    <span class="cut">|</span>
+                                    <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> 删除</a>
+                                </div>
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                {{else /}}
+                    <div class="table-no">
+                        <i class="am-icon-warning"></i>
+                        <span>没有地址</span>
+                        <button class="am-btn am-btn-secondary am-btn-xs am-margin-left-sm address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button>
+                    </div>
+                {{/if}}
+            </div>
+        {{/if}}
+
+        <!-- 自提点 - 自提地址 -->
+        {{if isset($base['site_model']) and $base['site_model'] eq 2}}
+            <div class="address extraction-address-container">
+                <div class="control">
+                    <h3>确认自提点地址</h3>
+                    {{if !empty($base['address'])}}
+                        <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius" data-am-modal="{target: '#extraction-address-popup'}">选择取货地址</button>
+                    {{/if}}
+                </div>
+                {{if empty($base['extraction_address'])}}
+                    <p class="am-text-danger am-text-center am-margin-top-lg">请联系管理员配置自提点地址</p>
+                {{else /}}
+                    <!-- 选中地址 -->
+                    {{if !empty($base['address'])}}
+                        <div class="am-panel am-panel-default extraction-default">
+                            <div class="am-panel-bd extraction-address-item am-cf am-vertical-align">
+                                <div class="first-icon am-fl am-vertical-align-middle">
+                                    <i class="am-icon-map-marker"></i>
+                                </div>
+                                <div class="am-fl am-vertical-align-middle">
+                                    <p>
+                                        {{if !empty($base['address']['alias'])}}
+                                            <span class="am-badge am-badge-secondary-plain am-radius am-margin-right-xs">{{$base.address.alias}}</span>
+                                        {{/if}}
+                                        <span>{{$base.address.name}}</span>
+                                        <span>{{$base.address.tel}}</span>
+                                    </p>
+                                    <p class="address-detail">
+                                        <span>{{$base.address.province_name}}</span>
+                                        <span>{{$base.address.city_name}}</span>
+                                        <span>{{$base.address.county_name}}</span>
+                                        <span>{{$base.address.address}}</span>
+                                    </p>
+                                </div>
+                                <div class="address-right">
+                                    <span class="am-icon-angle-right am-icon-md"></span>
+                                </div>
+                            </div>
+                        </div>
+                    {{else /}}
+                        <div class="table-no">
+                            <i class="am-icon-warning"></i>
+                            <span>没有地址</span>
+                            <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius am-margin-left-sm" data-am-modal="{target: '#extraction-address-popup'}">选择取货地址</button>
+                        </div>
+                    {{/if}}
+
+                    <!-- 自提地址选择弹层 -->
+                    <div class="am-popup" id="extraction-address-popup">
+                      <div class="am-popup-inner">
+                        <div class="am-popup-hd">
+                          <h4 class="am-popup-title">自提点选择</h4>
+                          <span class="am-close" data-am-modal-close>&times;</span>
+                        </div>
+                        <div class="am-popup-bd">
+                            <ul class="am-list">
+                                {{foreach $base.extraction_address as $key=>$address}}
+                                    <li class="extraction-address-item am-nbfc" data-value="{{$key}}">
+                                        {{if !empty($address['logo'])}}
+                                            <div class="am-fl am-margin-right-xs">
+                                                <img src="{{$address.logo}}" alt="{{$address.name}}" class="am-img-thumbnail am-radius address-logo" />
+                                            </div>
+                                        {{/if}}
+                                        <div class="am-fl">
+                                            <p>
+                                                {{if !empty($address['alias'])}}
+                                                    <span class="am-badge am-badge-secondary-plain am-radius am-margin-right-xs">{{$address.alias}}</span>
+                                                {{/if}}
+                                                <span>{{$address.name}}</span>
+                                                <span>{{$address.tel}}</span>
+                                            </p>
+                                            <p class="address-detail">
+                                                <span>{{$address.province_name}}</span>
+                                                <span>{{$address.city_name}}</span>
+                                                <span>{{$address.county_name}}</span>
+                                                <span>{{$address.address}}</span>
+                                                {{if !empty($address['lng']) and !empty($address['lat'])}}
+                                                    <a href="javascript:;" class="am-badge am-badge-default am-radius extraction-address-map-submit am-icon-map-marker am-margin-left-sm" data-lng="{{$address.lng}}" data-lat="{{$address.lat}}"> 查看地图</a>
+                                                {{/if}}
+                                            </p>
+                                        </div>
+                                        {{if (isset($params['address_id']) and $params['address_id'] eq $key) or (!empty($base['address']) and $base.address.id eq $key)}}
+                                            <button type="button" class="am-btn am-btn-default am-radius" disabled>已选</button>
+                                        {{else /}}
+                                            <button type="button" class="am-btn am-btn-default am-radius" data-value="{{$key}}">选择</button>
+                                        {{/if}}
+                                    </li>
+                                {{/foreach}}
+                            </ul>
+                            <!-- 地图 -->
+                            <div class="extraction-address-map-container popup-not-title">
+                               <span class="am-close am-close-alt am-icon-times"></span>
+                                <div id="extraction-map"></div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                {{/if}}
+            </div>
+        {{/if}}
+
+        <!-- 订单确认页面地址底部钩子-开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_address_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_address_bottom_data) and is_array($plugins_view_buy_address_bottom_data)}}
+            {{foreach $plugins_view_buy_address_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <!-- 订单确认页面地址底部钩子-结束 -->
+
+        <!-- 商品分组订单信息 -->
+        <div class="buy-items">
+            <h3>订单信息</h3>
+            {{if !empty($buy_goods)}}
+                <div class="goods-group-list">
+                    {{foreach $buy_goods as $v}}
+                        <div class="am-panel am-panel-default am-margin-top-sm am-margin-bottom-0">
+                            <div class="am-panel-hd">
+                                <!-- 分组导航内部开始钩子-开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_buy_group_nav_inside_begin</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_buy_group_nav_inside_begin';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 分组导航内部开始钩子-结束 -->
+
+                                <!-- 仓库信息 -->
+                                <span class="warehouse-item-container">
+                                    {{if !empty($v['icon'])}}
+                                        {{if IsUrl($v['icon'])}}
+                                            <img src="{{$v.icon}}" alt="{{$v.name}}" class="warehouse-icon" />
+                                        {{else /}}
+                                            <i class="{{$v.icon}}"></i>
+                                        {{/if}}
+                                    {{/if}}
+                                    {{if empty($v['url'])}}
+                                        <strong class="warehouse-name">{{$v.name}}</strong>
+                                    {{else /}}
+                                        <a href="{{$v.url}}" target="_blank" class="text-deco-none">
+                                            <strong class="warehouse-name">{{$v.name}}</strong>
+                                        </a>
+                                    {{/if}}
+                                    {{if !empty($v['alias'])}}<span class="am-badge am-badge-secondary-plain am-radius am-margin-left-xs">{{$v.alias}}</span>{{/if}}
+                                </span>
+
+                                <!-- 分组导航内部中间钩子-开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_buy_group_nav_inside_middle</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_buy_group_nav_inside_middle';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 分组导航内部中间钩子-结束 -->
+
+                                <!-- 地理位置 -->
+                                {{if isset($v['lng']) and isset($v['lat']) and $v['lng'] neq 0 and $v['lat'] neq 0}}
+                                    <div class="am-fr">
+                                        <a href="javascript:;" class="am-badge am-badge-default am-radius am-icon-map-marker submit-map-popup" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}"> 查看地图</a>
+                                    </div>
+                                {{/if}}
+
+                                <!-- 分组导航内部结束钩子-开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_buy_group_nav_inside_end</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_buy_group_nav_inside_end';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 分组导航内部结束钩子-结束 -->
+                            </div>
+                            <div class="am-panel-bd">
+                                <!-- 分组商品顶部钩子-开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_buy_group_goods_inside_top</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_buy_group_goods_inside_top';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 分组商品顶部钩子-结束 -->
+
+                                <!-- 商品明细 -->
+                                {{if !empty($v['goods_items'])}}
+                                    <table class="am-table">
+                                        <thead>
+                                            <tr>
+                                                <th>商品信息</th>
+                                                <th class="am-hide-sm-only">单价</th>
+                                                <th class="am-hide-sm-only">数量</th>
+                                                <th class="am-hide-sm-only">金额</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{foreach $v.goods_items as $goods}}
+                                                <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}">
+                                                    <td class="base">
+                                                        <!-- 分组商品详情基础顶部钩子-开始 -->
+                                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                            <div class="plugins-tag">
+                                                                <span>plugins_view_buy_group_goods_base_top</span>
+                                                            </div>
+                                                        {{/if}}
+                                                        {{php}}
+                                                            $hook_name = 'plugins_view_buy_group_goods_base_top';
+                                                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                                            if(!empty($hook_data) && is_array($hook_data))
+                                                            {
+                                                                foreach($hook_data as $hook)
+                                                                {
+                                                                    if(is_string($hook) || is_int($hook))
+                                                                    {
+                                                                        echo htmlspecialchars_decode($hook);
+                                                                    }
+                                                                }
+                                                            }
+                                                        {{/php}}
+                                                        <!-- 分组商品详情基础顶部钩子-结束 -->
+                                                        <div class="goods-detail">
+                                                            <a href="{{$goods.goods_url}}" target="_blank">
+                                                                <img src="{{$goods.images}}">
+                                                            </a>
+                                                            <div class="goods-base">
+                                                                <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
+                                                                {{if !empty($goods.spec)}}
+                                                                    <ul class="goods-attr">
+                                                                        {{foreach $goods.spec as $spec}}
+                                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
+                                                                        {{/foreach}}
+                                                                    </ul>
+                                                                {{/if}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="wap-base am-show-sm-only">
+                                                            {{if $goods['original_price'] gt 0}}
+                                                                <span class="original-price">{{$currency_symbol}}{{$goods.original_price}}</span>
+                                                            {{/if}}
+                                                            <strong class="total-price-content">{{$currency_symbol}}{{$goods.price}}</strong>
+                                                            <span class="wap-number">x{{$goods.stock}}</span>
+                                                        </div>
+                                                        <!-- 分组商品详情基础底部钩子-开始 -->
+                                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                            <div class="plugins-tag">
+                                                                <span>plugins_view_buy_group_goods_base_bottom</span>
+                                                            </div>
+                                                        {{/if}}
+                                                        {{php}}
+                                                            $hook_name = 'plugins_view_buy_group_goods_base_bottom';
+                                                            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$goods]);
+                                                            if(!empty($hook_data) && is_array($hook_data))
+                                                            {
+                                                                foreach($hook_data as $hook)
+                                                                {
+                                                                    if(is_string($hook) || is_int($hook))
+                                                                    {
+                                                                        echo htmlspecialchars_decode($hook);
+                                                                    }
+                                                                }
+                                                            }
+                                                        {{/php}}
+                                                        <!-- 分组商品详情基础底部钩子-结束 -->
+                                                    </td>
+                                                    <td class="price am-hide-sm-only">
+                                                        {{if $goods['original_price'] gt 0}}
+                                                            <p class="original-price">{{$currency_symbol}}{{$goods.original_price}}</p>
+                                                        {{/if}}
+                                                        <p class="line-price">{{$currency_symbol}}{{$goods.price}}</p>
+                                                    </td>
+                                                    <td class="number am-hide-sm-only">
+                                                        {{$goods.stock}} {{$goods.inventory_unit}}
+                                                    </td>
+                                                    <td class="total-price am-hide-sm-only">
+                                                        <span>{{$currency_symbol}}</span><strong class="total-price-content">{{$goods.total_price}}</strong>
+                                                    </td>
+                                                </tr>
+                                            {{/foreach}}
+                                        </tbody>
+                                    </table>
+                                {{else /}}
+                                    <div class="table-no"><i class="am-icon-warning"></i> 没有商品</div>
+                                {{/if}}
+
+                                <!-- 商品分割线 -->
+                                <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
+
+                                <!-- 分组商品底部钩子-开始 -->
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                    <div class="plugins-tag">
+                                        <span>plugins_view_buy_group_goods_inside_bottom</span>
+                                    </div>
+                                {{/if}}
+                                {{php}}
+                                    $hook_name = 'plugins_view_buy_group_goods_inside_bottom';
+                                    $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$v, 'params'=>$params]);
+                                    if(!empty($hook_data) && is_array($hook_data))
+                                    {
+                                        foreach($hook_data as $hook)
+                                        {
+                                            if(is_string($hook) || is_int($hook))
+                                            {
+                                                echo htmlspecialchars_decode($hook);
+                                            }
+                                        }
+                                    }
+                                {{/php}}
+                                <!-- 分组商品底部钩子-结束 -->
+
+                                <!-- 扩展展示数据 -->
+                                {{if !empty($v['order_base']['extension_data'])}}
+                                    <ul class="buy-extension-data am-padding-xs am-margin-bottom-sm">
+                                        {{foreach $v['order_base']['extension_data'] as $ext}}
+                                            <li>
+                                                <span class="extension-items-name">{{$ext.name}}</span>
+                                                <span class="am-fr extension-items-tips">{{$ext.tips}}</span>
+                                            </li>
+                                        {{/foreach}}
+                                    </ul>
+                                {{/if}}
+
+                                <!-- 含运费小计 -->
+                                <div class="buy-point-discharge am-text-right">
+                                    {{if $v['order_base']['total_price'] neq $v['order_base']['actual_price']}}
+                                        <span class="original-price am-margin-right-xs">{{$currency_symbol}}{{$v.order_base.total_price}}</span>
+                                    {{/if}}
+                                    <span>
+                                        合计 <span class="price"><span>{{$currency_symbol}}</span><strong class="total-price-content line-price am-text-sm">{{$v.order_base.actual_price}}</strong></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    {{/foreach}}
+                </div>
+            {{else /}}
+                <div class="table-no"><i class="am-icon-warning"></i> 没有商品</div>
+            {{/if}}
+        </div>
+
+        <!-- 订单确认页面分组商品底部钩子-开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_group_goods_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_group_goods_bottom_data) and is_array($plugins_view_buy_group_goods_bottom_data)}}
+            {{foreach $plugins_view_buy_group_goods_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <!-- 订单确认页面分组商品底部钩子-结束 -->
+
+        <!-- 支付方式 -->
+        {{if $common_order_is_booking neq 1}}
+            <div class="buy-items business-item payment" data-field="payment_id">
+                <h3>选择支付</h3>
+                {{if !empty($payment_list)}}
+                    <ul class="payment-list">
+                        {{foreach $payment_list as $payment}}
+                            <li data-value="{{$payment.id}}" class="{{if isset($params['payment_id']) and $params['payment_id'] eq $payment['id']}}selected{{/if}}">
+                                {{if !empty($payment.logo)}}
+                                    <img src="{{$payment.logo}}" />
+                                {{/if}}
+                                <span>{{$payment.name}}</span>
+                                <i class="icon-active"></i>
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                {{/if}}
+                {{if empty($payment_list)}}
+                    <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
+                {{/if}}
+            </div>
+        {{/if}}
+
+        <!-- 订单确认页面支付方式底部钩子-开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_payment_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_payment_bottom_data) and is_array($plugins_view_buy_payment_bottom_data)}}
+            {{foreach $plugins_view_buy_payment_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <!-- 订单确认页面支付方式底部钩子-结束 -->
+        
+        <!-- 留言 -->
+        <div class="buy-message am-margin-top-sm">
+            <div class="order-extra">
+                <label>买家留言</label>
+                <input type="text" class="memo-input" title="选填,对本次交易的说明（建议填写已经和卖家达成一致的说明）" placeholder="选填,建议填写和卖家达成一致的说明" />
+            </div>
+        </div>
+
+        <!-- 订单确认页面用户留言底部钩子-开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_user_note_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_user_note_bottom_data) and is_array($plugins_view_buy_user_note_bottom_data)}}
+            {{foreach $plugins_view_buy_user_note_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <!-- 订单确认页面用户留言底部钩子-结束 -->
+
+        <!-- 订单确认页面订单确认信息顶部钩子-开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_base_confirm_top</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_base_confirm_top_data) and is_array($plugins_view_buy_base_confirm_top_data)}}
+            {{foreach $plugins_view_buy_base_confirm_top_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <!-- 订单确认页面订单确认信息顶部钩子-结束 -->
+
+        <!-- 基础信息 -->
+        <div class="order-nav">
+            <div class="pay-confirm">
+                <div class="box">
+                    <div class="base-real-pay">
+                        <em>实付款 :</em>
+                        <span class="price">
+                            <span>{{$currency_symbol}}</span><strong class="nav-total-price">{{$base.actual_price}}</strong>
+                        </span>
+                    </div>
+
+                    <!-- 销售模式+自提模式 显示地址 -->
+                    {{if in_array($common_site_type, [0,2,4]) and !empty($base['address'])}}
+                        <div class="pay-address">
+                            <div class="buy-footer-address">
+                                <span class="buy-line-title">联系人 :</span> 
+                                <span class="buy-user">
+                                    {{if !empty($base['address'])}}
+                                        {{$base.address.name}}
+                                    {{else /}}
+                                        ...
+                                    {{/if}}
+                                </span>
+                                <span class="buy-phone">
+                                    {{if !empty($base['address'])}}
+                                        {{$base.address.tel}}
+                                    {{else /}}
+                                        ...
+                                    {{/if}}
+                                </span>
+                            </div>
+                            <div class="buy-footer-address">
+                                <span class="buy-line-title buy-line-title-type">地址 :</span>
+                                <span class="buy-address-detail">
+                                    {{if !empty($base['address'])}}
+                                        {{$base.address.province_name}} {{$base.address.city_name}} {{$base.address.county_name}} {{$base.address.address}}
+                                    {{else /}}
+                                        ...
+                                    {{/if}}
+                                </span>
+                            </div>
+                        </div>
+                    {{/if}}
+                </div>
+                <form class="am-form form-validation nav-buy" action="{{:MyUrl('index/buy/add')}}" method="post" class="nav-buy" request-type="ajax-fun" request-value="BuySubmitBack" data-site-type="{{$common_site_type}}" data-is-booking="{{$common_order_is_booking}}">
+                    <input type="hidden" name="goods_id" value="{{if isset($params['goods_id'])}}{{$params.goods_id}}{{else /}}0{{/if}}" />
+                    <input type="hidden" name="buy_type" value="{{if isset($params['buy_type'])}}{{$params.buy_type}}{{else /}}goods{{/if}}" />
+                    <input type="hidden" name="stock" value="{{if isset($params['stock'])}}{{$params.stock}}{{else /}}1{{/if}}" />
+                    <input type="hidden" name="spec" value='{{if isset($params['spec'])}}{{$params.spec}}{{/if}}' />
+                    <input type="hidden" name="ids" value="{{if isset($params['ids'])}}{{$params.ids}}{{/if}}" />
+                    <input type="hidden" name="address_id" value="{{if isset($base['address']) and isset($base['address']['id'])}}{{$base.address.id}}{{else /}}{{if isset($params['address_id'])}}{{$params.address_id}}{{else /}}-1{{/if}}{{/if}}" />
+                    <input type="hidden" name="payment_id" value="{{if isset($params['payment_id'])}}{{$params.payment_id}}{{else /}}0{{/if}}" />
+                    <input type="hidden" name="user_note" value="" />
+                    <input type="hidden" name="site_model" value="{{if isset($base['site_model'])}}{{$base.site_model}}{{else /}}0{{/if}}" />
+                    <!-- 订单确认页面提交订单表单内部钩子-开始 -->
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        <div class="plugins-tag">
+                            <span>plugins_view_buy_form_inside</span>
+                        </div>
+                    {{/if}}
+                    {{if !empty($plugins_view_buy_form_inside_data) and is_array($plugins_view_buy_form_inside_data)}}
+                        {{foreach $plugins_view_buy_form_inside_data as $hook}}
+                            {{if is_string($hook) or is_int($hook)}}
+                                {{$hook|raw}}
+                            {{/if}}
+                        {{/foreach}}
+                    {{/if}}
+                    <!-- 订单确认页面提交订单表单内部钩子-结束 -->
+                    <div class="go-btn-wrap">
+                        <button type="submit" class="btn-go btn-loading-example" title="点击此按钮，提交订单" data-am-loading="{loadingText:'处理中...'}">提交订单</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 订单确认页面内部底部钩子-s开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_buy_inside_bottom</span>
+            </div>
+        {{/if}}
+        {{if !empty($plugins_view_buy_inside_bottom_data) and is_array($plugins_view_buy_inside_bottom_data)}}
+            {{foreach $plugins_view_buy_inside_bottom_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+        <!-- 订单确认页面内部底部钩子-结束 -->
+    </div>
+</div>
+
+<!-- 订单确认页面底部钩子-开始 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>plugins_view_buy_bottom</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_buy_bottom_data) and is_array($plugins_view_buy_bottom_data)}}
+    {{foreach $plugins_view_buy_bottom_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}
+<!-- 订单确认页面底部钩子-结束 -->
+
+<!-- 订单提交后提示弹层 -->
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="buy-order-submit-modal">
+    <div class="am-modal-dialog">
+        <div class="am-modal-bd">
+            <div class="content am-vertical-align-middle am-padding-vertical-sm">
+                <p class="am-text-success">支付跳转中、请勿关闭页面</p>
+                <p class="am-text-warning am-margin-top-lg">支付失败或长时间未响应</p>
+                <p class="am-text-warning am-margin-xs">
+                    <span>进入</span>
+                    <a href="{{:MyUrl('index/order/index')}}" class="am-text-secondary">我的订单</a>
+                    <span>后可以重新发起支付</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+
+<script type="text/javascript">
+// 提交订单回调
+function BuySubmitBack(e)
+{
+    if(e.code == 0)
+    {
+        $('#buy-order-submit-modal').modal({
+            closeViaDimmer: false,
+            width: 280,
+            height: 140
+        });
+        $.AMUI.progress.done();
+        Prompt(e.msg, 'success');
+        setTimeout(function()
+        {
+            window.location.href = e.data.jump_url;
+        }, 1500);
+    } else {
+        $('form.form-validation').find('button[type="submit"]').button('reset');
+        $.AMUI.progress.done();
+        Prompt(e.msg);
+    }
+}
+</script>

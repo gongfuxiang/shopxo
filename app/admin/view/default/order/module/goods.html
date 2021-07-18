@@ -1,0 +1,176 @@
+<!-- 订单商品信息 -->
+{{if !empty($module_data) and !empty($module_data['items'])}}
+    <!-- 订单列表基础顶部-开始 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>plugins_view_admin_order_list_base_top</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_name = 'plugins_view_admin_order_list_base_top';
+        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$module_data]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+    <!-- 订单列表基础顶部-结束 -->
+
+    <!-- 基础信息 -->
+    {{if $module_data['pay_status'] eq 1 and $module_data['pay_price'] lt $module_data['total_price']}}
+        <p class="am-text-danger am-animation-shake am-animation-delay-1">
+            <i class="am-icon-warning am-text-lg"></i>
+            <span class="am-text-lg">请注意、该订单支付金额小于总价金额</span>
+        </p>
+        <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
+    {{/if}}
+    <p class="am-nbfc am-margin-bottom-sm">
+        <!-- 订单号/id -->
+        <strong class="am-icon-bookmark-o"> {{$module_data.order_no}}</strong>
+        <strong class="am-icon-circle-thin am-margin-left-lg"> {{$module_data.id}}</strong>
+
+        <!-- 仓库信息 -->
+        {{if !empty($module_data['warehouse_name'])}}
+            <span class="warehouse-item-container am-fr">
+                {{if !empty($module_data['warehouse_icon'])}}
+                    {{if IsUrl($module_data['warehouse_icon'])}}
+                        <img src="{{$module_data.warehouse_icon}}" alt="{{$module_data.warehouse_name}}" class="warehouse-icon" />
+                    {{else /}}
+                        <i class="{{$module_data.warehouse_icon}}"></i>
+                    {{/if}}
+                {{/if}}
+                {{if empty($module_data['warehouse_url'])}}
+                    <strong class="warehouse-name">{{$module_data.warehouse_name}}</strong>
+                {{else /}}
+                    <a href="{{$module_data.warehouse_url}}" target="_blank" class="text-deco-none">
+                        <strong class="warehouse-name">{{$module_data.warehouse_name}}</strong>
+                    </a>
+                {{/if}}
+            </span>
+        {{/if}}
+
+        <!-- 订单列表基础导航底部-开始 -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>plugins_view_admin_order_list_base_nav_bottom</span>
+            </div>
+        {{/if}}
+        {{php}}
+            $hook_name = 'plugins_view_admin_order_list_base_nav_bottom';
+            $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$module_data]);
+            if(!empty($hook_data) && is_array($hook_data))
+            {
+                foreach($hook_data as $hook)
+                {
+                    if(is_string($hook) || is_int($hook))
+                    {
+                        echo htmlspecialchars_decode($hook);
+                    }
+                }
+            }
+        {{/php}}
+        <!-- 订单列表基础导航底部-结束 -->
+    </p>
+
+    <!-- 订单列表基础商品顶部-开始 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>plugins_view_admin_order_list_base_goods_top</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_name = 'plugins_view_admin_order_list_base_goods_top';
+        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$module_data]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+    <!-- 订单列表基础商品顶部-结束 -->
+
+    <!-- 商品信息 -->
+    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
+    {{foreach $module_data.items as $item}}
+        <div class="am-nbfc am-padding-vertical-xs">
+            <div class="base am-nbfc">
+                <a href="{{:MyUrl('index/goods/index', ['id'=>$item['goods_id']])}}" target="_blank" title="{{$item.title}}">
+                    <img src="{{$item['images']}}" class="am-img-thumbnail am-radius am-margin-right-xs am-fl" width="60" height="60" />
+                </a>
+                <a href="{{:MyUrl('index/goods/index', ['id'=>$item['goods_id']])}}" target="_blank" title="{{$item.title}}" {{if !empty($item['title_color'])}} style="color:{{$item.title_color}};" {{/if}} class="am-nowrap-initial">{{$item.title}}</a>
+            </div>
+            <div class="other am-nbfc">
+                {{if !empty($item['spec_text'])}}
+                    <div class="am-margin-top-xs am-nowrap-initial">{{$item.spec_text}}</div>
+                {{/if}}
+                <div class="am-nbfc am-margin-top-xs">
+                    <span>{{$module_data.currency_data.currency_symbol}}{{$item.price}}x{{$item.buy_number}}</span>
+                    <div class="am-fr">
+                        {{if $item['returned_quantity'] gt 0 or $item['refund_price'] gt 0}}
+                            <span class="am-text-danger am-margin-left-lg">已退 {{$item.returned_quantity}} / {{$module_data.currency_data.currency_symbol}}{{$item.refund_price}}</span>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-vertical-0" />
+    {{/foreach}}
+
+    <!-- 订单列表基础商品底部-开始 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>plugins_view_admin_order_list_base_goods_bottom</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_name = 'plugins_view_admin_order_list_base_goods_bottom';
+        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$module_data]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+    <!-- 订单列表基础商品底部-结束 -->
+
+    <!-- 商品描述信息 -->
+    <div class="am-margin-top-sm">{{$module_data.describe}}</div>
+
+    <!-- 订单列表基础顶部-开始 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>plugins_view_admin_order_list_base_bottom</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_name = 'plugins_view_admin_order_list_base_bottom';
+        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$module_data]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+    <!-- 订单列表基础顶部-结束 -->
+{{/if}}

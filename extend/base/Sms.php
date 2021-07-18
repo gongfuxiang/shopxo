@@ -216,7 +216,7 @@ class Sms
                 'code' => $code,
                 'time' => time(),
             );
-        cache($this->key_code, $data, $this->expire_time);
+        MyCache($this->key_code, $data, $this->expire_time);
     }
 
     /**
@@ -229,7 +229,7 @@ class Sms
      */
     public function CheckExpire()
     {
-        $data = cache($this->key_code);
+        $data = MyCache($this->key_code);
         if(!empty($data))
         {
             return (time() <= $data['time']+$this->expire_time);
@@ -252,7 +252,7 @@ class Sms
         if(SecurityPreventViolence($this->key_code, 1, $this->expire_time))
         {
             // 验证是否正确
-            $data = cache($this->key_code);
+            $data = MyCache($this->key_code);
             if(!empty($data))
             {
                 if(empty($code) && isset($_POST['code']))
@@ -275,7 +275,7 @@ class Sms
 	 */
 	public function Remove()
 	{
-		cache($this->key_code, null);
+		MyCache($this->key_code, null);
         SecurityPreventViolence($this->key_code, 0);
 	}
 
@@ -289,7 +289,7 @@ class Sms
 	 */
 	private function IntervalTimeCheck()
 	{
-		$data = cache($this->key_code);
+		$data = MyCache($this->key_code);
 		if(!empty($data))
 		{
 			return (time() > $data['time']+$this->interval_time);

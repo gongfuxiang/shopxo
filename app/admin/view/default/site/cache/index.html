@@ -1,0 +1,103 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+    <!-- second nav start -->
+    {{include file="site/public/nav" /}}
+    <!-- second nav end -->
+    
+    <div class="content">
+        <!-- form start -->
+        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'cache'])}}" enctype="multipart/form-data">
+            <div class="am-alert am-alert-warning" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>1. 默认使用的文件缓存、使用Redis缓存PHP需要先安装Redis扩展</p>
+                <p>2. 请确保Redis服务稳定性（Session使用缓存后、服务不稳定可能导致后台也无法登录）</p>
+                <p>3. 如遇到Redis服务异常无法登录管理后台、修改配置文件[ <strong class="am-text-danger">config</strong> ]目录下[ <strong class="am-text-danger">session.php,cache.php</strong> ]文件</p>
+            </div>
+
+            <!-- Session缓存配置 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">Session缓存配置</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-form-group">
+                        <label>{{$data.common_session_is_use_cache.name}}<span class="am-form-group-label-tips">{{$data.common_session_is_use_cache.describe}}</span></label>
+                        <select name="{{$data.common_session_is_use_cache.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_session_is_use_cache.error_tips}}" required>
+                            {{foreach $common_is_text_list as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_session_is_use_cache']['value']) and $data['common_session_is_use_cache']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_cache_session_redis_prefix.name}}<span class="am-form-group-label-tips">{{$data.common_cache_session_redis_prefix.describe}}</span></label>
+                        <input type="text" name="{{$data.common_cache_session_redis_prefix.only_tag}}" placeholder="{{$data.common_cache_session_redis_prefix.describe}}" data-validation-message="{{$data.common_cache_session_redis_prefix.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_session_redis_prefix.value}}"{{/if}} />
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数据缓存配置 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">数据缓存配置</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-form-group">
+                        <label>{{$data.common_data_is_use_cache.name}}<span class="am-form-group-label-tips">{{$data.common_data_is_use_cache.describe}}</span></label>
+                        <select name="{{$data.common_data_is_use_cache.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_data_is_use_cache.error_tips}}" required>
+                            {{foreach $common_is_text_list as $v}}
+                                <option value="{{$v.id}}" {{if isset($data['common_data_is_use_cache']['value']) and $data['common_data_is_use_cache']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_cache_data_redis_prefix.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_prefix.describe}}</span></label>
+                        <input type="text" name="{{$data.common_cache_data_redis_prefix.only_tag}}" placeholder="{{$data.common_cache_data_redis_prefix.describe}}" data-validation-message="{{$data.common_cache_data_redis_prefix.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_data_redis_prefix.value}}"{{/if}} />
+                    </div>
+                </div>
+            </div>
+
+            <!-- redis缓存配置 -->
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <h3 class="am-panel-title">redis缓存配置</h3>
+                </div>
+                <div class="am-panel-bd am-padding-vertical-xs">
+                    <div class="am-form-group">
+                        <label>{{$data.common_cache_data_redis_host.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_host.describe}}</span></label>
+                        <input type="text" name="{{$data.common_cache_data_redis_host.only_tag}}" placeholder="{{$data.common_cache_data_redis_host.describe}}" data-validation-message="{{$data.common_cache_data_redis_host.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_data_redis_host.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_cache_data_redis_port.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_port.describe}}</span></label>
+                        <input type="text" name="{{$data.common_cache_data_redis_port.only_tag}}" placeholder="{{$data.common_cache_data_redis_port.describe}}" data-validation-message="{{$data.common_cache_data_redis_port.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_data_redis_port.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_cache_data_redis_password.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_password.describe}}</span></label>
+                        <input type="text" name="{{$data.common_cache_data_redis_password.only_tag}}" placeholder="{{$data.common_cache_data_redis_password.describe}}" data-validation-message="{{$data.common_cache_data_redis_password.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_data_redis_password.value}}"{{/if}} />
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.common_cache_data_redis_expire.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_expire.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="0" name="{{$data.common_cache_data_redis_expire.only_tag}}" placeholder="{{$data.common_cache_data_redis_expire.name}}" data-validation-message="{{$data.common_cache_data_redis_expire.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_data_redis_expire.value}}"{{/if}} />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default" type="button">秒</button>
+                          </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+                <input type="hidden" name="nav_type" value="{{$nav_type}}" />
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            </div>
+        </form>
+        <!-- form end -->
+    </div>
+</div>
+<!-- right content end  -->
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

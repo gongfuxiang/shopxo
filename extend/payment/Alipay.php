@@ -53,7 +53,7 @@ class Alipay
             'version'       => '1.1.3',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc','h5', 'ios', 'android'], // 适用终端 默认全部 ['pc', 'h5', 'ios', 'android', 'alipay', 'weixin', 'baidu', 'toutiao']
-            'desc'          => '2.0版本，适用PC+H5+APP+头条小程序，即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="http://www.alipay.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
+            'desc'          => '2.0版本，适用PC+H5+APP，即时到帐支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="http://www.alipay.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
         ];

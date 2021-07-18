@@ -33,7 +33,15 @@ return [
     // 默认编码
     'default_charset'                       => 'utf-8',
 
-    // 缓存key列表
+    // 后端缓存key列表
+    // 权限缓存存储key
+    'cache_admin_power_key'                 =>  'cache_admin_power_',
+
+    // 菜单列表
+    'cache_admin_left_menu_key'             =>  'cache_admin_left_menu_',
+
+
+    // 公共缓存key列表
     // 公共系统配置信息key
     'cache_common_my_config_key'            => 'cache_common_my_config_data',
 

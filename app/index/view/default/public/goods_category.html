@@ -1,0 +1,75 @@
+<!-- 商品分类  -->
+<div id="goods-category" class="am-container am-hide-sm-only am-hide-md-only" data-controller-name="{{$controller_name}}">
+    <div class="goods-category-s">
+        <a href="{{:MyUrl('index/category/index')}}">
+            <div class="goods-category-title">
+                <span class="all-goods">全部分类</span>
+            </div>
+        </a>
+        <div class="category-content" {{if (isset($common_goods_category_hidden) and $common_goods_category_hidden eq 1)}}style="display:none;"{{/if}}>
+            <div class="category">
+                <ul class="category-list">
+                    {{if !empty($goods_category_list) and is_array($goods_category_list)}}
+                        {{foreach $goods_category_list as $v}}
+                            <li class="first">
+                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" class="am-block" title="{{$v.name}}">
+                                <div class="category-info">
+                                    <h3 class="category-name b-category-name am-text-truncate">
+                                        {{if !empty($v['icon'])}}
+                                            <img src="{{$v.icon}}" />
+                                        {{/if}}
+                                        <span class="bd-name">{{$v.name}}</span>
+                                    </h3>
+                                    <em>&gt;</em>
+                                </div>
+                                </a>
+                                {{if $category_show_level gt 1}}
+                                    <div class="menu-item menu-in top">
+                                        {{if !empty($v['items'])}}
+                                            <div class="area-in">
+                                                <div class="area-bg">
+                                                    <div class="menu-srot">
+                                                        <div class="sort-side">
+                                                            {{foreach $v.items as $vs}}
+                                                                <dl class="dl-sort {{if $category_show_level eq 2}}dl-sort-two{{/if}}">
+                                                                    {{if $category_show_level eq 2}}
+                                                                        <dd>
+                                                                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">
+                                                                                <span>{{$vs.name}}</span>
+                                                                            </a>
+                                                                        </dd>
+                                                                    {{elseif $category_show_level eq 3}}
+                                                                        <dt>
+                                                                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">
+                                                                                <span title="{{$vs.name}}">{{$vs.name}}</span>
+                                                                            </a>
+                                                                        </dt>
+                                                                        {{if !empty($vs['items'])}}
+                                                                            {{foreach $vs.items as $vss}}
+                                                                                <dd>
+                                                                                    <a href="{{:MyUrl('index/search/index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}">
+                                                                                        <span>{{$vss.name}}</span>
+                                                                                    </a>
+                                                                                </dd>
+                                                                            {{/foreach}}
+                                                                        {{/if}}
+                                                                    {{/if}}
+                                                                </dl>
+                                                            {{/foreach}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {{else /}}
+                                            {{include file="public/not_data" /}}
+                                        {{/if}}
+                                    </div>
+                                {{/if}}
+                            </li>
+                        {{/foreach}}
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

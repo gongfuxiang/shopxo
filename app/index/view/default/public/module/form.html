@@ -1,0 +1,161 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container">
+    <!-- content top hook -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>{{$hook_name_content_top}}</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_data = MyEventTrigger($hook_name_content_top, ['hook_name'=>$hook_name_content_top, 'is_backend'=>true]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+
+    <!-- content top start -->
+    <div class="content-top">
+        {{block name="form_content_top"}}{{/block}}
+    </div>
+    <!-- content top end -->
+
+    <!-- content start  -->
+    <div class="form-table-content">
+        <!-- content inside top hook -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>{{$hook_name_content_inside_top}}</span>
+            </div>
+        {{/if}}
+        {{php}}
+            $hook_data = MyEventTrigger($hook_name_content_inside_top, ['hook_name'=>$hook_name_content_inside_top, 'is_backend'=>true]);
+            if(!empty($hook_data) && is_array($hook_data))
+            {
+                foreach($hook_data as $hook)
+                {
+                    if(is_string($hook) || is_int($hook))
+                    {
+                        echo htmlspecialchars_decode($hook);
+                    }
+                }
+            }
+        {{/php}}
+
+        <!-- form -->
+        {{if !empty($form_table) and !empty($form_table['base']) and !empty($form_table['form']) and is_array($form_table['base']) and is_array($form_table['form'])}}
+            <form class="form-validation-search" method="post" action="{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1 and !empty($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" request-type="jump" request-value="{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1 and !empty($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}">
+                <!-- nav start -->
+                <div class="form-table-navigation">
+                    {{block name="form_navigation"}}{{/block}}
+                </div>
+                <!-- nav end -->
+
+                <!-- top operate start -->
+                <div class="form-table-operate-top am-cf">
+                    {{block name="form_operate_top"}}
+                       {{include file="public/module/form_operate_top" /}}
+                    {{/block}}
+                </div>
+                <!-- top operate end -->
+
+                <!-- form table start -->
+                {{include file="public/module/form_table" /}}
+                <!-- form table end -->
+
+                <!-- bottom operate start -->
+                <div class="form-table-operate-bottom am-nbfc am-margin-top-sm">
+                    {{block name="form_operate_bottom"}}
+                        {{include file="public/module/form_operate_bottom" /}}
+                    {{/block}}
+                </div>
+                <!-- bottom operate end -->
+            </form>
+
+            <!-- 字段选择 -->
+            {{include file="public/module/form_fields_select" /}}
+        {{else /}}
+            <div class="table-no"><i class="am-icon-warning"></i> {{if empty($form_error)}}动态表格配置有误{{else /}}{{$form_error}}{{/if}}</div>
+        {{/if}}
+
+        <!-- page start -->
+        {{block name="form_page"}}
+            {{if !empty($data_list) and isset($page_html)}}
+                {{$page_html|raw}}
+            {{/if}}
+        {{/block}}
+        <!-- page end -->
+
+        <!-- extend start -->
+        {{block name="form_extend"}}{{/block}}
+        <!-- extend end -->
+
+        <!-- content inside top hook -->
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+            <div class="plugins-tag">
+                <span>{{$hook_name_content_inside_bottom}}</span>
+            </div>
+        {{/if}}
+        {{php}}
+            $hook_data = MyEventTrigger($hook_name_content_inside_bottom, ['hook_name'=>$hook_name_content_inside_bottom, 'is_backend'=>true]);
+            if(!empty($hook_data) && is_array($hook_data))
+            {
+                foreach($hook_data as $hook)
+                {
+                    if(is_string($hook) || is_int($hook))
+                    {
+                        echo htmlspecialchars_decode($hook);
+                    }
+                }
+            }
+        {{/php}}
+    </div>
+    <!-- content end  -->
+
+    <!-- content bottom hook -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>{{$hook_name_content_bottom}}</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_data = MyEventTrigger($hook_name_content_bottom, ['hook_name'=>$hook_name_content_bottom, 'is_backend'=>true]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+
+<!-- page buttom -->
+{{block name="form_page_bottom"}}{{/block}}

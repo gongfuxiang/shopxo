@@ -1,0 +1,145 @@
+<div data-am-widget="tabs" class="am-tabs am-tabs-d2 am-margin-0" data-am-tabs="{noSwipe: 1}">
+    {{if count($home_user_login_type) gt 1}}
+        <ul class="am-tabs-nav am-cf">
+            {{if in_array('username', $home_user_login_type)}}
+                <li class="am-active"><a href="[data-tab-panel-0]">帐号密码</a></li>
+            {{/if}}
+            {{if in_array('email', $home_user_login_type)}}
+                <li class="{{if !in_array('username', $home_user_login_type)}}am-active{{/if}}"><a href="[data-tab-panel-2]">邮箱验证码</a></li>
+            {{/if}}
+            {{if in_array('sms', $home_user_login_type)}}
+                <li class="{{if !in_array('username', $home_user_login_type) and !in_array('email', $home_user_login_type)}}am-active{{/if}}"><a href="[data-tab-panel-1]">手机验证码</a></li>
+            {{/if}}
+        </ul>
+    {{/if}}
+    <div class="am-tabs-bd">
+        {{if in_array('username', $home_user_login_type)}}
+            <div data-tab-panel-0 class="am-tab-panel am-active">
+                <!-- form start -->
+                <form class="am-form form-validation-username" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="LoginBackHandle">
+                    <div class="am-form-group am-form-group-refreshing">
+                        <label>登录账号</label>
+                        <input type="text" name="accounts" class="am-radius" placeholder="请输入用户名/手机/邮箱" data-validation-message="请填写登录账号" required />
+                    </div>
+
+                    <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+                        <label>登录密码</label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="password" name="pwd" class="am-radius" placeholder="请输入登录密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符" required />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
+                            </span>
+                        </div>
+                    </div>
+
+                    {{if MyC('home_user_login_img_verify_state') eq 1}}
+                        <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+                            <label>验证码</label>
+                            <div class="am-input-group am-input-group-sm">
+                                <input type="text" name="verify" class="am-radius" placeholder="请输入验证码" minlength="4" maxlength="4" data-validation-message="请输入图片验证码" required />
+                                <span class="am-input-group-btn">
+                                    <span class="am-btn am-btn-default am-radius am-padding-0 form-verify">
+                                        <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'user_login'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+(({{$url_model}} == 0) ? '&' : '?')+Math.random();" />
+                                        <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('form-verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'user_login'])}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">更换一张</a>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    {{/if}}
+                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg">
+                        <input type="hidden" name="type" value="username" />
+                        <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '登录中...'}">登录</button>
+                    </div>
+                </form>
+                <!-- form end -->
+            </div>
+        {{/if}}
+        {{if in_array('email', $home_user_login_type)}}
+            <div data-tab-panel-2 class="am-tab-panel {{if !in_array('username', $home_user_login_type)}}am-active{{/if}}">
+                <!-- form start -->
+                <form class="am-form form-validation-email" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="LoginBackHandle">
+                    <div class="am-form-group am-form-group-refreshing">
+                        <label>电子邮箱</label>
+                        <input type="email" name="accounts" class="am-radius" placeholder="请输入电子邮箱" data-validation-message="电子邮箱格式错误" required />
+                    </div>
+
+                    <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+                        <label>验证码</label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" name="verify" class="am-radius" placeholder="验证码" min="0" minlength="4" maxlength="4" data-validation-message="验证码格式 4 位数字" required />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/loginverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-email">获取验证码</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg">
+                        <input type="hidden" name="type" value="email" />
+                        <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '登录中...'}">登录</button>
+                    </div>
+                </form>
+                <!-- form end -->
+            </div>
+        {{/if}}
+        {{if in_array('sms', $home_user_login_type)}}
+            <div data-tab-panel-1 class="am-tab-panel {{if !in_array('username', $home_user_login_type) and !in_array('email', $home_user_login_type)}}am-active{{/if}}">
+                <!-- form start -->
+                <form class="am-form form-validation-sms" method="post" action="{{:MyUrl('index/user/login')}}" request-type="ajax-fun" request-value="LoginBackHandle">
+                    <div class="am-form-group am-form-group-refreshing">
+                        <label>手机号码</label>
+                        <input type="text" name="accounts" class="am-radius" placeholder="请输入手机号码" pattern="{{:lang('common_regex_mobile')}}" data-validation-message="手机号码格式错误" required />
+                    </div>
+
+                    <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+                        <label>验证码</label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" name="verify" class="am-radius" placeholder="请输入验证码" min="0" minlength="4" maxlength="4" data-validation-message="验证码格式 4 位数字" required />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/loginverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-sms">获取验证码</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg">
+                        <input type="hidden" name="type" value="sms" />
+                        <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '登录中...'}">登录</button>
+                    </div>
+                </form>
+                <!-- form end -->
+            </div>
+        {{/if}}
+
+        <div class="am-padding-horizontal-lg am-padding-vertical-xs am-margin-bottom-sm am-nbfc">
+            <!-- 用户登录内底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_user_login_inside_bottom</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_user_login_inside_bottom_data) and is_array($plugins_view_user_login_inside_bottom_data)}}
+                {{foreach $plugins_view_user_login_inside_bottom_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+            <!-- 右侧快捷入口 -->
+            <div class="am-fr">
+                <a href="{{:MyUrl('index/user/reginfo')}}" target="_blank" class="am-text-danger am-margin-right-sm">注册</a>
+                <a href="{{:MyUrl('index/user/forgetpwdinfo')}}" target="_blank">找回密码</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 用户登录内容页面底部钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+    <div class="plugins-tag">
+        <span>plugins_view_user_login_content_bottom</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_user_login_content_bottom_data) and is_array($plugins_view_user_login_content_bottom_data)}}
+    {{foreach $plugins_view_user_login_content_bottom_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}

@@ -57,7 +57,7 @@ class Baidu
     {
         // 登录授权session
         $login_key = 'baidu_user_login_'.$openid;
-        $session_data = cache($login_key);
+        $session_data = MyCache($login_key);
         if(empty($session_data))
         {
             return ['status'=>-1, 'msg'=>'session key不存在'];
@@ -113,7 +113,7 @@ class Baidu
 
         // 缓存存储
         $data_key = 'baidu_'.$key.'_'.$openid;
-        cache($data_key, $data);
+        MyCache($data_key, $data);
 
         return ['status'=>0, 'data'=>$data];
     }
@@ -150,7 +150,7 @@ class Baidu
             $key = 'baidu_user_login_'.$result['openid'];
 
             // 缓存存储
-            cache($key, $result);
+            MyCache($key, $result);
             return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result['openid']];
         }
         return ['status'=>-1, 'msg'=>$result['error_description']];
@@ -228,7 +228,7 @@ class Baidu
     {
         // 缓存key
         $key = $this->_appid.'_access_token';
-        $result = cache($key);
+        $result = MyCache($key);
         if(!empty($result))
         {
             if($result['expires_in'] > time())
@@ -244,7 +244,7 @@ class Baidu
         {
             // 缓存存储
             $result['expires_in'] += time();
-            cache($key, $result);
+            MyCache($key, $result);
             return $result['access_token'];
         }
         return false;

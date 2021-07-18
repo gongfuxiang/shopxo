@@ -10,10 +10,10 @@
 // +----------------------------------------------------------------------
 
 // 检测PHP环境
-if(version_compare(PHP_VERSION,'5.6.0','<'))  die('PHP版本最低 5.6.0');
+if(version_compare(PHP_VERSION,'7.1.0','<'))  die('PHP版本最低 7.1.0');
 
 // 系统版本
-define('APPLICATION_VERSION', 'v2.1.0');
+define('APPLICATION_VERSION', 'v2.2.0');
 
 // 定义系统目录分隔符
 define('DS', '/');
@@ -62,7 +62,7 @@ define('ROOT_PATH', str_replace('\\', DS, dirname(__FILE__)).DS);
 define('ROOT', substr(ROOT_PATH, 0, -7));
 
 // 定义应用目录
-define('APP_PATH', ROOT.'application'.DS);
+define('APP_PATH', ROOT.'app'.DS);
 
 // 请求应用 [web, app] 默认web(ios|android|小程序 均为app)
 define('APPLICATION', empty($_REQUEST['application']) ? 'web' : trim($_REQUEST['application']));
@@ -78,14 +78,4 @@ define('IS_POST', isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'
 
 // 是否ajax
 define('IS_AJAX', ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])) || isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == 'ajax'));
-
-// 检测是否是新安装
-if(!file_exists(ROOT.'config/database.php'))
-{
-    if(empty($_GET['s']) || stripos($_GET['s'], 'install') === false)
-    {
-        $url = __MY_URL__.'index.php?s=/install/index/index';
-        exit(header('location:'.$url));
-    }
-}
 ?>

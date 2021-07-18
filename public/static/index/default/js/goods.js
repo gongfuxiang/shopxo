@@ -498,6 +498,7 @@ $(function() {
             }
         }
     });
+    // 确认
     $('.theme-popover .confirm').on('click', function()
     {
         // 是否登录

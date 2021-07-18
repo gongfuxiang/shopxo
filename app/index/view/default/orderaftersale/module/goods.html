@@ -1,0 +1,97 @@
+<!-- 订单基础信息 -->
+{{if !empty($module_data) and !empty($module_data['order_data'])}}
+    <!-- 用户订单售后列表基础顶部-开始 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>plugins_view_user_orderaftersale_list_base_top</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_name = 'plugins_view_user_orderaftersale_list_base_top';
+        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$module_data]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+    <!-- 用户订单售后列表基础顶部-结束 -->
+
+    <!-- 基础信息 -->
+    <p class="am-nbfc am-margin-bottom-sm">
+        <strong class="am-icon-bookmark-o"> {{$module_data.order_no}}</strong>
+    </p>
+
+    <!-- 用户订单售后列表基础商品顶部-开始 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>plugins_view_user_orderaftersale_list_base_goods_top</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_name = 'plugins_view_user_orderaftersale_list_base_goods_top';
+        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$module_data]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+    <!-- 用户订单售后列表基础商品顶部-结束 -->
+
+    <!-- 商品信息 -->
+    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
+    <div class="am-nbfc">
+        <a href="{{$module_data.order_data.items.goods_url}}" target="_blank">
+            <img src="{{$module_data.order_data.items.images}}" class="am-img-thumbnail am-radius am-margin-right-xs am-fl" width="60" height="60" />
+        </a>
+        <div class="am-nbfc">
+            <a href="{{$module_data.order_data.items.goods_url}}" target="_blank" class="am-nowrap-initial">{{$module_data.order_data.items.title}}</a>
+            {{if !empty($module_data.order_data.items.spec)}}
+                <ul class="goods-spec am-margin-top-xs">
+                    {{foreach $module_data.order_data.items.spec as $spec}}
+                        <li>{{$spec.type}}：{{$spec.value}}</li>
+                    {{/foreach}}
+                </ul>
+            {{/if}}
+        </div>
+    </div>
+    <div class="am-text-right">
+        {{if $module_data.order_data.items.original_price gt 0}}
+            <span class="original-price am-margin-right-xs">{{$module_data.order_data.currency_data.currency_symbol}}{{$module_data.order_data.items.original_price}}</span>
+        {{/if}}
+        <span>{{$module_data.order_data.currency_data.currency_symbol}}{{$module_data.order_data.items.price}} x {{$module_data.order_data.items.buy_number}}</span>
+    </div>
+
+    <!-- 用户订单售后列表基础底部-开始 -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>plugins_view_user_orderaftersale_list_base_bottom</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_name = 'plugins_view_user_orderaftersale_list_base_bottom';
+        $hook_data = MyEventTrigger($hook_name, ['hook_name'=>$hook_name, 'is_backend'=>false, 'data'=>$module_data]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+    <!-- 用户订单售后列表基础商品顶部-结束 -->
+{{/if}}

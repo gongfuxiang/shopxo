@@ -1,25 +1,13 @@
 #!/usr/bin/env php
 <?php
-// +----------------------------------------------------------------------
-// | ShopXO 国内领先企业级B2C免费开源电商系统
-// +----------------------------------------------------------------------
-// | Copyright (c) 2011~2019 http://shopxo.net All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: Devil
-// +----------------------------------------------------------------------
-
 namespace think;
 
+// 命令行入口文件
 // 加载基础文件
-require __DIR__ . '/thinkphp/base.php';
+require __DIR__ . '/vendor/autoload.php';
 
 // 引入公共入口文件
 require __DIR__.'/public/core.php';
 
 // 应用初始化
-Container::get('app')->path(__DIR__ . '/application/')->initialize();
-
-// 控制台初始化
-Console::init();
+(new App())->console->run();

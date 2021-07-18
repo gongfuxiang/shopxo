@@ -1,0 +1,18 @@
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>{{$hook_name_form_bottom_operate}}</span>
+    </div>
+{{/if}}
+{{php}}
+    $hook_data = MyEventTrigger($hook_name_form_bottom_operate, ['hook_name'=>$hook_name_form_bottom_operate, 'is_backend'=>true]);
+    if(!empty($hook_data) && is_array($hook_data))
+    {
+        foreach($hook_data as $hook)
+        {
+            if(is_string($hook) || is_int($hook))
+            {
+                echo htmlspecialchars_decode($hook);
+            }
+        }
+    }
+{{/php}}

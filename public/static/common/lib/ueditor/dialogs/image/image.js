@@ -969,7 +969,9 @@
                             window.event.stopPropagation();   //阻止事件的传播
                         } finally {
                             if(!confirm("确定要删除吗？")) return;
-                            $.post(editor.getOpt("serverUrl") + "?action=deletefile", { "id": del.attr("data-id") }, function(response) {
+                            var url = editor.getOpt("serverUrl");
+                            var join = (url.indexOf('?') == -1) ? '?' : '&';
+                            $.post(url + join+"action=deletefile", { "id": del.attr("data-id") }, function(response) {
                                 if (response.code == 0)
                                 {
                                     del.parent().remove();

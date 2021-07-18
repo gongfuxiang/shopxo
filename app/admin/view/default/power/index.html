@@ -1,0 +1,130 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- 温馨提示 -->
+		<div class="am-alert am-alert-danger" data-am-alert>
+			<button type="button" class="am-close">&times;</button>
+			<p>1. 非专业技术人员请勿操作该页面数据、操作失误可能会导致权限菜单错乱。</p>
+			<p>2. 权限菜单分为[ 使用、操作 ]两种类型，使用菜单一般开启显示，操作菜单必须隐藏。</p>
+			<p>3. 如果出现权限菜单错乱，可以重新覆盖[ {{:MyConfig('database.connections.mysql.prefix')}}power ]数据表的数据恢复。</p>
+			<p>4. [ 超级管理员、admin账户 ]默认拥有所有权限，不可更改。</p>
+		</div>
+
+		<!-- operation start -->
+		<div class="am-g">
+			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#power-save-win'}"> 新增</button>
+		</div>
+		<!-- operation end -->
+
+		<!-- save win start -->
+		<div class="am-popup am-radius" id="power-save-win">
+			<div class="am-popup-inner">
+				<div class="am-popup-hd">
+					<h4 class="am-popup-title" data-add-title="权限添加" data-edit-title="权限编辑">权限添加</h4>
+					<span data-am-modal-close class="am-close">&times;</span>
+				</div>
+				<div class="am-popup-bd">
+					<!-- form start -->
+					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/power/save')}}" method="POST" request-type="ajax-reload">
+						<div class="am-alert am-alert-warning" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>1. 填写[ 控制器名称 和 方法名称 ]需要对应创建相应的控制器和方法的定义</p>
+                            <p>2. 控制器文件位置[ application/admin/controller ]、该操作仅开发人员使用</p>
+                            <p>3. 控制器名称/方法名称 与 自定义url地址、两者必须填写一个</p>
+                        </div>
+						<div class="am-form-group">
+							<label>栏目级别</label>
+							<select  class="am-radius chosen-select" name="pid" data-validation-message="栏目级别选择错误">
+								<option value="0">一级栏目...</option>
+								{{foreach $data as $v}}
+									<option value="{{$v.id}}">{{$v.name}}</option>
+								{{/foreach}}
+							</select>
+						</div>
+						<div class="am-form-group">
+							<label>权限名称</label>
+							<input type="text" placeholder="权限名称" name="name" minlength="2" maxlength="16" data-validation-message="权限名称格式 2~8 个字符之间" class="am-radius" required />
+						</div>
+						<div class="am-form-group">
+							<label>控制器名称</label>
+							<input type="text" placeholder="控制器名称" name="control" pattern="{{:lang('common_regex_control')}}"  data-validation-message="控制器名格式 1~30 个字符之间（必须以字母开始，可以是字母数字下划线）" class="am-radius" />
+						</div>
+						<div class="am-form-group">
+							<label>方法名称</label>
+							<input type="text" placeholder="方法名称" name="action" pattern="{{:lang('common_regex_action')}}"  data-validation-message="方法名格式 1~30 个字符之间（必须以字母开始，可以是字母数字下划线）" class="am-radius" />
+						</div>
+						<div class="am-form-group">
+							<label>自定义url地址<span class="am-form-group-label-tips">带http://或https://</span></label>
+							<input type="url" name="url" placeholder="自定义url地址" data-validation-message="自定义url地址格式有误" class="am-radius" />
+						</div>
+						<div class="am-form-group">
+							<label>图标class</label>
+							<input type="text" placeholder="图标class" name="icon" maxlength="60" data-validation-message="图标格式 0~30 个字符之间" class="am-radius" />
+							<div class="am-alert am-alert-warning" data-am-alert>
+	                            <button type="button" class="am-close">&times;</button>
+	                            <p>1. 参考 http://www.iconfont.cn/ 将icon放到 [ /static/admin/default/css/iconfontmenu.css ] 文件中</p>
+	                            <p>2. 也可以直接使用框架自带的icon、参考 [ http://amazeui.shopxo.net/css/icon/ ]</p>
+	                            <p>3. 也可以自己使用插件钩子引入自定义的icon图标的css文件，然后使用定义好的icon</p>
+	                        </div>
+						</div>
+						<div class="am-form-group">
+							<label>顺序</label>
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+						</div>
+						{{include file="lib/is_show" /}}
+						<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
+							<input type="hidden" name="id" />
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+						</div>
+					</form>
+					<!-- form end -->
+				</div>
+			</div>
+		</div>
+		<!-- save win end -->
+
+        <!-- content start -->
+		<ul class="tree-list am-padding-left-0 am-margin-top-sm">
+			{{foreach $data as $v}}
+				<li id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
+					{{if !empty($v['item'])}}
+						<i class="am-icon-plus c-p am-margin-right-xs"></i>
+						<label class="c-p">
+					{{else /}}
+						<label class="c-p am-padding-left-lg">
+					{{/if}}
+						<span>{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}} {{$v.name}}</span>
+					</label>
+					<div class="am-fr m-r-20 list-submit">
+						<span class="am-icon-edit am-icon-md c-p submit-edit {{if !empty($v['item'])}}am-margin-right-xs{{/if}}" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($v)}}' data-tag="power-save-win" data-item="{{if !empty($v['item'])}}ok{{else /}}no{{/if}}"></span>
+						{{if empty($v['item'])}}
+							<span class="am-icon-trash-o am-icon-md c-p am-padding-left-lg m-r-15 submit-delete" data-url="{{:MyUrl('admin/power/delete')}}" data-id="{{$v.id}}"></span>
+						{{/if}}
+					</div>
+				</li>
+				{{if !empty($v['item'])}}
+					<ul class="list-find am-padding-left-0 am-margin-top-xs" style="display:none;">
+						{{foreach $v.item as $vs}}
+							<li id="data-list-{{$vs.id}}" {{if $vs['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
+								<label class="c-p">
+									<span>{{if !empty($vs['icon'])}}<span class="iconfont {{$vs.icon}}"></span>{{/if}} {{$vs.name}}</span>
+								</label>
+								<div class="am-fr am-margin-left-sm find-submit">
+									<span class="am-icon-edit am-icon-sm c-p submit-edit" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="power-save-win" data-item="no"></span>
+									<span class="am-icon-trash-o am-icon-sm c-p am-margin-left-sm am-margin-right-sm submit-delete" data-url="{{:MyUrl('admin/power/delete')}}" data-id="{{$vs.id}}"></span>
+								</div>
+							</li>
+						{{/foreach}}
+					</ul>
+				{{/if}}
+			{{/foreach}}
+		</ul>
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

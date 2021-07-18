@@ -1,17 +1,19 @@
 <?php
 // +----------------------------------------------------------------------
-// | ShopXO 国内领先企业级B2C免费开源电商系统
+// | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
-// | Copyright (c) 2011~2099 http://shopxo.net All rights reserved.
+// | Copyright (c) 2006~2019 http://thinkphp.cn All rights reserved.
 // +----------------------------------------------------------------------
-// | Licensed ( https://opensource.org/licenses/mit-license.php )
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
-// | Author: Devil
+// | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+// $Id$
 
 if (is_file($_SERVER["DOCUMENT_ROOT"] . $_SERVER["SCRIPT_NAME"])) {
     return false;
 } else {
+    $_SERVER["SCRIPT_FILENAME"] = __DIR__ . '/index.php';
+
     require __DIR__ . "/index.php";
 }
-?>

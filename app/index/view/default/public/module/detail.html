@@ -1,0 +1,186 @@
+{{include file="public/header" /}}
+
+<!-- content top hook -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>{{$hook_name_detail_top}}</span>
+    </div>
+{{/if}}
+{{php}}
+    $hook_data = MyEventTrigger($hook_name_detail_top, ['hook_name'=>$hook_name_detail_top, 'is_backend'=>true]);
+    if(!empty($hook_data) && is_array($hook_data))
+    {
+        foreach($hook_data as $hook)
+        {
+            if(is_string($hook) || is_int($hook))
+            {
+                echo htmlspecialchars_decode($hook);
+            }
+        }
+    }
+{{/php}}
+
+<!-- content start  -->
+<div class="am-padding-sm">
+    <!-- content inside top hook -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>{{$hook_name_detail_inside_top}}</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_data = MyEventTrigger($hook_name_detail_inside_top, ['hook_name'=>$hook_name_detail_inside_top, 'is_backend'=>true]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+
+    <!-- data -->
+    {{if !empty($data)}}
+        {{block name="detail_data"}}
+            {{if !empty($form_table) and !empty($form_table['form']) and is_array($form_table['form'])}}
+                {{if !empty($form_table['base']) and !empty($form_table['base']['detail_title'])}}
+                    <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">{{$form_table.base.detail_title}}</div>
+                    <div class="am-panel-bd">
+                {{/if}}
+                <dl class="dl-content">
+                    {{foreach $form_table.form as $t}}
+                        {{if isset($t['label']) and isset($t['view_type']) and in_array($t['view_type'], ['field', 'module', 'status']) and (!isset($t['is_detail']) or $t['is_detail'] eq 1)}}
+                            <dt><strong>{{$t.label}}</strong></dt>
+                            <dd>
+                                {{switch $t.view_type}}
+                                    {{case field}}
+                                        <!-- 前后固定拼接的值 前面 -->
+                                        {{if isset($t['view_join_first'])}}
+                                            <span>{{$t.view_join_first}}</span>
+                                        {{/if}}
+
+                                        <!-- 如果字段为数组则处理多个字段拼接数据 -->
+                                        {{if is_array($t['view_key'])}}
+                                            {{foreach $t['view_key'] as $fk=>$fv}}
+                                                {{if isset($data[$fv])}}
+                                                    {{$data[$fv]}}
+                                                    <!-- 多个字段拼接数据的的拼接字符 -->
+                                                    {{if isset($t['view_key_join']) and $fk lt count($t['view_key'])-1}}
+                                                        {{$t.view_key_join|raw}}
+                                                    {{/if}}
+                                                {{/if}}
+                                            {{/foreach}}
+                                        {{else /}}
+                                            <!-- 是否存在数据 key -->
+                                            {{if isset($data[$t['view_key']])}}
+                                                <!-- 是否指定数据转换 -->
+                                                {{if !empty($t['view_data']) and is_array($t['view_data'])}}
+                                                    <!-- 不存在数组中则不显示 -->
+                                                    {{if isset($t['view_data'][$data[$t['view_key']]])}}
+                                                        <!-- 是否指定二维数组key取值 -->
+                                                        {{if !empty($t['view_data_key'])}}
+                                                            {{if isset($t['view_data'][$data[$t['view_key']]][$t['view_data_key']])}}
+                                                                {{$t['view_data'][$data[$t['view_key']]][$t['view_data_key']]}}
+                                                            {{/if}}
+                                                        {{else /}}
+                                                            {{$t['view_data'][$data[$t['view_key']]]}}
+                                                        {{/if}}
+                                                    {{/if}}
+
+                                                <!-- 直接展示数据 -->
+                                                {{else /}}
+                                                    {{$data[$t['view_key']]|raw}}
+                                                {{/if}}
+                                            {{/if}}
+                                        {{/if}}
+                                        <!-- 前后固定拼接的值 后面 -->
+                                        {{if isset($t['view_join_last'])}}
+                                            <span>{{$t.view_join_last}}</span>
+                                        {{/if}}
+                                    {{/case}}
+                                    {{case module}}
+                                        <!-- 从模块加载自定义模块数据 -->
+                                        {{:ModuleInclude($t['view_key'], $data, ['form_request_type'=>'detail'])}}
+                                    {{/case}}
+                                    {{case status}}
+                                        <!-- 数据状态操作按钮组件 -->
+                                        {{if !empty($t['key_field']) and !empty($t['post_url'])}}
+                                            <a href="javascript:;"
+                                                class="am-icon-btn am-icon-check submit-state {{if $data[$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
+                                                data-url="{{$t.post_url}}"
+                                                data-id="{{if isset($data[$t['key_field']])}}{{$data[$t['key_field']]}}{{/if}}"
+                                                data-state="{{$data[$t['view_key']]}}"
+                                                data-field="{{$t.view_key}}"
+                                                data-is-update-status="{{if isset($t['is_form_su'])}}{{$t.is_form_su}}{{else /}}0{{/if}}"
+                                            ></a>
+                                        {{/if}}
+                                    {{/case}}
+                                {{/switch}}
+                            </dd>
+                        {{/if}}
+                    {{/foreach}}
+                </dl>
+                {{if !empty($form_table['base']) and !empty($form_table['base']['detail_title'])}}
+                    </div>
+                    </div>
+                {{/if}}
+            {{/if}}
+        {{/block}}
+    {{else /}}
+        {{block name="detail_not_data"}}
+            {{include file="public/not_data" /}}
+        {{/block}}
+    {{/if}}
+
+    <!-- content inside top hook -->
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        <div class="plugins-tag">
+            <span>{{$hook_name_detail_inside_bottom}}</span>
+        </div>
+    {{/if}}
+    {{php}}
+        $hook_data = MyEventTrigger($hook_name_detail_inside_bottom, ['hook_name'=>$hook_name_detail_inside_bottom, 'is_backend'=>true]);
+        if(!empty($hook_data) && is_array($hook_data))
+        {
+            foreach($hook_data as $hook)
+            {
+                if(is_string($hook) || is_int($hook))
+                {
+                    echo htmlspecialchars_decode($hook);
+                }
+            }
+        }
+    {{/php}}
+</div>
+<!-- content end  -->
+
+<!-- content bottom hook -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>{{$hook_name_detail_bottom}}</span>
+    </div>
+{{/if}}
+{{php}}
+    $hook_data = MyEventTrigger($hook_name_detail_bottom, ['hook_name'=>$hook_name_detail_bottom, 'is_backend'=>true]);
+    if(!empty($hook_data) && is_array($hook_data))
+    {
+        foreach($hook_data as $hook)
+        {
+            if(is_string($hook) || is_int($hook))
+            {
+                echo htmlspecialchars_decode($hook);
+            }
+        }
+    }
+{{/php}}
+        
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+
+<!-- page buttom -->
+{{block name="form_page_bottom"}}{{/block}}

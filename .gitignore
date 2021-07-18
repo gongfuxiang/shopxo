@@ -2,7 +2,7 @@
 .DS_Store
 .ide
 *.log
-*.lock
+.env
 .tea
 .idea
 .htaccess

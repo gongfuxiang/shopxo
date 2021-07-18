@@ -1,0 +1,51 @@
+<!-- 公共操作 -->
+<!-- 是否开启删除操作 -->
+{{if isset($form_table['base']['is_delete']) and $form_table['base']['is_delete'] eq 1}}
+    <button
+        type="button"
+        class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o form-table-operate-top-delete-submit"
+        data-url="{{if isset($form_table['base']['delete_url'])}}{{$form_table.base.delete_url}}{{/if}}"
+        data-form="{{if isset($form_table['base']['delete_form'])}}{{$form_table.base.delete_form}}{{/if}}"
+        data-key="{{if isset($form_table['base']['delete_key'])}}{{$form_table.base.delete_key}}{{/if}}"
+        data-confirm-title="{{if isset($form_table['base']['confirm_title'])}}{{$form_table.base.confirm_title}}{{/if}}"
+        data-confirm-msg="{{if isset($form_table['base']['confirm_msg'])}}{{$form_table.base.confirm_msg}}{{/if}}"
+        data-timeout="{{if isset($form_table['base']['timeout'])}}{{$form_table.base.timeout}}{{/if}}"
+    > 删除</button>
+{{/if}}
+
+<!-- 钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    <div class="plugins-tag">
+        <span>{{$hook_name_form_top_operate}}</span>
+    </div>
+{{/if}}
+{{php}}
+    $hook_data = MyEventTrigger($hook_name_form_top_operate, ['hook_name'=>$hook_name_form_top_operate, 'is_backend'=>true]);
+    if(!empty($hook_data) && is_array($hook_data))
+    {
+        foreach($hook_data as $hook)
+        {
+            if(is_string($hook) || is_int($hook))
+            {
+                echo htmlspecialchars_decode($hook);
+            }
+        }
+    }
+{{/php}}
+
+<!-- 是否开启搜索操作 公共搜索操作放在最后面 -->
+{{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
+    <a href="{{if isset($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" class="am-btn am-btn-warning am-radius am-btn-sm am-icon-filter"> 重置</a>
+    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example am-icon-search" data-am-loading="{loadingText:' 搜索中...'}"> 搜索</button>
+
+    <!-- 排序数据字段 -->
+    <input type="hidden" name="fp_order_by_key" value="{{if !empty($form_order_by) and !empty($form_order_by['key'])}}{{$form_order_by.key}}{{/if}}" />
+    <input type="hidden" name="fp_order_by_val" value="{{if !empty($form_order_by) and !empty($form_order_by['val'])}}{{$form_order_by.val}}{{/if}}" />
+{{/if}}
+
+<!-- 字段选择 -->
+{{if !isset($form_table['base']['is_fields_sel']) or $form_table['base']['is_fields_sel'] eq 1}}
+    <div class="am-fr am-nbfc">
+        <button type="button" class="am-btn am-btn-default am-radius am-btn-xs am-icon-cog" data-am-modal="{target: '#form-table-fields-popup'}"> 设置</button>
+    </div>
+{{/if}}
