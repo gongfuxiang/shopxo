@@ -71,25 +71,25 @@
 ~~~
 
 # 系统特性
-![系统特性](https://images.gitee.com/uploads/images/2020/0626/105745_6c5675c8_488475.jpeg "系统特性.jpg")
+![系统特性](https://images.gitee.com/uploads/images/2020/0626/105745_6c5675c8_488475.jpeg "系统特性")
 
 # 全平台支持
-![全平台支持](https://images.gitee.com/uploads/images/2020/0626/105825_39ddc4fd_488475.jpeg "全平台支持.jpg")
+![全平台支持](https://images.gitee.com/uploads/images/2020/0626/105825_39ddc4fd_488475.jpeg "全平台支持")
 
 # 可视化DIY拖拽装修展示
-![可视化拖拽](https://images.gitee.com/uploads/images/2021/0711/154842_90877b0a_488475.gif "layout.gif")
-
-# 小程序展示
-![小程序](https://images.gitee.com/uploads/images/2020/0213/091112_064306e0_488475.jpeg "xcx序.jpg")
+![可视化拖拽](https://images.gitee.com/uploads/images/2021/0711/154842_90877b0a_488475.gif "可视化DIY拖拽装修")
 
 # PC端展示
-![PC脑端](https://images.gitee.com/uploads/images/2021/0711/160538_1806ce71_488475.gif "home.gif")
+![PC脑端](https://images.gitee.com/uploads/images/2021/0711/160538_1806ce71_488475.gif "PC前端")
 
 # 后台管理展示
-![后台管理](https://images.gitee.com/uploads/images/2021/0711/154241_5b84f065_488475.gif "admin.gif")
+![后台管理](https://images.gitee.com/uploads/images/2021/0711/154241_5b84f065_488475.gif "后台管理")
+
+# 小程序展示
+![小程序](https://images.gitee.com/uploads/images/2020/0213/091112_064306e0_488475.jpeg "小程序")
 
 # 荣誉证书
-![GVP 证书](https://images.gitee.com/uploads/images/2020/0213/002000_06d4df98_488475.jpeg "GVP高清图片.jpeg")
+![GVP证书](https://images.gitee.com/uploads/images/2020/0213/002000_06d4df98_488475.jpeg "GVP高清图片.jpeg")
 
 # 商城基础功能简介
 ### 后端功能列表
