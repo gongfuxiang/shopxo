@@ -3,7 +3,7 @@
 {{if !empty($data)}}
     <div class="am-container">
         <legend class="am-padding-horizontal-xs am-padding-bottom-xs">
-            <img src="{{if empty($data['logo'])}}{{$attachment_host}}/static/common/images/module-default-images.png{{else /}}{{$data.logo}}{{/if}}" class="am-img-thumbnail am-radius page-top-nav-logo" />
+            <img src="{{if empty($data['logo'])}}{{$attachment_host}}/static/common/images/default-images-mini.png{{else /}}{{$data.logo}}{{/if}}" class="am-img-thumbnail am-radius page-top-nav-logo" />
             <span class="page-top-nav-title">
                 <span>{{$data.name}}</span>
                 <a href="javascript:;" class="am-icon-eyedropper am-margin-left-xs" data-am-modal="{target: '#popup-saveinfo'}"></a>
@@ -40,7 +40,7 @@ function FormBackSaveinfoEdit(e)
     $page.attr('data-json', encodeURIComponent(JSON.stringify(e)));
 
     // logo
-    $('.page-top-nav-logo').attr('src', e.logo || '{{$attachment_host}}/static/common/images/module-default-images.png');
+    $('.page-top-nav-logo').attr('src', e.logo || '{{$attachment_host}}/static/common/images/default-images-mini.png');
 
     // 名称
     $('.page-top-nav-title span').text(e.name || '默认页面');
