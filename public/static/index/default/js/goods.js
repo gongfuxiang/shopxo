@@ -390,7 +390,7 @@ $(function() {
             $('#text_box').val($('.stock-tips .stock').data('min-limit') || 1);
             
             // 规格处理
-            var length = $('.theme-signin-left .sku-items').length;
+            var length = $('.theme-signin-left .sku-container .sku-items').length;
             var index = $(this).parents('.sku-items').index();
 
             if($(this).hasClass('selected'))
@@ -398,7 +398,7 @@ $(function() {
                 $(this).removeClass('selected');
 
                 // 去掉元素之后的禁止
-                $('.theme-signin-left .sku-items').each(function(k, v)
+                $('.theme-signin-left .sku-container .sku-items').each(function(k, v)
                 {
                     if(k > index)
                     {
@@ -420,7 +420,7 @@ $(function() {
                 // 去掉元素之后的禁止
                 if(index < length)
                 {
-                    $('.theme-signin-left .sku-items').each(function(k, v)
+                    $('.theme-signin-left .sku-container .sku-items').each(function(k, v)
                     {
                         if(k > index)
                         {
