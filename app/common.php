@@ -2644,7 +2644,7 @@ function ParamsChecked($data, $params)
                 {
                     return str_replace('{$var}', 'unique验证', $v['error_msg']);
                 }
-                $temp = db($v['checked_data'])->where([$v['key_name']=>$data[$v['key_name']]])->find();
+                $temp = \think\facade\Db::name($v['checked_data'])->where([$v['key_name']=>$data[$v['key_name']]])->find();
                 if(!empty($temp))
                 {
                     // 错误数据变量替换
