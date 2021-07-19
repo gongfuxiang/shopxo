@@ -1,12 +1,12 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
-        'name' => 'topthink/think',
+        'reference' => '6c215fcba72e60dc4017bd65b0bc08b8b67c94d2',
+        'name' => 'shopxo/shopxo',
         'dev' => true,
     ),
     'versions' => array(
@@ -73,6 +73,15 @@
             'reference' => '408d5eafb83c57f6365a3ca330ff23aa4a5fa39b',
             'dev_requirement' => false,
         ),
+        'shopxo/shopxo' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '6c215fcba72e60dc4017bd65b0bc08b8b67c94d2',
+            'dev_requirement' => false,
+        ),
         'symfony/polyfill-mbstring' => array(
             'pretty_version' => 'v1.23.0',
             'version' => '1.23.0.0',
@@ -118,15 +127,6 @@
             'reference' => '4789343672aef06d571d556da369c0e156609bce',
             'dev_requirement' => false,
         ),
-        'topthink/think' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'type' => 'project',
-            'install_path' => __DIR__ . '/../../',
-            'aliases' => array(),
-            'reference' => NULL,
-            'dev_requirement' => false,
-        ),
         'topthink/think-helper' => array(
             'pretty_version' => 'v3.1.5',
             'version' => '3.1.5.0',
@@ -146,12 +146,12 @@
             'dev_requirement' => false,
         ),
         'topthink/think-orm' => array(
-            'pretty_version' => 'v2.0.40',
-            'version' => '2.0.40.0',
+            'pretty_version' => 'v2.0.41',
+            'version' => '2.0.41.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../topthink/think-orm',
             'aliases' => array(),
-            'reference' => '1119d979b850849f3725856460cf108eec1c3eb8',
+            'reference' => '64bbfdde01f4fd6939c2f695fceb08e6d764ac6b',
             'dev_requirement' => false,
         ),
         'topthink/think-template' => array(

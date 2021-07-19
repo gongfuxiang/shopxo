@@ -200,7 +200,12 @@ class MorphToMany extends BelongsToMany
         // 关联查询封装
         $tableName = $this->query->getTable();
         $table     = $this->pivot->db()->getTable();
-        $fields    = $this->getQueryFields($tableName);
+
+        if ($this->withoutField) {
+            $this->query->withoutField($this->withoutField);
+        }
+
+        $fields = $this->getQueryFields($tableName);
 
         if ($this->withLimit) {
             $this->query->limit($this->withLimit);

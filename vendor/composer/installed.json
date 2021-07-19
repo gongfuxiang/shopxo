@@ -927,18 +927,24 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.40",
-            "version_normalized": "2.0.40.0",
+            "version": "v2.0.41",
+            "version_normalized": "2.0.41.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "1119d979b850849f3725856460cf108eec1c3eb8"
+                "reference": "64bbfdde01f4fd6939c2f695fceb08e6d764ac6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/1119d979b850849f3725856460cf108eec1c3eb8",
-                "reference": "1119d979b850849f3725856460cf108eec1c3eb8",
-                "shasum": ""
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/64bbfdde01f4fd6939c2f695fceb08e6d764ac6b",
+                "reference": "64bbfdde01f4fd6939c2f695fceb08e6d764ac6b",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-json": "*",
@@ -951,7 +957,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^7|^8|^9.5"
             },
-            "time": "2021-04-19T13:29:37+00:00",
+            "time": "2021-07-14T07:51:15+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -979,7 +985,7 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v2.0.40"
+                "source": "https://github.com/top-think/think-orm/tree/v2.0.41"
             },
             "install-path": "../topthink/think-orm"
         },

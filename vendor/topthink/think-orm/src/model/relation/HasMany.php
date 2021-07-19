@@ -206,6 +206,10 @@ class HasMany extends Relation
             $closure($this->getClosureType($closure));
         }
 
+        if ($this->withoutField) {
+            $this->query->withoutField($this->withoutField);
+        }
+
         $list = $this->query
             ->where($where)
             ->cache($cache[0] ?? false, $cache[1] ?? null, $cache[2] ?? null)

@@ -366,7 +366,12 @@ class HasManyThrough extends Relation
             $pk           = $this->throughPk;
             $throughKey   = $this->throughKey;
             $modelTable   = $this->parent->getTable();
-            $fields       = $this->getQueryFields($alias);
+
+            if ($this->withoutField) {
+                $this->query->withoutField($this->withoutField);
+            }
+
+            $fields = $this->getQueryFields($alias);
 
             $this->query
                 ->field($fields)

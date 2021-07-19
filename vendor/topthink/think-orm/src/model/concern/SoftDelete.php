@@ -151,8 +151,16 @@ trait SoftDelete
      */
     public static function destroy($data, bool $force = false): bool
     {
-        // 包含软删除数据
-        $query = (new static())->withTrashedData(true)->db(false);
+        // 传入空值（包括空字符串和空数组）的时候不会做任何的数据删除操作，但传入0则是有效的
+        if(empty($data) && $data !== 0){
+            return false;
+        }
+        // 仅当强制删除时包含软删除数据
+        $model = (new static());
+        if($force){
+            $model->withTrashedData(true);
+        }
+        $query = $model->db(false);
 
         if (is_array($data) && key($data) !== 0) {
             $query->where($data);

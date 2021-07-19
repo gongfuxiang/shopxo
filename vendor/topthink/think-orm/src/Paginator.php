@@ -175,7 +175,7 @@ abstract class Paginator implements ArrayAccess, Countable, IteratorAggregate, J
             $path       = $this->options['path'];
         } else {
             $parameters = [];
-            $path       = str_replace('[PAGE]', $page, $this->options['path']);
+            $path       = str_replace('[PAGE]', (string) $page, $this->options['path']);
         }
 
         if (count($this->options['query']) > 0) {

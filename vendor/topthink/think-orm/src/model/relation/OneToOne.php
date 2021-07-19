@@ -305,6 +305,8 @@ abstract class OneToOne extends Relation
 
         if ($this->withField) {
             $this->query->field($this->withField);
+        } elseif ($this->withoutField) {
+            $this->query->withoutField($this->withoutField);
         }
 
         $list = $this->query

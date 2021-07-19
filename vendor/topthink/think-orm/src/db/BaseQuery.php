@@ -1075,7 +1075,7 @@ abstract class BaseQuery
      * 查找记录
      * @access public
      * @param mixed $data 数据
-     * @return Collection
+     * @return Collection|array|static[]
      * @throws Exception
      * @throws ModelNotFoundException
      * @throws DataNotFoundException
@@ -1109,7 +1109,7 @@ abstract class BaseQuery
      * 查找单条记录
      * @access public
      * @param mixed $data 查询数据
-     * @return array|Model|null
+     * @return array|Model|null|static
      * @throws Exception
      * @throws ModelNotFoundException
      * @throws DataNotFoundException
