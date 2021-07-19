@@ -601,30 +601,16 @@ $admin=<<<php
 <?php
 namespace app\plugins\\$plugins\admin;
 
-use app\BaseController;
-
-/**
- * {$params['name']} - 后台管理
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2016-12-01T21:51:08+0800
- */
-class Admin extends BaseController
+// {$params['name']} - 后台管理
+class Admin
 {
-    // 构造方法
-    public function __construct(\$params = [])
-    {
-        parent::__construct();
-    }
-
     // 后台管理入口
     public function index(\$params = [])
     {
         // 数组组装
-        \MyViewAssign('data', ['hello', 'world!']);
-        \MyViewAssign('msg', 'hello world! admin');
-        return \MyView('../../../plugins/view/$plugins/admin/admin/index');
+        MyViewAssign('data', ['hello', 'world!']);
+        MyViewAssign('msg', 'hello world! admin');
+        return MyView('../../../plugins/view/$plugins/admin/admin/index');
     }
 }
 ?>
@@ -634,19 +620,11 @@ $hook=<<<php
 <?php
 namespace app\plugins\\$plugins;
 
-use app\BaseController;
-
-/**
- * {$params['name']} - 钩子入口
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2016-12-01T21:51:08+0800
- */
-class Hook extends BaseController
+// {$params['name']} - 钩子入口
+class Hook
 {
     // 应用响应入口
-    public function run(\$params = [])
+    public function handle(\$params = [])
     {
         // 是否控制器钩子
         // is_backend 当前为后端业务处理
@@ -671,30 +649,16 @@ $index=<<<php
 <?php
 namespace app\plugins\\$plugins\index;
 
-use app\BaseController;
-
-/**
- * {$params['name']} - 前端独立页面入口
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2016-12-01T21:51:08+0800
- */
-class Index extends BaseController
+// {$params['name']} - 前端独立页面入口
+class Index
 {
-    // 构造方法
-    public function __construct(\$params = [])
-    {
-        parent::__construct();
-    }
-
     // 前端页面入口
     public function index(\$params = [])
     {
         // 数组组装
-        \MyViewAssign('data', ['hello', 'world!']);
-        \MyViewAssign('msg', 'hello world! index');
-        return \MyView('../../../plugins/view/$plugins/index/index/index');
+        MyViewAssign('data', ['hello', 'world!']);
+        MyViewAssign('msg', 'hello world! index');
+        return MyView('../../../plugins/view/$plugins/index/index/index');
     }
 }
 ?>
