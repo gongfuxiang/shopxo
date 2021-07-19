@@ -71,7 +71,7 @@
 ~~~
 
 # 系统特性
-![系统特性](https://images.gitee.com/uploads/images/2020/0626/105745_6c5675c8_488475.jpeg "系统特性")
+![系统特性](https://images.gitee.com/uploads/images/2021/0719/100017_8ea1a9ed_488475.jpeg "系统特性")
 
 # 全平台支持
 ![全平台支持](https://images.gitee.com/uploads/images/2020/0626/105825_39ddc4fd_488475.jpeg "全平台支持")
