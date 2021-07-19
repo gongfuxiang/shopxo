@@ -188,9 +188,9 @@ class Buy extends Common
      */
     public function Add()
     {
-        if(input('post.'))
+        if($this->data_post)
         {
-            $params = $_POST;
+            $params = $this->data_post;
             $params['user'] = $this->user;
             return BuyService::OrderInsert($params);
         } else {
