@@ -699,7 +699,7 @@ class PaymentService
 
         // 开始卸载
         $payment = $params['id'];
-        if(db('Payment')->where(['payment'=>$payment])->delete())
+        if(Db::name('Payment')->where(['payment'=>$payment])->delete())
         {
             // 删除入口文件
             self::PaymentEntranceDelete(['payment' => $payment]);

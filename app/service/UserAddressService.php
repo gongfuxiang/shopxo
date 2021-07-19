@@ -125,11 +125,6 @@ class UserAddressService
                 $v['city_name'] = (!empty($v['city']) && !empty($region) && array_key_exists($v['city'], $region)) ? $region[$v['city']] : '';
                 $v['county_name'] = (!empty($v['county']) && !empty($region) && array_key_exists($v['county'], $region)) ? $region[$v['county']] : '';
 
-                // 地区
-                $v['province_name'] = (!empty($v['province']) && array_key_exists($v['province'], $region)) ? $region[$v['province']] : '';
-                $v['city_name'] = (!empty($v['city']) && array_key_exists($v['city'], $region)) ? $region[$v['city']] : '';
-                $v['county_name'] = (!empty($v['county']) && array_key_exists($v['county'], $region)) ? $region[$v['county']] : '';
-
                 // 附件
                 if(isset($v['idcard_front']))
                 {
