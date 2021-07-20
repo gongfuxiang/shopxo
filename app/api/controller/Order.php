@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\PaymentService;
 use app\service\OrderService;
@@ -87,7 +88,7 @@ class Order extends Common
             'data'          => $data['data'],
             'payment_list'  => $payment_list,
         ];
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 
     /**
@@ -103,39 +104,41 @@ class Order extends Common
         $params = $this->data_post;
         $params['user'] = $this->user;
         $params['user_type'] = 'user';
-        if(empty($params['id']))
+        if(!empty($params['id']))
         {
-            return DataReturn('参数有误', -1);
-        }
+            // 条件
+            $where = OrderService::OrderListWhere($params);
 
-        // 条件
-        $where = OrderService::OrderListWhere($params);
-
-        // 获取列表
-        $data_params = array(
-            'm'                 => 0,
-            'n'                 => 1,
-            'where'             => $where,
-            'is_orderaftersale' => 1,
-        );
-        $data = OrderService::OrderList($data_params);
-        if(!empty($data['data'][0]))
-        {
-            // 返回信息
-            $result = [
-                'data'              => $data['data'][0],
-                'site_fictitious'   => null,
-            ];
-
-            // 虚拟销售配置
-            if($result['data']['order_model'] == 3 && $result['data']['pay_status'] == 1 && in_array($result['data']['status'], [3,4]))
+            // 获取列表
+            $data_params = array(
+                'm'                 => 0,
+                'n'                 => 1,
+                'where'             => $where,
+                'is_orderaftersale' => 1,
+            );
+            $data = OrderService::OrderList($data_params);
+            if(!empty($data['data'][0]))
             {
-                $site_fictitious = ConfigService::SiteFictitiousConfig();
-                $result['site_fictitious'] = $site_fictitious['data'];
+                // 返回信息
+                $result = [
+                    'data'              => $data['data'][0],
+                    'site_fictitious'   => null,
+                ];
+
+                // 虚拟销售配置
+                if($result['data']['order_model'] == 3 && $result['data']['pay_status'] == 1 && in_array($result['data']['status'], [3,4]))
+                {
+                    $site_fictitious = ConfigService::SiteFictitiousConfig();
+                    $result['site_fictitious'] = $site_fictitious['data'];
+                }
+                $ret = SystemBaseService::DataReturn($result);
+            } else {
+                $ret = DataReturn('数据不存在或已删除', -100);
             }
-            return SystemBaseService::DataReturn($result);
+        } else {
+            $ret = DataReturn('参数有误', -1);
         }
-        return DataReturn('数据不存在或已删除', -100);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -154,35 +157,37 @@ class Order extends Common
         $params['user_type'] = 'user';
         if(empty($params['id']))
         {
-            return DataReturn('参数有误', -1);
-        }
+            $ret = DataReturn('参数有误', -1);
+        } else {
+            // 条件
+            $where = OrderService::OrderListWhere($params);
 
-        // 条件
-        $where = OrderService::OrderListWhere($params);
-
-        // 获取列表
-        $data_params = array(
-            'm'         => 0,
-            'n'         => 1,
-            'where'     => $where,
-        );
-        $data = OrderService::OrderList($data_params);
-        if(!empty($data['data'][0]))
-        {
-            // 是否已评论
-            if($data['data'][0]['user_is_comments'] > 0)
-            {
-                return DataReturn('你已进行过评论', -100);
-            }
-
-            // 返回数据
-            $result = [
-                'data'                  => $data['data'][0],
-                'editor_path_type'      => ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['data'][0]['id']),
+            // 获取列表
+            $data_params = [
+                'm'         => 0,
+                'n'         => 1,
+                'where'     => $where,
             ];
-            return SystemBaseService::DataReturn($result);
+            $data = OrderService::OrderList($data_params);
+            if(!empty($data['data'][0]))
+            {
+                // 是否已评论
+                if($data['data'][0]['user_is_comments'] > 0)
+                {
+                    $ret = ApiService::ApiDataReturn(DataReturn('你已进行过评论', -100));
+                } else {
+                    // 返回数据
+                    $result = [
+                        'data'                  => $data['data'][0],
+                        'editor_path_type'      => ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['data'][0]['id']),
+                    ];
+                    $ret = SystemBaseService::DataReturn($result);
+                }
+            } else {
+                $ret = DataReturn('没有相关数据', -100);
+            }
         }
-        return DataReturn('没有相关数据', -100);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -198,7 +203,7 @@ class Order extends Common
         $params = $this->data_post;
         $params['user'] = $this->user;
         $params['business_type'] = 'order';
-        return GoodsCommentsService::Comments($params);
+        return ApiService::ApiDataReturn(GoodsCommentsService::Comments($params));
     }
 
     /**
@@ -213,7 +218,7 @@ class Order extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return OrderService::Pay($params);
+        return ApiService::ApiDataReturn(OrderService::Pay($params));
     }
 
 
@@ -230,7 +235,7 @@ class Order extends Common
         $params['user_id'] = $this->user['id'];
         $params['creator'] = $this->user['id'];
         $params['creator_name'] = $this->user['user_name_view'];
-        return OrderService::OrderCancel($params);
+        return ApiService::ApiDataReturn(OrderService::OrderCancel($params));
     }
 
     /**
@@ -246,7 +251,7 @@ class Order extends Common
         $params['user_id'] = $this->user['id'];
         $params['creator'] = $this->user['id'];
         $params['creator_name'] = $this->user['user_name_view'];
-        return OrderService::OrderCollect($params);
+        return ApiService::ApiDataReturn(OrderService::OrderCollect($params));
     }
 
     /**
@@ -264,7 +269,7 @@ class Order extends Common
         $params['creator'] = $this->user['id'];
         $params['creator_name'] = $this->user['user_name_view'];
         $params['user_type'] = 'user';
-        return OrderService::OrderDelete($params);
+        return ApiService::ApiDataReturn(OrderService::OrderDelete($params));
     }
 
 }

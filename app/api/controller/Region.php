@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\RegionService;
 
@@ -52,7 +53,7 @@ class Region extends Common
             ],
         ];
         $result = RegionService::RegionNode($params);
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 
     /**
@@ -65,7 +66,7 @@ class Region extends Common
      */
     public function All()
     {
-        return RegionService::RegionAll();
+        return ApiService::ApiDataReturn(RegionService::RegionAll());
     }
 }
 ?>

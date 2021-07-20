@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\UserService;
 use app\service\OrderService;
@@ -53,7 +54,7 @@ class User extends Common
      */
     public function Login()
     {
-        return UserService::Login($this->data_post);
+        return ApiService::ApiDataReturn(UserService::Login($this->data_post));
     }
 
     /**
@@ -66,7 +67,7 @@ class User extends Common
      */
     public function LoginVerifySend()
     {
-        return UserService::LoginVerifySend($this->data_post);
+        return ApiService::ApiDataReturn(UserService::LoginVerifySend($this->data_post));
     }
 
     /**
@@ -79,7 +80,7 @@ class User extends Common
      */
     public function Reg()
     {
-        return UserService::Reg($this->data_post);
+        return ApiService::ApiDataReturn(UserService::Reg($this->data_post));
     }
 
     /**
@@ -92,7 +93,7 @@ class User extends Common
      */
     public function RegVerifySend()
     {
-        return UserService::RegVerifySend($this->data_post);
+        return ApiService::ApiDataReturn(UserService::RegVerifySend($this->data_post));
     }
 
     /**
@@ -105,7 +106,7 @@ class User extends Common
      */
     public function ForgetPwd()
     {
-        return UserService::ForgetPwd($this->data_post);
+        return ApiService::ApiDataReturn(UserService::ForgetPwd($this->data_post));
     }
 
     /**
@@ -118,7 +119,7 @@ class User extends Common
      */
     public function ForgetPwdVerifySend()
     {
-        return UserService::ForgetPwdVerifySend($this->data_post);
+        return ApiService::ApiDataReturn(UserService::ForgetPwdVerifySend($this->data_post));
     }
 
     /**
@@ -150,7 +151,7 @@ class User extends Common
      */
     public function AppMobileBind()
     {
-        return UserService::AppMobileBind($this->data_post);
+        return ApiService::ApiDataReturn(UserService::AppMobileBind($this->data_post));
     }
 
     /**
@@ -163,7 +164,7 @@ class User extends Common
      */
     public function AppMobileBindVerifySend()
     {
-        return UserService::AppMobileBindVerifySend($this->data_post);
+        return ApiService::ApiDataReturn(UserService::AppMobileBindVerifySend($this->data_post));
     }
 
     /**
@@ -177,34 +178,34 @@ class User extends Common
     public function AlipayUserAuth()
     {
         // 参数
-        if(empty($this->data_post['authcode']))
+        if(!empty($this->data_post['authcode']))
         {
-            return DataReturn('授权码为空', -1);
-        }
-
-        // 授权
-        $result = (new \base\Alipay())->GetAuthSessionKey(MyC('common_app_mini_alipay_appid'), $this->data_post['authcode']);
-        if($result['status'] == 0)
-        {
-            // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(null, 'alipay_openid', $result['data']['user_id']);
-            if(empty($user))
+            // 授权
+            $result = (new \base\Alipay())->GetAuthSessionKey(MyC('common_app_mini_alipay_appid'), $this->data_post['authcode']);
+            if($result['status'] == 0)
             {
-                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['user_id']]);
+                // 先从数据库获取用户信息
+                $user = UserService::AppUserInfoHandle(null, 'alipay_openid', $result['data']['user_id']);
+                if(empty($user))
+                {
+                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['user_id']]);
+                } else {
+                    // 用户状态
+                    $ret = UserService::UserStatusCheck('id', $user['id']);
+                    if($ret['code'] == 0)
+                    {
+                        // 标记用户存在
+                        $user['is_user_exist'] = 1;
+                        $ret = DataReturn('授权登录成功', 0, $user);
+                    }
+                }
+            } else {
+                $ret = DataReturn($result['msg'], -100);
             }
-
-            // 用户状态
-            $ret = UserService::UserStatusCheck('id', $user['id']);
-            if($ret['code'] != 0)
-            {
-                return $ret;
-            }
-
-            // 标记用户存在
-            $user['is_user_exist'] = 1;
-            return DataReturn('授权登录成功', 0, $user);
+        } else {
+            $ret = DataReturn('授权码为空', -1);
         }
-        return DataReturn($result['msg'], -100);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -226,28 +227,27 @@ class User extends Common
             ],
         ];
         $ret = ParamsChecked($this->data_post, $p);
-        if($ret !== true)
+        if($ret === true)
         {
-            return DataReturn($ret, -1);
-        }
-
-        // 先从数据库获取用户信息
-        $user = UserService::AppUserInfoHandle(null, 'alipay_openid', $this->data_post['openid']);
-        if(empty($user))
-        {
-            $this->data_post['nickname'] = isset($this->data_post['nickName']) ? $this->data_post['nickName'] : '';
-            $this->data_post['gender'] = empty($this->data_post['gender']) ? 0 : (($this->data_post['gender'] == 'f') ? 1 : 2);
-            return UserService::AuthUserProgram($this->data_post, 'alipay_openid');
-        } else {
-            // 用户状态
-            $ret = UserService::UserStatusCheck('id', $user['id']);
-            if($ret['code'] != 0)
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'alipay_openid', $this->data_post['openid']);
+            if(empty($user))
             {
-                return $ret;
+                $this->data_post['nickname'] = isset($this->data_post['nickName']) ? $this->data_post['nickName'] : '';
+                $this->data_post['gender'] = empty($this->data_post['gender']) ? 0 : (($this->data_post['gender'] == 'f') ? 1 : 2);
+                $ret = UserService::AuthUserProgram($this->data_post, 'alipay_openid');
+            } else {
+                // 用户状态
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    $ret = DataReturn('授权成功', 0, $user);
+                }
             }
-            return DataReturn('授权成功', 0, $user);
+        } else {
+            $ret = DataReturn($ret, -1);
         }
-        return DataReturn('获取用户信息失败', -100);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -276,7 +276,7 @@ class User extends Common
             }
             if(empty($user))
             {
-                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid'], 'unionid'=>$unionid]);
+                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid'], 'unionid'=>$unionid]);
             } else {
                 // 如果用户openid为空则绑定到用户下面
                 if(empty($user['weixin_openid']))
@@ -290,17 +290,20 @@ class User extends Common
             }
 
             // 用户状态
-            $ret = UserService::UserStatusCheck('id', $user['id']);
-            if($ret['code'] != 0)
+            if(!empty($user))
             {
-                return $ret;
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    // 标记用户存在
+                    $user['is_user_exist'] = 1;
+                    $ret = DataReturn('授权登录成功', 0, $user);
+                }
             }
-
-            // 标记用户存在
-            $user['is_user_exist'] = 1;
-            return DataReturn('授权登录成功', 0, $user);
+        } else {
+            $ret = DataReturn($result['msg'], -10);
         }
-        return DataReturn($result['msg'], -10);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -327,36 +330,35 @@ class User extends Common
             ],
         ];
         $ret = ParamsChecked($this->data_post, $p);
-        if($ret !== true)
+        if($ret === true)
         {
-            return DataReturn($ret, -1);
-        }
-
-        // 先从数据库获取用户信息
-        $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $this->data_post['openid']);
-        if(empty($user))
-        {
-            // 字段名称不一样参数处理
-            $auth_data = is_array($this->data_post['auth_data']) ? $this->data_post['auth_data'] : json_decode(htmlspecialchars_decode($this->data_post['auth_data']), true);
-            $auth_data['nickname'] = isset($auth_data['nickName']) ? $auth_data['nickName'] : '';
-            $auth_data['avatar'] = isset($auth_data['avatarUrl']) ? $auth_data['avatarUrl'] : '';
-            $auth_data['gender'] = empty($auth_data['gender']) ? 0 : (($auth_data['gender'] == 2) ? 1 : 2);
-
-            // 公共参数处理
-            $auth_data['weixin_unionid'] = isset($this->data_post['unionid']) ? $this->data_post['unionid'] : '';
-            $auth_data['openid'] = $this->data_post['openid'];
-            $auth_data['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
-            return UserService::AuthUserProgram($auth_data, 'weixin_openid');
-        } else {
-            // 用户状态
-            $ret = UserService::UserStatusCheck('id', $user['id']);
-            if($ret['code'] != 0)
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $this->data_post['openid']);
+            if(empty($user))
             {
-                return $ret;
-            }
-            return DataReturn('授权成功', 0, $user);
+                // 字段名称不一样参数处理
+                $auth_data = is_array($this->data_post['auth_data']) ? $this->data_post['auth_data'] : json_decode(htmlspecialchars_decode($this->data_post['auth_data']), true);
+                $auth_data['nickname'] = isset($auth_data['nickName']) ? $auth_data['nickName'] : '';
+                $auth_data['avatar'] = isset($auth_data['avatarUrl']) ? $auth_data['avatarUrl'] : '';
+                $auth_data['gender'] = empty($auth_data['gender']) ? 0 : (($auth_data['gender'] == 2) ? 1 : 2);
+
+                // 公共参数处理
+                $auth_data['weixin_unionid'] = isset($this->data_post['unionid']) ? $this->data_post['unionid'] : '';
+                $auth_data['openid'] = $this->data_post['openid'];
+                $auth_data['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
+                $ret = UserService::AuthUserProgram($auth_data, 'weixin_openid');
+            } else {
+                // 用户状态
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    $ret = DataReturn('授权成功', 0, $user);
+                }
+            }   
+        } else {
+            $ret = DataReturn($ret, -1);
         }
-        return DataReturn(empty($result['msg']) ? '获取用户信息失败' : $result['msg'], -100);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -379,23 +381,23 @@ class User extends Common
         {
             // 先从数据库获取用户信息
             $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $result);
-            if(empty($user))
+            if(!empty($user))
             {
-                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']]);
+                // 用户状态
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    // 标记用户存在
+                    $user['is_user_exist'] = 1;
+                    $ret = DataReturn('授权登录成功', 0, $user);
+                }
+            } else {
+                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']]);
             }
-
-            // 用户状态
-            $ret = UserService::UserStatusCheck('id', $user['id']);
-            if($ret['code'] != 0)
-            {
-                return $ret;
-            }
-
-            // 标记用户存在
-            $user['is_user_exist'] = 1;
-            return DataReturn('授权登录成功', 0, $user);
+        } else {
+            $ret = DataReturn($result['msg'], -10);
         }
-        return DataReturn($result['msg'], -10);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -427,43 +429,42 @@ class User extends Common
             ]
         ];
         $ret = ParamsChecked($this->data_post, $p);
-        if($ret !== true)
+        if($ret === true)
         {
-            return DataReturn($ret, -1);
-        }
-
-        // 先从数据库获取用户信息
-        $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $this->data_post['openid']);
-        if(empty($user))
-        {
-            $config = [
-                'appid'     => MyC('common_app_mini_baidu_appid'),
-                'key'       => MyC('common_app_mini_baidu_appkey'),
-                'secret'    => MyC('common_app_mini_baidu_appsecret'),
-            ];
-            $result = (new \base\Baidu($config))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
-
-            if($result['status'] == 0 && !empty($result['data']))
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $this->data_post['openid']);
+            if(empty($user))
             {
-                $result['nickname'] = isset($result['data']['nickname']) ? $result['data']['nickname'] : '';
-                $result['avatar'] = isset($result['data']['headimgurl']) ? $result['data']['headimgurl'] : '';
-                $result['gender'] = empty($result['data']['sex']) ? 0 : (($result['data']['sex'] == 2) ? 1 : 2);
-                $result['openid'] = $result['data']['openid'];
-                $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
-                return UserService::AuthUserProgram($result, 'baidu_openid');
+                $config = [
+                    'appid'     => MyC('common_app_mini_baidu_appid'),
+                    'key'       => MyC('common_app_mini_baidu_appkey'),
+                    'secret'    => MyC('common_app_mini_baidu_appsecret'),
+                ];
+                $result = (new \base\Baidu($config))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
+
+                if($result['status'] == 0 && !empty($result['data']))
+                {
+                    $result['nickname'] = isset($result['data']['nickname']) ? $result['data']['nickname'] : '';
+                    $result['avatar'] = isset($result['data']['headimgurl']) ? $result['data']['headimgurl'] : '';
+                    $result['gender'] = empty($result['data']['sex']) ? 0 : (($result['data']['sex'] == 2) ? 1 : 2);
+                    $result['openid'] = $result['data']['openid'];
+                    $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
+                    $ret = UserService::AuthUserProgram($result, 'baidu_openid');
+                } else {
+                    $ret = DataReturn($result['msg'], -1);
+                }
             } else {
-                return DataReturn($result['msg'], -1);
+                // 用户状态
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    $ret = DataReturn('授权成功', 0, $user);
+                }
             }
         } else {
-            // 用户状态
-            $ret = UserService::UserStatusCheck('id', $user['id']);
-            if($ret['code'] != 0)
-            {
-                return $ret;
-            }
-            return DataReturn('授权成功', 0, $user);
+            $ret = DataReturn($ret, -1);
         }
-        return DataReturn(empty($result['msg']) ? '获取用户信息失败' : $result['msg'], -100);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -487,21 +488,21 @@ class User extends Common
             $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $result);
             if(empty($user))
             {
-                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']]);
+                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']]);
+            } else {
+                // 用户状态
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    // 标记用户存在
+                    $user['is_user_exist'] = 1;
+                    $ret = DataReturn('授权登录成功', 0, $user);
+                }
             }
-
-            // 用户状态
-            $ret = UserService::UserStatusCheck('id', $user['id']);
-            if($ret['code'] != 0)
-            {
-                return $ret;
-            }
-
-            // 标记用户存在
-            $user['is_user_exist'] = 1;
-            return DataReturn('授权登录成功', 0, $user);
+        } else {
+            $ret = DataReturn($result['msg'], -10);
         }
-        return DataReturn($result['msg'], -10);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -528,35 +529,36 @@ class User extends Common
             ],
         ];
         $ret = ParamsChecked($this->data_post, $p);
-        if($ret !== true)
+        if($ret === true)
         {
-            return DataReturn($ret, -1);
-        }
-
-        // 先从数据库获取用户信息
-        $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $this->data_post['openid']);
-        if(empty($user))
-        {
-            $result = json_decode(htmlspecialchars_decode($this->data_post['userinfo']), true);
-            if(is_array($result))
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $this->data_post['openid']);
+            if(empty($user))
             {
-                $result['nickname'] = isset($result['nickName']) ? $result['nickName'] : '';
-                $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
-                $result['gender'] = empty($result['gender']) ? 0 : (($result['gender'] == 2) ? 1 : 2);
-                $result['openid'] = $this->data_post['openid'];
-                $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
-                return UserService::AuthUserProgram($result, 'toutiao_openid');
+                $result = json_decode(htmlspecialchars_decode($this->data_post['userinfo']), true);
+                if(is_array($result))
+                {
+                    $result['nickname'] = isset($result['nickName']) ? $result['nickName'] : '';
+                    $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
+                    $result['gender'] = empty($result['gender']) ? 0 : (($result['gender'] == 2) ? 1 : 2);
+                    $result['openid'] = $this->data_post['openid'];
+                    $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
+                    $ret = UserService::AuthUserProgram($result, 'toutiao_openid');
+                } else {
+                    $ret = DataReturn(empty($result) ? '获取用户信息失败' : $result, -1);
+                }
+            } else {
+                // 用户状态
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    $ret = DataReturn('授权成功', 0, $user);
+                }
             }
         } else {
-            // 用户状态
-            $ret = UserService::UserStatusCheck('id', $user['id']);
-            if($ret['code'] != 0)
-            {
-                return $ret;
-            }
-            return DataReturn('授权成功', 0, $user);
+            $ret = DataReturn($ret, -1);
         }
-        return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -570,34 +572,34 @@ class User extends Common
     public function QQUserAuth()
     {
         // 参数
-        if(empty($this->data_post['authcode']))
+        if(!empty($this->data_post['authcode']))
         {
-            return DataReturn('授权码为空', -1);
-        }
-
-        // 授权
-        $result = (new \base\QQ(MyC('common_app_mini_qq_appid'), MyC('common_app_mini_qq_appsecret')))->GetAuthSessionKey($this->data_post['authcode']);
-        if($result !== false)
-        {
-            // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(null, 'qq_openid', $result);
-            if(empty($user))
+            // 授权
+            $result = (new \base\QQ(MyC('common_app_mini_qq_appid'), MyC('common_app_mini_qq_appsecret')))->GetAuthSessionKey($this->data_post['authcode']);
+            if($result !== false)
             {
-                return DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result]);
+                // 先从数据库获取用户信息
+                $user = UserService::AppUserInfoHandle(null, 'qq_openid', $result);
+                if(empty($user))
+                {
+                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result]);
+                } else {
+                    // 用户状态
+                    $ret = UserService::UserStatusCheck('id', $user['id']);
+                    if($ret['code'] == 0)
+                    {
+                        // 标记用户存在
+                        $user['is_user_exist'] = 1;
+                        $ret = DataReturn('授权登录成功', 0, $user);
+                    }
+                }
+            } else {
+                $ret = DataReturn('授权登录失败', -100);
             }
-
-            // 用户状态
-            $ret = UserService::UserStatusCheck('id', $user['id']);
-            if($ret['code'] != 0)
-            {
-                return $ret;
-            }
-
-            // 标记用户存在
-            $user['is_user_exist'] = 1;
-            return DataReturn('授权登录成功', 0, $user);
+        } else {
+            $ret = DataReturn('授权码为空', -1);
         }
-        return DataReturn('授权登录失败', -100);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -629,36 +631,37 @@ class User extends Common
             ]
         ];
         $ret = ParamsChecked($this->data_post, $p);
-        if($ret !== true)
+        if($ret === true)
         {
-            return DataReturn($ret, -1);
-        }
-
-        // 先从数据库获取用户信息
-        $user = UserService::AppUserInfoHandle(null, 'qq_openid', $this->data_post['openid']);
-        if(empty($user))
-        {
-            $result = (new \base\QQ(MyC('common_app_mini_qq_appid'), MyC('common_app_mini_qq_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
-            if(is_array($result))
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'qq_openid', $this->data_post['openid']);
+            if(empty($user))
             {
-                $result['nickname'] = isset($result['nickName']) ? $result['nickName'] : '';
-                $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
-                $result['gender'] = empty($result['gender']) ? 0 : (($result['gender'] == 2) ? 1 : 2);
-                $result['qq_unionid'] = isset($result['unionId']) ? $result['unionId'] : '';
-                $result['openid'] = $result['openId'];
-                $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
-                return UserService::AuthUserProgram($result, 'qq_openid');
-            }
+                $result = (new \base\QQ(MyC('common_app_mini_qq_appid'), MyC('common_app_mini_qq_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
+                if(is_array($result))
+                {
+                    $result['nickname'] = isset($result['nickName']) ? $result['nickName'] : '';
+                    $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
+                    $result['gender'] = empty($result['gender']) ? 0 : (($result['gender'] == 2) ? 1 : 2);
+                    $result['qq_unionid'] = isset($result['unionId']) ? $result['unionId'] : '';
+                    $result['openid'] = $result['openId'];
+                    $result['referrer']= isset($this->data_post['referrer']) ? $this->data_post['referrer'] : 0;
+                    $ret = UserService::AuthUserProgram($result, 'qq_openid');
+                } else {
+                    $ret = DataReturn(empty($result) ? '获取用户信息失败' : $result, -1);
+                }
+            } else {
+                // 用户状态
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    $ret = DataReturn('授权成功', 0, $user);
+                }
+            }   
         } else {
-            // 用户状态
-            $ret = UserService::UserStatusCheck('id', $user['id']);
-            if($ret['code'] != 0)
-            {
-                return $ret;
-            }
-            return DataReturn('授权成功', 0, $user);
+            $ret = DataReturn($ret, -1);
         }
-        return DataReturn(empty($result) ? '获取用户信息失败' : $result, -100);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -713,7 +716,7 @@ class User extends Common
         );
 
         // 返回数据
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 
     /**
@@ -745,56 +748,57 @@ class User extends Common
             ]
         ];
         $ret = ParamsChecked($this->data_post, $p);
-        if($ret !== true)
+        if($ret === true)
         {
-            return DataReturn($ret, -1);
+            // 根据不同平台处理数据解密逻辑
+            $mobile = '';
+            $error_msg = '';
+            switch(APPLICATION_CLIENT_TYPE)
+            {
+                // 微信
+                case 'weixin' :
+                    $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
+                    if($result['status'] == 0 && !empty($result['data']) && !empty($result['data']['purePhoneNumber']))
+                    {
+                        $mobile = $result['data']['purePhoneNumber'];
+                    } else {
+                        $error_msg = $result['msg'];
+                    }
+                    break;
+
+                // 百度
+                case 'baidu' :
+                    $config = [
+                        'appid'     => MyC('common_app_mini_baidu_appid'),
+                        'key'       => MyC('common_app_mini_baidu_appkey'),
+                        'secret'    => MyC('common_app_mini_baidu_appsecret'),
+                    ];
+                    $result = (new \base\Baidu($config))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid'], 'mobile_bind');
+                    if($result['status'] == 0 && !empty($result['data']) && !empty($result['data']['mobile']))
+                    {
+                        $mobile = $result['data']['mobile'];
+                    } else {
+                        $error_msg = $result['msg'];
+                    }
+                    break;
+
+                // 默认
+                default :
+                    $error_msg = APPLICATION_CLIENT_TYPE.'平台还未开发手机一键登录';
+            }
+            if(empty($mobile) || !empty($error_msg))
+            {
+                $ret = DataReturn(empty($error_msg) ? '数据解密失败' : $error_msg, -1);
+            } else {
+                // 用户信息处理
+                $this->data_post['mobile'] = $mobile;
+                $this->data_post['is_onekey_mobile_bind'] = 1;
+                $ret = UserService::AuthUserProgram($this->data_post, APPLICATION_CLIENT_TYPE.'_openid');
+            }
+        } else {
+            $ret = DataReturn($ret, -1);
         }
-
-        // 根据不同平台处理数据解密逻辑
-        $mobile = '';
-        $error_msg = '';
-        switch(APPLICATION_CLIENT_TYPE)
-        {
-            // 微信
-            case 'weixin' :
-                $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
-                if($result['status'] == 0 && !empty($result['data']) && !empty($result['data']['purePhoneNumber']))
-                {
-                    $mobile = $result['data']['purePhoneNumber'];
-                } else {
-                    $error_msg = $result['msg'];
-                }
-                break;
-
-            // 百度
-            case 'baidu' :
-                $config = [
-                    'appid'     => MyC('common_app_mini_baidu_appid'),
-                    'key'       => MyC('common_app_mini_baidu_appkey'),
-                    'secret'    => MyC('common_app_mini_baidu_appsecret'),
-                ];
-                $result = (new \base\Baidu($config))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid'], 'mobile_bind');
-                if($result['status'] == 0 && !empty($result['data']) && !empty($result['data']['mobile']))
-                {
-                    $mobile = $result['data']['mobile'];
-                } else {
-                    $error_msg = $result['msg'];
-                }
-                break;
-
-            // 默认
-            default :
-                return DataReturn(APPLICATION_CLIENT_TYPE.'平台还未开发手机一键登录', -1);
-        }
-        if(empty($mobile))
-        {
-            return DataReturn(empty($error_msg) ? '数据解密失败' : $error_msg, -1);
-        }
-
-        // 用户信息处理
-        $this->data_post['mobile'] = $mobile;
-        $this->data_post['is_onekey_mobile_bind'] = 1;
-        return UserService::AuthUserProgram($this->data_post, APPLICATION_CLIENT_TYPE.'_openid');
+        return ApiService::ApiDataReturn($ret);
     }
 }
 ?>

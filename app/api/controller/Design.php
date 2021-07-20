@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\DesignService;
 use app\service\SystemBaseService;
 use app\layout\service\BaseLayout;
@@ -68,7 +69,7 @@ class Design extends Common
             'data'          => $data,
             'layout_data'   => $layout_data,
         ];
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 }
 ?>

@@ -11,6 +11,7 @@
 namespace app\api\controller;
 
 use app\BaseController;
+use app\service\ApiService;
 use app\service\SystemService;
 use app\service\ConfigService;
 use app\service\UserService;
@@ -208,7 +209,7 @@ class Common extends BaseController
      */
     public function __call($method, $args)
     {
-        return DataReturn($method.' 非法访问', -1000);
+        return ApiService::ApiDataReturn(DataReturn($method.' 非法访问', -1000));
     }
 }
 ?>

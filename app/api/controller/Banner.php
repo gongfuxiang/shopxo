@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\BannerService;
 
@@ -46,7 +47,7 @@ class Banner extends Common
     {
         // 获取轮播
         $result = BannerService::Banner();
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 }
 ?>

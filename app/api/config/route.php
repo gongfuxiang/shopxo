@@ -16,3 +16,4 @@ return [
     // URL伪静态后缀
     'url_html_suffix'       => MyFileConfig('home_seo_url_html_suffix', '', 'html', true),
 ];
+?>

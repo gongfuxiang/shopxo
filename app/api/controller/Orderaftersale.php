@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\OrderAftersaleService;
 use app\service\ResourcesService;
@@ -81,7 +82,7 @@ class Orderaftersale extends Common
             'page_total'    => $page_total,
             'data'          => $data['data'],
         ];
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 
     /**
@@ -144,9 +145,11 @@ class Orderaftersale extends Common
                 'return_goods_address'      => $return_goods_address,
                 'editor_path_type'          => ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id)),
             ];
-            return SystemBaseService::DataReturn($result);
+            $ret = SystemBaseService::DataReturn($result);
+        } else {
+            $ret = DataReturn($ret['msg'], -1);
         }
-        return DataReturn($ret['msg'], -1);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -161,7 +164,7 @@ class Orderaftersale extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return OrderAftersaleService::AftersaleCreate($params);
+        return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleCreate($params));
     }
 
     /**
@@ -176,7 +179,7 @@ class Orderaftersale extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return OrderAftersaleService::AftersaleDelivery($params);
+        return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleDelivery($params));
     }
 
     /**
@@ -191,7 +194,7 @@ class Orderaftersale extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return OrderAftersaleService::AftersaleCancel($params);
+        return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleCancel($params));
     }
 }
 ?>

@@ -8,23 +8,30 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
+namespace app\service;
 
 /**
- * 模块配置信息
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2016-12-01T21:51:08+0800
+ * api服务层
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-06-22
+ * @desc    description
  */
-
-return [
-    // 默认输出类型
-    'default_return_type'           => 'json',
-
-    // 默认AJAX 数据返回格式,可选json xml ...
-    'default_ajax_return'           => 'json',
-    
-    // 默认JSONP格式返回的处理方法
-    'default_jsonp_handler'         => 'jsonpReturn',
-];
+class ApiService
+{
+    /**
+     * api数据统一返回
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-07-20
+     * @desc    description
+     * @param   [array]          $data [api统一返回]
+     */
+    public static function ApiDataReturn($data)
+    {
+        return json($data);
+    }
+}
 ?>

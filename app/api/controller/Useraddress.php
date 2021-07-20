@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\ConfigService;
 use app\service\UserAddressService;
@@ -54,7 +55,7 @@ class UserAddress extends Common
         $result = [
             'data'  => $ret['data'],
         ];
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 
     /**
@@ -76,7 +77,7 @@ class UserAddress extends Common
             'data'              => empty($data['data']) ? null : $data['data'],
             'editor_path_type'  => ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($this->user['id'])),
         ];
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 
     /**
@@ -91,7 +92,7 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserAddressService::UserAddressSave($params);
+        return ApiService::ApiDataReturn(UserAddressService::UserAddressSave($params));
     }
 
     /**
@@ -106,7 +107,7 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserAddressService::UserAddressDelete($params);
+        return ApiService::ApiDataReturn(UserAddressService::UserAddressDelete($params));
     }
 
     /**
@@ -121,7 +122,7 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserAddressService::UserAddressDefault($params);
+        return ApiService::ApiDataReturn(UserAddressService::UserAddressDefault($params));
     }
 
     /**
@@ -136,7 +137,7 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return ConfigService::SiteTypeExtractionAddressList(null, $params);
+        return ApiService::ApiDataReturn(ConfigService::SiteTypeExtractionAddressList(null, $params));
     }
 
     /**
@@ -151,7 +152,7 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserAddressService::OutSystemUserAddressAdd($params);
+        return ApiService::ApiDataReturn(UserAddressService::OutSystemUserAddressAdd($params));
     }
 }
 ?>

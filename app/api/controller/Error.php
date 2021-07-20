@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
+
 /**
  * 空控制器响应
  * @author   Devil
@@ -32,13 +34,7 @@ class Error extends Common
      */
     public function __call($method, $args)
     {
-        if(IS_AJAX)
-        {
-            return DataReturn(RequestController().' 控制器不存在', -1000);
-        } else {
-            MyViewAssign('msg', RequestController().' 控制器不存在');
-            return MyView('public/tips_error');
-        }
+        return ApiService::ApiDataReturn(DataReturn(RequestController().' 控制器不存在', -1000));
     }
 }
 ?>

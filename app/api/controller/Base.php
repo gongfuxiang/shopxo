@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 
 /**
@@ -35,7 +36,7 @@ class Base extends Common
         // 参数
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return SystemBaseService::Common($params);
+        return ApiService::ApiDataReturn(SystemBaseService::Common($params));
     }
 }
 ?>

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\GoodsService;
 use app\service\UserService;
@@ -53,14 +54,14 @@ class Buy extends Common
         // 获取商品列表
         $params = $this->data_post;
         $params['user'] = $this->user;
-        $buy_ret = BuyService::BuyTypeGoodsList($params);
+        $ret = BuyService::BuyTypeGoodsList($params);
 
         // 商品校验
-        if(isset($buy_ret['code']) && $buy_ret['code'] == 0)
+        if(isset($ret['code']) && $ret['code'] == 0)
         {
             // 基础信息
-            $buy_base = $buy_ret['data']['base'];
-            $buy_goods = $buy_ret['data']['goods'];
+            $buy_base = $ret['data']['base'];
+            $buy_goods = $ret['data']['goods'];
 
             // 支付方式
             $payment_list = PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]);
@@ -72,10 +73,9 @@ class Buy extends Common
                 'base'              => $buy_base,
                 'common_site_type'  => (int) $buy_base['common_site_type'],
             ];
-
-            return SystemBaseService::DataReturn($result);
+            $ret = SystemBaseService::DataReturn($result);
         }
-        return $buy_ret;
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -90,7 +90,7 @@ class Buy extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return BuyService::OrderInsert($params);
+        return ApiService::ApiDataReturn(BuyService::OrderInsert($params));
     }
 }
 ?>

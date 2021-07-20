@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\GoodsBrowseService;
 
@@ -78,7 +79,7 @@ class UserGoodsBrowse extends Common
             'page_total'    => $page_total,
             'data'          => $data['data'],
         ];
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 
     /**
@@ -93,7 +94,7 @@ class UserGoodsBrowse extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return GoodsBrowseService::GoodsBrowseDelete($params);
+        return ApiService::ApiDataReturn(GoodsBrowseService::GoodsBrowseDelete($params));
     }
 }
 ?>

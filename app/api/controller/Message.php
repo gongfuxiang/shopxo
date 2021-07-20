@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\MessageService;
 
@@ -80,7 +81,7 @@ class Message extends Common
             'page_total'    => $page_total,
             'data'          => $data['data'],
         ];
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 }
 ?>

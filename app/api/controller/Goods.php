@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\GoodsService;
 use app\service\BuyService;
@@ -53,73 +54,74 @@ class Goods extends Common
         // 参数
         if(empty($this->data_post['goods_id']))
         {
-            return DataReturn('参数有误', -1);
-        }
-
-        // 商品详情方式
-        $is_use_mobile_detail = intval(MyC('common_app_is_use_mobile_detail'));
-
-        // 获取商品
-        $goods_id = intval($this->data_post['goods_id']);
-        $params = [
-            'where' => [
-                'id' => $goods_id,
-                'is_delete_time' => 0,
-            ],
-            'is_photo'          => true,
-            'is_spec'           => true,
-            'is_params'         => true,
-            'is_content_app'    => ($is_use_mobile_detail == 1),
-        ];
-        $ret = GoodsService::GoodsList($params);
-        if(empty($ret['data'][0]) || $ret['data'][0]['is_delete_time'] != 0)
-        {
-            return DataReturn('商品不存在或已删除', -1);
-        }
-
-        // 商品信息
-        $goods = $ret['data'][0];
-
-        // 商品详情处理
-        if($is_use_mobile_detail == 1)
-        {
-            unset($goods['content_web']);
+            $ret = DataReturn('参数有误', -1);
         } else {
-            // 标签处理，兼容小程序rich-text
-            $goods['content_web'] = ResourcesService::ApMiniRichTextContentHandle($goods['content_web']);
+            // 商品详情方式
+            $is_use_mobile_detail = intval(MyC('common_app_is_use_mobile_detail'));
+
+            // 获取商品
+            $goods_id = intval($this->data_post['goods_id']);
+            $params = [
+                'where' => [
+                    'id' => $goods_id,
+                    'is_delete_time' => 0,
+                ],
+                'is_photo'          => true,
+                'is_spec'           => true,
+                'is_params'         => true,
+                'is_content_app'    => ($is_use_mobile_detail == 1),
+            ];
+            $ret = GoodsService::GoodsList($params);
+            if(empty($ret['data'][0]) || $ret['data'][0]['is_delete_time'] != 0)
+            {
+                $ret = DataReturn('商品不存在或已删除', -1);
+            } else {
+                // 商品信息
+                $goods = $ret['data'][0];
+
+                // 商品详情处理
+                if($is_use_mobile_detail == 1)
+                {
+                    unset($goods['content_web']);
+                } else {
+                    // 标签处理，兼容小程序rich-text
+                    $goods['content_web'] = ResourcesService::ApMiniRichTextContentHandle($goods['content_web']);
+                }
+
+                // 当前登录用户是否已收藏
+                $ret_favor = GoodsFavorService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
+                $goods['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
+
+                // 商品评价总数
+                $goods['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
+
+                // 商品访问统计
+                GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
+
+                // 用户商品浏览
+                GoodsBrowseService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
+
+                // 商品所属分类名称
+                $category = GoodsService::GoodsCategoryNames($goods_id);
+                $goods['category_names'] = $category['data'];
+
+                // 中间tabs导航
+                $middle_tabs_nav = GoodsService::GoodsDetailMiddleTabsNavList($goods);
+
+                // 商品购买按钮列表
+                $buy_button = GoodsService::GoodsBuyButtonList($goods);
+
+                // 数据返回
+                $result = [
+                    'goods'                 => $goods,
+                    'common_cart_total'     => BuyService::UserCartTotal(['user'=>$this->user]),
+                    'buy_button'            => $buy_button,
+                    'middle_tabs_nav'       => $middle_tabs_nav,
+                ];
+                $ret = SystemBaseService::DataReturn($result);
+            }
         }
-
-        // 当前登录用户是否已收藏
-        $ret_favor = GoodsFavorService::IsUserGoodsFavor(['goods_id'=>$goods_id, 'user'=>$this->user]);
-        $goods['is_favor'] = ($ret_favor['code'] == 0) ? $ret_favor['data'] : 0;
-
-        // 商品评价总数
-        $goods['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
-
-        // 商品访问统计
-        GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
-
-        // 用户商品浏览
-        GoodsBrowseService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
-
-        // 商品所属分类名称
-        $category = GoodsService::GoodsCategoryNames($goods_id);
-        $goods['category_names'] = $category['data'];
-
-        // 中间tabs导航
-        $middle_tabs_nav = GoodsService::GoodsDetailMiddleTabsNavList($goods);
-
-        // 商品购买按钮列表
-        $buy_button = GoodsService::GoodsBuyButtonList($goods);
-
-        // 数据返回
-        $result = [
-            'goods'                 => $goods,
-            'common_cart_total'     => BuyService::UserCartTotal(['user'=>$this->user]),
-            'buy_button'            => $buy_button,
-            'middle_tabs_nav'       => $middle_tabs_nav,
-        ];
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -138,7 +140,7 @@ class Goods extends Common
         // 开始操作
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return GoodsFavorService::GoodsFavorCancel($params);
+        return ApiService::ApiDataReturn(GoodsFavorService::GoodsFavorCancel($params));
     }
 
     /**
@@ -158,7 +160,7 @@ class Goods extends Common
         {
             $ret['data'] = $ret['data']['spec_type'];
         }
-        return $ret;
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -178,7 +180,7 @@ class Goods extends Common
         {
             $ret['data'] = $ret['data']['spec_base'];
         }
-        return $ret;
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -194,7 +196,7 @@ class Goods extends Common
         $result = [
             'category'  => GoodsService::GoodsCategoryAll($this->data_post),
         ];
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 
     /**
@@ -204,17 +206,17 @@ class Goods extends Common
      * @version 1.0.0
      * @date    2019-07-11
      * @desc    description
-     * @return  [type]          [description]
      */
     public function GoodsScore()
     {
         if(empty($this->data_post['goods_id']))
         {
-            return DataReturn('参数有误', -1);
+            $ret = DataReturn('参数有误', -1);
+        } else {
+            // 获取商品评分
+            $ret = GoodsCommentsService::GoodsCommentsScore($this->data_post['goods_id']);
         }
-
-        // 获取商品评分
-        return GoodsCommentsService::GoodsCommentsScore($this->data_post['goods_id']);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -260,7 +262,7 @@ class Goods extends Common
             'page_total'        => $page_total,
             'data'              => $ret['data'],
         ];
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 }
 ?>

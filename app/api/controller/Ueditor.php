@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\UeditorService;
 
 /**
@@ -47,7 +48,7 @@ class Ueditor extends Common
      */
     public function Index()
     {
-        return UeditorService::Run($this->data_request);
+        return ApiService::ApiDataReturn(UeditorService::Run($this->data_request));
     }
 }
 ?>

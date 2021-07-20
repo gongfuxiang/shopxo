@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\BuyService;
 
@@ -53,7 +54,7 @@ class Cart extends Common
             'common_cart_total' => BuyService::UserCartTotal(['user'=>$this->user]),
         ];
 
-        return SystemBaseService::DataReturn($result);
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 
     /**
@@ -68,7 +69,7 @@ class Cart extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return BuyService::CartSave($params);
+        return ApiService::ApiDataReturn(BuyService::CartSave($params));
     }
 
     /**
@@ -83,7 +84,7 @@ class Cart extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return BuyService::CartDelete($params);
+        return ApiService::ApiDataReturn(BuyService::CartDelete($params));
     }
 
     /**
@@ -98,7 +99,7 @@ class Cart extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return BuyService::CartStock($params);
+        return ApiService::ApiDataReturn(BuyService::CartStock($params));
     }
 }
 ?>

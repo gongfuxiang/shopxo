@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 
 /**
@@ -44,7 +45,7 @@ class Agreement extends Common
      */
     public function Index()
     {
-        return SystemBaseService::AgreementData($this->data_request);
+        return ApiService::ApiDataReturn(SystemBaseService::AgreementData($this->data_request));
     }
 }
 ?>

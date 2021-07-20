@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\controller;
 
+use app\service\ApiService;
 use app\service\PluginsService;
 
 /**
@@ -66,25 +67,23 @@ class Plugins extends Common
             ],
         ];
         $ret = ParamsChecked($params['data_request'], $p);
-        if($ret !== true)
+        if($ret === true)
         {
-            return DataReturn($ret, -5000);
+            // 应用名称/控制器/方法
+            $pluginsname = $params['data_request']['pluginsname'];
+            $pluginscontrol = strtolower($params['data_request']['pluginscontrol']);
+            $pluginsaction = strtolower($params['data_request']['pluginsaction']);
+
+            // 调用
+            $ret = PluginsService::PluginsControlCall($pluginsname, $pluginscontrol, $pluginsaction, 'api', $params);
+            if($ret['code'] == 0)
+            {
+                $ret = $ret['data'];
+            }
+        } else {
+            $ret = DataReturn($ret, -5000);
         }
-
-        // 应用名称/控制器/方法
-        $pluginsname = $params['data_request']['pluginsname'];
-        $pluginscontrol = strtolower($params['data_request']['pluginscontrol']);
-        $pluginsaction = strtolower($params['data_request']['pluginsaction']);
-
-        // 调用
-        $ret = PluginsService::PluginsControlCall($pluginsname, $pluginscontrol, $pluginsaction, 'api', $params);
-        if($ret['code'] == 0)
-        {
-            return $ret['data'];
-        }
-
-        // 调用失败
-        return $ret;
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
