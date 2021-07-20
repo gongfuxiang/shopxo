@@ -118,12 +118,12 @@ function MyEventTrigger($key, $params = [])
  * @version 1.0.0
  * @date    2021-07-16
  * @desc    description
- * @param   [string]          $key   [key名称]
+ * @param   [string|array]    $data   [key名称|批量赋值（数组）]
  * @param   [mixed]           $value [数据值]
  */
-function MyViewAssign($key, $value)
+function MyViewAssign($data, $value = '')
 {
-    \think\facade\View::assign($key, $value);
+    \think\facade\View::assign($data, $value);
 }
 
 /**
@@ -134,11 +134,11 @@ function MyViewAssign($key, $value)
  * @date    2021-07-16
  * @desc    description
  * @param   [string]          $view   [视图地址]
- * @param   [array]           $params [输入参数]
+ * @param   [array]           $data   [模板变量]
  */
-function MyView($view = '', $params = [])
+function MyView($view = '', $data = [])
 {
-    return \think\facade\View::fetch($view, $params);
+    return \think\facade\View::fetch($view, $data);
 }
 
 /**
