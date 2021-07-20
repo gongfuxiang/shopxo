@@ -177,7 +177,7 @@ App({
     var token = (user == false) ? '' : user.token || '';
     var uuid = this.request_uuid();
     return this.data.request_url +
-      "index.php?s=/api/" + c + "/" + a + plugins_params+
+      "api.php?s=" + c + "/" + a + plugins_params+
       "&application=app&application_client_type=alipay" +
       "&token=" + token +
       "&ajax=ajax" +
