@@ -149,6 +149,9 @@ class PluginsAdminService
             // 添加数据
             if(Db::name('Plugins')->insertGetId($data) > 0)
             {
+                // 附件同步到数据库
+                ResourcesService::AttachmentDiskFilesToDb('plugins_'.$plugins);
+
                 // 插件事件回调
                 PluginsService::PluginsEventCall($plugins, 'Install', $params);
 

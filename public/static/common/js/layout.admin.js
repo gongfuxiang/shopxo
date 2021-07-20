@@ -131,7 +131,6 @@ function StructureDragHtmlCreate(value)
         html += '</div>';
     }
     html += '</div>';
-    console.log(html)
     return html;
 }
 
@@ -166,7 +165,6 @@ function RenovationModuleDragHtmlCreate(value)
         html += '<div class="am-text-center am-padding-vertical-sm am-text-primary">请配置'+layout_module_type_arr[value]+'</div>';
         html += '</div>';
         html += '</div>';
-    console.log(html)
     return html;
 }
 
@@ -2134,7 +2132,7 @@ $(function()
             var fields_dv = {
                 "goods_order_by_type": 0,
                 "goods_order_by_rule": 0,
-                "view_list_show_style": 0,
+                "view_list_show_style": 'routine',
                 "view_list_number_sm": 2,
                 "view_list_number_md": 5,
                 "view_list_number_lg": 5,
@@ -2148,7 +2146,7 @@ $(function()
         }
 
         // 展示模式默认值处理、默认常规模式
-        if(json.view_list_show_style != undefined && (json.view_list_show_style || null) == null)
+        if((json.view_list_show_style || null) == null)
         {
             json['view_list_show_style'] = 'routine';
         }
