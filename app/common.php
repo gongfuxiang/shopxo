@@ -1483,17 +1483,27 @@ function MyUrl($path, $params = [])
     $len = $is_api ? 4 : ($is_install ? 8 : 6);
     $url = str_replace('/'.$path, $join.substr($path, $len), $url);
 
-    // 避免从后台生成url入口错误
-    if((!in_array($script_name, ['index.php', 'api.php'])) && substr($path, 0, 6) != 'admin/' && substr($path, 0, 8) != 'install/')
+    // 避免非当前目录生成url索引错误
+    if($script_name != 'index.php' && $is_index)
     {
-        // api、install模块、url模式=兼容模式
-        if($is_api || $is_install || $url_model == 0)
+        // 替换索引为 index.php
+        if($url_model == 0)
         {
-            $url = str_replace($script_name, $index, $url);
+            $url = str_replace($script_name, 'index.php', $url);
         } else {
-            // index并且不是兼容模式则去除入口和?s=
+            // url模式!=兼容模式 则去除入口和?s=
             $url = str_replace($script_name.'?s=', '', $url);
         }
+    }
+    // 替换索引为 api.php
+    if($script_name != 'api.php' && $is_api)
+    {
+        $url = str_replace($script_name, 'api.php', $url);
+    }
+    // 替换索引为 install.php
+    if($script_name != 'install.php' && $is_install)
+    {
+        $url = str_replace($script_name, 'install.php', $url);
     }
 
     // 前端则去除 index.php
