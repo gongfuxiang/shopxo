@@ -32,7 +32,7 @@ return [
     'deny_app_list'    => [],
 
     // 异常页面的模板文件
-    'exception_tmpl'   => ROOT . 'tpl/think_exception.tpl',
+    'exception_tmpl'   => APP_PATH . 'tpl/think_exception.tpl',
 
     // 错误显示信息,非调试模式有效
     'error_message'    => '系统出现错误、请联系管理员或到'.implode('', ['S','h','o','p','X','O']).'社区查阅~',
