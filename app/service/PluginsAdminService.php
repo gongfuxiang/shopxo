@@ -63,7 +63,7 @@ class PluginsAdminService
                     {
                         // 获取插件配置信息
                         $config = self::GetPluginsConfig($temp_file);
-                        if($config !== false && !empty($config['base']))
+                        if(!empty($config) && !empty($config['base']))
                         {
                             // 获取数据库配置信息
                             $base = $config['base'];
@@ -135,7 +135,7 @@ class PluginsAdminService
         // 数据处理
         $plugins = $params['id'];
         $config = self::GetPluginsConfig($plugins);
-        if($config !== false && !empty($config['base']) && !empty($config['base']['name']))
+        if(!empty($config) && !empty($config['base']) && !empty($config['base']['name']))
         {
             $cache = PluginsService::PluginsCacheData($plugins);
             $data = [
@@ -226,7 +226,7 @@ class PluginsAdminService
         {
             $config = json_decode(file_get_contents($file), true);
         }
-        return empty($config) ? false : $config;
+        return empty($config) ? [] : $config;
     }
 
     /**
@@ -843,7 +843,7 @@ php;
 
         // 配置信息
         $config = self::GetPluginsConfig($plugins);
-        $hook = empty($config['hook']) ? [] : $config['hook'];
+        $hook = (empty($config) || empty($config['hook'])) ? [] : $config['hook'];
 
         // 配置信息组装
         $data = [
@@ -1251,7 +1251,7 @@ php;
 
         // 配置信息
         $config = self::GetPluginsConfig($plugins);
-        if($config === false)
+        if(empty($config))
         {
             return DataReturn('插件配置有误', -10);
         }

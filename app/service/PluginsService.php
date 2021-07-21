@@ -264,11 +264,21 @@ class PluginsService
         $ret = self::PluginsStatus($plugins);
         if($ret === null)
         {
+            // 不存在的插件则进入首页
+            $config = PluginsAdminService::GetPluginsConfig($plugins);
+            if(empty($config))
+            {
+                if(IS_AJAX)
+                {
+                    return DataReturn('地址有误['.$plugins.']', -10);
+                }
+                MyRedirect(__MY_URL__, true);
+            }
             return DataReturn('应用未安装['.$plugins.']', -10);
         }
         if($ret != 1)
         {
-            return DataReturn('应用未启用['.$plugins.']', -10);
+            return DataReturn('应用未启用['.$plugins.']', -11);
         }
         return DataReturn('验证成功', 0);
     }
