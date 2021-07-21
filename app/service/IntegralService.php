@@ -229,7 +229,7 @@ class IntegralService
                         {
                             // 用户积分添加
                             $user_integral = Db::name('User')->where(['id'=>$user['id']])->value('integral');
-                            if(!Db::name('User')->where(['id'=>$user['id']])->inc('integral', $give_integral))
+                            if(!Db::name('User')->where(['id'=>$user['id']])->inc('integral', $give_integral)->update())
                             {
                                 return DataReturn('用户积分赠送失败['.$params['order_id'].'-'.$goods_id.']', -10);
                             }
@@ -316,7 +316,7 @@ class IntegralService
             if($refund_integral >= 1)
             {
                 // 用户积分添加
-                if(!Db::name('User')->where(['id'=>$user['id']])->dec('integral', $refund_integral))
+                if(!Db::name('User')->where(['id'=>$user['id']])->dec('integral', $refund_integral)->update())
                 {
                     return DataReturn('用户积分释放失败['.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -10);
                 }

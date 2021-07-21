@@ -109,7 +109,7 @@ class CustomViewService
     {
         if(!empty($params['id']))
         {
-            return Db::name('CustomView')->where(array('id'=>intval($params['id'])))->inc('access_count');
+            return Db::name('CustomView')->where(array('id'=>intval($params['id'])))->inc('access_count')->update();
         }
         return false;
     }

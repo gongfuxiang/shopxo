@@ -2145,7 +2145,7 @@ class OrderService
             {
                 foreach($order_detail as $v)
                 {
-                    if(Db::name('Goods')->where(['id'=>$v['goods_id']])->inc('sales_count', $v['buy_number']) === false)
+                    if(Db::name('Goods')->where(['id'=>$v['goods_id']])->inc('sales_count', $v['buy_number'])->update() === false)
                     {
                         return DataReturn('订单商品销量增加失败['.$v['title'].']', -10);
                     }

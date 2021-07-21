@@ -947,7 +947,7 @@ class WarehouseGoodsService
         {
             return DataReturn('仓库商品规格库存不足['.$warehouse_id.'-'.$goods_id.'('.$inventory.'<'.$buy_number.')]', -11);
         }
-        if(!Db::name('WarehouseGoodsSpec')->where($where)->dec('inventory', $buy_number))
+        if(!Db::name('WarehouseGoodsSpec')->where($where)->dec('inventory', $buy_number)->update())
         {
             return DataReturn('仓库商品规格库存扣减失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
         }
@@ -959,7 +959,7 @@ class WarehouseGoodsService
         {
             return DataReturn('仓库商品库存不足['.$warehouse_id.'-'.$goods_id.'('.$inventory.'<'.$buy_number.')]', -11);
         }
-        if(!Db::name('WarehouseGoods')->where($where)->dec('inventory', $buy_number))
+        if(!Db::name('WarehouseGoods')->where($where)->dec('inventory', $buy_number)->update())
         {
             return DataReturn('仓库商品库存扣减失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
         }
@@ -1017,14 +1017,14 @@ class WarehouseGoodsService
 
         // 扣除仓库商品规格库存
         $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id, 'md5_key'=>$md5_key];
-        if(!Db::name('WarehouseGoodsSpec')->where($where)->inc('inventory', $buy_number))
+        if(!Db::name('WarehouseGoodsSpec')->where($where)->inc('inventory', $buy_number)->update())
         {
             return DataReturn('仓库商品规格库存回滚失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
         }
 
         // 扣除仓库商品库存
         $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id];
-        if(!Db::name('WarehouseGoods')->where($where)->inc('inventory', $buy_number))
+        if(!Db::name('WarehouseGoods')->where($where)->inc('inventory', $buy_number)->update())
         {
             return DataReturn('仓库商品库存回滚失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
         }

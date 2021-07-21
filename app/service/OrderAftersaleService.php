@@ -991,7 +991,7 @@ class OrderAftersaleService
         $order_status = (MyC('common_goods_sales_count_inc_rules', 1) == 1) ? 4 : 2;
         if($order['data']['status'] == $order_status && $aftersale['number'] > 0)
         {
-            if(!Db::name('Goods')->where(['id'=>intval($aftersale['goods_id'])])->dec('sales_count', $aftersale['number']))
+            if(!Db::name('Goods')->where(['id'=>intval($aftersale['goods_id'])])->dec('sales_count', $aftersale['number'])->update())
             {
                 Db::rollback();
                 return DataReturn('商品销量释放失败', -1);

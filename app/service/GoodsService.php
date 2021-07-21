@@ -936,7 +936,7 @@ class GoodsService
     {
         if(!empty($params['goods_id']))
         {
-            return Db::name('Goods')->where(['id'=>intval($params['goods_id'])])->inc('access_count');
+            return Db::name('Goods')->where(['id'=>intval($params['goods_id'])])->inc('access_count')->update();
         }
         return false;
     }

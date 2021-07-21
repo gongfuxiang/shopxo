@@ -225,7 +225,7 @@ class DesignService
     {
         if(!empty($params['design_id']))
         {
-            return Db::name('Design')->where(['id'=>intval($params['design_id'])])->inc('access_count');
+            return Db::name('Design')->where(['id'=>intval($params['design_id'])])->inc('access_count')->update();
         }
         return false;
     }

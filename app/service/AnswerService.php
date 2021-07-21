@@ -441,7 +441,7 @@ class AnswerService
     {
         if(!empty($params['answer_id']))
         {
-            return Db::name('Answer')->where(['id'=>intval($params['answer_id'])])->inc('access_count');
+            return Db::name('Answer')->where(['id'=>intval($params['answer_id'])])->inc('access_count')->update();
         }
         return false;
     }

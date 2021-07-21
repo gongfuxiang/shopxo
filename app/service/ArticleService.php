@@ -262,7 +262,7 @@ class ArticleService
     {
         if(!empty($params['id']))
         {
-            return Db::name('Article')->where(array('id'=>intval($params['id'])))->inc('access_count');
+            return Db::name('Article')->where(array('id'=>intval($params['id'])))->inc('access_count')->update();
         }
         return false;
     }
