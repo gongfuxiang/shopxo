@@ -1,9 +1,9 @@
 <view s-if="goods != null" class="page">
   <!-- 轮播图片 -->
-  <swiper indicator-dots="{{indicator_dots}}" indicator-color="{{indicator_color}}" indicator-active-color="{{indicator_active_color}}" autoplay="{{autoplay}}" circular="{{circular}}" class="goods-photo bg-white" s-if="goods_photo.length > 0">
+  <swiper indicator-dots="{{indicator_dots}}" indicator-color="{{indicator_color}}" indicator-active-color="{{indicator_active_color}}" autoplay="{{autoplay}}" circular="{{circular}}" class="goods-photo bg-white" s-if="goods_photo.length > 0" style="height: {{photo_height}} !important;">
     <block s-for="item, index in goods_photo" s-key="key">
       <swiper-item>
-        <image class="swiper-item wh-auto" bindtap="goods_photo_view_event" data-index="{{index}}" src="{{item.images}}" mode="aspectFit" />
+        <image class="swiper-item wh-auto" bindtap="goods_photo_view_event" data-index="{{index}}" src="{{item.images}}" mode="scaleToFill" style="height: {{photo_height}} !important;" />
       </swiper-item>
     </block>
   </swiper>
@@ -11,11 +11,11 @@
   <!-- 视频 -->
   <block s-if="goods.video.length > 0">
     <view s-if="goods_video_is_autoplay" class="goods-video">
-      <video src="{{goods.video}}" autoplay="{{goods_video_is_autoplay}}" show-center-play-btn="{{true}}" controls="{{false}}" show-play-btn="{{false}}" enable-progress-gesture="{{false}}" show-fullscreen-btn="{{false}}">
+      <video src="{{goods.video}}" autoplay="{{goods_video_is_autoplay}}" show-center-play-btn="{{true}}" controls="{{false}}" show-play-btn="{{false}}" enable-progress-gesture="{{false}}" show-fullscreen-btn="{{false}}" style="height: {{photo_height}} !important;">
         <cover-image s-if="goods_video_is_autoplay" class="cover-goods-video-close" bindtap="goods_video_close_event" src="/images/goods-detail-video-close.png" mode="aspectFit"></cover-image>
       </video>
     </view>
-    <view class="goods-video-submit">
+    <view class="goods-video-submit" style="top: calc({{photo_height}} - 110rpx) !important;">
       <image s-if="!goods_video_is_autoplay" class="goods-video-play" bindtap="goods_video_play_event" src="/images/goods-detail-video-play.png" mode="aspectFit"></image>
     </view>
   </block>

@@ -1,4 +1,4 @@
-.goods-photo .swiper-item {
+.goods-photo, .goods-photo .swiper-item {
     height: 55vh !important;
     display: block;
 }

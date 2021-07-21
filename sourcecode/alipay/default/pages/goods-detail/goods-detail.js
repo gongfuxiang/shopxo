@@ -11,6 +11,8 @@ Page({
     data_list_loding_status: 1,
     data_list_loding_msg: '',
     params: null,
+    system_info: null,
+    photo_height: '55vh',
 
     goods: null,
     goods_photo: [],
@@ -85,7 +87,12 @@ Page({
     params = app.launch_params_handle(params);
 
     //params['goods_id']=2;
-    this.setData({params: params});
+    var system_info = app.get_system_info();
+    this.setData({
+      params: params,
+      system_info: system_info,
+      photo_height: ((system_info || null) == null || (system_info.screenWidth || null) == null) ? '55vh' : system_info.screenWidth+'px'
+    });
 
     // 数据加载
     this.init();
