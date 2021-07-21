@@ -186,7 +186,7 @@ class SearchService
         } else {
             if(!empty($params['brand_id']))
             {
-                $where_base[] = ['g.brand_id', 'in', intval($params['brand_id'])];
+                $where_base[] = ['g.brand_id', 'in', [$params['brand_id']]];
             }
         }
 
