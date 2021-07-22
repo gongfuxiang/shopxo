@@ -1486,13 +1486,13 @@ function MyUrl($path, $params = [])
     // 避免非当前目录生成url索引错误
     if($script_name != 'index.php' && $is_index)
     {
-        // 替换索引为 index.php
         if($url_model == 0)
         {
+            // 替换索引为 index.php
             $url = str_replace($script_name, 'index.php', $url);
         } else {
-            // url模式!=兼容模式 则去除入口和?s=
-            $url = str_replace($script_name.'?s=', '', $url);
+            // 去除入口和?s=
+            $url = str_replace([$script_name.'?s=', '/'.$script_name], '', $url);
         }
     }
     // 替换索引为 api.php

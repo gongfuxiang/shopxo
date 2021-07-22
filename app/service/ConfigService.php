@@ -297,41 +297,48 @@ class ConfigService
     {
         if(isset($params['home_seo_url_model']))
         {
-            $route_file = APP_PATH.'index'.DS.'route'.DS.'route.config';
-            $route_file_php = APP_PATH.'index'.DS.'route'.DS.'route.php';
+            $route_file = APP_PATH.'route'.DS.'route.config';
+            $route_arr = ['admin', 'index'];
 
-            // 文件目录
-            if(!is_writable(APP_PATH.'index'.DS.'route'))
+            // 后端+前端都生成对应的路由定义规则、为了后台进入前端url保持一致
+            foreach($route_arr as $module)
             {
-                return DataReturn('路由目录没有操作权限'.'[./route]', -11);
-            }
+                // 生成路由文件
+                $route_file_php = APP_PATH.$module.DS.'route'.DS.'route.php';
 
-            // 路配置文件权限
-            if(file_exists($route_file_php) && !is_writable($route_file_php))
-            {
-                return DataReturn('路由配置文件没有操作权限'.'[./route/route.php]', -11);
-            }
-
-            // pathinfo+短地址模式
-            if($params['home_seo_url_model'] == 2)
-            {
-                
-                if(!file_exists($route_file))
+                // 文件目录
+                if(!is_writable(APP_PATH.$module.DS.'route'))
                 {
-                    return DataReturn('路由规则文件不存在'.'[./route/route.config]', -14);
+                    return DataReturn('路由目录没有操作权限'.'[./app/'.$module.'/route]', -11);
                 }
 
-                // 开始生成规则文件
-                if(file_put_contents($route_file_php, file_get_contents($route_file)) === false)
+                // 路配置文件权限
+                if(file_exists($route_file_php) && !is_writable($route_file_php))
                 {
-                    return DataReturn('路由规则文件生成失败', -10);
+                    return DataReturn('路由配置文件没有操作权限'.'[./app/'.$module.'/route/route.php]', -11);
                 }
 
-            // 兼容模式+pathinfo模式
-            } else {
-                if(file_exists($route_file_php) && @unlink($route_file_php) === false)
+                // pathinfo+短地址模式
+                if($params['home_seo_url_model'] == 2)
                 {
-                    return DataReturn('路由规则处理失败', -10);
+                    
+                    if(!file_exists($route_file))
+                    {
+                        return DataReturn('路由规则文件不存在'.'[./app/route/route.config]', -14);
+                    }
+
+                    // 开始生成规则文件
+                    if(file_put_contents($route_file_php, file_get_contents($route_file)) === false)
+                    {
+                        return DataReturn('路由规则文件生成失败', -10);
+                    }
+
+                // 兼容模式+pathinfo模式
+                } else {
+                    if(file_exists($route_file_php) && @unlink($route_file_php) === false)
+                    {
+                        return DataReturn('路由规则处理失败', -10);
+                    }
                 }
             }
             return DataReturn('处理成功', 0);
