@@ -808,14 +808,14 @@ namespace think;
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
 
+// 引入公共入口文件
+require __DIR__.'/public/core.php';
+
 // 加载基础文件
 require __DIR__ . '/vendor/autoload.php';
 
 // 根目录入口
 define('IS_ROOT_ACCESS', true);
-
-// 引入公共入口文件
-require __DIR__.'/public/core.php';
 
 // 执行HTTP应用并响应
 \$http = (new App())->http;
@@ -840,14 +840,14 @@ namespace think;
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
 
+// 引入公共入口文件
+require __DIR__.'/public/core.php';
+
 // 加载基础文件
 require __DIR__ . '/vendor/autoload.php';
 
 // 根目录入口
 define('IS_ROOT_ACCESS', true);
-
-// 引入公共入口文件
-require __DIR__.'/public/core.php';
 
 // 执行HTTP应用并响应
 \$http = (new App())->http;
@@ -874,11 +874,11 @@ namespace think;
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
 
-// 加载基础文件
-require __DIR__ . '/../vendor/autoload.php';
-
 // 引入公共入口文件
 require __DIR__.'/core.php';
+
+// 加载基础文件
+require __DIR__ . '/../vendor/autoload.php';
 
 // 执行HTTP应用并响应
 \$http = (new App())->http;
@@ -903,11 +903,11 @@ namespace think;
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
 
-// 加载基础文件
-require __DIR__ . '/../vendor/autoload.php';
-
 // 引入公共入口文件
 require __DIR__.'/core.php';
+
+// 加载基础文件
+require __DIR__ . '/../vendor/autoload.php';
 
 // 执行HTTP应用并响应
 \$http = (new App())->http;
