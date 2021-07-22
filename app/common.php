@@ -741,7 +741,7 @@ function FormModulePath($params = [])
             }
         }
     } else {
-        $path = '\app\\'.$group.'\form\\'.$controller;
+        $path = '\app\\'.$group.'\form\\'.ucfirst($controller);
     }
 
     return [
