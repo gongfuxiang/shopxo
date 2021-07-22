@@ -64,10 +64,10 @@ class ComposerStaticInit1ed187777399b73a018d9a6af63a57d1
         ),
         'think\\' => 
         array (
-            0 => __DIR__ . '/..' . '/topthink/framework/src/think',
-            1 => __DIR__ . '/..' . '/topthink/think-helper/src',
+            0 => __DIR__ . '/..' . '/topthink/think-helper/src',
+            1 => __DIR__ . '/..' . '/topthink/think-template/src',
             2 => __DIR__ . '/..' . '/topthink/think-orm/src',
-            3 => __DIR__ . '/..' . '/topthink/think-template/src',
+            3 => __DIR__ . '/..' . '/topthink/framework/src/think',
         ),
         'app\\' => 
         array (

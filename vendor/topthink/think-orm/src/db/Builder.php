@@ -969,8 +969,8 @@ abstract class Builder
         $sort = in_array($sort, ['ASC', 'DESC'], true) ? ' ' . $sort : '';
         $bind = $query->getFieldsBindType();
 
-        foreach ($val as $item) {
-            $val[] = $this->parseDataBind($query, $key, $item, $bind);
+        foreach ($val as $k => $item) {
+            $val[$k] = $this->parseDataBind($query, $key, $item, $bind);
         }
 
         return 'field(' . $this->parseKey($query, $key, true) . ',' . implode(',', $val) . ')' . $sort;

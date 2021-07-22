@@ -364,7 +364,7 @@ class DbManager
     {
         if (isset($this->event[$event])) {
             foreach ($this->event[$event] as $callback) {
-                call_user_func_array($callback, [$this]);
+                call_user_func_array($callback, [$params]);
             }
         }
     }

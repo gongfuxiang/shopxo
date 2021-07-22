@@ -245,11 +245,15 @@ abstract class Relation
     /**
      * 排除关联数据的字段
      * @access public
-     * @param  array $field 关联字段限制
+     * @param  array|string $field 关联字段限制
      * @return $this
      */
-    public function withoutField(array $field)
+    public function withoutField($field)
     {
+        if (is_string($field)) {
+            $field = array_map('trim', explode(',', $field));
+        }
+
         $this->withoutField = $field;
         return $this;
     }

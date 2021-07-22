@@ -62,7 +62,7 @@ use think\route\Url as UrlBuild;
  * @method static RuleItem redirect(string $rule, string $route = '', int $status = 301) 注册重定向路由
  * @method static \think\Route rest(string|array $name, array|bool $resource = []) rest方法定义和修改
  * @method static array|null getRest(string $name = null) 获取rest方法定义的参数
- * @method static RuleItem miss(string|Closure $route, string $method = '*') 注册未匹配路由规则后的处理
+ * @method static RuleItem miss(string|\Closure $route, string $method = '*') 注册未匹配路由规则后的处理
  * @method static Response dispatch(\think\Request $request, Closure|bool $withRoute = true) 路由调度
  * @method static Dispatch|false check() 检测URL路由
  * @method static Dispatch url(string $url) 默认URL解析

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 // 检测PHP环境
-if(version_compare(PHP_VERSION,'7.1.0','<'))  die('PHP版本最低 7.1.0');
+if(version_compare(PHP_VERSION,'7.2.0','<'))  die('PHP版本最低 7.2.0');
 
 // 系统版本
 define('APPLICATION_VERSION', 'v2.2.0');

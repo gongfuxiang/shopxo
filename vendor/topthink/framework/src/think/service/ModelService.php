@@ -42,6 +42,12 @@ class ModelService extends Service
                 $model->setDateFormat($config->get('database.datetime_format', 'Y-m-d H:i:s'));
             }
 
+            $timeField = $config->get('database.datetime_field');
+            if (!empty($timeField)) {
+                [$createTime, $updateTime] = explode(',', $timeField);
+                $model->setTimeField($createTime, $updateTime);
+            }
+
         });
     }
 }

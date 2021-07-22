@@ -621,7 +621,7 @@ abstract class BaseQuery
 
             $bind    = $this->bind;
             $total   = $this->count();
-            $results = $this->options($options)->bind($bind)->page($page, $listRows)->select();
+            $results = $total > 0 ? $this->options($options)->bind($bind)->page($page, $listRows)->select() : [];
         } elseif ($simple) {
             $results = $this->limit(($page - 1) * $listRows, $listRows + 1)->select();
             $total   = null;

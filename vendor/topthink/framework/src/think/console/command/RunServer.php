@@ -63,7 +63,7 @@ class RunServer extends Command
             escapeshellarg($root . DIRECTORY_SEPARATOR . 'router.php')
         );
 
-        $output->writeln(sprintf('ThinkPHP Development server is started On <http://%s:%s/>', '0.0.0.0' == $host ? '127.0.0.1' : $host, $port));
+        $output->writeln(sprintf('ThinkPHP Development server is started On <http://%s:%s/>', $host, $port));
         $output->writeln(sprintf('You can exit with <info>`CTRL-C`</info>'));
         $output->writeln(sprintf('Document root is: %s', $root));
         passthru($command);

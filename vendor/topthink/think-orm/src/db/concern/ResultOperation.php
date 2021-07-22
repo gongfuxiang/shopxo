@@ -227,6 +227,8 @@ trait ResultOperation
      * @access public
      * @param array|string|Query|Closure $data 数据
      * @return array|Collection|static[]
+     * @throws ModelNotFoundException
+     * @throws DataNotFoundException
      */
     public function selectOrFail($data = null)
     {
@@ -238,6 +240,8 @@ trait ResultOperation
      * @access public
      * @param array|string|Query|Closure $data 数据
      * @return array|Model|static
+     * @throws ModelNotFoundException
+     * @throws DataNotFoundException
      */
     public function findOrFail($data = null)
     {
