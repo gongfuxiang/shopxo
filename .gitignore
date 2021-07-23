@@ -6,6 +6,5 @@
 .tea
 .idea
 .htaccess
-nginx.htaccess
 *payment_*_respond.php
 *payment_*_notify.php
