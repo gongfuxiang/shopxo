@@ -151,7 +151,7 @@ function MyView($view = '', $data = [])
  */
 function RequestModule()
 {
-    return strtolower(\think\facade\App::initialize()->http->getName());
+    return strtolower(app('http')->getName());
 }
 
 /**
