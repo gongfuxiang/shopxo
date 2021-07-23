@@ -570,7 +570,7 @@ class GoodsCommentsService
             ['goods_id', '=', $goods_id],
             ['rating', '>', 0],
         ];
-        $data = Db::name('GoodsComments')->where($where)->group('rating')->column('count(*) as count, rating', 'rating');
+        $data = Db::name('GoodsComments')->where($where)->group('rating')->column('count(*) as count', 'rating');
         if(!empty($data))
         {
             $sum = array_sum($data);
