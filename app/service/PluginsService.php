@@ -37,11 +37,9 @@ class PluginsService
      */
     public static function PluginsData($plugins, $attachment_field = [], $is_cache = true)
     {
-        // 从缓存获取数据
+        // 从缓存获取数据、数据不存在则从数据库读取
         $data = ($is_cache === true) ? self::PluginsCacheData($plugins) : [];
-
-        // 数据不存在则从数据库读取
-        if($data === null)
+        if($data === null || !$is_cache)
         {
             // 获取数据
             $ret = self::PluginsField($plugins, 'data');
@@ -204,8 +202,7 @@ class PluginsService
      */
     public static function PluginsCacheData($plugins)
     {
-        $data = MyCache(MyConfig('shopxo.cache_plugins_data_key').$plugins);
-        return empty($data) ? '' : $data;
+        return MyCache(MyConfig('shopxo.cache_plugins_data_key').$plugins);
     }
 
     /**

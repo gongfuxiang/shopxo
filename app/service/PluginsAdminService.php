@@ -1427,7 +1427,11 @@ php;
         $sql_file = APP_PATH.'plugins'.DS.$plugins.DS.'update.sql';
         if(!empty($plugins) && file_exists($sql_file))
         {
-            SqlconsoleService::Implement(['sql'=>file_get_contents($sql_file)]);
+            $sql = file_get_contents($sql_file);
+            if(!empty($sql))
+            {
+                SqlconsoleService::Implement(['sql'=>$sql]);
+            }
         }
 
         // 钩子部署
