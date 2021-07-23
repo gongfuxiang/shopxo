@@ -23,6 +23,37 @@ use app\service\GoodsService;
 class LinkService
 {
     /**
+     * 首页展示列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-07-23
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function HomeLinkList($params = [])
+    {
+        // 从缓存获取
+        $key = MyConfig('shopxo.cache_home_link_list_key');
+        $data = MyCache($key);
+        if($data == null || MyEnv('app_debug'))
+        {
+            $is_mobile = IsMobile();
+            if(!$is_mobile || ($is_mobile && MyC('home_index_friendship_link_status') == 1))
+            {
+                $ret = self::LinkList(['where'=>['is_enable'=>1]]);
+                $data = empty($ret['data']) ? [] : $ret['data'];
+            } else {
+                $data = [];
+            }
+
+            // 存储缓存
+            MyCache($key, $data, 180);
+        }
+        return $data;
+    }
+
+    /**
      * 列表
      * @author   Devil
      * @blog    http://gong.gg/

@@ -84,6 +84,15 @@ return [
     // 地区所有数据缓存、1~3级
     'cache_region_all_key'                  => 'cache_region_all_data',
 
+    // 搜索热门关键字
+    'cache_search_keywords_key'             => 'cache_search_keywords_data',
+
+    // 首页展示的文章列表数据
+    'cache_home_article_list_key'           => 'cache_home_article_list_data',
+
+    // 首页展示的友情链接列表数据
+    'cache_home_link_list_key'              => 'cache_home_link_list_data',
+
     // 附件host、最后不要带/斜杠结尾, 数据库图片地址以/static/...开头
     'attachment_host'                       => $cdn_attachment_host,
 

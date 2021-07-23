@@ -23,6 +23,38 @@ use app\service\ResourcesService;
 class ArticleService
 {
     /**
+     * 首页展示列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-07-23
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function HomeArticleList($params = [])
+    {
+        // 从缓存获取
+        $key = MyConfig('shopxo.cache_home_article_list_key');
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug'))
+        {
+            // 文章
+            $params = [
+                'where' => ['is_enable'=>1, 'is_home_recommended'=>1],
+                'field' => 'id,title,title_color,article_category_id',
+                'm' => 0,
+                'n' => 9,
+            ];
+            $ret = self::ArticleList($params);
+            $data = empty($ret['data']) ? [] : $ret['data'];
+
+            // 存储缓存
+            MyCache($key, $data, 180);
+        }
+        return $data;
+    }
+
+    /**
      * 获取文章列表
      * @author   Devil
      * @blog    http://gong.gg/

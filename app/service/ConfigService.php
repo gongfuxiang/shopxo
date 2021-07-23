@@ -246,38 +246,42 @@ class ConfigService
     {
         $key = MyConfig('shopxo.cache_common_my_config_key');
         $data = MyCache($key);
-        if(empty($data) || $status == 1)
+        if($data === null || $status == 1)
         {
             // 所有配置
             $data = Db::name('Config')->column('value', 'only_tag');
-
-            // 数据处理
-            // 字符串转数组
-            foreach(self::$string_to_array_field_list as $fv)
+            if(!empty($data))
             {
-                if(isset($data[$fv]))
+                // 数据处理
+                // 字符串转数组
+                foreach(self::$string_to_array_field_list as $fv)
                 {
-                    $data[$fv] = ($data[$fv] == '') ? [] : explode(',', $data[$fv]);
-                }
-            }
-
-            // 数据处理
-            foreach($data as $k=>&$v)
-            {
-                // 富文本字段处理
-                if(in_array($k, self::$rich_text_list))
-                {
-                    $v = ResourcesService::ContentStaticReplace($v, 'get');
+                    if(isset($data[$fv]))
+                    {
+                        $data[$fv] = ($data[$fv] == '') ? [] : explode(',', $data[$fv]);
+                    }
                 }
 
-                // 公共内置数据缓存
-                MyCache($k, $v);
-
-                // 数据文件缓存
-                if(in_array($k, self::$file_cache_keys))
+                // 数据处理
+                foreach($data as $k=>&$v)
                 {
-                    MyFileConfig($k, $v);
+                    // 富文本字段处理
+                    if(in_array($k, self::$rich_text_list))
+                    {
+                        $v = ResourcesService::ContentStaticReplace($v, 'get');
+                    }
+
+                    // 公共内置数据缓存
+                    MyCache($k, $v);
+
+                    // 数据文件缓存
+                    if(in_array($k, self::$file_cache_keys))
+                    {
+                        MyFileConfig($k, $v);
+                    }
                 }
+            } else {
+                $data = [];
             }
 
             // 所有配置缓存集合
@@ -357,11 +361,8 @@ class ConfigService
      */
     public static function ConfigContentRow($key)
     {
-        // 缓存key,单条新增前缀，与公共配置区分开
-        $data = MyCache('config_content_row_'.$key);
-
-        // 获取内容
-        if(empty($data))
+        $data = MyCache($key);
+        if($data === null)
         {
             $data = Db::name('Config')->where(['only_tag'=>$key])->field('name,value,type,upd_time')->find();
             if(!empty($data))
@@ -372,6 +373,8 @@ class ConfigService
                     $data['value'] = ResourcesService::ContentStaticReplace($data['value'], 'get');
                 }
                 $data['upd_time_time'] = empty($data['upd_time']) ? null : date('Y-m-d H:i:s', $data['upd_time']);
+            } else {
+                $data = [];
             }
             MyCache($key, $data);
         }

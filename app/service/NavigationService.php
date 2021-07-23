@@ -44,14 +44,14 @@ class NavigationService
         $footer = MyCache(MyConfig('shopxo.cache_common_home_nav_footer_key'));
 
         // 缓存没数据则从数据库重新读取,顶部菜单
-        if(empty($header) || MyEnv('app_debug'))
+        if($header === null || MyEnv('app_debug'))
         {
             // 获取导航数据
             $header = self::NavDataAll('header');
         }
 
         // 底部导航
-        if(empty($footer) || MyEnv('app_debug'))
+        if($footer === null || MyEnv('app_debug'))
         {
             // 获取导航数据
             $footer = self::NavDataAll('footer');
@@ -150,8 +150,14 @@ class NavigationService
             $nav_type       => &$data,
         ]);
 
+        // 没数据则赋空数组值
+        if(empty($data))
+        {
+            $data = [];
+        }
+
         // 缓存
-        MyCache(MyConfig('shopxo.cache_common_home_nav_'.$nav_type.'_key'), $data, 60);
+        MyCache(MyConfig('shopxo.cache_common_home_nav_'.$nav_type.'_key'), $data, 180);
         return $data;
     }
 

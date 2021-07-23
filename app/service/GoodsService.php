@@ -65,7 +65,7 @@ class GoodsService
         // 从缓存获取
         $key = MyConfig('shopxo.cache_goods_category_key');
         $data = MyCache($key);
-        if(empty($data) || MyEnv('app_debug'))
+        if($data === null || MyEnv('app_debug'))
         {
             // 获取分类
             $params['where'] = [
@@ -75,7 +75,7 @@ class GoodsService
             $data = self::GoodsCategory($params);
 
             // 存储缓存
-            MyCache($key, $data, 60);
+            MyCache($key, $data, 180);
         }
         return $data;
     }
@@ -134,6 +134,8 @@ class GoodsService
                     }
                 }
             }
+        } else {
+            $data = [];
         }
         return $data;
     }
@@ -212,7 +214,7 @@ class GoodsService
         // 缓存
         $key = MyConfig('shopxo.cache_goods_floor_list_key');
         $data = MyCache($key);
-        if(empty($data) || MyEnv('app_debug'))
+        if($data === null || MyEnv('app_debug'))
         {
             // 商品大分类
             $where = [
@@ -318,10 +320,12 @@ class GoodsService
                     // 楼层关键字
                     $v['config_keywords'] = (empty($floor_keywords) || empty($floor_keywords[$v['id']])) ? [] : explode(',', $floor_keywords[$v['id']]);
                 }
+            } else {
+                $data = [];
             }
 
             // 存储缓存
-            MyCache($key, $data, 60);
+            MyCache($key, $data, 180);
         }
 
         // 商品读取、商品信息需要实时读取

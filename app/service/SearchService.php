@@ -380,20 +380,32 @@ class SearchService
      */
     public static function SearchKeywordsList($params = [])
     {
-        // 搜索框下热门关键字
-        $data = [];
-        switch(intval(MyC('home_search_keywords_type', 0)))
+        $key = MyConfig('shopxo.cache_search_keywords_key');
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug'))
         {
-            case 1 :
-                $data = Db::name('SearchHistory')->where([['keywords', '<>', '']])->group('keywords')->limit(10)->column('keywords');
-                break;
-            case 2 :
-                $keywords = MyC('home_search_keywords', '', true);
-                if(!empty($keywords))
-                {
-                    $data = explode(',', $keywords);
-                }
-                break;
+            switch(intval(MyC('home_search_keywords_type', 0)))
+            {
+                case 1 :
+                    $data = Db::name('SearchHistory')->where([['keywords', '<>', '']])->group('keywords')->limit(10)->column('keywords');
+                    break;
+                case 2 :
+                    $keywords = MyC('home_search_keywords', '', true);
+                    if(!empty($keywords))
+                    {
+                        $data = explode(',', $keywords);
+                    }
+                    break;
+            }
+
+            // 没数据则赋空数组值
+            if(empty($data))
+            {
+                $data = [];
+            }
+
+            // 存储缓存
+            MyCache($key, $data, 180);
         }
         return $data;
     }

@@ -289,7 +289,7 @@ class StoreService
         $key = 'cache_store_url_http_code';
         $time = 600;
         $code = MyCache($key);
-        if($code == null)
+        if($code === null)
         {
             $code = GetHttpCode(self::StoreUrl(), 2);
             MyCache($key, $code, $time);

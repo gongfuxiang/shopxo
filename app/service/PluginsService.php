@@ -41,7 +41,7 @@ class PluginsService
         $data = ($is_cache === true) ? self::PluginsCacheData($plugins) : [];
 
         // 数据不存在则从数据库读取
-        if(empty($data))
+        if($data === null)
         {
             // 获取数据
             $ret = self::PluginsField($plugins, 'data');
@@ -49,15 +49,18 @@ class PluginsService
             {
                 // 数据处理
                 $data = self::PluginsDataHandle($ret['data'], $attachment_field);
-
-                // 存储缓存
-                self::PluginsCacheStorage($plugins, $data);
+            } else {
+                $data = [];
             }
+
+            // 存储缓存
+            self::PluginsCacheStorage($plugins, $data);
         }
-        return DataReturn('处理成功', 0, empty($data) ? [] : $data);
+        return DataReturn('处理成功', 0, $data);
     }
 
     /**
+     * 插件配置数据处理
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -113,7 +116,7 @@ class PluginsService
                 }
             }
         }
-        return empty($data) ? null : $data;
+        return empty($data) ? [] : $data;
     }
 
     /**
@@ -413,7 +416,7 @@ class PluginsService
                 $v['data'] = self::PluginsDataHandle($v['data']);
             }
         } else {
-            $data = null;
+            $data = [];
         }
         return $data;
     }

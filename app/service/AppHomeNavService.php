@@ -275,8 +275,7 @@ class AppHomeNavService
         // 缓存
         $key = MyConfig('shopxo.cache_app_home_navigation_key').$platform;
         $data = MyCache($key);
-
-        if(empty($data))
+        if($data === null || MyEnv('app_debug'))
         {
             // 获取导航数据
             $field = 'id,name,images_url,event_value,event_type,bg_color,is_need_login';
@@ -306,18 +305,23 @@ class AppHomeNavService
                 }
             }
 
+            // 手机首页导航钩子
+            $hook_name = 'plugins_service_app_home_navigation_'.$platform;
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data'          => &$data,
+            ]);
+
+            // 没数据则赋空数组值
+            if(empty($data))
+            {
+                $data = [];
+            }
+
             // 存储缓存
-            MyCache($key, $data, 60);
+            MyCache($key, $data, 180);
         }
-
-        // 手机首页导航钩子
-        $hook_name = 'plugins_service_app_home_navigation_'.$platform;
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'data'          => &$data,
-        ]);
-
         return $data;
     }
 }

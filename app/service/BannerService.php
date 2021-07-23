@@ -39,7 +39,7 @@ class BannerService
         // 缓存
         $key = MyConfig('shopxo.cache_banner_list_key').$platform;
         $data = MyCache($key);
-        if(empty($data))
+        if($data === null || MyEnv('app_debug'))
         {
             // 获取banner数据
             $field = 'name,images_url,event_value,event_type,bg_color';
@@ -66,10 +66,12 @@ class BannerService
                         $v['event_value'] = null;
                     }
                 }
+            } else {
+                $data = [];
             }
 
             // 存储缓存
-            MyCache($key, $data, 60);
+            MyCache($key, $data, 180);
         }
         return $data;
     }

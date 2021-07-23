@@ -21,7 +21,6 @@ use app\service\BuyService;
 use app\service\MessageService;
 use app\service\SearchService;
 use app\service\ConfigService;
-use app\service\LinkService;
 use app\service\UserService;
 use app\service\AdminService;
 use app\service\QuickNavService;
@@ -286,10 +285,6 @@ class Common extends BaseController
 
         // 搜索框下热门关键字
         MyViewAssign('home_search_keywords', SearchService::SearchKeywordsList());
-
-        // 友情链接
-        $link = LinkService::LinkList(['where'=>['is_enable'=>1]]);
-        MyViewAssign('link_list', $link['data']);
 
         // 开发模式
         MyViewAssign('shopxo_is_develop', MyConfig('shopxo.is_develop'));

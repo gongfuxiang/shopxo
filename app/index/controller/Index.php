@@ -19,6 +19,7 @@ use app\service\ArticleService;
 use app\service\OrderService;
 use app\service\AppHomeNavService;
 use app\service\BrandService;
+use app\service\LinkService;
 use app\service\LayoutService;
 
 /**
@@ -123,20 +124,18 @@ class Index extends Common
                 MyViewAssign('goods_floor_list', GoodsService::HomeFloorList());
 
                 // 文章
-                $params = [
-                    'where' => ['is_enable'=>1, 'is_home_recommended'=>1],
-                    'field' => 'id,title,title_color,article_category_id',
-                    'm' => 0,
-                    'n' => 9,
-                ];
-                $article_list = ArticleService::ArticleList($params);
-                MyViewAssign('article_list', $article_list['data']);
+                $article_list = ArticleService::HomeArticleList();
+                MyViewAssign('article_list', $article_list);
 
                 // 用户订单状态
                 $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
                 MyViewAssign('user_order_status', $user_order_status['data']);
             }
         }
+
+        // 友情链接
+        $link_list = LinkService::HomeLinkList();
+        MyViewAssign('link_list', $link_list);
 
         // 加载百度地图api
         // 存在地图事件则载入
