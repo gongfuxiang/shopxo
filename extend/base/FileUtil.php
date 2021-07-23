@@ -177,9 +177,10 @@ class FileUtil
      * @date    2018-06-29
      * @desc    description
      * @param   [string]     $aim_dir      [地址]
+     * @param   [boolean]    $is_del_dir   [是否删除目录]
      * @return  [boolean]                  [true | false]
      */
-    public static function UnlinkDir($aim_dir)
+    public static function UnlinkDir($aim_dir, $is_del_dir = true)
     {
         $aim_dir = str_replace('', '/', $aim_dir);
         $aim_dir = substr($aim_dir, -1) == '/' ? $aim_dir : $aim_dir . '/';
@@ -196,13 +197,13 @@ class FileUtil
             }
             if(!is_dir($aim_dir . $file))
             {
-                self::UnlinkFile($aim_dir . $file);
+                self::UnlinkFile($aim_dir . $file, $is_del_dir);
             } else {
-                self::UnlinkDir($aim_dir . $file);
+                self::UnlinkDir($aim_dir . $file, $is_del_dir);
             }
         }
         closedir($dir_handle);
-        return rmdir($aim_dir);
+        return $is_del_dir ? rmdir($aim_dir) : true;
     }
 
     /**

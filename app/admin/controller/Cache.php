@@ -67,11 +67,11 @@ class Cache extends Common
 		// 模板 cache
 		// 系统配置缓存 data
 		// 模板数据 temp
-		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'cache');
-		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'data');
-		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'admin'.DS.'temp');
-		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'temp');
-		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'temp');
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'cache', false);
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'data', false);
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'admin'.DS.'temp', false);
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'temp', false);
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'temp', false);
 
 		// 缓存操作清除
 		\think\facade\Cache::clear();
@@ -89,9 +89,9 @@ class Cache extends Common
 	public function TemplateUpdate()
 	{
 		// 模板 cache
-		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'admin'.DS.'temp');
-		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'temp');
-		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'temp');
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'admin'.DS.'temp', false);
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'temp', false);
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'temp', false);
 
 		return $this->success('更新成功');
 	}
@@ -117,9 +117,9 @@ class Cache extends Common
 	 */
 	public function LogDelete()
 	{
-		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'admin'.DS.'log');
-		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'log');
-		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'log');
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'admin'.DS.'log', false);
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'log', false);
+		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'log', false);
 
 		return $this->success('更新成功');
 	}
