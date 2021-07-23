@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://images.gitee.com/uploads/images/2021/0605/181034_e2458b4b_488475.png" width="500" />
+<img src="https://images.gitee.com/uploads/images/2021/0605/181034_e2458b4b_488475.png" width="360" />
 </p>
 
 <div align="center">
@@ -70,29 +70,29 @@
 (更多查看应用商店 https://store.shopxo.net/)
 ~~~
 
-# 系统特性
+### 系统特性
 ![系统特性](https://images.gitee.com/uploads/images/2021/0719/100017_8ea1a9ed_488475.jpeg "系统特性")
 
-# 全平台支持
+### 全平台支持
 ![全平台支持](https://images.gitee.com/uploads/images/2020/0626/105825_39ddc4fd_488475.jpeg "全平台支持")
 
-# 可视化DIY拖拽装修展示
+### 可视化DIY拖拽装修展示
 ![可视化拖拽](https://images.gitee.com/uploads/images/2021/0711/154842_90877b0a_488475.gif "可视化DIY拖拽装修")
 
-# PC端展示
+### PC端展示
 ![PC脑端](https://images.gitee.com/uploads/images/2021/0711/160538_1806ce71_488475.gif "PC前端")
 
-# 后台管理展示
+### 后台管理展示
 ![后台管理](https://images.gitee.com/uploads/images/2021/0711/154241_5b84f065_488475.gif "后台管理")
 
-# 小程序展示
+### 小程序展示
 ![小程序](https://images.gitee.com/uploads/images/2020/0213/091112_064306e0_488475.jpeg "小程序")
 
-# 荣誉证书
+### 荣誉证书
 ![GVP证书](https://images.gitee.com/uploads/images/2020/0213/002000_06d4df98_488475.jpeg "GVP高清图片.jpeg")
 
-# 商城基础功能简介
-### 后端功能列表
+### 商城基础功能简介
+#### 后端功能列表
 ```
 后台配置
 站点配置
@@ -166,7 +166,7 @@ v1.2版本不再支持支付宝生活号管理（需要使用此功能的小伙�
     > 用户管理
 ```
 
-### 前端
+#### 前端
 ```
 首页
 所有分类
@@ -194,7 +194,7 @@ v1.2版本不再支持支付宝生活号管理（需要使用此功能的小伙�
 安全退出
 ```
 
-# 如何参与项目
+### 如何参与项目
 非常欢迎您对ShopXO的开发作出贡献！
 你可以选择以下方式向ShopXO贡献：
 - [Github - 发布issue进行问题反馈和建议](https://github.com/gongfuxiang/shopxo/pulls)
@@ -202,8 +202,8 @@ v1.2版本不再支持支付宝生活号管理（需要使用此功能的小伙�
 - 通过Pull Request提交修复
 - 完善我们的文档和例子
 
-# 开源协议
+### 开源协议
 MIT see https://ask.shopxo.net/article/15
 
-# 更新日志
+### 更新日志
 更多细节参阅 <a href="https://ask.shopxo.net/article/148">https://ask.shopxo.net/article/148</a>
