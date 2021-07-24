@@ -13,7 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\PluginsService;
 use app\service\ResourcesService;
-use app\service\SqlconsoleService;
+use app\service\SqlConsoleService;
 
 /**
  * 应用管理服务层
@@ -436,7 +436,7 @@ class PluginsAdminService
                 $uninstall_sql = APP_PATH.'plugins'.DS.$plugins.DS.'uninstall.sql';
                 if(file_exists($uninstall_sql))
                 {
-                    SqlconsoleService::Implement(['sql'=>file_get_contents($uninstall_sql)]);
+                    SqlConsoleService::Implement(['sql'=>file_get_contents($uninstall_sql)]);
                 }
             }
 
@@ -1033,7 +1033,7 @@ php;
         $install_sql = APP_PATH.'plugins'.DS.$plugins.DS.'install.sql';
         if(!empty($plugins) && file_exists($install_sql))
         {
-            SqlconsoleService::Implement(['sql'=>file_get_contents($install_sql)]);
+            SqlConsoleService::Implement(['sql'=>file_get_contents($install_sql)]);
         }
 
         // 插件事件回调
@@ -1430,7 +1430,7 @@ php;
             $sql = file_get_contents($sql_file);
             if(!empty($sql))
             {
-                SqlconsoleService::Implement(['sql'=>$sql]);
+                SqlConsoleService::Implement(['sql'=>$sql]);
             }
         }
 

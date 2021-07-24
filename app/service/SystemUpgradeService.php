@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\service;
 
-use app\service\SqlconsoleService;
+use app\service\SqlConsoleService;
 
 /**
  * 系统更新服务层
@@ -164,7 +164,7 @@ class SystemUpgradeService
                     $file_content = zip_entry_read($temp_resource, $file_size);
                     if(!empty($file_content))
                     {
-                        SqlconsoleService::Implement(['sql'=>$file_content]);
+                        SqlConsoleService::Implement(['sql'=>$file_content]);
                     }
 
                     // 关闭目录项  

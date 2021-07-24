@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\SqlconsoleService;
+use app\service\SqlConsoleService;
 
 /**
  * sql控制台
@@ -68,7 +68,7 @@ class Sqlconsole extends Common
         }
 
         // 开始处理
-        return SqlconsoleService::Implement($this->data_request);
+        return SqlConsoleService::Implement($this->data_request);
     }
 }
 ?>
