@@ -22,25 +22,30 @@ use app\service\ResourcesService;
  */
 class ConfigService
 {
+    // 不参与缓存的配置
+    public static $not_cache_field_list = [
+        'common_agreement_userregister',
+        'common_agreement_userprivacy',
+    ];
+
     // 富文本,不实例化的字段
     public static $rich_text_list = [
-            'home_footer_info',
-            'common_email_currency_template',
-            'home_email_user_reg',
-            'home_email_user_forget_pwd',
-            'home_email_user_email_binding',
-            'home_site_close_reason',
-            'common_agreement_userregister',
-            'common_agreement_userprivacy',
-            'common_self_extraction_address',
-            'home_index_floor_top_right_keywords',
-            'home_index_floor_manual_mode_goods',
-            'home_index_floor_left_top_category',
-            'admin_email_login_template',
-            'home_email_login_template',
-            'home_site_security_record_url',
-            'layout_index_home_data',
-        ];
+        'common_agreement_userregister',
+        'common_agreement_userprivacy',
+        'common_email_currency_template',
+        'home_footer_info',
+        'home_email_user_reg',
+        'home_email_user_forget_pwd',
+        'home_email_user_email_binding',
+        'home_site_close_reason',
+        'common_self_extraction_address',
+        'home_index_floor_top_right_keywords',
+        'home_index_floor_manual_mode_goods',
+        'home_index_floor_left_top_category',
+        'admin_email_login_template',
+        'home_email_login_template',
+        'home_site_security_record_url',
+    ];
 
     // 附件字段列表
     public static $attachment_field_list = [
@@ -186,6 +191,7 @@ class ConfigService
 
                 // 单条配置缓存删除
                 MyCache($k, null);
+                MyCache($k.'_row_data', null);
             }
         }
         if($success > 0)
@@ -265,6 +271,12 @@ class ConfigService
                 // 数据处理
                 foreach($data as $k=>&$v)
                 {
+                    // 不参与缓存的配置
+                    if(in_array($k, self::$not_cache_field_list))
+                    {
+                        continue;
+                    }
+
                     // 富文本字段处理
                     if(in_array($k, self::$rich_text_list))
                     {
@@ -361,7 +373,8 @@ class ConfigService
      */
     public static function ConfigContentRow($key)
     {
-        $data = MyCache($key);
+        $cache_key = $key.'_row_data';
+        $data = MyCache($cache_key);
         if($data === null)
         {
             $data = Db::name('Config')->where(['only_tag'=>$key])->field('name,value,type,upd_time')->find();
@@ -376,7 +389,7 @@ class ConfigService
             } else {
                 $data = [];
             }
-            MyCache($key, $data);
+            MyCache($cache_key, $data);
         }
         
         return DataReturn('操作成功', 0, $data);

@@ -10,8 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\service\ConfigService;
 use app\service\SeoService;
+use app\service\AgreementService;
 
 /**
  * 协议
@@ -52,15 +52,18 @@ class Agreement extends Common
         $data = [];
         if(!empty($params['document']))
         {
-            $key = 'common_agreement_'.$params['document'];
-            $ret = ConfigService::ConfigContentRow($key);
+            // 获取协议内容
+            $ret = AgreementService::AgreementData($params);
 
             // 浏览器标题
-            if(!empty($ret['data']['name']))
+            if(!empty($ret['data']))
             {
-                MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle($ret['data']['name']));
+                if(!empty($ret['data']['name']))
+                {
+                    MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle($ret['data']['name']));
+                }
+                $data = $ret['data'];
             }
-            $data = $ret['data'];
         }
 
         // 是否仅展示内容

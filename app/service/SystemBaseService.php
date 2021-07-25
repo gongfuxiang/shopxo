@@ -14,7 +14,6 @@ use think\facade\Db;
 use app\service\ResourcesService;
 use app\service\QuickNavService;
 use app\service\PluginsService;
-use app\service\ConfigService;
 
 /**
  * 系统基础公共信息服务层
@@ -443,35 +442,6 @@ class SystemBaseService
 
         // 返回状态、默认支持
         return $status;
-    }
-
-    /**
-     * 协议数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-04-25
-     * @desc    description
-     * @param   [array]           $params [输入参数]
-     */
-    public static function AgreementData($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'document',
-                'error_msg'         => '协议文档类型有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 获取内容
-        return ConfigService::ConfigContentRow('common_agreement_'.$params['document']);
     }
 
     /**
