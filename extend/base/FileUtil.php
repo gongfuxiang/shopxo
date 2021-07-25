@@ -197,7 +197,7 @@ class FileUtil
             }
             if(!is_dir($aim_dir . $file))
             {
-                self::UnlinkFile($aim_dir . $file, $is_del_dir);
+                self::UnlinkFile($aim_dir . $file);
             } else {
                 self::UnlinkDir($aim_dir . $file, $is_del_dir);
             }
@@ -219,7 +219,7 @@ class FileUtil
     public static function UnlinkFile($aim_url)
     {
         $aim_url = str_replace('//', '/', $aim_url);
-        if(file_exists($aim_url))
+        if(file_exists($aim_url) && is_writable($aim_url))
         {
             unlink($aim_url);
             return true;
