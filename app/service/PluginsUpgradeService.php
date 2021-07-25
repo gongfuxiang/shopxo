@@ -30,7 +30,7 @@ class PluginsUpgradeService
     public static $params;
 
     // 远程插件更新接口
-    public static $store_plugins_upgrade_url = 'https://store.shopxo.net/index.php?s=/api/plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginsupgradeurl';
+    public static $store_plugins_upgrade_url = 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginsupgradeurl';
 
     /**
      * 更新入口

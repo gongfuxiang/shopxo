@@ -26,7 +26,7 @@ class SystemUpgradeService
     public static $params;
 
     // 远程系统更新接口
-    public static $store_plugins_upgrade_url = 'https://store.shopxo.net/index.php?s=/api/plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=systemsupgradeurl';
+    public static $store_plugins_upgrade_url = 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=systemsupgradeurl';
 
     // session key
     public static $package_url_key = 'package_url_key';

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\service\ApiService;
 use app\service\PluginsService;
 use app\service\ResourcesService;
 
@@ -96,19 +97,22 @@ class Plugins extends Common
 
         // 调用
         $ret = PluginsService::PluginsControlCall($pluginsname, $pluginscontrol, $pluginsaction, 'admin', $params);
+
+        // ajax 返回的都是数组、使用统一api返回处理
+        if(IS_AJAX)
+        {
+            return ApiService::ApiDataReturn($ret['data']);
+        }
+
         if($ret['code'] == 0)
         {
+            // 默认则是视图内容
             return $ret['data'];
         }
 
         // 调用失败
-        if(IS_AJAX)
-        {
-            return $ret;
-        } else {
-            MyViewAssign('msg', $ret['msg']);
-            return MyView();
-        }
+        MyViewAssign('msg', $ret['msg']);
+        return MyView();
     }
 
     /**
