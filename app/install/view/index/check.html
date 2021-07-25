@@ -21,12 +21,12 @@
         </tr>
 
         <?php $php_version = explode('.', PHP_VERSION); ?>
-        <tr class="<?php if(($php_version['0'] >= 7) || ($php_version['0'] >=5 && $php_version['1'] >=6 )){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+        <tr class="<?php if($php_version['0'] >=7 && $php_version['1'] >=2 && $php_version['2'] >=5){ echo 'yes'; } else { echo 'am-danger'; } ?>">
             <td>PHP版本</td>
-            <td>>=7.1</td>
+            <td>>=7.2.5</td>
             <td><?php echo PHP_VERSION ?></td>
             <td>
-                <?php if(($php_version['0']>=7) || ($php_version['0']>=7 && $php_version['1']>=1)): ?>
+                <?php if($php_version['0'] >=7 && $php_version['1'] >=2 && $php_version['2'] >=5): ?>
                     √
                 <?php else: ?>
                     ×
@@ -76,6 +76,24 @@
             </td>
             <td>
                 <?php if (is_writable(ROOT)): ?>
+                    √
+                <?php else: ?>
+                    ×
+                <?php endif ?>
+            </td>
+        </tr>
+        <tr class="<?php if(is_writable(APP_PATH.'install/config')){ echo 'yes'; } else { echo 'am-danger'; } ?>">
+            <td>./app/install/config</td>
+            <td>可写</td>
+            <td>
+                <?php if (is_writable(APP_PATH.'install/config')): ?>
+                    可写
+                <?php else: ?>
+                    不可写
+                <?php endif ?>
+            </td>
+            <td>
+                <?php if (is_writable(APP_PATH.'install/config')): ?>
                     √
                 <?php else: ?>
                     ×

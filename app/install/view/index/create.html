@@ -16,7 +16,7 @@
             {{/foreach}}
         {{/if}}
     </div>
-    <form class="am-form am-form-horizontal form-validation" method="post" action="{{:MyUrl('install/index/add')}}" request-type="ajax-url" request-value="{{:MyUrl('install/index/successful')}}" timeout="60000">
+    <form class="am-form am-form-horizontal form-validation" method="post" action="{{:MyUrl('install/index/confirm')}}" request-type="ajax-fun" request-value="FormBackConfirm" timeout="60000">
         <div class="am-form-group">
             <label class="am-u-sm-2 am-form-label">数据库类型</label>
             <div class="am-u-sm-10">
@@ -88,3 +88,45 @@
 <!-- conntent end  -->
 
 {{include file="public/footer" /}}
+<script type="text/javascript">
+function FormBackConfirm(e)
+{
+    console.log(e)
+    var $button = $('form.form-validation button[type="submit"]');
+    if(e.code == 0)
+    {
+        $.AMUI.progress.start();
+        $.ajax({
+            url: "{{:MyUrl('install/index/add')}}",
+            type: 'POST',
+            dataType: "json",
+            timeout: 60000,
+            data: GetFormVal('form.form-validation', true),
+            success: function(res)
+            {
+                $.AMUI.progress.done();
+                if(res.code == 0)
+                {
+                    Prompt(res.msg, 'success');
+                    setTimeout(function()
+                    {
+                        window.location.href = "{{:MyUrl('install/index/successful')}}";
+                    }, 1500);
+                } else {
+                    Prompt(res.msg);
+                    $button.button('reset');
+                }
+            },
+            error: function(xhr, type)
+            {
+                $button.button('reset');
+                $.AMUI.progress.done();
+                Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+            }
+        });
+    } else {
+        $button.button('reset');
+        Prompt(e.msg)
+    }
+}
+</script>

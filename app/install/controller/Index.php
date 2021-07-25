@@ -11,6 +11,7 @@
 namespace app\install\controller;
 
 use think\facade\Db;
+use app\service\SystemService;
 
 /**
  * 安装程序
@@ -132,32 +133,25 @@ class Index extends Common
      */
     public function Successful()
     {
-        // 检测是否是新安装
-        if(is_dir(ROOT.'config') && !file_exists(ROOT.'config/database.php'))
-        {
-            if(empty($_GET['s']) || stripos($_GET['s'], 'install') === false)
-            {
-                $url = __MY_URL__.'index.php?s=/install/index/index';
-                exit(header('location:'.$url));
-            }
-        }
+        SystemService::SystemInstallCheck();
         return MyView();
     }
 
     /**
-     * 安装
+     * 确认、安装应用模块创建数据库配置文件
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2018-12-28
      * @desc    description
      */
-    public function Add()
+    public function Confirm()
     {
         // 是否ajax
         if(!IS_AJAX)
         {
-            die('非法访问');
+            MyViewAssign('msg', '非法访问');
+            return MyView('public/error');
         }
 
         // 参数
@@ -176,7 +170,29 @@ class Index extends Common
             return DataReturn('你已经安装过该系统，重新安装需要先删除[./config/database.php 文件]', -1);
         }
 
+        // 安装应用数据库配置文件生成
+        return $this->CreateDbConfig(APP_PATH.'install/config', $params);
+    }
+
+    /**
+     * 安装
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-28
+     * @desc    description
+     */
+    public function Add()
+    {
+        // 是否ajax
+        if(!IS_AJAX)
+        {
+            MyViewAssign('msg', '非法访问');
+            return MyView('public/error');
+        }
+
         // 开始安装
+        $params = input('post.');
         $db = $this->DbObj($params);
         if(!is_object($db))
         {
@@ -191,25 +207,6 @@ class Index extends Common
             return $ret;
         }
 
-        // 检查数据表是否存在
-        if(!$this->IsDbExist($db, $params['DB_NAME']))
-        {
-            if($this->DbNameCreate($db, $params['DB_NAME'], $params['DB_CHARSET']))
-            {
-                $db = $this->DbObj($params, $params['DB_NAME']);
-            } else {
-                $this->behavior_obj->ReportInstallLog(['msg'=>'数据库创建失败']);
-                return DataReturn('数据库创建失败', -1);
-            }
-        } else {
-            $db = $this->DbObj($params, $params['DB_NAME']);
-        }
-        if(!is_object($db))
-        {
-            $this->behavior_obj->ReportInstallLog(['msg'=>'数据库连接失败']);
-            return DataReturn('数据库连接失败', -1);
-        }
-
         // 创建数据表
         $ret = $this->CreateTable($db, $params);
         if($ret['code'] != 0)
@@ -218,7 +215,13 @@ class Index extends Common
         }
 
         // 生成数据库配置文件
-        return $this->CreateDbConfig($params);
+        $ret = $this->CreateDbConfig(ROOT.'config', $params);
+        if($ret['code'] == 0)
+        {
+            $ret['msg'] = '安装成功';
+            $this->behavior_obj->ReportInstallLog(['msg'=>'安装成功']);
+        }
+        return $ret;
     }
 
     /**
@@ -228,9 +231,10 @@ class Index extends Common
      * @version 1.0.0
      * @date    2018-12-28
      * @desc    description
-     * @param   [array]          $params [输入参数]
+     * @param   [string]         $dir       [目录地址]
+     * @param   [array]          $params    [输入参数]
      */
-    private function CreateDbConfig($params = [])
+    private function CreateDbConfig($dir, $params = [])
     {
         // 配置文件信息处理
         $db_str=<<<php
@@ -309,14 +313,12 @@ return [
 ];
 ?>
 php;
-        if(@file_put_contents(ROOT.'config/database.php', $db_str) === false)
+        if(@file_put_contents($dir.'/database.php', $db_str) === false)
         {
-            $this->behavior_obj->ReportInstallLog(['msg'=>'配置文件创建失败']);
+            $this->behavior_obj->ReportInstallLog(['msg'=>'配置文件创建失败['.$dir.']']);
             return DataReturn('配置文件创建失败', -1);
         }
-
-        $this->behavior_obj->ReportInstallLog(['msg'=>'安装成功']);
-        return DataReturn('安装成功', 0);
+        return DataReturn('操作成功', 0);
     }
 
     /**
@@ -397,7 +399,7 @@ php;
      */
     private function IsVersion($db, $db_charset)
     {
-        $data = $db->query("select version() AS version");
+        $data = $db->query('SELECT VERSION() AS `version`');
         if(empty($data[0]['version']))
         {
             $this->behavior_obj->ReportInstallLog(['msg'=>'查询数据库版本失败']);
@@ -415,43 +417,6 @@ php;
     }
 
     /**
-     * 数据库创建
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-12-28
-     * @desc    description
-     * @param   [object]          $db           [db对象]
-     * @param   [string]          $db_name      [数据库名称]
-     * @param   [string]          $db_charset   [数据库编码]
-     */
-    private function DbNameCreate($db, $db_name, $db_charset)
-    {
-        $sql = "CREATE DATABASE {$db_name} DEFAULT CHARSET {$this->charset_type_list[$db_charset]['charset']} COLLATE {$this->charset_type_list[$db_charset]['collate']}";
-        if($db->execute($sql) !== false)
-        {
-            return $this->IsDbExist($db, $db_name);
-        }
-        return false;
-    }
-
-    /**
-     * 检查数据库是否存在
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-12-28
-     * @desc    description
-     * @param   [object]          $db      [db对象]
-     * @param   [string]          $db_name [数据库名称]
-     */
-    private function IsDbExist($db, $db_name)
-    {
-        $temp = $db->query("show databases like '{$db_name}'");
-        return !empty($temp);
-    }
-
-    /**
      * 获取数据库操作对象
      * @author   Devil
      * @blog    http://gong.gg/
@@ -463,31 +428,7 @@ php;
      */
     private function DbObj($params = [], $db_name = '')
     {
-        return Db::connect([
-            // 数据库类型
-            'type'        => $params['DB_TYPE'],
-            // 数据库连接DSN配置
-            'dsn'         => '',
-            // 服务器地址
-            'hostname'    => $params['DB_HOST'],
-            // 数据库名
-            'database'    => $db_name,
-            // 数据库用户名
-            'username'    => $params['DB_USER'],
-            // 数据库密码
-            'password'    => $params['DB_PWD'],
-            // 数据库连接端口
-            'hostport'    => $params['DB_PORT'],
-            // 数据库连接参数
-            'params'      => [
-                \PDO::ATTR_CASE => \PDO::CASE_LOWER,
-                \PDO::ATTR_EMULATE_PREPARES => true,
-            ],
-            // 数据库编码默认采用utf8mb4
-            'charset'     => $params['DB_CHARSET'],
-            // 数据库表前缀
-            'prefix'      => $params['DB_PREFIX'],
-        ]);
+        return Db::connect('mysql');
     }
 
     /**
