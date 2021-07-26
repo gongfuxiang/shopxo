@@ -67,6 +67,12 @@ class Sqlconsole extends Common
             return $this->error('非法访问');
         }
 
+        // 是否开启开发者模式
+        if(MyConfig('shopxo.is_develop') !== true)
+        {
+            return DataReturn('请先开启开发者模式', -1);
+        }
+
         // 开始处理
         return SqlConsoleService::Implement($this->data_request);
     }

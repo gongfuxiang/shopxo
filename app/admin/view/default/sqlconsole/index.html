@@ -8,16 +8,22 @@
             <p class="am-text-xs">PS：非开发人员请不要随意执行任何SQL语句，操作可能导致将整个系统数据库被删除。</p>
         </div>
         
-        <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/sqlconsole/implement')}}" method="POST" request-type="ajax-fun" request-value="ViewImplementBack">
-            <div class="am-form-group">
-                <textarea rows="16" name="sql" class="am-radius" placeholder="SQL语句" data-validation-message="请填写需要执行的SQL语句" required></textarea>
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+            <!-- form start -->
+            <form class="am-form form-validation view-save" action="{{:MyUrl('admin/sqlconsole/implement')}}" method="POST" request-type="ajax-fun" request-value="ViewImplementBack">
+                <div class="am-form-group">
+                    <textarea rows="16" name="sql" class="am-radius" placeholder="SQL语句" data-validation-message="请填写需要执行的SQL语句" required></textarea>
+                </div>
+                <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">执行</button>
+                </div>
+            </form>
+            <!-- form end -->
+        {{else /}}
+            <div class="am-alert" data-am-alert>
+                <p>如需要执行SQL 语句，请在 config/shopxo.php 文件中 is_develop值改为true开启开发者模式。</p>
             </div>
-            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">执行</button>
-            </div>
-        </form>
-        <!-- form end -->
+        {{/if}}
 
         <!-- tips -->
         <div class="sql-tips">
