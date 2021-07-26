@@ -197,6 +197,27 @@ class Qrcode
             return DataReturn('url地址非法', -1);
         }
 
+        // 是否存在问号、存在问号则将数据转为整数，希望下载静态文件
+        $arr = explode('?', $url);
+        if(isset($arr[1]))
+        {
+            $url = $arr[0].'?'.intval($arr[1]);
+        }
+
+        // 格式校验，希望仅下载图片文件
+        $arr = explode('?', $url);
+        $ext_arr = MyConfig('ueditor.imageManagerAllowFiles');
+        $len = strripos($arr[0], '.');
+        if($len === false)
+        {
+            return DataReturn('url地址无效', -1);
+        }
+        $ext = mb_substr($arr[0], $len, null, 'utf-8');
+        if(!in_array($ext, $ext_arr))
+        {
+            return DataReturn('无效图片地址', -1);
+        }
+
         // 随机文件名
         $filename = empty($params['filename']) ? date('YmdHis').GetNumberCode().'.png' : $params['filename'].'.png';
 
