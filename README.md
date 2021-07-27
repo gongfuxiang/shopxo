@@ -36,6 +36,10 @@
 ### 小程序体验码
 ![小程序二维码](https://images.gitee.com/uploads/images/2020/1103/004316_d298a943_488475.jpeg "qrcode.jpg")
 
+### 应用商店无法连接错误修复（v2.0.0-2.1.0）
+链接: https://pan.baidu.com/s/1e6U5jWmERNn9U6OQmfG3iw  密码: 7es0
+
+
 ### 基础信息
 * 演示地址：https://ask.shopxo.net/article/4
 * 安装教程：https://ask.shopxo.net/article/5

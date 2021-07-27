@@ -205,13 +205,12 @@ class Qrcode
         }
 
         // 格式校验，希望仅下载图片文件
-        $arr = explode('?', $url);
-        $ext_arr = MyConfig('ueditor.imageManagerAllowFiles');
         $len = strripos($arr[0], '.');
         if($len === false)
         {
             return DataReturn('url地址无效', -1);
         }
+        $ext_arr = MyConfig('ueditor.imageManagerAllowFiles');
         $ext = mb_substr($arr[0], $len, null, 'utf-8');
         if(!in_array($ext, $ext_arr))
         {
