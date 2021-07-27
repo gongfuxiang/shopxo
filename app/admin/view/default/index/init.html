@@ -37,7 +37,7 @@
 
 					<!-- 右侧版本信息及更新检查 -->
 					<span class="right-base">
-						<a href="https://ask.shopxo.net/article/148" target="_blank" class="am-margin-left-xs">{{$Think.APPLICATION_VERSION}}</a>
+						<a {{if !empty($site_store_links) and !empty($site_store_links['system_update_log'])}}href="{{$site_store_links.system_update_log}}" target="_blank"{{else /}}href="javascript:;"{{/if}} class="am-margin-left-xs">{{$Think.APPLICATION_VERSION}}</a>
 						<a href="javascript:;" class="am-margin-left-sm inspect-upgrade-submit" data-url="{{:MyUrl('admin/index/inspectupgrade')}}">检查更新{{if !empty($site_store_info) and !empty($site_store_info['upgrade']) and !empty($site_store_info['upgrade']['version_old']) and $site_store_info['upgrade']['version_old'] eq $Think.APPLICATION_VERSION}}<i></i>{{/if}}</a>
 					</span>
 				</div>
@@ -230,24 +230,28 @@
 							<a href="http://shopxo.net/" target="_blank">ShopXO企业级电商系统提供商</a>
 						</dd>
 
-						<dt>交流社区</dt>
-						<dd>
-							<a href="http://ask.shopxo.net/" target="_blank">ShopXO交流社区</a>
-						</dd>
+						{{if !empty($site_store_links) and !empty($site_store_links['community_website'])}}
+							<dt>交流社区</dt>
+							<dd>
+								<a href="{{$site_store_links.community_website}}" target="_blank">ShopXO交流社区</a>
+							</dd>
+						{{/if}}
 
 						<dt>开源协议</dt>
 						<dd>
-							<a href="http://ask.shopxo.net/article/15" target="_blank">查看开源协议</a>
+							<a href="{{if !empty($site_store_links) and !empty($site_store_links['source_license'])}}{{$site_store_links.source_license}}{{else /}}https://opensource.org/licenses/mit-license.php{{/if}}" target="_blank">查看开源协议</a>
 						</dd>
+
+						{{if !empty($site_store_links) and !empty($site_store_links['system_update_log'])}}
+							<dt>更新日志</dt>
+							<dd>
+								<a href="{{$site_store_links.system_update_log}}" target="_blank">查看更新日志</a>
+							</dd>
+						{{/if}}
 
 						<dt>研发成员</dt>
 						<dd>
 							<a href="http://gong.gg/" target="_blank">龚哥哥</a>
-						</dd>
-
-						<dt>更新日志</dt>
-						<dd>
-							<a href="http://ask.shopxo.net/article/148" target="_blank">查看更新日志</a>
 						</dd>
 					</dl>
 				</li>

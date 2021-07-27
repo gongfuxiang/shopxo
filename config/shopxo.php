@@ -99,15 +99,35 @@ return [
     // css/js引入host地址、以/斜杠结尾
     'public_host'                           => $cdn_public_host,
 
-    // 应用商店地址
+
+    // 应用商店基础地址
     'website_url'                           => 'https://shopxo.net/',
     'store_url'                             => 'https://store.shopxo.net/',
     'store_payment_url'                     => 'https://store.shopxo.net/',
     'store_theme_url'                       => 'https://store.shopxo.net/',
+    'store_regster_url'                     => 'https://store.shopxo.net/regster.html',
+
+    // 插件在线下载地址
     'store_download_url'                    => 'https://store.shopxo.net/index.php?s=store-package-onine.html',
 
-    // 开启U带域名
-    'url_domain_deploy'                     => true,
+    // 远程系统更新接口
+    'store_system_upgrade_url'              => 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=systemsupgradeurl',
+
+    // 远程插件更新接口
+    'store_plugins_upgrade_url'             => 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginsupgradeurl',
+
+    // 远程信息接口
+    'store_site_info_url'                   => 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=siteinfo',
+
+    // 远程检查更新接口
+    'store_inspect_upgrade_url'             => 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=inspectupgrade',
+
+    // 远程插件安全合法校验接口
+    'store_plugins_legal_check_url'         => 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginslegalcheck',
+
+    // 远程插件更新信息接口
+    'store_plugins_upgrade_info_url'        => 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginsupgradeinfo',
+
 
     // 支付业务类型,支付插件根据业务类型自动生成支付入口文件
     'payment_business_type_all'             => [

@@ -223,6 +223,10 @@ class Common extends BaseController
         }
         MyViewAssign('site_store_info', $site_store_info);
 
+        // 更多链接地址
+        $site_store_links = empty($site_store_info['links']) ? [] : $site_store_info['links'];
+        MyViewAssign('site_store_links', $site_store_links);
+
         // 系统基础信息
         $is_system_show_base = (empty($site_store_info) || empty($site_store_info['vip']) || !isset($site_store_info['vip']['status']) || $site_store_info['vip']['status'] == 0 || ($site_store_info['vip']['status'] == 1 && (AdminIsPower('index', 'storeaccountsbind') || AdminIsPower('index', 'inspectupgrade')))) ? 1 : 0;
         MyViewAssign('is_system_show_base', $is_system_show_base);

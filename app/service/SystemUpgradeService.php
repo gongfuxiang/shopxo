@@ -25,9 +25,6 @@ class SystemUpgradeService
     // 输入参数
     public static $params;
 
-    // 远程系统更新接口
-    public static $store_plugins_upgrade_url = 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=systemsupgradeurl';
-
     // session key
     public static $package_url_key = 'package_url_key';
     public static $package_system_dir_key = 'package_system_dir_key';
@@ -308,7 +305,7 @@ class SystemUpgradeService
         }
 
         // 获取信息
-        $ret = StoreService::RemoteStoreData($accounts, $password, self::$store_plugins_upgrade_url, $params);
+        $ret = StoreService::RemoteStoreData($accounts, $password, MyConfig('shopxo.store_system_upgrade_url'), $params);
         if(!empty($ret) && isset($ret['code']) && $ret['code'] == 0)
         {
             MySession(self::$package_url_key, $ret['data']);

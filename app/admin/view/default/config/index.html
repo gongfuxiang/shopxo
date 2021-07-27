@@ -86,7 +86,7 @@
                         <label>{{$data.common_baidu_map_ak.name}}<span class="am-form-group-label-tips">{{$data.common_baidu_map_ak.describe}}</span></label>
                         <input type="text" name="{{$data.common_baidu_map_ak.only_tag}}" placeholder="{{$data.common_baidu_map_ak.describe}}" data-validation-message="{{$data.common_baidu_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_baidu_map_ak.value}}"{{/if}} />
                         <div class="am-alert am-alert-warning" data-am-alert>
-                            请到百度地图开放平台申请，<a href="https://ask.shopxo.net/article/142" target="_blank">查看配置教程 <i class="am-icon-external-link"></i></a>
+                            请到百度地图开放平台申请 {{if !empty($site_store_links) and !empty($site_store_links['baidu_map_course'])}}<a href="{{$site_store_links.baidu_map_course}}" target="_blank" class="am-margin-left-sm">查看配置教程 <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
                 </div>

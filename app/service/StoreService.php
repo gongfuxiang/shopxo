@@ -21,18 +21,6 @@ use app\service\ConfigService;
  */
 class StoreService
 {
-    // 远程信息接口
-    public static $store_site_info_url = 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=siteinfo';
-
-    // 远程检查更新接口
-    public static $store_inspect_upgrade_url = 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=inspectupgrade';
-
-    // 远程插件安全合法校验接口
-    public static $store_plugins_legal_check_url = 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginslegalcheck';
-
-    // 远程插件更新信息接口
-    public static $store_plugins_upgrade_info_url = 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginsupgradeinfo';
-
     // 站点商店数据缓存key
     public static $site_store_info_key = 'admin_site_store_info_data';
 
@@ -176,7 +164,7 @@ class StoreService
         }
 
         // 获取信息
-        $res = self::RemoteStoreData($accounts, $password, self::$store_site_info_url);
+        $res = self::RemoteStoreData($accounts, $password, MyConfig('shopxo.store_site_info_url'));
         if($res['code'] == 0)
         {
             // 存储缓存、取远程给的时间，未拿到时间则默认60分钟
@@ -204,7 +192,7 @@ class StoreService
         $password = MyC('common_store_password');
 
         // 获取信息
-        return self::RemoteStoreData($accounts, $password, self::$store_inspect_upgrade_url);
+        return self::RemoteStoreData($accounts, $password, MyConfig('shopxo.store_inspect_upgrade_url'));
     }
 
     /**
@@ -240,7 +228,7 @@ class StoreService
             'plugins_ver'       => $params['ver'],
             'plugins_config'    => $params['config'],
         ];
-        return self::RemoteStoreData($accounts, $password, self::$store_plugins_legal_check_url, $request_params);
+        return self::RemoteStoreData($accounts, $password, MyConfig('shopxo.store_plugins_legal_check_url'), $request_params);
     }
 
     /**
@@ -265,7 +253,7 @@ class StoreService
             }
 
             // 获取更新信息
-            return self::RemoteStoreData($accounts, $password, self::$store_plugins_upgrade_info_url, $params);
+            return self::RemoteStoreData($accounts, $password, MyConfig('shopxo.store_plugins_upgrade_info_url'), $params);
         }
 
         return DataReturn('无插件数据', 0);

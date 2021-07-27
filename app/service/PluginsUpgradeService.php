@@ -29,9 +29,6 @@ class PluginsUpgradeService
     // 输入参数
     public static $params;
 
-    // 远程插件更新接口
-    public static $store_plugins_upgrade_url = 'https://store.shopxo.net/api.php?s=plugins/index&pluginsname=store&pluginscontrol=index&pluginsaction=pluginsupgradeurl';
-
     /**
      * 更新入口
      * @author  Devil
@@ -195,7 +192,7 @@ class PluginsUpgradeService
         }
 
         // 获取信息
-        $ret = StoreService::RemoteStoreData($accounts, $password, self::$store_plugins_upgrade_url, $params);
+        $ret = StoreService::RemoteStoreData($accounts, $password, MyConfig('shopxo.store_plugins_upgrade_url'), $params);
         if(!empty($ret) && isset($ret['code']) && $ret['code'] == 0)
         {
             $key = md5($ret['data']);
