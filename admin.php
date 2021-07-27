@@ -12,14 +12,14 @@
 // [ 后台入口文件 ]
 namespace think;
 
+// 根目录入口
+define('IS_ROOT_ACCESS', true);
+
 // 引入公共入口文件
 require __DIR__.'/public/core.php';
 
 // 加载基础文件
 require __DIR__ . '/vendor/autoload.php';
-
-// 根目录入口
-define('IS_ROOT_ACCESS', true);
 
 // 执行HTTP应用并响应
 $http = (new App())->http;
