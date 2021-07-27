@@ -307,6 +307,7 @@ class UeditorService
                     $ret = ResourcesService::AttachmentAdd($data);
                     if($ret['code'] == 0)
                     {
+                        $ret['data']['source'] = htmlspecialchars($imgUrl);
                         array_push($list, $ret['data']);
                     }
                 }

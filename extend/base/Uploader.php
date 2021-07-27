@@ -375,29 +375,12 @@ class Uploader
             return;
         }
 
-        //获取请求头并检测死链
-        $heads = get_headers($imgUrl, 1);
-        if (!(stristr($heads[0], "200") && stristr($heads[0], "OK"))) {
+        //打开输出缓冲区并获取远程图片
+        $img = RequestGet($imgUrl);
+        if(empty($img)) {
             $this->stateInfo = $this->getStateInfo("ERROR_DEAD_LINK");
             return;
         }
-        //格式验证(扩展名验证和Content-Type验证)
-        $fileType = strtolower(strrchr($imgUrl, '.'));
-        if (!in_array($fileType, $this->config['allowFiles']) || !isset($heads['Content-Type']) || !stristr($heads['Content-Type'], "image")) {
-            $this->stateInfo = $this->getStateInfo("ERROR_HTTP_CONTENTTYPE");
-            return;
-        }
-
-        //打开输出缓冲区并获取远程图片
-        ob_start();
-        $context = stream_context_create(
-            array('http' => array(
-                'follow_location' => false // don't follow redirects
-            ))
-        );
-        readfile($imgUrl, false, $context);
-        $img = ob_get_contents();
-        ob_end_clean();
         preg_match("/[\/]([^\/]*)[\.]?[^\.\/]*$/", $imgUrl, $m);
 
         $this->oriName = $m ? $m[1]:"";

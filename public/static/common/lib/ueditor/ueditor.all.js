@@ -23253,21 +23253,19 @@ UE.plugins['catchremoteimage'] = function () {
                     }
 
                     /* 获取源路径和新路径 */
-                    var i, newSrc, list = info.data || null;
-                    if(list == null || list.length <= 0 || list.length != imgs.length)
-                    {
-                        return;
-                    }
-
-                    // 循环处理图片替换
-                    for (i = 0; i<imgs.length;i++) {
-                        if((list[i] || null) != null && (list[i]['url'] || null) != null)
-                        {
-                            newSrc = catcherUrlPrefix + list[i]['url'];
-                            domUtils.setAttributes(imgs[i], {
-                                "src": newSrc,
-                                "_src": newSrc
-                            });
+                    var i, j, ci, cj, oldSrc, newSrc, list = info.data;
+                    for (i = 0; ci = imgs[i++];) {
+                        oldSrc = ci.getAttribute('_src') || ci.src || "";
+                        for (j = 0; cj = list[j++];) {
+                            if (oldSrc == cj.source && cj.state == 'SUCCESS') {
+                                //抓取失败时不做替换处理
+                                newSrc = catcherUrlPrefix + cj.url;
+                                domUtils.setAttributes(ci, {
+                                    "src": newSrc,
+                                    "_src": newSrc
+                                });
+                                break;
+                            }
                         }
                     }
                     me.fireEvent('catchremotesuccess')
