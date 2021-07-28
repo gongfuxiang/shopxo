@@ -420,7 +420,7 @@ if (!function_exists('echo_value')) {
 
     <?php if (\think\facade\App::isDebug()) { ?>
         <div class="copyright">
-            <a title="<?php echo implode('', ['S','h','o','p','X','O','企','业','级','免','费','开','源','商','城','系','统']); ?>" href="<?php echo implode('', ['h','t','t','p','s',':','/','/','s','h','o','p','x','o','.','n','e','t','/']); ?>" target="_blank"><?php echo implode('', ['S','h','o','p','X','O','企','业','级','免','费','开','源','商','城','系','统']); ?></a>
+            <a title="<?php echo implode('', ['S','h','o','p','X','O','企','业','级','免','费','开','源','商','城','系','统']); ?>" href="<?php echo implode('', ['h','t','t','p',':','/','/','s','h','o','p','x','o','.','n','e','t','/']); ?>" target="_blank"><?php echo implode('', ['S','h','o','p','X','O','企','业','级','免','费','开','源','商','城','系','统']); ?></a>
             <p class="copyright-version">
                 <span>thinkphp v<?php echo \think\facade\App::version(); ?></span>
                 <span>shopxo <?php echo APPLICATION_VERSION; ?></span>
@@ -428,7 +428,7 @@ if (!function_exists('echo_value')) {
         </div>
     <?php } else { ?>
         <div class="copyright">
-            <a title="<?php echo implode('', ['S','h','o','p','X','O','企','业','级','免','费','开','源','商','城','系','统']); ?>" href="<?php echo implode('', ['h','t','t','p','s',':','/','/','a','s','k','.','s','h','o','p','x','o','.','n','e','t','/','q','u','e','s','t','i','o','n','/','7']); ?>" target="_blank"><?php echo implode('', ['查','看','解','决','方','案']); ?></a>
+            <a title="<?php echo implode('', ['S','h','o','p','X','O','企','业','级','免','费','开','源','商','城','系','统']); ?>" href="<?php echo implode('', ['h','t','t','p',':','/','/','e','r','r','o','r','.','s','h','o','p','x','o','.','n','e','t','/']); ?>" target="_blank"><?php echo implode('', ['查','看','解','决','方','案']); ?></a>
         </div>
     <?php } ?>
 
