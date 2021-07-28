@@ -422,8 +422,8 @@ if (!function_exists('echo_value')) {
         <div class="copyright">
             <a title="<?php echo implode('', ['S','h','o','p','X','O','企','业','级','免','费','开','源','商','城','系','统']); ?>" href="<?php echo implode('', ['h','t','t','p',':','/','/','s','h','o','p','x','o','.','n','e','t','/']); ?>" target="_blank"><?php echo implode('', ['S','h','o','p','X','O','企','业','级','免','费','开','源','商','城','系','统']); ?></a>
             <p class="copyright-version">
-                <span>thinkphp v<?php echo \think\facade\App::version(); ?></span>
-                <span>shopxo <?php echo APPLICATION_VERSION; ?></span>
+                <span><?php echo implode('', ['S','h','o','p','X','O']); ?> <?php echo APPLICATION_VERSION; ?></span>
+                <span><?php echo implode('', ['T','h','i','n','k','P','H','P']); ?> <?php echo APPLICATION_VERSION; ?> v<?php echo \think\facade\App::version(); ?></span>
             </p>
         </div>
     <?php } else { ?>
