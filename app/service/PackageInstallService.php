@@ -338,41 +338,21 @@ class PackageInstallService
      */
     public static function HttpRequest($url, $data)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_FAILONERROR, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-        $body_string = '';
-        if(is_array($data) && 0 < count($data))
+        $res = CurlPost($url, $data);
+        $result = json_decode($res, true);
+        if(empty($result))
         {
-            foreach($data as $k => $v)
-            {
-                $body_string .= $k.'='.urlencode($v).'&';
-            }
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $body_string);
-        }
-        $headers = [
-            'Content-type: application/x-www-form-urlencoded;charset=UTF-8',
-            'X-Requested-With: XMLHttpRequest',
-        ];
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        $reponse = curl_exec($ch);
-        $error = curl_errno($ch);
-        curl_close($ch);
-        if($error)
-        {
-            return DataReturn("curl出错，错误码:$error", -1);
+            return DataReturn('商店网络不通['.$res.']', -1);
         }
 
-        // 是否json格式数据
-        if(substr($reponse, 0, 1) != '{')
+        // 是否非数组
+        if(is_string($result))
         {
-            return DataReturn("返回数据格式有误:$reponse", -1);
+            return DataReturn($result, -1);
         }
-        return json_decode($reponse, true);
+
+        // 请求成功
+        return $result;
     }
 }
 ?>
