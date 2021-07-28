@@ -36,11 +36,13 @@
 
 
 ### 基础信息
-* 演示地址：https://ask.shopxo.net/article/4
-* 安装教程：https://ask.shopxo.net/article/5
-* 更新日志：https://ask.shopxo.net/article/148
+* 演示地址：https://demo.shopxo.net/
+* 安装教程：https://install.shopxo.net/
+* 更新日志：https://log.shopxo.net/
+* 文档地址：https://doc.shopxo.net/
+* 开源协议：https://license.shopxo.net/
 
-### 官方QQ群（答案：shopxo.net）
+### 官方QQ群、答案`shopxo.net`
 * 官方1群：833531593
 * 官方2群：641730223
 * 官方3群：1127073697
@@ -200,9 +202,3 @@ v1.2版本不再支持支付宝生活号管理（需要使用此功能的小伙�
 - [码云/开源中国 - 发布issue进行问题反馈和建议](https://gitee.com/zongzhige/shopxo/pulls)
 - 通过Pull Request提交修复
 - 完善我们的文档和例子
-
-### 开源协议
-MIT see https://ask.shopxo.net/article/15
-
-### 更新日志
-更多细节参阅 <a href="https://ask.shopxo.net/article/148">https://ask.shopxo.net/article/148</a>
