@@ -446,6 +446,9 @@ class NavigationService
      */
     public static function NacDataSave($params = [])
     {
+        // 缓存 key
+        $cache_key = MyConfig('shopxo.cache_common_home_nav_'.$params['nav_type'].'_key');
+
         // 非自定义导航数据处理
         if(empty($params['name']))
         {
@@ -470,9 +473,6 @@ class NavigationService
             $params['name'] = mb_substr($temp_name, 0, 16, MyConfig('shopxo.default_charset'));
         }
 
-        // 清除缓存
-        MyCache(MyConfig('cache_common_home_nav_'.$params['nav_type'].'_key'), null);
-
         // 数据
         $data = [
             'pid'                   => isset($params['pid']) ? intval($params['pid']) : 0,
@@ -493,7 +493,7 @@ class NavigationService
             if(Db::name('Navigation')->insertGetId($data) > 0)
             {
                 // 清除缓存
-                MyCache(MyConfig('cache_common_home_nav_'.$params['nav_type'].'_key'), null);
+                MyCache($cache_key, null);
                 
                 return DataReturn('新增成功', 0);
             } else {
@@ -504,7 +504,7 @@ class NavigationService
             if(Db::name('Navigation')->where(['id'=>intval($params['id'])])->update($data))
             {
                 // 清除缓存
-                MyCache(MyConfig('cache_common_home_nav_'.$params['nav_type'].'_key'), null);
+                MyCache($cache_key, null);
 
                 return DataReturn('编辑成功', 0);
             } else {
