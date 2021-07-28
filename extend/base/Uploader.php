@@ -350,7 +350,8 @@ class Uploader
         $imgUrl = str_replace("&amp;", "&", $imgUrl);
 
         //检查是否不允许的文件格式
-        if (!$this->checkType()) {
+        $ext = explode('?', strtolower(strrchr($imgUrl, '.')));
+        if (!$this->checkType($ext[0])) {
             $this->stateInfo = $this->getStateInfo("ERROR_TYPE_NOT_ALLOWED");
             return;
         }
@@ -502,9 +503,10 @@ class Uploader
      * 文件类型检测
      * @return bool
      */
-    private function checkType()
+    private function checkType($ext = null)
     {
-        return in_array($this->getFileExt(), $this->config["allowFiles"]);
+        $ext = empty($ext) ? $this->getFileExt() : $ext;
+        return in_array($ext, $this->config["allowFiles"]);
     }
 
     /**
