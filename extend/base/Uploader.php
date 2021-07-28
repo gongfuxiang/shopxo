@@ -349,6 +349,12 @@ class Uploader
         $imgUrl = htmlspecialchars($this->fileField);
         $imgUrl = str_replace("&amp;", "&", $imgUrl);
 
+        //检查是否不允许的文件格式
+        if (!$this->checkType()) {
+            $this->stateInfo = $this->getStateInfo("ERROR_TYPE_NOT_ALLOWED");
+            return;
+        }
+
         //http开头验证
         if (strpos($imgUrl, "http") !== 0) {
             $this->stateInfo = $this->getStateInfo("ERROR_HTTP_LINK");
