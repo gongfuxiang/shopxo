@@ -6,9 +6,9 @@
 
 [![Gitee star](https://gitee.com/zongzhige/shopxo/badge/star.svg?theme=gvp)](https://gitee.com/zongzhige/shopxo/stargazers)
 [![Gitee fork](https://gitee.com/zongzhige/shopxo/badge/fork.svg?theme=gvp)](https://gitee.com/zongzhige/shopxo/members)
-[![GitHub stars](https://img.shields.io/github/stars/gongfuxiang/shopxo?logo=github)](https://github.com/gongfuxiang/shopxo/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/gongfuxiang/shopxo?logo=github)](https://github.com/gongfuxiang/shopxo/network)
-[![GitHub license](https://img.shields.io/badge/license-MIT-green)](https://gitee.com/zongzhige/shopxo/blob/master/LICENSE) 
+[![GitHub star](https://img.shields.io/github/stars/gongfuxiang/shopxo?logo=github)](https://github.com/gongfuxiang/shopxo/stargazers)
+[![GitHub fork](https://img.shields.io/github/forks/gongfuxiang/shopxo?logo=github)](https://github.com/gongfuxiang/shopxo/network)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://gitee.com/zongzhige/shopxo/blob/master/LICENSE) 
 
 </div>
 
