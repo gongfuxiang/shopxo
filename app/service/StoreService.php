@@ -282,7 +282,7 @@ class StoreService
             $code = GetHttpCode(self::StoreUrl(), 2);
             MyCache($key, $code, $time);
         }
-        if($code != 200)
+        if(!in_array($code, [200, 301, 302, 307, 308]))
         {
             return DataReturn('商店网络不通', 0);
         }
