@@ -22,7 +22,7 @@ use think\facade\Db;
 class AdminService
 {
     // admin登录session key
-    public static $admin_login_key = 'admin_login';
+    public static $admin_login_key = 'admin_login_info';
 
     /**
      * 管理员列表
@@ -309,7 +309,7 @@ class AdminService
             // 自己修改密码则重新登录
             if(!empty($params['login_pwd']) && $params['id'] == $params['admin']['id'])
             {
-                session_destroy();
+                self::LoginLogout();
             }
             
             return DataReturn('编辑成功', 0);
