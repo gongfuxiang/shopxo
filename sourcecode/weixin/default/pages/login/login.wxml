@@ -24,7 +24,7 @@
 <view wx:else class="user-login tc">
   <view>确认登录授权，为您提供更优质的服务</view>
   <view class="margin-top-sm padding-bottom-xxl">
-    阅读并同意 《<span class="cr-main" bindtap="agreement_event" data-value="userregister">服务协议</span>》 与 《<span class="cr-main" bindtap="agreement_event" data-value="userprivacy">隐私政策</span>》
+    阅读并同意 《<text class="cr-main" bindtap="agreement_event" data-value="userregister">服务协议</text>》 与 《<text class="cr-main" bindtap="agreement_event" data-value="userprivacy">隐私政策</text>》
   </view>
   <view class="margin-top-xxl">
     <navigator open-type="navigateBack" hover-class="none" class="dis-inline margin-right-lg">
