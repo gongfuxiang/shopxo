@@ -23,7 +23,7 @@ use app\service\ResourcesService;
 class ThemeService
 {
     // 静态目录和html目录
-    private static $html_path = 'application'.DS.'index'.DS.'view'.DS;
+    private static $html_path = 'app'.DS.'index'.DS.'view'.DS;
     private static $static_path = 'public'.DS.'static'.DS.'index'.DS;
 
     // 排除的文件后缀
