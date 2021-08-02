@@ -152,7 +152,7 @@ class ResourcesService
         }
 
         // 配置信息
-        $config = MyConfig('ueditor.');
+        $config = MyConfig('ueditor');
 
         // 文件信息
         $info = pathinfo($file);
