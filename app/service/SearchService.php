@@ -230,7 +230,7 @@ class SearchService
                         if(empty($temp[0]) && !empty($temp[1]))
                         {
                             $where_screening_price[] = [
-                                ['min_price', 'elt', $temp[1]],
+                                ['min_price', '<=', $temp[1]],
                             ];
 
                         // 最小金额大于0、最大金额大于0
@@ -238,15 +238,15 @@ class SearchService
                         } elseif((!empty($temp[0]) && !empty($temp[1])) || (empty($temp[0]) && empty($temp[1])))
                         {
                             $where_screening_price[] = [
-                                ['min_price', 'egt', $temp[0]],
-                                ['min_price', 'elt', $temp[1]],
+                                ['min_price', '>=', $temp[0]],
+                                ['min_price', '<=', $temp[1]],
                             ];
 
                         // 最小金额大于0、最大金额等于0
                         } elseif(!empty($temp[0]) && empty($temp[1]))
                         {
                             $where_screening_price[] = [
-                                ['min_price', 'egt', $temp[0]],
+                                ['min_price', '>=', $temp[0]],
                             ];
                         }
                     }
