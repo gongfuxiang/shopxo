@@ -509,7 +509,13 @@ function FromInit(form_name)
 		            					Prompt(result.msg, 'success');
 			            				setTimeout(function()
 										{
-											window.location.reload();
+											// 等于parent则刷新父窗口
+											if(request_value == 'parent')
+											{
+												parent.location.reload();
+											} else {
+												window.location.reload();
+											}
 										}, 1500);
 		            					break;
 
