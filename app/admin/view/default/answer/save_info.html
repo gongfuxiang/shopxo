@@ -26,7 +26,7 @@
             
             <div class="am-form-group">
                 <label>联系人</label>
-                <input type="text" name="name" placeholder="联系人" maxlength="30" data-validation-message="联系人格式最多 30 个字符" class="am-radius" value="{{if !empty($data['name'])}}{{$data.name}}{{/if}}" />
+                <input type="text" name="name" placeholder="联系人" maxlength="30" data-validation-message="联系人格式最多 30 个字符" class="am-radius" value="{{if !empty($data['name'])}}{{$data.name|raw}}{{/if}}" />
             </div>
             <div class="am-form-group">
                 <label>电话</label>
@@ -34,7 +34,7 @@
             </div>
             <div class="am-form-group">
                 <label>标题</label>
-                <input type="text" name="title" placeholder="标题" maxlength="60" data-validation-message="标题格式最多 60 个字符" class="am-radius" value="{{if !empty($data['title'])}}{{$data.title}}{{/if}}" />
+                <input type="text" name="title" placeholder="标题" maxlength="60" data-validation-message="标题格式最多 60 个字符" class="am-radius" value="{{if !empty($data['title'])}}{{$data.title|raw}}{{/if}}" />
             </div>
             <div class="am-form-group">
                 <label>访问次数</label>
@@ -42,11 +42,11 @@
             </div>
             <div class="am-form-group">
                 <label>内容<span class="am-form-group-label-tips-must">必填</span></label>
-                <textarea class="am-radius am-validate" name="content" rows="5" minlength="5" maxlength="1000" placeholder="5~1000个字符之间" data-validation-message="内容格式 5~1000 个字符之间" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+                <textarea class="am-radius am-validate" name="content" rows="5" minlength="5" maxlength="1000" placeholder="5~1000个字符之间" data-validation-message="内容格式 5~1000 个字符之间" required>{{if !empty($data['content'])}}{{$data.content|raw}}{{/if}}</textarea>
             </div>
             <div class="am-form-group">
                 <label>回复内容</label>
-                <textarea class="am-radius am-validate" name="reply" rows="5" maxlength="1000" placeholder="最多 1000 个字符" data-validation-message="内容格式最多 1000 个字符">{{if !empty($data['reply'])}}{{$data.reply}}{{/if}}</textarea>
+                <textarea class="am-radius am-validate" name="reply" rows="5" maxlength="1000" placeholder="最多 1000 个字符" data-validation-message="内容格式最多 1000 个字符">{{if !empty($data['reply'])}}{{$data.reply|raw}}{{/if}}</textarea>
             </div>
 
             <div class="am-form-group">
