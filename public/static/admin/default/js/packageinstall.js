@@ -84,7 +84,26 @@ function RequestHandle(key, opt, msg)
         {
             $progress.addClass('am-hide');
             $error.removeClass('am-hide');
-            $error.find('.msg-text').text(HtmlToString(xhr.responseText) || '异常错误');
+            var data = null;
+            if((xhr.responseJSON || null) != null && (xhr.responseJSON.msg || null) != null)
+            {
+                data = xhr.responseJSON;
+            } else {
+                if(xhr.responseText.substr(0, 1) == '{')
+                {
+                    var json = JSON.parse(xhr.responseText);
+                    if((json.msg || null) != null)
+                    {
+                        data = json;
+                    } else {
+                        data = xhr.responseText;
+                    }
+                } else {
+                    data = xhr.responseText;
+                }
+            }
+            var msg = (typeof(data) == 'object') ? data.msg : data;
+            $error.find('.msg-text').text(msg || '异常错误');
         }
     });
 }
