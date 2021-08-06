@@ -16,3 +16,4 @@ class Request extends \think\Request
     // 全局参数过滤
     protected $filter = ['htmlspecialchars'];
 }
+?>
