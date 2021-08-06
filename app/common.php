@@ -334,6 +334,7 @@ function GetUrlHost($url)
  */
 function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
 {
+    static $fileConfigCache = [];
     // 目录不存在则创建
     $config_dir = ROOT.'runtime'.DS.'data'.DS.'config_data'.DS;
     \base\FileUtil::CreateDir($config_dir);
@@ -349,6 +350,10 @@ function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
         // 读内容
         if($value === '')
         {
+            $value = $fileConfigCache[$file] ?? '';
+            if ($value) {
+                return $value;
+            }
             $value = file_exists($file) ? unserialize(file_get_contents($file)) : $default;
             if($mandatory === true)
             {
@@ -357,10 +362,11 @@ function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
                     $value = $default;
                 }
             }
+            $fileConfigCache[$file] = $value;
             return $value;
-
         // 写内容
         } else {
+            $fileConfigCache[$file] = $value;
             // 目录是否有可写权限
             if(!is_writable($config_dir))
             {
