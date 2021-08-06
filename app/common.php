@@ -40,6 +40,20 @@ function MySession($name = '', $value = '')
  */
 function MyCache($name = null, $value = '', $options = null, $tag = null)
 {
+    // 静态存储、不用每次都从磁盘读取
+    static $object_cache = [];
+
+    // 读取数据
+    if($value === '')
+    {
+        if(!array_key_exists($name, $object_cache))
+        {
+            $object_cache[$name] = cache($name, $value, $options, $tag);
+        }
+        return $object_cache[$name];
+    }
+
+    // 设置数据
     return cache($name, $value, $options, $tag);
 }
 
@@ -55,7 +69,13 @@ function MyCache($name = null, $value = '', $options = null, $tag = null)
  */
 function MyEnv($key, $val = null)
 {
-    return env($key, $val);
+    // 静态存储、不用每次都从磁盘读取
+    static $object_env = [];
+    if(!array_key_exists($key, $object_env))
+    {
+        $object_env[$key] = env($key, $val);
+    }
+    return $object_env[$key];
 }
 
 /**
@@ -69,7 +89,13 @@ function MyEnv($key, $val = null)
  */
 function MyConfig($key)
 {
-    return config($key);
+    // 静态存储、不用每次都从磁盘读取
+    static $object_config = [];
+    if(!array_key_exists($key, $object_config))
+    {
+        $object_config[$key] = config($key);
+    }
+    return $object_config[$key];
 }
 
 /**
@@ -151,7 +177,12 @@ function MyView($view = '', $data = [])
  */
 function RequestModule()
 {
-    return strtolower(app('http')->getName());
+    static $request_module = null;
+    if($request_module === null)
+    {
+        $request_module = strtolower(app('http')->getName());
+    }
+    return $request_module;
 }
 
 /**
@@ -164,7 +195,12 @@ function RequestModule()
  */
 function RequestController()
 {
-    return strtolower(request()->controller());
+    static $request_controller = null;
+    if($request_controller === null)
+    {
+        $request_controller = strtolower(request()->controller());
+    }
+    return $request_controller;
 }
 
 /**
@@ -177,7 +213,12 @@ function RequestController()
  */
 function RequestAction()
 {
-    return strtolower(request()->action());
+    static $request_action = null;
+    if($request_action === null)
+    {
+        $request_action = strtolower(request()->action());
+    }
+    return $request_action;
 }
 
 /**
@@ -334,6 +375,9 @@ function GetUrlHost($url)
  */
 function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
 {
+    // 静态存储、不用每次都从磁盘读取
+    static $object_file_cache_config = [];
+
     // 目录不存在则创建
     $config_dir = ROOT.'runtime'.DS.'data'.DS.'config_data'.DS;
     \base\FileUtil::CreateDir($config_dir);
@@ -349,16 +393,21 @@ function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
         // 读内容
         if($value === '')
         {
-            $value = file_exists($file) ? unserialize(file_get_contents($file)) : $default;
-            if($mandatory === true)
+            if(!array_key_exists($key, $object_file_cache_config))
             {
-                if(empty($value))
+                $value = file_exists($file) ? unserialize(file_get_contents($file)) : $default;
+                if($mandatory === true)
                 {
-                    $value = $default;
+                    if(empty($value))
+                    {
+                        $value = $default;
+                    }
                 }
+                $object_file_cache_config[$key] = $value;
+            } else {
+                $value = $object_file_cache_config[$key];
             }
             return $value;
-
         // 写内容
         } else {
             // 目录是否有可写权限
@@ -374,7 +423,12 @@ function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
             }
 
             // 存储内容
-            return (file_put_contents($file, serialize($value)) !== false);
+            if(file_put_contents($file, serialize($value)) !== false)
+            {
+                $object_file_cache_config[$key] = $value;
+                return true;
+            }
+            return false;
         }
     }
 }
