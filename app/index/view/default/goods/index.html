@@ -173,7 +173,7 @@
                             <span class="goods-plugins-view-icon-container">
                                 {{foreach $goods.plugins_view_icon_data as $v}}
                                     {{if !empty($v) or is_array($v) and !empty($v['name'])}}
-                                        <span class="am-badge am-radius" style="{{if !empty($v['br_color'])}}border:1px solid {{$v.br_color}};{{/if}}{{if !empty($v['color'])}}color:{{$v.color}};{{/if}}">{{$v.name}}</span>
+                                        <a class="am-badge am-radius" href="{{if empty($v['url'])}}javascript:;{{else /}}{{$v.url}}{{/if}}" style="{{if !empty($v['br_color'])}}border:1px solid {{$v.br_color}};{{/if}}{{if !empty($v['color'])}}color:{{$v.color}};{{/if}}">{{$v.name}}</a>
                                     {{/if}}
                                 {{/foreach}}
                             </span>

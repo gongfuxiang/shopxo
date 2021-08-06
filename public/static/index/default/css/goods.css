@@ -579,11 +579,11 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 /**
  * 插件公共icon数据
  */
-.goods-plugins-view-icon-container span {
+.goods-plugins-view-icon-container a {
     background: #fff;
     border: 1px solid #3bb4f2;
     color: #3bb4f2;
 }
-.goods-plugins-view-icon-container span:not(:first-child) {
+.goods-plugins-view-icon-container a:not(:first-child) {
     margin-left: 5px;
 }

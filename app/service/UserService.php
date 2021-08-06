@@ -139,6 +139,16 @@ class UserService
         $data = Db::name('User')->where($where)->order($order_by)->field($field)->limit($m, $n)->select()->toArray();
         if(!empty($data))
         {
+            // 用户列表钩子-前面
+            $hook_name = 'plugins_service_user_list_handle_begin';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
+
+            // 开始处理数据
             $common_gender_list = lang('common_gender_list');
             $common_user_status_list = lang('common_user_status_list');
             foreach($data as &$v)
@@ -182,6 +192,15 @@ class UserService
                     $v['status_text'] = $common_user_status_list[$v['status']]['name'];
                 }
             }
+
+            // 用户列表钩子-后面
+            $hook_name = 'plugins_service_user_list_handle_end';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
         }
         return DataReturn('处理成功', 0, $data);
     }

@@ -473,6 +473,15 @@ class GoodsService
     {
         if(!empty($data))
         {
+            // 商品列表钩子-前面
+            $hook_name = 'plugins_service_goods_list_handle_begin';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
+
             // 其它额外处理
             $is_photo = (isset($params['is_photo']) && $params['is_photo'] == true) ? true : false;
             $is_spec = (isset($params['is_spec']) && $params['is_spec'] == true) ? true : false;
@@ -654,11 +663,13 @@ class GoodsService
                 // bg_color 默认(#fff)
                 // br_color 默认(#3bb4f2)
                 // color    默认($3bb4f2)
+                // url      默认空(手机端请自行调整url地址)
                 // [
                 //      'name'      => 'icon名称',
                 //      'bg_color'  => '#fff',
                 //      'br_color'  => '#3bb4f2',
                 //      'color'     => '#3bb4f2',
+                //      'url'       => 'url地址'
                 // ]
                 $v['plugins_view_icon_data'] = [];
                 
@@ -677,6 +688,15 @@ class GoodsService
                     return $ret;
                 }
             }
+
+            // 商品列表钩子-后面
+            $hook_name = 'plugins_service_goods_list_handle_end';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
         }
         return DataReturn('success', 0, $data);
     }

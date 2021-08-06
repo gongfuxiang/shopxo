@@ -1393,7 +1393,7 @@ function SyncJob($url, $port = 80, $time = 30)
  * @return  [json]               [json数据]
  */
 function DataReturn($msg = '', $code = 0, $data = '')
-{    
+{
     // 默认情况下，手动调用当前方法
     $result = ['msg'=>$msg, 'code'=>$code, 'data'=>$data];
 
