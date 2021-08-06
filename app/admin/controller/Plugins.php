@@ -101,7 +101,7 @@ class Plugins extends Common
         // ajax 返回的都是数组、使用统一api返回处理
         if(IS_AJAX)
         {
-            return ApiService::ApiDataReturn($ret['data']);
+            return ApiService::ApiDataReturn(($ret['code'] == 0) ? $ret['data'] : $ret);
         }
 
         if($ret['code'] == 0)
