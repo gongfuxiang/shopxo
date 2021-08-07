@@ -27,8 +27,8 @@
                     {{/if}}
                 </div>
                 <div class="am-form-group am-form-group-refreshing">
-                    <input type="hidden" name="ids" value="{{if !empty($params['ids'])}}{{:urldecode($params.ids)}}{{/if}}" />
-                    <input type="hidden" name="payment_id" value="{{if !empty($params['payment_id'])}}{{$params.payment_id}}{{/if}}" />
+                    <input type="hidden" name="ids" value="{{if !empty($pay_params['order_ids'])}}{{$pay_params.order_ids}}{{/if}}" />
+                    <input type="hidden" name="payment_id" value="{{if !empty($pay_params['payment_id'])}}{{$pay_params.payment_id}}{{/if}}" />
                     <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认支付</button>
                 </div>
             </form>

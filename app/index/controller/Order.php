@@ -76,6 +76,9 @@ class Order extends Common
         ];
         $ret = OrderService::OrderList($data_params);
 
+        // 支付参数
+        $pay_params = OrderService::PayParamsHandle($this->data_request);
+
         // 发起支付 - 支付方式
         MyViewAssign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
@@ -86,9 +89,10 @@ class Order extends Common
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('我的订单', 1));
 
         // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
         MyViewAssign('page_html', $page->GetPageHtml());
         MyViewAssign('data_list', $ret['data']);
+        MyViewAssign('pay_params', $pay_params);
+        MyViewAssign('params', $this->data_request);
         return MyView();
     }
 
@@ -112,6 +116,9 @@ class Order extends Common
             $site_fictitious = ConfigService::SiteFictitiousConfig();
             MyViewAssign('site_fictitious', $site_fictitious['data']);
 
+            // 支付参数
+            $pay_params = OrderService::PayParamsHandle($this->data_request);
+
             // 加载百度地图api
             MyViewAssign('is_load_baidu_map_api', 1);
 
@@ -120,6 +127,7 @@ class Order extends Common
 
             // 数据赋值
             MyViewAssign('data', $data);
+            MyViewAssign('pay_params', $pay_params);
             MyViewAssign('params', $this->data_request);
             return MyView();
         }

@@ -2209,5 +2209,39 @@ class OrderService
         return DataReturn('支付中', -300);
     }
 
+    /**
+     * 订单支付参数处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-08-07
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function PayParamsHandle($params = [])
+    {
+        // 支付方式
+        $payment_id = empty($params['payment_id']) ? '' : intval($params['payment_id']);
+
+        // 支付订单id、多个订单id以英文逗号分割[ , ]
+        // 严格处理参数，避免非法数据
+        $order_ids = '';
+        if(!empty($params['ids']))
+        {
+            $ids = array_filter(array_map(function($v)
+            {
+                return intval($v);
+            }, explode(',', urldecode($params['ids']))));
+            if(!empty($ids))
+            {
+                $order_ids = implode(',', $ids);
+            }
+        }
+
+        return [
+            'payment_id'    => $payment_id,
+            'order_ids'     => $order_ids,
+        ];
+    }
 }
 ?>
