@@ -673,12 +673,12 @@ class BuyService
             {
                 // 正常购买
                 case 'goods' :
-                    $ret = BuyService::BuyGoods($params);
+                    $ret = self::BuyGoods($params);
                     break;
 
                 // 购物车
                 case 'cart' :
-                    $ret = BuyService::BuyCart($params);
+                    $ret = self::BuyCart($params);
                     break;
 
                 // 默认

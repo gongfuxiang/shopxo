@@ -70,6 +70,12 @@ class Buy extends Common
             {
                 MyViewAssign('msg', '商品信息为空');
                 return MyView('public/tips_error');
+            } else {
+                // 规格数据避免被转义
+                if(!empty($data['spec']))
+                {
+                    $data['spec'] = htmlspecialchars_decode($data['spec']);
+                }
             }
 
             // 参数
