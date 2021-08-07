@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\AdminPowerService;
 
 /**
  * 管理员服务层
@@ -507,6 +508,9 @@ class AdminService
                 // 清空权限缓存数据
                 MyCache(MyConfig('shopxo.cache_admin_left_menu_key').$admin['id'], null);
                 MyCache(MyConfig('shopxo.cache_admin_power_key').$admin['id'], null);
+
+                // 权限菜单初始化
+                AdminPowerService::PowerMenuInit();
 
                 return DataReturn('登录成功');
             }
