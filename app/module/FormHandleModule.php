@@ -620,6 +620,22 @@ class FormHandleModule
             {
                 $this->order_by['field'] = empty($v['sort_field']) ? $form_name : $v['sort_field'];
             }
+
+            // 唯一key，避免是模块路径、直接取最后一段
+            $unique_key = '';
+            if(!empty($v['view_key']))
+            {
+                // 多字段情况下
+                if(is_array($v['view_key']))
+                {
+                    $unique_key = isset($v['view_key'][0]) ? $v['view_key'][0] : '';
+                } else {
+                    // 字段名称、模块路径
+                    $temp = explode('/', $v['view_key']);
+                    $unique_key = empty($temp) ? '' : end($temp);
+                }
+            }
+            $v['unique_key'] = $unique_key;
         }
     }
 

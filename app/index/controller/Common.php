@@ -554,6 +554,8 @@ class Common extends BaseController
             }
         }
 
+        // 表格列表公共标识
+        MyViewAssign('hook_name_form_list', $current.'_list');
         // 内容外部顶部
         MyViewAssign('hook_name_content_top', $current.'_content_top');
         // 内容外部底部

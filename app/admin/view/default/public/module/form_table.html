@@ -298,6 +298,33 @@
                                                 {{/if}}
                                             {{/case}}
                                         {{/switch}}
+
+                                        <!-- 列表格子钩子 -->
+                                        {{if !empty($t['unique_key']) and $t['view_type'] neq 'operate'}}
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                <div class="plugins-tag">
+                                                    <span>{{$hook_name_form_list}}_grid_{{$t.unique_key}}</span>
+                                                </div>
+                                            {{/if}}
+                                            {{php}}
+                                                $hook_data = MyEventTrigger($hook_name_form_list.'_grid_'.$t['unique_key'], [
+                                                    'hook_name'     => $hook_name_form_list.'_grid_'.$t['unique_key'],
+                                                    'is_backend'    => true,
+                                                    'id'            => isset($data_list[$i][$form_table['base']['key_field']]) ? $data_list[$i][$form_table['base']['key_field']] : 0,
+                                                    'data'          => $data_list[$i],
+                                                ]);
+                                                if(!empty($hook_data) && is_array($hook_data))
+                                                {
+                                                    foreach($hook_data as $hook)
+                                                    {
+                                                        if(is_string($hook) || is_int($hook))
+                                                        {
+                                                            echo htmlspecialchars_decode($hook);
+                                                        }
+                                                    }
+                                                }
+                                            {{/php}}
+                                        {{/if}}
                                     {{/if}}
                                 </td>
                             {{/if}}
