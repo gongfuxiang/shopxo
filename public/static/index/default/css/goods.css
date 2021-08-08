@@ -585,5 +585,5 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     color: #3bb4f2;
 }
 .goods-plugins-view-icon-container a:not(:first-child) {
-    margin-left: 5px;
+    margin-left: 2px;
 }

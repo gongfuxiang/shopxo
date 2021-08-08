@@ -802,6 +802,7 @@ button.colorpicker-submit img {
 .pagination-input {
     width: 50px;
     vertical-align: inherit !important;
+    padding: 5px;
 }
 
 /**
