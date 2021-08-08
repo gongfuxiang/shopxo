@@ -24,6 +24,7 @@ class Page
 	private $number;
 	private $bt_number;
 	private $where;
+	private $not_fields;
 	private $page_total;
 	private $url;
 	private $html;
@@ -31,19 +32,21 @@ class Page
 
 	/**
 	 * [__construct description]
-	 * @param [int]    $param['total'] 		[数据总数]
-	 * @param [int]    $param['number'] 	[每页数据条数]
-	 * @param [int]    $param['bt_number'] 	[分页显示按钮个数]
-	 * @param [array]  $param['where'] 		[额外条件(键值对)]
-	 * @param [string] $param['url'] 		[url地址]
+	 * @param [int]    $params['total'] 		[数据总数]
+	 * @param [int]    $params['number'] 		[每页数据条数]
+	 * @param [int]    $params['bt_number'] 	[分页显示按钮个数]
+	 * @param [array]  $params['where'] 		[额外条件(键值对)]
+	 * @param [array]  $params['not_fields'] 	[不参与条件拼接的字段]
+	 * @param [string] $params['url'] 			[url地址]
 	 */
-	public function __construct($params = array())
+	public function __construct($params = [])
 	{
 		$this->page = max(1, isset($params['page']) ? intval($params['page']) : 1);
 		$this->total = max(1, isset($params['total']) ? intval($params['total']) : 1);
 		$this->number = max(1, isset($params['number']) ? intval($params['number']) : 1);
 		$this->bt_number = isset($params['bt_number']) ? intval($params['bt_number']) : 2;
 		$this->where = (isset($params['where']) && is_array($params['where'])) ? $params['where'] : '';
+		$this->not_fields = (!empty($params['not_fields']) && is_array($params['not_fields'])) ? $params['not_fields'] : [];
 		$this->url = isset($params['url']) ? $params['url'] : '';
 		$this->page_total = 1;
 		$this->html = '';
@@ -70,7 +73,7 @@ class Page
 			$tmp = true;
 			foreach($this->where as $k=>$v)
 			{
-				if(!is_array($v))
+				if(!in_array($k, $this->not_fields) && !is_array($v))
 				{
 					if($k == 'page') continue;
 					
