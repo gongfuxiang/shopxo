@@ -38,33 +38,36 @@ class UserService
      */
     public static function LoginUserInfo()
     {
-        // 参数
-        $params = input();
-
-        // 用户数据处理
-        $user = null;
-        if(APPLICATION == 'web')
+        // 静态数据避免重复读取
+        static $user_login_info = null;
+        if($user_login_info === null)
         {
-            // web用户session
-            $user = MySession(self::$user_login_key);
+            // 参数
+            $params = input();
 
-            // 用户信息为空，指定了token则设置登录信息
-            if(empty($user) && !empty($params['token']))
+            // 用户数据处理
+            if(APPLICATION == 'web')
             {
-                $user = self::UserTokenData($params['token']);
-                if($user !== null && isset($user['id']))
+                // web用户session
+                $user_login_info = MySession(self::$user_login_key);
+
+                // 用户信息为空，指定了token则设置登录信息
+                if(empty($user_login_info) && !empty($params['token']))
                 {
-                    self::UserLoginRecord($user['id']);
+                    $user_login_info = self::UserTokenData($params['token']);
+                    if($user_login_info !== null && isset($user_login_info['id']))
+                    {
+                        self::UserLoginRecord($user_login_info['id']);
+                    }
+                }
+            } else {
+                if(!empty($params['token']))
+                {
+                    $user_login_info = self::UserTokenData($params['token']);
                 }
             }
-        } else {
-            if(!empty($params['token']))
-            {
-                $user = self::UserTokenData($params['token']);
-            }
         }
-
-        return $user;
+        return $user_login_info;
     }
 
     /**
