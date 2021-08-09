@@ -336,7 +336,7 @@ class Goods extends Common
         }
 
         // 参数
-        $params = input();
+        $params = $this->data_request;
         if(empty($params['goods_id']))
         {
             return DataReturn('参数有误', -1);
@@ -371,7 +371,7 @@ class Goods extends Common
             'number'            => $number,
             'total'             => $total,
             'page_total'        => $page_total,
-            'data'              => MyView(null, ['data'=>$data['data']]),
+            'data'              => MyView('', ['data'=>$data['data']]),
         ];
         return DataReturn('请求成功', 0, $result);
     }
