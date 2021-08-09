@@ -112,7 +112,7 @@ class Plugins extends Common
 
         // 调用失败
         MyViewAssign('msg', $ret['msg']);
-        return MyView();
+        return MyView('public/tips_error');
     }
 
     /**
