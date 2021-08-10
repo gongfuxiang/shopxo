@@ -33,6 +33,9 @@ class AppMiniService
     // 当前默认主题
     public static $default_theme;
 
+    // 排除的文件后缀
+    private static $exclude_ext = ['php'];
+
     /**
      * @author   Devil
      * @blog    http://gong.gg/
@@ -46,6 +49,12 @@ class AppMiniService
         // 当前小程序包名称
         self::$application_name = isset($params['application_name']) ? $params['application_name'] : 'weixin';
 
+        // 小程序类型校验
+        if(!array_key_exists(self::$application_name, lang('common_appmini_type')))
+        {
+            return DataReturn('小程序类型有误['.self::$application_name.']', -1);
+        }
+
         // 原包地址/操作地址
         self::$old_root = ROOT.'sourcecode';
         self::$new_root = ROOT.'public'.DS.'download'.DS.'sourcecode';
@@ -54,6 +63,8 @@ class AppMiniService
 
         // 默认主题
         self::$default_theme = self::DefaultTheme();
+
+        return DataReturn('success', 0);
     }
 
     /**
@@ -84,7 +95,12 @@ class AppMiniService
         if(empty(self::$application_name))
         {
             // 初始化
-            self::Init($params);
+            $ret = self::Init($params);
+            if($ret['code'] != 0)
+            {
+                // 如果类型错误则使用 weixin 作为默认
+                self::$application_name = 'weixin';
+            }
         }
 
         return 'common_app_mini_'.self::$application_name.'_default_theme';
@@ -102,7 +118,11 @@ class AppMiniService
     public static function ThemeList($params = [])
     {
         // 初始化
-        self::Init($params);
+        $ret = self::Init($params);
+        if($ret['code'] != 0)
+        {
+            return [];
+        }
 
         // 读取目录
         $result = [];
@@ -192,7 +212,11 @@ class AppMiniService
     public static function ThemeUploadHandle($package_file, $params = [])
     {
         // 初始化
-        self::Init($params);
+        $ret = self::Init($params);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
 
         // 主题目录
         $dir = self::$old_path.DS;
@@ -216,6 +240,17 @@ class AppMiniService
                 if(strpos($file, '/.') !== false)
                 {
                     continue;
+                }
+
+                // 排除后缀文件
+                $pos = strripos($file, '.');
+                if($pos !== false)
+                {
+                    $info = pathinfo($file);
+                    if(isset($info['extension']) && in_array($info['extension'], self::$exclude_ext))
+                    {
+                        continue;
+                    }
                 }
 
                 // 截取文件路径
@@ -268,7 +303,11 @@ class AppMiniService
         }
 
         // 初始化
-        self::Init($params);
+        $ret = self::Init($params);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
 
         // 防止路径回溯
         $id = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
@@ -323,7 +362,11 @@ class AppMiniService
         }
 
         // 初始化
-        self::Init($params);
+        $ret = self::Init($params);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
 
         // 是否开启开发者模式
         if(MyConfig('shopxo.is_develop') !== true)
@@ -401,7 +444,11 @@ class AppMiniService
     public static function MiniThemeConfig($theme, $params)
     {
         // 初始化
-        self::Init($params);
+        $ret = self::Init($params);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
 
         // 获取配置信息
         $config_file = self::$old_path.DS.$theme.DS.'config.json';
@@ -428,7 +475,11 @@ class AppMiniService
     public static function DownloadDataList($params = [])
     {
         // 初始化
-        self::Init($params);
+        $ret = self::Init($params);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
 
         // 获取包列表
         $result = [];
@@ -477,7 +528,11 @@ class AppMiniService
         }
 
         // 初始化
-        self::Init($params);
+        $ret = self::Init($params);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
 
         // 配置内容
         $title = MyC('common_app_mini_'.self::$application_name.'_title');
@@ -708,7 +763,11 @@ class AppMiniService
         }
 
         // 初始化
-        self::Init($params);
+        $ret = self::Init($params);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
 
         // 循环操作
         $sucs = 0;
