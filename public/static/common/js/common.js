@@ -290,10 +290,16 @@ function FromInit(form_name)
 		// 错误
 		onInValid: function(validity)
 		{
-			// 错误信息
-			var $field = $(validity.field);
-			var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
-			Prompt(msg);
+			setTimeout(function()
+			{
+				// 错误信息
+				var $field = $(validity.field);
+				var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
+				if($field.hasClass('am-field-error'))
+				{
+					Prompt(msg);
+				}
+			}, 100);
 		},
 
 		// 提交
