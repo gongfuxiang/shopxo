@@ -160,100 +160,6 @@ class Goods extends Common
     }
 
     /**
-     * 钩子处理
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-04-22
-     * @desc    description
-     * @param   [int]             $goods_id [商品id]
-     * @param   [array]           $params   [输入参数]
-     */
-    private function PluginsHook($goods_id, &$goods)
-    {
-        $hook_arr = [
-            // 商品页面相册内部钩子
-            'plugins_view_goods_detail_photo_within',
-
-            // 商品页面相册底部钩子
-            'plugins_view_goods_detail_photo_bottom',
-
-            // 商品页面基础信息顶部钩子
-            'plugins_view_goods_detail_base_top',
-
-            // 商品页面基础信息面板底部钩子
-            'plugins_view_goods_detail_panel_bottom',
-
-            // 商品页面规格顶部钩子
-            'plugins_view_goods_detail_base_sku_top',
-
-            // 商品页面库存数量顶部钩子
-            'plugins_view_goods_detail_base_inventory_top',
-
-            // 商品页面库存数量底部钩子
-            'plugins_view_goods_detail_base_inventory_bottom',
-
-            // 商品页面购买导航顶部钩子
-            'plugins_view_goods_detail_buy_nav_top',
-
-            // 商品页右侧内容顶部钩子
-            'plugins_view_goods_detail_right_content_top',
-
-            // 商品页右侧内容底部钩子
-            'plugins_view_goods_detail_right_content_bottom',
-
-            // 商品页右侧内容内部顶部钩子
-            'plugins_view_goods_detail_right_content_inside_top',
-
-            // 商品页右侧内容内部底部钩子
-            'plugins_view_goods_detail_right_content_inside_bottom',
-
-            // 商品页基础信息底部钩子
-            'plugins_view_goods_detail_base_bottom',
-
-            // 商品页面tabs顶部钩子
-            'plugins_view_goods_detail_tabs_top',
-
-            // 商品页面tabs顶部钩子
-            'plugins_view_goods_detail_tabs_content',
-
-            // 商品页面tabs内容钩子
-            'plugins_view_goods_detail_tabs_bottom',
-
-            // 详情内容顶部钩子
-            'plugins_view_goods_detail_content_top',
-
-            // 详情内容底部钩子
-            'plugins_view_goods_detail_content_bottom',
-
-            // 商品页面左侧顶部钩子
-            'plugins_view_goods_detail_left_top',
-
-            // 商品页面基础信息标题里面钩子
-            'plugins_view_goods_detail_title',
-
-            // 商品页面基础信息面板售价顶部钩子
-            'plugins_view_goods_detail_panel_price_top',
-
-            // 商品页面基础信息购买小导航内部前面钩子
-            'plugins_view_goods_detail_base_buy_nav_min_inside_begin',
-
-            // 商品页面基础信息购买小导航内部中间钩子
-            'plugins_view_goods_detail_base_buy_nav_min_inside',
-        ];
-        foreach($hook_arr as $hook_name)
-        {
-            MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
-                [
-                    'hook_name'    => $hook_name,
-                    'is_backend'   => false,
-                    'goods_id'     => $goods_id,
-                    'goods'        => &$goods,
-                ]));
-        }
-    }
-
-    /**
      * 商品收藏
      * @author   Devil
      * @blog    http://gong.gg/
@@ -371,9 +277,103 @@ class Goods extends Common
             'number'            => $number,
             'total'             => $total,
             'page_total'        => $page_total,
-            'data'              => MyView(null, ['data'=>$data['data']]),
+            'data'              => MyView('', ['data'=>$data['data']]),
         ];
         return DataReturn('请求成功', 0, $result);
+    }
+
+    /**
+     * 钩子处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-04-22
+     * @desc    description
+     * @param   [int]             $goods_id [商品id]
+     * @param   [array]           $params   [输入参数]
+     */
+    private function PluginsHook($goods_id, &$goods)
+    {
+        $hook_arr = [
+            // 商品页面相册内部钩子
+            'plugins_view_goods_detail_photo_within',
+
+            // 商品页面相册底部钩子
+            'plugins_view_goods_detail_photo_bottom',
+
+            // 商品页面基础信息顶部钩子
+            'plugins_view_goods_detail_base_top',
+
+            // 商品页面基础信息面板底部钩子
+            'plugins_view_goods_detail_panel_bottom',
+
+            // 商品页面规格顶部钩子
+            'plugins_view_goods_detail_base_sku_top',
+
+            // 商品页面库存数量顶部钩子
+            'plugins_view_goods_detail_base_inventory_top',
+
+            // 商品页面库存数量底部钩子
+            'plugins_view_goods_detail_base_inventory_bottom',
+
+            // 商品页面购买导航顶部钩子
+            'plugins_view_goods_detail_buy_nav_top',
+
+            // 商品页右侧内容顶部钩子
+            'plugins_view_goods_detail_right_content_top',
+
+            // 商品页右侧内容底部钩子
+            'plugins_view_goods_detail_right_content_bottom',
+
+            // 商品页右侧内容内部顶部钩子
+            'plugins_view_goods_detail_right_content_inside_top',
+
+            // 商品页右侧内容内部底部钩子
+            'plugins_view_goods_detail_right_content_inside_bottom',
+
+            // 商品页基础信息底部钩子
+            'plugins_view_goods_detail_base_bottom',
+
+            // 商品页面tabs顶部钩子
+            'plugins_view_goods_detail_tabs_top',
+
+            // 商品页面tabs顶部钩子
+            'plugins_view_goods_detail_tabs_content',
+
+            // 商品页面tabs内容钩子
+            'plugins_view_goods_detail_tabs_bottom',
+
+            // 详情内容顶部钩子
+            'plugins_view_goods_detail_content_top',
+
+            // 详情内容底部钩子
+            'plugins_view_goods_detail_content_bottom',
+
+            // 商品页面左侧顶部钩子
+            'plugins_view_goods_detail_left_top',
+
+            // 商品页面基础信息标题里面钩子
+            'plugins_view_goods_detail_title',
+
+            // 商品页面基础信息面板售价顶部钩子
+            'plugins_view_goods_detail_panel_price_top',
+
+            // 商品页面基础信息购买小导航内部前面钩子
+            'plugins_view_goods_detail_base_buy_nav_min_inside_begin',
+
+            // 商品页面基础信息购买小导航内部中间钩子
+            'plugins_view_goods_detail_base_buy_nav_min_inside',
+        ];
+        foreach($hook_arr as $hook_name)
+        {
+            MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+                [
+                    'hook_name'    => $hook_name,
+                    'is_backend'   => false,
+                    'goods_id'     => $goods_id,
+                    'goods'        => &$goods,
+                ]));
+        }
     }
 }
 ?>
