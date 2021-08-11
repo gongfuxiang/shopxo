@@ -156,69 +156,87 @@ class ThemeService
         ];
 
         // 开始解压文件
-        $resource = zip_open($package_file);
-        while(($temp_resource = zip_read($resource)) !== false)
+        $zip = new \ZipArchive();
+        $resource = $zip->open($package_file);
+        if($resource != true)
         {
-            if(zip_entry_open($resource, $temp_resource))
+            return DataReturn('压缩包打开失败['.$resource.']', -11);
+        }
+        $success = 0;
+        for($i=0; $i<$zip->numFiles; $i++)
+        {
+            // 资源文件
+            $file = $zip->getNameIndex($i);
+
+            // 排除临时文件和临时目录
+            if(strpos($file, '/.') === false && strpos($file, '__') === false)
             {
-                // 当前压缩包中项目名称
-                $file = zip_entry_name($temp_resource);
-
-                // 排除临时文件和临时目录
-                if(strpos($file, '/.') === false && strpos($file, '__') === false)
+                // 文件包对应系统所在目录
+                $is_has_find = false;
+                foreach($dir_list as $dir_key=>$dir_value)
                 {
-                    // 文件包对应系统所在目录
-                    $is_has_find = false;
-                    foreach($dir_list as $dir_key=>$dir_value)
+                    if(strpos($file, $dir_key) !== false)
                     {
-                        if(strpos($file, $dir_key) !== false)
-                        {
-                            // 匹配成功文件路径处理、跳出循环
-                            $file = str_replace($dir_key.'/', '', $dir_value.$file);
-                            $is_has_find = true;
-                            break;
-                        }
+                        // 匹配成功文件路径处理、跳出循环
+                        $new_file = str_replace($dir_key.'/', '', $dir_value.$file);
+                        $is_has_find = true;
+                        break;
                     }
+                }
 
-                    // 没有匹配到则指定目录跳过
-                    if($is_has_find == false)
+                // 没有匹配到则指定目录跳过
+                if($is_has_find == false)
+                {
+                    continue;
+                }
+
+                // 排除后缀文件
+                $pos = strripos($file, '.');
+                if($pos !== false)
+                {
+                    $info = pathinfo($file);
+                    if(isset($info['extension']) && in_array($info['extension'], self::$exclude_ext))
                     {
                         continue;
                     }
+                }
 
-                    // 排除后缀文件
-                    $pos = strripos($file, '.');
-                    if($pos !== false)
+                // 截取文件路径
+                $file_path = substr($new_file, 0, strrpos($new_file, '/'));
+
+                // 路径不存在则创建
+                if(!is_dir($file_path))
+                {
+                    mkdir($file_path, 0777, true);
+                }
+
+                // 如果不是目录则写入文件
+                if(!is_dir($new_file))
+                {
+                    // 读取这个文件
+                    $stream = $zip->getStream($file);
+                    if($stream !== false)
                     {
-                        $info = pathinfo($file);
-                        if(isset($info['extension']) && in_array($info['extension'], self::$exclude_ext))
+                        $file_content = stream_get_contents($stream);
+                        if($file_content !== false)
                         {
-                            continue;
+                            if(file_put_contents($new_file, $file_content))
+                            {
+                                $success++;
+                            }
                         }
+                        fclose($stream);
                     }
-
-                    // 截取文件路径
-                    $file_path = substr($file, 0, strrpos($file, '/'));
-
-                    // 路径不存在则创建
-                    if(!is_dir($file_path))
-                    {
-                        mkdir($file_path, 0777, true);
-                    }
-
-                    // 如果不是目录则写入文件
-                    if(!is_dir($file))
-                    {
-                        // 读取这个文件
-                        $file_size = zip_entry_filesize($temp_resource);
-                        $file_content = zip_entry_read($temp_resource, $file_size);
-                        file_put_contents($file, $file_content);
-                    }
-                    
-                    // 关闭目录项  
-                    zip_entry_close($temp_resource);
                 }
             }
+        }
+        // 关闭zip  
+        $zip->close();
+
+        // 未匹配成功一个文件则认为插件包无效
+        if($success <= 0)
+        {
+            return DataReturn('无效的主题包', -1);
         }
         return DataReturn('安装成功', 0);
     }

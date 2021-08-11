@@ -134,10 +134,11 @@ class SystemUpgradeService
     public static function UpgradePackageHandle($package_file)
     {
         // 开始解压文件
-        $resource = zip_open($package_file);
-        if(!is_resource($resource))
+        $zip = new \ZipArchive();
+        $resource = $zip->open($package_file);
+        if($resource != true)
         {
-            return DataReturn('压缩包打开失败['.$resource.']', -10);
+            return DataReturn('压缩包打开失败['.$resource.']', -11);
         }
 
         // 需要处理的文件
@@ -146,29 +147,29 @@ class SystemUpgradeService
             'power.sql',
         ];
 
-        while(($temp_resource = zip_read($resource)) !== false)
+        for($i=0; $i<$zip->numFiles; $i++)
         {
-            if(zip_entry_open($resource, $temp_resource))
-            {
-                // 当前压缩包中项目名称
-                $file = zip_entry_name($temp_resource);
+            // 资源文件
+            $file = $zip->getNameIndex($i);
 
-                // 排除临时文件和临时目录
-                if(strpos($file, '/.') === false && !is_dir($file) && in_array($file, $handle_file_arr))
+            // 排除临时文件和临时目录
+            if(strpos($file, '/.') === false && !is_dir($file) && in_array($file, $handle_file_arr))
+            {
+                // 读取这个文件
+                $stream = $zip->getStream($file);
+                if($stream !== false)
                 {
-                    // 读取这个文件
-                    $file_size = zip_entry_filesize($temp_resource);
-                    $file_content = zip_entry_read($temp_resource, $file_size);
+                    $file_content = stream_get_contents($stream);
                     if(!empty($file_content))
                     {
                         SqlConsoleService::Implement(['sql'=>$file_content]);
                     }
-
-                    // 关闭目录项  
-                    zip_entry_close($temp_resource);
+                    fclose($stream);
                 }
             }
         }
+        // 关闭zip  
+        $zip->close();
 
         return DataReturn('success', 0);
     }
@@ -185,48 +186,51 @@ class SystemUpgradeService
     public static function SystemPackageHandle($package_file)
     {
         // 开始解压文件
-        $resource = zip_open($package_file);
-        if(!is_resource($resource))
+        $zip = new \ZipArchive();
+        $resource = $zip->open($package_file);
+        if($resource != true)
         {
-            return DataReturn('压缩包打开失败['.$resource.']', -10);
+            return DataReturn('压缩包打开失败['.$resource.']', -11);
         }
-
-        while(($temp_resource = zip_read($resource)) !== false)
+        for($i=0; $i<$zip->numFiles; $i++)
         {
-            if(zip_entry_open($resource, $temp_resource))
+            // 资源文件
+            $file = $zip->getNameIndex($i);
+
+            // 排除临时文件和临时目录
+            if(!empty($file) && strpos($file, '/.') === false)
             {
-                // 当前压缩包中项目名称
-                $file = zip_entry_name($temp_resource);
+                // 文件实际位置
+                $new_file = ROOT.$file;
 
-                // 排除临时文件和临时目录
-                if(!empty($file) && strpos($file, '/.') === false)
+                // 截取文件路径
+                $file_path = substr($new_file, 0, strrpos($new_file, '/'));
+
+                // 路径不存在则创建、根目录文件不创建目录
+                if(strpos($file, '/') !== false)
                 {
-                    // 文件实际位置
-                    $file_new = ROOT.$file;
+                    \base\FileUtil::CreateDir($file_path);
+                }
 
-                    // 截取文件路径
-                    $file_path = substr($file_new, 0, strrpos($file_new, '/'));
-
-                    // 路径不存在则创建、根目录文件不创建目录
-                    if(strpos($file, '/') !== false)
+                // 如果不是目录则写入文件
+                if(!is_dir($new_file))
+                {
+                    // 读取这个文件
+                    $stream = $zip->getStream($file);
+                    if($stream !== false)
                     {
-                        \base\FileUtil::CreateDir($file_path);
+                        $file_content = stream_get_contents($stream);
+                        if($file_content !== false)
+                        {
+                            file_put_contents($new_file, $file_content);
+                        }
+                        fclose($stream);
                     }
-
-                    // 如果不是目录则写入文件
-                    if(!is_dir($file_new))
-                    {
-                        // 读取这个文件
-                        $file_size = zip_entry_filesize($temp_resource);
-                        $file_content = zip_entry_read($temp_resource, $file_size);
-                        @file_put_contents($file_new, $file_content);
-                    }
-
-                    // 关闭目录项  
-                    zip_entry_close($temp_resource);
                 }
             }
         }
+        // 关闭zip  
+        $zip->close();
 
         return DataReturn('success', 0);
     }

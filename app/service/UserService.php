@@ -2431,7 +2431,10 @@ class UserService
                 $user = (!empty($data) && array_key_exists($user_ids, $data)) ? $data[$user_ids] : [];
             }
         } else {
-            $user = self::UserHandle($user);
+            if(!empty($user))
+            {
+                $user = self::UserHandle($user);
+            }
         }
 
         return $user;

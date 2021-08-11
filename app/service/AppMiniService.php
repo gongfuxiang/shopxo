@@ -228,53 +228,62 @@ class AppMiniService
         }
 
         // 开始解压文件
-        $resource = zip_open($package_file);
-        while(($temp_resource = zip_read($resource)) !== false)
+        $zip = new \ZipArchive();
+        $resource = $zip->open($package_file);
+        if($resource != true)
         {
-            if(zip_entry_open($resource, $temp_resource))
-            {
-                // 资源文件
-                $file = zip_entry_name($temp_resource);
+            return DataReturn('压缩包打开失败['.$resource.']', -11);
+        }
+        for($i=0; $i<$zip->numFiles; $i++)
+        {
+            // 资源文件
+            $file = $zip->getNameIndex($i);
 
-                // 排除系统.开头的临时文件和目录
-                if(strpos($file, '/.') !== false)
+            // 排除系统.开头的临时文件和目录
+            if(strpos($file, '/.') !== false)
+            {
+                continue;
+            }
+
+            // 排除后缀文件
+            $pos = strripos($file, '.');
+            if($pos !== false)
+            {
+                $info = pathinfo($file);
+                if(isset($info['extension']) && in_array($info['extension'], self::$exclude_ext))
                 {
                     continue;
                 }
+            }
 
-                // 排除后缀文件
-                $pos = strripos($file, '.');
-                if($pos !== false)
+            // 截取文件路径
+            $file_path = $dir.substr($file, 0, strrpos($file, '/'));
+
+            // 路径不存在则创建
+            if(!is_dir($file_path))
+            {
+                mkdir($file_path, 0777, true);
+            }
+
+            // 如果不是目录则写入文件
+            if(!is_dir($dir.$file))
+            {
+                // 读取这个文件
+                $stream = $zip->getStream($file);
+                if($stream !== false)
                 {
-                    $info = pathinfo($file);
-                    if(isset($info['extension']) && in_array($info['extension'], self::$exclude_ext))
+                    $file_content = stream_get_contents($stream);
+                    if($file_content !== false)
                     {
-                        continue;
+                        file_put_contents($dir.$file, $file_content);
                     }
+                    fclose($stream);
                 }
-
-                // 截取文件路径
-                $file_path = $dir.substr($file, 0, strrpos($file, '/'));
-
-                // 路径不存在则创建
-                if(!is_dir($file_path))
-                {
-                    mkdir($file_path, 0777, true);
-                }
-
-                // 如果不是目录则写入文件
-                if(!is_dir($dir.$file))
-                {
-                    // 读取这个文件
-                    $file_size = zip_entry_filesize($temp_resource);
-                    $file_content = zip_entry_read($temp_resource, $file_size);
-                    file_put_contents($dir.$file, $file_content);
-                }
-                
-                // 关闭目录项  
-                zip_entry_close($temp_resource);
             }
         }
+        // 关闭zip  
+        $zip->close();
+
         return DataReturn('安装成功');
     }
 

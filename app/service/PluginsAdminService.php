@@ -1062,129 +1062,148 @@ php;
         $plugins = '';
 
         // 开始解压文件
-        $resource = zip_open($package_file);
-        if(!is_resource($resource))
+        $zip = new \ZipArchive();
+        $resource = $zip->open($package_file);
+        if($resource != true)
         {
-            return DataReturn('压缩包打开失败['.$resource.']', -10);
+            return DataReturn('压缩包打开失败['.$resource.']', -11);
         }
 
-        while(($temp_resource = zip_read($resource)) !== false)
+        // 文件第一个目录为当前插件名称
+        $entry = $zip->statIndex(0);
+        $file = $entry['name'];
+        //根据第一个文件是目录，还是包含namespace payment，判断插件类型
+        if(str_ends_with($file, '/'))
         {
-            if(zip_entry_open($resource, $temp_resource))
+            //获取plugins
+            $plugins = substr($file, 0, strpos($file, '/'));
+
+            // 业务类型处理
+            switch($type)
             {
-                // 当前压缩包中项目名称
-                $file = zip_entry_name($temp_resource);
-
-                // 获取包名
-                if(empty($plugins))
-                {
-                    // 应用名称
-                    $plugins = substr($file, 0, strpos($file, '/'));
-                    if(empty($plugins))
+                // 上传安装
+                case 0 :
+                    // 应用不存在则添加
+                    $ret = self::PluginsVerification($plugins);
+                    if($ret['code'] != 0)
                     {
-                        // 应用名称为空、则校验是否为支付插件
-                        $file_size = zip_entry_filesize($temp_resource);
-                        $file_content = zip_entry_read($temp_resource, $file_size);
-                        if(stripos($file_content, 'namespace payment') !== false)
-                        {
-                            return DataReturn('支付插件请到[ 网站管理->支付方式 ]模块里面去上传安装', -1);
-                        }
-
-                        // 不是支付插件则提示插件包错误
-                        return DataReturn('插件包有误', -30);
+                        return $ret;
                     }
 
-                    // 业务类型处理
-                    switch($type)
+                    // 应用是否存在
+                    if(self::PluginsExist($plugins))
                     {
-                        // 上传安装
-                        case 0 :
-                            // 应用不存在则添加
-                            $ret = self::PluginsVerification($plugins);
-                            if($ret['code'] != 0)
-                            {
-                                zip_entry_close($temp_resource);
-                                return $ret;
-                            }
+                        return DataReturn('应用名称已存在['.$plugins.']', -1);
+                    }
+                    break;
 
-                            // 应用是否存在
-                            if(self::PluginsExist($plugins))
-                            {
-                                zip_entry_close($temp_resource);
-                                return DataReturn('应用名称已存在['.$plugins.']', -1);
-                            }
-                            break;
+                // 更新
+                case 1 :
+                    // 应用是否存在
+                    if($plugins != $plugins_old)
+                    {
+                        return DataReturn('应用标识与指定不一致['.$plugins.'<>'.$plugins_old.']', -1);
+                    }
+                    break;
+            }
+        } else {
+            // 应用名称为空、则校验是否为支付插件
+            $stream = $zip->getStream($file);
+            if($stream !== false)
+            {
+                $file_content = stream_get_contents($stream);
+                if($file_content !== false)
+                {
+                    if(stripos($file_content, 'namespace payment') !== false)
+                    {
+                        return DataReturn('支付插件请到[ 网站管理->支付方式 ]模块里面去上传安装', -1);
+                    }
+                }
+                fclose($stream);
+            }
 
-                        // 更新
-                        case 1 :
-                            // 应用是否存在
-                            if($plugins != $plugins_old)
+            // 不是支付插件则提示插件包错误
+            return DataReturn('插件包有误', -30);
+        }
+
+        // 应用文件处理
+        $success = 0;
+        for($i=0; $i<$zip->numFiles; $i++)
+        {
+            // 资源文件
+            $file = $zip->getNameIndex($i);
+
+            // 排除临时文件和临时目录
+            if(strpos($file, '/.') === false && strpos($file, '__') === false)
+            {
+                // 文件包对应系统所在目录
+                $is_has_find = false;
+                foreach($dir_list as $dir_key=>$dir_value)
+                {
+                    if(strpos($file, $dir_key) !== false)
+                    {
+                        // 仅控制器模块支持php文件
+                        if($dir_key != '_controller_')
+                        {
+                            // 排除后缀文件
+                            $pos = strripos($file, '.');
+                            if($pos !== false)
                             {
-                                zip_entry_close($temp_resource);
-                                return DataReturn('应用标识与指定不一致['.$plugins.'<>'.$plugins_old.']', -1);
+                                $info = pathinfo($file);
+                                if(isset($info['extension']) && in_array($info['extension'], self::$exclude_ext))
+                                {
+                                    continue;
+                                }
                             }
-                            break;
+                        }
+
+                        // 匹配成功文件路径处理、跳出循环
+                        $new_file = str_replace($plugins.'/'.$dir_key.'/', '', $dir_value.$file);
+                        $is_has_find = true;
+                        break;
                     }
                 }
 
-                // 排除临时文件和临时目录
-                if(strpos($file, '/.') === false && strpos($file, '__') === false)
+                // 没有匹配到则指定目录跳过
+                if($is_has_find == false)
                 {
-                    // 文件包对应系统所在目录
-                    $is_has_find = false;
-                    foreach($dir_list as $dir_key=>$dir_value)
+                    continue;
+                }
+
+                // 截取文件路径
+                $file_path = substr($new_file, 0, strrpos($new_file, '/'));
+
+                // 路径不存在则创建
+                \base\FileUtil::CreateDir($file_path);
+
+                // 如果不是目录则写入文件
+                if(!is_dir($new_file))
+                {
+                    // 读取这个文件
+                    $stream = $zip->getStream($file);
+                    if($stream !== false)
                     {
-                        if(strpos($file, $dir_key) !== false)
+                        $file_content = stream_get_contents($stream);
+                        if($file_content !== false)
                         {
-                            // 仅控制器模块支持php文件
-                            if($dir_key != '_controller_')
+                            if(file_put_contents($new_file, $file_content))
                             {
-                                // 排除后缀文件
-                                $pos = strripos($file, '.');
-                                if($pos !== false)
-                                {
-                                    $info = pathinfo($file);
-                                    if(isset($info['extension']) && in_array($info['extension'], self::$exclude_ext))
-                                    {
-                                        continue;
-                                    }
-                                }
+                                $success++;
                             }
-
-                            // 匹配成功文件路径处理、跳出循环
-                            $file = str_replace($plugins.'/'.$dir_key.'/', '', $dir_value.$file);
-                            $is_has_find = true;
-                            break;
                         }
+                        fclose($stream);
                     }
-
-                    // 没有匹配到则指定目录跳过
-                    if($is_has_find == false)
-                    {
-                        continue;
-                    }
-
-                    // 截取文件路径
-                    $file_path = substr($file, 0, strrpos($file, '/'));
-
-                    // 路径不存在则创建
-                    \base\FileUtil::CreateDir($file_path);
-
-                    // 如果不是目录则写入文件
-                    if(!is_dir($file))
-                    {
-                        // 读取这个文件
-                        $file_size = zip_entry_filesize($temp_resource);
-                        $file_content = zip_entry_read($temp_resource, $file_size);
-                        @file_put_contents($file, $file_content);
-                    }
-
-                    // 关闭目录项  
-                    zip_entry_close($temp_resource);
                 }
             }
         }
+        // 关闭zip  
+        $zip->close();
 
+        // 未匹配成功一个文件则认为插件包无效
+        if($success <= 0)
+        {
+            return DataReturn('无效的插件包', -1);
+        }
         return DataReturn('success', 0, $plugins);
     }
 

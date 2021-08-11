@@ -496,65 +496,71 @@ class PaymentService
         }
 
         // 开始解压文件
-        $resource = zip_open($package_file);
-        if(!is_resource($resource))
+        $zip = new \ZipArchive();
+        $resource = $zip->open($package_file);
+        if($resource != true)
         {
-            return DataReturn('压缩包打开失败['.$resource.']', -10);
+            return DataReturn('压缩包打开失败['.$resource.']', -11);
         }
 
         $success = 0;
         $error = 0;
-        while(($temp_resource = zip_read($resource)) !== false)
+        for($i=0; $i<$zip->numFiles; $i++)
         {
-            if(zip_entry_open($resource, $temp_resource))
+            // 资源文件
+            $file = $zip->getNameIndex($i);
+
+            // 排除临时文件和临时目录
+            if(strpos($file, '/.') === false && strpos($file, '__') === false)
             {
-                // 当前压缩包中项目名称
-                $file = zip_entry_name($temp_resource);
-
-                // 排除临时文件和临时目录
-                if(strpos($file, '/.') === false && strpos($file, '__') === false)
+                // 忽略非php文件
+                if(substr($file, -4) != '.php')
                 {
-                    // 忽略非php文件
-                    if(substr($file, -4) != '.php')
-                    {
-                        $error++;
-                        continue;
-                    }
+                    $error++;
+                    continue;
+                }
 
-                    // 文件名称
-                    $payment = str_replace(array('.', '/', '\\', ':'), '', substr($file, 0, -4));
+                // 文件名称
+                $payment = str_replace(array('.', '/', '\\', ':'), '', substr($file, 0, -4));
 
-                    // 是否已有存在插件
-                    if(file_exists(self::$payment_dir.$payment))
-                    {
-                        $error++;
-                        continue;
-                    } else {
-                        $file = self::$payment_dir.$payment.'.php';
-                    }
+                // 是否已有存在插件
+                if(file_exists(self::$payment_dir.$payment))
+                {
+                    $error++;
+                    continue;
+                }
 
-                    // 如果不是目录则写入文件
-                    if(!is_dir($file))
+                // 如果不是目录则写入文件
+                $new_file = self::$payment_dir.$payment.'.php';
+                if(!is_dir($new_file))
+                {
+                    // 读取这个文件
+                    $stream = $zip->getStream($file);
+                    if($stream !== false)
                     {
-                        // 读取这个文件
-                        $file_size = zip_entry_filesize($temp_resource);
-                        $file_content = zip_entry_read($temp_resource, $file_size);
-                        if(@file_put_contents($file, $file_content) !== false)
+                        $file_content = stream_get_contents($stream);
+                        if($file_content !== false)
                         {
-                            // 文件校验
-                            $config = self::GetPaymentConfig($payment);
-                            if($config === false)
+                            if(@file_put_contents($new_file, $file_content) !== false)
                             {
-                                $error++;
-                                @unlink($file);
-                            } else {
-                                $success++;
+                                // 文件校验
+                                $config = self::GetPaymentConfig($payment);
+                                if($config === false)
+                                {
+                                    $error++;
+                                    @unlink($new_file);
+                                } else {
+                                    $success++;
+                                }
                             }
                         }
+                        fclose($stream);
                     }
                 }
             }
         }
+        // 关闭zip  
+        $zip->close();
 
         if($success > 0)
         {
