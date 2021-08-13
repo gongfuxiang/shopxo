@@ -1002,20 +1002,6 @@ class BuyService
             return $ret;
         }
 
-        // 支付方式
-        $payment_id = 0;
-        $is_under_line = 0;
-        if(!empty($params['payment_id']))
-        {
-            $payment = PaymentService::PaymentList(['where'=>['id'=>intval($params['payment_id'])]]);
-            if(empty($payment[0]))
-            {
-                return DataReturn('支付方式有误', -1);
-            }
-            $payment_id = $payment[0]['id'];
-            $is_under_line = in_array($payment[0]['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0;
-        }
-
         // 清单商品
         $params['is_order_submit'] = 1;
         $buy = self::BuyTypeGoodsList($params);
@@ -1032,6 +1018,26 @@ class BuyService
 
         // 订单来源
         $client_type = ApplicationClientType();
+
+        // 支付方式
+        $payment_id = 0;
+        $is_under_line = 0;
+        if(!empty($params['payment_id']))
+        {
+            $payment = PaymentService::PaymentList(['where'=>['id'=>intval($params['payment_id'])]]);
+            if(empty($payment[0]))
+            {
+                return DataReturn('支付方式有误', -1);
+            }
+            $payment_id = $payment[0]['id'];
+            $is_under_line = in_array($payment[0]['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0;
+
+            // 线下支付订单是否直接成功
+            if($is_under_line == 1)
+            {
+                $order_status = 2;
+            }
+        }
 
         // 开始事务
         Db::startTrans();
@@ -1175,9 +1181,9 @@ class BuyService
             }
 
             // 库存扣除
-            if($order['status'] == 1)
+            if(in_array($order['status'], [1,2]))
             {
-                $ret = self::OrderInventoryDeduct(['order_id'=>$order_id, 'order_data'=>$order]);
+                $ret = self::OrderInventoryDeduct(['order_id'=>$order_id, 'opt_type'=>'confirm']);
                 if($ret['code'] != 0)
                 {
                     // 事务回滚
@@ -1731,15 +1737,11 @@ class BuyService
                 'error_msg'         => '订单id有误',
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'order_data',
-                'error_msg'         => '订单更新数据不能为空',
+                'checked_type'      => 'in',
+                'key_name'          => 'opt_type',
+                'checked_data'      => ['confirm', 'pay', 'delivery'],
+                'error_msg'         => '订单操作类型有误',
             ],
-            [
-                'checked_type'      => 'is_array',
-                'key_name'          => 'order_data',
-                'error_msg'         => '订单更新数据有误',
-            ]
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -1760,7 +1762,7 @@ class BuyService
         {
             // 订单确认成功
             case 0 :
-                if($params['order_data']['status'] != 1)
+                if($params['opt_type'] != 'confirm')
                 {
                     return DataReturn('当前订单状态未操作确认-不扣除库存['.$params['order_id'].']', 0);
                 }
@@ -1768,7 +1770,7 @@ class BuyService
 
             // 订单支付成功
             case 1 :
-                if($params['order_data']['status'] != 2)
+                if($params['opt_type'] != 'pay')
                 {
                     return DataReturn('当前订单状态未操作支付-不扣除库存['.$params['order_id'].']', 0);
                 }
@@ -1776,7 +1778,7 @@ class BuyService
 
             // 订单发货
             case 2 :
-                if($params['order_data']['status'] != 3)
+                if($params['opt_type'] != 'delivery')
                 {
                     return DataReturn('当前订单状态未操作发货-不扣除库存['.$params['order_id'].']', 0);
                 }
@@ -1840,7 +1842,7 @@ class BuyService
                             'order_id'              => $params['order_id'],
                             'order_detail_id'       => $v['id'],
                             'goods_id'              => $v['goods_id'],
-                            'order_status'          => $params['order_data']['status'],
+                            'order_status'          => Db::name('Order')->where(['id'=>$params['order_id']])->value('status'),
                             'original_inventory'    => $goods['inventory'],
                             'new_inventory'         => Db::name('Goods')->where(['id'=>$v['goods_id']])->value('inventory'),
                             'add_time'              => time(),
@@ -1895,6 +1897,7 @@ class BuyService
         // 订单状态
         if(isset($params['order_data']['status']))
         {
+            // 仅订单取消、关闭操作库存回滚
             if(!in_array($params['order_data']['status'], [5,6]))
             {
                 return DataReturn('当前订单状态不允许回滚库存['.$params['order_id'].'-'.$params['order_data']['status'].']', 0);

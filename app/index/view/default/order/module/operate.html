@@ -4,34 +4,35 @@
     <i class="am-icon-eye"></i>
     <span>详情</span>
 </a>
-{{if in_array($module_data['status'], [0,1])}}
-    <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$module_data.id}}" data-view="reload">
-        <i class="am-icon-paint-brush"></i>
-        <span>取消</span>
-    </button>
-{{/if}}
-{{if in_array($module_data['status'], [1])}}
-    <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay" data-id="{{$module_data.id}}" data-payment-id="{{$module_data.payment_id}}">
-        <i class="am-icon-paypal"></i>
-        <span>支付</span>
-    </button>
-{{/if}}
-{{if in_array($module_data['status'], [3])}}
-    <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$module_data.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">
-        <i class="am-icon-check-circle-o"></i>
-        <span>收货</span>
-    </button>
-{{/if}}
-{{if in_array($module_data['status'], [4]) and $module_data['user_is_comments'] eq 0}}
-    <a href="{{:MyUrl('index/order/comments', ['id'=>$module_data['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">
-        <i class="am-icon-heart-o"></i>
-        <span>评论</span>
-    </a>
-{{/if}}
-
-{{if in_array($module_data['status'], [4,5,6])}}
-    <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('index/order/delete')}}" data-id="{{$module_data.id}}" data-view="reload">
-        <i class="am-icon-trash-o"></i>
-        <span>删除</span>
-    </button>
+{{if !empty($module_data['operate_data'])}}
+    {{if $module_data['operate_data']['is_pay'] eq 1}}
+        <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay" data-id="{{$module_data.id}}" data-payment-id="{{$module_data.payment_id}}">
+            <i class="am-icon-paypal"></i>
+            <span>支付</span>
+        </button>
+    {{/if}}
+    {{if $module_data['operate_data']['is_collect'] eq 1}}
+        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$module_data.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">
+            <i class="am-icon-check-circle-o"></i>
+            <span>收货</span>
+        </button>
+    {{/if}}
+    {{if $module_data['operate_data']['is_cancel'] eq 1}}
+        <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$module_data.id}}" data-view="reload">
+            <i class="am-icon-paint-brush"></i>
+            <span>取消</span>
+        </button>
+    {{/if}}
+    {{if $module_data['operate_data']['is_comments'] eq 1}}
+        <a href="{{:MyUrl('index/order/comments', ['id'=>$module_data['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">
+            <i class="am-icon-heart-o"></i>
+            <span>评论</span>
+        </a>
+    {{/if}}
+    {{if $module_data['operate_data']['is_delete'] eq 1}}
+        <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('index/order/delete')}}" data-id="{{$module_data.id}}" data-view="reload">
+            <i class="am-icon-trash-o"></i>
+            <span>删除</span>
+        </button>
+    {{/if}}
 {{/if}}

@@ -70,8 +70,9 @@ class Order extends Common
             'm'                 => $page->GetPageStarNumber(),
             'n'                 => $this->page_size,
             'where'             => $this->form_where,
-            'order_by'      => $this->form_order_by['data'],
+            'order_by'          => $this->form_order_by['data'],
             'is_orderaftersale' => 1,
+            'is_operate'        => 1,
             'user_type'         => 'user',
         ];
         $ret = OrderService::OrderList($data_params);
@@ -106,31 +107,35 @@ class Order extends Common
      */
     public function Detail()
     {
+        // 获取订单信息
         $data = $this->OrderFirst();
-        if(!empty($data))
+        if(empty($data))
         {
-            // 发起支付 - 支付方式
-            MyViewAssign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
-
-            // 虚拟销售配置
-            $site_fictitious = ConfigService::SiteFictitiousConfig();
-            MyViewAssign('site_fictitious', $site_fictitious['data']);
-
-            // 支付参数
-            $pay_params = OrderService::PayParamsHandle($this->data_request);
-
-            // 加载百度地图api
-            MyViewAssign('is_load_baidu_map_api', 1);
-
-            // 浏览器名称
-            MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单详情', 1));
-
-            // 数据赋值
-            MyViewAssign('data', $data);
-            MyViewAssign('pay_params', $pay_params);
-            MyViewAssign('params', $this->data_request);
-            return MyView();
+            MyViewAssign('msg', '没有相关数据');
+            return MyView('public/tips_error');
         }
+
+        // 发起支付 - 支付方式
+        MyViewAssign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
+
+        // 虚拟销售配置
+        $site_fictitious = ConfigService::SiteFictitiousConfig();
+        MyViewAssign('site_fictitious', $site_fictitious['data']);
+
+        // 支付参数
+        $pay_params = OrderService::PayParamsHandle($this->data_request);
+
+        // 加载百度地图api
+        MyViewAssign('is_load_baidu_map_api', 1);
+
+        // 浏览器名称
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单详情', 1));
+
+        // 数据赋值
+        MyViewAssign('data', $data);
+        MyViewAssign('pay_params', $pay_params);
+        MyViewAssign('params', $this->data_request);
+        return MyView();
     }
 
     /**
@@ -143,22 +148,24 @@ class Order extends Common
      */
     public function Comments()
     {
+        // 获取订单信息
         $data = $this->OrderFirst();
-        if(!empty($data))
+        if(empty($data))
         {
-            MyViewAssign('referer_url', empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : $_SERVER['HTTP_REFERER']);
-            MyViewAssign('data', $data);
-
-            // 浏览器名称
-            MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单评论', 1));
-
-            // 编辑器文件存放地址
-            MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['id']));
-            return MyView();
-        } else {
             MyViewAssign('msg', '没有相关数据');
             return MyView('public/tips_error');
         }
+
+        // 上一个页面 url 地址
+        MyViewAssign('referer_url', empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : $_SERVER['HTTP_REFERER']);
+        MyViewAssign('data', $data);
+
+        // 浏览器名称
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单评论', 1));
+
+        // 编辑器文件存放地址
+        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['id']));
+        return MyView();
     }
 
     /**
@@ -188,6 +195,7 @@ class Order extends Common
                 'n'                 => 1,
                 'where'             => $where,
                 'is_orderaftersale' => 1,
+                'is_operate'        => 1,
                 'user_type'         => 'user',
             ];
             $ret = OrderService::OrderList($data_params);

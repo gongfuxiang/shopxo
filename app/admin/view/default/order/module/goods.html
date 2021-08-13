@@ -23,10 +23,17 @@
     <!-- 订单列表基础顶部-结束 -->
 
     <!-- 基础信息 -->
-    {{if $module_data['pay_status'] eq 1 and $module_data['pay_price'] lt $module_data['total_price']}}
+    {{if $module_data['pay_status'] eq 1 and $module_data['pay_price'] lt $module_data['total_price'] and in_array($module_data['status'], [2,3,4])}}
         <p class="am-text-danger am-animation-shake am-animation-delay-1">
             <i class="am-icon-warning am-text-lg"></i>
-            <span class="am-text-lg">请注意、该订单支付金额小于总价金额</span>
+            <span class="am-text-sm">请注意、该订单支付金额小于总价金额</span>
+        </p>
+        <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
+    {{/if}}
+    {{if $module_data['pay_status'] eq 0 and in_array($module_data['status'], [2,3,4])}}
+        <p class="am-text-danger am-animation-shake am-animation-delay-1">
+            <i class="am-icon-warning am-text-lg"></i>
+            <span class="am-text-sm">请注意、该订单还未支付</span>
         </p>
         <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
     {{/if}}

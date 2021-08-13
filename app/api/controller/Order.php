@@ -75,6 +75,7 @@ class Order extends Common
             'n'                 => $number,
             'where'             => $where,
             'is_orderaftersale' => 1,
+            'is_operate'        => 1,
         );
         $data = OrderService::OrderList($data_params);
 
@@ -115,6 +116,7 @@ class Order extends Common
                 'n'                 => 1,
                 'where'             => $where,
                 'is_orderaftersale' => 1,
+                'is_operate'        => 1,
             );
             $data = OrderService::OrderList($data_params);
             if(!empty($data['data'][0]))

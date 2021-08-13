@@ -68,12 +68,13 @@ class Order extends Common
 
         // 获取列表
         $data_params = [
-            'm'         => $page->GetPageStarNumber(),
-            'n'         => $this->page_size,
-            'where'     => $this->form_where,
-            'order_by'  => $this->form_order_by['data'],
-            'is_public' => 0,
-            'user_type' => 'admin',
+            'm'             => $page->GetPageStarNumber(),
+            'n'             => $this->page_size,
+            'where'         => $this->form_where,
+            'order_by'      => $this->form_order_by['data'],
+            'is_public'     => 0,
+            'is_operate'    => 1,
+            'user_type'     => 'admin',
         ];
         $ret = OrderService::OrderList($data_params);
 
@@ -178,6 +179,7 @@ class Order extends Common
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
+        $params['user_type'] = 'admin';
         return OrderService::OrderCancel($params);
     }
 
@@ -201,6 +203,7 @@ class Order extends Common
         $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
+        $params['user_type'] = 'admin';
         return OrderService::OrderDelivery($params);
     }
 
@@ -225,6 +228,7 @@ class Order extends Common
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
+        $params['user_type'] = 'admin';
         return OrderService::OrderCollect($params);
     }
 
@@ -249,6 +253,7 @@ class Order extends Common
         $params['user_id'] = $params['value'];
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
+        $params['user_type'] = 'admin';
         return OrderService::OrderConfirm($params);
     }
 
