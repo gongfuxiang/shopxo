@@ -911,7 +911,7 @@ class OrderService
             }
 
             // 订单商品销量增加
-            $ret = self::GoodsSalesCountInc(['order_id'=>$order['id'], ' opt_type'=>'pay']);
+            $ret = self::GoodsSalesCountInc(['order_id'=>$order['id'], 'opt_type'=>'pay']);
             if($ret['code'] != 0)
             {
                 // 事务回滚
