@@ -21,7 +21,7 @@ namespace app\service;
 class ConstService
 {
     /**
-     * 数据定义容器
+     * 获取数据
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -33,7 +33,37 @@ class ConstService
     public static function Run($key = '', $default = null)
     {
         // 数据定义
-        $container = [
+        $container =  self::ConstData();
+
+        // 匹配数据
+        // 空 key 则返回全部
+        // 未匹配到数据则返回null
+        $data = empty($key) ? $container : (array_key_exists($key, $container) ? $container[$key] : $default);
+
+        // 常量数据读取钩子
+        $hook_name = 'plugins_service_const_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'key'           => $key,
+            'default'       => $default,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
+     * 数据定义容器
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-08-14
+     * @desc    description
+     */
+    public static function ConstData()
+    {
+        return [
             // -------------------- 公共 --------------------
             // 系统版本列表
             'common_system_version_list'          =>  [
@@ -496,23 +526,6 @@ class ConstService
                     ],
             ],
         ];
-
-        // 匹配数据
-        // 空 key 则返回全部
-        // 未匹配到数据则返回null
-        $data = empty($key) ? $container : (array_key_exists($key, $container) ? $container[$key] : $default);
-
-        // 常量数据读取钩子
-        $hook_name = 'plugins_service_const_data';
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'key'           => $key,
-            'default'       => $default,
-            'data'          => &$data,
-        ]);
-
-        return $data;
     }
 }
 ?>
