@@ -177,8 +177,8 @@ class PackageInstallService
                 $ret = DataReturn('插件操作类型未定义['.$params['type'].']', -1);
         }
 
-        // 移除session
-        MySession($params['key'], null);
+        // 移除缓存
+        MyCache($params['key'], null);
 
         // 删除本地文件
         \base\FileUtil::UnlinkFile($res['url']);
@@ -198,7 +198,7 @@ class PackageInstallService
     public static function DownloadHandle($key)
     {
         // 获取下载地址
-        $url = MySession($key);
+        $url = MyCache($key);
         if(empty($url))
         {
             return DataReturn('下载地址为空', -1);
@@ -247,7 +247,7 @@ class PackageInstallService
         if(!empty($ret) && isset($ret['code']) && $ret['code'] == 0)
         {
             $key = md5($ret['data']);
-            MySession($key, $ret['data']);
+            MyCache($key, $ret['data'], 600);
             $ret['data'] = $key;
         }
         return $ret;
