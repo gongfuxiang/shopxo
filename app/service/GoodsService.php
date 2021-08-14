@@ -253,8 +253,8 @@ class GoodsService
                         // 商品数量
                         $goods_count = MyC('home_index_floor_goods_max_count', 8, true);
                         // 排序配置
-                        $floor_order_by_type_list = lang('goods_order_by_type_list');
-                        $floor_order_by_rule_list = lang('goods_order_by_rule_list');
+                        $floor_order_by_type_list = MyConst('goods_order_by_type_list');
+                        $floor_order_by_rule_list = MyConst('goods_order_by_rule_list');
                         $floor_order_by_type = MyC('home_index_floor_goods_order_by_type', 0, true);
                         $floor_order_by_rule = MyC('home_index_floor_goods_order_by_rule', 0, true);
                         // 排序字段名称
@@ -1065,7 +1065,7 @@ class GoodsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'site_type',
-                'checked_data'      => array_merge([-1], array_column(lang('common_site_type_list'), 'value')),
+                'checked_data'      => array_merge([-1], array_column(MyConst('common_site_type_list'), 'value')),
                 'is_checked'        => 2,
                 'error_msg'         => '商品类型数据值范围有误',
             ],

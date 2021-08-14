@@ -51,7 +51,7 @@ class GoodsCategory extends Common
 	public function Index()
 	{
 		// 静态数据
-		MyViewAssign('common_is_text_list', lang('common_is_text_list'));
+		MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
 
         // 商品分类
         MyViewAssign('goods_category_list', GoodsService::GoodsCategoryAll());

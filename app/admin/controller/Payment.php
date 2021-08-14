@@ -59,7 +59,7 @@ class Payment extends Common
         MyViewAssign('cannot_deleted_list', PaymentService::$cannot_deleted_list);
 
         // 适用平台
-        MyViewAssign('common_platform_type', lang('common_platform_type'));
+        MyViewAssign('common_platform_type', MyConst('common_platform_type'));
 
         // 应用商店
         MyViewAssign('store_payment_url', StoreService::StorePaymentUrl());
@@ -102,7 +102,7 @@ class Payment extends Common
         }
 
         // 适用平台
-        MyViewAssign('common_platform_type', lang('common_platform_type'));
+        MyViewAssign('common_platform_type', MyConst('common_platform_type'));
 
         // 参数
         MyViewAssign('params', $params);

@@ -129,7 +129,7 @@ class User extends Common
 		$data = UserService::UserList($data_params);
 
 		// Excel驱动导出数据
-		$excel = new \base\Excel(array('filename'=>'user', 'title'=>lang('excel_user_title_list'), 'data'=>$data['data'], 'msg'=>'没有相关数据'));
+		$excel = new \base\Excel(array('filename'=>'user', 'title'=>MyConst('excel_user_title_list'), 'data'=>$data['data'], 'msg'=>'没有相关数据'));
 		return $excel->Export();
 	}
 
@@ -178,7 +178,7 @@ class User extends Common
         ]));
 
 		// 性别
-		MyViewAssign('common_gender_list', lang('common_gender_list'));
+		MyViewAssign('common_gender_list', MyConst('common_gender_list'));
 
 		// 数据
 		unset($params['id']);

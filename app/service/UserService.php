@@ -111,7 +111,7 @@ class UserService
         }
         if(!in_array($user['status'], [0,1]))
         {
-            $common_user_status_list = lang('common_user_status_list');
+            $common_user_status_list = MyConst('common_user_status_list');
             if(isset($common_user_status_list[$user['status']]))
             {
                 return DataReturn($common_user_status_list[$user['status']]['tips'], -110);
@@ -152,8 +152,8 @@ class UserService
             ]);
 
             // 开始处理数据
-            $common_gender_list = lang('common_gender_list');
-            $common_user_status_list = lang('common_user_status_list');
+            $common_gender_list = MyConst('common_gender_list');
+            $common_user_status_list = MyConst('common_user_status_list');
             foreach($data as &$v)
             {
                 // 生日
@@ -277,13 +277,13 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'gender',
-                'checked_data'      => array_column(lang('common_gender_list'), 'id'),
+                'checked_data'      => array_column(MyConst('common_gender_list'), 'id'),
                 'error_msg'         => '性别值范围不正确',
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'status',
-                'checked_data'      => array_column(lang('common_user_status_list'), 'id'),
+                'checked_data'      => array_column(MyConst('common_user_status_list'), 'id'),
                 'error_msg'         => '状态值范围不正确',
             ],
             [
@@ -498,7 +498,7 @@ class UserService
         }
         if(isset($user['gender']))
         {
-            $user['gender_text']    =   lang('common_gender_list')[$user['gender']]['name'];
+            $user['gender_text']    =   MyConst('common_gender_list')[$user['gender']]['name'];
         }
         if(isset($user['birthday']))
         {
@@ -663,7 +663,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(lang('common_login_type_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_login_type_list'), 'value'),
                 'error_msg'         => '登录类型有误',
             ],
             [
@@ -786,7 +786,7 @@ class UserService
         // 用户状态
         if(in_array($user['status'], [2,3]))
         {
-            return DataReturn(lang('common_user_status_list')[$user['status']]['tips'], -10);
+            return DataReturn(MyConst('common_user_status_list')[$user['status']]['tips'], -10);
         }
 
         // 用户登录前钩子
@@ -899,7 +899,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(lang('common_user_reg_type_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_user_reg_type_list'), 'value'),
                 'error_msg'         => '注册类型有误',
             ],
             [
@@ -1220,7 +1220,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(lang('common_login_type_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_login_type_list'), 'value'),
                 'error_msg'         => '登录类型有误',
             ],
         ];
@@ -1322,7 +1322,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(lang('common_user_reg_type_list'), 'value'),
+                'checked_data'      => array_column(MyConst('common_user_reg_type_list'), 'value'),
                 'error_msg'         => '注册类型有误',
             ],
         ];
@@ -2163,7 +2163,7 @@ class UserService
         ];
 
         // 是否小程序请求
-        $is_appmini = array_key_exists(APPLICATION_CLIENT_TYPE, lang('common_appmini_type'));
+        $is_appmini = array_key_exists(APPLICATION_CLIENT_TYPE, MyConst('common_appmini_type'));
 
         // 手机号码获取用户信息
         $mobile_user = Db::name('User')->where([

@@ -54,7 +54,7 @@ class Email extends Common
 		$type = input('type', 'email');
 
 		// 静态数据
-		MyViewAssign('common_is_text_list', lang('common_is_text_list'));
+		MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
 
 		// 导航
 		MyViewAssign('nav_type', $type);

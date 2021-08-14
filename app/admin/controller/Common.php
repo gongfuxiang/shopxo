@@ -178,7 +178,7 @@ class Common extends BaseController
         MyViewAssign('module_js', file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '');
 
         // 价格正则
-        MyViewAssign('default_price_regex', lang('common_regex_price'));
+        MyViewAssign('default_price_regex', MyConst('common_regex_price'));
 
 		// 附件host地址
         MyViewAssign('attachment_host', SystemBaseService::AttachmentHost());

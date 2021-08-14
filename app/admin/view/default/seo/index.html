@@ -24,7 +24,7 @@
 			</div>
 			<div class="am-form-group">
 				<label>{{$data.home_seo_url_html_suffix.name}}<span class="am-form-group-label-tips">{{$data.home_seo_url_html_suffix.describe}}</span></label>
-				<input type="text" name="{{$data.home_seo_url_html_suffix.only_tag}}" pattern="{{:lang('common_regex_url_html_suffix')}}" maxlength="8" placeholder="{{$data.home_seo_url_html_suffix.name}}" data-validation-message="{{$data.home_seo_url_html_suffix.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_seo_url_html_suffix.value}}"{{/if}} />
+				<input type="text" name="{{$data.home_seo_url_html_suffix.only_tag}}" pattern="{{:MyConst('common_regex_url_html_suffix')}}" maxlength="8" placeholder="{{$data.home_seo_url_html_suffix.name}}" data-validation-message="{{$data.home_seo_url_html_suffix.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_seo_url_html_suffix.value}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
 				<label>{{$data.home_seo_site_title.name}}<span class="am-form-group-label-tips">{{$data.home_seo_site_title.describe}}</span></label>

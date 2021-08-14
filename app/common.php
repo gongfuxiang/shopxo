@@ -12,6 +12,21 @@
 // 应用公共文件
 
 /**
+ * 获取常量数据
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-08-14
+ * @desc    description
+ * @param   [string]         $key       [数据key]
+ * @param   [mixed]          $default   [默认值]
+ */
+function MyConst($key = '', $default = null)
+{
+    return \app\service\ConstService::Run($key, $default);
+}
+
+/**
  * session管理
  * @author  Devil
  * @blog    http://gong.gg/
@@ -1710,7 +1725,7 @@ function FileUploadError($name, $index = false)
     }
 
     // 错误码对应的错误信息
-    $file_error_list = lang('common_file_upload_error_list');
+    $file_error_list = MyConst('common_file_upload_error_list');
     if(isset($file_error_list[$error]))
     {
         return $file_error_list[$error];
@@ -2149,7 +2164,7 @@ function XmlArray($xmlstring) {
  */
 function CheckMobile($mobile)
 {
-    return (preg_match('/'.lang('common_regex_mobile').'/', $mobile) == 1) ? true : false;
+    return (preg_match('/'.MyConst('common_regex_mobile').'/', $mobile) == 1) ? true : false;
 }
 
 /**
@@ -2163,7 +2178,7 @@ function CheckMobile($mobile)
  */
 function CheckTel($tel)
 {
-    return (preg_match('/'.lang('common_regex_tel').'/', $tel) == 1) ? true : false;
+    return (preg_match('/'.MyConst('common_regex_tel').'/', $tel) == 1) ? true : false;
 }
 
 /**
@@ -2177,7 +2192,7 @@ function CheckTel($tel)
  */
 function CheckEmail($email)
 {
-    return (preg_match('/'.lang('common_regex_email').'/', $email) == 1) ? true : false;
+    return (preg_match('/'.MyConst('common_regex_email').'/', $email) == 1) ? true : false;
 }
 
 /**
@@ -2191,7 +2206,7 @@ function CheckEmail($email)
  */
 function CheckIdCard($number)
 {
-    return (preg_match('/'.lang('common_regex_id_card').'/', $number) == 1) ? true : false;
+    return (preg_match('/'.MyConst('common_regex_id_card').'/', $number) == 1) ? true : false;
 }
 
 /**
@@ -2205,7 +2220,7 @@ function CheckIdCard($number)
  */
 function CheckPrice($price)
 {
-    return (preg_match('/'.lang('common_regex_price').'/', $price) == 1) ? true : false;
+    return (preg_match('/'.MyConst('common_regex_price').'/', $price) == 1) ? true : false;
 }
 
 
@@ -2219,7 +2234,7 @@ function CheckPrice($price)
  */
 function CheckIp($ip)
 {
-    return (preg_match('/'.lang('common_regex_ip').'/', $ip) == 1) ? true : false;
+    return (preg_match('/'.MyConst('common_regex_ip').'/', $ip) == 1) ? true : false;
 }
 
 /**
@@ -2232,7 +2247,7 @@ function CheckIp($ip)
  */
 function CheckUrl($url)
 {
-    return (preg_match('/'.lang('common_regex_url').'/', $url) == 1) ? true : false;
+    return (preg_match('/'.MyConst('common_regex_url').'/', $url) == 1) ? true : false;
 }
 
 /**
@@ -2245,7 +2260,7 @@ function CheckUrl($url)
  */
 function CheckVersion($ver)
 {
-    return (preg_match('/'.lang('common_regex_version').'/', $ver) == 1) ? true : false;
+    return (preg_match('/'.MyConst('common_regex_version').'/', $ver) == 1) ? true : false;
 }
 
 /**
@@ -2259,7 +2274,7 @@ function CheckVersion($ver)
  */
 function CheckUserName($string)
 {
-    return (preg_match('/'.lang('common_regex_username').'/', $string) == 1) ? true : false;
+    return (preg_match('/'.MyConst('common_regex_username').'/', $string) == 1) ? true : false;
 }
 
 /**
@@ -2287,7 +2302,7 @@ function CheckSort($value)
  */
 function CheckColor($value)
 {
-    return (preg_match('/'.lang('common_regex_color').'/', $value) == 1) ? true : false;
+    return (preg_match('/'.MyConst('common_regex_color').'/', $value) == 1) ? true : false;
 }
 
 /**
@@ -2301,7 +2316,7 @@ function CheckColor($value)
  */
 function CheckLoginPwd($string)
 {
-    return (preg_match('/'.lang('common_regex_pwd').'/', $string) == 1) ? true : false;
+    return (preg_match('/'.MyConst('common_regex_pwd').'/', $string) == 1) ? true : false;
 }
 
 /**

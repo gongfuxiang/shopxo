@@ -42,7 +42,7 @@ class CustomViewService
         $data = Db::name('CustomView')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
         if(!empty($data))
         {
-            $common_is_enable_list = lang('common_is_enable_list');
+            $common_is_enable_list = MyConst('common_is_enable_list');
             foreach($data as &$v)
             {
                 // 是否启用

@@ -137,7 +137,7 @@ class Brand extends Common
         }
 
         // 是否启用
-        MyViewAssign('common_is_enable_list', lang('common_is_enable_list'));
+        MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
 
         // 品牌分类
 		$brand_category = BrandCategoryService::BrandCategoryList(['field'=>'id,name']);

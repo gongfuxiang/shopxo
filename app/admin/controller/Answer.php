@@ -153,8 +153,8 @@ class Answer extends Common
         MyViewAssign('data', $data);
 
         // 静态数据
-        MyViewAssign('common_is_show_list', lang('common_is_show_list'));
-        MyViewAssign('common_is_text_list', lang('common_is_text_list'));
+        MyViewAssign('common_is_show_list', MyConst('common_is_show_list'));
+        MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
 
         // 参数
         unset($params['id']);

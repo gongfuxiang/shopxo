@@ -249,7 +249,7 @@ class Common extends BaseController
         MyViewAssign('common_goods_category_hidden', $common_goods_category_hidden);
 
         // 价格正则
-        MyViewAssign('default_price_regex', lang('common_regex_price'));
+        MyViewAssign('default_price_regex', MyConst('common_regex_price'));
 
         // 附件host地址
         MyViewAssign('attachment_host', SystemBaseService::AttachmentHost());

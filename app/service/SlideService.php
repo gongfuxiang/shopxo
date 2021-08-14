@@ -42,9 +42,9 @@ class SlideService
         $data = Db::name('Slide')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
         if(!empty($data))
         {
-            $common_platform_type = lang('common_platform_type');
-            $common_is_enable_tips = lang('common_is_enable_tips');
-            $common_app_event_type = lang('common_app_event_type');
+            $common_platform_type = MyConst('common_platform_type');
+            $common_is_enable_tips = MyConst('common_is_enable_tips');
+            $common_app_event_type = MyConst('common_app_event_type');
             foreach($data as &$v)
             {
                 // 图片地址
@@ -104,13 +104,13 @@ class SlideService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'platform',
-                'checked_data'      => array_column(lang('common_platform_type'), 'value'),
+                'checked_data'      => array_column(MyConst('common_platform_type'), 'value'),
                 'error_msg'         => '平台类型有误',
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'event_type',
-                'checked_data'      => array_column(lang('common_app_event_type'), 'value'),
+                'checked_data'      => array_column(MyConst('common_app_event_type'), 'value'),
                 'is_checked'        => 2,
                 'error_msg'         => '事件值类型有误',
             ],

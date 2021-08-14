@@ -11,15 +11,15 @@
 			</legend>
 			<div class="am-form-group">
 				<label>用户名{{if empty($data)}}<span class="am-form-group-label-tips-must">必填</span><span class="am-form-group-label-tips">创建后不可更改</span>{{else /}}<span class="am-form-group-label-tips">不可更改</span>{{/if}}</label>
-				<input type="text" name="username" placeholder="用户名" pattern="{{:lang('common_regex_username')}}" data-validation-message="用户名格式 5~18 个字符（可以是字母数字下划线）" class="am-radius" {{if !empty($data['username'])}}value="{{$data.username}}" disabled{{/if}} required />
+				<input type="text" name="username" placeholder="用户名" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="用户名格式 5~18 个字符（可以是字母数字下划线）" class="am-radius" {{if !empty($data['username'])}}value="{{$data.username}}" disabled{{/if}} required />
 			</div>
 			<div class="am-form-group">
 				<label>登录密码{{if empty($data)}}<span class="am-form-group-label-tips-must">必填</span>{{else /}}<span class="am-form-group-label-tips">选填</span>{{/if}}</label>
-				<input type="password" name="login_pwd" placeholder="登录密码" pattern="{{:lang('common_regex_pwd')}}"  data-validation-message="密码格式 6~18 个字符" class="am-radius" {{if empty($data)}}required{{/if}} />
+				<input type="password" name="login_pwd" placeholder="登录密码" pattern="{{:MyConst('common_regex_pwd')}}"  data-validation-message="密码格式 6~18 个字符" class="am-radius" {{if empty($data)}}required{{/if}} />
 			</div>
 			<div class="am-form-group">
 				<label>手机号码<span class="am-form-group-label-tips">选填</span></label>
-				<input type="text" name="mobile" placeholder="手机号码" pattern="{{:lang('common_regex_mobile')}}" data-validation-message="手机号码格式错误" class="am-radius" {{if !empty($data['mobile'])}}value="{{$data.mobile}}"{{/if}} />
+				<input type="text" name="mobile" placeholder="手机号码" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="手机号码格式错误" class="am-radius" {{if !empty($data['mobile'])}}value="{{$data.mobile}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
                 <label>电子邮箱<span class="am-form-group-label-tips">选填</span></label>
@@ -42,7 +42,7 @@
 			<div class="am-form-group">
 				<label>状态<span class="am-form-group-label-tips-must">必选</span></label>
 				<select name="status" class="am-radius chosen-select" data-validation-message="请选择用户状态" required>
-					{{foreach :lang('common_admin_status_list') as $v}}
+					{{foreach :MyConst('common_admin_status_list') as $v}}
 						<option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
 				</select>

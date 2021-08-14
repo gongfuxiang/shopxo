@@ -50,10 +50,10 @@ class Config extends Common
 	public function Index()
 	{
 		// 静态数据
-		MyViewAssign('common_excel_charset_list', lang('common_excel_charset_list'));
-		MyViewAssign('common_is_enable_list', lang('common_is_enable_list'));
-		MyViewAssign('common_login_type_list', lang('common_login_type_list'));
-        MyViewAssign('common_close_open_list', lang('common_close_open_list'));
+		MyViewAssign('common_excel_charset_list', MyConst('common_excel_charset_list'));
+		MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
+		MyViewAssign('common_login_type_list', MyConst('common_login_type_list'));
+        MyViewAssign('common_close_open_list', MyConst('common_close_open_list'));
 
 		// 配置信息
 		MyViewAssign('data', ConfigService::ConfigList());

@@ -390,7 +390,7 @@ class StatisticalService
         self::Init($params);
 
         // 订单状态列表
-        $order_status_list = lang('common_order_user_status');
+        $order_status_list = MyConst('common_order_user_status');
         $status_arr = array_column($order_status_list, 'id');
 
         // 循环获取统计数据
@@ -452,7 +452,7 @@ class StatisticalService
         self::Init($params);
 
         // 订单状态列表
-        $order_status_list = lang('common_order_user_status');
+        $order_status_list = MyConst('common_order_user_status');
         $status_arr = array_column($order_status_list, 'id');
 
         // 循环获取统计数据

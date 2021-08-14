@@ -161,7 +161,7 @@ class Goods
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => lang('common_is_shelves_list'),
+                        'data'              => MyConst('common_is_shelves_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -177,7 +177,7 @@ class Goods
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => lang('common_is_text_list'),
+                        'data'              => MyConst('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -188,12 +188,12 @@ class Goods
                     'view_type'     => 'field',
                     'view_key'      => 'site_type',
                     'view_data_key' => 'name',
-                    'view_data'     => lang('common_site_type_list'),
+                    'view_data'     => MyConst('common_site_type_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => lang('common_site_type_list'),
+                        'data'              => MyConst('common_site_type_list'),
                         'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,

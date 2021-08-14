@@ -50,13 +50,13 @@ class Seo extends Common
 	public function Index()
 	{
 		// url模式
-		MyViewAssign('seo_url_model_list', lang('seo_url_model_list'));
+		MyViewAssign('seo_url_model_list', MyConst('seo_url_model_list'));
 
 		// 文章标题seo方案
-		MyViewAssign('seo_article_browser_list', lang('seo_article_browser_list'));
+		MyViewAssign('seo_article_browser_list', MyConst('seo_article_browser_list'));
 
 		// 频道标题seo方案
-		MyViewAssign('seo_channel_browser_list', lang('seo_channel_browser_list'));
+		MyViewAssign('seo_channel_browser_list', MyConst('seo_channel_browser_list'));
 
 		// 配置信息
 		MyViewAssign('data', ConfigService::ConfigList());

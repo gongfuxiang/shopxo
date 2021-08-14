@@ -94,8 +94,8 @@ class Index extends Common
             MyViewAssign('many_images_view_list_show_style', BaseLayout::$many_images_view_list_show_style);
 
             // 首页商品排序规则
-            MyViewAssign('goods_order_by_type_list', lang('goods_order_by_type_list'));
-            MyViewAssign('goods_order_by_rule_list', lang('goods_order_by_rule_list'));
+            MyViewAssign('goods_order_by_type_list', MyConst('goods_order_by_type_list'));
+            MyViewAssign('goods_order_by_rule_list', MyConst('goods_order_by_rule_list'));
 
             // 浏览器名称
             MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('首页设计', 1));

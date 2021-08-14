@@ -98,7 +98,7 @@ class RefundLogService
         $data = Db::name('RefundLog')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
         if(!empty($data))
         {
-            $refundment_list = lang('common_order_aftersale_refundment_list');
+            $refundment_list = MyConst('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
                 // 用户信息

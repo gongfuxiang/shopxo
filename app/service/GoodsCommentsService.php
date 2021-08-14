@@ -140,7 +140,7 @@ class GoodsCommentsService
         }
         if($order['status'] != 4)
         {
-            $status_text = lang('common_order_user_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_user_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
         if($order['user_is_comments'] != 0)
@@ -222,9 +222,9 @@ class GoodsCommentsService
             }
 
             // 静态数据
-            $common_is_text_list = lang('common_is_text_list');
-            $comments_rating_list = lang('common_goods_comments_rating_list');
-            $comments_business_type_list = lang('common_goods_comments_business_type_list');
+            $common_is_text_list = MyConst('common_is_text_list');
+            $comments_rating_list = MyConst('common_goods_comments_rating_list');
+            $comments_business_type_list = MyConst('common_goods_comments_business_type_list');
 
             // 数据处理
             foreach($data as &$v)
@@ -364,7 +364,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'business_type',
-                'checked_data'      => array_keys(lang('common_order_aftersale_refundment_list')),
+                'checked_data'      => array_keys(MyConst('common_order_aftersale_refundment_list')),
                 'error_msg'         => '请选择业务类型',
             ],
             [
@@ -382,7 +382,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'rating',
-                'checked_data'      => array_keys(lang('common_goods_comments_rating_list')),
+                'checked_data'      => array_keys(MyConst('common_goods_comments_rating_list')),
                 'error_msg'         => '请选择评分',
             ],
         ];

@@ -30,15 +30,15 @@
 				</legend>
 				<div class="am-form-group">
 					<label>当前密码</label>
-					<input type="password" name="my_pwd" placeholder="当前密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="当前密码格式 6~18 个字符之间" class="am-radius" required />
+					<input type="password" name="my_pwd" placeholder="当前密码" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="当前密码格式 6~18 个字符之间" class="am-radius" required />
 				</div>
 				<div class="am-form-group">
 					<label>新密码</label>
-					<input type="password" name="new_pwd" placeholder="新密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="新密码格式 6~18 个字符之间" class="am-radius" id="new-loginpwd" required />
+					<input type="password" name="new_pwd" placeholder="新密码" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="新密码格式 6~18 个字符之间" class="am-radius" id="new-loginpwd" required />
 				</div>
 				<div class="am-form-group">
 					<label>确认密码</label>
-					<input type="password" name="confirm_new_pwd" placeholder="确认密码" pattern="{{:lang('common_regex_pwd')}}" data-validation-message="确认密码格式 6~18 个字符之间，与新密码一致" class="am-radius" data-equal-to="#new-loginpwd" required />
+					<input type="password" name="confirm_new_pwd" placeholder="确认密码" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="确认密码格式 6~18 个字符之间，与新密码一致" class="am-radius" data-equal-to="#new-loginpwd" required />
 				</div>
 				<div class="am-form-group am-form-group-refreshing">
 					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>

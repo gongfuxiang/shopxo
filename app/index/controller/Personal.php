@@ -67,7 +67,7 @@ class Personal extends Common
 	public function SaveInfo()
 	{
 		// 性别
-		MyViewAssign('common_gender_list', lang('common_gender_list'));
+		MyViewAssign('common_gender_list', MyConst('common_gender_list'));
 
 		// 数据
 		MyViewAssign('data', $this->user);

@@ -109,7 +109,7 @@ class GoodsParamsTemplate extends Common
             MyViewAssign('data', $data);
 
             // 商品参数类型
-            MyViewAssign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));
+            MyViewAssign('common_goods_parameters_type_list', MyConst('common_goods_parameters_type_list'));
 
             // 参数配置
             MyViewAssign('parameters', empty($data['config_data']) ? [] : $data['config_data']);
@@ -146,7 +146,7 @@ class GoodsParamsTemplate extends Common
         }
 
         // 商品参数类型
-        MyViewAssign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));
+        MyViewAssign('common_goods_parameters_type_list', MyConst('common_goods_parameters_type_list'));
 
         // 参数配置
         MyViewAssign('parameters', empty($data['config_data']) ? [] : $data['config_data']);

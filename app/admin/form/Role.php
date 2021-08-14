@@ -79,7 +79,7 @@ class Role
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => lang('common_is_text_list'),
+                        'data'              => MyConst('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,

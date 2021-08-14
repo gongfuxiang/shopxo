@@ -42,8 +42,8 @@ class AppHomeNavService
         $data = Db::name('AppHomeNav')->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
         if(!empty($data))
         {
-            $common_platform_type = lang('common_platform_type');
-            $common_app_event_type = lang('common_app_event_type');
+            $common_platform_type = MyConst('common_platform_type');
+            $common_app_event_type = MyConst('common_app_event_type');
             foreach($data as &$v)
             {
                 // 平台类型
@@ -114,13 +114,13 @@ class AppHomeNavService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'platform',
-                'checked_data'      => array_column(lang('common_platform_type'), 'value'),
+                'checked_data'      => array_column(MyConst('common_platform_type'), 'value'),
                 'error_msg'         => '平台类型有误',
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'event_type',
-                'checked_data'      => array_column(lang('common_app_event_type'), 'value'),
+                'checked_data'      => array_column(MyConst('common_app_event_type'), 'value'),
                 'is_checked'        => 2,
                 'error_msg'         => '事件值类型有误',
             ],

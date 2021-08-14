@@ -271,7 +271,7 @@ class NavigationService
     {
         if(!empty($data) && is_array($data))
         {
-            $nav_type_list = lang('common_nav_type_list');
+            $nav_type_list = MyConst('common_nav_type_list');
             foreach($data as &$v)
             {
                 // 数据类型

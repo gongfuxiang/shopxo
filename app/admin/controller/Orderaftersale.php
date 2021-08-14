@@ -76,7 +76,7 @@ class Orderaftersale extends Common
         $ret = OrderAftersaleService::OrderAftersaleList($data_params);
 
         // 静态数据
-        MyViewAssign('common_order_aftersale_refundment_list', lang('common_order_aftersale_refundment_list'));
+        MyViewAssign('common_order_aftersale_refundment_list', MyConst('common_order_aftersale_refundment_list'));
 
         // 基础参数赋值
         MyViewAssign('params', $this->data_request);

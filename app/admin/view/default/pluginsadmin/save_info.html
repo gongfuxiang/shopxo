@@ -43,7 +43,7 @@
 
             <div class="am-form-group">
                 <label>版本<span class="am-form-group-label-tips">主版本.次版本号.修订号，每个段不超过6位，如 1.0.0</span></label>
-                <input type="text" name="version" placeholder="版本" minlength="5" maxlength="18" data-validation-message="版本格式有误" pattern="{{:lang('common_regex_version')}}" class="am-radius" {{if !empty($data)}} value="{{$data.version}}"{{/if}} required />
+                <input type="text" name="version" placeholder="版本" minlength="5" maxlength="18" data-validation-message="版本格式有误" pattern="{{:MyConst('common_regex_version')}}" class="am-radius" {{if !empty($data)}} value="{{$data.version}}"{{/if}} required />
             </div>
 
             <div class="am-form-group am-form-file">
@@ -54,7 +54,7 @@
             <div class="am-form-group">
                 <label>适用终端</label>
                 <select name="apply_terminal" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个适用终端" required>
-                    {{foreach :lang('common_platform_type') as $v}}
+                    {{foreach :MyConst('common_platform_type') as $v}}
                         <option value="{{$v.value}}" {{if isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
@@ -63,7 +63,7 @@
             <div class="am-form-group">
                 <label>适用系统版本</label>
                 <select name="apply_version" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个适用系统版本" required>
-                    {{foreach :lang('common_system_version_list') as $v}}
+                    {{foreach :MyConst('common_system_version_list') as $v}}
                         <option value="{{$v.value}}" {{if isset($data['apply_version']) and in_array($v['value'], $data['apply_version'])}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>

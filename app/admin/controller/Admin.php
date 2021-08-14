@@ -160,8 +160,8 @@ class Admin extends Common
 		MyViewAssign('role_list', $role['data']);
 
 		MyViewAssign('id', isset($params['id']) ? $params['id'] : 0);
-		MyViewAssign('common_gender_list', lang('common_gender_list'));
-		MyViewAssign('common_admin_status_list', lang('common_admin_status_list'));
+		MyViewAssign('common_gender_list', MyConst('common_gender_list'));
+		MyViewAssign('common_admin_status_list', MyConst('common_admin_status_list'));
 
 		// 管理员编辑页面钩子
         $hook_name = 'plugins_view_admin_admin_save';

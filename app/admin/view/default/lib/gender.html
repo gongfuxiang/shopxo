@@ -2,7 +2,7 @@
 <div class="am-form-group">
 	<label>性别<span class="am-form-group-label-tips-must">必选</span></label>
 	<div>
-		{{foreach :lang('common_gender_list') as $v}}
+		{{foreach :MyConst('common_gender_list') as $v}}
 			<label class="am-radio-inline am-margin-right-sm">
 				<input type="radio" name="gender" value="{{$v.id}}" {{if isset($data['gender']) and $data['gender'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['gender']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
 			</label>

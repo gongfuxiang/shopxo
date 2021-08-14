@@ -124,7 +124,7 @@ class Goods extends Common
                 $parameters = GoodsService::GoodsEditParameters($data['id']);
 
                 // 商品参数类型
-                MyViewAssign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));
+                MyViewAssign('common_goods_parameters_type_list', MyConst('common_goods_parameters_type_list'));
 
                 MyViewAssign('parameters', $parameters);
             }
@@ -195,12 +195,12 @@ class Goods extends Common
 		MyViewAssign('goods_specifications_extends', $goods_spec_extends['data']);
 
         // 站点类型
-        MyViewAssign('common_site_type_list', lang('common_site_type_list'));
+        MyViewAssign('common_site_type_list', MyConst('common_site_type_list'));
         // 当前系统设置的站点类型
         MyViewAssign('common_site_type', SystemBaseService::SiteTypeValue());
 
         // 商品参数类型
-        MyViewAssign('common_goods_parameters_type_list', lang('common_goods_parameters_type_list'));
+        MyViewAssign('common_goods_parameters_type_list', MyConst('common_goods_parameters_type_list'));
 
         // 商品参数模板
         $data_params = array(

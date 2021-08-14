@@ -52,7 +52,7 @@ class IntegralService
         $log_id = Db::name('UserIntegralLog')->insertGetId($data);
         if($log_id > 0)
         {
-            $type_msg = lang('common_integral_log_type_list')[$type]['name'];
+            $type_msg = MyConst('common_integral_log_type_list')[$type]['name'];
             $detail = $msg.'积分'.$type_msg.$operation_integral;
             MessageService::MessageAdd($user_id, '积分变动', $detail, '积分', $log_id);
             return true;
@@ -81,7 +81,7 @@ class IntegralService
         $data = Db::name('UserIntegralLog')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
         if(!empty($data))
         {
-            $integral_log_type_list = lang('common_integral_log_type_list');
+            $integral_log_type_list = MyConst('common_integral_log_type_list');
             foreach($data as &$v)
             {
                 // 用户信息

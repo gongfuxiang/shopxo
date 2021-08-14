@@ -140,7 +140,7 @@ class Orderaftersale extends Common
             MyViewAssign('return_goods_address', $return_goods_address);
 
             // 静态数据
-            MyViewAssign('common_order_aftersale_type_list', lang('common_order_aftersale_type_list'));
+            MyViewAssign('common_order_aftersale_type_list', MyConst('common_order_aftersale_type_list'));
 
             // 编辑器文件存放地址
             MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id)));

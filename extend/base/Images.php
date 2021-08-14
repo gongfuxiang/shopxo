@@ -70,7 +70,10 @@ class Images
 	 */
 	private function IsGD()
 	{
-		if(!isset(gd_info()['GD Version']) || empty(gd_info()['GD Version'])) Api_Return(lang('code_412'), 412);
+		if(!isset(gd_info()['GD Version']) || empty(gd_info()['GD Version']))
+		{
+			die('not support gd');
+		}
 	}
 
 	/**

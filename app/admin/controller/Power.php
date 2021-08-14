@@ -57,7 +57,7 @@ class Power extends Common
 		$data = AdminPowerService::PowerList($data_params);
 
 		MyViewAssign('data', $data);
-		MyViewAssign('common_is_show_list', lang('common_is_show_list'));
+		MyViewAssign('common_is_show_list', MyConst('common_is_show_list'));
 		return MyView();
 	}
 

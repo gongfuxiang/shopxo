@@ -151,8 +151,8 @@ class Design extends Common
         MyViewAssign('many_images_view_list_show_style', BaseLayout::$many_images_view_list_show_style);
 
         // 首页商品排序规则
-        MyViewAssign('goods_order_by_type_list', lang('goods_order_by_type_list'));
-        MyViewAssign('goods_order_by_rule_list', lang('goods_order_by_rule_list'));
+        MyViewAssign('goods_order_by_type_list', MyConst('goods_order_by_type_list'));
+        MyViewAssign('goods_order_by_rule_list', MyConst('goods_order_by_rule_list'));
 
         // 加载布局样式+管理
         MyViewAssign('is_load_layout', 1);

@@ -51,7 +51,7 @@ class Express extends Common
 	public function Index()
 	{
 		// 是否启用
-		MyViewAssign('common_is_enable_list', lang('common_is_enable_list'));
+		MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
 
         // 编辑器文件存放地址
 		MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('express'));

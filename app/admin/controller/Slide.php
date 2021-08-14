@@ -136,9 +136,9 @@ class Slide extends Common
         }
 
         // 静态资源
-        MyViewAssign('common_is_enable_list', lang('common_is_enable_list'));
-        MyViewAssign('common_platform_type', lang('common_platform_type'));
-        MyViewAssign('common_app_event_type', lang('common_app_event_type'));
+        MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
+        MyViewAssign('common_platform_type', MyConst('common_platform_type'));
+        MyViewAssign('common_app_event_type', MyConst('common_app_event_type'));
 
         // 编辑器文件存放地址
         MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('slide'));

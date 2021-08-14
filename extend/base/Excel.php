@@ -126,7 +126,7 @@ class Excel
 
 		// 获取配置编码类型
 		$excel_charset = MyC('admin_excel_charset', 0);
-		$charset = lang('common_excel_charset_list')[$excel_charset]['value'];
+		$charset = MyConst('common_excel_charset_list')[$excel_charset]['value'];
 
 		// 水平,垂直居中
 		if($this->horizontal_center == 1)

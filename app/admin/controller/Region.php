@@ -50,7 +50,7 @@ class Region extends Common
 		$this->IsPower();
 
 		// 是否启用
-		MyViewAssign('common_is_enable_list', lang('common_is_enable_list'));
+		MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
 
 		return MyView();
 	}

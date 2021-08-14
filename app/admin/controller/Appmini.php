@@ -159,10 +159,10 @@ class Appmini extends Common
         MyViewAssign('store_theme_url', StoreService::StoreThemeUrl());
 
 		// 小程序平台
-		MyViewAssign('common_appmini_type', lang('common_appmini_type'));
+		MyViewAssign('common_appmini_type', MyConst('common_appmini_type'));
 
 		// 是否
-		MyViewAssign('common_is_text_list', lang('common_is_text_list'));
+		MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
 
 		// 基础导航
 		$base_nav = [

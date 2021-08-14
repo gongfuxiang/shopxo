@@ -50,7 +50,7 @@ class AppMiniService
         self::$application_name = isset($params['application_name']) ? $params['application_name'] : 'weixin';
 
         // 小程序类型校验
-        if(!array_key_exists(self::$application_name, lang('common_appmini_type')))
+        if(!array_key_exists(self::$application_name, MyConst('common_appmini_type')))
         {
             return DataReturn('小程序类型有误['.self::$application_name.']', -1);
         }
@@ -430,7 +430,7 @@ class AppMiniService
         \base\FileUtil::UnlinkDir($new_dir);
 
         // 开始下载
-        $appmini_type = lang('common_appmini_type');
+        $appmini_type = MyConst('common_appmini_type');
         $application_name = array_key_exists(self::$application_name, $appmini_type) ? $appmini_type[self::$application_name]['name'].'-' : '';
         if(\base\FileUtil::DownloadFile($new_dir.'.zip', $application_name.$config['name'].'_v'.$config['ver'].'.zip'))
         {

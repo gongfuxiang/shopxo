@@ -137,8 +137,8 @@ class QuickNav extends Common
         MyViewAssign('data', $data);
 
         // 静态数据
-        MyViewAssign('common_platform_type', lang('common_platform_type'));
-        MyViewAssign('common_app_event_type', lang('common_app_event_type'));
+        MyViewAssign('common_platform_type', MyConst('common_platform_type'));
+        MyViewAssign('common_app_event_type', MyConst('common_app_event_type'));
 
         // 参数
         MyViewAssign('params', $params);

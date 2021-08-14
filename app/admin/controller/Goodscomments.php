@@ -105,7 +105,7 @@ class Goodscomments extends Common
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
             MyViewAssign('data', $data);
 
-            MyViewAssign('common_goods_comments_rating_list', lang('common_goods_comments_rating_list'));
+            MyViewAssign('common_goods_comments_rating_list', MyConst('common_goods_comments_rating_list'));
         }
         return MyView();
     }
@@ -139,10 +139,10 @@ class Goodscomments extends Common
         MyViewAssign('data', $data);
 
         // 静态数据
-        MyViewAssign('common_is_show_list', lang('common_is_show_list'));
-        MyViewAssign('common_is_text_list', lang('common_is_text_list'));
-        MyViewAssign('common_goods_comments_rating_list', lang('common_goods_comments_rating_list'));
-        MyViewAssign('common_goods_comments_business_type_list', lang('common_goods_comments_business_type_list'));
+        MyViewAssign('common_is_show_list', MyConst('common_is_show_list'));
+        MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
+        MyViewAssign('common_goods_comments_rating_list', MyConst('common_goods_comments_rating_list'));
+        MyViewAssign('common_goods_comments_business_type_list', MyConst('common_goods_comments_business_type_list'));
 
         // 参数
         unset($params['id']);
