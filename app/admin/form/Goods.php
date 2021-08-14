@@ -52,6 +52,7 @@ class Goods
                 'delete_url'    => MyUrl('admin/goods/delete'),
                 'delete_key'    => 'ids',
                 'detail_title'  => '基础信息',
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [
