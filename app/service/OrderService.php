@@ -109,7 +109,7 @@ class OrderService
             $operate = self::OrderOperateData($order, 'user');
             if($operate['is_pay'] != 1)
             {
-                $status_text = MyConst('common_order_user_status')[$order['status']]['name'];
+                $status_text = MyConst('common_order_status')[$order['status']]['name'];
                 return DataReturn('状态不可操作['.$status_text.'-'.$order['order_no'].']', -1);
             }
 
@@ -424,7 +424,7 @@ class OrderService
         $operate = self::OrderOperateData($order, 'admin');
         if($operate['is_pay'] != 1)
         {
-            $status_text = MyConst('common_order_admin_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.'-'.$order['order_no'].']', -1);
         }
 
@@ -1180,7 +1180,7 @@ class OrderService
             $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
 
             // 静态数据
-            $order_status_list = MyConst('common_order_user_status');
+            $order_status_list = MyConst('common_order_status');
             $order_pay_status = MyConst('common_order_pay_status');
             $common_platform_type = MyConst('common_platform_type');
             $common_site_type_list = MyConst('common_site_type_list');
@@ -1652,7 +1652,7 @@ class OrderService
     public static function OrderHistoryAdd($order_id, $new_status, $original_status, $msg = '', $creator = 0, $creator_name = '')
     {
         // 状态描述
-        $order_status_list = MyConst('common_order_user_status');
+        $order_status_list = MyConst('common_order_status');
         $original_status_name = $order_status_list[$original_status]['name'];
         $new_status_name = $order_status_list[$new_status]['name'];
         $msg .= '['.$original_status_name.'-'.$new_status_name.']';
@@ -1729,7 +1729,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_cancel'] != 1)
         {
-            $status_text = MyConst('common_order_user_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
@@ -1812,7 +1812,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_delivery'] != 1)
         {
-            $status_text = MyConst('common_order_user_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
@@ -1949,7 +1949,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_collect'] != 1)
         {
-            $status_text = MyConst('common_order_user_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
@@ -2043,7 +2043,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_confirm'] != 1)
         {
-            $status_text = MyConst('common_order_user_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
@@ -2147,7 +2147,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_delete'] != 1)
         {
-            $status_text = MyConst('common_order_user_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
@@ -2179,7 +2179,7 @@ class OrderService
     {
         // 状态数据封装
         $result = [];
-        $order_status_list = MyConst('common_order_user_status');
+        $order_status_list = MyConst('common_order_status');
         foreach($order_status_list as $v)
         {
             $result[] = [

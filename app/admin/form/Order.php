@@ -88,7 +88,7 @@ class Order
                         'form_type'         => 'select',
                         'form_name'         => 'status',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_order_admin_status'),
+                        'data'              => MyConst('common_order_status'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,

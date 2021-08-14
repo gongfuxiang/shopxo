@@ -140,7 +140,7 @@ class GoodsCommentsService
         }
         if($order['status'] != 4)
         {
-            $status_text = MyConst('common_order_user_status')[$order['status']]['name'];
+            $status_text = MyConst('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
         if($order['user_is_comments'] != 0)

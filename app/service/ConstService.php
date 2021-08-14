@@ -114,7 +114,7 @@ class ConstService
                 1 => ['id' => 1, 'value' => 'gbk', 'name' => 'gbk'],
             ],
 
-            // 支付状态
+            // 支付支付状态
             'common_order_pay_status'   => [
                 0 => ['id' => 0, 'name' => '待支付', 'checked' => true],
                 1 => ['id' => 1, 'name' => '已支付'],
@@ -122,23 +122,12 @@ class ConstService
                 3 => ['id' => 3, 'name' => '部分退款'],
             ],
 
-            // 用户端 - 订单管理
-            'common_order_user_status'          =>  [
+            // 订单状态
+            'common_order_status'          =>  [
                 0 => ['id' => 0, 'name' => '待确认', 'checked' => true],
                 1 => ['id' => 1, 'name' => '待付款'],
                 2 => ['id' => 2, 'name' => '待发货'],
                 3 => ['id' => 3, 'name' => '待收货'],
-                4 => ['id' => 4, 'name' => '已完成'],
-                5 => ['id' => 5, 'name' => '已取消'],
-                6 => ['id' => 6, 'name' => '已关闭'],
-            ],
-
-            // 后台管理 - 订单管理
-            'common_order_admin_status'         =>  [
-                0 => ['id' => 0, 'name' => '待确认', 'checked' => true],
-                1 => ['id' => 1, 'name' => '已确认/待支付'],
-                2 => ['id' => 2, 'name' => '待发货/待取货'],
-                3 => ['id' => 3, 'name' => '已发货/待收货'],
                 4 => ['id' => 4, 'name' => '已完成'],
                 5 => ['id' => 5, 'name' => '已取消'],
                 6 => ['id' => 6, 'name' => '已关闭'],
