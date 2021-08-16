@@ -8,48 +8,66 @@
  * @param {[string]} 	type [类型（失败:error, 警告:warning, 成功:success）]
  * @param {[int]} 		time [自动关闭时间（秒）, 默认3秒]
  */
-var temp_time_out;
+
 function Prompt(msg, type, time)
 {
 	if(msg != undefined && msg != '')
 	{
-		// 是否已存在提示条
-		if($('#common-prompt').length > 0)
+		// 存在的提示信息则不继续
+		var status = true;
+		$('.common-prompt').each(function(k, v)
 		{
-			clearTimeout(temp_time_out);
+			if(status && $(this).find('.prompt-msg').text() == msg)
+			{
+				status = false;
+			}
+		});
+		if(status)
+		{
+			// 是否已存在提示条
+			var height = 55;
+			var length = $('.common-prompt').length;
+
+			// 提示信息添加
+			if((type || null) == null)
+			{
+				type = 'danger';
+			}
+
+			// icon图标, 默认错误
+			var icon = 'am-icon-times-circle';
+			switch(type)
+			{
+				// 成功
+				case 'success' :
+					icon = 'am-icon-check-circle';
+					break;
+
+				// 警告
+				case 'warning' :
+					icon = 'am-icon-exclamation-circle';
+					break;
+			}
+			var index = parseInt(Math.random()*1000001);
+			var html = '<div class="common-prompt common-prompt-'+index+' am-alert am-alert-'+type+' am-animation-slide-top" data-index="'+index+'" style="top:'+((height*length)+20)+'px;" data-am-alert><button type="button" class="am-close">&times;</button><div class="prompt-content"><i class="'+icon+' am-icon-sm am-margin-right-sm"></i><p class="prompt-msg">'+msg+'</p></div></div>';
+			$('body').append(html);
+
+			// 自动关闭提示
+			setTimeout(function()
+			{
+				$('.common-prompt-'+index).slideToggle(300, function()
+				{
+					$('.common-prompt-'+index).remove();
+					$('.common-prompt').each(function(k, v)
+					{
+						$(this).animate({'top':(k*height+20)+'px'});
+					});
+				});
+			}, (time || 3)*1000);
+			return true;
 		}
-
-		// 提示信息添加
-		$('#common-prompt').remove();
-		if((type || null) == null)
-		{
-			type = 'danger';
-		}
-
-		// icon图标, 默认错误
-		var icon = 'am-icon-times-circle';
-		switch(type)
-		{
-			// 成功
-			case 'success' :
-				icon = 'am-icon-check-circle';
-				break;
-
-			// 警告
-			case 'warning' :
-				icon = 'am-icon-exclamation-circle';
-				break;
-
-		}
-		var html = '<div id="common-prompt" class="am-alert am-alert-'+type+' am-animation-slide-top" data-am-alert><button type="button" class="am-close">&times;</button><div class="prompt-content"><i class="'+icon+' am-icon-sm am-margin-right-sm"></i><p class="prompt-msg">'+msg+'</p></div></div>';
-		$('body').append(html);
-
-		// 自动关闭提示
-		temp_time_out = setTimeout(function()
-		{
-			$('#common-prompt').slideToggle();
-		}, (time || 3)*1000);
 	}
+	return false;
 }
 
 /**
@@ -138,7 +156,6 @@ function GetFormVal(element, is_json)
 		{
 			if($(this).is(':checked'))
 			{
-				console.log(tmp);
 				if(tmp_all[tmp.name] == undefined)
 				{
 					tmp_all[tmp.name] = [];
