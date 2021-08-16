@@ -770,30 +770,60 @@ button.colorpicker-submit img {
     background: transparent;
     color: #999;
 }
+a.am-badge-default-plain:hover,
+a.am-badge-default-plain:focus {
+    color: #666;
+    border: 1px solid #666;
+}
 .am-badge-primary-plain {
     border: 1px solid #0e90d2;
     background: transparent;
     color: #0e90d2;
+}
+a.am-badge-primary-plain:hover,
+a.am-badge-primary-plain:focus {
+    color: #0071aa;
+    border: 1px solid #0071aa;
 }
 .am-badge-secondary-plain {
     border: 1px solid #3bb4f2;
     background: transparent;
     color: #3bb4f2;
 }
+a.am-badge-secondary-plain:hover,
+a.am-badge-secondary-plain:focus {
+    color: #03a9f4;
+    border: 1px solid #03a9f4;
+}
 .am-badge-success-plain {
     border: 1px solid #5eb95e;
     background: transparent;
     color: #5eb95e;
+}
+a.am-badge-success-plain:hover,
+a.am-badge-success-plain:focus {
+    color: #4caf50;
+    border: 1px solid #4caf50;
 }
 .am-badge-warning-plain {
     border: 1px solid #F37B1D;
     background: transparent;
     color: #F37B1D;
 }
+a.am-badge-warning-plain:hover,
+a.am-badge-warning-plain:focus {
+    color: #ff7000;
+    border: 1px solid #ff7000;
+}
 .am-badge-danger-plain {
     border: 1px solid #dd514c;
     background: transparent;
     color: #dd514c;
+}
+a.am-badge-danger-plain:hover,
+a.am-badge-danger-plain:focus {
+    color: #ee2d26;
+    border: 1px solid #ee2d26;
 }
 
 /**
