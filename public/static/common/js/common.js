@@ -8,7 +8,6 @@
  * @param {[string]} 	type [类型（失败:error, 警告:warning, 成功:success）]
  * @param {[int]} 		time [自动关闭时间（秒）, 默认3秒]
  */
-
 function Prompt(msg, type, time)
 {
 	if(msg != undefined && msg != '')
