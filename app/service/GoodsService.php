@@ -1335,11 +1335,24 @@ class GoodsService
 
         // 更新商品表
         $data['upd_time'] = time();
-        if(Db::name('Goods')->where(['id'=>$goods_id])->update($data))
+        if(Db::name('Goods')->where(['id'=>$goods_id])->update($data) === false)
         {
-            return DataReturn('操作成功', 0);
+            return DataReturn('商品基础更新失败', -1);
         }
-        return DataReturn('操作失败', 0);
+
+        // 商品基础数据更新钩子
+        $hook_name = 'plugins_service_goods_base_update';
+        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'goods_id'      => $goods_id
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        return DataReturn('操作成功', 0);
     }
 
     /**
