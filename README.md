@@ -52,6 +52,7 @@
 * Gitee：https://gitee.com/zongzhige/shopxo
 * GitHub：https://github.com/gongfuxiang/shopxo
 * Coding：https://zongzhige.coding.net/public/shopxo/shopxo/git
+* CodeChina：https://codechina.csdn.net/zongzhige/shopxo.git
 
 ### 部分功能特性
 ~~~
