@@ -197,10 +197,8 @@ v1.2版本不再支持支付宝生活号管理（需要使用此功能的小伙�
 ```
 
 ### 如何参与项目
-非常欢迎您对ShopXO的开发作出贡献，发布issue进行问题反馈和建议！
-你可以选择以下方式向ShopXO贡献：
-- [Github](https://github.com/gongfuxiang/shopxo/pulls)
-- [Gitee](https://gitee.com/zongzhige/shopxo/pulls)
-- [CodeChina](https://codechina.csdn.net/zongzhige/shopxo/merge_requests)
-- 通过Pull Request提交修复
-- 完善我们的文档和例子
+非常欢迎您对ShopXO的开发作出贡献！你可以选择以下方式向ShopXO贡献：
+- [Github - 发布issue进行问题反馈和建议](https://github.com/gongfuxiang/shopxo/pulls)
+- [Gitee - 发布issue进行问题反馈和建议](https://gitee.com/zongzhige/shopxo/pulls)
+- [CodeChina - 发布issue进行问题反馈和建议](https://codechina.csdn.net/zongzhige/shopxo/merge_requests)
+> 通过Pull Request提交修复、完善我们的文档和例子
