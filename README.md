@@ -1,4 +1,4 @@
-<p align="center" style="text-align:center;">
+<p align="center">
 <img src="https://doc.shopxo.net/upload/image/20210727/1627379966617129.jpg" width="360" />
 </p>
 
@@ -12,7 +12,7 @@
 
 </div>
 
-<h3 align="center" style="text-align:center;">ShopXO企业级免费开源电商系统</h3>
+<h3 align="center">ShopXO企业级免费开源电商系统</h3>
 
 <div align="center">
 
