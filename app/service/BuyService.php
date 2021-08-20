@@ -1075,7 +1075,7 @@ class BuyService
 
             // 订单主信息
             $order = [
-                'order_no'              => date('YmdHis').GetNumberCode(6),
+                'order_no'              => self::OrderNoCreate(),
                 'user_id'               => $params['user']['id'],
                 'warehouse_id'          => $v['id'],
                 'user_note'             => $user_note,
@@ -1258,6 +1258,19 @@ class BuyService
         }
 
         return DataReturn($msg, 0, $result);
+    }
+
+    /**
+     * 订单号生成
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-08-17
+     * @desc    description
+     */
+    public static function OrderNoCreate()
+    {
+        return date('YmdHis').GetNumberCode(6);
     }
 
     /**
