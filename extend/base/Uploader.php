@@ -50,8 +50,9 @@ class Uploader
         "ERROR_DEAD_LINK" => "链接不可用",
         "ERROR_HTTP_LINK" => "链接不是http链接",
         "ERROR_HTTP_CONTENTTYPE" => "链接contentType不正确",
-        "INVALID_URL" => "非法 URL",
-        "INVALID_IP" => "非法 IP",
+        "INVALID_URL" => "非法URL",
+        "INVALID_IP" => "非法IP",
+        "INVALID_FILE" => "非法文件",
         "ERROR_IMAGE_SAVE" => "保存出错,图片有误",
         "ERROR_UPLOAD_TYPE" => "操作类型有误",
     );
@@ -193,9 +194,9 @@ class Uploader
         }
 
         // 防止原名称没有带后缀
+        $info = getimagesize($file['tmp_name']);
         if(stripos($file['name'], '.') === false)
         {
-            $info = getimagesize($file['tmp_name']);
             $file['name'] .= str_replace('/', '.', $info['mime']);
         }
 
@@ -228,7 +229,14 @@ class Uploader
             return;
         }
 
-        // 存储图片、使用GD存储图片、防止图片包含木马
+        // 验证一句话木马（如果是加密的无法判断）
+        $content = @file_get_contents($file["tmp_name"]);
+        if(false == $content || preg_match('#<\?php#i', $content) || $info['mime'] == 'text/x-php')
+        {
+            $this->stateInfo = $this->getStateInfo("INVALID_FILE");
+            return;
+        }
+
         // 如未安装相应的gd库则直接存储文件
         // 未开启重新绘制
         $is_move = false;
@@ -333,7 +341,6 @@ class Uploader
         } else { //移动成功
             $this->stateInfo = $this->stateMap[0];
         }
-
     }
 
     /**
@@ -398,6 +405,13 @@ class Uploader
         $this->fileName = $this->getFileName();
         $dirname = dirname($this->filePath);
 
+        // 验证一句话木马（如果是加密的无法判断）
+        if(preg_match('#<\?php#i', $img))
+        {
+            $this->stateInfo = $this->getStateInfo("INVALID_FILE");
+            return;
+        }
+
         //检查文件大小是否超出限制
         if (!$this->checkSize()) {
             $this->stateInfo = $this->getStateInfo("ERROR_SIZE_EXCEED");
@@ -419,7 +433,6 @@ class Uploader
         } else { //移动成功
             $this->stateInfo = $this->stateMap[0];
         }
-
     }
 
     /**
