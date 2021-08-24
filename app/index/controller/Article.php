@@ -89,8 +89,9 @@ class Article extends Common
             {
                 MyViewAssign('home_seo_site_description', $ret['data'][0]['seo_desc']);
             }
-
-			MyViewAssign('article', $ret['data'][0]);
+            $article =  $ret['data'][0];
+            $this->PluginsHook($id, $article);
+			MyViewAssign('article', $article);
 			return MyView();
 		}
 
@@ -98,5 +99,33 @@ class Article extends Common
 		MyViewAssign('msg', '文章不存在或已删除');
 		return MyView('public/tips_error');
 	}
+
+    /**
+     * 钩子处理
+     * @author   whats
+     * @blog
+     * @version 1.0.0
+     * @date    2019-04-22
+     * @desc    description
+     * @param   [int]             $article_id [文章id]
+     * @param   [array]           $params   [输入参数]
+     */
+    private function PluginsHook($article_id, &$article)
+    {
+        $hook_arr = [
+            //文章内容内部钩子
+            'plugins_view_article_detail_content_within',
+        ];
+        foreach($hook_arr as $hook_name)
+        {
+            MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+                [
+                    'hook_name'    => $hook_name,
+                    'is_backend'   => false,
+                    'article_id'     => $article_id,
+                    'article'        => &$article,
+                ]));
+        }
+    }
 }
 ?>
