@@ -287,7 +287,7 @@ return [
                 \PDO::ATTR_CASE => \PDO::CASE_LOWER,
                 \PDO::ATTR_EMULATE_PREPARES => true,
             ],
-            // 数据库编码默认采用utf8
+            // 数据库编码默认采用utf8mb4
             'charset'         => '{$params['DB_CHARSET']}',
             // 数据库表前缀
             'prefix'          => '{$params['DB_PREFIX']}',
