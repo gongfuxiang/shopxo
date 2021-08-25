@@ -35,7 +35,7 @@
                     <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}" class="{{if $goods['is_error'] eq 1}}am-danger{{/if}}">
                         <td class="base">
                             <!-- 商品基础前面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
                                     <span>plugins_view_cart_base_begin</span>
                                 </div>
@@ -83,7 +83,7 @@
                             </div>
 
                             <!-- 商品基础后面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
                                     <span>plugins_view_cart_base_end</span>
                                 </div>
@@ -106,7 +106,7 @@
                         </td>
                         <td class="price am-hide-sm-only">
                             <!-- 商品单价前面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
                                     <span>plugins_view_cart_price_begin</span>
                                 </div>
@@ -136,7 +136,7 @@
                             </div>
 
                             <!-- 商品单价后面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
                                     <span>plugins_view_cart_price_end</span>
                                 </div>
@@ -159,7 +159,7 @@
                         </td>
                         <td class="number">
                             <!-- 商品数量前面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
                                     <span>plugins_view_cart_number_begin</span>
                                 </div>
@@ -195,7 +195,7 @@
                             {{/if}}
 
                             <!-- 商品数量后面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
                                     <span>plugins_view_cart_number_end</span>
                                 </div>
@@ -218,7 +218,7 @@
                         </td>
                         <td class="total-price am-hide-sm-only">
                             <!-- 商品总价面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
                                     <span>plugins_view_cart_total_price_begin</span>
                                 </div>
@@ -242,7 +242,7 @@
                             <strong class="total-price-content">{{$currency_symbol}}{{$goods.total_price}}</strong>
 
                             <!-- 商品总价后面钩子 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
                                     <span>plugins_view_cart_total_price_end</span>
                                 </div>
@@ -267,7 +267,7 @@
                             <a href="javascript:;" class="am-text-danger submit-delete" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$goods.id}}" data-view="fun" data-value="ViewDeleteBack">删除</a>
 
                             <!-- 商品操作栏 开始 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
                                     <span>plugins_view_cart_operate</span>
                                 </div>
@@ -303,7 +303,7 @@
                 <a href="javascript:;" class="am-margin-left-sm nav-delete-submit submit-ajax" data-url="{{:MyUrl('index/cart/delete')}}" data-id="0" data-view="reload" data-msg="删除后不可恢复、确认操作吗？">删除</a>
 
                 <!-- 导航左侧内部 开始 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                     <div class="plugins-tag">
                         <span>plugins_view_cart_nav_left_inside</span>
                     </div>
@@ -326,7 +326,7 @@
             </div>
             <div class="am-fr nav-right">
                 <!-- 导航右侧内部 开始 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                     <div class="plugins-tag">
                         <span>plugins_view_cart_nav_right_inside</span>
                     </div>

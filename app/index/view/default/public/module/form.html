@@ -15,7 +15,7 @@
 <!-- content -->
 <div class="am-container">
     <!-- content top hook -->
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
         <div class="plugins-tag">
             <span>{{$hook_name_content_top}}</span>
         </div>
@@ -43,7 +43,7 @@
     <!-- content start  -->
     <div class="form-table-content">
         <!-- content inside top hook -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="plugins-tag">
                 <span>{{$hook_name_content_inside_top}}</span>
             </div>
@@ -111,7 +111,7 @@
         <!-- extend end -->
 
         <!-- content inside top hook -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="plugins-tag">
                 <span>{{$hook_name_content_inside_bottom}}</span>
             </div>
@@ -133,7 +133,7 @@
     <!-- content end  -->
 
     <!-- content bottom hook -->
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
         <div class="plugins-tag">
             <span>{{$hook_name_content_bottom}}</span>
         </div>

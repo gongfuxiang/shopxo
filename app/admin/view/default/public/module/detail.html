@@ -1,7 +1,7 @@
 {{include file="public/header" /}}
 
 <!-- content top hook -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
     <div class="plugins-tag">
         <span>{{$hook_name_detail_top}}</span>
     </div>
@@ -23,7 +23,7 @@
 <!-- content start  -->
 <div class="am-padding-sm">
     <!-- content inside top hook -->
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
         <div class="plugins-tag">
             <span>{{$hook_name_detail_inside_top}}</span>
         </div>
@@ -164,7 +164,7 @@
     {{/if}}
 
     <!-- content inside top hook -->
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
         <div class="plugins-tag">
             <span>{{$hook_name_detail_inside_bottom}}</span>
         </div>
@@ -186,7 +186,7 @@
 <!-- content end  -->
 
 <!-- content bottom hook -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
     <div class="plugins-tag">
         <span>{{$hook_name_detail_bottom}}</span>
     </div>

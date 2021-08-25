@@ -13,7 +13,7 @@
 {{include file="public/goods_category" /}}
 
 <!-- 订单确认页面顶部钩子-开始 -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
     <div class="plugins-tag">
         <span>plugins_view_buy_top</span>
     </div>
@@ -31,7 +31,7 @@
 <div class="am-container">
     <div class="link-list">
         <!-- 订单确认页面内部顶部钩子-开始 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="plugins-tag">
                 <span>plugins_view_buy_inside_top</span>
             </div>
@@ -218,7 +218,7 @@
         {{/if}}
 
         <!-- 订单确认页面地址底部钩子-开始 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="plugins-tag">
                 <span>plugins_view_buy_address_bottom</span>
             </div>
@@ -241,7 +241,7 @@
                         <div class="am-panel am-panel-default am-margin-top-sm am-margin-bottom-0">
                             <div class="am-panel-hd">
                                 <!-- 分组导航内部开始钩子-开始 -->
-                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                     <div class="plugins-tag">
                                         <span>plugins_view_buy_group_nav_inside_begin</span>
                                     </div>
@@ -282,7 +282,7 @@
                                 </span>
 
                                 <!-- 分组导航内部中间钩子-开始 -->
-                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                     <div class="plugins-tag">
                                         <span>plugins_view_buy_group_nav_inside_middle</span>
                                     </div>
@@ -311,7 +311,7 @@
                                 {{/if}}
 
                                 <!-- 分组导航内部结束钩子-开始 -->
-                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                     <div class="plugins-tag">
                                         <span>plugins_view_buy_group_nav_inside_end</span>
                                     </div>
@@ -334,7 +334,7 @@
                             </div>
                             <div class="am-panel-bd">
                                 <!-- 分组商品顶部钩子-开始 -->
-                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                     <div class="plugins-tag">
                                         <span>plugins_view_buy_group_goods_inside_top</span>
                                     </div>
@@ -371,7 +371,7 @@
                                                 <tr id="data-list-{{$goods.id}}" data-id="{{$goods.id}}" data-goods-id="{{$goods.goods_id}}">
                                                     <td class="base">
                                                         <!-- 分组商品详情基础顶部钩子-开始 -->
-                                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                             <div class="plugins-tag">
                                                                 <span>plugins_view_buy_group_goods_base_top</span>
                                                             </div>
@@ -414,7 +414,7 @@
                                                             <span class="wap-number">x{{$goods.stock}}</span>
                                                         </div>
                                                         <!-- 分组商品详情基础底部钩子-开始 -->
-                                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                             <div class="plugins-tag">
                                                                 <span>plugins_view_buy_group_goods_base_bottom</span>
                                                             </div>
@@ -459,7 +459,7 @@
                                 <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
 
                                 <!-- 分组商品底部钩子-开始 -->
-                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                     <div class="plugins-tag">
                                         <span>plugins_view_buy_group_goods_inside_bottom</span>
                                     </div>
@@ -511,7 +511,7 @@
         </div>
 
         <!-- 订单确认页面分组商品底部钩子-开始 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="plugins-tag">
                 <span>plugins_view_buy_group_goods_bottom</span>
             </div>
@@ -549,7 +549,7 @@
         {{/if}}
 
         <!-- 订单确认页面支付方式底部钩子-开始 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="plugins-tag">
                 <span>plugins_view_buy_payment_bottom</span>
             </div>
@@ -572,7 +572,7 @@
         </div>
 
         <!-- 订单确认页面用户留言底部钩子-开始 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="plugins-tag">
                 <span>plugins_view_buy_user_note_bottom</span>
             </div>
@@ -587,7 +587,7 @@
         <!-- 订单确认页面用户留言底部钩子-结束 -->
 
         <!-- 订单确认页面订单确认信息顶部钩子-开始 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="plugins-tag">
                 <span>plugins_view_buy_base_confirm_top</span>
             </div>
@@ -656,7 +656,7 @@
                     <input type="hidden" name="user_note" value="" />
                     <input type="hidden" name="site_model" value="{{if isset($base['site_model'])}}{{$base.site_model}}{{else /}}0{{/if}}" />
                     <!-- 订单确认页面提交订单表单内部钩子-开始 -->
-                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                         <div class="plugins-tag">
                             <span>plugins_view_buy_form_inside</span>
                         </div>
@@ -677,7 +677,7 @@
         </div>
 
         <!-- 订单确认页面内部底部钩子-s开始 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="plugins-tag">
                 <span>plugins_view_buy_inside_bottom</span>
             </div>
@@ -694,7 +694,7 @@
 </div>
 
 <!-- 订单确认页面底部钩子-开始 -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
     <div class="plugins-tag">
         <span>plugins_view_buy_bottom</span>
     </div>

@@ -12,7 +12,21 @@
 <!-- goods category -->
 {{include file="public/goods_category" /}}
 
-<!-- content -->
+<!-- 文章顶部钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+    <div class="plugins-tag">
+	    <span>plugins_view_article_detail_top</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_article_detail_top_data) and is_array($plugins_view_article_detail_top_data)}}
+    {{foreach $plugins_view_article_detail_top_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}
+
+<!-- content start -->
 <div class="am-container article-content">
 	<!-- 右侧内容 -->
 	<div class="am-u-md-10 am-u-md-push-2 article-right">
@@ -24,15 +38,32 @@
 			</p>
 			<hr class="am-article-divider" />
 		</div>
-		<div class="am-article am-scrollable-horizontal">{{$article.content|raw}}</div>
-		<!-- 文章详情内部钩子 -->
-		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+
+		<!-- 文章内容底部钩子 -->
+		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
 		    <div class="plugins-tag">
-			    <span>plugins_view_article_detail_content_within</span>
+			    <span>plugins_view_article_detail_content_top</span>
 		    </div>
 		{{/if}}
-        {{if !empty($plugins_view_article_detail_content_within_data) and is_array($plugins_view_article_detail_content_within_data)}}
-            {{foreach $plugins_view_article_detail_content_within_data as $hook}}
+        {{if !empty($plugins_view_article_detail_content_top_data) and is_array($plugins_view_article_detail_content_top_data)}}
+            {{foreach $plugins_view_article_detail_content_top_data as $hook}}
+                {{if is_string($hook) or is_int($hook)}}
+                    {{$hook|raw}}
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+
+        <!-- 文章内容 -->
+		<div class="am-article am-scrollable-horizontal">{{$article.content|raw}}</div>
+
+		<!-- 文章内容底部钩子 -->
+		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+		    <div class="plugins-tag">
+			    <span>plugins_view_article_detail_content_botton</span>
+		    </div>
+		{{/if}}
+        {{if !empty($plugins_view_article_detail_content_botton_data) and is_array($plugins_view_article_detail_content_botton_data)}}
+            {{foreach $plugins_view_article_detail_content_botton_data as $hook}}
                 {{if is_string($hook) or is_int($hook)}}
                     {{$hook|raw}}
                 {{/if}}
@@ -44,6 +75,21 @@
 	<div class="am-u-md-2 am-u-md-pull-10 article-sidebar">
 		<div class="am-offcanvas" id="article-nav-sidebar">
 			<div class="am-offcanvas-bar am-offcanvas-bar-overlay">
+				<!-- 文章左侧内部顶部钩子 -->
+				{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+				    <div class="plugins-tag">
+					    <span>plugins_view_article_detail_left_inside_top</span>
+				    </div>
+				{{/if}}
+		        {{if !empty($plugins_view_article_detail_left_inside_top_data) and is_array($plugins_view_article_detail_left_inside_top_data)}}
+		            {{foreach $plugins_view_article_detail_left_inside_top_data as $hook}}
+		                {{if is_string($hook) or is_int($hook)}}
+		                    {{$hook|raw}}
+		                {{/if}}
+		            {{/foreach}}
+		        {{/if}}
+
+		        <!-- 文章左侧内容 -->
 				{{if !empty($category_list)}}
 					<section data-am-widget="accordion" class="am-accordion am-accordion-gapped" data-am-accordion='{}'>
 						{{foreach $category_list as $v}}
@@ -68,6 +114,20 @@
 						{{/foreach}}
 					</section>
 				{{/if}}
+
+				<!-- 文章左侧内部底部钩子 -->
+				{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+				    <div class="plugins-tag">
+					    <span>plugins_view_article_detail_left_inside_botton</span>
+				    </div>
+				{{/if}}
+		        {{if !empty($plugins_view_article_detail_left_inside_botton_data) and is_array($plugins_view_article_detail_left_inside_botton_data)}}
+		            {{foreach $plugins_view_article_detail_left_inside_botton_data as $hook}}
+		                {{if is_string($hook) or is_int($hook)}}
+		                    {{$hook|raw}}
+		                {{/if}}
+		            {{/foreach}}
+		        {{/if}}
 			</div>
 		</div>
 	</div>
@@ -75,6 +135,21 @@
 		<span class="am-sr-only">侧栏导航</span>
 	</a>
 </div>
+<!-- content end -->
+
+<!-- 文章底部钩子 -->
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+    <div class="plugins-tag">
+	    <span>plugins_view_article_detail_bottom</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_view_article_detail_bottom_data) and is_array($plugins_view_article_detail_bottom_data)}}
+    {{foreach $plugins_view_article_detail_bottom_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
+{{/if}}
 
 <!-- footer start -->
 {{include file="public/footer" /}}

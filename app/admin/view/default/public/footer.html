@@ -54,7 +54,7 @@
 <textarea id="upload-editor-view" data-url="{{if isset($is_load_upload_editor) and $is_load_upload_editor eq 1}}{{:MyUrl('admin/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}{{/if}}" style="display: none;"></textarea>
 
 <!-- 公共底部钩子 -->
-{{if !empty($plugins_admin_view_common_bottom_data) and is_array($plugins_admin_view_common_bottom_data) and (!isset($is_footer) or $is_footer eq 1)}}
+{{if !empty($plugins_admin_view_common_bottom_data) and is_array($plugins_admin_view_common_bottom_data)}}
     {{foreach $plugins_admin_view_common_bottom_data as $hook}}
         {{if is_string($hook) or is_int($hook)}}
             {{$hook|raw}}

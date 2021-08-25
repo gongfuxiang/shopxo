@@ -10,7 +10,7 @@
                             <span>plugins_view_header_navigation_top_left_begin</span>
                         </div>
                     {{/if}}
-                    {{if !empty($plugins_view_header_navigation_top_left_begin_data) and is_array($plugins_view_header_navigation_top_left_begin_data) and (!isset($is_footer) or $is_footer eq 1)}}
+                    {{if !empty($plugins_view_header_navigation_top_left_begin_data) and is_array($plugins_view_header_navigation_top_left_begin_data)}}
                         {{foreach $plugins_view_header_navigation_top_left_begin_data as $hook}}
                             {{if is_string($hook) or is_int($hook)}}
                                 {{$hook|raw}}
@@ -43,7 +43,7 @@
                             <span>plugins_view_header_navigation_top_left_end</span>
                         </div>
                     {{/if}}
-                    {{if !empty($plugins_view_header_navigation_top_left_end_data) and is_array($plugins_view_header_navigation_top_left_end_data) and (!isset($is_footer) or $is_footer eq 1)}}
+                    {{if !empty($plugins_view_header_navigation_top_left_end_data) and is_array($plugins_view_header_navigation_top_left_end_data)}}
                         {{foreach $plugins_view_header_navigation_top_left_end_data as $hook}}
                             {{if is_string($hook) or is_int($hook)}}
                                 {{$hook|raw}}
@@ -61,7 +61,7 @@
                     <span>plugins_view_header_navigation_top_right_begin</span>
                 </div>
             {{/if}}
-            {{if !empty($plugins_view_header_navigation_top_right_begin_data) and is_array($plugins_view_header_navigation_top_right_begin_data) and (!isset($is_footer) or $is_footer eq 1)}}
+            {{if !empty($plugins_view_header_navigation_top_right_begin_data) and is_array($plugins_view_header_navigation_top_right_begin_data)}}
                 {{foreach $plugins_view_header_navigation_top_right_begin_data as $hook}}
                     {{if is_string($hook) or is_int($hook)}}
                         {{$hook|raw}}
@@ -127,7 +127,7 @@
                     <span>plugins_view_header_navigation_top_right_end</span>
                 </div>
             {{/if}}
-            {{if !empty($plugins_view_header_navigation_top_right_end_data) and is_array($plugins_view_header_navigation_top_right_end_data) and (!isset($is_footer) or $is_footer eq 1)}}
+            {{if !empty($plugins_view_header_navigation_top_right_end_data) and is_array($plugins_view_header_navigation_top_right_end_data)}}
                 {{foreach $plugins_view_header_navigation_top_right_end_data as $hook}}
                     {{if is_string($hook) or is_int($hook)}}
                         {{$hook|raw}}

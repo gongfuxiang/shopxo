@@ -95,7 +95,7 @@
                 {{/if}}
 
                 <!-- 轮播混合数据底部钩子 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                     <div class="plugins-tag">
                         <span>plugins_view_home_banner_mixed_bottom</span>
                     </div>
@@ -113,7 +113,7 @@
 {{/if}}
 
 <!-- 楼层数据顶部钩子 -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
     <div class="plugins-tag">
         <span>plugins_view_home_floor_top</span>
     </div>
@@ -148,7 +148,7 @@
         {{if !empty($goods_floor_list) and is_array($goods_floor_list)}}
             {{foreach $goods_floor_list as $key=>$floor}}
                 <!-- 首页楼层顶部钩子 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                     <div class="plugins-tag">
                         <span>plugins_view_home_floor_top_{{$key+1}}</span>
                     </div>
@@ -189,7 +189,7 @@
                     
                     <div class="am-g am-g-fixed floor">
                         <!-- 首页楼层内部顶部钩子 -->
-                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">
                                 <span>plugins_view_home_floor_inside_top</span>
                             </div>
@@ -228,7 +228,7 @@
                             <div class="triangle-topright"></div>
 
                             <!-- 首页楼层内部底部钩子 -->
-                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                 <div class="plugins-tag">
                                     <span>plugins_view_home_aggregation_inside_bottom</span>
                                 </div>
@@ -255,7 +255,7 @@
                                     <div class="goods-items">
                                         <a href="{{$goods.goods_url}}" target="_blank" class="am-block am-text-center">
                                             <!-- 首页楼层商品内部顶部钩子 -->
-                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                 <div class="plugins-tag">
                                                     <span>plugins_view_home_goods_inside_top</span>
                                                 </div>
@@ -282,7 +282,7 @@
                                             </div>
 
                                             <!-- 首页楼层商品售价顶部钩子 -->
-                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                                 <div class="plugins-tag">
                                                     <span>plugins_view_home_goods_inside_price_top</span>
                                                 </div>
@@ -305,7 +305,7 @@
                                         </div>
 
                                         <!-- 首页楼层商品内部底部钩子 -->
-                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                             <div class="plugins-tag">
                                                 <span>plugins_view_home_goods_inside_bottom</span>
                                             </div>
@@ -330,7 +330,7 @@
                         </div>
 
                         <!-- 首页楼层内部底部钩子 -->
-                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">
                                 <span>plugins_view_home_floor_inside_bottom</span>
                             </div>
@@ -353,7 +353,7 @@
                 </div>
 
                 <!-- 首页楼层底部钩子 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                     <div class="plugins-tag">
                         <span>plugins_view_home_floor_bottom_{{$key+1}}</span>
                     </div>
@@ -378,7 +378,7 @@
 {{/if}}
 
 <!-- 楼层数据底部钩子 -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
     <div class="plugins-tag">
         <span>plugins_view_home_floor_bottom</span>
     </div>

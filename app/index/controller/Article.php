@@ -65,13 +65,15 @@ class Article extends Common
 		$ret = ArticleService::ArticleList($params);
 		if(!empty($ret['data'][0]))
 		{
+            $article =  $ret['data'][0];
+
 			// 访问统计
 			ArticleService::ArticleAccessCountInc(['id'=>$id]);
 
 			// 是否外部链接
-			if(!empty($ret['data'][0]['jump_url']))
+			if(!empty($article['jump_url']))
 			{
-				return MyRedirect($ret['data'][0]['jump_url']);
+				return MyRedirect($article['jump_url']);
 			}
 
 			// 获取分类
@@ -79,18 +81,20 @@ class Article extends Common
             MyViewAssign('category_list', $article_category_content['data']);
 
             // seo
-            $seo_title = empty($ret['data'][0]['seo_title']) ? $ret['data'][0]['title'] : $ret['data'][0]['seo_title'];
+            $seo_title = empty($article['seo_title']) ? $article['title'] : $article['seo_title'];
             MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle($seo_title, 2));
-            if(!empty($ret['data'][0]['seo_keywords']))
+            if(!empty($article['seo_keywords']))
             {
-                MyViewAssign('home_seo_site_keywords', $ret['data'][0]['seo_keywords']);
+                MyViewAssign('home_seo_site_keywords', $article['seo_keywords']);
             }
-            if(!empty($ret['data'][0]['seo_desc']))
+            if(!empty($article['seo_desc']))
             {
-                MyViewAssign('home_seo_site_description', $ret['data'][0]['seo_desc']);
+                MyViewAssign('home_seo_site_description', $article['seo_desc']);
             }
-            $article =  $ret['data'][0];
+            
+            // 钩子
             $this->PluginsHook($id, $article);
+
 			MyViewAssign('article', $article);
 			return MyView();
 		}
@@ -102,29 +106,43 @@ class Article extends Common
 
     /**
      * 钩子处理
-     * @author   whats
-     * @blog
+     * @author  whats
      * @version 1.0.0
      * @date    2019-04-22
      * @desc    description
-     * @param   [int]             $article_id [文章id]
-     * @param   [array]           $params   [输入参数]
+     * @param   [int]             $article_id   [文章id]
+     * @param   [array]           $article      [文章内容]
      */
     private function PluginsHook($article_id, &$article)
     {
         $hook_arr = [
-            //文章内容内部钩子
-            'plugins_view_article_detail_content_within',
+            // 文章内容顶部钩子
+            'plugins_view_article_detail_top',
+
+            // 文章底部钩子
+            'plugins_view_article_detail_bottom',
+
+            // 文章内容顶部钩子
+            'plugins_view_article_detail_content_top',
+
+            // 文章内容底部钩子
+            'plugins_view_article_detail_content_botton',
+
+            // 文章左侧内部顶部钩子
+            'plugins_view_article_detail_left_inside_top',
+
+            // 文章左侧内部底部钩子
+            'plugins_view_article_detail_left_inside_botton',
         ];
         foreach($hook_arr as $hook_name)
         {
             MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
-                [
-                    'hook_name'    => $hook_name,
-                    'is_backend'   => false,
-                    'article_id'     => $article_id,
-                    'article'        => &$article,
-                ]));
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'article_id'    => $article_id,
+                'article'       => &$article,
+            ]));
         }
     }
 }

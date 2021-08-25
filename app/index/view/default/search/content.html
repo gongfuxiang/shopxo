@@ -4,7 +4,7 @@
             <div class="items am-padding-bottom-xs">
                 <a href="{{$v.goods_url}}" target="_blank" class="am-block">
                     <!-- 搜索页面商品信息顶部钩子 -->
-                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                         <div class="plugins-tag">
                             <span>plugins_view_search_goods_inside_top</span>
                         </div>
@@ -37,7 +37,7 @@
                 </p>
 
                 <!-- 搜索页面商品信息售价顶部钩子 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                     <div class="plugins-tag">
                         <span>plugins_view_search_goods_inside_price_top</span>
                     </div>
@@ -62,7 +62,7 @@
                 </p>
 
                 <!-- 搜索页面商品信息底部钩子 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_footer) or $is_footer eq 1)}}
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                     <div class="plugins-tag">
                         <span>plugins_view_search_goods_inside_bottom</span>
                     </div>
