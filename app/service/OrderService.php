@@ -1982,20 +1982,41 @@ class OrderService
         // 开启事务
         Db::startTrans();
 
+        // 收货处理
+        $ret = self::OrderCollectHandle($order, $params);
+        if($ret['code'] == 0)
+        {
+            Db::commit();
+        } else {
+            Db::rollback();
+        }
+        return $ret;
+    }
+
+    /**
+     * 订单收货完成处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-08-26
+     * @desc    description
+     * @param   [array]          $order  [订单数据]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderCollectHandle($order, $params = [])
+    {
         // 更新订单状态
         $upd_data = [
             'status'        => 4,
             'collect_time'  => time(),
             'upd_time'      => time(),
         ];
-        if(Db::name('Order')->where($where)->update($upd_data))
+        if(Db::name('Order')->where(['id'=>$order['id']])->update($upd_data))
         {
             // 订单商品积分赠送
             $ret = IntegralService::OrderGoodsIntegralGiving(['order_id'=>$order['id']]);
             if($ret['code'] != 0)
             {
-                // 事务回滚
-                Db::rollback();
                 return $ret;
             }
 
@@ -2003,8 +2024,6 @@ class OrderService
             $ret = self::GoodsSalesCountInc(['order_id'=>$order['id'], 'opt_type'=>'collect']);
             if($ret['code'] != 0)
             {
-                // 事务回滚
-                Db::rollback();
                 return $ret;
             }
 
@@ -2016,13 +2035,8 @@ class OrderService
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
             self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '收货', $creator, $creator_name);
 
-            // 提交事务
-            Db::commit();
             return DataReturn('收货成功', 0);
         }
-
-        // 事务回滚
-        Db::rollback();
         return DataReturn('收货失败', -1);
     }
 
