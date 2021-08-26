@@ -1591,6 +1591,13 @@ class OrderAftersaleService
      */
     public static function OrderIsCanLaunchAftersale($collect_time)
     {
+        // 售后周期、0则关闭售后
+        $launch_day = intval(MyC('home_order_aftersale_return_launch_day', 30));
+        if($launch_day <= 0)
+        {
+            return 0;
+        }
+
         // 未收货
         if(empty($collect_time))
         {
@@ -1598,7 +1605,6 @@ class OrderAftersaleService
         }
 
         // 是否超出限制时间
-        $launch_day = intval(MyC('home_order_aftersale_return_launch_day', 30, true));
         $end_time = $collect_time+($launch_day*86400);
         return ($end_time >= time()) ? 1 : 0;
     }
