@@ -1019,14 +1019,37 @@ function CheckVideo()
  * @param   {[string]}        url   	[加载url]
  * @param   {[string]}        title 	[标题]
  * @param   {[string]}        class_tag [指定class]
+ * @param   {[int]}        	  full 		[是否满屏（0否, 1是）]
+ * @param   {[int]}        	  full_max	[满屏最大限制（max-width:1200px）（0否, 1是）]
  */
-function ModalLoad(url, title, class_tag)
+function ModalLoad(url, title, class_tag, full, full_max)
 {
-	class_tag = class_tag || '';
+	// class 定义
+	var ent = 'popup-iframe';
+
+	// 自定义 class
+	if((class_tag || null) != null)
+	{
+		ent += ' '+class_tag;
+	}
+
+	// 是否满屏
+	if((full || 0) == 1)
+	{
+		ent += ' popup-full';
+	}
+
+	// 满屏最大限制
+	if((full_max || 0) == 1)
+	{
+		ent += ' popup-full-max';
+	}
+	
+	// 调用弹窗组件
 	AMUI.dialog.popup({
 		title: title || '',
 		content: '<iframe src="'+url+'" width="100%" height="100%"></iframe>',
-		class: ' popup-iframe '+class_tag
+		class: ent
 	});
 }
 
@@ -2904,9 +2927,11 @@ $(function()
     	// 基础参数
     	var title = $(this).data('title') || '';
     	var class_tag = $(this).data('class') || '';
+    	var full = parseInt($(this).data('full')) || 0;
+    	var full_max = parseInt($(this).data('full-max')) || 0;
 
     	// 调用弹窗方法
-        ModalLoad(url, title, class_tag);
+        ModalLoad(url, title, class_tag, full, full_max);
     });
 
     // 地图弹窗

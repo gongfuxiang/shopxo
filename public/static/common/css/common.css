@@ -165,6 +165,12 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
 .am-modal-dialog .am-modal-bd span {
     vertical-align: middle;
 }
+@media only screen and (min-width:1200px) {
+    .popup-full-max {
+        max-width: 1200px;
+        left: calc(50% - 600px);
+    }
+}
 
 /**
  * iframe

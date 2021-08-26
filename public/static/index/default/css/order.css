@@ -122,7 +122,7 @@ ul.progress li.current .title {
     box-shadow: none;
 }
 .order-base .am-panel-bd, .order-base .base-right {
-    padding: 5px 10px;
+    padding: 10px;
 }
 .order-base, .order-base .status {
     overflow: hidden;
