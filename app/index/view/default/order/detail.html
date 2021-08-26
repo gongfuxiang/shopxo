@@ -353,7 +353,7 @@
                     {{/if}}
 
                     <!-- 自提模式下 - 取货码 -->
-                    {{if $data['order_model'] eq 2 and in_array($data['status'], [2,3])}}
+                    {{if $data['order_model'] eq 2 and in_array($data['status'], [2,3]) and !empty($data['extraction_data'])}}
                         <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
                         <div class="extraction-take-container">
                             <p>
@@ -397,7 +397,7 @@
             <!-- 用户订单详情基础信息底部-结束 -->
 
             <!-- 地址 -->
-            {{if in_array($data['order_model'], [0, 2])}}
+            {{if in_array($data['order_model'], [0, 2]) and !empty($data['address_data'])}}
                 <div class="am-panel am-panel-default business-panel">
                     <div class="am-panel-hd">{{if $data.order_model eq 2}}取货地址{{else /}}收货地址{{/if}}</div>
                     <div class="am-panel-bd">
@@ -498,7 +498,7 @@
 
             <!-- 商品列表 -->
             {{if !empty($data.items)}}
-                <div class="order-goods">
+                <div class="order-goods am-margin-top-sm">
                     <table class="am-table am-table-centered">
                         <thead>
                             <tr>

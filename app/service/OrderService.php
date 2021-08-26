@@ -1172,6 +1172,7 @@ class OrderService
         {
             // 字段列表
             $keys = ArrayKeys($data);
+            $order_ids = array_column($data, 'id');
 
             // 其它额外处理
             $is_operate = isset($params['is_operate']) ? intval($params['is_operate']) : 0;
@@ -1200,7 +1201,7 @@ class OrderService
             $currency_default = ResourcesService::CurrencyData();
 
             // 订单货币
-            $currency_data = OrderCurrencyService::OrderCurrencyGroupList(array_column($data, 'id'));
+            $currency_data = OrderCurrencyService::OrderCurrencyGroupList($order_ids);
 
             // 用户列表
             if(in_array('user_id', $keys) && isset($params['is_public']) && $params['is_public'] == 0)
@@ -1215,10 +1216,13 @@ class OrderService
             }
 
             // 支付方式名称
-            $payment_list = PaymentService::OrderPaymentName(array_column($data, 'id'));
+            $payment_list = PaymentService::OrderPaymentName($order_ids);
 
             // 取货码
-            $extraction_data = self::OrderExtractionData(array_column($data, 'id'));
+            $extraction_data = self::OrderExtractionData($order_ids);
+
+            // 订单地址
+            $address_data = self::OrderAddressData($order_ids);
 
             // 循环处理数据
             foreach($data as &$v)
@@ -1260,7 +1264,7 @@ class OrderService
                 if(in_array($v['order_model'], [0,2]))
                 {
                     // 销售模式+自提模式 地址信息
-                    $v['address_data'] = self::OrderAddressData($v['id']);
+                    $v['address_data'] = (!empty($address_data) && array_key_exists($v['id'], $address_data)) ? $address_data[$v['id']] : [];
                     
                     // 自提模式 添加订单取货码
                     if($v['order_model'] == 2)
@@ -1573,6 +1577,16 @@ class OrderService
                 ];
             }
         }
+
+        // 订单自提信息钩子
+        $hook_name = 'plugins_service_order_extraction_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_ids'     => $order_ids,
+            'data'          => &$result,
+        ]);
+
         return $result;
     }
 
@@ -1583,22 +1597,34 @@ class OrderService
      * @version 1.0.0
      * @date    2019-11-26
      * @desc    description
-     * @param   [int]          $order_id [订单id]
+     * @param   [array]          $order_ids    [订单id]
      */
-    private static function OrderAddressData($order_id)
+    private static function OrderAddressData($order_ids)
     {
         // 销售模式+自提模式 地址信息
-        $data = Db::name('OrderAddress')->where(['order_id'=>$order_id])->find();
-        if(!empty($data))
+        $data = Db::name('OrderAddress')->where(['order_id'=>$order_ids])->column('*', 'order_id');
+        if(!empty($data) && is_array($data))
         {
-            // 附件
-            $data['idcard_front_old'] = $data['idcard_front'];
-            $data['idcard_front'] =  ResourcesService::AttachmentPathViewHandle($data['idcard_front']);
-            $data['idcard_back_old'] = $data['idcard_back'];
-            $data['idcard_back'] =  ResourcesService::AttachmentPathViewHandle($data['idcard_back']);
-            return $data;
+            foreach($data as &$v)
+            {
+                // 附件
+                $v['idcard_front_old'] = $v['idcard_front'];
+                $v['idcard_front'] =  ResourcesService::AttachmentPathViewHandle($v['idcard_front']);
+                $v['idcard_back_old'] = $v['idcard_back'];
+                $v['idcard_back'] =  ResourcesService::AttachmentPathViewHandle($v['idcard_back']);
+            }
         }
-        return [];
+
+        // 订单地址信息钩子
+        $hook_name = 'plugins_service_order_address_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order_ids'     => $order_ids,
+            'data'          => &$data,
+        ]);
+
+        return empty($data) ? [] : $data;
     }
 
     /**
