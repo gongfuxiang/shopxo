@@ -3,7 +3,7 @@
 <!-- conntent start  -->
 <div class="am-g am-padding-sm">
     <!-- form start -->
-    <form class="am-form form-validation" method="post" action="{{:MyUrl('index/useraddress/save')}}" request-type="ajax-fun" request-value="ViewModalBack">
+    <form class="am-form form-validation" method="post" action="{{:MyUrl('index/useraddress/save')}}" request-type="ajax-reload" request-value="parent">
         <div class="am-form-group">
             <label>别名<span class="am-form-group-label-tips">选填</span></label>
             <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
@@ -102,22 +102,4 @@ $(function()
         MapInit({{if !empty($data['lng'])}}{{$data['lng']}}{{else /}}116.400244{{/if}},{{if !empty($data['lat'])}}{{$data['lat']}}{{else /}}39.92556{{/if}});
     {{/if}}
 });
-
-// 返回处理
-function ViewModalBack(e)
-{
-    if(e.code == 0)
-    {
-        $.AMUI.progress.done();
-        Prompt(e.msg, 'success');
-        setTimeout(function()
-        {
-            parent.location.reload();
-        }, 1500);
-    } else {
-        $('form.form-validation').find('button[type="submit"]').button('reset');
-        $.AMUI.progress.done();
-        Prompt(e.msg);
-    }
-}
 </script>
