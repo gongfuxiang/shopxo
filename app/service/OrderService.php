@@ -1289,7 +1289,7 @@ class OrderService
                 $v['client_type_name'] = isset($common_platform_type[$v['client_type']]) ? $common_platform_type[$v['client_type']]['name'] : '';
 
                 // 状态
-                $v['status_name'] = ($v['order_model'] == 2 && $v['status'] == 2) ? '待取货' : $order_status_list[$v['status']]['name'];
+                $v['status_name'] = ($v['order_model'] == 2 && $v['status'] == 2) ? '待取货' : (array_key_exists($v['status'], $order_status_list) ? $order_status_list[$v['status']]['name'] : '未知');
 
                 // 支付状态
                 $v['pay_status_name'] = $order_pay_status[$v['pay_status']]['name'];
