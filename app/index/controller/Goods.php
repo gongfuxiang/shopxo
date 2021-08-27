@@ -89,9 +89,9 @@ class Goods extends Common
             {
                 MyViewAssign('home_seo_site_keywords', $goods['seo_keywords']);
             }
-            if(!empty($goods['seo_desc']))
+            if(!empty($goods['seo_desc']) || !empty($goods['simple_desc']))
             {
-                MyViewAssign('home_seo_site_description', $goods['seo_desc']);
+                MyViewAssign('home_seo_site_description', empty($goods['seo_desc']) ? $goods['simple_desc'] : $goods['seo_desc']);
             }
 
             // 二维码
