@@ -1292,7 +1292,7 @@ class OrderService
                 $v['status_name'] = ($v['order_model'] == 2 && $v['status'] == 2) ? '待取货' : (array_key_exists($v['status'], $order_status_list) ? $order_status_list[$v['status']]['name'] : '未知');
 
                 // 支付状态
-                $v['pay_status_name'] = $order_pay_status[$v['pay_status']]['name'];
+                $v['pay_status_name'] = (in_array($v['status'], [2,3,4]) && $v['pay_status'] == 0) ? '待确认' : $order_pay_status[$v['pay_status']]['name'];
 
                 // 快递公司
                 $v['express_name'] = (!empty($express_list) && is_array($express_list) && array_key_exists($v['express_id'], $express_list)) ? $express_list[$v['express_id']] : null;
