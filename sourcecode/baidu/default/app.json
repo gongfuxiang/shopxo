@@ -16,7 +16,7 @@
     "pages/user-order/user-order",
     "pages/user-order-detail/user-order-detail",
     "pages/user-order-comments/user-order-comments",
-    "pages/user-faovr/user-faovr",
+    "pages/user-favor/user-favor",
     "pages/user-answer-list/user-answer-list",
     "pages/answer-list/answer-list",
     "pages/answer-form/answer-form",
@@ -62,7 +62,7 @@
     "pages/plugins/shop/detail/detail",
     "pages/plugins/shop/search/search",
     "pages/plugins/shop/design/design",
-    "pages/plugins/shop/faovr/faovr"
+    "pages/plugins/shop/favor/favor"
   ],
   "window": {
     "navigationBarTitleText": "{{application_title}}",

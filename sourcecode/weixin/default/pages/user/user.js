@@ -6,7 +6,7 @@ Page({
     message_total: 0,
     head_nav_list: [
       { name: "订单总数", url: "user-order", count: 0 },
-      { name: "商品收藏", url: "user-faovr", count: 0 },
+      { name: "商品收藏", url: "user-favor", count: 0 },
       { name: "我的足迹", url: "user-goods-browse", count: 0 },
       { name: "我的积分", url: "user-integral", count: 0 },
     ],
