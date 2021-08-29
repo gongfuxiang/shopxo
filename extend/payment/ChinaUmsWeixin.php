@@ -50,7 +50,7 @@ class ChinaUmsWeixin
         // 基础信息
         $base = [
             'name'          => '银联商务-微信',  // 插件名称
-            'version'       => '1.0.0',  // 插件版本
+            'version'       => '1.0.1',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['weixin'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
             'desc'          => '适用微信小程序，即时到帐支付方式，买家的交易资金直接打入卖家账户，快速回笼交易资金。 <a href="https://www.chinaums.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
@@ -244,7 +244,7 @@ class ChinaUmsWeixin
         $data['buyer_user']     = isset($data['subBuyerId']) ? $data['subBuyerId'] : '';          // 支付平台 - 用户
         $data['out_trade_no']   = str_replace($this->config['msg_id'], '', $data['merOrderId']);    // 本系统发起支付的 - 订单号
         $data['subject']        = isset($data['attachedData']) ? $data['attachedData'] : '';          // 本系统发起支付的 - 商品名称
-        $data['pay_price']      = $data['buyerPayAmount']/100;   // 本系统发起支付的 - 总价
+        $data['pay_price']      = $data['totalAmount']/100;   // 本系统发起支付的 - 总价
         return $data;
     }
 
