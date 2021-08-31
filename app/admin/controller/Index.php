@@ -122,7 +122,7 @@ class Index extends Common
 			MyViewAssign('order_complete_number', $order_complete_number['data']);
 
 			// 订单收入总计
-			if($is_income == 1)
+			if($is_income)
 			{
 				$order_complete_money = StatisticalService::OrderCompleteMoneyYesterdayTodayTotal();
 				MyViewAssign('order_complete_money', $order_complete_money['data']);
@@ -223,6 +223,7 @@ class Index extends Common
         // 权限校验
 		$this->IsPower();
 
+		// 开始处理
 		$params = $this->data_request;
         return StatisticalService::StatsData($params);
 	}
