@@ -64,6 +64,7 @@
     var __public__ = '{{$public_host}}';
 	var __attachment_host__ = '{{$attachment_host}}';
     var __currency_symbol__ = '{{$currency_symbol}}';
+    var __is_mobile__ = '{{if IsMobile()}}1{{else}}0{{/if}}';
 </script>
 <body>
 {{if $module_name.$controller_name.$action_name neq 'adminindexindex'}}

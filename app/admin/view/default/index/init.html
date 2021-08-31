@@ -1,7 +1,7 @@
 {{include file="public/header" /}}
 
 <!-- right content start  -->
-<div class="content-right">
+<div class="content-right" data-url="{{:MyUrl('admin/index/stats')}}">
 	<div class="content">
 		{{if $is_system_show_base eq 1}}
 			<!-- 顶部提示信息 -->
@@ -44,152 +44,169 @@
 			</div>
 		{{/if}}
 
-		<!-- 基础统计 -->
-		<div class="block-container shopxo-base">
-			<div class="echarts-title">
-				<span class="icon"></span>
-				<span class="title">商城统计</span>
+		<!-- 后台公告 -->
+		{{if !empty($admin_notice)}}
+			<div class="am-alert am-alert-danger" data-am-alert>
+				<button type="button" class="am-close">&times;</button>
+				<p>{{$admin_notice|raw}}</p>
 			</div>
-			<ul class="am-avg-sm-2 am-avg-lg-4">
+		{{/if}}
+
+		<!-- 是否展示统计数据 -->
+		{{if isset($is_stats) and $is_stats eq 1}}
+			<!-- 基础统计 -->
+			<div class="block-container shopxo-base">
+				<div class="block-title echarts-title">
+					<span class="icon"></span>
+					<span class="title">商城统计</span>
+					<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '时间筛选仅对总数有效', trigger: 'hover focus', theme: 'sm'}"></a>
+					{{include file="/index/stats_where" type="base-count" init="0" /}}
+				</div>
+				<ul class="am-avg-sm-2 am-avg-lg-4">
+					<li>
+						<div class="li-content">
+							<p class="name">用户总量</p>
+							<p class="total animation-count-to base-user-count" data-to="{{$base_count.user_count}}" data-speed="1500">0</p>
+							<div class="item am-margin-bottom-xs">
+								<span>上月</span>
+								<span class="animation-count-to" data-to="{{$user.last_month_count}}" data-speed="1500">0</span>
+							</div>
+							<div class="item am-margin-bottom-xs">
+								<span>当月</span>
+								<span class="animation-count-to" data-to="{{$user.same_month_count}}" data-speed="1500">0</span>
+							</div>
+							<div class="item am-margin-bottom-xs">
+								<span>昨日</span>
+								<span class="animation-count-to" data-to="{{$user.yesterday_count}}" data-speed="1500">0</span>
+							</div>
+							<div class="item">
+								<span>今日</span>
+								<span class="animation-count-to" data-to="{{$user.today_count}}" data-speed="1500">0</span>
+							</div>
+							<i class="am-icon-user am-icon-lg bg-icon"></i>
+						</div>
+					</li>
+					<li>
+						<div class="li-content">
+							<p class="name">订单总量</p>
+							<p class="total animation-count-to base-order-count" data-to="{{$base_count.order_count}}" data-speed="1500">0</p>
+							<div class="item am-margin-bottom-xs">
+								<span>上月</span>
+								<span class="animation-count-to" data-to="{{$order_number.last_month_count}}" data-speed="1500">0</span>
+							</div>
+							<div class="item am-margin-bottom-xs">
+								<span>当月</span>
+								<span class="animation-count-to" data-to="{{$order_number.same_month_count}}" data-speed="1500">0</span>
+							</div>
+							<div class="item am-margin-bottom-xs">
+								<span>昨日</span>
+								<span class="animation-count-to" data-to="{{$order_number.yesterday_count}}" data-speed="1500">0</span>
+							</div>
+							<div class="item">
+								<span>今日</span>
+								<span class="animation-count-to" data-to="{{$order_number.today_count}}" data-speed="1500">0</span>
+							</div>
+							<i class="am-icon-pie-chart am-icon-lg bg-icon"></i>
+						</div>
+					</li>
+					<li>
+						<div class="li-content">
+							<p class="name">成交总量</p>
+							<p class="total animation-count-to base-order-sale-count" data-to="{{$base_count.order_sale_count}}" data-speed="1500">0</p>
+							<div class="item am-margin-bottom-xs">
+								<span>上月</span>
+								<span class="animation-count-to" data-to="{{$order_complete_number.last_month_count}}" data-speed="1500">0</span>
+							</div>
+							<div class="item am-margin-bottom-xs">
+								<span>当月</span>
+								<span class="animation-count-to" data-to="{{$order_complete_number.same_month_count}}" data-speed="1500">0</span>
+							</div>
+							<div class="item am-margin-bottom-xs">
+								<span>昨日</span>
+								<span class="animation-count-to" data-to="{{$order_complete_number.yesterday_count}}" data-speed="1500">0</span>
+							</div>
+							<div class="item">
+								<span>今日</span>
+								<span class="animation-count-to" data-to="{{$order_complete_number.today_count}}" data-speed="1500">0</span>
+							</div>
+							<i class="am-icon-gg am-icon-lg bg-icon"></i>
+						</div>
+					</li>
+					<li>
+						<div class="li-content">
+							<p class="name">收入总计</p>
+							<p class="total animation-count-to base-order-complete-total" data-to="{{$base_count.order_complete_total}}" data-speed="1500" data-decimals="2">0.00</p>
+							<div class="item am-margin-bottom-xs">
+								<span>上月</span>
+								<span class="animation-count-to" data-to="{{$order_complete_money.last_month_count}}" data-speed="1500">0</span>
+							</div>
+							<div class="item am-margin-bottom-xs">
+								<span>当月</span>
+								<span class="animation-count-to" data-to="{{$order_complete_money.same_month_count}}" data-speed="1500">0</span>
+							</div>
+							<div class="item am-margin-bottom-xs">
+								<span>昨日</span>
+								<span class="animation-count-to" data-to="{{$order_complete_money.yesterday_count}}" data-speed="1500" data-decimals="2">0.00</span>
+							</div>
+							<div class="item">
+								<span>今日</span>
+								<span class="animation-count-to" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
+							</div>
+							<i class="am-icon-line-chart am-icon-lg bg-icon"></i>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<!-- 订单成交金额走势 -->
+			<div class="block-container">
+				<div class="block-title echarts-title">
+					<span class="icon"></span>
+					<span class="title">订单成交金额走势</span>
+					{{include file="/index/stats_where" type="order-profit" init="1" /}}
+				</div>
+				<div id="echarts-order-profit"></div>
+			</div>
+
+			<!-- 近30日订单交易走势 -->
+			<div class="block-container">
+				<div class="block-title echarts-title">
+					<span class="icon"></span>
+					<span class="title">订单交易走势</span>
+					{{include file="/index/stats_where" type="order-trading" init="1" /}}
+				</div>
+				<div id="echarts-order-trading"></div>
+			</div>
+
+			<!-- 组合 -->
+			<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2 {{if $is_system_show_base eq 0}}am-padding-bottom-sm{{/if}}">
 				<li>
-					<div class="li-content">
-						<p class="name">用户总量</p>
-						<p class="total animation-count-to" data-to="{{$user.total_count}}" data-speed="1500">0</p>
-						<div class="item am-margin-bottom-xs">
-							<span>上月</span>
-							<span class="animation-count-to" data-to="{{$user.last_month_count}}" data-speed="1500">0</span>
-						</div>
-						<div class="item am-margin-bottom-xs">
-							<span>当月</span>
-							<span class="animation-count-to" data-to="{{$user.same_month_count}}" data-speed="1500">0</span>
-						</div>
-						<div class="item am-margin-bottom-xs">
-							<span>昨日</span>
-							<span class="animation-count-to" data-to="{{$user.yesterday_count}}" data-speed="1500">0</span>
-						</div>
-						<div class="item">
-							<span>今日</span>
-							<span class="animation-count-to" data-to="{{$user.today_count}}" data-speed="1500">0</span>
-						</div>
-						<i class="am-icon-user am-icon-lg bg-icon"></i>
+					<!-- 近30日热销商品 -->
+					<div class="block-title echarts-title">
+						<span class="icon"></span>
+						<span class="title">热销商品</span>
+						{{include file="/index/stats_where" type="goods-hot" init="1" /}}
 					</div>
+					<div id="echarts-goods-hot"></div>
 				</li>
+
 				<li>
-					<div class="li-content">
-						<p class="name">订单总量</p>
-						<p class="total animation-count-to" data-to="{{$order_number.total_count}}" data-speed="1500">0</p>
-						<div class="item am-margin-bottom-xs">
-							<span>上月</span>
-							<span class="animation-count-to" data-to="{{$order_number.last_month_count}}" data-speed="1500">0</span>
-						</div>
-						<div class="item am-margin-bottom-xs">
-							<span>当月</span>
-							<span class="animation-count-to" data-to="{{$order_number.same_month_count}}" data-speed="1500">0</span>
-						</div>
-						<div class="item am-margin-bottom-xs">
-							<span>昨日</span>
-							<span class="animation-count-to" data-to="{{$order_number.yesterday_count}}" data-speed="1500">0</span>
-						</div>
-						<div class="item">
-							<span>今日</span>
-							<span class="animation-count-to" data-to="{{$order_number.today_count}}" data-speed="1500">0</span>
-						</div>
-						<i class="am-icon-pie-chart am-icon-lg bg-icon"></i>
+					<!-- 近30日支付方式 -->
+					<div class="block-title echarts-title">
+						<span class="icon"></span>
+						<span class="title">支付方式</span>
+						{{include file="/index/stats_where" type="pay-type" init="1" /}}
 					</div>
-				</li>
-				<li>
-					<div class="li-content">
-						<p class="name">成交总量</p>
-						<p class="total animation-count-to" data-to="{{$order_complete_number.total_count}}" data-speed="1500">0</p>
-						<div class="item am-margin-bottom-xs">
-							<span>上月</span>
-							<span class="animation-count-to" data-to="{{$order_complete_number.last_month_count}}" data-speed="1500">0</span>
-						</div>
-						<div class="item am-margin-bottom-xs">
-							<span>当月</span>
-							<span class="animation-count-to" data-to="{{$order_complete_number.same_month_count}}" data-speed="1500">0</span>
-						</div>
-						<div class="item am-margin-bottom-xs">
-							<span>昨日</span>
-							<span class="animation-count-to" data-to="{{$order_complete_number.yesterday_count}}" data-speed="1500">0</span>
-						</div>
-						<div class="item">
-							<span>今日</span>
-							<span class="animation-count-to" data-to="{{$order_complete_number.today_count}}" data-speed="1500">0</span>
-						</div>
-						<i class="am-icon-gg am-icon-lg bg-icon"></i>
-					</div>
-				</li>
-				<li>
-					<div class="li-content">
-						<p class="name">收入总计</p>
-						<p class="total animation-count-to" data-to="{{$order_complete_money.total_count}}" data-speed="1500" data-decimals="2">0.00</p>
-						<div class="item am-margin-bottom-xs">
-							<span>上月</span>
-							<span class="animation-count-to" data-to="{{$order_complete_money.last_month_count}}" data-speed="1500">0</span>
-						</div>
-						<div class="item am-margin-bottom-xs">
-							<span>当月</span>
-							<span class="animation-count-to" data-to="{{$order_complete_money.same_month_count}}" data-speed="1500">0</span>
-						</div>
-						<div class="item am-margin-bottom-xs">
-							<span>昨日</span>
-							<span class="animation-count-to" data-to="{{$order_complete_money.yesterday_count}}" data-speed="1500" data-decimals="2">0.00</span>
-						</div>
-						<div class="item">
-							<span>今日</span>
-							<span class="animation-count-to" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
-						</div>
-						<i class="am-icon-line-chart am-icon-lg bg-icon"></i>
-					</div>
+					<div id="echarts-pay-type"></div>
 				</li>
 			</ul>
-		</div>
-
-		<!-- 近30日订单成交金额走势 -->
-		<div class="block-container">
-			<div class="echarts-title">
-				<span class="icon"></span>
-				<span class="title">近30日订单成交金额走势</span>
-			</div>
-			<div id="echarts-order-profit"></div>
-		</div>
-
-		<!-- 近30日订单交易走势 -->
-		<div class="block-container">
-			<div class="echarts-title">
-				<span class="icon"></span>
-				<span class="title">近30日订单交易走势</span>
-			</div>
-			<div id="echarts-order-trading"></div>
-		</div>
-
-		<!-- 组合 -->
-		<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2 {{if $is_system_show_base eq 0}}am-padding-bottom-sm{{/if}}">
-			<li>
-				<!-- 近30日热销商品 -->
-				<div class="echarts-title">
-					<span class="icon"></span>
-					<span class="title">近30日热销商品</span>
-				</div>
-				<div id="echarts-goods-hot"></div>
-			</li>
-
-			<li>
-				<!-- 近30日支付方式 -->
-				<div class="echarts-title">
-					<span class="icon"></span>
-					<span class="title">近30日支付方式</span>
-				</div>
-				<div id="echarts-pay-type"></div>
-			</li>
-		</ul>
+		{{/if}}
 
 		<!-- 系统信息 -->
 		{{if $is_system_show_base eq 1}}
 			<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2 am-padding-bottom-sm">
 				<li>
-					<div class="echarts-title">
+					<div class="block-title">
 						<span class="icon"></span>
 						<span class="title">系统信息</span>
 					</div>
@@ -215,7 +232,7 @@
 				</li>
 
 				<li>
-					<div class="echarts-title">
+					<div class="block-title">
 						<span class="icon"></span>
 						<span class="title">开发团队</span>
 					</div>
@@ -284,188 +301,22 @@
 <script type="text/javascript">
 $(function()
 {
-	// 近30日订单成交金额走势
-    var order_profit_chart = echarts.init(document.getElementById('echarts-order-profit'), 'macarons');
-    var option = {
-	    tooltip : {
-	        trigger: 'axis',
-	        axisPointer: {
-	            type: 'cross',
-	            label: {
-	                backgroundColor: '#6a7985'
-	            }
-	        }
-	    },
-	    legend: {
-	        data: {{:json_encode($order_profit_chart.title_arr)}}
-	    },
-	    toolbox: {
-	        show : {{if IsMobile()}}false{{else}}true{{/if}},
-	        feature : {
-	            mark : {show: true},
-	            dataView : {show: true, readOnly: false},
-	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-	            restore : {show: true},
-	            saveAsImage : {name:'近30日订单交易走势', show: true}
-	        }
-	    },
-	    grid: {
-	        left: '3%',
-	        right: '4%',
-	        bottom: '3%',
-	        containLabel: true
-	    },
-	    xAxis : [
-	        {
-	            type : 'category',
-	            boundaryGap : false,
-	            data : {{:json_encode($order_profit_chart.name_arr)}}
-	        }
-	    ],
-	    yAxis : [
-	        {
-	            type : 'value'
-	        }
-	    ],
-	    series : {{:json_encode($order_profit_chart.data)}}
-	};
-	order_profit_chart.setOption(option);
 
-	// 近30日订单交易走势
-    var order_trading_chart = echarts.init(document.getElementById('echarts-order-trading'), 'macarons');
-    var option = {
-	    tooltip : {
-	        trigger: 'axis',
-	        axisPointer: {
-	            type: 'cross',
-	            label: {
-	                backgroundColor: '#6a7985'
-	            }
-	        }
-	    },
-	    legend: {
-	        data: {{:json_encode($order_trading_trend.title_arr)}}
-	    },
-	    toolbox: {
-	        show : {{if IsMobile()}}false{{else}}true{{/if}},
-	        feature : {
-	            mark : {show: true},
-	            dataView : {show: true, readOnly: false},
-	            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-	            restore : {show: true},
-	            saveAsImage : {name:'近30日订单交易走势', show: true}
-	        }
-	    },
-	    grid: {
-	        left: '3%',
-	        right: '4%',
-	        bottom: '3%',
-	        containLabel: true
-	    },
-	    xAxis : [
-	        {
-	            type : 'category',
-	            boundaryGap : false,
-	            data : {{:json_encode($order_trading_trend.name_arr)}}
-	        }
-	    ],
-	    yAxis : [
-	        {
-	            type : 'value'
-	        }
-	    ],
-	    series : {{:json_encode($order_trading_trend.data)}}
-	};
-	order_trading_chart.setOption(option);
 
 
     // 近30日热销商品
-    var goods_hot_chart = echarts.init(document.getElementById('echarts-goods-hot'), 'macarons');
-    var option = {
-    	title : {
-	        subtext: '仅显示前10条商品',
-	        x:'center'
-	    },
-	    tooltip : {
-	        trigger: 'item',
-	        formatter: "{b} : {c} ({d}%)"
-	    },
-	    toolbox: {
-	        show : {{if IsMobile()}}false{{else}}true{{/if}},
-	        feature : {
-	            mark : {show: true},
-	            dataView : {show: true, readOnly: false},
-	            magicType : {
-	                show: true, 
-	                type: ['pie', 'funnel'],
-	                option: {
-	                    funnel: {
-	                        x: '25%',
-	                        width: '50%',
-	                        funnelAlign: 'left',
-	                        max: 1548
-	                    }
-	                }
-	            },
-	            restore : {show: false},
-	            saveAsImage : {name:'近30日热销商品', show: true}
-	        }
-	    },
-	    calculable : true,
-	    series : [
-	        {
-	            type:'pie',
-	            radius : '55%',
-	            center: ['50%', '60%'],
-	            data: {{:json_encode($goods_hot_sale.data)}}
-	        }
-	    ]
-	};
-    goods_hot_chart.setOption(option);
+    
 
     // 近30日支付方式
-    var order_pay_type_chart = echarts.init(document.getElementById('echarts-pay-type'), 'macarons');
-    var option = {
-	    tooltip : {
-	        trigger: 'axis'
-	    },
-	    legend: {
-	        data: {{:json_encode($pay_type_number.title_arr)}}
-	    },
-	    toolbox: {
-	        show : {{if IsMobile()}}false{{else}}true{{/if}},
-	        feature : {
-	            mark : {show: true},
-	            dataView : {show: true, readOnly: false},
-	            magicType : {show: true, type: ['line', 'bar']},
-	            restore : {show: false},
-	            saveAsImage : {name:'近30日支付方式', show: true}
-	        }
-	    },
-	    calculable : true,
-	    xAxis : [
-	        {
-	            type : 'category',
-	            boundaryGap : false,
-	            data : {{:json_encode($pay_type_number.name_arr)}}
-	        }
-	    ],
-	    yAxis : [
-	        {
-	            type : 'value'
-	        }
-	    ],
-	    series : {{:json_encode($pay_type_number.data)}}
-	};
-    order_pay_type_chart.setOption(option);
 
-	// 浏览器大小改变则实时更新图表大小
-	window.onresize = function ()
-	{
-	    order_pay_type_chart.resize();
-	    goods_hot_chart.resize();
-	    order_profit_chart.resize();
-	    order_trading_chart.resize();
-	};
+
+	// // 浏览器大小改变则实时更新图表大小
+	// window.onresize = function ()
+	// {
+	//     order_pay_type_chart.resize();
+	//     goods_hot_chart.resize();
+	//     order_profit_chart.resize();
+	//     order_trading_chart.resize();
+	// };
 });
 </script>

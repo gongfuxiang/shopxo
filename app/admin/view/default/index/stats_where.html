@@ -1,0 +1,15 @@
+<div class="am-fr right-operate" data-type="[type]" data-init="[init]">
+    {{if !empty($time_data)}}
+        <span class="quick-time">
+            {{foreach $time_data as $k=>$v}}
+                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+            {{/foreach}}
+        </span>
+    {{/if}}
+    <span class="am-form echarts-where-time">
+        <input type="text" autocomplete="off" name="time_start" class="Wdate am-radius" placeholder="开始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{if !empty($time_data) and !empty($default_day) and isset($time_data[$default_day])}}{{$time_data[$default_day]['start']}}{{/if}}" />
+        <span class="join">-</span>
+        <input type="text" autocomplete="off" class="Wdate am-radius" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{if !empty($time_data) and !empty($default_day) and isset($time_data[$default_day])}}{{$time_data[$default_day]['end']}}{{/if}}" />
+        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-line-chart btn-loading-example echarts-where-submit" data-am-loading="{loadingText:' 加载'}"> 确认</button>
+    </span>
+</div>

@@ -72,47 +72,55 @@ class Index extends Common
 	{
 		// 系统信息
 		$mysql_ver = \think\facade\Db::query('SELECT VERSION() AS `ver`');
-		$data = array(
-				'server_ver'	=>	php_sapi_name(),
-				'php_ver'		=>	PHP_VERSION,
-				'mysql_ver'		=>	isset($mysql_ver[0]['ver']) ? $mysql_ver[0]['ver'] : '',
-				'os_ver'		=>	PHP_OS,
-				'host'			=>	isset($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '',
-				'ver'			=>	'ShopXO'.' '.APPLICATION_VERSION,
-			);
+		$data = [
+			'server_ver'	=>	php_sapi_name(),
+			'php_ver'		=>	PHP_VERSION,
+			'mysql_ver'		=>	isset($mysql_ver[0]['ver']) ? $mysql_ver[0]['ver'] : '',
+			'os_ver'		=>	PHP_OS,
+			'host'			=>	isset($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '',
+			'ver'			=>	'ShopXO'.' '.APPLICATION_VERSION,
+		];
 		MyViewAssign('data', $data);
 
-		// 用户
-		$user = StatisticalService::UserYesterdayTodayTotal();
-		MyViewAssign('user', $user['data']);
+		// 用户是否有数据统计权限
+		$is_stats = AdminIsPower('index', 'stats');
+		MyViewAssign('is_stats', $is_stats);
+		if($is_stats == 1)
+		{
+			// 默认时间
+			$default_day = '30-day';
+			MyViewAssign('default_day', $default_day);
 
-		// 订单总数
-		$order_number = StatisticalService::OrderNumberYesterdayTodayTotal();
-		MyViewAssign('order_number', $order_number['data']);
+			// 时间
+			$time_data = StatisticalService::DateTimeList();
+			MyViewAssign('time_data', $time_data);
 
-		// 订单成交总量
-		$order_complete_number = StatisticalService::OrderCompleteYesterdayTodayTotal();
-		MyViewAssign('order_complete_number', $order_complete_number['data']);
+			// 基础数据总计
+			$time = [];
+			if(!empty($time_data) && !empty($default_day) && isset($time_data[$default_day]))
+			{
+				$time['start'] = strtotime($time_data[$default_day]['start']);
+				$time['end'] = strtotime($time_data[$default_day]['end']);
+			}
+			$base_count = StatisticalService::BaseTotalCount($time);
+			MyViewAssign('base_count', $base_count['data']);
 
-		// 订单收入总计
-		$order_complete_money = StatisticalService::OrderCompleteMoneyYesterdayTodayTotal();
-		MyViewAssign('order_complete_money', $order_complete_money['data']);
+			// 用户
+			$user = StatisticalService::UserYesterdayTodayTotal();
+			MyViewAssign('user', $user['data']);
 
-		// 近30日订单成交金额走势
-		$order_profit_chart = StatisticalService::OrderProfitSevenTodayTotal();
-		MyViewAssign('order_profit_chart', $order_profit_chart['data']);
+			// 订单总数
+			$order_number = StatisticalService::OrderNumberYesterdayTodayTotal();
+			MyViewAssign('order_number', $order_number['data']);
 
-		// 近30日订单交易走势
-		$order_trading_trend = StatisticalService::OrderTradingTrendSevenTodayTotal();
-		MyViewAssign('order_trading_trend', $order_trading_trend['data']);
-		
-		// 近30日支付方式
-		$pay_type_number = StatisticalService::PayTypeSevenTodayTotal();
-		MyViewAssign('pay_type_number', $pay_type_number['data']);
+			// 订单成交总量
+			$order_complete_number = StatisticalService::OrderCompleteYesterdayTodayTotal();
+			MyViewAssign('order_complete_number', $order_complete_number['data']);
 
-		// 近30日热销商品
-		$goods_hot_sale = StatisticalService::GoodsHotSaleSevenTodayTotal();
-		MyViewAssign('goods_hot_sale', $goods_hot_sale['data']);
+			// 订单收入总计
+			$order_complete_money = StatisticalService::OrderCompleteMoneyYesterdayTodayTotal();
+			MyViewAssign('order_complete_money', $order_complete_money['data']);
+		}
 
 		return MyView();
 	}
@@ -187,6 +195,29 @@ class Index extends Common
         // 开始处理
         $params = $this->data_request;
         return SystemUpgradeService::Run($params);
+	}
+
+	/**
+	 * 统计数据
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2021-08-30
+	 * @desc    description
+	 */
+	public function Stats()
+	{
+		// 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 权限校验
+		$this->IsPower();
+
+		$params = $this->data_request;
+        return StatisticalService::StatsData($params);
 	}
 }
 ?>

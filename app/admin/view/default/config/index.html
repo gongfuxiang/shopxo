@@ -23,6 +23,10 @@
                         <label>{{$data.common_page_size.name}}<span class="am-form-group-label-tips">{{$data.common_page_size.describe}}</span></label>
                         <input type="number" name="{{$data.common_page_size.only_tag}}" placeholder="{{$data.common_page_size.name}}" pattern="{{:MyConst('common_regex_page_number')}}" data-validation-message="{{$data.common_page_size.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_page_size.value}}"{{/if}} required />
                     </div>
+                    <div class="am-form-group">
+                        <label>{{$data.admin_notice.name}}<span class="am-form-group-label-tips">{{$data.admin_notice.describe}}</span></label>
+                        <textarea rows="4" name="{{$data.admin_notice.only_tag}}" class="am-radius" placeholder="{{$data.admin_notice.name}}" data-validation-message="{{$data.admin_notice.error_tips}}">{{if !empty($data)}}{{$data.admin_notice.value}}{{/if}}</textarea>
+                    </div>
                 </div>
             </div>
 

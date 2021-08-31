@@ -230,6 +230,10 @@ class Common extends BaseController
         // 系统基础信息
         $is_system_show_base = (empty($site_store_info) || empty($site_store_info['vip']) || !isset($site_store_info['vip']['status']) || $site_store_info['vip']['status'] == 0 || ($site_store_info['vip']['status'] == 1 && (AdminIsPower('index', 'storeaccountsbind') || AdminIsPower('index', 'inspectupgrade')))) ? 1 : 0;
         MyViewAssign('is_system_show_base', $is_system_show_base);
+
+        // 后台公告
+        $admin_notice = MyC('admin_notice');
+        MyViewAssign('admin_notice',  empty($admin_notice) ? '' : str_replace("\n", '<br />', $admin_notice));
 	}
 
     /**

@@ -20,10 +20,10 @@ html, body {
     margin-bottom: 20px;
 }
 
-.block-container .echarts-title, .block-combination-container-2 li .echarts-title {
+.block-container .block-title, .block-combination-container-2 li .block-title {
     margin-left: 10px;
 }
-.block-container .echarts-title .icon, .block-combination-container-2 li .echarts-title .icon {
+.block-container .block-title .icon, .block-combination-container-2 li .block-title .icon {
     background: #3f82fe;
     display: block;
     width: 5px;
@@ -32,11 +32,57 @@ html, body {
     left: 10px;
     top: 13px;
 }
-.block-container .echarts-title .title, .block-combination-container-2 li .echarts-title .title {
+.block-container .block-title .title, .block-combination-container-2 li .block-title .title {
     color: #666;
     font-size: 14px;
     margin-left: 5px;
 }
+.right-operate .quick-time a {
+    margin-right: 8px;
+    color: #bde2f4;
+}
+.right-operate .quick-time a:hover {
+    color: #095f8a;
+}
+.right-operate .echarts-where-time input {
+    display: -webkit-inline-box !important;
+    width: 155px !important;
+    border-color: #eee;
+    color: #888;
+}
+.right-operate .echarts-where-submit {
+    color: #8cd8ff;
+    background-color: transparent;
+    border-color: #d0efff;
+}
+.right-operate .echarts-where-submit:hover {
+    color: #fff;
+    background-color: #3bb4f2;
+    border-color: #3bb4f2;
+}
+.right-operate .echarts-where-time .join {
+    color: #ccc;
+}
+.block-container .echarts-title{
+    height: 46px;
+}
+.block-combination-container-2 li .echarts-title {
+    height: 100px;
+}
+.block-combination-container-2 .right-operate {
+    float: none;
+}
+.block-combination-container-2 .right-operate .quick-time,
+.block-combination-container-2 .right-operate .echarts-where-time {
+    display: block;
+    margin-top: 5px;
+}
+.block-combination-container-2 .right-operate .quick-time {
+    margin-top: 10px;
+}
+.block-combination-container-2 .right-operate .echarts-where-time input {
+        width: calc(50% - 46px) !important;
+    }
 @media only screen and (min-width: 641px) {
     .block-combination-container-2 {
         margin-bottom: 20px;
@@ -58,6 +104,25 @@ html, body {
 @media only screen and (max-width: 641px) {
     .block-combination-container-2 li {
         margin-bottom: 20px;
+    }
+}
+@media only screen and (max-width: 800px) {
+    .block-container .echarts-title {
+        height: 100px;
+    }
+    .right-operate {
+        float: none;
+    }
+    .right-operate .quick-time,
+    .right-operate .echarts-where-time {
+        display: block;
+        margin-top: 5px;
+    }
+    .right-operate .quick-time {
+        margin-top: 10px;
+    }
+    .right-operate .echarts-where-time input {
+        width: calc(50% - 46px) !important;
     }
 }
 
