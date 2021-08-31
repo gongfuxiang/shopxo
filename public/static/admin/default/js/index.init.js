@@ -529,9 +529,10 @@ $(function()
     $('.quick-time a').on('click', function()
     {
         // 参数判断
-        var start = $(this).data('start') || null;
-        var end = $(this).data('end') || null;
-        if(start == null || end == null)
+        var start = $(this).data('start') || '';
+        var end = $(this).data('end') || '';
+        var is_empty_time = parseInt($(this).parents('.right-operate').data('empty-time')) || 0;
+        if(is_empty_time == 0 && (start == '' || end == ''))
         {
             Prompt('快捷时间配置有误');
             return false;

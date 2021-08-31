@@ -181,17 +181,12 @@ html, body {
     color: rgba(255, 255, 255, 0.12);
 }
 @media only screen and (max-width: 641px) {
-    .shopxo-base li:nth-child(1){
-        padding: 10px 5px 5px 0;
+    .shopxo-base li {
+        padding: 10px 5px;
     }
-    .shopxo-base li:nth-child(2){
-        padding: 10px 0 5px 5px;
-    }
-    .shopxo-base li:nth-child(3){
-        padding: 5px 5px 0 0;
-    }
-    .shopxo-base li:nth-child(4){
-        padding: 5px 0 0 5px;
+    .shopxo-base ul.am-avg-lg-4 li:nth-child(3),
+    .shopxo-base ul.am-avg-lg-4 li:nth-child(4) {
+        padding-top: 0;
     }
 }
 

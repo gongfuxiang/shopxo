@@ -91,6 +91,10 @@ class Index extends Common
 			$default_day = '30-day';
 			MyViewAssign('default_day', $default_day);
 
+			// 收入统计权限
+			$is_income = AdminIsPower('index', 'income');
+			MyViewAssign('is_income', $is_income);
+
 			// 时间
 			$time_data = StatisticalService::DateTimeList();
 			MyViewAssign('time_data', $time_data);
@@ -118,8 +122,11 @@ class Index extends Common
 			MyViewAssign('order_complete_number', $order_complete_number['data']);
 
 			// 订单收入总计
-			$order_complete_money = StatisticalService::OrderCompleteMoneyYesterdayTodayTotal();
-			MyViewAssign('order_complete_money', $order_complete_money['data']);
+			if($is_income == 1)
+			{
+				$order_complete_money = StatisticalService::OrderCompleteMoneyYesterdayTodayTotal();
+				MyViewAssign('order_complete_money', $order_complete_money['data']);
+			}
 		}
 
 		return MyView();

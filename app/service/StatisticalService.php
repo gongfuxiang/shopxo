@@ -393,37 +393,46 @@ class StatisticalService
         // 订单状态
         // （0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭）
 
-        // 上月
-        $where = [
-            ['status', 'in', [2,3,4]],
-            ['add_time', '>=', self::$last_month_time_start],
-            ['add_time', '<=', self::$last_month_time_end],
-        ];
-        $last_month_count = Db::name('Order')->where($where)->sum('total_price');
+        // 是否有收入统计权限
+        if(AdminIsPower('index', 'income'))
+        {
+            // 上月
+            $where = [
+                ['status', 'in', [2,3,4]],
+                ['add_time', '>=', self::$last_month_time_start],
+                ['add_time', '<=', self::$last_month_time_end],
+            ];
+            $last_month_count = Db::name('Order')->where($where)->sum('total_price');
 
-        // 当月
-        $where = [
-            ['status', 'in', [2,3,4]],
-            ['add_time', '>=', self::$this_month_time_start],
-            ['add_time', '<=', self::$this_month_time_end],
-        ];
-        $same_month_count = Db::name('Order')->where($where)->sum('total_price');
+            // 当月
+            $where = [
+                ['status', 'in', [2,3,4]],
+                ['add_time', '>=', self::$this_month_time_start],
+                ['add_time', '<=', self::$this_month_time_end],
+            ];
+            $same_month_count = Db::name('Order')->where($where)->sum('total_price');
 
-        // 昨天
-        $where = [
-            ['status', 'in', [2,3,4]],
-            ['add_time', '>=', self::$yesterday_time_start],
-            ['add_time', '<=', self::$yesterday_time_end],
-        ];
-        $yesterday_count = Db::name('Order')->where($where)->sum('total_price');
+            // 昨天
+            $where = [
+                ['status', 'in', [2,3,4]],
+                ['add_time', '>=', self::$yesterday_time_start],
+                ['add_time', '<=', self::$yesterday_time_end],
+            ];
+            $yesterday_count = Db::name('Order')->where($where)->sum('total_price');
 
-        // 今天
-        $where = [
-            ['status', 'in', [2,3,4]],
-            ['add_time', '>=', self::$today_time_start],
-            ['add_time', '<=', self::$today_time_end],
-        ];
-        $today_count = Db::name('Order')->where($where)->sum('total_price');
+            // 今天
+            $where = [
+                ['status', 'in', [2,3,4]],
+                ['add_time', '>=', self::$today_time_start],
+                ['add_time', '<=', self::$today_time_end],
+            ];
+            $today_count = Db::name('Order')->where($where)->sum('total_price');
+        } else {
+            $last_month_count = 0.00;
+            $same_month_count = 0.00;
+            $yesterday_count = 0.00;
+            $today_count = 0.00;
+        }
 
         // 数据组装
         $result = [
@@ -466,14 +475,20 @@ class StatisticalService
         // 订单成交总量
         $order_sale_count = Db::name('Order')->where(array_merge($where, [['status', '=', 4]]))->count();
 
-        // 订单收入总计
-        $order_complete_total = PriceNumberFormat(Db::name('Order')->where(array_merge($where, [['status', 'in', [2,3,4]]]))->sum('total_price'));
+        // 订单收入总计、是否有收入统计权限
+        if(AdminIsPower('index', 'income'))
+        {
+            $order_complete_total = Db::name('Order')->where(array_merge($where, [['status', 'in', [2,3,4]]]))->sum('total_price');
+        } else {
+            $order_complete_total = 0.00;
+        }
+        
 
         $result = [
             'user_count'            => $user_count,
             'order_count'           => $order_count,
             'order_sale_count'      => $order_sale_count,
-            'order_complete_total'  => $order_complete_total,
+            'order_complete_total'  => PriceNumberFormat($order_complete_total),
         ];
         return DataReturn('处理成功', 0, $result);
     }
@@ -719,9 +734,15 @@ class StatisticalService
         // 获取订单id
         $where = [
             ['status', '<=', 4],
-            ['add_time', '>=', $params['start']],
-            ['add_time', '<=', $params['end']],
         ];
+        if(!empty($params['start']))
+        {
+            $where[] = ['add_time', '>=', $params['start']];
+        }
+        if(!empty($params['end']))
+        {
+            $where[] = ['add_time', '<=', $params['end']];
+        }
         $order_ids = Db::name('Order')->where($where)->column('id');
 
         // 获取订单详情热销商品
@@ -772,17 +793,20 @@ class StatisticalService
                 'key_name'          => 'type',
                 'error_msg'         => '类型为空',
             ],
-            [
+        ];
+        if(isset($params['type']) && in_array($params['type'], ['order-profit', 'order-trading', 'pay-type']))
+        {
+            $p[] = [
                 'checked_type'      => 'empty',
                 'key_name'          => 'start',
-                'error_msg'         => '开始时间为空',
-            ],
-            [
+                'error_msg'         => '开始时间不能为空',
+            ];
+            $p[] = [
                 'checked_type'      => 'empty',
                 'key_name'          => 'end',
-                'error_msg'         => '结束时间为空',
-            ],
-        ];
+                'error_msg'         => '结束时间不能为空',
+            ];
+        }
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {

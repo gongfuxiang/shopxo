@@ -60,9 +60,19 @@
 					<span class="icon"></span>
 					<span class="title">商城统计</span>
 					<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '时间筛选仅对总数有效', trigger: 'hover focus', theme: 'sm'}"></a>
-					{{include file="/index/stats_where" type="base-count" init="0" /}}
+					<div class="am-fr right-operate" data-type="base-count" data-empty-time="1">
+					    {{if !empty($time_data)}}
+					        <span class="quick-time">
+					            {{foreach $time_data as $k=>$v}}
+					                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+					            {{/foreach}}
+					            <a href="javascript:;" data-start="" data-end="">全部</a>
+					        </span>
+					    {{/if}}
+					    {{include file="/index/stats_time" /}}
+					</div>
 				</div>
-				<ul class="am-avg-sm-2 am-avg-lg-4">
+				<ul class="{{if isset($is_income) and $is_income eq true}}am-avg-sm-2 am-avg-lg-4{{else /}}am-avg-sm-1 am-avg-lg-3{{/if}}">
 					<li>
 						<div class="li-content">
 							<p class="name">用户总量</p>
@@ -132,29 +142,32 @@
 							<i class="am-icon-gg am-icon-lg bg-icon"></i>
 						</div>
 					</li>
-					<li>
-						<div class="li-content">
-							<p class="name">收入总计</p>
-							<p class="total animation-count-to base-order-complete-total" data-to="{{$base_count.order_complete_total}}" data-speed="1500" data-decimals="2">0.00</p>
-							<div class="item am-margin-bottom-xs">
-								<span>上月</span>
-								<span class="animation-count-to" data-to="{{$order_complete_money.last_month_count}}" data-speed="1500">0</span>
+					<!-- 收入统计权限判断 -->
+					{{if isset($is_income) and $is_income eq true}}
+						<li>
+							<div class="li-content">
+								<p class="name">收入总计</p>
+								<p class="total animation-count-to base-order-complete-total" data-to="{{$base_count.order_complete_total}}" data-speed="1500" data-decimals="2">0.00</p>
+								<div class="item am-margin-bottom-xs">
+									<span>上月</span>
+									<span class="animation-count-to" data-to="{{$order_complete_money.last_month_count}}" data-speed="1500">0</span>
+								</div>
+								<div class="item am-margin-bottom-xs">
+									<span>当月</span>
+									<span class="animation-count-to" data-to="{{$order_complete_money.same_month_count}}" data-speed="1500">0</span>
+								</div>
+								<div class="item am-margin-bottom-xs">
+									<span>昨日</span>
+									<span class="animation-count-to" data-to="{{$order_complete_money.yesterday_count}}" data-speed="1500" data-decimals="2">0.00</span>
+								</div>
+								<div class="item">
+									<span>今日</span>
+									<span class="animation-count-to" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
+								</div>
+								<i class="am-icon-line-chart am-icon-lg bg-icon"></i>
 							</div>
-							<div class="item am-margin-bottom-xs">
-								<span>当月</span>
-								<span class="animation-count-to" data-to="{{$order_complete_money.same_month_count}}" data-speed="1500">0</span>
-							</div>
-							<div class="item am-margin-bottom-xs">
-								<span>昨日</span>
-								<span class="animation-count-to" data-to="{{$order_complete_money.yesterday_count}}" data-speed="1500" data-decimals="2">0.00</span>
-							</div>
-							<div class="item">
-								<span>今日</span>
-								<span class="animation-count-to" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
-							</div>
-							<i class="am-icon-line-chart am-icon-lg bg-icon"></i>
-						</div>
-					</li>
+						</li>
+					{{/if}}
 				</ul>
 			</div>
 
@@ -163,7 +176,16 @@
 				<div class="block-title echarts-title">
 					<span class="icon"></span>
 					<span class="title">订单成交金额走势</span>
-					{{include file="/index/stats_where" type="order-profit" init="1" /}}
+					<div class="am-fr right-operate" data-type="order-profit" data-init="1">
+					    {{if !empty($time_data)}}
+					        <span class="quick-time">
+					            {{foreach $time_data as $k=>$v}}
+					                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+					            {{/foreach}}
+					        </span>
+					    {{/if}}
+					    {{include file="/index/stats_time" /}}
+					</div>
 				</div>
 				<div id="echarts-order-profit"></div>
 			</div>
@@ -173,7 +195,16 @@
 				<div class="block-title echarts-title">
 					<span class="icon"></span>
 					<span class="title">订单交易走势</span>
-					{{include file="/index/stats_where" type="order-trading" init="1" /}}
+					<div class="am-fr right-operate" data-type="order-trading" data-init="1">
+					    {{if !empty($time_data)}}
+					        <span class="quick-time">
+					            {{foreach $time_data as $k=>$v}}
+					                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+					            {{/foreach}}
+					        </span>
+					    {{/if}}
+					    {{include file="/index/stats_time" /}}
+					</div>
 				</div>
 				<div id="echarts-order-trading"></div>
 			</div>
@@ -185,7 +216,17 @@
 					<div class="block-title echarts-title">
 						<span class="icon"></span>
 						<span class="title">热销商品</span>
-						{{include file="/index/stats_where" type="goods-hot" init="1" /}}
+						<div class="am-fr right-operate" data-type="goods-hot" data-init="1" data-empty-time="1">
+						    {{if !empty($time_data)}}
+						        <span class="quick-time">
+						            {{foreach $time_data as $k=>$v}}
+						                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+						            {{/foreach}}
+						            <a href="javascript:;" data-start="" data-end="">全部</a>
+						        </span>
+						    {{/if}}
+						    {{include file="/index/stats_time" /}}
+						</div>
 					</div>
 					<div id="echarts-goods-hot"></div>
 				</li>
@@ -195,7 +236,16 @@
 					<div class="block-title echarts-title">
 						<span class="icon"></span>
 						<span class="title">支付方式</span>
-						{{include file="/index/stats_where" type="pay-type" init="1" /}}
+						<div class="am-fr right-operate" data-type="pay-type" data-init="1">
+						    {{if !empty($time_data)}}
+						        <span class="quick-time">
+						            {{foreach $time_data as $k=>$v}}
+						                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+						            {{/foreach}}
+						        </span>
+						    {{/if}}
+						    {{include file="/index/stats_time" /}}
+						</div>
 					</div>
 					<div id="echarts-pay-type"></div>
 				</li>
