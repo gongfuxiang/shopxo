@@ -152,6 +152,9 @@ class RegionService
             'sort'                  => isset($params['sort']) ? intval($params['sort']) : 0,
             'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
         ];
+		
+		// 得到level，风车车 
+		$data['level'] = ($data['pid'] > 0) ? (Db::name('Region')->where(['id'=>intval($data['pid'])])->value('level')+1) : 0;
 
         // 添加
         if(empty($params['id']))
