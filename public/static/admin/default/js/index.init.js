@@ -354,6 +354,16 @@ function EchartsOrderMapWholeCountry(name_arr, data)
         legend: {
             data: []
         },
+        toolbox: {
+            show : (__is_mobile__ == 1) ? false : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar']},
+                restore : {show: true},
+                saveAsImage : {name:'订单地域分布', show: true}
+            }
+        },
         grid: {
             left: '3%',
             right: '4%',
