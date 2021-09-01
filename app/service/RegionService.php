@@ -154,7 +154,7 @@ class RegionService
         ];
 		
 		// 得到level，风车车 
-		$data['level'] = ($data['pid'] > 0) ? (Db::name('Region')->where(['id'=>intval($data['pid'])])->value('level')+1) : 0;
+		$data['level'] = ($data['pid'] > 0) ? (Db::name('Region')->where(['id'=>$data['pid']])->value('level')+1) : 0;
 
         // 添加
         if(empty($params['id']))
