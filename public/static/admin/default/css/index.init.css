@@ -111,7 +111,7 @@ html, body {
         margin-bottom: 20px;
     }
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
     .block-container .echarts-title {
         height: 100px;
     }
