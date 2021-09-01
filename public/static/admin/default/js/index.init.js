@@ -328,6 +328,75 @@ function EchartsPayType(title_arr, name_arr, data)
 }
 
 /**
+ * 订单地域分布
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-08-30
+ * @desc    description
+ * @param   {[array]}        name_arr  [名称]
+ * @param   {[array]}        data      [数据]
+ */
+function EchartsOrderMapWholeCountry(name_arr, data)
+{
+    var chart = echarts.init(document.getElementById('echarts-map-whole-country'), 'macarons');
+    var option = {
+        title: {
+            text: '',
+            subtext: ''
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: []
+        },
+        grid: {
+            top: '5%',
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        },
+        yAxis: {
+            type: 'category',
+            data: name_arr
+        },
+        series: [
+            {
+                name: '',
+                type: 'bar',
+                data: data,
+                itemStyle: {
+                    normal: {
+                        // 定制颜色显示（按顺序）
+                        // 超出定制颜色则返回随机
+                        color: function(params) {
+                            var colorList = ['#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3', '#B74AE5','#0AAF9F','#E89589','#16A085','#4A235A','#C39BD3 ','#F9E79F','#BA4A00','#ECF0F1','#616A6B','#EAF2F8','#4A235A','#3498DB', '#00BCD4', '#FF9800', '#E63A75', '#3F51B5'];
+                            if(colorList[params.dataIndex] == undefined)
+                            {
+                                return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);
+                            } else {
+                                return colorList[params.dataIndex];
+                            }                            
+                        }
+                    }
+                }
+            }
+        ]
+    };
+    chart.setOption(option);
+    return chart;
+}
+
+/**
  * 图表更新
  * @author  Devil
  * @blog    http://gong.gg/
@@ -389,6 +458,11 @@ function EchartsInit(e)
                     // 支付方式
                     case 'pay-type' :
                         var chart = EchartsPayType(res.data.title_arr, res.data.name_arr, res.data.data);
+                        break;
+
+                    // 订单地域分布
+                    case 'order-whole-country' :
+                        var chart = EchartsOrderMapWholeCountry(res.data.name_arr, res.data.data);
                         break;
 
                     default :

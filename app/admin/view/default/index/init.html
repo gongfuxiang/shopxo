@@ -64,7 +64,9 @@
 					    {{if !empty($time_data)}}
 					        <span class="quick-time">
 					            {{foreach $time_data as $k=>$v}}
-					                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+					            	{{if !in_array($k, ['this-month', 'last-month'])}}
+					                	<a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+					            	{{/if}}
 					            {{/foreach}}
 					            <a href="javascript:;" data-start="" data-end="">全部</a>
 					        </span>
@@ -190,7 +192,7 @@
 				<div id="echarts-order-profit"></div>
 			</div>
 
-			<!-- 近30日订单交易走势 -->
+			<!-- 订单交易走势 -->
 			<div class="block-container">
 				<div class="block-title echarts-title">
 					<span class="icon"></span>
@@ -210,9 +212,9 @@
 			</div>
 
 			<!-- 组合 -->
-			<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2 {{if $is_system_show_base eq 0}}am-padding-bottom-sm{{/if}}">
+			<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2">
 				<li>
-					<!-- 近30日热销商品 -->
+					<!-- 热销商品 -->
 					<div class="block-title echarts-title">
 						<span class="icon"></span>
 						<span class="title">热销商品</span>
@@ -232,7 +234,7 @@
 				</li>
 
 				<li>
-					<!-- 近30日支付方式 -->
+					<!-- 支付方式 -->
 					<div class="block-title echarts-title">
 						<span class="icon"></span>
 						<span class="title">支付方式</span>
@@ -250,6 +252,28 @@
 					<div id="echarts-pay-type"></div>
 				</li>
 			</ul>
+
+			<!-- 订单地域分布 -->
+			<div class="am-nbfc {{if $is_system_show_base eq 0}}am-padding-bottom-sm{{/if}}">
+				<div class="block-container {{if $is_system_show_base eq 0}}am-margin-bottom-0{{/if}}">
+					<div class="block-title echarts-title">
+						<span class="icon"></span>
+						<span class="title">订单地域分布</span>
+						<div class="am-fr right-operate" data-type="order-whole-country" data-init="1" data-empty-time="1">
+						    {{if !empty($time_data)}}
+						        <span class="quick-time">
+						            {{foreach $time_data as $k=>$v}}
+						                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+						            {{/foreach}}
+						            <a href="javascript:;" data-start="" data-end="">全部</a>
+						        </span>
+						    {{/if}}
+						    {{include file="/index/stats_time" /}}
+						</div>
+					</div>
+					<div id="echarts-map-whole-country"></div>
+				</div>
+			</div>
 		{{/if}}
 
 		<!-- 系统信息 -->

@@ -35,6 +35,14 @@ class StatisticalService
     public static $today_time_start;
     public static $today_time_end;
 
+    // 近365天
+    public static $year_time_start;
+    public static $year_time_end;
+
+    // 近180天
+    public static $half_year_time_start;
+    public static $half_year_time_end;
+
     // 近30天
     public static $thirty_time_start;
     public static $thirty_time_end;
@@ -91,6 +99,14 @@ class StatisticalService
             // 今天日期
             self::$today_time_start = strtotime(date('Y-m-d 00:00:00'));
             self::$today_time_end = time();
+
+            // 近365天日期
+            self::$year_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-365 day')));
+            self::$year_time_end = time();
+
+            // 近180天日期
+            self::$half_year_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-180 day')));
+            self::$half_year_time_end = time();
 
             // 近30天日期
             self::$thirty_time_start = strtotime(date('Y-m-d 00:00:00', strtotime('-29 day')));
@@ -184,6 +200,16 @@ class StatisticalService
                 'name'  => '近30天',
                 'start' => date('Y-m-d H:i:s', StatisticalService::$thirty_time_start),
                 'end'   => date('Y-m-d H:i:s', StatisticalService::$thirty_time_end),
+            ],
+            '180-day'    => [
+                'name'  => '近半年',
+                'start' => date('Y-m-d H:i:s', StatisticalService::$half_year_time_start),
+                'end'   => date('Y-m-d H:i:s', StatisticalService::$half_year_time_end),
+            ],
+            '365-day'    => [
+                'name'  => '近1年',
+                'start' => date('Y-m-d H:i:s', StatisticalService::$year_time_start),
+                'end'   => date('Y-m-d H:i:s', StatisticalService::$year_time_end),
             ],
             'this-month'    => [
                 'name'  => '当月',
@@ -654,6 +680,60 @@ class StatisticalService
     }
 
     /**
+     * 热销商品
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function GoodsHotTotal($params = [])
+    {    
+        // 获取订单id
+        $where = [
+            ['status', '<=', 4],
+        ];
+        if(!empty($params['start']))
+        {
+            $where[] = ['add_time', '>=', $params['start']];
+        }
+        if(!empty($params['end']))
+        {
+            $where[] = ['add_time', '<=', $params['end']];
+        }
+        $order_ids = Db::name('Order')->where($where)->column('id');
+
+        // 获取订单详情热销商品
+        if(empty($order_ids))
+        {
+            $data = [];
+        } else {
+            $data = Db::name('OrderDetail')->field('goods_id, sum(buy_number) AS value')->where('order_id', 'IN', $order_ids)->group('goods_id')->order('value desc')->limit(30)->select()->toArray();
+        }
+
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                // 获取商品名称（这里不一次性读取、为了兼容 mysql 5.7+版本）
+                $v['name'] = Db::name('OrderDetail')->where('goods_id', $v['goods_id'])->value('title');
+                if(mb_strlen($v['name'], 'utf-8') > 12)
+                {
+                    $v['name'] = mb_substr($v['name'], 0, 12, 'utf-8').'...';
+                }
+                unset($v['goods_id']);
+            }
+        }
+
+        // 数据组装
+        $result = [
+            'name_arr'  => array_column($data, 'name'),
+            'data'      => $data,
+        ];
+        return DataReturn('处理成功', 0, $result);
+    }
+
+    /**
      * 支付方式
      * @author   Devil
      * @blog     http://gong.gg/
@@ -663,9 +743,6 @@ class StatisticalService
      */
     public static function PayTypeTotal($params = [])
     {
-        // 初始化
-        self::Init($params);
-
         // 获取支付方式名称
         $where = [
             ['business_type', '<>', ''],
@@ -722,18 +799,19 @@ class StatisticalService
     }
 
     /**
-     * 热销商品
+     * 订单地域分布
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2016-12-06T21:31:53+0800
      * @param    [array]          $params [输入参数]
      */
-    public static function GoodsHotTotal($params = [])
-    {    
+    public static function OrderWholeCountryTotal($params = [])
+    {
         // 获取订单id
         $where = [
             ['status', '<=', 4],
+            ['order_model', 'in', [0,2]],
         ];
         if(!empty($params['start']))
         {
@@ -750,27 +828,13 @@ class StatisticalService
         {
             $data = [];
         } else {
-            $data = Db::name('OrderDetail')->field('goods_id, sum(buy_number) AS value')->where('order_id', 'IN', $order_ids)->group('goods_id')->order('value desc')->limit(30)->select()->toArray();
-        }
-
-        if(!empty($data))
-        {
-            foreach($data as &$v)
-            {
-                // 获取商品名称（这里不一次性读取、为了兼容 mysql 5.7+版本）
-                $v['name'] = Db::name('OrderDetail')->where('goods_id', $v['goods_id'])->value('title');
-                if(mb_strlen($v['name'], 'utf-8') > 12)
-                {
-                    $v['name'] = mb_substr($v['name'], 0, 12, 'utf-8').'...';
-                }
-                unset($v['goods_id']);
-            }
+            $data = Db::name('OrderAddress')->field('province_name as name, count(*) AS value')->where('order_id', 'IN', $order_ids)->group('province_name')->order('value asc')->select()->toArray();
         }
 
         // 数据组装
         $result = [
             'name_arr'  => array_column($data, 'name'),
-            'data'      => $data,
+            'data'      => array_column($data, 'value'),
         ];
         return DataReturn('处理成功', 0, $result);
     }
@@ -847,6 +911,11 @@ class StatisticalService
             // 支付方式
             case 'pay-type' :
                 $ret = self::PayTypeTotal($params);
+                break;
+
+            // 订单地域分布
+            case 'order-whole-country' :
+                $ret = self:: OrderWholeCountryTotal($params);
                 break;
 
             default :

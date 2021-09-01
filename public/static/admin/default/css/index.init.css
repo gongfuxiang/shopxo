@@ -191,26 +191,13 @@ html, body {
 }
 
 /**
- * 支付方式
- */
-#echarts-pay-type {
-    margin-top: 10px;
-    height: 400px;
-}
-
-/**
- * 热销商品
- */
-#echarts-goods-hot {
-    margin-top: 10px;
-    height: 400px;
-}
-
-/**
- * 订单交易
+ * 图表容器
  */
 #echarts-order-profit,
-#echarts-order-trading {
+#echarts-order-trading,
+#echarts-goods-hot,
+#echarts-pay-type,
+#echarts-map-whole-country {
     margin-top: 10px;
     height: 400px;
 }
