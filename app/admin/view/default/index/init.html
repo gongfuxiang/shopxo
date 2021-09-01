@@ -71,7 +71,7 @@
 					            <a href="javascript:;" data-start="" data-end="">全部</a>
 					        </span>
 					    {{/if}}
-					    {{include file="/index/stats_time" /}}
+					    {{include file="/index/stats_where" /}}
 					</div>
 				</div>
 				<ul class="{{if isset($is_income) and $is_income eq true}}am-avg-sm-2 am-avg-lg-4{{else /}}am-avg-sm-1 am-avg-lg-3{{/if}}">
@@ -178,6 +178,7 @@
 				<div class="block-title echarts-title">
 					<span class="icon"></span>
 					<span class="title">订单成交金额走势</span>
+					<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '所有订单', trigger: 'hover focus', theme: 'sm'}"></a>
 					<div class="am-fr right-operate" data-type="order-profit" data-init="1">
 					    {{if !empty($time_data)}}
 					        <span class="quick-time">
@@ -186,7 +187,7 @@
 					            {{/foreach}}
 					        </span>
 					    {{/if}}
-					    {{include file="/index/stats_time" /}}
+					    {{include file="/index/stats_where" /}}
 					</div>
 				</div>
 				<div id="echarts-order-profit"></div>
@@ -197,6 +198,7 @@
 				<div class="block-title echarts-title">
 					<span class="icon"></span>
 					<span class="title">订单交易走势</span>
+					<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '所有订单', trigger: 'hover focus', theme: 'sm'}"></a>
 					<div class="am-fr right-operate" data-type="order-trading" data-init="1">
 					    {{if !empty($time_data)}}
 					        <span class="quick-time">
@@ -205,7 +207,7 @@
 					            {{/foreach}}
 					        </span>
 					    {{/if}}
-					    {{include file="/index/stats_time" /}}
+					    {{include file="/index/stats_where" /}}
 					</div>
 				</div>
 				<div id="echarts-order-trading"></div>
@@ -218,6 +220,7 @@
 					<div class="block-title echarts-title">
 						<span class="icon"></span>
 						<span class="title">热销商品</span>
+						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '不含取消关闭的订单', trigger: 'hover focus', theme: 'sm'}"></a>
 						<div class="am-fr right-operate" data-type="goods-hot" data-init="1" data-empty-time="1">
 						    {{if !empty($time_data)}}
 						        <span class="quick-time">
@@ -227,7 +230,7 @@
 						            <a href="javascript:;" data-start="" data-end="">全部</a>
 						        </span>
 						    {{/if}}
-						    {{include file="/index/stats_time" /}}
+						    {{include file="/index/stats_where" /}}
 						</div>
 					</div>
 					<div id="echarts-goods-hot"></div>
@@ -238,6 +241,7 @@
 					<div class="block-title echarts-title">
 						<span class="icon"></span>
 						<span class="title">支付方式</span>
+						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '所有订单', trigger: 'hover focus', theme: 'sm'}"></a>
 						<div class="am-fr right-operate" data-type="pay-type" data-init="1">
 						    {{if !empty($time_data)}}
 						        <span class="quick-time">
@@ -246,7 +250,7 @@
 						            {{/foreach}}
 						        </span>
 						    {{/if}}
-						    {{include file="/index/stats_time" /}}
+						    {{include file="/index/stats_where" /}}
 						</div>
 					</div>
 					<div id="echarts-pay-type"></div>
@@ -259,6 +263,12 @@
 					<div class="block-title echarts-title">
 						<span class="icon"></span>
 						<span class="title">订单地域分布</span>
+						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '默认维度（省）', trigger: 'hover focus', theme: 'sm'}"></a>
+						<select name="value" data-am-selected="{btnWidth: '50px', btnSize: 'xs'}">
+							<option value="0" selected>省</option>
+							<option value="1">市</option>
+							<option value="2">区/县</option>
+						</select>
 						<div class="am-fr right-operate" data-type="order-whole-country" data-init="1" data-empty-time="1">
 						    {{if !empty($time_data)}}
 						        <span class="quick-time">
@@ -268,7 +278,7 @@
 						            <a href="javascript:;" data-start="" data-end="">全部</a>
 						        </span>
 						    {{/if}}
-						    {{include file="/index/stats_time" /}}
+						    {{include file="/index/stats_where" /}}
 						</div>
 					</div>
 					<div id="echarts-map-whole-country"></div>

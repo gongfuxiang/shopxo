@@ -560,66 +560,6 @@ class StatisticalService
     }
 
     /**
-     * 订单收益趋势
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
-     * @param    [array]          $params [输入参数]
-     */
-    public static function OrderProfitTotal($params = [])
-    {
-        // 订单状态列表
-        $order_status_list = MyConst('common_order_status');
-        $status_arr = array_column($order_status_list, 'id');
-
-        // 循环获取统计数据
-        $data = [];
-        $value_arr = [];
-        $name_arr = [];
-        if(!empty($status_arr))
-        {
-            $date = self::DayCreate($params['start'], $params['end']);
-            foreach($date as $day)
-            {
-                // 当前日期名称
-                $name_arr[] = date('Y-m-d', $day['start']);
-
-                // 根据状态获取数量
-                foreach($status_arr as $status)
-                {
-                    // 获取订单
-                    $where = [
-                        ['status', '=', $status],
-                        ['add_time', '>=', $day['start']],
-                        ['add_time', '<=', $day['end']],
-                    ];
-                    $value_arr[$status][] = Db::name('Order')->where($where)->sum('pay_price');
-                }
-            }
-        }
-
-        // 数据格式组装
-        foreach($status_arr as $status)
-        {
-            $data[] = [
-                'name'      => $order_status_list[$status]['name'],
-                'type'      => ($status == 4) ? 'line' : 'bar',
-                'tiled'     => '总量',
-                'data'      => empty($value_arr[$status]) ? [] : $value_arr[$status],
-            ];
-        }
-
-        // 数据组装
-        $result = [
-            'title_arr' => array_column($order_status_list, 'name'),
-            'name_arr'  => $name_arr,
-            'data'      => $data,
-        ];
-        return DataReturn('处理成功', 0, $result);
-    }
-
-    /**
      * 订单交易趋势
      * @author   Devil
      * @blog     http://gong.gg/
@@ -665,6 +605,66 @@ class StatisticalService
             $data[] = [
                 'name'      => $order_status_list[$status]['name'],
                 'type'      => ($status == 4) ? 'bar' : 'line',
+                'tiled'     => '总量',
+                'data'      => empty($value_arr[$status]) ? [] : $value_arr[$status],
+            ];
+        }
+
+        // 数据组装
+        $result = [
+            'title_arr' => array_column($order_status_list, 'name'),
+            'name_arr'  => $name_arr,
+            'data'      => $data,
+        ];
+        return DataReturn('处理成功', 0, $result);
+    }
+
+    /**
+     * 订单收益趋势
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-06T21:31:53+0800
+     * @param    [array]          $params [输入参数]
+     */
+    public static function OrderProfitTotal($params = [])
+    {
+        // 订单状态列表
+        $order_status_list = MyConst('common_order_status');
+        $status_arr = array_column($order_status_list, 'id');
+
+        // 循环获取统计数据
+        $data = [];
+        $value_arr = [];
+        $name_arr = [];
+        if(!empty($status_arr))
+        {
+            $date = self::DayCreate($params['start'], $params['end']);
+            foreach($date as $day)
+            {
+                // 当前日期名称
+                $name_arr[] = date('Y-m-d', $day['start']);
+
+                // 根据状态获取数量
+                foreach($status_arr as $status)
+                {
+                    // 获取订单
+                    $where = [
+                        ['status', '=', $status],
+                        ['add_time', '>=', $day['start']],
+                        ['add_time', '<=', $day['end']],
+                    ];
+                    $value_arr[$status][] = Db::name('Order')->where($where)->sum('pay_price');
+                }
+            }
+        }
+
+        // 数据格式组装
+        foreach($status_arr as $status)
+        {
+            $data[] = [
+                'name'      => $order_status_list[$status]['name'],
+                'type'      => ($status == 4) ? 'line' : 'bar',
                 'tiled'     => '总量',
                 'data'      => empty($value_arr[$status]) ? [] : $value_arr[$status],
             ];
@@ -808,6 +808,10 @@ class StatisticalService
      */
     public static function OrderWholeCountryTotal($params = [])
     {
+        // 维度默认省
+        $region_arr = ['province_name', 'city_name', 'county_name'];
+        $region_name = (empty($params['value']) || !array_key_exists($params['value'], $region_arr)) ? $region_arr[0] : $region_arr[$params['value']];
+
         // 获取订单id
         $where = [
             ['status', '<=', 4],
@@ -828,7 +832,7 @@ class StatisticalService
         {
             $data = [];
         } else {
-            $data = Db::name('OrderAddress')->field('province_name as name, count(*) AS value')->where('order_id', 'IN', $order_ids)->group('province_name')->order('value asc')->select()->toArray();
+            $data = Db::name('OrderAddress')->field($region_name.' as name, count(*) AS value')->where('order_id', 'IN', $order_ids)->group($region_name)->order('value asc')->limit(30)->select()->toArray();
         }
 
         // 数据组装

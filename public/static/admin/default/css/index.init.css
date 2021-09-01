@@ -44,7 +44,7 @@ html, body {
 .right-operate .quick-time a:hover {
     color: #095f8a;
 }
-.right-operate .echarts-where-time input {
+.right-operate .echarts-where input {
     display: -webkit-inline-box !important;
     width: 155px !important;
     border-color: #eee;
@@ -60,7 +60,7 @@ html, body {
     background-color: #3bb4f2;
     border-color: #3bb4f2;
 }
-.right-operate .echarts-where-time .join {
+.right-operate .echarts-where .join {
     color: #ccc;
 }
 .block-container .echarts-title{
@@ -73,16 +73,21 @@ html, body {
     float: none;
 }
 .block-combination-container-2 .right-operate .quick-time,
-.block-combination-container-2 .right-operate .echarts-where-time {
+.block-combination-container-2 .right-operate .echarts-where {
     display: block;
     margin-top: 5px;
 }
 .block-combination-container-2 .right-operate .quick-time {
     margin-top: 10px;
 }
-.block-combination-container-2 .right-operate .echarts-where-time input {
-        width: calc(50% - 46px) !important;
-    }
+.block-combination-container-2 .right-operate .echarts-where input {
+    width: calc(50% - 46px) !important;
+}
+.block-container .am-dropdown .am-selected-btn {
+    padding: 0.3em 1em 0.3em 0.3em;
+    border-radius: 3px;
+    margin-left: 5px;
+}
 @media only screen and (min-width: 641px) {
     .block-combination-container-2 {
         margin-bottom: 20px;
@@ -114,14 +119,14 @@ html, body {
         float: none;
     }
     .right-operate .quick-time,
-    .right-operate .echarts-where-time {
+    .right-operate .echarts-where {
         display: block;
         margin-top: 5px;
     }
     .right-operate .quick-time {
         margin-top: 10px;
     }
-    .right-operate .echarts-where-time input {
+    .right-operate .echarts-where input {
         width: calc(50% - 46px) !important;
     }
 }

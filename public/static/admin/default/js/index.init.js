@@ -343,7 +343,7 @@ function EchartsOrderMapWholeCountry(name_arr, data)
     var option = {
         title: {
             text: '',
-            subtext: ''
+            subtext: '仅显示30条数据'
         },
         tooltip: {
             trigger: 'axis',
@@ -355,7 +355,6 @@ function EchartsOrderMapWholeCountry(name_arr, data)
             data: []
         },
         grid: {
-            top: '5%',
             left: '3%',
             right: '4%',
             bottom: '3%',
@@ -379,13 +378,13 @@ function EchartsOrderMapWholeCountry(name_arr, data)
                         // 定制颜色显示（按顺序）
                         // 超出定制颜色则返回随机
                         color: function(params) {
-                            var colorList = ['#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3', '#B74AE5','#0AAF9F','#E89589','#16A085','#4A235A','#C39BD3 ','#F9E79F','#BA4A00','#ECF0F1','#616A6B','#EAF2F8','#4A235A','#3498DB', '#00BCD4', '#FF9800', '#E63A75', '#3F51B5'];
+                            var colorList = ['#C33531','#EFE42A','#64BD3D','#EE9201','#29AAE3','#B74AE5','#0AAF9F','#E89589','#16A085','#4A235A','#C39BD3','#F9E79F','#BA4A00','#ECF0F1','#616A6B','#EAF2F8','#4A235A','#3498DB','#00BCD4','#FF9800','#E63A75','#3F51B5','#1CC0A0','#795548','#CDDC39'];
                             if(colorList[params.dataIndex] == undefined)
                             {
                                 return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);
                             } else {
                                 return colorList[params.dataIndex];
-                            }                            
+                            }
                         }
                     }
                 }
@@ -409,8 +408,8 @@ var chart_object = [];
 function EchartsInit(e)
 {
     // 类型
-    var $parent = e.parents('.right-operate');
-    var type = $parent.data('type');
+    var type = e.parents('.right-operate').data('type');
+    var value = e.parents('.echarts-title').find('select[name="value"]').val() || '';
 
     // 时间
     var $time = e.parent();
@@ -425,7 +424,7 @@ function EchartsInit(e)
         type: 'POST',
         dataType: 'json',
         timeout: 30000,
-        data: {"type":type, "start":start, "end":end},
+        data: {"type":type, "start":start, "end":end, "value": value},
         success: function(res)
         {
             e.button('reset');
@@ -593,6 +592,12 @@ $(function()
         }
     });
 
+    // 基础条件值改变事件
+    $('.echarts-title select[name="value"]').on('change', function()
+    {
+        $(this).parent().find('button.echarts-where-submit').trigger('click');
+    });
+
     // 条件确认
     $('.echarts-where-submit').on('click', function()
     {
@@ -618,7 +623,7 @@ $(function()
         {
             $time.find('input[name="time_start"]').val(start);
             $time.find('input[name="time_end"]').val(end);
-            $time.find('button').trigger('click');
+            $time.find('button.echarts-where-submit').trigger('click');
         }
     });
 

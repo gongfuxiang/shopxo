@@ -1,4 +1,4 @@
-<span class="am-form echarts-where-time">
+<span class="am-form echarts-where">
     <input type="text" autocomplete="off" name="time_start" class="Wdate am-radius" placeholder="开始时间" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{if !empty($time_data) and !empty($default_day) and isset($time_data[$default_day])}}{{$time_data[$default_day]['start']}}{{/if}}" />
     <span class="join">-</span>
     <input type="text" autocomplete="off" class="Wdate am-radius" placeholder="结束时间" name="time_end" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{if !empty($time_data) and !empty($default_day) and isset($time_data[$default_day])}}{{$time_data[$default_day]['end']}}{{/if}}" />
