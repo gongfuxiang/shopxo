@@ -924,7 +924,7 @@ class StatisticalService
 
             // 订单地域分布
             case 'order-whole-country' :
-                $ret = self:: OrderWholeCountryTotal($params);
+                $ret = self::OrderWholeCountryTotal($params);
                 break;
 
             default :
