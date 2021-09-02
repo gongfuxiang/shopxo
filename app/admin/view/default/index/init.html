@@ -173,25 +173,27 @@
 				</ul>
 			</div>
 
-			<!-- 订单成交金额走势 -->
-			<div class="block-container">
-				<div class="block-title echarts-title">
-					<span class="icon"></span>
-					<span class="title">订单成交金额走势</span>
-					<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '所有订单', trigger: 'hover focus', theme: 'sm'}"></a>
-					<div class="am-fr right-operate" data-type="order-profit" data-init="1">
-					    {{if !empty($time_data)}}
-					        <span class="quick-time">
-					            {{foreach $time_data as $k=>$v}}
-					                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
-					            {{/foreach}}
-					        </span>
-					    {{/if}}
-					    {{include file="/index/stats_where" /}}
+			<!-- 订单成交金额走势，收入统计权限判断-->
+			{{if isset($is_income) and $is_income eq true}}
+				<div class="block-container">
+					<div class="block-title echarts-title">
+						<span class="icon"></span>
+						<span class="title">订单成交金额走势</span>
+						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '所有订单', trigger: 'hover focus', theme: 'sm'}"></a>
+						<div class="am-fr right-operate" data-type="order-profit" data-init="1">
+						    {{if !empty($time_data)}}
+						        <span class="quick-time">
+						            {{foreach $time_data as $k=>$v}}
+						                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
+						            {{/foreach}}
+						        </span>
+						    {{/if}}
+						    {{include file="/index/stats_where" /}}
+						</div>
 					</div>
+					<div id="echarts-order-profit"></div>
 				</div>
-				<div id="echarts-order-profit"></div>
-			</div>
+			{{/if}}
 
 			<!-- 订单交易走势 -->
 			<div class="block-container">
