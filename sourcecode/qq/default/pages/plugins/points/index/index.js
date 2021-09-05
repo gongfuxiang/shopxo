@@ -117,7 +117,7 @@ Page({
     return {
       title: this.data.data_base.seo_title || '积分商城 - '+app.data.application_title,
       desc: this.data.data_base.seo_desc || '积分抵扣、兑换 - '+app.data.application_describe,
-      path: '/pages/plugins/signin/index-detail/index-detail?referrer=' + user_id
+      path: '/pages/plugins/points/index/index?referrer=' + user_id
     };
   },
 });
