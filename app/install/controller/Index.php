@@ -163,9 +163,6 @@ class Index extends Common
             return $ret;
         }
 
-        // 数据库类型默认 mysql
-        $params['DB_TYPE'] = 'mysql';
-
         // 配置文件校验
         if(file_exists(ROOT.'config/database.php'))
         {
@@ -202,9 +199,6 @@ class Index extends Common
             $this->behavior_obj->ReportInstallLog(['msg'=>'数据库连接失败']);
             return DataReturn('数据库连接失败', -1);
         }
-
-        // 数据库类型默认 mysql
-        $params['DB_TYPE'] = 'mysql';
 
         // mysql版本
         $ret = $this->IsVersion($db, $params['DB_CHARSET']);
@@ -450,6 +444,11 @@ php;
     {
         // 请求类型
         $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'DB_TYPE',
+                'error_msg'         => '请选择数据库类型',
+            ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'DB_CHARSET',
