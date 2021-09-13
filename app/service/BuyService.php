@@ -1232,9 +1232,10 @@ class BuyService
                 {
                     throw new \Exception('订单添加失败');
                 }
+                $order['id'] = $order_id;
 
                 // 订单详情添加
-                foreach($v['detail_data'] as $vs)
+                foreach($v['detail_data'] as &$vs)
                 {
                     // 添加订单详情数据,data返回自增id
                     $order_detail_id = 0;
@@ -1242,6 +1243,7 @@ class BuyService
                     if($ret['code'] == 0)
                     {
                         $order_detail_id = $ret['data'];
+                        $vs['id'] = $order_detail_id;
                     } else {
                         throw new \Exception($ret['msg']);
                     }
