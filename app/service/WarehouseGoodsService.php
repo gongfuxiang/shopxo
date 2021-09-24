@@ -1015,18 +1015,26 @@ class WarehouseGoodsService
         }
         $md5_key = md5($md5_key);
 
-        // 扣除仓库商品规格库存
+        // 扣除仓库商品规格库存、存在对应规格才进行库存回滚操作
         $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id, 'md5_key'=>$md5_key];
-        if(!Db::name('WarehouseGoodsSpec')->where($where)->inc('inventory', $buy_number)->update())
+        $temp = Db::name('WarehouseGoodsSpec')->where($where)->find();
+        if(!empty($temp))
         {
-            return DataReturn('仓库商品规格库存回滚失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
+            if(!Db::name('WarehouseGoodsSpec')->where($where)->inc('inventory', $buy_number)->update())
+            {
+                return DataReturn('仓库商品规格库存回滚失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -11);
+            }
         }
 
         // 扣除仓库商品库存
         $where = ['warehouse_id'=>$warehouse_id, 'goods_id'=>$goods_id];
-        if(!Db::name('WarehouseGoods')->where($where)->inc('inventory', $buy_number)->update())
+        $temp = Db::name('WarehouseGoods')->where($where)->find();
+        if(!empty($temp))
         {
-            return DataReturn('仓库商品库存回滚失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
+            if(!Db::name('WarehouseGoods')->where($where)->inc('inventory', $buy_number)->update())
+            {
+                return DataReturn('仓库商品库存回滚失败['.$warehouse_id.'-'.$goods_id.'('.$buy_number.')]', -12);
+            }
         }
 
         // 商品库存回滚钩子
