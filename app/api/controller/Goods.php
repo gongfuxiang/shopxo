@@ -94,6 +94,10 @@ class Goods extends Common
 
                 // 商品评价总数
                 $goods['comments_count'] = GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods_id, 'is_show'=>1]);
+                // 评分
+                $goods['comments_score'] = GoodsCommentsService::GoodsCommentsScore($goods_id);
+                // 最新3条评价
+                $goods['comments_data'] = GoodsCommentsService::GoodsFirstSeveralComments($goods_id);
 
                 // 商品访问统计
                 GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
@@ -214,7 +218,8 @@ class Goods extends Common
             $ret = DataReturn('参数有误', -1);
         } else {
             // 获取商品评分
-            $ret = GoodsCommentsService::GoodsCommentsScore($this->data_post['goods_id']);
+            $data = GoodsCommentsService::GoodsCommentsScore($this->data_post['goods_id']);
+            $ret = DataReturn('success', 0, $data);
         }
         return ApiService::ApiDataReturn($ret);
     }

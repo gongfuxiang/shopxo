@@ -69,6 +69,7 @@ class Goodscomments extends Common
             'n'             => $this->page_size,
             'order_by'      => $this->form_order_by['data'],
             'is_public'     => 0,
+            'is_goods'      => 1,
         ];
         $ret = GoodsCommentsService::GoodsCommentsList($data_params);
 
@@ -100,6 +101,7 @@ class Goodscomments extends Common
                 'm'             => 0,
                 'n'             => 1,
                 'where'         => $where,
+                'is_goods'      => 1,
             ];
             $ret = GoodsCommentsService::GoodsCommentsList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
@@ -132,6 +134,7 @@ class Goodscomments extends Common
                 'n'         => 1,
                 'where'     => ['id'=>intval($params['id'])],
                 'is_public' => 0,
+                'is_goods'  => 1,
             );
             $ret = GoodsCommentsService::GoodsCommentsList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];

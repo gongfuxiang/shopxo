@@ -201,23 +201,42 @@ class GoodsCommentsService
 
         // 获取数据列表
         $data = Db::name('GoodsComments')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
+        return DataReturn('处理成功', 0, self::DataHandle($data, $params));
+    }
+
+    /**
+     * 数据处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-14
+     * @desc    description
+     * @param   [array]          $data      [数据]
+     * @param   [array]          $params    [输入参数]
+     */
+    public static function DataHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             // 获取商品信息
-            $goods_params = [
-                'where' => [
-                    'id'                => array_unique(array_column($data, 'goods_id')),
-                    'is_delete_time'    => 0,
-                ],
-                'field'  => 'id,title,images,price,min_price',
-            ];
-            $ret = GoodsService::GoodsList($goods_params);
+            $is_goods = (isset($params['is_goods']) && $params['is_goods'] == 1) ? 1 : 0;
             $goods = [];
-            if(!empty($ret['data']))
+            if($is_goods == 1)
             {
-                foreach($ret['data'] as $g)
+                $goods_params = [
+                    'where' => [
+                        'id'                => array_unique(array_column($data, 'goods_id')),
+                        'is_delete_time'    => 0,
+                    ],
+                    'field'  => 'id,title,images,price,min_price',
+                ];
+                $ret = GoodsService::GoodsList($goods_params);
+                if(!empty($ret['data']))
                 {
-                    $goods[$g['id']] = $g;
+                    foreach($ret['data'] as $g)
+                    {
+                        $goods[$g['id']] = $g;
+                    }
                 }
             }
 
@@ -230,19 +249,22 @@ class GoodsCommentsService
             foreach($data as &$v)
             {
                 // 用户信息
-                $user = UserService::GetUserViewInfo($v['user_id']);
-                if(!isset($params['is_public']) || $params['is_public'] == 1)
+                if(array_key_exists('user_id', $v))
                 {
-                    $v['user'] = [
-                        'avatar'            => $user['avatar'],
-                        'user_name_view'    => ($v['is_anonymous'] == 1) ? '匿名' : mb_substr($user['user_name_view'], 0, 1, 'utf-8').'***'.mb_substr($user['user_name_view'], -1, null, 'utf-8'),
-                    ];
-                } else {
-                    $v['user'] = $user;
+                    $user = UserService::GetUserViewInfo($v['user_id']);
+                    if(!isset($params['is_public']) || $params['is_public'] == 1)
+                    {
+                        $v['user'] = [
+                            'avatar'            => $user['avatar'],
+                            'user_name_view'    => (!isset($v['is_anonymous']) || $v['is_anonymous'] == 1) ? '匿名' : mb_substr($user['user_name_view'], 0, 1, 'utf-8').'***'.mb_substr($user['user_name_view'], -1, null, 'utf-8'),
+                        ];
+                    } else {
+                        $v['user'] = $user;
+                    }
                 }
 
                 // 图片
-                if(isset($v['images']))
+                if(array_key_exists('images', $v))
                 {
                     if(!empty($v['images']))
                     {
@@ -256,43 +278,75 @@ class GoodsCommentsService
                 }
 
                 // 商品信息
-                $v['goods'] = isset($goods[$v['goods_id']]) ? $goods[$v['goods_id']] : [];
+                if(array_key_exists('goods_id', $v) && $is_goods == 1)
+                {
+                    $v['goods'] = isset($goods[$v['goods_id']]) ? $goods[$v['goods_id']] : [];   
+                }
 
                 // 业务类型
-                $v['business_type_text'] = array_key_exists($v['business_type'], $comments_business_type_list) ? $comments_business_type_list[$v['business_type']]['name'] : null;
-                $msg = null;
-                switch($v['business_type'])
+                if(array_key_exists('business_type', $v))
                 {
-                    // 订单
-                    case 'order' :
-                        $msg = self::BusinessTypeOrderSpec($v['order_id'], $v['goods_id'], $v['user_id']);
+                    $v['business_type_text'] = array_key_exists($v['business_type'], $comments_business_type_list) ? $comments_business_type_list[$v['business_type']]['name'] : null;
+                    $msg = null;
+                    switch($v['business_type'])
+                    {
+                        // 订单
+                        case 'order' :
+                            if(!empty($v['order_id']) && !empty($v['goods_id']) && !empty($v['user_id']))
+                            {
+                                $msg = self::BusinessTypeOrderSpec($v['order_id'], $v['goods_id'], $v['user_id']);
+                            }
+                    }
+                    $v['msg'] = empty($msg) ? null : $msg;
                 }
-                $v['msg'] = empty($msg) ? null : $msg;
 
                 // 评分
-                $v['rating_text'] = $comments_rating_list[$v['rating']]['name'];
-                $v['rating_badge'] = $comments_rating_list[$v['rating']]['badge'];
+                if(array_key_exists('rating', $v))
+                {
+                    $v['rating_text'] = $comments_rating_list[$v['rating']]['name'];
+                    $v['rating_badge'] = $comments_rating_list[$v['rating']]['badge'];
+                }
 
                 // 是否
-                $v['is_reply_text'] = isset($common_is_text_list[$v['is_reply']]) ? $common_is_text_list[$v['is_reply']]['name'] : '';
-                $v['is_anonymous_text'] = isset($common_is_text_list[$v['is_anonymous']]) ? $common_is_text_list[$v['is_anonymous']]['name'] : '';
-                $v['is_show_text'] = isset($common_is_text_list[$v['is_show']]) ? $common_is_text_list[$v['is_show']]['name'] : '';
+                if(array_key_exists('is_reply', $v))
+                {
+                    $v['is_reply_text'] = isset($common_is_text_list[$v['is_reply']]) ? $common_is_text_list[$v['is_reply']]['name'] : '';
+                }
+                if(array_key_exists('is_anonymous', $v))
+                {
+                    $v['is_anonymous_text'] = isset($common_is_text_list[$v['is_anonymous']]) ? $common_is_text_list[$v['is_anonymous']]['name'] : '';
+                }
+                if(array_key_exists('is_show', $v))
+                {
+                    $v['is_show_text'] = isset($common_is_text_list[$v['is_show']]) ? $common_is_text_list[$v['is_show']]['name'] : '';
+                }
 
                 // 回复时间
-                $v['reply_time_time'] = empty($v['reply_time']) ? null : date('Y-m-d H:i:s', $v['reply_time']);
-                $v['reply_time_date'] = empty($v['reply_time']) ? null : date('Y-m-d', $v['reply_time']);
+                if(array_key_exists('reply_time', $v))
+                {
+                    $v['reply_time_time'] = empty($v['reply_time']) ? null : date('Y-m-d H:i:s', $v['reply_time']);
+                    $v['reply_time_date'] = empty($v['reply_time']) ? null : date('m-d H:i', $v['reply_time']);
+                }
 
                 // 评论时间
-                $v['add_time_hour'] = date('H:i:s', $v['add_time']);
-                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                if(array_key_exists('add_time', $v))
+                {
+                    $v['add_time_hour'] = date('H:i:s', $v['add_time']);
+                    $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
+                    $v['add_time_date'] = date('m-d H:i', $v['add_time']);
+                }
 
                 // 更新时间
-                $v['upd_time_time'] = empty($v['upd_time']) ? null : date('Y-m-d H:i:s', $v['upd_time']);
-                $v['upd_time_date'] = empty($v['upd_time']) ? null : date('Y-m-d', $v['upd_time']);
+                if(array_key_exists('upd_time', $v))
+                {
+                    $v['upd_time_time'] = empty($v['upd_time']) ? null : date('Y-m-d H:i:s', $v['upd_time']);
+                    $v['upd_time_date'] = empty($v['upd_time']) ? null : date('m-d H:I', $v['upd_time']);
+                }
             }
+        } else {
+            $data = [];
         }
-        return DataReturn('处理成功', 0, $data);
+        return $data;
     }
 
     /**
@@ -583,13 +637,34 @@ class GoodsCommentsService
                 }
             }
         }
-
         sort($rating_list);
-        $result = [
-            'avg'       => PriceNumberFormat(Db::name('GoodsComments')->where($where)->avg('rating'), 1),
+        $avg = PriceNumberFormat(Db::name('GoodsComments')->where($where)->avg('rating'), 1);
+        $rate = ($avg <= 0) ? 100 : intval(($avg/5)*100);
+        return [
+            'avg'       => $avg,
+            'rate'      => $rate,
             'rating'    => $rating_list,
         ];
-        return DataReturn('操作成功', 0, $result);
+    }
+
+    /**
+     * 商品最新几条评论
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-05-15
+     * @desc    description
+     * @param   [int]           $goods_id [商品id]
+     * @param   [int]           $number   [获取数量、默认3条]
+     */
+    public static function GoodsFirstSeveralComments($goods_id, $number = 3)
+    {
+        $where = [
+            ['goods_id', '=', $goods_id],
+            ['is_show', '=', 1],
+        ];
+        $field = 'id,user_id,order_id,business_type,content,reply,is_reply,rating,images,is_anonymous,reply_time,add_time';
+        return self::DataHandle(Db::name('GoodsComments')->where($where)->field($field)->limit(0, $number)->order('id desc')->select()->toArray());
     }
 }
 ?>

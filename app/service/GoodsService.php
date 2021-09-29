@@ -2742,29 +2742,40 @@ class GoodsService
      */
     public static function GoodsDetailMiddleTabsNavList($goods)
     {
-        // 评论总数
-        $comments_count = isset($goods['comments_count']) ? $goods['comments_count'] : GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods['id'], 'is_show'=>1]);
+        // app与web端不一致
+        if(APPLICATION == 'app') 
+        {
+            // 这里的 ent 值必须和系统中区域块定义的一致
+            $data = [
+                ['name'=>'商品', 'ent'=>'.page'],
+                ['name'=>'评价', 'ent'=>'.goods-comment'],
+                ['name'=>'详情', 'ent'=>'.goods-detail'],
+            ];
+        } else {
+            // 评论总数
+            $comments_count = isset($goods['comments_count']) ? $goods['comments_count'] : GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods['id'], 'is_show'=>1]);
 
-        // 列表
-        // type 类型
-        // name 名称
-        // active 选中（可选）
-        // value 数据值（可选）
-        $data = [
-            [
-                'type'      => 'detail',
-                'name'      => '详情',
-                'active'    => 1,
-            ],
-            [
-                'type'      => 'comments',
-                'name'      => '评论('.$comments_count.')',
-            ],
-            [
-                'type'      => 'guess_you_like',
-                'name'      => '猜你喜欢',
-            ]
-        ];
+            // 列表
+            // type 类型
+            // name 名称
+            // active 选中（可选）
+            // value 数据值（可选）
+            $data = [
+                [
+                    'type'      => 'detail',
+                    'name'      => '详情',
+                    'active'    => 1,
+                ],
+                [
+                    'type'      => 'comments',
+                    'name'      => '评价('.$comments_count.')',
+                ],
+                [
+                    'type'      => 'guess_you_like',
+                    'name'      => '猜你喜欢',
+                ]
+            ];
+        }
 
         // 商品详情中间导航钩子
         $hook_name = 'plugins_service_goods_detail_middle_tabs_nav_handle';
@@ -2776,10 +2787,15 @@ class GoodsService
         ]);
 
         // 返回数据
-        return [
-            'nav'   => $data,
-            'type'  => array_column($data, 'type'),
-        ];
+        if(APPLICATION == 'app')
+        {
+            return $data;
+        } else {
+            return [
+                'nav'   => $data,
+                'type'  => array_column($data, 'type'),
+            ];
+        }
     }
 
     /**

@@ -117,7 +117,7 @@ class Goods extends Common
             if(!empty($middle_tabs_nav) && in_array('comments', $middle_tabs_nav['type']))
             {
                 $goods_score = GoodsCommentsService::GoodsCommentsScore($goods_id);
-                MyViewAssign('goods_score', $goods_score['data']);
+                MyViewAssign('goods_score', $goods_score);
             }
 
             // 详情tab商品 猜你喜欢
