@@ -287,22 +287,22 @@ class BuyService
                 if($v['is_delete_time'] != 0)
                 {
                     $v['is_error'] = 1;
-                    $v['error_msg'] = '商品已作废';
+                    $v['error_msg'] = '已作废';
                 }
                 if(empty($v['error_msg']) && $v['is_invalid'] == 1)
                 {
                     $v['is_error'] = 1;
-                    $v['error_msg'] = '商品已失效';
+                    $v['error_msg'] = '已失效';
                 }
                 if(empty($v['error_msg']) && $v['is_shelves'] != 1)
                 {
                     $v['is_error'] = 1;
-                    $v['error_msg'] = '商品已下架';
+                    $v['error_msg'] = '已下架';
                 }
                 if(empty($v['error_msg']) && $v['inventory'] <= 0)
                 {
                     $v['is_error'] = 1;
-                    $v['error_msg'] = '商品没货了';
+                    $v['error_msg'] = '没货了';
                 }
                 if(empty($v['error_msg']))
                 {

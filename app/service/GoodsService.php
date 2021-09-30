@@ -2602,7 +2602,7 @@ class GoodsService
         }
 
         // 仅可单独购买
-        return DataReturn('仅单独购买', -1, $site_type);
+        return DataReturn('仅单买', -1, $site_type);
     }
 
     /**
@@ -2724,10 +2724,20 @@ class GoodsService
         }
 
         // 返回数据
+        $count = 0;
+        $types =  [];
+        if(!empty($data) && is_array($data))
+        {
+            $count = count($data);
+            $types = array_column($data, 'type');
+        }
         return [
-            'count' => (!empty($data) && is_array($data)) ? count($data) : 0,
-            'data'  => $data,
-            'error' => $error,
+            'data'      => $data,
+            'count'     => $count,
+            'error'     => $error,
+            'is_buy'    => in_array('buy', $types) ? 1 : 0,
+            'is_cart'   => in_array('cart', $types) ? 1 : 0,
+            'is_show'   => in_array('show', $types) ? 1 : 0,
         ];
     }
 
