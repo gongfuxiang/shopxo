@@ -17,7 +17,7 @@
 {{include file="public/goods_category" /}}
 
 <!-- content -->
-<div class="am-container cart-content">
+<div class="am-container cart-content" data-ajax-url="{{:MyUrl('index/cart/stock')}}">
     {{if !empty($cart_list)}}
         <!-- 商品列表 -->
         <table class="am-table">
@@ -79,7 +79,6 @@
                                     <span class="original-price">{{$currency_symbol}}{{$goods.original_price}}</span>
                                 {{/if}}
                                 <strong class="total-price-content">{{$currency_symbol}}{{$goods.price}}</strong>
-                                <span class="wap-number">x{{$goods.stock}}</span>
                             </div>
 
                             <!-- 商品基础后面钩子 开始 -->
@@ -182,9 +181,9 @@
 
                             <!-- 数量操作 -->
                             {{if $goods['is_error'] eq 0}}
-                                <div class="am-input-group am-input-group-sm stock-tag" data-inventory="{{$goods.inventory}}" data-price="{{$goods.price}}" data-ajax-url="{{:MyUrl('index/cart/stock')}}">
+                                <div class="am-input-group am-input-group-sm stock-tag" data-inventory="{{$goods.inventory}}" data-price="{{$goods.price}}">
                                     <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="min">-</span>
-                                    <input type="number" class="am-form-field" value="{{$goods.stock}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} />
+                                    <input type="number" class="am-form-field" value="{{$goods.stock}}" {{if $goods['is_shelves'] neq 1 or $goods['is_delete_time'] neq 0}}disabled{{/if}} data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}" />
                                     <span class="am-input-group-label {{if $goods['is_shelves'] eq 1 and $goods['is_delete_time'] eq 0}}stock-submit{{/if}}" data-type="add">+</span>
                                 </div>
                             {{else /}}

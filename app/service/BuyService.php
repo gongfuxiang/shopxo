@@ -248,13 +248,13 @@ class BuyService
                 $v['spec'] = empty($v['spec']) ? null : json_decode($v['spec'], true);
 
                 // 获取商品基础信息
-                $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$v['spec']]);
+                $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$v['spec'], 'stock'=>$v['stock']]);
                 $v['is_invalid'] = 0;
                 if($goods_base['code'] == 0)
                 {
                     $v['inventory'] = $goods_base['data']['spec_base']['inventory'];
-                    $v['price'] = (float) $goods_base['data']['spec_base']['price'];
-                    $v['original_price'] = (float) $goods_base['data']['spec_base']['original_price'];
+                    $v['price'] = $goods_base['data']['spec_base']['price'];
+                    $v['original_price'] = $goods_base['data']['spec_base']['original_price'];
                     $v['spec_weight'] = $goods_base['data']['spec_base']['weight'];
                     $v['spec_coding'] = $goods_base['data']['spec_base']['coding'];
                     $v['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
@@ -278,7 +278,7 @@ class BuyService
                 $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['goods_id']]);
                 $v['images_old'] = $v['images'];
                 $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
-                $v['total_price'] = $v['stock']* ((float) $v['price']);
+                $v['total_price'] = PriceNumberFormat($v['stock']* $v['price']);
                 $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
 
                 // 错误处理
@@ -432,28 +432,54 @@ class BuyService
         $stock = intval($params['stock']);
 
         // 获取购物车数据
-        $cart = Db::name('Cart')->where($where)->select()->toArray();
-        if(empty($cart))
+        $data = Db::name('Cart')->where($where)->field('goods_id,title,price,stock,spec')->find();
+        if(empty($data))
         {
             return DataReturn('请先加入购物车', -1);
         }
-        $cart[0]['stock'] = $stock;
+        $data['stock'] = $stock;
+        $data['spec'] = empty($data['spec']) ? null : json_decode($data['spec'], true);
 
         // 商品校验
-        $ret = self::BuyGoodsCheck(['goods'=>$cart]);
+        $ret = self::BuyGoodsCheck(['goods'=>[$data]]);
         if($ret['code'] != 0)
         {
             return $ret;
         }
 
         // 更新数据
-        $data = [
+        $upd_data = [
             'stock'     => $stock,
             'upd_time'  => time(),
         ];
-        if(Db::name('Cart')->where($where)->update($data))
+        if(Db::name('Cart')->where($where)->update($upd_data))
         {
-            return DataReturn('更新成功', 0);
+            // 获取商品基础信息、更新商品价格信息
+            $goods_base = GoodsService::GoodsSpecDetail(['id'=>$data['goods_id'], 'spec'=>$data['spec'], 'stock'=>$data['stock']]);
+            if($goods_base['code'] == 0)
+            {
+                $data['price'] = (float) $goods_base['data']['spec_base']['price'];
+                $data['original_price'] = (float) $goods_base['data']['spec_base']['original_price'];
+            }
+
+            // 增加价格总计
+            $data['total_price'] = PriceNumberFormat($data['stock']*$data['price']);
+
+            // 购物车更新成功钩子
+            $hook_name = 'plugins_service_cart_update_success';
+            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => $params,
+                'data'          => &$data,
+                'goods_id'      => $params['goods_id']
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            return DataReturn('更新成功', 0, $data);
         }
         return DataReturn('更新失败', -100);
     }
@@ -519,7 +545,7 @@ class BuyService
         $goods['spec'] = self::GoodsSpecificationsHandle($params);
 
         // 获取商品基础信息
-        $goods_base = GoodsService::GoodsSpecDetail(['id'=>$goods['goods_id'], 'spec'=>$goods['spec']]);
+        $goods_base = GoodsService::GoodsSpecDetail(['id'=>$goods['goods_id'], 'spec'=>$goods['spec'], 'stock'=>$params['stock']]);
         if($goods_base['code'] == 0)
         {
             $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];

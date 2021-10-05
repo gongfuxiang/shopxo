@@ -41,13 +41,13 @@ function GoodsCommentsHtml(page)
         type: 'POST',
         data: {"goods_id": $('.goods-comment').data('goods-id'), "page": page || 1},
         dataType: 'json',
-        success: function(result)
+        success: function(res)
         {
             $('.goods-page-no-data').addClass('none');
-            if(result.code == 0)
+            if(res.code == 0)
             {
-                $('.goods-comment-content').html(result.data.data);
-                $('.goods-page-container').html(PageLibrary(result.data.total, result.data.number, page, 2));
+                $('.goods-comment-content').html(res.data.data);
+                $('.goods-page-container').html(PageLibrary(res.data.total, res.data.number, page, 2));
             }
 
             // 没有数据
@@ -63,6 +63,34 @@ function GoodsCommentsHtml(page)
             $('.goods-page-no-data span').text(xhr.responseText || '请求出现错误，请稍后再试！');
         }
     });
+}
+
+/**
+ * 已选规格
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-10-05
+ * @desc    description
+ */
+function GoodsSelectedSpec()
+{
+    // 规格
+    var spec = [];
+    var sku_count = $('.sku-items').length;
+    if(sku_count > 0)
+    {
+        var spec_count = $('.sku-line.selected').length;
+        if(spec_count >= sku_count)
+        {
+            $('.iteminfo_parameter .sku-items').removeClass('sku-not-active');
+            $('.theme-signin-left .sku-items li.selected').each(function(k, v)
+            {
+                spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
+            });
+        }
+    }
+    return spec;
 }
 
 /**
@@ -115,18 +143,17 @@ function BuyCartCheck(e)
             });
             Prompt('请选择规格');
             return false;
-        } else {
-            $('.iteminfo_parameter .sku-items').removeClass('sku-not-active');
-            $('.theme-signin-left .sku-items li.selected').each(function(k, v)
-            {
-                spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
-            });
         }
+
+        // 已选规格
+        spec = GoodsSelectedSpec();
     }
+    var type =( typeof(e) == 'object') ? e.attr('data-type') : null;
     return {
+        "id": $('.goods-detail').data('id'),
         "stock": stock,
         "spec": spec,
-        "type": e.attr('data-type')
+        "type": type
     };
 }
 
@@ -176,6 +203,50 @@ function BuyCartHandle(e)
 }
 
 /**
+ * 商品规格详情返回数据处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-10-05
+ * @desc    description
+ * @param   {[object]}        data [后端返回数据]
+ */
+function GoodsSpecDetailBackHandle(data)
+{
+    $('.text-info .price-now').text(__currency_symbol__+data.spec_base.price);
+    $('.goods-price').text(data.spec_base.price);
+    $('.number-tag input[type="number"]').attr('max', data.spec_base.inventory);
+    $('.stock-tips .stock').text(data.spec_base.inventory);
+    if(data.spec_base.original_price > 0)
+    {
+        $('.goods-original-price').text(__currency_symbol__+data.spec_base.original_price);
+        $('.goods-original-price').parents('.items').show();
+    } else {
+        $('.goods-original-price').parents('.items').hide();
+    }
+
+    // 已选数量校验、超出规格数量则以规格数量为准
+    var stock = parseInt($('#text_box').val());
+    if(stock > data.spec_base.inventory)
+    {
+        $('#text_box').val(data.spec_base.inventory);
+    }
+
+    // 扩展数据处理
+    var extends_element = data.extends_element || [];
+    if(extends_element.length > 0)
+    {
+        for(var i in extends_element)
+        {
+            if((extends_element[i]['element'] || null) != null && extends_element[i]['content'] !== null)
+            {
+                $(extends_element[i]['element']).html(extends_element[i]['content']);
+            }
+        }
+    }
+}
+
+/**
  * 获取规格详情
  * @author   Devil
  * @blog    http://gong.gg/
@@ -200,6 +271,9 @@ function GoodsSpecDetail()
         spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
     });
 
+    // 已填写数量
+    var stock = parseInt($('#text_box').val()) || 1;
+
     // 开启进度条
     $.AMUI.progress.start();
 
@@ -209,38 +283,19 @@ function GoodsSpecDetail()
         type: 'post',
         dataType: "json",
         timeout: 10000,
-        data: {"id": $('.goods-detail').data('id'), "spec": spec},
-        success: function(result)
+        data: {
+            "id": $('.goods-detail').data('id'),
+            "stock": stock,
+            "spec": spec
+        },
+        success: function(res)
         {
             $.AMUI.progress.done();
-            if(result.code == 0)
+            if(res.code == 0)
             {
-                $('.text-info .price-now').text(__currency_symbol__+result.data.spec_base.price);
-                $('.goods-price').text(result.data.spec_base.price);
-                $('.number-tag input[type="number"]').attr('max', result.data.spec_base.inventory);
-                $('.stock-tips .stock').text(result.data.spec_base.inventory);
-                if(result.data.spec_base.original_price > 0)
-                {
-                    $('.goods-original-price').text(__currency_symbol__+result.data.spec_base.original_price);
-                    $('.goods-original-price').parents('.items').show();
-                } else {
-                    $('.goods-original-price').parents('.items').hide();
-                }
-
-                // 扩展数据处理
-                var extends_element = result.data.extends_element || [];
-                if(extends_element.length > 0)
-                {
-                    for(var i in extends_element)
-                    {
-                        if((extends_element[i]['element'] || null) != null && extends_element[i]['content'] !== null)
-                        {
-                            $(extends_element[i]['element']).html(extends_element[i]['content']);
-                        }
-                    }
-                }
+                GoodsSpecDetailBackHandle(res.data);
             } else {
-                Prompt(result.msg);
+                Prompt(res.msg);
             }
         },
         error: function(xhr, type)
@@ -286,10 +341,10 @@ function GoodsSpecType()
         dataType: "json",
         timeout: 10000,
         data: {"id": $('.goods-detail').data('id'), "spec": spec},
-        success: function(result)
+        success: function(res)
         {
             $.AMUI.progress.done();
-            if(result.code == 0)
+            if(res.code == 0)
             {
                 var spec_count = spec.length;
                 var index = (spec_count > 0) ? spec_count : 0;
@@ -299,7 +354,7 @@ function GoodsSpecType()
                     {
                         $(this).removeClass('sku-dont-choose');
                         var value = $(this).data('value').toString();
-                        if(result.data.spec_type.indexOf(value) == -1)
+                        if(res.data.spec_type.indexOf(value) == -1)
                         {
                             $(this).addClass('sku-items-disabled');
                         } else {
@@ -309,7 +364,7 @@ function GoodsSpecType()
                 }
 
                 // 扩展数据处理
-                var extends_element = result.data.extends_element || [];
+                var extends_element = res.data.extends_element || [];
                 if(extends_element.length > 0)
                 {
                     for(var i in extends_element)
@@ -321,7 +376,7 @@ function GoodsSpecType()
                     }
                 }
             } else {
-                Prompt(result.msg);
+                Prompt(res.msg);
             }
         },
         error: function(xhr, type)
@@ -362,6 +417,64 @@ function GoodsBaseRestore()
 }
 
 /**
+ * 数量值改变
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-10-05
+ * @desc    description
+ */
+function GoodsNumberChange()
+{
+    var stock = parseInt($('#text_box').val()) || 1;
+    var spec = [];
+    var sku_count = $('.sku-items').length;
+    if(sku_count > 0)
+    {
+        // 未完全选择规格则返回
+        var spec_count = $('.sku-line.selected').length;
+        if(spec_count < sku_count)
+        {
+            return false;
+        }
+
+        // 已选规格
+        spec = GoodsSelectedSpec();
+    }
+
+    // 开启进度条
+    $.AMUI.progress.start();
+
+    // ajax请求
+    $.ajax({
+        url: $('#text_box').data('ajax-url'),
+        type: 'post',
+        dataType: "json",
+        timeout: 10000,
+        data: {
+            "id": $('.goods-detail').data('id'),
+            "stock": stock,
+            "spec": spec
+        },
+        success: function(res)
+        {
+            $.AMUI.progress.done();
+            if(res.code == 0)
+            {
+                GoodsSpecDetailBackHandle(res.data);
+            } else {
+                Prompt(res.msg);
+            }
+        },
+        error: function(xhr, type)
+        {
+            $.AMUI.progress.done();
+            Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+        }
+    });
+}
+
+/**
  * 规格选择显示
  * @author  Devil
  * @blog    http://gong.gg/
@@ -386,13 +499,9 @@ $(function() {
     {
         $(this).find('ul>li').on('click', function()
         {
-            // 切换规格购买数量清空
-            $('#text_box').val($('.stock-tips .stock').data('min-limit') || 1);
-            
             // 规格处理
             var length = $('.theme-signin-left .sku-container .sku-items').length;
             var index = $(this).parents('.sku-items').index();
-
             if($(this).hasClass('selected'))
             {
                 $(this).removeClass('selected');
@@ -527,24 +636,24 @@ $(function() {
                 dataType: "json",
                 timeout: 10000,
                 data: {"id": $('.goods-detail').data('id')},
-                success: function(result)
+                success: function(res)
                 {
                     $.AMUI.progress.done();
                     PoptitClose();
 
-                    if(result.code == 0)
+                    if(res.code == 0)
                     {
-                        $this.find('.goods-favor-text').text(result.data.text);
-                        $this.find('.goods-favor-count').text('('+result.data.count+')');
-                        if(result.data.status == 1)
+                        $this.find('.goods-favor-text').text(res.data.text);
+                        $this.find('.goods-favor-count').text('('+res.data.count+')');
+                        if(res.data.status == 1)
                         {
                             $this.addClass('text-active');
                         } else {
                             $this.removeClass('text-active');
                         }
-                        Prompt(result.msg, 'success');
+                        Prompt(res.msg, 'success');
                     } else {
-                        Prompt(result.msg);
+                        Prompt(res.msg);
                     }
                 },
                 error: function(xhr, type)
@@ -572,54 +681,75 @@ $(function() {
     });
 
     //获得文本框对象
-    var $sotck = $('#text_box');
-    var min = $('.stock-tips .stock').data('min-limit') || 1;
-    var max = $('.stock-tips .stock').data('max-limit') || 0;
-    var unit = $('.stock-tips .stock').data('unit') || '';
+    var $input = $('#text_box');
+    var $stock_tips = $('.stock-tips .stock');
+    var min = parseInt($stock_tips.data('min-limit')) || 1;
+    var max = parseInt($stock_tips.data('max-limit')) || 0;
+    var unit = $stock_tips.data('unit') || '';
 
     // 手动输入
-    $sotck.on('blur', function()
+    $input.on('blur', function()
     {
-        var number = parseInt($(this).val());
-        var inventory = parseInt($('.stock-tips .stock').text());
-        if(number > inventory)
+        var stock = parseInt($(this).val());
+        var inventory = parseInt($stock_tips.text());
+        if(isNaN(stock))
         {
-            number = inventory;
+            stock = min;
         }
-        if(number <= 1 || isNaN(number))
+        if(max > 0 && stock > max)
         {
-            number = min;
+            stock = max;
         }
-        $sotck.val(number);
+        if(stock < min)
+        {
+            stock = min;
+        }
+        if(stock > inventory)
+        {
+            stock = inventory;
+        }
+        $input.val(stock);
+
+        // 数量更新事件
+        GoodsNumberChange();
     });
 
     //数量增加操作
     $('#add').on('click', function()
     {
-        var inventory = parseInt($('.stock-tips .stock').text());
-        var number = parseInt($sotck.val())+1;
-        if(max > 0 && number > max)
+        var inventory = parseInt($stock_tips.text());
+        var stock = parseInt($input.val())+1;
+        if(max > 0 && stock > max)
         {
+            $input.val(max);
             Prompt('最大限购数量'+max+unit);
             return false;
         }
-        if(number > inventory)
+        if(stock > inventory)
         {
+            $input.val(min);
             Prompt('库存数量'+inventory+unit);
             return false;
         }
-        $sotck.val(number);
+        $input.val(stock);
+
+        // 数量更新事件
+        GoodsNumberChange();
     });
     //数量减少操作
     $('#min').on('click', function()
     {
-        var value = parseInt($sotck.val())-1 || 1;
+        var value = parseInt($input.val())-1;
         if(value < min)
         {
+            $input.val(min);
             Prompt('最低起购数量'+min+unit);
             return false;
         }
-        $sotck.val(value);
+        $input.val(value);
+
+        // 数量更新事件
+        GoodsNumberChange();
     });
 
     // 评论

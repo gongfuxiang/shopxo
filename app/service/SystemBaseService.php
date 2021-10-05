@@ -317,7 +317,7 @@ class SystemBaseService
      * @desc    description
      * @param   [int]          $goods_id [商品id]
      * @param   [string]       $plugins  [插件名称]
-     * @param   [int]          $is_use [是否使用（0否, 1是）]
+     * @param   [int]          $is_use   [是否使用（0否, 1是）]
      */
     public static function GoodsDiscountRecord($goods_id, $plugins, $is_use = 0)
     {

@@ -67,8 +67,6 @@ class Payment extends Common
         // 插件更新信息
         $upgrade = PaymentService::PaymentUpgradeInfo($ret['data']);
         MyViewAssign('upgrade_info', $upgrade['data']);
-        // print_r($upgrade);
-        // print_r($ret['data']);
 
         return MyView();
 	}

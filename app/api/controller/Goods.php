@@ -188,6 +188,26 @@ class Goods extends Common
     }
 
     /**
+     * 商品数量选择
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-14
+     * @desc    description
+     */
+    public function Stock()
+    {
+        // 开始处理
+        $params = $this->data_post;
+        $ret = GoodsService::GoodsStock($params);
+        if($ret['code'] == 0)
+        {
+            $ret['data'] = $ret['data']['spec_base'];
+        }
+        return ApiService::ApiDataReturn($ret);
+    }
+
+    /**
      * 商品分类
      * @author   Devil
      * @blog    http://gong.gg/

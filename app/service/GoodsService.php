@@ -2342,6 +2342,46 @@ class GoodsService
     }
 
     /**
+     * 商品购买数量获取商品信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-10-05
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function GoodsStock($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '商品id有误',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'stock',
+                'error_msg'         => '购买数量有误',
+            ],
+            [
+                'checked_type'      => 'min',
+                'key_name'          => 'stock',
+                'checked_data'      => 1,
+                'error_msg'         => '购买数量有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取商品基础信息
+        return self::GoodsSpecDetail($params);
+    }
+
+    /**
      * 获取商品分类节点数据
      * @author   Devil
      * @blog     http://gong.gg/

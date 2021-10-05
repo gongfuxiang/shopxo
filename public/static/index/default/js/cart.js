@@ -17,8 +17,9 @@ $(function()
         {
             if($(this).prop('checked'))
             {
-                var stock = parseInt($(this).parents('tr').find('.stock-tag input').val());
-                var price = parseFloat($(this).parents('tr').find('.stock-tag').data('price'));
+                var $stock = $(this).parents('tr').find('.stock-tag');
+                var stock = parseInt($stock.find('input').val());
+                var price = parseFloat($stock.attr('data-price'));
                 total_stock += stock;
                 total_price += stock*price;
                 ids.push($(this).val());
@@ -63,28 +64,28 @@ $(function()
 
         // ajax请求
         $.ajax({
-            url: self.parents('.stock-tag').data('ajax-url'),
+            url: $('.cart-content').data('ajax-url'),
             type: 'post',
             dataType: "json",
             timeout: 10000,
             data: {"id": id, "goods_id": goods_id, "stock": stock},
-            success: function(result)
+            success: function(res)
             {
                 $.AMUI.progress.done();
-                if(result.code == 0)
+                if(res.code == 0)
                 {
-                    self.parents('.stock-tag').find('input').val(stock);
-                    self.parents('tr').find('.total-price-content').text(__currency_symbol__+FomatFloat(stock*price, 2));
-                    
-                    Prompt(result.msg, 'success');
+                    var $stock = self.parents('.stock-tag');
+                    $stock.find('input').val(res.data.stock);
+                    $stock.attr('data-price', res.data.price);
+                    $stock.find('input').val(res.data.stock);
+                    self.parents('tr').find('.total-price-content').text(__currency_symbol__+res.data.total_price);
 
-                    // 数量更新
-                    self.parents('tr').find('.wap-number').text('x'+stock);
+                    Prompt(res.msg, 'success');
 
                     // 计算选择的商品总数和总价
                     CartBaseTotal();
                 } else {
-                    Prompt(result.msg);
+                    Prompt(res.msg);
                 }
             },
             error: function(xhr, type)
@@ -98,19 +99,56 @@ $(function()
     // 购物车数量操作
     $('.stock-tag .stock-submit').on('click', function()
     {
-        var stock = parseInt($(this).parents('.stock-tag').find('input').val());
+        // 数量参数
+        var $parent = $(this).parents('.stock-tag');
+        var $input = $parent.find('input[type="number"]');
+        var min = parseInt($input.data('min-limit'));
+        var max = parseInt($input.data('max-limit'));
+        var unit = $input.data('unit') || '';
+        var stock = parseInt($input.val());
         var type = $(this).data('type');
-        var temp_stock = (type == 'add') ? stock+1 : stock-1;
+        if(type == 'add')
+        {
+            var temp_stock = stock+1;
+            if(max > 0 && temp_stock > max)
+            {
+                $input.val(max);
+                Prompt('最大限购数量'+max+unit);
+                return false;
+            }
+        } else {
+            var temp_stock = stock-1;
+            if(temp_stock < min)
+            {
+                $input.val(min);
+                Prompt('最低起购数量'+min+unit);
+                return false;
+            }
+        }
+
         CardNumberUpdate($(this), temp_stock);
     });
 
     // 输入事件
     $('.stock-tag input[type="number"]').on('blur', function()
     {
-        var stock = $(this).val() || null;
-        if(stock == null)
+        // 数量参数
+        var $input = $(this);
+        var min = parseInt($input.data('min-limit'));
+        var max = parseInt($input.data('max-limit'));
+        var unit = $input.data('unit') || '';
+        var stock = parseInt($input.val());
+        if(isNaN(stock))
         {
-            stock = 1;
+            stock = min;
+        }
+        if(max > 0 && stock > max)
+        {
+            stock = max;
+        }
+        if(stock < min)
+        {
+            stock = min;
         }
         $(this).val(stock);
         CardNumberUpdate($(this), stock);

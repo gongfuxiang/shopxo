@@ -179,7 +179,7 @@ class Goods extends Common
         $this->IsLogin();
 
         // 开始处理
-        $params = input('post.');
+        $params = $this->data_post;
         $params['user'] = $this->user;
         return GoodsFavorService::GoodsFavorCancel($params);
     }
@@ -201,7 +201,7 @@ class Goods extends Common
         }
 
         // 开始处理
-        $params = input('post.');
+        $params = $this->data_post;
         return GoodsService::GoodsSpecType($params);
     }
 
@@ -222,8 +222,29 @@ class Goods extends Common
         }
 
         // 开始处理
-        $params = input('post.');
+        $params = $this->data_post;
         return GoodsService::GoodsSpecDetail($params);
+    }
+
+    /**
+     * 商品数量选择
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-14
+     * @desc    description
+     */
+    public function Stock()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            return $this->error('非法访问');
+        }
+
+        // 开始处理
+        $params = $this->data_post;
+        return GoodsService::GoodsStock($params);
     }
 
     /**
