@@ -47,7 +47,7 @@ class PayRequestLogService
         // 日志主数据
         $data = [
             'business_type'         => $business_type,
-            'request_params'        => empty($params) ? '' : (is_array($params) ? json_encode($params, JSON_UNESCAPED_UNICODE) : $params),
+            'request_params'        => empty($params) ? '' : (is_array($params) ? json_encode($params, JSON_UNESCAPED_UNICODE) : htmlspecialchars_decode($params)),
             'response_data'         => '',
             'business_handle'       => '',
             'request_url'           => $behavior_obj->GetUrl('request'),
