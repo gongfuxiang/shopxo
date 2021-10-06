@@ -649,9 +649,9 @@ class GoodsService
 
                 // 价格字段
                 // 原价
-                // 销售价
+                // 价格
                 $v['show_field_original_price_text'] = '原价';
-                $v['show_field_price_text'] = '销售价';
+                $v['show_field_price_text'] = '价格';
 
 
                 // 公共插件数据
