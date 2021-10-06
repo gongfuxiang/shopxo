@@ -270,7 +270,7 @@ class PluginsService
             {
                 if(IS_AJAX)
                 {
-                    return DataReturn('地址有误['.$plugins.']', -10);
+                    return DataReturn('无效插件['.$plugins.']', -10);
                 }
                 MyRedirect(__MY_URL__, true);
             }
