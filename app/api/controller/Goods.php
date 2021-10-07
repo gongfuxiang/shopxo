@@ -160,10 +160,6 @@ class Goods extends Common
         // 开始处理
         $params = $this->data_post;
         $ret = GoodsService::GoodsSpecType($params);
-        if($ret['code'] == 0)
-        {
-            $ret['data'] = $ret['data']['spec_type'];
-        }
         return ApiService::ApiDataReturn($ret);
     }
 
@@ -180,10 +176,6 @@ class Goods extends Common
         // 开始处理
         $params = $this->data_post;
         $ret = GoodsService::GoodsSpecDetail($params);
-        if($ret['code'] == 0)
-        {
-            $ret['data'] = $ret['data']['spec_base'];
-        }
         return ApiService::ApiDataReturn($ret);
     }
 
@@ -200,10 +192,6 @@ class Goods extends Common
         // 开始处理
         $params = $this->data_post;
         $ret = GoodsService::GoodsStock($params);
-        if($ret['code'] == 0)
-        {
-            $ret['data'] = $ret['data']['spec_base'];
-        }
         return ApiService::ApiDataReturn($ret);
     }
 

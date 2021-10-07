@@ -83,10 +83,9 @@ function GoodsSelectedSpec()
         var spec_count = $('.sku-line.selected').length;
         if(spec_count >= sku_count)
         {
-            $('.iteminfo_parameter .sku-items').removeClass('sku-not-active');
             $('.theme-signin-left .sku-items li.selected').each(function(k, v)
             {
-                spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
+                spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')});
             });
         }
     }
@@ -265,11 +264,7 @@ function GoodsSpecDetail()
     }
 
     // 获取规格值
-    var spec = [];
-    $('.theme-signin-left .sku-items li.selected').each(function(k, v)
-    {
-        spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
-    });
+    var spec = GoodsSelectedSpec();
 
     // 已填写数量
     var stock = parseInt($('#text_box').val()) || 1;
