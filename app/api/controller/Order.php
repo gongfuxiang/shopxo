@@ -161,10 +161,8 @@ class Order extends Common
         {
             $ret = DataReturn('参数有误', -1);
         } else {
-            // 条件
-            $where = OrderService::OrderListWhere($params);
-
             // 获取列表
+            $where = OrderService::OrderListWhere($params);
             $data_params = [
                 'm'         => 0,
                 'n'         => 1,
@@ -176,14 +174,14 @@ class Order extends Common
                 // 是否已评论
                 if($data['data'][0]['user_is_comments'] > 0)
                 {
-                    $ret = ApiService::ApiDataReturn(DataReturn('你已进行过评论', -100));
+                    $ret = DataReturn('你已进行过评论', -100);
                 } else {
                     // 返回数据
                     $result = [
                         'data'                  => $data['data'][0],
                         'editor_path_type'      => ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['data'][0]['id']),
                     ];
-                    $ret = SystemBaseService::DataReturn($result);
+                    $ret = DataReturn('你已进行过评论', 0, $result);
                 }
             } else {
                 $ret = DataReturn('没有相关数据', -100);
