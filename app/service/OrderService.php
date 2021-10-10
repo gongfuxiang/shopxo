@@ -937,12 +937,19 @@ class OrderService
             // 虚拟商品自动触发发货操作
             if($order['order_model'] == 3)
             {
-                self::OrderDelivery([
+                $ret = self::OrderDeliveryHandle([
                     'id'                => $order['id'],
                     'creator'           => 0,
                     'creator_name'      => '系统',
                     'user_id'           => $order['user_id'],
+                    'user_type'         => 'admin',
                 ]);
+                if($ret['code'] != 0)
+                {
+                    // 事务回滚
+                    Db::rollback();
+                    return $ret;
+                }
             }
         }
 
@@ -1269,7 +1276,7 @@ class OrderService
                     // 自提模式 添加订单取货码
                     if($v['order_model'] == 2)
                     {
-                        $v['extraction_data'] = (!empty($extraction_data) && array_key_exists($v['id'], $extraction_data)) ? $extraction_data[$v['id']] : [];
+                        $v['extraction_data'] = (isset($v['status']) && !in_array($v['status'], [0,1,5,6]) && !empty($extraction_data) && array_key_exists($v['id'], $extraction_data)) ? $extraction_data[$v['id']] : null;
                     }
                 }
 
@@ -1426,7 +1433,7 @@ class OrderService
             {
                 $result['is_confirm']    = ($data['status'] == 0) ? 1 : 0;
                 $result['is_pay']        = ($data['pay_status'] == 0 && !in_array($data['status'], [5,6])) ? 1 : 0;
-                $result['is_delivery']   = ($data['status'] == 2) ? 1 : 0;
+                $result['is_delivery']   = ($data['status'] == 2 || (isset($data['order_model']) && $data['order_model'] == 3)) ? 1 : 0;
                 $result['is_collect']    = ($data['status'] == 3) ? 1 : 0;
                 $result['is_cancel']     = (in_array($data['status'], [0,1]) || (in_array($data['status'], [2,3,4]) && $data['pay_status'] == 0)) ? 1 : 0;
                 $result['is_delete']     = (in_array($data['status'], [5,6]) && isset($data['is_delete_time']) && $data['is_delete_time'] == 0) ? 1 : 0;
@@ -1639,7 +1646,7 @@ class OrderService
      */
     private static function OrderAftersaleStatusBtnText($order_status, $orderaftersale)
     {
-        $text = '';
+        $text = null;
         if(in_array($order_status, [2,3,4,6]))
         {
             if(empty($orderaftersale))
@@ -1746,7 +1753,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -1806,112 +1813,136 @@ class OrderService
      */
     public static function OrderDelivery($params = [])
     {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '订单id有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user_id',
-                'error_msg'         => '用户id有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 用户类型
-        $user_type = empty($params['user_type']) ? 'user' : $params['user_type'];
-
-        // 获取订单信息
-        $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
-        if(empty($order))
-        {
-            return DataReturn('资源不存在或已被删除', -1);
-        }
-        $operate = self::OrderOperateData($order, $user_type);
-        if($operate['is_delivery'] != 1)
-        {
-            $status_text = MyConst('common_order_status')[$order['status']]['name'];
-            return DataReturn('状态不可操作['.$status_text.']', -1);
-        }
-
-        // 订单模式
-        switch($order['order_model'])
-        {
-            // 销售模式- 订单快递信息校验
-            case 0 :
-                $p = [
-                    [
-                        'checked_type'      => 'empty',
-                        'key_name'          => 'express_id',
-                        'error_msg'         => '快递id有误',
-                    ],
-                    [
-                        'checked_type'      => 'empty',
-                        'key_name'          => 'express_number',
-                        'error_msg'         => '快递单号有误',
-                    ],
-                ];
-                $ret = ParamsChecked($params, $p);
-                if($ret !== true)
-                {
-                    return DataReturn($ret, -1);
-                }
-                break;
-
-            // 自提模式 - 验证取货码
-            case 2 :
-                $p = [
-                    [
-                        'checked_type'      => 'empty',
-                        'key_name'          => 'extraction_code',
-                        'error_msg'         => '取货码有误',
-                    ],
-                ];
-                $ret = ParamsChecked($params, $p);
-                if($ret !== true)
-                {
-                    return DataReturn($ret, -1);
-                }
-
-                // 校验
-                $extraction_code = Db::name('OrderExtractionCode')->where(['order_id'=>$order['id']])->value('code');
-                if(empty($extraction_code))
-                {
-                    return DataReturn('订单取货码不存在、请联系管理员', -10);
-                }
-                if($extraction_code != $params['extraction_code'])
-                {
-                    return DataReturn('取货码不正确', -11);
-                }
-                break;
-        }
-
-        // 开启事务
+        // 订单发货处理
         Db::startTrans();
-        $upd_data = [
-            'status'            => 3,
-            'express_id'        => isset($params['express_id']) ? intval($params['express_id']) : 0,
-            'express_number'    => isset($params['express_number']) ? $params['express_number'] : '',
-            'delivery_time'     => time(),
-            'upd_time'          => time(),
-        ];
-        if(Db::name('Order')->where($where)->update($upd_data))
+        $ret = self::OrderDeliveryHandle($params);
+        if($ret['code'] == 0)
         {
+            Db::commit();
+        } else {
+            Db::rollback();
+        }
+        return $ret;
+    }
+
+    /**
+     * 订单发货处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-30
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderDeliveryHandle($params = [])
+    {
+        // 捕获异常
+        try {
+            // 请求参数
+            $p = [
+                [
+                    'checked_type'      => 'empty',
+                    'key_name'          => 'id',
+                    'error_msg'         => '订单id有误',
+                ],
+                [
+                    'checked_type'      => 'empty',
+                    'key_name'          => 'user_id',
+                    'error_msg'         => '用户id有误',
+                ],
+            ];
+            $ret = ParamsChecked($params, $p);
+            if($ret !== true)
+            {
+                throw new \Exception($ret['msg']);
+            }
+
+            // 用户类型
+            $user_type = empty($params['user_type']) ? 'user' : $params['user_type'];
+
+            // 获取订单信息
+            $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
+            $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
+            if(empty($order))
+            {
+                throw new \Exception('资源不存在或已被删除');
+            }
+            $operate = self::OrderOperateData($order, $user_type);
+            if($operate['is_delivery'] != 1)
+            {
+                $status_text = MyConst('common_order_status')[$order['status']]['name'];
+                throw new \Exception('状态不可操作['.$status_text.']');
+            }
+
+            // 订单模式
+            switch($order['order_model'])
+            {
+                // 销售模式- 订单快递信息校验
+                case 0 :
+                    $p = [
+                        [
+                            'checked_type'      => 'empty',
+                            'key_name'          => 'express_id',
+                            'error_msg'         => '快递id有误',
+                        ],
+                        [
+                            'checked_type'      => 'empty',
+                            'key_name'          => 'express_number',
+                            'error_msg'         => '快递单号有误',
+                        ],
+                    ];
+                    $ret = ParamsChecked($params, $p);
+                    if($ret !== true)
+                    {
+                        throw new \Exception($ret['msg']);
+                    }
+                    break;
+
+                // 自提模式 - 验证取货码
+                case 2 :
+                    $p = [
+                        [
+                            'checked_type'      => 'empty',
+                            'key_name'          => 'extraction_code',
+                            'error_msg'         => '取货码有误',
+                        ],
+                    ];
+                    $ret = ParamsChecked($params, $p);
+                    if($ret !== true)
+                    {
+                        throw new \Exception($ret['msg']);
+                    }
+
+                    // 校验
+                    $extraction_code = Db::name('OrderExtractionCode')->where(['order_id'=>$order['id']])->value('code');
+                    if(empty($extraction_code))
+                    {
+                        throw new \Exception('订单取货码不存在、请联系管理员');
+                    }
+                    if($extraction_code != $params['extraction_code'])
+                    {
+                        throw new \Exception('取货码不正确');
+                    }
+                    break;
+            }
+            // 订单更新
+            $upd_data = [
+                'status'            => 3,
+                'express_id'        => isset($params['express_id']) ? intval($params['express_id']) : 0,
+                'express_number'    => isset($params['express_number']) ? $params['express_number'] : '',
+                'delivery_time'     => time(),
+                'upd_time'          => time(),
+            ];
+            if(!Db::name('Order')->where($where)->update($upd_data))
+            {
+                throw new \Exception('发货失败');
+            }
+
             // 库存扣除
             $ret = BuyService::OrderInventoryDeduct(['order_id'=>$order['id'], 'opt_type'=>'delivery']);
             if($ret['code'] != 0)
             {
-                // 事务回滚
-                Db::rollback();
-                return DataReturn($ret['msg'], -10);
+                throw new \Exception($ret['msg']);
             }
 
             // 用户消息
@@ -1922,14 +1953,11 @@ class OrderService
             $creator_name = isset($params['creator_name']) ? htmlentities($params['creator_name']) : '';
             self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '收货', $creator, $creator_name);
 
-            // 提交事务
-            Db::commit();
+            // 完成
             return DataReturn('发货成功', 0);
+        } catch(\Exception $e) {
+            return DataReturn($e->getMessage(), -1);
         }
-
-        // 事务回滚
-        Db::rollback();
-        return DataReturn('发货失败', -1);
     }
 
     /**
@@ -1967,7 +1995,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -2075,7 +2103,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], 'is_delete_time'=>0, 'user_is_delete_time'=>0];
-        $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
@@ -2179,7 +2207,7 @@ class OrderService
 
         // 获取订单信息
         $where = ['id'=>intval($params['id']), 'user_id'=>$params['user_id'], $delete_field=>0];
-        $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,is_delete_time,user_is_delete_time')->find();
+        $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model,is_delete_time,user_is_delete_time')->find();
         if(empty($order))
         {
             return DataReturn('资源不存在或已被删除', -1);
