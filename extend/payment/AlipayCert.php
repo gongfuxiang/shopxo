@@ -345,43 +345,55 @@ class AlipayCert
      */
     public function Respond($params = [])
     {
-        // 请求参数
         $data = empty($_POST) ? $_GET :  array_merge($_GET, $_POST);
+        ksort($data);
 
-        // 查询订单参数
-        $parameter = array(
-            'app_id'                =>  $this->config['appid'],
-            'method'                =>  'alipay.trade.query',
-            'format'                =>  'JSON',
-            'charset'               =>  'utf-8',
-            'sign_type'             =>  'RSA2',
-            'timestamp'             =>  date('Y-m-d H:i:s'),
-            'version'               =>  '1.0',
-            'app_cert_sn'           => $this->GetCertSNFromContent($this->config['cert_content']),
-            'alipay_root_cert_sn'   => $this->GetRootCertSNFromContent($this->config['out_root_cert_content']),
-        );
-        $biz_content = array(
-            'out_trade_no'          =>  $data['out_trade_no'],
-            'trade_no'              =>  $data['trade_no'],
-        );
-        $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
-
-        // 生成签名参数+签名
-        $parameter['sign'] = $this->MyRsaSign($this->GetSignContent($parameter));
-
-        // 执行请求
-        $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
-        $key = str_replace('.', '_', $parameter['method']).'_response';
-        if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
+        // 参数字符串
+        $prestr = '';
+        foreach($data AS $key=>$val)
         {
-            if(in_array($result[$key]['trade_status'], ['TRADE_SUCCESS']))
+            if ($key != 'sign' && $key != 'sign_type' && $key != 'code')
             {
-                return DataReturn('支付成功', 0, $this->ReturnData($data));
-            } else {
-                return DataReturn('支付失败、状态'.'['.$result[$key]['trade_status'].']', -1);
+                $prestr .= "$key=$val&";
             }
         }
-        return DataReturn($result[$key]['sub_msg'].'['.$result[$key]['sub_code'].']', -1000);
+        $prestr = substr($prestr, 0, -1);
+
+        // 签名
+        if(!$this->OutRsaVerify($prestr, $data['sign']))
+        {
+            return DataReturn('签名校验失败', -1);
+        }
+
+        // 支付状态
+        if(!empty($data['trade_no']) && isset($data['total_amount']) && $data['total_amount'] > 0)
+        {
+            $status = false;
+            if(isset($data['trade_status']))
+            {
+                if(in_array($data['trade_status'], ['TRADE_SUCCESS', 'TRADE_FINISHED']))
+                {
+                    $status = true;
+                }
+            } else {
+                switch($data['method'])
+                {
+                    // pc、h5
+                    case 'alipay.trade.wap.pay.return' :
+                    case 'alipay.trade.page.pay.return' :
+                        if(isset($data['seller_id']))
+                        {
+                            $status = true;
+                        }
+                        break;
+                }
+            }
+            if($status)
+            {
+                return DataReturn('支付成功', 0, $this->ReturnData($data));
+            }
+        }
+        return DataReturn('处理异常错误', -100);
     }
 
     /**
@@ -468,6 +480,13 @@ class AlipayCert
         // 执行请求
         $result = $this->HttpRequest('https://openapi.alipay.com/gateway.do', $parameter);
         $key = str_replace('.', '_', $parameter['method']).'_response';
+        // 验证签名
+        if(!$this->SyncRsaVerify($result, $key))
+        {
+            return DataReturn('签名验证错误', -1);
+        }
+
+        // 状态
         if(isset($result[$key]['code']) && $result[$key]['code'] == 10000)
         {
             // 统一返回格式
@@ -704,6 +723,70 @@ class AlipayCert
             $dec = bcadd($dec, bcmul(strval(hexdec($hex[$i - 1])), bcpow('16', strval($len - $i))));
         }
         return $dec;
+    }
+
+    /**
+     * 从证书中提取公钥
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-10-11
+     * @desc    description
+     * @return  [string]          [公钥]
+     */
+    public function GetPublicKey()
+    {
+        $pkey = openssl_pkey_get_public($this->config['out_cert_content']);
+        $keyData = openssl_pkey_get_details($pkey);
+        $public_key = str_replace('-----BEGIN PUBLIC KEY-----', '', $keyData['key']);
+        $public_key = trim(str_replace('-----END PUBLIC KEY-----', '', $public_key));
+        return $public_key;
+    }
+
+    /**
+     * 支付宝验证签名
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-09-24T08:39:50+0800
+     * @param    [string]                   $prestr [需要签名的字符串]
+     * @param    [string]                   $sign   [签名结果]
+     * @return   [boolean]                          [正确true, 错误false]
+     */
+    private function OutRsaVerify($prestr, $sign)
+    {
+        $public_key = $this->GetPublicKey();
+        if(stripos($public_key, '-----') === false)
+        {
+            $res = "-----BEGIN PUBLIC KEY-----\n";
+            $res .= wordwrap($public_key, 64, "\n", true);
+            $res .= "\n-----END PUBLIC KEY-----";
+        } else {
+            $res = $public_key;
+        }
+        $pkeyid = openssl_pkey_get_public($res);
+        $sign = base64_decode($sign);
+        if($pkeyid)
+        {
+            $verify = openssl_verify($prestr, $sign, $pkeyid, OPENSSL_ALGO_SHA256);
+            openssl_free_key($pkeyid);
+        }
+        return (isset($verify) && $verify == 1) ? true : false;
+    }
+
+    /**
+     * [SyncRsaVerify 同步返回签名验证]
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-09-25T13:13:39+0800
+     * @param    [array]                   $data [返回数据]
+     * @param    [boolean]                 $key  [数据key]
+     */
+    private function SyncRsaVerify($data, $key)
+    {
+        $string = json_encode($data[$key], JSON_UNESCAPED_UNICODE);
+        return $this->OutRsaVerify($string, $data['sign']);
     }
 }
 ?>
