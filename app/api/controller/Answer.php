@@ -36,12 +36,13 @@ class Answer extends Common
         parent::__construct();
     }
 
-    /**
-     * [Index 获取列表]
+     /**
+     * 我的留言列表
      * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-02-22T16:50:32+0800
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-07-17
+     * @desc    description
      */
     public function Index()
     {
@@ -97,6 +98,50 @@ class Answer extends Common
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(AnswerService::AnswerSave($params));
+    }
+
+     /**
+     * 公共留言广场列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-07-17
+     * @desc    description
+     */
+    public function Square()
+    {
+        // 参数
+        $params = $this->data_request;
+        $params['is_more'] = 1;
+        $params['is_show'] = 1;
+
+        // 分页
+        $number = 10;
+        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
+
+        // 条件
+        $where = AnswerService::AnswerListWhere($params);
+
+        // 获取总数
+        $total = AnswerService::AnswerTotal($where);
+        $page_total = ceil($total/$number);
+        $start = intval(($page-1)*$number);
+
+        // 获取列表
+        $data_params = array(
+            'm'         => $start,
+            'n'         => $number,
+            'where'     => $where,
+        );
+        $data = AnswerService::AnswerList($data_params);
+
+        // 返回数据
+        $result = [
+            'total'         => $total,
+            'page_total'    => $page_total,
+            'data'          => $data['data'],
+        ];
+        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 }
 ?>
