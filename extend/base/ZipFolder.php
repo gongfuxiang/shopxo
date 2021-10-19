@@ -32,7 +32,12 @@ class ZipFolder
      */
     public function __construct()
     {
-        $this->zip = new \ZipArchive();
+        if(class_exists('ZipArchive'))
+        {
+            $this->zip = new \ZipArchive();
+        } else {
+            throw new \Exception("当前PHP环境无Zip扩展");
+        }
     }
 
     /**
@@ -81,7 +86,7 @@ class ZipFolder
         $this->ignored_names = is_array($ignored) ? $ignored : ($ignored ? array($ignored) : array());
         if($this->zip->open($zipfile, \ZipArchive::CREATE) !== true)
         {
-            throw new Exception("cannot open <$zipfile>\n");
+            throw new \Exception("cannot open <$zipfile>\n");
         }
         $folder = substr($folder, -1) == '/' ? substr($folder, 0, strlen($folder)-1) : $folder;
         if(strstr($folder, '/'))
