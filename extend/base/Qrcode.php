@@ -210,9 +210,12 @@ class Qrcode
         {
             return DataReturn('url地址无效', -1);
         }
+
+        // 防止存在锚点
         $ext_arr = MyConfig('ueditor.imageManagerAllowFiles');
         $ext = mb_substr($arr[0], $len, null, 'utf-8');
-        if(!in_array($ext, $ext_arr))
+        $temp_ext = explode('#', $ext);
+        if(!in_array($temp_ext[0], $ext_arr))
         {
             return DataReturn('无效图片地址', -1);
         }
