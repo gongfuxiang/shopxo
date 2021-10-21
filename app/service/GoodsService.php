@@ -2230,6 +2230,16 @@ class GoodsService
                 return $ret;
             }
 
+            // 价格处理
+            if(array_key_exists('price', $data['spec_base']))
+            {
+                $data['spec_base']['price'] = PriceNumberFormat($data['spec_base']['price']);
+            }
+            if(array_key_exists('original_price', $data['spec_base']))
+            {
+                $data['spec_base']['original_price'] = PriceNumberFormat($data['spec_base']['original_price']);
+            }
+
             // 返回成功
             return DataReturn('操作成功', 0, $data);
         }

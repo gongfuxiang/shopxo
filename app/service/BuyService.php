@@ -458,8 +458,8 @@ class BuyService
             $goods_base = GoodsService::GoodsSpecDetail(['id'=>$data['goods_id'], 'spec'=>$data['spec'], 'stock'=>$data['stock']]);
             if($goods_base['code'] == 0)
             {
-                $data['price'] = (float) $goods_base['data']['spec_base']['price'];
-                $data['original_price'] = (float) $goods_base['data']['spec_base']['original_price'];
+                $data['price'] = $goods_base['data']['spec_base']['price'];
+                $data['original_price'] = $goods_base['data']['spec_base']['original_price'];
             }
 
             // 增加价格总计
