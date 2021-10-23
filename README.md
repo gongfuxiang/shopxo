@@ -86,10 +86,10 @@
 ![全平台支持](https://doc.shopxo.net/upload/image/20210727/1627370212203702.jpeg "全平台支持")
 
 
-#### 支持多种配色
+#### 小程序支持多种配色
 ![多种配色](https://doc.shopxo.net/upload/image/20211023/1634962774958024.jpg "配色.jpg")
 
-#### 效果图片
+#### 小程序效果图片
 ![主要部分](https://doc.shopxo.net/upload/image/20211023/1634962851731604.jpg "主要部分.jpg")
 ![扩展部分](https://doc.shopxo.net/upload/image/20211023/1634962862173709.jpg "扩展部分.jpg")
 
