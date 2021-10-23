@@ -46,16 +46,16 @@
 					</div>
 
 					<div class="am-form-group">
-						<label class="block">{{$data.home_site_desktop_icon.name}}<span class="am-form-group-label-tips">{{$data.home_site_desktop_icon.describe}}</span></label>
-						<ul class="plug-file-upload-view home_site_desktop_icon-images-view" data-form-name="home_site_desktop_icon" data-max-number="1" data-delete="0" data-dialog-type="images">
-							{{if !empty($data['home_site_desktop_icon']['value'])}}
+						<label class="block">{{$data.home_site_logo_square.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo_square.describe}}</span></label>
+						<ul class="plug-file-upload-view home_site_logo_square-images-view" data-form-name="home_site_logo_square" data-max-number="1" data-delete="0" data-dialog-type="images">
+							{{if !empty($data['home_site_logo_square']['value'])}}
 								<li>
-									<input type="text" name="home_site_desktop_icon" value="{{$data.home_site_desktop_icon.value}}" />
-									<img src="{{:AttachmentPathViewHandle($data.home_site_desktop_icon.value)}}" />
+									<input type="text" name="home_site_logo_square" value="{{$data.home_site_logo_square.value}}" />
+									<img src="{{:AttachmentPathViewHandle($data.home_site_logo_square.value)}}" />
 								</li>
 							{{/if}}
 						</ul>
-						<div class="plug-file-upload-submit" data-view-tag="ul.home_site_desktop_icon-images-view">+选择logo</div>
+						<div class="plug-file-upload-submit" data-view-tag="ul.home_site_logo_square-images-view">+选择logo</div>
 					</div>
 
 					<div class="am-form-group">

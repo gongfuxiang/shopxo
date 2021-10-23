@@ -96,7 +96,7 @@ class SystemBaseService
             'home_site_name'                    => MyC('home_site_name', null, true),
             'home_site_logo'                    => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo')),
             'home_site_logo_wap'                => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo_wap')),
-            'home_site_desktop_icon'            => ResourcesService::AttachmentPathViewHandle(MyC('home_site_desktop_icon')),
+            'home_site_logo_square'             => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo_square')),
             'home_site_state'                   => (int) MyC('home_site_state', 0, true),
             'home_site_close_reason'            => MyC('home_site_close_reason', null, true),
 

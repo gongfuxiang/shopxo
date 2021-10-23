@@ -18,6 +18,7 @@ use app\service\GoodsCommentsService;
 use app\service\ResourcesService;
 use app\service\GoodsFavorService;
 use app\service\GoodsBrowseService;
+use app\service\NavigationService;
 
 /**
  * 商品
@@ -112,6 +113,9 @@ class Goods extends Common
                 // 中间tabs导航
                 $middle_tabs_nav = GoodsService::GoodsDetailMiddleTabsNavList($goods);
 
+                // 导航更多列表
+                $nav_more_list = NavigationService::PageNavMoreList(['page'=>'goods']);
+
                 // 商品购买按钮列表
                 $buy_button = GoodsService::GoodsBuyButtonList($goods);
 
@@ -121,6 +125,7 @@ class Goods extends Common
                     'common_cart_total'     => BuyService::UserCartTotal(['user'=>$this->user]),
                     'buy_button'            => $buy_button,
                     'middle_tabs_nav'       => $middle_tabs_nav,
+                    'nav_more_list'         => $nav_more_list,
                 ];
                 $ret = SystemBaseService::DataReturn($result);
             }

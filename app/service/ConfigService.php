@@ -51,7 +51,7 @@ class ConfigService
     public static $attachment_field_list = [
         'home_site_logo',
         'home_site_logo_wap',
-        'home_site_desktop_icon',
+        'home_site_logo_square',
         'common_customer_store_qrcode',
         'home_site_user_register_bg_images',
         'home_site_user_login_ad1_images',
