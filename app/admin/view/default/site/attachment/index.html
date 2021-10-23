@@ -36,20 +36,6 @@
                   </span>
                 </div>
             </div>
-
-            <div class="am-form-group">
-                <label>{{$data.is_upload_images_redraw.name}}<span class="am-form-group-label-tips">{{$data.is_upload_images_redraw.describe}}</span></label>
-                <select name="{{$data.is_upload_images_redraw.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.is_upload_images_redraw.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['is_upload_images_redraw']['value']) and $data['is_upload_images_redraw']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-                <div class="am-alert am-alert-warning" data-am-alert>
-                    <button type="button" class="am-close">&times;</button>
-                    <p>1. 默认否、建议开启上传图片重新绘制、防止木马病毒图片上传</p>
-                    <p>2. 开启后gif动态图片将失效、由于重新绘制图片大小也会改变</p>
-                </div>
-            </div>
             
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
