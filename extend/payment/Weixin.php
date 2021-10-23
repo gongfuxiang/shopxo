@@ -759,8 +759,8 @@ class Weixin
     private function GetApiclientFile()
     {
         // 证书位置
-        $apiclient_cert_file = ROOT.'runtime'.DS.'data'.DS.'payment_weixin_pay_apiclient_cert.pem';
-        $apiclient_key_file = ROOT.'runtime'.DS.'data'.DS.'payment_weixin_pay_apiclient_key.pem';
+        $apiclient_cert_file = ROOT.'runtime'.DS.'cache'.DS.'payment_weixin_pay_apiclient_cert.pem';
+        $apiclient_key_file = ROOT.'runtime'.DS.'cache'.DS.'payment_weixin_pay_apiclient_key.pem';
 
         // 证书处理
         if(stripos($this->config['apiclient_cert'], '-----') === false)
