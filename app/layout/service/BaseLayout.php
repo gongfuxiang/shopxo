@@ -849,6 +849,17 @@ class BaseLayout
                     'order_by'  => $order_by,
                 ];
                 $ret = GoodsService::GoodsList($request_params);
+                if(!empty($ret['data']))
+                {
+                    // 商品自定义按照顺序重新调整
+                    $goods = [];
+                    $temp = array_column($ret['data'], null, 'id');
+                    foreach($params['goods_ids'] as $v)
+                    {
+                        $goods[] = $temp[$v];
+                    }
+                    $ret['data'] = $goods;
+                }
                 break;
 
             // 商品分类
