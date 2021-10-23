@@ -2802,15 +2802,25 @@ class GoodsService
      */
     public static function GoodsDetailMiddleTabsNavList($goods)
     {
+        // 是否展示商品评价
+        $is_comments = MyC('common_is_show_goods_comments', 1);
+
         // app与web端不一致
         if(APPLICATION == 'app') 
         {
             // 这里的 ent 值必须和系统中区域块定义的一致
             $data = [
                 ['name'=>'商品', 'ent'=>'.page'],
-                ['name'=>'评价', 'ent'=>'.goods-comment'],
-                ['name'=>'详情', 'ent'=>'.goods-detail'],
             ];
+
+            // 是否展示商品评价
+            if($is_comments == 1)
+            {
+                $data[] = ['name'=>'评价', 'ent'=>'.goods-comment'];
+            }
+
+            // 商品详情介绍
+            $data[] = ['name'=>'详情', 'ent'=>'.goods-detail'];
         } else {
             // 评论总数
             $comments_count = isset($goods['comments_count']) ? $goods['comments_count'] : GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods['id'], 'is_show'=>1]);
@@ -2826,14 +2836,21 @@ class GoodsService
                     'name'      => '详情',
                     'active'    => 1,
                 ],
-                [
+            ];
+
+            // 是否展示商品评价
+            if($is_comments == 1)
+            {
+                $data[] = [
                     'type'      => 'comments',
                     'name'      => '评价('.$comments_count.')',
-                ],
-                [
-                    'type'      => 'guess_you_like',
-                    'name'      => '猜你喜欢',
-                ]
+                ];
+            }
+
+            // 猜你喜欢，目前以销量最高推荐
+            $data[] = [
+                'type'      => 'guess_you_like',
+                'name'      => '猜你喜欢',
             ];
         }
 

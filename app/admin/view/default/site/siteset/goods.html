@@ -23,6 +23,15 @@
             </div>
 
             <div class="am-form-group">
+                <label>{{$data.common_is_show_goods_comments.name}}<span class="am-form-group-label-tips">{{$data.common_is_show_goods_comments.describe}}</span></label>
+                <select name="{{$data.common_is_show_goods_comments.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_show_goods_comments.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_is_show_goods_comments']['value']) and $data['common_is_show_goods_comments']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
                 <label>{{$data.common_show_goods_category_level.name}}<span class="am-form-group-label-tips">{{$data.common_show_goods_category_level.describe}}</span></label>
                 <div class="am-input-group am-input-group-sm">
                     <input type="number" min="1" max="3" name="{{$data.common_show_goods_category_level.only_tag}}" placeholder="{{$data.common_show_goods_category_level.name}}" data-validation-message="{{$data.common_show_goods_category_level.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_show_goods_category_level.value}}"{{/if}} />

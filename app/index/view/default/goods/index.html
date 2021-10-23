@@ -279,16 +279,16 @@
                         {{/if}}
                     </div>
 
-                    <!--销量/浏览/评论-->
+                    <!--销量/浏览/评价-->
                     <ul class="tm-ind-panel">
                         <li class="tm-ind-item">
-                            <div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{$goods.sales_count}}</span></div>
+                            <div class="tm-indcon"><span class="tm-label">库存</span><span class="tm-count">{{$goods.inventory}}</span></div>
                         </li>
                         <li class="tm-ind-item">
-                            <div class="tm-indcon"><span class="tm-label">浏览次数</span><span class="tm-count">{{$goods.access_count}}</span></div>
+                            <div class="tm-indcon"><span class="tm-label">销量</span><span class="tm-count">{{$goods.sales_count}}</span></div>
                         </li>
-                        <li class="tm-ind-item ind-panel-comment">
-                            <div class="tm-indcon"><span class="tm-label">累计评论</span><span class="tm-count">{{$goods.comments_count}}</span></div>
+                        <li class="tm-ind-item">
+                            <div class="tm-indcon"><span class="tm-label">热度</span><span class="tm-count">{{$goods.access_count}}</span></div>
                         </li>
                     </ul>
 
@@ -732,7 +732,7 @@
                             </div>
                         {{/if}}
 
-                        <!-- 评论 -->
+                        <!-- 评价 -->
                         {{if in_array('comments', $middle_tabs_nav['type'])}}
                             <div class="am-tab-panel goods-comment" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comments')}}">
                                 <div class="am-cf tabs-nav-base-container score-container">
@@ -770,7 +770,7 @@
                                 <div class="goods-comment-content"></div>
                                 <div class="table-no goods-page-no-data none">
                                     <i class="am-icon-warning"></i>
-                                    <span>没有评论数据</span>
+                                    <span>没有评价数据</span>
                                 </div>
                                 <div class="goods-page-container"></div>
                             </div>

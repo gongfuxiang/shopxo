@@ -154,6 +154,7 @@ class SystemBaseService
             'common_app_is_poster_share'        => (int) MyC('common_app_is_poster_share'),
             'common_is_goods_detail_show_photo' => (int) MyC('common_is_goods_detail_show_photo', 0, true),
             'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
+            'common_is_show_goods_comments'     => (int) MyC('common_is_show_goods_comments', 1),
 
             // 百度地图密钥
             'common_baidu_map_ak'               => MyC('common_baidu_map_ak', null, true),
