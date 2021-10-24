@@ -294,7 +294,7 @@ class StoreService
         // 请求校验
         $data = [
             'accounts'      => $accounts,
-            'password'      => $password,
+            'authdata'      => $password,
             'host'          => __MY_HOST__,
             'url'           => __MY_URL__,
             'ver'           => APPLICATION_VERSION,
