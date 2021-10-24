@@ -229,7 +229,7 @@ class ConfigService
 
                     // 替换
                     $search = ['ak={{common_baidu_map_ak}}', 'ak='.$map_ak_old];
-                    $replace = 'ak='.MyC('common_baidu_map_ak', '{{common_baidu_map_ak}}', true);
+                    $replace = 'ak='.(empty($params['common_baidu_map_ak']) ? '{{common_baidu_map_ak}}' : $params['common_baidu_map_ak']);
                     $status = file_put_contents($f, str_replace($search, $replace, file_get_contents($f)));
                     if($status === false)
                     {
