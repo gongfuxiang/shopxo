@@ -479,6 +479,7 @@ Page({
       dataType: 'json',
       success: (res) => {
         if (res.data.code == 0) {
+          var spec_type = res.data.data.spec_type;
           var spec_count = spec.length;
           var index = (spec_count > 0) ? spec_count : 0;
           if(index < sku_count)
@@ -492,9 +493,9 @@ Page({
                   temp_data[i]['value'][k]['is_dont'] = '';
                   var temp_value = temp_data[i]['value'][k]['name'];
                   var temp_status = false;
-                  for(var t in res.data.data)
+                  for(var t in spec_type)
                   {
-                    if(res.data.data[t] == temp_value)
+                    if(spec_type[t] == temp_value)
                     {
                       temp_status = true;
                       break;
@@ -560,10 +561,11 @@ Page({
       dataType: 'json',
       success: (res) => {
         if (res.data.code == 0) {
+          var spec_base = res.data.data.spec_base;
           this.setData({
-            goods_spec_base_price: res.data.data.price,
-            goods_spec_base_original_price: res.data.data.original_price,
-            goods_spec_base_inventory: res.data.data.inventory,
+            goods_spec_base_price: spec_base.price,
+            goods_spec_base_original_price: spec_base.original_price,
+            goods_spec_base_inventory: spec_base.inventory,
           });
         } else {
           app.showToast(res.data.msg);
