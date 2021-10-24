@@ -43,12 +43,12 @@
         </navigator>
       </view>
       <view class="item-describe tr cr-666">{{item.describe}}</view>
-      <view s-if="item.status == 1 || item.status == 3 || (item.status == 4 && item.user_is_comments == 0) || (item.status == 2 && item.order_model != 2)" class="item-operation tr br-t">
-        <button s-if="item.status <= 1" class="submit-cancel" type="default" size="mini" bindtap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消</button>
-        <button s-if="item.status == 1" class="submit-pay cr-666 br" type="default" size="mini" bindtap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">{{item.is_under_line == 1 ? '切换' : ''}}支付</button>
+      <view s-if="item.operate_data.is_cancel + item.operate_data.is_pay + item.operate_data.is_collect + item.operate_data.is_comments + item.operate_data.is_delete > 0 || (item.status == 2 && item.order_model != 2)" class="item-operation tr br-t">
+        <button s-if="item.operate_data.is_cancel == 1" class="submit-cancel" type="default" size="mini" bindtap="cancel_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">取消</button>
+        <button s-if="item.operate_data.is_pay == 1" class="submit-pay cr-666 br" type="default" size="mini" bindtap="pay_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">支付</button>
+        <button s-if="item.operate_data.is_collect == 1" class="submit-success cr-666 br" type="default" size="mini" bindtap="collect_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">收货</button>
+        <button s-if="item.operate_data.is_comments == 1" class="submit-success cr-666 br" type="default" size="mini" bindtap="comments_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">评论</button>
         <button s-if="item.status == 2 && item.order_model != 2" class="submit-rush cr-666 br" type="default" size="mini" bindtap="rush_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">催催</button>
-        <button s-if="item.status == 3" class="submit-success cr-666 br" type="default" size="mini" bindtap="collect_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">收货</button>
-        <button s-if="item.status == 4 && item.user_is_comments == 0" class="submit-success cr-666 br" type="default" size="mini" bindtap="comments_event" data-value="{{item.id}}" data-index="{{index}}" hover-class="none">评论</button>
       </view>
     </view>
 
