@@ -256,10 +256,20 @@ function GetHttpCode($url, $timeout = 5)
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_exec($ch);
-    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    return $code;
+
+    // 返回结果
+    $result = curl_exec($ch);
+    if($result !== false)
+    {
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return DataReturn('success', 0, $code);
+    } else { 
+        $error_code = curl_errno($ch);
+        $error_msg = curl_error($ch);
+        curl_close($ch);
+        return DataReturn($error_msg.' ('.$error_code.')', -9999, $error_code);
+    }
 }
 
 /**
@@ -2032,7 +2042,6 @@ function CurlGet($url, $timeout = 10)
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_setopt($ch, CURLOPT_URL, $url);
-
     $result = curl_exec($ch);
     curl_close($ch);
     return $result;
@@ -2087,11 +2096,12 @@ function CurlPost($url, $post, $is_json = false, $timeout = 30)
     if($result !== false)
     {
         curl_close($ch);
-        return $result;
+        return DataReturn('success', 0, $result);
     } else { 
-        $error = curl_errno($ch);
+        $error_code = curl_errno($ch);
+        $error_msg = curl_error($ch);
         curl_close($ch);
-        return "curl出错，错误码:$error";
+        return DataReturn($error_msg.' ('.$error_code.')', -9999, $error_code);
     }
 }
 

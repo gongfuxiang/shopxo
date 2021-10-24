@@ -22,6 +22,10 @@
 						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">修改</a>
 					{{else /}}
 						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">绑定ShopXO商店账户</a>
+						<!-- 连接商店错误信息 --->
+						{{if !empty($site_store_error)}}
+							<span class="am-text-danger am-margin-left-sm">{{$site_store_error}}</span>
+						{{/if}}
 					{{/if}}
 
 					<!-- 广告 -->

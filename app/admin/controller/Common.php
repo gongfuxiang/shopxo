@@ -212,15 +212,19 @@ class Common extends BaseController
         MyViewAssign('admin_theme_site_name', MyC('admin_theme_site_name', 'ShopXO', true));
 
         // 站点商店信息
+        $site_store_error = '';
         $site_store_info = StoreService::SiteStoreInfo();
         if(empty($site_store_info))
         {
-            $res = StoreService::SiteStoreAccountsBindHandle();
-            if(!empty($res) && isset($res['code']) && $res['code'] == 0)
+            $ret = StoreService::SiteStoreAccountsBindHandle();
+            if($ret['code'] == 0)
             {
                 $site_store_info = StoreService::SiteStoreInfo();
+            } else {
+                $site_store_error = $ret['msg'];
             }
         }
+        MyViewAssign('site_store_error', $site_store_error);
         MyViewAssign('site_store_info', $site_store_info);
 
         // 更多链接地址

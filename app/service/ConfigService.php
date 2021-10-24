@@ -102,6 +102,9 @@ class ConfigService
         'home_max_limit_image',
         'home_max_limit_video',
         'home_max_limit_file',
+
+        // 是否采用https连接商店
+        'common_is_https_connect_store',
     ];
 
     /**

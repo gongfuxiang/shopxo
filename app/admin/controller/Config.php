@@ -54,6 +54,7 @@ class Config extends Common
 		MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
 		MyViewAssign('common_login_type_list', MyConst('common_login_type_list'));
         MyViewAssign('common_close_open_list', MyConst('common_close_open_list'));
+		MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
 
 		// 配置信息
 		MyViewAssign('data', ConfigService::ConfigList());

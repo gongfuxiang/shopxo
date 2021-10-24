@@ -338,17 +338,15 @@ class PackageInstallService
      */
     public static function HttpRequest($url, $data)
     {
-        $res = CurlPost($url, $data);
-        $result = json_decode($res, true);
+        $ret = CurlPost($url, $data);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+        $result = json_decode($ret['data'], true);
         if(empty($result))
         {
-            return DataReturn('商店网络不通['.$res.']', -1);
-        }
-
-        // 是否非数组
-        if(is_string($result))
-        {
-            return DataReturn($result, -1);
+            return DataReturn('商店返回数据有误'.(empty($ret['data']) ? '' : '('.$ret['data'].')'), -1);
         }
 
         // 请求成功

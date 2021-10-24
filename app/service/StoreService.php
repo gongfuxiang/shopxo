@@ -276,15 +276,16 @@ class StoreService
         // http状态验证
         $key = 'cache_store_url_http_code';
         $time = 600;
-        $code = MyCache($key);
-        if($code === null)
+        $ret = MyCache($key);
+        if(empty($ret))
         {
-            $code = GetHttpCode(self::StoreUrl(), 2);
-            MyCache($key, $code, $time);
+            $ret = GetHttpCode(self::StoreUrl(), 2);
+            MyCache($key, $ret, $time);
         }
-        if(!in_array($code, [200, 301, 302, 307, 308]))
+        if(!in_array($ret['data'], [200, 301, 302, 307, 308]))
         {
-            return DataReturn('商店网络不通', 0);
+            $ret['msg'] = '商店连接失败[ '.$ret['msg'].' ]';
+            return $ret;
         }
 
         // 基础数据获取
@@ -310,19 +311,26 @@ class StoreService
             'php_sapi_name' => php_sapi_name(),
             'client_date'   => date('Y-m-d H:i:s'), 
         ];
-        $res = CurlPost($url, array_merge($data, $params));
-        $result = json_decode($res, true);
+        $ret = CurlPost($url, array_merge($data, $params));
+        if($ret['code'] != 0)
+        {
+            // 网络不通
+            MyCache($key, 0, $ret['data']);
+            $ret['msg'] = '商店连接失败[ '.$ret['msg'].' ]';
+            return $ret;
+        }
+        
+        // 数据解析
+        $result = json_decode($ret['data'], true);
         if(empty($result))
         {
-            // 网络不通、返回非有效json数据则认为网络不通
-            MyCache($key, 0, $time);
-            return DataReturn('商店网络不通', 0);
+            return DataReturn('商店返回数据有误'.(empty($ret['data']) ? '' : '('.$ret['data'].')'), -1);
         }
 
         // 是否非数组
         if(is_string($result))
         {
-            return DataReturn($result, -1);
+            return DataReturn('商店返回数据无效[ '.$result.' ]', -1);
         }
 
         // 请求成功
@@ -330,12 +338,12 @@ class StoreService
         {
             if(empty($result['data']))
             {
-                return DataReturn('无对应数据、请稍后再试！', -1);
+                return DataReturn('商店返回无对应数据、请稍后再试！', -1);
             }
             return $result;
         }
 
-        return DataReturn(empty($result['msg']) ? '异常错误失败、请稍后再试！' : $result['msg'], -1);
+        return DataReturn(empty($result['msg']) ? '商店返回异常错误、请稍后再试！' : '商店返回[ '.$result['msg'].' ]', -1);
     }
 }
 ?>

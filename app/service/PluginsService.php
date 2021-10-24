@@ -349,7 +349,7 @@ class PluginsService
                 $ret = StoreService::PluginsLegalCheck($check_params);
                 MyCache($key, $ret, 3600);
             }
-            if($ret['code'] != 0)
+            if(!in_array($ret['code'], [0, -9999]))
             {
                 return $ret;
             }
