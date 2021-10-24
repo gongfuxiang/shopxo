@@ -41,7 +41,7 @@ CREATE TABLE `sxo_admin` (
   `role_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '所属角色组',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='管理员' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='管理员' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_admin`
@@ -71,7 +71,7 @@ CREATE TABLE `sxo_answer` (
   `access_count` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '访问次数',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户留言/问答' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户留言/问答' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -92,7 +92,7 @@ CREATE TABLE `sxo_app_center_nav` (
   `sort` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='手机 - 用户中心导航' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='手机 - 用户中心导航' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_app_center_nav`
@@ -170,7 +170,7 @@ CREATE TABLE `sxo_app_home_nav` (
   `sort` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='手机 - 首页导航' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='手机 - 首页导航' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_app_home_nav`
@@ -225,7 +225,7 @@ CREATE TABLE `sxo_article` (
   `seo_desc` char(230) NOT NULL DEFAULT '' COMMENT 'SEO描述',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文章' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文章' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_article`
@@ -275,7 +275,7 @@ CREATE TABLE `sxo_article_category` (
   `sort` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '顺序',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文章分类' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文章分类' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_article_category`
@@ -306,7 +306,7 @@ CREATE TABLE `sxo_attachment` (
   `url` char(255) NOT NULL DEFAULT '' COMMENT 'url路径',
   `hash` text COMMENT 'hash值',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='附件' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='附件' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_attachment`
@@ -588,7 +588,7 @@ CREATE TABLE `sxo_brand` (
   `seo_desc` char(230) NOT NULL DEFAULT '' COMMENT 'SEO描述',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='品牌' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='品牌' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_brand`
@@ -612,7 +612,7 @@ CREATE TABLE `sxo_brand_category` (
   `sort` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '顺序',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='品牌分类' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='品牌分类' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_brand_category`
@@ -644,7 +644,7 @@ CREATE TABLE `sxo_brand_category_join` (
   `brand_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '品牌id',
   `brand_category_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '分类id',
   `add_time` int UNSIGNED DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='品牌分类关联' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='品牌分类关联' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_brand_category_join`
@@ -677,7 +677,7 @@ CREATE TABLE `sxo_cart` (
   `spec` text COMMENT '规格',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='购物车' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='购物车' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -694,7 +694,7 @@ CREATE TABLE `sxo_config` (
   `type` char(30) NOT NULL DEFAULT '' COMMENT '类型（admin后台, home前台）',
   `only_tag` char(60) NOT NULL DEFAULT '' COMMENT '唯一的标记',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='基本配置参数' ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='基本配置参数' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_config`
@@ -777,8 +777,8 @@ INSERT INTO `sxo_config` (`id`, `value`, `name`, `describe`, `error_tips`, `type
 (79, '0', '是否启用留言', '默认否', '', 'common', 'common_app_is_enable_answer', 1607494842),
 (80, '3', '商品可添加规格最大数量', '建议不超过3个规格', '请填写谷歌最大数', 'common', 'common_spec_add_max_number', 1635064242),
 (81, '-', '路由分隔符', '建议填写 [ - ]  默认 [ - ] ，仅PATHINFO模式+短地址模式下有效', '请填写路由分隔符', 'common', 'common_route_separator', 1635064219),
-(82, 'wxda7779770f53e901', 'AppID', '小程序ID', '请填写appid', 'common', 'common_app_mini_weixin_appid', 1630222910),
-(83, '4bb30af2e71e84f2f5107c0572f66641', 'AppSecret	', '小程序密钥', '请填写appsecret', 'common', 'common_app_mini_weixin_appsecret', 1630222910),
+(82, '', 'AppID', '小程序ID', '请填写appid', 'common', 'common_app_mini_weixin_appid', 1630222910),
+(83, '', 'AppSecret	', '小程序密钥', '请填写appsecret', 'common', 'common_app_mini_weixin_appsecret', 1630222910),
 (84, 'ShopXO', '名称', '', '请填写名称', 'common', 'common_app_mini_weixin_title', 1630222910),
 (85, '国内领先企业级B2C开源电商系统！', '描述', '', '请填写描述', 'common', 'common_app_mini_weixin_describe', 1630222910),
 (61, '用户中心公告文字，后台配置修改，演示站点请勿下单。', '用户中心公告', '空则不显示公告', '', 'common', 'common_user_center_notice', 1627540086),
@@ -925,7 +925,7 @@ CREATE TABLE `sxo_custom_view` (
   `access_count` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '访问次数',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='自定义页面' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='自定义页面' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_custom_view`
@@ -954,7 +954,7 @@ CREATE TABLE `sxo_design` (
   `seo_desc` char(230) NOT NULL DEFAULT '' COMMENT 'SEO描述',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='页面设计' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='页面设计' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -971,7 +971,7 @@ CREATE TABLE `sxo_express` (
   `sort` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '顺序',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='快递公司' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='快递公司' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_express`
@@ -1007,7 +1007,7 @@ CREATE TABLE `sxo_form_table_user_fields` (
   `fields` text COMMENT '字段数据（json格式存储）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='动态表格用户自定义字段' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='动态表格用户自定义字段' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -1052,7 +1052,7 @@ CREATE TABLE `sxo_goods` (
   `is_delete_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否已删除（0 未删除, 大于0则是删除时间）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_goods`
@@ -1084,7 +1084,7 @@ CREATE TABLE `sxo_goods_browse` (
   `user_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '用户id',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户商品浏览' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户商品浏览' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -1109,7 +1109,7 @@ CREATE TABLE `sxo_goods_category` (
   `seo_desc` char(230) NOT NULL DEFAULT '' COMMENT 'SEO描述',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品分类' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品分类' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_goods_category`
@@ -1974,7 +1974,7 @@ CREATE TABLE `sxo_goods_category_join` (
   `goods_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '商品id',
   `category_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '分类id',
   `add_time` int UNSIGNED DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品分类关联' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品分类关联' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_goods_category_join`
@@ -2043,7 +2043,7 @@ CREATE TABLE `sxo_goods_comments` (
   `reply_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '回复时间',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品评论' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品评论' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2058,7 +2058,7 @@ CREATE TABLE `sxo_goods_content_app` (
   `content` text COMMENT '内容',
   `sort` tinyint UNSIGNED DEFAULT '0' COMMENT '顺序',
   `add_time` int UNSIGNED DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品手机详情' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品手机详情' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_goods_content_app`
@@ -2116,7 +2116,7 @@ CREATE TABLE `sxo_goods_favor` (
   `goods_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '商品id',
   `user_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '用户id',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户商品收藏' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户商品收藏' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2131,7 +2131,7 @@ CREATE TABLE `sxo_goods_params` (
   `name` char(180) NOT NULL DEFAULT '' COMMENT '参数名称',
   `value` char(230) NOT NULL DEFAULT '' COMMENT '参数值',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品参数' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品参数' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_goods_params`
@@ -2162,7 +2162,7 @@ CREATE TABLE `sxo_goods_params_template` (
   `config_count` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '参数配置数量',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品参数模板' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品参数模板' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_goods_params_template`
@@ -2184,7 +2184,7 @@ CREATE TABLE `sxo_goods_params_template_config` (
   `name` char(180) NOT NULL DEFAULT '' COMMENT '参数名称',
   `value` char(230) NOT NULL DEFAULT '' COMMENT '参数值',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品参数模板值' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品参数模板值' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_goods_params_template_config`
@@ -2215,7 +2215,7 @@ CREATE TABLE `sxo_goods_photo` (
   `is_show` tinyint UNSIGNED DEFAULT '1' COMMENT '是否显示（0否, 1是）',
   `sort` tinyint UNSIGNED DEFAULT '0' COMMENT '顺序',
   `add_time` int UNSIGNED DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品相册图片' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品相册图片' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_goods_photo`
@@ -2268,7 +2268,7 @@ CREATE TABLE `sxo_goods_spec_base` (
   `original_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '原价',
   `extends` longtext COMMENT '扩展数据(json格式存储)',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品规格基础' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品规格基础' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_goods_spec_base`
@@ -2321,7 +2321,7 @@ CREATE TABLE `sxo_goods_spec_type` (
   `value` text NOT NULL COMMENT '类型值（json字符串存储）',
   `name` char(230) NOT NULL DEFAULT '' COMMENT '类型名称',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品规格类型' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品规格类型' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_goods_spec_type`
@@ -2349,7 +2349,7 @@ CREATE TABLE `sxo_goods_spec_value` (
   `goods_spec_base_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '商品规格基础id',
   `value` char(230) NOT NULL DEFAULT '' COMMENT '规格值',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商品规格值' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品规格值' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_goods_spec_value`
@@ -2427,7 +2427,7 @@ CREATE TABLE `sxo_layout` (
   `is_enable` tinyint UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否启用（0否，1是）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='布局配置' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='布局配置' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_layout`
@@ -2452,7 +2452,7 @@ CREATE TABLE `sxo_link` (
   `is_new_window_open` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否新窗口打开（0否，1是）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='友情链接' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='友情链接' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_link`
@@ -2489,7 +2489,7 @@ CREATE TABLE `sxo_message` (
   `is_delete_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否已删除（0否, 大于0删除时间）',
   `user_is_delete_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '用户是否已删除（0否, 大于0删除时间）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='消息' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='消息' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2510,7 +2510,7 @@ CREATE TABLE `sxo_navigation` (
   `is_new_window_open` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否新窗口打开（0否，1是）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='导航' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='导航' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_navigation`
@@ -2585,7 +2585,7 @@ CREATE TABLE `sxo_order` (
   `user_is_delete_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '用户是否已删除（0否, 大于0删除时间）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2616,7 +2616,7 @@ CREATE TABLE `sxo_order_address` (
   `idcard_back` char(255) NOT NULL DEFAULT '' COMMENT '身份证国微面图片',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单地址' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单地址' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2649,7 +2649,7 @@ CREATE TABLE `sxo_order_aftersale` (
   `cancel_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '取消时间',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单售后' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单售后' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2666,7 +2666,7 @@ CREATE TABLE `sxo_order_currency` (
   `currency_symbol` char(60) NOT NULL DEFAULT '' COMMENT '货币符号',
   `currency_rate` decimal(7,6) UNSIGNED NOT NULL DEFAULT '0.000000' COMMENT '货币汇率',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单货币' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单货币' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2694,7 +2694,7 @@ CREATE TABLE `sxo_order_detail` (
   `returned_quantity` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '退货数量',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单详情' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单详情' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2709,7 +2709,7 @@ CREATE TABLE `sxo_order_extraction_code` (
   `code` char(30) NOT NULL DEFAULT '' COMMENT '取货码',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单自提取货码关联' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单自提取货码关联' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2725,7 +2725,7 @@ CREATE TABLE `sxo_order_fictitious_value` (
   `value` text COMMENT '虚拟商品展示数据',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单虚拟销售数据关联' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单虚拟销售数据关联' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2744,7 +2744,7 @@ CREATE TABLE `sxo_order_goods_inventory_log` (
   `is_rollback` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否回滚（0否, 1是）',
   `rollback_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '回滚时间',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单商品库存变更日志' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单商品库存变更日志' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2761,7 +2761,7 @@ CREATE TABLE `sxo_order_status_history` (
   `creator` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建-用户id',
   `creator_name` varchar(60) NOT NULL DEFAULT '' COMMENT '创建人-姓名',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='订单状态历史纪录' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单状态历史纪录' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2788,7 +2788,7 @@ CREATE TABLE `sxo_payment` (
   `sort` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '顺序',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='支付方式' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='支付方式' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2812,7 +2812,7 @@ CREATE TABLE `sxo_pay_log` (
   `pay_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '支付时间',
   `close_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '关闭时间',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='支付日志' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='支付日志' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2826,7 +2826,7 @@ CREATE TABLE `sxo_pay_log_value` (
   `business_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '业务订单id',
   `business_no` char(60) NOT NULL DEFAULT '' COMMENT '业务订单号',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='支付日志关联业务数据' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='支付日志关联业务数据' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2852,7 +2852,7 @@ CREATE TABLE `sxo_pay_request_log` (
   `client` char(255) NOT NULL DEFAULT '' COMMENT '客户端详情信息',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='支付请求日志' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='支付请求日志' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2869,7 +2869,7 @@ CREATE TABLE `sxo_plugins` (
   `sort` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='应用' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='应用' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -2888,7 +2888,7 @@ CREATE TABLE `sxo_power` (
   `is_show` tinyint UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否显示（0否，1是）',
   `icon` char(60) NOT NULL DEFAULT '' COMMENT '图标class',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='权限' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='权限' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_power`
@@ -3169,7 +3169,7 @@ CREATE TABLE `sxo_quick_nav` (
   `sort` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='快捷导航' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='快捷导航' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_quick_nav`
@@ -3226,7 +3226,7 @@ CREATE TABLE `sxo_refund_log` (
   `refundment` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '退款类型（0原路退回, 1退至钱包, 2手动处理）',
   `return_params` text COMMENT '支付平台返回参数（以json存储）',
   `add_time` int UNSIGNED NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='退款日志' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='退款日志' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -3244,7 +3244,7 @@ CREATE TABLE `sxo_region` (
   `is_enable` tinyint UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否启用（0否，1是）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='地区' ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='地区' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_region`
@@ -48351,7 +48351,7 @@ CREATE TABLE `sxo_role` (
   `is_enable` tinyint UNSIGNED NOT NULL DEFAULT '1' COMMENT '是否启用（0否，1是）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色组' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色组' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_role`
@@ -48372,7 +48372,7 @@ CREATE TABLE `sxo_role_power` (
   `role_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '角色id',
   `power_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '权限id',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='角色与权限管理' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色与权限管理' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_role_power`
@@ -48477,7 +48477,7 @@ CREATE TABLE `sxo_screening_price` (
   `sort` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '顺序',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='筛选价格' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='筛选价格' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_screening_price`
@@ -48518,7 +48518,7 @@ CREATE TABLE `sxo_search_history` (
   `search_result` text COMMENT '搜索结果（json存储）',
   `ymd` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '日期 ymd',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='搜索日志' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='搜索日志' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_search_history`
@@ -48545,7 +48545,7 @@ CREATE TABLE `sxo_slide` (
   `sort` tinyint UNSIGNED NOT NULL DEFAULT '0' COMMENT '排序',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='轮播图片' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='轮播图片' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_slide`
@@ -48602,7 +48602,7 @@ CREATE TABLE `sxo_user` (
   `is_delete_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否已删除（0否, 大于0删除时间）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -48630,7 +48630,7 @@ CREATE TABLE `sxo_user_address` (
   `is_delete_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除（0否，1删除时间戳）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户地址' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户地址' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -48648,7 +48648,7 @@ CREATE TABLE `sxo_user_integral_log` (
   `msg` char(255) DEFAULT '' COMMENT '操作原因',
   `operation_id` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '操作人员id',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户积分日志' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户积分日志' ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -48674,7 +48674,7 @@ CREATE TABLE `sxo_warehouse` (
   `is_delete_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '是否删除（0否，大于0删除时间戳）',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='仓库' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='仓库' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_warehouse`
@@ -48697,7 +48697,7 @@ CREATE TABLE `sxo_warehouse_goods` (
   `inventory` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '总库存',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间',
   `upd_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='仓库商品' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='仓库商品' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_warehouse_goods`
@@ -48732,7 +48732,7 @@ CREATE TABLE `sxo_warehouse_goods_spec` (
   `spec` text COMMENT '规格值',
   `inventory` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '库存',
   `add_time` int UNSIGNED NOT NULL DEFAULT '0' COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='仓库商品规格' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='仓库商品规格' ROW_FORMAT=DYNAMIC;
 
 --
 -- 转存表中的数据 `sxo_warehouse_goods_spec`
