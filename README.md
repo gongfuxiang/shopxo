@@ -48,11 +48,17 @@
 * 官方3群：1127073697
 * 官方多商户群：782971010
 
-### 源代码地址
+### 当前项目源代码平台
 * Gitee：https://gitee.com/zongzhige/shopxo
 * GitHub：https://github.com/gongfuxiang/shopxo
 * Coding：https://zongzhige.coding.net/public/shopxo/shopxo/git
-* CodeChina：https://codechina.csdn.net/zongzhige/shopxo.git
+* CodeChina：https://codechina.csdn.net/zongzhige/shopxo
+
+### uniapp端源代码平台
+* Gitee：https://gitee.com/zongzhige/shopxo-uniapp
+* GitHub：https://github.com/gongfuxiang/shopxo-uniapp
+* Coding：https://zongzhige.coding.net/public/shopxo/uniapp/git
+* CodeChina：https://codechina.csdn.net/zongzhige/shopxo-uniapp
 
 ### 部分功能特性
 ~~~
@@ -68,6 +74,7 @@
 10. 积分商城+签到：积分抵扣、积分兑换、无限发布签到活动获取积分
 11. 多端小程序：微信、支付宝、百度、头条/抖音、QQ
 12. 多商户：入驻独立店铺、可视化DIY拖拽装修+页面设计、不同商家自动拆单，店铺、商品、分类、结算、订单管理、数据统计
+13. 批发：阶梯售价、新购+复购单独配置、自由配置无限极数量阶梯售价、可以具体到规格
 ......
 (更多查看应用商店 https://store.shopxo.net/)
 ~~~
@@ -78,6 +85,14 @@
 ### 全平台支持
 ![全平台支持](https://doc.shopxo.net/upload/image/20210727/1627370212203702.jpeg "全平台支持")
 
+
+#### 小程序支持多种配色
+![多种配色](https://doc.shopxo.net/upload/image/20211023/1634962774958024.jpg "配色.jpg")
+
+#### 小程序效果图片
+![主要部分](https://doc.shopxo.net/upload/image/20211023/1634962851731604.jpg "主要部分.jpg")
+![扩展部分](https://doc.shopxo.net/upload/image/20211023/1634962862173709.jpg "扩展部分.jpg")
+
 ### 可视化DIY拖拽装修展示
 ![可视化拖拽](https://doc.shopxo.net/upload/image/20210727/1627370212919280.gif "可视化DIY拖拽装修")
 
@@ -87,8 +102,6 @@
 ### 后台管理展示
 ![后台管理](https://doc.shopxo.net/upload/image/20210727/1627370212801103.gif "后台管理")
 
-### 小程序展示
-![小程序](https://doc.shopxo.net/upload/image/20210727/1627370213596690.jpeg "小程序")
 
 ### 系统管理模块
 ![系统管理模块](http://assets.processon.com/chart_image/611f249c0e3e745cf8fe56e7.png?_=1629691225594 "系统管理模块")
