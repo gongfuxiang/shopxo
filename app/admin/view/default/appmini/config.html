@@ -6,6 +6,14 @@
     {{include file="appmini/nav" /}}
     <!-- second nav end -->
 	<div class="content">
+		<!-- 新版本小程序主题提示 -->
+	    <div class="am-alert am-radius">
+	        <p class="am-text-lg">已发布新版本小程序主题，目前新版本小程序主题仅支持微信端，更多端正在紧急适配中，微信小程序建议使用新版本主题</p>
+	        <p class="am-margin-top-xs">
+	            <a href="https://gitee.com/zongzhige/shopxo-uniapp" target="_blank">查看新版本小程序主题 <i class="am-icon-external-link"></i></a>
+	        </p>
+	    </div>
+
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appmini/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appmini/config', ['nav_type'=>$nav_type])}}">
 			{{switch $nav_type}}
