@@ -30,6 +30,10 @@ class SystemService
      */
     public static function SystemBegin($params = [])
     {
+        // 当前用户生成uuid并存储
+        self::SetUserUUId();
+
+        // 钩子
         $hook_name = 'plugins_service_system_begin';
         MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
@@ -55,6 +59,24 @@ class SystemService
             'is_backend'    => true,
             'params'        => &$params,
         ]);
+    }
+
+    /**
+     * 当前用户生成uuid并存储
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-03-18
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function SetUserUUId($params = [])
+    {
+        $uuid = MySession('uuid');
+        if(empty($uuid))
+        {
+            MySession('uuid', UUId());
+        }
     }
 
     /**

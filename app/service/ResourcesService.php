@@ -488,7 +488,7 @@ class ResourcesService
                 $count += count($files);
                 foreach($files as $v)
                 {
-                    $temp = Db::name('Attachment')->where(['title'=>$v['title'], 'hash'=>$v['hash']])->find();
+                    $temp = Db::name('Attachment')->where(['title'=>$v['title'], 'hash'=>$v['hash'], 'path_type'=>$path_type])->find();
                     if(empty($temp))
                     {
                         $ret = self::AttachmentAdd($v);
@@ -712,6 +712,12 @@ class ResourcesService
     {
         // 取参数uuid、默认空
         $uid = input('uuid', '');
+
+        // 取当前session
+        if(empty($uid))
+        {
+            $uid = MySession('uuid');
+        }
 
         // 用户信息
         $user = UserService::LoginUserInfo();

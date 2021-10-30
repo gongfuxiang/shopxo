@@ -78,7 +78,6 @@ text-align: center;float:none}
     .floor { margin-bottom: 15px; }
     .floor .goods-list { overflow: hidden; }
     .outer-con .describe {font-size: 14px;font-weight: 600;}
-    .goods-title, .outer-con .price { font-size: 14px; }
     .floor .goods-list .goods-items { float: left; width: 25%; padding: 10px 15px; border-right: 1px solid; border-bottom: 1px solid; border-color: #eee; }
     .floor .aggregation img {position: absolute;top:auto;left:0;bottom:0;}
 

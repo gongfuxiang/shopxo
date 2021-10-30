@@ -50,7 +50,6 @@ class SlideService
                 // 图片地址
                 if(isset($v['images_url']))
                 {
-                    $v['images_url_old'] = $v['images_url'];
                     $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
                 }
 

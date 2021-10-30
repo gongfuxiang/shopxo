@@ -30,7 +30,8 @@ ul { list-style: none; }
 /**
  * 表单优化
  */
-.am-form-group:hover>input, .am-form-group:hover>select, .am-form-group:hover>textarea, .am-form-group:hover .chosen-choices, .am-form-group:hover .chosen-single { border: 1px solid #999 ; }
+.am-form-group:hover input, .am-form-group:hover select, .am-form-group:hover textarea, .am-form-group:hover .chosen-choices, .am-form-group:hover .chosen-single, .am-form-group:hover .am-tagsinput { border: 1px solid #999 ; }
+.am-form-group .am-tagsinput input {border: 0 !important;}
 .am-form-error .chosen-choices, .am-form-error .chosen-default { border: 1px solid #dd514c !important; }
 .am-form-success .chosen-choices, .am-form-success .chosen-single { border: 1px solid #5eb95e !important; }
 form.am-form .am-form-group-label-tips, form.am-form .am-form-group-label-tips-must {  font-size: 12px; font-weight: 400; margin-left: 10px; }
@@ -45,7 +46,7 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
  * 插件
  */
 .chosen-container { width: 100% !important; }
-.am-tagsinput { display: block; padding: 2px 5px; border-radius: 2px; }
+.am-tagsinput { display: block; padding: 3px 5px; border-radius: 2px; min-height: 30px; }
 .chosen-choices, .chosen-single { border-radius: 2px; }
 .chosen-choices li.search-field input[type="text"] { height: 30px !important; }
 .chosen-choices li.search-field input[type="text"]:hover,

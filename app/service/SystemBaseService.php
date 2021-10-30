@@ -291,7 +291,7 @@ class SystemBaseService
     }
 
     /**
-     * 是否使用商品优化记录
+     * 是否使用商品优惠记录
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

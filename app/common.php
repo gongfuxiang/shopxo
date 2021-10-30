@@ -12,6 +12,25 @@
 // 应用公共文件
 
 /**
+ * 生成uuid
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-10-30
+ * @desc    description
+ */
+function UUId()  
+{  
+    $chars = md5(uniqid(mt_rand(), true));
+    $uuid = substr($chars, 0, 8) . '-'
+            . substr($chars, 8, 4) . '-' 
+            . substr($chars, 12, 4) . '-'
+            . substr($chars, 16, 4) . '-'
+            . substr($chars, 20, 12);
+    return $uuid;
+}  
+
+/**
  * 获取常量数据
  * @author  Devil
  * @blog    http://gong.gg/
