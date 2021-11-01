@@ -138,12 +138,6 @@ class Common extends BaseController
     {        
         // 配置信息初始化
         ConfigService::ConfigInit();
-
-        // 推荐人
-        if(!empty($this->data_request['referrer']))
-        {
-            MySession('share_referrer_id', $this->data_request['referrer']);
-        }
     }
 
     /**

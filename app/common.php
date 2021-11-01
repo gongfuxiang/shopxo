@@ -61,6 +61,21 @@ function MySession($name = '', $value = '')
 }
 
 /**
+ * cookie管理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-07-17
+ * @desc    description
+ * @param   [string]         $name    [cookie名称]
+ * @param   [mixed]          $value   [cookie值]
+ */
+function MyCookie($name = '', $value = '')
+{
+    return cookie($name, $value);
+}
+
+/**
  * 缓存管理
  * @author  Devil
  * @blog    http://gong.gg/
