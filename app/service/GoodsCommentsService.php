@@ -13,6 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\UserService;
 use app\service\GoodsService;
+use app\service\SystemBaseService;
 
 /**
  * 商品评论服务层
@@ -245,6 +246,9 @@ class GoodsCommentsService
             $comments_rating_list = MyConst('common_goods_comments_rating_list');
             $comments_business_type_list = MyConst('common_goods_comments_business_type_list');
 
+            // 用户默认头像
+            $default_avatar = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyFileConfig('common_default_theme', '', 'default', true)).'/images/default-user-avatar.jpg';
+
             // 数据处理
             foreach($data as &$v)
             {
@@ -255,7 +259,7 @@ class GoodsCommentsService
                     if(!isset($params['is_public']) || $params['is_public'] == 1)
                     {
                         $v['user'] = [
-                            'avatar'            => isset($user['avatar']) ? $user['avatar'] : '',
+                            'avatar'            => empty($user['avatar']) ? $default_avatar : $user['avatar'],
                             'user_name_view'    => (!isset($v['is_anonymous']) || $v['is_anonymous'] == 1 || empty($user['user_name_view'])) ? '匿名' : mb_substr($user['user_name_view'], 0, 1, 'utf-8').'***'.mb_substr($user['user_name_view'], -1, null, 'utf-8'),
                         ];
                     } else {
