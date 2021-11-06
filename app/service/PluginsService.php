@@ -85,7 +85,6 @@ class PluginsService
                 {
                     if(isset($data[$field]))
                     {
-                        $data[$field.'_old'] = $data[$field];
                         $data[$field] = ResourcesService::AttachmentPathViewHandle($data[$field]);
                     }
                 }
@@ -105,7 +104,6 @@ class PluginsService
                             {
                                 if(in_array($ext, $attachment_ext))
                                 {
-                                    $data[$k.'_old'] = $v;
                                     $data[$k] = ResourcesService::AttachmentPathViewHandle($v);
                                 }
                             }
