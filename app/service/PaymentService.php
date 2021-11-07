@@ -1046,7 +1046,7 @@ php;
                     'plugins_data'  => $data,
                 ];
                 $res = StoreService::PluginsUpgradeInfo($request_params);
-                if(!empty($res['data']))
+                if(!empty($res['data']) && is_array($res['data']))
                 {
                     $res['data'] = array_column($res['data'], null, 'plugins');
                 }
