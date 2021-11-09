@@ -465,7 +465,7 @@ class PluginsService
                     if(!empty($result) && isset($result['code']) && $result['code'] == 0)
                     {
                         // 处理存在更新的插件数据
-                        if(!empty($result['data']))
+                        if(!empty($result['data']) && is_array($result['data']))
                         {
                             $result['data'] = array_column($result['data'], null, 'plugins');
                         }
