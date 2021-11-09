@@ -17,7 +17,7 @@ ul, li, ol {list-style: none;}
 .banner-mixed{position: relative;border-top:1px solid #F5F5F5 ;border-bottom: 1px #f5f5f5 solid;overflow: hidden;}
 .banner-news-title{position: absolute;left:10px;padding-right:10px;border-right:1px solid #eee ;}
 .banner-news li,#banner-news li a{height: 30px;line-height:30px; font-size: 12px;}
-.banner-news{max-width:1200px; margin:0px auto; overflow:hidden; height:30px;width:100%; text-align:left;color:#fff;}
+.banner-news{max-width:1200px; margin:0px auto; overflow:hidden; height:30px;width:100%; text-align:left;}
 .news-category-name { line-height: 11px; max-width: 50px; }
 .banner-news li {padding:0 10px 0 80px;}
 .mod-vip{display: none;}

@@ -72,18 +72,41 @@ class ArticleService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         $data = Db::name('Article')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
+        return DataReturn('处理成功', 0, self::DataHandle($data));
+    }
+
+    /**
+     * 数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-09
+     * @desc    description
+     * @param   [array]          $data [文章数据]
+     */
+    public static function DataHandle($data)
+    {
         if(!empty($data))
         {
-            $category_names = Db::name('ArticleCategory')->where(['id'=>array_column($data, 'article_category_id')])->column('name', 'id');
+            // 字段列表
+            $keys = ArrayKeys($data);
+
+            // 分类名称
+            if(in_array('article_category_id', $keys))
+            {
+                $category_names = Db::name('ArticleCategory')->where(['id'=>array_column($data, 'article_category_id')])->column('name', 'id');
+            }
+
             foreach($data as &$v)
             {
                 // url
-                $v['url'] = MyUrl('index/article/index', ['id'=>$v['id']]);
+                $v['url'] = (APPLICATION == 'web') ? MyUrl('index/article/index', ['id'=>$v['id']]) : '/pages/article-detail/article-detail?id='.$v['id'];
 
                 // 分类名称
                 if(isset($v['article_category_id']))
                 {
-                    $v['article_category_name'] = isset($category_names[$v['article_category_id']]) ? $category_names[$v['article_category_id']] : '';
+                    $v['article_category_name'] = (!empty($category_names) && isset($category_names[$v['article_category_id']])) ? $category_names[$v['article_category_id']] : '';
+                    $v['category_url'] = (APPLICATION == 'web') ? MyUrl('index/article/category', ['id'=>$v['article_category_id']]) : '/pages/article-category/article-category?id='.$v['article_category_id'];
                 }
 
                 // 内容
@@ -117,7 +140,7 @@ class ArticleService
                 }
             }
         }
-        return DataReturn('处理成功', 0, $data);
+        return $data;
     }
 
     /**
@@ -131,6 +154,31 @@ class ArticleService
     public static function ArticleTotal($where)
     {
         return (int) Db::name('Article')->where($where)->count();
+    }
+
+    /**
+     * 条件
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-08
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function ArticleWhere($params = [])
+    {
+        // 默认条件
+        $where = [
+            ['is_enable', '=', 1],
+        ];
+
+        // 分类id
+        if(!empty($params['id']))
+        {
+            $where[] = ['article_category_id', '=', intval($params['id'])];
+        }
+
+        return $where;
     }
 
     /**
@@ -251,37 +299,6 @@ class ArticleService
     }
 
     /**
-     * 获取分类和所有文章
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-10-19
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function ArticleCategoryListContent($params = [])
-    {
-        $data = Db::name('ArticleCategory')->field('id,name')->where(['is_enable'=>1])->order('id asc, sort asc')->select()->toArray();
-        if(!empty($data))
-        {
-            foreach($data as &$v)
-            {
-                $items = Db::name('Article')->field('id,title,title_color')->where(['article_category_id'=>$v['id'], 'is_enable'=>1])->select()->toArray();
-                if(!empty($items))
-                {
-                    foreach($items as &$vs)
-                    {
-                        // url
-                        $vs['url'] = MyUrl('index/article/index', ['id'=>$vs['id']]);
-                    }
-                }
-                $v['items'] = $items;
-            }
-        }
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
      * 文章访问统计加1
      * @author   Devil
      * @blog    http://gong.gg/
@@ -312,10 +329,58 @@ class ArticleService
     {
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
-
         $data = Db::name('ArticleCategory')->where(['is_enable'=>1])->field($field)->order($order_by)->select()->toArray();
-        
-        return DataReturn('处理成功', 0, $data);
+        return DataReturn('处理成功', 0, self::CategoryDataHandle($data));
+    }
+
+    /**
+     * 分类处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-08
+     * @desc    description
+     * @param   [array]          $data [分类数据]
+     */
+    public static function CategoryDataHandle($data)
+    {
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                $v['url'] = (APPLICATION == 'web') ? MyUrl('index/article/category', ['id'=>$v['id']]) : '/pages/article-category/article-category?id='.$v['id'];
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * 获取分类信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-08
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     * @param   [array]           $data   [指定分类数据列表]
+     */
+    public static function ArticleCategoryInfo($params = [], $data = [])
+    {
+        // 数据不存在则读取
+        if(!empty($params['id']))
+        {
+            if(empty($data))
+            {
+                $data = Db::name('ArticleCategory')->where(['is_enable'=>1,'id'=>intval($params['id'])])->field('*')->order('sort asc')->select()->toArray();
+            } else {
+                $temp = array_column($data, null, 'id');
+                $data = array_key_exists($params['id'], $temp) ? [$temp[$params['id']]] : [];
+            }
+        } else {
+            $data = [];
+        }
+        $data = self::CategoryDataHandle($data);
+        return (empty($data) || empty($data[0])) ? null : $data[0];
     }
 
     /**
@@ -510,6 +575,40 @@ class ArticleService
             return DataReturn('删除成功', 0);
         }
         return DataReturn('删除失败', -100);
+    }
+
+    /**
+     * 上一篇、下一篇数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-09
+     * @desc    description
+     * @param   [int]          $article_id [文章id]
+     */
+    public static function ArticleLastNextData($article_id)
+    {
+        // 指定字段
+        $field = 'id,title,add_time';
+
+        // 上一条数据
+        $where = [
+            ['is_enable', '=', 1],
+            ['id', '<', $article_id],
+        ];
+        $last = self::DataHandle(Db::name('Article')->where($where)->field($field)->order('id desc')->limit(1)->select()->toArray());
+
+        // 上一条数据
+        $where = [
+            ['is_enable', '=', 1],
+            ['id', '>', $article_id],
+        ];
+        $next = self::DataHandle(Db::name('Article')->where($where)->field($field)->order('id asc')->limit(1)->select()->toArray());
+
+        return [
+            'last'  => empty($last) ? [] : $last[0],
+            'next'  => empty($next) ? [] : $next[0],
+        ];
     }
 }
 ?>

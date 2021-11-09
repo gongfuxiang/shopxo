@@ -36,11 +36,12 @@ class Article extends Common
     }
 
 	/**
-     * [Index 文章详情]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
+     * 文章详情
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-08
+     * @desc    description
      */
 	public function Index()
 	{
@@ -77,8 +78,11 @@ class Article extends Common
 			}
 
 			// 获取分类
-			$article_category_content = ArticleService::ArticleCategoryListContent();
-            MyViewAssign('category_list', $article_category_content['data']);
+			$article_category = ArticleService::ArticleCategoryList();
+            MyViewAssign('category_list', $article_category['data']);
+
+            // 上一篇、下一篇
+            MyViewAssign('last_next_data', ArticleService::ArticleLastNextData($id));
 
             // seo
             $seo_title = empty($article['seo_title']) ? $article['title'] : $article['seo_title'];
@@ -93,7 +97,7 @@ class Article extends Common
             }
             
             // 钩子
-            $this->PluginsHook($id, $article);
+            $this->PluginsContentHook($id, $article);
 
 			MyViewAssign('article', $article);
 			return MyView();
@@ -105,7 +109,104 @@ class Article extends Common
 	}
 
     /**
-     * 钩子处理
+     * 文章分类
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-08
+     * @desc    description
+     */
+    public function Category()
+    {
+        // 条件
+        $where = ArticleService::ArticleWhere($this->data_request);
+
+        // 总数
+        $total = ArticleService::ArticleTotal($where);
+
+        // 分页
+        $page_params = [
+            'number'    =>  $this->page_size,
+            'total'     =>  $total,
+            'where'     =>  $this->data_request,
+            'page'      =>  $this->page,
+            'url'       =>  MyUrl('index/article/category'),
+        ];
+        $page = new \base\Page($page_params);
+
+        // 获取列表
+        $data_params = [
+            'm'         => $page->GetPageStarNumber(),
+            'n'         => $this->page_size,
+            'where'     => $where,
+        ];
+        $ret = ArticleService::ArticleList($data_params);
+
+        // 获取分类
+        $article_category = ArticleService::ArticleCategoryList();
+        MyViewAssign('category_list', $article_category['data']);
+
+        // 分类信息
+        $category_info = ArticleService::ArticleCategoryInfo($this->data_request, $article_category['data']);
+        MyViewAssign('category_info', $category_info);
+
+        // 浏览器名称
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(empty($category_info) ? '所有文章' : $category_info['name'], 1));
+
+        // 基础参数赋值
+        MyViewAssign('page_html', $page->GetPageHtml());
+        MyViewAssign('data_list', $ret['data']);
+        MyViewAssign('params', $this->data_request);
+
+        // 钩子
+        $this->PluginsCategoryHook($ret['data'], $this->data_request);
+        return MyView();
+    }
+
+    /**
+     * 分类钩子处理
+     * @author  whats
+     * @version 1.0.0
+     * @date    2019-04-22
+     * @desc    description
+     * @param   [array]           $data      [文章内容]
+     * @param   [array]           $params    [输入参数]
+     */
+    private function PluginsCategoryHook(&$data, $params = [])
+    {
+        $hook_arr = [
+            // 分类内容顶部钩子
+            'plugins_view_article_category_top',
+
+            // 分类底部钩子
+            'plugins_view_article_category_bottom',
+
+            // 分类内容顶部钩子
+            'plugins_view_article_category_content_top',
+
+            // 分类内容底部钩子
+            'plugins_view_article_category_content_botton',
+
+            // 分类左侧内部顶部钩子
+            'plugins_view_article_category_left_inside_top',
+
+            // 分类左侧内部底部钩子
+            'plugins_view_article_category_left_inside_botton',
+        ];
+        foreach($hook_arr as $hook_name)
+        {
+            MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => false,
+                'data'          => &$data,
+                'params'        => $params,
+            ]));
+        }
+    }
+
+    /**
+     * 内容钩子处理
      * @author  whats
      * @version 1.0.0
      * @date    2019-04-22
@@ -113,7 +214,7 @@ class Article extends Common
      * @param   [int]             $article_id   [文章id]
      * @param   [array]           $article      [文章内容]
      */
-    private function PluginsHook($article_id, &$article)
+    private function PluginsContentHook($article_id, &$article)
     {
         $hook_arr = [
             // 文章内容顶部钩子
