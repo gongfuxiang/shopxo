@@ -17,6 +17,7 @@ use app\service\BannerService;
 use app\service\AppHomeNavService;
 use app\service\BuyService;
 use app\service\LayoutService;
+use app\service\ArticleService;
 
 /**
  * 首页
@@ -62,6 +63,7 @@ class Index extends Common
 			'navigation'		=> AppHomeNavService::AppHomeNav(),
 			'banner_list'		=> BannerService::Banner(),
 			'data_list'			=> $data_list,
+			'article_list'		=> ArticleService::HomeArticleList(),
 			'common_cart_total'	=> BuyService::UserCartTotal(['user'=>$this->user]),
 		];
 		return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
