@@ -13,6 +13,7 @@ namespace app\api\controller;
 use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\ArticleService;
+use app\service\ResourcesService;
 
 /**
  * 文章
@@ -130,10 +131,16 @@ class Article extends Common
                 // 访问统计
                 ArticleService::ArticleAccessCountInc(['id'=>$id]);
 
+                // 标签处理，兼容小程序rich-text
+                $data['data'][0]['content'] = ResourcesService::ApMiniRichTextContentHandle($data['data'][0]['content']);
+
+                // 上一篇、下一篇
+                $last_next_data = ArticleService::ArticleLastNextData($id);
+
                 // 返回数据
                 $result = [
-                    'data'          => $data['data'][0],
-                    'category_list' => $article_category['data'],
+                    'data'      => $data['data'][0],
+                    'last_next' => $last_next_data,
                 ];
                 $ret = SystemBaseService::DataReturn($result);
             } else {

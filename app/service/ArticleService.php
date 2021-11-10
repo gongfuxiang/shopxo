@@ -598,7 +598,7 @@ class ArticleService
         ];
         $last = self::DataHandle(Db::name('Article')->where($where)->field($field)->order('id desc')->limit(1)->select()->toArray());
 
-        // 上一条数据
+        // 下一条数据
         $where = [
             ['is_enable', '=', 1],
             ['id', '>', $article_id],
@@ -606,8 +606,8 @@ class ArticleService
         $next = self::DataHandle(Db::name('Article')->where($where)->field($field)->order('id asc')->limit(1)->select()->toArray());
 
         return [
-            'last'  => empty($last) ? [] : $last[0],
-            'next'  => empty($next) ? [] : $next[0],
+            'last'  => empty($last) ? null : $last[0],
+            'next'  => empty($next) ? null : $next[0],
         ];
     }
 }
