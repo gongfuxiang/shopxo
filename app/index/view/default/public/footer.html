@@ -2,23 +2,25 @@
 <textarea id="upload-editor-view" data-url="{{if isset($is_load_upload_editor) and $is_load_upload_editor eq 1}}{{:MyUrl('index/ueditor/index', ['path_type'=>empty($editor_path_type) ? 'common' : $editor_path_type])}}{{/if}}" style="display: none;"></textarea>
 
 <!-- footer start -->
-{{if !isset($is_footer) or $is_footer eq 1}}
+{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
 	{{include file="public/footer_nav" /}}
 {{/if}}
 <!-- footer end -->
 
 <!-- 公共底部钩子 -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-    <div class="plugins-tag">
-        <span>plugins_view_common_bottom</span>
-    </div>
-{{/if}}
-{{if !empty($plugins_view_common_bottom_data) and is_array($plugins_view_common_bottom_data)}}
-    {{foreach $plugins_view_common_bottom_data as $hook}}
-        {{if is_string($hook) or is_int($hook)}}
-            {{$hook|raw}}
-        {{/if}}
-    {{/foreach}}
+{{if !isset($page_pure) or $page_pure neq 1}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <div class="plugins-tag">
+            <span>plugins_view_common_bottom</span>
+        </div>
+    {{/if}}
+    {{if !empty($plugins_view_common_bottom_data) and is_array($plugins_view_common_bottom_data)}}
+        {{foreach $plugins_view_common_bottom_data as $hook}}
+            {{if is_string($hook) or is_int($hook)}}
+                {{$hook|raw}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
 {{/if}}
 </body>
 </html>
@@ -100,7 +102,9 @@
 {{/if}}
 
 <!-- 底部信息 --> 
-{{:MyC('home_footer_info')}}
+{{if !isset($page_pure) or $page_pure neq 1}}
+    {{:MyC('home_footer_info')}}
+{{/if}}
 
 <!-- js钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -131,15 +135,17 @@
 {{/if}}
 
 <!-- 公共页面底部钩子 -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-    <div class="plugins-tag">
-        <span>plugins_common_page_bottom</span>
-    </div>
-{{/if}}
-{{if !empty($plugins_common_page_bottom_data) and is_array($plugins_common_page_bottom_data)}}
-    {{foreach $plugins_common_page_bottom_data as $hook}}
-        {{if is_string($hook) or is_int($hook)}}
-            {{$hook|raw}}
-        {{/if}}
-    {{/foreach}}
+{{if !isset($page_pure) or $page_pure neq 1}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+        <div class="plugins-tag">
+            <span>plugins_common_page_bottom</span>
+        </div>
+    {{/if}}
+    {{if !empty($plugins_common_page_bottom_data) and is_array($plugins_common_page_bottom_data)}}
+        {{foreach $plugins_common_page_bottom_data as $hook}}
+            {{if is_string($hook) or is_int($hook)}}
+                {{$hook|raw}}
+            {{/if}}
+        {{/foreach}}
+    {{/if}}
 {{/if}}

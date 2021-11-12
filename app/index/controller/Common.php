@@ -325,6 +325,9 @@ class Common extends BaseController
 
         // 底部信息
         MyViewAssign('home_theme_footer_bottom_powered', htmlspecialchars_decode(MyC('home_theme_footer_bottom_powered')));
+
+        // 纯净模式
+        MyViewAssign('page_pure', in_array($this->controller_name.$this->action_name, ['usermodallogininfo']) ? 1 : 0);
     }
 
     /**
