@@ -2647,9 +2647,13 @@ function ParamsChecked($data, $params)
 
             // 是否存在于验证数组中
             case 'in' :
-                if(empty($v['checked_data']) || !is_array($v['checked_data']))
+                if(empty($v['checked_data']))
                 {
-                    return '内部调用参数配置有误';
+                    return '指定校验数据为空['.$v['key_name'].']';
+                }
+                if(!is_array($v['checked_data']))
+                {
+                    return '内部调用参数配置有误['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]) || !in_array($data[$v['key_name']], $v['checked_data']))
                 {
@@ -2669,11 +2673,11 @@ function ParamsChecked($data, $params)
             case 'length' :
                 if(!isset($v['checked_data']))
                 {
-                    return '长度规则值未定义';
+                    return '长度规则值未定义['.$v['key_name'].']';
                 }
                 if(!is_string($v['checked_data']))
                 {
-                    return '内部调用参数配置有误';
+                    return '内部调用参数配置有误['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]))
                 {
@@ -2704,7 +2708,7 @@ function ParamsChecked($data, $params)
             case 'fun' :
                 if(empty($v['checked_data']) || !function_exists($v['checked_data']))
                 {
-                    return '验证函数为空或函数未定义';
+                    return '验证函数为空或函数未定义['.$v['key_name'].']';
                 }
                 $fun = $v['checked_data'];
                 if(!isset($data[$v['key_name']]) || !$fun($data[$v['key_name']]))
@@ -2717,7 +2721,7 @@ function ParamsChecked($data, $params)
             case 'min' :
                 if(!isset($v['checked_data']))
                 {
-                    return '验证最小值未定义';
+                    return '验证最小值未定义['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]) || $data[$v['key_name']] < $v['checked_data'])
                 {
@@ -2729,7 +2733,7 @@ function ParamsChecked($data, $params)
             case 'max' :
                 if(!isset($v['checked_data']))
                 {
-                    return '验证最大值未定义';
+                    return '验证最大值未定义['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]) || $data[$v['key_name']] > $v['checked_data'])
                 {
@@ -2741,7 +2745,7 @@ function ParamsChecked($data, $params)
             case 'eq' :
                 if(!isset($v['checked_data']))
                 {
-                    return '验证相等未定义';
+                    return '验证相等未定义['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]) || $data[$v['key_name']] == $v['checked_data'])
                 {
@@ -2753,7 +2757,7 @@ function ParamsChecked($data, $params)
             case 'neq' :
                 if(!isset($v['checked_data']))
                 {
-                    return '验证相等未定义';
+                    return '验证相等未定义['.$v['key_name'].']';
                 }
                 if(!isset($data[$v['key_name']]) || $data[$v['key_name']] != $v['checked_data'])
                 {
@@ -2765,7 +2769,7 @@ function ParamsChecked($data, $params)
             case 'unique' :
                 if(!isset($v['checked_data']))
                 {
-                    return '验证唯一表参数未定义';
+                    return '验证唯一表参数未定义['.$v['key_name'].']';
                 }
                 if(empty($data[$v['key_name']]))
                 {
