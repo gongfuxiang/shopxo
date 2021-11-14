@@ -2039,6 +2039,9 @@ class UserService
             return DataReturn('账号已存在', -10);
         }
 
+        // 用户基础信息处理
+        $data = self::UserBaseHandle($data, $params);
+
         // 用户unionid
         $unionid = self::UserUnionidHandle($params);
         if(!empty($unionid['field']) && !empty($unionid['value']))
@@ -2089,6 +2092,68 @@ class UserService
             return DataReturn('添加成功', 0, $result);
         }
         return DataReturn('添加失败', -100);
+    }
+
+    /**
+     * 用户基础信息处理、注册绑定的时候处理外部传入的基础信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-13
+     * @desc    description
+     * @param   [array]          $data   [用户信息]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserBaseHandle($data, $params)
+    {
+        if(!empty($params) && is_array($params))
+        {
+            // 是否存在基信息
+            // 参数key => dbkey
+            $base_fields = [
+                'nickname'      => [
+                    'key'   => 'nickname',
+                    'type'  => 'string'
+                ],
+                'avatar'        => [
+                    'key'   => 'avatar',
+                    'type'  => 'url'
+                ],
+                'province'      => [
+                    'key'   => 'province',
+                    'type'  => 'string'
+                ],
+                'city'          => [
+                    'key'   => 'city',
+                    'type'  => 'string'
+                ],
+                'gender'        => [
+                    'key'   => 'gender',
+                    'type'  => 'int',
+                    'isset' => 1
+                ],
+            ];
+            foreach($base_fields as $k=>$v)
+            {
+                if(!empty($params[$k]) || (isset($v['isset']) && isset($params[$k])))
+                {
+                    switch($v['type'])
+                    {
+                        // url处理
+                        case 'url' :
+                            $params[$k] = str_replace(['&amp;'], ['&'], $params[$k]);
+                            break;
+
+                        // 整数
+                        case 'int' :
+                            $params[$k] = intval($params[$k]);
+                            break;
+                    }
+                    $data[$v['key']] = $params[$k];
+                }
+            }
+        }
+        return $data;
     }
 
     /**
