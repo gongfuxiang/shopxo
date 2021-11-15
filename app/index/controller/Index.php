@@ -57,6 +57,17 @@ class Index extends Common
         $banner = BannerService::Banner();
         MyViewAssign('banner_list', $banner);
 
+        // H5导航
+        MyViewAssign('navigation', AppHomeNavService::AppHomeNav());
+
+        // 用户订单状态
+        $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
+        MyViewAssign('user_order_status', $user_order_status['data']);
+
+        // 文章
+        $article_list = ArticleService::HomeArticleList();
+        MyViewAssign('article_list', $article_list);
+
         // 数据模式
         $floor_data_type = MyC('home_index_floor_data_type', 0, true);
         MyViewAssign('floor_data_type', $floor_data_type);
@@ -117,19 +128,8 @@ class Index extends Common
                 // 加载布局样式
                 MyViewAssign('is_load_layout', 1);
             } else {
-                // H5导航
-                MyViewAssign('navigation', AppHomeNavService::AppHomeNav());
-
                 // 楼层数据
                 MyViewAssign('goods_floor_list', GoodsService::HomeFloorList());
-
-                // 文章
-                $article_list = ArticleService::HomeArticleList();
-                MyViewAssign('article_list', $article_list);
-
-                // 用户订单状态
-                $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
-                MyViewAssign('user_order_status', $user_order_status['data']);
             }
         }
 

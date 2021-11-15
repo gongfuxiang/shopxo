@@ -220,6 +220,8 @@ class BaseLayout
                                                         $category = json_decode(urldecode($vss['config']['goods_category_value']), true);
                                                         $p['category_id'] = $category[count($category)-1]['id'];
                                                         $p['order_limit_number'] = empty($vss['config']['goods_order_limit_number']) ? 0 : $vss['config']['goods_order_limit_number'];
+                                                        $p['order_by_type'] = isset($vss['config']['goods_order_by_type']) ? $vss['config']['goods_order_by_type'] : 0;
+                                                        $p['order_by_rule'] = isset($vss['config']['goods_order_by_rule']) ? $vss['config']['goods_order_by_rule'] : 0;
                                                         break;
                                                 }
                                                 $res = self::GoodsDataList($p);
@@ -327,7 +329,7 @@ class BaseLayout
                                             // 商品
                                             case 'goods' :
                                                 $p = [
-                                                    'data_type' => $vss['config']['goods_data_type'],
+                                                    'data_type'     => $vss['config']['goods_data_type'],
                                                 ];
                                                 switch($vss['config']['goods_data_type'])
                                                 {
@@ -341,6 +343,8 @@ class BaseLayout
                                                         $category = json_decode(urldecode($vss['config']['goods_category_value']), true);
                                                         $p['category_id'] = $category[count($category)-1]['id'];
                                                         $p['order_limit_number'] = empty($vss['config']['goods_order_limit_number']) ? 0 : $vss['config']['goods_order_limit_number'];
+                                                        $p['order_by_type'] = isset($vss['config']['goods_order_by_type']) ? $vss['config']['goods_order_by_type'] : 0;
+                                                        $p['order_by_rule'] = isset($vss['config']['goods_order_by_rule']) ? $vss['config']['goods_order_by_rule'] : 0;
                                                         break;
                                                 }
                                                 $res = self::GoodsDataList($p);

@@ -16,99 +16,96 @@
 <!-- goods category -->
 {{include file="public/goods_category" /}}
 
-<!-- 数据模式、拖拽默认则不展示轮播和聚合内容 -->
-{{if !isset($floor_data_type) or $floor_data_type neq 2}}
-    <!-- banner -->
-    {{include file="public/home_banner" /}}
+<!-- banner -->
+{{include file="public/home_banner" /}}
 
-    <!-- 轮播上内容 -->
-    <div class="am-container slideall">
-        <!-- 轮播-手机导航 -->
-        {{include file="public/home_nav" /}}
+<!-- 轮播上内容 -->
+<div class="am-container slideall">
+    <!-- 轮播-手机导航 -->
+    {{include file="public/home_nav" /}}
 
-        <!-- 轮播-聚合内容 -->
-        {{if MyC('home_index_banner_right_status', 1) eq 1}}
-            <div class="banner-mixed">
-                <div class="mod-vip">
-                    <div class="m-baseinfo">
-                        <a {{if !empty($user)}}href="{{:MyUrl('index/user/index')}}" target="_blank"{{else /}}href="javascript:;"{{/if}}>
-                            <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="user-avatar" />
-                        </a>
-                        <em>
-                            <span class="s-name am-text-truncate">
-                                {{if !empty($user)}}
-                                    <em>Hi,</em>
-                                    {{if !empty($user['icon'])}}
-                                        <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
-                                    {{/if}}
-                                    <em>{{$user.user_name_view}}</em>
-                                {{else /}}
-                                    <em>您好，欢迎来到</em>
-                                    <em>{{:MyC('home_site_name')}}</em>
+    <!-- 轮播-聚合内容 -->
+    {{if MyC('home_index_banner_right_status', 1) eq 1}}
+        <div class="banner-mixed">
+            <div class="mod-vip">
+                <div class="m-baseinfo">
+                    <a {{if !empty($user)}}href="{{:MyUrl('index/user/index')}}" target="_blank"{{else /}}href="javascript:;"{{/if}}>
+                        <img src="{{if !empty($user['avatar'])}}{{$user.avatar}}{{else /}}{{$attachment_host}}/static/{{$module_name}}/{{$default_theme}}/images/default-user-avatar.jpg{{/if}}" class="user-avatar" />
+                    </a>
+                    <em>
+                        <span class="s-name am-text-truncate">
+                            {{if !empty($user)}}
+                                <em>Hi,</em>
+                                {{if !empty($user['icon'])}}
+                                    <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
                                 {{/if}}
-                            </span>
-                        </em>
-                        {{if !empty($user)}}
-                            <a href="{{:MyUrl('index/user/logout')}}" class="member-logout">退出</a>
-                        {{/if}}
-                    </div>
-                    {{if empty($user) and (!empty($home_user_login_type) or !empty($home_user_reg_type))}}
-                        <div class="member-login">
-                            {{if !empty($home_user_login_type)}}
-                                <a class="am-btn-primary btn am-fl" href="{{:MyUrl('index/user/loginInfo')}}">登录</a>
+                                <em>{{$user.user_name_view}}</em>
+                            {{else /}}
+                                <em>您好，欢迎来到</em>
+                                <em>{{:MyC('home_site_name')}}</em>
                             {{/if}}
-                            {{if !empty($home_user_reg_type)}}
-                                <a class="am-btn-primary btn am-fr" href="{{:MyUrl('index/user/regInfo')}}">注册</a>
-                            {{/if}}
-                        </div>
-                    {{/if}}
+                        </span>
+                    </em>
                     {{if !empty($user)}}
-                        <div class="member-center">
-                            {{if !empty($user_order_status)}}
-                                {{foreach $user_order_status as $v}}
-                                    {{if in_array($v['status'], [1,2,3])}}
-                                        <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
-                                    {{elseif in_array($v['status'], [100]) /}}
-                                        <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
-                                    {{/if}}
-                                {{/foreach}}
-                            {{/if}}
-                        </div>
+                        <a href="{{:MyUrl('index/user/logout')}}" class="member-logout">退出</a>
                     {{/if}}
                 </div>
-                {{if !empty($article_list)}}
-                    <div class="banner-news">
-                        <p class="banner-news-title am-text-truncate">新闻头条</p>
-                        <ul>
-                            {{foreach $article_list as $article}}
-                                <li class="am-text-truncate">
-                                    {{if isset($article['article_category_name']) and isset($article['category_url'])}}
-                                        <span>[</span><a href="{{$article.category_url}}" target="_blank"><p class="news-category-name am-inline-block am-text-truncate">{{$article.article_category_name}}</p></a><span>]</span>
-                                    {{/if}}
-                                    <a href="{{$article.url}}" target="_blank" {{if !empty($article.title_color)}}style="color:{{$article.title_color}};"{{/if}}>{{$article.title}}</a>
-                                </li>
-                            {{/foreach}}
-                        </ul>
-                    </div>
-                {{/if}}
-
-                <!-- 轮播混合数据底部钩子 -->
-                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                    <div class="plugins-tag">
-                        <span>plugins_view_home_banner_mixed_bottom</span>
-                    </div>
-                {{/if}}
-                {{if !empty($plugins_view_home_banner_mixed_bottom_data) and is_array($plugins_view_home_banner_mixed_bottom_data)}}
-                    {{foreach $plugins_view_home_banner_mixed_bottom_data as $hook}}
-                        {{if is_string($hook) or is_int($hook)}}
-                            {{$hook|raw}}
+                {{if empty($user) and (!empty($home_user_login_type) or !empty($home_user_reg_type))}}
+                    <div class="member-login">
+                        {{if !empty($home_user_login_type)}}
+                            <a class="am-btn-primary btn am-fl" href="{{:MyUrl('index/user/loginInfo')}}">登录</a>
                         {{/if}}
-                    {{/foreach}}
+                        {{if !empty($home_user_reg_type)}}
+                            <a class="am-btn-primary btn am-fr" href="{{:MyUrl('index/user/regInfo')}}">注册</a>
+                        {{/if}}
+                    </div>
+                {{/if}}
+                {{if !empty($user)}}
+                    <div class="member-center">
+                        {{if !empty($user_order_status)}}
+                            {{foreach $user_order_status as $v}}
+                                {{if in_array($v['status'], [1,2,3])}}
+                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'status'=>$v['status']])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                                {{elseif in_array($v['status'], [100]) /}}
+                                    <a href="{{:MyUrl('index/order/index', ['is_more'=>1, 'is_comments'=>0, 'status'=>4])}}" target="_blank"><strong>{{$v.count}}</strong>{{$v.name}}</a>
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+                    </div>
                 {{/if}}
             </div>
-        {{/if}}
-    </div>
-{{/if}}
+            {{if !empty($article_list)}}
+                <div class="banner-news">
+                    <p class="banner-news-title am-text-truncate">新闻头条</p>
+                    <ul>
+                        {{foreach $article_list as $article}}
+                            <li class="am-text-truncate">
+                                {{if isset($article['article_category_name']) and isset($article['category_url'])}}
+                                    <span>[</span><a href="{{$article.category_url}}" target="_blank"><p class="news-category-name am-inline-block am-text-truncate">{{$article.article_category_name}}</p></a><span>]</span>
+                                {{/if}}
+                                <a href="{{$article.url}}" target="_blank" {{if !empty($article.title_color)}}style="color:{{$article.title_color}};"{{/if}}>{{$article.title}}</a>
+                            </li>
+                        {{/foreach}}
+                    </ul>
+                </div>
+            {{/if}}
+
+            <!-- 轮播混合数据底部钩子 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_home_banner_mixed_bottom</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_home_banner_mixed_bottom_data) and is_array($plugins_view_home_banner_mixed_bottom_data)}}
+                {{foreach $plugins_view_home_banner_mixed_bottom_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+        </div>
+    {{/if}}
+</div>
 
 <!-- 楼层数据顶部钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
