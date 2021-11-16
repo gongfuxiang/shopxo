@@ -2150,7 +2150,7 @@ function CurlPost($url, $post, $is_json = false, $timeout = 30)
  */
 function FsockopenPost($url, $data = '')
 {
-    $row = parse_MyUrl($url);
+    $row = parse_url($url);
     $host = $row['host'];
     $port = isset($row['port']) ? $row['port'] : 80;
     $file = $row['path'];
