@@ -50,7 +50,7 @@ class BaiduMini
         // 基础信息
         $base = [
             'name'          => '百度',  // 插件名称
-            'version'       => '1.0.0',  // 插件版本
+            'version'       => '1.0.1',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['baidu'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
             'desc'          => '适用百度小程序，百度收银台已集成度小满、支付宝、微信支付，即时到帐支付方式，买家的交易资金直接打入卖家百度账户，快速回笼交易资金。 <a href="https://smartprogram.baidu.com/docs/introduction/pay/" target="_blank">立即申请</a>',  // 插件描述（支持html）
@@ -154,6 +154,8 @@ class BaiduMini
             'appKey'            => $this->config['appkey'],
             'totalAmount'       => (int) (($params['total_price']*1000)/10),
             'tpOrderId'         => $params['order_no'],
+            'notifyUrl'         => $params['notify_url'],
+            'payResultUrl'      => $params['call_back_url'],
             'dealTitle'         => $params['name'],
             'signFieldsRange'   => 1,
         ];
@@ -170,7 +172,6 @@ class BaiduMini
             ],
         ];
         $data['bizInfo'] = json_encode($biz_info, JSON_UNESCAPED_UNICODE);
-
         return DataReturn('处理成功', 0, $data);
     }
 
