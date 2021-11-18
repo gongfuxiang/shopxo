@@ -67,6 +67,15 @@
             </div>
 
             <div class="am-form-group">
+                <label>{{$data.common_app_is_poster_share.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_poster_share.describe}}</span></label>
+                <select name="{{$data.common_app_is_poster_share.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_poster_share.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_app_is_poster_share']['value']) and $data['common_app_is_poster_share']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
+            <div class="am-form-group">
                 <label>{{$data.common_app_is_header_nav_fixed.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_header_nav_fixed.describe}}</span></label>
                 <select name="{{$data.common_app_is_header_nav_fixed.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_header_nav_fixed.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}

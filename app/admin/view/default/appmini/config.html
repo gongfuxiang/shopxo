@@ -8,7 +8,7 @@
 	<div class="content">
 		<!-- 新版本小程序主题提示 -->
 	    <div class="am-alert am-radius">
-	        <p class="am-text-lg">已发布新版本小程序主题，目前新版本小程序主题仅支持微信端，更多端正在紧急适配中，微信小程序建议使用新版本主题</p>
+	        <p class="am-text-lg">已发布新版本小程序主题、建议使用新版本主题，老版本主题已停止维护开发、将在后续版本中剔除。</p>
 	        <p class="am-margin-top-xs">
 	            <a href="https://gitee.com/zongzhige/shopxo-uniapp" target="_blank">查看新版本小程序主题 <i class="am-icon-external-link"></i></a>
 	        </p>
@@ -47,14 +47,6 @@
 							<h3 class="am-panel-title">扩展插件配置</h3>
 						</div>
 						<div class="am-panel-bd">
-							<div class="am-form-group">
-				                <label>{{$data.common_app_is_poster_share.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_poster_share.describe}}</span></label>
-				                <select name="{{$data.common_app_is_poster_share.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_poster_share.error_tips}}" required>
-				                    {{foreach $common_is_text_list as $v}}
-				                        <option value="{{$v.id}}" {{if isset($data['common_app_is_poster_share']['value']) and $data['common_app_is_poster_share']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-				                    {{/foreach}}
-				                </select>
-				            </div>
 							<div class="am-form-group">
 				                <label>{{$data.common_app_is_good_thing.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_good_thing.describe}}</span></label>
 				                <select name="{{$data.common_app_is_good_thing.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_good_thing.error_tips}}" required>
