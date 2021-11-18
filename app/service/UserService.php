@@ -2275,46 +2275,36 @@ class UserService
             $data[$accounts_field] = $params[$accounts_field];
 
             // 小程序请求获取用户信息
-            $open_user = Db::name('User')->where([
+            $current_user = Db::name('User')->where([
                 [$accounts_field, '=', $params[$accounts_field]],
                 ['is_delete_time', '=', 0],
             ])->find();
+        } else {
+            // 当前登录用户
+            $current_user = self::LoginUserInfo();
+        }
 
-            // 如果手机号码存在，并且openid也已存在，则更新掉之前的openid
+        // 用户是否存在已登录
+        if(!empty($current_user))
+        {
+            // 手机帐号信息是否存在
             if(!empty($mobile_user))
             {
-                if(!empty($open_user))
+                // id不一致则提示错误
+                if($current_user['id'] != $mobile_user['id'])
                 {
-                    Db::name('User')->where(['id'=>$open_user['id']])->update([$accounts_field=>'', 'upd_time'=>time()]);
-                }
-            } else {
-                $mobile_user = $open_user;
-            }
-        } else {
-            // 获取当前登录用户
-            // 如果手机号码已经存在帐号、当前用户已登录
-            $user = self::LoginUserInfo();
-            if(!empty($user))
-            {
-                // 手机帐号信息是否存在
-                if(!empty($mobile_user))
-                {
-                    // id不一致则提示错误
-                    if($user['id'] != $mobile_user['id'])
-                    {
-                        return DataReturn('手机已绑定、请换手机号重试', -50);
-                    }
-                    
-                    // 是否与当前帐号的手机号码一致
-                    if(!empty($user['mobile']) && $user['mobile'] == $mobile_user['mobile'])
-                    {
-                        return DataReturn('请使用新的手机号', -51);
-                    }
+                    return DataReturn('手机已绑定其他账号、请换手机号重试', -50);
                 }
 
-                // 当前用户赋值手机帐号信息
-                $mobile_user = $user;
+                // 是否与当前帐号的手机号码一致
+                if(!empty($current_user['mobile']) && $current_user['mobile'] == $mobile_user['mobile'])
+                {
+                    return DataReturn('请使用新的手机号', -51);
+                }
             }
+
+            // 当前用户赋值手机帐号信息
+            $mobile_user = $current_user;
         }
 
         // 不存在添加/则更新
