@@ -8,7 +8,7 @@
 <!-- footer end -->
 
 <!-- 公共底部钩子 -->
-{{if !isset($page_pure) or $page_pure neq 1}}
+{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
         <div class="plugins-tag">
             <span>plugins_view_common_bottom</span>
@@ -102,12 +102,13 @@
 {{/if}}
 
 <!-- 底部信息 --> 
-{{if !isset($page_pure) or $page_pure neq 1}}
+{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
     {{:MyC('home_footer_info')}}
 {{/if}}
 
 <!-- js钩子 -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
     <div class="plugins-tag">
         <span>plugins_js</span>
     </div>
@@ -135,7 +136,7 @@
 {{/if}}
 
 <!-- 公共页面底部钩子 -->
-{{if !isset($page_pure) or $page_pure neq 1}}
+{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
         <div class="plugins-tag">
             <span>plugins_common_page_bottom</span>

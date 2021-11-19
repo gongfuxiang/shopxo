@@ -86,29 +86,35 @@
 </head>
 <body {{if in_array(MiniAppEnv(), MyConfig('shopxo.mini_app_type_list'))}}class="mini-app-env"{{/if}}>
 <!-- css钩子 -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}
-    <div class="plugins-tag">
-        <span>plugins_css</span>
-    </div>
+{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+	    <div class="plugins-tag">
+	        <span>plugins_css</span>
+	    </div>
+	{{/if}}
 {{/if}}
 
 <!-- 公共header内钩子 -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}
-	<div class="plugins-tag">
-		<span>plugins_common_header</span>
-	</div>
+{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+		<div class="plugins-tag">
+			<span>plugins_common_header</span>
+		</div>
+	{{/if}}
 {{/if}}
 
 <!-- 公共顶部钩子 -->
-{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true and (!isset($is_header) or $is_header eq 1)}}
-	<div class="plugins-tag">
-		<span>plugins_view_common_top</span>
-	</div>
-{{/if}}
-{{if !empty($plugins_view_common_top_data) and is_array($plugins_view_common_top_data) and (!isset($is_header) or $is_header eq 1)}}
-	{{foreach $plugins_view_common_top_data as $hook}}
-		{{if is_string($hook) or is_int($hook)}}
-			{{$hook|raw}}
-		{{/if}}
-	{{/foreach}}
+{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+		<div class="plugins-tag">
+			<span>plugins_view_common_top</span>
+		</div>
+	{{/if}}
+	{{if !empty($plugins_view_common_top_data) and is_array($plugins_view_common_top_data)}}
+		{{foreach $plugins_view_common_top_data as $hook}}
+			{{if is_string($hook) or is_int($hook)}}
+				{{$hook|raw}}
+			{{/if}}
+		{{/foreach}}
+	{{/if}}
 {{/if}}
