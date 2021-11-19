@@ -144,6 +144,10 @@ class Baidu
             'sk'        => $this->_appsecret,
         ];
         $result = json_decode($this->HttpRequestPost('https://spapi.baidu.com/oauth/jscode2sessionkey', $data), true);
+        if(empty($result))
+        {
+            return ['status'=>-1, 'msg'=>'授权接口调用失败'];
+        }
         if(!empty($result['openid']))
         {
             // 缓存SessionKey
@@ -151,9 +155,9 @@ class Baidu
 
             // 缓存存储
             MyCache($key, $result);
-            return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result['openid']];
+            return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
         }
-        return ['status'=>-1, 'msg'=>$result['error_description']];
+        return ['status'=>-1, 'msg'=>empty($result['error_description']) ? '授权接口异常错误' : $result['error_description']];
     }
 
     /**

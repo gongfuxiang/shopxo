@@ -111,7 +111,11 @@ class Wechat
         // 请求获取session_key
         $url = 'https://api.weixin.qq.com/sns/jscode2session?appid='.$this->_appid.'&secret='.$this->_appsecret.'&js_code='.$params['authcode'].'&grant_type=authorization_code';
         $result = $this->HttpRequestGet($url);
-        if(!empty($result) && !empty($result['openid']))
+        if(empty($result))
+        {
+            return ['status'=>-1, 'msg'=>'授权接口调用失败'];
+        }
+        if(!empty($result['openid']))
         {
             // 缓存SessionKey
             $key = 'wechat_user_login_'.$result['openid'];
@@ -120,7 +124,7 @@ class Wechat
             MyCache($key, $result);
             return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
         }
-        return ['status'=>-1, 'msg'=>$result['errmsg']];
+        return ['status'=>-1, 'msg'=>empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg']];
     }
 
     /**

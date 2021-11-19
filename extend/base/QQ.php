@@ -107,16 +107,20 @@ class QQ
         // 请求获取session_key
         $url = 'https://api.q.qq.com/sns/jscode2session?appid='.$this->_appid.'&secret='.$this->_appsecret.'&js_code='.$authcode.'&grant_type=authorization_code';
         $result = $this->HttpRequestGet($url);
-        if(!empty($result) && !empty($result['openid']))
+        if(empty($result))
         {
-            // 从缓存获取用户信息
+            return ['status'=>-1, 'msg'=>'授权接口调用失败'];
+        }
+        if(!empty($result['openid']))
+        {
+            // 缓存SessionKey
             $key = 'qq_user_login_'.$result['openid'];
 
             // 缓存存储
             MyCache($key, $result);
-            return $result['openid'];
+            return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
         }
-        return false;
+        return ['status'=>-1, 'msg'=>empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg']];
     }
 
     /**

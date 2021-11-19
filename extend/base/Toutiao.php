@@ -56,11 +56,11 @@ class Toutiao
         // 获取授权
         $url = 'https://developer.toutiao.com/api/apps/jscode2session?appid='.$this->config['appid'].'&secret='.$this->config['secret'].'&code='.$params['authcode'];
         $result = json_decode(RequestGet($url), true);
-        if(empty($result['openid']))
+        if(empty($result) || empty($result['openid']))
         {
-            return ['status'=>-1, 'msg'=>$result['errmsg']];
+            return ['status'=>-1, 'msg'=>empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg']];
         }
-        return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result['openid']];
+        return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
     }
 
     /**

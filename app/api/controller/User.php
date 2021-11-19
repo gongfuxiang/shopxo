@@ -383,7 +383,7 @@ class User extends Common
         if($result['status'] == 0)
         {
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $result);
+            $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $result['data']['openid']);
             if(!empty($user))
             {
                 // 用户状态
@@ -395,7 +395,7 @@ class User extends Common
                     $ret = DataReturn('授权登录成功', 0, $user);
                 }
             } else {
-                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']]);
+                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid']]);
             }
         } else {
             $ret = DataReturn($result['msg'], -10);
@@ -488,10 +488,10 @@ class User extends Common
         if($result['status'] == 0)
         {
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $result);
+            $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $result['data']['openid']);
             if(empty($user))
             {
-                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']]);
+                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid']]);
             } else {
                 // 用户状态
                 $ret = UserService::UserStatusCheck('id', $user['id']);
@@ -579,13 +579,13 @@ class User extends Common
         {
             // 授权
             $result = (new \base\QQ(MyC('common_app_mini_qq_appid'), MyC('common_app_mini_qq_appsecret')))->GetAuthSessionKey($this->data_post['authcode']);
-            if($result !== false)
+            if($result['status'] == 0)
             {
                 // 先从数据库获取用户信息
-                $user = UserService::AppUserInfoHandle(null, 'qq_openid', $result);
+                $user = UserService::AppUserInfoHandle(null, 'qq_openid', $result['data']['openid']);
                 if(empty($user))
                 {
-                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result]);
+                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid']]);
                 } else {
                     // 用户状态
                     $ret = UserService::UserStatusCheck('id', $user['id']);
@@ -597,7 +597,7 @@ class User extends Common
                     }
                 }
             } else {
-                $ret = DataReturn('授权登录失败', -100);
+                $ret = DataReturn($result['msg'], -10);
             }
         } else {
             $ret = DataReturn('授权码为空', -1);
