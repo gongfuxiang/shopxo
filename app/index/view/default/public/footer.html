@@ -109,9 +109,10 @@
 <!-- js钩子 -->
 {{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-    <div class="plugins-tag">
-        <span>plugins_js</span>
-    </div>
+        <div class="plugins-tag">
+            <span>plugins_js</span>
+        </div>
+    {{/if}}
 {{/if}}
 {{if !empty($plugins_js_data) and is_array($plugins_js_data)}}
     {{foreach $plugins_js_data as $hook}}
