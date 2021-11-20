@@ -610,5 +610,36 @@ class ArticleService
             'next'  => empty($next) ? null : $next[0],
         ];
     }
+
+    /**
+     * 获取分类和所有文章
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-10-19
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function ArticleCategoryListContent($params = [])
+    {
+        $data = Db::name('ArticleCategory')->field('id,name')->where(['is_enable'=>1])->order('id asc, sort asc')->select()->toArray();
+        if(!empty($data))
+        {
+            foreach($data as &$v)
+            {
+                $items = Db::name('Article')->field('id,title,title_color')->where(['article_category_id'=>$v['id'], 'is_enable'=>1])->select()->toArray();
+                if(!empty($items))
+                {
+                    foreach($items as &$vs)
+                    {
+                        // url
+                        $vs['url'] = (APPLICATION == 'web') ? MyUrl('index/article/index', ['id'=>$vs['id']]) : '/pages/article-detail/article-detail?id='.$vs['id'];
+                    }
+                }
+                $v['items'] = $items;
+            }
+        }
+        return DataReturn('处理成功', 0, $data);
+    }
 }
 ?>
