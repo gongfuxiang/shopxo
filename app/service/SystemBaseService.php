@@ -191,10 +191,10 @@ class SystemBaseService
             'currency_symbol'   => ResourcesService::CurrencyDataSymbol(),
 
             // 快捷入口信息
-            'quick_nav'         => QuickNavService::QuickNav(),
+            'quick_nav'         => QuickNavService::QuickNav($params),
 
             // 插件配置信息
-            'plugins_base'      => PluginsService::PluginsBaseList(),
+            'plugins_base'      => PluginsService::PluginsBaseList($params),
         ];
 
         // 公共配置信息钩子

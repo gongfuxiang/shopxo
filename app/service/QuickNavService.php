@@ -264,7 +264,7 @@ class QuickNavService
      * @version 1.0.0
      * @date    2018-11-19
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入参数]
      */
     public static function QuickNav($params = [])
     {
