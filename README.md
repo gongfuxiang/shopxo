@@ -59,6 +59,7 @@
 * GitHub：https://github.com/gongfuxiang/shopxo-uniapp
 * Coding：https://zongzhige.coding.net/public/shopxo/uniapp/git
 * CodeChina：https://codechina.csdn.net/zongzhige/shopxo-uniapp
+* uni-app：https://ext.dcloud.net.cn/plugin?id=6380
 
 ### 部分功能特性
 ~~~
