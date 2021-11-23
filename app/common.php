@@ -1594,7 +1594,8 @@ function MyUrl($path, $params = [])
     $url = (string) $url;
 
     // 去除组名称
-    $join = ($script_name != 'index.php' || $url_model == 0) ? '?s=' : '/';
+    $ds = ($script_name == 'index.php') ? '/' : '';
+    $join = ($script_name != 'index.php' || $url_model == 0) ? $ds.'?s=' : '/';
     $len = $is_api ? 4 : ($is_install ? 8 : 6);
     $url = str_replace('/'.$path, $join.substr($path, $len), $url);
 
