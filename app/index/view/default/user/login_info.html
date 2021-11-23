@@ -17,7 +17,7 @@
     <div class="am-container user-login-container">
         <div class="am-hide-sm-only am-u-md-6 am-u-lg-8 am-vertical-align am-text-center container-left">
             {{if !empty($user_login_left_data['images'])}}
-                <a href="{{if empty($user_login_left_data['url'])}}javascript:;{{else /}}{{$user_login_left_data.url}}{{/if}}" target="_blank">
+                <a {{if empty($user_login_left_data['url'])}}href="javascript:;"{{else /}}href="{{$user_login_left_data.url}}" target="_blank"{{/if}}>
                     <img src="{{$user_login_left_data.images}}" class="am-vertical-align-middle" alt="用户登录" />
                 </a>
             {{/if}}
