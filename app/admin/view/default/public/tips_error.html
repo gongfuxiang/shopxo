@@ -3,11 +3,15 @@
 <!-- right content start  -->
 <div class="content-right">
     <div class="content">
-        <div class="table-no"><i class="am-icon-warning cr-999"></i>
-            {{if isset($msg)}}
-                {{$msg}}
-            {{else /}}
-                异常错误
+        <div class="table-no">
+            <p>
+                <i class="am-icon-warning cr-999"></i>
+                {{if isset($msg)}}{{$msg}}{{else /}}异常错误{{/if}}
+            </p>
+
+            <!-- 扩展内容  -->
+            {{if !empty($ext_html)}}
+                {{$ext_html|raw}}
             {{/if}}
         </div>
     </div>

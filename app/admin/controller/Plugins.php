@@ -104,10 +104,16 @@ class Plugins extends Common
             return ApiService::ApiDataReturn(($ret['code'] == 0) ? $ret['data'] : $ret);
         }
 
+        // 正确则返回视图内容
         if($ret['code'] == 0)
         {
-            // 默认则是视图内容
             return $ret['data'];
+        }
+
+        // 是否未绑定商店账号
+        if($ret['code'] == -300)
+        {
+            MyViewAssign('ext_html', '<p class="am-margin-top-sm"><button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> 绑定ShopXO商店账户</button></p>');
         }
 
         // 调用失败

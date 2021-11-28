@@ -188,7 +188,7 @@ class PluginsUpgradeService
         $password = MyC('common_store_password');
         if(empty($accounts) || empty($password))
         {
-            return DataReturn('请先绑定应用商店帐号', -1);
+            return DataReturn('请先绑定应用商店帐号', -300);
         }
 
         // 获取信息
