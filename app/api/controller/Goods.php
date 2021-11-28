@@ -18,7 +18,7 @@ use app\service\GoodsCommentsService;
 use app\service\ResourcesService;
 use app\service\GoodsFavorService;
 use app\service\GoodsBrowseService;
-use app\service\NavigationService;
+use app\service\AppService;
 
 /**
  * 商品
@@ -114,7 +114,7 @@ class Goods extends Common
                 $middle_tabs_nav = GoodsService::GoodsDetailMiddleTabsNavList($goods);
 
                 // 导航更多列表
-                $nav_more_list = NavigationService::PageNavMoreList(['page'=>'goods']);
+                $nav_more_list = AppService::GoodsNavMoreList(['page'=>'goods']);
 
                 // 商品购买按钮列表
                 $buy_button = GoodsService::GoodsBuyButtonList($goods);

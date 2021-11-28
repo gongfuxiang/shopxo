@@ -1085,59 +1085,5 @@ class NavigationService
 
         return $data;
     }
-
-    /**
-     * 导航更多列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-03-15
-     * @desc    description
-     * @param   [array]           $params [输入信息]
-     */
-    public static function PageNavMoreList($params = [])
-    {
-        $data = [];
-        if(!empty($params['page']))
-        {
-            switch($params['page'])
-            {
-                // 商品页面
-                // icon 参考各终端
-                // web http://amazeui.shopxo.net/css/icon
-                // uniapp https://hellouniapp.dcloud.net.cn/pages/extUI/icons/icons
-                case 'goods' :
-                    $data = [
-                        [
-                            'name'  => '我的收藏',
-                            'url'   => '/pages/user-favor/user-favor',
-                            'icon'  => 'heart'
-                        ],
-                        [
-                            'name'  => '我浏览过',
-                            'url'   => '/pages/user-goods-browse/user-goods-browse',
-                            'icon'  => 'eye'
-                        ],
-                        [
-                            'name'  => '回到首页',
-                            'url'   => '/pages/index/index',
-                            'icon'  => 'home'
-                        ]
-                    ];
-                    break;
-            }
-        }
-
-        // 导航更多信息钩子
-        $hook_name = 'plugins_service_page_navigation_more_list_handle';
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'params'        => &$params,
-            'data'          => &$data,
-        ]);
-
-        return $data;
-    }
 }
 ?>

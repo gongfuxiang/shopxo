@@ -18,6 +18,8 @@ use app\service\AppHomeNavService;
 use app\service\BuyService;
 use app\service\LayoutService;
 use app\service\ArticleService;
+use app\service\MessageService;
+use app\service\AppService;
 
 /**
  * 首页
@@ -58,13 +60,22 @@ class Index extends Common
         	$data_list = GoodsService::HomeFloorList();
         }
 
+        // 购物车数量
+        $common_cart_total = BuyService::UserCartTotal(['user'=>$this->user]);
+
+        // 未读消息总数
+        $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
+        $common_message_total = MessageService::UserMessageTotal($params);
+
 		// 返回数据
 		$result = [
-			'navigation'		=> AppHomeNavService::AppHomeNav(),
-			'banner_list'		=> BannerService::Banner(),
-			'data_list'			=> $data_list,
-			'article_list'		=> ArticleService::HomeArticleList(),
-			'common_cart_total'	=> BuyService::UserCartTotal(['user'=>$this->user]),
+			'navigation'			=> AppHomeNavService::AppHomeNav(),
+			'banner_list'			=> BannerService::Banner(),
+			'data_list'				=> $data_list,
+			'article_list'			=> ArticleService::HomeArticleList(),
+			'right_icon_list'		=> AppService::HomeRightIconList(['message_total'=>$common_message_total]),
+			'common_cart_total'		=> $common_cart_total,
+			'common_message_total'	=> $common_message_total,
 		];
 		return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
 	}
