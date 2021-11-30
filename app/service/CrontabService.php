@@ -126,7 +126,7 @@ class CrontabService
                     if($ret['code'] == 0)
                     {
                         // 订单商品销量增加
-                        $ret = OrderService::GoodsSalesCountInc(['order_id'=>$v['id'], 'order_status'=>$upd_data['status']]);
+                        $ret = OrderService::GoodsSalesCountInc(['order_id'=>$v['id'], 'opt_type'=>'collect']);
                         if($ret['code'] == 0)
                         {
                             // 用户消息
