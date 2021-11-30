@@ -124,25 +124,6 @@ class User extends Common
     }
 
     /**
-     * 用户-验证码显示
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-03-04
-     * @desc    description
-     */
-    public function UserVerifyEntry()
-    {
-        $params = [
-                'width'         => 100,
-                'height'        => 28,
-                'key_prefix'    => input('type', 'user_reg'),
-            ];
-        $verify = new \base\Verify($params);
-        $verify->Entry();
-    }
-
-    /**
      * app用户手机绑定
      * @author  Devil
      * @blog    http://gong.gg/
@@ -168,7 +149,24 @@ class User extends Common
         return ApiService::ApiDataReturn(UserService::AppMobileBindVerifySend($this->data_post));
     }
 
-
+    /**
+     * 用户-验证码显示
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-04
+     * @desc    description
+     */
+    public function UserVerifyEntry()
+    {
+        $params = [
+                'width'         => 100,
+                'height'        => 28,
+                'key_prefix'    => input('type', 'user_reg'),
+            ];
+        $verify = new \base\Verify($params);
+        $verify->Entry();
+    }
 
     /**
      * 支付宝用户授权

@@ -766,7 +766,7 @@ class UserService
 
         // 获取用户账户信息
         $where = [$ac['data'] => $params['accounts'], 'is_delete_time'=>0];
-        $user = Db::name('User')->field('id,pwd,salt,status')->where($where)->find();
+        $user = Db::name('User')->where($where)->find();
         if(empty($user))
         {
             return DataReturn('帐号不存在', -3);
@@ -804,14 +804,38 @@ class UserService
 
         // 返回数据,更新数据库
         $data = [
-                'upd_time'  =>  time(),
-            ];
+            'upd_time'  =>  time(),
+        ];
         if($params['type'] == 'username')
         {
             $salt = GetNumberCode(6);
             $data['salt'] = $salt;
             $data['pwd'] = LoginPwdEncryption($params['pwd'], $salt);
         }
+
+        // 用户openid
+        if(empty($user[APPLICATION_CLIENT_TYPE.'_openid']))
+        {
+            $openid = self::UserOpenidHandle($params);
+            if(!empty($openid['field']) && !empty($openid['value']))
+            {
+                // openid放入用户data中
+                $data[$openid['field']] = $openid['value'];
+            }
+        }
+
+        // 用户unionid
+        if(empty($user[APPLICATION_CLIENT_TYPE.'_unionid']))
+        {
+            $unionid = self::UserUnionidHandle($params);
+            if(!empty($unionid['field']) && !empty($unionid['value']))
+            {
+                // unionid放入用户data中
+                $data[$unionid['field']] = $unionid['value'];
+            }
+        }
+
+        // 更新用户信息
         if(Db::name('User')->where(['id'=>$user['id']])->update($data) !== false)
         {
             // 清除图片验证码
@@ -1230,7 +1254,7 @@ class UserService
             return DataReturn($ret, -1);
         }
 
-        // 是否开启用户注册
+        // 是否开启用户登录
         if(!in_array($params['type'], MyC('home_user_login_type', [], true)))
         {
             return DataReturn('暂时关闭登录', -1);
@@ -1858,6 +1882,33 @@ class UserService
     }
 
     /**
+     * 用户openid处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-02-11
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserOpenidHandle($params = [])
+    {
+        $field = null;
+        $value = null;
+        $fields_arr = array_column(MyConst('common_appmini_type'), 'value');
+        foreach($fields_arr as $type)
+        {
+            $openid = $type.'_openid';
+            if(!empty($params[$openid]))
+            {
+                $field = $openid;
+                $value = $params[$openid];
+                break;
+            }
+        }
+        return ['field'=>$field, 'value'=>$value];
+    }
+
+    /**
      * 用户unionid处理
      * @author  Devil
      * @blog    http://gong.gg/
@@ -1873,8 +1924,8 @@ class UserService
         // QQ用户unionid
         $field = null;
         $value = null;
-        $unionid_all = ['weixin_unionid', 'qq_unionid'];
-        foreach($unionid_all as $unionid)
+        $fields_arr = ['weixin_unionid', 'qq_unionid'];
+        foreach($fields_arr as $unionid)
         {
             if(!empty($params[$unionid]))
             {
@@ -2041,6 +2092,14 @@ class UserService
 
         // 用户基础信息处理
         $data = self::UserBaseHandle($data, $params);
+
+        // 用户openid
+        $openid = self::UserOpenidHandle($params);
+        if(!empty($openid['field']) && !empty($openid['value']))
+        {
+            // openid放入用户data中
+            $data[$openid['field']] = $openid['value'];
+        }
 
         // 用户unionid
         $unionid = self::UserUnionidHandle($params);

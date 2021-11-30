@@ -92,9 +92,9 @@ class ConstService
 
             // 用户注册类型列表
             'common_user_reg_type_list'          =>  [
-                0 => ['value' => 'sms', 'name' => '短信'],
-                1 => ['value' => 'email', 'name' => '邮箱'],
-                2 => ['value' => 'username', 'name' => '用户名'],
+                0 => ['value' => 'username', 'name' => '账号'],
+                1 => ['value' => 'sms', 'name' => '短信'],
+                2 => ['value' => 'email', 'name' => '邮箱'],
             ],
 
             // 登录方式
