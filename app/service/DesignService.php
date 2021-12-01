@@ -46,6 +46,12 @@ class DesignService
         {
             foreach($data as &$v)
             {
+                // logo
+                if(array_key_exists('logo', $v))
+                {
+                    $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
+                }
+
                 // 时间
                 if(array_key_exists('add_time', $v))
                 {
