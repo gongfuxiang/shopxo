@@ -268,17 +268,19 @@ class AlipayCert
         $parameter['sign'] = $this->MyRsaSign($this->GetSignContent($parameter));
 
         // 接口则直接返回
+        $html = $this->BuildRequestForm($parameter);
         if(APPLICATION == 'app')
         {
             $result = [
                 'data'  => $parameter,
+                'html'  => $html,
                 'url'   => 'https://openapi.alipay.com/gateway.do?charset=utf-8',
             ];
             return DataReturn('success', 0, $result);
         }
-        
+
         // web端输出执行form表单post提交
-        exit($this->BuildRequestForm($parameter));
+        exit($html);
     }
 
     /**
@@ -317,8 +319,20 @@ class AlipayCert
         // 生成签名参数+签名
         $parameter['sign'] = $this->MyRsaSign($this->GetSignContent($parameter));
         
-        // 输出执行form表单post提交
-        exit($this->BuildRequestForm($parameter));
+        // 接口则直接返回
+        $html = $this->BuildRequestForm($parameter);
+        if(APPLICATION == 'app')
+        {
+            $result = [
+                'data'  => $parameter,
+                'html'  => $html,
+                'url'   => 'https://openapi.alipay.com/gateway.do?charset=utf-8',
+            ];
+            return DataReturn('success', 0, $result);
+        }
+
+        // web端输出执行form表单post提交
+        exit($html);
     }
 
     /**
