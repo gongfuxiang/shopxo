@@ -227,23 +227,35 @@ class QQ
                 // 手机模式下直接返回微信的支付url地址，打开支付（缺点是支付后会直接关闭站点）
                 // QQ支付本身没有提供H5支付方案，这种方式也可以直接支付（缺点是支付后不能回调到原来浏览器）
                 // 公众号后续再采用公众号的方式支付，体验会更好一些，只是可以不关闭站点
-                if(ApplicationClientType() == 'h5')
+                if(APPLICATION == 'web' && IsMobile())
                 {
                     $result = DataReturn('success', 0, $data['code_url']);
                 } else {
-                    if(empty($params['ajax_url']))
+                    if(empty($params['check_url']))
                     {
                         return DataReturn('支付状态校验地址不能为空', -50);
                     }
-                    $pay_params = [
-                        'url'       => urlencode(base64_encode($data['code_url'])),
-                        'order_no'  => $params['order_no'],
-                        'name'      => urlencode('QQ支付'),
-                        'msg'       => urlencode('打开QQAPP扫一扫进行支付'),
-                        'ajax_url'  => urlencode(base64_encode($params['ajax_url'])),
-                    ];
-                    $url = MyUrl('index/pay/qrcode', $pay_params);
-                    $result = DataReturn('success', 0, $url);
+                    if(APPLICATION == 'app')
+                    {
+                        $data = [
+                            'pay_url'       => $data['code_url'],
+                            'qrcode_url'    => MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($data['code_url']))]),
+                            'order_no'      => $params['order_no'],
+                            'name'          => 'QQ支付',
+                            'msg'           => '打开QQAPP扫一扫进行支付',
+                            'check_url'     => $params['check_url'],
+                        ];
+                    } else {
+                        $pay_params = [
+                            'url'       => urlencode(base64_encode($data['code_url'])),
+                            'order_no'  => $params['order_no'],
+                            'name'      => urlencode('QQ支付'),
+                            'msg'       => urlencode('打开QQAPP扫一扫进行支付'),
+                            'check_url' => urlencode(base64_encode($params['check_url'])),
+                        ];
+                        $data = MyUrl('index/pay/qrcode', $pay_params);
+                    }
+                    $result = DataReturn('success', 0, $data);
                 }
                 break;
 

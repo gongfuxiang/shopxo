@@ -272,5 +272,19 @@ class Order extends Common
         return ApiService::ApiDataReturn(OrderService::OrderDelete($params));
     }
 
+    /**
+     * 支付状态校验
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-01-08
+     * @desc    description
+     */
+    public function PayCheck()
+    {
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        return ApiService::ApiDataReturn(OrderService::OrderPayCheck($params));
+    }
 }
 ?>

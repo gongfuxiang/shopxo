@@ -271,7 +271,7 @@ class OrderService
             'call_back_url' => $call_back_url,
             'redirect_url'  => $redirect_url,
             'site_name'     => MyC('home_site_name', 'ShopXO', true),
-            'ajax_url'      => MyUrl('index/order/paycheck'),
+            'check_url'     => MyUrl('index/order/paycheck'),
         ];
 
         // 发起支付处理钩子

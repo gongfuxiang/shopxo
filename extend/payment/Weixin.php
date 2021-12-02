@@ -249,19 +249,30 @@ class Weixin
         {
             // web支付
             case 'NATIVE' :
-                if(empty($params['ajax_url']))
+                if(empty($params['check_url']))
                 {
                     return DataReturn('支付状态校验地址不能为空', -50);
                 }
-                $pay_params = [
-                    'url'       => urlencode(base64_encode($data['code_url'])),
-                    'order_no'  => $params['order_no'],
-                    'name'      => urlencode('微信支付'),
-                    'msg'       => urlencode('打开微信APP扫一扫进行支付'),
-                    'ajax_url'  => urlencode(base64_encode($params['ajax_url'])),
-                ];
-                $url = MyUrl('index/pay/qrcode', $pay_params);
-                $result = DataReturn('success', 0, $url);
+                if(APPLICATION == 'app')
+                {
+                    $data = [
+                        'qrcode_url'    => MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($data['code_url']))]),
+                        'order_no'      => $params['order_no'],
+                        'name'          => '微信支付',
+                        'msg'           => '打开微信APP扫一扫进行支付',
+                        'check_url'     => $params['check_url'],
+                    ];
+                } else {
+                    $pay_params = [
+                        'url'       => urlencode(base64_encode($data['code_url'])),
+                        'order_no'  => $params['order_no'],
+                        'name'      => urlencode('微信支付'),
+                        'msg'       => urlencode('打开微信APP扫一扫进行支付'),
+                        'check_url' => urlencode(base64_encode($params['check_url'])),
+                    ];
+                    $data = MyUrl('index/pay/qrcode', $pay_params);
+                }
+                $result = DataReturn('success', 0, $data);
                 break;
 
             // h5支付
@@ -277,19 +288,20 @@ class Weixin
 
             // 微信中/小程序支付
             case 'JSAPI' :
-                $pay_data = array(
+                $pay_data = [
                     'appId'         => $pay_params['appid'],
                     'package'       => 'prepay_id='.$data['prepay_id'],
                     'nonceStr'      => md5(time().rand()),
                     'signType'      => $pay_params['sign_type'],
                     'timeStamp'     => (string) time(),
-                );
+                ];
                 $pay_data['paySign'] = $this->GetSign($pay_data);
 
                 // 微信中
                 if(APPLICATION == 'web' && IsWeixinEnv())
                 {
-                    $this->PayHtml($pay_data, $redirect_url);
+                    $html = $this->PayHtml($pay_data, $redirect_url);
+                    die($pay_data['html']);
                 } else {
                     $result = DataReturn('success', 0, $pay_data);
                 }
@@ -324,10 +336,16 @@ class Weixin
     private function PayHtml($pay_data, $redirect_url)
     {
         // 支付代码
-        exit('<html>
+        return '<html>
             <head>
                 <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
                 <title>微信安全支付</title>
+                <meta name="apple-mobile-web-app-capable" content="yes">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1">
+                <body style="text-align:center;padding-top:10%;">
+                    <p style="color:#999;">正在支付中...</p>
+                    <p style="color:#f00;margin-top:20px;">请不要关闭页面！</p>
+                </body>
                 <script type="text/javascript">
                     function onBridgeReady()
                     {
@@ -359,9 +377,8 @@ class Weixin
                        onBridgeReady();
                     }
                 </script>
-                </head>
-            <body>
-        </html>');
+            </head>
+        </html>';
     }
 
     /**
@@ -490,10 +507,12 @@ class Weixin
             'android'   => 'APP',
         ];
 
-        // 微信中打开
-        if($client_type == 'h5' && IsWeixinEnv())
+        // h5
+        if($client_type == 'h5')
         {
-            $type_all['h5'] = $type_all['weixin'];
+            // 微信中打开
+            // h5则使用NATIVE二维码的方式
+            $type_all['h5'] = IsWeixinEnv() ? $type_all['weixin'] : $type_all['pc'];
         }
 
         return isset($type_all[$client_type]) ? $type_all[$client_type] : '';

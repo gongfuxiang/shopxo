@@ -52,7 +52,7 @@ class AlipayFace
             'name'          => '支付宝',  // 插件名称
             'version'       => '1.0.0',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
-            'apply_terminal'=> ['pc', 'h5'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
+            'apply_terminal'=> ['pc', 'h5', 'weixin'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
             'desc'          => '支付宝当面付、适用web端，用户主动扫码支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="http://www.alipay.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
             'author'        => 'Devil',  // 开发者
             'author_url'    => 'http://shopxo.net/',  // 开发者主页
@@ -171,19 +171,31 @@ class AlipayFace
         // 状态
         if(isset($result[$key]['code']) && $result[$key]['code'] == 10000 && !empty($result[$key]['qr_code']))
         {
-            if(empty($params['ajax_url']))
+            if(empty($params['check_url']))
             {
                 return DataReturn('支付状态校验地址不能为空', -50);
             }
-            $pay_params = [
-                'url'       => urlencode(base64_encode($result[$key]['qr_code'])),
-                'order_no'  => $params['order_no'],
-                'name'      => urlencode('支付宝支付'),
-                'msg'       => urlencode('打开支付宝APP扫一扫进行支付'),
-                'ajax_url'  => urlencode(base64_encode($params['ajax_url'])),
-            ];
-            $url = MyUrl('index/pay/qrcode', $pay_params);
-            return DataReturn('success', 0, $url);
+            if(APPLICATION == 'app')
+            {
+                $data = [
+                    'pay_url'       => $result[$key]['qr_code'],
+                    'qrcode_url'    => MyUrl('index/qrcode/index', ['content'=>urlencode(base64_encode($result[$key]['qr_code']))]),
+                    'order_no'      => $params['order_no'],
+                    'name'          => '支付宝支付',
+                    'msg'           => '打开支付宝APP扫一扫进行支付',
+                    'check_url'     => $params['check_url'],
+                ];
+            } else {
+                $pay_params = [
+                    'url'       => urlencode(base64_encode($result[$key]['qr_code'])),
+                    'order_no'  => $params['order_no'],
+                    'name'      => urlencode('支付宝支付'),
+                    'msg'       => urlencode('打开支付宝APP扫一扫进行支付'),
+                    'check_url' => urlencode(base64_encode($params['check_url'])),
+                ];
+                $data = MyUrl('index/pay/qrcode', $pay_params);
+            }
+            return DataReturn('success', 0, $data);
         }
 
         // 直接返回支付信息
