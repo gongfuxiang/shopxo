@@ -511,8 +511,16 @@ class Weixin
         if($client_type == 'h5')
         {
             // 微信中打开
-            // h5则使用NATIVE二维码的方式
-            $type_all['h5'] = IsWeixinEnv() ? $type_all['weixin'] : $type_all['pc'];
+            if(IsWeixinEnv())
+            {
+                $type_all['h5'] = $type_all['weixin'];
+            } else {
+                // 非手机访问h5则使用NATIVE二维码的方式
+                if(!IsMobile())
+                {
+                    $type_all['h5'] = $type_all['pc'];
+                }
+            }
         }
 
         return isset($type_all[$client_type]) ? $type_all[$client_type] : '';
