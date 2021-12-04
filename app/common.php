@@ -1186,7 +1186,6 @@ function HexToRgb($hex_color) {
             'b' => hexdec(substr($color, 4, 2))
         ];
     } else {
-        $color = $hex_color;
         $r = substr($color, 0, 1) . substr($color, 0, 1);
         $g = substr($color, 1, 1) . substr($color, 1, 1);
         $b = substr($color, 2, 1) . substr($color, 2, 1);
