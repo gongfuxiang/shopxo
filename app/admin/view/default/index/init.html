@@ -301,22 +301,22 @@
 						<span class="title">系统信息</span>
 					</div>
 					<dl class="dl-content">
-						<dt>软件版本</dt>
+						<dt class="am-text-truncate">软件版本</dt>
 						<dd>{{$data.ver}}</dd>
 
-						<dt>操作系统</dt>
+						<dt class="am-text-truncate">操作系统</dt>
 						<dd>{{$data.os_ver}}</dd>
 
-						<dt>PHP版本</dt>
+						<dt class="am-text-truncate">PHP版本</dt>
 						<dd>{{$data.php_ver}}</dd>
 
-						<dt>MySQL版本</dt>
+						<dt class="am-text-truncate">MySQL版本</dt>
 						<dd>{{$data.mysql_ver}}</dd>
 
-						<dt>服务器端信息</dt>
+						<dt class="am-text-truncate">服务器端信息</dt>
 						<dd>{{$data.server_ver}}</dd>
 
-						<dt>当前域名</dt>
+						<dt class="am-text-truncate">当前域名</dt>
 						<dd>{{$data.host}}</dd>
 					</dl>
 				</li>
@@ -327,36 +327,36 @@
 						<span class="title">开发团队</span>
 					</div>
 					<dl class="dl-content">
-						<dt>公司官网</dt>
+						<dt class="am-text-truncate">公司官网</dt>
 						<dd>
 							<a href="http://zongzhige.com/" target="_blank">上海纵之格科技有限公司</a>
 						</dd>
 
-						<dt>技术支持</dt>
+						<dt class="am-text-truncate">技术支持</dt>
 						<dd>
 							<a href="http://shopxo.net/" target="_blank">ShopXO企业级电商系统提供商</a>
 						</dd>
 
 						{{if !empty($site_store_links) and !empty($site_store_links['community_website'])}}
-							<dt>交流社区</dt>
+							<dt class="am-text-truncate">交流社区</dt>
 							<dd>
 								<a href="{{$site_store_links.community_website}}" target="_blank">ShopXO交流社区</a>
 							</dd>
 						{{/if}}
 
-						<dt>开源协议</dt>
+						<dt class="am-text-truncate">开源协议</dt>
 						<dd>
 							<a href="{{if !empty($site_store_links) and !empty($site_store_links['source_license'])}}{{$site_store_links.source_license}}{{else /}}https://opensource.org/licenses/mit-license.php{{/if}}" target="_blank">查看开源协议</a>
 						</dd>
 
 						{{if !empty($site_store_links) and !empty($site_store_links['system_update_log'])}}
-							<dt>更新日志</dt>
+							<dt class="am-text-truncate">更新日志</dt>
 							<dd>
 								<a href="{{$site_store_links.system_update_log}}" target="_blank">查看更新日志</a>
 							</dd>
 						{{/if}}
 
-						<dt>研发成员</dt>
+						<dt class="am-text-truncate">研发成员</dt>
 						<dd>
 							<a href="http://gong.gg/" target="_blank">龚哥哥</a>
 						</dd>

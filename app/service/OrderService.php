@@ -356,7 +356,10 @@ class OrderService
 
             return $ret;
         }
-        return DataReturn(empty($ret['msg']) ? '支付接口异常' : $ret['msg'], isset($ret['code']) ? $ret['code'] : -1, isset($ret['data']) ? $ret['data'] : '');
+        return DataReturn(
+            empty($ret['msg']) ? '支付接口异常' : $ret['msg'],
+            isset($ret['code']) ? $ret['code'] : -1,
+            isset($ret['data']) ? $ret['data'] : '');
     }
 
     /**

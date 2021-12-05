@@ -4,7 +4,7 @@
 			<li>
 				<a href="javascript:;" data-type="menu" data-url="{{:MyUrl('admin/index/init')}}" class="common-left-menu-active">
 					<span class="iconfont icon-shouye"></span>
-					<span class="nav-name">首页</span>
+					<p class="nav-name am-inline-block am-text-break">首页</p>
 				</a>
 			</li>
 			{{foreach $left_menu as $v}}
@@ -12,14 +12,14 @@
 					<li>
 						<a href="javascript:;" data-type="menu" data-url="{{$v.url}}">
 							{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}}
-							<span class="nav-name">{{$v.name}}</span>
+							<p class="nav-name am-inline-block am-text-break">{{$v.name}}</p>
 						</a>
 					</li>
 				{{else /}}
 					<li class="admin-parent">
 						<a data-type="menu" class="am-cf menu-parent-items-{{$v.id}}" data-am-collapse="{target: '#power-menu-{{$v.id}}'}">
 							{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}}
-							<span class="nav-name">{{$v.name}}</span>
+							<p class="nav-name am-inline-block am-text-break">{{$v.name}}</p>
 							<i class="am-icon-angle-down am-fr am-margin-right left-menu-more-ico-rotate"></i>
 						</a>
 						<ul class="am-list am-collapse admin-sidebar-sub" id="power-menu-{{$v.id}}">
@@ -27,7 +27,7 @@
 								<li>
 									<a href="javascript:;" class="menu-items-{{$vs.id}}" data-parent-id="{{$v.id}}" data-type="menu" data-url="{{$vs.url}}">
 										{{if !empty($vs['icon'])}}<span class="{{$vs.icon}}"></span>{{/if}}
-										<span class="nav-name">{{$vs.name}}</span>
+										<p class="nav-name am-inline-block am-text-break">{{$vs.name}}</p>
 									</a>
 								</li>
 							{{/foreach}}
