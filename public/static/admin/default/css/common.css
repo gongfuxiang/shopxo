@@ -398,6 +398,7 @@ ul {margin-top:0;}
 .admin-sidebar-list>li:last-child { border-bottom: 0 !important; }
 .admin-sidebar-list li a {color:#b6b6b6;padding-left:24px;}
 .admin-sidebar-list li:first-child {border-top:none;}
+.admin-sidebar-list li a .nav-name {line-height: 14px;width: calc(100% - 50px);}
 .admin-sidebar-sub {margin-top:0;margin-bottom:0;box-shadow:0 16px 8px -15px #e2e2e2 inset;background:#646464;padding-left:10px;}
 .admin-sidebar-sub li:first-child {border-top:1px solid #dedede;}
 .admin-sidebar-sub li { background: #404246 !important; border-color: #393b3e !important ; }
