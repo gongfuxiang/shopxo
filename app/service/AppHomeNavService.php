@@ -61,7 +61,6 @@ class AppHomeNavService
                 // 图片地址
                 if(isset($v['images_url']))
                 {
-                    $v['images_url_old'] = $v['images_url'];
                     $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
                 }
 
@@ -269,24 +268,20 @@ class AppHomeNavService
      */
     public static function AppHomeNav($params = [])
     {
-        // 平台
-        $platform = ApplicationClientType();
-
         // 缓存
-        $key = MyConfig('shopxo.cache_app_home_navigation_key').$platform;
+        $key = MyConfig('shopxo.cache_app_home_navigation_key').APPLICATION_CLIENT_TYPE;
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug'))
         {
             // 获取导航数据
             $field = 'id,name,images_url,event_value,event_type,bg_color,is_need_login';
             $order_by = 'sort asc,id asc';
-            $data = Db::name('AppHomeNav')->field($field)->where(['platform'=>$platform, 'is_enable'=>1])->order($order_by)->select()->toArray();
+            $data = Db::name('AppHomeNav')->field($field)->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order($order_by)->select()->toArray();
             if(!empty($data))
             {
                 foreach($data as &$v)
                 {
                     // 图片地址
-                    $v['images_url_old'] = $v['images_url'];
                     $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
                     $v['event_value'] = empty($v['event_value']) ? null : $v['event_value'];
 
@@ -306,7 +301,7 @@ class AppHomeNavService
             }
 
             // 手机首页导航钩子
-            $hook_name = 'plugins_service_app_home_navigation_'.$platform;
+            $hook_name = 'plugins_service_app_home_navigation_'.APPLICATION_CLIENT_TYPE;
             MyEventTrigger($hook_name, [
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,

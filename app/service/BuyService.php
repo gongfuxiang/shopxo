@@ -1058,9 +1058,6 @@ class BuyService
         // 订单默认状态
         $order_status = (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1;
 
-        // 订单来源
-        $client_type = ApplicationClientType();
-
         // 支付方式
         $payment_id = 0;
         $is_under_line = 0;
@@ -1075,7 +1072,8 @@ class BuyService
             $is_under_line = in_array($payment[0]['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0;
 
             // 线下支付订单是否直接成功
-            if($is_under_line == 1)
+            // 是否开启线下订单正常进入流程
+            if($is_under_line == 1 && MyC('common_is_under_line_order_normal') == 1)
             {
                 $order_status = 2;
             }
@@ -1125,7 +1123,7 @@ class BuyService
                 'extension_data'        => empty($v['order_base']['extension_data']) ? '' : json_encode($v['order_base']['extension_data'], JSON_UNESCAPED_UNICODE),
                 'payment_id'            => $payment_id,
                 'buy_number_count'      => $v['order_base']['buy_count'],
-                'client_type'           => $client_type,
+                'client_type'           => APPLICATION_CLIENT_TYPE,
                 'order_model'           => $site_model,
                 'is_under_line'         => $is_under_line,
             ];

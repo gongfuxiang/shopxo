@@ -172,7 +172,7 @@ class OrderService
         // 是否直接跳转
         if($success_count > 0 && $success_count == count($order_data))
         {
-            return DataReturn('支付成功', 0, ['data'=>MyUrl('index/order/respond', ['appoint_status'=>0]), 'is_success'=>1]);
+            return DataReturn('操作成功', 0, ['data'=>MyUrl('index/order/respond', ['appoint_status'=>0]), 'is_success'=>1]);
         }
 
         // 支付入口文件检查
@@ -289,7 +289,7 @@ class OrderService
         }
 
         // 微信中打开并且webopenid为空
-        if(ApplicationClientType() == 'h5' && IsWeixinEnv() && empty($pay_data['user']['weixin_web_openid']))
+        if(APPLICATION_CLIENT_TYPE == 'pc' && IsWeixinEnv() && empty($pay_data['user']['weixin_web_openid']))
         {
             // 授权成功后回调订单详情页面重新自动发起支付
             // 单个订单进入详情，则进入列表
@@ -341,9 +341,17 @@ class OrderService
                 $ret['data']['is_payment_type'] = 1;
 
                 // 线下支付处理
+                // 0 订单状态操作支付成功
+                // -8888 订单提交成功，等待用户线下支付
+                // 其他错误
                 $pay_ret = self::UserOrderPayUnderLine($pay_log['data']['log_no']);
-                if($pay_ret['code'] != 0)
+                if($pay_ret['code'] == 0)
                 {
+                    $ret['data']['is_success'] = 1;
+                } elseif($pay_ret['code'] == -8888)
+                {
+                    $ret['msg'] = $pay_ret['msg'];
+                } else {
                     return $pay_ret;
                 }
             } else {
@@ -626,57 +634,62 @@ class OrderService
      */
     public static function UserOrderPayUnderLine($pay_log_no)
     {
-        // 支付订单数据
-        $pay_data = self::OrderPayLogValueList($pay_log_no);
-        if($pay_data['code'] != 0)
+        // 是否开启线下支付订单状态正常进行
+        if(MyC('common_is_under_line_order_normal') == 1)
         {
-            return $pay_data;
-        }
-
-        // 订单支付日志已支付则直接返回
-        if($pay_data['data']['pay_log_data']['status'] == 1)
-        {
-            return DataReturn('操作成功', 0);
-        }
-
-        // 启动事务
-        Db::startTrans();
-
-        // 捕获异常
-        try {
-            // 更新订单状态
-            $order_ids = array_column($pay_data['data']['order_list'], 'id');
-            $upd_data = [
-                'status'    => 2,
-                'upd_time'  => time(),
-            ];
-            if(!Db::name('Order')->where(['id'=>$order_ids])->update($upd_data))
+            // 支付订单数据
+            $pay_data = self::OrderPayLogValueList($pay_log_no);
+            if($pay_data['code'] != 0)
             {
-                throw new \Exception('订单更新失败');
+                return $pay_data;
             }
 
-            // 循环处理订单
-            foreach($pay_data['data']['order_list'] as $order)
+            // 订单支付日志已支付则直接返回
+            if($pay_data['data']['pay_log_data']['status'] == 1)
             {
-                if(!self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '用户线下支付', 0, '系统'))
+                return DataReturn('操作成功', 0);
+            }
+
+            // 启动事务
+            Db::startTrans();
+
+            // 捕获异常
+            try {
+                // 更新订单状态
+                $order_ids = array_column($pay_data['data']['order_list'], 'id');
+                $upd_data = [
+                    'status'    => 2,
+                    'upd_time'  => time(),
+                ];
+                if(!Db::name('Order')->where(['id'=>$order_ids])->update($upd_data))
                 {
-                    throw new \Exception('订单日志添加失败['.$order['id'].']');
+                    throw new \Exception('订单更新失败');
                 }
-            }
 
-            // 更改日志订单状态
-            if(!Db::name('PayLog')->where(['log_no'=>$pay_log_no])->update(['status'=>1]))
-            {
-                throw new \Exception('日志订单更新失败');
-            }
+                // 循环处理订单
+                foreach($pay_data['data']['order_list'] as $order)
+                {
+                    if(!self::OrderHistoryAdd($order['id'], $upd_data['status'], $order['status'], '用户线下支付', 0, '系统'))
+                    {
+                        throw new \Exception('订单日志添加失败['.$order['id'].']');
+                    }
+                }
 
-            // 完成
-            Db::commit();
-            return DataReturn('操作成功', 0);
-        } catch(\Exception $e) {
-            Db::rollback();
-            return DataReturn($e->getMessage(), -1);
+                // 更改日志订单状态
+                if(!Db::name('PayLog')->where(['log_no'=>$pay_log_no])->update(['status'=>1]))
+                {
+                    throw new \Exception('日志订单更新失败');
+                }
+
+                // 完成
+                Db::commit();
+                return DataReturn('操作成功', 0);
+            } catch(\Exception $e) {
+                Db::rollback();
+                return DataReturn($e->getMessage(), -1);
+            }
         }
+        return DataReturn('操作成功、请尽快联系管理员确认支付信息', -8888);
     }
 
     /**

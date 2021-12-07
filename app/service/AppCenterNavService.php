@@ -61,7 +61,6 @@ class AppCenterNavService
                 // 图片地址
                 if(isset($v['images_url']))
                 {
-                    $v['images_url_old'] = $v['images_url'];
                     $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
                 }
 
@@ -274,23 +273,19 @@ class AppCenterNavService
      */
     public static function AppCenterNav($params = [])
     {
-        // 平台
-        $platform = ApplicationClientType();
-
         // 缓存
-        $key = MyConfig('shopxo.cache_app_user_center_navigation_key').$platform;
+        $key = MyConfig('shopxo.cache_app_user_center_navigation_key').APPLICATION_CLIENT_TYPE;
         $data = MyCache($key);
 
         if(empty($data))
         {
             $field = 'id,name,images_url,event_value,event_type,desc';
             $order_by = 'sort asc,id asc';
-            $data = Db::name('AppCenterNav')->field($field)->where(['platform'=>$platform, 'is_enable'=>1])->order($order_by)->select()->toArray();
+            $data = Db::name('AppCenterNav')->field($field)->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order($order_by)->select()->toArray();
             if(!empty($data))
             {
                 foreach($data as &$v)
                 {
-                    $v['images_url_old'] = $v['images_url'];
                     $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
                     $v['event_value'] = empty($v['event_value']) ? null : htmlspecialchars_decode($v['event_value']);
                 }
@@ -300,7 +295,7 @@ class AppCenterNavService
         }
 
         // 手机用户中心导航钩子
-        $hook_name = 'plugins_service_app_user_center_navigation_'.$platform;
+        $hook_name = 'plugins_service_app_user_center_navigation_'.APPLICATION_CLIENT_TYPE;
         MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,

@@ -33,24 +33,20 @@ class BannerService
      */
     public static function Banner($params = [])
     {
-        // 平台
-        $platform = ApplicationClientType();
-
         // 缓存
-        $key = MyConfig('shopxo.cache_banner_list_key').$platform;
+        $key = MyConfig('shopxo.cache_banner_list_key').APPLICATION_CLIENT_TYPE;
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug'))
         {
             // 获取banner数据
             $field = 'name,images_url,event_value,event_type,bg_color';
             $order_by = 'sort asc,id asc';
-            $data = Db::name('Slide')->field($field)->where(['platform'=>$platform, 'is_enable'=>1])->order($order_by)->select()->toArray();
+            $data = Db::name('Slide')->field($field)->where(['platform'=>APPLICATION_CLIENT_TYPE, 'is_enable'=>1])->order($order_by)->select()->toArray();
             if(!empty($data))
             {
                 foreach($data as &$v)
                 {
                     // 图片地址
-                    $v['images_url_old'] = $v['images_url'];
                     $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
 
                     // 事件值
