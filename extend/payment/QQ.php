@@ -298,7 +298,11 @@ class QQ
     private function GetPayParams($params = [])
     {
         // 平台
-        $client_type = ApplicationClientType();
+        $client_type = APPLICATION_CLIENT_TYPE;
+        if($client_type == 'pc' && IsMobile())
+        {
+            $client_type = 'h5';
+        }
 
         // 支付类型
         $trade_type = empty($params['trade_type']) ? $this->GetTradeType($client_type) : $params['trade_type'];

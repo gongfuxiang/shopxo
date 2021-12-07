@@ -183,10 +183,10 @@ class Weixin
         }
 
         // 平台
-        $client_type = ApplicationClientType();
+        $client_type = $this->GetApplicationClientType();
 
         // 微信中打开
-        if($client_type == 'h5' && IsWeixinEnv() && (empty($params['user']) || empty($params['user']['weixin_web_openid'])))
+        if($client_type == 'pc' && IsWeixinEnv() && (empty($params['user']) || empty($params['user']['weixin_web_openid'])))
         {
             exit(header('location:'.PluginsHomeUrl('weixinwebauthorization', 'pay', 'index', input())));
         }
@@ -228,6 +228,25 @@ class Weixin
             $msg .= '-'.$result['err_code_des'];
         }
         return DataReturn($msg, -1);
+    }
+
+    /**
+     * 终端
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-12-07
+     * @desc    description
+     */
+    private function GetApplicationClientType()
+    {
+        // 平台
+        $client_type = APPLICATION_CLIENT_TYPE;
+        if($client_type == 'pc' && IsMobile())
+        {
+            $client_type = 'h5';
+        }
+        return $client_type;
     }
 
     /**
@@ -301,7 +320,7 @@ class Weixin
                 if(APPLICATION == 'web' && IsWeixinEnv())
                 {
                     $html = $this->PayHtml($pay_data, $redirect_url);
-                    die($pay_data['html']);
+                    die($html);
                 } else {
                     $result = DataReturn('success', 0, $pay_data);
                 }
@@ -399,7 +418,7 @@ class Weixin
         }
 
         // 平台
-        $client_type = ApplicationClientType();
+        $client_type = $this->GetApplicationClientType();
 
         // openid
         if($client_type == 'weixin')
@@ -493,7 +512,7 @@ class Weixin
     private function GetTradeType()
     {
         // 平台
-        $client_type = ApplicationClientType();
+        $client_type = $this->GetApplicationClientType();
 
         // 平台类型定义
         $type_all = [
