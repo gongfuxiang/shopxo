@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 // 系统版本
-define('APPLICATION_VERSION', 'v2.2.2');
+define('APPLICATION_VERSION', 'v2.2.3');
 
 // 检测PHP环境
 if(version_compare(PHP_VERSION,'7.2.5','<'))
