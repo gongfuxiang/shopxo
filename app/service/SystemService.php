@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\service;
 
+use app\service\UserService;
+
 /**
  * 配置服务层
  * @author   Devil
@@ -30,11 +32,8 @@ class SystemService
      */
     public static function SystemBegin($params = [])
     {
-        // 当前用户生成uuid并存储
-        self::SetUserUUId($params);
-
-        // 分享标识处理
-        self::SetShareReferrer($params);
+        // 基础数据初始化
+        self::BaseInit($params);
 
         // 钩子
         $hook_name = 'plugins_service_system_begin';
@@ -65,7 +64,7 @@ class SystemService
     }
 
     /**
-     * 分享标识处理
+     * 基础数据初始化
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -73,31 +72,30 @@ class SystemService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function SetShareReferrer($params = [])
+    public static function BaseInit($params = [])
     {
-        // 推荐人
+        // uuid
+        $uuid = MySession('uuid');
+        if(empty($uuid))
+        {
+            $uuid = empty($params['uuid']) ? UUId() : $params['uuid'];
+            MySession('uuid', $uuid);
+            cookie('uuid', $uuid);
+        }
+
+        // token
+        if(!empty($params['token']))
+        {
+            $key = UserService::$user_token_key;
+            MySession($key, $params['token']);
+            cookie($key, $params['token']);
+        }
+
+        // 邀请人id
         if(!empty($params['referrer']))
         {
             MySession('share_referrer_id', $params['referrer']);
             cookie('share_referrer_id', $params['referrer']);
-        }
-    }
-
-    /**
-     * 当前用户生成uuid并存储
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-03-18
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function SetUserUUId($params = [])
-    {
-        $uuid = MySession('uuid');
-        if(empty($uuid))
-        {
-            MySession('uuid', UUId());
         }
     }
 

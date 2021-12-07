@@ -27,16 +27,27 @@ class UserService
 {
     // user登录session key
     public static $user_login_key = 'user_login_info';
+    public static $user_token_key = 'user_token_data';
 
     /**
-     * 获取用户登录信息
+     * 
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2019-02-27
      * @desc    description
      */
-    public static function LoginUserInfo()
+    
+    /**
+     * 获取用户登录信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-12-06
+     * @desc    description
+     * @param   [boolean]         $is_cache [是否缓存读取]
+     */
+    public static function LoginUserInfo($is_cache = true)
     {
         // 静态数据避免重复读取
         static $user_login_info = null;
@@ -52,12 +63,16 @@ class UserService
                 $user_login_info = MySession(self::$user_login_key);
 
                 // 用户信息为空，指定了token则设置登录信息
-                if(empty($user_login_info) && !empty($params['token']))
+                if(empty($user_login_info))
                 {
-                    $user_login_info = self::UserTokenData($params['token']);
-                    if($user_login_info !== null && isset($user_login_info['id']))
+                    $token = empty($params['token']) ? MySession(self::$user_token_key) : $params['token'];
+                    if(!empty($token))
                     {
-                        self::UserLoginRecord($user_login_info['id']);
+                        $user_login_info = self::UserTokenData($token);
+                        if($user_login_info !== null && isset($user_login_info['id']))
+                        {
+                            self::UserLoginRecord($user_login_info['id']);
+                        }
                     }
                 }
             } else {
@@ -67,6 +82,23 @@ class UserService
                 }
             }
         }
+
+        // 是否缓存读取
+        if(!empty($user_login_info) && !$is_cache)
+        {
+            // 根据用户id从数据库获取信息并处理
+            $user_login_info = self::UserHandle(self::UserInfo('id', $user_login_info['id']));
+            if(!empty($user_login_info))
+            {
+                // 重新更新用户缓存
+                self::UserLoginRecord($user_login_info['id']);
+                if(!empty($user_login_info['token']))
+                {
+                    MyCache(MyConfig('shopxo.cache_user_info').$user_login_info['token'], $user_login_info);
+                }
+            }
+        }
+
         return $user_login_info;
     }
 
@@ -2464,6 +2496,40 @@ class UserService
             return DataReturn('发送成功', 0);
         }
         return DataReturn('发送失败'.'['.$obj->error.']', -100);
+    }
+
+    /**
+     * 根据token获取用户信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-12-06
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function TokenUserinfo($params = [])
+    {
+        // 数据验证
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'token',
+                'error_msg'         => 'token不能为空',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取用户信息并处理
+        $user = self::UserHandle(self::UserInfo('token', $params['token']));
+        if(empty($user))
+        {
+            return DataReturn('用户信息不存在', -1);
+        }
+        return DataReturn('success', 0, $user);
     }
 
     /**

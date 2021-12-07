@@ -666,6 +666,18 @@ class User extends Common
     }
 
     
+    /**
+     * 根据token获取用户信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-15
+     * @desc    description
+     */
+    public function TokenUserinfo()
+    {
+        return ApiService::ApiDataReturn(UserService::TokenUserinfo($this->data_request));
+    }
 
     /**
      * 小程序用户授权

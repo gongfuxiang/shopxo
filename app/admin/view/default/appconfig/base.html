@@ -10,6 +10,10 @@
 		<!-- form start -->
 		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appconfig/index')}}">
 			<div class="am-form-group">
+                <label>{{$data.common_app_h5_url.name}}<span class="am-form-group-label-tips">{{$data.common_app_h5_url.describe}}</span></label>
+                <input type="text" name="{{$data.common_app_h5_url.only_tag}}" placeholder="{{$data.common_app_h5_url.name}}" data-validation-message="{{$data.common_app_h5_url.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_h5_url.value}}"{{/if}} />
+            </div>
+			<div class="am-form-group">
                 <label>{{$data.common_is_mobile_concise_model.name}}<span class="am-form-group-label-tips">{{$data.common_is_mobile_concise_model.describe}}</span></label>
                 <select name="{{$data.common_is_mobile_concise_model.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_mobile_concise_model.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}
