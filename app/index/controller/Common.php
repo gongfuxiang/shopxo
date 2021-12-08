@@ -299,6 +299,7 @@ class Common extends BaseController
         MyViewAssign('home_site_icp', MyC('home_site_icp'));
         MyViewAssign('home_site_security_record_name', MyC('home_site_security_record_name'));
         MyViewAssign('home_site_security_record_url', MyC('home_site_security_record_url'));
+        MyViewAssign('home_site_telecom_license', MyC('home_site_telecom_license'));
 
         // 布局样式+管理
         MyViewAssign('is_load_layout', 0);
@@ -370,11 +371,12 @@ class Common extends BaseController
     }
 
     /**
-     * [NavInit 导航初始化]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-19T22:41:20+0800
+     * 导航初始化
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-12-08
+     * @desc    description
      */
     private function NavInit()
     {
@@ -388,22 +390,63 @@ class Common extends BaseController
     }
 
     /**
-     * [SiteStstusCheck 站点状态校验]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2017-02-25T21:43:07+0800
+     * 站点状态校验
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-12-08
+     * @desc    description
      */
     private function SiteStstusCheck()
     {
         if(MyC('home_site_state') != 1)
         {
+            // 提示信息
+            $reason = MyC('home_site_close_reason', '升级中...', true);
+
             // 是否ajax请求
             if(IS_AJAX)
             {
-                exit(json_encode(DataReturn(MyC('home_site_close_reason', '网站维护中...'), -10000)));
+                exit(json_encode(DataReturn($reason, -10000)));
             } else {
-                exit('<div style="text-align: center;margin-top: 15%;font-size: 18px;color: #f00;">'.MyC('home_site_close_reason', '网站维护中...', true).'</div>');
+                // 默认提示信息增加样式，则使用用户自定义信息展示
+                if($reason == '升级中...')
+                {
+                    exit('<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.MyC('home_site_name').'</title><body><div style="text-align: center;margin-top: 15%;font-size: 18px;color: #f00;">'.$reason.'</div></body></html>');
+                } else {
+                    exit($reason);
+                }
+            }
+        }
+    }
+
+    /**
+     * 站点状态校验 - web端
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-12-08
+     * @desc    description
+     */
+    public function SiteWebStstusCheck()
+    {
+        if(MyC('home_site_web_state') != 1)
+        {
+            // 提示信息
+            $reason = MyC('home_site_close_reason', '升级中...', true);
+
+            // 是否ajax请求
+            if(IS_AJAX)
+            {
+                exit(json_encode(DataReturn($reason, -10000)));
+            } else {
+                // 默认提示信息增加样式，则使用用户自定义信息展示
+                if($reason == '升级中...')
+                {
+                    exit('<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.MyC('home_site_name').'</title><body><div style="text-align: center;margin-top: 15%;font-size: 18px;color: #f00;">'.$reason.'</div></body></html>');
+                } else {
+                    exit($reason);
+                }
             }
         }
     }

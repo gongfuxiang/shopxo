@@ -42,6 +42,9 @@ class Index extends Common
     public function __construct()
     {
         parent::__construct();
+
+        // web端首页状态
+        $this->SiteWebStstusCheck();
     }
 
     /**
@@ -57,8 +60,9 @@ class Index extends Common
         $banner = BannerService::Banner();
         MyViewAssign('banner_list', $banner);
 
-        // H5导航
-        MyViewAssign('navigation', AppHomeNavService::AppHomeNav());
+        // 手机默认下导航
+        $navigation = IsMobile() ? AppHomeNavService::AppHomeNav() : [];
+        MyViewAssign('navigation', $navigation);
 
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
@@ -139,7 +143,7 @@ class Index extends Common
 
         // 加载百度地图api
         // 存在地图事件则载入
-        if(in_array(3, array_column($banner, 'event_type')))
+        if((!empty($banner) && in_array(3, array_column($banner, 'event_type'))) || (!empty($navigation) && in_array(3, array_column($navigation, 'event_type'))))
         {
             MyViewAssign('is_load_baidu_map_api', 1);
         }

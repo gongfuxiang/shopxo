@@ -275,9 +275,18 @@ input.add,input.min{width:15px}
 .am-footer-default p.am-text-truncate {
     line-height: 24px;
 }
+.am-footer-default b {
+    margin: 0 3px;
+    font-weight: 400;
+    color: #585858;
+}
 .am-footer-default a {
     font-size: 12px;
     color: #b1b1b1;
+    text-decoration: none;
+}
+.am-footer-default a:hover {
+    color: #d1d1d1;
 }
 .footer-nav-list {
     padding: 0;
@@ -346,6 +355,9 @@ input.add,input.min{width:15px}
         border-top: 1px solid #383838;
         padding-top: 10px;
         margin-top: 10px;
+    }
+    .am-footer-default b {
+        display: none;
     }
 }
 

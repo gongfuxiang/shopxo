@@ -136,7 +136,7 @@ class CashPayment
                 $padding = '10px;';
                 $radius = '10px;';
             }
-            $html = '<h1 style="text-align:center;margin-top:'.$h1_margin.';">按照以下支付信息进行打款</h1>
+            $html = '<h1 style="text-align:center;margin-top:'.$h1_margin.'">按照以下信息进行打款</h1>
                     <div style="text-align: left;margin:0 auto;max-width:800px;height:auto;border: 1px solid #e5e5e5;padding: '.$padding.';background:#fff;margin-top:'.$margin.'border-radius:'.$radius.'">';
 
             // 文本信息

@@ -93,11 +93,6 @@ class AppService
         // url  访问地址（可选）
         $data = [
             [
-                'name'  => '所有店铺',
-                'icon'  => 'shop',
-                'url'   => '/pages/plugins/shop/index/index',
-            ],
-            [
                 'name'  => '我的收藏',
                 'icon'  => 'heart',
                 'url'   => '/pages/user-favor/user-favor',

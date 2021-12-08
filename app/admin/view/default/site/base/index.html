@@ -84,6 +84,14 @@
 						</select>
 					</div>
 					<div class="am-form-group">
+						<label>{{$data.home_site_web_state.name}}<span class="am-form-group-label-tips">{{$data.home_site_web_state.describe}}</span></label>
+						<select name="{{$data.home_site_web_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_site_web_state.error_tips}}" required>
+							{{foreach $common_close_open_list as $v}}
+								<option value="{{$v.value}}" {{if isset($data['home_site_web_state']['value']) and $data['home_site_web_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+							{{/foreach}}
+						</select>
+					</div>
+					<div class="am-form-group">
 						<label>{{$data.home_site_close_reason.name}}<span class="am-form-group-label-tips">{{$data.home_site_close_reason.describe}}</span></label>
 						<textarea rows="3" name="{{$data.home_site_close_reason.only_tag}}" class="am-radius" placeholder="{{$data.home_site_close_reason.name}}" data-validation-message="{{$data.home_site_close_reason.error_tips}}">{{if !empty($data)}}{{$data.home_site_close_reason.value}}{{/if}}</textarea>
 					</div>
@@ -108,6 +116,11 @@
 		            <div class="am-form-group">
 		                <label>{{$data.home_site_security_record_url.name}}<span class="am-form-group-label-tips">{{$data.home_site_security_record_url.describe}}</span></label>
 		                <input type="text" name="{{$data.home_site_security_record_url.only_tag}}" placeholder="{{$data.home_site_security_record_url.describe}}" data-validation-message="{{$data.home_site_security_record_url.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_security_record_url.value}}"{{/if}} />
+		            </div>
+
+		            <div class="am-form-group">
+		                <label>{{$data.home_site_telecom_license.name}}<span class="am-form-group-label-tips">{{$data.home_site_telecom_license.describe}}</span></label>
+		                <input type="text" name="{{$data.home_site_telecom_license.only_tag}}" placeholder="{{$data.home_site_telecom_license.describe}}" data-validation-message="{{$data.home_site_telecom_license.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_telecom_license.value}}"{{/if}} />
 		            </div>
                 </div>
             </div>

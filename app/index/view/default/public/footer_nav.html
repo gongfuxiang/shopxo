@@ -87,6 +87,7 @@
 					{{$home_theme_footer_bottom_powered|raw}} {{$Think.APPLICATION_VERSION}}
 				</p>
 				{{if !empty($home_site_icp)}}
+					<b>|</b>
 					<p class="footer-icp">
 						<a href="https://beian.miit.gov.cn/" target="_blank">
 							<img src="{{$attachment_host}}/static/common/images/beian-icp-icon.png" alt="ICP备案" />
@@ -95,11 +96,18 @@
 					</p>
 				{{/if}}
 				{{if !empty($home_site_security_record_name)}}
+					<b>|</b>
 					<p class="footer-icp">
 						<a {{if empty($home_site_security_record_url)}}href="javascript:;"{{else /}}href="{{$home_site_security_record_url}}" target="_blank"{{/if}}>
 							<img src="{{$attachment_host}}/static/common/images/beian-gongan-icon.png" alt="公安备案" />
 							{{$home_site_security_record_name}}
 						</a>
+					</p>
+				{{/if}}
+				{{if !empty($home_site_telecom_license)}}
+					<b>|</b>
+					<p class="footer-icp">
+						<a href="javascript:;">{{$home_site_telecom_license}}</a>
 					</p>
 				{{/if}}
 			</div>

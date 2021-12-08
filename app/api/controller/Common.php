@@ -125,7 +125,7 @@ class Common extends BaseController
     {
         if(MyC('home_site_state') != 1)
         {
-            exit(json_encode(DataReturn(MyC('home_site_close_reason', '网站维护中...'), -10000)));
+            exit(json_encode(DataReturn(MyC('home_site_close_reason', '升级中...'), -10000)));
         }
     }
 
