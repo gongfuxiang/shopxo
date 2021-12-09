@@ -226,7 +226,6 @@ class Wechat
 
             // 这里参数的顺序要按照 key 值 ASCII 码升序排序
             $string = "jsapi_ticket={$ticket}&noncestr={$nonce_str}&timestamp={$timestamp}&url={$url}";
-
             return [
               'appId'     => $this->_appid,
               'nonceStr'  => $nonce_str,
