@@ -13,6 +13,7 @@ namespace app\service;
 use think\facade\Db;
 use app\service\UserService;
 use app\service\AdminService;
+use app\service\SystemBaseService;
 
 /**
  * 问答/留言服务层
@@ -58,6 +59,9 @@ class AnswerService
         $data = Db::name('Answer')->field($field)->where($where)->limit($m, $n)->order($order_by)->select()->toArray();
         if(!empty($data))
         {
+            // 用户默认头像
+            $default_avatar = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyFileConfig('common_default_theme', '', 'default', true)).'/images/default-user-avatar.jpg';
+
             foreach($data as &$v)
             {
                 // 用户信息
@@ -67,8 +71,8 @@ class AnswerService
                     if(!isset($params['is_public']) || $params['is_public'] == 1)
                     {
                         $v['user'] = [
-                            'avatar'            => $user['avatar'],
-                            'user_name_view'    => $user['user_name_view'],
+                            'avatar'            => empty($user['avatar']) ? $default_avatar : $user['avatar'],
+                            'user_name_view'    => empty($user['user_name_view']) ? '网友' : $user['user_name_view'],
                         ];
                     } else {
                         $v['user'] = $user;
