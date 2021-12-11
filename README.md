@@ -31,8 +31,8 @@
 * 支持PC+H5、支付宝小程序、微信小程序、百度小程序、头条&抖音小程序、QQ小程序、APP等...
 * 支持多仓库、多商户模式运营（组件插件化、即插即用），可视化DIY拖拽装修。
 
-### 小程序体验码
-![小程序二维码](https://doc.shopxo.net/upload/image/20210727/1627370121546835.jpeg "qrcode.jpg")
+### 体验码
+![二维码](https://doc.shopxo.net/upload/image/20211211/1639234221484373.jpg "qrcode.jpg")
 
 
 ### 基础信息
@@ -53,13 +53,13 @@
 * Gitee：[https://gitee.com/zongzhige/shopxo](https://gitee.com/zongzhige/shopxo)
 * GitHub：[https://github.com/gongfuxiang/shopxo](https://github.com/gongfuxiang/shopxo)
 * Coding：[https://zongzhige.coding.net/public/shopxo/shopxo/git](https://zongzhige.coding.net/public/shopxo/shopxo/git)
-* Gitcode：[https://gitcode.net/zongzhige/shopxo](https://gitcode.net/zongzhige/shopxo)
+* GitCode：[https://gitcode.net/zongzhige/shopxo](https://gitcode.net/zongzhige/shopxo)
 
 ### uniapp端源代码平台
 * Gitee：[https://gitee.com/zongzhige/shopxo-uniapp](https://gitee.com/zongzhige/shopxo-uniapp)
 * GitHub：[https://github.com/gongfuxiang/shopxo-uniapp](https://github.com/gongfuxiang/shopxo-uniapp)
 * Coding：[https://zongzhige.coding.net/public/shopxo/uniapp/git](https://zongzhige.coding.net/public/shopxo/uniapp/git)
-* Gitcode：[https://gitcode.net/zongzhige/shopxo-uniapp](https://gitcode.net/zongzhige/shopxo-uniapp)
+* GitCode：[https://gitcode.net/zongzhige/shopxo-uniapp](https://gitcode.net/zongzhige/shopxo-uniapp)
 * uni-app：[https://ext.dcloud.net.cn/plugin?id=6380](https://ext.dcloud.net.cn/plugin?id=6380)
 
 ### 部分功能特性
