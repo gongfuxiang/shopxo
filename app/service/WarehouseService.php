@@ -214,38 +214,55 @@ class WarehouseService
             'lng'               => isset($params['lng']) ? floatval($params['lng']) : 0,
             'lat'               => isset($params['lat']) ? floatval($params['lat']) : 0,
             'is_default'        => $is_default,
+            'is_enable'         => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
         ];
 
+        // 启动事务
         Db::startTrans();
 
-        // 默认地址处理
-        if($is_default == 1)
-        {
-            Db::name('Warehouse')->where(['is_default'=>1])->update(['is_default'=>0]);
-        }
+        // 捕获异常
+        try {
+            // 默认地址处理
+            if($is_default == 1)
+            {
+                Db::name('Warehouse')->where(['is_default'=>1])->update(['is_default'=>0]);
+            }
 
-        // 添加/更新数据
-        if(empty($params['id']))
-        {
-            $data['add_time'] = time();
-            if(Db::name('Warehouse')->insertGetId($data) > 0)
+            // 获取仓库数据
+            $info = empty($params['id']) ? [] : Db::name('Warehouse')->where(['id'=>intval($params['id'])])->find();
+
+            // 添加/更新数据
+            if(empty($info))
             {
-                Db::commit();
-                return DataReturn('新增成功', 0);
+                $data['add_time'] = time();
+                if(Db::name('Warehouse')->insertGetId($data) <= 0)
+                {
+                    throw new \Exception('新增失败');
+                }
             } else {
-                Db::rollback();
-                return DataReturn('新增失败');
+                $data['upd_time'] = time();
+                if(!Db::name('Warehouse')->where(['id'=>intval($params['id'])])->update($data))
+                {
+                    throw new \Exception('更新失败');
+                }
+
+                // 同步处理
+                if($info['is_enable'] != $data['is_enable'])
+                {
+                    $ret = self::WarehouseGoodsInventorySync($info['id']);
+                    if($ret['code'] != 0)
+                    {
+                        throw new \Exception($ret['msg']);
+                    }
+                }
             }
-        } else {
-            $data['upd_time'] = time();
-            if(Db::name('Warehouse')->where(['id'=>intval($params['id'])])->update($data))
-            {
-                Db::commit();
-                return DataReturn('更新成功', 0);
-            } else {
-                Db::rollback();
-                return DataReturn('更新失败');
-            }
+
+            // 完成
+            Db::commit();
+            return DataReturn('操作成功', 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
     }
 
