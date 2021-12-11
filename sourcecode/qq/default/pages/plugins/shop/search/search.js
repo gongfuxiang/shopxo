@@ -65,7 +65,7 @@ Page({
   // 获取数据
   init() {
     // 获取数据
-    this.get_data_list();
+    this.get_data();
   },
 
   // 搜索
@@ -78,14 +78,7 @@ Page({
   },
 
   // 获取数据列表
-  get_data_list(is_mandatory) {
-    // 分页是否还有数据
-    if ((is_mandatory || 0) == 0) {
-      if (this.data.data_bottom_line_status == true) {
-        return false;
-      }
-    }
-
+  get_data() {
     // 加载loding
     qq.showLoading({title: "加载中..." });
 
@@ -104,67 +97,27 @@ Page({
         qq.stopPullDownRefresh();
         if (res.data.code == 0) {
           var data = res.data.data;
+          this.setData({
+            search_map_info: data.search_map_info || [],
+            category_list: data.shop_goods_category || [],
+          });
 
-          // 仅首次请求赋值条件数据
-          if(this.data.data_list_loding_status == 1)
+          // 指定分类id选中处理
+          if((this.data.params.category_id || 0) != 0 && this.data.category_list.length > 0)
           {
-            this.setData({
-              search_map_info: data.search_map_info || [],
-              category_list: data.shop_goods_category || [],
-            });
-
-            // 指定分类id选中处理
-            if((this.data.params.category_id || 0) != 0 && this.data.category_list.length > 0)
+            var temp = this.data.category_list;
+            for(var i in temp)
             {
-              var temp = this.data.category_list;
-              for(var i in temp)
+              if(temp[i]['id'] == this.data.params.category_id)
               {
-                if(temp[i]['id'] == this.data.params.category_id)
-                {
-                  temp[i]['active'] = 1;
-                }
-              }
-              this.setData({category_list: temp});
-            }
-          }
-
-          // 列表数据处理
-          if (data.data.length > 0) {
-            if (this.data.data_page <= 1) {
-              var temp_data_list = data.data;
-            } else {
-              var temp_data_list = this.data.data_list;
-              var temp_data = data.data;
-              for (var i in temp_data) {
-                temp_data_list.push(temp_data[i]);
+                temp[i]['active'] = 1;
               }
             }
-            this.setData({
-              data_list: temp_data_list,
-              data_total: data.total,
-              data_page_total: data.page_total,
-              data_list_loding_status: 3,
-              data_page: this.data.data_page + 1
-            });
-
-            // 是否还有数据
-            if (this.data.data_page > 1 && this.data.data_page > this.data.data_page_total)
-            {
-              this.setData({ data_bottom_line_status: true });
-            } else {
-              this.setData({data_bottom_line_status: false});
-            }
-          } else {
-            this.setData({
-              data_list_loding_status: 0,
-            });
-            if (this.data.data_page <= 1) {
-              this.setData({
-                data_list: [],
-                data_bottom_line_status: false,
-              });
-            }
+            this.setData({category_list: temp});
           }
+
+          // 获取列表数据
+          this.get_data_list(1);
         } else {
           this.setData({
             data_list_loding_status: 0,
@@ -182,6 +135,85 @@ Page({
         app.showToast("服务器请求出错");
       }
     });
+  },
+
+  // 获取数据列表
+  get_data_list(is_mandatory) {
+      // 分页是否还有数据
+      if ((is_mandatory || 0) == 0) {
+          if (this.data_bottom_line_status == true) {
+              qq.stopPullDownRefresh();
+              return false;
+          }
+      }
+      
+      // 获取数据
+      qq.showLoading({
+          title: "加载中...",
+          mask: true
+      });
+      var post_data = this.request_map_handle();
+      qq.request({
+          url: app.get_request_url("datalist", "search", "shop"),
+          method: "POST",
+          data: post_data,
+          dataType: "json",
+          header: { 'content-type': 'application/x-www-form-urlencoded' },
+          success: res => {
+              qq.hideLoading();
+              qq.stopPullDownRefresh();
+              if (res.data.code == 0) {
+                  var data = res.data.data;
+                  if (data.data.length > 0) {
+                      if (this.data_page <= 1) {
+                          var temp_data_list = data.data;
+                      } else {
+                          var temp_data_list = this.data_list || [];
+                          var temp_data = data.data;
+                          for (var i in temp_data) {
+                              temp_data_list.push(temp_data[i]);
+                          }
+                      }
+                      this.setData({
+                          data_list: temp_data_list,
+                          data_total: data.total,
+                          data_page_total: data.page_total,
+                          data_list_loding_status: 3,
+                          data_page: this.data_page + 1
+                      });
+
+                      // 是否还有数据
+                      this.setData({
+                          data_bottom_line_status: (this.data_page > 1 && this.data_page > this.data_page_total)
+                      });
+                  } else {
+                      this.setData({
+                          data_list_loding_status: 0,
+                          data_total: 0
+                      });
+                      if (this.data_page <= 1) {
+                          this.setData({
+                              data_list: [],
+                              data_bottom_line_status: false
+                          });
+                      }
+                  }
+              } else {
+                  this.setData({
+                      data_list_loding_status: 0
+                  });
+                  app.showToast(res.data.msg);
+              }
+          },
+          fail: () => {
+              qq.hideLoading();
+              qq.stopPullDownRefresh();
+              this.setData({
+                  data_list_loding_status: 2
+              });
+              app.showToast("服务器请求出错");
+          }
+      });
   },
 
   // 搜索条件处理
