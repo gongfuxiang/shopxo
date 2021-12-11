@@ -36,30 +36,31 @@
 
 
 ### 基础信息
-* 演示地址：https://demo.shopxo.net/
-* 安装教程：https://install.shopxo.net/
-* 更新日志：https://log.shopxo.net/
-* 文档地址：https://doc.shopxo.net/
-* 开源协议：https://license.shopxo.net/
+* 演示地址：[https://demo.shopxo.net/](https://demo.shopxo.net/)
+* 安装教程：[https://install.shopxo.net/](https://install.shopxo.net/)
+* 更新日志：[https://log.shopxo.net/](https://log.shopxo.net/)
+* 文档地址：[https://doc.shopxo.net/](https://doc.shopxo.net/)
+* 开源协议：[https://license.shopxo.net/](https://license.shopxo.net/)
 
 ### 官方QQ群、答案`shopxo.net`
 * 官方1群：833531593
 * 官方2群：641730223
 * 官方3群：1127073697
 * 官方多商户群：782971010
+* 官方uniapp群：679303149
 
 ### 当前项目源代码平台
-* Gitee：https://gitee.com/zongzhige/shopxo
-* GitHub：https://github.com/gongfuxiang/shopxo
-* Coding：https://zongzhige.coding.net/public/shopxo/shopxo/git
-* CodeChina：https://codechina.csdn.net/zongzhige/shopxo
+* Gitee：[https://gitee.com/zongzhige/shopxo](https://gitee.com/zongzhige/shopxo)
+* GitHub：[https://github.com/gongfuxiang/shopxo](https://github.com/gongfuxiang/shopxo)
+* Coding：[https://zongzhige.coding.net/public/shopxo/shopxo/git](https://zongzhige.coding.net/public/shopxo/shopxo/git)
+* Gitcode：[https://gitcode.net/zongzhige/shopxo](https://gitcode.net/zongzhige/shopxo)
 
 ### uniapp端源代码平台
-* Gitee：https://gitee.com/zongzhige/shopxo-uniapp
-* GitHub：https://github.com/gongfuxiang/shopxo-uniapp
-* Coding：https://zongzhige.coding.net/public/shopxo/uniapp/git
-* CodeChina：https://codechina.csdn.net/zongzhige/shopxo-uniapp
-* uni-app：https://ext.dcloud.net.cn/plugin?id=6380
+* Gitee：[https://gitee.com/zongzhige/shopxo-uniapp](https://gitee.com/zongzhige/shopxo-uniapp)
+* GitHub：[https://github.com/gongfuxiang/shopxo-uniapp](https://github.com/gongfuxiang/shopxo-uniapp)
+* Coding：[https://zongzhige.coding.net/public/shopxo/uniapp/git](https://zongzhige.coding.net/public/shopxo/uniapp/git)
+* Gitcode：[https://gitcode.net/zongzhige/shopxo-uniapp](https://gitcode.net/zongzhige/shopxo-uniapp)
+* uni-app：[https://ext.dcloud.net.cn/plugin?id=6380](https://ext.dcloud.net.cn/plugin?id=6380)
 
 ### 部分功能特性
 ~~~
@@ -121,5 +122,5 @@
 非常欢迎您对ShopXO的开发作出贡献！你可以选择以下方式向ShopXO贡献：
 - [Github - 发布issue进行问题反馈和建议](https://github.com/gongfuxiang/shopxo/pulls)
 - [Gitee - 发布issue进行问题反馈和建议](https://gitee.com/zongzhige/shopxo/pulls)
-- [CodeChina - 发布issue进行问题反馈和建议](https://codechina.csdn.net/zongzhige/shopxo/merge_requests)
+- [Gitcode - 发布issue进行问题反馈和建议](https://gitcode.net/zongzhige/shopxo/merge_requests)
 > 通过Pull Request提交修复、完善我们的文档和例子
