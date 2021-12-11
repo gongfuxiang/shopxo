@@ -519,59 +519,65 @@ class UserService
      */
     public static function UserHandle($user)
     {
-        // 基础数据处理
-        if(isset($user['add_time']))
+        if(!empty($user))
         {
-            $user['add_time_text']  =   date('Y-m-d H:i:s', $user['add_time']);
-        }
-        if(isset($user['upd_time']))
-        {
-            $user['upd_time_text']  =   date('Y-m-d H:i:s', $user['upd_time']);
-        }
-        if(isset($user['gender']))
-        {
-            $user['gender_text']    =   MyConst('common_gender_list')[$user['gender']]['name'];
-        }
-        if(isset($user['birthday']))
-        {
-            $user['birthday_text']  =   empty($user['birthday']) ? '' : date('Y-m-d', $user['birthday']);
-        }
+            // 基础数据处理
+            if(isset($user['add_time']))
+            {
+                $user['add_time_text']  =   date('Y-m-d H:i:s', $user['add_time']);
+            }
+            if(isset($user['upd_time']))
+            {
+                $user['upd_time_text']  =   date('Y-m-d H:i:s', $user['upd_time']);
+            }
+            if(isset($user['gender']))
+            {
+                $user['gender_text']    =   MyConst('common_gender_list')[$user['gender']]['name'];
+            }
+            if(isset($user['birthday']))
+            {
+                $user['birthday_text']  =   empty($user['birthday']) ? '' : date('Y-m-d', $user['birthday']);
+            }
 
-        // 邮箱/手机
-        if(isset($user['mobile']))
-        {
-            $user['mobile_security']=   empty($user['mobile']) ? '' : mb_substr($user['mobile'], 0, 3, 'utf-8').'***'.mb_substr($user['mobile'], -3, null, 'utf-8');
-        }
-        if(isset($user['email']))
-        {
-            $user['email_security'] =   empty($user['email']) ? '' : mb_substr($user['email'], 0, 3, 'utf-8').'***'.mb_substr($user['email'], -3, null, 'utf-8');
-        }
+            // 邮箱/手机
+            if(isset($user['mobile']))
+            {
+                $user['mobile_security']=   empty($user['mobile']) ? '' : mb_substr($user['mobile'], 0, 3, 'utf-8').'***'.mb_substr($user['mobile'], -3, null, 'utf-8');
+            }
+            if(isset($user['email']))
+            {
+                $user['email_security'] =   empty($user['email']) ? '' : mb_substr($user['email'], 0, 3, 'utf-8').'***'.mb_substr($user['email'], -3, null, 'utf-8');
+            }
 
-        // 显示名称,根据规则优先展示
-        $user['user_name_view'] = isset($user['username']) ? $user['username'] : '';
-        if(empty($user['user_name_view']) && isset($user['nickname']))
-        {
-            $user['user_name_view'] = $user['nickname'];
-        }
-        if(empty($user['user_name_view']) && isset($user['mobile_security']))
-        {
-            $user['user_name_view'] = $user['mobile_security'];
-        }
-        if(empty($user['user_name_view']) && isset($user['email_security']))
-        {
-            $user['user_name_view'] = $user['email_security'];
-        }
+            // 显示名称,根据规则优先展示
+            $user['user_name_view'] = isset($user['username']) ? $user['username'] : '';
+            if(empty($user['user_name_view']) && isset($user['nickname']))
+            {
+                $user['user_name_view'] = $user['nickname'];
+            }
+            if(empty($user['user_name_view']) && isset($user['mobile_security']))
+            {
+                $user['user_name_view'] = $user['mobile_security'];
+            }
+            if(empty($user['user_name_view']) && isset($user['email_security']))
+            {
+                $user['user_name_view'] = $user['email_security'];
+            }
 
-        // 头像
-        if(!empty($user['avatar']))
-        {
-            $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
-        } else {
-            $user['avatar'] = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyFileConfig('common_default_theme', '', 'default', true)).'/images/default-user-avatar.jpg';
-        }
+            // 头像
+            if(isset($user['avatar']))
+            {
+                if(!empty($user['avatar']))
+                {
+                    $user['avatar'] = ResourcesService::AttachmentPathViewHandle($user['avatar']);
+                } else {
+                    $user['avatar'] = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyFileConfig('common_default_theme', '', 'default', true)).'/images/default-user-avatar.jpg';
+                }
+            }
 
-        // 移除特殊数据
-        unset($user['pwd'], $user['salt']);
+            // 移除特殊数据
+            unset($user['pwd'], $user['salt']);
+        }
 
         return $user;
     }

@@ -860,7 +860,10 @@ class BaseLayout
                     $temp = array_column($ret['data'], null, 'id');
                     foreach($params['goods_ids'] as $v)
                     {
-                        $goods[] = $temp[$v];
+                        if(array_key_exists($v, $temp))
+                        {
+                            $goods[] = $temp[$v];
+                        }
                     }
                     $ret['data'] = $goods;
                 }
