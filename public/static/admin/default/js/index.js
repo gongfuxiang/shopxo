@@ -67,7 +67,7 @@ $(function()
             $('#ifcontent').animate({paddingLeft: "55px"}, 300);
             $('header.admin-header').animate({left: "54px"}, 300);
         } else {
-            $(this).animate({left: "134px"}, 300);
+            $(this).animate({left: "164px"}, 300);
             $(this).removeClass('am-icon-angle-double-right').addClass('am-icon-angle-double-left');
             $('#admin-offcanvas').animate({width: "160px"}, 300);
             $('#ifcontent').animate({paddingLeft: "160px"}, 300);
@@ -95,7 +95,7 @@ $(function()
         {
             $('.menu-mini-container-popup').hide();
             $('.menu-mini-container-tips').show();
-            $('.menu-mini-container-tips span').text($(this).find('span.nav-name').text());
+            $('.menu-mini-container-tips').text($(this).find('.nav-name').text());
             $('.menu-mini-container-tips').css('top', top);
         } else {
             $('.menu-mini-container-popup ul').html(html);
@@ -162,7 +162,7 @@ $(function()
         if($(document).width() <= 640)
         {
             $('.menu-scaling-submit').attr('data-status', 0);
-            $('.menu-scaling-submit').css({"left": "134px"});
+            $('.menu-scaling-submit').css({"left": "164px"});
             $('.menu-scaling-submit').removeClass('am-icon-angle-double-right').addClass('am-icon-angle-double-left');
             $('#admin-offcanvas').css({"width": "inherit"});
             $('#admin-offcanvas').removeClass('menu-mini').removeClass('menu-mini-event');
