@@ -358,7 +358,7 @@ class BuyService
 
         // 删除
         $where = [
-            'id'        => explode(',', $params['id']),
+            'id'        => is_array($params['id']) ? $params['id'] : explode(',', $params['id']),
             'user_id'   => $params['user']['id']
         ];
         if(Db::name('Cart')->where($where)->delete())
