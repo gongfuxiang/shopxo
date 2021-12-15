@@ -19,9 +19,7 @@
 				<select name="platform" class="am-radius chosen-select" data-placeholder="可选择..." placeholder="所属平台有误" data-validation-message="请选择所属平台" required>
 					<option value="">可选择...</option>
 					{{foreach $common_platform_type as $v}}
-						{{if !in_array($v['value'], ['pc'])}}
-							<option value="{{$v.value}}" {{if isset($data['platform']) and $data['platform'] eq $v['value']}}selected{{else /}}{{if !isset($data['platform']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
-						{{/if}}
+						<option value="{{$v.value}}" {{if isset($data['platform']) and $data['platform'] eq $v['value']}}selected{{else /}}{{if !isset($data['platform']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
 				</select>
 			</div>
