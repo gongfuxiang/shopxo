@@ -347,14 +347,19 @@ php;
             $sql = str_replace("`sxo_", " `{$params['DB_PREFIX']}", $sql);
         }
 
-        // 编码替换,utf8mb4则做替换操作
+        // 编码替换处理
         $charset = $this->charset_type_list[$params['DB_CHARSET']];
-        if($charset['charset'] != 'utf8mb4')
-        {
-            $sql = str_replace('SET NAMES utf8mb4;', "SET NAMES {$charset['charset']};", $sql);
-            $sql = str_replace('CHARSET=utf8mb4', "CHARSET={$charset['charset']}", $sql);
-            $sql = str_replace('utf8mb4_general_ci', "{$charset['collate']}", $sql);
-        }
+        $charset_old = $this->charset_type_list[($charset['charset'] == 'utf8') ? 'utf8mb4' : 'utf8'];
+        // 编码替换操作
+        $sql = str_replace("SET NAMES {$charset_old['charset']};", "SET NAMES {$charset['charset']};", $sql);
+        $sql = str_replace("SET {$charset_old['charset']} ", "SET {$charset['charset']} ", $sql);
+        $sql = str_replace("COLLATE {$charset_old['collate']} ", "COLLATE {$charset['collate']} ", $sql);
+
+        $sql = str_replace(["SET = {$charset_old['charset']} ", "SET={$charset_old['charset']} "], "SET={$charset['charset']} ", $sql);
+        $sql = str_replace(["COLLATE = {$charset_old['collate']} ", "COLLATE={$charset_old['collate']} "], "COLLATE={$charset['collate']} ", $sql);
+
+        $sql = str_replace(["CHARSET = {$charset_old['charset']} ", "CHARSET={$charset_old['charset']} "], "CHARSET={$charset['charset']} ", $sql);
+        $sql = str_replace($charset_old['collate'], $charset['collate'], $sql);
 
         // 转为数组
         $sql_all = preg_split("/;[\r\n]+/", $sql);
