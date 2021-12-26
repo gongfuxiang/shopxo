@@ -567,7 +567,7 @@ class OrderService
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2018-09-28
-     * @desc    description
+     * @desc    一般仅web端回调这个页面
      * @param   [array]          $params [输入参数]
      */
     public static function Respond($params = [])
@@ -617,7 +617,12 @@ class OrderService
             if(in_array($payment_name, MyConfig('shopxo.under_line_list')))
             {
                 // 线下支付处理
-                return self::UserOrderPayUnderLine($pay_ret['data']['out_trade_no']);
+                // cpde=-8888 则表示需要用户线下支付，仅表示订单已提交成功
+                $ret = self::UserOrderPayUnderLine($pay_ret['data']['out_trade_no']);
+                if($ret['code'] == -8888)
+                {
+                    $pay_ret['msg'] = $ret['msg'];
+                }
             }
         }
         return $pay_ret;
@@ -683,13 +688,13 @@ class OrderService
 
                 // 完成
                 Db::commit();
-                return DataReturn('操作成功', 0);
+                return DataReturn('支付成功', 0);
             } catch(\Exception $e) {
                 Db::rollback();
                 return DataReturn($e->getMessage(), -1);
             }
         }
-        return DataReturn('操作成功、请尽快联系管理员确认支付信息', -8888);
+        return DataReturn('提交成功、请尽快联系管理员确认支付信息', -8888);
     }
 
     /**

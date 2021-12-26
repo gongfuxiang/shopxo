@@ -113,7 +113,7 @@ class Plugins extends Common
         // 是否未绑定商店账号
         if($ret['code'] == -300)
         {
-            MyViewAssign('ext_html', '<p class="am-margin-top-sm"><button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> 绑定ShopXO商店账户</button></p>');
+            MyViewAssign('ext_html', '<p class="am-margin-top-sm"><button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> 绑定ShopXO商店账户</button></p><p class="am-text-warning am-margin-top-xl">如已绑定、请到商城后台左侧菜单工具下面清除缓存再尝试访问！</p>');
         }
 
         // 调用失败

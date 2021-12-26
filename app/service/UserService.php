@@ -1397,7 +1397,7 @@ class UserService
         // 是否开启用户注册
         if(!in_array($params['type'], MyC('home_user_reg_type', [], true)))
         {
-            return DataReturn('暂时关闭用户注册');
+            return DataReturn('暂时关闭用户注册', -1);
         }
 
         // 验证码基础参数
