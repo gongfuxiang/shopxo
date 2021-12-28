@@ -4,6 +4,10 @@
 .content-right table.am-table .reply-content {
     max-height: 80px;
 }
+.content-right table.am-table .images-slider .am-direction-nav .am-prev,
+.content-right table.am-table .images-slider .am-direction-nav .am-next {
+    z-index: 1;
+}
 
 /**
  * 编辑
