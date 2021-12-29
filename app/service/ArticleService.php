@@ -50,6 +50,9 @@ class ArticleService
 
             // 存储缓存
             MyCache($key, $data, 180);
+        } else {
+            // 处理数据、由于平台不一样url地址或者其他数据也会不一样
+            $data = self::DataHandle($data);
         }
         return $data;
     }
