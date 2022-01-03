@@ -279,7 +279,7 @@ class StoreService
         $ret = MyCache($key);
         if(empty($ret))
         {
-            $ret = GetHttpCode(self::StoreUrl(), 2);
+            $ret = GetHttpCode(self::StoreUrl(), 5);
             MyCache($key, $ret, $time);
         }
         if(!in_array($ret['data'], [200, 301, 302, 307, 308]))
