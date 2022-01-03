@@ -2044,10 +2044,14 @@ class BuyService
                     // 数量
                     $buy_number = ($appoint_buy_number == 0) ? $v['buy_number'] : $appoint_buy_number;
 
-                    // 回滚操作
-                    if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->inc('inventory', $buy_number)->update())
+                    // 商品回滚操作
+                    $temp_goods = Db::name('Goods')->where(['id'=>$v['goods_id']])->value('id');
+                    if(!empty($temp_goods))
                     {
-                        return DataReturn('商品库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                            if(!Db::name('Goods')->where(['id'=>$v['goods_id']])->inc('inventory', $buy_number)->update())
+                        {
+                            return DataReturn('商品库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
+                        }
                     }
 
                     // 回滚规格库存
@@ -2060,8 +2064,6 @@ class BuyService
                         {
                             return DataReturn('规格库存回滚失败['.$params['order_id'].'-'.$v['goods_id'].']', -10);
                         }
-                    } else {
-                        return $base;
                     }
 
                     // 仓库库存回滚
