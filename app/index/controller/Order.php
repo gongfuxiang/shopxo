@@ -241,7 +241,13 @@ class Order extends Common
         $ret = OrderService::Pay($params);
         if($ret['code'] == 0)
         {
-            return MyRedirect($ret['data']['data']);
+            // 是否直接成功、则直接进入提示页面并指定支付状态
+            if(isset($ret['data']['is_success']) && $ret['data']['is_success'] == 1)
+            {
+                return MyRedirect(MyUrl('index/order/respond', ['appoint_status'=>0]));
+            } else {
+                return MyRedirect($ret['data']['data']);
+            }
         } else {
             MyViewAssign('msg', $ret['msg']);
             return MyView('public/tips_error');

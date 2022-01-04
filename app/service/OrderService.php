@@ -172,7 +172,7 @@ class OrderService
         // 是否直接跳转
         if($success_count > 0 && $success_count == count($order_data))
         {
-            return DataReturn('操作成功', 0, ['data'=>MyUrl('index/order/respond', ['appoint_status'=>0]), 'is_success'=>1]);
+            return DataReturn('操作成功', 0, ['is_success'=>1]);
         }
 
         // 支付入口文件检查
@@ -257,6 +257,7 @@ class OrderService
 
         // 发起支付数据
         $pay_data = [
+            'params'        => $params,
             'user'          => $params['user'],
             'out_user'      => md5($params['user']['id']),
             'business_type' => 'system-order',
@@ -1212,7 +1213,7 @@ class OrderService
             $order_status_list = MyConst('common_order_status');
             $order_pay_status = MyConst('common_order_pay_status');
             $common_platform_type = MyConst('common_platform_type');
-            $common_site_type_list = MyConst('common_site_type_list');
+            $common_order_type_list = MyConst('common_order_type_list');
 
             // 仓库信息
             if(in_array('warehouse_id', $keys))
@@ -1311,7 +1312,7 @@ class OrderService
                 }
 
                 // 订单模式
-                $v['order_model_name'] = isset($common_site_type_list[$v['order_model']]) ? $common_site_type_list[$v['order_model']]['name'] : '未知';
+                $v['order_model_name'] = isset($common_order_type_list[$v['order_model']]) ? $common_order_type_list[$v['order_model']]['name'] : '未知';
 
                 // 客户端
                 $v['client_type_name'] = isset($common_platform_type[$v['client_type']]) ? $common_platform_type[$v['client_type']]['name'] : '';

@@ -314,6 +314,14 @@ class ConstService
                 4 => ['value' => 4, 'name' => '销售+自提', 'is_ext' => 1],
             ],
 
+            // 订单类型
+            'common_order_type_list' =>  [
+                0 => ['value' => 0, 'name' => '销售'],
+                1 => ['value' => 1, 'name' => '展示'],
+                2 => ['value' => 2, 'name' => '自提'],
+                3 => ['value' => 3, 'name' => '虚拟销售'],
+            ],
+
             // 管理员状态
             'common_admin_status_list'               =>  [
                 0 => ['value' => 0, 'name' => '正常', 'checked' => true],
