@@ -48,7 +48,7 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
 .chosen-container { width: 100% !important; }
 .am-tagsinput { display: block; padding: 3px 5px; border-radius: 2px; min-height: 30px; }
 .chosen-choices, .chosen-single { border-radius: 2px; }
-.chosen-choices li.search-field input[type="text"] { height: 30px !important; }
+.chosen-choices li.search-field input[type="text"] { height: 29px !important; }
 .chosen-choices li.search-field input[type="text"]:hover,
 .am-tagsinput input[type="text"]:hover { box-shadow: 0 0 0 #fff !important; border: 0 !important; }
 .chosen-choices li.search-field input[type="text"]:focus,
@@ -60,6 +60,7 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
 .chosen-container-single .chosen-default { color: #999 !important; }
 .chosen-disabled .chosen-choices, .chosen-disabled .chosen-single { background-color: #ccc; }
 .chosen-disabled .search-choice { background: #d6d6d6 !important; }
+.chosen-container-multi .chosen-choices li.search-choice {margin: 4px 4px 4px 0;}
 
 /**
  * 公共提示信息
@@ -683,6 +684,17 @@ button.colorpicker-submit img {
 .form-table-search-time > i {
     position: absolute;
     margin: 4px 0px 0px -15px;
+}
+.form-table-search td select[multiple],
+.form-table-search td select[size] {
+    height: auto;
+    width: 100%;
+    max-height: 31px;
+}
+.form-table-search td select[multiple],
+.form-table-search td select[size],
+.form-table-search td .chosen-container-multi .chosen-choices {
+    border: 1px solid #ccc;
 }
 
 /**

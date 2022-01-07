@@ -699,7 +699,7 @@ class OrderService
     }
 
     /**
-     * 支付异步处理
+     * 支付异步
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -734,8 +734,24 @@ class OrderService
             return $pay_ret;
         }
 
+        // 支付结果处理
+        return self::NotifyHandle($pay_ret['data'], $payment);
+    }
+
+    /**
+     * 支付异步处理
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-28
+     * @desc    description
+     * @param   [array]          $data      [支付数据]
+     * @param   [array]          $payment   [支付方式]
+     */
+    public static function NotifyHandle($data, $payment)
+    {
         // 支付订单数据
-        $pay_data = self::OrderPayLogValueList($pay_ret['data']['out_trade_no']);
+        $pay_data = self::OrderPayLogValueList($data['out_trade_no']);
         if($pay_data['code'] == 0)
         {
             // 订单支付日志已支付则直接返回
@@ -750,9 +766,9 @@ class OrderService
         // 支付金额是否小于订单金额
         if(MyC('common_is_pay_price_must_max_equal', 0) == 1)
         {
-            if($pay_ret['data']['pay_price'] < $pay_data['data']['pay_log_data']['total_price'])
+            if($data['pay_price'] < $pay_data['data']['pay_log_data']['total_price'])
             {
-                return DataReturn('支付金额小于日志订单金额['.$pay_ret['data']['pay_price'].'<'.$pay_data['data']['pay_log_data']['total_price'].']', -1);
+                return DataReturn('支付金额小于日志订单金额['.$data['pay_price'].'<'.$pay_data['data']['pay_log_data']['total_price'].']', -1);
             }
         }
 
@@ -762,10 +778,10 @@ class OrderService
             'payment'       => $payment,
             'pay_log_data'  => $pay_data['data']['pay_log_data'],
             'pay'           => [
-                'trade_no'      => $pay_ret['data']['trade_no'],
-                'subject'       => $pay_ret['data']['subject'],
-                'buyer_user'    => $pay_ret['data']['buyer_user'],
-                'pay_price'     => $pay_ret['data']['pay_price'],
+                'trade_no'      => $data['trade_no'],
+                'subject'       => $data['subject'],
+                'buyer_user'    => $data['buyer_user'],
+                'pay_price'     => $data['pay_price'],
             ],
         ];
 

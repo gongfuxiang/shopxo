@@ -101,7 +101,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => [0,1],
+                'checked_data'      => array_column(MyConst('common_order_aftersale_type_list'), 'value'),
                 'error_msg'         => '操作类型有误',
             ],
             [
@@ -120,6 +120,7 @@ class OrderAftersaleService
                 'checked_type'      => 'length',
                 'key_name'          => 'msg',
                 'checked_data'      => '200',
+                'is_checked'        => 1,
                 'error_msg'         => '退款说明最多 200 个字符',
             ],
             [
@@ -219,8 +220,8 @@ class OrderAftersaleService
             'user_id'           => $params['user']['id'],
             'number'            => ($params['type'] == 0) ? 0 : $number,
             'price'             => $price,
-            'reason'            => $params['reason'],
-            'msg'               => $params['msg'],
+            'reason'            => empty($params['reason']) ? '' : $params['reason'],
+            'msg'               => empty($params['msg']) ? '' : $params['msg'],
             'images'            => json_encode($images),
             'status'            => ($params['type'] == 0) ? 2 : 0,
             'add_time'          => time(),
@@ -260,7 +261,7 @@ class OrderAftersaleService
             }
 
             // 返回成功
-            return DataReturn('申请成功', 0);
+            return DataReturn('申请成功', 0, $data_id);
         }
         return DataReturn('申请失败', -100);
     }
@@ -925,7 +926,7 @@ class OrderAftersaleService
         // 是否仅退款操作需要退数量操作
         // 如果是仅退、订单状态为待发货或虚拟订单则退回数量
         $is_refund_only_number = false;
-        if($aftersale['type'] == 0 && ($order['data']['status'] <= 2 || $order['data']['order_model'] == 3))
+        if($aftersale['type'] == 0 && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
         {
             $is_refund_only_number = true;
             $aftersale['number'] = $order['data']['items']['buy_number'];
