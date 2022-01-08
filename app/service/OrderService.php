@@ -397,7 +397,7 @@ class OrderService
     }
 
     /**
-     * 管理员订单支付
+     * 线下订单支付
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -405,7 +405,7 @@ class OrderService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function AdminPay($params = [])
+    public static function OrderPaymentUnderLinePay($params = [])
     {
         // 请求参数
         $p = [
@@ -413,11 +413,6 @@ class OrderService
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
                 'error_msg'         => '订单id有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'admin',
-                'error_msg'         => '管理员信息有误',
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -751,6 +746,10 @@ class OrderService
     public static function NotifyHandle($data, $payment)
     {
         // 支付订单数据
+        if(empty($data['out_trade_no']))
+        {
+            return DataReturn('订单号为空[out_trade_no]', -1);
+        }
         $pay_data = self::OrderPayLogValueList($data['out_trade_no']);
         if($pay_data['code'] == 0)
         {

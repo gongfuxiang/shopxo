@@ -269,7 +269,7 @@ class Order extends Common
     {
         $params = $this->data_request;
         $params['admin'] = $this->admin;
-        return OrderService::AdminPay($params);
+        return OrderService::OrderPaymentUnderLinePay($params);
     }
 }
 ?>
