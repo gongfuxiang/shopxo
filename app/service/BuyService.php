@@ -1149,6 +1149,7 @@ class BuyService
                     'spec_barcode'      => empty($vs['spec_barcode']) ? '' : $vs['spec_barcode'],
                     'buy_number'        => intval($vs['stock']),
                     'model'             => $vs['model'],
+                    'extends'           => empty($vs['extends']) ? [] : json_decode($vs['extends'], true),
                 ];
             }
             $order_data[] = $order;
