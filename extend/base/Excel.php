@@ -32,7 +32,7 @@ class Excel
 	private $writer_type;
 
 	/**
-	 * [__construct 构造方法]
+	 * 构造方法
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -88,7 +88,40 @@ class Excel
 	}
 
 	/**
-	 * [Export excel文件导出]
+	 * 根据字段个数，设置表头排序字母
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2022-01-10
+	 * @desc    description
+	 */
+	public function GetLetterData()
+	{
+		$letter_str = '';
+		if(!empty($this->title) && is_array($this->title))
+		{
+			$count = count($this->title);
+			for($i='A',$k=0; $i<='Z'; $i++, $k++)
+			{
+			    if($k == $count)
+			    {
+			        break;
+			    }
+
+			    // 最后一个取消逗号
+			    if($k == ($count-1))
+			    {
+			        $letter_str .= $i;
+			    } else {
+			        $letter_str .= $i.',';
+			    }
+			}
+		}
+		return explode(',', $letter_str);
+	}
+
+	/**
+	 * excel文件导出
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -104,98 +137,98 @@ class Excel
 			die;
 		}
 
-		// excel对象
-		$excel = new \PHPExcel();
-
-		// 操作第一个工作表
-		$excel->setActiveSheetIndex(0);
-
-		// 文件输出类型
-		switch($this->file_type)
-		{
-			// PDF
-			case 'pdf':
-				$writer = PHPExcel_IOFactory::createWriter($excel, 'PDF');
-				$writer->setSheetIndex(0);
-				break;
-			
-			// 默认EXCEL
-			default:
-				$writer = \PHPExcel_IOFactory::createWriter($excel, $this->writer_type);
-		}
-
 		// 获取配置编码类型
 		$excel_charset = MyC('admin_excel_charset', 0);
 		$charset = MyConst('common_excel_charset_list')[$excel_charset]['value'];
 
-		// 水平,垂直居中
-		if($this->horizontal_center == 1)
-		{
-			$excel->getActiveSheet()->getDefaultStyle()->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-		}
-		if($this->vertical_center == 1)
-		{
-			$excel->getActiveSheet()->getDefaultStyle()->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-		}
+		// 获取字母
+		$letter_data = $this->GetLetterData();
 
-		//设置自动换行
-		if($this->warap_text == 1)
-		{
-			$excel->getActiveSheet()->getDefaultStyle()->getAlignment()->setWrapText(true);
-		}
+		// excel对象
+		$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
 
 		// 标题
-		$temp_key = 0;
+		$temp_cum = 0;
+		$temp_row = 1;
 		foreach($this->title as $k=>$v)
 		{
-			$col = \PHPExcel_Cell::stringFromColumnIndex($temp_key).'1';
-			$excel->getActiveSheet()->setCellValue($col, ($excel_charset == 0) ? $v['name'] : iconv('utf-8', $charset, $v['name']));
-			$temp_key++;
+			if(array_key_exists($temp_cum, $letter_data))
+			{
+				$temp_letter = $letter_data[$temp_cum].$temp_row;
+				$value = ($excel_charset == 0) ? $v['name'] : iconv('utf-8', $charset, $v['name']);
+	    		$sheet->setCellValue($temp_letter, $value);
+	    		$sheet->getStyle($temp_letter)->getFont()->setBold(true);
+	    		$temp_cum++;
+			}
 		}
-		
+
 		// 内容
+		$temp_row = 2;
 		foreach($this->data as $k=>$v)
 		{
-			$i = $k+2;
 			if(is_array($v) && !empty($v))
 			{
-				$temp_key = 0;
+				$temp_cum = 0;
 				foreach($this->title as $tk=>$tv)
 				{
-					$height = isset($tv['height']) ? intval($tv['height']) : 0;
-					$width = isset($tv['width']) ? intval($tv['width']) : $height;
-					$col = \PHPExcel_Cell::stringFromColumnIndex($temp_key);
-					if($tv['type'] == 'images')
+					if(array_key_exists($temp_cum, $letter_data))
 					{
-						$drawing = new \PHPExcel_Worksheet_Drawing();
-			            $drawing->setPath($v[$tk]);
+						$temp_letter = $letter_data[$temp_cum];
+						$height = isset($tv['height']) ? intval($tv['height']) : 0;
+						$width = isset($tv['width']) ? intval($tv['width']) : $height;
+						if($tv['type'] == 'images')
+						{
+							$drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+				            $drawing->setPath($v[$tk]);
 
-			            // 设置宽度高度
-			            $number = empty($height) ? 50 : $height-10;
-			            $drawing->setHeight($number);
-			            $drawing->setWidth($number);
-			            $drawing->setCoordinates($col.$i);
+				            // 设置宽度高度
+				            $number = empty($height) ? 50 : $height-10;
+				            $drawing->setHeight($number);
+				            $drawing->setWidth($number);
+				            $drawing->setCoordinates($temp_letter.$temp_row);
 
-			            // 图片偏移距离
-			            $x = ($width > 0) ? (($width-$number)/2)+15 : 15;
-			            $drawing->setOffsetX($x);
-			            $drawing->setOffsetY(15);
-			            $drawing->setWorksheet($excel->getActiveSheet());
-					} else {
-						$excel->getActiveSheet()->setCellValueExplicit($col.$i, ($excel_charset == 0) ? $v[$tk] : iconv('utf-8', $charset, $v[$tk]), \PHPExcel_Cell_DataType::TYPE_STRING);
+				            // 图片偏移距离
+				            $x = ($width > 0) ? (($width-$number)/2)+15 : 15;
+				            $drawing->setOffsetX($x);
+				            $drawing->setOffsetY(15);
+				            $drawing->setWorksheet($spreadsheet->getActiveSheet());
+						} else {
+							$value = ($excel_charset == 0) ? $v[$tk] : iconv('utf-8', $charset, $v[$tk]);
+							$sheet->setCellValueByColumnAndRow($temp_cum+1, $temp_row, $value);
+						}
+
+						// 单元格宽高
+						if($width > 0)
+						{
+							$spreadsheet->getActiveSheet()->getColumnDimension($temp_letter)->setWidth($width/5);
+						}
+
+						// 水平,垂直居中
+						if($this->horizontal_center == 1)
+						{
+							$spreadsheet->getActiveSheet()->getStyle($temp_letter)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+						}
+						if($this->vertical_center == 1)
+						{
+							$spreadsheet->getActiveSheet()->getStyle($temp_letter)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+						}
+
+						// 自动换行
+						if($this->warap_text == 1)
+						{
+							$sheet->getStyle($temp_letter)->getAlignment()->setWrapText(true);
+						}
+						$temp_cum++;
 					}
 
-					// 单元格宽高
-					if($width > 0)
-					{
-						$excel->getActiveSheet()->getColumnDimension($col)->setWidth($width/5);
-					}
+					// 行高度
 					if($height > 0)
 					{
-						$excel->getActiveSheet()->getRowDimension($i)->setRowHeight($height);
+						$spreadsheet->getActiveSheet()->getRowDimension($temp_row)->setRowHeight($height);
 					}
-					$temp_key++;
 				}
+				$temp_row++;
 			}
 		}
 
@@ -205,7 +238,7 @@ class Excel
             ob_clean();
         }
 
-		// 头部
+        // 头部
 		header('Pragma: public');
 		header('Expires: 0');
 		header('Cache-Control:must-revalidate, post-check=0, pre-check=0');
@@ -215,11 +248,12 @@ class Excel
 		header('Content-Type:application/download');
 		header('Content-Disposition:attachment;filename='.$this->filename.'.'.$this->suffix);
 		header('Content-Transfer-Encoding:binary');
+		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, ucfirst($this->suffix));
 		$writer->save('php://output');
 	}
 
 	/**
-	 * [Import excel文件导入]
+	 * excel文件导入
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -236,44 +270,44 @@ class Excel
 		}
 		$file = empty($file) ? $_FILES['file']['tmp_name'] : $file;
 
-		// 取得文件基础数据
-		$reader = \PHPExcel_IOFactory::createReader($this->writer_type);
-		$excel = $reader->load($file);
-
-		// 取得总行数
-		$worksheet = $excel->getActiveSheet();
-
-		// 取得总列数
-		$highest_row = $worksheet->getHighestRow();
-
-		// 取得最高的列
-		$highest_column = $worksheet->getHighestColumn();
-
-		// 总列数
-		$highest_column_index = \PHPExcel_Cell::columnIndexFromString($highest_column);
+		// 取得文件基础数据及类型判断
+		$extension = empty($_FILES['file']['name']) ? 'xlsx' : substr($_FILES['file']['name'], strripos($_FILES['file']['name'], '.')+1);
+		if(!in_array($extension, ['csv', 'xls', 'xlsx']))
+		{
+			return DataReturn('无效的excel类型文件', -1);
+		}
+		if('csv' == $extension)
+		{     
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Csv();
+		} else if('xls' == $extension)
+		{     
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+		} else { 
+			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+		}
+		$spreadsheet = $reader->load($file);
 
 		// 定义变量
 		$data = [];
 		$title = [];
-
-		// 读取数据
-		for($row=1; $row<=$highest_row; $row++)
+		$sheet = $spreadsheet->getActiveSheet();
+		foreach($sheet->getRowIterator(1) as $rk=>$row)
 		{
-			// 注意 highest_column_index 的列数索引从0开始
-			$info = [];
-			for($col = 0; $col < $highest_column_index; $col++)
+			$tmp = [];
+			foreach($row->getCellIterator() as $cell)
 			{
-				$value = trim($worksheet->getCellByColumnAndRow($col, $row)->getFormattedValue());
-				if($row == 1)
+				$value = $cell->getFormattedValue();
+				if($rk == 1)
 				{
 					$title[] = $value;
 				} else {
-					$info[] = $value;
+					$tmp[] = $value;
 				}
 			}
-			if($row > 1)
+			// 避免正行为空
+			if(count(array_filter($tmp)) > 0)
 			{
-				$data[] = $info;
+				$data[] = $tmp;
 			}
 		}
 		$result = [
