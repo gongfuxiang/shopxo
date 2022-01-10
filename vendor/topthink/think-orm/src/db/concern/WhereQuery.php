@@ -49,7 +49,7 @@ trait WhereQuery
      */
     protected function parseQueryWhere(BaseQuery $query): void
     {
-        $this->options['where'] = $query->getOptions('where');
+        $this->options['where'] = $query->getOptions('where') ?? [];
 
         if ($query->getOptions('via')) {
             $via = $query->getOptions('via');
@@ -361,9 +361,7 @@ trait WhereQuery
             $field = $this->options['via'] . '.' . $field;
         }
 
-        if ($field instanceof Raw) {
-            return $this->whereRaw($field, is_array($op) ? $op : [], $logic);
-        } elseif ($strict) {
+        if ($strict) {
             // 使用严格模式查询
             if ('=' == $op) {
                 $where = $this->whereEq($field, $condition);

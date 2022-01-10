@@ -251,6 +251,17 @@ trait Attribute
     }
 
     /**
+     * 刷新对象原始数据（为当前数据）
+     * @access public
+     * @return $this
+     */
+    public function refreshOrigin()
+    {
+        $this->origin = $this->data;
+        return $this;
+    }
+
+    /**
      * 获取对象原始数据 如果不存在指定字段返回null
      * @access public
      * @param  string $name 字段名 留空获取全部
@@ -531,6 +542,10 @@ trait Attribute
      */
     protected function getJsonValue($name, $value)
     {
+        if (is_null($value)) {
+            return $value;
+        }
+
         foreach ($this->withAttr[$name] as $key => $closure) {
             if ($this->jsonAssoc) {
                 $value[$key] = $closure($value[$key], $value);
@@ -633,11 +648,11 @@ trait Attribute
      * @param  callable     $callback   闭包获取器
      * @return $this
      */
-    public function withAttribute($name, callable $callback = null)
+    public function withAttr($name, callable $callback = null)
     {
         if (is_array($name)) {
             foreach ($name as $key => $val) {
-                $this->withAttribute($key, $val);
+                $this->withAttr($key, $val);
             }
         } else {
             $name = $this->getRealFieldName($name);

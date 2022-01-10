@@ -149,7 +149,7 @@ if (!function_exists('cookie')) {
     {
         if (is_null($value)) {
             // 删除
-            Cookie::delete($name);
+            Cookie::delete($name, $option ?: []);
         } elseif ('' === $value) {
             // 获取
             return 0 === strpos($name, '?') ? Cookie::has(substr($name, 1)) : Cookie::get($name);

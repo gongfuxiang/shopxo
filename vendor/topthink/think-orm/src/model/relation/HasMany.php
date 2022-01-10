@@ -340,9 +340,10 @@ class HasMany extends Relation
 
         $fields     = $this->getRelationQueryFields($fields, $model);
         $softDelete = $this->query->getOptions('soft_delete');
-        $query      = $query ?: $this->parent->db()->alias($model);
+        $query      = $query ?: $this->parent->db();
 
-        return $query->group($model . '.' . $this->localKey)
+        return $query->alias($model)
+            ->group($model . '.' . $this->localKey)
             ->field($fields)
             ->join([$table => $relation], $model . '.' . $this->localKey . '=' . $relation . '.' . $this->foreignKey, $joinType)
             ->when($softDelete, function ($query) use ($softDelete, $relation) {

@@ -151,9 +151,10 @@ class HasManyThrough extends Relation
 
         $fields     = $this->getRelationQueryFields($fields, $model);
         $softDelete = $this->query->getOptions('soft_delete');
-        $query      = $query ?: $this->parent->db()->alias($model);
+        $query      = $query ?: $this->parent->db();
 
-        return $query->join($throughTable, $throughTable . '.' . $this->foreignKey . '=' . $model . '.' . $this->localKey)
+        return $query->alias($model)
+            ->join($throughTable, $throughTable . '.' . $this->foreignKey . '=' . $model . '.' . $this->localKey)
             ->join($modelTable, $modelTable . '.' . $throughKey . '=' . $throughTable . '.' . $this->throughPk, $joinType)
             ->when($softDelete, function ($query) use ($softDelete, $modelTable) {
                 $query->where($modelTable . strstr($softDelete[0], '.'), '=' == $softDelete[1][0] ? $softDelete[1][1] : null);

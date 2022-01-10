@@ -176,7 +176,7 @@ class File extends SplFileInfo
                         $this->hashName = call_user_func($rule);
                         break;
                     default:
-                        $this->hashName = date('Ymd') . DIRECTORY_SEPARATOR . md5((string) microtime(true));
+                        $this->hashName = date('Ymd') . DIRECTORY_SEPARATOR . md5(microtime(true) . $this->getPathname());
                         break;
                 }
             }

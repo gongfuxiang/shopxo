@@ -260,11 +260,12 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
     /**
      * 创建新的模型实例
      * @access public
-     * @param array $data  数据
-     * @param mixed $where 更新条件
+     * @param array $data       数据
+     * @param mixed $where      更新条件
+     * @param array $options    参数
      * @return Model
      */
-    public function newInstance(array $data = [], $where = null): Model
+    public function newInstance(array $data = [], $where = null, array $options = []): Model
     {
         $model = new static($data);
 
@@ -613,7 +614,7 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
         if ($this->autoWriteTimestamp && $this->updateTime) {
             // 自动写入更新时间
             $data[$this->updateTime]       = $this->autoWriteTimestamp();
-            $this->data[$this->updateTime] = $this->getTimestampValue($data[$this->updateTime]);
+            $this->data[$this->updateTime] = $data[$this->updateTime];
         }
 
         // 检查允许字段
@@ -678,12 +679,12 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
         if ($this->autoWriteTimestamp) {
             if ($this->createTime && !isset($data[$this->createTime])) {
                 $data[$this->createTime]       = $this->autoWriteTimestamp();
-                $this->data[$this->createTime] = $this->getTimestampValue($data[$this->createTime]);
+                $this->data[$this->createTime] = $data[$this->createTime];
             }
 
             if ($this->updateTime && !isset($data[$this->updateTime])) {
                 $data[$this->updateTime]       = $this->autoWriteTimestamp();
-                $this->data[$this->updateTime] = $this->getTimestampValue($data[$this->updateTime]);
+                $this->data[$this->updateTime] = $data[$this->updateTime];
             }
         }
 
@@ -970,21 +971,25 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
     }
 
     // ArrayAccess
+    #[\ReturnTypeWillChange]
     public function offsetSet($name, $value)
     {
         $this->setAttr($name, $value);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($name): bool
     {
         return $this->__isset($name);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($name)
     {
         $this->__unset($name);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($name)
     {
         return $this->getAttr($name);
@@ -1035,10 +1040,6 @@ abstract class Model implements JsonSerializable, ArrayAccess, Arrayable, Jsonab
     {
         if (isset(static::$macro[static::class][$method])) {
             return call_user_func_array(static::$macro[static::class][$method]->bindTo($this, static::class), $args);
-        }
-
-        if ('withattr' == strtolower($method)) {
-            return call_user_func_array([$this, 'withAttribute'], $args);
         }
 
         return call_user_func_array([$this->db(), $method], $args);

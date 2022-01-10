@@ -117,7 +117,7 @@ class Mysql extends PDOConnection
      * @param  string $xid XA事务id
      * @return void
      */
-    public function startTransXa(string $xid)
+    public function startTransXa(string $xid): void
     {
         $this->initConnect(true);
         $this->linkID->exec("XA START '$xid'");
@@ -129,7 +129,7 @@ class Mysql extends PDOConnection
      * @param  string $xid XA事务id
      * @return void
      */
-    public function prepareXa(string $xid)
+    public function prepareXa(string $xid): void
     {
         $this->initConnect(true);
         $this->linkID->exec("XA END '$xid'");
@@ -142,7 +142,7 @@ class Mysql extends PDOConnection
      * @param  string $xid XA事务id
      * @return void
      */
-    public function commitXa(string $xid)
+    public function commitXa(string $xid): void
     {
         $this->initConnect(true);
         $this->linkID->exec("XA COMMIT '$xid'");
@@ -154,7 +154,7 @@ class Mysql extends PDOConnection
      * @param  string $xid XA事务id
      * @return void
      */
-    public function rollbackXa(string $xid)
+    public function rollbackXa(string $xid): void
     {
         $this->initConnect(true);
         $this->linkID->exec("XA ROLLBACK '$xid'");

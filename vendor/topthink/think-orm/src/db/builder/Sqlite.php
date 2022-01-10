@@ -94,4 +94,16 @@ class Sqlite extends Builder
 
         return $key;
     }
+
+    /**
+     * 设置锁机制
+     * @access protected
+     * @param  Query       $query 查询对象
+     * @param  bool|string $lock
+     * @return string
+     */
+    protected function parseLock(Query $query, $lock = false): string
+    {
+        return '';
+    }
 }

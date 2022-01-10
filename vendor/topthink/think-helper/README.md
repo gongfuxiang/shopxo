@@ -2,6 +2,8 @@
 
 基于PHP7.1+
 
+[![PHP Composer](https://github.com/larvatecn/think-helper/actions/workflows/php.yml/badge.svg)](https://github.com/larvatecn/think-helper/actions/workflows/php.yml)
+
 > 以下类库都在`\\think\\helper`命名空间下
 
 ## Str

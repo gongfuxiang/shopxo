@@ -69,17 +69,18 @@ final class Mbstring
 {
     public const MB_CASE_FOLD = \PHP_INT_MAX;
 
-    private static $encodingList = ['ASCII', 'UTF-8'];
-    private static $language = 'neutral';
-    private static $internalEncoding = 'UTF-8';
-    private static $caseFold = [
+    private const CASE_FOLD = [
         ['µ', 'ſ', "\xCD\x85", 'ς', "\xCF\x90", "\xCF\x91", "\xCF\x95", "\xCF\x96", "\xCF\xB0", "\xCF\xB1", "\xCF\xB5", "\xE1\xBA\x9B", "\xE1\xBE\xBE"],
         ['μ', 's', 'ι',        'σ', 'β',        'θ',        'φ',        'π',        'κ',        'ρ',        'ε',        "\xE1\xB9\xA1", 'ι'],
     ];
 
+    private static $encodingList = ['ASCII', 'UTF-8'];
+    private static $language = 'neutral';
+    private static $internalEncoding = 'UTF-8';
+
     public static function mb_convert_encoding($s, $toEncoding, $fromEncoding = null)
     {
-        if (\is_array($fromEncoding) || false !== strpos($fromEncoding, ',')) {
+        if (\is_array($fromEncoding) || ($fromEncoding !== null && false !== strpos($fromEncoding, ','))) {
             $fromEncoding = self::mb_detect_encoding($s, $fromEncoding);
         } else {
             $fromEncoding = self::getEncoding($fromEncoding);
@@ -300,7 +301,7 @@ final class Mbstring
                 $map = $upper;
             } else {
                 if (self::MB_CASE_FOLD === $mode) {
-                    $s = str_replace(self::$caseFold[0], self::$caseFold[1], $s);
+                    $s = str_replace(self::CASE_FOLD[0], self::CASE_FOLD[1], $s);
                 }
 
                 static $lower = null;
@@ -599,6 +600,9 @@ final class Mbstring
             return true;
         }
         if (80000 > \PHP_VERSION_ID) {
+            return false;
+        }
+        if (\is_int($c) || 'long' === $c || 'entity' === $c) {
             return false;
         }
 

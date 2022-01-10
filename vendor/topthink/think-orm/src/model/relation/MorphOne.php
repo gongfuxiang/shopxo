@@ -90,6 +90,8 @@ class MorphOne extends Relation
             }
 
             $relationModel->setParent(clone $this->parent);
+        } else {
+            $relationModel = $this->getDefaultModel();
         }
 
         return $relationModel;
@@ -158,7 +160,7 @@ class MorphOne extends Relation
             // 关联数据封装
             foreach ($resultSet as $result) {
                 if (!isset($data[$result->$pk])) {
-                    $relationModel = null;
+                    $relationModel = $this->getDefaultModel();
                 } else {
                     $relationModel = $data[$result->$pk];
                     $relationModel->setParent(clone $result);
@@ -202,7 +204,7 @@ class MorphOne extends Relation
                 $relationModel->setParent(clone $result);
                 $relationModel->exists(true);
             } else {
-                $relationModel = null;
+                $relationModel = $this->getDefaultModel();
             }
 
             if (!empty($this->bindAttr)) {

@@ -39,7 +39,7 @@ use think\initializer\RegisterService;
  */
 class App extends Container
 {
-    const VERSION = '6.0.9';
+    const VERSION = '6.0.10LTS';
 
     /**
      * 应用调试模式
@@ -168,7 +168,7 @@ class App extends Container
      */
     public function __construct(string $rootPath = '')
     {
-        $this->thinkPath   = dirname(__DIR__) . DIRECTORY_SEPARATOR;
+        $this->thinkPath   = realpath(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
         $this->rootPath    = $rootPath ? rtrim($rootPath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : $this->getDefaultRootPath();
         $this->appPath     = $this->rootPath . 'app' . DIRECTORY_SEPARATOR;
         $this->runtimePath = $this->rootPath . 'runtime' . DIRECTORY_SEPARATOR;
@@ -450,13 +450,8 @@ class App extends Container
         // 加载全局初始化文件
         $this->load();
 
-        // 加载框架默认语言包
-        $langSet = $this->lang->defaultLangSet();
-
-        $this->lang->load($this->thinkPath . 'lang' . DIRECTORY_SEPARATOR . $langSet . '.php');
-
         // 加载应用默认语言包
-        $this->loadLangPack($langSet);
+        $this->loadLangPack();
 
         // 监听AppInit
         $this->event->trigger(AppInit::class);
@@ -482,25 +477,13 @@ class App extends Container
 
     /**
      * 加载语言包
-     * @param string $langset 语言
      * @return void
      */
-    public function loadLangPack($langset)
+    public function loadLangPack()
     {
-        if (empty($langset)) {
-            return;
-        }
-
-        // 加载系统语言包
-        $files = glob($this->appPath . 'lang' . DIRECTORY_SEPARATOR . $langset . '.*');
-        $this->lang->load($files);
-
-        // 加载扩展（自定义）语言包
-        $list = $this->config->get('lang.extend_list', []);
-
-        if (isset($list[$langset])) {
-            $this->lang->load($list[$langset]);
-        }
+        // 加载默认语言包
+        $langSet = $this->lang->defaultLangSet();
+        $this->lang->switchLangSet($langSet);
     }
 
     /**

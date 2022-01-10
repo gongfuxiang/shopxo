@@ -182,7 +182,7 @@ trait TimeFieldQuery
     public function whereNotBetweenTime(string $field, $startTime, $endTime)
     {
         return $this->whereTime($field, '<', $startTime)
-            ->whereTime($field, '>', $endTime);
+            ->whereTime($field, '>', $endTime, 'OR');
     }
 
     /**

@@ -279,7 +279,7 @@ abstract class PDOConnection extends Connection
      */
     protected function getFieldType(string $type): string
     {
-        if (0 === strpos($type, 'set') || 0 === strpos($type, 'enum')) {
+        if (0 === stripos($type, 'set') || 0 === stripos($type, 'enum')) {
             $result = 'string';
         } elseif (preg_match('/(double|float|decimal|real|numeric)/is', $type)) {
             $result = 'float';
@@ -287,11 +287,11 @@ abstract class PDOConnection extends Connection
             $result = 'int';
         } elseif (preg_match('/bool/is', $type)) {
             $result = 'bool';
-        } elseif (0 === strpos($type, 'timestamp')) {
+        } elseif (0 === stripos($type, 'timestamp')) {
             $result = 'timestamp';
-        } elseif (0 === strpos($type, 'datetime')) {
+        } elseif (0 === stripos($type, 'datetime')) {
             $result = 'datetime';
-        } elseif (0 === strpos($type, 'date')) {
+        } elseif (0 === stripos($type, 'date')) {
             $result = 'date';
         } else {
             $result = 'string';
@@ -1273,7 +1273,7 @@ abstract class PDOConnection extends Connection
             $type  = is_array($val) ? $val[1] : PDO::PARAM_STR;
 
             if (self::PARAM_FLOAT == $type || PDO::PARAM_STR == $type) {
-                $value = '\'' . addslashes($value) . '\'';
+                $value = '\'' . addcslashes($value, "'") . '\'';
             } elseif (PDO::PARAM_INT == $type && '' === $value) {
                 $value = '0';
             }
@@ -1442,7 +1442,7 @@ abstract class PDOConnection extends Connection
 
             if (1 == $this->transTimes) {
                 $this->linkID->beginTransaction();
-            } elseif ($this->transTimes > 1 && $this->supportSavepoint()) {
+            } elseif ($this->transTimes > 1 && $this->supportSavepoint() && $this->linkID->inTransaction()) {
                 $this->linkID->exec(
                     $this->parseSavepoint('trans' . $this->transTimes)
                 );
@@ -1473,7 +1473,7 @@ abstract class PDOConnection extends Connection
     {
         $this->initConnect(true);
 
-        if (1 == $this->transTimes) {
+        if (1 == $this->transTimes && $this->linkID->inTransaction()) {
             $this->linkID->commit();
         }
 
@@ -1490,12 +1490,14 @@ abstract class PDOConnection extends Connection
     {
         $this->initConnect(true);
 
-        if (1 == $this->transTimes) {
-            $this->linkID->rollBack();
-        } elseif ($this->transTimes > 1 && $this->supportSavepoint()) {
-            $this->linkID->exec(
-                $this->parseSavepointRollBack('trans' . $this->transTimes)
-            );
+        if ($this->linkID->inTransaction()) {
+            if (1 == $this->transTimes) {
+                $this->linkID->rollBack();
+            } elseif ($this->transTimes > 1 && $this->supportSavepoint()) {
+                $this->linkID->exec(
+                    $this->parseSavepointRollBack('trans' . $this->transTimes)
+                );
+            }
         }
 
         $this->transTimes = max(0, $this->transTimes - 1);
@@ -1756,12 +1758,63 @@ abstract class PDOConnection extends Connection
     }
 
     /**
+     * 执行数据库Xa事务
+     * @access public
+     * @param  callable $callback 数据操作方法回调
+     * @param  array    $dbs      多个查询对象或者连接对象
+     * @return mixed
+     * @throws PDOException
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function transactionXa(callable $callback, array $dbs = [])
+    {
+        $xid = uniqid('xa');
+
+        if (empty($dbs)) {
+            $dbs[] = $this;
+        }
+
+        foreach ($dbs as $key => $db) {
+            if ($db instanceof BaseQuery) {
+                $db = $db->getConnection();
+
+                $dbs[$key] = $db;
+            }
+
+            $db->startTransXa($xid);
+        }
+
+        try {
+            $result = null;
+            if (is_callable($callback)) {
+                $result = $callback($this);
+            }
+
+            foreach ($dbs as $db) {
+                $db->prepareXa($xid);
+            }
+
+            foreach ($dbs as $db) {
+                $db->commitXa($xid);
+            }
+
+            return $result;
+        } catch (\Exception | \Throwable $e) {
+            foreach ($dbs as $db) {
+                $db->rollbackXa($xid);
+            }
+            throw $e;
+        }
+    }
+
+    /**
      * 启动XA事务
      * @access public
      * @param  string $xid XA事务id
      * @return void
      */
-    public function startTransXa(string $xid)
+    public function startTransXa(string $xid): void
     {}
 
     /**
@@ -1770,7 +1823,7 @@ abstract class PDOConnection extends Connection
      * @param  string $xid XA事务id
      * @return void
      */
-    public function prepareXa(string $xid)
+    public function prepareXa(string $xid): void
     {}
 
     /**
@@ -1779,7 +1832,7 @@ abstract class PDOConnection extends Connection
      * @param  string $xid XA事务id
      * @return void
      */
-    public function commitXa(string $xid)
+    public function commitXa(string $xid): void
     {}
 
     /**
@@ -1788,6 +1841,6 @@ abstract class PDOConnection extends Connection
      * @param  string $xid XA事务id
      * @return void
      */
-    public function rollbackXa(string $xid)
+    public function rollbackXa(string $xid): void
     {}
 }

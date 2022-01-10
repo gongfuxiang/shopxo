@@ -20,6 +20,7 @@ use JsonSerializable;
 use think\contract\Arrayable;
 use think\contract\Jsonable;
 use think\helper\Arr;
+use Traversable;
 
 /**
  * 数据集管理类
@@ -142,7 +143,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     public function intersect($items, string $indexKey = null)
     {
         if ($this->isEmpty() || is_scalar($this->items[0])) {
-            return new static(array_diff($this->items, $this->convertToArray($items)));
+            return new static(array_intersect($this->items, $this->convertToArray($items)));
         }
 
         $intersect  = [];
@@ -579,16 +580,19 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     }
 
     // ArrayAccess
-    public function offsetExists($offset)
+    #[\ReturnTypeWillChange]
+    public function offsetExists($offset) : bool
     {
         return array_key_exists($offset, $this->items);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->items[$offset];
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
@@ -598,24 +602,27 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         }
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->items[$offset]);
     }
 
     //Countable
-    public function count()
+    public function count(): int
     {
         return count($this->items);
     }
 
     //IteratorAggregate
-    public function getIterator()
+    #[\ReturnTypeWillChange]
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->items);
     }
 
     //JsonSerializable
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();
@@ -627,7 +634,7 @@ class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param integer $options json参数
      * @return string
      */
-    public function toJson(int $options = JSON_UNESCAPED_UNICODE) : string
+    public function toJson(int $options = JSON_UNESCAPED_UNICODE): string
     {
         return json_encode($this->toArray(), $options);
     }

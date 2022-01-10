@@ -11,6 +11,8 @@ use League\Flysystem\InvalidRootException;
 use League\Flysystem\Util;
 use League\Flysystem\Util\MimeType;
 
+use function in_array;
+
 class Ftp extends AbstractFtpAdapter
 {
     use StreamedCopyTrait;
@@ -160,7 +162,7 @@ class Ftp extends AbstractFtpAdapter
     {
         if ($this->utf8) {
             $response = ftp_raw($this->connection, "OPTS UTF8 ON");
-            if (substr($response[0], 0, 3) !== '200') {
+            if (!in_array(substr($response[0], 0, 3), ['200', '202'])) {
                 throw new ConnectionRuntimeException(
                     'Could not set UTF-8 mode for connection: ' . $this->getHost() . '::' . $this->getPort()
                 );
@@ -235,7 +237,7 @@ class Ftp extends AbstractFtpAdapter
      */
     public function disconnect()
     {
-        if (is_resource($this->connection)) {
+        if ($this->hasFtpConnection()) {
             @ftp_close($this->connection);
         }
 
@@ -536,8 +538,7 @@ class Ftp extends AbstractFtpAdapter
      */
     public function isConnected()
     {
-        return is_resource($this->connection)
-            && $this->getRawExecResponseCode('NOOP') === 200;
+        return $this->hasFtpConnection() && $this->getRawExecResponseCode('NOOP') === 200;
     }
 
     /**
@@ -563,11 +564,10 @@ class Ftp extends AbstractFtpAdapter
         $connection = $this->getConnection();
 
         if ($this->isPureFtpd) {
-            $path = str_replace(' ', '\ ', $path);
-            $this->escapePath($path);
+            $path = str_replace([' ', '[', ']'], ['\ ', '\\[', '\\]'], $path);
         }
 
-        return ftp_rawlist($connection, $options . ' ' . $path);
+        return ftp_rawlist($connection, $options . ' ' . $this->escapePath($path));
     }
 
     private function getRawExecResponseCode($command)
@@ -575,5 +575,10 @@ class Ftp extends AbstractFtpAdapter
         $response = @ftp_raw($this->connection, trim($command));
 
         return (int) preg_replace('/\D/', '', implode(' ', $response));
+    }
+
+    private function hasFtpConnection(): bool
+    {
+        return is_resource($this->connection) || $this->connection instanceof \FTP\Connection;
     }
 }
