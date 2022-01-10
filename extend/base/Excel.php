@@ -29,7 +29,6 @@ class Excel
 	private $horizontal_center;
 	private $vertical_center;
 	private $warap_text;
-	private $writer_type;
 
 	/**
 	 * 构造方法
@@ -68,7 +67,7 @@ class Excel
 		$this->data = isset($params['data']) ? $params['data'] : [];
 
 		// 出错跳转地址
-		$this->jump_url = empty($params['jump_url']) ? (empty($_SERVER['HTTP_REFERER']) ? __MY_URL__ : $_SERVER['HTTP_REFERER']) : $params['jump_url'];
+		$this->jump_url = empty($params['jump_url']) ? (empty($_SERVER['HTTP_REFERER']) ? __MY_URL__ : htmlspecialchars($_SERVER['HTTP_REFERER'])) : $params['jump_url'];
 
 		// 错误提示信息
 		$this->msg = empty($params['msg']) ? 'title or data cannot be empty!' : $params['msg'];
@@ -79,12 +78,6 @@ class Excel
 
 		// 内容自动换行
 		$this->warap_text = isset($params['warap_text']) ? intval($params['warap_text']) : 1;
-
-		// excel写入类型
-		$this->writer_type = empty($params['writer_type']) ? 'Excel5' : trim($params['writer_type']);
-
-		// 引入PHPExcel类库
-		require ROOT.'extend'.DS.'phpexcel'.DS.'PHPExcel.php';
 	}
 
 	/**
