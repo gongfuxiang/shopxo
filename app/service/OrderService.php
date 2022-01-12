@@ -721,7 +721,7 @@ class OrderService
         }
         $payment_obj = new $pay_name($payment['config']);
 
-        // 是否存在异步方法
+        // 是否存在处理方法
         $method = method_exists($payment_obj, 'Notify') ? 'Notify' : 'Respond';
         $pay_ret = $payment_obj->$method(array_merge(input('get.'), input('post.')));
         if(!isset($pay_ret['code']) || $pay_ret['code'] != 0)

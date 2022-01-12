@@ -182,7 +182,7 @@ class WeixinScanQrcode
                 }
             }
         } else {
-            $ret = DataReturn($result['return_msg'], -1);
+            $ret = DataReturn(is_string($result) ? $result : $result['return_msg'], -1);
         }
         return $ret;
     }
@@ -241,7 +241,7 @@ class WeixinScanQrcode
                 $ret = DataReturn($result['err_code_des'].'['.$result['err_code'].']', -1);
             }
         } else {
-            $ret = DataReturn($result['return_msg'], -1);
+            $ret = DataReturn(is_string($result) ? $result : $result['return_msg'], -1);
         }
         return $ret;
     }
@@ -381,7 +381,7 @@ class WeixinScanQrcode
             }
             return DataReturn($result['err_code_des'].'['.$result['err_code'].']', -1);
         }
-        return DataReturn($result['return_msg'], -1);
+        $ret = DataReturn(is_string($result) ? $result : $result['return_msg'], -1);
     }
 
     /**
