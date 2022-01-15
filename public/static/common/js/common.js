@@ -309,10 +309,12 @@ function FromInit(form_name)
 			var $this = this;
 			setTimeout(function()
 			{
+
 				// 错误信息
 				var $field = $(validity.field);
+				var value = $field.val();
 				var msg = $field.data('validationMessage') || $this.getValidationMessage(validity);
-				if($field.hasClass('am-field-error'))
+				if((value == '' || value == undefined) && $field.hasClass('am-field-error'))
 				{
 					Prompt(msg);
 				}
