@@ -110,6 +110,9 @@
                                                 <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius am-inline-block Wdate" id="form-table-search-time-end-{{$t.form_key}}" name="{{$t.form_key}}_end" value="{{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}}{{$form_params[$t['form_key'].'_end']}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder_end'])}}{{$t.search_config.placeholder_end}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd',minDate:'#F{$dp.$D(\'form-table-search-time-start-{{$t.form_key}}\',{d:+1});}'})" autocomplete="off" {{if !empty($form_params) and isset($form_params[$t['form_key'].'_end'])}}data-am-popover="{theme: 'sm', content: '{{$form_params[$t['form_key'].'_end']}}', trigger: 'hover focus'}"{{/if}} />
                                             </div>
                                         {{/case}}
+                                        {{case ym}}
+                                            <input type="text" autocomplete="off" class="am-form-field am-input-sm am-radius Wdate" name="{{$t.form_key}}" value="{{if !empty($form_params) and isset($form_params[$t['form_key']])}}{{$form_params[$t['form_key']]}}{{/if}}" placeholder="{{if isset($t['search_config']['placeholder'])}}{{$t.search_config.placeholder}}{{/if}}" value="" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM'})" autocomplete="off" {{if !empty($form_params) and isset($form_params[$t['form_key']])}}data-am-popover="{theme: 'sm', content: '{{$form_params[$t['form_key']]}}', trigger: 'hover focus'}"{{/if}} />
+                                        {{/case}}
                                         {{case module}}
                                             <!-- 从模块加载自定义模块数据 -->
                                             {{if !empty($t['search_config']['template'])}}

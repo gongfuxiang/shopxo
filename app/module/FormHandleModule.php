@@ -458,6 +458,15 @@ class FormHandleModule
                                 $v['search_config']['placeholder_end'] = '结束';
                             }
                             break;
+
+                        // 年月Ym
+                        case 'ym' :
+                            // 提示信息处理
+                            if(empty($v['search_config']['placeholder']))
+                            {
+                                $v['search_config']['placeholder'] = '请选择年月';
+                            }
+                            break;
                     }
 
                     // 搜索条件数据处理
@@ -469,6 +478,7 @@ class FormHandleModule
                     $where_type_default_arr = [
                         'input'     => '=',
                         'select'    => 'in',
+                        'ym'        => '=',
                     ];
                     if(array_key_exists($where_type, $where_type_default_arr))
                     {
@@ -508,6 +518,12 @@ class FormHandleModule
                                     if($where_type == 'like' && is_string($value))
                                     {
                                         $value = '%'.$value.'%';
+                                    }
+
+                                    // 年月Ym、去掉横岗
+                                    if($v['search_config']['form_type'] == 'ym')
+                                    {
+                                        $value = str_replace(['-', '/', '|'], '', $value);
                                     }
 
                                     // 条件
