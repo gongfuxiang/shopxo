@@ -1,0 +1,309 @@
+/* 
+ * My97 DatePicker 4.7
+ * 皮肤名称:ext
+ * 皮肤作者:CssRain
+ * 作者blog:http://www.CssRain.cn
+ * 作者邮箱:cssrain@gmail.com
+ */
+
+/* 日期选择容器 DIV */
+.WdateDiv{
+	width:180px;
+	background-color:#fff;
+	border:1px solid #718BB7;
+}
+/* 双月日历的宽度 */
+.WdateDiv2{
+	width:360px;
+}
+.WdateDiv *{font-size:9pt;}
+
+/****************************
+ * 导航图标 全部是A标签
+ ***************************/
+.WdateDiv .NavImg a{
+	margin-top:3px;
+	cursor:pointer;
+	display:block;
+	width:15px;
+	height:15px;
+}
+.WdateDiv .NavImgll a{
+	background:url(left-btn2.gif) no-repeat center center;
+	float:left; 
+	margin-left:2px;
+}
+.WdateDiv .NavImgl a{
+	background:url(left-btn.gif) no-repeat center center;
+	float:left; 
+	margin-left:2px;
+}
+.WdateDiv .NavImgr a{
+	background:url(right-btn.gif) no-repeat center center;
+	float:right;
+	margin-right:2px;
+}
+.WdateDiv .NavImgrr a{
+	background:url(right-btn2.gif) no-repeat center center;
+	float:right;
+	margin-right:2px;
+}
+
+/****************************
+ * 年份月份相关
+ ***************************/
+/* 年份月份栏 DIV */
+.WdateDiv #dpTitle{
+	height:22px;
+	background:transparent url(hd-sprite.gif) repeat-x scroll 0 -83px;
+	color:#FFFFFF;
+	font-family:"sans serif",tahoma,verdana,helvetica;
+	font-size:12px;
+	font-size-adjust:none;
+	font-stretch:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:bold;
+	padding-top:2px;
+}
+/* 年份月份输入框 INPUT */
+.WdateDiv .yminput{
+	margin-top:2px;
+	text-align:center;
+	border:0px;
+	height:20px;
+	width:50px;
+	color:#FFF;
+	background-color:transparent;
+	cursor:pointer;
+}
+/* 年份月份输入框获得焦点时的样式 INPUT */
+.WdateDiv .yminputfocus{
+	margin-top:2px;
+	text-align:center;
+	border:#939393 1px solid;
+	font-weight:bold;
+	color:#034c50;	
+	height:16px;
+	width:50px;
+}
+/* 菜单选择框 DIV */
+.WdateDiv .menuSel{
+	z-index:1;
+	position:absolute;
+	background-color:#FFFFFF;
+	border:1px solid #718BB7;
+	display:none;
+}
+/* 菜单的样式 TD */
+.WdateDiv .menu{
+	cursor:pointer;
+	background-color:#fff;
+	color:#11777C;
+}
+/* 菜单的mouseover样式 TD */
+.WdateDiv .menuOn{
+	cursor:pointer;
+	background-color: #B3CEEF;
+}
+/* 菜单无效时的样式 TD */
+.WdateDiv .invalidMenu{
+	color:#aaa;
+}
+/* 年选择框的偏移 DIV */
+.WdateDiv .YMenu{
+	margin-top:16px;
+}
+/* 月选择框的偏移 DIV */
+.WdateDiv .MMenu{
+	margin-top:16px;
+	*width:62px;
+}
+/* 时选择框的位置 DIV */
+.WdateDiv .hhMenu{
+	margin-top:-90px; 
+	margin-left:26px;
+}
+/* 分选择框的位置 DIV */
+.WdateDiv .mmMenu{
+	margin-top:-46px; 
+	margin-left:26px;
+}
+/* 秒选择框的位置 DIV */
+.WdateDiv .ssMenu{
+	margin-top:-24px; 
+	margin-left:26px;
+}
+
+/****************************
+ * 周相关
+ ***************************/
+ .WdateDiv .Wweek {
+ 	text-align:center;
+	background:#DAF3F5;
+	border-right:#BDEBEE 1px solid;
+ }
+/****************************
+ * 星期,日期相关
+ ***************************/
+ /* 星期栏 TR */
+.WdateDiv .MTitle{
+	color:#233D6D;
+	background:#DFECFB url(glass-bg.gif) repeat-x scroll left top;
+	color:#233D6D;
+	cursor:default;
+	font-size:10px; 
+	padding-top:2px;
+}
+.WdateDiv .MTitle td{
+	border-bottom:1px solid #A3BAD9;
+}
+.WdateDiv .WdayTable2{
+	border-collapse:collapse;
+	border:black 1px solid;
+}
+.WdateDiv .WdayTable2 table{
+	border:0;
+}
+/* 日期栏表格 TABLE */
+.WdateDiv .WdayTable{
+	line-height:20px;	
+	color:black; 
+}
+.WdateDiv .WdayTable td{
+	text-align:center;
+}
+/* 日期格的样式 TD */
+.WdateDiv .Wday{
+	cursor:pointer;
+}
+/* 日期格的mouseover样式 TD */
+.WdateDiv .WdayOn{
+	cursor:pointer;
+	background-color:#B3CEEF;
+}
+/* 周末日期格的样式 TD */
+.WdateDiv .Wwday{
+	cursor:pointer;
+	color:#ab1e1e;
+}
+/* 周末日期格的mouseover样式 TD */
+.WdateDiv .WwdayOn{
+	cursor:pointer;
+	background-color:#B3CEEF;
+}
+.WdateDiv .Wtoday{
+	cursor:pointer;
+	color:red;
+}
+.WdateDiv .Wselday{
+	background-color:#B3CEEF;
+}
+.WdateDiv .WspecialDay{
+	background-color:#66F4DF;
+}
+/* 其他月份的日期 */
+.WdateDiv .WotherDay{ 
+	cursor:pointer;
+	color:#AAAAAA;
+}
+/* 其他月份的日期mouseover样式 */
+.WdateDiv .WotherDayOn{ 
+	cursor:pointer;
+	background-color:#B3CEEF;
+}
+/* 无效日期的样式,即在日期范围以外日期格的样式,不能选择的日期 */
+.WdateDiv .WinvalidDay{
+	color:#aaa;
+}
+
+/****************************
+ * 时间相关
+ ***************************/
+/* 时间栏 DIV */
+.WdateDiv #dpTime{
+	width:120px;
+	text-align:left;
+	margin-left:32px;
+	height:20px;
+	line-height:20px;
+	padding-top:1px;
+}
+/* 时间文字 SPAN */
+.WdateDiv #dpTime #dpTimeStr{
+	margin-left:1px;
+	color:#233D6D;
+}
+/* 时间输入框 INPUT */
+.WdateDiv #dpTime input{
+	height:16px;
+	width:18px;
+	text-align:center;
+	color:#333;
+	border:#A3BAD9 1px solid;	
+}
+/* 时间 时 INPUT */
+.WdateDiv #dpTime .tB{
+	border-right:0px;
+}
+/* 时间 分和间隔符 ':' INPUT */
+.WdateDiv #dpTime .tE{
+	border-left:0;
+	border-right:0;
+}
+/* 时间 秒 INPUT */
+.WdateDiv #dpTime .tm{
+	width:7px;
+	border-left:0;
+	border-right:0;
+}
+/* 时间右边的向上按钮 BUTTON */
+.WdateDiv #dpTime #dpTimeUp{
+	height:8px;
+	width:13px;
+	border:0px;
+	background:url(img.gif) no-repeat -32px -16px;
+	cursor:pointer;
+	margin-bottom:0;
+	padding-bottom:0;
+}
+/* 时间右边的向下按钮 BUTTON */
+.WdateDiv #dpTime #dpTimeDown{
+	height:8px;
+	width:13px;
+	border:0px;
+	background:url(img.gif) no-repeat -48px -16px;
+	cursor:pointer;
+	margin-top:0;
+	padding-top:0;
+}
+/****************************
+ * 其他
+ ***************************/
+ .WdateDiv #dpQS {
+ 	float:left;
+	margin-left:3px;
+	margin-top:9px;
+	background:url(dateselect.gif) no-repeat;
+	width:20px;
+	height:20px;
+	cursor:pointer;
+ }
+.WdateDiv #dpControl {
+	text-align:right;
+	margin-top:3px;
+	background:#DFECFB url(glass-bg.gif) repeat-x scroll left top;
+	border-top:1px solid #A3BAD9;
+	padding:4px;
+}
+.WdateDiv .dpButton{ 
+	width:44px;
+	height:22px;
+	background:#083772 none repeat scroll 0 0;
+	border-color:#3366CC #000055 #000055 #3366CC;
+	border-style:solid;
+	border-width:1px;
+	color:white;
+	cursor:pointer;
+
+}
