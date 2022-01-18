@@ -921,8 +921,14 @@ class BuyService
         // 商品总数
         $count = count($params['goods']);
 
-        // 是否需要校验商品类型、is_buy指定需要校验或商品大于1
-        $is_check_goods_site_type = ((isset($params['is_buy']) && $params['is_buy'] == 1) || ($count > 1 && (!isset($params['is_buy']) || $params['is_buy'] == 1)));
+        // 是否需要校验商品类型、is_buy、1校验、默认0不校验
+        // 商品小于等于1不校验
+        $is_check_goods_site_type = (isset($params['is_buy']) && $params['is_buy'] == 1) ? 1 : 0;
+        if($is_check_goods_site_type == 1 && 
+            $count <= 1)
+        {
+            $is_check_goods_site_type = 0;
+        }
 
         // 数据校验
         foreach($params['goods'] as $v)
