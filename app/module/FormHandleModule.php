@@ -236,13 +236,27 @@ class FormHandleModule
 
             // 根据用户选择顺序追加数据
             $temp_form = array_column($this->form_data['form'], null, 'label');
-            foreach($this->user_fields as $v)
+            foreach($this->user_fields as $k=>$v)
             {
+                // 字段不存在数据中则移除
                 if(array_key_exists($v['label'], $temp_form))
                 {
                     $temp = $temp_form[$v['label']];
-                    $temp['is_list'] = $v['checked'];
+
+                    // 是否存在设置不展示列表、则移除字段
+                    if(isset($temp['is_list']) && $temp['is_list'] == 0)
+                    {
+                        unset($this->user_fields[$k]);
+                    }
+
+                    // 避免已定义了列表是否显示字段、导致覆盖成为展示
+                    if(!isset($temp['is_list']))
+                    {
+                        $temp['is_list'] = $v['checked'];
+                    }
                     $data[] = $temp;
+                } else {
+                    unset($this->user_fields[$k]);
                 }
             }
 
