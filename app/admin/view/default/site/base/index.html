@@ -122,6 +122,11 @@
 		                <label>{{$data.home_site_telecom_license.name}}<span class="am-form-group-label-tips">{{$data.home_site_telecom_license.describe}}</span></label>
 		                <input type="text" name="{{$data.home_site_telecom_license.only_tag}}" placeholder="{{$data.home_site_telecom_license.describe}}" data-validation-message="{{$data.home_site_telecom_license.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_telecom_license.value}}"{{/if}} />
 		            </div>
+
+		            <div class="am-form-group">
+		                <label>{{$data.home_site_company_license.name}}<span class="am-form-group-label-tips">{{$data.home_site_company_license.describe}}</span></label>
+		                <input type="text" name="{{$data.home_site_company_license.only_tag}}" placeholder="{{$data.home_site_company_license.describe}}" data-validation-message="{{$data.home_site_company_license.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_company_license.value}}"{{/if}} />
+		            </div>
                 </div>
             </div>
 

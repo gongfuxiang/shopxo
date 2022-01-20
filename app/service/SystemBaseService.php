@@ -104,6 +104,8 @@ class SystemBaseService
             'home_site_icp'                     => MyC('home_site_icp', null, true),
             'home_site_security_record_name'    => MyC('home_site_security_record_name', null, true),
             'home_site_security_record_url'     => MyC('home_site_security_record_url', null, true),
+            'home_site_company_license'         => MyC('home_site_company_license', null, true),
+            'home_site_telecom_license'         => MyC('home_site_telecom_license', null, true),
 
             // css/js版本值
             'home_static_cache_version'         => MyC('home_static_cache_version', null, true),

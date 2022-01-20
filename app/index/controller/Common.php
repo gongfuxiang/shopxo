@@ -300,6 +300,7 @@ class Common extends BaseController
         MyViewAssign('home_site_security_record_name', MyC('home_site_security_record_name'));
         MyViewAssign('home_site_security_record_url', MyC('home_site_security_record_url'));
         MyViewAssign('home_site_telecom_license', MyC('home_site_telecom_license'));
+        MyViewAssign('home_site_company_license', MyC('home_site_company_license'));
 
         // 布局样式+管理
         MyViewAssign('is_load_layout', 0);

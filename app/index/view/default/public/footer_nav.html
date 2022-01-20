@@ -104,6 +104,15 @@
 						</a>
 					</p>
 				{{/if}}
+				{{if !empty($home_site_company_license)}}
+					<b>|</b>
+					<p class="footer-icp">
+						<a href="{{$home_site_company_license}}" target="_blank">
+							<img src="{{$attachment_host}}/static/common/images/beian-company-license-icon.png" alt="电子营业执照亮照" />
+							电子营业执照亮照
+						</a>
+					</p>
+				{{/if}}
 				{{if !empty($home_site_telecom_license)}}
 					<b>|</b>
 					<p class="footer-icp">

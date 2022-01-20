@@ -131,6 +131,7 @@ class StoreService
         }
 
         // 保存商店帐号信息
+        $params['common_store_password'] = htmlspecialchars_decode($params['common_store_password']);
         $ret = ConfigService::ConfigSave($params);
         if($ret['code'] != 0)
         {
@@ -294,7 +295,7 @@ class StoreService
         // 请求校验
         $data = [
             'accounts'      => $accounts,
-            'authdata'      => $password,
+            'authdata'      => htmlspecialchars_decode($password),
             'host'          => __MY_HOST__,
             'url'           => __MY_URL__,
             'ver'           => APPLICATION_VERSION,

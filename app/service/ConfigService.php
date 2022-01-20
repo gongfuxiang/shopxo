@@ -45,6 +45,7 @@ class ConfigService
         'admin_email_login_template',
         'home_email_login_template',
         'home_site_security_record_url',
+        'home_site_company_license',
     ];
 
     // 附件字段列表
