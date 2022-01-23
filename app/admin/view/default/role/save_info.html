@@ -15,33 +15,56 @@
 			</div>
 			
 			<div class="am-form-group">
-				<label>拥有权限</label>
-				<ul class="tree-list p-0">
-					{{foreach $power as $v}}
-						<li {{if $v['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
+				<label>菜单权限</label>
+				<ul class="tree-list am-avg-sm-1 am-avg-md-1 am-avg-lg-1">
+					{{if !empty($power['power'])}}
+						{{foreach $power.power as $v}}
+							<li>
+								<div class="item-content am-padding-sm am-margin-bottom-xs am-margin-right-xs {{if $v['is_show'] eq 0}}bk-cr-ffd{{/if}}">
+									<label>
+										<input type="checkbox" name="power_id" value="{{$v.id}}" class="node-choice" {{if $v['is_power'] eq 'ok'}}checked{{/if}} />
+										<span>{{$v.name}}</span>
+									</label>
+								</div>
+							</li>
 							{{if !empty($v['item'])}}
-								<i class="am-icon-minus-square c-p am-margin-right-xs"></i>
-								<label class="c-p">
-							{{else /}}
-								<label class="c-p m-l-2">
+								<ul class="list-find am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-margin-top-xs am-margin-left-xl">
+									{{foreach $v.item as $vs}}
+										<li>
+											<div class="item-content am-padding-sm am-margin-bottom-xs am-margin-right-xs {{if $vs['is_show'] eq 0}}bk-cr-ffd{{/if}}">
+											<label>
+													<input type="checkbox" name="power_id" value="{{$vs.id}}" {{if $vs['is_power'] eq 'ok'}}checked{{/if}} />
+													<span>{{$vs.name}}</span>
+												</label>
+											</div>
+										</li>
+									{{/foreach}}
+								</ul>
 							{{/if}}
-								<input type="checkbox" name="power_id" value="{{$v.id}}" class="node-choice" {{if $v['is_power'] eq 'ok'}}checked{{/if}} />
-								<span>{{$v.name}}</span>
-							</label>
-						</li>
-						{{if !empty($v['item'])}}
-							<ul class="list-find p-0 am-margin-top-xs">
-								{{foreach $v.item as $vs}}
-									<li {{if $vs['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
-										<label class="c-p">
-											<input type="checkbox" name="power_id" value="{{$vs.id}}" {{if $vs['is_power'] eq 'ok'}}checked{{/if}} />
-											<span>{{$vs.name}}</span>
-										</label>
-									</li>
-								{{/foreach}}
-							</ul>
-						{{/if}}
-					{{/foreach}}
+						{{/foreach}}
+					{{else /}}
+						<p class="am-text-warning">无菜单数据</p>
+					{{/if}}
+				</ul>
+			</div>
+
+			<div class="am-form-group">
+				<label>插件权限<span class="am-text-warning am-margin-left-sm">插件还需在菜单权限中勾选[ <strong class="am-text-danger">应用中心 -> 应用管理+应用调用管理</strong> ]权限</span></label>
+				<ul class="tree-list am-avg-sm-2 am-avg-md-3 am-avg-lg-4">
+					{{if !empty($power['plugins'])}}
+						{{foreach $power.plugins as $v}}
+							<li>
+								<div class="item-content am-padding-sm am-margin-bottom-xs am-margin-right-xs">
+									<label>
+										<input type="checkbox" name="plugins" value="{{$v.plugins}}" class="node-choice" {{if $v['is_power'] eq 'ok'}}checked{{/if}} />
+										<span>{{$v.name}}</span>
+									</label>
+								</div>
+							</li>
+						{{/foreach}}
+					{{else /}}
+						<p class="am-text-warning">无插件数据</p>
+					{{/if}}
 				</ul>
 			</div>
 

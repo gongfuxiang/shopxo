@@ -1,16 +1,19 @@
-/**
- * 权限添加/编辑
- */
-.tree-list li { list-style-type: none; padding-left: 5px !important; }
-.tree-list li label { display: inline; }
-.list-find { margin: 0px 0px 5px 35px; overflow: hidden; padding-top: 5px !important; }
-.tree-list i { width: 10px; }
-.list-find li { line-height: 26px; }
-.list-find span { font-weight: normal; }
-.tree-list li { border:1px dashed #d3ebf7; background: #f5fafd; padding: 6px 10px; }
-.list-find li { background: #ecf8ff; float: left; margin: 0px 10px 10px 0px; }
-.list-find li input[type="checkbox"] { vertical-align: text-top; }
-@media only screen and (min-width: 641px) {
-	.list-submit, .find-submit { display: none; }
-	.list-find li:hover .find-submit, .tree-list li:hover .list-submit { display: block !important; }
+.tree-list li {
+	list-style-type: none;
+}
+.tree-list li .item-content {
+	border:1px dashed #ceecff;
+	background: #ddf2ff;
+}
+.tree-list li label,
+.tree-list li label input[type="checkbox"] {
+	cursor: pointer;
+	margin: 0;
+}
+.tree-list li label input[type="checkbox"],
+.tree-list li label span {
+	vertical-align: middle;
+}
+.list-find li label span {
+	font-weight: normal;
 }

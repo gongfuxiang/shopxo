@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\AdminService;
+use app\service\AdminRoleService;
 
 /**
  * 权限菜单服务层
@@ -188,21 +189,23 @@ class AdminPowerService
         {
             foreach($admin as $id)
             {
-                MyCache(MyConfig('shopxo.cache_admin_power_key').$id, null);
                 MyCache(MyConfig('shopxo.cache_admin_left_menu_key').$id, null);
+                MyCache(MyConfig('shopxo.cache_admin_power_key').$id, null);
+                MyCache(MyConfig('shopxo.cache_admin_power_plugins_key').$id, null);
             }
         }
     }
-
+    
     /**
      * 管理员权限菜单初始化
-     * @author   Devil
+     * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2018-12-06
+     * @date    2022-01-23
      * @desc    description
+     * @param   [boolean]         $is_refresh [是否强制刷新]
      */
-    public static function PowerMenuInit()
+    public static function PowerMenuInit($is_refresh = false)
     {
         // 基础参数
         $admin = AdminService::LoginInfo();
@@ -212,9 +215,10 @@ class AdminPowerService
         // 读取缓存数据
         $admin_left_menu = MyCache(MyConfig('shopxo.cache_admin_left_menu_key').$admin_id);
         $admin_power = MyCache(MyConfig('shopxo.cache_admin_power_key').$admin_id);
+        $admin_plugins = MyCache(MyConfig('shopxo.cache_admin_power_plugins_key').$admin_id);
 
         // 缓存没数据则从数据库重新读取
-        if((($role_id > 0 || $admin_id == 1) && empty($admin_left_menu)) || MyEnv('app_debug'))
+        if((($role_id > 0 || $admin_id == 1) && empty($admin_left_menu)) || $is_refresh || MyEnv('app_debug'))
         {
             // 获取一级数据
             if($admin_id == 1 || $role_id == 1)
@@ -229,6 +233,7 @@ class AdminPowerService
             // 有数据，则处理子级数据
             if(!empty($admin_left_menu))
             {
+                // 菜单权限
                 foreach($admin_left_menu as $k=>$v)
                 {
                     // 是否存在控制器和方法
@@ -294,9 +299,19 @@ class AdminPowerService
                         unset($admin_left_menu[$k]);
                     }
                 }
+
+                // 插件权限
+                if($admin_id == 1 || $role_id == 1)
+                {
+                    $plugins_data = AdminRoleService::PluginsList();
+                    $admin_plugins = empty($plugins_data) ? [] : array_column($plugins_data, 'name', 'plugins');
+                } else {
+                    $admin_plugins = Db::name('RolePlugins')->where(['role_id'=>$role_id])->column('name', 'plugins');
+                }
             }
             MyCache(MyConfig('shopxo.cache_admin_left_menu_key').$admin_id, $admin_left_menu);
             MyCache(MyConfig('shopxo.cache_admin_power_key').$admin_id, $admin_power);
+            MyCache(MyConfig('shopxo.cache_admin_power_plugins_key').$admin_id, $admin_plugins);
         }
         return true;
     }

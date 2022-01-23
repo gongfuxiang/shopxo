@@ -36,12 +36,12 @@ return [
     // 默认编码
     'default_charset'                       => 'utf-8',
 
-    // 后端缓存key列表
-    // 权限缓存存储key
-    'cache_admin_power_key'                 =>  'cache_admin_power_',
-
-    // 菜单列表
+    // 后端菜单缓存key列表
+    // 菜单权限缓存存储key
+    // 插件权限缓存存储key
     'cache_admin_left_menu_key'             =>  'cache_admin_left_menu_',
+    'cache_admin_power_key'                 =>  'cache_admin_power_',
+    'cache_admin_power_plugins_key'         =>  'cache_admin_power_plugins_',
 
 
     // 公共缓存key列表

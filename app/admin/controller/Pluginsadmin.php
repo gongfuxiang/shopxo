@@ -69,7 +69,7 @@ class Pluginsadmin extends Common
         if($this->view_type == 'home')
         {
             // 插件列表
-            $ret = PluginsAdminService::PluginsList();
+            $ret = PluginsAdminService::PluginsList(['is_power'=>true]);
             MyViewAssign('data_list', $ret['data']);
 
             // 插件更新信息

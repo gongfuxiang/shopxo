@@ -14,6 +14,8 @@ use think\facade\Db;
 use app\service\PluginsService;
 use app\service\ResourcesService;
 use app\service\SqlConsoleService;
+use app\service\AdminPowerService;
+use app\service\AdminService;
 
 /**
  * 应用管理服务层
@@ -53,6 +55,23 @@ class PluginsAdminService
         {
             if($dh = opendir($plugins_dir))
             {
+                // 是否需要校验权限
+                $power_plugins = [];
+                $is_power = (isset($params['is_power']) && $params['is_power'] == true);
+                if($is_power)
+                {
+                    // 获取当前登录账户的插件权限
+                    $admin = AdminService::LoginInfo();
+                    if(!empty($admin))
+                    {
+                        $res = MyCache(MyConfig('shopxo.cache_admin_power_plugins_key').$admin['id']);
+                        if(!empty($res))
+                        {
+                            $power_plugins = $res;
+                        }
+                    }
+                }
+
                 // 获取数据库已安装插件
                 $temp_data = Db::name('Plugins')->order(self::$plugins_order_by)->column('*', 'plugins');
 
@@ -67,9 +86,18 @@ class PluginsAdminService
                         {
                             // 获取数据库配置信息
                             $base = $config['base'];
-                            $db_config = array_key_exists($base['plugins'], $temp_data) ? $temp_data[$base['plugins']] : [];
+
+                            // 是否需要判断权限
+                            if($is_power == true)
+                            {
+                                if(empty($power_plugins) || !array_key_exists($base['plugins'], $power_plugins))
+                                {
+                                    continue;
+                                }
+                            }
 
                             // 数据组装
+                            $db_config = array_key_exists($base['plugins'], $temp_data) ? $temp_data[$base['plugins']] : [];
                             $dir_data[$base['plugins']] = [
                                 'id'            => empty($db_config['id']) ? 0 : $db_config['id'],
                                 'plugins'       => $base['plugins'],
@@ -1025,6 +1053,9 @@ php;
             return $ret;
         }
         $plugins = $ret['data'];
+
+        // 强制刷新用户权限缓存
+        AdminPowerService::PowerMenuInit(true);
 
         // 附件同步到数据库
         ResourcesService::AttachmentDiskFilesToDb('plugins_'.$plugins);

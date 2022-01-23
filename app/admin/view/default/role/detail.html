@@ -6,14 +6,38 @@
     <!-- 父级内容 -->
     {__block__}
     
-    <!-- 权限项 -->
+    <!-- 菜单权限 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">权限项</div>
+        <div class="am-panel-hd">菜单权限</div>
         <div class="am-panel-bd">
-            <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6">
-                {{foreach $data.items as $item}}
-                    <li class="am-padding-vertical-sm">{{$item}}</li>
-                {{/foreach}}
+            <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-gallery-bordered">
+                {{if !empty($data['power'])}}
+                    {{foreach $data.power as $item}}
+                        <li>
+                            <div class="am-gallery-item">{{$item}}</div>
+                        </li>
+                    {{/foreach}}
+                {{else /}}
+                    {{include file="public/not_data" /}}
+                {{/if}}
+            </ul>
+        </div>
+    </div>
+
+    <!-- 插件权限 -->
+    <div class="am-panel am-panel-default">
+        <div class="am-panel-hd">插件权限</div>
+        <div class="am-panel-bd">
+            <ul class="am-avg-sm-2 am-avg-md-4 am-avg-lg-6 am-gallery-bordered">
+                {{if !empty($data['power_plugins'])}}
+                    {{foreach $data.power_plugins as $item}}
+                        <li>
+                            <div class="am-gallery-item">{{$item}}</div>
+                        </li>
+                    {{/foreach}}
+                {{else /}}
+                    {{include file="public/not_data" /}}
+                {{/if}}
             </ul>
         </div>
     </div>

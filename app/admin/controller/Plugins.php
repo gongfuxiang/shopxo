@@ -84,6 +84,20 @@ class Plugins extends Common
             }
         }
 
+        // 插件权限校验
+        $power_plugins = MyCache(MyConfig('shopxo.cache_admin_power_plugins_key').$this->admin['id']);
+        if(empty($power_plugins) || !array_key_exists($params['data_request']['pluginsname'], $power_plugins))
+        {
+            $msg = '无权限使用该插件';
+            if(IS_AJAX)
+            {
+                return DataReturn($msg, -5000);
+            } else {
+                MyViewAssign('msg', $msg);
+                return MyView('public/tips_error');
+            }
+        }
+
         // 应用名称/控制器/方法
         $pluginsname = $params['data_request']['pluginsname'];
         $pluginscontrol = strtolower($params['data_request']['pluginscontrol']);

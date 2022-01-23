@@ -136,7 +136,7 @@ class Role extends Common
             }
         }
 
-        // 菜单列表
+        // 权限列表
         $power = AdminRoleService::RolePowerEditData($params);
         MyViewAssign('power', $power);
 
@@ -148,6 +148,7 @@ class Role extends Common
             'is_backend'    => true,
             'role_id'       => isset($params['id']) ? $params['id'] : 0,
             'data'          => &$data,
+            'power'         => &$power,
             'params'        => &$params,
         ]));
 

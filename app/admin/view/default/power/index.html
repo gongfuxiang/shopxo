@@ -14,7 +14,7 @@
 
 		<!-- operation start -->
 		<div class="am-g">
-			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#power-save-win'}"> 新增</button>
+			<button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add"> 新增</button>
 		</div>
 		<!-- operation end -->
 
@@ -86,41 +86,41 @@
 		<!-- save win end -->
 
         <!-- content start -->
-		<ul class="tree-list am-padding-left-0 am-margin-top-sm">
-			{{foreach $data as $v}}
-				<li id="data-list-{{$v.id}}" {{if $v['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
+        <div class="am-padding-vertical-sm">
+			<ul class="tree-list am-padding-left-0">
+				{{foreach $data as $v}}
+					<li id="data-list-{{$v.id}}">
+						<div class="item-content am-padding-sm am-margin-bottom-xs am-margin-right-xs {{if $v['is_show'] eq 0}}bk-cr-ffd{{/if}}">
+							{{if !empty($v['item'])}}
+								<i class="stretch am-icon-plus am-margin-right-xs"></i>
+							{{/if}}
+							<span>{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}} {{$v.name}}</span>
+							<span class="am-margin-left-sm">
+								<a href="javascript:;" class="am-icon-edit submit-edit" data-json='{{:json_encode($v)}}' data-tag="power-save-win" data-item="{{if !empty($v['item'])}}ok{{else /}}no{{/if}}"></a>
+								{{if empty($v['item'])}}
+									<a href="javascript:;" class="am-icon-trash-o am-padding-left-sm submit-delete" data-url="{{:MyUrl('admin/power/delete')}}" data-id="{{$v.id}}"></a>
+								{{/if}}
+							</span>
+						</div>
+					</li>
 					{{if !empty($v['item'])}}
-						<i class="am-icon-plus c-p am-margin-right-xs"></i>
-						<label class="c-p">
-					{{else /}}
-						<label class="c-p am-padding-left-lg">
+						<ul class="list-find am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-margin-top-xs am-margin-left-xl" style="display:none;">
+							{{foreach $v.item as $vs}}
+								<li id="data-list-{{$vs.id}}">
+									<div class="item-content am-padding-sm am-margin-bottom-xs am-margin-right-xs {{if $vs['is_show'] eq 0}}bk-cr-ffd{{/if}}">
+										<span>{{if !empty($vs['icon'])}}<span class="iconfont {{$vs.icon}}"></span>{{/if}} {{$vs.name}}</span>
+										<span class="am-fr find-submit">
+											<a href="javascript:;" class="am-icon-edit submit-edit" data-json='{{:json_encode($vs)}}' data-tag="power-save-win" data-item="no"></a>
+											<a href="javascript:;" class="am-icon-trash-o am-margin-left-sm submit-delete" data-url="{{:MyUrl('admin/power/delete')}}" data-id="{{$vs.id}}"></a>
+										</span>
+									</div>
+								</li>
+							{{/foreach}}
+						</ul>
 					{{/if}}
-						<span>{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}} {{$v.name}}</span>
-					</label>
-					<div class="am-fr m-r-20 list-submit">
-						<span class="am-icon-edit am-icon-md c-p submit-edit {{if !empty($v['item'])}}am-margin-right-xs{{/if}}" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($v)}}' data-tag="power-save-win" data-item="{{if !empty($v['item'])}}ok{{else /}}no{{/if}}"></span>
-						{{if empty($v['item'])}}
-							<span class="am-icon-trash-o am-icon-md c-p am-padding-left-lg m-r-15 submit-delete" data-url="{{:MyUrl('admin/power/delete')}}" data-id="{{$v.id}}"></span>
-						{{/if}}
-					</div>
-				</li>
-				{{if !empty($v['item'])}}
-					<ul class="list-find am-padding-left-0 am-margin-top-xs" style="display:none;">
-						{{foreach $v.item as $vs}}
-							<li id="data-list-{{$vs.id}}" {{if $vs['is_show'] eq 0}}class="bk-cr-ffd"{{/if}}>
-								<label class="c-p">
-									<span>{{if !empty($vs['icon'])}}<span class="iconfont {{$vs.icon}}"></span>{{/if}} {{$vs.name}}</span>
-								</label>
-								<div class="am-fr am-margin-left-sm find-submit">
-									<span class="am-icon-edit am-icon-sm c-p submit-edit" data-am-modal="{target: '#power-save-win'}" data-json='{{:json_encode($vs)}}' data-tag="power-save-win" data-item="no"></span>
-									<span class="am-icon-trash-o am-icon-sm c-p am-margin-left-sm am-margin-right-sm submit-delete" data-url="{{:MyUrl('admin/power/delete')}}" data-id="{{$vs.id}}"></span>
-								</div>
-							</li>
-						{{/foreach}}
-					</ul>
-				{{/if}}
-			{{/foreach}}
-		</ul>
+				{{/foreach}}
+			</ul>
+		</div>
 	</div>
 </div>
 <!-- right content end  -->
