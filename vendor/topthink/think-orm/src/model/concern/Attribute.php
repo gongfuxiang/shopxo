@@ -382,6 +382,9 @@ trait Attribute
         } elseif (isset($this->type[$name])) {
             // 类型转换
             $value = $this->writeTransform($value, $this->type[$name]);
+        } elseif (is_object($value) && method_exists($value, '__toString')) {
+            // 对象类型
+            $value = $value->__toString();
         }
 
         // 设置数据对象属性

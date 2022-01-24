@@ -249,7 +249,7 @@ abstract class Driver implements CacheInterface, CacheHandlerInterface
      * @param string $data 缓存数据
      * @return mixed
      */
-    protected function unserialize(string $data)
+    protected function unserialize($data)
     {
         if (is_numeric($data)) {
             return $data;

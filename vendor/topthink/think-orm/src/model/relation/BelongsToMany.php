@@ -138,6 +138,30 @@ class BelongsToMany extends Relation
     }
 
     /**
+     * 组装Pivot模型
+     * @access public
+     * @param  Model    $result 模型对象
+     * @return array
+     */
+    protected function matchPivot(Model $result): array
+    {
+        $pivot = [];
+        foreach ($result->getData() as $key => $val) {
+            if (strpos($key, '__')) {
+                [$name, $attr] = explode('__', $key, 2);
+
+                if ('pivot' == $name) {
+                    $pivot[$attr] = $val;
+                    unset($result->$key);
+                }
+            }
+        }
+
+        $result->setRelation($this->pivotDataName, $this->newPivot($pivot));
+        return $pivot;
+    }
+
+    /**
      * 根据关联条件查询当前模型
      * @access public
      * @param  string  $operator 比较操作符
@@ -326,23 +350,12 @@ class BelongsToMany extends Relation
         // 组装模型数据
         $data = [];
         foreach ($list as $set) {
-            $pivot = [];
-            foreach ($set->getData() as $key => $val) {
-                if (strpos($key, '__')) {
-                    [$name, $attr] = explode('__', $key, 2);
-                    if ('pivot' == $name) {
-                        $pivot[$attr] = $val;
-                        unset($set->$key);
-                    }
-                }
-            }
-            $key = $pivot[$this->localKey];
+            $pivot = $this->matchPivot($set);
+            $key   = $pivot[$this->localKey];
 
             if ($this->withLimit && isset($data[$key]) && count($data[$key]) >= $this->withLimit) {
                 continue;
             }
-
-            $set->setRelation($this->pivotDataName, $this->newPivot($pivot));
 
             $data[$key][] = $set;
         }
@@ -594,21 +607,8 @@ class BelongsToMany extends Relation
             $foreignKey = $this->foreignKey;
             $localKey   = $this->localKey;
 
-            $this->query->getModel()->filter(function ($result, $options) {
-                $pivot = [];
-
-                foreach ($result->getData() as $key => $val) {
-                    if (strpos($key, '__')) {
-                        [$name, $attr] = explode('__', $key, 2);
-
-                        if ('pivot' == $name) {
-                            $pivot[$attr] = $val;
-                            unset($result->$key);
-                        }
-                    }
-                }
-
-                $result->setRelation($this->pivotDataName, $this->newPivot($pivot));
+            $this->query->filter(function ($result, $options) {
+                $this->matchPivot($result);
             });
 
             // 关联查询

@@ -24,8 +24,8 @@ class Sqlite extends Builder
     /**
      * limit
      * @access public
-     * @param  Query     $query        查询对象
-     * @param  mixed     $limit
+     * @param Query $query 查询对象
+     * @param mixed $limit
      * @return string
      */
     public function parseLimit(Query $query, string $limit): string
@@ -47,7 +47,7 @@ class Sqlite extends Builder
     /**
      * 随机排序
      * @access protected
-     * @param  Query     $query        查询对象
+     * @param Query $query 查询对象
      * @return string
      */
     protected function parseRand(Query $query): string
@@ -58,9 +58,9 @@ class Sqlite extends Builder
     /**
      * 字段和表名处理
      * @access public
-     * @param  Query     $query     查询对象
-     * @param  mixed     $key       字段名
-     * @param  bool      $strict   严格检测
+     * @param Query $query  查询对象
+     * @param mixed $key    字段名
+     * @param bool  $strict 严格检测
      * @return string
      */
     public function parseKey(Query $query, $key, bool $strict = false): string
@@ -73,7 +73,7 @@ class Sqlite extends Builder
 
         $key = trim($key);
 
-        if (strpos($key, '.')) {
+        if (strpos($key, '.') && !preg_match('/[,\'\"\(\)`\s]/', $key)) {
             [$table, $key] = explode('.', $key, 2);
 
             $alias = $query->getOptions('alias');
@@ -88,8 +88,12 @@ class Sqlite extends Builder
             }
         }
 
+        if ('*' != $key && !preg_match('/[,\'\"\*\(\)`.\s]/', $key)) {
+            $key = '`' . $key . '`';
+        }
+
         if (isset($table)) {
-            $key = $table . '.' . $key;
+            $key = '`' . $table . '`.' . $key;
         }
 
         return $key;
@@ -98,8 +102,8 @@ class Sqlite extends Builder
     /**
      * 设置锁机制
      * @access protected
-     * @param  Query       $query 查询对象
-     * @param  bool|string $lock
+     * @param Query       $query 查询对象
+     * @param bool|string $lock
      * @return string
      */
     protected function parseLock(Query $query, $lock = false): string

@@ -196,7 +196,7 @@ class RuleItem extends Rule
         $url     = $this->urlSuffixCheck($request, $url, $option);
 
         if (is_null($match)) {
-            $match = $this->match($url, $option, $pattern, $completeMatch);
+            $match = $this->checkMatch($url, $option, $pattern, $completeMatch);
         }
 
         if (false !== $match) {
@@ -252,7 +252,7 @@ class RuleItem extends Rule
      * @param  bool      $completeMatch   是否完全匹配
      * @return array|false
      */
-    private function match(string $url, array $option, array $pattern, bool $completeMatch)
+    private function checkMatch(string $url, array $option, array $pattern, bool $completeMatch)
     {
         if (isset($option['complete_match'])) {
             $completeMatch = $option['complete_match'];

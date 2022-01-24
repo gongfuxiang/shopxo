@@ -236,12 +236,11 @@ class BelongsTo extends OneToOne
                     $relationModel->exists(true);
                 }
 
+                // 设置关联属性
+                $result->setRelation($relation, $relationModel);
                 if (!empty($this->bindAttr)) {
                     // 绑定关联属性
                     $this->bindAttr($result, $relationModel);
-                } else {
-                    // 设置关联属性
-                    $result->setRelation($relation, $relationModel);
                 }
             }
         }
@@ -277,12 +276,12 @@ class BelongsTo extends OneToOne
             $relationModel->exists(true);
         }
 
+        // 设置关联属性
+        $result->setRelation($relation, $relationModel);
+
         if (!empty($this->bindAttr)) {
             // 绑定关联属性
             $this->bindAttr($result, $relationModel);
-        } else {
-            // 设置关联属性
-            $result->setRelation($relation, $relationModel);
         }
     }
 

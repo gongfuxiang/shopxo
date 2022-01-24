@@ -421,10 +421,8 @@ class Fetch
 
         if (!empty($options['group'])) {
             // 支持GROUP
-            $bind   = $this->query->getBind();
-            $subSql = $this->query->options($options)->field('count(' . $field . ') AS think_count')->bind($bind)->buildSql();
-
-            $query = $this->query->newQuery()->table([$subSql => '_group_count_']);
+            $subSql = $this->query->field('count(' . $field . ') AS think_count')->buildSql();
+            $query  = $this->query->newQuery()->table([$subSql => '_group_count_']);
 
             return $query->fetchsql()->aggregate('COUNT', '*');
         } else {

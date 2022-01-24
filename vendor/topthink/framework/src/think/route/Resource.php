@@ -213,7 +213,7 @@ class Resource extends RuleGroup
     }
 
     /**
-     * 绑定资源模型
+     * 绑定资源中间件
      * @access public
      * @param  array|string $name 资源类型或者中间件定义
      * @param  array|string $middleware 中间件定义

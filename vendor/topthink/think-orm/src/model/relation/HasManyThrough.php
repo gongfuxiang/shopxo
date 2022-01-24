@@ -258,8 +258,14 @@ class HasManyThrough extends Relation
             $closure($this->getClosureType($closure));
         }
 
+        $throughKey = $this->throughKey;
+
+        if ($this->baseQuery) {
+            $throughKey = Str::snake(class_basename($this->model)) . "." . $this->throughKey;
+        }
+
         $list = $this->query
-            ->where($this->throughKey, 'in', $keys)
+            ->where($throughKey, 'in', $keys)
             ->cache($cache[0] ?? false, $cache[1] ?? null, $cache[2] ?? null)
             ->select();
 
