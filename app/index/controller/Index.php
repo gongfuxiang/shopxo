@@ -44,7 +44,7 @@ class Index extends Common
         parent::__construct();
 
         // web端首页状态
-        $this->SiteWebStstusCheck();
+        $this->SiteStstusCheck('_web_home');
     }
 
     /**

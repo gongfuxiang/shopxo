@@ -96,6 +96,12 @@ class Common extends BaseController
         // 站点状态校验
         $this->SiteStstusCheck();
 
+        // web端pc访问状态
+        if(!IsMobile())
+        {
+            $this->SiteStstusCheck('_web_pc');
+        }
+
         // 公共数据初始化
         $this->CommonInit();
 
@@ -395,43 +401,13 @@ class Common extends BaseController
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2021-12-08
+     * @date    2022-01-26
      * @desc    description
+     * @param   [string]          $type [web端首页 _web_home , web端PC访问 _web_pc]
      */
-    private function SiteStstusCheck()
+    protected function SiteStstusCheck($type = '')
     {
-        if(MyC('home_site_state') != 1)
-        {
-            // 提示信息
-            $reason = MyC('home_site_close_reason', '升级中...', true);
-
-            // 是否ajax请求
-            if(IS_AJAX)
-            {
-                exit(json_encode(DataReturn($reason, -10000)));
-            } else {
-                // 默认提示信息增加样式，则使用用户自定义信息展示
-                if($reason == '升级中...')
-                {
-                    exit('<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.MyC('home_site_name').'</title><body><div style="text-align: center;margin-top: 15%;font-size: 18px;color: #f00;">'.$reason.'</div></body></html>');
-                } else {
-                    exit($reason);
-                }
-            }
-        }
-    }
-
-    /**
-     * 站点状态校验 - web端
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-12-08
-     * @desc    description
-     */
-    public function SiteWebStstusCheck()
-    {
-        if(MyC('home_site_web_state') != 1)
+        if(MyC('home_site'.$type.'_state') != 1)
         {
             // 提示信息
             $reason = MyC('home_site_close_reason', '升级中...', true);

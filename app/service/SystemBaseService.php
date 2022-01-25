@@ -97,7 +97,9 @@ class SystemBaseService
             'home_site_logo'                    => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo')),
             'home_site_logo_wap'                => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo_wap')),
             'home_site_logo_square'             => ResourcesService::AttachmentPathViewHandle(MyC('home_site_logo_square')),
-            'home_site_state'                   => (int) MyC('home_site_state', 0, true),
+            'home_site_state'                   => (int) MyC('home_site_state', 1),
+            'home_site_web_home_state'          => (int) MyC('home_site_web_home_state', 1),
+            'home_site_web_pc_state'            => (int) MyC('home_site_web_pc_state', 1),
             'home_site_close_reason'            => MyC('home_site_close_reason', null, true),
 
             // 备案信息

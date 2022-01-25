@@ -84,10 +84,18 @@
 						</select>
 					</div>
 					<div class="am-form-group">
-						<label>{{$data.home_site_web_state.name}}<span class="am-form-group-label-tips">{{$data.home_site_web_state.describe}}</span></label>
-						<select name="{{$data.home_site_web_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_site_web_state.error_tips}}" required>
+						<label>{{$data.home_site_web_home_state.name}}<span class="am-form-group-label-tips">{{$data.home_site_web_home_state.describe}}</span></label>
+						<select name="{{$data.home_site_web_home_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_site_web_home_state.error_tips}}" required>
 							{{foreach $common_close_open_list as $v}}
-								<option value="{{$v.value}}" {{if isset($data['home_site_web_state']['value']) and $data['home_site_web_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+								<option value="{{$v.value}}" {{if isset($data['home_site_web_home_state']['value']) and $data['home_site_web_home_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+							{{/foreach}}
+						</select>
+					</div>
+					<div class="am-form-group">
+						<label>{{$data.home_site_web_pc_state.name}}<span class="am-form-group-label-tips">{{$data.home_site_web_pc_state.describe}}</span></label>
+						<select name="{{$data.home_site_web_pc_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_site_web_pc_state.error_tips}}" required>
+							{{foreach $common_close_open_list as $v}}
+								<option value="{{$v.value}}" {{if isset($data['home_site_web_pc_state']['value']) and $data['home_site_web_pc_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
 							{{/foreach}}
 						</select>
 					</div>
