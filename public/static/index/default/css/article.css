@@ -45,9 +45,6 @@
 .category-content-list li:first-child {
     border-top: 0;
 }
-.last-next-data .text-tips {
-    color: #999;
-}
 @media only screen and (min-width: 641px) {
     .article-sidebar .am-offcanvas {
         display: block;
@@ -90,11 +87,14 @@
     .am-accordion-gapped {
         margin: 0;
     }
-    .last-next-data .am-fl,
-    .last-next-data .am-fr {
-        float: none !important;
-    }
-    .last-next-data .am-fr {
-        margin-top: 10px;
-    }
+}
+
+/**
+ * 上一篇、下一篇
+ */
+.last-next-data a {
+    width: calc(100% - 175px);
+}
+.last-next-data .text-tips {
+    color: #999;
 }

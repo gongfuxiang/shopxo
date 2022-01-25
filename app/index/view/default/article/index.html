@@ -56,30 +56,30 @@
         <!-- 文章内容 -->
 		<div class="am-article am-scrollable-horizontal">{{$article.content|raw}}</div>
 
-		<!-- 上一条、下一条 -->
-		<div class="last-next-data am-margin-top-lg am-padding-bottom-sm">
-			<hr class="am-article-divider am-margin-bottom-sm" />
-			<div class="am-nbfc am-padding-horizontal-sm">
-				<div class="am-fl">
-					<span>上一篇：</span>
-					{{if !empty($last_next_data['last'])}}
-						<a href="{{$last_next_data.last.url}}" class="am-text-primary">{{$last_next_data.last.title}}</a>
-						<span class="text-tips am-margin-left-sm">{{$last_next_data.last.add_time}}</span>
-					{{else /}}
-						<span class="text-tips">没有符合条件的文章</span>
-					{{/if}}
-				</div>
-				<div class="am-fr">
-					<span>下一篇：</span>
-					{{if !empty($last_next_data['next'])}}
-						<a href="{{$last_next_data.next.url}}" class="am-text-primary">{{$last_next_data.next.title}}</a>
-						<span class="text-tips am-margin-left-sm">{{$last_next_data.next.add_time}}</span>
-					{{else /}}
-						<span class="text-tips">没有符合条件的文章</span>
-					{{/if}}
-				</div>
-			</div>
-		</div>
+		<!-- 上一篇、下一篇 -->
+        <div class="last-next-data am-margin-top-lg am-padding-bottom-sm">
+            <hr class="am-article-divider am-margin-bottom-sm" />
+            <div class="am-nbfc am-padding-horizontal-sm">
+                <div class="am-nbfc">
+                    <span class="am-fl">上一篇：</span>
+                    {{if !empty($last_next_data['last'])}}
+                        <a href="{{$last_next_data.last.url}}" class="am-text-primary am-text-truncate am-fl am-block">{{$last_next_data.last.title}}</a>
+                        <span class="text-tips am-fr">{{$last_next_data.last.add_time}}</span>
+                    {{else /}}
+                        <span class="text-tips">没有符合条件的文章</span>
+                    {{/if}}
+                </div>
+                <div class="am-nbfc am-margin-top-xs">
+                    <span class="am-fl">下一篇：</span>
+                    {{if !empty($last_next_data['next'])}}
+                        <a href="{{$last_next_data.next.url}}" class="am-text-primary am-text-truncate am-fl am-block">{{$last_next_data.next.title}}</a>
+                        <span class="text-tips am-fr">{{$last_next_data.next.add_time}}</span>
+                    {{else /}}
+                        <span class="text-tips">没有符合条件的文章</span>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
 
 		<!-- 文章内容底部钩子 -->
 		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
