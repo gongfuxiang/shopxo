@@ -75,8 +75,13 @@ class Page
 			{
 				if(!in_array($k, $this->not_fields) && !is_array($v))
 				{
-					if($k == 'page') continue;
-					
+					if($k == 'page')
+					{
+						continue;
+					}
+					$k = htmlspecialchars($k);
+					$v = htmlspecialchars($v);
+
 					if($tmp)
 					{
 						$this->url .= ($state === false) ? '?' : '&';
