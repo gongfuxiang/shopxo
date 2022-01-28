@@ -89,6 +89,9 @@ class ExceptionHandle extends Handle
                     $msg = '服务器错误';
                 }
             }
+
+            // 结束并设置响应头
+            header('Content-Type: application/json; charset=utf-8');
             exit(json_encode(DataReturn($msg, $code)));
         }
 
