@@ -1607,7 +1607,7 @@ class OrderService
                     // 生成二维码参数
                     $params = [
                         'content'   => $data[$v],
-                        'path'      => DS.'download'.DS.'order'.DS.'extraction_ode'.DS,
+                        'path'      => DS.'download'.DS.'order'.DS.'extraction_code'.DS,
                         'filename'  => $v.'.png',
                     ];
 

@@ -250,7 +250,7 @@ class AppMiniService
             if($pos !== false)
             {
                 $info = pathinfo($file);
-                if(isset($info['extension']) && in_array($info['extension'], self::$exclude_ext))
+                if(isset($info['extension']) && in_array(strtolower($info['extension']), self::$exclude_ext))
                 {
                     continue;
                 }

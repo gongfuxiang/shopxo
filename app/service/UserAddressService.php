@@ -448,6 +448,13 @@ class UserAddressService
                 'error_msg'         => '姓名不能为空',
             ],
             [
+                'checked_type'      => 'length',
+                'key_name'          => 'alias',
+                'checked_data'      => '16',
+                'is_checked'        => 1,
+                'error_msg'         => '别名最多16个字符',
+            ],
+            [
                 'checked_type'      => 'empty',
                 'key_name'          => 'tel',
                 'error_msg'         => '联系电话不能为空',
