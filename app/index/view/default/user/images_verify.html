@@ -5,7 +5,7 @@
         </div>
         <div class="am-modal-bd">
             <div class="base">
-                <input type="text" placeholder="图形验证码" minlength="4" maxlength="4" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" />
+                <input type="text" placeholder="图形验证码" minlength="4" maxlength="4" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" autocomplete="off" />
                 <div class="am-fl">
                     <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'[type]'])}}" class="am-radius c-p" id="verify-img" onClick="this.src=this.src+(({{$url_model}} == 0) ? '&' : '?')+Math.random();" />
                     <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'[type]'])}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">更换一张</a>

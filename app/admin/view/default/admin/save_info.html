@@ -15,7 +15,7 @@
 			</div>
 			<div class="am-form-group">
 				<label>登录密码{{if empty($data)}}<span class="am-form-group-label-tips-must">必填</span>{{else /}}<span class="am-form-group-label-tips">选填</span>{{/if}}</label>
-				<input type="password" name="login_pwd" placeholder="登录密码" pattern="{{:MyConst('common_regex_pwd')}}"  data-validation-message="密码格式 6~18 个字符" class="am-radius" {{if empty($data)}}required{{/if}} />
+				<input type="password" name="login_pwd" placeholder="登录密码" pattern="{{:MyConst('common_regex_pwd')}}"  data-validation-message="密码格式 6~18 个字符" class="am-radius" autocomplete="off" {{if empty($data)}}required{{/if}} />
 			</div>
 			<div class="am-form-group">
 				<label>手机号码<span class="am-form-group-label-tips">选填</span></label>

@@ -9,11 +9,11 @@
             <form class="am-form form-validation-store-accounts view-save" action="{{:MyUrl('admin/index/storeaccountsbind')}}" method="POST" request-type="ajax-reload">
                 <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                     <label>账号<span class="am-form-group-label-tips-must">必填</span></label>
-                    <input type="text" name="common_store_accounts" placeholder="用户名/手机/邮箱" data-validation-message="账号格式1~30个字符" class="am-radius" value="" required />
+                    <input type="text" name="common_store_accounts" placeholder="用户名/手机/邮箱" data-validation-message="账号格式1~30个字符" class="am-radius" value="" autocomplete="off" required />
                 </div>
                 <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
                     <label>密码<span class="am-form-group-label-tips-must">必填</span></label>
-                    <input type="password" name="common_store_password" placeholder="登录密码" data-validation-message="登录密码格式6~30个字符" class="am-radius" value="" required />
+                    <input type="password" name="common_store_password" placeholder="登录密码" data-validation-message="登录密码格式6~30个字符" class="am-radius" value="" autocomplete="off" required />
                 </div>
                 
                 <div class="am-form-group am-form-group-refreshing am-margin-top-sm">
@@ -66,7 +66,7 @@
 </html>
 
 <!-- 类库 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/jquery/jquery-2.1.0.js?v={{:MyC('home_static_cache_version')}}"></script>
+<script type='text/javascript' src="{{$public_host}}static/common/lib/jquery/jquery-2.2.4.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 <script type='text/javascript' src="{{$public_host}}static/common/lib/assets/js/amazeui.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- echarts 图表 -->
