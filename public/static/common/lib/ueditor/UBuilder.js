@@ -641,7 +641,7 @@ UE.parse.register('charts',function( utils ){
         if ( !window.jQuery ) {
 
             utils.loadFile(document,{
-                src : resourceRoot + "/third-party/jquery-1.10.2.min.js",
+                src : resourceRoot + "/third-party/jquery-2.2.4.min.js",
                 tag : "script",
                 type : "text/javascript",
                 defer : "defer"
