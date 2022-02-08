@@ -1026,21 +1026,14 @@ class BuyService
                 'error_msg'         => '请选择地址',
             ];
         }
-
-        // 非预约模式则校验支付方式
-        if(MyC('common_order_is_booking', 0) != 1)
-        {
-            $p[] = [
-                'checked_type'      => 'empty',
-                'key_name'          => 'payment_id',
-                'error_msg'         => '支付方式有误',
-            ];
-        }
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
             return DataReturn($ret, -1);
         }
+
+        // 是否预约模式
+        $common_order_is_booking = MyC('common_order_is_booking', 0);
 
         // 查询用户状态是否正常
         $ret = UserService::UserStatusCheck('id', $params['user']['id']);
@@ -1057,11 +1050,20 @@ class BuyService
             return $buy;
         }
 
+        // 金额大于0、非预约模式 必须选择支付方式
+        if($buy['data']['base']['total_price'] > 0 && $common_order_is_booking != 1)
+        {
+            if(empty($params['payment_id']))
+            {
+                return DataReturn('支付方式有误', -1);
+            }
+        }
+
         // 用户留言
         $user_note = empty($params['user_note']) ? '' : str_replace(['"', "'"], '', strip_tags($params['user_note']));
 
         // 订单默认状态
-        $order_status = (intval(MyC('common_order_is_booking', 0)) == 1) ? 0 : 1;
+        $order_status = ($common_order_is_booking == 1) ? 0 : 1;
 
         // 支付方式
         $payment_id = 0;

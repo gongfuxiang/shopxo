@@ -526,7 +526,7 @@
         <!-- 订单确认页面分组商品底部钩子-结束 -->
 
         <!-- 支付方式 -->
-        {{if $common_order_is_booking neq 1}}
+        {{if $base['actual_price'] gt 0 and $common_order_is_booking neq 1}}
             <div class="buy-items business-item payment" data-field="payment_id">
                 <h3>选择支付</h3>
                 {{if !empty($payment_list)}}
@@ -645,7 +645,7 @@
                         </div>
                     {{/if}}
                 </div>
-                <form class="am-form form-validation nav-buy" action="{{:MyUrl('index/buy/add')}}" method="post" class="nav-buy" request-type="ajax-fun" request-value="BuySubmitBack" data-site-type="{{$common_site_type}}" data-is-booking="{{$common_order_is_booking}}">
+                <form class="am-form form-validation nav-buy" action="{{:MyUrl('index/buy/add')}}" method="post" class="nav-buy" request-type="ajax-fun" request-value="BuySubmitBack" data-site-type="{{$common_site_type}}" data-base-actual-price="{{$base.actual_price}}" data-is-booking="{{$common_order_is_booking}}">
                     <input type="hidden" name="goods_id" value="{{if isset($params['goods_id'])}}{{$params.goods_id}}{{else /}}0{{/if}}" />
                     <input type="hidden" name="buy_type" value="{{if isset($params['buy_type'])}}{{$params.buy_type}}{{else /}}goods{{/if}}" />
                     <input type="hidden" name="stock" value="{{if isset($params['stock'])}}{{$params.stock}}{{else /}}1{{/if}}" />

@@ -106,7 +106,8 @@ $(function()
 
         // 非预约模式校验支付方式
         var is_booking = $('.nav-buy').data('is-booking') || 0;
-        if(is_booking != 1)
+        var actual_price = parseFloat($('.nav-buy').data('base-actual-price')) || 0;
+        if(is_booking != 1 && actual_price > 0)
         {
             var payment_id = parseInt($('form.nav-buy input[name="payment_id"]').val()) || 0;
             if(payment_id === 0)

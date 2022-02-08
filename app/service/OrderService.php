@@ -73,22 +73,6 @@ class OrderService
             return DataReturn('订单支付id有误', -1);
         }
 
-        // 支付方式
-        $payment = [];
-        $payment_id = empty($params['payment_id']) ? Db::name('Order')->where(['id'=>$ids[0]])->value('payment_id') : intval($params['payment_id']);
-        if(!empty($payment_id))
-        {
-            $res = PaymentService::PaymentList(['where'=>['id'=>$payment_id]]);
-            if(!empty($res[0]))
-            {
-                $payment = $res[0];
-            }
-        }
-        if(empty($payment))
-        {
-            return DataReturn('支付方式有误', -1);
-        }
-
         // 支付基础信息
         $order_payment_id = 0;
         $client_type = '';
@@ -133,16 +117,6 @@ class OrderService
             return $ret;
         }
 
-        // 更新订单支付方式信息
-        if($payment['id'] != $order_payment_id)
-        {
-            Db::name('Order')->where(['id'=>$ids])->update([
-                'payment_id'    => $payment['id'],
-                'is_under_line' => in_array($payment['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0,
-                'upd_time'      => time(),
-            ]);
-        }
-
         // 金额为0、走直接支付成功
         $total_price = 0;
         $success_count = 0;
@@ -152,7 +126,6 @@ class OrderService
             {
                 $pay_result = self::OrderDirectSuccess([
                     'order'     => $order,
-                    'payment'   => $payment,
                     'user'      => $params['user'],
                     'params'    => $params,
                 ]);
@@ -173,6 +146,33 @@ class OrderService
         if($success_count > 0 && $success_count == count($order_data))
         {
             return DataReturn('操作成功', 0, ['is_success'=>1]);
+        }
+
+        // 订单金额大于0则必须存在支付方式
+        // 支付方式、未指定支付方式则获取第一个订单的支付方式
+        $payment = [];
+        $payment_id = empty($params['payment_id']) ? Db::name('Order')->where(['id'=>$ids[0]])->value('payment_id') : intval($params['payment_id']);
+        if(!empty($payment_id))
+        {
+            $res = PaymentService::PaymentList(['where'=>['id'=>$payment_id]]);
+            if(!empty($res[0]))
+            {
+                $payment = $res[0];
+            }
+        }
+        if(empty($payment))
+        {
+            return DataReturn('支付方式有误', -1);
+        }
+
+        // 更新订单支付方式信息
+        if($payment['id'] != $order_payment_id)
+        {
+            Db::name('Order')->where(['id'=>$ids])->update([
+                'payment_id'    => $payment['id'],
+                'is_under_line' => in_array($payment['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0,
+                'upd_time'      => time(),
+            ]);
         }
 
         // 支付入口文件检查
@@ -472,29 +472,15 @@ class OrderService
      */
     private static function OrderDirectSuccess($params = [])
     {
-        if(!empty($params['order']) && !empty($params['payment']) && !empty($params['user']))
+        if(!empty($params['order']) && !empty($params['user']))
         {
             if($params['order']['total_price'] <= 0.00)
             {
-                // 新增支付日志
-                $pay_log = self::OrderPayLogInsert([
-                    'user_id'       => $params['user']['id'],
-                    'business_ids'  => $params['order']['id'],
-                    'business_nos'  => $params['order']['order_no'],
-                    'total_price'   => $params['order']['total_price'],
-                    'payment'       => $params['payment']['payment'],
-                    'payment_name'  => $params['payment']['name'],
-                ]);
-                if($pay_log['code'] != 0)
-                {
-                    return $pay_log;
-                }
-
                 // 支付处理
                 $pay_params = [
                     'order'         => [$params['order']],
-                    'payment'       => $params['payment'],
-                    'pay_log_data'  => $pay_log['data'],
+                    'payment'       => [],
+                    'pay_log_data'  => [],
                     'pay'           => [
                         'trade_no'      => '',
                         'subject'       => isset($params['params']['subject']) ? $params['params']['subject'] : '订单支付',
@@ -858,16 +844,21 @@ class OrderService
             return DataReturn('订单数据不存在或类型有误', -1);
         }
 
-        // 支付方式
-        if(empty($params['payment']))
+        // 订单金额大于0必须存在支付方式和订单支付日志
+        $order_total_price = array_sum(array_column($params['order'], 'total_price'));
+        if($order_total_price > 0)
         {
-            return DataReturn('支付方式有误', -1);
-        }
+            // 支付方式
+            if(empty($params['payment']))
+            {
+                return DataReturn('支付方式有误', -1);
+            }
 
-        // 日志订单
-        if(empty($params['pay_log_data']))
-        {
-            return DataReturn('日志订单有误', -1);
+            // 日志订单
+            if(empty($params['pay_log_data']))
+            {
+                return DataReturn('日志订单有误', -1);
+            }
         }
 
         // 开启事务
@@ -905,7 +896,6 @@ class OrderService
             $upd_data = [
                 'pay_status'    => 1,
                 'pay_price'     => $order['total_price'],
-                'payment_id'    => $params['payment']['id'],
                 'pay_time'      => time(),
                 'upd_time'      => time(),
             ];
@@ -916,8 +906,15 @@ class OrderService
                 $upd_data['status'] = 2;
             }
 
-            // 是否线下支付
-            $upd_data['is_under_line'] = in_array($params['payment']['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0;
+            // 订单金额大于0
+            if($order['total_price'] > 0 && !empty($params['payment']))
+            {
+                // 更新支付方式
+                $upd_data['payment_id'] = $params['payment']['id'];
+
+                // 是否线下支付
+                $upd_data['is_under_line'] = in_array($params['payment']['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0;
+            }
 
             // 更新订单
             if(!Db::name('Order')->where(['id'=>$order['id']])->update($upd_data))
@@ -991,21 +988,24 @@ class OrderService
         }
 
         // 更新支付日志
-        $pay_log_data = [
-            'log_id'        => $params['pay_log_data']['id'],
-            'trade_no'      => isset($params['pay']['trade_no']) ? $params['pay']['trade_no'] : '',
-            'buyer_user'    => isset($params['pay']['buyer_user']) ? $params['pay']['buyer_user'] : '',
-            'pay_price'     => isset($params['pay']['pay_price']) ? $params['pay']['pay_price'] : 0,
-            'subject'       => isset($params['pay']['subject']) ? $params['pay']['subject'] : '订单支付',
-            'payment'       => $params['payment']['payment'],
-            'payment_name'  => $params['payment']['name'],
-        ];
-        $ret = PayLogService::PayLogSuccess($pay_log_data);
-        if($ret['code'] != 0)
+        if($order_total_price > 0 && !empty($params['pay_log_data']) && !empty($params['payment']))
         {
-            // 事务回滚
-            Db::rollback();
-            return $ret;
+            $pay_log_data = [
+                'log_id'        => $params['pay_log_data']['id'],
+                'trade_no'      => isset($params['pay']['trade_no']) ? $params['pay']['trade_no'] : '',
+                'buyer_user'    => isset($params['pay']['buyer_user']) ? $params['pay']['buyer_user'] : '',
+                'pay_price'     => isset($params['pay']['pay_price']) ? $params['pay']['pay_price'] : 0,
+                'subject'       => isset($params['pay']['subject']) ? $params['pay']['subject'] : '订单支付',
+                'payment'       => $params['payment']['payment'],
+                'payment_name'  => $params['payment']['name'],
+            ];
+            $ret = PayLogService::PayLogSuccess($pay_log_data);
+            if($ret['code'] != 0)
+            {
+                // 事务回滚
+                Db::rollback();
+                return $ret;
+            }
         }
 
         // 提交事务
