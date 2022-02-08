@@ -400,7 +400,12 @@ class UserService
             }
         } else {
             $data['add_time'] = time();
-            $user_id = Db::name('User')->insertGetId($data);
+            $ret = self::UserInsert($data);
+            if($ret['code'] != 0)
+            {
+                return $ret;
+            }
+            $user_id = $ret['data']['user_id'];
         }
 		
 		// 添加用户后处理钩子
