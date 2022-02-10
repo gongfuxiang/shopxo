@@ -1308,7 +1308,7 @@ class OrderService
                 if(in_array($v['order_model'], [0,2]))
                 {
                     // 销售模式+自提模式 地址信息
-                    $v['address_data'] = (!empty($address_data) && array_key_exists($v['id'], $address_data)) ? $address_data[$v['id']] : [];
+                    $v['address_data'] = (!empty($address_data) && array_key_exists($v['id'], $address_data)) ? $address_data[$v['id']] : null;
                     
                     // 自提模式 添加订单取货码
                     if($v['order_model'] == 2)
