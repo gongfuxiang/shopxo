@@ -137,17 +137,15 @@
 {{/if}}
 
 <!-- 公共页面底部钩子 -->
-{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
-    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-        <div class="plugins-tag">
-            <span>plugins_common_page_bottom</span>
-        </div>
-    {{/if}}
-    {{if !empty($plugins_common_page_bottom_data) and is_array($plugins_common_page_bottom_data)}}
-        {{foreach $plugins_common_page_bottom_data as $hook}}
-            {{if is_string($hook) or is_int($hook)}}
-                {{$hook|raw}}
-            {{/if}}
-        {{/foreach}}
-    {{/if}}
+{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+    <div class="plugins-tag">
+        <span>plugins_common_page_bottom</span>
+    </div>
+{{/if}}
+{{if !empty($plugins_common_page_bottom_data) and is_array($plugins_common_page_bottom_data)}}
+    {{foreach $plugins_common_page_bottom_data as $hook}}
+        {{if is_string($hook) or is_int($hook)}}
+            {{$hook|raw}}
+        {{/if}}
+    {{/foreach}}
 {{/if}}
