@@ -2798,6 +2798,7 @@ class GoodsService
                     'value' => MyC('common_customer_store_tel'),
                     'icon'  => 'am-icon-phone', 
                 ];
+                $error = '仅展示';
             } else {
                 // web端class
                 $class_name = (APPLICATION == 'web') ? 'buy-event login-event' : '';
@@ -2825,6 +2826,8 @@ class GoodsService
                         'class' => $class_name,
                         'icon'  => 'am-icon-opencart',
                     ];
+                } else {
+                    $error = $res['msg'];
                 }
             }
         }
