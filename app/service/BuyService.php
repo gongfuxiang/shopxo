@@ -275,7 +275,7 @@ class BuyService
                 }
 
                 // 基础信息
-                $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$v['goods_id']]);
+                $v['goods_url'] = GoodsService::GoodsUrlCreate($v['goods_id']);
                 $v['images_old'] = $v['images'];
                 $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
                 $v['total_price'] = PriceNumberFormat($v['stock']* $v['price']);

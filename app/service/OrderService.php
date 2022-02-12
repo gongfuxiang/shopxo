@@ -1544,7 +1544,7 @@ class OrderService
 
                 // 商品信息
                 $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
-                $vs['goods_url'] = MyUrl('index/goods/index', ['id'=>$vs['goods_id']]);
+                $vs['goods_url'] = GoodsService::GoodsUrlCreate($vs['goods_id']);
                 $vs['total_price'] = PriceNumberFormat($vs['buy_number']*$vs['price']);
 
                 // 规格

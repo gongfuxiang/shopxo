@@ -53,7 +53,8 @@ class Goods extends Common
     public function Detail()
     {
         // 参数
-        if(empty($this->data_post['goods_id']))
+        $goods_id = empty($this->data_post['id']) ? (empty($this->data_post['goods_id']) ? 0 : intval($this->data_post['goods_id'])) : intval($this->data_post['id']);
+        if(empty($goods_id))
         {
             $ret = DataReturn('参数有误', -1);
         } else {
@@ -61,11 +62,10 @@ class Goods extends Common
             $is_use_mobile_detail = intval(MyC('common_app_is_use_mobile_detail'));
 
             // 获取商品
-            $goods_id = intval($this->data_post['goods_id']);
             $params = [
                 'where' => [
-                    'id' => $goods_id,
-                    'is_delete_time' => 0,
+                    'id'                => $goods_id,
+                    'is_delete_time'    => 0,
                 ],
                 'is_photo'          => true,
                 'is_spec'           => true,

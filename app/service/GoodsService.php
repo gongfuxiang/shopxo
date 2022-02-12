@@ -614,7 +614,7 @@ class GoodsService
                 // 商品url地址
                 if(!empty($data_id))
                 {
-                    $v['goods_url'] = MyUrl('index/goods/index', ['id'=>$data_id]);
+                    $v['goods_url'] = self::GoodsUrlCreate($data_id);
                 }
 
                 // 获取相册
@@ -2978,11 +2978,25 @@ class GoodsService
         $params = [
             'path'      => DS.$path,
             'filename'  => $filename,
-            'content'   => MyUrl('index/goods/index', ['id'=>$goods_id], true, true),
+            'content'   => MyUrl('index/goods/index', ['id'=>$goods_id]),
         ];
 
         // 创建二维码
         return (new \base\Qrcode())->Create($params);
+    }
+
+    /**
+     * 商品url生成
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-02-12
+     * @desc    description
+     * @param   [int]          $goods_id [商品id]
+     */
+    public static function GoodsUrlCreate($goods_id)
+    {
+        return (APPLICATION_CLIENT_TYPE == 'pc') ? MyUrl('index/goods/index', ['id'=>$goods_id]) : '/pages/goods-detail/goods-detail?id='.$goods_id;
     }
 }
 ?>

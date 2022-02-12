@@ -578,7 +578,7 @@ class BaseLayout
                 case 'goods' :
                     if(!empty($value) && !empty($value['id']))
                     {
-                        $url = ($client_type == 'pc') ? MyUrl('index/goods/index', ['id'=>$value['id']]) : '/pages/goods-detail/goods-detail?goods_id='.$value['id'];
+                        $url = GoodsService::GoodsUrlCreate($value['id']);
                     }
                     break;
 
