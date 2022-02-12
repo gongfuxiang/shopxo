@@ -203,6 +203,15 @@ class User
                     ],
                 ],
                 [
+                    'label'         => '邀请人id',
+                    'view_type'     => 'field',
+                    'view_key'      => 'referrer',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                    ],
+                ],
+                [
                     'label'         => '注册时间',
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
