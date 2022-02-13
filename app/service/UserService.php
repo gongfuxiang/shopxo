@@ -359,7 +359,6 @@ class UserService
             'weixin_web_openid'     => isset($params['weixin_web_openid']) ? $params['weixin_web_openid'] :  '',
             'birthday'              => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
             'referrer'              => empty($params['referrer']) ? 0 : intval($params['referrer']),
-            'upd_time'              => time(),
         ];
 
         // 用户保存处理钩子
@@ -393,8 +392,8 @@ class UserService
                 return DataReturn('用户信息不存在', -10);
             }
 
-            $data['upd_time'] = time();
-            if(Db::name('User')->where(['id'=>$params['id']])->update($data))
+            $ret = self::UserUpdateHandle($data, $params['id']);
+            if($ret['code'] == 0)
             {
                 $user_id = $params['id'];
             }
@@ -441,6 +440,38 @@ class UserService
             return DataReturn('操作成功', 0);
         }
         return DataReturn('操作失败', -100);
+    }
+
+    /**
+     * 用户信息更新
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-02-13
+     * @desc    description
+     * @param   [array]        $data     [用户更新信息]
+     * @param   [int]          $user_id [用户id]
+     */
+    public static function UserUpdateHandle($data, $user_id)
+    {
+        $data['upd_time'] = time();
+        if(Db::name('User')->where(['id'=>intval($user_id)])->update($data))
+        {
+            // 更新成功后钩子
+            $hook_name = 'plugins_service_user_update_success';
+            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'user_id'       => $user_id,
+                'data'          => $data,
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+            return DataReturn('更新成功', 0);
+        }
+        return DataReturn('更新失败', -100);
     }
 
     /**
