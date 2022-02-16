@@ -124,7 +124,7 @@ class Verify
 			{
 				$temp_height = $this->height-15;
 			}
-			imagestring($this->img, rand(3,5), $k*$each_width+$first, rand(5/100*$this->height,$temp_height), strtoupper($v), $fgcolor);
+			imagestring($this->img, rand(3,5), intval($k*$each_width+$first), rand(intval(5/100*$this->height), $temp_height), strtoupper($v), $fgcolor);
 		}
 
 		// 种session
