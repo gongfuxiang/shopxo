@@ -81,7 +81,7 @@ class StoreService
         $admin_url = explode('?', __MY_VIEW_URL__);
 
         // 拼接商店请求参数地址
-        return '?name='.urldecode(base64_encode(MyC('home_site_name'))).'&ver='.urldecode(base64_encode(APPLICATION_VERSION)).'&url='.urlencode(base64_encode(__MY_URL__)).'&host='.urlencode(base64_encode(__MY_HOST__)).'&ip='.urlencode(base64_encode(__MY_ADDR__)).'&admin_url='.urlencode(base64_encode($admin_url[0]));
+        return '?name='.urlencode(base64_encode(MyC('home_site_name'))).'&ver='.urlencode(base64_encode(APPLICATION_VERSION)).'&url='.urlencode(base64_encode(__MY_URL__)).'&host='.urlencode(base64_encode(__MY_HOST__)).'&ip='.urlencode(base64_encode(__MY_ADDR__)).'&admin_url='.urlencode(base64_encode($admin_url[0]));
     }
 
     /**
