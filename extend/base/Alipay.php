@@ -144,7 +144,7 @@ class Alipay
             openssl_private_decrypt($data, $decrypt, $res, OPENSSL_ALGO_SHA256);
             $result .= $decrypt;
         }
-        openssl_free_key($res);
+        unset($res);
         return $result;
     }
 
@@ -168,7 +168,7 @@ class Alipay
         if($pkeyid)
         {
             $verify = openssl_verify($prestr, $sign, $pkeyid, OPENSSL_ALGO_SHA256);
-            openssl_free_key($pkeyid);
+            unset($pkeyid);
         }
         return (isset($verify) && $verify == 1) ? true : false;
     }
