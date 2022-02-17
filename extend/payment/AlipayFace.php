@@ -50,7 +50,7 @@ class AlipayFace
         // 基础信息
         $base = [
             'name'          => '支付宝当面付',  // 插件名称
-            'version'       => '1.0.1',  // 插件版本
+            'version'       => '1.0.2',  // 插件版本
             'apply_version' => '不限',  // 适用系统版本描述
             'apply_terminal'=> ['pc', 'h5'], // 适用终端 默认全部 ['pc', 'h5', 'app', 'alipay', 'weixin', 'baidu']
             'desc'          => '支付宝当面付、适用web端，用户主动扫码支付方式，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a href="http://www.alipay.com/" target="_blank">立即申请</a>',  // 插件描述（支持html）
@@ -490,7 +490,7 @@ class AlipayFace
             openssl_private_decrypt($data, $decrypt, $res, OPENSSL_ALGO_SHA256);
             $result .= $decrypt;
         }
-        openssl_free_key($res);
+        unset($res);
         return $result;
     }
 
@@ -519,7 +519,7 @@ class AlipayFace
         if($pkeyid)
         {
             $verify = openssl_verify($prestr, $sign, $pkeyid, OPENSSL_ALGO_SHA256);
-            openssl_free_key($pkeyid);
+            unset($pkeyid);
         }
         return (isset($verify) && $verify == 1) ? true : false;
     }
