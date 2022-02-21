@@ -50,25 +50,6 @@
 							<h3 class="am-panel-title">扩展插件配置</h3>
 						</div>
 						<div class="am-panel-bd">
-							<div class="am-form-group">
-				                <label>{{$data.common_app_is_good_thing.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_good_thing.describe}}</span></label>
-				                <select name="{{$data.common_app_is_good_thing.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_good_thing.error_tips}}" required>
-				                    {{foreach $common_is_text_list as $v}}
-				                        <option value="{{$v.id}}" {{if isset($data['common_app_is_good_thing']['value']) and $data['common_app_is_good_thing']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-				                    {{/foreach}}
-				                </select>
-				            </div>
-				            <div class="am-form-group">
-				                <label>{{$data.common_app_is_good_thing_ver.name}}</label>
-				                <div class="am-alert am-alert-warning">
-				                    <p>1. 获取最新组件版本号，默认[ 4.0.1 ]</p>
-				                    <p>2. 好物推荐组件权限操作[ 添加插件 ]按钮后等待审核通过方可使用</p>
-				                    <p>3. 点击左侧导航[ 使用插件 ]，找到 json 代码串[ plugins->goodsSharePlugin ]参数下的[ version ]的值填入</p>
-				                    <a href="https://mp.weixin.qq.com/wxopen/plugindevdoc?appid=wx56c8f077de74b07c&token=1011820682&lang=zh_CN" target="_blank">去申请权限并获取组件版本号 <i class="am-icon-external-link"></i></a>
-				                </div>
-				                <input type="text" name="{{$data.common_app_is_good_thing_ver.only_tag}}" placeholder="{{$data.common_app_is_good_thing_ver.name}}" data-validation-message="{{$data.common_app_is_good_thing_ver.error_tips}}" class="am-radius am-margin-top-xs" {{if !empty($data)}}value="{{$data.common_app_is_good_thing_ver.value}}"{{/if}} />
-				            </div>
-
 				            <div class="am-form-group">
 				                <label>{{$data.common_app_weixin_liveplayer.name}}<span class="am-form-group-label-tips">{{$data.common_app_weixin_liveplayer.describe}}</span></label>
 				                <select name="{{$data.common_app_weixin_liveplayer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_weixin_liveplayer.error_tips}}" required>

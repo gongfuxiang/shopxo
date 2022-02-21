@@ -696,37 +696,6 @@ class AppMiniService
      */
     private static function ExtendHandleWeixin($new_dir)
     {
-        // 启用好物推荐
-        if(MyC('common_app_is_good_thing', 0) == 1)
-        {
-            // app.json
-            $file = $new_dir.DS.'app.json';
-            $config = json_decode(file_get_contents($file), true);
-            if(is_array($config) && isset($config['plugins']))
-            {
-                $config['plugins']['goodsSharePlugin'] = [
-                    'version'   => MyC('common_app_is_good_thing_ver', '4.0.1', true),
-                    'provider'  => 'wx56c8f077de74b07c',
-                ];
-                if(file_put_contents($file, JsonFormat($config)) === false)
-                {
-                    return DataReturn('好物推荐主配置失败', -50);
-                }
-            }
-
-            // goods-detail.json
-            $file = $new_dir.DS.'pages'.DS.'goods-detail'.DS.'goods-detail.json';
-            $config = json_decode(file_get_contents($file), true);
-            if(is_array($config) && isset($config['usingComponents']))
-            {
-                $config['usingComponents']['share-button'] = 'plugin://goodsSharePlugin/share-button';
-                if(file_put_contents($file, JsonFormat($config)) === false)
-                {
-                    return DataReturn('好物推荐商品配置失败', -51);
-                }
-            }
-        }
-
         // 启用直播
         if(MyC('common_app_weixin_liveplayer', 0) == 1)
         {
