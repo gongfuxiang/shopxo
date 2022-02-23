@@ -281,7 +281,7 @@ class Order
                     'view_key'      => 'user_note',
                     'is_sort'       => 1,
                     'search_config' => [
-                        'form_type'         => 'select',
+                        'form_type'         => 'input',
                         'where_type'        => 'like',
                     ],
                 ],

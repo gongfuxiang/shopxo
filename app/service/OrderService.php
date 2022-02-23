@@ -54,11 +54,6 @@ class OrderService
                 'key_name'          => 'ids',
                 'error_msg'         => '订单id有误',
             ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
-            ],
         ];
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
@@ -84,7 +79,7 @@ class OrderService
         foreach($ids as $k=>$order_id)
         {
             // 获取订单信息
-            $where = ['id'=>intval($order_id), 'user_id' => $params['user']['id']];
+            $where = ['id'=>intval($order_id)];
             $order = Db::name('Order')->where($where)->find();
             if(empty($order))
             {
@@ -96,6 +91,9 @@ class OrderService
                 $status_text = MyConst('common_order_status')[$order['status']]['name'];
                 return DataReturn('状态不可操作['.$status_text.'-'.$order['order_no'].']', -1);
             }
+
+            // 订单用户
+            $order['user'] = UserService::UserHandle(UserService::UserInfo('id', $order['user_id']));
 
             // 订单数据集合
             $order_data[] = $order;
@@ -126,7 +124,7 @@ class OrderService
             {
                 $pay_result = self::OrderDirectSuccess([
                     'order'     => $order,
-                    'user'      => $params['user'],
+                    'user'      => $order['user'],
                     'params'    => $params,
                 ]);
                 if($pay_result['code'] == 0)
@@ -222,12 +220,15 @@ class OrderService
             $redirect_url = MyUrl('index/order/index');
         }
 
+        // 当前用户
+        $current_user = empty($params['user']) ? UserService::LoginUserInfo() : $params['user'];
+
         // 发起支付前处理钩子
         $hook_name = 'plugins_service_order_pay_launch_begin';
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
-            'user'          => $params['user'],
+            'user'          => $current_user,
             'business_ids'  => $order_ids,
             'business_nos'  => $order_nos,
             'total_price'   => $total_price,
@@ -243,7 +244,7 @@ class OrderService
 
         // 新增支付日志
         $pay_log = self::OrderPayLogInsert([
-            'user_id'       => $params['user']['id'],
+            'user_id'       => $current_user['id'],
             'business_ids'  => $order_ids,
             'business_nos'  => $order_nos,
             'total_price'   => $total_price,
@@ -258,8 +259,8 @@ class OrderService
         // 发起支付数据
         $pay_data = [
             'params'        => $params,
-            'user'          => $params['user'],
-            'out_user'      => md5($params['user']['id']),
+            'user'          => $current_user,
+            'out_user'      => md5($current_user['id']),
             'business_type' => 'system-order',
             'business_ids'  => $order_ids,
             'business_nos'  => $order_nos,

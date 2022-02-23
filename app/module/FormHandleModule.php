@@ -410,9 +410,10 @@ class FormHandleModule
 
                     // 是否指定了数据/表单唯一key作为条件、则复制当前key数据
                     // 用于根据key指定条件（指定不宜使用这里拼接的key）
-                    if(array_key_exists($form_name, $this->out_params) && $this->out_params[$form_name] !== null && $this->out_params[$form_name] !== '')
+                    $params_where_name = empty($v['params_where_name']) ? $form_name : $v['params_where_name'];
+                    if(array_key_exists($params_where_name, $this->out_params) && $this->out_params[$params_where_name] !== null && $this->out_params[$params_where_name] !== '')
                     {
-                        $this->out_params[$form_key] = $this->out_params[$form_name];
+                        $this->out_params[$form_key] = $this->out_params[$params_where_name];
                     }
 
                     // 根据组件类型处理

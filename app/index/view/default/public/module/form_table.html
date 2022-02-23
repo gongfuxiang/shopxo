@@ -225,7 +225,7 @@
                                             {{/case}}
                                             {{case module}}
                                                 <!-- 从模块加载自定义模块数据 -->
-                                                {{:ModuleInclude($t['view_key'], $data_list[$i], [
+                                                {{:ModuleInclude(empty($t['template']) ? $t['view_key'] : $t['template'], $data_list[$i], [
                                                     'form'      => $t,
                                                     'params'    => isset($form_params) ? $form_params : [],
                                                 ])}}
