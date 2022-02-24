@@ -468,14 +468,18 @@ class PluginsAdminService
                 }
             }
 
-            // 删除数据库附件
-            ResourcesService::AttachmentPathTypeDelete('plugins_'.$plugins);
+            // 删除应用文件
+            self::PluginsResourcesDelete($plugins, $is_delete_data);
+
+            // 删除数据
+            if($is_delete_data === true)
+            {
+                // 删除数据库附件
+                ResourcesService::AttachmentPathTypeDelete('plugins_'.$plugins);
+            }
 
             // 插件事件回调
             PluginsService::PluginsEventCall($plugins, 'Delete', $params);
-
-            // 删除应用文件
-            self::PluginsResourcesDelete($plugins, $is_delete_data);
 
             return DataReturn('删除成功');
         }
