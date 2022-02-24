@@ -972,19 +972,13 @@ class OrderService
             // 虚拟商品自动触发发货操作
             if($order['order_model'] == 3)
             {
-                $ret = self::OrderDeliveryHandle([
+                self::OrderDeliveryHandle([
                     'id'                => $order['id'],
                     'creator'           => 0,
                     'creator_name'      => '系统',
                     'user_id'           => $order['user_id'],
                     'user_type'         => 'admin',
                 ]);
-                if($ret['code'] != 0)
-                {
-                    // 事务回滚
-                    Db::rollback();
-                    return $ret;
-                }
             }
         }
 

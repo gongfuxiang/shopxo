@@ -33,7 +33,7 @@ class ConstService
     public static function Run($key = '', $default = null)
     {
         // 数据定义
-        $container =  self::ConstData();
+        $container = self::ConstData();
 
         // 匹配数据
         // 空 key 则返回全部

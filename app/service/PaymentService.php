@@ -229,21 +229,31 @@ class PaymentService
      */
     public static function BuyPaymentList($params = [])
     {
-        $data = self::PaymentList($params);
-        $result = [];
-        if(!empty($data))
+        $res = self::PaymentList($params);
+        $data = [];
+        if(!empty($res))
         {
-            foreach($data as $v)
+            foreach($res as $v)
             {
                 // 根据终端类型筛选
                 if(in_array(APPLICATION_CLIENT_TYPE, $v['apply_terminal']))
                 {
                     unset($v['config'], $v['element'], $v['apply_terminal'], $v['author'], $v['author_url'], $v['is_open_user'], $v['is_enable']);
-                    $result[] = $v;
+                    $data[] = $v;
                 }
             }
         }
-        return $result;
+
+        // 支付方式下单选择列表钩子
+        $hook_name = 'plugins_service_payment_buy_list';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'data'          => &$data,
+        ]);
+
+        return $data;
     }
 
     /**
