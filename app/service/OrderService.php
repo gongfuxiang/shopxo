@@ -94,6 +94,10 @@ class OrderService
 
             // 订单用户
             $order['user'] = UserService::UserHandle(UserService::UserInfo('id', $order['user_id']));
+            if(empty($order['user']))
+            {
+                return DataReturn('订单用户无效['.$order_id.']', -1);
+            }
 
             // 订单数据集合
             $order_data[] = $order;
@@ -453,11 +457,18 @@ class OrderService
         }
         $payment = $res[0];
 
+        // 订单用户信息
+        $user = UserService::GetUserViewInfo($order['user_id']);
+        if(empty($user))
+        {
+            return DataReturn('订单用户无效', -1);
+        }
+
         // 线下支付处理
         return self::OrderPaymentUnderLineSuccess([
             'order'     => $order,
             'payment'   => $payment,
-            'user'      => UserService::GetUserViewInfo($order['user_id']),
+            'user'      => $user,
             'params'    => $params,
         ]);
     }
@@ -1168,6 +1179,22 @@ class OrderService
     public static function OrderTotal($where = [])
     {
         return (int) Db::name('Order')->where($where)->count();
+    }
+
+    /**
+     * 提示信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-29
+     * @desc    description
+     * @param   [array]          $where [条件]
+     */
+    public static function OrderTipsMsg($where = [])
+    {
+        $total_price = Db::name('Order')->where($where)->sum('total_price');
+        $pay_price = Db::name('Order')->where($where)->sum('pay_price');
+        return '订单总额 '.$total_price.' 元&nbsp;&nbsp;&nbsp;支付总额 '.$pay_price.' 元';
     }
 
     /**

@@ -104,7 +104,11 @@ class BuyService
         $spec = self::GoodsSpecificationsHandle($params);
 
         // 获取商品基础信息
-        $goods_base = GoodsService::GoodsSpecDetail(['id'=>$goods_id, 'spec'=>$spec]);
+        $spec_params = array_merge($params, [
+            'id'    => $goods_id,
+            'spec'  => $spec,
+        ]);
+        $goods_base = GoodsService::GoodsSpecDetail($spec_params);
         if($goods_base['code'] != 0)
         {
             return $goods_base;
@@ -121,17 +125,9 @@ class BuyService
                 $goods['images_old'] = ResourcesService::AttachmentPathViewHandle($images);
             }
 
-            // 从规格获取库存
-            $base = GoodsService::GoodsSpecDetail(['id'=>$goods_id, 'spec'=>$spec]);
-            if($base['code'] == 0)
-            {
-                // 规格库存赋值
-                $goods['inventory'] = $base['data']['spec_base']['inventory'];
-            } else {
-                return $base;
-            }
+            // 规格库存赋值
+            $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
         }
-
 
         // 数量
         $stock = ($goods['buy_max_number'] > 0 && $params['stock'] > $goods['buy_max_number']) ? $goods['buy_max_number'] : $params['stock'];
@@ -248,7 +244,12 @@ class BuyService
                 $v['spec'] = empty($v['spec']) ? null : json_decode($v['spec'], true);
 
                 // 获取商品基础信息
-                $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$v['spec'], 'stock'=>$v['stock']]);
+                $spec_params = array_merge($params, [
+                    'id'    => $v['goods_id'],
+                    'spec'  => $v['spec'],
+                    'stock' => $v['stock'],
+                ]);
+                $goods_base = GoodsService::GoodsSpecDetail($spec_params);
                 $v['is_invalid'] = 0;
                 if($goods_base['code'] == 0)
                 {
@@ -455,7 +456,12 @@ class BuyService
         if(Db::name('Cart')->where($where)->update($upd_data))
         {
             // 获取商品基础信息、更新商品价格信息
-            $goods_base = GoodsService::GoodsSpecDetail(['id'=>$data['goods_id'], 'spec'=>$data['spec'], 'stock'=>$data['stock']]);
+            $spec_params = array_merge($params, [
+                'id'    => $data['goods_id'],
+                'spec'  => $data['spec'],
+                'stock' => $data['stock'],
+            ]);
+            $goods_base = GoodsService::GoodsSpecDetail($spec_params);
             if($goods_base['code'] == 0)
             {
                 $data['price'] = $goods_base['data']['spec_base']['price'];
@@ -526,15 +532,15 @@ class BuyService
         }
 
         // 获取商品
-        $p = [
+        $goods_params = array_merge($params, [
             'where' => [
                 'id'                => intval($params['goods_id']),
                 'is_delete_time'    => 0,
                 'is_shelves'        => 1,
             ],
             'field' => 'id, id AS goods_id, title, images, inventory_unit, buy_min_number, buy_max_number, model',
-        ];
-        $ret = GoodsService::GoodsList($p);
+        ]);
+        $ret = GoodsService::GoodsList($goods_params);
         if(empty($ret['data'][0]))
         {
             return DataReturn('资源不存在或已被删除', -10);
@@ -545,7 +551,12 @@ class BuyService
         $goods['spec'] = self::GoodsSpecificationsHandle($params);
 
         // 获取商品基础信息
-        $goods_base = GoodsService::GoodsSpecDetail(['id'=>$goods['goods_id'], 'spec'=>$goods['spec'], 'stock'=>$params['stock']]);
+        $spec_params = array_merge($params, [
+            'id'    => $goods['goods_id'],
+            'spec'  => $goods['spec'],
+            'stock' => $params['stock']
+        ]);
+        $goods_base = GoodsService::GoodsSpecDetail($spec_params);
         if($goods_base['code'] == 0)
         {
             $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
@@ -967,7 +978,11 @@ class BuyService
             }
 
             // 规格
-            $goods_base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>isset($v['spec']) ? $v['spec'] : []]);
+            $spec_params = array_merge($params, [
+                'id'    => $v['goods_id'],
+                'spec'  => isset($v['spec']) ? $v['spec'] : [],
+            ]);
+            $goods_base = GoodsService::GoodsSpecDetail($spec_params);
             if($goods_base['code'] == 0)
             {
                 $goods['price'] = $goods_base['data']['spec_base']['price'];
@@ -1695,7 +1710,7 @@ class BuyService
             // 数据校验
             foreach($order_detail as $v)
             {
-                $ret = self::BuyOrderPayBeginGoodsCheck($v);
+                $ret = self::BuyOrderPayBeginGoodsCheck($v, $params);
                 if($ret['code'] != 0)
                 {
                     return $ret;
@@ -1782,7 +1797,7 @@ class BuyService
                 {
                     foreach($g as $v)
                     {
-                        $ret = self::BuyOrderPayBeginGoodsCheck($v);
+                        $ret = self::BuyOrderPayBeginGoodsCheck($v, $params);
                         if($ret['code'] != 0)
                         {
                             return $ret;
@@ -1803,8 +1818,9 @@ class BuyService
      * @date    2020-08-05
      * @desc    description
      * @param   [array]        $detail   [订单详情]
+     * @param   [array]        $params   [输入参数]
      */
-    public static function BuyOrderPayBeginGoodsCheck($detail)
+    public static function BuyOrderPayBeginGoodsCheck($detail, $params)
     {
         // 获取商品
         $goods = Db::name('Goods')->field('is_shelves,is_deduction_inventory,inventory,title')->find($detail['goods_id']);
@@ -1830,7 +1846,11 @@ class BuyService
 
             // 规格库存
             $spec = empty($detail['spec']) ? '' : json_decode($detail['spec'], true);
-            $base = GoodsService::GoodsSpecDetail(['id'=>$detail['goods_id'], 'spec'=>$spec]);
+            $spec_params = array_merge($params, [
+                'id'    => $detail['goods_id'],
+                'spec'  => $spec,
+            ]);
+            $base = GoodsService::GoodsSpecDetail($spec_params);
             if($base['code'] == 0)
             {
                 // 先判断商品规格库存是否不足
@@ -1939,7 +1959,11 @@ class BuyService
 
                         // 扣除规格库存
                         $spec = empty($v['spec']) ? '' : json_decode($v['spec'], true);
-                        $base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$spec]);
+                        $spec_params = array_merge($params, [
+                            'id'    => $v['goods_id'],
+                            'spec'  => $spec,
+                        ]);
+                        $base = GoodsService::GoodsSpecDetail($spec_params);
                         if($base['code'] == 0)
                         {
                             // 先判断商品规格库存是否不足
@@ -2064,7 +2088,11 @@ class BuyService
 
                     // 回滚规格库存
                     $spec = empty($v['spec']) ? '' : json_decode($v['spec'], true);
-                    $base = GoodsService::GoodsSpecDetail(['id'=>$v['goods_id'], 'spec'=>$spec]);
+                    $spec_params = array_merge($params, [
+                        'id'    => $v['goods_id'],
+                        'spec'  => $spec,
+                    ]);
+                    $base = GoodsService::GoodsSpecDetail($spec_params);
                     if($base['code'] == 0)
                     {
                         // 回滚规格操作
