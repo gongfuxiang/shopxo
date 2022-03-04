@@ -56,8 +56,8 @@
                 <div class="am-panel-bd am-padding-vertical-xs">
 					<div class="am-form-group">
 						<label>标题名称<span class="am-form-group-label-tips-must">必填</span></label>
+						<input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
 						<div class="am-input-group am-input-group-sm">
-							<input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
 							<input type="text" name="title" placeholder="标题名称" minlength="2" maxlength="160" data-validation-message="标题名称格式 2~160 个字符" class="am-form-field am-radius" {{if !empty($data)}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
 							<span class="am-input-group-btn">
 								<button type="button" class="am-btn am-btn-default am-btn-xs colorpicker-submit" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']">

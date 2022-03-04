@@ -56,13 +56,17 @@ class Order extends Common
         // 总数
         $total = OrderService::OrderTotal($this->form_where);
 
+        // 提示信息
+        $tips_msg = OrderService::OrderTipsMsg($this->form_where);
+
         // 分页
         $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/order/index'),
+            'number'    => $this->page_size,
+            'total'     => $total,
+            'where'     => $this->data_request,
+            'page'      => $this->page,
+            'url'       => MyUrl('admin/order/index'),
+            'tips_msg'  => $tips_msg,
         ];
         $page = new \base\Page($page_params);
 
