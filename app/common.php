@@ -514,6 +514,20 @@ function MyInput($key = null, $default = null)
         }
     }
 
+    // 非数组则检查是否为json和xml数据
+    if(!is_array($params))
+    {
+        if(IsJson($params))
+        {
+            $params = json_decode($params, true);
+        } else {
+            if(XmlParser($params))
+            {
+                $params = XmlArray($params);
+            }
+        }
+    }
+
     // 是否指定key
     if(!empty($key) && is_array($params))
     {
@@ -2189,13 +2203,33 @@ function FsockopenPost($url, $data = '')
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-03T21:58:54+0800
- * @param    [xml] $xmlstring [xml数据]
+ * @param    [xml]       $xml [xml数据]
  * @return   [array]          [array数组]
  */
-function XmlArray($xmlstring) {
-    return json_decode(json_encode((array) simplexml_load_string($xmlstring)), true);
+function XmlArray($xml) {
+    return json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
 }
 
+/**
+ * 判断字符串是否为xml格式
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2019-01-07
+ * @desc    description
+ * @param   [string]          $string [字符串]
+ */
+function XmlParser($string)
+{
+    $xml_parser = xml_parser_create();
+    if(!xml_parse($xml_parser, $string, true))
+    {
+      xml_parser_free($xml_parser);
+      return false;
+    } else {
+      return (json_decode(json_encode(simplexml_load_string($string)),true));
+    }
+}
 
 /**
  * [CheckMobile 手机号码格式校验]

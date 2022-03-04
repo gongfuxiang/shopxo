@@ -139,12 +139,17 @@ return [
 
     // 不删除的支付方式
     'payment_cannot_deleted_list'           => [
-        'DeliveryPayment',
         'CashPayment',
+        'DeliveryPayment',
+        'ChargePayment',
     ],
 
     // 线下支付方式
-    'under_line_list'                       => ['CashPayment', 'DeliveryPayment'],
+    'under_line_list'                       => [
+        'CashPayment',
+        'DeliveryPayment',
+        'ChargePayment',
+    ],
 
     // 小程序平台
     'mini_app_type_list'                    => ['weixin', 'alipay', 'baidu', 'toutiao', 'qq'],

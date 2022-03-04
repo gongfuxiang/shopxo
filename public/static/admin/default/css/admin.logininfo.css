@@ -66,7 +66,10 @@ body {
     font-size: 60px;
     font-weight: 500;
     color: #0e90d2;
-    text-shadow: -2px 1px #fff;
+    text-shadow: -1px 1px #fff;
+}
+.admin-login form {
+    padding: 5px 10px;
 }
 .admin-login .am-form-group {
     padding: 5px 0 !important;

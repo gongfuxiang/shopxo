@@ -893,6 +893,6 @@ form .am-panel .business-form-group:last-child {
   vertical-align: middle;
 }
 .warehouse-item-container .warehouse-icon {
-  widows: 14px;
+  width: 14px;
   height: 14px;
 }

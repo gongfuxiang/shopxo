@@ -136,5 +136,4 @@ $(function()
 			$accounts.focus();
 		}
 	});
-
 });
