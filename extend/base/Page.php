@@ -29,6 +29,7 @@ class Page
 	private $url;
 	private $html;
 	private $page_join;
+	private $tips_msg;
 
 	/**
 	 * [__construct description]
@@ -48,6 +49,7 @@ class Page
 		$this->where = (isset($params['where']) && is_array($params['where'])) ? $params['where'] : '';
 		$this->not_fields = (!empty($params['not_fields']) && is_array($params['not_fields'])) ? $params['not_fields'] : [];
 		$this->url = isset($params['url']) ? $params['url'] : '';
+		$this->tips_msg = empty($params['tips_msg']) ? '' : trim($params['tips_msg']);
 		$this->page_total = 1;
 		$this->html = '';
 
@@ -132,6 +134,10 @@ class Page
 		$this->html .= '<div>';
 		$this->html .= '<span>共 '.$this->total.' 条数据</span>';
 		$this->html .= '&nbsp;&nbsp;&nbsp;<span>共 '.$this->page_total.' 页</span>';
+		if(!empty($this->tips_msg))
+		{
+			$this->html .= '&nbsp;&nbsp;&nbsp;<span>'.$this->tips_msg.'</span>';
+		}
 		$this->html .= '</div>';
 		$this->html .= '</ul>';
 
