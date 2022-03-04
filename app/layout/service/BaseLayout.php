@@ -484,8 +484,12 @@ class BaseLayout
             'user_message_list'                         => MyUrl('index/message/index'),
 
             // 多商户
-            'plugins-shop-home'                         => PluginsHomeUrl('shop', 'index', 'index'),
-            'plugins-shop-favor'                        => PluginsHomeUrl('shop', 'shopfavor', 'index'),
+            'plugins-blog-home'                         => PluginsHomeUrl('blog', 'index', 'index'),
+            'plugins-blog-favor'                        => PluginsHomeUrl('blog', 'shopfavor', 'index'),
+
+            // 博客
+            'plugins-blog-home'                         => PluginsHomeUrl('blog', 'index', 'index'),
+            'plugins-blog-search'                        => PluginsHomeUrl('blog', 'index', 'search'),
 
             // 品牌
             'plugins-brand-home'                        => PluginsHomeUrl('brand', 'index', 'index'),
@@ -525,7 +529,7 @@ class BaseLayout
             'user_center'                               => '/pages/user/user',
             'user_order_list'                           => '/pages/user-order/user-order',
             'user_order_aftersale_list'                 => '/pages/user-orderaftersale/user-orderaftersale',
-            'user_goods_favor_list'                     => '/pages/user-faovr/user-faovr',
+            'user_goods_favor_list'                     => '/pages/user-favor/user-favor',
             'user_address_list'                         => '/pages/user-address/user-address',
             'user_goods_browse_list'                    => '/pages/user-goods-browse/user-goods-browse',
             'user_integral_list'                        => '/pages/user-integral/user-integral',
@@ -534,7 +538,15 @@ class BaseLayout
 
             // 多商户
             'plugins-shop-home'                         => '/pages/plugins/shop/index/index',
-            'plugins-shop-faovr'                        => '/pages/plugins/shop/favor/favor',
+            'plugins-shop-favor'                        => '/pages/plugins/shop/favor/favor',
+
+            // 门店
+            'plugins-realstore-home'                    => '/pages/plugins/realstore/index/index',
+            'plugins-realstore-favor'                   => '/pages/plugins/realstore/favor/favor',
+
+            // 博客
+            'plugins-blog-home'                         => '/pages/plugins/blog/index/index',
+            'plugins-blog-search'                        => '/pages/plugins/blog/search/search',
 
             // 品牌
             'plugins-brand-home'                        => '/pages/plugins/brand/index/index',
@@ -567,6 +579,7 @@ class BaseLayout
         ];
 
         // 静态地址
+        $url = '';
         $static_url_arr = ($client_type == 'pc') ? $static_url_web_arr : $static_url_app_arr;
         if(array_key_exists($type, $static_url_arr))
         {
@@ -973,6 +986,34 @@ class BaseLayout
                             [
                                 'value' => 'favor',
                                 'name'  => '店铺收藏',
+                            ],
+                        ],
+                    ],
+                    [
+                        'name'  => '多门店',
+                        'value' => 'realstore',
+                        'data'  => [
+                            [
+                                'value' => 'home',
+                                'name'  => '所有店铺',
+                            ],
+                            [
+                                'value' => 'favor',
+                                'name'  => '店铺收藏',
+                            ],
+                        ],
+                    ],
+                    [
+                        'name'  => '博客',
+                        'value' => 'blog',
+                        'data'  => [
+                            [
+                                'value' => 'home',
+                                'name'  => '博客首页',
+                            ],
+                            [
+                                'value' => 'search',
+                                'name'  => '博客搜索',
                             ],
                         ],
                     ],
