@@ -716,10 +716,10 @@ class StatisticalService
 
         if(!empty($data))
         {
-            $names = Db::name('OrderDetail')->where('goods_id', 'in', array_column($data, 'goods_id'))->group('goods_id')->column('title', 'goods_id');
             foreach($data as &$v)
             {
-                $v['name'] = $names[$v['goods_id']];
+                // 获取商品名称（这里不一次性读取、为了兼容 mysql 5.7+版本）
+                $v['name'] = Db::name('OrderDetail')->where('goods_id', $v['goods_id'])->value('title');
                 if(mb_strlen($v['name'], 'utf-8') > 12)
                 {
                     $v['name'] = mb_substr($v['name'], 0, 12, 'utf-8').'...';
