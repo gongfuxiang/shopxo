@@ -348,6 +348,7 @@ class UserService
             'address'               => isset($params['address']) ? $params['address'] :  '',
             'gender'                => intval($params['gender']),
             'integral'              => intval($params['integral']),
+            'locking_integral'      => intval($params['locking_integral']),
             'status'                => intval($params['status']),
             'alipay_openid'         => isset($params['alipay_openid']) ? $params['alipay_openid'] :  '',
             'baidu_openid'          => isset($params['baidu_openid']) ? $params['baidu_openid'] :  '',

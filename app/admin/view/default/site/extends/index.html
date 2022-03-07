@@ -74,6 +74,19 @@
                             <a href="{{:MyUrl('api/crontab/paylogorderclose')}}" target="_blank">{{:MyUrl('api/crontab/paylogorderclose')}}</a>
                         </div>
                     </div>
+
+                    <div class="am-form-group">
+                        <label>{{$data.common_goods_give_integral_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_goods_give_integral_limit_time.describe}}</span></label>
+                        <div class="am-input-group am-input-group-sm">
+                            <input type="number" min="0" name="{{$data.common_goods_give_integral_limit_time.only_tag}}" placeholder="{{$data.common_goods_give_integral_limit_time.name}}" data-validation-message="{{$data.common_goods_give_integral_limit_time.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_goods_give_integral_limit_time.value}}"{{/if}} />
+                            <span class="am-input-group-btn">
+                                <button class="am-btn am-btn-default" type="button">分钟</button>
+                          </span>
+                        </div>
+                        <div class="am-alert">
+                            <a href="{{:MyUrl('api/crontab/goodsgiveintegral')}}" target="_blank">{{:MyUrl('api/crontab/goodsgiveintegral')}}</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -209,38 +209,66 @@ class IntegralService
         }
 
         // 获取订单商品
-        $order_detail = Db::name('OrderDetail')->where(['order_id'=>$params['order_id']])->field('goods_id,total_price')->select()->toArray();
+        $order_detail = Db::name('OrderDetail')->where(['order_id'=>$params['order_id']])->field('id,order_id,goods_id,user_id,total_price')->select()->toArray();
         if(!empty($order_detail))
         {
             // 获取赠送积分的商品
-            $goods_give = Db::name('Goods')->where(['id'=>array_column($order_detail, 'goods_id')])->column('give_integral', 'id');
-
-            // 循环发放
-            foreach($order_detail as $dv)
+            $where = [
+                ['id', 'in', array_column($order_detail, 'goods_id')],
+                ['give_integral', '>', 0],
+            ];
+            $goods_give = Db::name('Goods')->where($where)->column('give_integral', 'id');
+            if(!empty($goods_give))
             {
-                if(array_key_exists($dv['goods_id'], $goods_give))
+                // 循环发放
+                foreach($order_detail as $dv)
                 {
-                    $give_rate = $goods_give[$dv['goods_id']];
-                    if($give_rate > 0 && $give_rate <= 100)
+                    if(array_key_exists($dv['goods_id'], $goods_give))
                     {
-                        // 实际赠送积分
-                        $give_integral = intval(($give_rate/100)*$dv['total_price']);
-                        if($give_integral >= 1)
+                        $give_rate = $goods_give[$dv['goods_id']];
+                        if($give_rate > 0 && $give_rate <= 100)
                         {
-                            // 用户积分添加
-                            $user_integral = Db::name('User')->where(['id'=>$user['id']])->value('integral');
-                            if(!Db::name('User')->where(['id'=>$user['id']])->inc('integral', $give_integral)->update())
+                            // 实际赠送积分
+                            $give_integral = intval(($give_rate/100)*$dv['total_price']);
+                            if($give_integral >= 1)
                             {
-                                return DataReturn('用户积分赠送失败['.$params['order_id'].'-'.$dv['goods_id'].']', -10);
-                            }
+                                // 是否已存在日志记录
+                                $where = [
+                                    ['order_id', '=', $dv['order_id']],
+                                    ['order_detail_id', '=', $dv['id']],
+                                    ['goods_id', '=', $dv['goods_id']],
+                                ];
+                                $temp = Db::name('GoodsGiveIntegralLog')->where($where)->count();
+                                if(empty($temp))
+                                {
+                                    // 增加用户锁定积分
+                                    if(!Db::name('User')->where(['id'=>$user['id']])->inc('locking_integral', $give_integral)->update())
+                                    {
+                                        return DataReturn('用户积分赠送失败['.$params['order_id'].'-'.$dv['goods_id'].']', -10);
+                                    }
 
-                            // 积分日志
-                            self::UserIntegralLogAdd($user['id'], $user_integral, $give_integral, '订单商品完成赠送', 1);
+                                    // 积分赠送日志添加
+                                    $log_data = [
+                                        'order_id'          => $dv['order_id'],
+                                        'order_detail_id'   => $dv['id'],
+                                        'goods_id'          => $dv['goods_id'],
+                                        'user_id'           => $dv['user_id'],
+                                        'status'            => 0,
+                                        'rate'              => $give_rate,
+                                        'integral'          => $give_integral,
+                                        'add_time'          => time(),
+                                    ];
+                                    if(Db::name('GoodsGiveIntegralLog')->insertGetId($log_data) <= 0)
+                                    {
+                                        return DataReturn('用户积分赠送日志添加失败['.$params['order_id'].'-'.$dv['goods_id'].']', -11);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+                return DataReturn('操作成功', 0);
             }
-            return DataReturn('操作成功', 0);
         }
         return DataReturn('没有需要操作的数据', 0);
     }
@@ -290,41 +318,63 @@ class IntegralService
         }
 
         // 获取用户信息
-        $user = Db::name('User')->field('id,integral')->find($order_detail['user_id']);
+        $user = Db::name('User')->where(['id'=>$order_detail['user_id']])->field('id')->find();
         if(empty($user))
         {
             return DataReturn('用户不存在或已删除，终止操作', 0);
         }
 
-        // 获取商品相关信息
-        $give_rate = Db::name('Goods')->where(['id'=>$order_detail['goods_id']])->value('give_integral');
-        if($give_rate > 0 && $give_rate <= 100)
+        // 获取日志
+        $where = [
+            ['order_id', '=', $order_detail['order_id']],
+            ['order_detail_id', '=', $order_detail['id']],
+            ['goods_id', '=', $order_detail['goods_id']],
+            ['user_id', '=', $order_detail['user_id']],
+            ['status', '=', 0],
+        ];
+        $info = Db::name('GoodsGiveIntegralLog')->where($where)->find();
+        if(empty($info))
         {
-            // 存在退款金额则使用退款金额
-            // 未存在退款金额则判断是否存在退款数量
-            // 存在退款数量则使用退款数量*单价金额计算（防止订单退款金额为空仅存在退款数量）
-            $refund_integral = 0;
-            if($order_detail['refund_price'] > 0)
-            {
-                $refund_integral = intval(($give_rate/100)*$order_detail['refund_price']);
-            } else {
-                if($order_detail['returned_quantity'] > 0)
-                {
-                    $refund_integral = intval(($give_rate/100)*($order_detail['price']*$order_detail['returned_quantity']));
-                }
-            }
-            if($refund_integral >= 1)
-            {
-                // 用户积分添加
-                if(!Db::name('User')->where(['id'=>$user['id']])->dec('integral', $refund_integral)->update())
-                {
-                    return DataReturn('用户积分释放失败['.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -10);
-                }
+            return DataReturn('无待发放日志，终止操作', 0);
+        }
 
-                // 积分日志
-                self::UserIntegralLogAdd($user['id'], $user['integral'], $refund_integral, '订单商品发生售后收回', 0);
+        // 存在退款金额则使用退款金额
+        // 未存在退款金额则判断是否存在退款数量
+        // 存在退款数量则使用退款数量*单价金额计算（防止订单退款金额为空仅存在退款数量）
+        $refund_integral = 0;
+        if($order_detail['refund_price'] > 0)
+        {
+            $refund_integral = intval(($info['rate']/100)*$order_detail['refund_price']);
+        } else {
+            if($order_detail['returned_quantity'] > 0)
+            {
+                $refund_integral = intval(($info['rate']/100)*($order_detail['price']*$order_detail['returned_quantity']));
             }
         }
+        if($refund_integral >= 1)
+        {
+            // 扣减用户锁定积分
+            if(!Db::name('User')->where(['id'=>$user['id']])->dec('locking_integral', $refund_integral)->update())
+            {
+                return DataReturn('用户锁定积分扣减失败['.$user['id'].'-'.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -10);
+            }
+
+            // 扣减日志积分
+            if(!Db::name('GoodsGiveIntegralLog')->where(['id'=>$info['id']])->dec('integral', $refund_integral)->update())
+            {
+                return DataReturn('日志积分扣减失败['.$info['id'].'-'.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -11);
+            }
+
+            // 剩余0积分则关闭
+            if(Db::name('GoodsGiveIntegralLog')->where(['id'=>$info['id']])->value('integral') <= 0)
+            {
+                if(!Db::name('GoodsGiveIntegralLog')->where(['id'=>$info['id']])->update(['status'=>2, 'upd_time'=>time()]))
+                {
+                    return DataReturn('日志积分关闭失败['.$info['id'].'-'.$order_detail['order_id'].'-'.$order_detail['goods_id'].']', -12);
+                }
+            }
+        }
+
         return DataReturn('操作成功', 0);
     }
 

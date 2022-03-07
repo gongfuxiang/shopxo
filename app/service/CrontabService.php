@@ -176,5 +176,69 @@ class CrontabService
         $res = Db::name('PayLog')->where($where)->update($data);
         return DataReturn('操作成功', 0, $res);
     }
+
+    /**
+     * 商品积分赠送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-07-28
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function GoodsGiveIntegral($params = [])
+    {
+        // 获取可赠送的日志数据
+        $time = time()-(intval(MyC('common_goods_give_integral_limit_time', 21600, true))*60);
+        $where = [
+            ['add_time', '<', $time],
+            ['status', '=', 0],
+        ];
+        $data = Db::name('GoodsGiveIntegralLog')->where($where)->field('id,status,user_id,integral')->select()->toArray();
+
+        // 状态
+        $sucs = 0;
+        $fail = 0;
+        if(!empty($data))
+        {
+            // 更新状态
+            $upd_data = [
+                'status'    => 1,
+                'upd_time'  => time(),
+            ];
+            foreach($data as $v)
+            {
+                // 开启事务
+                Db::startTrans();
+                if(Db::name('GoodsGiveIntegralLog')->where(['id'=>$v['id'], 'status'=>0])->update($upd_data))
+                {
+                    // 扣减用户锁定积分
+                    if(!Db::name('User')->where(['id'=>$v['user_id']])->dec('locking_integral', $v['integral'])->update())
+                    {
+                        return DataReturn('用户锁定积分扣减失败['.$v['id'].'-'.$v['user_id'].']', -2);
+                    }
+
+                    // 增加用户有效积分
+                    $user_integral = Db::name('User')->where(['id'=>$v['user_id']])->value('integral');
+                    if(!Db::name('User')->where(['id'=>$v['user_id']])->inc('integral', $v['integral'])->update())
+                    {
+                        return DataReturn('用户有效积分增加失败['.$v['id'].'-'.$v['user_id'].']', -3);
+                    }
+
+                    // 积分日志
+                    IntegralService::UserIntegralLogAdd($v['user_id'], $user_integral, $v['integral'], '订单商品赠送', 1);
+
+                    // 提交事务
+                    Db::commit();
+                    $sucs++;
+                    continue;
+                }
+                // 事务回滚
+                Db::rollback();
+                $fail++;
+            }
+        }
+        return DataReturn('操作成功', 0, ['sucs'=>$sucs, 'fail'=>$fail]);
+    }
 }
 ?>

@@ -70,8 +70,12 @@
 			</div>
 			{{include file="lib/gender" /}}
 			<div class="am-form-group">
-				<label>积分</label>
-				<input type="number" placeholder="积分" name="integral" data-validation-message="详细地址2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.integral}}"{{/if}} />
+				<label>有效积分</label>
+				<input type="number" placeholder="有效积分" name="integral" min="0" data-validation-message="请输入有效积分" class="am-radius" {{if !empty($data)}} value="{{$data.integral}}"{{/if}} />
+			</div>
+			<div class="am-form-group">
+				<label>锁定积分</label>
+				<input type="number" placeholder="锁定积分" name="locking_integral" min="0" data-validation-message="请输入锁定积分" class="am-radius" {{if !empty($data)}} value="{{$data.locking_integral}}"{{/if}} />
 			</div>
 
 			{{include file="lib/user_status" /}}

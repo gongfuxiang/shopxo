@@ -59,5 +59,18 @@ class Crontab extends Common
         $ret = CrontabService::PayLogOrderClose();
         return 'count:'.$ret['data'];
     }
+
+    /**
+     * 商品赠送积分
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2019-08-18T17:19:33+0800
+     */
+    public function GoodsGiveIntegral()
+    {
+        $ret = CrontabService::GoodsGiveIntegral();
+        return 'sucs:'.$ret['data']['sucs'].', fail:'.$ret['data']['fail'];
+    }
 }
 ?>
