@@ -1,0 +1,10 @@
+<!-- 邀请用户信息 -->
+{{if !empty($module_data) and !empty($module_data['referrer_info'])}}
+    <img src="{{$module_data.referrer_info.avatar}}" alt="{{$module_data.referrer_info.user_name_view}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
+    <ul class="user-base">
+        <li>名称：{{if empty($module_data['referrer_info']['username'])}}<span class="cr-ccc">无</span>{{else /}}{{$module_data.referrer_info.username}}{{/if}}</li>
+        <li>昵称：{{if empty($module_data['referrer_info']['nickname'])}}<span class="cr-ccc">无</span>{{else /}}{{$module_data.referrer_info.nickname}}{{/if}}</li>
+        <li>手机：{{if empty($module_data['referrer_info']['mobile'])}}<span class="cr-ccc">无</span>{{else /}}{{$module_data.referrer_info.mobile}}{{/if}}</li>
+        <li>邮箱：{{if empty($module_data['referrer_info']['email'])}}<span class="cr-ccc">无</span>{{else /}}{{$module_data.referrer_info.email}}{{/if}}</li>
+    </ul>
+{{/if}}

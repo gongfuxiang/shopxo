@@ -183,6 +183,15 @@ class UserService
                 'data'          => &$data,
             ]);
 
+            // 字段列表
+            $keys = ArrayKeys($data);
+
+            // 邀请用户列表
+            if(in_array('referrer', $keys))
+            {
+                $referrer_list = self::GetUserViewInfo(array_column($data, 'referrer'));
+            }
+
             // 开始处理数据
             $common_gender_list = MyConst('common_gender_list');
             $common_user_status_list = MyConst('common_user_status_list');
@@ -203,6 +212,12 @@ class UserService
                     } else {
                         $v['avatar'] = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyC('common_default_theme', 'default', true)).'/images/default-user-avatar.jpg';
                     }
+                }
+
+                // 邀请用户信息
+                if(array_key_exists('referrer', $v))
+                {
+                    $v['referrer_info'] = (!empty($referrer_list) && is_array($referrer_list) && array_key_exists($v['referrer'], $referrer_list)) ? $referrer_list[$v['referrer']] : [];
                 }
 
                 // 时间

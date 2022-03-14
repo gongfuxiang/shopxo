@@ -2024,6 +2024,24 @@ function GetQueryValue(field)
 	return false;
 }
 
+/**
+ * uuid生成
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-03-13
+ * @desc    description
+ */
+function UUId()
+{
+    var d = new Date().getTime();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
+    });
+}
+
 
 
 // 公共数据操作
