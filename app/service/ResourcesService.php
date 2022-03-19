@@ -117,7 +117,7 @@ class ResourcesService
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2019-01-13T15:13:30+0800
-     * @param    [string]                   $value [description]
+     * @param    [string]                   $value [附件地址]
      */
     public static function AttachmentPathViewHandle($value)
     {
