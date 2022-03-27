@@ -1595,7 +1595,7 @@ function MyUrl($path, $params = [])
     $is_install = (substr($path, 0, 8) == 'install/');
 
     // 调用框架生成url
-    $url = url($path, $params, true, true);
+    $url = url($path, $params, true);
 
     // 非 admin 则使用配置后缀
     if(!$is_admin && !$is_install)
@@ -1604,7 +1604,7 @@ function MyUrl($path, $params = [])
     }
 
     // 转 url字符串
-    $url = (string) $url;
+    $url = MyConfig('shopxo.domain_url').substr((string) $url, 1);
 
     // 去除组名称
     $ds = ($script_name == 'index.php') ? '/' : '';
@@ -1641,13 +1641,7 @@ function MyUrl($path, $params = [])
     // 是否根目录访问项目
     if(defined('IS_ROOT_ACCESS'))
     {
-        $url = str_replace('public/', '', $url);
-    }
-
-    // tp框架url方法是否识别到https
-    if(__MY_HTTP__ == 'https' && substr($url, 0, 5) != 'https')
-    {
-        $url = 'https'.mb_substr($url, 4, null, 'utf-8');
+        $url = str_replace('/public/', '/', $url);
     }
 
     return $url;
@@ -1989,7 +1983,17 @@ function Utf8Strlen($string = null)
  * @datetime 2016-12-05T10:52:20+0800
  * @return  [boolean] [手机访问true, 则false]
  */
-function IsMobile()
+
+/**
+ * 是否是手机访问
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-03-20
+ * @desc    description
+ * @param   [string]          $agent [是否指定agent信息]
+ */
+function IsMobile($agent = '')
 {
     /* 如果有HTTP_X_WAP_PROFILE则一定是移动设备 */
     if(isset($_SERVER['HTTP_X_WAP_PROFILE'])) return true;
@@ -2001,13 +2005,14 @@ function IsMobile()
     if(isset($_SERVER['HTTP_VIA']) && stristr($_SERVER['HTTP_VIA'], 'wap') !== false) return true;
     
     /* 判断手机发送的客户端标志,兼容性有待提高 */
-    if(isset($_SERVER['HTTP_USER_AGENT']))
+    $agent = empty($agent) ? (empty($_SERVER['HTTP_USER_AGENT']) ? '' : $_SERVER['HTTP_USER_AGENT']) : $agent;
+    if($agent)
     {
         $clientkeywords = array(
             'nokia','sony','ericsson','mot','samsung','htc','sgh','lg','sharp','sie-','philips','panasonic','alcatel','lenovo','iphone','ipad','ipod','blackberry','meizu','android','netfront','symbian','ucweb','windowsce','palm','operamini','operamobi','openwave','nexusone','cldc','midp','wap','mobile'
         );
         /* 从HTTP_USER_AGENT中查找手机浏览器的关键字 */
-        if(preg_match("/(" . implode('|', $clientkeywords) . ")/i", strtolower($_SERVER['HTTP_USER_AGENT']))) {
+        if(preg_match("/(" . implode('|', $clientkeywords) . ")/i", strtolower($agent))) {
             return true;
         }
     }
