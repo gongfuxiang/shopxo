@@ -24,6 +24,7 @@ class Email
 	private $interval_time;
 	private $expire_time;
 	private $key_code;
+	private $is_frq;
 	public  $error;
 	private $obj;
 
@@ -33,15 +34,17 @@ class Email
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-03-07T14:03:02+0800
-	 * @param    [int]        $param['interval_time'] 	[间隔时间（默认30）单位（秒）]
-	 * @param    [int]        $param['expire_time'] 	[到期时间（默认30）单位（秒）]
-	 * @param    [string]     $param['key_prefix'] 		[验证码种存储前缀key（默认 空）]
+	 * @param    [int]        $params['interval_time'] 	[间隔时间（默认30）单位（秒）]
+	 * @param    [int]        $params['expire_time'] 	[到期时间（默认30）单位（秒）]
+	 * @param    [string]     $params['key_prefix']     [验证码种存储前缀key（默认 空）]
+	 * @param    [string]     $params['is_frq']			[是否验证频率（默认 是）]
 	 */
-	public function __construct($param = array())
+	public function __construct($params = [])
 	{
-		$this->interval_time = isset($param['interval_time']) ? intval($param['interval_time']) : 30;
-		$this->expire_time = isset($param['expire_time']) ? intval($param['expire_time']) : 30;
-		$this->key_code = isset($param['key_prefix']) ? trim($param['key_prefix']).'_sms_code' : '_sms_code';
+		$this->interval_time = isset($params['interval_time']) ? intval($params['interval_time']) : 30;
+		$this->expire_time = isset($params['expire_time']) ? intval($params['expire_time']) : 30;
+		$this->key_code = isset($params['key_prefix']) ? trim($params['key_prefix']).'_sms_code' : '_sms_code';
+		$this->is_frq = isset($params['is_frq']) ? intval($params['is_frq']) : 1;
 	}
 
 	/**
@@ -99,65 +102,68 @@ class Email
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-03-10T10:56:43+0800
-	 * @param    [string]   $param['email'] 		[收件邮箱]
-	 * @param    [string]   $param['content'] 		[内容]
-	 * @param    [string]   $param['title'] 		[标题]
-	 * @param    [string]   $param['code'] 			[验证码]
-	 * @param    [string]   $param['username'] 		[收件人名称]
+	 * @param    [string]   $params['email'] 		[收件邮箱]
+	 * @param    [string]   $params['content'] 		[内容]
+	 * @param    [string]   $params['title'] 		[标题]
+	 * @param    [string]   $params['code'] 		[验证码]
+	 * @param    [string]   $params['username'] 	[收件人名称]
 	 */
-	public function SendHtml($param = array())
+	public function SendHtml($params = [])
 	{
-		if(empty($param['email']))
+		if(empty($params['email']))
 		{
 			$this->error = '收件邮箱不能为空';
 			return false;
 		}
-		if(empty($param['content']))
+		if(empty($params['content']))
 		{
 			$this->error = '发送内容不能为空';
 			return false;
 		}
-		if(empty($param['title']))
+		if(empty($params['title']))
 		{
 			$this->error = '邮件标题不能为空';
 			return false;
 		}
 
 		// 是否频繁操作
-		if(!$this->IntervalTimeCheck())
+		if($this->is_frq == 1)
 		{
-			$this->error = '防止造成骚扰，请勿频繁发送';
-			return false;
+			if(!$this->IntervalTimeCheck())
+			{
+				$this->error = '防止造成骚扰，请勿频繁发送';
+				return false;
+			}
 		}
 
 		// 验证码替换
-		if(!empty($param['code']))
+		if(!empty($params['code']))
 		{
-			$param['content'] = str_replace('#code#', $param['code'], $param['content']);
+			$params['content'] = str_replace('#code#', $params['code'], $params['content']);
 		}
 
 		// 邮件初始化
 		$this->EmailInit();
 
 		// 收件人地址，可以替换成任何想要接收邮件的email信箱,格式("收件人email","收件人姓名")
-		$this->obj->AddAddress($param['email'], isset($param['username']) ? $param['username'] : $param['email']);
+		$this->obj->AddAddress($params['email'], isset($params['username']) ? $params['username'] : $params['email']);
 
 		// 邮件标题
-		$this->obj->Subject = $param['title'];
+		$this->obj->Subject = $params['title'];
 
 		// 邮件内容
-		$this->obj->Body = $param['content'];
+		$this->obj->Body = $params['content'];
 
 		// 邮件正文不支持HTML的备用显示
-		$this->obj->AltBody = strip_tags($param['content']);
+		$this->obj->AltBody = strip_tags($params['content']);
 
 		// 发送邮件
 		if($this->obj->Send())
 		{
-			// 是否存在验证码
-			if(!empty($param['code']))
+			// 种session
+			if($this->is_frq == 1)
 			{
-				$this->KindofSession($param['code']);
+				$this->KindofSession(empty($params['code']) ? '' : $params['code']);
 			}
 			return true;
 		} else {
@@ -172,14 +178,14 @@ class Email
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-03-07T14:59:13+0800
-	 * @param    [string]      $code [验证码]
+	 * @param    [string]      $value [存储值或验证码]
 	 */
-	private function KindofSession($code)
+	private function KindofSession($value = '')
 	{
-		$data = array(
-				'code' => $code,
-				'time' => time(),
-			);
+		$data = [
+			'value'	=> $value,
+			'time' 	=> time(),
+		];
 		MyCache($this->key_code, $data, $this->expire_time);
 	}
 
@@ -223,7 +229,7 @@ class Email
 				{
 					$code = trim($_POST['code']);
 				}
-				return ($data['code'] == $code);
+				return (isset($data['value']) && $data['value'] == $code);
 			}
         }
 		return false;

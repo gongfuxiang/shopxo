@@ -23,19 +23,15 @@ class Sms
     public $error;
 
     // Access Key ID
-    private $accessKeyId = '';
-
+    private $access_key_id = '';
     // Access Access Key Secret
-    private $accessKeySecret = '';
-
+    private $access_key_secret = '';
     // 签名
-    private $signName = '';
-
-    // 模版ID
-    private $templateCode = '';
+    private $sign_ame = '';
 
     private $expire_time;
 	private $key_code;
+    private $is_frq;
 
     /**
 	 * [__construct 构造方法]
@@ -43,48 +39,25 @@ class Sms
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2017-03-07T14:03:02+0800
-	 * @param    [int]        $param['interval_time'] 	[间隔时间（默认30）单位（秒）]
-	 * @param    [int]        $param['expire_time'] 	[到期时间（默认30）单位（秒）]
-	 * @param    [string]     $param['key_prefix'] 		[验证码种存储前缀key（默认 空）]
+	 * @param    [int]        $params['interval_time'] 	[间隔时间（默认30）单位（秒）]
+	 * @param    [int]        $params['expire_time'] 	[到期时间（默认30）单位（秒）]
+	 * @param    [string]     $params['key_prefix']     [验证码种存储前缀key（默认 空）]
+     * @param    [string]     $params['is_frq']         [是否验证频率（默认 是）]
 	 */
-	public function __construct($param = array())
+	public function __construct($params = [])
 	{
-		$this->interval_time = isset($param['interval_time']) ? intval($param['interval_time']) : 30;
-		$this->expire_time = isset($param['expire_time']) ? intval($param['expire_time']) : 30;
-		$this->key_code = isset($param['key_prefix']) ? trim($param['key_prefix']).'_sms_code' : '_sms_code';
+		$this->interval_time = isset($params['interval_time']) ? intval($params['interval_time']) : 30;
+		$this->expire_time = isset($params['expire_time']) ? intval($params['expire_time']) : 30;
+		$this->key_code = isset($params['key_prefix']) ? trim($params['key_prefix']).'_sms_code' : '_sms_code';
+        $this->is_frq = isset($params['is_frq']) ? intval($params['is_frq']) : 1;
 
-		$this->signName = MyC('common_sms_sign');
-		$this->accessKeyId = MyC('common_sms_apikey');
-		$this->accessKeySecret = MyC('common_sms_apisecret');
+		$this->sign_ame = MyC('common_sms_sign');
+		$this->access_key_id = MyC('common_sms_apikey');
+		$this->access_key_secret = MyC('common_sms_apisecret');
 	}
 
-    private function percentEncode($string) {
-        $string = urlencode ( $string );
-        $string = preg_replace ( '/\+/', '%20', $string );
-        $string = preg_replace ( '/\*/', '%2A', $string );
-        $string = preg_replace ( '/%7E/', '~', $string );
-        return $string;
-    }
     /**
-     * 签名
-     *
-     * @param unknown $parameters            
-     * @param unknown $accessKeySecret            
-     * @return string
-     */
-    private function computeSignature($parameters, $accessKeySecret) {
-        ksort ( $parameters );
-        $canonicalizedQueryString = '';
-        foreach ( $parameters as $key => $value ) {
-            $canonicalizedQueryString .= '&' . $this->percentEncode ( $key ) . '=' . $this->percentEncode ( $value );
-        }
-        $stringToSign = 'GET&%2F&' . $this->percentencode ( substr ( $canonicalizedQueryString, 1 ) );
-        $signature = base64_encode ( hash_hmac ( 'sha1', $stringToSign, $accessKeySecret . '&', true ) );
-        return $signature;
-    }
-
-    /**
-     * 短信发送
+     * 验证码发送
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -111,60 +84,169 @@ class Sms
             $codes = $code;
         }
 
+        // 请求发送
+        $status = $this->SmsRequest($mobile, $template_code, $sign_name, $codes);
+        if($status)
+        {
+            // 种session
+            if(is_string($code))
+            {
+                $this->KindofSession($code);
+            }
+        }
+        return $status;
+    }
+
+    /**
+     * 短信发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-04-02
+     * @desc    description
+     * @param   [string]            $mobile          [手机号码，多个以 英文逗号 , 分割]
+     * @param   [string]            $template_code   [模板 id]
+     * @param   [boolean]           $sign_name       [自定义签名，默认使用基础配置的签名]
+     * @param   [string|array]      $template_params [变量code（单个直接传入 code 即可，多个传入数组）]
+     */
+    public function SendTemplate($mobile, $template_code, $sign_name = '', $template_params = [])
+    {
+        // 是否频繁操作
+        if($this->is_frq == 1)
+        {
+            if(!$this->IntervalTimeCheck())
+            {
+                $this->error = '防止造成骚扰，请勿频繁发送';
+                return false;
+            }
+        }
+
+        // 请求发送
+        $status = $this->SmsRequest($mobile, $template_code, $sign_name, $template_params);
+        if($status)
+        {
+            // 种session
+            if($this->is_frq == 1)
+            {
+                $this->KindofSession();
+            }
+        }
+        return $status;
+    }
+
+    /**
+     * 请求发送
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-03-26
+     * @desc    description
+     * @param   [string]            $mobile          [手机号码，多个以 英文逗号 , 分割]
+     * @param   [string]            $template_code   [模板 id]
+     * @param   [boolean]           $sign_name       [自定义签名，默认使用基础配置的签名]
+     * @param   [string|array]      $template_params [默认变量code（单个直接传入 code 即可，多个传入数组）]
+     */
+    public function SmsRequest($mobile, $template_code, $sign_name = '', $template_params = [])
+    {
         // 签名
-        $SignName = empty($sign_name) ? $this->signName : $sign_name;
+        $sign_name = empty($sign_name) ? $this->sign_ame : $sign_name;
 
         // 请求参数
-        $params = array (   //此处作了修改
-                'SignName' => $SignName,
-                'Format' => 'JSON',
-                'Version' => '2017-05-25',
-                'AccessKeyId' => $this->accessKeyId,
-                'SignatureVersion' => '1.0',
-                'SignatureMethod' => 'HMAC-SHA1',
-                'SignatureNonce' => uniqid (),
-                'Timestamp' => gmdate ( 'Y-m-d\TH:i:s\Z' ),
-                'Action' => 'SendSms',
-                'TemplateCode' => $template_code,
-                'PhoneNumbers' => $mobile,
-                'TemplateParam' => json_encode($codes, JSON_UNESCAPED_UNICODE),
-        );
-        //print_r($params);die;
-        // 计算签名并把签名结果加入请求参数
-        $params ['Signature'] = $this->computeSignature ( $params, $this->accessKeySecret );
-        // 发送请求（此处作了修改）
-        //$url = 'https://sms.aliyuncs.com/?' . http_build_query ( $params );
-        $url = 'http://dysmsapi.aliyuncs.com/?' . http_build_query ( $params );
-        
-        $ch = curl_init ();
-        curl_setopt ( $ch, CURLOPT_URL, $url );
-        curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, FALSE );
-        curl_setopt ( $ch, CURLOPT_SSL_VERIFYHOST, FALSE );
-        curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, 1 );
-        curl_setopt ( $ch, CURLOPT_TIMEOUT, 10 );
-        $result = curl_exec ( $ch );
-        curl_close ( $ch );
-        $result = json_decode ( $result, true );
-        //print_r($result);//die;
-        if (isset ( $result ['Code'] ) && $result['Code'] != 'OK') {
-            $this->error = $this->getErrorMessage ( $result ['Code'] );
+        $params = [
+            'SignName'          => $sign_name,
+            'Format'            => 'JSON',
+            'Version'           => '2017-05-25',
+            'AccessKeyId'       => $this->access_key_id,
+            'SignatureVersion'  => '1.0',
+            'SignatureMethod'   => 'HMAC-SHA1',
+            'SignatureNonce'    => uniqid(),
+            'Timestamp'         => gmdate('Y-m-d\TH:i:s\Z'),
+            'Action'            => 'SendSms',
+            'TemplateCode'      => $template_code,
+            'PhoneNumbers'      => $mobile,
+        ];
+        // 携带参数
+        if(!empty($template_params))
+        {
+            if(!is_array($template_params))
+            {
+                $template_params = ['code'=>$template_params];
+            }
+            $params['TemplateParam'] = json_encode($template_params, JSON_UNESCAPED_UNICODE);
+        }
+        // 签名
+        $params ['Signature'] = $this->ComputeSignature($params, $this->access_key_secret);
+        // 远程请求
+        $url = 'http://dysmsapi.aliyuncs.com/?' . http_build_query($params);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        $result = json_decode($result, true);
+        if(isset($result['Code']) && $result['Code'] != 'OK')
+        {
+            $this->error = $this->GetErrorMessage($result['Code']);
             return false;
         }
-
-        // 种session
-        if(is_string($code))
-        {
-            $this->KindofSession($code);
-        }
-
         return true;
     }
+
+    /**
+     * 签名生成
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-03-26
+     * @desc    description
+     * @param   [array]          $parameters      [参数]
+     * @param   [string]         $accessKeySecret [秘钥]
+     */
+    private function ComputeSignature($parameters, $accessKeySecret)
+    {
+        ksort($parameters);
+        $canonicalizedQueryString = '';
+        foreach($parameters as $key=>$value)
+        {
+            $canonicalizedQueryString .= '&' . $this->PercentEncode($key) . '=' . $this->PercentEncode($value );
+        }
+        $stringToSign = 'GET&%2F&' . $this->Percentencode(substr($canonicalizedQueryString, 1));
+        $signature = base64_encode(hash_hmac('sha1', $stringToSign, $accessKeySecret . '&', true));
+        return $signature;
+    }
+
+    /**
+     * 签名字符处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-03-26
+     * @desc    description
+     * @param   [string]          $string [需要处理的字符]
+     */
+    private function PercentEncode($string)
+    {
+        $string = urlencode($string);
+        $string = preg_replace('/\+/', '%20', $string);
+        $string = preg_replace('/\*/', '%2A', $string);
+        $string = preg_replace('/%7E/', '~', $string);
+        return $string;
+    }
+
     /**
      * 获取详细错误信息
-     *
-     * @param unknown $status            
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-03-26
+     * @desc    description
+     * @param   [string]          $status [错误码]
      */
-    public function getErrorMessage($status) {
+    public function GetErrorMessage($status)
+    {
         // 阿里云的短信 乱八七糟的(其实是用的阿里大于)
         // https://api.alidayu.com/doc2/apiDetail?spm=a3142.7629140.1.19.SmdYoA&apiId=25450
         $message = array (
@@ -196,8 +278,9 @@ class Sms
                 'isv.PARAM_NOT_SUPPORT_URL' => '不支持URL',
                 'isv.AMOUNT_NOT_ENOUGH' => '账户余额不足',
         );
-        if (isset ( $message [$status] )) {
-            return $message [$status];
+        if(isset($message[$status]))
+        {
+            return $message[$status];
         }
         return $status;
     }
@@ -208,14 +291,14 @@ class Sms
      * @blog     http://gong.gg/
      * @version  0.0.1
      * @datetime 2017-03-07T14:59:13+0800
-     * @param    [string]      $code [验证码]
+     * @param    [string]      $value [存储值或验证码]
      */
-    private function KindofSession($code)
+    private function KindofSession($value = '')
     {
-        $data = array(
-                'code' => $code,
-                'time' => time(),
-            );
+        $data = [
+            'value' => $value,
+            'time'  => time(),
+        ];
         MyCache($this->key_code, $data, $this->expire_time);
     }
 
@@ -259,7 +342,7 @@ class Sms
                 {
                     $code = trim($_POST['code']);
                 }
-                return ($data['code'] == $code);
+                return (isset($data['value']) && $data['value'] == $code);
             }
         }
 		return false;
