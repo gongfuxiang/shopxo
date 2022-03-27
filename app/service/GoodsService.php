@@ -2806,7 +2806,7 @@ class GoodsService
                 $class_name = (APPLICATION == 'web') ? 'buy-event login-event' : '';
 
                 // 购买
-                $data[] = [
+                $buy = [
                     'color' => 'main',
                     'type'  => 'buy',
                     'title' => '点此按钮到下一步确认购买信息',
@@ -2816,11 +2816,12 @@ class GoodsService
                 ];
 
                 // 商品类型是否和当前站点类型一致
+                $cart = [];
                 $res = self::IsGoodsSiteTypeConsistent($goods['id'], $goods['site_type']);
                 if($res['code'] == 0)
                 {
                     // 加入购物车
-                    $data[] = [
+                    $cart = [
                         'color' => 'second',
                         'type'  => 'cart',
                         'title' => '加入购物车',
@@ -2830,6 +2831,22 @@ class GoodsService
                     ];
                 } else {
                     $error = $res['msg'];
+                }
+
+                // 主按钮顺序处理，手机端立即购买放在最后面
+                if(APPLICATION == 'app')
+                {
+                    if(!empty($cart))
+                    {
+                        $data[] = $cart;
+                    }
+                    $data[] = $buy;
+                } else {
+                    $data[] = $buy;
+                    if(!empty($cart))
+                    {
+                        $data[] = $cart;
+                    }
                 }
             }
         }

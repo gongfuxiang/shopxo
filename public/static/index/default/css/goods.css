@@ -314,6 +314,19 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     .buy-nav .buy-submit-container .buy-btn-second {
         border: 1px solid #ffeded;
     }
+    .buy-nav .nav-icon {
+        display:inline-block;
+        width: 50%;
+        float: left;
+        cursor: pointer;
+        text-align: center;
+     }
+     .goods-not-buy-tips,
+     .buy-nav .nav-icon {
+        border-top: 1px solid #f5f5f5;
+        border-left: 1px solid #f5f5f5;
+        float: left;
+     }
     .buy-submit-container-number-0 .buy-btn,
     .buy-submit-container-number-1 .buy-btn {
         width: 100% !important;
@@ -345,19 +358,24 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     .buy-submit-container-number-10 .buy-btn {
         width: 10% !important;
     }
-    .buy-nav .nav-icon {
-        display:inline-block;
-        width: 50%;
-        float: left;
-        cursor: pointer;
-        text-align: center;
-     }
-     .goods-not-buy-tips,
-     .buy-nav .nav-icon {
-        border-top: 1px solid #f5f5f5;
-        border-left: 1px solid #f5f5f5;
-        float: left;
-     }
+    .buy-nav-opt-number-1 .nav-icon {
+        width: 100% !important;
+    }
+    .buy-nav-opt-number-2 .nav-icon {
+        width: 50% !important;
+    }
+    .buy-nav-opt-number-3 .nav-icon {
+        width: 33.33% !important;
+    }
+    .buy-nav-opt-number-4 .nav-icon {
+        width: 25% !important;
+    }
+    .buy-nav-opt-number-5 .nav-icon {
+        width: 20% !important;
+    }
+    .buy-nav-opt-number-6 .nav-icon {
+        width: 16.66% !important;
+    }
 }
 @media only screen and (min-width: 1025px) {
     .buy-nav .buy-nav-opt {

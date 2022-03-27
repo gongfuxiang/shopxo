@@ -55,8 +55,11 @@ define('__MY_ADDR__', empty($_SERVER['SERVER_ADDR']) ? '' : $_SERVER['SERVER_ADD
 // 项目HOST
 define('__MY_HOST__', empty($_SERVER['HTTP_HOST']) ? '' : $_SERVER['HTTP_HOST']);
 
-// 项目URL地址
-define('__MY_URL__',  empty($_SERVER['HTTP_HOST']) ? '' : __MY_HTTP__.'://'.__MY_HOST__.DS.$my_root);
+// 项目HOST地址
+define('__MY_DOMAIN__',  empty($_SERVER['HTTP_HOST']) ? '' : __MY_HTTP__.'://'.__MY_HOST__.DS);
+
+// 项目完整HOST地址
+define('__MY_URL__',  empty($_SERVER['HTTP_HOST']) ? '' : __MY_DOMAIN__.$my_root);
 
 // 项目public目录URL地址
 define('__MY_PUBLIC_URL__',  empty($_SERVER['HTTP_HOST']) ? '' : __MY_HTTP__.'://'.__MY_HOST__.__MY_ROOT_PUBLIC__);

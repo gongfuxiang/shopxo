@@ -56,6 +56,11 @@ class SystemBaseService
             'common_app_is_online_service'      => (int) MyC('common_app_is_online_service', 0),
             'common_app_customer_service_tel'   => MyC('common_app_customer_service_tel', null, true),
 
+            // 基础-站点域名和CDN
+            'common_domain_host'                => MyC('common_domain_host', null, true),
+            'common_cdn_attachment_host'        => MyC('common_cdn_attachment_host', null, true),
+            'common_cdn_public_host'            => MyC('common_cdn_public_host', null, true),
+
             // 扩展项-留言、问答
             'common_is_login_answer'                => (int) MyC('common_is_login_answer', 0, true),
 
@@ -63,10 +68,6 @@ class SystemBaseService
             'common_order_close_limit_time'         => (int) MyC('common_order_close_limit_time', 30, true),
             'common_order_success_limit_time'       => (int) MyC('common_order_success_limit_time', 21600, true),
             'common_pay_log_order_close_limit_time' => (int) MyC('common_pay_log_order_close_limit_time', 30, true),
-
-            // 扩展项-CDN
-            'common_cdn_attachment_host'        => MyC('common_cdn_attachment_host', null, true),
-            'common_cdn_public_host'            => MyC('common_cdn_public_host', null, true),
 
             // 验证码
             'common_verify_expire_time'         => (int) MyC('common_verify_expire_time', 600, true),

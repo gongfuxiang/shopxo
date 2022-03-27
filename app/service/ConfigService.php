@@ -95,7 +95,8 @@ class ConfigService
         'common_session_is_use_cache',
         'common_cache_session_redis_prefix',
 
-        // cdn地址
+        // 站点域名地址和cdn地址
+        'common_domain_host',
         'common_cdn_attachment_host',
         'common_cdn_public_host',
 

@@ -258,6 +258,9 @@ class Common extends BaseController
         MyViewAssign('public_host', MyConfig('shopxo.public_host'));
 
         // 当前url地址
+        MyViewAssign('my_domain', __MY_DOMAIN__);
+
+        // 当前完整url地址
         MyViewAssign('my_url', __MY_URL__);
 
         // 项目public目录URL地址

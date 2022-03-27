@@ -89,27 +89,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- CDN配置 -->
-            <div class="am-panel am-panel-default">
-                <div class="am-panel-hd">
-                    <h3 class="am-panel-title">CDN配置</h3>
-                </div>
-                <div class="am-panel-bd am-padding-vertical-xs">
-                    <div class="am-alert am-alert-warning am-margin-top-xs" data-am-alert>
-                        <button type="button" class="am-close">&times;</button>
-                        <p>未设置则使用当前站点域名[ <a href="{{$my_public_url}}" target="_blank">{{$my_public_url}}</a> ]</p>
-                    </div>
-                    <div class="am-form-group">
-                        <label>{{$data.common_cdn_attachment_host.name}}<span class="am-form-group-label-tips">{{$data.common_cdn_attachment_host.describe}}</span></label>
-                        <input type="text" name="{{$data.common_cdn_attachment_host.only_tag}}" placeholder="{{$data.common_cdn_attachment_host.describe}}" data-validation-message="{{$data.common_cdn_attachment_host.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cdn_attachment_host.value}}"{{/if}} />
-                    </div>
-                    <div class="am-form-group">
-                        <label>{{$data.common_cdn_public_host.name}}<span class="am-form-group-label-tips">{{$data.common_cdn_public_host.describe}}</span></label>
-                        <input type="text" name="{{$data.common_cdn_public_host.only_tag}}" placeholder="{{$data.common_cdn_public_host.describe}}" data-validation-message="{{$data.common_cdn_public_host.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cdn_public_host.value}}"{{/if}} />
-                    </div>
-                </div>
-            </div>
             
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />

@@ -2007,18 +2007,85 @@ function HtmlToString(html_str)
  * @version 1.0.0
  * @date    2021-02-22
  * @desc    description
- * @param   {[string]}        field [参数字段名称]
+ * @param   {[string]}        field [参数字段名称、null则返回全部参数]
  */
-function GetQueryValue(field)
+function GetQueryValue(field = null)
 {
-	var query = window.location.search.substring(1);
-	var vars = query.split('&');
-	for(var i=0;i<vars.length;i++)
+	// 参数值
+	var query = window.location.search || null;
+	if(query == null)
 	{
-		var pair = vars[i].split('=');
-		if(pair[0] == field)
+		query = window.location.pathname || null;
+	} else {
+		query = query.substring(1);
+	}
+
+	// 首两个是否为s=字符，存在则去除
+	if(query.substr(0, 2) == 's=')
+	{
+		query = query.substr(2);
+	}
+	// 第一个字符为斜杠，存在则去除
+	if(query.substr(0, 1) == '/')
+	{
+		query = query.substr(1);
+	}
+
+	// 是否存在参数
+	var vars = [];
+	if(query != null)
+	{
+		var temp = query.split('&');
+		if(temp.length > 0)
 		{
-			return pair[1];
+			for(var i in temp)
+			{
+				// 参数是否为斜杠参数、仅首条记录处理
+				if(i == 0 && temp[i].indexOf('/') != -1)
+				{
+					var temp_field = null;
+					var temp_ds = temp[i].split('/');
+					var temp_count = temp_ds.length;
+					for(var x in temp_ds)
+					{
+						// 奇数则忽略第一个参数（为系统路由名称）
+						if(temp_count%2 != 0 && x == 0)
+						{
+							continue;
+						}
+
+						// 参数组合
+						if(temp_field == null)
+						{
+							temp_field = temp_ds[x];
+						} else {
+							vars[temp_field] = temp_ds[x].replace('.'+__seo_url_suffix__, '');
+							temp_field = null;
+						}
+					}
+				} else {
+					var pair = temp[i].split('=');
+					if(pair.length == 2)
+					{
+						vars[pair[0]] = pair[1];
+					}
+				}
+			}
+		}
+	}
+
+	// 是否指定字段
+	if(field === null)
+	{
+		return vars;
+	} else {
+		// 是否存在该字段数据
+		for(var i in vars)
+		{
+			if(i == field)
+			{
+				return vars[i];
+			}
 		}
 	}
 	return false;
@@ -2040,6 +2107,29 @@ function UUId()
         d = Math.floor(d / 16);
         return (c == 'x' ? r : r & 0x3 | 0x8).toString(16);
     });
+}
+
+/**
+ * 打开新窗口
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-03-21
+ * @desc    description
+ * @param   {String}        url    [url地址]
+ * @param   {String}        name   [网页名称]
+ * @param   {Number}        width  [宽度]
+ * @param   {Number}        height [高度]
+ */
+function OpenWindow(url, name = '', width = 850, height = 600)
+{
+    // window.screen.height获得屏幕的高
+    // window.screen.width获得屏幕的宽
+    // 获得窗口的垂直位置;
+    var top = (window.screen.height-30-height)/2;
+    // 获得窗口的水平位置;
+    var left = (window.screen.width-10-width)/2;
+    window.open(url, name, 'height='+height+',innerHeight='+height+',width='+width+',innerWidth='+width+',top='+top+',left='+left+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
 }
 
 

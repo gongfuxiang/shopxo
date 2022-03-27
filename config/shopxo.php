@@ -13,6 +13,13 @@
 // | 应用设置
 // +----------------------------------------------------------------------
 
+// 站点域名地址
+$domain_url = MyFileConfig('common_domain_host', '', __MY_DOMAIN__, true);
+if(substr($domain_url, -1) != DS)
+{
+    $domain_url .= DS;
+}
+
 // cdn地址
 $cdn_attachment_host = MyFileConfig('common_cdn_attachment_host', '', __MY_PUBLIC_URL__, true);
 $cdn_public_host = MyFileConfig('common_cdn_public_host', '', __MY_PUBLIC_URL__, true);
@@ -95,6 +102,9 @@ return [
 
     // 首页展示的友情链接列表数据
     'cache_home_link_list_key'              => 'cache_home_link_list_data',
+
+    // 站点域名地址
+    'domain_url'                            => $domain_url,
 
     // 附件host、最后不要带/斜杠结尾, 数据库图片地址以/static/...开头
     'attachment_host'                       => $cdn_attachment_host,

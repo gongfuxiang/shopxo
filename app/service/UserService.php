@@ -111,7 +111,7 @@ class UserService
      * @desc     description
      * @param    [string]                   $token [用户token]
      */
-    private static function UserTokenData($token)
+    public static function UserTokenData($token)
     {
         $user = MyCache(MyConfig('shopxo.cache_user_info').$token);
         if($user !== null && isset($user['id']))
