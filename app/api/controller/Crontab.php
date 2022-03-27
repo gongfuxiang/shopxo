@@ -70,7 +70,11 @@ class Crontab extends Common
     public function GoodsGiveIntegral()
     {
         $ret = CrontabService::GoodsGiveIntegral();
-        return 'sucs:'.$ret['data']['sucs'].', fail:'.$ret['data']['fail'];
+        if($ret['code'] == 0)
+        {
+            return 'sucs:'.$ret['data']['sucs'].', fail:'.$ret['data']['fail'];
+        }
+        return $ret['msg'];
     }
 }
 ?>

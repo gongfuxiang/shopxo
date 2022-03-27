@@ -212,21 +212,26 @@ class CrontabService
                 Db::startTrans();
                 if(Db::name('GoodsGiveIntegralLog')->where(['id'=>$v['id'], 'status'=>0])->update($upd_data))
                 {
-                    // 扣减用户锁定积分
-                    if(!Db::name('User')->where(['id'=>$v['user_id']])->dec('locking_integral', $v['integral'])->update())
+                    // 用户是否存在
+                    $count = (int) Db::name('User')->where(['id'=>$v['user_id']])->count();
+                    if($count > 0)
                     {
-                        return DataReturn('用户锁定积分扣减失败['.$v['id'].'-'.$v['user_id'].']', -2);
-                    }
+                        // 扣减用户锁定积分
+                        if(!Db::name('User')->where(['id'=>$v['user_id']])->dec('locking_integral', $v['integral'])->update())
+                        {
+                            return DataReturn('用户锁定积分扣减失败['.$v['id'].'-'.$v['user_id'].']', -2);
+                        }
 
-                    // 增加用户有效积分
-                    $user_integral = Db::name('User')->where(['id'=>$v['user_id']])->value('integral');
-                    if(!Db::name('User')->where(['id'=>$v['user_id']])->inc('integral', $v['integral'])->update())
-                    {
-                        return DataReturn('用户有效积分增加失败['.$v['id'].'-'.$v['user_id'].']', -3);
-                    }
+                        // 增加用户有效积分
+                        $user_integral = Db::name('User')->where(['id'=>$v['user_id']])->value('integral');
+                        if(!Db::name('User')->where(['id'=>$v['user_id']])->inc('integral', $v['integral'])->update())
+                        {
+                            return DataReturn('用户有效积分增加失败['.$v['id'].'-'.$v['user_id'].']', -3);
+                        }
 
-                    // 积分日志
-                    IntegralService::UserIntegralLogAdd($v['user_id'], $user_integral, $v['integral'], '订单商品赠送', 1);
+                        // 积分日志
+                        IntegralService::UserIntegralLogAdd($v['user_id'], $user_integral, $v['integral'], '订单商品赠送', 1);
+                    }
 
                     // 提交事务
                     Db::commit();
