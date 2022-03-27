@@ -438,7 +438,7 @@
 
                 <!-- 购买导航 -->
                 <div class="buy-nav">
-                    <div class="buy-nav-opt {{if !empty($buy_button) and isset($buy_button['count'])}}buy-nav-opt-button-number-{{$buy_button.count}}{{/if}}">
+                    <div class="buy-nav-opt buy-nav-opt-number-{{if isset($buy_nav_opt_number)}}{{$buy_nav_opt_number}}{{else /}}2{{/if}}">
                         <!-- 商品页面基础信息购买小导航内部前面钩子 开始 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                             <div class="plugins-tag">
