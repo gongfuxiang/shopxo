@@ -1066,7 +1066,7 @@ class BuyService
         }
 
         // 金额大于0、非预约模式 必须选择支付方式
-        if($buy['data']['base']['total_price'] > 0 && $common_order_is_booking != 1)
+        if($buy['data']['base']['actual_price'] > 0 && $common_order_is_booking != 1)
         {
             if(empty($params['payment_id']))
             {
