@@ -1054,6 +1054,7 @@ class OrderAftersaleService
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'params'        => $params,
+            'data_id'       => $aftersale['id'],
             'order_id'      => $order['data']['id'],
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
