@@ -229,6 +229,7 @@ class BuyService
             return DataReturn($ret, -1);
         }
 
+        // 获取购物车数据
         $where = (!empty($params['where']) && is_array($params['where'])) ? $params['where'] : [];
         $where['c.user_id'] = $params['user']['id'];
 
@@ -236,6 +237,22 @@ class BuyService
         $data = Db::name('Cart')->alias('c')->leftJoin('goods g', 'g.id=c.goods_id')->where($where)->field($field)->order('c.id desc')->select()->toArray();
 
         // 数据处理
+        $data = self::CartListDataHandle($data, $params);
+        return DataReturn('操作成功', 0, $data);
+    }
+
+    /**
+     * 购物车列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-05
+     * @desc    description
+     * @param   [array]          $data   [购物车数据]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function CartListDataHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             foreach($data as &$v)
@@ -316,8 +333,7 @@ class BuyService
                 }
             }
         }
-
-        return DataReturn('操作成功', 0, $data);
+        return $data;
     }
 
     /**
@@ -538,7 +554,7 @@ class BuyService
                 'is_delete_time'    => 0,
                 'is_shelves'        => 1,
             ],
-            'field' => 'id, id AS goods_id, title, images, inventory_unit, buy_min_number, buy_max_number, model',
+            'field' => 'id AS goods_id, title, images, inventory_unit, buy_min_number, buy_max_number, model',
         ]);
         $ret = GoodsService::GoodsList($goods_params);
         if(empty($ret['data'][0]))
@@ -549,6 +565,9 @@ class BuyService
 
         // 规格
         $goods['spec'] = self::GoodsSpecificationsHandle($params);
+
+        // id处理、避免不同规格导致id一样
+        $goods['id'] = md5($goods['goods_id'].(empty($goods['spec']) ? 'default' : implode('', array_column($goods['spec'], 'value'))));
 
         // 获取商品基础信息
         $spec_params = array_merge($params, [

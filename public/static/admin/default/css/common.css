@@ -449,7 +449,7 @@ ul {margin-top:0;}
  */
 .am-container {padding-left:0px;padding-right:0px ;}
 @media only screen and (min-width: 641px) {
-    .submit { display: none; }
+    #tree tr .submit { display: none; }
     #tree tr:hover .submit { display: block !important; }
 }
 @media only screen and (min-width: 1025px) {
