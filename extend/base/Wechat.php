@@ -42,7 +42,94 @@ class Wechat
     }
 
     /**
-     * [DecryptData 检验数据的真实性，并且获取解密后的明文]
+     * 小程序发送订阅消息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-06
+     * @desc    description
+     * @param    [string]  $params['page']      [页面地址]
+     * @param    [string]  $params['scene']     [参数]
+     * @return   [string]                       [成功返回文件流, 失败则空]
+     */
+    public function MiniSubscribeMessage($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'touser',
+                'error_msg'         => 'openid不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'template_id',
+                'error_msg'         => 'template_id不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'data',
+                'error_msg'         => 'data不能为空',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取access_token
+        $access_token = $this->GetMiniAccessToken();
+        if($access_token === false)
+        {
+            return DataReturn('access_token获取失败', -1);
+        }
+
+        // 发送订阅消息
+        $url = 'https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token='.$access_token;
+        $data = [
+            'touser'      => $params['touser'],
+            'template_id' => $params['template_id'],
+            'data'        => $params['data'],
+        ];
+        
+        // 跳转页面，可以不传 仅限本小程序内的页面。支持带参数,（示例index?foo=bar）
+        if(isset($params['page']) && !empty($params['page'])){
+            $data['page'] = $params['page'];
+        }
+        
+        // 跳转小程序类型：developer为开发版；trial为体验版；formal为正式版；默认为正式版
+        if(isset($params['miniprogram_state']) && !empty($params['miniprogram_state'])){
+            $data['miniprogram_state'] = $params['miniprogram_state'];
+        }
+        
+        // 进入小程序查看的语言类型，支持zh_CN(简中)、en_US(英文)、zh_HK(繁中)、zh_TW(繁中)，默认为zh_CN
+        if(isset($params['lang']) && !empty($params['lang'])){
+            $data['lang'] = $params['lang'];
+        }
+        
+        $res = $this->HttpRequestPost($url, json_encode($data), false);
+        if(!empty($res))
+        {
+            if(stripos($res, 'errcode') === false)
+            {
+                return DataReturn('发送成功', 0, $res);
+            }
+            $res = json_decode($res, true);
+            $msg = isset($res['errmsg']) ? $res['errmsg'] : '消息发送失败';
+            if($msg == 'ok'){
+                return DataReturn('发送成功', 0, $res);
+            }else{
+                $msg = isset($res['errcode']) ? $res['errcode'].':'.$msg : $msg;
+            }
+        } else {
+            $msg = '消息发送失败2';
+        }
+        return DataReturn($msg, -1);
+    }
+
+    /**
+     * 检验数据的真实性，并且获取解密后的明文
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
