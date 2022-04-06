@@ -1125,8 +1125,8 @@ class BuyService
         foreach($buy['data']['goods'] as $v)
         {
             // 商品销售模式
-            // 商品小于等于1则使用商品的类型
-            if($v['order_base']['goods_count'] == 1)
+            // 当前整体仓库商品等于1则使用商品的类型
+            if($buy['data']['base']['goods_count'] == 1)
             {
                 $ret = GoodsService::GoodsSalesModelType($v['goods_items'][0]['goods_id']);
                 $site_model = ($ret['data'] == 4) ? $user_site_model : $ret['data'];
