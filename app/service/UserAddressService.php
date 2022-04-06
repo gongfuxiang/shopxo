@@ -193,6 +193,10 @@ class UserAddressService
                 {
                     $is_default = true;
                 }
+
+                // 地理位置距离字段
+                $v['distance_value'] = null;
+                $v['distance_unit'] = null;
             }
 
             // 是否处理默认地址,没有默认地址将第一个设置为默认地址
