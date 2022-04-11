@@ -2132,6 +2132,37 @@ function OpenWindow(url, name = '', width = 850, height = 600)
     window.open(url, name, 'height='+height+',innerHeight='+height+',width='+width+',innerWidth='+width+',top='+top+',left='+left+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
 }
 
+/**
+ * 地址联动初始化
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-04-11
+ * @desc    description
+ */
+function RegionLinkageInit()
+{
+	if($('.region-linkage select').length > 0)
+	{
+		// 省初始化
+		RegionNodeData(0, 'province', 'province');
+
+		// 市初始化
+		var value = $('.region-linkage select[name=province]').attr('data-value') || 0;
+		if(value != 0)
+		{
+			RegionNodeData(value, 'city', 'city');
+		}
+
+		// 区/县初始化
+		var value = $('.region-linkage select[name=city]').attr('data-value') || 0;
+		if(value != 0)
+		{
+			RegionNodeData(value, 'county', 'county');
+		}
+	}
+}
+
 
 
 // 公共数据操作
@@ -2619,25 +2650,8 @@ $(function()
 			RegionNodeData(value, name, next_name);
 		}
 	});
-	if($('.region-linkage select').length > 0)
-	{
-		// 省初始化
-		RegionNodeData(0, 'province', 'province');
-
-		// 市初始化
-		var value = $('.region-linkage select[name=province]').attr('data-value') || 0;
-		if(value != 0)
-		{
-			RegionNodeData(value, 'city', 'city');
-		}
-
-		// 区/县初始化
-		var value = $('.region-linkage select[name=city]').attr('data-value') || 0;
-		if(value != 0)
-		{
-			RegionNodeData(value, 'county', 'county');
-		}
-	}
+	// 地址初始化
+	RegionLinkageInit();
 
 	// 根据字符串地址获取坐标位置
 	$('#map-location-submit').on('click', function()
