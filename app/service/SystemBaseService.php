@@ -89,9 +89,10 @@ class SystemBaseService
             'home_is_enable_userregister_agreement' => (int) MyC('home_is_enable_userregister_agreement', 0, true),
             'home_site_user_register_bg_images'     => ResourcesService::AttachmentPathViewHandle(MyC('home_site_user_register_bg_images')),
 
-            // 用户帐号绑定
-            'common_user_is_onekey_bind_mobile'     => (int) MyC('common_user_is_onekey_bind_mobile', 0),
-            'common_user_is_mandatory_bind_mobile'  => (int) MyC('common_user_is_mandatory_bind_mobile', 0),
+            // 用户相关
+            'common_user_is_mandatory_bind_mobile'      => (int) MyC('common_user_is_mandatory_bind_mobile', 0),
+            'common_user_onekey_bind_mobile_list'       => MyC('common_user_onekey_bind_mobile_list', [], true),
+            'common_user_address_platform_import_list'  => MyC('common_user_address_platform_import_list', [], true),
 
             // 站点信息
             'home_site_name'                    => MyC('home_site_name', null, true),

@@ -372,20 +372,8 @@ class Site extends Common
 				break;
 		}
 
-		// 开始处理空值
-		if(!empty($field_list))
-		{
-			foreach($field_list as $field)
-			{
-				if(!isset($params[$field]))
-				{
-					$params[$field] = '';
-				}
-			}
-		}
-
 		// 基础配置
-		$ret = ConfigService::ConfigSave($params);
+		$ret = ConfigService::ConfigSave(ConfigService::FieldsEmptyDataHandle($params, $field_list));
 
 		// 清除缓存
 		if($ret['code'] == 0)

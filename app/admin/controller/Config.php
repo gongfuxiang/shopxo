@@ -92,28 +92,19 @@ class Config extends Common
 		$params = $_POST;
 
 		// 字段不存在赋值
-		$empty_value_field_list = [];
+		$field_list = [];
 
 		// 页面类型
 		$view_type = empty($this->data_request['view_type']) ? 'index' : $this->data_request['view_type'];
 		switch($view_type)
 		{
 			case 'store' :
-				$empty_value_field_list['common_customer_store_qrcode'] = '';
+				$field_list[] = 'common_customer_store_qrcode';
 				break;
 		}
 
 		// 空字段处理
-		if(!empty($empty_value_field_list))
-		{
-			foreach($empty_value_field_list as $fk=>$fv)
-			{
-				if(!isset($params[$fk]))
-				{
-					$params[$fk] = $fv;
-				}
-			}
-		}
+		$params = ConfigService::FieldsEmptyDataHandle($params, $field_list);
 
 		// 默认值字段处理
 		$default_value_field_list = [

@@ -48,7 +48,7 @@ class Pluginsadmin extends Common
     }
 
     /**
-     * [Index 配置列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1

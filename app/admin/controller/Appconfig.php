@@ -52,8 +52,9 @@ class AppConfig extends Common
 		// 配置信息
 		MyViewAssign('data', ConfigService::ConfigList());
 
-		// 是否
+		// 静态数据
 		MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
+		MyViewAssign('common_platform_type', MyConst('common_platform_type'));
 		
 		// 导航/视图
         $nav_type = input('nav_type', 'base');
@@ -70,7 +71,12 @@ class AppConfig extends Common
 	 */
 	public function Save()
 	{
-		return ConfigService::ConfigSave($_POST);
+		// 空字段处理
+		$field_list = [
+			'common_user_onekey_bind_mobile_list',
+			'common_user_address_platform_import_list',
+		];
+		return ConfigService::ConfigSave(ConfigService::FieldsEmptyDataHandle($_POST, $field_list));
 	}
 }
 ?>

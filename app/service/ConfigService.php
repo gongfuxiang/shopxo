@@ -70,6 +70,8 @@ class ConfigService
         'home_user_reg_type',
         'admin_login_type',
         'home_search_params_type',
+        'common_user_onekey_bind_mobile_list',
+        'common_user_address_platform_import_list',
     ];
 
     // 需要文件缓存的key
@@ -493,6 +495,32 @@ class ConfigService
             'tips'      => str_replace("\n", '<br />', $tips),
         ];
         return DataReturn('操作成功', 0, $result);
+    }
+
+    /**
+     * 字段空值数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-10
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     * @param   [array]          $fields [字段列表]
+     * @return  [array]                  [处理的数据]
+     */
+    public static function FieldsEmptyDataHandle($params, $fields)
+    {
+        if(!empty($fields))
+        {
+            foreach($fields as $fv)
+            {
+                if(!isset($params[$fv]))
+                {
+                    $params[$fv] = '';
+                }
+            }
+        }
+        return $params;
     }
 }
 ?>
