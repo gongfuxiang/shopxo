@@ -591,5 +591,88 @@ class AppMiniUserService
         }
         return $ret;
     }
+
+    /**
+     * 小程序用户手机一键绑定
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-14
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AppMiniOnekeyUserMobileBind($params = [])
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'openid',
+                'error_msg'         => 'openid为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'encrypted_data',
+                'error_msg'         => '解密数据为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'iv',
+                'error_msg'         => 'iv为空,请重试',
+            ]
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret === true)
+        {
+            // 根据不同平台处理数据解密逻辑
+            $mobile = '';
+            $error_msg = '';
+            switch(APPLICATION_CLIENT_TYPE)
+            {
+                // 微信
+                case 'weixin' :
+                    $result = (new \base\Wechat(self::AppMiniConfig('common_app_mini_weixin_appid'), self::AppMiniConfig('common_app_mini_weixin_appsecret')))->DecryptData($params['encrypted_data'], $params['iv'], $params['openid']);
+                    if($result['status'] == 0 && !empty($result['data']) && !empty($result['data']['purePhoneNumber']))
+                    {
+                        $mobile = $result['data']['purePhoneNumber'];
+                    } else {
+                        $error_msg = $result['msg'];
+                    }
+                    break;
+
+                // 百度
+                case 'baidu' :
+                    $config = [
+                        'appid'     => self::AppMiniConfig('common_app_mini_baidu_appid'),
+                        'key'       => self::AppMiniConfig('common_app_mini_baidu_appkey'),
+                        'secret'    => self::AppMiniConfig('common_app_mini_baidu_appsecret'),
+                    ];
+                    $result = (new \base\Baidu($config))->DecryptData($params['encrypted_data'], $params['iv'], $params['openid'], 'mobile_bind');
+                    if($result['status'] == 0 && !empty($result['data']) && !empty($result['data']['mobile']))
+                    {
+                        $mobile = $result['data']['mobile'];
+                    } else {
+                        $error_msg = $result['msg'];
+                    }
+                    break;
+
+                // 默认
+                default :
+                    $error_msg = APPLICATION_CLIENT_TYPE.'平台还未开发手机一键登录';
+            }
+            if(empty($mobile) || !empty($error_msg))
+            {
+                $ret = DataReturn(empty($error_msg) ? '数据解密失败' : $error_msg, -1);
+            } else {
+                // 用户信息处理
+                $params['mobile'] = $mobile;
+                $params['is_onekey_mobile_bind'] = 1;
+                $ret = UserService::AuthUserProgram($params, APPLICATION_CLIENT_TYPE.'_openid');
+            }
+        } else {
+            $ret = DataReturn($ret, -1);
+        }
+        return ApiService::ApiDataReturn($ret);
+    }
 }
 ?>

@@ -786,76 +786,7 @@ class User extends Common
      */
     public function OnekeyUserMobileBind()
     {
-        // 参数校验
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'openid',
-                'error_msg'         => 'openid为空',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'encrypted_data',
-                'error_msg'         => '解密数据为空',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'iv',
-                'error_msg'         => 'iv为空,请重试',
-            ]
-        ];
-        $ret = ParamsChecked($this->data_post, $p);
-        if($ret === true)
-        {
-            // 根据不同平台处理数据解密逻辑
-            $mobile = '';
-            $error_msg = '';
-            switch(APPLICATION_CLIENT_TYPE)
-            {
-                // 微信
-                case 'weixin' :
-                    $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid']);
-                    if($result['status'] == 0 && !empty($result['data']) && !empty($result['data']['purePhoneNumber']))
-                    {
-                        $mobile = $result['data']['purePhoneNumber'];
-                    } else {
-                        $error_msg = $result['msg'];
-                    }
-                    break;
-
-                // 百度
-                case 'baidu' :
-                    $config = [
-                        'appid'     => MyC('common_app_mini_baidu_appid'),
-                        'key'       => MyC('common_app_mini_baidu_appkey'),
-                        'secret'    => MyC('common_app_mini_baidu_appsecret'),
-                    ];
-                    $result = (new \base\Baidu($config))->DecryptData($this->data_post['encrypted_data'], $this->data_post['iv'], $this->data_post['openid'], 'mobile_bind');
-                    if($result['status'] == 0 && !empty($result['data']) && !empty($result['data']['mobile']))
-                    {
-                        $mobile = $result['data']['mobile'];
-                    } else {
-                        $error_msg = $result['msg'];
-                    }
-                    break;
-
-                // 默认
-                default :
-                    $error_msg = APPLICATION_CLIENT_TYPE.'平台还未开发手机一键登录';
-            }
-            if(empty($mobile) || !empty($error_msg))
-            {
-                $ret = DataReturn(empty($error_msg) ? '数据解密失败' : $error_msg, -1);
-            } else {
-                // 用户信息处理
-                $this->data_post['mobile'] = $mobile;
-                $this->data_post['is_onekey_mobile_bind'] = 1;
-                $ret = UserService::AuthUserProgram($this->data_post, APPLICATION_CLIENT_TYPE.'_openid');
-            }
-        } else {
-            $ret = DataReturn($ret, -1);
-        }
-        return ApiService::ApiDataReturn($ret);
+        return ApiService::ApiDataReturn(AppMiniUserService::AppMiniOnekeyUserMobileBind($this->data_post));
     }
 }
 ?>
