@@ -426,13 +426,7 @@ class PluginsService
                 // 移除私有字段及数据
                 if(!empty($v['data']) && is_array($v['data']) && !empty($private_field) && is_array($private_field))
                 {
-                    foreach($private_field as $pv)
-                    {
-                        if(array_key_exists($pv, $v['data']))
-                        {
-                            unset($v['data'][$pv]);
-                        }
-                    }
+                    $v['data'] = self::ConfigPrivateFieldsHandle($v['data'], $private_field);
                 }
             }
 
@@ -445,6 +439,31 @@ class PluginsService
             $data = [];
         }
         return $data;
+    }
+
+    /**
+     * 插件配置隐私字段处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-13
+     * @desc    description
+     * @param   [array]          $config   [配置数据]
+     * @param   [array]          $fields   [字段列表]
+     */
+    public static function ConfigPrivateFieldsHandle($config, $fields)
+    {
+        if(!empty($config) && is_array($config) && !empty($fields) && is_array($fields))
+        {
+            foreach($fields as $pv)
+            {
+                if(array_key_exists($pv, $config))
+                {
+                    unset($config[$pv]);
+                }
+            }
+        }
+        return $config;
     }
 
     /**

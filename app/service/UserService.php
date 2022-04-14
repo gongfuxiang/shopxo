@@ -356,6 +356,7 @@ class UserService
 
         // 更新数据
         $data = [
+            'system_type'           => empty($params['system_type']) ? 'default' : $params['system_type'],
             'username'              => isset($params['username']) ? $params['username'] :  '',
             'nickname'              => isset($params['nickname']) ? $params['nickname'] :  '',
             'mobile'                => isset($params['mobile']) ? $params['mobile'] :  '',
@@ -402,7 +403,7 @@ class UserService
         if(!empty($params['id']))
         {
             // 获取用户信息
-            $user = Db::name('User')->field('id,integral')->find($params['id']);
+            $user = self::UserInfo('id', intval($params['id']), 'id,integral');
             if(empty($user))
             {
                 return DataReturn('用户信息不存在', -10);
@@ -532,7 +533,7 @@ class UserService
     {
         if(!empty($user_id))
         {
-            $user = Db::name('User')->find($user_id);
+            $user = self::UserInfo('id', $user_id);
             if(!empty($user))
             {
                 // 用户数据处理
@@ -855,8 +856,7 @@ class UserService
         }
 
         // 获取用户账户信息
-        $where = [$ac['data'] => $params['accounts'], 'is_delete_time'=>0];
-        $user = Db::name('User')->where($where)->find();
+        $user = self::UserInfo($ac['data'], $params['accounts']);
         if(empty($user))
         {
             return DataReturn('帐号不存在', -3);
@@ -958,7 +958,7 @@ class UserService
             $body_html = [];
 
             // 用户登录后钩子
-            $user = Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find();
+            $user = self::UserInfo('id', $user_id, 'id,system_type,username,nickname,mobile,email,gender,avatar,province,city,birthday');
             $hook_name = 'plugins_service_user_login_end';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [
                 'hook_name'     => $hook_name,
@@ -1218,8 +1218,8 @@ class UserService
      */
     private static function IsExistAccounts($accounts, $field = 'mobile')
     {
-        $id = Db::name('User')->where(array($field=>$accounts))->value('id');
-        return !empty($id);
+        $temp = self::UserInfo($field, $accounts, 'id');
+        return !empty($temp);
     }
 
     /**
@@ -1707,7 +1707,7 @@ class UserService
         }
 
         // 获取用户信息
-        $user = Db::name('User')->where([$ret['data']=>$params['accounts']])->find();
+        $user = self::UserInfo($ret['data'], $params['accounts']);
         if(empty($user))
         {
             return DataReturn('用户信息不存在', -12);
@@ -1776,7 +1776,7 @@ class UserService
             'gender'        => intval($params['gender']),
             'upd_time'      => time(),
         ];
-        if(Db::name('User')->where(array('id'=>$params['user']['id']))->update($data))
+        if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
         {
             // 更新用户session数据
             self::UserLoginRecord($params['user']['id']);
@@ -2149,7 +2149,12 @@ class UserService
             return '';
         }
         
-        return Db::name('User')->where([$where_field=>$where_value, 'is_delete_time'=>0])->field($field)->find();
+        $where = [
+            ['system_type', '=', SYSTEM_TYPE],
+            [$where_field, '=', $where_value],
+            ['is_delete_time', '=', 0],
+        ];
+        return Db::name('User')->where($where)->field($field)->find();
     }
 
     /**
@@ -2167,13 +2172,13 @@ class UserService
         // 账号是否存在，以用户名 手机 邮箱 作为唯一
         if(!empty($data['username']))
         {
-            $temp = Db::name('User')->where(['username'=>$data['username'], 'is_delete_time'=>0])->find();
+            $temp = self::UserInfo('username', $data['username']);
         } else if(!empty($data['mobile']))
         {
-            $temp = Db::name('User')->where(['mobile'=>$data['mobile'], 'is_delete_time'=>0])->find();
+            $temp = self::UserInfo('mobile', $data['mobile']);
         } else if(!empty($data['email']))
         {
-            $temp = Db::name('User')->where(['email'=>$data['email'], 'is_delete_time'=>0])->find();
+            $temp = self::UserInfo('email', $data['email']);
         }
         if(!empty($temp))
         {
@@ -2217,7 +2222,7 @@ class UserService
             $body_html = [];
 
             // 注册成功后钩子
-            $user = Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find();
+            $user = self::UserInfo('id', $user_id, 'id,username,nickname,mobile,email,gender,avatar,province,city,birthday');
             $hook_name = 'plugins_service_user_register_end';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [
                 'hook_name'     => $hook_name,
@@ -2255,6 +2260,10 @@ class UserService
      */
     public static function UserBaseHandle($data, $params)
     {
+        // 系统类型
+        $data['system_type'] = SYSTEM_TYPE;
+
+        // 基础参数处理
         if(!empty($params) && is_array($params))
         {
             // 是否存在基信息
@@ -2380,10 +2389,7 @@ class UserService
         $is_appmini = array_key_exists(APPLICATION_CLIENT_TYPE, MyConst('common_appmini_type'));
 
         // 手机号码获取用户信息
-        $mobile_user = Db::name('User')->where([
-            ['mobile', '=', $data['mobile']],
-            ['is_delete_time', '=', 0],
-        ])->find();
+        $mobile_user = self::UserInfo('mobile', $data['mobile']);
 
         // 额外信息
         if(empty($mobile_user))
@@ -2424,10 +2430,7 @@ class UserService
             $data[$accounts_field] = $params[$accounts_field];
 
             // 小程序请求获取用户信息
-            $current_user = Db::name('User')->where([
-                [$accounts_field, '=', $params[$accounts_field]],
-                ['is_delete_time', '=', 0],
-            ])->find();
+            $current_user = self::UserInfo($accounts_field, $params[$accounts_field]);
         } else {
             // 当前登录用户
             $current_user = self::LoginUserInfo();

@@ -54,7 +54,7 @@ class OrderSplitService
         }
 
         // 商品仓库集合
-        $warehouse_goods = self::GoodsWarehouseAggregate($params['goods']);
+        $warehouse_goods = self::GoodsWarehouseAggregate($params);
 
         // 分组商品基础处理
         $data = self::GroupGoodsBaseHandle($warehouse_goods, $params);
@@ -233,16 +233,16 @@ class OrderSplitService
      * @version 1.0.0
      * @date    2020-07-18
      * @desc    description
-     * @param   [array]          $data [商品数据]
+     * @param   [array]          $params [输入参数]
      */
-    public static function GoodsWarehouseAggregate($data)
+    public static function GoodsWarehouseAggregate($params)
     {
         // 默认仓库
         $warehouse_default = [];
 
         // 数据分组
         $result = [];
-        foreach($data as $v)
+        foreach($params['goods'] as $v)
         {
             // 不存在规格则使用默认
             $spec = empty($v['spec']) ? [['type' => '默认规格','value' => 'default']] : $v['spec'];
@@ -258,6 +258,17 @@ class OrderSplitService
             ];
             $field = 'distinct w.id,w.name,w.alias,w.lng,w.lat,w.province,w.city,w.county,w.address,wgs.inventory,w.is_default,w.level';
             $warehouse = Db::name('WarehouseGoodsSpec')->alias('wgs')->join('warehouse_goods wg', 'wgs.warehouse_id=wg.warehouse_id')->join('warehouse w', 'wg.warehouse_id=w.id')->where($where)->field($field)->order('w.level desc,w.is_default desc,wgs.inventory desc')->select()->toArray();
+
+            // 商品仓库分配仓库组合钩子
+            $hook_name = 'plugins_service_buy_group_goods_warehouse_handle';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => $params,
+                'spec'          => $spec,
+                'where'         => $where,
+                'data'          => &$warehouse,
+            ]);
 
             // 商品仓库分组
             if(!empty($warehouse))
@@ -304,6 +315,17 @@ class OrderSplitService
                 {
                     $warehouse_default = Db::name('Warehouse')->where(['is_default'=>1, 'is_enable'=>1, 'is_delete_time'=>0])->field('id,name,alias,lng,lat,province,city,county,address')->find();
                 }
+
+                // 商品仓库分配默认仓库组合钩子
+                $hook_name = 'plugins_service_buy_group_goods_default_warehouse_handle';
+                MyEventTrigger($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => $params,
+                    'data'          => &$warehouse_default,
+                ]);
+
+                // 存在默认仓库则继续分配
                 if(!empty($warehouse_default))
                 {
                     if(!array_key_exists($warehouse_default['id'], $result))

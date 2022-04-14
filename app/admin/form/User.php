@@ -69,6 +69,18 @@ class User
                     ],
                 ],
                 [
+                    'label'         => '系统类型',
+                    'view_type'     => 'field',
+                    'view_key'      => 'system_type',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'select',
+                        'where_type'        => 'in',
+                        'data'              => $this->UserSystemTypeList(),
+                        'is_multiple'       => 1,
+                    ],
+                ],
+                [
                     'label'         => '头像',
                     'view_type'     => 'module',
                     'view_key'      => 'user/module/avatar',
@@ -268,6 +280,19 @@ class User
             return empty($ids) ? [0] : $ids;
         }
         return $value;
+    }
+
+    /**
+     * 用户系统类型列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-14
+     * @desc    description
+     */
+    public function UserSystemTypeList()
+    {
+        return Db::name('User')->group('system_type')->column('system_type', 'system_type');
     }
 }
 ?>

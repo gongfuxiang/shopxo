@@ -10,6 +10,10 @@
 				<a href="{{:MyUrl('admin/user/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
+				<label>系统类型</label>
+				<input type="text" name="system_type" class="am-radius" placeholder="系统类型" data-validation-message="系统类型 2~60 个字符" value="{{if empty($data['system_type'])}}default{{else /}}{{$data.system_type}}{{/if}}" />
+			</div>
+			<div class="am-form-group">
 				<label>用户名</label>
 				<input type="text" name="username" class="am-radius" placeholder="用户名" data-validation-message="用户名 2~30 个字符" {{if !empty($data)}} value="{{$data.username}}"{{/if}} />
 			</div>

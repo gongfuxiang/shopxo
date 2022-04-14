@@ -22,6 +22,33 @@ use app\service\UserService;
 class AppMiniUserService
 {
     /**
+     * 读取站点配置信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-09-13
+     * @desc    description
+     * @param   [string]    $key           [索引名称]
+     * @return  [mixed]                    [配置信息值,没找到返回null]
+     */
+    public static function AppMiniConfig($key)
+    {
+        // 获取配置
+        $value = MyC($key);
+
+        // 小程序配置信息读取钩子
+        $hook_name = 'plugins_service_appmini_config_value';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'key'           => $key,
+            'value'         => &$value,
+        ]);
+
+        return $value;
+    }
+
+    /**
      * 支付宝用户授权
      * @author  Devil
      * @blog    http://gong.gg/
@@ -36,7 +63,7 @@ class AppMiniUserService
         if(!empty($params['authcode']))
         {
             // 授权
-            $result = (new \base\Alipay())->GetAuthSessionKey(MyC('common_app_mini_alipay_appid'), $params['authcode']);
+            $result = (new \base\Alipay())->GetAuthSessionKey(self::AppMiniConfig('common_app_mini_alipay_appid'), $params['authcode']);
             if($result['status'] == 0)
             {
                 // 先从数据库获取用户信息
@@ -130,7 +157,7 @@ class AppMiniUserService
     public static function WeixinUserAuth($params = [])
     {
         // 授权
-        $result = (new \base\Wechat(MyC('common_app_mini_weixin_appid'), MyC('common_app_mini_weixin_appsecret')))->GetAuthSessionKey($params);
+        $result = (new \base\Wechat(self::AppMiniConfig('common_app_mini_weixin_appid'), self::AppMiniConfig('common_app_mini_weixin_appsecret')))->GetAuthSessionKey($params);
         if($result['status'] == 0)
         {
             // unionid
@@ -243,9 +270,9 @@ class AppMiniUserService
     public static function BaiduUserAuth($params = [])
     {
         $config = [
-            'appid'     => MyC('common_app_mini_baidu_appid'),
-            'key'       => MyC('common_app_mini_baidu_appkey'),
-            'secret'    => MyC('common_app_mini_baidu_appsecret'),
+            'appid'     => self::AppMiniConfig('common_app_mini_baidu_appid'),
+            'key'       => self::AppMiniConfig('common_app_mini_baidu_appkey'),
+            'secret'    => self::AppMiniConfig('common_app_mini_baidu_appsecret'),
         ];
         $result = (new \base\Baidu($config))->GetAuthSessionKey($params);
         if($result['status'] == 0)
@@ -320,9 +347,9 @@ class AppMiniUserService
                 if($ret === true)
                 {
                     $config = [
-                        'appid'     => MyC('common_app_mini_baidu_appid'),
-                        'key'       => MyC('common_app_mini_baidu_appkey'),
-                        'secret'    => MyC('common_app_mini_baidu_appsecret'),
+                        'appid'     => self::AppMiniConfig('common_app_mini_baidu_appid'),
+                        'key'       => self::AppMiniConfig('common_app_mini_baidu_appkey'),
+                        'secret'    => self::AppMiniConfig('common_app_mini_baidu_appsecret'),
                     ];
                     $result = (new \base\Baidu($config))->DecryptData($auth_data['encrypted_data'], $auth_data['iv'], $params['openid']);
 
@@ -366,8 +393,8 @@ class AppMiniUserService
     public static function ToutiaoUserAuth($params = [])
     {
         $config = [
-            'appid'     => MyC('common_app_mini_toutiao_appid'),
-            'secret'    => MyC('common_app_mini_toutiao_appsecret'),
+            'appid'     => self::AppMiniConfig('common_app_mini_toutiao_appid'),
+            'secret'    => self::AppMiniConfig('common_app_mini_toutiao_appsecret'),
         ];
         $result = (new \base\Toutiao($config))->GetAuthSessionKey($params);
         if($result['status'] == 0)
@@ -460,7 +487,7 @@ class AppMiniUserService
         if(!empty($params['authcode']))
         {
             // 授权
-            $result = (new \base\QQ(MyC('common_app_mini_qq_appid'), MyC('common_app_mini_qq_appsecret')))->GetAuthSessionKey($params['authcode']);
+            $result = (new \base\QQ(self::AppMiniConfig('common_app_mini_qq_appid'), self::AppMiniConfig('common_app_mini_qq_appsecret')))->GetAuthSessionKey($params['authcode']);
             if($result['status'] == 0)
             {
                 // 先从数据库获取用户信息
@@ -535,7 +562,7 @@ class AppMiniUserService
                 $ret = ParamsChecked($auth_data, $p);
                 if($ret === true)
                 {
-                    $result = (new \base\QQ(MyC('common_app_mini_qq_appid'), MyC('common_app_mini_qq_appsecret')))->DecryptData($auth_data['encrypted_data'], $auth_data['iv'], $params['openid']);
+                    $result = (new \base\QQ(self::AppMiniConfig('common_app_mini_qq_appid'), self::AppMiniConfig('common_app_mini_qq_appsecret')))->DecryptData($auth_data['encrypted_data'], $auth_data['iv'], $params['openid']);
                     if(is_array($result))
                     {
                         $result['nickname'] = isset($result['nickName']) ? $result['nickName'] : '';

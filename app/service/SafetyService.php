@@ -65,7 +65,7 @@ class SafetyService
         }
 
         // 获取用户账户信息
-        $user = Db::name('User')->field('id,pwd,salt,username,mobile,email')->find($params['user']['id']);
+        $user = UserService::UserInfo('id', intval($params['user']['id']), 'id,pwd,salt,username,mobile,email');
 
         // 原密码校验
         if(LoginPwdEncryption($params['my_pwd'], $user['salt']) != $user['pwd'])
@@ -103,11 +103,11 @@ class SafetyService
     public static function UserLoginPwdUpdate($accounts, $user_id, $pwd)
     {
         $salt = GetNumberCode(6);
-        $data = array(
-                'pwd'       =>  LoginPwdEncryption(trim($pwd), $salt),
-                'salt'      =>  $salt,
-                'upd_time'  =>  time(),
-            );
+        $data = [
+            'pwd'       =>  LoginPwdEncryption(trim($pwd), $salt),
+            'salt'      =>  $salt,
+            'upd_time'  =>  time(),
+        ];
         if(Db::name('User')->where(['id'=>$user_id])->update($data) !== false)
         {
             // 用户登录密码修改钩子
@@ -117,7 +117,7 @@ class SafetyService
                 'is_backend'    => true,
                 'params'        => ['accounts'=>$accounts, 'pwd'=>$pwd],
                 'user_id'       => $user_id,
-                'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user_id])->find(),
+                'user'          => UserService::UserInfo('id', $user_id, 'id,username,nickname,mobile,email,gender,avatar,province,city,birthday'),
             ]));
             if(isset($ret['code']) && $ret['code'] != 0)
             {
@@ -141,7 +141,7 @@ class SafetyService
     private static function IsExistAccounts($accounts, $type)
     {
         $field = ($type == 'sms') ? 'mobile' : 'email';
-        $user = Db::name('User')->where([$field=>$accounts])->field('id')->find();
+        $user = UserService::UserInfo($field, $accounts, 'id');
         if(!empty($user))
         {
             $msg = ($type == 'sms') ? '手机号码已存在' : '电子邮箱已存在';
@@ -393,7 +393,7 @@ class SafetyService
         {
             return $ret;
         } else {
-            $user = Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$params['user']['id']])->find();
+            $user = UserService::UserInfo('id', intval($params['user']['id']), 'id,username,nickname,mobile,email,gender,avatar,province,city,birthday');
         }
 
         // 验证码校验
@@ -426,7 +426,7 @@ class SafetyService
                 'upd_time'  =>  time(),
             );
         // 更新数据库
-        if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data) !== false)
+        if(Db::name('User')->where(['id'=>intval($params['user']['id'])])->update($data) !== false)
         {
             // 更新用户session数据
             UserService::UserLoginRecord($params['user']['id']);
@@ -444,7 +444,7 @@ class SafetyService
                 'is_backend'    => true,
                 'params'        => ['accounts'=>$user[$field], 'new_accounts'=>$params['accounts'], 'field'=>$field],
                 'user_id'       => $user['id'],
-                'user'          => Db::name('User')->field('id,username,nickname,mobile,email,gender,avatar,province,city,birthday')->where(['id'=>$user['id']])->find(),
+                'user'          => UserService::UserInfo('id', $user['id'], 'id,username,nickname,mobile,email,gender,avatar,province,city,birthday'),
             ]));
             if(isset($ret['code']) && $ret['code'] != 0)
             {

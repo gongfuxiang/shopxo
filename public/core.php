@@ -82,6 +82,9 @@ define('ROOT', substr(ROOT_PATH, 0, -7));
 // 定义应用目录
 define('APP_PATH', ROOT.'app'.DS);
 
+// 系统类型 [default] 默认default、可根据终端区分系统类型
+define('SYSTEM_TYPE', empty($_REQUEST['system_type']) ? 'default' : trim($_REQUEST['system_type']));
+
 // 请求应用 [web, app] 默认web(ios|android|小程序 均为app)
 define('APPLICATION', empty($_REQUEST['application']) ? 'web' : trim($_REQUEST['application']));
 
