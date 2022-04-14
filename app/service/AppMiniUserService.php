@@ -672,7 +672,7 @@ class AppMiniUserService
         } else {
             $ret = DataReturn($ret, -1);
         }
-        return ApiService::ApiDataReturn($ret);
+        return $ret;
     }
 }
 ?>
