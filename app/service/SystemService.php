@@ -115,5 +115,29 @@ class SystemService
             MyRedirect(__MY_URL__.'install.php?s=index/index', true);
         }
     }
+
+    /**
+     * 系统类型值
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-15
+     * @desc    description
+     */
+    public static function SystemTypeValue()
+    {
+        // 取默认值
+        $value = SYSTEM_TYPE;
+
+        // 系统类型钩子
+        $hook_name = 'plugins_service_system_system_type_value';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'value'         => &$value,
+        ]);
+
+        return $value;
+    }
 }
 ?>

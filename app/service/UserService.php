@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\RegionService;
 use app\service\SafetyService;
 use app\service\ResourcesService;
@@ -2150,7 +2151,7 @@ class UserService
         }
         
         $where = [
-            ['system_type', '=', SYSTEM_TYPE],
+            ['system_type', '=', SystemService::SystemTypeValue()],
             [$where_field, '=', $where_value],
             ['is_delete_time', '=', 0],
         ];
@@ -2261,7 +2262,7 @@ class UserService
     public static function UserBaseHandle($data, $params)
     {
         // 系统类型
-        $data['system_type'] = SYSTEM_TYPE;
+        $data['system_type'] = SystemService::SystemTypeValue();
 
         // 基础参数处理
         if(!empty($params) && is_array($params))

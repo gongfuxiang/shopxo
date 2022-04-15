@@ -195,19 +195,8 @@ class OrderService
         }
 
         // 回调地址
-        $url = __MY_URL__.'payment_order_'.strtolower($payment['payment']);
-
-        // url模式, pathinfo模式下采用自带url生成url, 避免非index.php多余
-        if(MyC('home_seo_url_model', 0) == 0)
-        {
-            $call_back_url = $url.'_respond.php';
-        } else {
-            $call_back_url = MyUrl('index/order/respond', ['paymentname'=>$payment['payment']]);
-            if(stripos($call_back_url, '?') !== false)
-            {
-                $call_back_url = $url.'_respond.php';
-            }
-        }
+        $respond_url = $pay_checked['data']['respond'];
+        $notify_url = $pay_checked['data']['notify'];
 
         // 是否指定同步回调地址
         if(!empty($params['redirect_url']))
@@ -216,7 +205,7 @@ class OrderService
             if(!empty($redirect_url))
             {
                 // 赋值同步返回地址
-                $call_back_url = $redirect_url;
+                $respond_url = $redirect_url;
             }
         }
         if(empty($redirect_url))
@@ -273,8 +262,8 @@ class OrderService
             'name'          => '订单支付',
             'total_price'   => $total_price,
             'client_type'   => $client_type,
-            'notify_url'    => $url.'_notify.php',
-            'call_back_url' => $call_back_url,
+            'notify_url'    => $notify_url,
+            'call_back_url' => $respond_url,
             'redirect_url'  => $redirect_url,
             'site_name'     => MyC('home_site_name', 'ShopXO', true),
             'check_url'     => MyUrl('index/order/paycheck'),

@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\ResourcesService;
 use app\service\StoreService;
 
@@ -127,6 +128,15 @@ class PaymentService
                 closedir($dh);
             }
         }
+
+        // 支付方式列表钩子
+        $hook_name = 'plugins_service_payment_list';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+        ]);
+
         return DataReturn('success', 0, $data);
     }
 
@@ -803,6 +813,9 @@ class PaymentService
         // 处理业务
         $business_all = empty($params['business']) ? self::$payment_business_type_all : $params['business'];
 
+        // 系统类型
+        $system_type = SystemService::SystemTypeValue();
+
         // 批量创建
         foreach($business_all as $v)
         {
@@ -820,6 +833,9 @@ namespace think;
 
 // 默认绑定模块
 \$_GET['s'] = '{$params["notify"]}';
+
+// 指定系统类型
+define('SYSTEM_TYPE', '{$system_type}');
 
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
@@ -852,6 +868,9 @@ namespace think;
 
 // 默认绑定模块
 \$_GET['s'] = '{$params["respond"]}';
+
+// 指定系统类型
+define('SYSTEM_TYPE', '{$system_type}');
 
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
@@ -887,6 +906,9 @@ namespace think;
 // 默认绑定模块
 \$_GET['s'] = '{$params["notify"]}';
 
+// 指定系统类型
+define('SYSTEM_TYPE', '{$system_type}');
+
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
 
@@ -916,6 +938,9 @@ namespace think;
 // 默认绑定模块
 \$_GET['s'] = '{$params["respond"]}';
 
+// 指定系统类型
+define('SYSTEM_TYPE', '{$system_type}');
+
 // 支付模块标记
 define('PAYMENT_TYPE', '{$params["payment"]}');
 
@@ -933,13 +958,17 @@ require __DIR__ . '/../vendor/autoload.php';
 ?>
 php;
             }
+ 
+            // 文件名称
+            $file = self::EntranceFileData($params['payment'], $business_name);
 
-            @file_put_contents(self::$dir_root_path.'payment_'.$business_name.'_'.strtolower($params['payment']).'_respond.php', $respond);
+            // 同步文件
+            @file_put_contents(self::$dir_root_path.$file['respond'], $respond);
 
             // 线下支付不生成异步入口文件
             if(!in_array($params['payment'], $not_notify))
             {
-                @file_put_contents(self::$dir_root_path.'payment_'.$business_name.'_'.strtolower($params['payment']).'_notify.php', $notify);
+                @file_put_contents(self::$dir_root_path.$file['notify'], $notify);
             }
         }
 
@@ -974,18 +1003,16 @@ php;
 
         // 处理业务
         $business_all = empty($params['business']) ? self::$payment_business_type_all : $params['business'];
-
-        $payment = strtolower($params['payment']);
         foreach($business_all as $v)
         {
-            $business_name = strtolower($v['name']);
-            if(file_exists(self::$dir_root_path.'payment_'.$business_name.'_'.$payment.'_notify.php'))
+            $file = self::EntranceFileData($params['payment'], $v['name']);
+            if(file_exists(self::$dir_root_path.$file['notify']))
             {
-                @unlink(self::$dir_root_path.'payment_'.$business_name.'_'.$payment.'_notify.php');
+                @unlink(self::$dir_root_path.$file['notify']);
             }
-            if(file_exists(self::$dir_root_path.'payment_'.$business_name.'_'.$payment.'_respond.php'))
+            if(file_exists(self::$dir_root_path.$file['respond']))
             {
-                @unlink(self::$dir_root_path.'payment_'.$business_name.'_'.$payment.'_respond.php');
+                @unlink(self::$dir_root_path.$file['respond']);
             }
         }
 
@@ -993,7 +1020,30 @@ php;
     }
 
     /**
-     * 入库文件检查
+     * 入口文件信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-26
+     * @desc    description
+     * @param   [string]          $payment [支付标记]
+     * @param   [string]          $name    [支付业务方式名称]
+     */
+    public static function EntranceFileData($payment, $name)
+    {
+        // 系统类型
+        $system_type = SystemService::SystemTypeValue();
+
+        // 地址路径名称
+        $dir = 'payment_'.$system_type.'_'.strtolower($name).'_'.strtolower($payment);
+        return [
+            'respond'  => $dir.'_respond.php',
+            'notify'  => $dir.'_notify.php',
+        ];
+    }
+
+    /**
+     * 入口文件检查
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -1004,21 +1054,30 @@ php;
      */
     public static function EntranceFileChecked($payment, $name)
     {
+        // 文件名称
+        $file = self::EntranceFileData($payment, $name);
+
+        // 统一返回数据
+        $result = [
+            'respond'   => __MY_URL__.$file['respond'],
+            'notify'    => __MY_URL__.$file['notify'],
+        ];
+
         // 同步返回文件
-        if(!file_exists(self::$dir_root_path.'payment_'.strtolower($name).'_'.strtolower($payment).'_respond.php'))
+        if(!file_exists(self::$dir_root_path.$file['respond']))
         {
-            return DataReturn('支付返回入口文件不存在，请联系管理员处理', -10);
+            return DataReturn('支付返回入口文件不存在，请联系管理员处理', -10, $result);
         }
 
         // 线下支付不生成异步入口文件
         if(!in_array($payment, MyConfig('shopxo.under_line_list')))
         {
-            if(!file_exists(self::$dir_root_path.'payment_'.strtolower($name).'_'.strtolower($payment).'_notify.php'))
+            if(!file_exists(self::$dir_root_path.$file['notify']))
             {
-                return DataReturn('支付通知入口文件不存在，请联系管理员处理', -10);
+                return DataReturn('支付通知入口文件不存在，请联系管理员处理', -11, $result);
             }
         }
-        return DataReturn('校验成功', 0);
+        return DataReturn('校验成功', $result);
     }
 
     /**
