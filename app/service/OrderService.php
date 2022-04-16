@@ -156,11 +156,7 @@ class OrderService
         $payment_id = empty($params['payment_id']) ? Db::name('Order')->where(['id'=>$ids[0]])->value('payment_id') : intval($params['payment_id']);
         if(!empty($payment_id))
         {
-            $res = PaymentService::PaymentList(['where'=>['id'=>$payment_id]]);
-            if(!empty($res[0]))
-            {
-                $payment = $res[0];
-            }
+            $payment = PaymentService::PaymentData(['where'=>['id'=>$payment_id]]);
         }
         if(empty($payment))
         {
@@ -437,14 +433,12 @@ class OrderService
         }
 
         // 支付方式
-        $payment = [];
         $payment_id = empty($params['payment_id']) ? $order['payment_id'] : intval($params['payment_id']);
-        $res = PaymentService::PaymentList(['where'=>['id'=>$payment_id]]);
-        if(empty($res[0]))
+        $payment = PaymentService::PaymentData(['where'=>['id'=>$payment_id]]);
+        if(empty($payment))
         {
             return DataReturn('支付方式有误', -1);
         }
-        $payment = $res[0];
 
         // 订单用户信息
         $user = UserService::GetUserViewInfo($order['user_id']);
@@ -575,13 +569,11 @@ class OrderService
         {
             return DataReturn('支付方式标记异常', -1);
         }
-        $payment = [];
-        $res = PaymentService::PaymentList(['where'=>['payment'=>$payment_name]]);
-        if(empty($res[0]))
+        $payment = PaymentService::PaymentData(['where'=>['payment'=>$payment_name]]);
+        if(empty($payment))
         {
             return DataReturn('支付方式有误', -1);
         }
-        $payment = $res[0];
 
         // 支付数据校验
         $pay_name = 'payment\\'.$payment_name;
@@ -692,13 +684,11 @@ class OrderService
     public static function Notify($params = [])
     {
         // 支付方式
-        $payment = [];
-        $res = PaymentService::PaymentList(['where'=>['payment'=>PAYMENT_TYPE]]);
-        if(empty($res[0]))
+        $payment = PaymentService::PaymentData(['where'=>['payment'=>PAYMENT_TYPE]]);
+        if(empty($payment))
         {
             return DataReturn('支付方式有误', -1);
         }
-        $payment = $res[0];
 
         // 支付数据校验
         $pay_name = 'payment\\'.PAYMENT_TYPE;

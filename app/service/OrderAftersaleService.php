@@ -1083,8 +1083,8 @@ class OrderAftersaleService
     private static function OriginalRoadRefundment($params, $aftersale, $order, $pay_log)
     {
         // 支付方式
-        $payment = PaymentService::PaymentList(['where'=>['payment'=>$pay_log['payment']]]);
-        if(empty($payment[0]))
+        $payment = PaymentService::PaymentData(['where'=>['payment'=>$pay_log['payment']]]);
+        if(empty($payment))
         {
             return DataReturn('支付方式有误', -1);
         }
@@ -1107,7 +1107,7 @@ class OrderAftersaleService
             'refund_reason'     => $order['order_no'].'订单退款'.$aftersale['price'].'元',
             'pay_time'          => $pay_log['pay_time'],
         ];
-        $ret = (new $pay_name($payment[0]['config']))->Refund($pay_params);
+        $ret = (new $pay_name($payment['config']))->Refund($pay_params);
         if(!isset($ret['code']))
         {
             return DataReturn('支付插件退款处理有误', -1);

@@ -1104,13 +1104,13 @@ class BuyService
         $is_under_line = 0;
         if(!empty($params['payment_id']))
         {
-            $payment = PaymentService::PaymentList(['where'=>['id'=>intval($params['payment_id'])]]);
-            if(empty($payment[0]))
+            $payment = PaymentService::PaymentData(['where'=>['id'=>intval($params['payment_id'])]]);
+            if(empty($payment))
             {
                 return DataReturn('支付方式有误', -1);
             }
-            $payment_id = $payment[0]['id'];
-            $is_under_line = in_array($payment[0]['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0;
+            $payment_id = $payment['id'];
+            $is_under_line = in_array($payment['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0;
 
             // 线下支付订单是否直接成功
             // 是否开启线下订单正常进入流程

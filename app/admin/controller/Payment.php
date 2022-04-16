@@ -52,7 +52,7 @@ class Payment extends Common
 	public function Index()
 	{
         // 插件列表
-        $ret = PaymentService::PlugPaymentList();
+        $ret = PaymentService::PluginsPaymentList();
         MyViewAssign('data_list', $ret['data']);
 
         // 不能删除的支付方式

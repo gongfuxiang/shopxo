@@ -68,7 +68,7 @@ class PaymentService
      * @date    2018-09-17
      * @desc    description
      */
-    public static function PlugPaymentList()
+    public static function PluginsPaymentList()
     {
         // 初始化
         self::Init();
@@ -129,8 +129,8 @@ class PaymentService
             }
         }
 
-        // 支付方式列表钩子
-        $hook_name = 'plugins_service_payment_list';
+        // 所有支付方式列表钩子
+        $hook_name = 'plugins_service_payment_all_list';
         MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
@@ -212,7 +212,46 @@ class PaymentService
             $where['is_open_user'] = intval($params['is_open_user']);
         }
 
-        $data = Db::name('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal_old,element,is_enable,is_open_user')->order('sort asc')->select()->toArray();
+        return self::DataListHandle(Db::name('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal_old,element,is_enable,is_open_user')->order('sort asc')->select()->toArray());
+    }
+
+    /**
+     * 获取支付方式数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-16
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function PaymentData($params = [])
+    {
+        // 获取支付数据
+        $res = self::PaymentList($params);
+        $data = empty($res) || empty($res[0]) ? [] : $res[0];
+
+        // 支付方式数据钩子
+        $hook_name = 'plugins_service_payment_data';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+        ]);
+
+        return $data;
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-16
+     * @desc    description
+     * @param   [array]          $data [支付方式列表]
+     */
+    public static function DataListHandle($data)
+    {
         if(!empty($data) && is_array($data))
         {
             foreach($data as &$v)
@@ -1077,7 +1116,7 @@ php;
                 return DataReturn('支付通知入口文件不存在，请联系管理员处理', -11, $result);
             }
         }
-        return DataReturn('校验成功', $result);
+        return DataReturn('校验成功', 0, $result);
     }
 
     /**
