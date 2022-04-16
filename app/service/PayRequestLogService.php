@@ -42,7 +42,11 @@ class PayRequestLogService
         $behavior_obj = new \base\Behavior();
 
         // 输入参数
-        $params = MyInput();
+        $params = input();
+        if(empty($params))
+        {
+            $params = file_get_contents("php://input");
+        }
 
         // 日志主数据
         $data = [
