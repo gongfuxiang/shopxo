@@ -1083,7 +1083,15 @@ class OrderAftersaleService
     private static function OriginalRoadRefundment($params, $aftersale, $order, $pay_log)
     {
         // 支付方式
-        $payment = PaymentService::PaymentData(['where'=>['payment'=>$pay_log['payment']]]);
+        $payment = PaymentService::PaymentData([
+            'where'     => [
+                'payment'   => $pay_log['payment']
+            ],
+            'is_refund' => 1,
+            'log_id'    => $pay_log['id'],
+            'data_id'   => $order['id'],
+            'data_type' => 'order',
+        ]);
         if(empty($payment))
         {
             return DataReturn('支付方式有误', -1);
@@ -1107,6 +1115,25 @@ class OrderAftersaleService
             'refund_reason'     => $order['order_no'].'订单退款'.$aftersale['price'].'元',
             'pay_time'          => $pay_log['pay_time'],
         ];
+
+        // 订单发起售后原路退回前钩子
+        $hook_name = 'plugins_service_order_aftersale_original_road_refund_begin';
+        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'order'         => $order,
+            'aftersale'     => $aftersale,
+            'params'        => $params,
+            'pay_log'       => &$pay_log,
+            'payment'       => &$payment,
+            'pay_params'    => &$pay_params,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
+        // 操作退回
         $ret = (new $pay_name($payment['config']))->Refund($pay_params);
         if(!isset($ret['code']))
         {

@@ -42,7 +42,7 @@ class PayRequestLogService
         $behavior_obj = new \base\Behavior();
 
         // 输入参数
-        $params = input();
+        $params = array_merge($_GET, $_POST);
         if(empty($params))
         {
             $params = file_get_contents("php://input");
