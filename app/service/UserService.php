@@ -2262,7 +2262,10 @@ class UserService
     public static function UserBaseHandle($data, $params)
     {
         // 系统类型
-        $data['system_type'] = SystemService::SystemTypeValue();
+        if(empty($data['system_type']))
+        {
+            $data['system_type'] = SystemService::SystemTypeValue();
+        }
 
         // 基础参数处理
         if(!empty($params) && is_array($params))

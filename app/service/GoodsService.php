@@ -217,12 +217,11 @@ class GoodsService
         if($data === null || MyEnv('app_debug'))
         {
             // 商品大分类
-            $where = [
+            $data = self::GoodsCategoryList(['where'=>[
                 ['pid', '=', 0],
                 ['is_home_recommended', '=', 1],
                 ['is_enable', '=', 1],
-            ];
-            $data = self::GoodsCategoryList(['where'=>$where]);
+            ]]);
             if(!empty($data))
             {
                 // 楼层左侧商品分类从配置中读取
@@ -275,6 +274,15 @@ class GoodsService
                         break;
                 }
 
+                // 首页获取数据信息钩子
+                $hook_name = 'plugins_service_home_floor_data_begin';
+                MyEventTrigger($hook_name, [
+                    'hook_name'     => $hook_name,
+                    'is_backend'    => true,
+                    'params'        => $params,
+                    'data'          => &$data,
+                ]);
+
                 // 根据分类获取楼层商品
                 foreach($data as &$v)
                 {
@@ -288,12 +296,20 @@ class GoodsService
                                 // 获取分类ids
                                 $category_ids = self::GoodsCategoryItemsIds([$v['id']], 1);
 
-                                // 获取商品ids
-                                $where = [
-                                    'gci.category_id'   => $category_ids,
-                                    'g.is_shelves'      => 1,
+                                // 获取商品id
+                                $goods_params = [
+                                    'where'         => [
+                                        ['gci.category_id', 'in', $category_ids],
+                                        ['g.is_shelves', '=', 1],
+                                        ['g.is_delete_time', '=', 0],
+                                    ],
+                                    'order_by'      => $order_by,
+                                    'field'         => 'g.id',
+                                    'n'             => $goods_count,
+                                    'is_data_handle'=> 0,
                                 ];
-                                $v['goods_ids'] = Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->where($where)->group('g.id')->order($order_by)->limit($goods_count)->column('g.id');
+                                $res = self::CategoryGoodsList($goods_params);
+                                $v['goods_ids'] = empty($res) ? [] : array_column($res, 'id');
                             }
                             break;
 
@@ -344,11 +360,15 @@ class GoodsService
             $goods_list = [];
             if(!empty($goods_ids))
             {
-                $where = [
-                    ['id', 'in', array_unique($goods_ids)],
-                    ['is_shelves', '=', 1],
-                ];
-                $res = self::GoodsList(['where'=>$where, 'm'=>0, 'n'=>0, 'field'=>'*']);
+                $res = self::GoodsList([
+                    'where' => [
+                        ['id', 'in', array_unique($goods_ids)],
+                        ['is_shelves', '=', 1],
+                    ],
+                    'm'     => 0,
+                    'n'     => 0,
+                    'field' => '*'
+                ]);
                 $goods_list = empty($res['data']) ? [] : array_column($res['data'], null, 'id');
             }
 
@@ -533,7 +553,12 @@ class GoodsService
         $data = Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->field($field)->where($where)->group('g.id')->order($order_by)->limit($m, $n)->select()->toArray();
         
         // 数据处理
-        return self::GoodsDataHandle($data, $params);
+        if(!isset($params['is_data_handle']) || $params['is_data_handle'] == 1)
+        {
+            $data = self::GoodsDataHandle($data, $params);
+        }
+
+        return $data;
     }
 
     /**
@@ -1085,8 +1110,10 @@ class GoodsService
             'n'             => &$n,
         ]);
 
+        // 查询商品
         $data = Db::name('Goods')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
-        
+
+        // 数据处理
         return self::GoodsDataHandle($data, $params);
     }
 
@@ -2642,7 +2669,6 @@ class GoodsService
 
         // 获取分类下所有分类id
         $ids = self::GoodsCategoryItemsIds([$params['id']]);
-        $ids[] = $params['id'];
 
         // 开始删除
         if(Db::name('GoodsCategory')->where(['id'=>$ids])->delete())
@@ -3016,6 +3042,72 @@ class GoodsService
     public static function GoodsUrlCreate($goods_id)
     {
         return (APPLICATION_CLIENT_TYPE == 'pc') ? MyUrl('index/goods/index', ['id'=>$goods_id]) : '/pages/goods-detail/goods-detail?id='.$goods_id;
+    }
+
+    /**
+     * 获取商品列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-07
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsSearchList($params = [])
+    {
+        // 返回格式
+        $result = [
+            'page_total'    => 0,
+            'total'         => 0,
+            'data'          => [],
+        ];
+        
+        // 搜索条件
+        $where_base = empty($params['where_base']) ? [] : $params['where_base'];
+        $where_keywords = empty($params['where_keywords']) ? [] : $params['where_keywords'];
+
+        // 排序
+        $order_by = empty($params['order_by']) ? 'access_count desc, sales_count desc, id desc' : $params['order_by'];
+
+        // 分页计算
+        $field = empty($params['field']) ? '*' : $params['field'];
+        $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
+        $m = empty($params['m']) ? 0 : imtval($params['m']);
+        $n = empty($params['n']) ? 20 : intval($params['n']);
+
+        // 商品搜索列表读取前钩子
+        $hook_name = 'plugins_service_goods_search_list_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'                 => $hook_name,
+            'is_backend'                => true,
+            'params'                    => $params,
+            'where_base'                => &$where_base,
+            'where_keywords'            => &$where_keywords,
+            'field'                     => &$field,
+            'order_by'                  => &$order_by,
+            'page'                      => &$page,
+            'm'                         => &$m,
+            'n'                         => &$n,
+        ]);
+
+        // 获取商品总数
+        $result['total'] = (int) Db::name('Goods')->where($where_base)->where(function($query) use($where_keywords) {
+            $query->whereOr($where_keywords);
+        })->count();
+
+        // 获取商品列表
+        if($result['total'] > 0)
+        {
+            // 查询数据
+            $goods = GoodsService::GoodsDataHandle(Db::name('Goods')->field($field)->where($where_base)->where(function($query) use($where_keywords) {
+                $query->whereOr($where_keywords);
+            })->order($order_by)->limit($m, $n)->select()->toArray());
+
+            // 返回数据
+            $result['data'] = $goods['data'];
+            $result['page_total'] = ceil($result['total']/$n);
+        }
+        return DataReturn('处理成功', 0, $result);
     }
 }
 ?>

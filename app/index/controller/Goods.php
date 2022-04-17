@@ -50,8 +50,8 @@ class Goods extends Common
         $goods_id = isset($this->data_request['id']) ? $this->data_request['id'] : 0;
         $params = [
             'where' => [
-                'id'                => $goods_id,
-                'is_delete_time'    => 0,
+                ['id', '=', $goods_id],
+                ['is_delete_time', '=', 0],
             ],
             'is_photo'  => true,
             'is_spec'   => true,
@@ -125,8 +125,8 @@ class Goods extends Common
             {
                 $params = [
                     'where'     => [
-                        'is_delete_time'    => 0,
-                        'is_shelves'        => 1,
+                        ['is_shelves', '=', 1],
+                        ['is_delete_time', '=', 0],
                     ],
                     'order_by'  => 'sales_count desc',
                     'field'     => 'id,title,title_color,price,images',
@@ -139,8 +139,8 @@ class Goods extends Common
             // 左侧商品 看了又看
             $params = [
                 'where'     => [
-                    'is_delete_time'=>0,
-                    'is_shelves'=>1
+                    ['is_shelves', '=', 1],
+                    ['is_delete_time', '=', 0],
                 ],
                 'order_by'  => 'access_count desc',
                 'field'     => 'id,title,title_color,price,images',

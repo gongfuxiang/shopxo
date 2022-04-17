@@ -41,7 +41,7 @@ class SearchService
             'total'         => 0,
             'data'          => [],
         ];
-        
+
         // 搜索条件
         $where = self::SearchWhereHandle($params);
         $where_base = $where['base'];

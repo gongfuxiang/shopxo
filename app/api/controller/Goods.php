@@ -64,8 +64,8 @@ class Goods extends Common
             // 获取商品
             $params = [
                 'where' => [
-                    'id'                => $goods_id,
-                    'is_delete_time'    => 0,
+                    ['id', '=', $goods_id],
+                    ['is_delete_time', '=', 0],
                 ],
                 'is_photo'          => true,
                 'is_spec'           => true,

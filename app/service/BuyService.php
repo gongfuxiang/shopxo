@@ -550,9 +550,9 @@ class BuyService
         // 获取商品
         $goods_params = array_merge($params, [
             'where' => [
-                'id'                => intval($params['goods_id']),
-                'is_delete_time'    => 0,
-                'is_shelves'        => 1,
+                ['id', '=', intval($params['goods_id'])],
+                ['is_delete_time', '=', 0],
+                ['is_shelves', '=', 1],
             ],
             'field' => 'id,id AS goods_id, title, images, inventory_unit, buy_min_number, buy_max_number, model',
         ]);

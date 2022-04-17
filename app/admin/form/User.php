@@ -76,7 +76,7 @@ class User
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => $this->UserSystemTypeList(),
+                        'data'              => $this->SystemTypeList(),
                         'is_multiple'       => 1,
                     ],
                 ],
@@ -283,14 +283,14 @@ class User
     }
 
     /**
-     * 用户系统类型列表
+     * 系统类型列表
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2022-04-14
      * @desc    description
      */
-    public function UserSystemTypeList()
+    public function SystemTypeList()
     {
         return Db::name('User')->group('system_type')->column('system_type', 'system_type');
     }
