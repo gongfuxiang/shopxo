@@ -37,7 +37,7 @@ class Design extends Common
     }
 
     /**
-     * 状态更新
+     * 详情
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -51,7 +51,8 @@ class Design extends Common
         {
             $data_params = [
                 'where' => [
-                    'id' => intval($this->data_request['id']),
+                    ['id', '=', intval($this->data_request['id'])],
+                    ['is_enable', '=', 1],
                 ],
                 'm' => 0,
                 'n' => 1,

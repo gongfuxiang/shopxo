@@ -15,6 +15,7 @@ use app\service\PluginsAdminService;
 use app\service\PaymentService;
 use app\service\ThemeService;
 use app\service\AppMiniService;
+use app\service\DesignService;
 
 /**
  * 软件安装服务层
@@ -72,6 +73,11 @@ class PackageInstallService
             // app主题
             case 'apptheme' :
                 $url = MyUrl('admin/app/index');
+                break;
+
+            // 页面设计
+            case 'design' :
+                $url = MyUrl('admin/design/index');
                 break;
 
             default :
@@ -170,6 +176,11 @@ class PackageInstallService
                 }
                 $params['application_name'] = $params['terminal'];
                 $ret = AppMiniService::ThemeUploadHandle($res['url'], $params);
+                break;
+
+            // 页面设计
+            case 'design' :
+                $ret = DesignService::DesignUploadHandle($res['url'], $params);
                 break;
 
             // 默认

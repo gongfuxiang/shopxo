@@ -117,6 +117,7 @@ return [
     'website_url'                           => $store_http.'shopxo.net/',
     'store_url'                             => $store_http.'store.shopxo.net/',
     'store_payment_url'                     => $store_http.'store.shopxo.net/',
+    'store_design_url'                      => $store_http.'store.shopxo.net/',
     'store_theme_url'                       => $store_http.'store.shopxo.net/',
     'store_regster_url'                     => $store_http.'store.shopxo.net/regster.html',
 

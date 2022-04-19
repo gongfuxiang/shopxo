@@ -86,7 +86,7 @@ function FormTableHeightHandle()
  * @date    2021-02-22
  * @desc    description
  * @param   {[string]}        url       [url地址]
- * @param   {[string]}        type      [操作类型（plugins、payment、webtheme、minitheme）]
+ * @param   {[string]}        type      [操作类型（plugins、payment、webtheme、minitheme、design）]
  * @param   {[string]}        value     [操作标识值]
  * @param   {[string]}        opt       [操作类型（url 获取下载地址， download 下载插件包， upgrade 安装插件包）]
  * @param   {[string]}        key       [操作key（仅download和install需要）]

@@ -249,5 +249,400 @@ class DesignService
     {
         return 'design-'.$data_id;
     }
+
+    /**
+     * 同步到首页
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function DesignSync($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取数据
+        $data = Db::name('Design')->where(['id'=>intval($params['id'])])->field('config')->find();
+        if(empty($data))
+        {
+            return DataReturn('数据不存在', -1);
+        }
+
+        return LayoutService::LayoutConfigSave('home', $data);
+    }
+
+    /**
+     * 下载
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-17
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function DesignDownload($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'id',
+                'error_msg'         => '操作id有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取数据
+        $data = Db::name('Design')->where(['id'=>intval($params['id'])])->find();
+        if(empty($data))
+        {
+            return DataReturn('数据不存在', -1);
+        }
+
+        // 目录不存在则创建
+        $dir = ROOT.'runtime'.DS.'data'.DS.'design'.DS.$data['id'];
+        \base\FileUtil::CreateDir($dir);
+
+        // 临时数据id
+        $data_id = GetNumberCode(6).time().GetNumberCode(6);
+
+        // 解析下载数据
+        $config = self::ConfigDownloadHandle($data_id, $data['config'], $dir);
+
+        // 基础信息
+        $base = [
+            'data_id'   => $data_id,
+            'name'      => $data['name'],
+            'logo'      => self::FileSave($data_id, $data['logo'], 'images', $dir),
+            'is_header' => $data['is_header'],
+            'is_footer' => $data['is_footer'],
+            'config'    => $config,
+        ];
+        if(@file_put_contents($dir.DS.'config.json', JsonFormat($base)) === false)
+        {
+            return DataReturn('配置文件生成失败', -1);
+        }
+
+        // 生成压缩包
+        $dir_zip = $dir.'.zip';
+        $zip = new \base\ZipFolder();
+        if(!$zip->zip($dir_zip, $dir))
+        {
+            return DataReturn('压缩包生成失败', -2);
+        }
+
+        // 生成成功删除目录
+        \base\FileUtil::UnlinkDir($dir);
+
+        // 开始下载
+        if(\base\FileUtil::DownloadFile($dir_zip, $data['name'].'_v'.date('YmdHis').'.zip'))
+        {
+            // 删除文件
+            @unlink($dir_zip);
+        } else {
+            return DataReturn('下载失败', -100);
+        }
+        return DataReturn('下载成功', 0);
+    }
+
+    /**
+     * 配置数据下载处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-17
+     * @desc    description
+     * @param   [int]            $data_id [数据id]
+     * @param   [array]          $config  [配置数据]
+     * @param   [string]         $dir     [存储目录]
+     */
+    public static function ConfigDownloadHandle($data_id, $config, $dir)
+    {
+        if(!empty($config))
+        {
+            // 非数组则解析
+            if(!is_array($config))
+            {
+                $config = json_decode($config, true);
+            }
+
+            // 开始处理数据
+            foreach($config as &$v)
+            {
+                if(empty($v['children']))
+                {
+                    continue;
+                }
+                foreach($v['children'] as &$vs)
+                {
+                    if(empty($vs['children']))
+                    {
+                        continue;
+                    }
+                    foreach($vs['children'] as &$vss)
+                    {
+                        if(empty($vss['config']))
+                        {
+                            continue;
+                        }
+                        switch($vss['value'])
+                        {
+                            // 单图
+                            case 'images' :
+                                $vss['config']['content_images'] = self::FileSave($data_id, $vss['config']['content_images'], 'images', $dir);
+                                break;
+
+                            // 多图
+                            case 'many-images' :
+                                if(!empty($vss['config']['data_list']))
+                                {
+                                    foreach($vss['config']['data_list'] as &$iv)
+                                    {
+                                        $iv['images'] = self::FileSave($data_id, $iv['images'], 'images', $dir);
+                                    }
+                                }
+                                break;
+
+                            // 视频
+                            case 'video' :
+                                $vss['config']['content_video'] = self::FileSave($data_id, $vss['config']['content_video'], 'video', $dir);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        return $config;
+    }
+
+    /**
+     * 文件保存
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-18
+     * @desc    description
+     * @param   [int]             $data_id  [数据id]
+     * @param   [string]          $file     [文件地址]
+     * @param   [string]          $type     [类型]
+     * @param   [string]          $dir      [存储路径]
+     */
+    public static function FileSave($data_id, $file, $type, $dir)
+    {
+        if(!empty($file))
+        {
+            $arr = explode('/', $file);
+            $path = 'static'.DS.'upload'.DS.$type.DS.'design'.DS.$data_id.DS.date('Y/m/d');
+            $filename = $path.DS.$arr[count($arr)-1];
+            \base\FileUtil::CreateDir($dir.DS.$path);
+
+            $status = false;
+            if(substr($file, 0, 4) == 'http')
+            {
+                $temp = ResourcesService::AttachmentPathHandle($file);
+                if(substr($temp, 0, 4) == 'http' || !file_exists(ROOT.'public'.$temp))
+                {
+                    // 远程下载
+                    $temp_data = RequestGet($file);
+                    if(!empty($temp_data))
+                    {
+                        file_put_contents($dir.DS.$filename, $temp_data);
+                        $status = true;
+                    }
+                } else {
+                    $file = $temp;
+                }
+            }
+            if(!$status)
+            {
+                \base\FileUtil::CopyFile(ROOT.'public'.$file, $dir.DS.$filename);
+            }
+
+            return DS.$filename;
+        }
+        return '';
+    }
+
+    /**
+     * 导入
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function DesignUpload($params = [])
+    {
+        // 文件上传校验
+        $error = FileUploadError('file');
+        if($error !== true)
+        {
+            return DataReturn($error, -1);
+        }
+
+        // 文件格式化校验
+        $type = ResourcesService::ZipExtTypeList();
+        if(!in_array($_FILES['file']['type'], $type))
+        {
+            return DataReturn('文件格式有误，请上传zip压缩包', -2);
+        }
+
+        // 上传处理
+        return self::DesignUploadHandle($_FILES['file']['tmp_name'], $params);
+    }
+    
+    /**
+     * 导入处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     * @param    [string]         $package_file [软件包地址]
+     * @param    [array]          $params       [输入参数]
+     */
+    public static function DesignUploadHandle($package_file, $params = [])
+    {
+        // 应用upload目录权限校验
+        $app_upload_dir = ROOT.'public'.DS.'static'.DS.'upload';
+        if(!is_writable($app_upload_dir))
+        {
+            return DataReturn('应用upload目录没有操作权限'.'['.$app_upload_dir.']', -3);
+        }
+
+        // 开始解压文件
+        $zip = new \ZipArchive();
+        $resource = $zip->open($package_file);
+        if($resource != true)
+        {
+            return DataReturn('压缩包打开失败['.$resource.']', -11);
+        }
+
+        // 文件处理
+        $config = [];
+        $data_id = 0;
+        $success = 0;
+        for($i=0; $i<$zip->numFiles; $i++)
+        {
+            // 资源文件
+            $file = $zip->getNameIndex($i);
+
+            // 排除临时文件和临时目录
+            if(strpos($file, '/.') === false && strpos($file, '__') === false)
+            {
+                // 去除第一个目录（为原始数据的id）
+                $temp_file = substr($file, strpos($file, '/')+1);
+                if(empty($temp_file) || in_array($temp_file, ['static/', 'static/upload/']))
+                {
+                    continue;
+                }
+
+                // 是否配置文件
+                if($temp_file == 'config.json')
+                {
+                    $stream = $zip->getStream($file);
+                    if($stream === false)
+                    {
+                        $zip->close();
+                        return DataReturn('配置信息读取失败', -1);
+                    }
+
+                    // 获取配置信息并解析
+                    $file_content = stream_get_contents($stream);
+                    $config = empty($file_content) ? [] : json_decode($file_content, true);
+                    if(empty($config) || empty($config['data_id']) || empty($config['name']))
+                    {
+                        $zip->close();
+                        return DataReturn('配置信息为空或有误', -1);
+                    }
+
+                    // 数据添加
+                    $data = [
+                        'name'      => $config['name'],
+                        'is_header' => (isset($config['is_header']) && $config['is_header'] == 1) ? 1 : 0,
+                        'is_footer' => (isset($config['is_footer']) && $config['is_footer'] == 1) ? 1 : 0,
+                        'add_time'  => time(),
+                    ];
+                    $data_id = Db::name('Design')->insertGetId($data);
+                    if($data_id <= 0)
+                    {
+                        $zip->close();
+                        return DataReturn('数据添加失败', -1);
+                    }
+                    // 更新配置信息和logo
+                    if(!empty($config['config']) || !empty($config['logo']))
+                    {
+                        $upd_data = [
+                            'logo'      => empty($config['logo']) ? '' : str_replace($config['data_id'], $data_id, $config['logo']),
+                            'config'    => empty($config['config']) ? '' : str_replace($config['data_id'], $data_id, json_encode($config['config'], JSON_UNESCAPED_UNICODE)),
+                            'upd_time'  => time(),
+                        ];
+                        if(!Db::name('Design')->where(['id'=>$data_id])->update($upd_data))
+                        {
+                            $zip->close();
+                            return DataReturn('数据更新失败', -1);
+                        }
+                    }
+                    continue;
+                }
+
+                // 配置信息和新的数据id必须存在
+                if(!empty($config) && !empty($data_id))
+                {
+                    // 截取文件路径
+                    $new_file = ROOT.'public'.DS.str_replace($config['data_id'], $data_id, $temp_file);
+                    $file_path = substr($new_file, 0, strrpos($new_file, '/'));
+
+                    // 路径不存在则创建
+                    \base\FileUtil::CreateDir($file_path);
+
+                    // 如果不是目录则写入文件
+                    if(!is_dir($new_file))
+                    {
+                        // 读取这个文件
+                        $stream = $zip->getStream($file);
+                        if($stream !== false)
+                        {
+                            $file_content = stream_get_contents($stream);
+                            if($file_content !== false)
+                            {
+                                if(file_put_contents($new_file, $file_content))
+                                {
+                                    $success++;
+                                }
+                            }
+                            fclose($stream);
+                        }
+                    }
+                }
+            }
+        }
+        // 关闭zip
+        $zip->close();
+
+        // 附件同步到数据库
+        ResourcesService::AttachmentDiskFilesToDb('design', self::AttachmentPathTypeValue($data_id));
+
+        return DataReturn('导入成功');
+    }
 }
 ?>

@@ -464,10 +464,17 @@ class ResourcesService
      * @version 1.0.0
      * @date    2019-08-02
      * @desc    description
-     * @param   [string]          $path_type [附件路径类型]
+     * @param   [string]          $dir_path     [附件路径类型]
+     * @param   [string]          $path_type    [附件路径值类型]
      */
-    public static function AttachmentDiskFilesToDb($path_type)
+    public static function AttachmentDiskFilesToDb($dir_path, $path_type = '')
     {
+        // 未指定类型值则使用路径值
+        if(empty($path_type))
+        {
+            $path_type = $dir_path;
+        }
+
         // 处理状态总数
         $count = 0;
         $success = 0;
@@ -475,9 +482,9 @@ class ResourcesService
 
         // 视频/文件/图片
         $path_all = [
-            'video' => __MY_ROOT_PUBLIC__.'static/upload/video/'.$path_type.'/',
-            'file'  => __MY_ROOT_PUBLIC__.'static/upload/file/'.$path_type.'/',
-            'image' => __MY_ROOT_PUBLIC__.'static/upload/images/'.$path_type.'/',
+            'video' => __MY_ROOT_PUBLIC__.'static/upload/video/'.$dir_path.'/',
+            'file'  => __MY_ROOT_PUBLIC__.'static/upload/file/'.$dir_path.'/',
+            'image' => __MY_ROOT_PUBLIC__.'static/upload/images/'.$dir_path.'/',
         ];
         foreach($path_all as $type=>$path)
         {

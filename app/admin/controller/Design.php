@@ -13,6 +13,7 @@ namespace app\admin\controller;
 use app\service\DesignService;
 use app\service\GoodsService;
 use app\service\BrandService;
+use app\service\StoreService;
 use app\layout\service\BaseLayout;
 
 /**
@@ -75,6 +76,9 @@ class Design extends Common
             'order_by'      => $this->form_order_by['data'],
         ];
         $ret = DesignService::DesignList($data_params);
+
+        // 应用商店
+        MyViewAssign('store_design_url', StoreService::StoreDesignUrl());
 
         // 基础参数赋值
         MyViewAssign('params', $this->data_request);
@@ -164,6 +168,24 @@ class Design extends Common
     }
 
     /**
+     * 下载
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-17
+     * @desc    description
+     */
+    public function Download()
+    {
+        $ret = DesignService::DesignDownload($this->data_request);
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            MyViewAssign('msg', $ret['msg']);
+            return MyView('public/tips_error');
+        }
+    }
+
+    /**
      * 保存
      * @author  Devil
      * @blog    http://gong.gg/
@@ -221,6 +243,46 @@ class Design extends Common
 
         // 开始操作
         return DesignService::DesignDelete($this->data_post);
+    }
+
+    /**
+     * 同步到首页
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     */
+    public function Sync()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->error('非法访问');
+        }
+
+        // 开始操作
+        return DesignService::DesignSync($this->data_post);
+    }
+
+    /**
+     * 导入
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-19
+     * @desc    description
+     */
+    public function Upload()
+    {
+        // 是否ajax请求
+        if(!IS_AJAX)
+        {
+            $this->error('非法访问');
+        }
+
+        // 开始操作
+        return DesignService::DesignUpload($this->data_request);
     }
 }
 ?>

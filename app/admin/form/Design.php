@@ -44,6 +44,7 @@ class Design
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/design/delete'),
                 'delete_key'    => 'ids',
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [
@@ -54,6 +55,17 @@ class Design
                     'not_checked_text'  => '全选',
                     'align'             => 'center',
                     'width'             => 80,
+                ],
+                [
+                    'label'         => '数据ID',
+                    'view_type'     => 'field',
+                    'view_key'      => 'id',
+                    'width'         => 105,
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => '=',
+                    ],
                 ],
                 [
                     'label'         => '基础信息',

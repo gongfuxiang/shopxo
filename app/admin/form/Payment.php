@@ -39,6 +39,7 @@ class Payment
             'base' => [
                 'key_field'     => 'payment',
                 'status_field'  => 'is_enable',
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [

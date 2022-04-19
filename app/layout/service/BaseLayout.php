@@ -884,7 +884,14 @@ class BaseLayout
 
             // 商品分类
             case 'category' :
-                $ret = GoodsService::GoodsDataHandle(Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->field($field)->where($where)->group('g.id')->order($order_by)->limit($m, $n)->select()->toArray());
+                $request_params = [
+                    'where'     => $where,
+                    'm'         => $m,
+                    'n'         => $n,
+                    'field'     => $field,
+                    'order_by'  => $order_by,
+                ];
+                $ret = GoodsService::CategoryGoodsList($request_params);
                 break;
         }
         if(!empty($ret) && isset($ret['code']) && $ret['code'] == 0 && !empty($ret['data']))

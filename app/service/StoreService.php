@@ -51,6 +51,20 @@ class StoreService
     {
         return MyConfig('shopxo.store_payment_url').self::RequestParamsString($params);
     }
+
+    /**
+     * 应用商店页面设计地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-02-12
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function StoreDesignUrl($params = [])
+    {
+        return MyConfig('shopxo.store_design_url').self::RequestParamsString($params);
+    }
     
     /**
      * 应用商店主题地址
