@@ -14,6 +14,7 @@ use app\service\ArticleService;
 use app\service\NavigationService;
 use app\service\GoodsService;
 use app\service\CustomViewService;
+use app\service\DesignService;
 
 /**
  * 导航管理
@@ -79,6 +80,10 @@ class Navigation extends Common
 		// 自定义页面
         $custom_view = CustomViewService::CustomViewList(['where'=>['is_enable'=>1], 'field'=>'id,title', 'n'=>0]);
 		MyViewAssign('customview_list', $custom_view['data']);
+
+		// 页面设计
+        $design_view = DesignService::DesignList(['where'=>['is_enable'=>1], 'field'=>'id,name', 'n'=>0]);
+		MyViewAssign('design_list', $design_view['data']);
 
 		MyViewAssign('nav_type', $this->nav_type);
 		return MyView();

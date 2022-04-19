@@ -193,6 +193,11 @@ class NavigationService
                     case 'goods_category':
                         $v['url'] = MyUrl('index/search/index', ['category_id'=>$v['value']]);
                         break;
+
+                    // 页面设计
+                    case 'design':
+                        $v['url'] = MyUrl('index/design/index', ['id'=>$v['value']]);
+                        break;
                 }
                 $data[$k] = $v;
             }
@@ -420,6 +425,24 @@ class NavigationService
                 ];
                 break;
 
+            // 页面设计导航
+            case 'design':
+                $p = [
+                    [
+                        'checked_type'      => 'length',
+                        'key_name'          => 'name',
+                        'checked_data'      => '2,16',
+                        'is_checked'        => 1,
+                        'error_msg'         => '导航名称格式 2~16 个字符',
+                    ],
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'value',
+                        'error_msg'         => '页面设计选择有误',
+                    ],
+                ];
+                break;
+
             // 没找到
             default :
                 return DataReturn('操作类型有误', -1);
@@ -467,6 +490,11 @@ class NavigationService
                 // 商品分类导航
                 case 'goods_category':
                     $temp_name = Db::name('GoodsCategory')->where(['id'=>$params['value']])->value('name');
+                    break;
+
+                // 页面设计导航
+                case 'design':
+                    $temp_name = Db::name('Design')->where(['id'=>$params['value']])->value('name');
                     break;
             }
             // 只截取16个字符
