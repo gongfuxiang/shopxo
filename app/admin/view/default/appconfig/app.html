@@ -17,6 +17,7 @@
                     {{/foreach}}
                 </select>
             </div>
+
             <div class="am-form-group">
                 <label>{{$data.common_user_is_mandatory_bind_mobile.name}}<span class="am-form-group-label-tips">{{$data.common_user_is_mandatory_bind_mobile.describe}}</span></label>
                 <select name="{{$data.common_user_is_mandatory_bind_mobile.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_user_is_mandatory_bind_mobile.error_tips}}" required>
@@ -25,6 +26,7 @@
                     {{/foreach}}
                 </select>
             </div>
+
             <div class="am-form-group">
                 <label>{{$data.common_user_onekey_bind_mobile_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_onekey_bind_mobile_list.describe}}</span></label>
                 <select name="{{$data.common_user_onekey_bind_mobile_list.only_tag}}" class="am-radius chosen-select" data-placeholder="{{$data.common_user_onekey_bind_mobile_list.name}}" multiple data-validation-message="{{$data.common_user_onekey_bind_mobile_list.error_tips}}">
@@ -41,6 +43,7 @@
                     <p>3. 部分小程序平台可能需要申请权限、请根据小程序平台要求申请后再对应开启</p>
                 </div>
             </div>
+
             <div class="am-form-group">
                 <label>{{$data.common_user_address_platform_import_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_address_platform_import_list.describe}}</span></label>
                 <select name="{{$data.common_user_address_platform_import_list.only_tag}}" class="am-radius chosen-select" data-placeholder="{{$data.common_user_address_platform_import_list.name}}" multiple data-validation-message="{{$data.common_user_address_platform_import_list.error_tips}}">
@@ -57,6 +60,7 @@
                     <p>3. 部分小程序平台可能需要申请权限、请根据小程序平台要求申请后再对应开启</p>
                 </div>
             </div>
+
             <div class="am-form-group">
                 <label>{{$data.common_app_is_enable_search.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_search.describe}}</span></label>
                 <select name="{{$data.common_app_is_enable_search.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_enable_search.error_tips}}" required>
@@ -65,6 +69,16 @@
                     {{/foreach}}
                 </select>
             </div>
+
+            <div class="am-form-group">
+                <label>{{$data.common_app_is_header_nav_fixed.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_header_nav_fixed.describe}}</span></label>
+                <select name="{{$data.common_app_is_header_nav_fixed.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_header_nav_fixed.error_tips}}" required>
+                    {{foreach $common_is_text_list as $v}}
+                        <option value="{{$v.id}}" {{if isset($data['common_app_is_header_nav_fixed']['value']) and $data['common_app_is_header_nav_fixed']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+                    {{/foreach}}
+                </select>
+            </div>
+
             <div class="am-form-group">
                 <label>{{$data.common_app_is_enable_answer.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_answer.describe}}</span></label>
                 <select name="{{$data.common_app_is_enable_answer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_enable_answer.error_tips}}" required>
@@ -79,15 +93,6 @@
                 <select name="{{$data.common_app_is_online_service.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_online_service.error_tips}}" required>
                     {{foreach $common_is_text_list as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_app_is_online_service']['value']) and $data['common_app_is_online_service']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-                    {{/foreach}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label>{{$data.common_app_is_header_nav_fixed.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_header_nav_fixed.describe}}</span></label>
-                <select name="{{$data.common_app_is_header_nav_fixed.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_header_nav_fixed.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
-                        <option value="{{$v.id}}" {{if isset($data['common_app_is_header_nav_fixed']['value']) and $data['common_app_is_header_nav_fixed']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
             </div>
