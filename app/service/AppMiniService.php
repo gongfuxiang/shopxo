@@ -566,12 +566,20 @@ class AppMiniService
             return DataReturn('源码目标目录没有权限['.self::$new_root.']', -1);
         }
 
+        // 包目录
+        $old_dir = self::$old_path.DS.self::$default_theme;
+        $new_dir = self::$new_path.DS.date('YmdHis');
+
+        // 源码包是否存在
+        if(!is_dir($old_dir))
+        {
+            return DataReturn('源码包不存在['.self::$default_theme.']', -1);
+        }
+
         // 目录不存在则创建
         \base\FileUtil::CreateDir(self::$new_path);
 
         // 复制包目录
-        $old_dir = self::$old_path.DS.self::$default_theme;
-        $new_dir = self::$new_path.DS.date('YmdHis');
         if(\base\FileUtil::CopyDir($old_dir, $new_dir) != true)
         {
             return DataReturn('项目包复制失败', -2);

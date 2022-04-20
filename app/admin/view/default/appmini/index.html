@@ -48,7 +48,13 @@
                 {{/foreach}}
             <ul>
         {{else /}}
-            {{include file="public/not_data" /}}
+            <div class="table-no">
+                <i class="am-icon-warning"></i>
+                <span>没有相关主题包</span>
+                <p class="am-margin-top-lg">
+                    <a href="https://uniapp.shopxo.net/" target="_blank">查看新版本小程序打包教程 <i class="am-icon-external-link"></i></a>
+                </p>
+            </div>
         {{/if}}
         <!-- lis end -->
     </div>

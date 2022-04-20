@@ -1,7 +1,0 @@
-{
-  "pullRefresh": true,
-  "usingComponents": {
-    "component-quick-nav": "/components/quick-nav/quick-nav",
-    "component-badge": "/components/badge/badge"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "pullRefresh": true,
-  "titleBarColor": "#ff6a80",
-  "defaultTitle": "取货订单",
-  "usingComponents": {
-    "component-popup": "/components/popup/popup"
-  }
-}

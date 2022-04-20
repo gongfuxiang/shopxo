@@ -1,7 +1,0 @@
-{
-  "pullRefresh": true,
-  "defaultTitle": "充值记录",
-  "usingComponents": {
-    "component-popup": "/components/popup/popup"
-  }
-}

@@ -1,5 +1,0 @@
-<template name="online_service">
-  <button open-type="contact" class="common-online-service">
-    <image src="/images/online-service-icon.png"></image>
-  </button>
-</template>

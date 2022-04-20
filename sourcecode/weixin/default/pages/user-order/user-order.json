@@ -1,6 +1,0 @@
-{
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "component-popup": "/components/popup/popup"
-  }
-}
