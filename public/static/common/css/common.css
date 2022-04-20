@@ -882,7 +882,8 @@ a.am-badge-danger-plain:focus {
  * 表单带面板
  */
 form .am-panel .am-form-group:last-child,
-form .am-panel .business-form-group:last-child {
+form .am-panel .business-form-group:last-child,
+form .am-tab-panel .am-form-group:last-child {
     border-bottom: 0;
 }
 

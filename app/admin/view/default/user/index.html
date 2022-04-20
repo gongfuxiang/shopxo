@@ -5,7 +5,7 @@
 {{block name="form_operate_top"}}
     <a href="{{:MyUrl('admin/user/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
     {{if !IsMobile()}}
-        <a href="{{$excel_url}}" class="am-btn am-btn-success am-btn-xs am-icon-file-excel-o am-radius"> 导出Excel</a>
+        <a href="{{$excel_url}}" class="am-btn am-btn-success am-btn-xs am-icon-file-excel-o am-radius" target="_blank"> 导出Excel</a>
     {{/if}}
     <!-- 父级内容 -->
     {__block__}
