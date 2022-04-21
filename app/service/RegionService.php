@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 
 /**
  * 地区服务层
@@ -261,7 +262,7 @@ class RegionService
     public static function RegionAll($params = [])
     {
         // 缓存
-        $key = MyConfig('shopxo.cache_region_all_key');
+        $key = SystemService::CacheKey('shopxo.cache_region_all_key');
         $data = MyCache($key);
         if(empty($data))
         {

@@ -139,5 +139,19 @@ class SystemService
 
         return $value;
     }
+
+    /**
+     * 缓存key获取
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-21
+     * @desc    description
+     * @param   [string]          $key [缓存key]
+     */
+    public static function CacheKey($key)
+    {
+        return MyConfig($key).'_'.SYSTEM_TYPE;
+    }
 }
 ?>

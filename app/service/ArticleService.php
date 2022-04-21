@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\ResourcesService;
 
 /**
@@ -34,7 +35,7 @@ class ArticleService
     public static function HomeArticleList($params = [])
     {
         // 从缓存获取
-        $key = MyConfig('shopxo.cache_home_article_list_key');
+        $key = SystemService::CacheKey('shopxo.cache_home_article_list_key');
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug'))
         {

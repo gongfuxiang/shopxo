@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\service\SystemService;
 use app\service\ConfigService;
 use app\service\GoodsService;
 use app\service\SiteService;
@@ -382,11 +383,11 @@ class Site extends Common
 			{
 				// 登录
 				case 'login' :
-					MyCache(MyConfig('shopxo.cache_user_login_left_key'), null);
+					MyCache(SystemService::CacheKey('shopxo.cache_user_login_left_key'), null);
 
 				// 密码找回
 				case 'forgetpwd' :
-					MyCache(MyConfig('shopxo.cache_user_forgetpwd_left_key'), null);
+					MyCache(SystemService::CacheKey('shopxo.cache_user_forgetpwd_left_key'), null);
 					break;
 			}
 		}

@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\PluginsService;
 use app\service\ResourcesService;
 use app\service\SqlConsoleService;
@@ -64,7 +65,7 @@ class PluginsAdminService
                     $admin = AdminService::LoginInfo();
                     if(!empty($admin))
                     {
-                        $res = MyCache(MyConfig('shopxo.cache_admin_power_plugins_key').$admin['id']);
+                        $res = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin['id']);
                         if(!empty($res))
                         {
                             $power_plugins = $res;

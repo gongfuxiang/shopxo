@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\BuyService;
 use app\service\MessageService;
 use app\service\OrderService;
@@ -40,8 +41,8 @@ class NavigationService
     public static function Nav($params = [])
     {
         // 读取缓存数据
-        $header = MyCache(MyConfig('shopxo.cache_common_home_nav_header_key'));
-        $footer = MyCache(MyConfig('shopxo.cache_common_home_nav_footer_key'));
+        $header = MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key'));
+        $footer = MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'));
 
         // 缓存没数据则从数据库重新读取,顶部菜单
         if($header === null || MyEnv('app_debug'))
@@ -157,7 +158,7 @@ class NavigationService
         }
 
         // 缓存
-        MyCache(MyConfig('shopxo.cache_common_home_nav_'.$nav_type.'_key'), $data, 180);
+        MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_'.$nav_type.'_key'), $data, 180);
         return $data;
     }
 
@@ -470,7 +471,7 @@ class NavigationService
     public static function NacDataSave($params = [])
     {
         // 缓存 key
-        $cache_key = MyConfig('shopxo.cache_common_home_nav_'.$params['nav_type'].'_key');
+        $cache_key = SystemService::CacheKey('shopxo.cache_common_home_nav_'.$params['nav_type'].'_key');
 
         // 非自定义导航数据处理
         if(empty($params['name']))
@@ -573,8 +574,8 @@ class NavigationService
             Db::commit();
 
             // 清除缓存
-            MyCache(MyConfig('shopxo.cache_common_home_nav_header_key'), null);
-            MyCache(MyConfig('shopxo.cache_common_home_nav_footer_key'), null);
+            MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key'), null);
+            MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'), null);
 
             return DataReturn('删除成功');
         }
@@ -623,8 +624,8 @@ class NavigationService
         if(Db::name('Navigation')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
             // 清除缓存
-            MyCache(MyConfig('shopxo.cache_common_home_nav_header_key'), null);
-            MyCache(MyConfig('shopxo.cache_common_home_nav_footer_key'), null);
+            MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key'), null);
+            MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'), null);
 
             return DataReturn('编辑成功');
         }

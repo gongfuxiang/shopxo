@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\AdminService;
 use app\service\AdminRoleService;
 
@@ -189,9 +190,9 @@ class AdminPowerService
         {
             foreach($admin as $id)
             {
-                MyCache(MyConfig('shopxo.cache_admin_left_menu_key').$id, null);
-                MyCache(MyConfig('shopxo.cache_admin_power_key').$id, null);
-                MyCache(MyConfig('shopxo.cache_admin_power_plugins_key').$id, null);
+                MyCache(SystemService::CacheKey('shopxo.cache_admin_left_menu_key').$id, null);
+                MyCache(SystemService::CacheKey('shopxo.cache_admin_power_key').$id, null);
+                MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$id, null);
             }
         }
     }
@@ -213,9 +214,9 @@ class AdminPowerService
         $role_id = isset($admin['role_id']) ? intval($admin['role_id']) : 0;
 
         // 读取缓存数据
-        $admin_left_menu = MyCache(MyConfig('shopxo.cache_admin_left_menu_key').$admin_id);
-        $admin_power = MyCache(MyConfig('shopxo.cache_admin_power_key').$admin_id);
-        $admin_plugins = MyCache(MyConfig('shopxo.cache_admin_power_plugins_key').$admin_id);
+        $admin_left_menu = MyCache(SystemService::CacheKey('shopxo.cache_admin_left_menu_key').$admin_id);
+        $admin_power = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_key').$admin_id);
+        $admin_plugins = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin_id);
 
         // 缓存没数据则从数据库重新读取
         if((($role_id > 0 || $admin_id == 1) && empty($admin_left_menu)) || $is_refresh || MyEnv('app_debug'))
@@ -309,9 +310,9 @@ class AdminPowerService
                     $admin_plugins = Db::name('RolePlugins')->where(['role_id'=>$role_id])->column('name', 'plugins');
                 }
             }
-            MyCache(MyConfig('shopxo.cache_admin_left_menu_key').$admin_id, $admin_left_menu);
-            MyCache(MyConfig('shopxo.cache_admin_power_key').$admin_id, $admin_power);
-            MyCache(MyConfig('shopxo.cache_admin_power_plugins_key').$admin_id, $admin_plugins);
+            MyCache(SystemService::CacheKey('shopxo.cache_admin_left_menu_key').$admin_id, $admin_left_menu);
+            MyCache(SystemService::CacheKey('shopxo.cache_admin_power_key').$admin_id, $admin_power);
+            MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin_id, $admin_plugins);
         }
         return true;
     }
@@ -329,7 +330,7 @@ class AdminPowerService
         $admin = AdminService::LoginInfo();
         if(!empty($admin['id']))
         {
-            $data = MyCache(MyConfig('shopxo.cache_admin_left_menu_key').$admin['id']);
+            $data = MyCache(SystemService::CacheKey('shopxo.cache_admin_left_menu_key').$admin['id']);
         }
 
         // 后台左侧菜单钩子
@@ -357,7 +358,7 @@ class AdminPowerService
         $admin = AdminService::LoginInfo();
         if(!empty($admin['id']))
         {
-            $data = MyCache(MyConfig('shopxo.cache_admin_power_key').$admin['id']);
+            $data = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_key').$admin['id']);
         }
 
         // 后台左侧菜单权限钩子

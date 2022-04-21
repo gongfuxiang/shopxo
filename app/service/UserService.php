@@ -95,7 +95,7 @@ class UserService
                 self::UserLoginRecord($user_login_info['id']);
                 if(!empty($user_login_info['token']))
                 {
-                    MyCache(MyConfig('shopxo.cache_user_info').$user_login_info['token'], $user_login_info);
+                    MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user_login_info['token'], $user_login_info);
                 }
             }
         }
@@ -114,7 +114,7 @@ class UserService
      */
     public static function UserTokenData($token)
     {
-        $user = MyCache(MyConfig('shopxo.cache_user_info').$token);
+        $user = MyCache(SystemService::CacheKey('shopxo.cache_user_info').$token);
         if($user !== null && isset($user['id']))
         {
             return $user;
@@ -2107,7 +2107,7 @@ class UserService
             $user['token'] = self::CreatedUserToken($user_id);
             if(Db::name('User')->where(['id'=>$user_id])->update(['token'=>$user['token'], 'upd_time'=>time()]))
             {
-                MyCache(MyConfig('shopxo.cache_user_info').$user['token'], $user);
+                MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user['token'], $user);
             }
 
             // web端用户登录纪录处理

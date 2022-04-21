@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\ResourcesService;
 
 /**
@@ -204,7 +205,7 @@ class ConfigService
         if($success > 0)
         {
             // 删除所有配置的缓存数据
-            MyCache(MyConfig('shopxo.cache_common_my_config_key'), null);
+            MyCache(SystemService::CacheKey('shopxo.cache_common_my_config_key'), null);
 
             // 所有配置信息更新
             self::ConfigInit(1);
@@ -257,7 +258,7 @@ class ConfigService
      */
     public static function ConfigInit($status = 0)
     {
-        $key = MyConfig('shopxo.cache_common_my_config_key');
+        $key = SystemService::CacheKey('shopxo.cache_common_my_config_key');
         $data = MyCache($key);
         if($data === null || $status == 1)
         {

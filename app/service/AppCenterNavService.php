@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\ResourcesService;
 
 /**
@@ -274,7 +275,7 @@ class AppCenterNavService
     public static function AppCenterNav($params = [])
     {
         // 缓存
-        $key = MyConfig('shopxo.cache_app_user_center_navigation_key').APPLICATION_CLIENT_TYPE;
+        $key = SystemService::CacheKey('shopxo.cache_app_user_center_navigation_key').APPLICATION_CLIENT_TYPE;
         $data = MyCache($key);
 
         if(empty($data))

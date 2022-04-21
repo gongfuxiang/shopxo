@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\SystemService;
 use app\service\OrderService;
 use app\service\GoodsService;
 use app\service\UserService;
@@ -221,7 +222,7 @@ class User extends Common
             MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('密码找回', 1));
 
             // 左侧图片,随机其中一个
-            $left_data = UserService::UserEntranceLeftData(['left_key'=>'forgetpwd', 'cache_key'=>MyConfig('shopxo.cache_user_forgetpwd_left_key')]);
+            $left_data = UserService::UserEntranceLeftData(['left_key'=>'forgetpwd', 'cache_key'=>SystemService::CacheKey('shopxo.cache_user_forgetpwd_left_key')]);
             MyViewAssign('user_forgetpwd_left_data', empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)]);
 
             return MyView();
@@ -287,7 +288,7 @@ class User extends Common
                 MyViewAssign('referer_url', $this->GetrefererUrl());
 
                 // 左侧图片,随机其中一个
-                $left_data = UserService::UserEntranceLeftData(['left_key'=>'login', 'cache_key'=>MyConfig('shopxo.cache_user_login_left_key')]);
+                $left_data = UserService::UserEntranceLeftData(['left_key'=>'login', 'cache_key'=>SystemService::CacheKey('shopxo.cache_user_login_left_key')]);
                 MyViewAssign('user_login_left_data', empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)]);
 
                 return MyView();

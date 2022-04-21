@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\ResourcesService;
 use app\service\PluginsAdminService;
 use app\service\StoreService;
@@ -186,7 +187,7 @@ class PluginsService
      */
     public static function PluginsCacheStorage($plugins, $data)
     {
-        return MyCache(MyConfig('shopxo.cache_plugins_data_key').$plugins, $data);
+        return MyCache(SystemService::CacheKey('shopxo.cache_plugins_data_key').$plugins, $data);
     }
 
     /**
@@ -200,7 +201,7 @@ class PluginsService
      */
     public static function PluginsCacheData($plugins)
     {
-        return MyCache(MyConfig('shopxo.cache_plugins_data_key').$plugins);
+        return MyCache(SystemService::CacheKey('shopxo.cache_plugins_data_key').$plugins);
     }
 
     /**
@@ -214,7 +215,7 @@ class PluginsService
      */
     public static function PluginsCacheDelete($plugins)
     {
-        MyCache(MyConfig('shopxo.cache_plugins_data_key').$plugins, null);
+        MyCache(SystemService::CacheKey('shopxo.cache_plugins_data_key').$plugins, null);
     }
 
     /**

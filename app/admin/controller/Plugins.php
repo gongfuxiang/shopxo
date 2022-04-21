@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\service\SystemService;
 use app\service\ApiService;
 use app\service\PluginsService;
 use app\service\ResourcesService;
@@ -85,7 +86,7 @@ class Plugins extends Common
         }
 
         // 插件权限校验
-        $power_plugins = MyCache(MyConfig('shopxo.cache_admin_power_plugins_key').$this->admin['id']);
+        $power_plugins = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$this->admin['id']);
         if(empty($power_plugins) || !array_key_exists($params['data_request']['pluginsname'], $power_plugins))
         {
             $msg = '无权限使用该插件';

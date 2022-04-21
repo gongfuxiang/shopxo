@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\ResourcesService;
 
 /**
@@ -34,7 +35,7 @@ class BannerService
     public static function Banner($params = [])
     {
         // 缓存
-        $key = MyConfig('shopxo.cache_banner_list_key').APPLICATION_CLIENT_TYPE;
+        $key = SystemService::CacheKey('shopxo.cache_banner_list_key').APPLICATION_CLIENT_TYPE;
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug'))
         {

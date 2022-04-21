@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\SystemBaseService;
 use app\service\ResourcesService;
 use app\service\BrandService;
@@ -63,7 +64,7 @@ class GoodsService
     public static function GoodsCategoryAll($params = [])
     {
         // 从缓存获取
-        $key = MyConfig('shopxo.cache_goods_category_key');
+        $key = SystemService::CacheKey('shopxo.cache_goods_category_key');
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug'))
         {
@@ -219,7 +220,7 @@ class GoodsService
     public static function HomeFloorList($params = [])
     {
         // 缓存
-        $key = MyConfig('shopxo.cache_goods_floor_list_key');
+        $key = SystemService::CacheKey('shopxo.cache_goods_floor_list_key');
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug'))
         {
@@ -2639,7 +2640,7 @@ class GoodsService
         }
 
         // 删除大分类缓存
-        MyCache(MyConfig('shopxo.cache_goods_category_key'), null);
+        MyCache(SystemService::CacheKey('shopxo.cache_goods_category_key'), null);
 
         $res = self::GoodsCategoryDataHandle([$data]);
         return DataReturn('操作成功', 0, json_encode($res[0]));
@@ -2681,7 +2682,7 @@ class GoodsService
         if(Db::name('GoodsCategory')->where(['id'=>$ids])->delete())
         {
             // 删除大分类缓存
-            MyCache(MyConfig('shopxo.cache_goods_category_key'), null);
+            MyCache(SystemService::CacheKey('shopxo.cache_goods_category_key'), null);
 
             return DataReturn('删除成功', 0);
         }

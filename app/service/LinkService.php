@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\GoodsService;
 
 /**
@@ -34,7 +35,7 @@ class LinkService
     public static function HomeLinkList($params = [])
     {
         // 从缓存获取
-        $key = MyConfig('shopxo.cache_home_link_list_key');
+        $key = SystemService::CacheKey('shopxo.cache_home_link_list_key');
         $data = MyCache($key);
         if($data == null || MyEnv('app_debug'))
         {

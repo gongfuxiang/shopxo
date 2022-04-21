@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\SystemService;
 use app\service\GoodsService;
 use app\service\BrandService;
 use app\service\ResourcesService;
@@ -380,7 +381,7 @@ class SearchService
      */
     public static function SearchKeywordsList($params = [])
     {
-        $key = MyConfig('shopxo.cache_search_keywords_key');
+        $key = SystemService::CacheKey('shopxo.cache_search_keywords_key');
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug'))
         {
