@@ -596,7 +596,9 @@ class SearchService
         {
             $data_params = [
                 'field'     => 'id,name,describe,logo,website_url',
-                'where'     => ['id'=>intval($params['brand_id'])],
+                'where'     => [
+                    ['id', '=', intval($params['brand_id'])]
+                ],
                 'm'         => 0,
                 'n'         => 1,
             ];

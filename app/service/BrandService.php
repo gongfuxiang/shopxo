@@ -39,10 +39,24 @@ class BrandService
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
+        // 品牌列表读取前钩子
+        $hook_name = 'plugins_service_brand_list_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'where'         => &$where,
+            'field'         => &$field,
+            'order_by'      => &$order_by,
+            'm'             => &$m,
+            'n'             => &$n,
+        ]);
+
         // 获取列表
-        $data = self::DataHandle(Db::name('Brand')->where($where)->field($field)->order($order_by)->limit($m, $n)->select()->toArray());
-        
-        return DataReturn('处理成功', 0, $data);
+        $data = Db::name('Brand')->where($where)->field($field)->order($order_by)->limit($m, $n)->select()->toArray();
+
+        // 数据处理
+        return DataReturn('处理成功', 0, self::DataHandle($data, $params));
     }
 
     /**
@@ -52,9 +66,10 @@ class BrandService
      * @version 1.0.0
      * @date    2021-01-11
      * @desc    description
-     * @param   [array]          $data [列表数据]
+     * @param   [array]          $data      [列表数据]
+     * @param   [array]          $params    [输入参数]
      */
-    public static function DataHandle($data)
+    public static function DataHandle($data, $params = [])
     {
         if(!empty($data))
         {

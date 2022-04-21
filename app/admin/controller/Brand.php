@@ -91,16 +91,13 @@ class Brand extends Common
     {
         if(!empty($this->data_request['id']))
         {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
             // 获取列表
             $data_params = [
                 'm'             => 0,
                 'n'             => 1,
-                'where'         => $where,
+                'where'         => [
+                    ['id', '=', intval($this->data_request['id'])],
+                ],
             ];
             $ret = BrandService::BrandList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
@@ -126,12 +123,13 @@ class Brand extends Common
         if(!empty($params['id']))
         {
             // 获取列表
-            $data_params = array(
+            $data_params = [
                 'm'     => 0,
                 'n'     => 1,
-                'where' => ['id'=>intval($params['id'])],
-                'field' => '*',
-            );
+                'where' => [
+                    ['id', '=', intval($params['id'])]
+                ],
+            ];
             $ret = BrandService::BrandList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }

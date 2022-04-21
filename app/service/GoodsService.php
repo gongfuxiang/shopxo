@@ -151,20 +151,27 @@ class GoodsService
      */
     public static function GoodsCategoryList($params = [])
     {
-        // 条件、附加必须启用状态
         $where = empty($params['where']) ? [] : $params['where'];
-
-        // 增加启用条件
         $where[] = ['is_enable', '=', 1];
-
-        // 数量、默认0,0则全部
+        $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
+        $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc' : $params['field'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 0;
 
-        // 排序
-        $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
+        // 商品分类列表读取前钩子
+        $hook_name = 'plugins_service_goods_category_list_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'where'         => &$where,
+            'field'         => &$field,
+            'order_by'      => &$order_by,
+            'm'             => &$m,
+            'n'             => &$n,
+        ]);
 
-        $field = empty($params['field']) ? 'id,pid,icon,name,vice_name,describe,bg_color,big_images,sort,is_home_recommended,seo_title,seo_keywords,seo_desc' : $params['field'];
+        // 获取商品分类数据
         $data = Db::name('GoodsCategory')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
         return self::GoodsCategoryDataHandle($data);
     }
