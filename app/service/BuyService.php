@@ -229,11 +229,22 @@ class BuyService
             return DataReturn($ret, -1);
         }
 
-        // 获取购物车数据
+        // 基础参数
         $where = (!empty($params['where']) && is_array($params['where'])) ? $params['where'] : [];
-        $where['c.user_id'] = $params['user']['id'];
-
+        $where[] = ['c.user_id', '=', $params['user']['id']];
         $field = 'c.*, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number, g.model, g.site_type';
+
+        // 购物车列表读取前钩子
+        $hook_name = 'plugins_service_cart_goods_list_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => &$params,
+            'where'         => &$where,
+            'field'         => &$field,
+        ]);
+
+        // 获取购物车数据
         $data = Db::name('Cart')->alias('c')->leftJoin('goods g', 'g.id=c.goods_id')->where($where)->field($field)->order('c.id desc')->select()->toArray();
 
         // 数据处理
@@ -640,9 +651,9 @@ class BuyService
 
         // 获取购物车数据
         $params['where'] = [
-            'g.is_delete_time'  => 0,
-            'g.is_shelves'      => 1,
-            'c.id'              => explode(',', $params['ids']),
+            ['g.is_delete_time', '=', 0],
+            ['g.is_shelves', '=', 1],
+            ['c.id', 'in', explode(',', $params['ids'])],
         ];
         return self::CartList($params);
     }
