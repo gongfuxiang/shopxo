@@ -317,7 +317,7 @@ function GetHttpCode($url, $timeout = 5)
  */
 function IsUrl($value)
 {
-    return in_array(substr($value, 0, 6), ['http:/', 'https:']);
+    return empty($value) ? false : in_array(substr($value, 0, 6), ['http:/', 'https:']);
 }
 
 /**
