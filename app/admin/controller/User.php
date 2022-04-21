@@ -120,6 +120,12 @@ class User extends Common
 	 */
 	public function ExcelExport()
 	{
+		// 是否有权限
+        if(!AdminIsPower())
+        {
+            return $this->error('无权限');
+        }
+
         // 获取数据列表
 		$data_params = [
 			'where'		=> $this->form_where,

@@ -177,6 +177,13 @@ class Design extends Common
      */
     public function Download()
     {
+        // 是否有权限
+        if(!AdminIsPower())
+        {
+            return $this->error('无权限');
+        }
+
+        // 下载数据
         $ret = DesignService::DesignDownload($this->data_request);
         if(isset($ret['code']) && $ret['code'] != 0)
         {
