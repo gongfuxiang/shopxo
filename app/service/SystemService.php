@@ -151,7 +151,7 @@ class SystemService
      */
     public static function CacheKey($key)
     {
-        return MyConfig($key).'_'.SYSTEM_TYPE;
+        return MyConfig($key).'_'.SYSTEM_TYPE.'_'.RequestModule();
     }
 }
 ?>
