@@ -68,7 +68,7 @@ class WarehouseGoodsService
             {
                 $goods_params = [
                     'where' => [
-                        ['id', '=', array_unique(array_column($data, 'goods_id'))],
+                        ['id', 'in', array_unique(array_column($data, 'goods_id'))],
                         ['is_delete_time', '=', 0],
                     ],
                     'field'  => 'id,title,images,price,min_price',
