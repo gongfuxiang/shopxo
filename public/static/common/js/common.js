@@ -307,18 +307,25 @@ function FromInit(form_name)
 		onInValid: function(validity)
 		{
 			var $this = this;
-			setTimeout(function()
+			var $field = $(validity.field);
+			var tag_name = $field.prop('tagName');
+			if(tag_name == 'SELECT')
 			{
-
-				// 错误信息
-				var $field = $(validity.field);
-				var value = $field.val();
-				var msg = $field.data('validationMessage') || $this.getValidationMessage(validity);
-				if((value == '' || value == undefined) && $field.hasClass('am-field-error'))
+				setTimeout(function()
 				{
-					Prompt(msg);
-				}
-			}, 100);
+					// 错误信息
+					var $field = $(validity.field);
+					var value = $field.val();
+					var msg = $field.data('validationMessage') || $this.getValidationMessage(validity);
+					if((value == '' || value == undefined) && $field.hasClass('am-field-error'))
+					{
+						Prompt(msg);
+					}
+				}, 100);
+			} else {
+				var msg = $field.data('validationMessage') || $this.getValidationMessage(validity);
+				Prompt(msg);
+			}
 		},
 
 		// 提交

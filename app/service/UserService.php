@@ -357,7 +357,7 @@ class UserService
 
         // 更新数据
         $data = [
-            'system_type'           => empty($params['system_type']) ? 'default' : $params['system_type'],
+            'system_type'           => empty($params['system_type_name']) ? 'default' : $params['system_type_name'],
             'username'              => isset($params['username']) ? $params['username'] :  '',
             'nickname'              => isset($params['nickname']) ? $params['nickname'] :  '',
             'mobile'                => isset($params['mobile']) ? $params['mobile'] :  '',
@@ -404,12 +404,11 @@ class UserService
         if(!empty($params['id']))
         {
             // 获取用户信息
-            $user = self::UserInfo('id', intval($params['id']), 'id,integral');
+            $user = Db::name('User')->where(['id'=>intval($params['id'])])->field('id,integral')->find();
             if(empty($user))
             {
                 return DataReturn('用户信息不存在', -10);
             }
-
             $ret = self::UserUpdateHandle($data, $params['id']);
             if($ret['code'] == 0)
             {
