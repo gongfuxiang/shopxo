@@ -241,6 +241,9 @@ class Common extends BaseController
         // 后台公告
         $admin_notice = MyC('admin_notice');
         MyViewAssign('admin_notice',  empty($admin_notice) ? '' : str_replace("\n", '<br />', $admin_notice));
+
+        // 系统环境参数最大数
+        MyViewAssign('env_max_input_vars_count', SystemService::EnvMaxInputVarsCount());
 	}
 
     /**

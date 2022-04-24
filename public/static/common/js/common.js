@@ -498,6 +498,26 @@ function FromInit(form_name)
 	            	return false;
 				}
 
+				// 请求参数
+				var form_data_count = 0;
+				var form_data = GetFormVal(form_name);
+				form_data.forEach(function(value, key)
+				{
+					form_data_count += 1;
+				});
+
+				// 请求参数是否超过系统环境参数
+				if(typeof(__env_max_input_vars_count__) != 'undefined')
+				{
+					var env_vars_count = parseInt(__env_max_input_vars_count__);
+					if(env_vars_count > 0 && form_data_count > env_vars_count)
+					{
+						$button.button('reset');
+						Prompt('请求参数数量已超出php.ini限制[max_input_vars]('+form_data_count+'>'+env_vars_count+')');
+						return false;
+					}
+				}
+
 				// ajax请求
 				$.AMUI.progress.start();
 				$.ajax({
@@ -505,7 +525,7 @@ function FromInit(form_name)
 					type: method,
 	                dataType: "json",
 	                timeout: $form.attr('timeout') || 60000,
-	                data: GetFormVal(form_name),
+	                data: form_data,
 	                processData: false,
 					contentType: false,
 	                success: function(result)

@@ -339,6 +339,9 @@ class Common extends BaseController
 
         // 纯净模式
         MyViewAssign('page_pure', in_array($this->controller_name.$this->action_name, ['usermodallogininfo']) ? 1 : 0);
+
+        // 系统环境参数最大数
+        MyViewAssign('env_max_input_vars_count', SystemService::EnvMaxInputVarsCount());
     }
 
     /**

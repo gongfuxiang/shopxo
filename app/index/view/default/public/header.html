@@ -74,6 +74,7 @@
 		var __user_id__ = {{if empty($user['id'])}}0{{else /}}{{$user.id}}{{/if}};
         var __currency_symbol__ = '{{$currency_symbol}}';
         var __is_mobile__ = '{{if IsMobile()}}1{{else}}0{{/if}}';
+        var __env_max_input_vars_count__ = '{{$env_max_input_vars_count}}';
 	</script>
 	
 	<!-- 公共header内钩子 -->

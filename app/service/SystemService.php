@@ -153,5 +153,18 @@ class SystemService
     {
         return MyConfig($key).'_'.SYSTEM_TYPE.'_'.RequestModule();
     }
+
+    /**
+     * 获取环境参数最大数
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-24
+     * @desc    description
+     */
+    public static function EnvMaxInputVarsCount()
+    {
+        return intval(ini_get('max_input_vars'));
+    }
 }
 ?>

@@ -11,6 +11,7 @@
 namespace app\install\controller;
 
 use app\BaseController;
+use app\service\SystemService;
 
 /**
  * 安装程序-公共
@@ -34,6 +35,9 @@ class Common extends BaseController
     {
         // 当前方法
         MyViewAssign('action', RequestAction());
+
+        // 系统环境参数最大数
+        MyViewAssign('env_max_input_vars_count', SystemService::EnvMaxInputVarsCount());
     }
 
     /**
