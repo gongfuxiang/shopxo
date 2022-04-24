@@ -1687,8 +1687,22 @@ class BuyService
             return 0;
         }
 
-        // 获取购物车总数
-        $total = self::CartTotal(['user_id'=>$params['user']['id']]);
+        // 条件
+        $where = [
+            ['user_id', '=', $params['user']['id']]
+        ];
+
+        // 购物车总数读取前钩子
+        $hook_name = 'plugins_service_user_cart_total_begin';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'where'         => &$where,
+        ]);
+
+        
+        $total = self::CartTotal($where);
         return ($total > 99) ? '99+' : $total;
     }
 

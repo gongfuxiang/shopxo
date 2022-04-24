@@ -81,14 +81,14 @@ class Buy extends Common
             // 参数
             $params = array_merge($this->data_request, $data);
             $params['user'] = $this->user;
-            $buy_ret = BuyService::BuyTypeGoodsList($params);
+            $ret = BuyService::BuyTypeGoodsList($params);
 
             // 商品校验
-            if(isset($buy_ret['code']) && $buy_ret['code'] == 0)
+            if(isset($ret['code']) && $ret['code'] == 0)
             {
                 // 基础信息
-                $buy_base = $buy_ret['data']['base'];
-                $buy_goods = $buy_ret['data']['goods'];
+                $buy_base = $ret['data']['base'];
+                $buy_goods = $ret['data']['goods'];
 
                 // 用户地址
                 $address = UserAddressService::UserAddressList(['user'=>$this->user]);
@@ -112,7 +112,7 @@ class Buy extends Common
                 MyViewAssign('is_load_baidu_map_api', 1);
 
                 // 钩子
-                $this->PluginsHook($buy_ret['data'], $params);
+                $this->PluginsHook($ret['data'], $params);
 
                 // 浏览器名称
                 MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单确认', 1));
