@@ -3080,7 +3080,7 @@ class GoodsService
         // 分页计算
         $field = empty($params['field']) ? '*' : $params['field'];
         $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
-        $m = empty($params['m']) ? 0 : imtval($params['m']);
+        $m = empty($params['m']) ? 0 : intval($params['m']);
         $n = empty($params['n']) ? 20 : intval($params['n']);
 
         // 商品搜索列表读取前钩子
