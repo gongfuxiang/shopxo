@@ -36,7 +36,7 @@ class Alipay
     {
         if(empty($app_id) || empty($authcode))
         {
-            return ['status'=>-1, 'msg'=>'参数有误'];
+            return DataReturn('参数有误', -1);
         }
 
         // 请求参数
@@ -66,13 +66,12 @@ class Alipay
             // 验证签名正确则存储缓存返回数据
             if(!$this->SyncRsaVerify($result, 'alipay_system_oauth_token_response'))
             {
-                return ['status'=>-1, 'msg'=>'签名验证失败'];
+                return DataReturn('签名验证失败', -1);
             }
-
-            return ['status'=>0, 'msg'=>'success', 'data'=>$result['alipay_system_oauth_token_response']];
+            return DataReturn('授权成功', 0, $result['alipay_system_oauth_token_response']);
         }
         $msg = empty($result['error_response']['sub_msg']) ? '授权失败' : $result['error_response']['sub_msg'];
-        return ['status'=>-1, 'msg'=>$msg];
+        return DataReturn($msg, -1);
     }
 
     /**

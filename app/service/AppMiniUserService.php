@@ -63,14 +63,14 @@ class AppMiniUserService
         if(!empty($params['authcode']))
         {
             // 授权
-            $result = (new \base\Alipay())->GetAuthSessionKey(self::AppMiniConfig('common_app_mini_alipay_appid'), $params['authcode']);
-            if($result['status'] == 0)
+            $ret = (new \base\Alipay())->GetAuthSessionKey(self::AppMiniConfig('common_app_mini_alipay_appid'), $params['authcode']);
+            if($ret['code'] == 0)
             {
                 // 先从数据库获取用户信息
-                $user = UserService::AppUserInfoHandle(null, 'alipay_openid', $result['data']['user_id']);
+                $user = UserService::AppUserInfoHandle(null, 'alipay_openid', $ret['data']['user_id']);
                 if(empty($user))
                 {
-                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['user_id']]);
+                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['user_id']]);
                 } else {
                     // 用户状态
                     $ret = UserService::UserStatusCheck('id', $user['id']);
@@ -81,8 +81,6 @@ class AppMiniUserService
                         $ret = DataReturn('授权登录成功', 0, $user);
                     }
                 }
-            } else {
-                $ret = DataReturn($result['msg'], -100);
             }
         } else {
             $ret = DataReturn('授权码为空', -1);
@@ -157,14 +155,14 @@ class AppMiniUserService
     public static function WeixinUserAuth($params = [])
     {
         // 授权
-        $result = (new \base\Wechat(self::AppMiniConfig('common_app_mini_weixin_appid'), self::AppMiniConfig('common_app_mini_weixin_appsecret')))->GetAuthSessionKey($params);
-        if($result['status'] == 0)
+        $ret = (new \base\Wechat(self::AppMiniConfig('common_app_mini_weixin_appid'), self::AppMiniConfig('common_app_mini_weixin_appsecret')))->GetAuthSessionKey($params);
+        if($ret['code'] == 0)
         {
             // unionid
-            $unionid = empty($result['data']['unionid']) ? '' : $result['data']['unionid'];
+            $unionid = empty($ret['data']['unionid']) ? '' : $ret['data']['unionid'];
 
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $result['data']['openid']);
+            $user = UserService::AppUserInfoHandle(null, 'weixin_openid', $ret['data']['openid']);
             if(empty($user) && !empty($unionid))
             {
                 // 根据unionid获取数据
@@ -172,12 +170,12 @@ class AppMiniUserService
             }
             if(empty($user))
             {
-                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid'], 'unionid'=>$unionid]);
+                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid'], 'unionid'=>$unionid]);
             } else {
                 // 如果用户openid为空则绑定到用户下面
                 if(empty($user['weixin_openid']))
                 {
-                    if(UserService::UserOpenidBind($user['id'], $result['data']['openid'], 'weixin_openid'))
+                    if(UserService::UserOpenidBind($user['id'], $ret['data']['openid'], 'weixin_openid'))
                     {
                         // 登录数据更新
                         $user = UserService::AppUserInfoHandle($user['id']);
@@ -196,8 +194,6 @@ class AppMiniUserService
                     $ret = DataReturn('授权登录成功', 0, $user);
                 }
             }
-        } else {
-            $ret = DataReturn($result['msg'], -10);
         }
         return $ret;
     }
@@ -274,11 +270,11 @@ class AppMiniUserService
             'key'       => self::AppMiniConfig('common_app_mini_baidu_appkey'),
             'secret'    => self::AppMiniConfig('common_app_mini_baidu_appsecret'),
         ];
-        $result = (new \base\Baidu($config))->GetAuthSessionKey($params);
-        if($result['status'] == 0)
+        $ret = (new \base\Baidu($config))->GetAuthSessionKey($params);
+        if($ret['code'] == 0)
         {
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $result['data']['openid']);
+            $user = UserService::AppUserInfoHandle(null, 'baidu_openid', $ret['data']['openid']);
             if(!empty($user))
             {
                 // 用户状态
@@ -290,10 +286,8 @@ class AppMiniUserService
                     $ret = DataReturn('授权登录成功', 0, $user);
                 }
             } else {
-                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid']]);
+                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
             }
-        } else {
-            $ret = DataReturn($result['msg'], -10);
         }
         return $ret;
     }
@@ -351,18 +345,18 @@ class AppMiniUserService
                         'key'       => self::AppMiniConfig('common_app_mini_baidu_appkey'),
                         'secret'    => self::AppMiniConfig('common_app_mini_baidu_appsecret'),
                     ];
-                    $result = (new \base\Baidu($config))->DecryptData($auth_data['encrypted_data'], $auth_data['iv'], $params['openid']);
+                    $ret = (new \base\Baidu($config))->DecryptData($auth_data['encrypted_data'], $auth_data['iv'], $params['openid']);
 
-                    if($result['status'] == 0 && !empty($result['data']))
+                    if($ret['code'] == 0 && !empty($ret['data']))
                     {
-                        $result['nickname'] = isset($result['data']['nickname']) ? $result['data']['nickname'] : '';
-                        $result['avatar'] = isset($result['data']['headimgurl']) ? $result['data']['headimgurl'] : '';
-                        $result['gender'] = empty($result['data']['sex']) ? 0 : (($result['data']['sex'] == 2) ? 1 : 2);
-                        $result['openid'] = $result['data']['openid'];
-                        $result['referrer']= isset($params['referrer']) ? $params['referrer'] : 0;
-                        $ret = UserService::AuthUserProgram($result, 'baidu_openid');
-                    } else {
-                        $ret = DataReturn($result['msg'], -1);
+                        $data = [
+                            'nickname'  => isset($ret['data']['nickname']) ? $ret['data']['nickname'] : '',
+                            'avatar'    => isset($ret['data']['headimgurl']) ? $ret['data']['headimgurl'] : '',
+                            'gender'    => empty($ret['data']['sex']) ? 0 : (($ret['data']['sex'] == 2) ? 1 : 2),
+                            'openid'    => $ret['data']['openid'],
+                            'referrer'  => isset($params['referrer']) ? $params['referrer'] : 0,
+                        ];
+                        $ret = UserService::AuthUserProgram($data, 'baidu_openid');
                     }
                 } else {
                     $ret = DataReturn($ret, -1);
@@ -396,14 +390,14 @@ class AppMiniUserService
             'appid'     => self::AppMiniConfig('common_app_mini_toutiao_appid'),
             'secret'    => self::AppMiniConfig('common_app_mini_toutiao_appsecret'),
         ];
-        $result = (new \base\Toutiao($config))->GetAuthSessionKey($params);
-        if($result['status'] == 0)
+        $ret = (new \base\Toutiao($config))->GetAuthSessionKey($params);
+        if($ret['code'] == 0)
         {
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $result['data']['openid']);
+            $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $ret['data']['openid']);
             if(empty($user))
             {
-                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid']]);
+                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
             } else {
                 // 用户状态
                 $ret = UserService::UserStatusCheck('id', $user['id']);
@@ -414,8 +408,6 @@ class AppMiniUserService
                     $ret = DataReturn('授权登录成功', 0, $user);
                 }
             }
-        } else {
-            $ret = DataReturn($result['msg'], -10);
         }
         return $ret;
     }
@@ -487,14 +479,14 @@ class AppMiniUserService
         if(!empty($params['authcode']))
         {
             // 授权
-            $result = (new \base\QQ(self::AppMiniConfig('common_app_mini_qq_appid'), self::AppMiniConfig('common_app_mini_qq_appsecret')))->GetAuthSessionKey($params['authcode']);
-            if($result['status'] == 0)
+            $ret = (new \base\QQ(self::AppMiniConfig('common_app_mini_qq_appid'), self::AppMiniConfig('common_app_mini_qq_appsecret')))->GetAuthSessionKey($params['authcode']);
+            if($ret['code'] == 0)
             {
                 // 先从数据库获取用户信息
-                $user = UserService::AppUserInfoHandle(null, 'qq_openid', $result['data']['openid']);
+                $user = UserService::AppUserInfoHandle(null, 'qq_openid', $ret['data']['openid']);
                 if(empty($user))
                 {
-                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$result['data']['openid']]);
+                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
                 } else {
                     // 用户状态
                     $ret = UserService::UserStatusCheck('id', $user['id']);
@@ -505,8 +497,6 @@ class AppMiniUserService
                         $ret = DataReturn('授权登录成功', 0, $user);
                     }
                 }
-            } else {
-                $ret = DataReturn($result['msg'], -10);
             }
         } else {
             $ret = DataReturn('授权码为空', -1);
@@ -562,18 +552,18 @@ class AppMiniUserService
                 $ret = ParamsChecked($auth_data, $p);
                 if($ret === true)
                 {
-                    $result = (new \base\QQ(self::AppMiniConfig('common_app_mini_qq_appid'), self::AppMiniConfig('common_app_mini_qq_appsecret')))->DecryptData($auth_data['encrypted_data'], $auth_data['iv'], $params['openid']);
-                    if(is_array($result))
+                    $ret = (new \base\QQ(self::AppMiniConfig('common_app_mini_qq_appid'), self::AppMiniConfig('common_app_mini_qq_appsecret')))->DecryptData($auth_data['encrypted_data'], $auth_data['iv'], $params['openid']);
+                    if($ret['code'] == 0 && !empty($ret['data']))
                     {
-                        $result['nickname'] = isset($result['nickName']) ? $result['nickName'] : '';
-                        $result['avatar'] = isset($result['avatarUrl']) ? $result['avatarUrl'] : '';
-                        $result['gender'] = empty($result['gender']) ? 0 : (($result['gender'] == 2) ? 1 : 2);
-                        $result['qq_unionid'] = isset($result['unionId']) ? $result['unionId'] : '';
-                        $result['openid'] = $result['openId'];
-                        $result['referrer']= isset($params['referrer']) ? $params['referrer'] : 0;
-                        $ret = UserService::AuthUserProgram($result, 'qq_openid');
-                    } else {
-                        $ret = DataReturn(empty($result) ? '获取用户信息失败' : $result, -1);
+                        $data = [
+                            'nickname'  => isset($ret['data']['nickName']) ? $ret['data']['nickName'] : '',
+                            'avatar'    => isset($ret['data']['avatarUrl']) ? $ret['data']['avatarUrl'] : '',
+                            'gender'    => empty($ret['data']['gender']) ? 0 : (($ret['data']['gender'] == 2) ? 1 : 2),
+                            'qq_unionid'=> isset($ret['data']['unionId']) ? $ret['data']['unionId'] : '',
+                            'openid'    => $ret['data']['openId'],
+                            'referrer'  => isset($params['referrer']) ? $params['referrer'] : 0,
+                        ];
+                        $ret = UserService::AuthUserProgram($data, 'qq_openid');
                     }
                 } else {
                     $ret = DataReturn($ret, -1);
@@ -610,69 +600,92 @@ class AppMiniUserService
                 'key_name'          => 'openid',
                 'error_msg'         => 'openid为空',
             ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'encrypted_data',
-                'error_msg'         => '解密数据为空',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'iv',
-                'error_msg'         => 'iv为空,请重试',
-            ]
         ];
         $ret = ParamsChecked($params, $p);
-        if($ret === true)
+        if($ret !== true)
         {
-            // 根据不同平台处理数据解密逻辑
-            $mobile = '';
-            $error_msg = '';
-            switch(APPLICATION_CLIENT_TYPE)
-            {
-                // 微信
-                case 'weixin' :
-                    $result = (new \base\Wechat(self::AppMiniConfig('common_app_mini_weixin_appid'), self::AppMiniConfig('common_app_mini_weixin_appsecret')))->DecryptData($params['encrypted_data'], $params['iv'], $params['openid']);
-                    if($result['status'] == 0 && !empty($result['data']) && !empty($result['data']['purePhoneNumber']))
-                    {
-                        $mobile = $result['data']['purePhoneNumber'];
-                    } else {
-                        $error_msg = $result['msg'];
-                    }
-                    break;
-
-                // 百度
-                case 'baidu' :
-                    $config = [
-                        'appid'     => self::AppMiniConfig('common_app_mini_baidu_appid'),
-                        'key'       => self::AppMiniConfig('common_app_mini_baidu_appkey'),
-                        'secret'    => self::AppMiniConfig('common_app_mini_baidu_appsecret'),
-                    ];
-                    $result = (new \base\Baidu($config))->DecryptData($params['encrypted_data'], $params['iv'], $params['openid'], 'mobile_bind');
-                    if($result['status'] == 0 && !empty($result['data']) && !empty($result['data']['mobile']))
-                    {
-                        $mobile = $result['data']['mobile'];
-                    } else {
-                        $error_msg = $result['msg'];
-                    }
-                    break;
-
-                // 默认
-                default :
-                    $error_msg = APPLICATION_CLIENT_TYPE.'平台还未开发手机一键登录';
-            }
-            if(empty($mobile) || !empty($error_msg))
-            {
-                $ret = DataReturn(empty($error_msg) ? '数据解密失败' : $error_msg, -1);
-            } else {
-                // 用户信息处理
-                $params['mobile'] = $mobile;
-                $params['is_onekey_mobile_bind'] = 1;
-                $ret = UserService::AuthUserProgram($params, APPLICATION_CLIENT_TYPE.'_openid');
-            }
-        } else {
-            $ret = DataReturn($ret, -1);
+            return DataReturn($ret, -1);
         }
-        return $ret;
+
+        // 根据不同平台处理数据解密逻辑
+        $mobile = '';
+        switch(APPLICATION_CLIENT_TYPE)
+        {
+            // 微信
+            case 'weixin' :
+                // 参数校验
+                $p = [
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'code',
+                        'error_msg'         => '临时code为空',
+                    ],
+                ];
+                $ret = ParamsChecked($params, $p);
+                if($ret !== true)
+                {
+                    return DataReturn($ret, -1);
+                }
+
+                // 使用code换取手机号码
+                $ret = (new \base\Wechat(self::AppMiniConfig('common_app_mini_weixin_appid'), self::AppMiniConfig('common_app_mini_weixin_appsecret')))->GetUserPhoneNumber($params['code']);
+                if($ret['code'] == 0)
+                {
+                    $mobile = $ret['data'];
+                } else {
+                    return $ret;
+                }
+                break;
+
+            // 百度
+            case 'baidu' :
+                // 参数校验
+                $p = [
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'encrypted_data',
+                        'error_msg'         => '解密数据为空',
+                    ],
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'iv',
+                        'error_msg'         => 'iv为空,请重试',
+                    ]
+                ];
+                $ret = ParamsChecked($params, $p);
+                if($ret !== true)
+                {
+                    return DataReturn($ret, -1);
+                }
+
+                // 数据解密
+                $config = [
+                    'appid'     => self::AppMiniConfig('common_app_mini_baidu_appid'),
+                    'key'       => self::AppMiniConfig('common_app_mini_baidu_appkey'),
+                    'secret'    => self::AppMiniConfig('common_app_mini_baidu_appsecret'),
+                ];
+                $ret = (new \base\Baidu($config))->DecryptData($params['encrypted_data'], $params['iv'], $params['openid'], 'mobile_bind');
+                if($ret['code'] == 0 && !empty($ret['data']) && !empty($ret['data']['mobile']))
+                {
+                    $mobile = $ret['data']['mobile'];
+                } else {
+                    return $ret;
+                }
+                break;
+
+            // 默认
+            default :
+                return DataReturn(APPLICATION_CLIENT_TYPE.'平台还未开发手机一键登录', -1);
+        }
+        if(empty($mobile))
+        {
+            return DataReturn('手机号码为空', -1);
+        }
+
+        // 用户信息处理
+        $params['mobile'] = $mobile;
+        $params['is_onekey_mobile_bind'] = 1;
+        return UserService::AuthUserProgram($params, APPLICATION_CLIENT_TYPE.'_openid');
     }
 }
 ?>

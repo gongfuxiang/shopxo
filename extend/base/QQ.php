@@ -59,19 +59,19 @@ class QQ
         $session_data = MyCache($login_key);
         if(empty($session_data))
         {
-            return 'session key不存在';
+            return DataReturn('session key不存在', -1);
         }
 
         // iv长度
         if(strlen($iv) != 24)
         {
-            return 'iv长度错误';
+            return DataReturn('iv长度错误', -1);
         }
 
         // 加密函数
         if(!function_exists('openssl_decrypt'))
         {
-            return 'openssl不支持';
+            return DataReturn('openssl不支持', -1);
         }
 
         $aes_cipher = base64_decode($encrypted_data);
@@ -79,18 +79,17 @@ class QQ
         $data = json_decode($result, true);
         if($data == NULL)
         {
-            return '请重试！';
+            return DataReturn('请重试！', -1);
         }
         if($data['watermark']['appid'] != $this->_appid)
         {
-            return 'appid不匹配';
+            return DataReturn('appid不匹配', -1);
         }
 
         // 缓存存储
         $data_key = 'qq_user_info_'.$openid;
         MyCache($data_key, $data);
-
-        return $data;
+        return DataReturn('success', 0, $data);
     }
 
     /**
@@ -109,7 +108,7 @@ class QQ
         $result = $this->HttpRequestGet($url);
         if(empty($result))
         {
-            return ['status'=>-1, 'msg'=>'授权接口调用失败'];
+            return DataReturn('授权接口调用失败', -1);
         }
         if(!empty($result['openid']))
         {
@@ -118,9 +117,10 @@ class QQ
 
             // 缓存存储
             MyCache($key, $result);
-            return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
+            return DataReturn('授权成功', 0, $result);
         }
-        return ['status'=>-1, 'msg'=>empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg']];
+        $msg = empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg'];
+        return DataReturn($msg, -1);
     }
 
     /**

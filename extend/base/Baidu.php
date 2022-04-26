@@ -60,13 +60,13 @@ class Baidu
         $session_data = MyCache($login_key);
         if(empty($session_data))
         {
-            return ['status'=>-1, 'msg'=>'session key不存在'];
+            return DataReturn('session key不存在', -1);
         }
 
         // iv长度
         if(strlen($iv) != 24)
         {
-            return ['status'=>-1, 'msg'=>'iv长度错误'];
+            return DataReturn('iv长度错误', -1);
         }
 
         // 数据解密
@@ -80,7 +80,7 @@ class Baidu
         } else {
             if(!function_exists('mcrypt_module_open'))
             {
-                return ['status'=>-1, 'msg'=>'mcrypt_module_open方法不支持'];
+                return DataReturn('mcrypt_module_open方法不支持', -1);
             }
             $td = mcrypt_module_open(MCRYPT_RIJNDAEL_128, null, MCRYPT_MODE_CBC, null);
             mcrypt_generic_init($td, $session_key, $iv);
@@ -89,7 +89,7 @@ class Baidu
             mcrypt_module_close($td);
         }
         if ($plaintext == false) {
-            return ['status'=>-1, 'msg'=>'解密失败'];
+            return DataReturn('解密失败', -1);
         }
 
         // trim pkcs#7 padding
@@ -108,14 +108,13 @@ class Baidu
 
         if($app_key_decode != $this->_appkey)
         {
-            return ['status'=>-1, 'msg'=>'appkey不匹配'];
+            return DataReturn('appkey不匹配', -1);
         }
 
         // 缓存存储
         $data_key = 'baidu_'.$key.'_'.$openid;
         MyCache($data_key, $data);
-
-        return ['status'=>0, 'data'=>$data];
+        return DataReturn('success', 0, $data);
     }
 
     /**
@@ -131,11 +130,11 @@ class Baidu
     {
         if(empty($this->_appkey) || empty($this->_appkey) || empty($this->_appsecret))
         {
-            return ['status'=>-1, 'msg'=>'请先配置'];
+            return DataReturn('请先配置', -1);
         }
         if(empty($params['authcode']))
         {
-            return ['status'=>-1, 'msg'=>'授权码有误'];
+            return DataReturn('授权码有误', -1);
         }
 
         $data = [
@@ -146,7 +145,7 @@ class Baidu
         $result = json_decode($this->HttpRequestPost('https://spapi.baidu.com/oauth/jscode2sessionkey', $data), true);
         if(empty($result))
         {
-            return ['status'=>-1, 'msg'=>'授权接口调用失败'];
+            return DataReturn('授权接口调用失败', -1);
         }
         if(!empty($result['openid']))
         {
@@ -155,9 +154,10 @@ class Baidu
 
             // 缓存存储
             MyCache($key, $result);
-            return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
+            return DataReturn('授权成功', 0, $result);
         }
-        return ['status'=>-1, 'msg'=>empty($result['error_description']) ? '授权接口异常错误' : $result['error_description']];
+        $msg = empty($result['error_description']) ? '授权接口异常错误' : $result['error_description'];
+        return DataReturn($msg, -1);
     }
 
     /**

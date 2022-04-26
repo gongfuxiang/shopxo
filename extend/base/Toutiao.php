@@ -46,21 +46,26 @@ class Toutiao
     {
         if(empty($params['authcode']))
         {
-            return ['status'=>-1, 'msg'=>'授权码有误'];
+            return DataReturn('授权码有误', -1);
         }
         if(empty($this->config['appid']) || empty($this->config['secret']))
         {
-            return ['status'=>-1, 'msg'=>'配置有误'];
+            return DataReturn('配置有误', -1);
         }
 
         // 获取授权
         $url = 'https://developer.toutiao.com/api/apps/jscode2session?appid='.$this->config['appid'].'&secret='.$this->config['secret'].'&code='.$params['authcode'];
         $result = json_decode(RequestGet($url), true);
-        if(empty($result) || empty($result['openid']))
+        if(empty($result))
         {
-            return ['status'=>-1, 'msg'=>empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg']];
+            return DataReturn('授权接口调用失败', -1);
         }
-        return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
+        if(!empty($result['openid']))
+        {
+            return DataReturn('授权成功', 0, $result);
+        }
+        $msg = empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg'];
+        return DataReturn($msg, -1);
     }
 
     /**

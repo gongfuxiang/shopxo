@@ -108,7 +108,7 @@ class Wechat
             $data['lang'] = $params['lang'];
         }
         
-        $res = $this->HttpRequestPost($url, json_encode($data), false);
+        $res = $this->HttpRequestPost($url, $data, false);
         if(!empty($res))
         {
             if(stripos($res, 'errcode') === false)
@@ -146,37 +146,36 @@ class Wechat
         $session_data = MyCache($login_key);
         if(empty($session_data))
         {
-            return ['status'=>-1, 'msg'=>'session key不存在'];
+            return DataReturn('session key不存在', -1);
         }
 
         // iv长度
         if(strlen($iv) != 24)
         {
-            return ['status'=>-1, 'msg'=>'iv长度错误'];
+            return DataReturn('iv长度错误', -1);
         }
 
         // 加密函数
         if(!function_exists('openssl_decrypt'))
         {
-            return ['status'=>-1, 'msg'=>'openssl不支持'];
+            return DataReturn('openssl不支持', -1);
         }
 
         $result = openssl_decrypt(base64_decode($encrypted_data), "AES-128-CBC", base64_decode($session_data['session_key']), 1, base64_decode($iv));
         $data = json_decode($result, true);
         if($data == NULL)
         {
-            return ['status'=>-1, 'msg'=>'请重试！'];
+            return DataReturn('请重试！', -1);
         }
         if($data['watermark']['appid'] != $this->_appid)
         {
-            return ['status'=>-1, 'msg'=>'appid不匹配'];
+            return DataReturn('appid不匹配', -1);
         }
 
         // 缓存存储
         $data_key = 'wechat_user_info_'.$openid;
         MyCache($data_key, $data);
-
-        return ['status'=>0, 'data'=>$data];
+        return DataReturn('success', 0, $data);
     }
 
     /**
@@ -192,7 +191,7 @@ class Wechat
     {
         if(empty($params['authcode']))
         {
-            return ['status'=>-1, 'msg'=>'授权码有误'];
+            return DataReturn('授权码有误', -1);
         }
 
         // 请求获取session_key
@@ -200,7 +199,7 @@ class Wechat
         $result = $this->HttpRequestGet($url);
         if(empty($result))
         {
-            return ['status'=>-1, 'msg'=>'授权接口调用失败'];
+            return DataReturn('授权接口调用失败', -1);
         }
         if(!empty($result['openid']))
         {
@@ -209,9 +208,10 @@ class Wechat
 
             // 缓存存储
             MyCache($key, $result);
-            return ['status'=>0, 'msg'=>'授权成功', 'data'=>$result];
+            return DataReturn('授权成功', 0, $result);
         }
-        return ['status'=>-1, 'msg'=>empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg']];
+        $msg = empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg'];
+        return DataReturn($msg, -1);
     }
 
     /**
@@ -260,7 +260,7 @@ class Wechat
             'scene' => $params['scene'],
             'width' => empty($params['width']) ? 1000 : intval($params['width']),
         ];
-        $res = $this->HttpRequestPost($url, json_encode($data), false);
+        $res = $this->HttpRequestPost($url, $data, false);
         if(!empty($res))
         {
             if(stripos($res, 'errcode') === false)
@@ -273,6 +273,41 @@ class Wechat
             $msg = '获取二维码失败';
         }
         return DataReturn($msg, -1);
+    }
+
+    /**
+     * 获取用户手机号码
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-04-26
+     * @desc    description
+     * @param   [string]          $code  [临时code]
+     */
+    public function GetUserPhoneNumber($code)
+    {
+        // 获取access_token
+        $access_token = $this->GetMiniAccessToken();
+        if($access_token === false)
+        {
+            return DataReturn('access_token获取失败', -1);
+        }
+
+        // 获取手机
+        $url = 'https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token='.$access_token;
+        $data = [
+            'code'  => $code,
+        ];
+        $res = $this->HttpRequestPost($url, $data);
+        if(!empty($res))
+        {
+            if(isset($res['errcode']) && $res['errcode'] == 0 && !empty($res['phone_info']))
+            {
+                return DataReturn('success', 0, $res['phone_info']['purePhoneNumber']);
+            }
+            return DataReturn($res['errmsg'].'('.$res['errcode'].')', -1);
+        }
+        return DataReturn('接口请求失败', -1);
     }
 
     /**
@@ -457,10 +492,10 @@ class Wechat
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
         curl_setopt($curl, CURLOPT_POST, true);
-
         $res = curl_exec($curl);
+        curl_close($curl);
         if($is_parsing === true)
         {
             return json_decode($res, true);
