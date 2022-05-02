@@ -950,6 +950,7 @@ class OrderService
                 'hook_name'     => $hook_name,
                 'is_backend'    => true,
                 'params'        => $params,
+                'order'         => $order,
                 'order_id'      => $order['id']
             ]));
             if(isset($ret['code']) && $ret['code'] != 0)
