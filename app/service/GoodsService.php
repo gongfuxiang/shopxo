@@ -2760,7 +2760,9 @@ class GoodsService
         }
 
         // 仅可单独购买
-        return DataReturn('仅单买', -1, $site_type);
+        $site_type_arr = MyConst('common_site_type_list');
+        $msg = array_key_exists($site_type, $site_type_arr) ? '仅'.$site_type_arr[$site_type]['name'] : '仅单买';
+        return DataReturn($msg, -1, $site_type);
     }
 
     /**

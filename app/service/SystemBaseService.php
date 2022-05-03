@@ -280,7 +280,7 @@ class SystemBaseService
      */
     public static function SiteTypeValue()
     {
-        // 当前站点类型、默认销售型（0销售型, 1展示型, 2自提点, 3虚拟销售, 4销售+自提）
+        // 当前站点类型、默认快递（0快递, 1展示型, 2自提点, 3虚拟销售, 4销售+自提）
         $value = (int) MyC('common_site_type', 0, true);
 
         // 钩子

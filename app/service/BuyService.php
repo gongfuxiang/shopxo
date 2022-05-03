@@ -1062,7 +1062,7 @@ class BuyService
             ],
         ];
 
-        // // 销售型,自提点,销售+自提 则校验地址
+        // // 快递,自提点,销售+自提 则校验地址
         if(in_array($site_model, [0,2]))
         {
             $p[] = [
@@ -1150,7 +1150,7 @@ class BuyService
                 return $check;
             }
 
-            // 销售型,自提点,销售+自提 地址处理
+            // 快递,自提点,销售+自提 地址处理
             $address = [];
             if(in_array($site_model, [0,2]))
             {
@@ -1337,7 +1337,7 @@ class BuyService
                 }
 
                 // 订单模式处理
-                // 销售型模式,自提模式,销售+自提
+                // 快递模式,自提模式,销售+自提
                 if(in_array($order['order_model'], [0,2]))
                 {
                     // 添加订单(收货|取货)地址

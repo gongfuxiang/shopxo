@@ -1306,7 +1306,7 @@ class OrderService
                 }
 
                 // 订单模式处理
-                // 销售型模式+自提模式
+                // 快递模式+自提模式
                 if(in_array($v['order_model'], [0,2]))
                 {
                     // 销售模式+自提模式 地址信息
