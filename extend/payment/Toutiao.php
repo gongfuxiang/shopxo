@@ -93,7 +93,7 @@ class Toutiao
             ],
             [
                 'element'       => 'message',
-                'message'       => '异步通知地址，将该地址配置到头条小程序后台->支付->担保交易->担保交易设置中<br />'.__MY_URL__.'payment_order_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php',
+                'message'       => '异步通知地址，将该地址配置到头条小程序后台->支付->担保交易->担保交易设置中<br />'.__MY_URL__.'payment_default_order_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php',
             ],
         ];
 

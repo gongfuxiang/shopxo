@@ -109,7 +109,7 @@ class BaiduMini
             ],
             [
                 'element'       => 'message',
-                'message'       => '异步通知地址，将该地址配置到百度小程序支付后台异步通知<br />'.__MY_URL__.'payment_order_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php',
+                'message'       => '异步通知地址，将该地址配置到百度小程序支付后台异步通知<br />'.__MY_URL__.'payment_default_order_'.strtolower(str_replace(['payment', '\\'], '', get_class($this))).'_notify.php',
             ],
         ];
 
