@@ -108,13 +108,13 @@ class Goods
                     'view_key'      => 'brand_name',
                     'is_sort'       => 1,
                     'search_config' => [
-                        'form_type'         => 'module',
-                        'template'          => 'lib/module/category_brand',
+                        'form_type'         => 'select',
                         'form_name'         => 'brand_id',
+                        'where_type'        => 'in',
                         'data'              => BrandService::CategoryBrand(),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
-                        'where_type'        => 'in',
+                        'is_multiple'       => 1,
                     ],
                 ],
                 [

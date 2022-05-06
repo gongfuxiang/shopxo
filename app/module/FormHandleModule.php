@@ -368,10 +368,14 @@ class FormHandleModule
                         if(in_array($v['view_type'], ['checkbox', 'radio']))
                         {
                             // 是否部分不显示控件
-                            // 数据处理成为数组
+                            // 可配置 not_show_type 字段指定类型（0 eq 等于、 1 gt 大于、 2 lt 小于）
                             if(isset($v['not_show_data']) && !is_array($v['not_show_data']))
                             {
-                                $v['not_show_data'] = explode(',', $v['not_show_data']);
+                                // 存在英文逗号则转数组
+                                if(stripos($v['not_show_data'], ',') !== false)
+                                {
+                                    $v['not_show_data'] = explode(',', $v['not_show_data']);
+                                }
                             }
                             // 数据 key 字段默认主键 id [base->key_field]
                             if(!empty($v['not_show_data']) && empty($v['not_show_key']))

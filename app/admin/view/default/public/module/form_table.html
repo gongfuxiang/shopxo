@@ -279,7 +279,16 @@
                                             {{case radio}}
                                                 {{if isset($data_list[$i][$form_table['base']['key_field']])}}
                                                     <!-- 是否配置指定数据不显示控件 -->
-                                                    {{if empty($t['not_show_data']) or empty($t['not_show_key']) or !isset($data_list[$i][$t['not_show_key']]) or !in_array($data_list[$i][$t['not_show_key']], $t['not_show_data'])}}
+                                                    {{if
+                                                        !isset($t['not_show_data']) or 
+                                                        empty($t['not_show_key']) or 
+                                                        (is_array($t['not_show_data']) and isset($data_list[$i][$t['not_show_key']]) and !in_array($data_list[$i][$t['not_show_key']], $t['not_show_data'])) or 
+                                                        (isset($t['not_show_type']) and isset($data_list[$i][$t['not_show_key']]) and (
+                                                            ($t['not_show_type'] eq 0 and $data_list[$i][$t['not_show_key']] eq $t['not_show_data']) or 
+                                                            ($t['not_show_type'] eq 1 and $data_list[$i][$t['not_show_key']] gt $t['not_show_data']) or 
+                                                            ($t['not_show_type'] eq 2 and $data_list[$i][$t['not_show_key']] lt $t['not_show_data'])
+                                                        ))
+                                                    }}
                                                         <div class="form-table-operate-radio">
                                                             <label class="am-radio am-secondary am-radio-inline">
                                                                 <input type="radio" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
@@ -291,7 +300,16 @@
                                             {{case checkbox}}
                                                 {{if isset($data_list[$i][$form_table['base']['key_field']])}}
                                                     <!-- 是否配置指定数据不显示控件 -->
-                                                    {{if empty($t['not_show_data']) or empty($t['not_show_key']) or !isset($data_list[$i][$t['not_show_key']]) or !in_array($data_list[$i][$t['not_show_key']], $t['not_show_data'])}}
+                                                    {{if
+                                                        !isset($t['not_show_data']) or 
+                                                        empty($t['not_show_key']) or 
+                                                        (is_array($t['not_show_data']) and isset($data_list[$i][$t['not_show_key']]) and !in_array($data_list[$i][$t['not_show_key']], $t['not_show_data'])) or 
+                                                        (isset($t['not_show_type']) and isset($data_list[$i][$t['not_show_key']]) and !is_array($t['not_show_data']) and (
+                                                            ($t['not_show_type'] eq 0 and $data_list[$i][$t['not_show_key']] eq $t['not_show_data']) or 
+                                                            ($t['not_show_type'] eq 1 and $data_list[$i][$t['not_show_key']] gt $t['not_show_data']) or 
+                                                            ($t['not_show_type'] eq 2 and $data_list[$i][$t['not_show_key']] lt $t['not_show_data'])
+                                                        ))
+                                                    }}
                                                         <div class="form-table-operate-checkbox">
                                                             <label class="am-checkbox am-secondary am-checkbox-inline">
                                                                 <input type="checkbox" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />

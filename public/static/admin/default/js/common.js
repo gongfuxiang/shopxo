@@ -30,9 +30,10 @@ function ParametersItemHtmlCreated(type, name, value)
         html += '<input type="text" name="parameters_value[]" placeholder="参数值" value="'+(value || '')+'" maxlength="200" data-validation-message="请填写参数值" />';
         html += '</td>';
         html += '<td class="am-text-middle">';
-        html += '<span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="top">上移</span>';
-        html += '<span class="am-text-xs cr-blue c-p am-margin-right-sm line-move" data-type="bottom">下移</span>';
-        html += '<span class="am-text-xs cr-red c-p line-remove">移除</span></td>';
+        html += '<a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">上移</a> ';
+        html += '<a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">下移</a> ';
+        html += '<a href="javascript:;" class="am-text-xs am-text-danger line-remove">移除</a>';
+        html += '</td>';
         html += '</tr>';
 
     // 数据添加

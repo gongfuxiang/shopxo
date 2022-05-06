@@ -721,7 +721,7 @@ class GoodsService
                 }
                 if(!empty($v['upd_time']))
                 {
-                    $v['upd_time'] = date('Y-m-d H:i:s', $v['upd_time']);
+                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
                 }
 
                 // 是否需要分类名称
