@@ -29,11 +29,6 @@
 	                                    {{if !empty($v['items'])}}
 	                                        {{foreach $v.items as $vs}}
 	                                            <option style="padding-left: 30px;" value="{{$vs.id}}">二级 - {{$vs.name}}</option>
-	                                            {{if !empty($vs['items'])}}
-	                                                {{foreach $vs.items as $vss}}
-	                                                    <option style="padding-left: 60px;" value="{{$vss.id}}">三级 - {{$vss.name}}</option>
-	                                                {{/foreach}}
-	                                            {{/if}}
 	                                        {{/foreach}}
 	                                    {{/if}}
 	                                {{/foreach}}
