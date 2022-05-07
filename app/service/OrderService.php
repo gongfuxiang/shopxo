@@ -1686,18 +1686,14 @@ class OrderService
     private static function OrderAftersaleStatusBtnText($order_status, $orderaftersale)
     {
         $text = null;
-        if(in_array($order_status, [2,3,4,6]))
+        if(!in_array($order_status, [0,1,5,6]))
         {
             if(empty($orderaftersale))
             {
-                if(in_array($order_status, [2,3]))
+                $text = '退款/退货';
+                if($order_status == 4)
                 {
-                    $text = '退款/退货';
-                } else {
-                    if($order_status == 4)
-                    {
-                        $text = '申请售后';
-                    }
+                    $text = '申请售后';
                 }
             } else {
                 $text = ($orderaftersale['status'] == 3) ? '查看退款' : '查看进度';
