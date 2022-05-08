@@ -36,7 +36,7 @@ return [
       'imageCompressEnable'       =>  true,
 
       // 图片压缩最长边限制
-      'imageCompressBorder'       =>  1600,
+      'imageCompressBorder'       =>  5000,
 
       // 插入的图片浮动方式
       'imageInsertAlign'          =>  'none',
