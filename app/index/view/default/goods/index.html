@@ -72,24 +72,22 @@
         <!-- pc放大镜 / 左侧 -->
         <div class="clearfix-left" id="clearcontent">
             <div class="box">
-                <div class="tb-booth tb-pic tb-s310">
+                <div class="tb-booth tb-pic">
                     {{if !empty($goods['photo'][0])}}
                         <img src="{{$goods['photo'][0]['images']}}" alt="{{$goods.title}}" rel="{{$goods['photo'][0]['images']}}" class="jqzoom" />
                     {{/if}}
                 </div>
-                <ul class="tb-thumb" id="thumblist">
-                    {{if !empty($goods.photo)}}
-                        {{foreach $goods.photo as $photo_key=>$photo}}
-                            <li class="{{if $photo_key eq 0}}tb-selected{{else /}} tb-pic{{/if}}">
-                                <div class="tb-pic tb-s40">
-                                    <a href="javascript:;">
-                                        <img src="{{$photo.images}}" mid="{{$photo.images}}" big="{{$photo.images}}" class="tb-s40" />
-                                    </a>
-                                </div>
-                            </li>
-                        {{/foreach}}
-                    {{/if}}
-                </ul>
+                <div class="am-slider am-slider-default am-slider-carousel am-margin-0 tb-thumb" data-am-flexslider="{itemWidth: 60, itemMargin: 5, slideshow: false, controlNav: false}">
+                    <ul class="am-slides" id="thumblist">
+                        {{if !empty($goods.photo)}}
+                            {{foreach $goods.photo as $photo_key=>$photo}}
+                                <li class="{{if $photo_key eq 0}}tb-selected{{else /}} tb-pic{{/if}}">
+                                    <img src="{{$photo.images}}" mid="{{$photo.images}}" big="{{$photo.images}}" class="tb-pic-min" />
+                                </li>
+                            {{/foreach}}
+                        {{/if}}
+                    </ul>
+                </div>
 
                 <!-- 视频 -->
                 {{if !empty($goods.video)}}

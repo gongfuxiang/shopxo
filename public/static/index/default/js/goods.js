@@ -562,10 +562,11 @@ $(function() {
     $('.jqzoom').imagezoom({
         yzoom: 398
     });
-    $('#thumblist li a').on('mouseover', function() {
+    $('#thumblist li img').on('mouseover', function() {
         $(this).parents('li').addClass('tb-selected').siblings().removeClass('tb-selected');
-        $('.jqzoom').attr('src', $(this).find('img').attr('mid'));
-        $('.jqzoom').attr('rel', $(this).find('img').attr('big'));
+        var img = $(this).attr('mid');
+        $('.jqzoom').attr('src', img);
+        $('.jqzoom').attr('rel', img);
     });
 
     // 规格选择显示事件
