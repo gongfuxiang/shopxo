@@ -309,7 +309,7 @@ class StoreService
         // 请求校验
         $data = [
             'accounts'      => $accounts,
-            'authdata'      => htmlspecialchars_decode($password),
+            'authdata'      => empty($password) ? '' : htmlspecialchars_decode($password),
             'host'          => __MY_HOST__,
             'url'           => __MY_URL__,
             'ver'           => APPLICATION_VERSION,

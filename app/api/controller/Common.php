@@ -29,15 +29,20 @@ class Common extends BaseController
 	// 用户信息
 	protected $user;
 
-    // 当前操作名称
-    protected $module_name;
-    protected $controller_name;
-    protected $action_name;
-
     // 输入参数 post|get|request
     protected $data_post;
     protected $data_get;
     protected $data_request;
+
+    // 当前系统操作名称
+    protected $module_name;
+    protected $controller_name;
+    protected $action_name;
+
+    // 当前插件操作名称
+    protected $plugins_module_name;
+    protected $plugins_controller_name;
+    protected $plugins_action_name;
 
     // 分页信息
     protected $page;
@@ -187,10 +192,22 @@ class Common extends BaseController
 		// 用户数据
 		$this->user = UserService::LoginUserInfo();
 
-        // 当前操作名称
+        // 当前系统操作名称
         $this->module_name = RequestModule();
         $this->controller_name = RequestController();
         $this->action_name = RequestAction();
+
+        // 当前插件操作名称, 兼容插件模块名称
+        if(empty($this->data_request['pluginsname']))
+        {
+            $this->plugins_module_name = '';
+            $this->plugins_controller_name = '';
+            $this->plugins_action_name = '';
+        } else {
+            $this->plugins_module_name = $this->data_request['pluginsname'];
+            $this->plugins_controller_name = empty($this->data_request['pluginscontrol']) ? 'index' : $this->data_request['pluginscontrol'];
+            $this->plugins_action_name = empty($this->data_request['pluginsaction']) ? 'index' : $this->data_request['pluginsaction'];
+        }
 
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
