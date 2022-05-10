@@ -2038,13 +2038,19 @@ function HtmlToString(html_str)
  */
 function GetQueryValue(field = null)
 {
-	// 参数值
-	var query = window.location.search || null;
-	if(query == null)
+	// 路径参数值
+	var path = window.location.pathname || null;
+	var query = (path == null || path == '/') ? '' : path
+
+	// 问号后面的参数值
+	var search = window.location.search || null;
+	if(search != null)
 	{
-		query = window.location.pathname || null;
-	} else {
-		query = query.substring(1);
+		if(query != '')
+		{
+			query += '&';
+		}
+		query += search.substring(1);
 	}
 
 	// 首两个是否为s=字符，存在则去除
