@@ -23,6 +23,7 @@ use app\service\GoodsService;
 use app\service\OrderAftersaleService;
 use app\service\OrderCurrencyService;
 use app\service\WarehouseService;
+use app\service\SystemService;
 
 /**
  * 订单服务层
@@ -2483,7 +2484,7 @@ class OrderService
         $pay_log = Db::name('PayLog')->where($where)->field('id,status')->find();
         if(empty($pay_log))
         {
-            return DataReturn('支付订单不存在', -400, ['url'=>__MY_URL__]);
+            return DataReturn('支付订单不存在', -400, ['url'=>SystemService::HomeUrl()]);
         }
         if($pay_log['status'] == 1)
         {

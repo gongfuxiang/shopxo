@@ -166,5 +166,18 @@ class SystemService
     {
         return intval(ini_get('max_input_vars'));
     }
+
+    /**
+     * 首页地址
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-05-12
+     * @desc    description
+     */
+    public static function HomeUrl()
+    {
+        return MyC('common_domain_host', __MY_URL__, true);
+    }
 }
 ?>

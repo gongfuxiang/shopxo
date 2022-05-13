@@ -1086,3 +1086,22 @@ legend a.am-fr {
         color: #ea304b;
     }
 }
+
+/**
+ * 二级导航
+ */
+.second-nav {
+    background: #90b9ff;
+}
+.second-nav li a {
+    color: #fff;
+}
+.second-nav > li > a:hover {
+    font-weight: bold;
+    background-color: transparent;
+}
+.second-nav li.am-active a,
+.second-nav li.am-active a:hover {
+    background-color: #1cc09f !important;
+    color: #fff !important;
+}

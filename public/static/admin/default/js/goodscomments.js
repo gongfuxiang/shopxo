@@ -19,7 +19,7 @@ $(function()
         $popup.find('.goods-info .base img').attr('src', json.goods.images || $popup.find('.goods-info .base img').attr('src'));
         $popup.find('.goods-info .title').html(json.goods.title);
         $popup.find('.goods-info .price').html(__currency_symbol__+json.goods.price);
-
         $popup.find('.content').html(json.content || '<span class="cr-ddd">没有评论内容</span>');
+        $popup.find('textarea[name="reply"]').val(json.reply || '');
     });
 });

@@ -1264,10 +1264,17 @@ function AjaxRequest(e)
 	var value = e.attr('data-value') || '';
 	var url = e.attr('data-url');
 	var view = e.attr('data-view') || '';
+	var is_example = e.hasClass('btn-loading-example');
 
 	// 请求数据
 	var data = {"value": value, "field": field};
 		data[key] = id;
+
+	// 按钮加载
+	if(is_example)
+	{
+		e.button('loading');
+	}
 
 	// ajax
 	$.AMUI.progress.start();
@@ -1279,6 +1286,10 @@ function AjaxRequest(e)
 		data:data,
 		success:function(result)
 		{
+			if(is_example)
+			{
+				e.button('reset');
+			}
 			$.AMUI.progress.done();
 			if(result.code == 0)
 			{
@@ -1319,6 +1330,10 @@ function AjaxRequest(e)
 		},
 		error:function(xhr, type)
 		{
+			if(is_example)
+			{
+				e.button('reset');
+			}
 			$.AMUI.progress.done();
 			Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
 		}

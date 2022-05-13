@@ -305,7 +305,7 @@ class PluginsService
                 {
                     return DataReturn('无效插件['.$plugins.']', -10);
                 }
-                MyRedirect(__MY_URL__, true);
+                MyRedirect(SystemService::HomeUrl(), true);
             }
             return DataReturn('应用未安装['.$plugins.']', -10);
         }

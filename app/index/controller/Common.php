@@ -288,6 +288,9 @@ class Common extends BaseController
         // 当前http类型
         MyViewAssign('my_http', __MY_HTTP__);
 
+        // 首页地址
+        MyViewAssign('home_url', SystemService::HomeUrl());
+
         // url模式
         MyViewAssign('url_model', MyC('home_seo_url_model', 0));
 
@@ -592,7 +595,7 @@ class Common extends BaseController
         {
             if(!empty($this->plugins_module_name))
             {
-                $current .= '_'.trim($this->plugins_module_name);
+                $current .= '_'.$this->plugins_module_name.'_'.$this->plugins_controller_name;
             }
         }
 

@@ -46,6 +46,7 @@ class GoodsComments
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/goodscomments/delete'),
                 'delete_key'    => 'ids',
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [
@@ -158,7 +159,7 @@ class GoodsComments
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_is_shelves_list'),
+                        'data'              => MyConst('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,

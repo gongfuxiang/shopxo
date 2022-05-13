@@ -63,7 +63,7 @@ class NavigationService
             'id'                    => 0,
             'pid'                   => 0,
             'name'                  => '首页',
-            'url'                   => __MY_URL__,
+            'url'                   => SystemService::HomeUrl(),
             'data_type'             => 'system',
             'is_show'               => 1,
             'is_new_window_open'    => 0,
@@ -1008,7 +1008,7 @@ class NavigationService
                 'badge'     => null,
                 'icon'      => 'nav-icon-home',
                 'only_tag'  => 'indexindex',
-                'url'       => __MY_URL__,
+                'url'       => SystemService::HomeUrl(),
             ],
             [
                 'name'      => '分类',

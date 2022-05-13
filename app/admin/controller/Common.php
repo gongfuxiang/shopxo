@@ -220,6 +220,9 @@ class Common extends BaseController
         // 当前http类型
         MyViewAssign('my_http', __MY_HTTP__);
 
+        // 首页地址
+        MyViewAssign('home_url', SystemService::HomeUrl());
+
         // 开发模式
         MyViewAssign('shopxo_is_develop', MyConfig('shopxo.is_develop'));
 
@@ -424,9 +427,9 @@ class Common extends BaseController
         // 是否插件默认下
         if($this->controller_name == 'plugins')
         {
-            if(!empty($this->data_request['pluginsname']))
+            if(!empty($this->plugins_module_name))
             {
-                $current .= '_'.trim($this->data_request['pluginsname']);
+                $current .= '_'.$this->plugins_module_name.'_'.$this->plugins_controller_name;
             }
         }
 
