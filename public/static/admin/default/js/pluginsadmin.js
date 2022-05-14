@@ -62,7 +62,7 @@ $(function()
         // ajax请求
         $.AMUI.progress.start();
         $.ajax({
-            url: $('.content ul.am-gallery-bordered').data('sort-save-url'),
+            url: RequestUrlHandle($('.content ul.am-gallery-bordered').data('sort-save-url')),
             type: 'POST',
             dataType: 'json',
             timeout: 10000,

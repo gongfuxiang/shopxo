@@ -43,7 +43,7 @@ $(function()
         $this.button('loading');
         $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($('.goods-list-container').data('loading-msg'))+'</div>');
         $.ajax({
-            url: url,
+            url: RequestUrlHandle(url),
             type: 'post',
             data: {"page":page, "warehouse_id":warehouse_id, "category_id":category_id, "keywords":keywords},
             dataType: 'json',
@@ -89,7 +89,7 @@ $(function()
 
         $.AMUI.progress.start();
         $.ajax({
-            url: url,
+            url: RequestUrlHandle(url),
             type: 'post',
             data: {"warehouse_id":warehouse_id, "goods_id":goods_id},
             dataType: 'json',

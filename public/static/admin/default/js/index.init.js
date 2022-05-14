@@ -26,7 +26,7 @@ function SystemUpgradeRequestHandle(params)
 
     // ajax
     $.ajax({
-        url: url,
+        url: RequestUrlHandle(url),
         type: 'POST',
         dataType: 'json',
         timeout: 305000,
@@ -430,7 +430,7 @@ function EchartsInit(e)
     e.button('loading');
     $.AMUI.progress.start();
     $.ajax({
-        url: $('.content-right').data('url'),
+        url: RequestUrlHandle($('.content-right').data('url')),
         type: 'POST',
         dataType: 'json',
         timeout: 30000,
@@ -507,7 +507,7 @@ $(function()
 
         // ajax请求
         $.ajax({
-            url: $(this).data('url'),
+            url: RequestUrlHandle($(this).data('url')),
             type: 'POST',
             dataType: 'json',
             timeout: 30000,

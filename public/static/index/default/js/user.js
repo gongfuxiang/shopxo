@@ -79,7 +79,7 @@ $(function()
 
 			// 发送验证码
 			$.ajax({
-				url: $('.verify-submit').data('url'),
+				url: RequestUrlHandle($('.verify-submit').data('url')),
 				type: 'POST',
 				data: {"accounts":$accounts.val(), "verify":verify, "type":$form_tag.find('input[name="type"]').val()},
 				dataType: 'json',

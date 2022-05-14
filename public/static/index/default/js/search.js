@@ -56,7 +56,7 @@ function GetGoodsList(page)
 
     // 请求数据
     $.ajax({
-        url: $('.search-pages-submit').data('url'),
+        url: RequestUrlHandle($('.search-pages-submit').data('url')),
         type: 'POST',
         dataType: 'json',
         timeout: 30000,

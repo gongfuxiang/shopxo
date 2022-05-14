@@ -64,7 +64,7 @@ $(function()
 
         // ajax请求
         $.ajax({
-            url: $('.cart-content').data('ajax-url'),
+            url: RequestUrlHandle($('.cart-content').data('ajax-url')),
             type: 'post',
             dataType: "json",
             timeout: 10000,

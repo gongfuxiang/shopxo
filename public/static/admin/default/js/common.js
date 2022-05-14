@@ -115,7 +115,7 @@ function PackageUpgradeRequestHandle(params)
 
     // ajax
     $.ajax({
-        url: url,
+        url: RequestUrlHandle(url),
         type: 'POST',
         dataType: 'json',
         timeout: 305000,

@@ -129,6 +129,16 @@ class SystemService
         // 取默认值
         $value = SYSTEM_TYPE;
 
+        // 默认值则判断是否参数存在值
+        if($value == 'default')
+        {
+            $system_type = MyInput('system_type');
+            if(!empty($system_type))
+            {
+                $value = $system_type;
+            }
+        }
+
         // 系统类型钩子
         $hook_name = 'plugins_service_system_system_type_value';
         MyEventTrigger($hook_name, [

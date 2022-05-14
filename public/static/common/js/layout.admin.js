@@ -803,7 +803,7 @@ function FormBackModuleConfigGoodsHandle(data)
     var url = $offcanvas_config_goods.data('data-url');
     $this.button('loading');
     $.ajax({
-        url: url,
+        url: RequestUrlHandle(url),
         type: 'post',
         data: {
             "data_type": data.goods_data_type,
@@ -2657,7 +2657,7 @@ $(function()
         $this.button('loading');
         $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($('.goods-list-container').data('loading-msg'))+'</div>');
         $.ajax({
-            url: url,
+            url: RequestUrlHandle(url),
             type: 'post',
             data: {"page":page, "category_field":category_field, "category_id":category_id, "keywords":keywords, "goods_ids":goods_ids},
             dataType: 'json',
@@ -2754,7 +2754,7 @@ $(function()
         // 获取商品
         $this.button('loading');
         $.ajax({
-            url: url,
+            url: RequestUrlHandle(url),
             type: 'post',
             data: {"goods_ids":goods_ids},
             dataType: 'json',
@@ -3031,7 +3031,7 @@ $(function()
         var $this = $(this);
         $this.button('loading');
         $.ajax({
-            url: $layout_operate_container.data('save-url'),
+            url: RequestUrlHandle($layout_operate_container.data('save-url')),
             type: 'post',
             data: data,
             dataType: 'json',

@@ -1,0 +1,31 @@
+<div class="am-alert am-alert-warning am-radius am-text-xs" data-am-alert>
+    <button type="button" class="am-close">&times;</button>
+    <div>
+        <p><strong>WEB页面</strong></p>
+        <div class="am-padding-left-lg">
+            <p>1. 以http开头</p>
+            <p>2. 如小程序中使用WEB页面、需要在小程序后台加入白名单</p>
+        </div>
+    </div>
+    <div class="am-margin-top-xs">
+        <p><strong>内部页面(小程序/APP内部地址)</strong></p>
+        <div class="am-padding-left-lg">
+            <p>1. 小程序或APP内部地址</p>
+            <p>2. 小程序以/pages开始</p>
+            <p>3. 例如：/pages/user/user</p>
+            <p>4. 支持带参数 ?x=xx</p>
+            {{if !empty($site_store_links) and !empty($site_store_links['app_mini_pages'])}}
+                <p>
+                    <a href="{{$site_store_links.app_mini_pages}}" target="_blank">小程序页面地址配置说明 <i class="am-icon-external-link"></i></a>
+                </p>
+            {{/if}}
+        </div>
+    </div>
+    <div class="am-margin-top-xs">
+        <p><strong>跳转原生地图查看指定位置</strong></p>
+        <div class="am-padding-left-lg">
+            <p>1. 以 | 竖线分割，分别顺序 名称|地址|经度|纬度</p>
+            <p>2. 例如：ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843</p>
+        </div>
+    </div>
+</div>

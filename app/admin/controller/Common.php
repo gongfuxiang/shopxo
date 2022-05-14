@@ -63,6 +63,9 @@ class Common extends BaseController
     protected $form_order_by;
     protected $form_error;
 
+    // 系统类型
+    protected $system_type;
+
 	/**
      * 构造方法
      * @author   Devil
@@ -144,6 +147,13 @@ class Common extends BaseController
 	 */
 	public function ViewInit()
 	{
+        // 系统类型
+        $this->system_type = SystemService::SystemTypeValue();
+        MyViewAssign('system_type', $this->system_type);
+
+        // 公共参数
+        MyViewAssign('params', $this->data_request);
+
 		// 主题
         $default_theme = 'default';
         MyViewAssign('default_theme', $default_theme);

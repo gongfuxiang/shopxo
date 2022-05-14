@@ -14,6 +14,7 @@ use app\BaseController;
 use app\module\FormHandleModule;
 use app\service\SystemService;
 use app\service\SystemBaseService;
+use app\service\StoreService;
 use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\NavigationService;
@@ -70,6 +71,9 @@ class Common extends BaseController
     protected $form_user_fields;
     protected $form_order_by;
     protected $form_error;
+
+    // 系统类型
+    protected $system_type;
 
     /**
      * 构造方法
@@ -190,6 +194,10 @@ class Common extends BaseController
      */
     public function ViewInit()
     {
+        // 系统类型
+        $this->system_type = SystemService::SystemTypeValue();
+        MyViewAssign('system_type', $this->system_type);
+
         // 公共参数
         MyViewAssign('params', $this->data_request);
 
@@ -364,6 +372,13 @@ class Common extends BaseController
 
         // 系统环境参数最大数
         MyViewAssign('env_max_input_vars_count', SystemService::EnvMaxInputVarsCount());
+
+        // 站点商店信息
+        $site_store_info = StoreService::SiteStoreInfo();
+        MyViewAssign('site_store_info', $site_store_info);
+        // 更多链接地址
+        $site_store_links = empty($site_store_info['links']) ? [] : $site_store_info['links'];
+        MyViewAssign('site_store_links', $site_store_links);
     }
 
     /**

@@ -37,7 +37,7 @@ function GoodsCommentsHtml(page)
     }
 
     $.ajax({
-        url: $('.goods-comment').data('url'),
+        url: RequestUrlHandle($('.goods-comment').data('url')),
         type: 'POST',
         data: {"goods_id": $('.goods-comment').data('goods-id'), "page": page || 1},
         dataType: 'json',
@@ -274,7 +274,7 @@ function GoodsSpecDetail()
 
     // ajax请求
     $.ajax({
-        url: $('.goods-detail').data('spec-detail-ajax-url'),
+        url: RequestUrlHandle($('.goods-detail').data('spec-detail-ajax-url')),
         type: 'post',
         dataType: "json",
         timeout: 10000,
@@ -331,7 +331,7 @@ function GoodsSpecType()
 
     // ajax请求
     $.ajax({
-        url: $('.goods-detail').data('spec-type-ajax-url'),
+        url: RequestUrlHandle($('.goods-detail').data('spec-type-ajax-url')),
         type: 'post',
         dataType: "json",
         timeout: 10000,
@@ -442,7 +442,7 @@ function GoodsNumberChange()
 
     // ajax请求
     $.ajax({
-        url: $('#text_box').data('ajax-url'),
+        url: RequestUrlHandle($('#text_box').data('ajax-url')),
         type: 'post',
         dataType: "json",
         timeout: 10000,
@@ -627,7 +627,7 @@ $(function() {
             // ajax请求
             $.AMUI.progress.start();
             $.ajax({
-                url: $(this).data('ajax-url'),
+                url: RequestUrlHandle($(this).data('ajax-url')),
                 type: 'post',
                 dataType: "json",
                 timeout: 10000,

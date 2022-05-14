@@ -42,7 +42,7 @@ function RequestHandle(key, opt, msg)
 
     // ajax
     $.ajax({
-        url: url,
+        url: RequestUrlHandle(url),
         type: 'POST',
         dataType: 'json',
         timeout: 305000,

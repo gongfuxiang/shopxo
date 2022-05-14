@@ -5,7 +5,7 @@ $(function()
     {
         // ajax请求
         $.ajax({
-            url: $('.qrcode-pay').data('ajax-url'),
+            url: RequestUrlHandle($('.qrcode-pay').data('ajax-url')),
             type: 'post',
             dataType: "json",
             timeout: 10000,

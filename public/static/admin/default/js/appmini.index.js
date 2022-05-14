@@ -12,7 +12,7 @@ $(function()
                 // ajax请求
                 $.AMUI.progress.start();
                 $.ajax({
-                    url: $('.data-list').data('select-url'),
+                    url: RequestUrlHandle($('.data-list').data('select-url')),
                     type: 'POST',
                     dataType: 'json',
                     timeout: 10000,

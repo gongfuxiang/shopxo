@@ -521,7 +521,7 @@ function FromInit(form_name)
 				// ajax请求
 				$.AMUI.progress.start();
 				$.ajax({
-					url: action,
+					url: RequestUrlHandle(action),
 					type: method,
 	                dataType: "json",
 	                timeout: $form.attr('timeout') || 60000,
@@ -669,12 +669,12 @@ function FormDataFill(json, tag)
 function Tree(id, url, level, is_add_node, is_delete_all)
 {
 	$.ajax({
-		url:url,
-		type:'POST',
-		dataType:"json",
-		timeout:60000,
-		data:{"id":id},
-		success:function(result)
+		url: RequestUrlHandle(url),
+		type: 'POST',
+		dataType: 'json',
+		timeout: 60000,
+		data: {"id":id},
+		success: function(result)
 		{
 			if(result.code == 0 && result.data.length > 0)
 			{
@@ -700,7 +700,7 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 				$('#tree').find('img').remove();
 			}
 		},
-		error:function(xhr, type)
+		error: function(xhr, type)
 		{
 			$('#tree').find('p').text(HtmlToString(xhr.responseText) || '异常错误');
 			$('#tree').find('img').remove();
@@ -1077,7 +1077,7 @@ function ModalLoad(url, title, class_tag, full, full_max)
 	// 调用弹窗组件
 	AMUI.dialog.popup({
 		title: title || '',
-		content: '<iframe src="'+url+'" width="100%" height="100%"></iframe>',
+		content: '<iframe src="'+RequestUrlHandle(url)+'" width="100%" height="100%"></iframe>',
 		class: ent
 	});
 }
@@ -1143,12 +1143,12 @@ function DataDelete(e)
 	// 请求删除数据
 	$.AMUI.progress.start();
 	$.ajax({
-		url:url,
-		type:'POST',
-		dataType:"json",
-		timeout:e.attr('data-timeout') || 60000,
-		data:data,
-		success:function(result)
+		url: RequestUrlHandle(url),
+		type: 'POST',
+		dataType: 'json',
+		timeout: e.attr('data-timeout') || 60000,
+		data: data,
+		success: function(result)
 		{
 			$.AMUI.progress.done();
 			if(result.code == 0)
@@ -1209,7 +1209,7 @@ function DataDelete(e)
 				Prompt(result.msg);
 			}
 		},
-		error:function(xhr, type)
+		error: function(xhr, type)
 		{
 			$.AMUI.progress.done();
 			Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
@@ -1279,12 +1279,12 @@ function AjaxRequest(e)
 	// ajax
 	$.AMUI.progress.start();
 	$.ajax({
-		url:url,
-		type:'POST',
-		dataType:"json",
-		timeout:e.attr('data-timeout') || 60000,
-		data:data,
-		success:function(result)
+		url: RequestUrlHandle(url),
+		type: 'POST',
+		dataType: 'json',
+		timeout: e.attr('data-timeout') || 60000,
+		data: data,
+		success: function(result)
 		{
 			if(is_example)
 			{
@@ -1328,7 +1328,7 @@ function AjaxRequest(e)
 				Prompt(result.msg);
 			}
 		},
-		error:function(xhr, type)
+		error: function(xhr, type)
 		{
 			if(is_example)
 			{
@@ -1660,11 +1660,11 @@ function RegionNodeData(pid, name, next_name, value)
 	if(pid != null)
 	{
 		$.ajax({
-			url:$('.region-linkage').attr('data-url'),
-			type:'POST',
-			data:{"pid": pid},
-			dataType:'json',
-			success:function(result)
+			url: RequestUrlHandle($('.region-linkage').attr('data-url')),
+			type: 'POST',
+			data: {"pid": pid},
+			dataType: 'json',
+			success: function(result)
 			{
 				if(result.code == 0)
 				{
@@ -2211,6 +2211,22 @@ function RegionLinkageInit()
 	}
 }
 
+/**
+ * 请求url地址处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-05-14
+ * @desc    description
+ * @param   {string}        url [请求url地址]
+ */
+function RequestUrlHandle(url)
+{
+	// 增加系统参数
+	url = UrlFieldReplace('system_type', __system_type__, url);
+
+	return url;
+}
 
 
 // 公共数据操作
@@ -2271,9 +2287,9 @@ $(function()
 		$button.button('loading');
 		$.AMUI.progress.start();
 		$.ajax({
-			url: $button.data('url'),
+			url: RequestUrlHandle($button.data('url')),
 			type: 'POST',
-			dataType: "json",
+			dataType: 'json',
 			data: {"fields": fields, "md5_key": md5_key},
 			success: function(result)
 			{
@@ -2384,7 +2400,7 @@ $(function()
 				// ajax请求操作
 				$.AMUI.progress.start();
 				$.ajax({
-					url: url,
+					url: RequestUrlHandle(url),
 					type: 'POST',
 					dataType: "json",
 					timeout: timeout,
@@ -2519,12 +2535,12 @@ $(function()
 		// 请求更新数据
 		$.AMUI.progress.start();
 		$.ajax({
-			url:url,
-			type:'POST',
-			dataType:"json",
-			timeout:$tag.attr('data-timeout') || 60000,
+			url: RequestUrlHandle(url),
+			type: 'POST',
+			dataType: 'json',
+			timeout:  $tag.attr('data-timeout') || 60000,
 			data:{"id":id, "state":state, "field":field},
-			success:function(result)
+			success: function(result)
 			{
 				$.AMUI.progress.done();
 				if(result.code == 0)
@@ -2559,7 +2575,7 @@ $(function()
 					Prompt(result.msg);
 				}
 			},
-			error:function(xhr, type)
+			error: function(xhr, type)
 			{
 				$.AMUI.progress.done();
 				Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);

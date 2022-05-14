@@ -230,7 +230,7 @@ $(function()
         $this.button('loading');
         $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($('.goods-list-container').data('loading-msg'))+'</div>');
         $.ajax({
-            url: url,
+            url: RequestUrlHandle(url),
             type: 'post',
             data: {"page":page, "category_id":category_id, "keywords":keywords, "goods_ids":goods_ids},
             dataType: 'json',

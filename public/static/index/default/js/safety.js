@@ -47,11 +47,11 @@ $(function()
 
         // 发送验证码
         $.ajax({
-            url:$('.verify-submit').data('url'),
-            type:'POST',
-            data:{"verify":verify, "type":$('form input[name="type"]').val()},
-            dataType:'json',
-            success:function(result)
+            url: RequestUrlHandle($('.verify-submit').data('url')),
+            type: 'POST',
+            data: {"verify":verify, "type":$('form input[name="type"]').val()},
+            dataType: 'json',
+            success: function(result)
             {
                 if(result.code == 0)
                 {
@@ -82,7 +82,7 @@ $(function()
                     Prompt(result.msg);
                 }
             },
-            error:function()
+            error: function()
             {
                 $this.button('reset');
                 if(is_win == 1)
@@ -141,11 +141,11 @@ $(function()
 
             // 发送验证码
             $.ajax({
-                url:$('.verify-submit-new').data('url'),
-                type:'POST',
-                data:{"accounts":$accounts.val(), "verify":verify, "type":$('form input[name="type"]').val()},
-                dataType:'json',
-                success:function(result)
+                url: RequestUrlHandle($('.verify-submit-new').data('url')),
+                type: 'POST',
+                data: {"accounts":$accounts.val(), "verify":verify, "type":$('form input[name="type"]').val()},
+                dataType: 'json',
+                success: function(result)
                 {
                     if(result.code == 0)
                     {
@@ -176,7 +176,7 @@ $(function()
                         Prompt(result.msg);
                     }
                 },
-                error:function()
+                error: function()
                 {
                     $this.button('reset');
                     if(is_win == 1)
