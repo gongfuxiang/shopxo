@@ -82,7 +82,7 @@
                                                                 {{/if}}
                                                             </option>
                                                         {{else /}}
-                                                            <option value="{{$k}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and is_array($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and in_array($k, $form_params[$t['form_key']])}}selected{{/if}}>{{$v}}</option>
+                                                            <option value="{{$k}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and $form_params[$t['form_key']] eq $k}}selected{{/if}}>{{$v}}</option>
                                                         {{/if}}
                                                     {{/foreach}}
                                                 {{/if}}
@@ -188,10 +188,10 @@
                                                 {{if is_array($t['view_key'])}}
                                                     {{foreach $t['view_key'] as $fk=>$fv}}
                                                         {{if isset($data_list[$i][$fv])}}
-                                                            {{$data_list[$i][$fv]}}
+                                                            <span>{{$data_list[$i][$fv]}}</span>
                                                             <!-- 多个字段拼接数据的的拼接字符 -->
                                                             {{if isset($t['view_key_join']) and $fk lt count($t['view_key'])-1}}
-                                                                {{$t.view_key_join|raw}}
+                                                                <span>{{$t.view_key_join|raw}}</span>
                                                             {{/if}}
                                                         {{/if}}
                                                     {{/foreach}}
@@ -304,7 +304,7 @@
                                                         !isset($t['not_show_data']) or 
                                                         empty($t['not_show_key']) or 
                                                         (is_array($t['not_show_data']) and isset($data_list[$i][$t['not_show_key']]) and !in_array($data_list[$i][$t['not_show_key']], $t['not_show_data'])) or 
-                                                        (isset($t['not_show_type']) and isset($data_list[$i][$t['not_show_key']]) and !is_array($t['not_show_data']) and (
+                                                        (isset($t['not_show_type']) and isset($data_list[$i][$t['not_show_key']]) and (
                                                             ($t['not_show_type'] eq 0 and $data_list[$i][$t['not_show_key']] eq $t['not_show_data']) or 
                                                             ($t['not_show_type'] eq 1 and $data_list[$i][$t['not_show_key']] gt $t['not_show_data']) or 
                                                             ($t['not_show_type'] eq 2 and $data_list[$i][$t['not_show_key']] lt $t['not_show_data'])

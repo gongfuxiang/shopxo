@@ -8,7 +8,7 @@
 <!-- footer end -->
 
 <!-- 公共底部钩子 -->
-{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_footer) or $is_footer eq 1)}}
+{{if !isset($page_pure) or $page_pure neq 1}}
     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
         <div class="plugins-tag">
             <span>plugins_view_common_bottom</span>
@@ -28,6 +28,9 @@
 <!-- 类库 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/jquery/jquery-2.2.4.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 <script type='text/javascript' src="{{$public_host}}static/common/lib/assets/js/amazeui.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+
+<!-- jshash -->
+<script type='text/javascript' src="{{$public_host}}static/common/lib/jshash/md5-min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 图片放大镜 -->
 {{if isset($is_load_imagezoom) and $is_load_imagezoom eq 1}}

@@ -107,7 +107,7 @@
 {{/if}}
 
 <!-- 公共顶部钩子 -->
-{{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_header) or $is_header eq 1)}}
+{{if !isset($page_pure) or $page_pure neq 1}}
     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
 		<div class="plugins-tag">
 			<span>plugins_view_common_top</span>

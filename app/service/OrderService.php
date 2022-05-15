@@ -1175,7 +1175,7 @@ class OrderService
     {
         $total_price = Db::name('Order')->where($where)->sum('total_price');
         $pay_price = Db::name('Order')->where($where)->sum('pay_price');
-        return '订单总额 '.$total_price.' 元&nbsp;&nbsp;&nbsp;支付总额 '.$pay_price.' 元';
+        return '订单总额 '.$total_price.' 元，支付总额 '.$pay_price.' 元';
     }
 
     /**
