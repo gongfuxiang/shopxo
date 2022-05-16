@@ -109,7 +109,7 @@ text-align: center;float:none}
 
     /*标题*/
     .items-nav-title{text-align: left;position: relative;margin-top:10px ;}
-    .items-nav-title .floor-title {float:left;border: none;margin:8px 0 0 0; font-size:16px;font-weight: 600;}
+    .items-nav-title .floor-title {float:left;border: none;margin-top:8px; font-size:16px;font-weight: 600;}
     .items-nav-title .floor-desc {display:block;font-size: 12px;color: #999;float: left;margin-left: 10px;margin-top:12px;}
     .items-nav-title .more {display: block;position: absolute;right: 0px;top:12px;font-size: 12px;overflow: hidden;}
     .items-nav-title .more .more-link{color: #FFF;background: #F72862 none repeat scroll 0% 0%;display: block;line-height: 20px;padding: 0px 10px; border-radius: 10px;font-size: 14px;}

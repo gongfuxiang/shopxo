@@ -61,16 +61,16 @@ class UserService
             if(APPLICATION == 'web')
             {
                 // web用户session
-                $user_login_info = MySession(self::$user_login_key);
+                $user_login_info = MyCookie(self::$user_login_key);
 
                 // 用户信息为空，指定了token则设置登录信息
                 if(empty($user_login_info))
                 {
-                    $token = empty($params['token']) ? MySession(self::$user_token_key) : $params['token'];
+                    $token = empty($params['token']) ? MyCookie(self::$user_token_key) : $params['token'];
                     if(!empty($token))
                     {
                         $user_login_info = self::UserTokenData($token);
-                        if($user_login_info !== null && isset($user_login_info['id']))
+                        if(!empty($user_login_info) && isset($user_login_info['id']))
                         {
                             self::UserLoginRecord($user_login_info['id']);
                         }
@@ -115,7 +115,7 @@ class UserService
     public static function UserTokenData($token)
     {
         $user = MyCache(SystemService::CacheKey('shopxo.cache_user_info').$token);
-        if($user !== null && isset($user['id']))
+        if(!empty($user) && isset($user['id']))
         {
             return $user;
         }
@@ -552,8 +552,7 @@ class UserService
                 if(APPLICATION == 'web')
                 {
                     // 存储session
-                    MySession(self::$user_login_key, $user);
-                    return (MySession(self::$user_login_key) !== null);
+                    MyCookie(self::$user_login_key, $user);
                 }
                 return true;
             }
@@ -2610,7 +2609,7 @@ class UserService
         $user = self::LoginUserInfo();
 
         // 清除session
-        MySession(self::$user_login_key, null);
+        MyCookie(self::$user_login_key, null);
 
         // html代码
         $body_html = [];

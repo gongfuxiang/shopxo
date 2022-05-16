@@ -67,12 +67,19 @@ function MySession($name = '', $value = '')
  * @version 1.0.0
  * @date    2021-07-17
  * @desc    description
- * @param   [string]         $name    [cookie名称]
- * @param   [mixed]          $value   [cookie值]
+ * @param   [string]         $name              [cookie名称]
+ * @param   [mixed]          $value             [cookie值]
+ * @param   [boolean]        $is_encryption     [是否需要加密存储]
  */
-function MyCookie($name = '', $value = '')
+function MyCookie($name = '', $value = '', $is_encryption = true)
 {
-    return cookie($name, $value);
+    // 非空则转换数据
+    if($value !== null && $value !== '' && $is_encryption)
+    {
+        $value = urlencode(Authcode(base64_encode(json_encode($value)), 'ENCODE'));
+    }
+    $res = cookie($name, $value);
+    return ($res === '' || !$is_encryption) ? $res : json_decode(base64_decode(Authcode(urldecode($res), 'DECODE')), true);
 }
 
 /**
@@ -2532,7 +2539,7 @@ function ReturnSquarePoint($lng, $lat, $Distance = 1.2)
 }
 
 /**
- * [Authcode 明文或密文]
+ * 明文或密文
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -2543,7 +2550,8 @@ function ReturnSquarePoint($lng, $lat, $Distance = 1.2)
  * @param    [integer] $expiry    [密钥有效期]
  * @return   [string]             [加密或解密后的数据]
  */
-function Authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
+function Authcode($string, $operation = 'DECODE', $key = '', $expiry = 0)
+{
     // 动态密匙长度，相同的明文会生成不同密文就是依靠动态密匙
     // 加入随机密钥，可以令密文无任何规律，即便是原文和密钥完全相同，加密结果也会每次不同，增大破解难度。
     // 取值越大，密文变动规律越大，密文变化 = 16 的 $ckey_length 次方
@@ -2552,7 +2560,7 @@ function Authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
   
     // 密匙
     // $GLOBALS['discuz_auth_key'] 这里可以根据自己的需要修改
-    $key = md5($key ? $key : 'devil'); 
+    $key = md5($key ? $key : 'shopxo'); 
   
     // 密匙a会参与加解密
     $keya = md5(substr($key, 0, 16));
@@ -2571,18 +2579,21 @@ function Authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
     $box = range(0, 255);
     $rndkey = array();
     // 产生密匙簿
-    for($i = 0; $i <= 255; $i++) {
+    for($i = 0; $i <= 255; $i++)
+    {
         $rndkey[$i] = ord($cryptkey[$i % $key_length]);
     }
     // 用固定的算法，打乱密匙簿，增加随机性，好像很复杂，实际上并不会增加密文的强度
-    for($j = $i = 0; $i < 256; $i++) {
+    for($j = $i = 0; $i < 256; $i++)
+    {
         $j = ($j + $box[$i] + $rndkey[$i]) % 256;
         $tmp = $box[$i];
         $box[$i] = $box[$j];
         $box[$j] = $tmp;
     }
     // 核心加解密部分
-    for($a = $j = $i = 0; $i < $string_length; $i++) {
+    for($a = $j = $i = 0; $i < $string_length; $i++)
+    {
         $a = ($a + 1) % 256;
         $j = ($j + $box[$a]) % 256;
         $tmp = $box[$a];
@@ -2591,7 +2602,8 @@ function Authcode($string, $operation = 'DECODE', $key = '', $expiry = 0) {
         // 从密匙簿得出密匙进行异或，再转成字符
         $result .= chr(ord($string[$i]) ^ ($box[($box[$a] + $box[$j]) % 256]));
     }
-    if($operation == 'DECODE') {
+    if($operation == 'DECODE')
+    {
         // substr($result, 0, 10) == 0 验证数据有效性
         // substr($result, 0, 10) - time() > 0 验证数据有效性
         // substr($result, 10, 16) == substr(md5(substr($result, 26).$keyb), 0, 16) 验证数据完整性

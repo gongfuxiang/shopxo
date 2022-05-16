@@ -77,7 +77,8 @@ class Index extends Common
         MyViewAssign('floor_data_type', $floor_data_type);
 
         // 是否设计模式
-        $is_design = (!empty($this->data_request['save_url']) && isset($this->data_request['is_design']) && $this->data_request['is_design'] == 1 && $floor_data_type == 2 && AdminService::LoginInfo()) ? 1 : 0;
+        $admin = AdminService::LoginInfo();
+        $is_design = (!empty($this->data_request['save_url']) && isset($this->data_request['is_design']) && $this->data_request['is_design'] == 1 && $floor_data_type == 2 && !empty($admin)) ? 1 : 0;
         MyViewAssign('is_design', $is_design);
         if($is_design == 1)
         {

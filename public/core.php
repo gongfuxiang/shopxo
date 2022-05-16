@@ -52,6 +52,9 @@ define('__MY_ROOT_PUBLIC__', defined('IS_ROOT_ACCESS') ? DS.$my_root.'public'.DS
 // 当前服务器ip
 define('__MY_ADDR__', empty($_SERVER['SERVER_ADDR']) ? '' : $_SERVER['SERVER_ADDR']);
 
+// 主域名
+define('__MY_MAIN_DOMAIN__', empty($_SERVER['HTTP_HOST']) ? '' : ((substr_count($_SERVER['HTTP_HOST'], '.') > 1 && !is_numeric(str_replace('.', '', $_SERVER['HTTP_HOST']))) ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')+1) : $_SERVER['HTTP_HOST']));
+
 // 项目HOST
 define('__MY_HOST__', empty($_SERVER['HTTP_HOST']) ? '' : $_SERVER['HTTP_HOST']);
 
@@ -104,11 +107,11 @@ define('IS_POST', isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'
 define('IS_AJAX', ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'])) || isset($_REQUEST['ajax']) && $_REQUEST['ajax'] == 'ajax'));
 
 // 二级域名页面绑定
-if(substr_count(__MY_HOST__, '.') > 1 && !is_numeric(str_replace('.', '', __MY_HOST__)))
+if(!IS_AJAX && substr_count(__MY_HOST__, '.') > 1 && !is_numeric(str_replace('.', '', __MY_HOST__)))
 {
     $domain_file = ROOT.'config'.DS.'domain.php';
     $second_domain = substr(__MY_HOST__, 0, strpos(__MY_HOST__, '.'));
-    if(file_exists($domain_file) && $second_domain != 'www')
+    if(!empty($second_domain) && file_exists($domain_file) && $second_domain != 'www')
     {
         $data = include($domain_file);
         if(!empty($data) && (!empty($data[$second_domain]) || !empty($data['s'])))

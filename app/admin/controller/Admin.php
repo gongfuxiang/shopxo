@@ -254,7 +254,7 @@ class Admin extends Common
 	public function LoginInfo()
 	{
 		// 是否已登录
-		if(AdminService::LoginInfo() !== null)
+		if(!empty($this->admin))
 		{
 			return MyRedirect(MyUrl('admin/index/index'));
 		}

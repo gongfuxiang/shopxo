@@ -488,11 +488,8 @@ class AdminService
             }
         }
 
-        // 种session
-        self::LoginSession($admin);
-
-        // 返回数据,更新数据库
-        if(self::LoginInfo())
+        // 种session,更新数据库
+        if(self::LoginSession($admin))
         {
             $data = [
                     'login_total'   =>  $admin['login_total']+1,
@@ -512,7 +509,7 @@ class AdminService
                 MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin['id'], null);
 
                 // 权限菜单初始化
-                AdminPowerService::PowerMenuInit();
+                AdminPowerService::PowerMenuInit($admin);
 
                 return DataReturn('登录成功');
             }
@@ -533,7 +530,7 @@ class AdminService
      */
     public static function LoginInfo()
     {
-        return MySession(self::$admin_login_key);
+        return MyCookie(self::$admin_login_key);
     }
 
     /**
@@ -548,7 +545,8 @@ class AdminService
     public static function LoginSession($admin)
     {
         unset($admin['login_pwd'], $admin['login_salt']);
-        return MySession(self::$admin_login_key, $admin);
+        MyCookie(self::$admin_login_key, $admin);
+        return true;
     }
 
     /**
@@ -561,7 +559,7 @@ class AdminService
      */
     public static function LoginLogout()
     {
-        return MySession(self::$admin_login_key, null);
+        return MyCookie(self::$admin_login_key, null);
     }
 
     /**

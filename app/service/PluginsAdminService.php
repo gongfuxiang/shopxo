@@ -1060,7 +1060,7 @@ php;
         $plugins = $ret['data'];
 
         // 强制刷新用户权限缓存
-        AdminPowerService::PowerMenuInit(true);
+        AdminPowerService::PowerMenuInit(null, true);
 
         // 附件同步到数据库
         ResourcesService::AttachmentDiskFilesToDb('plugins_'.$plugins);

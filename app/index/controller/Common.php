@@ -352,7 +352,8 @@ class Common extends BaseController
         MyViewAssign('is_load_baidu_map_api', 0);
 
         // 是否加载附件组件
-        MyViewAssign('is_load_upload_editor', (!empty($this->user) || AdminService::LoginInfo()) ? 1 : 0);
+        $admin = AdminService::LoginInfo();
+        MyViewAssign('is_load_upload_editor', (!empty($this->user) || !empty($admin)) ? 1 : 0);
 
         // 存在地图事件则载入
         if(in_array(3, array_column($this->nav_quick, 'event_type')))

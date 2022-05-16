@@ -204,12 +204,18 @@ class AdminPowerService
      * @version 1.0.0
      * @date    2022-01-23
      * @desc    description
-     * @param   [boolean]         $is_refresh [是否强制刷新]
+     * @param   [array]         $admin      [管理员信息]
+     * @param   [boolean]       $is_refresh [是否强制刷新]
      */
-    public static function PowerMenuInit($is_refresh = false)
+    public static function PowerMenuInit($admin, $is_refresh = false)
     {
+        // 不存在管理员信息则读取登录信息
+        if(empty($admin))
+        {
+            $admin = AdminService::LoginInfo();
+        }
+
         // 基础参数
-        $admin = AdminService::LoginInfo();
         $admin_id = isset($admin['id']) ? intval($admin['id']) : 0;
         $role_id = isset($admin['role_id']) ? intval($admin['role_id']) : 0;
 
@@ -322,12 +328,12 @@ class AdminPowerService
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-09-24
+     * @date    2022-05-16
      * @desc    description
+     * @param   [array]          $admin [管理员信息]
      */
-    public static function MenuData()
+    public static function MenuData($admin)
     {
-        $admin = AdminService::LoginInfo();
         if(!empty($admin['id']))
         {
             $data = MyCache(SystemService::CacheKey('shopxo.cache_admin_left_menu_key').$admin['id']);

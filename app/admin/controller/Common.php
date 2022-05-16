@@ -91,8 +91,8 @@ class Common extends BaseController
 		$this->admin = AdminService::LoginInfo();
 
 		// 权限菜单
-		AdminPowerService::PowerMenuInit();
-		$this->left_menu = AdminPowerService::MenuData();
+		AdminPowerService::PowerMenuInit($this->admin);
+		$this->left_menu = AdminPowerService::MenuData($this->admin);
 
 		// 视图初始化
 		$this->ViewInit();
@@ -127,7 +127,7 @@ class Common extends BaseController
 	 */
 	protected function IsLogin()
 	{
-		if($this->admin === null)
+		if(empty($this->admin))
 		{
 			if(IS_AJAX)
 			{

@@ -2228,6 +2228,29 @@ function RequestUrlHandle(url)
 	return url;
 }
 
+/**
+ * url使用当前host地址
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-05-16
+ * @desc    description
+ * @param   {string}        url [url地址]
+ */
+function UrlUseCurrentHostHandle(url)
+{
+    var location = url.replace('://', '').indexOf('/');
+    if(location != -1)
+    {
+        var first = url.substr(0, location+4);
+        if(__my_url__ != first)
+        {
+            url = __my_url__+url.substr(location+4);
+        }
+    }
+    return url;
+}
+
 
 // 公共数据操作
 $(function()

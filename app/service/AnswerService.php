@@ -185,7 +185,8 @@ class AnswerService
     public static function AnswerSave($params = [])
     {
         // 是否开启登录留言,管理员登录状态可继续操作
-        if(MyC('common_is_login_answer') == 1 && AdminService::LoginInfo() === null)
+        $admin = AdminService::LoginInfo();
+        if(MyC('common_is_login_answer') == 1 && empty($admin))
         {
             $user = UserService::LoginUserInfo();
             if(empty($user))

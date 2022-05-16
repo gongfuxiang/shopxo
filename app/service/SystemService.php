@@ -80,7 +80,7 @@ class SystemService
         {
             $uuid = empty($params['uuid']) ? UUId() : $params['uuid'];
             MySession('uuid', $uuid);
-            cookie('uuid', $uuid);
+            MyCookie('uuid', $uuid, false);
         }
 
         // token
@@ -88,14 +88,14 @@ class SystemService
         {
             $key = UserService::$user_token_key;
             MySession($key, $params['token']);
-            cookie($key, $params['token']);
+            MyCookie($key, $params['token'], false);
         }
 
         // 邀请人id
         if(!empty($params['referrer']))
         {
             MySession('share_referrer_id', $params['referrer']);
-            cookie('share_referrer_id', $params['referrer']);
+            MyCookie('share_referrer_id', $params['referrer'], false);
         }
     }
 
