@@ -1701,7 +1701,6 @@ class BuyService
             'where'         => &$where,
         ]);
 
-        
         $total = self::CartTotal($where);
         return ($total > 99) ? '99+' : $total;
     }
