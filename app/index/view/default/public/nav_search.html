@@ -27,6 +27,21 @@
         {{/if}}
 
         <div class="search-bar">
+            <!-- 公共搜索框内左侧 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_common_search_inside_left</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_common_search_inside_left_data) and is_array($plugins_view_common_search_inside_left_data)}}
+                {{foreach $plugins_view_common_search_inside_left_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
+
+            <!-- 搜索框 -->
             <form action="{{:MyUrl('index/search/index')}}" method="POST">
                 <div class="search-group">
                     <input id="search-input" name="wd" type="text" placeholder="其实搜索很简单^_^ !" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
@@ -43,6 +58,20 @@
                     </ul>
                 {{/if}}
             </form>
+
+            <!-- 公共搜索框内右侧 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_common_search_inside_right</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_common_search_inside_right_data) and is_array($plugins_view_common_search_inside_right_data)}}
+                {{foreach $plugins_view_common_search_inside_right_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
         </div>
 
         <!-- 公共搜索框右侧 -->

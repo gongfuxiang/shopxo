@@ -603,6 +603,12 @@ class Common extends BaseController
         // 公共搜索框右侧
         MyViewAssign('plugins_view_common_search_right_data', MyEventTrigger('plugins_view_common_search_right', ['hook_name'=>'plugins_view_common_search_right', 'is_backend'=>false, 'user'=>$this->user]));
 
+        // 公共搜索框内左侧
+        MyViewAssign('plugins_view_common_search_inside_left_data', MyEventTrigger('plugins_view_common_search_inside_left', ['hook_name'=>'plugins_view_common_search_inside_left', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 公共搜索框内右侧
+        MyViewAssign('plugins_view_common_search_inside_right_data', MyEventTrigger('plugins_view_common_search_inside_right', ['hook_name'=>'plugins_view_common_search_inside_right', 'is_backend'=>false, 'user'=>$this->user]));
+
         // 公共表格钩子名称动态处理
         $current = 'plugins_view_index_'.$this->controller_name;
 

@@ -79,7 +79,7 @@ input.add,input.min{width:15px}
 #ai-topsearch { width:27%;height:26px;border:none;background: #d2364c none repeat scroll 0% 0%; color: #F5F5F2;font-size: 12px;cursor:pointer;border-radius:0px 0px; position: absolute;top: 0;right: 0;}
 .search-group:hover {border: 2px solid #ea304b !important;}
 .search-group:hover #ai-topsearch {background: #ea304b;}
-.search-hot-keywords { margin-top: 5px; height: 16px; overflow: hidden; display: none; }
+.search-hot-keywords { margin-top: 5px; height: 16px; overflow: hidden; display: none; padding-left: 2px; }
 .search-hot-keywords li { float: left; }
 .search-hot-keywords li:not(:last-child) { margin-right: 10px; }
 
