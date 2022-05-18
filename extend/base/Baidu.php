@@ -228,7 +228,7 @@ class Baidu
      * @version  1.0.0
      * @datetime 2018-01-02T19:53:42+0800
      */
-    private function GetMiniAccessToken()
+    public function GetMiniAccessToken()
     {
         // 缓存key
         $key = $this->_appid.'_access_token';

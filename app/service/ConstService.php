@@ -171,30 +171,32 @@ class ConstService
 
             // 所属平台
             'common_platform_type'          =>  [
-                'pc'     => ['value' => 'pc', 'name' => 'PC网站'],
-                'h5'     => ['value' => 'h5', 'name' => 'H5手机网站'],
-                'ios' => ['value' => 'ios', 'name' => '苹果APP'],
-                'android' => ['value' => 'android', 'name' => '安卓APP'],
-                'weixin' => ['value' => 'weixin', 'name' => '微信小程序'],
-                'alipay' => ['value' => 'alipay', 'name' => '支付宝小程序'],
-                'baidu' => ['value' => 'baidu', 'name' => '百度小程序'],
-                'toutiao' => ['value' => 'toutiao', 'name' => '头条小程序'],
-                'qq' => ['value' => 'qq', 'name' => 'QQ小程序'],
+                'pc'        => ['value' => 'pc', 'name' => 'PC网站'],
+                'h5'        => ['value' => 'h5', 'name' => 'H5手机网站'],
+                'ios'       => ['value' => 'ios', 'name' => '苹果APP'],
+                'android'   => ['value' => 'android', 'name' => '安卓APP'],
+                'weixin'    => ['value' => 'weixin', 'name' => '微信小程序'],
+                'alipay'    => ['value' => 'alipay', 'name' => '支付宝小程序'],
+                'baidu'     => ['value' => 'baidu', 'name' => '百度小程序'],
+                'toutiao'   => ['value' => 'toutiao', 'name' => '头条小程序'],
+                'qq'        => ['value' => 'qq', 'name' => 'QQ小程序'],
+                'kuaishou'  => ['value' => 'kuaishou', 'name' => '快手小程序'],
             ],
 
             // app平台
             'common_app_type'          =>  [
-                'ios' => ['value' => 'ios', 'name' => '苹果APP'],
-                'android' => ['value' => 'android', 'name' => '安卓APP'],
+                'ios'       => ['value' => 'ios', 'name' => '苹果APP'],
+                'android'   => ['value' => 'android', 'name' => '安卓APP'],
             ],
 
             // 小程序平台
             'common_appmini_type'          =>  [
-                'weixin' => ['value' => 'weixin', 'name' => '微信小程序'],
-                'alipay' => ['value' => 'alipay', 'name' => '支付宝小程序'],
-                'baidu' => ['value' => 'baidu', 'name' => '百度小程序'],
-                'toutiao' => ['value' => 'toutiao', 'name' => '头条小程序'],
-                'qq' => ['value' => 'qq', 'name' => 'QQ小程序'],
+                'weixin'    => ['value' => 'weixin', 'name' => '微信小程序'],
+                'alipay'    => ['value' => 'alipay', 'name' => '支付宝小程序'],
+                'baidu'     => ['value' => 'baidu', 'name' => '百度小程序'],
+                'toutiao'   => ['value' => 'toutiao', 'name' => '头条小程序'],
+                'qq'        => ['value' => 'qq', 'name' => 'QQ小程序'],
+                'kuaishou'  => ['value' => 'kuaishou', 'name' => '快手小程序'],
             ],
 
             // 扣除库存规则

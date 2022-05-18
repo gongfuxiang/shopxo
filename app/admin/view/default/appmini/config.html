@@ -212,6 +212,32 @@
 						</div>
 					</div>
 				{{/case}}
+				{{case kuaishou}}
+					<!-- 头条 -->
+					<div class="am-panel am-panel-default">
+						<div class="am-panel-hd">
+							<h3 class="am-panel-title">基础配置</h3>
+						</div>
+						<div class="am-panel-bd">
+							<div class="am-form-group">
+								<label>{{$data.common_app_mini_kuaishou_appid.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_kuaishou_appid.describe}}</span></label>
+								<input type="text" name="{{$data.common_app_mini_kuaishou_appid.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_appid.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_appid.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_appid.value}}"{{/if}} />
+							</div>
+							<div class="am-form-group">
+								<label>{{$data.common_app_mini_kuaishou_appsecret.name}}<span class="am-form-group-label-tips">{{$data.common_app_mini_kuaishou_appsecret.describe}}</span></label>
+								<input type="text" name="{{$data.common_app_mini_kuaishou_appsecret.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_appsecret.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_appsecret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_appsecret.value}}"{{/if}} />
+							</div>
+							<div class="am-form-group">
+								<label>{{$data.common_app_mini_kuaishou_title.name}}</label>
+								<input type="text" name="{{$data.common_app_mini_kuaishou_title.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_title.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_title.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_title.value}}"{{/if}} />
+							</div>
+							<div class="am-form-group">
+								<label>{{$data.common_app_mini_kuaishou_describe.name}}</label>
+								<input type="text" name="{{$data.common_app_mini_kuaishou_describe.only_tag}}" placeholder="{{$data.common_app_mini_kuaishou_describe.name}}" data-validation-message="{{$data.common_app_mini_kuaishou_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_kuaishou_describe.value}}"{{/if}} />
+							</div>
+						</div>
+					</div>
+				{{/case}}
 				{{default /}}
 					<div class="table-no"><i class="am-icon-warning"></i> {{$nav_type}}无配置信息</div>
 			{{/switch}}

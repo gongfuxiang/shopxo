@@ -11,13 +11,13 @@
 namespace base;
 
 /**
- * 头条驱动
+ * 快手驱动
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2019-10-31
  */
-class Toutiao
+class Kuaishou
 {
     // 配置信息
     private $config;
@@ -55,86 +55,34 @@ class Toutiao
             return DataReturn('配置有误', -1);
         }
 
-        // 获取授权
-        $url = 'https://developer.toutiao.com/api/apps/jscode2session?appid='.$this->config['appid'].'&secret='.$this->config['secret'].'&code='.$params['authcode'];
-        $result = json_decode(RequestGet($url), true);
-        if(empty($result))
+        // 请求获取session_key
+        $request_params = [
+            'js_code'   => $params['authcode'],
+            'app_id'    => $this->config['appid'],
+            'app_secret'=> $this->config['secret'],
+        ];
+        $url = 'https://open.kuaishou.com/oauth2/mp/code2session';
+        $ret = CurlPost($url, $request_params);
+        if($ret['code'] != 0)
         {
-            return DataReturn('授权接口调用失败', -1);
+            return $ret;
         }
-        if(!empty($result['openid']))
+        $result = json_decode($ret['data'], true);
+        if(!empty($result['open_id']))
         {
-            return DataReturn('授权成功', 0, $result);
+            // 缓存SessionKey
+            $key = 'kuaishou_user_login_'.$result['open_id'];
+
+            // 缓存存储
+            MyCache($key, $result);
+            return DataReturn('授权成功', 0, ['openid'=>$result['open_id']]);
         }
-        $msg = empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg'];
+        $msg = empty($result['error_msg']) ? '授权接口异常错误' : $result['error_msg'];
         return DataReturn($msg, -1);
     }
 
     /**
-     * [MiniQrCodeCreate 二维码创建]
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-01-02T19:53:10+0800
-     * @param    [string]  $params['page']      [页面地址]
-     * @param    [string]  $params['scene']     [参数]
-     * @return   [string]                       [成功返回文件流, 失败则空]
-     */
-    public function MiniQrCodeCreate($params)
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'page',
-                'error_msg'         => 'page地址不能为空',
-            ],
-            [
-                'checked_type'      => 'length',
-                'checked_data'      => '1,32',
-                'key_name'          => 'scene',
-                'error_msg'         => 'scene参数 1~32 个字符之间',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 获取access_token
-        $access_token = $this->GetMiniAccessToken();
-        if($access_token === false)
-        {
-            return DataReturn('access_token获取失败', -1);
-        }
-
-        // 获取二维码
-        $url = 'https://developer.toutiao.com/api/apps/qrcode';
-        $path = $params['page'].'?'.$params['scene'];
-        $data = [
-            'access_token'  => $access_token,
-            'appname'       => 'toutiao',
-            'path'          => urlencode($path),
-            'width'         => empty($params['width']) ? 1000 : intval($params['width']),
-        ];
-        $res = $this->HttpRequestPost($url, $data, true);
-        if(!empty($res))
-        {
-            if(stripos($res, 'errcode') === false)
-            {
-                return DataReturn('获取成功', 0, $res);
-            }
-            $res = json_decode($res, true);
-            $msg = isset($res['errmsg']) ? $res['errmsg'] : '获取二维码失败';
-        } else {
-            $msg = '获取二维码失败';
-        }
-        return DataReturn($msg, -1);
-    }
-
-    /**
-     * [GetMiniAccessToken 获取access_token]
+     * 获取access_token
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -149,44 +97,32 @@ class Toutiao
         {
             if($result['expires_in'] > time())
             {
-                return $result['access_token'];
+                return DataReturn('success', 0, $result['access_token']);
             }
         }
 
         // 网络请求
-        $url = 'https://developer.toutiao.com/api/apps/token?grant_type=client_credential&appid='.$this->config['appid'].'&secret='.$this->config['secret'];
-        $result = $this->HttpRequestGet($url);
+        $request_params = [
+            'app_id'    => $this->config['appid'],
+            'app_secret'=> $this->config['secret'],
+            'grant_type'=> 'client_credentials',
+        ];
+        $url = 'https://open.kuaishou.com/oauth2/access_token';
+        $ret = CurlPost($url, $request_params);
+        if($ret['code'] != 0)
+        {
+            return $ret;
+        }
+        $result = json_decode($ret['data'], true);
         if(!empty($result['access_token']))
         {
             // 缓存存储
             $result['expires_in'] += time();
             MyCache($key, $result);
-            return $result['access_token'];
+            return DataReturn('授权成功', 0, $result['access_token']);
         }
-        return false;
-    }
-
-    /**
-     * get请求
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2018-01-03T19:21:38+0800
-     * @param    [string]           $url [url地址]
-     * @return   [array]                 [返回数据]
-     */
-    private function HttpRequestGet($url)
-    {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 500);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_URL, $url);
-
-        $res = curl_exec($curl);
-        curl_close($curl);
-        return json_decode($res, true);
+        $msg = empty($result['error_msg']) ? '授权接口异常错误' : $result['error_msg'];
+        return DataReturn($msg, -1);
     }
 
     /**

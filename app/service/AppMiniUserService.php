@@ -465,6 +465,95 @@ class AppMiniUserService
     }
 
     /**
+     * 快手小程序用户授权
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-27
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function KuaishouUserAuth($params = [])
+    {
+        $config = [
+            'appid'     => self::AppMiniConfig('common_app_mini_kuaishou_appid'),
+            'secret'    => self::AppMiniConfig('common_app_mini_kuaishou_appsecret'),
+        ];
+        $ret = (new \base\Kuaishou($config))->GetAuthSessionKey($params);
+        if($ret['code'] == 0)
+        {
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $ret['data']['openid']);
+            if(empty($user))
+            {
+                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
+            } else {
+                // 用户状态
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    // 标记用户存在
+                    $user['is_user_exist'] = 1;
+                    $ret = DataReturn('授权登录成功', 0, $user);
+                }
+            }
+        }
+        return $ret;
+    }
+
+    /**
+     * 快手小程序获取用户信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-10-27
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function KuaishouUserInfo($params = [])
+    {
+        // 参数校验
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'openid',
+                'error_msg'         => 'openid为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'auth_data',
+                'error_msg'         => '授权数据为空',
+            ]
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret === true)
+        {
+            // 先从数据库获取用户信息
+            $user = UserService::AppUserInfoHandle(null, 'kuaishou_openid', $params['openid']);
+            if(empty($user))
+            {
+                $auth_data = is_array($params['auth_data']) ? $params['auth_data'] : json_decode(htmlspecialchars_decode($params['auth_data']), true);
+                $auth_data['nickname'] = isset($auth_data['nickName']) ? $auth_data['nickName'] : '';
+                $auth_data['avatar'] = isset($auth_data['avatarUrl']) ? $auth_data['avatarUrl'] : '';
+                $auth_data['gender'] = 0;
+                $auth_data['openid'] = $params['openid'];
+                $auth_data['referrer']= isset($params['referrer']) ? $params['referrer'] : 0;
+                $ret = UserService::AuthUserProgram($auth_data, 'kuaishou_openid');
+            } else {
+                // 用户状态
+                $ret = UserService::UserStatusCheck('id', $user['id']);
+                if($ret['code'] == 0)
+                {
+                    $ret = DataReturn('授权成功', 0, $user);
+                }
+            }
+        } else {
+            $ret = DataReturn($ret, -1);
+        }
+        return $ret;
+    }
+
+    /**
      * QQ小程序获取用户授权
      * @author   Devil
      * @blog    http://gong.gg/

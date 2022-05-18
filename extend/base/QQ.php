@@ -16,7 +16,6 @@ namespace base;
  * @blog    http://gong.gg/
  * @version 1.0.0
  * @date    2019-10-31
- * @desc    支持所有文件存储到硬盘
  */
 class QQ
 {
