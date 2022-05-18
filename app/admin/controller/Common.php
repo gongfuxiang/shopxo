@@ -193,7 +193,7 @@ class Common extends BaseController
 
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
-        $this->page_size = MyC('common_page_size', 10, true);
+        $this->page_size = min(empty($this->data_request['page_size']) ? MyC('common_page_size', 10, true) : intval($this->data_request['page_size']), 1000);
         MyViewAssign('page', $this->page);
         MyViewAssign('page_size', $this->page_size);
 

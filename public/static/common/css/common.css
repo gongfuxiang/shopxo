@@ -848,10 +848,13 @@ a.am-badge-danger-plain:focus {
 /**
  * 分页
  */
+.am-pagination > li > a {
+    border-radius: 2px;
+}
 .pagination-input {
     width: 50px;
     vertical-align: inherit !important;
-    padding: 5px;
+    padding: 4px;
 }
 
 /**

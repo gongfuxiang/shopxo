@@ -44,6 +44,9 @@
             <!-- search -->
             {{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
                 <tr class="form-table-search">
+                    {{if !empty($params['page_size'])}}
+                        <input type="hidden" name="page_size" value="{{$params.page_size}}" />
+                    {{/if}}
                     {{foreach $form_table['form'] as $k=>$t}}
                         {{if !isset($t['is_list']) or $t['is_list'] eq 1}}
                             <td class="
@@ -76,13 +79,13 @@
                                                 {{if !empty($t['search_config']['data']) and is_array($t['search_config']['data'])}}
                                                     {{foreach $t['search_config']['data'] as $k=>$v}}
                                                         {{if is_array($v)}}
-                                                            <option value="{{if isset($t['search_config']['data_key']) and isset($v[$t['search_config']['data_key']])}}{{$v[$t['search_config']['data_key']]}}{{/if}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and is_array($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and in_array($v[$t['search_config']['data_key']], $form_params[$t['form_key']])}}selected{{/if}}>
+                                                            <option value="{{if isset($t['search_config']['data_key']) and isset($v[$t['search_config']['data_key']])}}{{$v[$t['search_config']['data_key']]}}{{/if}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and ((is_array($form_params[$t['form_key']]) and in_array($v[$t['search_config']['data_key']], $form_params[$t['form_key']])) or (!is_array($form_params[$t['form_key']]) and $v[$t['search_config']['data_key']] eq $form_params[$t['form_key']]))}}selected{{/if}}>
                                                                 {{if isset($t['search_config']['data_name']) and isset($v[$t['search_config']['data_name']])}}
                                                                     {{$v[$t['search_config']['data_name']]}}
                                                                 {{/if}}
                                                             </option>
                                                         {{else /}}
-                                                            <option value="{{$k}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and $form_params[$t['form_key']] eq $k}}selected{{/if}}>{{$v}}</option>
+                                                            <option value="{{$k}}" {{if !empty($form_params) and isset($form_params[$t['form_key']]) and isset($t['search_config']['data_key']) and ((is_array($form_params[$t['form_key']]) and in_array($k, $form_params[$t['form_key']])) or (!is_array($form_params[$t['form_key']]) and $k eq $form_params[$t['form_key']]))}}selected{{/if}}>{{$v}}</option>
                                                         {{/if}}
                                                     {{/foreach}}
                                                 {{/if}}

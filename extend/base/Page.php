@@ -20,8 +20,8 @@ namespace base;
 class Page
 {
 	private $page;
+	private $page_size;
 	private $total;
-	private $number;
 	private $bt_number;
 	private $where;
 	private $not_fields;
@@ -32,19 +32,20 @@ class Page
 	private $tips_msg;
 
 	/**
-	 * [__construct description]
-	 * @param [int]    $params['total'] 		[数据总数]
-	 * @param [int]    $params['number'] 		[每页数据条数]
-	 * @param [int]    $params['bt_number'] 	[分页显示按钮个数]
-	 * @param [array]  $params['where'] 		[额外条件(键值对)]
-	 * @param [array]  $params['not_fields'] 	[不参与条件拼接的字段]
-	 * @param [string] $params['url'] 			[url地址]
+	 * 构造方法
+	 * @param [int]    $params['page'] 				[页码]
+	 * @param [int]    $params['page_size / number'][每页数据条数]
+	 * @param [int]    $params['total'] 			[数据总数]
+	 * @param [int]    $params['bt_number'] 		[分页显示按钮个数]
+	 * @param [array]  $params['where'] 			[额外条件(键值对)]
+	 * @param [array]  $params['not_fields'] 		[不参与条件拼接的字段]
+	 * @param [string] $params['url'] 				[url地址]
 	 */
 	public function __construct($params = [])
 	{
 		$this->page = max(1, isset($params['page']) ? intval($params['page']) : 1);
+		$this->page_size = empty($params['page_size']) ? (empty($params['number']) ? 10 : intval($params['number'])) : intval($params['page_size']);
 		$this->total = max(1, isset($params['total']) ? intval($params['total']) : 1);
-		$this->number = max(1, isset($params['number']) ? intval($params['number']) : 1);
 		$this->bt_number = isset($params['bt_number']) ? intval($params['bt_number']) : 2;
 		$this->where = (isset($params['where']) && is_array($params['where'])) ? $params['where'] : '';
 		$this->not_fields = (!empty($params['not_fields']) && is_array($params['not_fields'])) ? $params['not_fields'] : [];
@@ -63,7 +64,7 @@ class Page
 	private function SetParem()
 	{
 		/* 防止超出最大页码数 */
-		$this->page_total = ceil($this->total/$this->number);
+		$this->page_total = ceil($this->total/$this->page_size);
 		if($this->page > $this->page_total) $this->page = $this->page_total;
 
 		/* url是否包含问号 */
@@ -127,16 +128,20 @@ class Page
 		$this->html .= '<a href="'.$this->url.$this->page_join.'page='.$this->page_total.'" class="am-radius am-icon-angle-double-right"></a>';
 		$this->html .= '</li>';
 
-		$this->html .= '&nbsp;&nbsp;&nbsp;<span>跳转到</span>';
-		$this->html .= '<input type="text" min="1" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs pagination-input" value="'.$this->page.'" onchange="window.location.href=\''.$this->url.$this->page_join.'page=\'+(isNaN(parseInt(this.value)) ? 1 : parseInt(this.value) || 1);" onclick="this.select()" />';
+		$this->html .= '<span class="am-margin-left-sm">每页</span>';
+		$this->html .= '<input type="text" min="1" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page_size.'" onchange="window.location.href=\''.$this->url.$this->page_join.'page_size=\'+(isNaN(parseInt(this.value)) ? 10 : parseInt(this.value) || 10);" onclick="this.select()" />';
+		$this->html .= '<span>条</span>';
+
+		$this->html .= '<span class="am-margin-left-sm">跳转到</span>';
+		$this->html .= '<input type="text" min="1" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page.'" onchange="window.location.href=\''.$this->url.$this->page_join.'page=\'+(isNaN(parseInt(this.value)) ? 1 : parseInt(this.value) || 1);" onclick="this.select()" />';
 		$this->html .= '<span>页</span>';
 
 		$this->html .= '<div>';
 		$this->html .= '<span>共 '.$this->total.' 条数据</span>';
-		$this->html .= '&nbsp;&nbsp;&nbsp;<span>共 '.$this->page_total.' 页</span>';
+		$this->html .= '<span class="am-margin-left-sm">共 '.$this->page_total.' 页</span>';
 		if(!empty($this->tips_msg))
 		{
-			$this->html .= '&nbsp;&nbsp;&nbsp;<span>'.$this->tips_msg.'</span>';
+			$this->html .= '<span class="am-margin-left-sm">'.$this->tips_msg.'</span>';
 		}
 		$this->html .= '</div>';
 		$this->html .= '</ul>';
@@ -183,7 +188,7 @@ class Page
 	 */
 	public function GetPageStarNumber()
 	{
-		return intval(($this->page-1)*$this->number);
+		return intval(($this->page-1)*$this->page_size);
 	}
 }
 ?>
