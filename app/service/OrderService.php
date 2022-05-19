@@ -212,6 +212,15 @@ class OrderService
 
         // 当前用户
         $current_user = empty($params['user']) ? UserService::LoginUserInfo() : $params['user'];
+        if(!empty($current_user))
+        {
+            // 获取用户最新信息
+            $temp_user = UserService::UserHandle(UserService::UserInfo('id', $current_user['id']));
+            if(!empty($temp_user))
+            {
+                $current_user = $temp_user;
+            }
+        }
 
         // 发起支付前处理钩子
         $hook_name = 'plugins_service_order_pay_launch_begin';
