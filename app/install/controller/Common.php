@@ -36,6 +36,9 @@ class Common extends BaseController
         // 当前方法
         MyViewAssign('action', RequestAction());
 
+        // 系统类型
+        MyViewAssign('system_type', SystemService::SystemTypeValue());
+
         // 系统环境参数最大数
         MyViewAssign('env_max_input_vars_count', SystemService::EnvMaxInputVarsCount());
     }
