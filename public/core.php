@@ -53,7 +53,7 @@ define('__MY_ROOT_PUBLIC__', defined('IS_ROOT_ACCESS') ? DS.$my_root.'public'.DS
 define('__MY_ADDR__', empty($_SERVER['SERVER_ADDR']) ? '' : $_SERVER['SERVER_ADDR']);
 
 // 主域名
-define('__MY_MAIN_DOMAIN__', empty($_SERVER['HTTP_HOST']) ? '' : ((substr_count($_SERVER['HTTP_HOST'], '.') > 1 && !is_numeric(str_replace('.', '', $_SERVER['HTTP_HOST']))) ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')+1) : $_SERVER['HTTP_HOST']));
+define('__MY_MAIN_DOMAIN__', empty($_SERVER['HTTP_HOST']) ? '' : ((substr_count($_SERVER['HTTP_HOST'], '.') > 1 && !is_numeric(str_replace(['.', ':'], '', $_SERVER['HTTP_HOST']))) ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')+1) : ''));
 
 // 项目HOST
 define('__MY_HOST__', empty($_SERVER['HTTP_HOST']) ? '' : $_SERVER['HTTP_HOST']);
