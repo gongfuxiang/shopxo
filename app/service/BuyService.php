@@ -266,6 +266,9 @@ class BuyService
     {
         if(!empty($data))
         {
+            // 商品处理
+            $res = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id']);
+            $data = $res['data'];
             foreach($data as &$v)
             {
                 // 规格
@@ -297,16 +300,7 @@ class BuyService
                     $v['extends'] = '';
                 }
 
-                // 无封面图片
-                if(empty($v['images']))
-                {
-                    $v['images'] = ResourcesService::AttachmentPathHandle(GoodsService::GoodsImagesCoverHandle($v['goods_id']));
-                }
-
                 // 基础信息
-                $v['goods_url'] = GoodsService::GoodsUrlCreate($v['goods_id']);
-                $v['images_old'] = $v['images'];
-                $v['images'] = ResourcesService::AttachmentPathViewHandle($v['images']);
                 $v['total_price'] = PriceNumberFormat($v['stock']* $v['price']);
                 $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
 

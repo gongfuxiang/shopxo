@@ -3065,8 +3065,16 @@ class GoodsService
      */
     public static function GoodsSearchList($params = [])
     {
+        // 分页
+        $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
+        $page_size = empty($params['page_size']) ? 20 : min(intval($params['page_size']), 100);
+        $page_start = intval(($page-1)*$page_size);
+
         // 返回格式
         $result = [
+            'page'          => $page,
+            'page_start'    => $page_start,
+            'page_size'     => $page_size,
             'page_total'    => 0,
             'total'         => 0,
             'data'          => [],
@@ -3079,11 +3087,8 @@ class GoodsService
         // 排序
         $order_by = empty($params['order_by']) ? 'access_count desc, sales_count desc, id desc' : $params['order_by'];
 
-        // 分页计算
+        // 指定字段
         $field = empty($params['field']) ? '*' : $params['field'];
-        $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
-        $m = empty($params['m']) ? 0 : intval($params['m']);
-        $n = empty($params['n']) ? 20 : intval($params['n']);
 
         // 商品搜索列表读取前钩子
         $hook_name = 'plugins_service_goods_search_list_begin';
@@ -3095,9 +3100,7 @@ class GoodsService
             'where_keywords'            => &$where_keywords,
             'field'                     => &$field,
             'order_by'                  => &$order_by,
-            'page'                      => &$page,
-            'm'                         => &$m,
-            'n'                         => &$n,
+            'page'                      => &$result['page'],
         ]);
 
         // 获取商品总数
@@ -3111,11 +3114,11 @@ class GoodsService
             // 查询数据
             $goods = GoodsService::GoodsDataHandle(Db::name('Goods')->field($field)->where($where_base)->where(function($query) use($where_keywords) {
                 $query->whereOr($where_keywords);
-            })->order($order_by)->limit($m, $n)->select()->toArray());
+            })->order($order_by)->limit($result['page_start'], $result['page_size'])->select()->toArray());
 
             // 返回数据
             $result['data'] = $goods['data'];
-            $result['page_total'] = ceil($result['total']/$n);
+            $result['page_total'] = ceil($result['total']/$result['page_size']);
         }
         return DataReturn('处理成功', 0, $result);
     }

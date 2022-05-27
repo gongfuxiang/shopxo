@@ -160,7 +160,7 @@ class SearchService
         $where_keywords = [];
         if(!empty($params['wd']))
         {
-            $keywords_fields = 'g.title|g.simple_desc';
+            $keywords_fields = 'g.title|g.simple_desc|g.model';
             if(MyC('home_search_is_keywords_seo_fields') == 1)
             {
                 $keywords_fields .= '|g.seo_title|g.seo_keywords|g.seo_desc';

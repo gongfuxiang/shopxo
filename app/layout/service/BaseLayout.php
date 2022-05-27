@@ -591,7 +591,12 @@ class BaseLayout
                 case 'goods' :
                     if(!empty($value) && !empty($value['id']))
                     {
-                        $url = GoodsService::GoodsUrlCreate($value['id']);
+                        // 商品处理
+                        $res = GoodsService::GoodsDataHandle([['goods_id'=>$value['id']]], ['data_key_field'=>'goods_id']);
+                        if(!empty($res['data']) && !empty($res['data'][0]) && !empty($res['data'][0]['goods_url']))
+                        {
+                            $url = $res['data'][0]['goods_url'];
+                        }
                     }
                     break;
 

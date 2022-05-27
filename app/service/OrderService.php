@@ -1540,23 +1540,19 @@ class OrderService
      */
     public static function OrderItemList($order_id, $order_model, $status, $pay_status, $is_orderaftersale = 0)
     {
-        $items = Db::name('OrderDetail')->where(['order_id'=>$order_id])->select()->toArray();
-        if(!empty($items))
+        $data = Db::name('OrderDetail')->where(['order_id'=>$order_id])->select()->toArray();
+        if(!empty($data))
         {
             // 虚拟商品取货码
-            $fictitious_value_list = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>array_column($items, 'id')])->column('value', 'order_detail_id');
+            $fictitious_value_list = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>array_column($data, 'id')])->column('value', 'order_detail_id');
 
-            foreach($items as &$vs)
+            // 商品处理
+            $res = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id']);
+            $data = $res['data'];
+
+            foreach($data as &$vs)
             {
-                // 商品是否无封面图片
-                if(empty($vs['images']))
-                {
-                    $vs['images'] = ResourcesService::AttachmentPathHandle(GoodsService::GoodsImagesCoverHandle($vs['goods_id']));
-                }
-
-                // 商品信息
-                $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
-                $vs['goods_url'] = GoodsService::GoodsUrlCreate($vs['goods_id']);
+                // 总价
                 $vs['total_price'] = PriceNumberFormat($vs['buy_number']*$vs['price']);
 
                 // 规格
@@ -1590,7 +1586,7 @@ class OrderService
                 }
             }
         }
-        return $items;
+        return $data;
     }
 
     /**
