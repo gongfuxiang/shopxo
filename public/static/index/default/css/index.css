@@ -50,6 +50,7 @@ text-align: center;float:none}
 .floor .aggregation img,
 .small-nav img { width: 100%; }
 .floor .goods-list .goods-items .goods-images{ padding: 10px; }
+.slideall {position: relative;}
 @media only screen and (min-width: 480px) {
     .small-nav img{max-width: 100%;max-height: 100%;}
     .small-nav{ font-size:14px;}
@@ -63,9 +64,11 @@ text-align: center;float:none}
 
     /*主题布局*/
     .banner{ width:100%;overflow:hidden;}
+    .banner .am-slider .am-slides li > a {display: block; max-width: 1920px; margin: 0 auto;height: 100%;}
+    .banner .am-slider .am-slides li img {max-width: 100%; height: 100%;object-fit: cover;}
 
      /*改写的公告*/
-    .banner-mixed{height:auto; background:#FFF; opacity:0.8;text-align: center; margin-bottom: 10px; }
+    .banner-mixed{height:auto; background:#FFF; opacity:0.8; -webkit-transition: opacity .2; -moz-transition: opacity .2s ease-in; -ms-transition: opacity .2s ease-in; -o-transition: opacity .2s ease-in; transition: opacity .2s ease-in;text-align: center; margin-bottom: 10px; }
     .banner-news-title{font-size: 14px;position: static;border-right:none ;color:#e60012 ;font-size: 16px;font-weight: 600; text-align: center;}
     .banner-news{ height: auto;width: 100%;padding-top:5px; }
     .banner-news li{ font-size:12px; padding:0px 0px;height: 30px;float: right;width:30% ;}	
@@ -95,14 +98,11 @@ text-align: center;float:none}
     .am-g-fixed{max-width:1000px;}
     .floor li{width:20%;} 
     .banner-news{ padding: 10px; }
-    .slideall{margin:0px auto;height:360px;position: relative;}
 
-    /*第一套轮播图布局*/	
-    .banner{position: absolute;left:0px;z-index:9; }
-    .banner .am-slider .am-slides li{height:360px;}
-    .banner .am-slider .am-slides img{width:1000px ;left:50% ;position: absolute;margin-left: -500px;}
-    .banner .am-slider-default .am-direction-nav .am-next {right: 50px;}
-
+    /*轮播*/	
+    .banner {margin: 0 auto; }
+    .banner .am-slider, .banner .am-slider .am-slides li {height:360px;}
+    /*分类*/  
     .category-content .category-list.navTwo li { height:36px;}
     .category-content .category-list.navTwo .b-category-name {line-height: 28px;}
     .category-content .category-list.navTwo .category-name i img {width: 22px; height: 22px;border-radius: 22px;}
@@ -117,7 +117,7 @@ text-align: center;float:none}
     .today-brands a {font-size:12px;display: inline-block;vertical-align: middle;margin:0px 5px;}
 
      /*改写的公告*/
-    .banner-mixed{ position:absolute;top:10px;right:0px;width:170px; background:#FFF; z-index: 11;border:none; opacity: 0.8; -webkit-transition: opacity .2s ease-in; -moz-transition: opacity .2s ease-in; -ms-transition: opacity .2s ease-in; -o-transition: opacity .2s ease-in; transition: opacity .2s ease-in; margin-bottom: 0; }
+    .banner-mixed{ position: absolute; right: 0px; top:-330px;width:170px; background:#FFF; z-index: 11;border:none; opacity: 0.8; margin-bottom: 0; }
     .banner-mixed .banner-news li {float: none;width: 100%;padding:0px 5px;border:none ;height: 28px;line-height:32px ;}
     .banner-mixed:hover { opacity: 1; }
 
@@ -140,17 +140,13 @@ text-align: center;float:none}
     #floor9 .aggregation .triangle-topright{width: 0;height: 0;border-top: 30px solid #caa463;position: absolute;bottom:0px;border-left: 30px solid #fff}
     #floor10 .aggregation .triangle-topright{width: 0;height: 0;border-top: 30px solid #f768e8;position: absolute;bottom:0px;border-left: 30px solid #fff}
 }
-	   
-	   
 @media only screen and (min-width: 1260px) {
-    .slideall{max-width: 1200px;margin:0px auto ;height:430px;}
     .am-g-fixed{max-width:1200px}
-
     /*轮播图布局*/	
-    .banner .am-slider .am-slides li{height:430px;}
-    .banner .am-slider .am-slides img{width:1200px ;left:50% ;position: absolute;margin-left: -600px;}
+    .banner .am-slider, .banner .am-slider .am-slides li{height:430px;}
+
     /*公告布局*/
-    .banner-mixed { width:220px; text-align: left; }
+    .banner-mixed { width:220px; top:-420px; text-align: left; }
     .banner-news{padding-top: 0px;}
     .banner-news li {height: 26px;line-height: 26px;}
     .banner-news-title{display: block; padding-left:5px; padding-top: 5px; border-top: 1px solid #eee; }
