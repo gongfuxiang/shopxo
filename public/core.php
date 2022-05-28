@@ -53,7 +53,16 @@ define('__MY_ROOT_PUBLIC__', defined('IS_ROOT_ACCESS') ? DS.$my_root.'public'.DS
 define('__MY_ADDR__', empty($_SERVER['SERVER_ADDR']) ? '' : $_SERVER['SERVER_ADDR']);
 
 // 主域名
-define('__MY_MAIN_DOMAIN__', empty($_SERVER['HTTP_HOST']) ? '' : ((substr_count($_SERVER['HTTP_HOST'], '.') > 1 && !is_numeric(str_replace(['.', ':'], '', $_SERVER['HTTP_HOST']))) ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')+1) : ''));
+$main_domain = empty($_SERVER['HTTP_HOST']) ? '' : ((substr_count($_SERVER['HTTP_HOST'], '.') > 1 && !is_numeric(str_replace(['.', ':'], '', $_SERVER['HTTP_HOST']))) ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')+1) : '');
+if(!empty($main_domain))
+{
+    $port_index = strpos($main_domain, ':');
+    if($port_index !== false)
+    {
+        $main_domain = substr($main_domain, 0, $port_index);
+    }
+}
+define('__MY_MAIN_DOMAIN__', $main_domain);
 
 // 项目HOST
 define('__MY_HOST__', empty($_SERVER['HTTP_HOST']) ? '' : $_SERVER['HTTP_HOST']);
