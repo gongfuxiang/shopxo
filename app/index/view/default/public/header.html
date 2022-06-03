@@ -121,3 +121,19 @@
 		{{/foreach}}
 	{{/if}}
 {{/if}}
+
+<!-- header公共顶部钩子 -->
+{{if !isset($is_footer) or $is_footer eq 1}}
+    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+		<div class="plugins-tag">
+			<span>plugins_view_common_top_header</span>
+		</div>
+	{{/if}}
+	{{if !empty($plugins_view_common_top_header_data) and is_array($plugins_view_common_top_header_data)}}
+		{{foreach $plugins_view_common_top_header_data as $hook}}
+			{{if is_string($hook) or is_int($hook)}}
+				{{$hook|raw}}
+			{{/if}}
+		{{/foreach}}
+	{{/if}}
+{{/if}}

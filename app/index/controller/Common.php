@@ -561,6 +561,12 @@ class Common extends BaseController
         // 公共底部钩子
         MyViewAssign('plugins_view_common_bottom_data', MyEventTrigger('plugins_view_common_bottom', ['hook_name'=>'plugins_view_common_bottom', 'is_backend'=>false, 'user'=>$this->user]));
 
+        // header公共顶部钩子
+        MyViewAssign('plugins_view_common_top_header_data', MyEventTrigger('plugins_view_common_top_header', ['hook_name'=>'plugins_view_common_top_header', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // footer公共底部钩子
+        MyViewAssign('plugins_view_common_bottom_footer_data', MyEventTrigger('plugins_view_common_bottom_footer', ['hook_name'=>'plugins_view_common_bottom_footer', 'is_backend'=>false, 'user'=>$this->user]));
+
         // 公共顶部小导航钩子-左侧前面
         MyViewAssign('plugins_view_header_navigation_top_left_begin_data', MyEventTrigger('plugins_view_header_navigation_top_left_begin', ['hook_name'=>'plugins_view_header_navigation_top_left_begin', 'is_backend'=>false, 'user'=>$this->user]));
 
