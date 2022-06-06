@@ -94,7 +94,7 @@ class Index extends Common
             MyViewAssign('pages_list', $pages_list);
 
             // 商品分类
-            $goods_category = GoodsService::GoodsCategoryAll();
+            $goods_category = GoodsService::GoodsCategory(['is_all'=>1]);
             MyViewAssign('goods_category_list', $goods_category);
 
             // 商品搜索分类（分类）

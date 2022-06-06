@@ -95,19 +95,17 @@ class GoodsService
         // 获取分类
         if(empty($params['where']))
         {
-            $where = [
+            $params['where'] = [
                 ['pid', '=', 0],
                 ['is_enable', '=', 1],
             ];
-        } else {
-            $where = $params['where'];
         }
-        $data = self::GoodsCategoryList(['where'=>$where]);
+        $data = self::GoodsCategoryList($params);
         if(!empty($data))
         {
             // 基础条件、去除pid
-            $where_base = $where;
-            $temp_column = array_column($where, 0);
+            $where_base = $params['where'];
+            $temp_column = array_column($where_base, 0);
             if(in_array('pid', $temp_column))
             {
                 unset($where_base[array_search('pid', $temp_column)]);
@@ -115,11 +113,13 @@ class GoodsService
             }
             foreach($data as &$v)
             {
-                $v['items'] = self::GoodsCategoryList(['where'=>array_merge($where_base, [['pid', '=', $v['id']]])]);
+                $params['where'] = array_merge($where_base, [['pid', '=', $v['id']]]);
+                $v['items'] = self::GoodsCategoryList($params);
                 if(!empty($v['items']))
                 {
                     // 一次性查出所有二级下的三级、再做归类、避免sql连接超多
-                    $itemss = self::GoodsCategoryList(['where'=>array_merge($where_base, [['pid', 'in', array_column($v['items'], 'id')]])]);
+                    $params['where'] = array_merge($where_base, [['pid', 'in', array_column($v['items'], 'id')]]);
+                    $itemss = self::GoodsCategoryList($params);
                     if(!empty($itemss))
                     {
                         foreach($v['items'] as &$vs)
