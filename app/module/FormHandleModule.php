@@ -59,7 +59,7 @@ class FormHandleModule
             return $ret;
         }
 
-        // 钩子
+        // 钩子-开始
         $hv = explode('\\', $module);
         if(isset($hv[2]) && isset($hv[4]) && in_array($hv[2], MyConfig('shopxo.module_form_hook_group')))
         {
@@ -103,6 +103,21 @@ class FormHandleModule
             'user_fields'   => $this->user_fields,
             'order_by'      => $this->order_by,
         ];
+
+        // 钩子-结束
+        $hv = explode('\\', $module);
+        if(isset($hv[2]) && isset($hv[4]) && in_array($hv[2], MyConfig('shopxo.module_form_hook_group')))
+        {
+            // 动态钩子名称 plugins_module_form_group_controller_action_end
+            $hook_name = 'plugins_module_form_'.strtolower($hv[2]).'_'.strtolower($hv[4]).'_'.strtolower($action).'_end';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => $this->out_params,
+                'data'          => &$data,
+            ]);
+        }
+
         return DataReturn('success', 0, $data);
     }
 

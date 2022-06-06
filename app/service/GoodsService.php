@@ -2102,7 +2102,7 @@ class GoodsService
                 throw new \Exception('操作失败');
             }
 
-            // 商品删除钩子
+            // 商品状态更新钩子
             $hook_name = 'plugins_service_goods_field_status_update';
             MyEventTrigger($hook_name, [
                 'hook_name'     => $hook_name,
