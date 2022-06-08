@@ -1403,7 +1403,7 @@ class OrderService
 
                 // 扩展数据
                 $v['extension_data'] = empty($v['extension_data']) ? null : json_decode($v['extension_data'], true);
-                
+
                 // 订单详情
                 if($is_items == 1)
                 {
@@ -1549,11 +1549,14 @@ class OrderService
             // 商品处理
             $res = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id']);
             $data = $res['data'];
-
             foreach($data as &$vs)
             {
-                // 总价
-                $vs['total_price'] = PriceNumberFormat($vs['buy_number']*$vs['price']);
+                // 避免订单商品价格被处理，强制使用原始内容
+                if(!empty($vs['price_container']))
+                {
+                    $vs['price'] = $vs['price_container']['price'];
+                    $vs['original_price'] = $vs['price_container']['original_price'];
+                }
 
                 // 规格
                 $vs['spec_text'] = null;
