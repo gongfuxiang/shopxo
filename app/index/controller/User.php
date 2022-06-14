@@ -314,6 +314,7 @@ class User extends Common
     {
         MyViewAssign('is_header', 0);
         MyViewAssign('is_footer', 0);
+        MyViewAssign('is_to_home', 0);
 
         if(count(MyC('home_user_login_type', [], true)) > 0)
         {

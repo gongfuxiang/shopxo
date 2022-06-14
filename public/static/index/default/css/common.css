@@ -120,15 +120,15 @@ input.add,input.min{width:15px}
     .am-footer {text-align:center; display:block;position: relative;margin: 0px auto; padding: 10px 0px; }
 
     /*分类*/
-    .goods-category-s {display:block;position: absolute;z-index: 100;}
+    .goods-category-s {display:block;position: absolute;z-index: 1020;}
     .goods-category-s .all-goods, .goods-category-title .all-goods {font-size: 16px;}
-    .goods-category-title{background:#d2364c;color:#fff ;height: 40px;line-height: 44px;display:block;position: absolute;width:150px ;text-align: center;top:0px;z-index: 6;cursor: pointer;}
-    .goods-category-s .category-content{ position:relative; width: 150px; float: left; z-index: 113;background:#fff; top: 45px;}
+    .goods-category-title{background:#d2364c;color:#fff ;height: 40px;line-height: 44px;display:block;position: absolute;width:150px ;text-align: center;top:0px;cursor: pointer;}
+    .goods-category-s .category-content{ position:relative; width: 150px; float: left;background:#fff; top: 45px;}
     .goods-category-s .category-content .all-goods { display: block; padding: 0; border-radius: 5px 5px 0 0; font-weight: 600; line-height: 36px;width:150px;height: 36px; padding: 0; border-radius: 5px 5px 0 0; color: #fff; text-align: center; font: 16px/36px "Microsoft YaHei";}
     .goods-category-s .category-content .all-goods em{ font: 12px/36px "Microsoft YaHei"; }
     .category-content .category{width:150px; border-top: none; background: #2b2b2b;box-shadow: 8px 0 7px -3px rgba(0,0,0,.3); }
-    .category-content .down-ico{ position: absolute; top: 48px; left: 95px; width: 10px; height: 6px; background-position: 0 -131px; z-index: 11111; }
-    .category-content .category-list li { height:36px;  margin-top: -2px;z-index:113;border-top: 1px solid #333;border-bottom: 1px solid #252525}
+    .category-content .down-ico{ position: absolute; top: 48px; left: 95px; width: 10px; height: 6px; background-position: 0 -131px; }
+    .category-content .category-list li { height:36px;  margin-top: -2px;border-top: 1px solid #333;border-bottom: 1px solid #252525}
     .category-content .category-list li.first{ margin-top: 0; }
     .category-content .category-list li.last .c-category-list{ border-bottom: none; }
     .category-content .category-list a { text-decoration: none; }
@@ -147,10 +147,9 @@ input.add,input.min{width:15px}
     .category-content .s-category-name a{ margin:0 16px 0 0; font:12px/22px "宋体";}
     .category-content .category-info{ position:relative;height:100%;  padding-left: 12px;width: 152px;overflow: hidden;}
     .category-content .category-info em{ position:absolute; top:8px; right:20px; width: 13px; height: 13px; font: 12px/18px "宋体"; color: #9b9b9b;}
-    .category-content .category .hover, .category-content .category-list li.hover .category-info { z-index:999;} 
     .category-content .hover .category-info{ border:none; text-decoration:none; background: #fff;  }
-    .category-content .menu-item { display: none;position: absolute;left: 149px;height:100%; z-index: 11;padding:0 0 0 2px;width:770px;background: #fff; border:none; border-top: 1px solid #bbb9;overflow-y: scroll;overflow-x: hidden; height: 360px; }
-    .category-content .menu-item .area-in{ position: relative;  z-index: 1;  }
+    .category-content .menu-item { display: none;position: absolute;left: 149px;height:100%;padding:0 0 0 2px;width:770px;background: #fff; border:none; border-top: 1px solid #bbb9;overflow-y: scroll;overflow-x: hidden; height: 360px; }
+    .category-content .menu-item .area-in{ position: relative; }
     .category-content .menu-item .area-bg{ padding: 10px 0 10px 20px;}
     .category-content .category-list li.hover .b-category-name a{ color:#4c4c4c; }
     .category-content .menu-srot .sort-side,
@@ -193,7 +192,7 @@ input.add,input.min{width:15px}
     .goods-category-title {width:180px;}
 
     /* 分类 */
-    #goods-category .category-content{ position:relative; width: 180px; float: left; z-index: 113; top: 45px; }
+    #goods-category .category-content{ position:relative; width: 180px; float: left; top: 45px; }
     #goods-category .category-content .all-goods { width:180px; }
     .category-content .category{ width:180px; }
     .category-content .category-info { padding-left: 12px;width: 180px;overflow: hidden; }
