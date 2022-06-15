@@ -2849,4 +2849,44 @@ function ParamsChecked($data, $params)
     }
     return true;
 }
+
+// php系统方法不存在则定义
+if(!function_exists('str_starts_with'))
+{
+    /**
+     * 检查字符串是否以给定的子字符串开头
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-06-15
+     * @desc    description
+     * @param   [string]          $haystack [待检查的字符串]
+     * @param   [string]          $needle   [需检查的字符串]
+     * @return  [boolean]                   [true|false]
+     */
+    function str_starts_with($haystack, $needle)
+    {
+        $len = mb_strlen($needle, 'utf-8');
+        return mb_substr($haystack, 0, $len, 'utf-8') === $needle;
+    }
+}
+if(!function_exists('str_ends_with'))
+{
+    /**
+     * 检查字符串是否以给定的子字符串结尾
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-06-15
+     * @desc    description
+     * @param   [string]          $haystack [待检查的字符串]
+     * @param   [string]          $needle   [需检查的字符串]
+     * @return  [boolean]                   [true|false]
+     */
+    function str_ends_with($haystack, $needle)
+    {
+        $len = mb_strlen($needle, 'utf-8');
+        return mb_substr($haystack, -1, $len, 'utf-8') === $needle;
+    }
+}
 ?>
