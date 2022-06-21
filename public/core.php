@@ -53,19 +53,29 @@ define('__MY_ROOT_PUBLIC__', defined('IS_ROOT_ACCESS') ? DS.$my_root.'public'.DS
 define('__MY_ADDR__', empty($_SERVER['SERVER_ADDR']) ? '' : $_SERVER['SERVER_ADDR']);
 
 // 主域名
-$main_domain = empty($_SERVER['HTTP_HOST']) ? '' : ((substr_count($_SERVER['HTTP_HOST'], '.') > 1 && !is_numeric(str_replace(['.', ':'], '', $_SERVER['HTTP_HOST']))) ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')+1) : '');
-if(!empty($main_domain))
+if(empty($_SERVER['HTTP_HOST']))
 {
-    $port_index = strpos($main_domain, ':');
-    if($port_index !== false)
+    $main_domain = '';
+} else {
+    $main_domain = strtolower($_SERVER['HTTP_HOST']);
+    // 查看是几级域名
+    $arr = explode('.', $main_domain);
+    $len = count($arr);
+    // 判断是否是双后缀
+    $preg = '/[\w].+\.(com|net|org|gov|edu|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn)\.cn$/';
+    if($len > 2 && preg_match($preg, $main_domain))
     {
-        $main_domain = substr($main_domain, 0, $port_index);
+        // 双后缀取后3位
+        $main_domain = $arr[$len-3].'.'.$arr[$len-2].'.'.$arr[$len-1];
+    } else {
+        // 非双后缀取后两位
+        $main_domain = $arr[$len-2].'.'.$arr[$len-1];
     }
 }
 define('__MY_MAIN_DOMAIN__', $main_domain);
 
 // 项目HOST
-define('__MY_HOST__', empty($_SERVER['HTTP_HOST']) ? '' : $_SERVER['HTTP_HOST']);
+define('__MY_HOST__', empty($_SERVER['HTTP_HOST']) ? '' : strtolower($_SERVER['HTTP_HOST']));
 
 // 项目HOST地址
 define('__MY_DOMAIN__',  empty($_SERVER['HTTP_HOST']) ? '' : __MY_HTTP__.'://'.__MY_HOST__.DS);
