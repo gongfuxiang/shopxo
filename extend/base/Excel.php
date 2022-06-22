@@ -81,6 +81,53 @@ class Excel
 	}
 
 	/**
+	 * 导出CSV文件
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2022-06-22
+	 * @desc    description
+	 */
+	public function ExportCsv()
+	{
+		// 获取配置编码类型
+		$excel_charset = MyC('admin_excel_charset', 0);
+		$charset = MyConst('common_excel_charset_list')[$excel_charset]['value'];
+
+		// 拼接文件信息，这里注意两点
+		// 1、字段与字段之间用逗号分隔开
+		// 2、行与行之间需要换行符
+		// 3、英文逗号替换未中文逗号、避免与csv分隔符冲突
+	    $csv_title = implode(',', array_map(function($v) {
+	    	return str_replace([',', "\n"], ['，', ''], $v['name']);
+	    }, $this->title));
+	    $csv_content = (($excel_charset == 0) ? $csv_title : iconv('utf-8', $charset, $csv_title))."\n";
+		foreach($this->data as $v)
+		{
+			$temp = '';
+			$index = 0;
+			foreach($this->title as $tk=>$tv)
+			{
+				if(array_key_exists($tk, $v))
+				{
+					$temp .= ($index == 0 ? '' : ',').str_replace([',', "\n"], [ '，', ''], $v[$tk]);
+				}
+				$index++;
+			}
+			$csv_content .= (($excel_charset == 0) ? $temp : iconv('utf-8', $charset, $temp))."\n";
+		}
+
+	    // 头信息设置
+	    header("Content-type:text/csv");
+	    header("Content-Disposition:attachment;filename=" . $this->filename.'.csv');
+	    header('Cache-Control:must-revalidate,post-check=0,pre-check=0');
+	    header('Expires:0');
+	    header('Pragma:public');
+	    echo $csv_content;
+	    exit;
+	}
+
+	/**
 	 * 根据字段个数，设置表头排序字母
 	 * @author  Devil
 	 * @blog    http://gong.gg/
