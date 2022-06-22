@@ -1226,6 +1226,15 @@ class OrderService
         $result = [];
         if(!empty($data))
         {
+            // 订单列表钩子-前面
+            $hook_name = 'plugins_service_order_list_handle_begin';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
+
             // 字段列表
             $keys = ArrayKeys($data);
             $order_ids = array_column($data, 'id');
@@ -1279,6 +1288,9 @@ class OrderService
 
             // 订单地址
             $address_data = self::OrderAddressData($order_ids);
+
+            // 订单详情
+            $detail = ($is_items == 1) ? self::OrderItemList($data, $is_orderaftersale) : [];
 
             // 循环处理数据
             foreach($data as &$v)
@@ -1405,13 +1417,10 @@ class OrderService
                 $v['extension_data'] = empty($v['extension_data']) ? null : json_decode($v['extension_data'], true);
 
                 // 订单详情
-                if($is_items == 1)
+                if($is_items == 1 && !empty($detail) && array_key_exists($v['id'], $detail))
                 {
-                    $items = self::OrderItemList($v['id'], $v['order_model'], $v['status'], $v['pay_status'], $is_orderaftersale);
-                    $v['items'] = $items;
-                    $v['items_count'] = count($items);
-
-                    // 描述
+                    $v['items'] = $detail[$v['id']];
+                    $v['items_count'] = count($v['items']);
                     $v['describe'] = '共'.$v['buy_number_count'].'件 合计:'.$v['currency_data']['currency_symbol'].$v['total_price'].'元';
                 }
 
@@ -1442,6 +1451,15 @@ class OrderService
                     return $ret;
                 }
             }
+
+            // 订单列表钩子-后面
+            $hook_name = 'plugins_service_order_list_handle_end';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
         }
 
         return DataReturn('success', 0, $data);
@@ -1530,66 +1548,99 @@ class OrderService
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2020-05-15
+     * @date    2022-06-22
      * @desc    description
-     * @param   [int]          $order_id            [订单 id]
-     * @param   [int]          $order_model         [订单模式]
-     * @param   [int]          $status              [订单状态]
-     * @param   [int]          $pay_status          [支付状态]
-     * @param   [int]          $is_orderaftersale   [是否读取订单售后（0否, 1是）]
+     * @param   [array]       $order             [订单信息]
+     * @param   [int]         $is_orderaftersale [是否读取订单售后（0否, 1是）]
      */
-    public static function OrderItemList($order_id, $order_model, $status, $pay_status, $is_orderaftersale = 0)
+    public static function OrderItemList($order, $is_orderaftersale = 0)
     {
-        $data = Db::name('OrderDetail')->where(['order_id'=>$order_id])->select()->toArray();
+        $result = [];
+        $order = array_column($order, null, 'id');
+        $order_ids = array_keys($order);
+        $data = Db::name('OrderDetail')->where(['order_id'=>$order_ids])->select()->toArray();
         if(!empty($data))
         {
+            // 订单详情自增id
+            $order_detail_ids = array_column($data, 'id');
+
             // 虚拟商品取货码
-            $fictitious_value_list = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>array_column($data, 'id')])->column('value', 'order_detail_id');
+            $fictitious_value_list = Db::name('OrderFictitiousValue')->where(['order_detail_id'=>$order_detail_ids])->column('value', 'order_detail_id');
+
+            // 是否获取最新一条售后信息
+            $orderaftersale = [];
+            if($is_orderaftersale == 1)
+            {
+                $temp_aftersale = Db::name('OrderAftersale')->where(['order_detail_id'=>$order_detail_ids])->order('id desc')->select()->toArray();
+                if(!empty($temp_aftersale))
+                {
+                    foreach($temp_aftersale as $av)
+                    {
+                        if(!array_key_exists($av['order_detail_id'], $orderaftersale))
+                        {
+                            $orderaftersale[$av['order_detail_id']] = $av;
+                        }
+                    }
+                }
+            }
 
             // 商品处理
             $res = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id']);
             $data = $res['data'];
-            foreach($data as &$vs)
+            foreach($data as $vs)
             {
-                // 避免订单商品价格被处理，强制使用原始内容
-                if(!empty($vs['price_container']))
+                // 当前商品订单信息
+                if(array_key_exists($vs['order_id'], $order))
                 {
-                    $vs['price'] = $vs['price_container']['price'];
-                    $vs['original_price'] = $vs['price_container']['original_price'];
-                }
+                    // 当前商品详情主订单信息
+                    $ov = $order[$vs['order_id']];
 
-                // 规格
-                $vs['spec_text'] = null;
-                if(!empty($vs['spec']))
-                {
-                    $vs['spec'] = json_decode($vs['spec'], true);
-                    if(!empty($vs['spec']) && is_array($vs['spec']))
+                    // 避免订单商品价格被处理，强制使用原始内容
+                    if(!empty($vs['price_container']))
                     {
-                        $vs['spec_text'] = implode('，', array_map(function($spec)
-                        {
-                            return $spec['type'].':'.$spec['value'];
-                        }, $vs['spec']));
+                        $vs['price'] = $vs['price_container']['price'];
+                        $vs['original_price'] = $vs['price_container']['original_price'];
                     }
-                } else {
-                    $vs['spec'] = null;
-                }
 
-                // 虚拟销售商品 - 虚拟信息处理
-                if($order_model == 3 && $pay_status == 1 && in_array($status, [3,4]))
-                {
-                    $vs['fictitious_goods_value'] = (!empty($fictitious_value_list) && is_array($fictitious_value_list) && array_key_exists($vs['id'], $fictitious_value_list)) ? $fictitious_value_list[$vs['id']] : '';
-                }
+                    // 规格
+                    $vs['spec_text'] = null;
+                    if(!empty($vs['spec']))
+                    {
+                        $vs['spec'] = json_decode($vs['spec'], true);
+                        if(!empty($vs['spec']) && is_array($vs['spec']))
+                        {
+                            $vs['spec_text'] = implode('，', array_map(function($spec)
+                            {
+                                return $spec['type'].':'.$spec['value'];
+                            }, $vs['spec']));
+                        }
+                    } else {
+                        $vs['spec'] = null;
+                    }
 
-                // 是否获取最新一条售后信息
-                if($is_orderaftersale == 1)
-                {
-                    $orderaftersale = Db::name('OrderAftersale')->where(['order_detail_id'=>$vs['id']])->order('id desc')->find();
-                    $vs['orderaftersale'] = $orderaftersale;
-                    $vs['orderaftersale_btn_text'] = self::OrderAftersaleStatusBtnText($status, $orderaftersale);
+                    // 虚拟销售商品 - 虚拟信息处理
+                    if($ov['order_model'] == 3 && $ov['pay_status'] == 1 && in_array($ov['status'], [3,4]))
+                    {
+                        $vs['fictitious_goods_value'] = (!empty($fictitious_value_list) && is_array($fictitious_value_list) && array_key_exists($vs['id'], $fictitious_value_list)) ? $fictitious_value_list[$vs['id']] : '';
+                    }
+
+                    // 是否获取最新一条售后信息
+                    if($is_orderaftersale == 1 && !empty($orderaftersale) && array_key_exists($vs['id'], $orderaftersale))
+                    {
+                        $vs['orderaftersale'] = $orderaftersale[$vs['id']];
+                        $vs['orderaftersale_btn_text'] = self::OrderAftersaleStatusBtnText($ov['status'], $vs['orderaftersale']);
+                    }
+
+                    // 加入分组
+                    if(!array_key_exists($vs['order_id'], $result))
+                    {
+                        $result[$vs['order_id']] = [];
+                    }
+                    $result[$vs['order_id']][] = $vs;
                 }
             }
         }
-        return $data;
+        return $result;
     }
 
     /**

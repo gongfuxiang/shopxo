@@ -40,7 +40,7 @@ class PluginsService
     {
         // 从缓存获取数据、数据不存在则从数据库读取
         $data = ($is_cache === true) ? self::PluginsCacheData($plugins) : [];
-        if($data === null || !$is_cache)
+        if(empty($data) || !$is_cache)
         {
             // 获取数据
             $ret = self::PluginsField($plugins, 'data');
