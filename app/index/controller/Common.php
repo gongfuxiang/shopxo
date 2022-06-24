@@ -615,6 +615,22 @@ class Common extends BaseController
         // 公共搜索框内右侧
         MyViewAssign('plugins_view_common_search_inside_right_data', MyEventTrigger('plugins_view_common_search_inside_right', ['hook_name'=>'plugins_view_common_search_inside_right', 'is_backend'=>false, 'user'=>$this->user]));
 
+
+        // 中间导航左侧
+        MyViewAssign('plugins_view_common_header_nav_left_data', MyEventTrigger('plugins_view_common_header_nav_left', ['hook_name'=>'plugins_view_common_header_nav_left', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 中间导航搜索内部
+        MyViewAssign('plugins_view_common_header_nav_search_inside_data', MyEventTrigger('plugins_view_common_header_nav_search_inside', ['hook_name'=>'plugins_view_common_header_nav_search_inside', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 中间导航内容内部顶部
+        MyViewAssign('plugins_view_common_header_nav_content_inside_top_data', MyEventTrigger('plugins_view_common_header_nav_content_inside_top', ['hook_name'=>'plugins_view_common_header_nav_content_inside_top', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 中间导航内容内部底部
+        MyViewAssign('plugins_view_common_header_nav_content_inside_bottom_data', MyEventTrigger('plugins_view_common_header_nav_content_inside_bottom', ['hook_name'=>'plugins_view_common_header_nav_content_inside_bottom', 'is_backend'=>false, 'user'=>$this->user]));
+
+        // 中间导航右侧
+        MyViewAssign('plugins_view_common_header_nav_right_data', MyEventTrigger('plugins_view_common_header_nav_right', ['hook_name'=>'plugins_view_common_header_nav_right', 'is_backend'=>false, 'user'=>$this->user]));
+
         // 公共表格钩子名称动态处理
         $current = 'plugins_view_index_'.$this->controller_name;
 
