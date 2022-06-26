@@ -45,14 +45,15 @@ class FileUpload
      * @version 1.0.0
      * @date    2018-06-29
      * @desc    description
-     * @param   [string]     $name [表单name]
+     * @param   [string]     $file [表单name]
+     * @param   [string]     $name [文件名称]
      * @param   [int]        $index[多文件索引]
      * @return  [mixed]            [array | 错误信息]
      */
-    function Save($name, $index = false)
+    function Save($file, $name = '', $index = false)
     {
         // 基础校验
-        $error = FileUploadError($name, $index);
+        $error = FileUploadError($file, $index);
         if($error !== true)
         {
             return DataReturn($error, -1);
@@ -65,21 +66,27 @@ class FileUpload
         // 临时文件数据
         if($index === false)
         {
-            $original_name = $_FILES[$name]['name'];
-            $temp_file = $_FILES[$name]['tmp_name'];
-            $size = $_FILES[$name]['size'];
-            $type = $_FILES[$name]['type'];
+            $original_name = $_FILES[$file]['name'];
+            $temp_file = $_FILES[$file]['tmp_name'];
+            $size = $_FILES[$file]['size'];
+            $type = $_FILES[$file]['type'];
         } else {
-            $original_name = $_FILES[$name]['name'][$index];
-            $temp_file = $_FILES[$name]['tmp_name'][$index];
-            $size = $_FILES[$name]['size'][$index];
-            $type = $_FILES[$name]['type'][$index];
+            $original_name = $_FILES[$file]['name'][$index];
+            $temp_file = $_FILES[$file]['tmp_name'][$index];
+            $size = $_FILES[$file]['size'][$index];
+            $type = $_FILES[$file]['type'][$index];
         }
+
+        // 后缀名称
         $ext_all = explode('.', $original_name);
         $ext = $ext_all[count($ext_all)-1];
 
-        // 生成新的文件名称
-        $filename = $this->RandNewFilename().'.'.$ext;
+        // 文件名称，未指定则生成新的文件名称
+        $filename = empty($name) ? $this->RandNewFilename() : $name;
+        if(stripos($filename, '.') === false)
+        {
+            $filename .= '.'.$ext;
+        }
 
         // 存储
         if(move_uploaded_file($temp_file, $dir.$filename))
