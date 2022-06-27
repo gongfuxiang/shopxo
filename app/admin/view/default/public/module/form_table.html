@@ -242,7 +242,9 @@
                                                         data-id="{{if isset($data_list[$i][$t['key_field']])}}{{$data_list[$i][$t['key_field']]}}{{/if}}"
                                                         data-state="{{$data_list[$i][$t['view_key']]}}"
                                                         data-field="{{$t.view_key}}"
-                                                        data-is-update-status="{{if isset($t['is_form_su'])}}{{$t.is_form_su}}{{else /}}0{{/if}}"
+                                                        data-is-update-status="{{if isset($t['is_form_su']) and $t['is_form_su'] eq 1}}1{{else /}}0{{/if}}"
+                                                        data-is-loading="{{if isset($t['is_loading']) and $t['is_loading'] eq 1}}1{{else /}}0{{/if}}"
+                                                        data-loading-msg="{{if !empty($t['loading_msg'])}}{{$t.loading_msg}}{{/if}}"
                                                     ></a>
                                                 {{/if}}
                                             {{/case}}

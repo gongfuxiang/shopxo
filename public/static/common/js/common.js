@@ -1128,12 +1128,20 @@ function DataDelete(e)
 	var view = e.attr('data-view') || 'delete';
 	var value = e.attr('data-value') || null;
 	var ext_delete_tag = e.attr('data-ext-delete-tag') || null;
+	var is_loading = parseInt(e.attr('data-is-loading') || 0);
+	var loading_msg = e.attr('data-loading-msg') || '正在处理中、请稍候...';
 
 	// 参数校验
 	if((id || null) == null || (url || null) == null)
 	{
 		Prompt('参数配置有误');
 		return false;
+	}
+
+	// 弹层加载
+	if(is_loading == 1)
+	{
+		AMUI.dialog.loading({title: loading_msg});
 	}
 
 	// 请求数据
@@ -1172,6 +1180,10 @@ function DataDelete(e)
 						Prompt(result.msg, 'success');
 						setTimeout(function()
 						{
+							if(is_loading == 1)
+							{
+								AMUI.dialog.loading('close');
+							}
 							window.location.reload();
 						}, 1500);
 						break;
@@ -1205,12 +1217,29 @@ function DataDelete(e)
 				}
 				// 成功则删除数据列表
 				$('#data-list-'+id).remove();
+
+				// 非刷新和跳转操作
+				if(view != 'reload' && view != 'jump')
+				{
+					if(is_loading == 1)
+					{
+						AMUI.dialog.loading('close');
+					}
+				}
 			} else {
+				if(is_loading == 1)
+				{
+					AMUI.dialog.loading('close');
+				}
 				Prompt(result.msg);
 			}
 		},
 		error: function(xhr, type)
 		{
+			if(is_loading == 1)
+			{
+				AMUI.dialog.loading('close');
+			}
 			$.AMUI.progress.done();
 			Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
 		}
@@ -1265,10 +1294,18 @@ function AjaxRequest(e)
 	var url = e.attr('data-url');
 	var view = e.attr('data-view') || '';
 	var is_example = e.hasClass('btn-loading-example');
+	var is_loading = parseInt(e.attr('data-is-loading') || 0);
+	var loading_msg = e.attr('data-loading-msg') || '正在处理中、请稍候...';
 
 	// 请求数据
 	var data = {"value": value, "field": field};
 		data[key] = id;
+
+	// 弹层加载
+	if(is_loading == 1)
+	{
+		AMUI.dialog.loading({title: loading_msg});
+	}
 
 	// 按钮加载
 	if(is_example)
@@ -1306,6 +1343,10 @@ function AjaxRequest(e)
 						Prompt(result.msg, 'success');
 						setTimeout(function()
 						{
+							if(is_loading == 1)
+							{
+								AMUI.dialog.loading('close');
+							}
 							window.location.reload();
 						}, 1500);
 						break;
@@ -1320,16 +1361,45 @@ function AjaxRequest(e)
                 		}
 						break;
 
+					// 跳转
+					case 'jump' :
+						Prompt(result.msg, 'success');
+						if(value != null)
+						{
+							setTimeout(function()
+							{
+								window.location.href = value;
+							}, 1500);
+						}
+						break;
+
 					// 默认提示成功
 					default :
 						Prompt(result.msg, 'success');
 				}
+
+				// 非刷新和跳转操作
+				if(view != 'reload' && view != 'jump')
+				{
+					if(is_loading == 1)
+					{
+						AMUI.dialog.loading('close');
+					}
+				}
 			} else {
+				if(is_loading == 1)
+				{
+					AMUI.dialog.loading('close');
+				}
 				Prompt(result.msg);
 			}
 		},
 		error: function(xhr, type)
 		{
+			if(is_loading == 1)
+			{
+				AMUI.dialog.loading('close');
+			}
 			if(is_example)
 			{
 				e.button('reset');
@@ -2543,16 +2613,24 @@ $(function()
 	$(document).on('click', '.submit-state', function()
 	{		
 		// 获取参数
-		var $tag = $(this);
-		var id = $tag.attr('data-id');
-		var state = ($tag.attr('data-state') == 1) ? 0 : 1;
-		var url = $tag.attr('data-url');
-		var field = $tag.attr('data-field') || '';
-		var is_update_status = $tag.attr('data-is-update-status') || 0;
+		var $this = $(this);
+		var id = $this.attr('data-id');
+		var state = ($this.attr('data-state') == 1) ? 0 : 1;
+		var url = $this.attr('data-url');
+		var field = $this.attr('data-field') || '';
+		var is_update_status = $this.attr('data-is-update-status') || 0;
+		var is_loading = parseInt($this.attr('data-is-loading') || 0);
+		var loading_msg = $this.attr('data-loading-msg') || '正在处理中、请稍候...';
 		if(id == undefined || url == undefined)
 		{
 			Prompt('参数配置有误');
 			return false;
+		}
+
+		// 弹层加载
+		if(is_loading == 1)
+		{
+			AMUI.dialog.loading({title: loading_msg});
 		}
 
 		// 请求更新数据
@@ -2561,20 +2639,24 @@ $(function()
 			url: RequestUrlHandle(url),
 			type: 'POST',
 			dataType: 'json',
-			timeout:  $tag.attr('data-timeout') || 60000,
+			timeout:  $this.attr('data-timeout') || 60000,
 			data:{"id":id, "state":state, "field":field},
 			success: function(result)
 			{
+				if(is_loading == 1)
+				{
+					AMUI.dialog.loading('close');
+				}
 				$.AMUI.progress.done();
 				if(result.code == 0)
 				{
 					Prompt(result.msg, 'success');
 
 					// 成功则更新数据样式
-					if($tag.hasClass('am-success'))
+					if($this.hasClass('am-success'))
 					{
-						$tag.removeClass('am-success');
-						$tag.addClass('am-default');
+						$this.removeClass('am-success');
+						$this.addClass('am-default');
 						if(is_update_status == 1)
 						{
 							if($('#data-list-'+id).length > 0)
@@ -2583,8 +2665,8 @@ $(function()
 							}
 						}
 					} else {
-						$tag.removeClass('am-default');
-						$tag.addClass('am-success');
+						$this.removeClass('am-default');
+						$this.addClass('am-success');
 						if(is_update_status == 1)
 						{
 							if($('#data-list-'+id).length > 0)
@@ -2593,13 +2675,17 @@ $(function()
 							}
 						}
 					}
-					$tag.attr('data-state', state);
+					$this.attr('data-state', state);
 				} else {
 					Prompt(result.msg);
 				}
 			},
 			error: function(xhr, type)
 			{
+				if(is_loading == 1)
+				{
+					AMUI.dialog.loading('close');
+				}
 				$.AMUI.progress.done();
 				Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
 			}
