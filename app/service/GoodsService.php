@@ -2004,7 +2004,7 @@ class GoodsService
     public static function GoodsDeleteHandle($goods_ids)
     {
         // 删除商品
-        if(!Db::name('Goods')->where(['id'=>$goods_ids])->delete())
+        if(Db::name('Goods')->where(['id'=>$goods_ids])->delete() === false)
         {
             throw new \Exception('商品删除失败');
         }

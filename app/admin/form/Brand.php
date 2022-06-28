@@ -49,6 +49,7 @@ class Brand
                 'delete_url'    => MyUrl('admin/brand/delete'),
                 'delete_key'    => 'ids',
                 'detail_title'  => '基础信息',
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [

@@ -1,0 +1,12 @@
+{{if !empty($module_data['spec']) and is_array($module_data['spec'])}}
+    <div class="am-scrollable-vertical spec-inventory-list">
+        <ul>
+            {{foreach $module_data.spec as $sv}}
+                <li class="am-nbfc">
+                    <p class="spec-name am-fl">{{if empty($sv['spec'])}}默认规格{{else /}}{{$sv.spec}}{{/if}}</p>
+                    <strong class="am-fr">{{$sv.inventory}}</strong>
+                </li>
+            {{/foreach}}
+        </ul>
+    </div>
+{{/if}}

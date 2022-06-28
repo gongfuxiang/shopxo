@@ -433,6 +433,14 @@ class FormHandleModule
                     if(array_key_exists($params_where_name, $this->out_params) && $this->out_params[$params_where_name] !== null && $this->out_params[$params_where_name] !== '')
                     {
                         $this->out_params[$form_key] = $this->out_params[$params_where_name];
+                    // min字段
+                    } elseif(array_key_exists($params_where_name.'_min', $this->out_params) && $this->out_params[$params_where_name.'_min'] !== null && $this->out_params[$params_where_name.'_min'] !== '')
+                    {
+                        $this->out_params[$form_key.'_min'] = $this->out_params[$params_where_name.'_min'];
+                    // max字段
+                    } elseif(array_key_exists($params_where_name.'_max', $this->out_params) && $this->out_params[$params_where_name.'_max'] !== null && $this->out_params[$params_where_name.'_max'] !== '')
+                    {
+                        $this->out_params[$form_key.'_max'] = $this->out_params[$params_where_name.'_max'];
                     }
 
                     // 根据组件类型处理

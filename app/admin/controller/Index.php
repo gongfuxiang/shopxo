@@ -129,8 +129,51 @@ class Index extends Common
 			}
 		}
 
+		// 钩子初始化
+        $this->PluginsInit();
 		return MyView();
 	}
+
+	/**
+     * 钩子初始化
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-07
+     * @desc    description
+     */
+    private function PluginsInit()
+    {        
+        // 顶部钩子
+        MyViewAssign('plugins_admin_view_index_init_top_data', MyEventTrigger('plugins_admin_view_index_init_top', ['hook_name'=>'plugins_admin_view_index_init_top', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+        // 公告顶部钩子
+        MyViewAssign('plugins_admin_view_index_init_notice_top_data', MyEventTrigger('plugins_admin_view_index_init_notice_top', ['hook_name'=>'plugins_admin_view_index_init_notice_top', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+        // 基础统计顶部钩子
+        MyViewAssign('plugins_admin_view_index_init_stats_base_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_base_top', ['hook_name'=>'plugins_admin_view_index_init_stats_base_top', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+        // 基础统计内部顶部钩子
+        MyViewAssign('plugins_admin_view_index_init_stats_inside_base_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_inside_base_top', ['hook_name'=>'plugins_admin_view_index_init_stats_inside_base_top', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+        // 订单金额走势统计内部顶部钩子
+        MyViewAssign('plugins_admin_view_index_init_stats_inside_amount_trend_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_inside_amount_trend_top', ['hook_name'=>'plugins_admin_view_index_init_stats_inside_amount_trend_top', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+    	// 订单交易走势统计内部顶部钩子
+        MyViewAssign('plugins_admin_view_index_init_stats_inside_order_trading_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_inside_order_trading_top', ['hook_name'=>'plugins_admin_view_index_init_stats_inside_order_trading_top', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+        // 组合商品和支付统计内部顶部钩子
+        MyViewAssign('plugins_admin_view_index_init_stats_inside_compose_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_inside_compose_top', ['hook_name'=>'plugins_admin_view_index_init_stats_inside_compose_top', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+        // 地域分布统计内部顶部钩子
+        MyViewAssign('plugins_admin_view_index_init_stats_inside_region_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_inside_region_top', ['hook_name'=>'plugins_admin_view_index_init_stats_inside_region_top', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+        // 系统信息顶部钩子
+        MyViewAssign('plugins_admin_view_index_init_system_info_top_data', MyEventTrigger('plugins_admin_view_index_init_system_info_top', ['hook_name'=>'plugins_admin_view_index_init_system_info_top', 'is_backend'=>false, 'admin'=>$this->admin]));
+
+        // 底部钩子
+        MyViewAssign('plugins_admin_view_index_init_bottom_data', MyEventTrigger('plugins_admin_view_index_init_bottom', ['hook_name'=>'plugins_admin_view_index_init_bottom', 'is_backend'=>false, 'admin'=>$this->admin]));
+    }
 
 	/**
 	 * 应用商店帐号绑定

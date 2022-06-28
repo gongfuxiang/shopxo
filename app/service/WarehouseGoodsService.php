@@ -38,12 +38,12 @@ class WarehouseGoodsService
     public static function WarehouseGoodsList($params = [])
     {
         $where = empty($params['where']) ? [] : $params['where'];
-        $field = empty($params['field']) ? '*' : $params['field'];
+        $field = empty($params['field']) ? 'wg.*' : $params['field'];
         $m = isset($params['m']) ? intval($params['m']) : 0;
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
-        $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
-        $data = Db::name('WarehouseGoods')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
+        $order_by = empty($params['order_by']) ? 'wg.id desc' : trim($params['order_by']);
+        $data = Db::name('WarehouseGoods')->alias('wg')->join('warehouse_goods_spec wgs', 'wg.id=wgs.warehouse_goods_id')->field($field)->where($where)->group('wg.id')->order($order_by)->limit($m, $n)->select()->toArray();
         return DataReturn('处理成功', 0, self::DataHandle($data));
     }
 
@@ -100,33 +100,53 @@ class WarehouseGoodsService
                 }
             }
 
+            // 商品规格库存
+            $spec_inventory = [];
+            $temp_inventory = Db::name('WarehouseGoodsSpec')->where(['warehouse_goods_id'=>array_column($data, 'id')])->field('warehouse_goods_id,inventory,spec')->select()->toArray();
+            if(!empty($temp_inventory))
+            {
+                foreach($temp_inventory as $iv)
+                {
+                    $temp = empty($iv['spec']) ? [] : json_decode($iv['spec'], true);
+                    $iv['spec'] = (!empty($temp) && is_array($temp)) ? implode(' / ', array_column($temp, 'value')) : '';
+                    if(!array_key_exists($iv['warehouse_goods_id'], $spec_inventory))
+                    {
+                        $spec_inventory[$iv['warehouse_goods_id']] = [];
+                    }
+                    $spec_inventory[$iv['warehouse_goods_id']][] = $iv;
+                }
+            }
+
             // 数据处理
             foreach($data as &$v)
             {
                 // 用户
-                if(isset($v['user_id']))
+                if(array_key_exists('user_id', $v))
                 {
                     $v['user'] = UserService::GetUserViewInfo($v['user_id']);
                 }
 
                 // 商品信息
-                if(isset($v['goods_id']))
+                if(array_key_exists('goods_id', $v))
                 {
                     $v['goods'] = isset($goods[$v['goods_id']]) ? $goods[$v['goods_id']] : [];
                 }
 
                 // 仓库
-                if(isset($v['warehouse_id']))
+                if(array_key_exists('warehouse_id', $v))
                 {
                     $v['warehouse_name'] = isset($warehouse[$v['warehouse_id']]) ? $warehouse[$v['warehouse_id']] : '';
                 }
 
+                // 规格
+                $v['spec'] = (empty($spec_inventory) || !array_key_exists($v['id'], $spec_inventory)) ? [] : $spec_inventory[$v['id']];
+
                 // 时间
-                if(isset($v['add_time']))
+                if(array_key_exists('add_time', $v))
                 {
                     $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
                 }
-                if(isset($v['upd_time']))
+                if(array_key_exists('upd_time', $v))
                 {
                     $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
                 }
@@ -146,7 +166,7 @@ class WarehouseGoodsService
      */
     public static function WarehouseGoodsTotal($where = [])
     {
-        return (int) Db::name('WarehouseGoods')->where($where)->count();
+        return (int) Db::name('WarehouseGoods')->alias('wg')->join('warehouse_goods_spec wgs', 'wg.id=wgs.warehouse_goods_id')->where($where)->count('distinct wg.id');
     }
 
     /**

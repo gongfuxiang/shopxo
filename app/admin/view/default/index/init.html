@@ -3,6 +3,20 @@
 <!-- right content start  -->
 <div class="content-right" data-url="{{:MyUrl('admin/index/stats')}}">
 	<div class="content">
+		<!-- 顶部钩子 -->
+		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+		    <div class="plugins-tag">
+		        <span>plugins_admin_view_index_init_top</span>
+		    </div>
+		{{/if}}
+		{{if !empty($plugins_admin_view_index_init_top_data) and is_array($plugins_admin_view_index_init_top_data)}}
+		    {{foreach $plugins_admin_view_index_init_top_data as $hook}}
+		        {{if is_string($hook) or is_int($hook)}}
+		            {{$hook|raw}}
+		        {{/if}}
+		    {{/foreach}}
+		{{/if}}
+
 		{{if $is_system_show_base eq 1}}
 			<!-- 顶部提示信息 -->
 			{{if !empty($site_store_info) and !empty($site_store_info['base']) and !empty($site_store_info['base']['site_top_notice'])}}
@@ -48,6 +62,20 @@
 			</div>
 		{{/if}}
 
+		<!-- 公告顶部钩子 -->
+		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+		    <div class="plugins-tag">
+		        <span>plugins_admin_view_index_init_notice_top</span>
+		    </div>
+		{{/if}}
+		{{if !empty($plugins_admin_view_index_init_notice_top_data) and is_array($plugins_admin_view_index_init_notice_top_data)}}
+		    {{foreach $plugins_admin_view_index_init_notice_top_data as $hook}}
+		        {{if is_string($hook) or is_int($hook)}}
+		            {{$hook|raw}}
+		        {{/if}}
+		    {{/foreach}}
+		{{/if}}
+
 		<!-- 后台公告 -->
 		{{if !empty($admin_notice)}}
 			<div class="am-alert am-alert-danger" data-am-alert>
@@ -56,8 +84,36 @@
 			</div>
 		{{/if}}
 
+		<!-- 基础统计基础顶部钩子 -->
+		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+		    <div class="plugins-tag">
+		        <span>plugins_admin_view_index_init_stats_base_top</span>
+		    </div>
+		{{/if}}
+		{{if !empty($plugins_admin_view_index_init_stats_base_top_data) and is_array($plugins_admin_view_index_init_stats_base_top_data)}}
+		    {{foreach $plugins_admin_view_index_init_stats_base_top_data as $hook}}
+		        {{if is_string($hook) or is_int($hook)}}
+		            {{$hook|raw}}
+		        {{/if}}
+		    {{/foreach}}
+		{{/if}}
+
 		<!-- 是否展示统计数据 -->
 		{{if isset($is_stats) and $is_stats eq 1}}
+			<!-- 基础统计内部顶部钩子 -->
+			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+			    <div class="plugins-tag">
+			        <span>plugins_admin_view_index_init_stats_inside_base_top</span>
+			    </div>
+			{{/if}}
+			{{if !empty($plugins_admin_view_index_init_stats_inside_base_top_data) and is_array($plugins_admin_view_index_init_stats_inside_base_top_data)}}
+			    {{foreach $plugins_admin_view_index_init_stats_inside_base_top_data as $hook}}
+			        {{if is_string($hook) or is_int($hook)}}
+			            {{$hook|raw}}
+			        {{/if}}
+			    {{/foreach}}
+			{{/if}}
+
 			<!-- 基础统计 -->
 			<div class="block-container shopxo-base">
 				<div class="block-title echarts-title">
@@ -177,6 +233,20 @@
 				</ul>
 			</div>
 
+			<!-- 订单金额走势统计内部顶部钩子 -->
+			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+			    <div class="plugins-tag">
+			        <span>plugins_admin_view_index_init_stats_inside_amount_trend_top</span>
+			    </div>
+			{{/if}}
+			{{if !empty($plugins_admin_view_index_init_stats_inside_amount_trend_top_data) and is_array($plugins_admin_view_index_init_stats_inside_amount_trend_top_data)}}
+			    {{foreach $plugins_admin_view_index_init_stats_inside_amount_trend_top_data as $hook}}
+			        {{if is_string($hook) or is_int($hook)}}
+			            {{$hook|raw}}
+			        {{/if}}
+			    {{/foreach}}
+			{{/if}}
+
 			<!-- 订单成交金额走势，收入统计权限判断-->
 			{{if isset($is_income) and $is_income eq true}}
 				<div class="block-container">
@@ -199,6 +269,20 @@
 				</div>
 			{{/if}}
 
+			<!-- 订单交易走势统计内部顶部钩子 -->
+			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+			    <div class="plugins-tag">
+			        <span>plugins_admin_view_index_init_stats_inside_order_trading_top</span>
+			    </div>
+			{{/if}}
+			{{if !empty($plugins_admin_view_index_init_stats_inside_order_trading_top_data) and is_array($plugins_admin_view_index_init_stats_inside_order_trading_top_data)}}
+			    {{foreach $plugins_admin_view_index_init_stats_inside_order_trading_top_data as $hook}}
+			        {{if is_string($hook) or is_int($hook)}}
+			            {{$hook|raw}}
+			        {{/if}}
+			    {{/foreach}}
+			{{/if}}
+
 			<!-- 订单交易走势 -->
 			<div class="block-container">
 				<div class="block-title echarts-title">
@@ -218,6 +302,20 @@
 				</div>
 				<div id="echarts-order-trading"></div>
 			</div>
+
+			<!-- 组合商品和支付统计内部顶部钩子 -->
+			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+			    <div class="plugins-tag">
+			        <span>plugins_admin_view_index_init_stats_inside_compose_top</span>
+			    </div>
+			{{/if}}
+			{{if !empty($plugins_admin_view_index_init_stats_inside_compose_top_data) and is_array($plugins_admin_view_index_init_stats_inside_compose_top_data)}}
+			    {{foreach $plugins_admin_view_index_init_stats_inside_compose_top_data as $hook}}
+			        {{if is_string($hook) or is_int($hook)}}
+			            {{$hook|raw}}
+			        {{/if}}
+			    {{/foreach}}
+			{{/if}}
 
 			<!-- 组合 -->
 			<ul class="am-avg-sm-1 am-avg-sm-2 am-avg-lg-2 block-combination-container-2">
@@ -263,6 +361,20 @@
 				</li>
 			</ul>
 
+			<!-- 地域分布统计内部顶部钩子 -->
+			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+			    <div class="plugins-tag">
+			        <span>plugins_admin_view_index_init_stats_inside_region_top</span>
+			    </div>
+			{{/if}}
+			{{if !empty($plugins_admin_view_index_init_stats_inside_region_top_data) and is_array($plugins_admin_view_index_init_stats_inside_region_top_data)}}
+			    {{foreach $plugins_admin_view_index_init_stats_inside_region_top_data as $hook}}
+			        {{if is_string($hook) or is_int($hook)}}
+			            {{$hook|raw}}
+			        {{/if}}
+			    {{/foreach}}
+			{{/if}}
+
 			<!-- 订单地域分布 -->
 			<div class="am-nbfc {{if $is_system_show_base eq 0}}am-padding-bottom-sm{{/if}}">
 				<div class="block-container {{if $is_system_show_base eq 0}}am-margin-bottom-0{{/if}}">
@@ -290,6 +402,20 @@
 					<div id="echarts-map-whole-country"></div>
 				</div>
 			</div>
+		{{/if}}
+
+		<!-- 系统信息顶部钩子 -->
+		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+		    <div class="plugins-tag">
+		        <span>plugins_admin_view_index_init_system_info_top</span>
+		    </div>
+		{{/if}}
+		{{if !empty($plugins_admin_view_index_init_system_info_top_data) and is_array($plugins_admin_view_index_init_system_info_top_data)}}
+		    {{foreach $plugins_admin_view_index_init_system_info_top_data as $hook}}
+		        {{if is_string($hook) or is_int($hook)}}
+		            {{$hook|raw}}
+		        {{/if}}
+		    {{/foreach}}
 		{{/if}}
 
 		<!-- 系统信息 -->
@@ -363,6 +489,20 @@
 					</dl>
 				</li>
 			</ul>
+		{{/if}}
+
+		<!-- 底部钩子 -->
+		{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+		    <div class="plugins-tag">
+		        <span>plugins_admin_view_index_init_bottom</span>
+		    </div>
+		{{/if}}
+		{{if !empty($plugins_admin_view_index_init_bottom_data) and is_array($plugins_admin_view_index_init_bottom_data)}}
+		    {{foreach $plugins_admin_view_index_init_bottom_data as $hook}}
+		        {{if is_string($hook) or is_int($hook)}}
+		            {{$hook|raw}}
+		        {{/if}}
+		    {{/foreach}}
 		{{/if}}
 	</div>
 </div>

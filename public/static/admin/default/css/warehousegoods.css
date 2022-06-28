@@ -56,3 +56,20 @@
 .goods-page-container {
     height: 40px;
 }
+
+/**
+ * 数据列表规格展示
+ */
+.spec-inventory-list {
+    height: 100px;
+}
+.spec-inventory-list ul li .spec-name {
+    width: calc(100% - 75px);
+}
+.spec-inventory-list ul li:not(:last-child) {
+    border-bottom: 1px solid #eee;
+    padding: 3px 0;
+}
+.spec-inventory-list ul li:first-child {
+    padding-top: 0;
+}
