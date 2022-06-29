@@ -110,6 +110,9 @@ class ConfigService
 
         // 是否采用https连接商店
         'common_is_https_connect_store',
+
+        // cookie有效域名
+        'common_cookie_domain',
     ];
 
     /**

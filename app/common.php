@@ -2559,8 +2559,7 @@ function Authcode($string, $operation = 'DECODE', $key = '', $expiry = 0)
     $ckey_length = 4;
   
     // 密匙
-    // $GLOBALS['discuz_auth_key'] 这里可以根据自己的需要修改
-    $key = md5($key ? $key : 'shopxo'); 
+    $key = md5(empty($key) ? MyC('common_data_encryption_secret', 'shopxo', true) : $key); 
   
     // 密匙a会参与加解密
     $keya = md5(substr($key, 0, 16));

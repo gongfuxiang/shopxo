@@ -48,6 +48,7 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
 .chosen-container { width: 100% !important; }
 .am-tagsinput { display: block; padding: 3px 5px; border-radius: 2px; min-height: 30px; }
 .chosen-choices, .chosen-single { border-radius: 2px; }
+.chosen-choices li { overflow: hidden; }
 .chosen-choices li.search-field input[type="text"] { height: 29px !important; }
 .chosen-choices li.search-field input[type="text"]:hover,
 .am-tagsinput input[type="text"]:hover { box-shadow: 0 0 0 #fff !important; border: 0 !important; }
@@ -61,6 +62,7 @@ form.am-form .am-form-group-refreshing, .plug-file-upload-view { border-bottom: 
 .chosen-disabled .chosen-choices, .chosen-disabled .chosen-single { background-color: #ccc; }
 .chosen-disabled .search-choice { background: #d6d6d6 !important; }
 .chosen-container-multi .chosen-choices li.search-choice {margin: 4px 4px 4px 0;}
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close { top: 0; right: 0; padding: 2px; background: #f4f4f4; width: auto; height: auto;}
 
 /**
  * 公共提示信息
