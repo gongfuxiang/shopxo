@@ -164,6 +164,11 @@ class SearchService
         $field = 'g.*';
         $result['page'] = max(1, isset($params['page']) ? intval($params['page']) : 1);
         $result['page_size'] = empty($params['page_size']) ? MyC('home_search_limit_number', 20, true) : intval($params['page_size']);
+        // 数量不能超过500
+        if($result['page_size'] > 500)
+        {
+            $result['page_size'] = 500;
+        }
         $result['page_start'] = intval(($result['page']-1)*$result['page_size']);
 
         // 搜索商品列表读取前钩子
