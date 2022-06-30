@@ -36,22 +36,6 @@ class Search extends Common
     }
 
     /**
-     * 参数初始化
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-06-02T01:38:27+0800
-     */
-    private function ParamsInit()
-    {
-        // 当前用户id
-        $this->data_request['user_id'] = empty($this->user) ? 0 : $this->user['id'];
-
-        // 搜索关键字
-        $this->data_request['wd'] = empty($this->data_request['wd']) ? '' : (IS_POST ? trim($this->data_request['wd']) : AsciiToStr($this->data_request['wd']));
-    }
-
-    /**
      * 首页
      * @author   Devil
      * @blog     http://gong.gg/
@@ -66,11 +50,39 @@ class Search extends Common
             return MyRedirect(MyUrl('index/search/index', ['wd'=>StrToAscii($keywords)]));
         }
 
-        // 参数初始化
-        $this->ParamsInit();
+        // 搜素条件
+        $map = SearchService::SearchWhereHandle($this->data_request);
+
+        // 获取商品列表
+        $ret = SearchService::GoodsList($map, $this->data_request);
+
+        // 分页
+        $page_params = [
+            'number'    => $ret['data']['page_size'],
+            'total'     => $ret['data']['total'],
+            'where'     => $this->data_request,
+            'page'      => $ret['data']['page'],
+            'url'       => MyUrl('index/search/index'),
+            'bt_number' => IsMobile() ? 2 : 4,
+        ];
+        $page = new \base\Page($page_params);
+        $page_html = $page->GetPageHtml();
+
+        // 关键字处理
+        $params = $this->data_request;
+        if(!empty($params['wd']))
+        {
+            $params['wd'] = AsciiToStr($params['wd']);
+        }
+
+        // 基础参数赋值
+        MyViewAssign('params', $params);
+        MyViewAssign('page_html', $page_html);
+        MyViewAssign('data_total', $ret['data']['total']);
+        MyViewAssign('data_list', $ret['data']['data']);
 
         // 品牌列表
-        $brand_list = SearchService::CategoryBrandList($this->data_request);
+        $brand_list = SearchService::SearchMapHandle(SearchService::CategoryBrandList($this->data_request), 'bid', 'id', $this->data_request);
         MyViewAssign('brand_list', $brand_list);
 
         // 指定数据
@@ -78,30 +90,34 @@ class Search extends Common
         MyViewAssign('search_map_info', $search_map_info);
 
         // 商品分类
-        $category_list = SearchService::GoodsCategoryList($this->data_request);
+        $category_list = SearchService::SearchMapHandle(SearchService::GoodsCategoryList($this->data_request), 'cid', 'id', $this->data_request);
         MyViewAssign('category_list', $category_list);
 
         // 筛选价格区间
-        $screening_price_list = SearchService::ScreeningPriceList($this->data_request);
+        $screening_price_list = SearchService::SearchMapHandle(SearchService::ScreeningPriceList($this->data_request), 'peid', 'id', $this->data_request);
         MyViewAssign('screening_price_list', $screening_price_list);
 
         // 商品参数
-        $goods_params_list = SearchService::SearchGoodsParamsValueList($this->data_request);
+        $goods_params_list = SearchService::SearchMapHandle(SearchService::SearchGoodsParamsValueList($map, $this->data_request), 'psid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);
         MyViewAssign('goods_params_list', $goods_params_list);
 
         // 商品规格
-        $goods_spec_list = SearchService::SearchGoodsSpecValueList($this->data_request);
+        $goods_spec_list = SearchService::SearchMapHandle(SearchService::SearchGoodsSpecValueList($map, $this->data_request), 'scid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);
         MyViewAssign('goods_spec_list', $goods_spec_list);
 
-        // 参数
-        MyViewAssign('params', $this->data_request);
+        // 排序方式
+        MyViewAssign('map_order_by_list', SearchService::SearchMapOrderByList($this->data_request));
+
+        // 搜索记录
+        $params['user_id'] = empty($this->user) ? 0 : $this->user['id'];
+        $params['search_result_data'] = $ret['data'];
+        SearchService::SearchAdd($params);
 
         // seo
-        $this->SetSeo($search_map_info);
+        $this->SetSeo($search_map_info, $params);
 
         // 钩子
         $this->PluginsHook();
-
         return MyView();
     }
 
@@ -112,12 +128,13 @@ class Search extends Common
      * @version 1.0.0
      * @date    2021-01-11
      * @desc    description
-     * @param   [array]           $data [条件基础数据]
+     * @param   [array]     $data   [条件基础数据]
+     * @param   [array]     $params [输入参数]
      */
-    private function SetSeo($data = [])
+    private function SetSeo($data = [], $params = [])
     {
         // 默认关键字
-        $seo_title = empty($this->data_request['wd']) ? '' : $this->data_request['wd'];
+        $seo_title = empty($params['wd']) ? '' : $params['wd'];
 
         // 分类、品牌
         $seo_data = empty($data['category']) ? (empty($data['brand']) ? [] : $data['brand']) : $data['category'];
@@ -136,44 +153,6 @@ class Search extends Common
             }
         }
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(empty($seo_title) ? '商品搜索' : $seo_title, 1));
-    }
-
-    /**
-     * 获取商品列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-07
-     * @desc    description
-     */
-    public function GoodsList()
-    {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 参数初始化
-        $this->ParamsInit();
-
-        // 获取商品列表
-        $ret = SearchService::GoodsList($this->data_request);
-
-        // 搜索记录
-        $this->data_request['search_result_data'] = $ret['data'];
-        SearchService::SearchAdd($this->data_request);
-
-        // 无数据直接返回
-        if($ret['code'] != 0 || empty($ret['data']['data']))
-        {
-            return DataReturn('没有更多数据啦', -100);
-        }
-
-        // 返回数据html
-        MyViewAssign('data', $ret['data']['data']);
-        $ret['data']['data'] = MyView('content');
-        return $ret;
     }
 
     /**

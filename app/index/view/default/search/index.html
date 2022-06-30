@@ -47,7 +47,7 @@
         <div class="map-base-tips am-nbfc am-padding-horizontal-xs am-padding-vertical-sm am-show-sm">
             <p class="am-fl">
                 <span>筛选出</span>
-                <strong class="map-result-count am-text-danger">...</strong>
+                <strong class="map-result-count am-text-danger">{{$data_total}}</strong>
                 <span>条数据</span>
             </p>
             <button class="am-btn am-btn-primary am-icon-filter map-offcanvas-submit" data-am-offcanvas="{target: '#search-map'}"></button>
@@ -90,7 +90,7 @@
                         <li class="am-nbfc">
                             <p class="am-fl am-margin-left-sm">
                                 <span>筛选出</span>
-                                <strong class="map-result-count am-text-danger">...</strong>
+                                <strong class="map-result-count am-text-danger">{{$data_total}}</strong>
                                 <span>条数据</span>
                             </p>
                             <span class="map-remove-submit am-fr am-margin-right-sm am-hide">清除</span>
@@ -118,19 +118,17 @@
                                     <div class="map-right map-images-text-items am-fr am-nbfc">
                                         <ul class="am-nbfc">
                                             {{foreach $brand_list as $v}}
-                                                <li data-value="{{$v.id}}" title="{{$v.name}}" {{if isset($params['brand_id']) and $params['brand_id'] eq $v['id']}}class="active disabled"{{/if}}>
-                                                    {{if empty($v['logo'])}}
-                                                        {{$v.name}}
-                                                    {{else /}}
-                                                        <img src="{{$v.logo}}" alt="{{$v.name}}" />
-                                                    {{/if}}
+                                                <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
+                                                    <a href="{{$v.url}}" title="{{$v.name}}">
+                                                        {{if empty($v['logo'])}}
+                                                            {{$v.name}}
+                                                        {{else /}}
+                                                            <img src="{{$v.logo}}" alt="{{$v.name}}" />
+                                                        {{/if}}
+                                                    </a>
                                                 </li>
                                             {{/foreach}}
                                         </ul>
-                                        <div class="map-more-submit am-hide">
-                                            <span>更多</span>
-                                            <i class="am-icon-angle-down"></i>
-                                        </div>
                                     </div>
                                 {{else /}}
                                     <div class="brand-info">
@@ -163,13 +161,11 @@
                                 <div class="map-right map-text-items am-fr am-nbfc">
                                     <ul class="am-nbfc">
                                         {{foreach $category_list as $v}}
-                                            <li data-value="{{$v.id}}" title="{{$v.name}}">{{$v.name}}</li>
+                                            <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
+                                                <a href="{{$v.url}}" title="{{$v.name}}">{{$v.name}}</a>
+                                            </li>
                                         {{/foreach}}
                                     </ul>
-                                    <div class="map-more-submit am-hide">
-                                        <span>更多</span>
-                                        <i class="am-icon-angle-down"></i>
-                                    </div>
                                 </div>
                             </li>
                         {{/if}}
@@ -181,13 +177,11 @@
                                 <div class="map-right map-text-items am-fr am-nbfc">
                                     <ul class="am-nbfc">
                                         {{foreach $screening_price_list as $v}}
-                                            <li data-value="{{$v.min_price}}-{{$v.max_price}}" title="{{$v.name}}">{{$v.name}}</li>
+                                            <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
+                                                <a href="{{$v.url}}" title="{{$v.name}}">{{$v.name}}</a>
+                                            </li>
                                         {{/foreach}}
                                     </ul>
-                                    <div class="map-more-submit am-hide">
-                                        <span>更多</span>
-                                        <i class="am-icon-angle-down"></i>
-                                    </div>
                                 </div>
                             </li>
                         {{/if}}
@@ -199,13 +193,11 @@
                                 <div class="map-right map-text-items am-fr am-nbfc">
                                     <ul class="am-nbfc">
                                         {{foreach $goods_params_list as $v}}
-                                            <li data-value="{{$v.value}}" title="{{$v.value}}">{{$v.value}}</li>
+                                            <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
+                                                <a href="{{$v.url}}" title="{{$v.value}}">{{$v.value}}</a>
+                                            </li>
                                         {{/foreach}}
                                     </ul>
-                                    <div class="map-more-submit am-hide">
-                                        <span>更多</span>
-                                        <i class="am-icon-angle-down"></i>
-                                    </div>
                                 </div>
                             </li>
                         {{/if}}
@@ -217,13 +209,11 @@
                                 <div class="map-right map-text-items am-fr am-nbfc">
                                     <ul class="am-nbfc">
                                         {{foreach $goods_spec_list as $v}}
-                                            <li data-value="{{$v.value}}" title="{{$v.value}}">{{$v.value}}</li>
+                                            <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
+                                                <a href="{{$v.url}}" title="{{$v.value}}">{{$v.value}}</a>
+                                            </li>
                                         {{/foreach}}
                                     </ul>
-                                    <div class="map-more-submit am-hide">
-                                        <span>更多</span>
-                                        <i class="am-icon-angle-down"></i>
-                                    </div>
                                 </div>
                             </li>
                         {{/if}}
@@ -277,35 +267,19 @@
                     {{/foreach}}
                 {{/if}}
 
-                <li class="active" data-field="default" data-type="desc">
-                    <a href="javascript:;" title="综合">
-                        <span>综合</span>
-                    </a>
-                </li>
-                <li data-field="sales_count" data-type="desc">
-                    <a href="javascript:;" title="销量">
-                        <span>销量</span>
-                        <i class="am-icon-long-arrow-down"></i>
-                    </a>
-                </li>
-                <li data-field="access_count" data-type="desc">
-                    <a href="javascript:;" title="热度">
-                        <span>热度</span>
-                        <i class="am-icon-long-arrow-down"></i>
-                    </a>
-                </li>
-                <li data-field="min_price" data-type="desc">
-                    <a href="javascript:;" title="价格">
-                        <span>价格</span>
-                        <i class="am-icon-long-arrow-down"></i>
-                    </a>
-                </li>
-                <li data-field="id" data-type="desc">
-                    <a href="javascript:;" title="最新">
-                        <span>最新</span>
-                        <i class="am-icon-long-arrow-down"></i>
-                    </a>
-                </li>
+                <!-- 排序列表 -->
+                {{if !empty($map_order_by_list)}}
+                    {{foreach $map_order_by_list as $k=>$v}}
+                        <li class="{{if $v['is_active'] eq 1}}active{{/if}}">
+                            <a href="{{$v.url}}" title="{{$v.name}}">
+                                <span>{{$v.name}}</span>
+                                {{if $v['type'] neq 'default'}}
+                                    <i class="am-icon-long-arrow-{{if $v['value'] eq 'asc' or $v['is_active'] eq 0}}down{{else /}}up{{/if}}"></i>
+                                {{/if}}
+                            </a>
+                        </li>
+                    {{/foreach}}
+                {{/if}}
 
                 <!-- 搜索页面排序导航条内尾部钩子 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -337,8 +311,8 @@
             {{/foreach}}
         {{/if}}
 
-        <!-- 数据容器 -->
-        <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 am-margin-top-sm search-list"></ul>
+        <!-- 数据列表 -->
+        {{include file="search/content" /}}
 
         <!-- 搜索页面数据容器底部钩子 -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -354,17 +328,10 @@
             {{/foreach}}
         {{/if}}
 
-        <!-- 加载数据 -->
-        <div class="loding-view">
-            <i class="am-icon-spinner am-icon-pulse"></i>
-            <span>加载中...</span>
-        </div>
-
-        <!-- 没有数据 -->
-        <div class="table-no" style="display:none;"><i class="am-icon-warning"></i> 没有相关数据</div>
-
         <!-- 分页 -->
-        <button type="button" class="am-btn am-btn-default am-btn-block am-margin-vertical-sm search-pages-submit" data-url="{{:MyUrl('index/search/goodslist')}}" style="display:none;">加载更多 <i class="am-icon-angle-double-down"></i></button>
+        <div class="am-nbfc am-margin-top-sm">
+            {{$page_html|raw}}
+        </div>
     </div>
 
     <!-- 搜索页面顶部内部结构里面钩子 -->

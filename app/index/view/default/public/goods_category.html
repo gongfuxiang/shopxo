@@ -12,7 +12,7 @@
                     {{if !empty($goods_category_list) and is_array($goods_category_list)}}
                         {{foreach $goods_category_list as $v}}
                             <li class="first">
-                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" class="am-block" title="{{$v.name}}">
+                                <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-block" title="{{$v.name}}">
                                 <div class="category-info">
                                     <h3 class="category-name b-category-name am-text-truncate">
                                         {{if !empty($v['icon'])}}
@@ -34,20 +34,20 @@
                                                                 <dl class="dl-sort {{if $category_show_level eq 2}}dl-sort-two{{/if}}">
                                                                     {{if $category_show_level eq 2}}
                                                                         <dd>
-                                                                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">
+                                                                            <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" title="{{$vs.name}}">
                                                                                 <span>{{$vs.name}}</span>
                                                                             </a>
                                                                         </dd>
                                                                     {{elseif $category_show_level eq 3}}
                                                                         <dt>
-                                                                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">
+                                                                            <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" title="{{$vs.name}}">
                                                                                 <span title="{{$vs.name}}">{{$vs.name}}</span>
                                                                             </a>
                                                                         </dt>
                                                                         {{if !empty($vs['items'])}}
                                                                             {{foreach $vs.items as $vss}}
                                                                                 <dd>
-                                                                                    <a href="{{:MyUrl('index/search/index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}">
+                                                                                    <a href="{{:MyUrl('index/search/index', ['cid'=>$vss['id']])}}" title="{{$vss.name}}">
                                                                                         <span>{{$vss.name}}</span>
                                                                                     </a>
                                                                                 </dd>

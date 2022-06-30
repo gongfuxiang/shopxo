@@ -25,6 +25,113 @@ use app\service\ResourcesService;
  */
 class SearchService
 {
+    // 筛选排序规则列表
+    public static $map_order_by_list = [
+        [
+            'name'  => '综合',
+            'type'  => 'default',
+            'value' => 'desc',
+        ],
+        [
+            'name'  => '销量',
+            'type'  => 'sales',
+            'value' => 'desc',
+        ],
+        [
+            'name'  => '热度',
+            'type'  => 'access',
+            'value' => 'desc',
+        ],
+        [
+            'name'  => '价格',
+            'type'  => 'price',
+            'value' => 'desc',
+        ],
+        [
+            'name'  => '最新',
+            'type'  => 'new',
+            'value' => 'desc',
+        ],
+    ];
+
+    /**
+     * 排序列表
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-11-01
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SearchMapOrderByList($params = [])
+    {
+        $ov = empty($params['ov']) ? ['default'] : explode('-', $params['ov']);
+        $data = self::$map_order_by_list;
+        foreach($data as &$v)
+        {
+            // 是否选中
+            $v['is_active'] = ($ov[0] == $v['type']) ? 1 : 0;
+
+            // url
+            $temp_ov = '';
+            if($v['type'] == 'default')
+            {
+                $temp_params = $params;
+                unset($temp_params['ov']);
+            } else {
+                // 类型
+                if($ov[0] == $v['type'])
+                {
+                    $v['value'] = ($ov[1] == 'desc') ? 'asc' : 'desc';
+                }
+
+                // 参数值
+                $temp_ov = $v['type'].'-'.$v['value'];
+                $temp_params = array_merge($params, ['ov'=>$temp_ov]);
+            }
+            $v['url'] = MyUrl('index/search/index', $temp_params);
+        }
+        return $data;
+    }
+
+    /**
+     * 搜素条件处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-06-30
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [string]         $pid    [参数字段]
+     * @param   [string]         $did    [数据字段]
+     * @param   [array]          $params [输入参数]
+     * @param   [array]          $ext    [扩展数据]
+     */
+    public static function SearchMapHandle($data, $pid, $did, $params, $ext = [])
+    {
+        // ascii字段处理
+        $is_ascii = isset($ext['is_ascii']) && $ext['is_ascii'] == true;
+        $field = empty($ext['field']) ? 'value' : $ext['field'];
+        foreach($data as &$v)
+        {
+            // 是否转ascii处理主键字段
+            if($is_ascii && !empty($field) && isset($v[$field]))
+            {
+                $v[$did] = StrToAscii(($v[$field]));
+            }
+            if((isset($params[$pid]) && $params[$pid] == $v[$did]))
+            {
+                $temp_params = $params;
+                unset($temp_params[$pid]);
+            } else {
+                $temp_params = array_merge($params, [$pid=>$v[$did]]);
+            }
+            $v['url'] = MyUrl('index/search/index', $temp_params);
+            $v['is_active'] = (isset($params[$pid]) && $params[$pid] == $v[$did]) ? 1 : 0;
+        }
+        return $data;
+    }
+
     /**
      * 获取商品列表
      * @author   Devil
@@ -32,36 +139,32 @@ class SearchService
      * @version 1.0.0
      * @date    2018-09-07
      * @desc    description
+     * @param   [array]          $map    [搜素条件]
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsList($params = [])
+    public static function GoodsList($map, $params = [])
     {
         // 返回格式
         $result = [
+            'page_start'    => 0,
+            'page_size'     => 0,
+            'page'          => 1,
             'page_total'    => 0,
             'total'         => 0,
             'data'          => [],
         ];
 
         // 搜索条件
-        $where = self::SearchWhereHandle($params);
-        $where_base = $where['base'];
-        $where_keywords = $where['keywords'];
-        $where_screening_price = $where['screening_price'];
-
-        // 排序
-        if(!empty($params['order_by_field']) && !empty($params['order_by_type']) && $params['order_by_field'] != 'default')
-        {
-            $order_by = 'g.'.$params['order_by_field'].' '.$params['order_by_type'];
-        } else {
-            $order_by = 'g.access_count desc, g.sales_count desc, g.id desc';
-        }
+        $order_by = $map['order_by'];
+        $where_base = $map['base'];
+        $where_keywords = $map['keywords'];
+        $where_screening_price = $map['screening_price'];
 
         // 分页计算
         $field = 'g.*';
-        $page = max(1, isset($params['page']) ? intval($params['page']) : 1);
-        $n = MyC('home_search_limit_number', 20, true);
-        $m = intval(($page-1)*$n);
+        $result['page'] = max(1, isset($params['page']) ? intval($params['page']) : 1);
+        $result['page_size'] = empty($params['page_size']) ? MyC('home_search_limit_number', 20, true) : intval($params['page_size']);
+        $result['page_start'] = intval(($result['page']-1)*$result['page_size']);
 
         // 搜索商品列表读取前钩子
         $hook_name = 'plugins_service_search_goods_list_begin';
@@ -74,9 +177,9 @@ class SearchService
             'where_screening_price'     => &$where_screening_price,
             'field'                     => &$field,
             'order_by'                  => &$order_by,
-            'page'                      => &$page,
-            'm'                         => &$m,
-            'n'                         => &$n,
+            'page'                      => &$result['page'],
+            'page_start'                => &$result['page_start'],
+            'page_size'                 => &$result['page_size'],
         ]);
 
         // 获取商品总数
@@ -94,14 +197,14 @@ class SearchService
                 self::SearchKeywordsWhereJoinType($query, $where_keywords);
             })->where(function($query) use($where_screening_price) {
                 $query->whereOr($where_screening_price);
-            })->group('g.id')->order($order_by)->limit($m, $n)->select()->toArray();
+            })->group('g.id')->order($order_by)->limit($result['page_start'], $result['page_size'])->select()->toArray();
 
             // 数据处理
             $goods = GoodsService::GoodsDataHandle($data);
 
             // 返回数据
             $result['data'] = $goods['data'];
-            $result['page_total'] = ceil($result['total']/$n);
+            $result['page_total'] = ceil($result['total']/$result['page_size']);
         }
         return DataReturn('处理成功', 0, $result);
     }
@@ -160,6 +263,11 @@ class SearchService
         $where_keywords = [];
         if(!empty($params['wd']))
         {
+            // WEB端则处理关键字
+            if(APPLICATION_CLIENT_TYPE == 'pc')
+            {
+                $params['wd'] = AsciiToStr($params['wd']);
+            }
             $keywords_fields = 'g.title|g.simple_desc|g.model';
             if(MyC('home_search_is_keywords_seo_fields') == 1)
             {
@@ -187,8 +295,13 @@ class SearchService
         } else {
             if(!empty($params['brand_id']))
             {
-                $where_base[] = ['g.brand_id', 'in', [$params['brand_id']]];
+                $where_base[] = ['g.brand_id', 'in', [intval($params['brand_id'])]];
             }
+        }
+        // web端
+        if(!empty($params['bid']))
+        {
+            $where_base[] = ['g.brand_id', 'in', [intval($params['bid'])]];
         }
 
         // 分类id
@@ -211,81 +324,132 @@ class SearchService
                 $where_base[] = ['gci.category_id', 'in', $ids];
             }
         }
+        // web端
+        if(!empty($params['cid']))
+        {
+            $ids = GoodsService::GoodsCategoryItemsIds([intval($params['cid'])], 1);
+            $where_base[] = ['gci.category_id', 'in', $ids];
+        }
 
         // 筛选价格
+        $map_price = [];
         $where_screening_price = [];
         if(!empty($params['screening_price_values']))
         {
             if(!is_array($params['screening_price_values']))
             {
-                $params['screening_price_values'] = (substr($params['screening_price_values'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['screening_price_values']), true) : explode(',', $params['screening_price_values']);
+                $map_price = (substr($params['screening_price_values'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['screening_price_values']), true) : explode(',', $params['screening_price_values']);
             }
-            if(!empty($params['screening_price_values']))
+        }
+        // web端
+        if(!empty($params['peid']))
+        {
+            $temp_price = Db::name('ScreeningPrice')->where(['is_enable'=>1, 'id'=>intval($params['peid'])])->field('min_price,max_price')->find();
+            if(!empty($temp_price))
             {
-                foreach($params['screening_price_values'] as $v)
+                $map_price[] = implode('-', $temp_price);
+            }
+        }
+        if(!empty($map_price))
+        {
+            foreach($map_price as $v)
+            {
+                $temp = explode('-', $v);
+                if(count($temp) == 2)
                 {
-                    $temp = explode('-', $v);
-                    if(count($temp) == 2)
+                    // 最小金额等于0、最大金额大于0
+                    if(empty($temp[0]) && !empty($temp[1]))
                     {
-                        // 最小金额等于0、最大金额大于0
-                        if(empty($temp[0]) && !empty($temp[1]))
-                        {
-                            $where_screening_price[] = [
-                                ['min_price', '<=', $temp[1]],
-                            ];
+                        $where_screening_price[] = [
+                            ['min_price', '<=', $temp[1]],
+                        ];
 
-                        // 最小金额大于0、最大金额大于0
-                        // 最小金额等于0、最大金额等于0
-                        } elseif((!empty($temp[0]) && !empty($temp[1])) || (empty($temp[0]) && empty($temp[1])))
-                        {
-                            $where_screening_price[] = [
-                                ['min_price', '>=', $temp[0]],
-                                ['min_price', '<=', $temp[1]],
-                            ];
+                    // 最小金额大于0、最大金额大于0
+                    // 最小金额等于0、最大金额等于0
+                    } elseif((!empty($temp[0]) && !empty($temp[1])) || (empty($temp[0]) && empty($temp[1])))
+                    {
+                        $where_screening_price[] = [
+                            ['min_price', '>=', $temp[0]],
+                            ['min_price', '<=', $temp[1]],
+                        ];
 
-                        // 最小金额大于0、最大金额等于0
-                        } elseif(!empty($temp[0]) && empty($temp[1]))
-                        {
-                            $where_screening_price[] = [
-                                ['min_price', '>=', $temp[0]],
-                            ];
-                        }
+                    // 最小金额大于0、最大金额等于0
+                    } elseif(!empty($temp[0]) && empty($temp[1]))
+                    {
+                        $where_screening_price[] = [
+                            ['min_price', '>=', $temp[0]],
+                        ];
                     }
                 }
             }
         }
 
         // 商品参数、属性
+        $map_params = [];
         if(!empty($params['goods_params_values']))
         {
             if(!is_array($params['goods_params_values']))
             {
-                $params['goods_params_values'] = (substr($params['goods_params_values'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['goods_params_values']), true) : explode(',', $params['goods_params_values']);
+                $map_params = (substr($params['goods_params_values'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['goods_params_values']), true) : explode(',', $params['goods_params_values']);
             }
-            if(!empty($params['goods_params_values']))
+        }
+        if(!empty($params['psid']))
+        {
+            $map_params[] = AsciiToStr($params['psid']);
+        }
+        if(!empty($map_params))
+        {
+            $ids = Db::name('GoodsParams')->where(['value'=>$map_params, 'type'=>self::SearchParamsWhereTypeValue()])->column('goods_id');
+            if(!empty($ids))
             {
-                $ids = Db::name('GoodsParams')->where(['value'=>$params['goods_params_values'], 'type'=>self::SearchParamsWhereTypeValue()])->column('goods_id');
-                if(!empty($ids))
-                {
-                    $where_base[] = ['g.id', 'in', $ids];
-                }
+                $where_base[] = ['g.id', 'in', $ids];
             }
         }
 
         // 商品规格
+        $map_spec = [];
         if(!empty($params['goods_spec_values']))
         {
             if(!is_array($params['goods_spec_values']))
             {
-                $params['goods_spec_values'] = (substr($params['goods_spec_values'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['goods_spec_values']), true) : explode(',', $params['goods_spec_values']);
+                $map_spec = (substr($params['goods_spec_values'], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params['goods_spec_values']), true) : explode(',', $params['goods_spec_values']);
             }
-            if(!empty($params['goods_spec_values']))
+        }
+        if(!empty($params['scid']))
+        {
+            $map_spec[] = AsciiToStr($params['scid']);
+        }
+        if(!empty($map_spec))
+        {
+            $ids = Db::name('GoodsSpecValue')->where(['value'=>$map_spec])->column('goods_id');
+            if(!empty($ids))
             {
-                $ids = Db::name('GoodsSpecValue')->where(['value'=>$params['goods_spec_values']])->column('goods_id');
-                if(!empty($ids))
-                {
-                    $where_base[] = ['g.id', 'in', $ids];
-                }
+                $where_base[] = ['g.id', 'in', $ids];
+            }
+        }
+
+        // 排序
+        $order_by = 'g.access_count desc, g.sales_count desc, g.id desc';
+        if(!empty($params['ov']))
+        {
+            // 数据库字段映射关系
+            $fields = [
+                'sales'     => 'g.sales_count',
+                'access'    => 'g.access_count',
+                'price'     => 'g.min_price',
+                'new'       => 'g.id',
+            ];
+
+            // 参数判断
+            $temp = explode('-', $params['ov']);
+            if(count($temp) == 2 && $temp[0] != 'default' && array_key_exists($temp[0], $fields) && in_array($temp[1], ['desc', 'asc']))
+            {
+                $order_by = $fields[$temp[0]].' '.$temp[1];
+            }
+        } else {
+            if(!empty($params['order_by_type']) && !empty($params['order_by_field']) && $params['order_by_field'] != 'default')
+            {
+                $order_by = 'g.'.$params['order_by_field'].' '.$params['order_by_type'];
             }
         }
 
@@ -293,6 +457,7 @@ class SearchService
             'base'              => $where_base,
             'keywords'          => $where_keywords,
             'screening_price'   => $where_screening_price,
+            'order_by'          => $order_by,
         ];
     }
 
@@ -332,39 +497,61 @@ class SearchService
      */
     public static function SearchAdd($params = [])
     {
-        // 搜索数据结果
-        if(!empty($params['search_result_data']))
+        // 排序
+        $ov_arr = empty($params['ov']) ? '' : explode('-', $params['ov']);
+        if(empty($ov_arr) && !empty($params['order_by_type']) && !empty($params['order_by_field']))
         {
-            $search_result = [
-                'total'         => empty($params['search_result_data']['total']) ? 0 : $params['search_result_data']['total'],
-                'data_count'    => empty($params['search_result_data']['data']) ? 0 : count($params['search_result_data']['data']),
-                'page'          => empty($params['page']) ? 1 : intval($params['page']),
-                'page_total'    => empty($params['search_result_data']['page_total']) ? 0 : $params['search_result_data']['page_total'],
-            ];
+            $ov_arr = [$params['order_by_field'], $params['order_by_type']];
         }
 
         // 日志数据
         $data = [
             'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
             'keywords'          => empty($params['wd']) ? '' : $params['wd'],
-            'order_by_field'    => empty($params['order_by_field']) ? '' : $params['order_by_field'],
-            'order_by_type'     => empty($params['order_by_type']) ? '' : $params['order_by_type'],
-            'search_result'     => empty($search_result) ? '' : json_encode($search_result, JSON_UNESCAPED_UNICODE),
+            'order_by_field'    => empty($ov_arr) ? '' : $ov_arr[0],
+            'order_by_type'     => empty($ov_arr) ? '' : $ov_arr[1],
+            'search_result'     => empty($params['search_result_data']) ? '' : json_encode($params['search_result_data'], JSON_UNESCAPED_UNICODE),
             'ymd'               => date('Ymd'),
             'add_time'          => time(),
         ];
 
         // 参数处理
         $field_arr = [
-            'brand_ids',
-            'category_ids',
-            'screening_price_values',
-            'goods_params_values',
-            'goods_spec_values',
+            'brand_ids'             => ['brand_ids', 'brand_id', 'bid'],
+            'category_ids'          => ['category_ids', 'category_id', 'cid'],
+            'screening_price_values'=> ['screening_price_values', 'peid'],
+            'goods_params_values'   => ['goods_params_values', 'psid'],
+            'goods_spec_values'     => ['goods_spec_values', 'scid'],
         ];
-        foreach($field_arr as $v)
+        foreach($field_arr as $k=>$v)
         {
-            $data[$v] = empty($params[$v]) ? '' : (is_array($params[$v]) ? json_encode($params[$v], JSON_UNESCAPED_UNICODE) : $params[$v]);
+            $item = [];
+            foreach($v as $vs)
+            {
+                if(!empty($params[$vs]))
+                {
+                    // 价格区间
+                    if($vs == 'peid')
+                    {
+                        $temp_price = Db::name('ScreeningPrice')->where(['is_enable'=>1, 'id'=>intval($params[$vs])])->field('min_price,max_price')->find();
+                        $params[$vs] = empty($temp_price) ? '' : implode('-', $temp_price);
+                    }
+
+                    // Ascii处理
+                    if(in_array($vs, ['psid', 'scid']))
+                    {
+                        $params[$vs] = AsciiToStr($params[$vs]);
+                    }
+
+                    // 合并参数
+                    $tv = (substr($params[$vs], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params[$vs]), true) : $params[$vs];
+                    if($tv !== '' && $tv !== null)
+                    {
+                        $item = array_merge($item, is_array($tv) ? $tv : [$tv]);
+                    }
+                }
+            }
+            $data[$k] = empty($item) ? '' : (is_array($item) ? json_encode($item, JSON_UNESCAPED_UNICODE) : $item);
         }
 
         Db::name('SearchHistory')->insert($data);
@@ -430,24 +617,16 @@ class SearchService
                 ['is_enable', '=', 1],
             ];
 
-            // 搜索条件
-            $where = self::SearchWhereHandle($params);
-            $where_base = $where['base'];
-            $where_keywords = $where['keywords'];
-            $where_screening_price = $where['screening_price'];
-
-            // 一维数组、参数值去重
-            if(!empty($where_base) || !empty($where_keywords) || !empty($where_screening_price))
+            // 仅获取已关联商品的品牌
+            $where = [
+                ['is_shelves', '=', 1],
+                ['is_delete_time', '=', 0],
+                ['brand_id', '>', 0],
+            ];
+            $ids = Db::name('Goods')->where($where)->column('distinct brand_id');
+            if(!empty($ids))
             {
-                $ids = Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
-                    self::SearchKeywordsWhereJoinType($query, $where_keywords);
-                })->where(function($query) use($where_screening_price) {
-                    $query->whereOr($where_screening_price);
-                })->group('g.brand_id')->column('g.brand_id');
-                if(!empty($ids))
-                {
-                    $brand_where[] = ['id', 'in', array_unique($ids)];
-                }
+                $brand_where[] = ['id', 'in', $ids];
             }
 
             // 获取品牌列表
@@ -475,20 +654,12 @@ class SearchService
     public static function GoodsCategoryList($params = [])
     {
         $data = [];
-		
-		// 查询分类条件处理钩子
-        $hook_name = 'plugins_service_search_category_list_where';
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'params'        => &$params,
-        ]);
-		
         if(MyC('home_search_is_category', 0) == 1)
         {
-            $pid = empty($params['category_id']) ? 0 : intval($params['category_id']);
+            $cid = empty($params['category_id']) ? (empty($params['cid']) ? 0 : intval($params['cid'])) : intval($params['category_id']);
+            $pid = empty($cid) ? 0 : Db::name('GoodsCategory')->where(['id'=>$cid])->value('pid');
             $where = [
-                ['pid', '=', $pid],
+                ['pid', '=', intval($pid)],
             ];
             $data = GoodsService::GoodsCategoryList(['where'=>$where, 'field'=>'id,name']);
         }
@@ -521,18 +692,18 @@ class SearchService
      * @version 1.0.0
      * @date    2021-01-08
      * @desc    description
-     * @param   [array]           $params [输入参数]
+     * @param   [array]          $map    [搜素条件]
+     * @param   [array]          $params [输入参数]
      */
-    public static function SearchGoodsParamsValueList($params = [])
+    public static function SearchGoodsParamsValueList($map, $params = [])
     {
         $data = [];
         if(MyC('home_search_is_params', 0) == 1)
         {
             // 搜索条件
-            $where = self::SearchWhereHandle($params);
-            $where_base = $where['base'];
-            $where_keywords = $where['keywords'];
-            $where_screening_price = $where['screening_price'];
+            $where_base = $map['base'];
+            $where_keywords = $map['keywords'];
+            $where_screening_price = $map['screening_price'];
 
             // 仅搜索基础参数
             $where_base[] = ['gp.type', 'in', self::SearchParamsWhereTypeValue()];
@@ -554,18 +725,18 @@ class SearchService
      * @version 1.0.0
      * @date    2021-01-08
      * @desc    description
+     * @param   [array]           $map    [搜素条件]
      * @param   [array]           $params [输入参数]
      */
-    public static function SearchGoodsSpecValueList($params = [])
+    public static function SearchGoodsSpecValueList($map, $params = [])
     {
         $data = [];
         if(MyC('home_search_is_spec', 0) == 1)
         {
             // 搜索条件
-            $where = self::SearchWhereHandle($params);
-            $where_base = $where['base'];
-            $where_keywords = $where['keywords'];
-            $where_screening_price = $where['screening_price'];
+            $where_base = $map['base'];
+            $where_keywords = $map['keywords'];
+            $where_screening_price = $map['screening_price'];
 
             // 一维数组、参数值去重
             $data = Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->join('goods_spec_value gsv', 'g.id=gsv.goods_id')->where($where_base)->where(function($query) use($where_keywords) {
@@ -589,7 +760,12 @@ class SearchService
     public static function SearchMapInfo($params = [])
     {
         // 分类
-        $category = empty($params['category_id']) ? [] : GoodsService::GoodsCategoryRow(['id'=>intval($params['category_id']), 'field'=>'name,vice_name,describe,seo_title,seo_keywords,seo_desc']);
+        $category = null;
+        $cid = empty($params['category_id']) ? (empty($params['cid']) ? 0 : intval($params['cid'])) : intval($params['category_id']);
+        if(!empty($cid))
+        {
+            $category = GoodsService::GoodsCategoryRow(['id'=>$cid, 'field'=>'name,vice_name,describe,seo_title,seo_keywords,seo_desc']);
+        }
 
         // 品牌
         $brand = null;

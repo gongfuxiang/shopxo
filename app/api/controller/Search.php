@@ -46,6 +46,10 @@ class Search extends Common
      */
     public function Index()
     {
+        // 搜素条件
+        $map = SearchService::SearchWhereHandle($this->data_post);
+
+        // 返回数据
         $result = [
             // 指定数据
             'search_map_info'       => SearchService::SearchMapInfo($this->data_request),
@@ -56,9 +60,9 @@ class Search extends Common
             // 筛选价格区间
             'screening_price_list'  => SearchService::ScreeningPriceList($this->data_request),
             // 商品参数
-            'goods_params_list'     => SearchService::SearchGoodsParamsValueList($this->data_request),
+            'goods_params_list'     => SearchService::SearchGoodsParamsValueList($map, $this->data_request),
             // 商品规格
-            'goods_spec_list'       => SearchService::SearchGoodsSpecValueList($this->data_request),
+            'goods_spec_list'       => SearchService::SearchGoodsSpecValueList($map, $this->data_request),
         ];
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
@@ -77,8 +81,11 @@ class Search extends Common
         $this->data_post['user_id'] = isset($this->user['id']) ? $this->user['id'] : 0;
         SearchService::SearchAdd($this->data_post);
 
+        // 搜素条件
+        $map = SearchService::SearchWhereHandle($this->data_post);
+
         // 获取数据
-        $ret = SearchService::GoodsList($this->data_post);
+        $ret = SearchService::GoodsList($map, $this->data_post);
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($ret['data']));
     }
 }

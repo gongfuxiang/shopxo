@@ -8,6 +8,7 @@ ul { list-style: none; }
 .vertical-middle { vertical-align: middle !important; }
 .text-deco-none { text-decoration: none !important; }
 .text-deco-line { text-decoration: underline !important; }
+button[disabled], html input[disabled] { cursor: default !important; color: #b1b1b1 !important;     background: #e6e6e6 !important; }
 
 /**
  * 表单组件
