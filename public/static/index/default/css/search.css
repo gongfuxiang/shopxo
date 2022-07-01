@@ -12,11 +12,11 @@
 }
 .map-item > li > a,
 .map-item .map-left {
-    line-height: 50px;
+    line-height: 45px;
 }
 .map-brand-container,
 .map-brand-container .map-left {
-    line-height: 66px !important;
+    line-height: 56px !important;
 }
 .map-item .map-right {
     width: calc(100% - 100px);
@@ -30,13 +30,14 @@
     text-decoration: none;
 }
 .map-remove-submit {
-    color: #e23f36;
-    cursor: pointer;
+    color: #e23f36 !important;
+    text-decoration: none !important;
+    background-color: transparent !important;
 }
 
 .map-images-text-items ul,
 .map-text-items ul {
-    padding: 15px 0 0 15px;
+    padding: 10px 0 0 10px;
     overflow-y: hidden;
 }
 .map-images-text-items ul > li {
@@ -46,7 +47,7 @@
     line-height: 36px;
     height: 36px;
     width: 124px;
-    margin: 0 15px 15px 0;
+    margin: 0 10px 10px 0;
 }
 .map-images-text-items ul > li > a {
     border: 1px solid #eee;
@@ -65,7 +66,7 @@
 }
 .map-text-items ul > li {
     float: left;
-    margin: 0 15px 15px 0;
+    margin: 0 10px 10px 0;
     line-height: 20px;
 }
 .map-text-items ul > li > a {

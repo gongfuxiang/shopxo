@@ -76,6 +76,7 @@ class Search extends Common
         }
 
         // 基础参数赋值
+        MyViewAssign('is_map', $map['is_map']);
         MyViewAssign('params', $params);
         MyViewAssign('page_html', $page_html);
         MyViewAssign('data_total', $ret['data']['total']);

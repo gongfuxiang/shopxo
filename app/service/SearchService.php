@@ -458,11 +458,14 @@ class SearchService
             }
         }
 
+        // 是否存在搜索条件
+        $is_map = (count($where_base) > 2 || !empty($where_keywords) || !empty($where_screening_price) || !empty($params['ov'])) ? 1 : 0;
         return [
             'base'              => $where_base,
             'keywords'          => $where_keywords,
             'screening_price'   => $where_screening_price,
             'order_by'          => $order_by,
+            'is_map'            => $is_map,
         ];
     }
 

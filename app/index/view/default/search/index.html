@@ -93,7 +93,9 @@
                                 <strong class="map-result-count am-text-danger">{{$data_total}}</strong>
                                 <span>条数据</span>
                             </p>
-                            <span class="map-remove-submit am-fr am-margin-right-sm am-hide">清除</span>
+                            {{if isset($is_map) and $is_map eq 1}}
+                                <a href="{{:MyUrl('index/search/index')}}" class="map-remove-submit am-fr am-margin-right-sm">清除</a>
+                            {{/if}}
                         </li>
 
                         <!-- 搜索页面筛选条件内基础底部钩子 -->
