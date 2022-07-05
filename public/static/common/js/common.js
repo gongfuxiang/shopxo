@@ -2321,6 +2321,36 @@ function UrlUseCurrentHostHandle(url)
     return url;
 }
 
+/**
+ * 获取鼠标光标位置
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-07-04
+ * @desc    description
+ * @param   {[object]}        e [元素对象]
+ */
+function CursorPos(e)
+{
+    var pos = 0;
+    if(typeof(e) == 'object')
+    {
+        var el = e.get(0);
+        if('selectionStart' in el)
+        {
+            pos = el.selectionStart;
+        } else if('selection' in document)
+        {
+            el.focus();
+            var sel = document.selection.createRange();
+            var sel_len = document.selection.createRange().text.length;
+            sel.moveStart('character', -el.value.length);
+            pos = sel.text.length - sel_len;
+        }
+    }
+    return pos;
+}
+
 
 // 公共数据操作
 $(function()
