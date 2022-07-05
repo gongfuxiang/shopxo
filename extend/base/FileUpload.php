@@ -45,12 +45,13 @@ class FileUpload
      * @version 1.0.0
      * @date    2018-06-29
      * @desc    description
-     * @param   [string]     $file [表单name]
-     * @param   [string]     $name [文件名称]
-     * @param   [int]        $index[多文件索引]
-     * @return  [mixed]            [array | 错误信息]
+     * @param   [string]     $file      [表单name]
+     * @param   [string]     $name      [文件名称]
+     * @param   [int]        $index     [多文件索引]
+     * @param   [array]      $params    [输入参数]
+     * @return  [mixed]                 [array | 错误信息]
      */
-    function Save($file, $name = '', $index = false)
+    function Save($file, $name = '', $index = false, $params = [])
     {
         // 基础校验
         $error = FileUploadError($file, $index);
@@ -75,6 +76,23 @@ class FileUpload
             $temp_file = $_FILES[$file]['tmp_name'][$index];
             $size = $_FILES[$file]['size'][$index];
             $type = $_FILES[$file]['type'][$index];
+        }
+
+        $info = getimagesize($temp_file);
+        if(stripos($original_name, '.') === false)
+        {
+            $original_name .= str_replace('/', '.', $info['mime']);
+        }
+
+        // 图片文件
+        if(isset($params['data_type']) && $params['data_type'] == 'images')
+        {
+            // 验证一句话木马（如果是加密的无法判断）
+            $content = @file_get_contents($temp_file);
+            if(false == $content || preg_match('#<\?php#i', $content) || $info['mime'] == 'text/x-php')
+            {
+                return DataReturn('非法文件', -1);
+            }
         }
 
         // 后缀名称
