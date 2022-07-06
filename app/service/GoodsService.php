@@ -3122,5 +3122,66 @@ class GoodsService
         }
         return DataReturn('处理成功', 0, $result);
     }
+
+    /**
+     * 商品面包屑导航数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-07-06
+     * @desc    description
+     * @param   [array]          $goods [商品信息]
+     */
+    public static function GoodsBreadcrumbData($goods)
+    {
+        // 默认首页
+        $result = [
+            [
+                'type'  => 0,
+                'name'  => '首页',
+                'url'   => SystemService::HomeUrl(),
+                'icon'  => 'am-icon-home',
+            ],
+        ];
+        // 商品分类
+        $cids = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods['id']])->column('category_id');
+        if(!empty($cids))
+        {
+            $where = [
+                ['id', 'in', $cids],
+                ['is_enable', '=', 1],
+            ];
+            $category = Db::name('GoodsCategory')->where($where)->field('id,name')->select()->toArray();
+            if(!empty($category))
+            {
+                $category = array_map(function($v)
+                {
+                    $v['url'] = MyUrl('index/search/index', ['cid'=>$v['id']]);
+                    return $v;
+                }, $category);
+                if(count($category) == 1)
+                {
+                    $result[] = [
+                        'type'  => 0,
+                        'name'  => $category[0]['name'],
+                        'url'   => $category[0]['url'],
+                    ];
+                } else {
+                    $result[] = [
+                        'type'  => 1,
+                        'name'  => '商品分类',
+                        'data'  => $category,
+                    ];
+                }
+            }
+        }
+
+        // 当前商品名称
+        $result[] = [
+            'type'  => 0,
+            'name'  => $goods['title'],
+        ];
+        return $result;
+    }
 }
 ?>

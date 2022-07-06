@@ -454,7 +454,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     .scoll .goods-video-submit-close { top: 10px; }
 
     /* 基础主体 */
-    .item-inform { margin-bottom: 10px; }
+    .item-inform { margin-top: 10px; margin-bottom: 10px; }
 }
 
 @media only screen and (min-width:1025px) {
@@ -480,7 +480,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     .theme-signin-left .cart-title{margin-left: -46px;float: left;}
         
     .scoll{display: none;}
-    .item-inform{max-width:1000px; background:#fff; margin-top: 20px; margin-bottom: 30px; }
+    .item-inform{max-width:1000px; background:#fff; margin-bottom: 30px; }
     .clearfix-left{display:block;float: left;width:350px;}
     .clearfix-right{width:calc(100% - 370px);margin-left:10px;}
     .freight{width:400px;float: left;}
@@ -529,7 +529,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 /* 小于1025 */
 @media only screen and (max-width:1025px) {
     ul.am-tabs-nav.am-nav.am-nav-tabs { width:100% !important; left: 0px !important; }
-    .goods-detail { padding: 10px 5px; }
+    .goods-detail { padding: 0 5px 10px 5px; }
 }
 
 /* 手机模式下 */

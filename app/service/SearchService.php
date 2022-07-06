@@ -798,7 +798,173 @@ class SearchService
             'category'  => empty($category) ? null : $category,
             'brand'     => empty($brand) ? null : $brand,
         ];
-        
+    }
+
+    /**
+     * 搜索面包屑导航
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-07-06
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function SearchBreadcrumbData($params = [])
+    {
+        // 默认首页
+        $result = [
+            [
+                'type'  => 0,
+                'name'  => '首页',
+                'url'   => SystemService::HomeUrl(),
+                'icon'  => 'am-icon-home',
+            ],
+        ];
+        // 商品分类
+        $temp_data = [];
+        if(!empty($params['cid']))
+        {
+            // 一级
+            $where = [
+                ['id', '=', intval($params['cid'])],
+                ['is_enable', '=', 1],
+            ];
+            $category = Db::name('GoodsCategory')->where($where)->field('id,pid,name')->find();
+            if(!empty($category))
+            {
+                $where = [
+                    ['pid', '=', $category['pid']],
+                    ['is_enable', '=', 1],
+                ];
+                $category_list = Db::name('GoodsCategory')->where($where)->field('id,pid,name')->select()->toArray();
+                if(!empty($category_list))
+                {
+                    array_unshift($temp_data, [
+                        'id'    => $category['id'],
+                        'name'  => $category['name'],
+                        'type'  => 1,
+                        'data'  => array_map(function($v)
+                                    {
+                                        $v['url'] = MyUrl('index/search/index', ['cid'=>$v['id']]);
+                                        return $v;
+                                    }, $category_list),
+                    ]);
+
+                    // 二级
+                    $where = [
+                        ['id', '=', $category['pid']],
+                        ['is_enable', '=', 1],
+                    ];
+                    $category = Db::name('GoodsCategory')->where($where)->field('id,pid,name')->find();
+                    if(!empty($category))
+                    {
+                        $where = [
+                            ['pid', '=', $category['pid']],
+                            ['is_enable', '=', 1],
+                        ];
+                        $category_list = Db::name('GoodsCategory')->where($where)->field('id,pid,name')->select()->toArray();
+                        if(!empty($category_list))
+                        {
+                            array_unshift($temp_data, [
+                                'id'    => $category['id'],
+                                'name'  => $category['name'],
+                                'type'  => 1,
+                                'data'  => array_map(function($v)
+                                            {
+                                                $v['url'] = MyUrl('index/search/index', ['cid'=>$v['id']]);
+                                                return $v;
+                                            }, $category_list),
+                            ]);
+
+                            // 三级
+                            $where = [
+                                ['id', '=', $category['pid']],
+                                ['is_enable', '=', 1],
+                            ];
+                            $category = Db::name('GoodsCategory')->where($where)->field('id,pid,name')->find();
+                            if(!empty($category))
+                            {
+                                $where = [
+                                    ['pid', '=', $category['pid']],
+                                    ['is_enable', '=', 1],
+                                ];
+                                $category_list = Db::name('GoodsCategory')->where($where)->field('id,pid,name')->select()->toArray();
+                                if(!empty($category_list))
+                                {
+                                    array_unshift($temp_data, [
+                                        'id'    => $category['id'],
+                                        'name'  => $category['name'],
+                                        'type'  => 1,
+                                        'data'  => array_map(function($v)
+                                                    {
+                                                        $v['url'] = MyUrl('index/search/index', ['cid'=>$v['id']]);
+                                                        return $v;
+                                                    }, $category_list),
+                                    ]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 品牌、价格、关键字、属性、规格
+        // 集合名称
+        $temp_name = [];
+
+        // 品牌
+        $bid = empty($params['bid']) ? (empty($params['brand_id']) ? 0 : intval($params['brand_id'])) : intval($params['bid']);
+        if(!empty($bid))
+        {
+            $brand = Db::name('Brand')->where(['id'=>$bid])->field('id,name')->find();
+            if(!empty($brand))
+            {
+                $temp_name[] = $brand['name'];
+            }
+        }
+
+        // 价格区间
+        if(!empty($params['peid']))
+        {
+            $price = Db::name('ScreeningPrice')->where(['id'=>intval($params['peid'])])->field('id,name')->find();
+            if(!empty($price))
+            {
+                $temp_name[] = $price['name'];
+            }
+        }
+
+        // 搜索关键字
+        if(!empty($params['wd']))
+        {
+            $temp_name[] = $params['wd'];
+        }
+
+        // 属性
+        if(!empty($params['psid']))
+        {
+            $temp_name[] = AsciiToStr($params['psid']);
+        }
+
+        // 规格
+        if(!empty($params['scid']))
+        {
+            $temp_name[] = AsciiToStr($params['scid']);
+        }
+        if(!empty($temp_name))
+        {
+            $temp_data[] = [
+                'type'  => 0,
+                'name'  => implode(' / ', $temp_name).'搜索结果',
+            ];
+        }
+
+        // 数据合并
+        if(!empty($temp_data))
+        {
+            $result = array_merge($result, $temp_data);
+        }
+        return $result;
     }
 }
 ?>

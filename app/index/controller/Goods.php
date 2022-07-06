@@ -152,6 +152,10 @@ class Goods extends Common
             // 是否商品详情页展示相册
             MyViewAssign('common_is_goods_detail_show_photo', MyC('common_is_goods_detail_show_photo', 0, true));
 
+            // 面包屑导航
+            $breadcrumb_data = GoodsService::GoodsBreadcrumbData($goods);
+            MyViewAssign('breadcrumb_data', $breadcrumb_data);
+
             // 加载放大镜
             MyViewAssign('is_load_imagezoom', 1);
 

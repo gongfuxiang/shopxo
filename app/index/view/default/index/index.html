@@ -177,7 +177,7 @@
                                 {{/if}}
                             </div>
                             <span class="more">
-                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$floor['id']])}}" target="_blank">更多 <i class="am-icon-angle-right"></i></a>
+                                <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank">更多 <i class="am-icon-angle-right"></i></a>
                             </span>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                             <div class="word">
                                 {{if !empty($floor['items']) and is_array($floor['items'])}}
                                     {{foreach $floor.items as $category_key=>$category}}
-                                        <a href="{{:MyUrl('index/search/index', ['category_id'=>$category['id']])}}" class="outer" target="_blank">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
+                                        <a href="{{:MyUrl('index/search/index', ['cid'=>$category['id']])}}" class="outer" target="_blank">{{:mb_substr($category['name'], 0, 4, 'utf-8')}}</a>
                                     {{/foreach}}
                                 {{/if}}           
                             </div>
@@ -216,7 +216,7 @@
                                 <div class="describe">{{$floor.describe}}</div>
                             </div>
                             {{if !empty($floor['big_images'])}}
-                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$floor['id']])}}" target="_blank">
+                                <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank">
                                     <img src="{{$floor.big_images}}" />
                                 </a>
                             {{/if}}

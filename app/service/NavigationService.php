@@ -192,7 +192,7 @@ class NavigationService
 
                     // 商品分类
                     case 'goods_category':
-                        $v['url'] = MyUrl('index/search/index', ['category_id'=>$v['value']]);
+                        $v['url'] = MyUrl('index/search/index', ['cid'=>$v['value']]);
                         break;
 
                     // 页面设计

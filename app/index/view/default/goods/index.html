@@ -12,6 +12,10 @@
 <!-- goods category -->
 {{include file="public/goods_category" /}}
 
+<!-- 面包屑导航 -->
+{{include file="public/breadcrumb_data" /}}
+
+<!-- 商品详情 -->
 <div class="goods-detail" data-id="{{$goods.id}}" data-spec-detail-ajax-url="{{:MyUrl('index/goods/specdetail')}}" data-spec-type-ajax-url="{{:MyUrl('index/goods/spectype')}}">
     <!-- 轮播 -->
     <div class="scoll">

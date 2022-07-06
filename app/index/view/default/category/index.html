@@ -24,7 +24,7 @@
                 {{foreach $goods_category_list as $v}}
                     <li class="am-fl">
                         <div class="item-content am-text-center am-margin-xs">
-                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" title="{{$v.name}}" class="am-block am-padding-xs">
+                            <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" title="{{$v.name}}" class="am-block am-padding-xs">
                                 {{if !empty($v['icon'])}}
                                     <img src="{{$v.icon}}" alt="{{$v.name}}" class="category-icon am-block am-margin-bottom-xs" />
                                 {{/if}}
@@ -37,14 +37,14 @@
         {{else /}}
             <ul class="category-nav am-fl">
                 {{foreach $goods_category_list as $k=>$v}}
-                    <li class="am-text-break am-padding-horizontal-sm {{if $k eq 0}} active{{/if}}" data-url="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}">{{$v.name}}</li>
+                    <li class="am-text-break am-padding-horizontal-sm {{if $k eq 0}} active{{/if}}" data-url="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}">{{$v.name}}</li>
                 {{/foreach}}
             </ul>
             {{foreach $goods_category_list as $k=>$v}}
                 <div class="category-content category-content-{{$k}} am-fr am-padding-vertical-xs {{if $k neq 0}} none{{/if}}">
                     {{if !empty($v['vice_name']) or !empty($v['describe'])}}
                         <div class="category-item am-padding-sm am-margin-bottom-sm one-cetegory">
-                            <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" title="{{$v.name}}">
+                            <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" title="{{$v.name}}">
                                 <div>
                                     {{if !empty($v['vice_name'])}}
                                         <strong {{if !empty($v['bg_color'])}}style="color:{{$v.bg_color}};"{{/if}} class="am-text-sm am-margin-right-sm">{{$v.vice_name}}</strong>
@@ -63,12 +63,12 @@
                                     {{foreach $v.items as $vs}}
                                         <li class="am-fl am-text-center">
                                             {{if !empty($vs['icon'])}}
-                                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}" class="am-block">
+                                                <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" title="{{$vs.name}}" class="am-block">
                                                     <img src="{{$vs.icon}}" alt="{{$vs.name}}" class="category-icon am-block am-margin-bottom-xs" />
                                                 </a>
                                             {{/if}}
                                             <p>
-                                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}" class="am-block">{{$vs.name}}</a>
+                                                <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" title="{{$vs.name}}" class="am-block">{{$vs.name}}</a>
                                             </p>
                                         </li>
                                     {{/foreach}}
@@ -77,7 +77,7 @@
                         {{elseif $category_show_level eq 3}}
                             {{foreach $v.items as $vs}}
                                 <div class="category-item am-padding-sm">
-                                    <a href="{{:MyUrl('index/search/index', ['category_id'=>$vs['id']])}}" title="{{$vs.name}}">
+                                    <a href="{{:MyUrl('index/search/index', ['cid'=>$vs['id']])}}" title="{{$vs.name}}">
                                         <div class="am-text-center">
                                             <strong>{{$vs.name}}</strong>
                                         </div>
@@ -87,12 +87,12 @@
                                             {{foreach $vs.items as $kss=>$vss}}
                                                 <li class="am-fl am-text-center">
                                                     {{if !empty($vss['icon'])}}
-                                                        <a href="{{:MyUrl('index/search/index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}" class="am-block">
+                                                        <a href="{{:MyUrl('index/search/index', ['cid'=>$vss['id']])}}" title="{{$vss.name}}" class="am-block">
                                                             <img src="{{$vss.icon}}" alt="{{$vss.name}}" class="category-icon am-block am-margin-bottom-xs" />
                                                         </a>
                                                     {{/if}}
                                                     <p>
-                                                        <a href="{{:MyUrl('index/search/index', ['category_id'=>$vss['id']])}}" title="{{$vss.name}}" class="am-block">{{$vss.name}}</a>
+                                                        <a href="{{:MyUrl('index/search/index', ['cid'=>$vss['id']])}}" title="{{$vss.name}}" class="am-block">{{$vss.name}}</a>
                                                     </p>
                                                 </li>
                                             {{/foreach}}
@@ -106,7 +106,7 @@
                             <i class="am-icon-warning"></i>
                             <span>没有子分类数据</span>
                             <p class="am-margin-top-lg am-text-center">
-                                <a href="{{:MyUrl('index/search/index', ['category_id'=>$v['id']])}}" class="am-text-secondary" title="查看分类下商品">查看分类下商品 >></a>
+                                <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-text-secondary" title="查看分类下商品">查看分类下商品 >></a>
                             </p>
                         </div>
                     {{/if}}

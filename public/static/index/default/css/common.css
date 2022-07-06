@@ -120,7 +120,7 @@ input.add,input.min{width:15px}
     .am-footer {text-align:center; display:block;position: relative;margin: 0px auto; padding: 10px 0px; }
 
     /*分类*/
-    .goods-category-s {display:block;position: absolute;z-index: 1020;}
+    .goods-category-s {display:block;position: absolute;z-index: 1021;}
     .goods-category-s .all-goods, .goods-category-title .all-goods {font-size: 16px;}
     .goods-category-title{background:#d2364c;color:#fff ;height: 40px;line-height: 44px;display:block;position: absolute;width:150px ;text-align: center;top:0px;cursor: pointer;}
     .goods-category-s .category-content{ position:relative; width: 150px; float: left;background:#fff; top: 45px;}
@@ -1103,4 +1103,22 @@ legend a.am-fr {
 .second-nav li.am-active a:hover {
     background-color: #1cc09f !important;
     color: #fff !important;
+}
+
+/**
+ * 面包屑导航
+ */
+.breadcrumb-data {
+    background:  #f5f5f5;
+}
+.breadcrumb-data .am-breadcrumb {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.breadcrumb-data .am-breadcrumb li a {
+    text-decoration: none;
+    color: #666;
+}
+.breadcrumb-data .am-breadcrumb li a:hover {
+    color: #d2364c;
 }

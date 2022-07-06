@@ -109,6 +109,10 @@ class Search extends Common
         // 排序方式
         MyViewAssign('map_order_by_list', SearchService::SearchMapOrderByList($this->data_request));
 
+        // 面包屑导航
+        $breadcrumb_data = SearchService::SearchBreadcrumbData($params);
+        MyViewAssign('breadcrumb_data', $breadcrumb_data);
+
         // 搜索记录
         $params['user_id'] = empty($this->user) ? 0 : $this->user['id'];
         $params['search_result_data'] = $ret['data'];

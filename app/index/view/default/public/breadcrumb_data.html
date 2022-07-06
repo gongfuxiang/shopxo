@@ -1,0 +1,40 @@
+{{if !empty($breadcrumb_data)}}
+    <div class="breadcrumb-data am-hide-sm-only">
+        <div class="am-container">
+            <ol class="am-breadcrumb am-margin-bottom-0">
+                {{foreach $breadcrumb_data as $v}}
+                    {{if !empty($v['name'])}}
+                        {{switch $v.type}}
+                            {{case 0}}
+                                <li {{if empty($v['url'])}}class="am-active"{{/if}}>
+                                    {{if !empty($v['url'])}}<a href="{{$v.url}}">{{/if}}
+                                    {{if !empty($v['icon'])}}<i class="{{$v.icon}}"></i>{{/if}}
+                                    {{$v.name}}
+                                    {{if !empty($v['url'])}}</a>{{/if}}
+                                </li>
+                            {{/case}}
+                            {{case 1}}
+                                {{if !empty($v['data']) and is_array($v['data'])}}
+                                    <li>
+                                        <a href="javascript:;">
+                                            <div class="am-dropdown" data-am-dropdown>
+                                                <span class="am-dropdown-toggle" data-am-dropdown-toggle>{{$v.name}} <i class="am-icon-angle-down"></i></span>
+                                                <ul class="am-dropdown-content">
+                                                    {{foreach $v.data as $vs}}
+                                                        {{if !empty($vs['name']) and !empty($vs['url'])}}
+                                                            <li><a href="{{$vs.url}}">{{$vs.name}}</a></li>
+                                                        {{/if}}
+                                                    {{/foreach}}
+                                                </ul>
+                                            </div>
+                                        </a>
+                                    </li>
+                                {{/if}}
+                            {{/case}}
+                        {{/switch}}
+                    {{/if}}      
+                {{/foreach}}
+            </ol>
+        </div>
+    </div>
+{{/if}}
