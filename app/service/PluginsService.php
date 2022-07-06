@@ -560,5 +560,19 @@ class PluginsService
 
         return $result;
     }
+
+    /**
+     * 应用插件顺序数据列表
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2019-02-13
+     * @desc    description
+     */
+    public static function PluginsSortList()
+    {
+        $data = Db::name('Plugins')->field('id,name,plugins')->where(['is_enable'=>1])->order(PluginsAdminService::$plugins_order_by)->select()->toArray();
+        return empty($data) ? [] : $data;
+    }
 }
 ?>

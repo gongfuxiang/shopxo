@@ -20,6 +20,7 @@ use app\service\LayoutService;
 use app\service\ArticleService;
 use app\service\MessageService;
 use app\service\AppService;
+use app\service\PluginsService;
 
 /**
  * 首页
@@ -76,6 +77,7 @@ class Index extends Common
 			'right_icon_list'		=> AppService::HomeRightIconList(['message_total'=>$common_message_total]),
 			'common_cart_total'		=> $common_cart_total,
 			'common_message_total'	=> $common_message_total,
+			'plugins_sort_list'		=> PluginsService::PluginsSortList(),
 		];
 		return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
 	}

@@ -152,7 +152,7 @@ class SystemBaseService
             'common_app_is_head_vice_nav'       => (int) MyC('common_app_is_head_vice_nav', 0),
 
             // 商品分类相关
-            'category_show_level'               => MyC('common_show_goods_category_level', 3, true),
+            'category_show_level'               => MyC('common_show_goods_category_level', 0, true),
 
             // 商品相关
             'common_app_is_use_mobile_detail'   => (int) MyC('common_app_is_use_mobile_detail'),
