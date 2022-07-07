@@ -36,9 +36,7 @@
             {{if !empty($goods.video)}}
                 <i class="am-icon-play-circle-o goods-video-submit-start"></i>
                 <i class="goods-video-submit-close none">&times;</i>
-                <video class="goods-video-container none" src="{{$goods.video}}" controls="controls" preload="auto">
-                    your browser does not support the video tag
-                </video>
+                <div class="goods-video-wap-container goods-video-container none" data-url="{{$goods.video}}" data-images="{{$goods.images}}"></div>
             {{/if}}
 
             <!-- 商品页面相册内部钩子 -->
@@ -97,9 +95,7 @@
                 {{if !empty($goods.video)}}
                     <i class="am-icon-play-circle-o goods-video-submit-start"></i>
                     <i class="goods-video-submit-close none">&times;</i>
-                    <video class="goods-video-container none" src="{{$goods.video}}" controls="controls" preload="auto">
-                        your browser does not support the video tag
-                    </video>
+                    <div class="goods-video-pc-container goods-video-container none" data-url="{{$goods.video}}" data-images="{{$goods.images}}"></div>
                 {{/if}}
 
                 <!-- 商品页面相册内部钩子 -->

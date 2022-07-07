@@ -663,17 +663,33 @@ $(function() {
     });
 
     // 视频
+    var player = null;
     $('.goods-video-submit-start').on('click', function()
     {
-        $('.goods-video-container').removeClass('none').trigger('play');
+        // 当前
+        var is_wap = $(window).width() < 1025;
+        var cu_ent = '.goods-video-'+(is_wap ? 'wap' : 'pc')+'-container';
+        $(cu_ent).removeClass('none');
         $('.goods-video-submit-close').removeClass('none');
         $('.goods-video-submit-start').addClass('none');
+
+        // 非当前
+        $('.goods-video-'+(is_wap ? 'pc' : 'wap')+'-container').html('');
+
+        // 调用播放器
+        player = new ckplayer({
+            container: cu_ent,
+            video: $(cu_ent).data('url'),
+            autoplay: true,
+            menu: null
+        });
     });
     $('.goods-video-submit-close').on('click', function()
     {
-        $('.goods-video-container').addClass('none').trigger('pause');
+        $('.goods-video-container').addClass('none');
         $('.goods-video-submit-close').addClass('none');
         $('.goods-video-submit-start').removeClass('none');
+        player.pause();
     });
 
     //获得文本框对象

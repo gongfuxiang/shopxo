@@ -236,6 +236,9 @@ class Common extends BaseController
         // 开发模式
         MyViewAssign('shopxo_is_develop', MyConfig('shopxo.is_develop'));
 
+        // 是否加载视频播放器组件
+        MyViewAssign('is_load_ckplayer', 0);
+
         // 默认不加载百度地图api
         MyViewAssign('is_load_baidu_map_api', 0);
 

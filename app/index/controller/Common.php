@@ -348,6 +348,9 @@ class Common extends BaseController
         // 默认不加载放大镜
         MyViewAssign('is_load_imagezoom', 0);
 
+        // 是否加载视频播放器组件
+        MyViewAssign('is_load_ckplayer', 0);
+
         // 默认不加载百度地图api
         MyViewAssign('is_load_baidu_map_api', 0);
 

@@ -16,7 +16,7 @@
     <meta name="apple-mobile-web-app-title" content="{{:MyC('home_site_name')}}">
     <link rel="apple-touch-icon" href="{{:AttachmentPathViewHandle(MyC('home_site_logo_square'))}}">
     <link rel="apple-touch-icon-precomposed" href="{{:AttachmentPathViewHandle(MyC('home_site_logo_square'))}}">
-    
+
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/assets/css/amazeui.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.css?v={{:MyC('home_static_cache_version')}}" />
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/amazeui-chosen/amazeui.chosen.css?v={{:MyC('home_static_cache_version')}}" />
@@ -25,15 +25,25 @@
 	
 	<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/common.css?v={{:MyC('home_static_cache_version')}}" />
     <link rel="stylesheet" type="text/css" href="{{$public_host}}static/index/{{$default_theme}}/css/common.css?v={{:MyC('home_static_cache_version')}}" />
+
+    <!-- ckplayer播放器 -->
+	{{if isset($is_load_ckplayer) and $is_load_ckplayer eq 1}}
+		<link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/ckplayer/css/ckplayer.css?v={{:MyC('home_static_cache_version')}}" />
+	{{/if}}
+
+	<!-- 插件 -->
     {{if !empty($plugins_css)}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$plugins_css}}?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
+
+    <!-- 可视化拖拽 -->
     {{if isset($is_load_layout) and $is_load_layout eq 1}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.css?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
     {{if isset($is_load_layout_admin) and $is_load_layout_admin eq 1}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.admin.css?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
+    <!-- 页面样式 -->
 	{{if !empty($module_css)}}
 		<link rel="stylesheet" type="text/css" href="{{$public_host}}static/{{$module_css}}?v={{:MyC('home_static_cache_version')}}" />
 	{{/if}}

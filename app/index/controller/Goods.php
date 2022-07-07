@@ -159,6 +159,9 @@ class Goods extends Common
             // 加载放大镜
             MyViewAssign('is_load_imagezoom', 1);
 
+            // 加载视频播放器组件
+            MyViewAssign('is_load_ckplayer', 1);
+
             return MyView();
         }
     }

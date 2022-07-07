@@ -83,6 +83,11 @@
 <!-- 日期组件 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/My97DatePicker/WdatePicker.js"></script>
 
+<!-- ckplayer播放器 -->
+{{if isset($is_load_ckplayer) and $is_load_ckplayer eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/ckplayer/js/ckplayer.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}}
+
 <!-- baidu map -->
 {{if isset($is_load_baidu_map_api) and $is_load_baidu_map_api eq 1}}
     <script type="text/javascript" src="{{$my_http}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>

@@ -1256,7 +1256,7 @@ class GoodsService
             'title'                     => $params['title'],
             'title_color'               => empty($params['title_color']) ? '' : $params['title_color'],
             'simple_desc'               => $params['simple_desc'],
-            'model'                     => $params['model'],
+            'model'                     => empty($params['model']) ? '' : $params['model'],
             'place_origin'              => isset($params['place_origin']) ? intval($params['place_origin']) : 0,
             'inventory_unit'            => $params['inventory_unit'],
             'buy_min_number'            => max(1, isset($params['buy_min_number']) ? intval($params['buy_min_number']) : 1),
