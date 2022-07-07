@@ -61,9 +61,6 @@ class Warehouse extends Common
         $ret = WarehouseService::WarehouseList($data_params);
         MyViewAssign('data_list', $ret['data']);
 
-        // 加载百度地图api
-        MyViewAssign('is_load_baidu_map_api', 1);
-
         // 基础参数赋值
         MyViewAssign('params', $this->data_request);
         return MyView();
@@ -78,6 +75,7 @@ class Warehouse extends Common
      */
     public function Detail()
     {
+        $data = [];
         if(!empty($this->data_request['id']))
         {
             // 条件
@@ -93,11 +91,8 @@ class Warehouse extends Common
             ];
             $ret = WarehouseService::WarehouseList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-
-            // 加载百度地图api
-            MyViewAssign('is_load_baidu_map_api', 1);
         }
+        MyViewAssign('data', $data);
         return MyView();
     }
 

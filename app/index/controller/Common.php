@@ -358,12 +358,6 @@ class Common extends BaseController
         $admin = AdminService::LoginInfo();
         MyViewAssign('is_load_upload_editor', (!empty($this->user) || !empty($admin)) ? 1 : 0);
 
-        // 存在地图事件则载入
-        if(in_array(3, array_column($this->nav_quick, 'event_type')))
-        {
-            MyViewAssign('is_load_baidu_map_api', 1);
-        }
-
         // 登录/注册方式
         MyViewAssign('home_user_login_type', MyC('home_user_login_type', [], true));
         MyViewAssign('home_user_reg_type', MyC('home_user_reg_type', [], true));

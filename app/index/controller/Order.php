@@ -83,9 +83,6 @@ class Order extends Common
         // 发起支付 - 支付方式
         MyViewAssign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
-        // 加载百度地图api
-        MyViewAssign('is_load_baidu_map_api', 1);
-
         // 浏览器名称
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('我的订单', 1));
 
@@ -124,9 +121,6 @@ class Order extends Common
 
         // 支付参数
         $pay_params = OrderService::PayParamsHandle($this->data_request);
-
-        // 加载百度地图api
-        MyViewAssign('is_load_baidu_map_api', 1);
 
         // 浏览器名称
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单详情', 1));

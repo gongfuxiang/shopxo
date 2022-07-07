@@ -75,10 +75,13 @@
     var __my_url__ = '{{$my_url}}';
     var __my_public_url__ = '{{$my_public_url}}';
     var __public__ = '{{$public_host}}';
+    var __default_theme__ = '{{$default_theme}}';
 	var __attachment_host__ = '{{$attachment_host}}';
+    var __seo_url_suffix__ = '{{:MyC("home_seo_url_html_suffix", "html", true)}}';
     var __currency_symbol__ = '{{$currency_symbol}}';
     var __is_mobile__ = '{{if IsMobile()}}1{{else}}0{{/if}}';
     var __env_max_input_vars_count__ = '{{$env_max_input_vars_count}}';
+    var __map_view_url__ = '{{:MyUrl("admin/map/index")}}';
 </script>
 <body>
 {{if $module_name.$controller_name.$action_name neq 'adminindexindex'}}

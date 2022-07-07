@@ -1540,8 +1540,8 @@ function UrlFieldReplace(field, value, url)
 
     if(url.indexOf('?') >= 0)
     {
-        var str = url.substr(0, url.lastIndexOf('.'));
-        var ext = url.substr(url.lastIndexOf('.'));
+        var str = url.substr(0, url.lastIndexOf('.'+__seo_url_suffix__));
+        var ext = url.substr(url.lastIndexOf('.'+__seo_url_suffix__));
         if(str.indexOf(field) >= 0)
         {
             var first = str.substr(0, str.lastIndexOf(field));
@@ -3276,14 +3276,12 @@ $(function()
     	// 基础参数
     	var title = $(this).data('title') || '';
     	var class_tag = $(this).data('class') || '';
+    	var full = parseInt($(this).data('full')) || 0;
+    	var full_max = parseInt($(this).data('full-max')) || 0;
 
-    	// 弹窗
-    	AMUI.dialog.popup({
-    		title: title,
-			content: '<div id="map" data-level="17"></div>',
-			class: 'map-popup '+class_tag
-		});
-		MapInit(lng, lat, null, null, false);
+    	// 调用弹窗方法
+    	var url = UrlFieldReplace('lat', lat, UrlFieldReplace('lng', lng, __map_view_url__));
+        ModalLoad(url, title, class_tag, full, full_max);
     });
 
     // 弹窗全屏

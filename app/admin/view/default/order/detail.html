@@ -80,7 +80,7 @@
                         <span>{{$data.address_data.county_name}}</span>
                         <span>{{$data.address_data.address}}</span>
                     </p>
-                    {{if !empty($data['address_data']['lng']) and !empty($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
+                    {{if isset($data['address_data']['lng']) and isset($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
                         <div class="am-margin-top-xs">
                             <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}"> 查看位置</button>
                         </div>

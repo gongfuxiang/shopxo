@@ -5,7 +5,7 @@
                 {{switch nav.event_type}}
                     {{case 3}}
                         <!-- 地图 -->
-                        <a href="javascript:;" {{if $nav['is_need_login'] eq 1 and empty($user)}} class="login-event" {{else /}}{{if !empty($nav['event_value_data']) and !empty($nav['event_value_data'][2]) and !empty($nav['event_value_data'][3])}}class="submit-map-popup" data-lng="{{$nav['event_value_data'][2]}}" data-lat="{{$nav['event_value_data'][3]}}"{{/if}}{{/if}}>
+                        <a href="javascript:;" {{if $nav['is_need_login'] eq 1 and empty($user)}} class="login-event" {{else /}}{{if !empty($nav['event_value_data']) and isset($nav['event_value_data'][2]) and isset($nav['event_value_data'][3]) and $nav['event_value_data'][2] neq 0 and $nav['event_value_data'][3] neq 0}}class="submit-map-popup" data-lng="{{$nav['event_value_data'][2]}}" data-lat="{{$nav['event_value_data'][3]}}"{{/if}}{{/if}}>
                     {{/case}}
                     {{case 4}}
                         <!-- 电话 -->

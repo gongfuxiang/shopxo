@@ -108,9 +108,6 @@ class Buy extends Common
                     unset($params['address_id']);
                 }
 
-                // 加载百度地图api
-                MyViewAssign('is_load_baidu_map_api', 1);
-
                 // 钩子
                 $this->PluginsHook($ret['data'], $params);
 

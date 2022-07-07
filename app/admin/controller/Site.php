@@ -77,7 +77,7 @@ class Site extends Common
 		// 数据处理
 		switch($this->nav_type)
 		{
-			// 自提点
+			// 站点类型
 			case 'sitetype' :
 				// 地址处理
 	        	if(!empty($data['common_self_extraction_address']) && !empty($data['common_self_extraction_address']['value']))

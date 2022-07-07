@@ -142,13 +142,6 @@ class Index extends Common
         $link_list = LinkService::HomeLinkList();
         MyViewAssign('link_list', $link_list);
 
-        // 加载百度地图api
-        // 存在地图事件则载入
-        if((!empty($banner) && in_array(3, array_column($banner, 'event_type'))) || (!empty($navigation) && in_array(3, array_column($navigation, 'event_type'))))
-        {
-            MyViewAssign('is_load_baidu_map_api', 1);
-        }
-
         // 钩子
         $this->PluginsHook();
         

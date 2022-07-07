@@ -135,26 +135,6 @@ $(function()
         }
     });
 
-    // 自提点地址 - 查看地图/关闭地图
-    var $extraction_map_container = $('.extraction-address-map-container');
-    $extraction_popup.find('.extraction-address-map-submit').on('click', function()
-    {
-        var lng = $(this).data('lng') || null;
-        var lat = $(this).data('lat') || null;
-        if(lng == null || lat == null)
-        {
-            Prompt('坐标有误');
-            return false;
-        }
-
-        $extraction_map_container.show();
-        MapInit(lng, lat, null, null, false, 'extraction-map');
-    });
-    $extraction_map_container.find('.am-close').on('click', function()
-    {
-        $extraction_map_container.hide();
-    });
-
     // 销售+自提 切换
     $('.buy-header-nav li a').on('click', function()
     {

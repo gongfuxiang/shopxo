@@ -91,9 +91,6 @@ class Order extends Common
         // 快递公司
         MyViewAssign('express_list', ExpressService::ExpressList());
 
-        // 加载百度地图api
-        MyViewAssign('is_load_baidu_map_api', 1);
-
         // 基础参数赋值
         MyViewAssign('params', $this->data_request);
         MyViewAssign('page_html', $page->GetPageHtml());
@@ -130,9 +127,6 @@ class Order extends Common
             $ret = OrderService::OrderList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
             MyViewAssign('data', $data);
-
-            // 加载百度地图api
-            MyViewAssign('is_load_baidu_map_api', 1);
         }
         return MyView();
     }

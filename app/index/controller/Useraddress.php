@@ -67,9 +67,7 @@ class UserAddress extends Common
      */
     public function SaveInfo()
     {
-        MyViewAssign('is_header', 0);
-        MyViewAssign('is_footer', 0);
-        
+        // 地址数据
         $data = [];
         if(!empty($this->data_request))
         {
@@ -78,13 +76,16 @@ class UserAddress extends Common
             $ret = UserAddressService::UserAddressRow($params);
             $data = $ret['data'];
         }
+        MyViewAssign('data', $data);
+
+        // 加载地图
+        MyViewAssign('is_load_baidu_map_api', 1);
 
         // 编辑器文件存放地址
         MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($this->user['id'])));
 
-        // 加载百度地图api
-        MyViewAssign('is_load_baidu_map_api', 1);
-        MyViewAssign('data', $data);
+        MyViewAssign('is_header', 0);
+        MyViewAssign('is_footer', 0);
         return MyView();
     }
 

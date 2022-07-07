@@ -244,39 +244,6 @@ ul.address-list, .business-item ul { overflow: hidden; }
   top: 15px;
   right: 5px;
 }
-/**
- * 自提地址-弹层-查看地图
- */
-.extraction-address-map-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 1001;
-  padding: 50px;
-  width: 100%;
-  height: 100%;
-  display: none;
-}
-.extraction-address-map-container .am-close {
-    position: absolute;
-    right: 35px;
-    top: 35px;
-    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
-    opacity: 1;
-    background: #767676;
-    color: #fff;
-    border: 3px solid #f4f4f4;
-    width: 32px;
-    height: 32px;
-    z-index: 1;
-}
-#extraction-map {
-  width: 100%;
-  height: 100%;
-}
 
 /**
  * 销售+自提导航

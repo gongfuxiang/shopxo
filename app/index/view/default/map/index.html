@@ -1,0 +1,22 @@
+{{include file="public/header" /}}
+
+<!-- content start  -->
+{{if isset($params['lng']) and isset($params['lat']) and $params['lng'] neq 0 and $params['lat'] neq 0}}
+    <div id="map" data-level="17"></div>
+{{else /}}
+    <div class="table-no"><i class="am-icon-warning"></i> 坐标有误</div>
+{{/if}}
+<!-- content end  -->
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+{{if isset($params['lng']) and isset($params['lat']) and $params['lng'] neq 0 and $params['lat'] neq 0}}
+    <script type="text/javascript">
+    $(function()
+    {
+        // 百度地图初始化
+        MapInit({{$params['lng']}}, {{$params['lat']}}, null, null, false);
+    });
+    </script>
+{{/if}}

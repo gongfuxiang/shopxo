@@ -72,9 +72,6 @@ class UserAddress extends Common
         ];
         $ret = UserAddressService::UserAddressAdminList($data_params);
 
-        // 加载百度地图api
-        MyViewAssign('is_load_baidu_map_api', 1);
-
         // 基础参数赋值
         MyViewAssign('params', $this->data_request);
         MyViewAssign('page_html', $page->GetPageHtml());
@@ -91,6 +88,7 @@ class UserAddress extends Common
      */
     public function Detail()
     {
+        $data = [];
         if(!empty($this->data_request['id']))
         {
             // 条件
@@ -106,11 +104,8 @@ class UserAddress extends Common
             ];
             $ret = UserAddressService::UserAddressAdminList($data_params);
             $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-
-            // 加载百度地图api
-            MyViewAssign('is_load_baidu_map_api', 1);
         }
+        MyViewAssign('data', $data);
         return MyView();
     }
 
@@ -140,6 +135,7 @@ class UserAddress extends Common
             $ret = UserAddressService::UserAddressAdminList($data_params);
             $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
+        MyViewAssign('data', $data);
 
         // 加载百度地图api
         MyViewAssign('is_load_baidu_map_api', 1);
@@ -150,9 +146,7 @@ class UserAddress extends Common
             MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($data['user_id'])));
         }
 
-        // 数据
         unset($params['id']);
-        MyViewAssign('data', $data);
         MyViewAssign('params', $params);
         return MyView();
     }
