@@ -660,6 +660,7 @@ class NavigationService
         $data = [
             [
                 'name'      => '个人中心',
+                'type'      => 'center',
                 'is_login'  => 1,
                 'badge'     => null,
                 'icon'      => 'am-icon-user',
@@ -668,6 +669,7 @@ class NavigationService
             ],
             [
                 'name'      => '我的商城',
+                'type'      => 'myself',
                 'is_login'  => 1,
                 'badge'     => null,
                 'icon'      => 'am-icon-cube',
@@ -681,6 +683,7 @@ class NavigationService
             ],
             [
                 'name'      => '我的收藏',
+                'type'      => 'favor',
                 'is_login'  => 1,
                 'badge'     => null,
                 'icon'      => 'am-icon-heart',
@@ -694,6 +697,7 @@ class NavigationService
             ],
             [
                 'name'      => '购物车',
+                'type'      => 'cart',
                 'is_login'  => 1,
                 'badge'     => $common_cart_total,
                 'icon'      => 'am-icon-shopping-cart',
@@ -702,6 +706,7 @@ class NavigationService
             ],
             [
                 'name'      => '消息',
+                'type'      => 'message',
                 'is_login'  => 1,
                 'badge'     => $common_message_total,
                 'icon'      => 'am-icon-bell',

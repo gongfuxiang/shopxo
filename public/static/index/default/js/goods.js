@@ -149,7 +149,7 @@ function BuyCartCheck(e)
     }
     var type =( typeof(e) == 'object') ? e.attr('data-type') : null;
     return {
-        "id": $('.goods-detail').data('id'),
+        "id": $('.system-goods-detail').data('id'),
         "stock": stock,
         "spec": spec,
         "type": type
@@ -274,12 +274,12 @@ function GoodsSpecDetail()
 
     // ajax请求
     $.ajax({
-        url: RequestUrlHandle($('.goods-detail').data('spec-detail-ajax-url')),
+        url: RequestUrlHandle($('.system-goods-detail').data('spec-detail-ajax-url')),
         type: 'post',
         dataType: "json",
         timeout: 10000,
         data: {
-            "id": $('.goods-detail').data('id'),
+            "id": $('.system-goods-detail').data('id'),
             "stock": stock,
             "spec": spec
         },
@@ -331,11 +331,11 @@ function GoodsSpecType()
 
     // ajax请求
     $.ajax({
-        url: RequestUrlHandle($('.goods-detail').data('spec-type-ajax-url')),
+        url: RequestUrlHandle($('.system-goods-detail').data('spec-type-ajax-url')),
         type: 'post',
         dataType: "json",
         timeout: 10000,
-        data: {"id": $('.goods-detail').data('id'), "spec": spec},
+        data: {"id": $('.system-goods-detail').data('id'), "spec": spec},
         success: function(res)
         {
             $.AMUI.progress.done();
@@ -447,7 +447,7 @@ function GoodsNumberChange()
         dataType: "json",
         timeout: 10000,
         data: {
-            "id": $('.goods-detail').data('id'),
+            "id": $('.system-goods-detail').data('id'),
             "stock": stock,
             "spec": spec
         },
@@ -631,7 +631,7 @@ $(function() {
                 type: 'post',
                 dataType: "json",
                 timeout: 10000,
-                data: {"id": $('.goods-detail').data('id')},
+                data: {"id": $('.system-goods-detail').data('id')},
                 success: function(res)
                 {
                     $.AMUI.progress.done();

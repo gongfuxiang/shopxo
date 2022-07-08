@@ -71,7 +71,7 @@
 
             <!-- 非首页则展示首页入口 -->
             {{if MyC('home_header_top_is_home', 0) eq 1 and $module_name.$controller_name.$action_name neq 'indexindexindex'}}
-                <div class="top-nav-items">
+                <div class="top-nav-items top-nav-items-home">
                     <div class="menu-hd ">
                         <a href="{{$home_url}}" target="_top">
                             <i class="am-icon-fw am-icon-home"></i>
@@ -85,23 +85,23 @@
             {{if !empty($common_nav_top_right_list) and is_array($common_nav_top_right_list)}}
                 {{foreach $common_nav_top_right_list as $nav}}
                     {{if empty($nav['items'])}}
-                        <div class="top-nav-items">
+                        <div class="top-nav-items {{if !empty($nav['type'])}}top-nav-items-{{$nav.type}}{{/if}}">
                             <div class="menu-hd {{if isset($nav['is_login']) and $nav['is_login'] eq 1 and empty($user)}}login-event{{/if}}">
                                 <a href="{{if empty($user)}}javascript:;{{else /}}{{$nav.url}}{{/if}}" target="_top">
                                     <i class="am-icon-fw {{$nav.icon}}"></i>
                                     <span>{{$nav.name}}</span>
                                     {{if isset($nav['badge']) and $nav['badge'] gt -1}}
                                         {{if $nav['badge'] gt 0}}
-                                            <strong class="am-badge am-badge-danger am-round common-cart-total">{{$nav.badge}}</strong>
+                                            <strong class="am-badge am-badge-danger am-round {{if isset($nav['type']) and $nav['type'] eq 'cart'}}common-cart-total{{/if}}">{{$nav.badge}}</strong>
                                         {{else /}}
-                                            <strong class="common-cart-total am-round">{{$nav.badge}}</strong>
+                                            <strong class="am-round {{if isset($nav['type']) and $nav['type'] eq 'cart'}}common-cart-total{{/if}}">{{$nav.badge}}</strong>
                                         {{/if}}
                                     {{/if}}
                                 </a>
                             </div>
                         </div>
                     {{else /}}
-                        <div class="top-nav-items">
+                        <div class="top-nav-items {{if !empty($nav['type'])}}top-nav-items-{{$nav.type}}{{/if}}">
                             <div class="am-dropdown menu-hd" data-am-dropdown>
                                 <a class="am-dropdown-toggle" href="javascript:;" target="_top" data-am-dropdown-toggle>
                                     <i class="am-icon-fw {{$nav.icon}}"></i>

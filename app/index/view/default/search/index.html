@@ -118,24 +118,7 @@
                         <!-- 品牌 -->
                         {{if !empty($brand_list)}}
                             <li class="am-nbfc map-brand-container" data-field="brand_ids">
-                                {{if empty($search_map_info['brand'])}}
-                                    <div class="map-left am-text-center am-fl">品牌</div>
-                                    <div class="map-right map-images-text-items am-fr am-nbfc">
-                                        <ul class="am-nbfc">
-                                            {{foreach $brand_list as $v}}
-                                                <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
-                                                    <a href="{{$v.url}}" title="{{$v.name}}">
-                                                        {{if empty($v['logo'])}}
-                                                            {{$v.name}}
-                                                        {{else /}}
-                                                            <img src="{{$v.logo}}" alt="{{$v.name}}" />
-                                                        {{/if}}
-                                                    </a>
-                                                </li>
-                                            {{/foreach}}
-                                        </ul>
-                                    </div>
-                                {{else /}}
+                                {{if !empty($search_map_info['brand']) and !empty($params['brand'])}}
                                     <div class="brand-info">
                                         <div class="map-left am-text-center am-fl">品牌</div>
                                         <div class="map-right map-images-text-items am-fr am-nbfc">
@@ -154,6 +137,23 @@
                                                 <p class="info-desc am-text-truncate-2">{{$search_map_info.brand.describe}}</p>
                                             </div>
                                         </div>
+                                    </div>
+                                {{else /}}
+                                    <div class="map-left am-text-center am-fl">品牌</div>
+                                    <div class="map-right map-images-text-items am-fr am-nbfc">
+                                        <ul class="am-nbfc">
+                                            {{foreach $brand_list as $v}}
+                                                <li {{if isset($v['is_active']) and $v['is_active'] eq 1}}class="active"{{/if}}>
+                                                    <a href="{{$v.url}}" title="{{$v.name}}">
+                                                        {{if empty($v['logo'])}}
+                                                            {{$v.name}}
+                                                        {{else /}}
+                                                            <img src="{{$v.logo}}" alt="{{$v.name}}" />
+                                                        {{/if}}
+                                                    </a>
+                                                </li>
+                                            {{/foreach}}
+                                        </ul>
                                     </div>
                                 {{/if}}
                             </li>

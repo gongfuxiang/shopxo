@@ -297,11 +297,11 @@ class SearchService
             {
                 $where_base[] = ['g.brand_id', 'in', array_unique($params['brand_ids'])];
             }
-        } else {
-            if(!empty($params['brand_id']))
-            {
-                $where_base[] = ['g.brand_id', 'in', [intval($params['brand_id'])]];
-            }
+        }
+        // 指定品牌
+        if(!empty($params['brand']))
+        {
+            $where_base[] = ['g.brand_id', 'in', [intval($params['brand'])]];
         }
         // web端
         if(!empty($params['bid']))
@@ -525,7 +525,7 @@ class SearchService
 
         // 参数处理
         $field_arr = [
-            'brand_ids'             => ['brand_ids', 'brand_id', 'bid'],
+            'brand_ids'             => ['brand_ids', 'brand', 'bid'],
             'category_ids'          => ['category_ids', 'category_id', 'cid'],
             'screening_price_values'=> ['screening_price_values', 'peid'],
             'goods_params_values'   => ['goods_params_values', 'psid'],
@@ -777,12 +777,13 @@ class SearchService
 
         // 品牌
         $brand = null;
-        if(!empty($params['brand_id']))
+        $bid = empty($params['brand']) ? (empty($params['bid']) ? 0 : intval($params['bid'])) : intval($params['brand']);
+        if(!empty($bid))
         {
             $data_params = [
                 'field'     => 'id,name,describe,logo,website_url',
                 'where'     => [
-                    ['id', '=', intval($params['brand_id'])]
+                    ['id', '=', $bid]
                 ],
                 'm'         => 0,
                 'n'         => 1,
@@ -914,7 +915,7 @@ class SearchService
         $temp_name = [];
 
         // 品牌
-        $bid = empty($params['bid']) ? (empty($params['brand_id']) ? 0 : intval($params['brand_id'])) : intval($params['bid']);
+        $bid = empty($params['bid']) ? (empty($params['brand']) ? 0 : intval($params['brand'])) : intval($params['bid']);
         if(!empty($bid))
         {
             $brand = Db::name('Brand')->where(['id'=>$bid])->field('id,name')->find();

@@ -526,12 +526,12 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
 /* 小于1025 */
 @media only screen and (max-width:1025px) {
     ul.am-tabs-nav.am-nav.am-nav-tabs { width:100% !important; left: 0px !important; }
-    .goods-detail { padding: 0 5px 10px 5px; }
+    .system-goods-detail { padding: 0 5px 10px 5px; }
 }
 
 /* 手机模式下 */
 @media only screen and (max-width:640px) {
-    .goods-detail { padding: 0px; }
+    .system-goods-detail { padding: 0px; }
     .detail-title, .detail-attr, .simple-desc { padding: 0px 5px; }
     .tb-detail-price { padding: 10px 5px; }
     .buy-nav .buy-nav-opt { width: 40%; }
