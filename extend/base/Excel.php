@@ -81,7 +81,34 @@ class Excel
 	}
 
 	/**
-	 * 导出CSV文件
+	 * 文件导出
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-01-10T15:12:01+0800
+	 */
+	public function Export()
+	{
+		// 是否有数据
+		if(empty($this->title) && empty($this->data))
+		{
+			echo '<script>alert("'.$this->msg.'");</script>';
+			echo '<script>window.location.href="'.$this->jump_url.'"</script>';
+			die;
+		}
+
+		// 导出类型
+		$export_type = MyC('common_excel_export_type', 0, true);
+		if($export_type == 0)
+		{
+			$this->ExportCsv();
+		} else {
+			$this->ExportExcel();
+		}
+	}
+
+	/**
+	 * csv导出文件
 	 * @author  Devil
 	 * @blog    http://gong.gg/
 	 * @version 1.0.0
@@ -167,7 +194,7 @@ class Excel
 	 * @version  0.0.1
 	 * @datetime 2017-01-10T15:12:01+0800
 	 */
-	public function Export()
+	public function ExportExcel()
 	{
 		// 是否有数据
 		if(empty($this->title) && empty($this->data))

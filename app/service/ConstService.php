@@ -140,7 +140,7 @@ class ConstService
             ],
 
             // 状态
-            'common_state_list'             =>  [
+            'common_state_list'                 =>  [
                 0 => ['id' => 0, 'name' => '不可用'],
                 1 => ['id' => 1, 'name' => '可用', 'checked' => true],
             ],
@@ -149,6 +149,12 @@ class ConstService
             'common_excel_charset_list'         =>  [
                 0 => ['id' => 0, 'value' => 'utf-8', 'name' => 'utf-8', 'checked' => true],
                 1 => ['id' => 1, 'value' => 'gbk', 'name' => 'gbk'],
+            ],
+
+            // excel导出类型列表
+            'common_excel_export_type_list'     =>  [
+                0 => ['id' => 0, 'name' => 'CSV', 'checked' => true],
+                1 => ['id' => 1, 'name' => 'Excel'],
             ],
 
             // 支付支付状态
