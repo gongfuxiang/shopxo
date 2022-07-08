@@ -95,9 +95,16 @@ class DomainService
             }
         }
         // 增加
-        if(!empty($params['inc_domain']))
+        if(!empty($params['inc_domain']) && is_array($params['inc_domain']))
         {
-            $config = array_merge($config, $params['inc_domain']);
+            foreach($params['inc_domain'] as $k=>$v)
+            {
+                // 排除空字符串和null的key
+                if($k !== '' && $k !== null && !empty($v))
+                {
+                    $config[$k] = $v;
+                }
+            }
         }
 
         // 生成域名配置文件
