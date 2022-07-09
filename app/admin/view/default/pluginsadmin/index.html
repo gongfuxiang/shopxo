@@ -15,138 +15,152 @@
         {{/if}}
         <!-- operation end -->
 
-        {{if !empty($data_list['db_data']) or !empty($data_list['dir_data'])}}
-            {{if !empty($data_list['db_data'])}}
-                <!-- 操作提示 -->
-                <div class="am-alert">
-                    <p>1 列表排序方式[ 自定义排序 -> 最早安装 ]</p>
-                    <p>
-                        <span>2. 可点击拖动图标按钮调整插件调用和展示顺序</span>
-                        <button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-xs am-icon-sort-numeric-asc submit-move-sort-open"> 开启排序</button>
-                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-check submit-move-sort-save am-hide"> 保存</button>
-                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-margin-left-xs am-icon-close submit-move-sort-cancel am-hide"> 取消</button>
-                    </p>
-                    {{if empty($site_store_info) or empty($site_store_info['user'])}}
+        <div class="plugins-data-list am-nbfc">
+            {{if !empty($data_list['db_data']) or !empty($data_list['dir_data'])}}
+                <div class="am-input-group am-input-group-sm plugins-search">
+                    <input type="text" class="am-form-field am-radius" placeholder="请输入名称/描述" />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default am-radius am-icon-search" type="button"> 搜索</button>
+                    </span>
+                </div>
+                {{if !empty($data_list['db_data'])}}
+                    <!-- 操作提示 -->
+                    <div class="am-alert">
+                        <p>1 列表排序方式[ 自定义排序 -> 最早安装 ]</p>
                         <p>
-                            <span>3. 绑定ShopXO应用商店帐号、获取插件最新版本信息、在线安装及更新</span>
-                            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> 绑定ShopXO商店账户</button>
+                            <span>2. 可点击拖动图标按钮调整插件调用和展示顺序</span>
+                            <button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-xs am-icon-sort-numeric-asc submit-move-sort-open"> 开启排序</button>
+                            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-check submit-move-sort-save am-hide"> 保存</button>
+                            <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-margin-left-xs am-icon-close submit-move-sort-cancel am-hide"> 取消</button>
                         </p>
-                    {{/if}}
-                </div>
-                <!-- 已安装 -->
-                <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-avg-md-2 am-avg-lg-3 am-gallery-bordered already-install" data-am-gallery="{}" data-sort-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
-                    {{foreach $data_list['db_data'] as $v}}
-                        {{if isset($v['is_install']) and $v['is_install'] eq 1}}
-                            <li data-id="{{$v.id}}" data-plugins="{{$v.plugins}}">
-                                <div class="am-gallery-item {{if $v['is_enable'] eq 0}}am-active{{/if}}" id="data-list-{{$v.plugins}}">
-                                    <img src="{{$v.logo}}" class="icon" />
-                                    <div class="base">
-                                        <h3 class="name">{{$v.name}}</h3>
-                                        <p>作者：{{$v.author}}</p>
-                                        <p>主页：<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
-                                        <p>版本：{{$v.version}}</p>
-                                    </div>
-                                    <div class="am-gallery-desc">{{$v.desc}}</div>
-                                    <div class="operation">
-                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                            <a href="{{:MyUrl('admin/pluginsadmin/saveinfo', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" title="编辑"></a>
-                                            <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-download" title="打包"></a>
-                                        {{/if}}
-
-                                        <a href="javascript:;" data-set-url="{{:PluginsAdminUrl($v['plugins'], 'admin', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear plugins-set-event" title="设置"></a>
-                                        
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-circle-o submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/uninstall')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="卸载可能会丢失插件基础配置数据不可恢复、确认操作吗？" title="卸载"></button>
-
-                                        <a href="javascript:;" class="am-btn am-btn-default am-btn-xs am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{/if}}" data-url="{{:MyUrl('admin/pluginsadmin/statusupdate')}}" data-id="{{$v.plugins}}" data-state="{{$v['is_enable']}}" data-is-update-status="1" title="状态"></a>
-
-                                        {{if isset($v['is_home']) and $v['is_home'] eq true}}
-                                            <a href="{{:PluginsHomeUrl($v['plugins'], 'index', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-home" title="首页" target="_blank"></a>
-                                        {{/if}}
-
-                                        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-arrows submit-move am-hide" title="排序"></button>
-
-                                        {{if !empty($upgrade_info) and isset($upgrade_info[$v['plugins']]) and $upgrade_info[$v['plugins']]['version_new'] neq $v['version']}}
-                                            <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-refresh package-upgrade-event" title="更新" data-type="plugins" data-name="{{$v.name}}" data-value="{{$v.plugins}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['plugins']]))}}"></button>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                            </li>
+                        {{if empty($site_store_info) or empty($site_store_info['user'])}}
+                            <p>
+                                <span>3. 绑定ShopXO应用商店帐号、获取插件最新版本信息、在线安装及更新</span>
+                                <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> 绑定ShopXO商店账户</button>
+                            </p>
                         {{/if}}
-                    {{/foreach}}
-                </ul>
-            {{/if}}
+                    </div>
 
-            {{if !empty($data_list['dir_data'])}}
-                <!-- 未安装 -->
-                <div class="am-text-center am-margin-top-lg am-margin-bottom-xs middle-divider">
-                    <strong>
-                        <i class="am-icon-angle-double-down"></i>
-                        <span class="am-text-lg am-margin-horizontal-xs">以下插件未安装</span>
-                        <i class="am-icon-angle-double-down"></i>
-                    </strong>
-                    <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
-                </div>
-                <ul data-am-widget="gallery" class="am-gallery am-avg-sm-1 am-avg-md-2 am-avg-lg-3 am-gallery-bordered" data-am-gallery="{}" data-sort-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
-                    {{foreach $data_list['dir_data'] as $v}}
-                        {{if !isset($v['is_install']) or $v['is_install'] eq 0}}
-                            <li data-id="{{$v.id}}" data-plugins="{{$v.plugins}}">
-                                <div class="am-gallery-item am-active" id="data-list-{{$v.plugins}}">
-                                    <img src="{{$v.logo}}" class="icon" />
-                                    <div class="base">
-                                        <h3 class="name">{{$v.name}}</h3>
-                                        <p>作者：{{$v.author}}</p>
-                                        <p>主页：<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
-                                        <p>版本：{{$v.version}}</p>
+                    <!-- 搜索无数据展示 -->
+                    <div class="not-data-tips none">
+                        {{include file="public/not_data" /}}
+                    </div>
+
+                    <!-- 已安装 -->
+                    <ul class="already-install am-nbfc" data-sort-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
+                        {{foreach $data_list['db_data'] as $v}}
+                            {{if isset($v['is_install']) and $v['is_install'] eq 1}}
+                                <li data-id="{{$v.id}}" data-plugins="{{$v.plugins}}">
+                                    <div class="item {{if $v['is_enable'] eq 0}}am-active{{/if}}" id="data-list-{{$v.plugins}}">
+                                        <img src="{{$v.logo}}" class="icon" />
+                                        <div class="base">
+                                            <h3 class="name">{{$v.name}}</h3>
+                                            <p>作者：{{$v.author}}</p>
+                                            <p>主页：<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
+                                            <p>版本：{{$v.version}}</p>
+                                        </div>
+                                        <div class="desc">{{$v.desc}}</div>
+                                        <div class="operation">
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                                <a href="{{:MyUrl('admin/pluginsadmin/saveinfo', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" title="编辑"></a>
+                                                <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-download" title="打包"></a>
+                                            {{/if}}
+
+                                            <a href="javascript:;" data-set-url="{{:PluginsAdminUrl($v['plugins'], 'admin', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-gear plugins-set-event" title="设置"></a>
+                                            
+                                            <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-circle-o submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/uninstall')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="卸载可能会丢失插件基础配置数据不可恢复、确认操作吗？" title="卸载"></button>
+
+                                            <a href="javascript:;" class="am-btn am-btn-default am-btn-xs am-icon-check submit-state {{if $v['is_enable'] eq 1}}am-success{{/if}}" data-url="{{:MyUrl('admin/pluginsadmin/statusupdate')}}" data-id="{{$v.plugins}}" data-state="{{$v['is_enable']}}" data-is-update-status="1" title="状态"></a>
+
+                                            {{if isset($v['is_home']) and $v['is_home'] eq true}}
+                                                <a href="{{:PluginsHomeUrl($v['plugins'], 'index', 'index')}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-home" title="首页" target="_blank"></a>
+                                            {{/if}}
+
+                                            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-arrows submit-move am-hide" title="排序"></button>
+
+                                            {{if !empty($upgrade_info) and isset($upgrade_info[$v['plugins']]) and $upgrade_info[$v['plugins']]['version_new'] neq $v['version']}}
+                                                <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-refresh package-upgrade-event" title="更新" data-type="plugins" data-name="{{$v.name}}" data-value="{{$v.plugins}}" data-json="{{:urlencode(json_encode($upgrade_info[$v['plugins']]))}}"></button>
+                                            {{/if}}
+                                        </div>
                                     </div>
-                                    <div class="am-gallery-desc">{{$v.desc}}</div>
-                                    <div class="operation">
-                                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                                            <a href="{{:MyUrl('admin/pluginsadmin/saveinfo', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" title="编辑"></a>
-                                            <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-download" title="打包"></a>
-                                        {{/if}}
+                                </li>
+                            {{/if}}
+                        {{/foreach}}
+                    </ul>
+                {{/if}}
 
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-remove submit-delete-modal" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="{{$v.plugins}}" title="删除"></button>
+                {{if !empty($data_list['dir_data'])}}
+                    <!-- 未安装 -->
+                    <div class="am-text-center am-margin-top-lg am-margin-bottom-xs middle-divider">
+                        <strong>
+                            <i class="am-icon-angle-double-down"></i>
+                            <span class="am-text-lg am-margin-horizontal-xs">以下插件未安装</span>
+                            <i class="am-icon-angle-double-down"></i>
+                        </strong>
+                        <hr data-am-widget="divider" class="am-divider am-divider-dashed am-margin-top-0" />
+                    </div>
+                    <ul class="am-nbfc" data-sort-save-url="{{:MyUrl('admin/pluginsadmin/sortsave')}}">
+                        {{foreach $data_list['dir_data'] as $v}}
+                            {{if !isset($v['is_install']) or $v['is_install'] eq 0}}
+                                <li data-id="{{$v.id}}" data-plugins="{{$v.plugins}}">
+                                    <div class="item am-active" id="data-list-{{$v.plugins}}">
+                                        <img src="{{$v.logo}}" class="icon" />
+                                        <div class="base">
+                                            <h3 class="name">{{$v.name}}</h3>
+                                            <p>作者：{{$v.author}}</p>
+                                            <p>主页：<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
+                                            <p>版本：{{$v.version}}</p>
+                                        </div>
+                                        <div class="desc">{{$v.desc}}</div>
+                                        <div class="operation">
+                                            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                                                <a href="{{:MyUrl('admin/pluginsadmin/saveinfo', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-edit" title="编辑"></a>
+                                                <a href="{{:MyUrl('admin/pluginsadmin/download', array('id'=>$v['plugins']))}}" class="am-btn am-btn-default am-btn-xs am-radius am-icon-download" title="打包"></a>
+                                            {{/if}}
 
-                                        <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/install')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="进行安装操作、确认继续吗？" title="安装"></button>
+                                            <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-remove submit-delete-modal" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="{{$v.plugins}}" title="删除"></button>
+
+                                            <button class="am-btn am-btn-default am-btn-xs am-radius am-icon-cubes submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/install')}}" data-id="{{$v.plugins}}" data-view="reload" data-msg="进行安装操作、确认继续吗？" title="安装"></button>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        {{/if}}
-                    {{/foreach}}
-                </ul>
+                                </li>
+                            {{/if}}
+                        {{/foreach}}
+                    </ul>
 
-                <!-- 删除弹层 -->
-                <div class="am-modal am-modal-no-btn" tabindex="-1" id="plugins-delete-modal">
-                    <div class="am-modal-dialog">
-                        <div class="am-modal-hd">
-                            <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
-                        </div>
-                        <div class="am-modal-bd am-margin-top-sm">
-                            <div class="am-alert  am-text-left" data-am-alert>
-                                <p>1. 仅删除应用<span class="am-text-warning">（仅删除应用代码，保留应用数据）</span></p>
-                                <p>2. 删除应用并删除数据<span class="am-text-warning">（将删除应用代码和应用数据）</span></p>
+                    <!-- 删除弹层 -->
+                    <div class="am-modal am-modal-no-btn" tabindex="-1" id="plugins-delete-modal">
+                        <div class="am-modal-dialog">
+                            <div class="am-modal-hd">
+                                <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
                             </div>
-                            <p class="am-text-danger am-margin-top">PS：以下操作后均不可恢复，请谨慎操作！</p>
-                            <div class="am-margin-top-sm">
-                                <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-circle-o submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="0" data-value="1" data-view="reload" data-msg="删除后不可恢复、确认操作吗？" title="删除"> 删除应用和数据</button>
-                                <button class="am-btn am-btn-warning am-btn-xs am-radius am-icon-remove submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="0" data-value="0" data-view="reload" data-msg="删除后不可恢复、确认操作吗？" title="删除"> 仅删除应用</button>
+                            <div class="am-modal-bd am-margin-top-sm">
+                                <div class="am-alert  am-text-left" data-am-alert>
+                                    <p>1. 仅删除应用<span class="am-text-warning">（仅删除应用代码，保留应用数据）</span></p>
+                                    <p>2. 删除应用并删除数据<span class="am-text-warning">（将删除应用代码和应用数据）</span></p>
+                                </div>
+                                <p class="am-text-danger am-margin-top">PS：以下操作后均不可恢复，请谨慎操作！</p>
+                                <div class="am-margin-top-sm">
+                                    <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-circle-o submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="0" data-value="1" data-view="reload" data-msg="删除后不可恢复、确认操作吗？" title="删除"> 删除应用和数据</button>
+                                    <button class="am-btn am-btn-warning am-btn-xs am-radius am-icon-remove submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="0" data-value="0" data-view="reload" data-msg="删除后不可恢复、确认操作吗？" title="删除"> 仅删除应用</button>
 
-                                <button class="am-btn am-btn-success am-btn-xs am-radius am-icon-reply" data-am-modal-close> 再考虑一下</button>
+                                    <button class="am-btn am-btn-success am-btn-xs am-radius am-icon-reply" data-am-modal-close> 再考虑一下</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                {{/if}}
+
+                <div class="am-padding-vertical-xl am-text-center">
+                    <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">去应用商店挑选更多插件丰富站点 >></a>
+                </div>
+            {{else /}}
+                <div class="table-no">
+                    <i class="am-icon-warning"></i> 还没有相关应用
+                    <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">到应用商店挑选插件丰富站点 >></a>
                 </div>
             {{/if}}
-
-            <div class="am-padding-vertical-xl am-text-center">
-                <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">去应用商店挑选更多插件丰富站点 >></a>
-            </div>
-        {{else /}}
-            <div class="table-no">
-                <i class="am-icon-warning"></i> 还没有相关应用
-                <a href="{{$store_url}}" target="_blank" class="am-margin-left-xs">到应用商店挑选插件丰富站点 >></a>
-            </div>
-        {{/if}}
+        </div>
     </div>
 </div>
 <!-- right content end  -->

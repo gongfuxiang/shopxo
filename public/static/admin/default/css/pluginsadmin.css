@@ -1,61 +1,69 @@
 /**
  * 列表
  */
-.content ul.am-gallery-bordered {
+.plugins-data-list {
+    position: relative;
+}
+.plugins-data-list ul {
     padding: 0px;
-    width: calc(100% + 10px);
-    margin-left: -5px;
+    width: calc(100% + 20px);
+    margin-left: -10px;
 }
-.content ul.am-gallery-bordered li .am-gallery-item {
-    height: 197px;
+.plugins-data-list ul li {
+    float: left;
+    padding: 10px;
 }
-.content ul.am-gallery-bordered li .icon {
+.plugins-data-list ul li .item {
+    height: 208px;
+    padding: 10px;
+}
+.plugins-data-list ul li .icon {
     width: 80px;
     height: 80px;
     border-radius: 10px;
     box-shadow: 0px 3px 6px 0px rgba(0,0,0,.4);
 }
-.content ul.am-gallery-bordered .am-gallery-item {
+.plugins-data-list ul .item {
     box-shadow: none;
     border: 1px solid #d4d4d4;
     border-radius: 2px;
 }
-.content ul.am-gallery-bordered .am-gallery-item.am-active {
+.plugins-data-list ul .item.am-active {
     border: 1px solid #ff8a8a !important;
     background: #fff2f2;
 }
-.content ul.am-gallery-bordered .am-gallery-item:hover {
+.plugins-data-list ul .item:hover {
     border: 1px solid #999;
     box-shadow: 0px 12px 12px -10px rgba(0,0,0,.4);
 }
-.content ul.am-gallery-bordered li {
+.plugins-data-list ul li {
     position: relative;
 }
-.content ul.am-gallery-bordered li .base {
+.plugins-data-list ul li .base {
     position: absolute;
-    top: 10px;
-    left: 100px;
-    width: calc(100% - 112px);
+    top: 20px;
+    left: 110px;
+    width: calc(100% - 130px);
 }
-.content ul.am-gallery-bordered li .base h3 {
+.plugins-data-list ul li .base h3 {
     font-weight: 700;
     color: #333;
     margin: 2px 0px 3px 0px;
 }
-.content ul.am-gallery-bordered li .base p {
+.plugins-data-list ul li .base p {
     line-height: 18px;
     margin: 0;
     font-size: 12px;
     font-weight: 300;
     color: #999;
 }
-.content ul.am-gallery-bordered li .base h3, .content ul.am-gallery-bordered li .base p {
+.plugins-data-list ul li .base h3, .plugins-data-list ul li .base p {
     word-wrap: normal;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
-.content ul.am-gallery-bordered .am-gallery-desc {
+.plugins-data-list ul .desc {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -65,28 +73,28 @@
     height: 36px;
     line-height: 18px;
 }
-.content ul.am-gallery-bordered li .operation {
+.plugins-data-list ul li .operation {
     border-top: 1px dashed #eee;
     padding: 10px 0 5px 0;
 }
-.content ul.am-gallery-bordered li .am-btn, .content ul.am-gallery-bordered li .am-icon-btn {
+.plugins-data-list ul li .am-btn, .plugins-data-list ul li .am-icon-btn {
     width: 35px;
 }
-.content ul.am-gallery-bordered li .submit-state {
+.plugins-data-list ul li .submit-state {
     height: 30px;
     border-radius: 2px;
     font-size: 12px;
     line-height: 14px;
 }
-.content ul.am-gallery-bordered li .submit-state.am-success {
+.plugins-data-list ul li .submit-state.am-success {
     border: 1px solid #4caf50;
     background-color: #4caf50;
     color: #fff;
 }
-.content ul.am-gallery-bordered li .submit-move {
+.plugins-data-list ul li .submit-move {
     cursor: move !important;
 }
-.content ul.already-install .am-gallery-item.am-active {
+.plugins-data-list ul.already-install .item.am-active {
     border: 1px solid #f8815d !important;
     background: #fffbf5;
 }
@@ -113,21 +121,21 @@
     border-top: 1px dashed #2196F3;
 }
 @media only screen and (max-width: 641px) {
-    .content ul.am-gallery-bordered li .am-gallery-item {
+    .plugins-data-list ul li .item {
         height: 187px;
     }
-    .content ul.am-gallery-bordered li .icon {
+    .plugins-data-list ul li .icon {
         width: 65px;
         height: 65px;
     }
-    .content ul.am-gallery-bordered li .base {
+    .plugins-data-list ul li .base {
         left: 85px;
         width: calc(100% - 97px);
     }
-    .content ul.am-gallery-bordered li .base h3 {
+    .plugins-data-list ul li .base h3 {
         margin: 0px;
     }
-    .content ul.am-gallery-bordered li .base p {
+    .plugins-data-list ul li .base p {
         line-height: 16px;
     }
 }
@@ -136,14 +144,44 @@
  * 删除modal
  */
 @media only screen and (min-width: 641px) {
+    .plugins-data-list ul li {
+        width: 50%;
+    }
     #plugins-delete-modal .am-modal-bd button.submit-ajax {
         margin-right: 10px;
     }
 }
+@media only screen and (min-width: 1025px) {
+    .plugins-data-list ul li {
+        width: 33.33%;
+    }
+}
 @media only screen and (max-width: 641px) {
+    .plugins-data-list ul li {
+        width: 100%;
+    }
     #plugins-delete-modal .am-modal-bd .am-btn {
         width: 100%;
         display: block;
         margin-top: 10px;
+    }
+}
+
+/**
+ * 搜索
+ */
+.plugins-search {
+    width: 380px;
+    position: absolute;
+    top: 32px;
+    right: 20px;
+}
+@media only screen and (max-width: 800px) {
+    .plugins-search {
+        width: 100%;
+        position: relative;
+        margin-top: 10px;
+        top: auto;
+        right: auto;
     }
 }

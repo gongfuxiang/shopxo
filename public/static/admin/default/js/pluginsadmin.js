@@ -1,3 +1,41 @@
+/**
+ * 插件搜索
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-07-09
+ * @desc    description
+ */
+function PluginsSearch()
+{
+    var keywords = $('.plugins-search input').val().trim() || null;
+    if(keywords != null)
+    {
+        var count = 0;
+        $('.plugins-data-list ul li').each(function(k, v)
+        {
+            var name = $(this).find('.base .name').text();
+            var desc = $(this).find('.desc').text();
+            if(name.indexOf(keywords) != -1 || desc.indexOf(keywords) != -1)
+            {
+                $(this).show();
+                count++;
+            } else {
+                $(this).hide();
+            }
+        });
+        if(count == 0)
+        {
+            $('.not-data-tips').removeClass('none');
+        } else {
+            $('.not-data-tips').addClass('none');
+        }
+    } else {
+        $('.plugins-data-list ul li').show();
+        $('.not-data-tips').addClass('none');
+    }
+}
+
 $(function()
 {
     // 删除提示
@@ -87,5 +125,20 @@ $(function()
                 Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
             }
         });
+    });
+
+    // 搜索
+    $('.plugins-search button').on('click', function()
+    {
+        PluginsSearch();
+    });
+    // 输入回车搜索
+    $('.plugins-search input').on('keydown', function(e)
+    {
+        if(e.keyCode == 13)
+        {
+            PluginsSearch();
+            e.preventDefault();
+        }
     });
 });
