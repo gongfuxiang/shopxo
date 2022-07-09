@@ -175,6 +175,7 @@
     position: absolute;
     top: 32px;
     right: 20px;
+    z-index: 1;
 }
 @media only screen and (max-width: 800px) {
     .plugins-search {
