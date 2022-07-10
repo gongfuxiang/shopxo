@@ -614,13 +614,13 @@ class BaseLayout
 
                             // 分类
                             case 'category' :
-                                $category_id = $value['value'][count($value['value'])-1]['id'];
-                                $gsp = ($client_type == 'pc') ? ['category_id'=>$category_id] : '?category_id='.$category_id;
+                                $cid = $value['value'][count($value['value'])-1]['id'];
+                                $gsp = ($client_type == 'pc') ? ['cid'=>$cid] : '?category_id='.$cid;
                                 break;
 
                             // 品牌
                             case 'brand' :
-                                $gsp = ($client_type == 'pc') ? ['brand_id'=>$value['value']['id']] : '?brand_id='.$value['value']['id'];
+                                $gsp = ($client_type == 'pc') ? ['brand'=>$value['value']['id']] : '?brand='.$value['value']['id'];
                                 break;
                         }
                     }
