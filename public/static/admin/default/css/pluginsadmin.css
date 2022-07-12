@@ -129,8 +129,8 @@
         height: 65px;
     }
     .plugins-data-list ul li .base {
-        left: 85px;
-        width: calc(100% - 97px);
+        left: 95px;
+        width: calc(100% - 115px);
     }
     .plugins-data-list ul li .base h3 {
         margin: 0px;
