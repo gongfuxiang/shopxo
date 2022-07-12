@@ -43,7 +43,7 @@ class WarehouseGoodsService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         $order_by = empty($params['order_by']) ? 'wg.id desc' : trim($params['order_by']);
-        $data = Db::name('WarehouseGoods')->alias('wg')->join('warehouse_goods_spec wgs', 'wg.id=wgs.warehouse_goods_id')->field($field)->where($where)->group('wg.id')->order($order_by)->limit($m, $n)->select()->toArray();
+        $data = Db::name('WarehouseGoods')->alias('wg')->leftJoin('warehouse_goods_spec wgs', 'wg.id=wgs.warehouse_goods_id')->field($field)->where($where)->group('wg.id')->order($order_by)->limit($m, $n)->select()->toArray();
         return DataReturn('处理成功', 0, self::DataHandle($data));
     }
 
@@ -166,7 +166,7 @@ class WarehouseGoodsService
      */
     public static function WarehouseGoodsTotal($where = [])
     {
-        return (int) Db::name('WarehouseGoods')->alias('wg')->join('warehouse_goods_spec wgs', 'wg.id=wgs.warehouse_goods_id')->where($where)->count('distinct wg.id');
+        return (int) Db::name('WarehouseGoods')->alias('wg')->leftJoin('warehouse_goods_spec wgs', 'wg.id=wgs.warehouse_goods_id')->where($where)->count('distinct wg.id');
     }
 
     /**
