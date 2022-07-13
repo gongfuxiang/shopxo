@@ -1625,9 +1625,9 @@ class OrderService
                     }
 
                     // 是否获取最新一条售后信息
-                    if($is_orderaftersale == 1 && !empty($orderaftersale) && array_key_exists($vs['id'], $orderaftersale))
+                    if($is_orderaftersale == 1)
                     {
-                        $vs['orderaftersale'] = $orderaftersale[$vs['id']];
+                        $vs['orderaftersale'] = (!empty($orderaftersale) && array_key_exists($vs['id'], $orderaftersale)) ? $orderaftersale[$vs['id']] : null;
                         $vs['orderaftersale_btn_text'] = self::OrderAftersaleStatusBtnText($ov['status'], $vs['orderaftersale']);
                     }
 
