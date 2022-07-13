@@ -512,6 +512,12 @@ class SearchService
             $ov_arr = [$params['order_by_field'], $params['order_by_type']];
         }
 
+        // 结果仅保留商品id
+        if(!empty($params['search_result_data']) && is_array($params['search_result_data']) && !empty($params['search_result_data']['data']))
+        {
+            $params['search_result_data']['data'] = array_column($params['search_result_data']['data'], 'id');
+        }
+
         // 日志数据
         $data = [
             'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,

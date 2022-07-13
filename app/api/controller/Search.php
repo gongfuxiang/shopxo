@@ -77,15 +77,18 @@ class Search extends Common
      */
     public function DataList()
     {
-        // 搜索记录
-        $this->data_post['user_id'] = isset($this->user['id']) ? $this->user['id'] : 0;
-        SearchService::SearchAdd($this->data_post);
-
         // 搜素条件
         $map = SearchService::SearchWhereHandle($this->data_post);
 
         // 获取数据
         $ret = SearchService::GoodsList($map, $this->data_post);
+
+        // 搜索记录
+        $this->data_post['user_id'] = isset($this->user['id']) ? $this->user['id'] : 0;
+        $this->data_post['search_result_data'] = $ret['data'];
+        SearchService::SearchAdd($this->data_post);
+
+        // 返回数据
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($ret['data']));
     }
 }
