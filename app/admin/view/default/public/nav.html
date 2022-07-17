@@ -10,8 +10,17 @@
 	</button>
 	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+			{{if AdminIsPower('cache', 'statusupdate')}}
+				<li class="am-dropdown">
+					<a href="javascript:;" class="submit-ajax" data-url="{{:MyUrl('admin/cache/statusupdate')}}" data-is-confirm="0" data-is-loading="1">
+						<i class="am-icon-paint-brush"></i>
+						<span>清除缓存</span>
+					</a>
+				</li>
+			{{/if}}
+
 			<li class="am-dropdown">
-				<a href="{{$home_url}}" target="_blank" class="tpl-header-list-link">
+				<a href="{{$home_url}}" target="_blank">
 					<i class="am-icon-home"></i>
 					<span>查看首页</span>
 				</a>
@@ -25,7 +34,7 @@
 			</li>
 			
 			<li class="am-dropdown common-nav-top" data-am-dropdown data-am-dropdown-toggle>
-				<a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+				<a class="am-dropdown-toggle" href="javascript:;">
 					<i class="am-icon-user"></i>
 					<span class="tpl-header-list-user-nick">{{$admin.username}}</span>
 					<span class="tpl-header-list-user-ico">

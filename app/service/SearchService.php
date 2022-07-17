@@ -619,9 +619,10 @@ class SearchService
      * @version 1.0.0
      * @date    2018-08-29
      * @desc    description
+     * @param   [array]          $map    [搜索条件]
      * @param   [array]          $params [输入参数]
      */
-    public static function CategoryBrandList($params = [])
+    public static function CategoryBrandList($map, $params = [])
     {
         $data = [];
         if(MyC('home_search_is_brand', 0) == 1)
@@ -630,6 +631,19 @@ class SearchService
             $brand_where = [
                 ['is_enable', '=', 1],
             ];
+
+            // 仅搜索关键字相关的品牌
+            if(!empty($map['keywords']))
+            {
+                $where_keywords = $map['keywords'];
+                $ids = Db::name('Goods')->alias('g')->join('goods_category_join gci', 'g.id=gci.goods_id')->where(function($query) use($where_keywords) {
+                    self::SearchKeywordsWhereJoinType($query, $where_keywords);
+                })->group('g.brand_id')->column('g.brand_id');
+                if(!empty($ids))
+                {
+                    $brand_where[] = ['id', 'in', array_unique($ids)];
+                }
+            }
 
             // 仅获取已关联商品的品牌
             $where = [

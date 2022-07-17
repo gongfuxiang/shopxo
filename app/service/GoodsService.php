@@ -1484,7 +1484,8 @@ class GoodsService
         $images = [];
 
         // 基础字段数据字段长度
-        $base_count = 6;
+        // 销售价、原价、重量、体积、编码、条形码、扩展
+        $base_count = 7;
 
         // 规格值
         foreach($params as $k=>$v)
@@ -1869,7 +1870,7 @@ class GoodsService
         {
             // 基础字段
             $count = count($data['data'][0]);
-            $temp_key = ['price', 'weight', 'coding', 'barcode', 'original_price', 'extends'];
+            $temp_key = ['price', 'original_price', 'weight', 'volume', 'coding', 'barcode', 'extends'];
             $key_count = count($temp_key);
 
             // 等于key总数则只有一列基础规格
@@ -2190,6 +2191,7 @@ class GoodsService
                 {
                     $base = Db::name('GoodsSpecBase')->find($k);
                     $base['weight'] = PriceBeautify($base['weight']);
+                    $base['volume'] = PriceBeautify($base['volume']);
                     $v[] = [
                         'data_type' => 'base',
                         'data'      => $base,
@@ -2199,6 +2201,7 @@ class GoodsService
         } else {
             $base = Db::name('GoodsSpecBase')->where($where)->find();
             $base['weight'] = PriceBeautify($base['weight']);
+            $base['volume'] = PriceBeautify($base['volume']);
             $value[][] = [
                 'data_type' => 'base',
                 'data'      => $base,

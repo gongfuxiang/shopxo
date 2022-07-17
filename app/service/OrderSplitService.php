@@ -187,6 +187,9 @@ class OrderSplitService
                     // 规格重量总计
                     'spec_weight_total'     => array_sum(array_map(function($v) {return $v['spec_weight']*$v['stock'];}, $v['goods_items'])),
 
+                    // 规格体积总计
+                    'spec_volume_total'     => array_sum(array_map(function($v) {return $v['spec_volume']*$v['stock'];}, $v['goods_items'])),
+
                     // 购买总数
                     'buy_count'             => array_sum(array_column($v['goods_items'], 'stock')),
 

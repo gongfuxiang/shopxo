@@ -54,7 +54,7 @@ class Search extends Common
             // 指定数据
             'search_map_info'       => SearchService::SearchMapInfo($this->data_request),
             // 品牌列表
-            'brand_list'            => SearchService::CategoryBrandList($this->data_request),
+            'brand_list'            => SearchService::CategoryBrandList($map, $this->data_request),
             // 商品分类
             'category_list'         => SearchService::GoodsCategoryList($this->data_request),
             // 筛选价格区间

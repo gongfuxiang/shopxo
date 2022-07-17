@@ -8,7 +8,7 @@
 			{{if $v['is_enable'] eq 1}}
 				<div class="am-panel am-panel-default am-radius">
 					<div class="am-panel-hd">{{$v.name}}</div>
-					<a href="{{$v.url}}">
+					<a href="javascript:;" class="submit-ajax" data-url="{{$v.url}}" data-is-confirm="0">
 						<button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-fr cache-submit">更新</button>
 					</a>
 					<div class="am-panel-bd">{{$v.desc}}</div>

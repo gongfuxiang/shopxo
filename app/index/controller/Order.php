@@ -38,8 +38,12 @@ class Order extends Common
     {
         parent::__construct();
 
-        // 是否登录
-        $this->IsLogin();
+        // 支付同步返回不验证登录状态
+        if($this->action_name != 'respond')
+        {
+            // 是否登录
+            $this->IsLogin();
+        }
     }
 
     /**

@@ -450,10 +450,11 @@ $(function()
 
         // 获取基础值
         var price = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_price').val() || '';
+        var original_price = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_original_price').val() || '';
         var weight = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_weight').val() || '';
+        var volume = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_volume').val() || '';
         var coding = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_coding').val() || '';
         var barcode = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_barcode').val() || '';
-        var original_price = $spec_popup_all_operation.find('.am-popup-bd input.popup_all_original_price').val() || '';
 
         // 批量设置
         var data_length = data.length;
@@ -471,10 +472,11 @@ $(function()
             if(count >= data_length)
             {
                 $(this).find('td').eq(index).find('input').val(price);
-                $(this).find('td').eq(index+1).find('input').val(weight);
-                $(this).find('td').eq(index+2).find('input').val(coding);
-                $(this).find('td').eq(index+3).find('input').val(barcode);
-                $(this).find('td').eq(index+4).find('input').val(original_price);
+                $(this).find('td').eq(index+1).find('input').val(original_price);
+                $(this).find('td').eq(index+2).find('input').val(weight);
+                $(this).find('td').eq(index+3).find('input').val(volume);
+                $(this).find('td').eq(index+4).find('input').val(coding);
+                $(this).find('td').eq(index+5).find('input').val(barcode);
             }
         });
         $spec_popup_all_operation.modal('close');
@@ -566,7 +568,7 @@ $(function()
             html += '</td>';
             html += '<td class="spec-quick-td-value am-cf">';
             html += '<div class="am-fl am-margin-xs value-item am-text-left">';
-            html += '<span class="business-operations-submit quick-spec-value-add" data-index="'+index+'">+添加规格值</span>';
+            html += '<span class="business-operations-submit quick-spec-value-add" data-index="'+index+'">+ 添加规格值</span>';
             html += '</div>';
             html += '</td>';
             html += '</tr>';

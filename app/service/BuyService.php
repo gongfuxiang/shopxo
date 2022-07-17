@@ -288,6 +288,7 @@ class BuyService
                     $v['price'] = $goods_base['data']['spec_base']['price'];
                     $v['original_price'] = $goods_base['data']['spec_base']['original_price'];
                     $v['spec_weight'] = $goods_base['data']['spec_base']['weight'];
+                    $v['spec_volume'] = $goods_base['data']['spec_base']['volume'];
                     $v['spec_coding'] = $goods_base['data']['spec_base']['coding'];
                     $v['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
                     $v['extends'] = $goods_base['data']['spec_base']['extends'];
@@ -295,6 +296,7 @@ class BuyService
                     $v['is_invalid'] = 1;
                     $v['inventory'] = 0;
                     $v['spec_weight'] = 0;
+                    $v['spec_volume'] = 0;
                     $v['spec_coding'] = '';
                     $v['spec_barcode'] = '';
                     $v['extends'] = '';
@@ -587,6 +589,7 @@ class BuyService
             $goods['price'] = (float) $goods_base['data']['spec_base']['price'];
             $goods['original_price'] = (float) $goods_base['data']['spec_base']['original_price'];
             $goods['spec_weight'] = $goods_base['data']['spec_base']['weight'];
+            $goods['spec_volume'] = $goods_base['data']['spec_base']['volume'];
             $goods['spec_coding'] = $goods_base['data']['spec_base']['coding'];
             $goods['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
             $goods['extends'] = $goods_base['data']['spec_base']['extends'];
@@ -848,6 +851,7 @@ class BuyService
             'increase_price'        => 0,
             'goods_count'           => 0,
             'spec_weight_total'     => 0,
+            'spec_volume_total'     => 0,
             'buy_count'             => 0,
         ];
         if(!empty($order_split['data']))
@@ -878,6 +882,9 @@ class BuyService
 
             // 规格重量总计
             'spec_weight_total'     => $base_fields['spec_weight_total'],
+
+            // 规格体积总计
+            'spec_volume_total'     => $base_fields['spec_volume_total'],
 
             // 购买总数
             'buy_count'             => $base_fields['buy_count'],
@@ -1191,6 +1198,7 @@ class BuyService
                     'total_price'       => PriceNumberFormat($vs['stock']*$vs['price']),
                     'spec'              => empty($vs['spec']) ? '' : json_encode($vs['spec'], JSON_UNESCAPED_UNICODE),
                     'spec_weight'       => empty($vs['spec_weight']) ? 0.00 : (float) $vs['spec_weight'],
+                    'spec_volume'       => empty($vs['spec_volume']) ? 0.00 : (float) $vs['spec_volume'],
                     'spec_coding'       => empty($vs['spec_coding']) ? '' : $vs['spec_coding'],
                     'spec_barcode'      => empty($vs['spec_barcode']) ? '' : $vs['spec_barcode'],
                     'buy_number'        => intval($vs['stock']),
@@ -1450,6 +1458,7 @@ class BuyService
             'total_price'       => PriceNumberFormat(isset($detail['total_price']) ? $detail['total_price'] : $detail['total_price']*$detail['buy_number']),
             'spec'              => empty($detail['spec']) ? '' : (is_array($detail['spec']) ? json_encode($detail['spec'], JSON_UNESCAPED_UNICODE) : $detail['spec']),
             'spec_weight'       => empty($detail['spec_weight']) ? 0.00 : (float) $detail['spec_weight'],
+            'spec_volume'       => empty($detail['spec_volume']) ? 0.00 : (float) $detail['spec_volume'],
             'spec_coding'       => empty($detail['spec_coding']) ? '' : $detail['spec_coding'],
             'spec_barcode'      => empty($detail['spec_barcode']) ? '' : $detail['spec_barcode'],
             'buy_number'        => intval($detail['buy_number']),

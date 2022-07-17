@@ -83,7 +83,7 @@ class Search extends Common
         MyViewAssign('data_list', $ret['data']['data']);
 
         // 品牌列表
-        $brand_list = SearchService::SearchMapHandle(SearchService::CategoryBrandList($this->data_request), 'bid', 'id', $this->data_request);
+        $brand_list = SearchService::SearchMapHandle(SearchService::CategoryBrandList($map, $this->data_request), 'bid', 'id', $this->data_request);
         MyViewAssign('brand_list', $brand_list);
 
         // 指定数据

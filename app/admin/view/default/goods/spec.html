@@ -3,11 +3,11 @@
     <div>
         <div class="am-alert am-alert-warning am-radius" data-am-alert>
             <button type="button" class="am-close">&times;</button>
-            <p>1. 快捷操作可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。</p>
+            <p>1. 批量添加规格可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。</p>
             <p>2. 商品添加成功后，仓库管理->仓库商品中添加并配置库存</p>
         </div>
-        <span class="business-operations-submit quick-spec-title-add">+快捷操作</span>
-        <span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created">生成规格</span>
+        <span class="business-operations-submit quick-spec-title-add">+ 批量添加规格</span>
+        <span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created"> 生成规格</span>
     </div>
     <div class="goods-specifications am-margin-top-sm" {{if empty($data['spec_base'])}}style="display: none;"{{/if}}>
         <table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover table-thead-beautify">
@@ -34,7 +34,7 @@
                                         </div>
                                     {{/foreach}}
                                 {{/if}}
-                                <div class="am-fl am-margin-xs value-item am-text-left"><span class="business-operations-submit quick-spec-value-add" data-index="{{$spec_base_key}}">+添加规格值</span>
+                                <div class="am-fl am-margin-xs value-item am-text-left"><span class="business-operations-submit quick-spec-value-add" data-index="{{$spec_base_key}}">+ 添加规格值</span>
                                 </div>
                             </td>
                         </tr>
@@ -47,7 +47,7 @@
 
 <!-- 规格常规操作 -->
 <div>
-    <span class="business-operations-submit specifications-nav-title-add">+添加规格</span>
+    <span class="business-operations-submit specifications-nav-title-add">+ 添加规格值</span>
     <span class="business-operations-submit am-margin-left-sm specifications-nav-set-all am-icon-cogs" data-am-modal="{target: '#spec-popup-all-operation'}"> 高级批量设置</span>
 </div>
 <div class="goods-specifications am-padding-top-sm">
@@ -69,19 +69,23 @@
                         <i class="am-icon-edit"></i>
                     </th>
                     <th>
+                        <span>原价(元)</span>
+                        <i class="am-icon-edit"></i>
+                    </th>
+                    <th>
                         <span>重量(kg)</span>
                         <i class="am-icon-edit"></i>
                     </th>
                     <th>
-                        <span>规格编码</span>
+                        <span>体积(m³)</span>
+                        <i class="am-icon-edit"></i>
+                    </th>
+                    <th>
+                        <span>编码</span>
                         <i class="am-icon-edit"></i>
                     </th>
                     <th>
                         <span>条形码</span>
-                        <i class="am-icon-edit"></i>
-                    </th>
-                    <th>
-                        <span>原价(元)</span>
                         <i class="am-icon-edit"></i>
                     </th>
                     <th class="extend-btn">扩展</th>
@@ -95,16 +99,19 @@
                             <input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的销售金额" required />
                         </td>
                         <td class="am-text-middle">
-                            <input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" />
-                        </td>
-                        <td class="am-text-middle">
-                            <input type="text" name="specifications_coding[]" placeholder="编码" class="am-radius" maxlength="80" data-validation-message="规格编码最多80个字符" />
-                        </td>
-                        <td class="am-text-middle">
-                            <input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" />
-                        </td>
-                        <td class="am-text-middle">
                             <input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的原价" />
+                        </td>
+                        <td class="am-text-middle">
+                            <input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" />
+                        </td>
+                        <td class="am-text-middle">
+                            <input type="number" name="specifications_volume[]" placeholder="体积" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格体积 0.00~100000000.00" />
+                        </td>
+                        <td class="am-text-middle">
+                            <input type="text" name="specifications_coding[]" placeholder="编码" class="am-radius" maxlength="60" data-validation-message="规格编码最多60个字符" />
+                        </td>
+                        <td class="am-text-middle">
+                            <input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="60" data-validation-message="条形码最多60个字符" />
                         </td>
                         <td class="am-text-middle">
                             <input type="hidden" name="specifications_extends[]" value="" class="line-extend-input" />
@@ -133,19 +140,22 @@
 
                                     {{case base}}
                                         <td class="am-text-middle value-start">
-                                            <input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的销售金额" value="{{$v.data.price}}" required />
-                                        </td>
-                                        <td class="am-text-middle">
-                                            <input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" value="{{if $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}" />
-                                        </td>
-                                        <td class="am-text-middle">
-                                            <input type="text" name="specifications_coding[]" placeholder="编码" class="am-radius" maxlength="80" data-validation-message="规格编码最多80个字符" value="{{$v.data.coding}}" />
-                                        </td>
-                                        <td class="am-text-middle">
-                                            <input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="80" data-validation-message="条形码最多80个字符" value="{{$v.data.barcode}}" />
+                                            <input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的销售金额" value="{{if isset($v['data']['price'])}}{{$v.data.price}}{{/if}}" required />
                                         </td>
                                         <td class="am-text-middle">
                                             <input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的原价" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
+                                        </td>
+                                        <td class="am-text-middle">
+                                            <input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" value="{{if isset($v['data']['weight']) and $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}" />
+                                        </td>
+                                        <td class="am-text-middle">
+                                            <input type="number" name="specifications_volume[]" placeholder="体积" class="am-radius" max="100000000" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格体积 0.00~100000000.00" value="{{if isset($v['data']['volume']) and $v['data']['volume'] gt 0}}{{$v.data.volume}}{{/if}}" />
+                                        </td>
+                                        <td class="am-text-middle">
+                                            <input type="text" name="specifications_coding[]" placeholder="编码" class="am-radius" maxlength="60" data-validation-message="规格编码最多60个字符" value="{{if isset($v['data']['coding'])}}{{$v.data.coding}}{{/if}}" />
+                                        </td>
+                                        <td class="am-text-middle">
+                                            <input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="60" data-validation-message="条形码最多60个字符" value="{{if isset($v['data']['barcode'])}}{{$v.data.barcode}}{{/if}}" />
                                         </td>
                                         <td class="am-text-middle">
                                             <input type="hidden" name="specifications_extends[]" value="{{$v.data.extends}}" class="line-extend-input" />
@@ -212,12 +222,20 @@
         <div class="am-popup-bd">
             <div class="am-alert am-alert-secondary spec-title-container"></div>
             <div class="am-form-group">
-                <label class="block">销售价格</label>
+                <label class="block">销售价(元)</label>
                 <input type="text" placeholder="价格" class="am-radius popup_all_price" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的销售金额" />
             </div>
             <div class="am-form-group">
-                <label class="block">重量</label>
+                <label class="block">原价(元)</label>
+                <input type="text" placeholder="原价" class="am-radius popup_all_original_price" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的原价" />
+            </div>
+            <div class="am-form-group">
+                <label class="block">重量(kg)</label>
                 <input type="number" placeholder="重量" class="am-radius popup_all_weight" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" />
+            </div>
+            <div class="am-form-group">
+                <label class="block">体积(m³)</label>
+                <input type="number" placeholder="体积" class="am-radius popup_all_volume" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格体积 0.00~100000000.00" />
             </div>
             <div class="am-form-group">
                 <label class="block">编码</label>
@@ -227,13 +245,11 @@
                 <label class="block">条形码</label>
                 <input type="text" placeholder="条形码" class="am-radius popup_all_barcode" maxlength="80" data-validation-message="条形码最多80个字符" />
             </div>
-            <div class="am-form-group">
-                <label class="block">原价</label>
-                <input type="text" placeholder="原价" class="am-radius popup_all_original_price" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的原价" />
-            </div>
             <div class="am-form-group am-form-group-refreshing am-text-center">
+                <div class="am-padding-vertical-sm">
                 <button type="button" class="am-btn am-btn-warning am-radius am-btn-sm am-margin-right-lg" data-am-modal-close>取消</button>
                 <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-margin-left-lg">确认</button>
+                </div>
             </div>
         </div>
     </div>

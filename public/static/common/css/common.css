@@ -663,6 +663,15 @@ button.colorpicker-submit img {
 }
 
 /**
+ * 表格头部美化
+ */
+.table-thead-beautify thead th {
+    background-color: #f5f7fa;
+    position: relative;
+    border-bottom: 0 !important;
+}
+
+/**
  * 表格-相关样式
  */
 .form-table-operate-top > .am-btn:not(:last-child) {

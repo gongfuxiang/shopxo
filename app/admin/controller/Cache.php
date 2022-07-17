@@ -11,6 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\CacheService;
+use app\service\AdminPowerService;
 
 /**
  * 缓存管理
@@ -51,7 +52,6 @@ class Cache extends Common
 	{
 		// 缓存类型
 		MyViewAssign('cache_type_list', CacheService::AdminCacheTypeList());
-
 		return MyView();
 	}
 
@@ -72,7 +72,10 @@ class Cache extends Common
 		// 缓存操作清除
 		\think\facade\Cache::clear();
 
-		return $this->success('更新成功');
+		// 初始化菜单
+		AdminPowerService::PowerMenuInit($this->admin);
+
+		return DataReturn('更新成功', 0);
 	}
 
 	/**
@@ -88,7 +91,7 @@ class Cache extends Common
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'temp');
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'temp');
 
-		return $this->success('更新成功');
+		return DataReturn('更新成功', 0);
 	}
 
 	/**
@@ -100,7 +103,7 @@ class Cache extends Common
 	 */
 	public function ModuleUpdate()
 	{
-		return $this->success('更新成功');
+		return DataReturn('更新成功', 0);
 	}
 
 	/**
@@ -116,7 +119,7 @@ class Cache extends Common
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'log');
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'log');
 
-		return $this->success('更新成功');
+		return DataReturn('更新成功', 0);
 	}
 }
 ?>

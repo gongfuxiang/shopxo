@@ -56,12 +56,13 @@
                                 {{foreach $specifications.type as $line_k=>$line_v}}
                                     <th>{{$line_v.name}}</th>
                                 {{/foreach}}
-                                <th>销售金额</th>
+                                <th>销售价(元)</th>
+                                <th>原价(元)</th>
                                 <th>库存</th>
-                                <th>重量</th>
+                                <th>重量(kg)</th>
+                                <th>体积(m³)</th>
                                 <th>编码</th>
                                 <th>条形码</th>
-                                <th>原价</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,12 +76,15 @@
                                                 {{/case}}
 
                                                 {{case base}}
-                                                    <td class="am-text-middle">{{$v.data.price}}</td>
-                                                    <td class="am-text-middle">{{$v.data.inventory}}</td>
-                                                    <td class="am-text-middle">{{if $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}</td>
-                                                    <td class="am-text-middle">{{$v.data.coding}}</td>
-                                                    <td class="am-text-middle">{{$v.data.barcode}}</td>
-                                                    <td class="am-text-middle">{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}</td>
+                                                    <td class="am-text-middle">{{if isset($v['data']['price'])}}{{$v.data.price}}{{/if}}</td>
+                                                    <td class="am-text-middle">{{if isset($v['data']['original_price']) and $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}</td>
+                                                    <td class="am-text-middle">{{if isset($v['data']['inventory'])}}{{$v.data.inventory}}{{/if}}</td>
+                                                    <td class="am-text-middle">{{if isset($v['data']['weight']) and $v['data']['weight'] 
+                                                    gt 0}}{{$v.data.weight}}{{/if}}</td>
+                                                    <td class="am-text-middle">{{if isset($v['data']['volume']) and $v['data']['volume'] 
+                                                    gt 0}}{{$v.data.volume}}{{/if}}</td>
+                                                    <td class="am-text-middle">{{if isset($v['data']['coding'])}}{{$v.data.coding}}{{/if}}</td>
+                                                    <td class="am-text-middle">{{if isset($v['data']['barcode'])}}{{$v.data.barcode}}{{/if}}</td>
                                                 {{/case}}
                                             {{/switch}}
                                         {{/if}}
