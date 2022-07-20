@@ -2410,6 +2410,20 @@ function CheckLoginPwd($string)
 }
 
 /**
+ * [CheckAlphaNumber 包含字母和数字]
+ * @author   Devil
+ * @blog     http://gong.gg/
+ * @version  0.0.1
+ * @datetime 2016-12-03T21:58:54+0800
+ * @param    [string] $string [登录密码]
+ * @return   [boolean]        [正确true, 错误false]
+ */
+function CheckAlphaNumber($string)
+{
+    return (preg_match('/'.MyConst('common_regex_alpha_number').'/', $string) == 1) ? true : false;
+}
+
+/**
  * [IsExistRemoteImage 检测一张网络图片是否存在]
  * @author   Devil
  * @blog     http://gong.gg/

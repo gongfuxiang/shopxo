@@ -1126,7 +1126,7 @@ class BuyService
 
             // 线下支付订单是否直接成功
             // 是否开启线下订单正常进入流程
-            if($is_under_line == 1 && MyC('common_is_under_line_order_normal') == 1)
+            if($common_order_is_booking != 1 && $is_under_line == 1 && MyC('common_is_under_line_order_normal') == 1)
             {
                 $order_status = 2;
             }

@@ -146,7 +146,15 @@ class Email
 		$this->EmailInit();
 
 		// 收件人地址，可以替换成任何想要接收邮件的email信箱,格式("收件人email","收件人姓名")
-		$this->obj->AddAddress($params['email'], isset($params['username']) ? $params['username'] : $params['email']);
+		if(!is_array($params['email']))
+		{
+			$params['email'] = explode(',', $params['email']);
+		}
+		foreach($params['email'] as $email)
+		{
+			$username = isset($params['username']) ? $params['username'] : $email;
+			$this->obj->AddAddress($email, $username);
+		}
 
 		// 邮件标题
 		$this->obj->Subject = $params['title'];

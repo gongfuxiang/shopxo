@@ -399,6 +399,9 @@ class ConstService
             // 用户名
             'common_regex_pwd'                  =>  '^.{6,18}$',
 
+            // 包含字母和数字、6~16个字符
+            'common_regex_alpha_number'         => '^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$',
+
             // 手机号码
             'common_regex_mobile'               =>  '^1((3|4|5|6|7|8|9){1}\d{1})\d{8}$',
 
