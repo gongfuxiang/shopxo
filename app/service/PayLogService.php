@@ -129,6 +129,7 @@ class PayLogService
     }
 
     /**
+     * 支付日志更新
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

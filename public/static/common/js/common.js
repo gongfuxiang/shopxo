@@ -2876,7 +2876,7 @@ $(function()
 			}
 		}
 		address += $('#form-address').val();
-		if(province.length <= 0 || address.length <= 0)
+		if(province.length <= 0 && address.length <= 0)
 		{
 			Prompt('地址为空');
 			return false;

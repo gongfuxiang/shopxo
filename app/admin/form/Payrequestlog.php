@@ -95,6 +95,7 @@ class PayRequestLog
                     'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
+                        'form_name'         => 'business_handle',
                         'where_type'        => 'like',
                     ],
                 ],
@@ -105,7 +106,6 @@ class PayRequestLog
                     'grid_size'     => 'sm',
                     'search_config' => [
                         'form_type'         => 'input',
-                        'form_name'         => 'business_handle',
                         'where_type'        => 'like',
                     ],
                 ],

@@ -776,6 +776,30 @@ button.colorpicker-submit img {
 }
 
 /**
+ * 内部表格
+ */
+.form-inside-table tr th,
+.form-inside-table tr td {
+    padding: 5px !important;
+    z-index: 0 !important;
+}
+.form-inside-table tr th {
+    background: transparent !important;
+    padding-top: 0 !important;
+}
+.form-inside-table tr th:first-child,
+.form-inside-table tr td:first-child {
+    padding-left: 0 !important;
+}
+.form-inside-table tr th:last-child,
+.form-inside-table tr td:last-child {
+    padding-right: 0 !important;
+}
+.form-inside-table tr:last-child td {
+    padding-bottom: 0 !important;
+}
+
+/**
  * 公共联动地区组件样式
  */
 .region-linkage .chosen-select {

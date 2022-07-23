@@ -848,13 +848,23 @@ class OrderService
             }
         }
 
+        // 查看支付日志是否已支付处理成功、避免异步通知太快导致重叠处理
+        if($order_total_price > 0 && !empty($params['pay_log_data']) && !empty($params['payment']))
+        {
+            $pay_log_status = Db::name('PayLog')->where(['id'=>$params['pay_log_data']['id']])->field('id,status')->value('status');
+            if($pay_log_status == 1)
+            {
+                return DataReturn('支付成功', 0);
+            }
+        }
+
         // 开启事务
         Db::startTrans();
 
         // 循环处理
         foreach($params['order'] as $order)
         {
-            // 订单已支付则不处理
+            // 订单非待支付则不处理
             if($order['pay_status'] != 0)
             {
                 continue;
