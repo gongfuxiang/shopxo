@@ -160,8 +160,13 @@ class SystemBaseService
             'common_is_goods_detail_show_photo' => (int) MyC('common_is_goods_detail_show_photo', 0, true),
             'common_is_exhibition_mode_btn_text'=> MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
 
-            // 百度地图密钥
+            // 地图密钥
+            'common_map_type'                   => MyC('common_map_type', 'baidu', true),
             'common_baidu_map_ak'               => MyC('common_baidu_map_ak', null, true),
+            'common_amap_map_ak'                => MyC('common_amap_map_ak', null, true),
+            'common_amap_map_safety_ak'         => MyC('common_amap_map_safety_ak', null, true),
+            'common_tencent_map_ak'             => MyC('common_tencent_map_ak', null, true),
+            'common_tianditu_map_ak'            => MyC('common_tianditu_map_ak', null, true),
 
             // 商店信息
             'common_customer_store_tel'         => MyC('common_customer_store_tel', null, true),
