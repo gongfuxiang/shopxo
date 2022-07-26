@@ -158,6 +158,14 @@ class ConstService
                 1 => ['id' => 1, 'name' => 'Excel'],
             ],
 
+            // 地图类型列表
+            'common_map_type_list'     =>  [
+                'baidu'     => ['id' => 'baidu', 'name' => '百度地图', 'checked' => true],
+                'amap'      => ['id' => 'amap', 'name' => '高德地图'],
+                'tencent'   => ['id' => 'tencent', 'name' => '腾讯地图'],
+                'tianditu'  => ['id' => 'tianditu', 'name' => '天地图'],
+            ],
+
             // 支付支付状态
             'common_order_pay_status'   => [
                 0 => ['id' => 0, 'name' => '待支付', 'checked' => true],

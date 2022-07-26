@@ -1900,62 +1900,209 @@ function TreeFormInit()
  * @param   {[float]}        	lng   		[经度]
  * @param   {[float]}        	lat   		[维度]
  * @param   {[int]}        		level 		[层级]
- * @param   {[object]}        	point 		[中心对象]
  * @param   {[boolean]}        	is_dragend 	[标注是否可拖拽]
  * @param   {[string]}        	mapid 	    [地图id（默认 map）]
  */
-function MapInit(lng, lat, level, point, is_dragend, mapid)
+function MapInit(lng, lat, level, is_dragend, mapid)
 {
-	// 百度地图API功能
+	// 地图容器
 	if((mapid || null) == null)
 	{
 		mapid = 'map';
 	}
-    var map = new BMap.Map(mapid, {enableMapClick:false});
-    level = level || $('#'+mapid).data('level') || 16;
-    point = point || (new BMap.Point(lng || 116.400244, lat || 39.92556));
-    map.centerAndZoom(point, level);
+	$('#'+mapid).html('');
 
-    // 添加控件
-    var navigationControl = new BMap.NavigationControl({
-        // 靠左上角位置
-        anchor: BMAP_ANCHOR_TOP_LEFT,
-        // LARGE类型
-        type: BMAP_NAVIGATION_CONTROL_LARGE,
-    });
-    map.addControl(navigationControl);
+	// 默认16级
+	level = level || $('#'+mapid).data('level') || 16;
 
-    // 创建标注
-    // 将标注添加到地图中
-    var marker = new BMap.Marker(point);
-    map.addOverlay(marker);
+	// 标点是否可以拖动
+	if(is_dragend == undefined || is_dragend == true)
+	{
+		is_dragend = true;
+	}
 
-    // 标注是否可拖拽
-    if(is_dragend == undefined || is_dragend == true)
-    {
-    	marker.enableDragging();
-	    marker.addEventListener("dragend", function(e) {
-	        map.panTo(e.point);
-	        if($('#form-lng').length > 0 && $('#form-lat').length > 0)
+	// 经纬度
+	lng = lng || 116.400244;
+	lat = lat || 39.92556
+
+	// 地图类型
+	switch(__load_map_type__)
+	{
+		// 百度
+		case 'baidu' :
+			var map = new BMap.Map(mapid, {enableMapClick:false});
+		    var point = new BMap.Point(lng, lat);
+		    map.centerAndZoom(point, level);
+
+		    // 添加控件
+		    var navigationControl = new BMap.NavigationControl({
+		        // 靠左上角位置
+		        anchor: BMAP_ANCHOR_TOP_LEFT,
+		        // LARGE类型
+		        type: BMAP_NAVIGATION_CONTROL_LARGE,
+		    });
+		    map.addControl(navigationControl);
+
+		    // 创建标注
+		    // 将标注添加到地图中
+		    var marker = new BMap.Marker(point);
+		    map.addOverlay(marker);
+
+		    // 标注是否可拖拽
+		    if(is_dragend)
 		    {
-		    	$('#form-lng').val(e.point.lng);
-				$('#form-lat').val(e.point.lat);
+		    	marker.enableDragging();
+			    marker.addEventListener('dragend', function(e) {
+			        map.panTo(e.point);
+			        if($('#form-lng').length > 0 && $('#form-lat').length > 0)
+				    {
+				    	$('#form-lng').val(e.point.lng);
+						$('#form-lat').val(e.point.lat);
+				    }
+			    });
+
+			    // 设置标注提示信息
+			    var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
+			    map.addControl(cr); //添加版权控件
+			    var bs = map.getBounds();   //返回地图可视区域
+			    cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
 		    }
-	    });
+			break;
 
-	    // 设置标注提示信息
-	    var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
-	    map.addControl(cr); //添加版权控件
-	    var bs = map.getBounds();   //返回地图可视区域
-	    cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
-    }
+		// 高德地图
+		case 'amap' :
+			var map = new AMap.Map(mapid, {zoomEnable:true,resizeEnable:false,scrollWheel:false,zoom:level,center: [lng, lat]});
+			// 插件控件
+        	AMap.plugin([
+		        'AMap.ToolBar',
+		    ], function(){
+		        // 在图面添加工具条控件, 工具条控件只有缩放功能
+		        map.addControl(new AMap.ToolBar());
+		    });
 
-    //获取地址坐标
-    var p = marker.getPosition();
-    if($('#form-lng').length > 0 && $('#form-lat').length > 0)
+			// 创建标注
+			var marker_config = {
+	            position: map.getCenter(),
+	            offset: new AMap.Pixel(-13, -30)
+	        };
+	        // 标注是否可拖拽
+		    if(is_dragend)
+		    {
+		    	marker_config['draggable'] = true;
+		    }
+			var marker = new AMap.Marker(marker_config);
+	        marker.setMap(map);
+
+	        // 标注可拖拽回调
+		    if(is_dragend)
+		    {
+		        marker.on('dragend', function(e)
+	        	{
+	        		map.panTo(e.lnglat);
+	        		if($('#form-lng').length > 0 && $('#form-lat').length > 0)
+				    {
+				    	$('#form-lng').val(e.lnglat.lng);
+						$('#form-lat').val(e.lnglat.lat);
+				    }
+	        	});
+        	}
+			break;
+
+		// 腾讯地图
+		case 'tencent' :
+			// v2版本
+			var point = new qq.maps.LatLng(lat, lng);
+			var map = new qq.maps.Map(mapid, {
+				center: point,
+				zoom: level
+			});
+			var marker = new qq.maps.Marker({
+				position: point,
+				draggable: is_dragend,
+				map: map
+			});
+			qq.maps.event.addListener(marker, 'dragend', function(e)
+			{
+				map.panTo(e.latLng);
+				if($('#form-lng').length > 0 && $('#form-lat').length > 0)
+				{
+					$('#form-lng').val(e.latLng.lng);
+					$('#form-lat').val(e.latLng.lat);
+				}
+			});
+
+
+			// // GL v1版本
+			// var point = new TMap.LatLng(lat, lng);
+			// //初始化地图
+			// var map = new TMap.Map(mapid, {
+			// 	zoom: level,//设置地图缩放级别
+			// 	center: point//设置地图中心点坐标
+			// });
+			// var marker = new TMap.MultiMarker({
+			// 	map: map,
+			// 	geometries: [
+			// 		{
+			// 			position: point,
+			// 			id: 'marker',
+			// 		}
+			// 	],
+			// });
+			// //监听marker点击事件
+			// marker.on('click', function(e)
+			// {
+			// 	console.log(e);
+			// });
+			break;
+
+		// 天地图
+		case 'tianditu' :
+			// 初始化地图对象
+			var map = new T.Map(mapid);
+			// 设置显示地图的中心点和级别
+			var point = new T.LngLat(lng, lat);
+			map.centerAndZoom(point, level);
+			// 禁止鼠标滚动缩小放大
+			map.disableScrollWheelZoom();
+
+			// 添加控件
+			//创建缩放平移控件对象
+	        var control = new T.Control.Zoom();
+	        control.setPosition(T_ANCHOR_TOP_RIGHT);
+	        //添加缩放平移控件
+	        map.addControl(control);
+
+			// 创建标注对象
+			// 向地图上添加标注
+			var marker = new T.Marker(point);
+			map.addOverLay(marker);
+
+			// 标注是否可拖拽
+		    if(is_dragend)
+		    {
+		    	marker.enableDragging();
+	            marker.addEventListener('dragend', function(e)
+	        	{
+					map.panTo(new T.LngLat(e.lnglat.lng, e.lnglat.lat));
+			        if($('#form-lng').length > 0 && $('#form-lat').length > 0)
+				    {
+				    	$('#form-lng').val(e.lnglat.lng);
+						$('#form-lat').val(e.lnglat.lat);
+				    }
+	        	});
+		    }
+			break;
+
+		// 默认
+		default :
+			Prompt('该地图功能未定义('+__load_map_type__+')');
+	}
+
+	//获取地址坐标
+    if($('#form-lng').length > 0 && $('#form-lat').length > 0 && lng != 0 && lat != 0)
     {
-    	$('#form-lng').val(p.lng);
-		$('#form-lat').val(p.lat);
+		$('#form-lng').val(lng);
+		$('#form-lat').val(lat);
     }
 }
 
@@ -2872,7 +3019,11 @@ $(function()
 				{
 					province = $temp_obj.find('option:selected').text() || '';
 				}
-				address += $temp_obj.find('option:selected').text() || '';
+				temp_value = $temp_obj.find('option:selected').text() || '';
+				if(address.indexOf(temp_value) == -1)
+				{
+					address += temp_value;
+				}
 			}
 		}
 		address += $('#form-address').val();
@@ -2882,16 +3033,71 @@ $(function()
 			return false;
 		}
 
-		// 创建地址解析器实例
-		var myGeo = new BMap.Geocoder();
-		// 将地址解析结果显示在地图上,并调整地图视野
-		myGeo.getPoint(address, function(point) {
-			if (point) {
-				MapInit(null, null, null, point);
-			} else {
-				Prompt("您选择地址没有解析到结果!");
-			}
-		}, province);
+		// 地图类型
+		switch(__load_map_type__)
+		{
+			// 百度地图
+			case 'baidu' :
+				// 创建地址解析器实例
+				var geo = new BMap.Geocoder();
+				// 将地址解析结果显示在地图上,并调整地图视野
+				geo.getPoint(address, function(point)
+				{
+					if(point)
+					{
+						MapInit(point.lng, point.lat);
+					} else {
+						Prompt('您选择地址没有解析到结果！');
+					}
+				}, province);
+				break;
+
+			// 高德地图
+			case 'amap' :
+				AMap.plugin('AMap.Geocoder',function()
+				{
+				    var geo = new AMap.Geocoder()
+				    geo.getLocation(address, function(status, result)
+					{
+			            if(status === 'complete' && result.geocodes.length)
+			            {
+			                var lnglat = result.geocodes[0].location;
+			                MapInit(lnglat.lng, lnglat.lat);
+			            } else {
+			                Prompt('您选择地址没有解析到结果！');
+			            }
+			        });
+				});
+				break;
+
+			// 腾讯地图
+			case 'tencent' :
+				var geo = new TMap.service.Geocoder();
+				geo.getLocation({ address: address }).then((result) => {
+					var lnglat = result.result.location;
+					MapInit(lnglat.lng, lnglat.lat);
+				});
+				break;
+
+			// 天地图
+			case 'tianditu' :
+				var geo = new T.Geocoder();
+		        geo.getPoint(address, function(result)
+	        	{
+					if(result.getStatus() == 0)
+					{
+						var point = result.getLocationPoint();
+						MapInit(point.lng, point.lat);
+					} else {
+						Prompt(point.getMsg());
+					}
+	        	});
+				break;
+
+			// 默认
+			default :
+				Prompt('该地图功能未定义('+__load_map_type__+')');
+		}
 	});
 
 	// 图片上传

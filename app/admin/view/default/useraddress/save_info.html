@@ -45,7 +45,7 @@
                 <div class="am-input-group am-input-group-sm">
                     <input type="hidden" name="lng" id="form-lng" {{if !empty($data['lng'])}} value="{{$data.lng}}"{{/if}} />
                     <input type="hidden" name="lat" id="form-lat" {{if !empty($data['lat'])}} value="{{$data.lat}}"{{/if}} />
-                    <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} required />
+                    <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius am-form-field" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} required />
                     <span class="am-input-group-btn">
                         <button type="button" class="am-btn am-btn-default am-radius" id="map-location-submit"><span class="am-icon-map-marker"></span> 定位</button>
                     </span>

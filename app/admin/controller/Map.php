@@ -47,7 +47,7 @@ class Map extends Common
     public function Index()
     {
         // 加载地图
-        MyViewAssign('is_load_baidu_map_api', 1);
+        MyViewAssign('is_load_map_api', 1);
         return MyView();
     }
 }

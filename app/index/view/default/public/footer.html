@@ -88,9 +88,28 @@
     <script type='text/javascript' src="{{$public_host}}static/common/lib/ckplayer/js/ckplayer.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 {{/if}}
 
-<!-- baidu map -->
-{{if isset($is_load_baidu_map_api) and $is_load_baidu_map_api eq 1}}
-    <script type="text/javascript" src="{{$my_http}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
+<!-- map -->
+{{if isset($is_load_map_api) and $is_load_map_api eq 1 and !empty($load_map_type)}}
+    {{switch $load_map_type}}
+        {{case baidu}}
+            <script type="text/javascript" src="{{$my_http}}://api.map.baidu.com/api?v=2.0&ak={{:MyC('common_baidu_map_ak')}}"></script>
+        {{/case}}
+        {{case amap}}
+            <script type="text/javascript">
+                window._AMapSecurityConfig = {
+                    securityJsCode: '{{:MyC("common_amap_map_safety_ak")}}',
+                }
+            </script>
+            <script type="text/javascript" src="{{$my_http}}://webapi.amap.com/maps?v=2.0&key={{:MyC('common_amap_map_ak')}}"></script>
+        {{/case}}
+        {{case tencent}}
+            <script type="text/javascript" src="{{$my_http}}://map.qq.com/api/js?v=2.exp&key={{:MyC('common_tencent_map_ak')}}"></script>
+            <script type="text/javascript" src="{{$my_http}}://map.qq.com/api/gljs?libraries=service&v=1.exp&key={{:MyC('common_tencent_map_ak')}}"></script>
+        {{/case}}
+        {{case tianditu}}
+            <script type="text/javascript" src="{{$my_http}}://api.tianditu.gov.cn/api?v=4.0&tk={{:MyC('common_tianditu_map_ak')}}"></script>
+        {{/case}}
+    {{/switch}}
 {{/if}}
 
 <!-- 隐藏编辑器初始化 -->

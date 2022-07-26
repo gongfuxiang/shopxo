@@ -239,8 +239,9 @@ class Common extends BaseController
         // 是否加载视频播放器组件
         MyViewAssign('is_load_ckplayer', 0);
 
-        // 默认不加载百度地图api
-        MyViewAssign('is_load_baidu_map_api', 0);
+        // 默认不加载地图api、类型默认百度地图
+        MyViewAssign('is_load_map_api', 0);
+        MyViewAssign('load_map_type', MyC('common_map_type', 'baidu', true));
 
         // 布局样式+管理
         MyViewAssign('is_load_layout', 0);

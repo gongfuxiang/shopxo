@@ -137,8 +137,8 @@ class UserAddress extends Common
         }
         MyViewAssign('data', $data);
 
-        // 加载百度地图api
-        MyViewAssign('is_load_baidu_map_api', 1);
+        // 加载地图api
+        MyViewAssign('is_load_map_api', 1);
 
         // 编辑器文件存放地址
         if(!empty($data['user_id']))

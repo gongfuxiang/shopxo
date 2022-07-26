@@ -41,6 +41,10 @@ class Common extends BaseController
 
         // 系统环境参数最大数
         MyViewAssign('env_max_input_vars_count', SystemService::EnvMaxInputVarsCount());
+
+        // 默认不加载地图api、类型默认百度地图
+        MyViewAssign('is_load_map_api', 0);
+        MyViewAssign('load_map_type', MyC('common_map_type', 'baidu', true));
     }
 
     /**

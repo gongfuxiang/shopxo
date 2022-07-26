@@ -79,7 +79,7 @@ class UserAddress extends Common
         MyViewAssign('data', $data);
 
         // 加载地图
-        MyViewAssign('is_load_baidu_map_api', 1);
+        MyViewAssign('is_load_map_api', 1);
 
         // 编辑器文件存放地址
         MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($this->user['id'])));

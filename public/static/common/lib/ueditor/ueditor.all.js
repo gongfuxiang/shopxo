@@ -27964,7 +27964,7 @@ UE.ui = baidu.editor.ui = {};
 
     var dialogBtns = {
         noOk:['searchreplace', 'help', 'spechars', 'webapp','preview'],
-        ok:['attachment', 'anchor', 'link', 'insertimage', 'map', 'gmap', 'insertframe', 'wordimage',
+        ok:['attachment', 'anchor', 'link', 'insertimage', 'insertframe', 'wordimage',
             'insertvideo', 'insertframe', 'edittip', 'edittable', 'edittd', 'scrawl', 'template', 'music', 'background', 'charts']
     };
 

@@ -86,8 +86,8 @@ class Site extends Common
 					MyViewAssign('sitetype_address_list', $address['data']);
 				}
 
-				// 加载百度地图api
-	        	MyViewAssign('is_load_baidu_map_api', 1);
+				// 加载地图api
+	        	MyViewAssign('is_load_map_api', 1);
 				break;
 
 			// 网站设置
