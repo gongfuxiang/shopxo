@@ -14,6 +14,7 @@ use app\service\SystemService;
 use app\service\ConfigService;
 use app\service\GoodsService;
 use app\service\SiteService;
+use app\service\PaymentService;
 use app\service\ResourcesService;
 
 /**
@@ -129,6 +130,13 @@ class Site extends Common
             		$ret = SiteService::FloorManualModeGoodsViewHandle(json_decode($data['home_index_floor_manual_mode_goods']['value'], true));
             		MyViewAssign('floor_manual_mode_goods_list', $ret['data']);
             	}
+
+            	// 支付方式
+            	$payment_list = PaymentService::PaymentList(['is_enable'=>1, 'is_open_user'=>1]);
+            	MyViewAssign('payment_list', $payment_list);
+
+            	// 默认支付方式
+            	//$params['common_default_payment'] = empty($params['common_default_payment']) ? '' : json_encode($params['common_default_payment'], JSON_UNESCAPED_UNICODE);
 				break;
 		}
 
@@ -156,6 +164,9 @@ class Site extends Common
 
 		// 时区
 		MyViewAssign('site_timezone_list', MyConst('site_timezone_list'));
+
+		// 平台
+		MyViewAssign('common_platform_type', MyConst('common_platform_type'));
 
 		// 关闭开启
 		MyViewAssign('common_close_open_list', MyConst('common_close_open_list'));
@@ -353,6 +364,11 @@ class Site extends Common
 					// 搜索
 					case 'search' :
 						$field_list[] = 'home_search_params_type';
+						break;
+
+					// 订单
+					case 'order' :
+						$params['common_default_payment'] = empty($params['common_default_payment']) ? '' : json_encode($params['common_default_payment'], JSON_UNESCAPED_UNICODE);
 						break;
 				}
 				break;

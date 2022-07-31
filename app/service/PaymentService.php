@@ -1165,5 +1165,34 @@ php;
 
         return DataReturn('无插件数据', 0);
     }
+
+    /**
+     * 购买默认支付方式
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-07-31
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function BuyDefaultPayment($params = [])
+    {
+        if(empty($params['payment_id']))
+        {
+            $payment_id = 0;
+            $default_payment = MyC('common_default_payment');
+            if(!empty($default_payment) && !empty($default_payment[APPLICATION_CLIENT_TYPE]))
+            {
+                $where = [
+                    ['payment', '=', $default_payment[APPLICATION_CLIENT_TYPE]],
+                    ['is_enable', '=', 1],
+                    ['is_open_user', '=', 1],
+                ];
+                $payment_id = Db::name('Payment')->where($where)->value('id');
+            }
+            $params['payment_id'] = empty($payment_id) ? 0 : $payment_id;
+        }
+        return $params['payment_id'];
+    }
 }
 ?>

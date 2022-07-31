@@ -1131,6 +1131,7 @@ class BuyService
                 $order_status = 2;
             }
         }
+        $payment_id = intval($payment_id);
 
         // 循环处理数据
         $order_data = [];
@@ -1226,6 +1227,7 @@ class BuyService
         $result = [
             'order_status'  => $order_status,
             'order_ids'     => $order_ids,
+            'payment_id'    => $payment_id,
             'jump_url'      => MyUrl('index/order/index'),
         ];
 
@@ -2225,6 +2227,36 @@ class BuyService
         ]);
 
         return DataReturn('操作成功', 0, $result);
+    }
+
+    /**
+     * 购买订单初始化
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-07-31
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function BuyOrderInit($params = [])
+    {
+        // 商品数据
+        $ret = self::BuyTypeGoodsList($params);
+        if(isset($ret['code']) && $ret['code'] == 0 && !empty($ret['data']))
+        {
+            // 是否开启虚拟订单快速创建订单
+            if($ret['data']['base']['site_model'] == 3 && MyC('common_fictitious_order_direct_pay') == 1)
+            {
+                // 调用订单添加
+                $ret = self::OrderInsert($params);
+                if($ret['code'] == 0)
+                {
+                    // 标记订单已提交
+                    $ret['data']['is_order_submit'] = 1;
+                }
+            }
+        }
+        return $ret;
     }
 }
 ?>

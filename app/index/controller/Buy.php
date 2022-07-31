@@ -81,11 +81,20 @@ class Buy extends Common
             // 参数
             $params = array_merge($this->data_request, $data);
             $params['user'] = $this->user;
-            $ret = BuyService::BuyTypeGoodsList($params);
 
-            // 商品校验
+            // 默认支付方式
+            $params['payment_id'] = PaymentService::BuyDefaultPayment($params);
+
+            // 订单初始化
+            $ret = BuyService::BuyOrderInit($params);
             if(isset($ret['code']) && $ret['code'] == 0)
             {
+                // 订单是否已提交、则直接进入订单支付
+                if(isset($ret['data']['is_order_submit']) && $ret['data']['is_order_submit'] == 1)
+                {
+                    return MyRedirect($ret['data']['jump_url']);
+                }
+
                 // 基础信息
                 $buy_base = $ret['data']['base'];
                 $buy_goods = $ret['data']['goods'];

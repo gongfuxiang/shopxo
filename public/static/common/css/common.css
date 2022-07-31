@@ -936,3 +936,13 @@ form .am-tab-panel .am-form-group:last-child {
   width: 14px;
   height: 14px;
 }
+
+/**
+ * 平台类型+数据值组合列表
+ */
+.platform-list-value-container > div.am-input-group:not(:first-child) {
+    margin-top: 10px;
+}
+.platform-list-value-container > div.am-input-group button {
+    width: 110px;
+}

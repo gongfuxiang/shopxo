@@ -47,6 +47,7 @@ class ConfigService
         'home_email_login_template',
         'home_site_security_record_url',
         'home_site_company_license',
+        'common_default_payment',
     ];
 
     // 附件字段列表
@@ -73,6 +74,11 @@ class ConfigService
         'home_search_params_type',
         'common_user_onekey_bind_mobile_list',
         'common_user_address_platform_import_list',
+    ];
+
+    // json数组字段
+    public static $data_json_array_field_list = [
+        'common_default_payment',
     ];
 
     // 需要文件缓存的key
@@ -102,6 +108,9 @@ class ConfigService
         'common_domain_host',
         'common_cdn_attachment_host',
         'common_cdn_public_host',
+
+        // h5地址
+        'common_app_h5_url',
 
         // 编辑器配置信息
         'home_max_limit_image',
@@ -138,6 +147,15 @@ class ConfigService
                     if($k == $fv)
                     {
                         $v['value'] = (!isset($v['value']) || $v['value'] == '' || is_array($v['value'])) ? [] : explode(',', $v['value']);
+                    }
+                }
+
+                // json数据数组
+                foreach(self::$data_json_array_field_list as $fv)
+                {
+                    if($k == $fv)
+                    {
+                        $v['value'] = empty($v['value']) ? [] : json_decode($v['value'], true);
                     }
                 }
             }
@@ -244,6 +262,15 @@ class ConfigService
                     if(isset($data[$fv]))
                     {
                         $data[$fv] = ($data[$fv] == '') ? [] : explode(',', $data[$fv]);
+                    }
+                }
+
+                // json数据数组
+                foreach(self::$data_json_array_field_list as $fv)
+                {
+                    if(isset($data[$fv]))
+                    {
+                        $data[$fv] = empty($data[$fv]) ? [] : json_decode($data[$fv], true);
                     }
                 }
 
