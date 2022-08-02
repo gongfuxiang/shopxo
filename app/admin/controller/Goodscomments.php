@@ -41,7 +41,7 @@ class Goodscomments extends Common
     }
 
     /**
-     * 问答列表
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,34 +49,6 @@ class Goodscomments extends Common
      */
     public function Index()
     {
-        // 总数
-        $total = GoodsCommentsService::GoodsCommentsTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/goodscomments/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-            'is_public'     => 0,
-            'is_goods'      => 1,
-        ];
-        $ret = GoodsCommentsService::GoodsCommentsList($data_params);
-
-        // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
         return MyView();
     }
 
@@ -89,31 +61,12 @@ class Goodscomments extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-                'is_goods'      => 1,
-            ];
-            $ret = GoodsCommentsService::GoodsCommentsList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-
-            MyViewAssign('common_goods_comments_rating_list', MyConst('common_goods_comments_rating_list'));
-        }
+        MyViewAssign('common_goods_comments_rating_list', MyConst('common_goods_comments_rating_list'));
         return MyView();
     }
 
     /**
-     * [SaveInfo 添加/编辑页面]
+     * 添加/编辑页面
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -125,20 +78,7 @@ class Goodscomments extends Common
         $params = $this->data_request;
 
         // 数据
-        $data = [];
-        if(!empty($params['id']))
-        {
-            // 获取列表
-            $data_params = array(
-                'm'         => 0,
-                'n'         => 1,
-                'where'     => ['id'=>intval($params['id'])],
-                'is_public' => 0,
-                'is_goods'  => 1,
-            );
-            $ret = GoodsCommentsService::GoodsCommentsList($data_params);
-            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
-        }
+        $data = $this->data_detail;
         MyViewAssign('data', $data);
 
         // 静态数据
@@ -154,7 +94,7 @@ class Goodscomments extends Common
     }
 
     /**
-     * [Save 保存]
+     * 保存
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -174,7 +114,7 @@ class Goodscomments extends Common
     }
 
     /**
-     * 问答删除
+     * 删除
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -194,7 +134,7 @@ class Goodscomments extends Common
     }
 
     /**
-     * 问答回复处理
+     * 回复
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0

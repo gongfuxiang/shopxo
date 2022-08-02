@@ -41,7 +41,7 @@ class Answer extends Common
 	}
 
 	/**
-     * 问答列表
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,33 +49,6 @@ class Answer extends Common
      */
 	public function Index()
 	{
-		// 总数
-        $total = AnswerService::AnswerTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/answer/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-            'is_public'     => 0,
-        ];
-        $ret = AnswerService::AnswerList($data_params);
-
-		// 基础参数赋值
-        MyViewAssign('params', $this->data_request);
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
         return MyView();
 	}
 
@@ -89,29 +62,11 @@ class Answer extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-                'is_public'     => 0,
-            ];
-            $ret = AnswerService::AnswerList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-        }
         return MyView();
     }
 
     /**
-     * [SaveInfo 添加/编辑页面]
+     * 添加/编辑页面
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -119,36 +74,21 @@ class Answer extends Common
      */
     public function SaveInfo()
     {
-        // 参数
-        $params = $this->data_request;
-
         // 数据
-        $data = [];
-        if(!empty($params['id']))
+        $data = $this->data_detail;
+        if(!empty($data))
         {
-            // 获取列表
-            $data_params = array(
-                'm'         => 0,
-                'n'         => 1,
-                'where'     => ['id'=>intval($params['id'])],
-                'field'     => '*',
-                'is_public' => 0,
-            );
-            $ret = AnswerService::AnswerList($data_params);
-
             // 内容
-            if(!empty($ret['data'][0]['content']))
+            if(!empty($data['content']))
             {
-                $ret['data'][0]['content'] = str_replace('<br />', "\n", $ret['data'][0]['content']);
+                $data['content'] = str_replace('<br />', "\n", $data['content']);
             }
 
             // 回复内容
-            if(!empty($ret['data'][0]['reply']))
+            if(!empty($data['reply']))
             {
-                $ret['data'][0]['reply'] = str_replace('<br />', "\n", $ret['data'][0]['reply']);
+                $data['reply'] = str_replace('<br />', "\n", $data['reply']);
             }
-
-            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
         }
         MyViewAssign('data', $data);
 
@@ -157,13 +97,14 @@ class Answer extends Common
         MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
 
         // 参数
+        $params = $this->data_request;
         unset($params['id']);
         MyViewAssign('params', $params);
         return MyView();
     }
 
     /**
-     * [Save 保存]
+     * 保存
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1

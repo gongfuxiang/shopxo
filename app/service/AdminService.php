@@ -27,23 +27,17 @@ class AdminService
     public static $admin_login_key = 'admin_login_info';
 
     /**
-     * 管理员列表
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
-     * @param    [array]          $params [输入参数]
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
      */
-    public static function AdminList($params = [])
+    public static function AdminListHandle($data, $params = [])
     {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
-
-        // 获取管理员列表
-        $data = Db::name('Admin')->where($where)->field($field)->order($order_by)->limit($m, $n)->select()->toArray();
         if(!empty($data))
         {
             // 获取当前用户角色名称
@@ -69,20 +63,7 @@ class AdminService
                 $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
             }
         }
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 管理员总数
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-10T22:16:29+0800
-     * @param    [array]          $where [条件]
-     */
-    public static function AdminTotal($where)
-    {
-        return (int) Db::name('Admin')->where($where)->count();
+        return $data;
     }
 
     /**

@@ -58,7 +58,6 @@ class OrderAftersale
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/orderaftersale/index'),
                 'is_middle'     => 0,
             ],
             // 表单配置
@@ -255,6 +254,16 @@ class OrderAftersale
                     'view_key'      => 'orderaftersale/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                ],
+            ],
+            // 数据配置
+            'data'  => [
+                'detail_action'     => [],
+                'table_name'        => 'OrderAftersale',
+                'data_handle'       => 'OrderAftersaleService::OrderAftersaleListHandle',
+                'is_page'           => 1,
+                'data_params'       => [
+                    'is_public' => 0,
                 ],
             ],
         ];

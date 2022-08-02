@@ -41,7 +41,6 @@ class User
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/user/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/user/delete'),
                 'delete_key'    => 'ids',
@@ -255,6 +254,12 @@ class User
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'User',
+                'data_handle'   => 'UserService::UserListHandle',
+                'is_page'       => 1,
             ],
         ];
     }

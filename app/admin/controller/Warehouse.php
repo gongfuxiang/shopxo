@@ -53,16 +53,6 @@ class Warehouse extends Common
      */
     public function Index()
     {
-        // 获取列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'order_by'      => $this->form_order_by['data'],
-        ];
-        $ret = WarehouseService::WarehouseList($data_params);
-        MyViewAssign('data_list', $ret['data']);
-
-        // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
         return MyView();
     }
 
@@ -75,24 +65,6 @@ class Warehouse extends Common
      */
     public function Detail()
     {
-        $data = [];
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-            ];
-            $ret = WarehouseService::WarehouseList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-        }
-        MyViewAssign('data', $data);
         return MyView();
     }
 
@@ -110,16 +82,7 @@ class Warehouse extends Common
         $params = $this->data_request;
 
         // 数据
-        $data = [];
-        if(!empty($params['id']))
-        {
-            // 获取列表
-            $data_params = array(
-                'where' => ['id'=>intval($params['id'])],
-            );
-            $ret = WarehouseService::WarehouseList($data_params);
-            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
-        }
+        $data = $this->data_detail;
 
         // 编辑页面钩子
         $hook_name = 'plugins_view_admin_warehouse_save';

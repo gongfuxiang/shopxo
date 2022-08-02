@@ -41,7 +41,6 @@ class GoodsBrowse
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/goodsbrowse/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/goodsbrowse/delete'),
                 'delete_key'    => 'ids',
@@ -122,6 +121,19 @@ class GoodsBrowse
                     'view_key'      => 'goodsbrowse/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_obj'     => Db::name('GoodsBrowse')->alias('b')->join('goods g', 'g.id=b.goods_id'),
+                'select_field'  => 'b.*, g.title, g.original_price, g.price, g.min_price, g.images',
+                'order_by'      => 'b.id desc',
+                'detail_dkey'   => 'b.id',
+                'data_handle'   => 'GoodsBrowseService::GoodsBrowseListHandle',
+                'is_page'       => 1,
+                'data_params'   => [
+                    'is_public'     => 0,
+                    'user_type'     => 'admin',
                 ],
             ],
         ];

@@ -46,7 +46,6 @@ class Warehouse
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/warehouse/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/warehouse/delete'),
                 'delete_key'    => 'ids',
@@ -208,6 +207,13 @@ class Warehouse
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Warehouse',
+                'data_handle'   => 'WarehouseService::WarehouseListHandle',
+                'is_page'       => 1,
+                'order_by'      => 'level desc, id desc',
             ],
         ];
     }

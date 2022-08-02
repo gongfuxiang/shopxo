@@ -27,27 +27,6 @@ use app\service\WarehouseService;
 class WarehouseGoodsService
 {
     /**
-     * 数据列表
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-07-11
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function WarehouseGoodsList($params = [])
-    {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $field = empty($params['field']) ? 'wg.*' : $params['field'];
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
-
-        $order_by = empty($params['order_by']) ? 'wg.id desc' : trim($params['order_by']);
-        $data = Db::name('WarehouseGoods')->alias('wg')->leftJoin('warehouse_goods_spec wgs', 'wg.id=wgs.warehouse_goods_id')->field($field)->where($where)->group('wg.id')->order($order_by)->limit($m, $n)->select()->toArray();
-        return DataReturn('处理成功', 0, self::DataHandle($data));
-    }
-
-    /**
      * 数据处理
      * @author  Devil
      * @blog    http://gong.gg/
@@ -56,7 +35,7 @@ class WarehouseGoodsService
      * @desc    description
      * @param   [array]          $data [需要处理的数据]
      */
-    public static function DataHandle($data)
+    public static function WarehouseGoodsListHandle($data)
     {
         if(!empty($data))
         {
@@ -153,20 +132,6 @@ class WarehouseGoodsService
             }
         }
         return $data;
-    }
-
-    /**
-     * 总数
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-07-11
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function WarehouseGoodsTotal($where = [])
-    {
-        return (int) Db::name('WarehouseGoods')->alias('wg')->leftJoin('warehouse_goods_spec wgs', 'wg.id=wgs.warehouse_goods_id')->where($where)->count('distinct wg.id');
     }
 
     /**

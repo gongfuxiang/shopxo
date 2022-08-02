@@ -49,36 +49,8 @@ class Orderaftersale extends Common
      */
     public function Index()
     {
-        // 总数
-        $total = OrderAftersaleService::OrderAftersaleTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('index/orderaftersale/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取数据列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-            'is_public'     => 0,
-        ];
-        $ret = OrderAftersaleService::OrderAftersaleList($data_params);
-
         // 浏览器名称
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单售后', 1));
-
-        // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
         return MyView();
     }
 

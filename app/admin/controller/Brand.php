@@ -43,7 +43,7 @@ class Brand extends Common
 	}
 
 	/**
-     * [Index 品牌列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -51,32 +51,6 @@ class Brand extends Common
      */
 	public function Index()
 	{
-        // 总数
-        $total = BrandService::BrandTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/brand/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-        ];
-        $ret = BrandService::BrandList($data_params);
-
-        // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
         return MyView();
 	}
 
@@ -89,25 +63,11 @@ class Brand extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
-        {
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => [
-                    ['id', '=', intval($this->data_request['id'])],
-                ],
-            ];
-            $ret = BrandService::BrandList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-        }
         return MyView();
     }
 
     /**
-     * [SaveInfo 添加/编辑页面]
+     * 添加/编辑页面
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -119,20 +79,7 @@ class Brand extends Common
         $params = $this->data_request;
 
         // 数据
-        $data = [];
-        if(!empty($params['id']))
-        {
-            // 获取列表
-            $data_params = [
-                'm'     => 0,
-                'n'     => 1,
-                'where' => [
-                    ['id', '=', intval($params['id'])]
-                ],
-            ];
-            $ret = BrandService::BrandList($data_params);
-            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
-        }
+        $data = $this->data_detail;
 
         // 是否启用
         MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
@@ -163,7 +110,7 @@ class Brand extends Common
     }
 
 	/**
-	 * [Save 品牌保存]
+	 * 保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -183,7 +130,7 @@ class Brand extends Common
 	}
 
 	/**
-	 * [Delete 品牌删除]
+	 * 删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -204,7 +151,7 @@ class Brand extends Common
 	}
 
 	/**
-     * [StatusUpdate 状态更新]
+     * 状态更新
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1

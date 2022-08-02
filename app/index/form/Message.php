@@ -60,7 +60,6 @@ class Message
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('index/message/index'),
             ],
             // 表单配置
             'form' => [
@@ -148,6 +147,12 @@ class Message
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Message',
+                'data_handle'   => 'MessageService::MessageListHandle',
+                'is_page'       => 1,
             ],
         ];
     }

@@ -44,7 +44,6 @@ class Brand
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/brand/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/brand/delete'),
                 'delete_key'    => 'ids',
@@ -164,6 +163,12 @@ class Brand
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Brand',
+                'data_handle'   => 'BrandService::BrandListHandle',
+                'is_page'       => 1,
             ],
         ];
     }

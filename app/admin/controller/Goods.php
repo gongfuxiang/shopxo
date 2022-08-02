@@ -46,7 +46,7 @@ class Goods extends Common
 	}
 
 	/**
-     * [Index 商品列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -54,33 +54,6 @@ class Goods extends Common
      */
 	public function Index()
 	{
-		// 总数
-		$total = GoodsService::GoodsTotal($this->form_where);
-
-		// 分页
-		$page_params = [
-			'number'	=>	$this->page_size,
-			'total'		=>	$total,
-			'where'		=>	$this->data_request,
-			'page'		=>	$this->page,
-			'url'		=>	MyUrl('admin/goods/index'),
-		];
-		$page = new \base\Page($page_params);
-
-		// 获取数据列表
-		$data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-            'is_category'   => 1,
-        ];
-        $ret = GoodsService::GoodsList($data_params);
-
-        // 基础参数赋值
-		MyViewAssign('params', $this->data_request);
-		MyViewAssign('page_html', $page->GetPageHtml());
-		MyViewAssign('data_list', $ret['data']);
 		return MyView();
 	}
 
@@ -93,49 +66,25 @@ class Goods extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
+    	$data = $this->data_detail;
+        if(!empty($data))
         {
-            // 条件
-            $where = [
-                ['is_delete_time', '=', 0],
-                ['id', '=', intval($this->data_request['id'])],
-            ];
+            // 获取商品编辑规格
+            $specifications = GoodsService::GoodsEditSpecifications($data['id']);
+            MyViewAssign('specifications', $specifications);
 
-            // 获取列表
-            $data_params = [
-                'm'                 => 0,
-                'n'                 => 1,
-                'where'             => $where,
-                'is_photo'          => 1,
-                'is_content_app'    => 1,
-                'is_category'       => 1,
-            ];
-            $ret = GoodsService::GoodsList($data_params);
-            $data = [];
-            if(!empty($ret['data']) && !empty($ret['data'][0]))
-            {
-                $data = $ret['data'][0];
+            // 获取商品编辑参数
+            $parameters = GoodsService::GoodsEditParameters($data['id']);
+            MyViewAssign('parameters', $parameters);
 
-                // 获取商品编辑规格
-                $specifications = GoodsService::GoodsEditSpecifications($data['id']);
-                MyViewAssign('specifications', $specifications);
-
-                // 获取商品编辑参数
-                $parameters = GoodsService::GoodsEditParameters($data['id']);
-
-                // 商品参数类型
-                MyViewAssign('common_goods_parameters_type_list', MyConst('common_goods_parameters_type_list'));
-
-                MyViewAssign('parameters', $parameters);
-            }
-
-            MyViewAssign('data', $data);
+            // 商品参数类型
+            MyViewAssign('common_goods_parameters_type_list', MyConst('common_goods_parameters_type_list'));
         }
         return MyView();
     }
 
 	/**
-	 * [SaveInfo 商品添加/编辑页面]
+	 * 添加/编辑页面
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -147,30 +96,13 @@ class Goods extends Common
 		$params = $this->data_request;
 
 		// 商品信息
-		$data = [];
+		$data = $this->data_detail;
 		if(!empty($params['id']))
 		{
-			// 条件
-            $where = [
-                ['is_delete_time', '=', 0],
-                ['id', '=', intval($params['id'])],
-            ];
-
-        	// 获取数据
-			$data_params = [
-				'where'				=> $where,
-				'm'					=> 0,
-				'n'					=> 1,
-				'is_photo'			=> 1,
-				'is_content_app'	=> 1,
-				'is_category'		=> 1,
-			];
-			$ret = GoodsService::GoodsList($data_params);
-			if(empty($ret['data'][0]))
+			if(empty($data))
 			{
 				return $this->error('商品信息不存在', MyUrl('admin/goods/index'));
 			}
-			$data = $ret['data'][0];
 
 			// 获取商品编辑规格
 			$specifications = GoodsService::GoodsEditSpecifications($data['id']);
@@ -240,7 +172,7 @@ class Goods extends Common
 	}
 
 	/**
-	 * [Save 商品添加/编辑]
+	 * 添加/编辑
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -261,7 +193,7 @@ class Goods extends Common
 	}
 
 	/**
-	 * [Delete 商品删除]
+	 * 删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1

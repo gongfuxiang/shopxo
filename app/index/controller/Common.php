@@ -59,10 +59,6 @@ class Common extends BaseController
     protected $plugins_controller_name;
     protected $plugins_action_name;
 
-    // 分页信息
-    protected $page;
-    protected $page_size;
-
     // 动态表格
     protected $form_table;
     protected $form_where;
@@ -71,6 +67,18 @@ class Common extends BaseController
     protected $form_user_fields;
     protected $form_order_by;
     protected $form_error;
+
+    // 列表数据
+    protected $data_total;
+    protected $data_list;
+    protected $data_detail;
+
+    // 分页信息
+    protected $page;
+    protected $page_start;
+    protected $page_size;
+    protected $page_html;
+    protected $page_url;
 
     // 系统类型
     protected $system_type;
@@ -400,18 +408,38 @@ class Common extends BaseController
             $ret = (new FormHandleModule())->Run($module['module'], $module['action'], $params);
             if($ret['code'] == 0)
             {
+                // 表格数据
                 $this->form_table = $ret['data']['table'];
                 $this->form_where = $ret['data']['where'];
                 $this->form_params = $ret['data']['params'];
                 $this->form_md5_key = $ret['data']['md5_key'];
                 $this->form_user_fields = $ret['data']['user_fields'];
                 $this->form_order_by = $ret['data']['order_by'];
-
                 MyViewAssign('form_table', $this->form_table);
                 MyViewAssign('form_params', $this->form_params);
                 MyViewAssign('form_md5_key', $this->form_md5_key);
                 MyViewAssign('form_user_fields', $this->form_user_fields);
                 MyViewAssign('form_order_by', $this->form_order_by);
+
+                // 列表数据
+                $this->data_total = $ret['data']['data_total'];
+                $this->data_list = $ret['data']['data_list'];
+                $this->data_detail = $ret['data']['data_detail'];
+                MyViewAssign('data_total', $this->data_total);
+                MyViewAssign('data_list', $this->data_list);
+                MyViewAssign('data', $this->data_detail);
+
+                // 分页数据
+                $this->page = $ret['data']['page'];
+                $this->page_start = $ret['data']['page_start'];
+                $this->page_size = $ret['data']['page_size'];
+                $this->page_html = $ret['data']['page_html'];
+                $this->page_url = $ret['data']['page_url'];
+                MyViewAssign('page', $this->page);
+                MyViewAssign('page_start', $this->page_start);
+                MyViewAssign('page_size', $this->page_size);
+                MyViewAssign('page_html', $this->page_html);
+                MyViewAssign('page_url', $this->page_url);
             } else {
                 $this->form_error = $ret['msg'];
                 MyViewAssign('form_error', $this->form_error);

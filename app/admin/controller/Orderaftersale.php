@@ -43,7 +43,7 @@ class Orderaftersale extends Common
     }
 
     /**
-     * 订单列表
+     * 列表
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -52,36 +52,9 @@ class Orderaftersale extends Common
      */
     public function Index()
     {
-        // 总数
-        $total = OrderAftersaleService::OrderAftersaleTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/orderaftersale/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取数据列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-            'is_public'     => 0,
-        ];
-        $ret = OrderAftersaleService::OrderAftersaleList($data_params);
-
         // 静态数据
         MyViewAssign('common_order_aftersale_refundment_list', MyConst('common_order_aftersale_refundment_list'));
 
-        // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
         return MyView();
     }
 
@@ -94,24 +67,6 @@ class Orderaftersale extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
-            // 获取列表
-            $data_params = array(
-                'm'         => 0,
-                'n'         => 1,
-                'where'     => $where,
-                'is_public' => 0,
-            );
-            $ret = OrderAftersaleService::OrderAftersaleList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-        }
         return MyView();
     }
 
@@ -180,7 +135,7 @@ class Orderaftersale extends Common
     }
 
     /**
-     * 订单取消
+     * 取消
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -202,7 +157,7 @@ class Orderaftersale extends Common
     }
 
     /**
-     * 订单删除
+     * 删除
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

@@ -50,35 +50,9 @@ class User extends Common
      */
 	public function Index()
 	{
-		// 总数
-		$total = UserService::UserTotal($this->form_where);
-
-		// 分页
-		$page_params = [
-			'number'	=>	$this->page_size,
-			'total'		=>	$total,
-			'where'		=>	$this->data_request,
-			'page'		=>	$this->page,
-			'url'		=>	MyUrl('admin/user/index'),
-		];
-		$page = new \base\Page($page_params);
-
-		// 获取数据列表
-		$data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-        ];
-		$ret = UserService::UserList($data_params);
-
 		// Excel地址
 		MyViewAssign('excel_url', MyUrl('admin/user/excelexport', $this->data_request));
 
-        // 基础参数赋值
-		MyViewAssign('params', $this->data_request);
-		MyViewAssign('page_html', $page->GetPageHtml());
-		MyViewAssign('data_list', $ret['data']);
 		return MyView();
 	}
 
@@ -91,23 +65,6 @@ class User extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-            ];
-            $ret = UserService::UserList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-        }
         return MyView();
     }
 
@@ -151,25 +108,17 @@ class User extends Common
 		// 参数
 		$params = $this->data_request;
 
-		// 用户编辑
-		$data = [];
+		// 数据
+		$data = $this->data_detail;
 		if(!empty($params['id']))
 		{
-			$data_params = [
-				'where'		=> ['id'=>$params['id']],
-				'm'			=> 0,
-				'n'			=> 1,
-			];
-			$ret = UserService::UserList($data_params);
-			if(empty($ret['data'][0]))
+			if(empty($data))
 			{
 				return $this->error('用户信息不存在', MyUrl('admin/user/index'));
 			}
 
 			// 生日
-			$ret['data'][0]['birthday_text'] = empty($ret['data'][0]['birthday']) ? '' : date('Y-m-d', $ret['data'][0]['birthday']);
-			
-			$data = $ret['data'][0];
+			$data['birthday_text'] = empty($data['birthday']) ? '' : date('Y-m-d', $data['birthday']);
 		}
 
 		// 用户编辑页面钩子

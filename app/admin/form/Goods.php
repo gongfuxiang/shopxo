@@ -47,7 +47,6 @@ class Goods
                 'key_field'     => 'id',
                 'status_field'  => 'is_shelves',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/goods/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/goods/delete'),
                 'delete_key'    => 'ids',
@@ -294,6 +293,20 @@ class Goods
                     'view_key'      => 'goods/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Goods',
+                'data_handle'   => 'GoodsService::GoodsDataHandle',
+                'is_page'       => 1,
+                'data_params'   => [
+                    'is_photo'          => 1,
+                    'is_content_app'    => 1,
+                    'is_category'       => 1,
+                ],
+                'detail_where'  => [
+                    ['is_delete_time', '=', 0],
                 ],
             ],
         ];

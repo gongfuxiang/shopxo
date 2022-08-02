@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\module;
 
+use think\facade\Db;
 use app\service\FormTableService;
 
 /**
@@ -38,6 +39,28 @@ class FormHandleModule
     public $user_fields;
     // 排序
     public $order_by;
+
+    // 当前系统操作名称
+    public $module_name;
+    public $controller_name;
+    public $action_name;
+
+    // 当前插件操作名称
+    public $plugins_module_name;
+    public $plugins_controller_name;
+    public $plugins_action_name;
+
+    // 分页信息
+    public $page;
+    public $page_start;
+    public $page_size;
+    public $page_html;
+    public $page_url;
+
+    // 列表数据及详情
+    public $data_total;
+    public $data_list;
+    public $data_detail;
 
     /**
      * 运行入口
@@ -82,8 +105,8 @@ class FormHandleModule
         // 基础条件
         $this->BaseWhereHandle();
 
-        // 表格数据处理
-        $this->FormDataHandle();
+        // 表格配置处理
+        $this->FormConfigHandle();
 
         // 基础数据结尾处理
         $this->FormBaseLastHandle();
@@ -94,6 +117,9 @@ class FormHandleModule
         // 排序字段处理
         $this->FormOrderByHandle();
 
+        // 数据列表处理
+        $this->FormDataListHandle();
+
         // 数据返回
         $data = [
             'table'         => $this->form_data,
@@ -102,6 +128,14 @@ class FormHandleModule
             'md5_key'       => $this->md5_key,
             'user_fields'   => $this->user_fields,
             'order_by'      => $this->order_by,
+            'page'          => $this->page,
+            'page_start'    => $this->page_start,
+            'page_size'     => $this->page_size,
+            'page_url'      => $this->page_url,
+            'page_html'     => $this->page_html,
+            'data_total'    => $this->data_total,
+            'data_list'     => $this->data_list,
+            'data_detail'   => $this->data_detail,
         ];
 
         // 钩子-结束
@@ -192,6 +226,239 @@ class FormHandleModule
         $this->order_by['val'] = empty($this->out_params['fp_order_by_val']) ? '' : $this->out_params['fp_order_by_val'];
         $this->order_by['field'] = '';
         $this->order_by['data'] = '';
+
+        // 分页信息
+        $this->page = max(1, isset($this->out_params['page']) ? intval($this->out_params['page']) : 1);
+        $this->page_size = min(empty($this->out_params['page_size']) ? MyC('common_page_size', 10, true) : intval($this->out_params['page_size']), 1000);
+
+        // 当前系统操作名称
+        $this->module_name = RequestModule();
+        $this->controller_name = RequestController();
+        $this->action_name = RequestAction();
+
+        // 当前插件操作名称, 兼容插件模块名称
+        if(empty($this->out_params['pluginsname']))
+        {
+            // 默认插件模块赋空值
+            $this->plugins_module_name = '';
+            $this->plugins_controller_name = '';
+            $this->plugins_action_name = '';
+
+            // 当前页面地址
+            $this->page_url = MyUrl($this->module_name.'/'.$this->controller_name.'/'.$this->action_name);
+        } else {
+            // 处理插件页面模块
+            $this->plugins_module_name = $this->out_params['pluginsname'];
+            $this->plugins_controller_name = empty($this->out_params['pluginscontrol']) ? 'index' : $this->out_params['pluginscontrol'];
+            $this->plugins_action_name = empty($this->out_params['pluginsaction']) ? 'index' : $this->out_params['pluginsaction'];
+
+            // 当前页面地址
+            if($this->module_name == 'admin')
+            {
+                $this->page_url = PluginsAdminUrl($this->plugins_module_name, $this->plugins_controller_name, $this->plugins_action_name);
+            } else {
+                $this->page_url = PluginsHomeUrl($this->plugins_module_name, $this->plugins_controller_name, $this->plugins_action_name);
+            }
+        }
+
+        // 是否开启搜索
+        if(isset($this->form_data['base']['is_search']) && $this->form_data['base']['is_search'] == 1)
+        {
+            // 是否设置搜索重置链接
+            if(empty($this->form_data['base']['search_url']))
+            {
+                $this->form_data['base']['search_url'] = $this->page_url;
+            }
+        }
+    }
+
+    /**
+     * 数据列表处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     */
+    public function FormDataListHandle()
+    {
+        if(!empty($this->form_data['data']))
+        {
+            $form_data = $this->form_data['data'];
+
+            // 列表和详情
+            $list_action = isset($form_data['list_action']) ? (is_array($form_data['list_action']) ? $form_data['list_action'] : [$form_data['list_action']]) : ['index'];
+            $detail_action = isset($form_data['detail_action']) ? (is_array($form_data['detail_action']) ? $form_data['detail_action'] : [$form_data['detail_action']]) : ['detail', 'saveinfo'];
+            if(empty($this->plugins_module_name))
+            {
+                $is_list = in_array($this->action_name, $list_action);
+                $is_detail = in_array($this->action_name, $detail_action);
+            } else {
+                $is_list = in_array($this->plugins_action_name, $list_action);
+                $is_detail = in_array($this->plugins_action_name, $detail_action);
+            }
+            // 非列表和详情则不处理
+            if(!$is_list && !$is_detail)
+            {
+                return false;
+            }
+
+            // 数据库对象
+            $db = null;
+            if(!empty($form_data['table_obj']) && is_object($form_data['table_obj']))
+            {
+                $db = $form_data['table_obj'];
+            } elseif(!empty($form_data['table_name']))
+            {
+                $db = Db::name($form_data['table_name']);
+            }
+            if($db === null)
+            {
+                return false;
+            }
+
+            // 读取字段
+            $select_field = empty($form_data['select_field']) ? '*' : $form_data['select_field'];
+            $db->field($select_field);
+
+            // 数据读取
+            if($is_list)
+            {
+                // 加入条件
+                $db->where($this->where);
+
+                // 总数
+                $this->data_total = (int) $db->count();
+                if($this->data_total > 0)
+                {
+                    // 是否使用分页
+                    $is_page = (!isset($form_data['is_page']) || $form_data['is_page'] == 1);
+                    if($is_page)
+                    {
+                        // 是否定义分页提示信息
+                        $tips_msg = '';
+                        $m = $this->ServiceActionModule($form_data, 'page_tips_handle');
+                        if(!empty($m))
+                        {
+                            $module = $m['module'];
+                            $action = $m['action'];
+                            $tips_msg = $module::$action($this->where);
+                        }
+
+                        // 分页组件
+                        $page_params = [
+                            'number'    => $this->page_size,
+                            'total'     => $this->data_total,
+                            'where'     => $this->out_params,
+                            'page'      => $this->page,
+                            'url'       => $this->page_url,
+                            'tips_msg'  => $tips_msg,
+                        ];
+                        $page = new \base\Page($page_params);
+                        $this->page_start = $page->GetPageStarNumber();
+                        $this->page_html = $page->GetPageHtml();
+
+                        // 增加分页
+                        $db->limit($this->page_start, $this->page_size);
+                    }
+
+                    // 增加排序、未设置则默认[ id desc ]
+                    $order_by = empty($this->order_by['data']) ? (array_key_exists('order_by', $form_data) ? $form_data['order_by'] : 'id desc') : $this->order_by['data'];
+                    if(!empty($order_by))
+                    {
+                        $db->order($order_by);
+                    }
+
+                    // 读取数据
+                    $this->data_list = $db->select()->toArray();
+                }
+            } else {
+                // 默认条件
+                $this->where = empty($form_data['detail_where']) ? [] : $form_data['detail_where'];
+
+                // 单独处理条件
+                $detail_dkey = empty($form_data['detail_dkey']) ? 'id' : $form_data['detail_dkey'];
+                $detail_pkey = empty($form_data['detail_pkey']) ? 'id' : $form_data['detail_pkey'];
+                $value = empty($this->out_params[$detail_pkey]) ? 0 : $this->out_params[$detail_pkey];
+                $this->where[] = [$detail_dkey, '=', $value];
+                $db->where($this->where);
+
+                // 读取数据、仅读取一条
+                $this->data_list = $db->limit(0, 1)->select()->toArray();
+            }
+
+            // 数据处理
+            if(!empty($this->data_list))
+            {
+                // 是否已定义数据处理、必须存在双冒号
+                $m = $this->ServiceActionModule($form_data, 'data_handle');
+                if(!empty($m))
+                {
+                    $module = $m['module'];
+                    $action = $m['action'];
+                    // 数据请求参数
+                    $data_params = empty($form_data['data_params']) ? [] : $form_data['data_params'];
+                    $res = $module::$action($this->data_list, $data_params);
+                    // 是否按照数据返回格式方法放回的数据
+                    if(isset($res['code']) && isset($res['msg']) && isset($res['data']))
+                    {
+                        $this->data_list = $res['data'];
+                    } else {
+                        $this->data_list = $res;
+                    }
+                }
+
+                // 是否详情页
+                if($is_detail)
+                {
+                    $this->data_detail = $this->data_list[0];
+                    $this->data_list = [];
+                }
+            }
+        }
+    }
+
+    /**
+     * 服务层方法模块
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-02
+     * @desc    description
+     * @param   [string]          $data     [模块数据]
+     * @param   [string]          $field    [字段]
+     */
+    public function ServiceActionModule($data, $field)
+    {
+        $result = [];
+        if(!empty($data) && !empty($data[$field]) && stripos($data[$field], '::') !== false)
+        {
+            $arr = explode('::', $data[$field]);
+            // 是否存在命名空间反斜杠
+            if(stripos($arr[0], '\\') === false)
+            {
+                if(empty($this->plugins_module_name))
+                {
+                    $module = 'app\service\\'.$arr[0];
+                } else {
+                    $module = 'app\plugins\\'.$this->plugins_module_name.'\service\\'.$arr[0];
+                }
+            } else {
+                $module = $arr[0];
+            }
+            $action = $arr[1];
+            if(class_exists($module));
+            {
+                if(method_exists($module, $action))
+                {
+                    $result = [
+                        'module'    => $module,
+                        'action'    => $action,
+                    ];
+                }
+            }
+        }
+        return $result;
     }
 
     /**
@@ -304,14 +571,14 @@ class FormHandleModule
     }
 
     /**
-     * 表格数据处理
+     * 表格配置处理
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2020-06-02
      * @desc    description
      */
-    public function FormDataHandle()
+    public function FormConfigHandle()
     {
         foreach($this->form_data['form'] as $k=>&$v)
         {

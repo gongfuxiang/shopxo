@@ -1050,9 +1050,12 @@ function CallPluginsData($plugins, $attachment_field = [], $service_name = '', $
 
     // 查看是否存在基础服务层并且定义获取基础配置方法
     $plugins_class = 'app\plugins\\'.$plugins.'\service\BaseService';
-    if(class_exists($plugins_class) && method_exists($plugins_class, 'BaseConfig'))
+    if(class_exists($plugins_class))
     {
-        return $plugins_class::BaseConfig();
+        if(ethod_exists($plugins_class, 'BaseConfig'))
+        {
+            return $plugins_class::BaseConfig();
+        }
     }
 
     // 未指定附件字段则自动去获取

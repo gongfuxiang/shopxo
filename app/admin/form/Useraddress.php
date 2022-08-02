@@ -42,7 +42,6 @@ class UserAddress
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/useraddress/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/useraddress/delete'),
                 'delete_key'    => 'ids',
@@ -199,6 +198,15 @@ class UserAddress
                     'view_key'      => 'useraddress/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'UserAddress',
+                'data_handle'   => 'UserAddressService::UserAddressListHandle',
+                'is_page'       => 1,
+                'data_params'   => [
+                    'is_public'     => 0,
                 ],
             ],
         ];

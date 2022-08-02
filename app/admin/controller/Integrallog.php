@@ -49,34 +49,6 @@ class IntegralLog extends Common
      */
 	public function Index()
 	{
-        // 总数
-        $total = IntegralService::IntegralLogTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/integrallog/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-            'is_public'     => 0,
-            'user_type'     => 'admin',
-        ];
-        $ret = IntegralService::IntegralLogList($data_params);
-
-        // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
         return MyView();
 	}
 
@@ -90,25 +62,6 @@ class IntegralLog extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-                'is_public'     => 0,
-                'user_type'     => 'admin',
-            ];
-            $ret = IntegralService::IntegralLogList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-        }
         return MyView();
     }
 }

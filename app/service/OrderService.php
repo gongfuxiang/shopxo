@@ -1204,7 +1204,7 @@ class OrderService
         $data = Db::name('Order')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
         
         // 数据处理
-        return self::OrderDataHandle($data, $params);
+        return self::OrderListHandle($data, $params);
     }
 
     /**
@@ -1217,7 +1217,7 @@ class OrderService
      * @param   [array]          $data      [订单数据]
      * @param   [array]          $params    [输入参数]
      */
-    public static function OrderDataHandle($data, $params = [])
+    public static function OrderListHandle($data, $params = [])
     {
         $result = [];
         if(!empty($data))
@@ -1251,7 +1251,7 @@ class OrderService
             if(in_array('warehouse_id', $keys))
             {
                 $we_ids = array_unique(array_column($data, 'warehouse_id'));
-                $warehouse_list = WarehouseService::DataHandle(Db::name('Warehouse')->where(['id'=>$we_ids])->field('id,name')->select()->toArray());
+                $warehouse_list = WarehouseService::WarehouseListHandle(Db::name('Warehouse')->where(['id'=>$we_ids])->field('id,name')->select()->toArray());
                 if(!empty($warehouse_list))
                 {
                     $warehouse_list = array_column($warehouse_list, null, 'id');

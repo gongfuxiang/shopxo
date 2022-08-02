@@ -42,7 +42,6 @@ class Article
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/article/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/article/delete'),
                 'delete_key'    => 'ids',
@@ -171,6 +170,12 @@ class Article
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Article',
+                'data_handle'   => 'ArticleService::ArticleListHandle',
+                'is_page'       => 1,
             ],
         ];
     }

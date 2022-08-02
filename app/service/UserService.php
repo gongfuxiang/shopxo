@@ -173,6 +173,21 @@ class UserService
 
         // 获取用户列表
         $data = Db::name('User')->where($where)->order($order_by)->field($field)->limit($m, $n)->select()->toArray();
+        return DataReturn('处理成功', 0, self::UserListHandle($data, $params));
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function UserListHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             // 用户列表钩子-前面
@@ -253,7 +268,7 @@ class UserService
                 'data'          => &$data,
             ]);
         }
-        return DataReturn('处理成功', 0, $data);
+        return $data;
     }
 
     /**

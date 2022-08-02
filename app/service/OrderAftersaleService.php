@@ -396,6 +396,21 @@ class OrderAftersaleService
 
         // 获取数据列表
         $data = Db::name('OrderAftersale')->field($field)->where($where)->limit($m, $n)->order($order_by)->select()->toArray();
+        return DataReturn('获取成功', 0, self::OrderAftersaleListHandle($data, $params));
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function OrderAftersaleListHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             $type_list = MyConst('common_order_aftersale_type_list');
@@ -468,7 +483,7 @@ class OrderAftersaleService
                 
             }
         }
-        return DataReturn('获取成功', 0, $data);
+        return $data;
     }
 
     /**

@@ -40,7 +40,6 @@ class CustomView
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/customview/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/customview/delete'),
                 'delete_key'    => 'ids',
@@ -176,6 +175,12 @@ class CustomView
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'CustomView',
+                'data_handle'   => 'CustomViewService::CustomViewListHandle',
+                'is_page'       => 1,
             ],
         ];
     }

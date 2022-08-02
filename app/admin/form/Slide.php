@@ -40,7 +40,6 @@ class Slide
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/slide/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/slide/delete'),
                 'delete_key'    => 'ids',
@@ -165,6 +164,13 @@ class Slide
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Slide',
+                'data_handle'   => 'SlideService::SlideListHandle',
+                'is_page'       => 1,
+                'order_by'      => 'sort asc,id asc',
             ],
         ];
     }

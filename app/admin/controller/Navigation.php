@@ -50,7 +50,7 @@ class Navigation extends Common
 	}
 
 	/**
-     * [Index 导航列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -90,7 +90,7 @@ class Navigation extends Common
 	}
 
 	/**
-     * [Save 添加/编辑]
+     * 添加/编辑
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -111,7 +111,7 @@ class Navigation extends Common
 	}
 
 	/**
-	 * [Delete 删除]
+	 * 删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -131,7 +131,7 @@ class Navigation extends Common
 	}
 
 	/**
-	 * [StatusUpdate 状态更新]
+	 * 状态更新
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1

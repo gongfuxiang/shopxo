@@ -424,6 +424,21 @@ class Order
                     'fixed'         => 'right',
                 ],
             ],
+            // 数据配置
+            'data'  => [
+                'table_name'        => 'Order',
+                'page_tips_handle'  => 'OrderService::OrderTipsMsg',
+                'data_handle'       => 'OrderService::OrderListHandle',
+                'detail_where'      => [
+                    ['is_delete_time', '=', 0],
+                ],
+                'is_page'           => 1,
+                'data_params'       => [
+                    'is_public' => 0,
+                    'is_operate'=> 1,
+                    'user_type' => 'admin',
+                ],
+            ],
         ];
     }
 

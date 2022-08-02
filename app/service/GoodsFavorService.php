@@ -202,6 +202,21 @@ class GoodsFavorService
 
         // 获取数据
         $data = Db::name('GoodsFavor')->alias('f')->join('goods g', 'g.id=f.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select()->toArray();
+        return DataReturn('处理成功', 0, self::GoodsFavorListHandle($data, $params));
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsFavorListHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             // 商品数据处理
@@ -224,7 +239,7 @@ class GoodsFavorService
                 }
             }
         }
-        return DataReturn('处理成功', 0, $data);
+        return $data;
     }
 
     /**

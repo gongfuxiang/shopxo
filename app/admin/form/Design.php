@@ -40,7 +40,6 @@ class Design
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/design/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/design/delete'),
                 'delete_key'    => 'ids',
@@ -194,6 +193,12 @@ class Design
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Design',
+                'data_handle'   => 'DesignService::DesignListHandle',
+                'is_page'       => 1,
             ],
         ];
     }

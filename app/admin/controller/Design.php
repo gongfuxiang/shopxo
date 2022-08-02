@@ -55,35 +55,9 @@ class Design extends Common
      */
     public function Index()
     {
-        // 总数
-        $total = DesignService::DesignTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/design/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取列表
-        $data_params = [
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'where'         => $this->form_where,
-            'order_by'      => $this->form_order_by['data'],
-        ];
-        $ret = DesignService::DesignList($data_params);
-
         // 应用商店
         MyViewAssign('store_design_url', StoreService::StoreDesignUrl());
 
-        // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
         return MyView();
     }
 
@@ -97,8 +71,9 @@ class Design extends Common
      */
     public function SaveInfo()
     {
-        // 是否指定id、不存在则增加数据
-        if(empty($this->data_request['id']))
+        // 数据
+        $data = $this->data_detail;
+        if(empty($data))
         {
             $ret = DesignService::DesignSave();
             if($ret['code'] == 0)
@@ -110,29 +85,11 @@ class Design extends Common
             }
         }
 
-        // 获取数据
-        $data_params = [
-            'where' => [
-                'id' => intval($this->data_request['id']),
-            ],
-            'm' => 0,
-            'n' => 1,
-        ];
-        $ret = DesignService::DesignList($data_params);
-        if(empty($ret['data']) || empty($ret['data'][0]))
-        {
-            MyViewAssign('to_title', '去添加 >>');
-            MyViewAssign('to_url', MyUrl('admin/design/saveinfo'));
-            MyViewAssign('msg', '编辑数据为空、请重新添加');
-            return MyView('public/tips_error');
-        }
-        $data = $ret['data'][0];
-
         // 配置处理
         $layout_data = BaseLayout::ConfigAdminHandle($data['config']);
+        unset($data['config']);
         MyViewAssign('layout_data', $layout_data);
         MyViewAssign('data', $data);
-        unset($data['config']);
 
         // 页面列表
         $pages_list = BaseLayout::PagesList();

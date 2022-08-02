@@ -79,6 +79,21 @@ class IntegralService
 
         // 获取数据列表
         $data = Db::name('UserIntegralLog')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
+        return DataReturn('处理成功', 0, self::IntegralLogListHandle($data, $params));
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function IntegralLogListHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             $integral_log_type_list = MyConst('common_integral_log_type_list');
@@ -101,7 +116,7 @@ class IntegralService
                 $v['add_time_date'] = date('Y-m-d', $v['add_time']);
             }
         }
-        return DataReturn('处理成功', 0, $data);
+        return $data;
     }
 
     /**

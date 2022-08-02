@@ -165,6 +165,15 @@ class WarehouseGoods
                     'fixed'         => 'right',
                 ],
             ],
+            // 数据配置
+            'data'  => [
+                'table_obj'     => Db::name('WarehouseGoods')->alias('wg')->leftJoin('warehouse_goods_spec wgs', 'wg.id=wgs.warehouse_goods_id'),
+                'select_field'  => 'wg.*',
+                'order_by'      => 'wg.id desc',
+                'detail_dkey'   => 'wg.id',
+                'data_handle'   => 'WarehouseGoodsService::WarehouseGoodsListHandle',
+                'is_page'       => 1,
+            ],
         ];
     }
 

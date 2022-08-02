@@ -191,6 +191,21 @@ class MessageService
 
         // 获取数据列表
         $data = Db::name('Message')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
+        return DataReturn('处理成功', 0, self::MessageListHandle($data, $params));
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function MessageListHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             // 字段列表
@@ -229,7 +244,7 @@ class MessageService
                 $v['add_time_date'] = date('Y-m-d', $v['add_time']);
             }
         }
-        return DataReturn('处理成功', 0, $data);
+        return $data;
     }
 
     /**

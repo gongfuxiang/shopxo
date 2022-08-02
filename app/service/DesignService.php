@@ -42,6 +42,21 @@ class DesignService
 
         // 获取数据
         $data = Db::name('Design')->where($where)->limit($m, $n)->order($order_by)->select()->toArray();
+        return DataReturn('处理成功', 0, self::DesignListHandle($data, $params));
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function DesignListHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             foreach($data as &$v)
@@ -63,21 +78,7 @@ class DesignService
                 }
             }
         }
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-06-16
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function DesignTotal($where = [])
-    {
-        return (int) Db::name('Design')->where($where)->count();
+        return $data;
     }
 
     /**

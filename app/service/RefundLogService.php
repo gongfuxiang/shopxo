@@ -76,26 +76,19 @@ class RefundLogService
         $data = Db::name('RefundLog')->field('payment as id, payment_name as name')->group('payment,payment_name')->select()->toArray();
         return DataReturn('处理成功', 0, $data);
     }
-    
+
     /**
-     * 列表
-     * @author   Devil
+     * 列表数据处理
+     * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2018-09-29
+     * @date    2022-08-01
      * @desc    description
+     * @param   [array]          $data   [数据列表]
      * @param   [array]          $params [输入参数]
      */
-    public static function RefundLogList($params = [])
+    public static function RefundLogListHandle($data, $params = [])
     {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'id desc' : $params['order_by'];
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
-
-        // 获取数据列表
-        $data = Db::name('RefundLog')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
         if(!empty($data))
         {
             $refundment_list = MyConst('common_order_aftersale_refundment_list');
@@ -118,21 +111,7 @@ class RefundLogService
                 $v['add_time_date'] = date('Y-m-d', $v['add_time']);
             }
         }
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function RefundLogTotal($where = [])
-    {
-        return (int) Db::name('RefundLog')->where($where)->count();
+        return $data;
     }
 }
 ?>

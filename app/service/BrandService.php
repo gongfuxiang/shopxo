@@ -54,9 +54,7 @@ class BrandService
 
         // 获取列表
         $data = Db::name('Brand')->where($where)->field($field)->order($order_by)->limit($m, $n)->select()->toArray();
-
-        // 数据处理
-        return DataReturn('处理成功', 0, self::DataHandle($data, $params));
+        return DataReturn('处理成功', 0, self::BrandListHandle($data, $params));
     }
 
     /**
@@ -69,7 +67,7 @@ class BrandService
      * @param   [array]          $data      [列表数据]
      * @param   [array]          $params    [输入参数]
      */
-    public static function DataHandle($data, $params = [])
+    public static function BrandListHandle($data, $params = [])
     {
         if(!empty($data))
         {

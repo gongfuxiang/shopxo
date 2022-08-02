@@ -41,7 +41,7 @@ class Role extends Common
     }
 
     /**
-     * [Index 角色组列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,32 +49,6 @@ class Role extends Common
      */
     public function Index()
     {
-        // 总数
-        $total = AdminRoleService::RoleTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/role/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取数据列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-        ];
-        $ret = AdminRoleService::RoleList($data_params);
-
-        // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
         return MyView();
     }
 
@@ -87,28 +61,11 @@ class Role extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-            ];
-            $ret = AdminRoleService::RoleList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-        }
         return MyView();
     }
 
     /**
-     * [SaveInfo 角色组添加/编辑页面]
+     * 添加/编辑页面
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -119,21 +76,12 @@ class Role extends Common
         // 参数
         $params = $this->data_request;
 
-        // 角色组
-        $data = [];
-        if(!empty($params['id']))
+        // 数据
+        $data = $this->data_detail;
+        if(!empty($data))
         {
-            $data_params = [
-                'where' => ['id'=>intval($params['id'])],
-            ];
-            $ret = AdminRoleService::RoleList($data_params);
-            if(!empty($ret['data'][0]) && !empty($ret['data'][0]['id']))
-            {
-                $data = $ret['data'][0];
-
-                // 权限关联数据
-                $params['role_id'] =  $ret['data'][0]['id'];
-            }
+            // 权限关联数据
+            $params['role_id'] =  $data['id'];
         }
 
         // 权限列表
@@ -160,7 +108,7 @@ class Role extends Common
     }
 
     /**
-     * [Save 角色组添加/编辑]
+     * 添加/编辑
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -179,7 +127,7 @@ class Role extends Common
     }
 
     /**
-     * [Delete 角色删除]
+     * 删除
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -198,7 +146,7 @@ class Role extends Common
     }
 
     /**
-     * [StatusUpdate 角色状态更新]
+     * 状态更新
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1

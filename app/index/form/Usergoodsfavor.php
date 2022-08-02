@@ -127,6 +127,15 @@ class UserGoodsFavor
                     'fixed'         => 'right',
                 ],
             ],
+            // 数据配置
+            'data'  => [
+                'table_obj'     => Db::name('GoodsFavor')->alias('f')->join('goods g', 'g.id=f.goods_id'),
+                'select_field'  => 'f.*, g.title, g.original_price, g.price, g.min_price, g.images',
+                'order_by'      => 'f.id desc',
+                'detail_dkey'   => 'f.id',
+                'data_handle'   => 'GoodsFavorService::GoodsFavorListHandle',
+                'is_page'       => 1,
+            ],
         ];
     }
 }

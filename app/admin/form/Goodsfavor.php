@@ -41,7 +41,6 @@ class GoodsFavor
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/goodsfavor/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/goodsfavor/delete'),
                 'delete_key'    => 'ids',
@@ -122,6 +121,19 @@ class GoodsFavor
                     'view_key'      => 'goodsfavor/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_obj'     => Db::name('GoodsFavor')->alias('f')->join('goods g', 'g.id=f.goods_id'),
+                'select_field'  => 'f.*, g.title, g.original_price, g.price, g.min_price, g.images',
+                'order_by'      => 'f.id desc',
+                'detail_dkey'   => 'f.id',
+                'data_handle'   => 'GoodsFavorService::GoodsFavorListHandle',
+                'is_page'       => 1,
+                'data_params'   => [
+                    'is_public'     => 0,
+                    'user_type'     => 'admin',
                 ],
             ],
         ];

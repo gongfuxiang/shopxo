@@ -41,21 +41,8 @@ class UserAddressService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         // 获取列表
-        $data = self::DataHandle(Db::name('UserAddress')->where($where)->order($order_by)->limit($m, $n)->select()->toArray(), 0);
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 总数
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-10T22:16:29+0800
-     * @param    [array]          $where [条件]
-     */
-    public static function UserAddressTotal($where)
-    {
-        return (int) Db::name('UserAddress')->where($where)->count();
+        $data = Db::name('UserAddress')->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
+        return DataReturn('处理成功', 0, self::UserAddressListHandle($data), $params);
     }
 
     /**
@@ -90,22 +77,25 @@ class UserAddressService
     }
 
     /**
-     * 数据处理
+     * 数据列表处理
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2020-10-14
      * @desc    description
-     * @param   [array]          $data [数据列表]
-     * @param   [int]            $is_public [是否公共访问0|1、默认1]
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
      */
-    public static function DataHandle($data, $is_public = 1)
+    public static function UserAddressListHandle($data, $params = [])
     {
         if(!empty($data))
         {
             // 地区
             $region_ids = array_unique(array_merge(array_column($data, 'province'), array_column($data, 'city'), array_column($data, 'county')));
             $region = empty($region_ids) ? [] : RegionService::RegionName($region_ids);
+
+            // 是否公共方法
+            $is_public = !isset($params['is_public']) ? 1 : intval($params['is_public']);
 
             $users = [];
             foreach($data as &$v)
@@ -182,7 +172,7 @@ class UserAddressService
 
         // 获取用户地址
         $field = 'id,alias,name,tel,province,city,county,address,lng,lat,is_default,idcard_name,idcard_number,idcard_front,idcard_back';
-        $data = self::DataHandle(Db::name('UserAddress')->where($where)->field($field)->order('id desc')->select()->toArray());
+        $data = self::UserAddressListHandle(Db::name('UserAddress')->where($where)->field($field)->order('id desc')->select()->toArray());
         if(!empty($data))
         {
             $is_default = false;

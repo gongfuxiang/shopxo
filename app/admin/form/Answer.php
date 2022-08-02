@@ -42,7 +42,6 @@ class Answer
                 'key_field'     => 'id',
                 'status_field'  => 'is_show',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/answer/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/answer/delete'),
                 'delete_key'    => 'ids',
@@ -191,6 +190,16 @@ class Answer
                     'view_key'      => 'answer/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Answer',
+                'data_handle'   => 'AnswerService::AnswerListHandle',
+                'is_page'       => 1,
+                'data_params'   => [
+                    'is_public'     => 0,
+                    'user_type'     => 'admin',
                 ],
             ],
         ];

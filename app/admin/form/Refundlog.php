@@ -42,7 +42,6 @@ class RefundLog
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/refundlog/index'),
             ],
             // 表单配置
             'form' => [
@@ -184,6 +183,16 @@ class RefundLog
                     'view_key'      => 'refundlog/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'RefundLog',
+                'data_handle'   => 'RefundLogService::RefundLogListHandle',
+                'is_page'       => 1,
+                'data_params'   => [
+                    'is_public'     => 0,
+                    'user_type'     => 'admin',
                 ],
             ],
         ];

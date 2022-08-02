@@ -41,6 +41,21 @@ class GoodsParamsService
 
         // 获取列表
         $data = Db::name('GoodsParamsTemplate')->where($where)->order($order_by)->field($field)->limit($m, $n)->select()->toArray();
+        return DataReturn('处理成功', 0, self::GoodsParamsTemplateListHandle($data, $params));
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsParamsTemplateListHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             // 获取配置数据
@@ -70,21 +85,7 @@ class GoodsParamsService
                 }
             }
         }
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-12-18
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function GoodsParamsTemplateTotal($where)
-    {
-        return (int) Db::name('GoodsParamsTemplate')->where($where)->count();
+        return $data;
     }
 
     /**

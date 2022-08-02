@@ -41,7 +41,7 @@ class Link extends Common
 	}
 
 	/**
-     * [Index 列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,13 +49,6 @@ class Link extends Common
      */
 	public function Index()
 	{
-		// 获取列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'order_by'      => $this->form_order_by['data'],
-        ];
-		$ret = LinkService::LinkList($data_params);
-		MyViewAssign('data_list', $ret['data']);
 		return MyView();
 	}
 
@@ -68,28 +61,11 @@ class Link extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-            ];
-            $ret = LinkService::LinkList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-        }
         return MyView();
     }
 
 	/**
-	 * [Save 数据保存]
+	 * 保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -109,7 +85,7 @@ class Link extends Common
 	}
 
 	/**
-	 * [Delete 删除]
+	 * 删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -130,7 +106,7 @@ class Link extends Common
 	}
 
 	/**
-	 * [StatusUpdate 状态更新]
+	 * 状态更新
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1

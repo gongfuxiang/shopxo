@@ -40,7 +40,6 @@ class GoodsParamsTemplate
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/goodsparamstemplate/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/goodsparamstemplate/delete'),
                 'delete_key'    => 'ids',
@@ -116,6 +115,16 @@ class GoodsParamsTemplate
                     'view_key'      => 'goodsparamstemplate/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'GoodsParamsTemplate',
+                'data_handle'   => 'GoodsParamsService::GoodsParamsTemplateListHandle',
+                'is_page'       => 1,
+                'data_params'   => [
+                    'is_public'     => 0,
+                    'user_type'     => 'admin',
                 ],
             ],
         ];

@@ -58,7 +58,6 @@ class Answer
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('index/answer/index'),
             ],
             // 表单配置
             'form' => [
@@ -131,6 +130,12 @@ class Answer
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Answer',
+                'data_handle'   => 'AnswerService::AnswerListHandle',
+                'is_page'       => 1,
             ],
         ];
     }

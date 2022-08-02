@@ -48,38 +48,11 @@ class Message extends Common
      */
     public function Index()
     {
-        // 总数
-        $total = MessageService::MessageTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('index/message/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-        ];
-        $ret = MessageService::MessageList($data_params);
-
         // 消息更新未已读
         MessageService::MessageRead(['user'=>$this->user]);
 
         // 浏览器名称
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('我的消息', 1));
-
-        // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
         return MyView();
     }
 
@@ -93,24 +66,7 @@ class Message extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-            ];
-            $ret = MessageService::MessageList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-        }
-
+        MyViewAssign('data', $this->data_detail);
         MyViewAssign('is_header', 0);
         MyViewAssign('is_footer', 0);
         return MyView();

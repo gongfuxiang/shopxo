@@ -42,7 +42,6 @@ class PayLog
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/paylog/index'),
                 'is_middle'     => 0,
             ],
             // 表单配置
@@ -215,6 +214,16 @@ class PayLog
                     'view_key'      => 'paylog/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'PayLog',
+                'data_handle'   => 'PayLogService::PayLogListHandle',
+                'is_page'       => 1,
+                'data_params'   => [
+                    'is_public'     => 0,
+                    'user_type'     => 'admin',
                 ],
             ],
         ];

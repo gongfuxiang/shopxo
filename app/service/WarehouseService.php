@@ -40,7 +40,7 @@ class WarehouseService
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'level desc, id desc' : trim($params['order_by']);
         $data = Db::name('Warehouse')->field($field)->where($where)->order($order_by)->select()->toArray();
-        return DataReturn('处理成功', 0, self::DataHandle($data, $params));
+        return DataReturn('处理成功', 0, self::WarehouseListHandle($data, $params));
     }
 
     /**
@@ -53,7 +53,7 @@ class WarehouseService
      * @param   [array]          $data      [仓库数据]
      * @param   [array]          $params    [输入参数]
      */
-    public static function DataHandle($data, $params = [])
+    public static function WarehouseListHandle($data, $params = [])
     {
         if(!empty($data))
         {

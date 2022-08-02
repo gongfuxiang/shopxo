@@ -34,10 +34,20 @@ class Admin extends Common
 	{
 		// 调用父类前置方法
 		parent::__construct();
+
+		// 需要校验权限
+		if(in_array($this->action_name, ['index', 'detail', 'delete']))
+		{
+			// 登录校验
+			$this->IsLogin();
+			
+			// 权限校验
+			$this->IsPower();
+		}
 	}
 
 	/**
-     * 管理员列表
+     * 列表
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -46,38 +56,6 @@ class Admin extends Common
      */
 	public function Index()
 	{
-		// 登录校验
-		$this->IsLogin();
-		
-		// 权限校验
-		$this->IsPower();
-
-		// 总数
-		$total = AdminService::AdminTotal($this->form_where);
-
-		// 分页
-		$page_params = [
-			'number'	=>	$this->page_size,
-			'total'		=>	$total,
-			'where'		=>	$this->data_request,
-			'page'		=>	$this->page,
-			'url'		=>	MyUrl('admin/admin/index'),
-		];
-		$page = new \base\Page($page_params);
-
-		// 获取数据列表
-		$data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-        ];
-		$ret = AdminService::AdminList($data_params);
-
-		// 基础参数赋值
-		MyViewAssign('params', $this->data_request);
-		MyViewAssign('page_html', $page->GetPageHtml());
-		MyViewAssign('data_list', $ret['data']);
 		return MyView();
 	}
 
@@ -91,23 +69,6 @@ class Admin extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-            ];
-            $ret = AdminService::AdminList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-        }
         return MyView();
     }
 
@@ -134,26 +95,21 @@ class Admin extends Common
 			$this->IsPower();
 		}
 
-		// 管理员编辑
-		$data = [];
+		// 数据
+		$data = $this->data_detail;
 		if(!empty($params['id']))
 		{
-			$data_params = [
-				'where'		=> ['id'=>$params['id']],
-				'm'			=> 0,
-				'n'			=> 1,
-			];
-			$ret = AdminService::AdminList($data_params);
-			if(empty($ret['data'][0]))
+			if(empty($data))
 			{
 				return $this->error('管理员信息不存在', MyUrl('admin/index/index'));
 			}
-			$data = $ret['data'][0];
 		}
 
 		// 角色
 		$role_params = [
-			'where'		=> ['is_enable'=>1],
+			'where'		=> [
+				['is_enable', '=', 1],
+			],
 			'field'		=> 'id,name',
 		];
 		$role = AdminService::RoleList($role_params);
@@ -230,12 +186,6 @@ class Admin extends Common
 		{
 			return $this->error('非法访问');
 		}
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
 
 		// 开始操作
 		$params = $this->data_post;

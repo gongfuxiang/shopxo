@@ -300,7 +300,7 @@ class OrderSplitService
                         if(!array_key_exists($w['id'], $result))
                         {
                             // 仓库
-                            $warehouse_handle = WarehouseService::DataHandle([$w]);
+                            $warehouse_handle = WarehouseService::WarehouseListHandle([$w]);
                             $result[$w['id']] = $warehouse_handle[0];
                             $result[$w['id']]['goods_items'] = [];
                             unset($result[$w['id']]['is_default'], $result[$w['id']]['level'], $result[$w['id']]['inventory']);
@@ -334,7 +334,7 @@ class OrderSplitService
                     if(!array_key_exists($warehouse_default['id'], $result))
                     {
                         // 仓库
-                        $warehouse_handle = WarehouseService::DataHandle([$warehouse_default]);
+                        $warehouse_handle = WarehouseService::WarehouseListHandle([$warehouse_default]);
                         $result[$warehouse_default['id']] = $warehouse_handle[0];
                         $result[$warehouse_default['id']]['goods_items'] = [];
                     }

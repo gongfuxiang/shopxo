@@ -56,45 +56,15 @@ class Order extends Common
      */
     public function Index()
     {
-        // 总数
-        $total = OrderService::OrderTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('index/order/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取列表
-        $data_params = [
-            'm'                 => $page->GetPageStarNumber(),
-            'n'                 => $this->page_size,
-            'where'             => $this->form_where,
-            'order_by'          => $this->form_order_by['data'],
-            'is_orderaftersale' => 1,
-            'is_operate'        => 1,
-            'user_type'         => 'user',
-        ];
-        $ret = OrderService::OrderList($data_params);
-
         // 支付参数
         $pay_params = OrderService::PayParamsHandle($this->data_request);
+        MyViewAssign('pay_params', $pay_params);
 
         // 发起支付 - 支付方式
         MyViewAssign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
 
         // 浏览器名称
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('我的订单', 1));
-
-        // 基础参数赋值
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
-        MyViewAssign('pay_params', $pay_params);
-        MyViewAssign('params', $this->data_request);
         return MyView();
     }
 
@@ -109,7 +79,7 @@ class Order extends Common
     public function Detail()
     {
         // 获取订单信息
-        $data = $this->OrderFirst();
+        $data = $this->data_detail;
         if(empty($data))
         {
             MyViewAssign('msg', '没有相关数据');
@@ -125,13 +95,13 @@ class Order extends Common
 
         // 支付参数
         $pay_params = OrderService::PayParamsHandle($this->data_request);
+        MyViewAssign('pay_params', $pay_params);
 
         // 浏览器名称
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单详情', 1));
 
         // 数据赋值
         MyViewAssign('data', $data);
-        MyViewAssign('pay_params', $pay_params);
         MyViewAssign('params', $this->data_request);
         return MyView();
     }

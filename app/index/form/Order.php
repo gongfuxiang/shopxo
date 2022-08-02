@@ -62,7 +62,6 @@ class Order
         $base = [
             'key_field'     => 'id',
             'is_search'     => 1,
-            'search_url'    => MyUrl('index/order/index'),
             'detail_title'  => '基础信息',
             'is_middle'     => 0,
         ];
@@ -425,9 +424,26 @@ class Order
             ]);
         }
 
+        // 数据配置
+        $data = [
+            'table_name'        => 'Order',
+            'page_tips_handle'  => 'OrderService::OrderTipsMsg',
+            'data_handle'       => 'OrderService::OrderListHandle',
+            'detail_where'      => [
+                ['is_delete_time', '=', 0],
+            ],
+            'is_page'           => 1,
+            'data_params'       => [
+                'is_operate'        => 1,
+                'is_orderaftersale' => 1,
+                'user_type'         => 'user',
+            ],
+        ];
+
         return [
             'base'  => $base,
             'form'  => $form,
+            'data'  => $data,
         ];
     }
 

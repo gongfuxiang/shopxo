@@ -234,7 +234,7 @@ class Qrcode
         header('Content-Disposition: attachment; filename="'.$filename.'"');
         header('Content-Transfer-Encoding: binary');
         header('Connection: close');
-        readfile($url);
+        echo RequestGet($url);
     }
 
     /**

@@ -69,6 +69,21 @@ class LinkService
         $where = empty($params['where']) ? [] : $params['where'];
         $order_by = empty($params['order_by']) ? 'sort asc,id desc' : trim($params['order_by']);
         $data = Db::name('Link')->field($field)->where($where)->order($order_by)->select()->toArray();
+        return DataReturn('处理成功', 0, self::LinkListHandle($data, $params));
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function LinkListHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             foreach($data as &$v)
@@ -84,7 +99,7 @@ class LinkService
                 }
             }
         }
-        return DataReturn('处理成功', 0, $data);
+        return $data;
     }
 
     /**

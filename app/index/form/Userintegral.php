@@ -58,7 +58,6 @@ class UserIntegral
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('index/userintegral/index'),
             ],
             // 表单配置
             'form' => [
@@ -133,6 +132,12 @@ class UserIntegral
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'UserIntegralLog',
+                'data_handle'   => 'IntegralService::IntegralLogListHandle',
+                'is_page'       => 1,
             ],
         ];
     }

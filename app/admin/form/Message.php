@@ -43,7 +43,6 @@ class Message
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/message/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/message/delete'),
                 'delete_key'    => 'ids',
@@ -172,6 +171,16 @@ class Message
                     'view_key'      => 'message/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Message',
+                'data_handle'   => 'MessageService::MessageListHandle',
+                'is_page'       => 1,
+                'data_params'   => [
+                    'is_public'     => 0,
+                    'user_type'     => 'admin',
                 ],
             ],
         ];

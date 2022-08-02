@@ -235,6 +235,16 @@ class GoodsComments
                     'fixed'         => 'right',
                 ],
             ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'GoodsComments',
+                'data_handle'   => 'GoodsCommentsService::GoodsCommentsListHandle',
+                'is_page'       => 1,
+                'data_params'   => [
+                    'is_public'     => 0,
+                    'is_goods'      => 1,
+                ],
+            ],
         ];
     }
 

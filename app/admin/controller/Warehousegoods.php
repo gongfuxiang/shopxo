@@ -54,28 +54,6 @@ class WarehouseGoods extends Common
      */
     public function Index()
     {
-        // 总数
-        $total = WarehouseGoodsService::WarehouseGoodsTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/warehousegoods/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取数据列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-        ];
-        $ret = WarehouseGoodsService::WarehouseGoodsList($data_params);
-
         // 有效仓库列表
         $data_params = [
             'field'     => 'id,name',
@@ -90,10 +68,6 @@ class WarehouseGoods extends Common
         // 商品分类
         MyViewAssign('goods_category_list', GoodsService::GoodsCategoryAll());
 
-        // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
         return MyView();
     }
 
@@ -123,7 +97,7 @@ class WarehouseGoods extends Common
                 // 详情数据
                 if(!empty($ret['data']['data']))
                 {
-                    $ret = WarehouseGoodsService::DataHandle([$ret['data']['data']]);
+                    $ret = WarehouseGoodsService::WarehouseGoodsListHandle([$ret['data']['data']]);
                     $data = $ret[0];
                 }
             }

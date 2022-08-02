@@ -111,6 +111,12 @@ class Role
                     'fixed'         => 'right',
                 ],
             ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Role',
+                'data_handle'   => 'AdminRoleService::RoleListHandle',
+                'is_page'       => 1,
+            ],
         ];
     }
 }

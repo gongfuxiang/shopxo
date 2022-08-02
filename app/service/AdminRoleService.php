@@ -41,6 +41,21 @@ class AdminRoleService
 
         // 获取角色列表
         $data = Db::name('Role')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
+        return DataReturn('处理成功', 0, self::RoleListHandle($data, $params));
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function RoleListHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             // 获取对应菜单权限数据
@@ -65,7 +80,6 @@ class AdminRoleService
                     $power_plugins_list[$p['role_id']][] = $p['name'];
                 }
             }
-
 
             // 是否存在超级管理角色组
             // 超级管理员数据库中并没存储关联关系，所以这里直接读取全部权限菜单
@@ -93,21 +107,7 @@ class AdminRoleService
                 $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
             }
         }
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 角色总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-07
-     * @desc    description
-     * @param   [array]           $where [条件]
-     */
-    public static function RoleTotal($where = [])
-    {
-        return (int) Db::name('Role')->where($where)->count();
+        return $data;
     }
 
     /**

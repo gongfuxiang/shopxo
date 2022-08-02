@@ -23,24 +23,19 @@ use app\service\ResourcesService;
  */
 class QuickNavService
 {
-    /**
-     * 首页导航列表
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
-     * @param    [array]          $params [输入参数]
-     */
-    public static function QuickNavList($params = [])
-    {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'sort asc,id asc' : trim($params['order_by']);
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
 
-        // 获取品牌列表
-        $data = Db::name('QuickNav')->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function QuickNavListHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             $common_platform_type = MyConst('common_platform_type');
@@ -76,20 +71,7 @@ class QuickNavService
                 }
             }
         }
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 首页导航总数
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-10T22:16:29+0800
-     * @param    [array]          $where [条件]
-     */
-    public static function QuickNavTotal($where)
-    {
-        return (int) Db::name('QuickNav')->where($where)->count();
+        return $data;
     }
 
     /**

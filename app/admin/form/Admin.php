@@ -41,7 +41,6 @@ class Admin
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/admin/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/admin/delete'),
                 'delete_key'    => 'ids',
@@ -178,6 +177,12 @@ class Admin
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Admin',
+                'data_handle'   => 'AdminService::AdminListHandle',
+                'is_page'       => 1,
             ],
         ];
     }

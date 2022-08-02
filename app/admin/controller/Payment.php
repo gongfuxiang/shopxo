@@ -80,34 +80,27 @@ class Payment extends Common
      */
     public function SaveInfo()
     {
-        // 参数
-        $params = $this->data_request;
-
-        // 商品信息
-        if(!empty($params['id']))
+        $data = [];
+        if(!empty($this->data_request['id']))
         {
             $data_params = [
-                'where'             => ['id'=>$params['id']],
+                'where'             => ['id'=>$this->data_request['id']],
                 'm'                 => 0,
                 'n'                 => 1,
             ];
             $data = PaymentService::PaymentList($data_params);
-            if(empty($data[0]))
+            if(!empty($data) && !empty($data[0]))
             {
-                return $this->error('没有相关支付方式', MyUrl('admin/payment/index'));
+                $data = $data[0];
             }
-            MyViewAssign('data', $data[0]);
         }
+        MyViewAssign('data', $data);
 
         // 适用平台
         MyViewAssign('common_platform_type', MyConst('common_platform_type'));
 
-        // 参数
-        MyViewAssign('params', $params);
-
         // 编辑器文件存放地址
         MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('payment'));
-
         return MyView();
     }
 

@@ -53,7 +53,7 @@ class ArticleService
             MyCache($key, $data, 180);
         } else {
             // 处理数据、由于平台不一样url地址或者其他数据也会不一样
-            $data = self::DataHandle($data);
+            $data = self::ArticleListHandle($data);
         }
         return $data;
     }
@@ -76,7 +76,7 @@ class ArticleService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         $data = Db::name('Article')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
-        return DataReturn('处理成功', 0, self::DataHandle($data));
+        return DataReturn('处理成功', 0, self::ArticleListHandle($data, $params));
     }
 
     /**
@@ -86,9 +86,10 @@ class ArticleService
      * @version 1.0.0
      * @date    2021-11-09
      * @desc    description
-     * @param   [array]          $data [文章数据]
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
      */
-    public static function DataHandle($data)
+    public static function ArticleListHandle($data, $params = [])
     {
         if(!empty($data))
         {
@@ -600,14 +601,14 @@ class ArticleService
             ['is_enable', '=', 1],
             ['id', '<', $article_id],
         ];
-        $last = self::DataHandle(Db::name('Article')->where($where)->field($field)->order('id desc')->limit(1)->select()->toArray());
+        $last = self::ArticleListHandle(Db::name('Article')->where($where)->field($field)->order('id desc')->limit(1)->select()->toArray());
 
         // 下一条数据
         $where = [
             ['is_enable', '=', 1],
             ['id', '>', $article_id],
         ];
-        $next = self::DataHandle(Db::name('Article')->where($where)->field($field)->order('id asc')->limit(1)->select()->toArray());
+        $next = self::ArticleListHandle(Db::name('Article')->where($where)->field($field)->order('id asc')->limit(1)->select()->toArray());
 
         return [
             'last'  => empty($last) ? null : $last[0],

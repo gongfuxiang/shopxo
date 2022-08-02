@@ -41,7 +41,6 @@ class IntegralLog
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/integrallog/index'),
             ],
             // 表单配置
             'form' => [
@@ -139,6 +138,16 @@ class IntegralLog
                     'view_key'      => 'integrallog/module/operate',
                     'align'         => 'center',
                     'fixed'         => 'right',
+                ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'UserIntegralLog',
+                'data_handle'   => 'IntegralService::IntegralLogListHandle',
+                'is_page'       => 1,
+                'data_params'   => [
+                    'is_public'     => 0,
+                    'user_type'     => 'admin',
                 ],
             ],
         ];

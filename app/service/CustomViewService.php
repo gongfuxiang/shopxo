@@ -40,6 +40,21 @@ class CustomViewService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         $data = Db::name('CustomView')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
+        return DataReturn('处理成功', 0, self::CustomViewListHandle($data, $params));
+    }
+
+    /**
+     * 列表数据处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-01
+     * @desc    description
+     * @param   [array]          $data   [数据列表]
+     * @param   [array]          $params [输入参数]
+     */
+    public static function CustomViewListHandle($data, $params = [])
+    {
         if(!empty($data))
         {
             $common_is_enable_list = MyConst('common_is_enable_list');
@@ -79,21 +94,7 @@ class CustomViewService
                 }
             }
         }
-        return DataReturn('处理成功', 0, $data);
-    }
-
-    /**
-     * 总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function CustomViewTotal($where = [])
-    {
-        return (int) Db::name('CustomView')->where($where)->count();
+        return $data;
     }
 
     /**

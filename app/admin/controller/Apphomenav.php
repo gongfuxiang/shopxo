@@ -42,7 +42,7 @@ class AppHomeNav extends Common
     }
 
     /**
-     * [Index 手机管理-首页导航列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -50,32 +50,6 @@ class AppHomeNav extends Common
      */
     public function Index()
     {
-        // 总数
-        $total = AppHomeNavService::AppHomeNavTotal($this->form_where);
-
-        // 分页
-        $page_params = [
-            'number'    =>  $this->page_size,
-            'total'     =>  $total,
-            'where'     =>  $this->data_request,
-            'page'      =>  $this->page,
-            'url'       =>  MyUrl('admin/apphomenav/index'),
-        ];
-        $page = new \base\Page($page_params);
-
-        // 获取列表
-        $data_params = [
-            'where'         => $this->form_where,
-            'm'             => $page->GetPageStarNumber(),
-            'n'             => $this->page_size,
-            'order_by'      => $this->form_order_by['data'],
-        ];
-        $ret = AppHomeNavService::AppHomeNavList($data_params);
-
-        // 基础参数赋值
-        MyViewAssign('params', $this->data_request);
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
         return MyView();
     }
 
@@ -88,28 +62,11 @@ class AppHomeNav extends Common
      */
     public function Detail()
     {
-        if(!empty($this->data_request['id']))
-        {
-            // 条件
-            $where = [
-                ['id', '=', intval($this->data_request['id'])],
-            ];
-
-            // 获取列表
-            $data_params = [
-                'm'             => 0,
-                'n'             => 1,
-                'where'         => $where,
-            ];
-            $ret = AppHomeNavService::AppHomeNavList($data_params);
-            $data = (empty($ret['data']) || empty($ret['data'][0])) ? [] : $ret['data'][0];
-            MyViewAssign('data', $data);
-        }
         return MyView();
     }
 
     /**
-     * [SaveInfo 添加/编辑页面]
+     * 添加/编辑页面
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -119,21 +76,6 @@ class AppHomeNav extends Common
     {
         // 参数
         $params = $this->data_request;
-
-        // 数据
-        $data = [];
-        if(!empty($params['id']))
-        {
-            // 获取列表
-            $data_params = array(
-                'm'     => 0,
-                'n'     => 1,
-                'where' => ['id'=>intval($params['id'])],
-                'field' => '*',
-            );
-            $ret = AppHomeNavService::AppHomeNavList($data_params);
-            $data = empty($ret['data'][0]) ? [] : $ret['data'][0];
-        }
 
         // 静态数据
         MyViewAssign('common_platform_type', MyConst('common_platform_type'));
@@ -145,12 +87,11 @@ class AppHomeNav extends Common
         // 数据
         unset($params['id']);
         MyViewAssign('params', $params);
-        MyViewAssign('data', $data);
         return MyView();
     }
 
     /**
-     * [Save 手机管理-首页导航添加/编辑]
+     * 添加/编辑
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -170,7 +111,7 @@ class AppHomeNav extends Common
     }
 
     /**
-     * [Delete 手机管理-首页导航删除]
+     * 删除
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -191,7 +132,7 @@ class AppHomeNav extends Common
     }
 
     /**
-     * [StatusUpdate 状态更新]
+     * 状态更新
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1

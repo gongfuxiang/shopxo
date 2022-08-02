@@ -42,7 +42,6 @@ class Link
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/link/index'),
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/link/delete'),
                 'delete_key'    => 'ids',
@@ -156,6 +155,13 @@ class Link
                     'align'         => 'center',
                     'fixed'         => 'right',
                 ],
+            ],
+            // 数据配置
+            'data'  => [
+                'table_name'    => 'Link',
+                'data_handle'   => 'LinkService::LinkListHandle',
+                'is_page'       => 0,
+                'order_by'      => 'sort asc,id desc',
             ],
         ];
     }

@@ -202,7 +202,7 @@ class GoodsCommentsService
 
         // 获取数据列表
         $data = Db::name('GoodsComments')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
-        return DataReturn('处理成功', 0, self::DataHandle($data, $params));
+        return DataReturn('处理成功', 0, self::GoodsCommentsListHandle($data, $params));
     }
 
     /**
@@ -215,7 +215,7 @@ class GoodsCommentsService
      * @param   [array]          $data      [数据]
      * @param   [array]          $params    [输入参数]
      */
-    public static function DataHandle($data, $params = [])
+    public static function GoodsCommentsListHandle($data, $params = [])
     {
         if(!empty($data))
         {
@@ -668,7 +668,7 @@ class GoodsCommentsService
             ['is_show', '=', 1],
         ];
         $field = 'id,user_id,order_id,business_type,content,reply,is_reply,rating,images,is_anonymous,reply_time,add_time';
-        return self::DataHandle(Db::name('GoodsComments')->where($where)->field($field)->limit(0, $number)->order('id desc')->select()->toArray());
+        return self::GoodsCommentsListHandle(Db::name('GoodsComments')->where($where)->field($field)->limit(0, $number)->order('id desc')->select()->toArray());
     }
 }
 ?>
