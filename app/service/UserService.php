@@ -385,6 +385,7 @@ class UserService
             'alipay_openid'         => isset($params['alipay_openid']) ? $params['alipay_openid'] :  '',
             'baidu_openid'          => isset($params['baidu_openid']) ? $params['baidu_openid'] :  '',
             'toutiao_openid'        => isset($params['toutiao_openid']) ? $params['toutiao_openid'] :  '',
+            'toutiao_unionid'       => isset($params['toutiao_unionid']) ? $params['toutiao_unionid'] :  '',
             'qq_openid'             => isset($params['qq_openid']) ? $params['qq_openid'] :  '',
             'qq_unionid'            => isset($params['qq_unionid']) ? $params['qq_unionid'] :  '',
             'weixin_openid'         => isset($params['weixin_openid']) ? $params['weixin_openid'] :  '',
@@ -2026,9 +2027,10 @@ class UserService
         // 用户unionid列表
         // 微信用户unionid
         // QQ用户unionid
+        // 头条用户unionid
         $field = null;
         $value = null;
-        $fields_arr = ['weixin_unionid', 'qq_unionid'];
+        $fields_arr = ['weixin_unionid', 'qq_unionid', 'toutiao_unionid'];
         foreach($fields_arr as $unionid)
         {
             if(!empty($params[$unionid]))

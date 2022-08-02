@@ -50,7 +50,7 @@ class Baidu
      * @param    [string]  $encrypted_data     [加密的用户数据]
      * @param    [string]  $iv                 [与用户数据一同返回的初始向量]
      * @param    [string]  $openid             [解密后的原文]
-     * @param    [string]  $key                [当时业务key]
+     * @param    [string]  $key                [当前业务key]
      * @return   [array|string]                [成功返回用户信息数组, 失败返回错误信息]
      */
     public function DecryptData($encrypted_data, $iv, $openid, $key = 'user_info')
@@ -110,10 +110,6 @@ class Baidu
         {
             return DataReturn('appkey不匹配', -1);
         }
-
-        // 缓存存储
-        $data_key = 'baidu_'.$key.'_'.$openid;
-        MyCache($data_key, $data);
         return DataReturn('success', 0, $data);
     }
 

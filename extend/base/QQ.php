@@ -84,10 +84,6 @@ class QQ
         {
             return DataReturn('appid不匹配', -1);
         }
-
-        // 缓存存储
-        $data_key = 'qq_user_info_'.$openid;
-        MyCache($data_key, $data);
         return DataReturn('success', 0, $data);
     }
 

@@ -172,14 +172,26 @@ class AppMiniUserService
             {
                 $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid'], 'unionid'=>$unionid]);
             } else {
+                $status = false;
                 // 如果用户openid为空则绑定到用户下面
-                if(empty($user['weixin_openid']))
+                if(empty($user['toutiao_openid']))
                 {
-                    if(UserService::UserOpenidBind($user['id'], $ret['data']['openid'], 'weixin_openid'))
+                    $status = UserService::UserOpenidBind($user['id'], $ret['data']['openid'], 'toutiao_openid');
+                }
+                // 如果用户unionid为空则绑定到用户下面
+                if(empty($user['weixin_unionid']) && !empty($unionid))
+                {
+                    // uniapp无绑定用户则更新到当前用户
+                    $temp = UserService::UserInfo('weixin_unionid', $unionid);
+                    if(empty($temp))
                     {
-                        // 登录数据更新
-                        $user = UserService::AppUserInfoHandle($user['id']);
+                        $status = UserService::UserOpenidBind($user['id'], $unionid, 'weixin_unionid');
                     }
+                }
+                // 是否重新获取用户信息
+                if($status)
+                {
+                    $user = UserService::AppUserInfoHandle($user['id']);
                 }
             }
 
@@ -393,13 +405,46 @@ class AppMiniUserService
         $ret = (new \base\Toutiao($config))->GetAuthSessionKey($params);
         if($ret['code'] == 0)
         {
+            // unionid
+            $unionid = empty($ret['data']['unionid']) ? '' : $ret['data']['unionid'];
+
             // 先从数据库获取用户信息
             $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $ret['data']['openid']);
+            if(empty($user) && !empty($unionid))
+            {
+                // 根据unionid获取数据
+                $user = UserService::AppUserInfoHandle(null, 'toutiao_unionid', $unionid);
+            }
             if(empty($user))
             {
-                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
+                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid'], 'unionid'=>$unionid]);
             } else {
-                // 用户状态
+                $status = false;
+                // 如果用户openid为空则绑定到用户下面
+                if(empty($user['toutiao_openid']))
+                {
+                    $status = UserService::UserOpenidBind($user['id'], $ret['data']['openid'], 'toutiao_openid');
+                }
+                // 如果用户unionid为空则绑定到用户下面
+                if(empty($user['toutiao_unionid']) && !empty($unionid))
+                {
+                    // uniapp无绑定用户则更新到当前用户
+                    $temp = UserService::UserInfo('toutiao_unionid', $unionid);
+                    if(empty($temp))
+                    {
+                        $status = UserService::UserOpenidBind($user['id'], $unionid, 'toutiao_unionid');
+                    }
+                }
+                // 是否重新获取用户信息
+                if($status)
+                {
+                    $user = UserService::AppUserInfoHandle($user['id']);
+                }
+            }
+
+            // 用户状态
+            if(!empty($user))
+            {
                 $ret = UserService::UserStatusCheck('id', $user['id']);
                 if($ret['code'] == 0)
                 {
@@ -448,6 +493,7 @@ class AppMiniUserService
                 $auth_data['avatar'] = isset($auth_data['avatarUrl']) ? $auth_data['avatarUrl'] : '';
                 $auth_data['gender'] = empty($auth_data['gender']) ? 0 : (($auth_data['gender'] == 2) ? 1 : 2);
                 $auth_data['openid'] = $params['openid'];
+                $auth_data['toutiao_unionid'] = isset($params['unionid']) ? $params['unionid'] : '';
                 $auth_data['referrer']= isset($params['referrer']) ? $params['referrer'] : 0;
                 $ret = UserService::AuthUserProgram($auth_data, 'toutiao_openid');
             } else {
@@ -571,13 +617,46 @@ class AppMiniUserService
             $ret = (new \base\QQ(self::AppMiniConfig('common_app_mini_qq_appid'), self::AppMiniConfig('common_app_mini_qq_appsecret')))->GetAuthSessionKey($params['authcode']);
             if($ret['code'] == 0)
             {
+                // unionid
+                $unionid = empty($ret['data']['unionid']) ? '' : $ret['data']['unionid'];
+
                 // 先从数据库获取用户信息
                 $user = UserService::AppUserInfoHandle(null, 'qq_openid', $ret['data']['openid']);
+                if(empty($user) && !empty($unionid))
+                {
+                    // 根据unionid获取数据
+                    $user = UserService::AppUserInfoHandle(null, 'qq_unionid', $unionid);
+                }
                 if(empty($user))
                 {
-                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
+                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid'], 'unionid'=>$unionid]);
                 } else {
-                    // 用户状态
+                    $status = false;
+                    // 如果用户openid为空则绑定到用户下面
+                    if(empty($user['qq_openid']))
+                    {
+                        $status = UserService::UserOpenidBind($user['id'], $ret['data']['openid'], 'qq_openid');
+                    }
+                    // 如果用户unionid为空则绑定到用户下面
+                    if(empty($user['qq_unionid']) && !empty($unionid))
+                    {
+                        // uniapp无绑定用户则更新到当前用户
+                        $temp = UserService::UserInfo('qq_unionid', $unionid);
+                        if(empty($temp))
+                        {
+                            $status = UserService::UserOpenidBind($user['id'], $unionid, 'qq_unionid');
+                        }
+                    }
+                    // 是否重新获取用户信息
+                    if($status)
+                    {
+                        $user = UserService::AppUserInfoHandle($user['id']);
+                    }
+                }
+
+                // 用户状态
+                if(!empty($user))
+                {
                     $ret = UserService::UserStatusCheck('id', $user['id']);
                     if($ret['code'] == 0)
                     {
@@ -757,6 +836,41 @@ class AppMiniUserService
                 if($ret['code'] == 0 && !empty($ret['data']) && !empty($ret['data']['mobile']))
                 {
                     $mobile = $ret['data']['mobile'];
+                } else {
+                    return $ret;
+                }
+                break;
+
+            // 头条
+            case 'toutiao' :
+                // 参数校验
+                $p = [
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'encrypted_data',
+                        'error_msg'         => '解密数据为空',
+                    ],
+                    [
+                        'checked_type'      => 'empty',
+                        'key_name'          => 'iv',
+                        'error_msg'         => 'iv为空,请重试',
+                    ]
+                ];
+                $ret = ParamsChecked($params, $p);
+                if($ret !== true)
+                {
+                    return DataReturn($ret, -1);
+                }
+
+                // 数据解密
+                $config = [
+                    'appid'     => self::AppMiniConfig('common_app_mini_toutiao_appid'),
+                    'secret'    => self::AppMiniConfig('common_app_mini_toutiao_appsecret'),
+                ];
+                $ret = (new \base\Toutiao($config))->DecryptData($params['encrypted_data'], $params['iv'], $params['openid']);
+                if($ret['code'] == 0 && !empty($ret['data']) && !empty($ret['data']['purePhoneNumber']))
+                {
+                    $mobile = $ret['data']['purePhoneNumber'];
                 } else {
                     return $ret;
                 }

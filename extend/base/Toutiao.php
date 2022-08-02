@@ -36,6 +36,52 @@ class Toutiao
     }
 
     /**
+     * 检验数据的真实性，并且获取解密后的明文
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  1.0.0
+     * @datetime 2017-12-30T18:20:53+0800
+     * @param    [string]  $encrypted_data     [加密的用户数据]
+     * @param    [string]  $iv                 [与用户数据一同返回的初始向量]
+     * @param    [string]  $openid             [解密后的原文]
+     * @return   [array|string]                [成功返回用户信息数组, 失败返回错误信息]
+     */
+    public function DecryptData($encrypted_data, $iv, $openid)
+    {
+        // 登录授权session
+        $login_key = 'toutiao_user_login_'.$openid;
+        $session_data = MyCache($login_key);
+        if(empty($session_data))
+        {
+            return DataReturn('session key不存在', -1);
+        }
+
+        // iv长度
+        if(strlen($iv) != 24)
+        {
+            return DataReturn('iv长度错误', -1);
+        }
+
+        // 加密函数
+        if(!function_exists('openssl_decrypt'))
+        {
+            return DataReturn('openssl不支持', -1);
+        }
+
+        $result = openssl_decrypt(base64_decode($encrypted_data), "AES-128-CBC", base64_decode($session_data['session_key']), 1, base64_decode($iv));
+        $data = json_decode($result, true);
+        if($data == NULL)
+        {
+            return DataReturn('请重试！', -1);
+        }
+        if($data['watermark']['appid'] != $this->config['appid'])
+        {
+            return DataReturn('appid不匹配', -1);
+        }
+        return DataReturn('success', 0, $data);
+    }
+
+    /**
      * 用户授权
      * @author  Devil
      * @blog    http://gong.gg/
@@ -64,6 +110,11 @@ class Toutiao
         }
         if(!empty($result['openid']))
         {
+            // 缓存SessionKey
+            $key = 'toutiao_user_login_'.$result['openid'];
+
+            // 缓存存储
+            MyCache($key, $result);
             return DataReturn('授权成功', 0, $result);
         }
         $msg = empty($result['errmsg']) ? '授权接口异常错误' : $result['errmsg'];

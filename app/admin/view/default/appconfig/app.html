@@ -31,14 +31,14 @@
                 <label>{{$data.common_user_onekey_bind_mobile_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_onekey_bind_mobile_list.describe}}</span></label>
                 <select name="{{$data.common_user_onekey_bind_mobile_list.only_tag}}" class="am-radius chosen-select" data-placeholder="{{$data.common_user_onekey_bind_mobile_list.name}}" multiple data-validation-message="{{$data.common_user_onekey_bind_mobile_list.error_tips}}">
                     {{foreach $common_platform_type as $v}}
-                        {{if in_array($v['value'], ['weixin', 'baidu'])}}
+                        {{if in_array($v['value'], ['weixin', 'baidu', 'toutiao'])}}
                             <option value="{{$v.value}}" {{if isset($data['common_user_onekey_bind_mobile_list']['value']) and in_array($v['value'], $data['common_user_onekey_bind_mobile_list']['value'])}}selected{{/if}}>{{$v.name}}</option>
                         {{/if}}
                     {{/foreach}}
                 </select>
                 <div class="am-alert am-alert-warning" data-am-alert>
                     <button type="button" class="am-close">&times;</button>
-                    <p>1. 获取当前小程序平台账户或者本本机的手机号码一键登录绑定，目前仅支持【微信小程序、百度小程序】</p>
+                    <p>1. 获取当前小程序平台账户或者本本机的手机号码一键登录绑定，目前仅支持【微信小程序、百度小程序、头条小程序】</p>
                     <p>2. 依赖需要开启《强制绑定手机》有效</p>
                     <p>3. 部分小程序平台可能需要申请权限、请根据小程序平台要求申请后再对应开启</p>
                 </div>
