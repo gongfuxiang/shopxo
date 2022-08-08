@@ -8,7 +8,7 @@
     
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'cache'])}}" enctype="multipart/form-data">
+        <form class="am-form form-validation" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'cache'])}}" enctype="multipart/form-data">
             <div class="am-alert am-alert-warning" data-am-alert>
                 <button type="button" class="am-close">&times;</button>
                 <p>1. 默认使用的文件缓存、使用Redis缓存PHP需要先安装Redis扩展</p>

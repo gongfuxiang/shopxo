@@ -353,7 +353,7 @@ class Common extends BaseController
     }
 
 	/**
-	 * [IsPower 是否有权限]
+	 * 是否有权限
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1

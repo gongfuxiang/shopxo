@@ -1125,8 +1125,9 @@ function DataDelete(e)
 	var id = e.attr('data-id');
 	var key = e.attr('data-key') || 'id';
 	var url = e.attr('data-url');
-	var view = e.attr('data-view') || 'delete';
 	var value = e.attr('data-value') || null;
+	var view = e.attr('data-view') || 'delete';
+	var view_value = e.attr('data-view-value') || '';
 	var ext_delete_tag = e.attr('data-ext-delete-tag') || null;
 	var is_loading = parseInt(e.attr('data-is-loading') || 0);
 	var loading_msg = e.attr('data-loading-msg') || '正在处理中、请稍候...';
@@ -1184,7 +1185,13 @@ function DataDelete(e)
 							{
 								AMUI.dialog.loading('close');
 							}
-							window.location.reload();
+							// 等于parent则刷新父窗口
+							if(view_value == 'parent')
+							{
+								parent.location.reload();
+							} else {
+								window.location.reload();
+							}
 						}, 1500);
 						break;
 
@@ -1293,6 +1300,7 @@ function AjaxRequest(e)
 	var value = e.attr('data-value') || '';
 	var url = e.attr('data-url');
 	var view = e.attr('data-view') || '';
+	var view_value = e.attr('data-view-value') || '';
 	var is_example = e.hasClass('btn-loading-example');
 	var is_loading = parseInt(e.attr('data-is-loading') || 0);
 	var loading_msg = e.attr('data-loading-msg') || '正在处理中、请稍候...';
@@ -1347,7 +1355,13 @@ function AjaxRequest(e)
 							{
 								AMUI.dialog.loading('close');
 							}
-							window.location.reload();
+							// 等于parent则刷新父窗口
+							if(view_value == 'parent')
+							{
+								parent.location.reload();
+							} else {
+								window.location.reload();
+							}
 						}, 1500);
 						break;
 

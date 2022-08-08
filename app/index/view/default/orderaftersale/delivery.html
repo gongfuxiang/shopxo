@@ -9,7 +9,7 @@
                 <span>退货地址：</span>
                 <span class="am-text-warning">{{$return_goods_address}}</span>
             </div>
-            <form class="am-form form-validation view-save" action="{{:MyUrl('index/orderaftersale/delivery')}}" method="POST" request-type="ajax-reload">
+            <form class="am-form form-validation" action="{{:MyUrl('index/orderaftersale/delivery')}}" method="POST" request-type="ajax-reload">
                 <div class="am-form-group">
                     <label>快递名称<span class="am-form-group-label-tips-must">必选</span></label>
                     <input type="text" name="express_name" class="am-radius" placeholder="快递名称" minlength="1" maxlength="60" data-validation-message="快递名称格式 1~60 个字符之间" required />

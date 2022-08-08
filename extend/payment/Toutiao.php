@@ -384,6 +384,67 @@ class Toutiao
     }
 
     /**
+     * 分账
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-03
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function Settlement($params = [])
+    {
+        // 参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'out_settle_no',
+                'error_msg'         => '分账单号不能为空',
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'order_no',
+                'error_msg'         => '订单号不能为空',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 请求数据
+        $parameter = [
+            'app_id'        => $this->config['app_id'],
+            'out_settle_no' => $params['out_settle_no'],
+            'out_order_no'  => $params['order_no'],
+            'settle_desc'   => '主动结算',
+        ];
+
+        // 签名
+        $parameter['sign'] = $this->GetParamSign($parameter);
+
+        // 请求接口
+        $url = 'https://developer.toutiao.com/api/apps/ecpay/v1/settle';
+        $ret = $this->HttpRequest($url, $parameter);
+        if($ret['code'] == 0)
+        {
+            $data = [
+                'data'  => $ret['data'],
+            ];
+            if(isset($ret['data']['err_no']) && $ret['data']['err_no'] == 0)
+            {
+                $data['status'] = 0;
+                $data['trade_no'] = $ret['data']['settle_no'];
+            } else {
+                $data['error'] = $ret['data']['err_tips'].'('.$ret['data']['err_no'].')';
+            }
+            return DataReturn('操作成功', 0, $data);
+        }
+        return $ret;
+    }
+
+    /**
      * 网络请求
      * @author   Devil
      * @blog     http://gong.gg/

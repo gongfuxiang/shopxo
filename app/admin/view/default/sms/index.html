@@ -8,7 +8,7 @@
 
 	<div class="content">		
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/sms/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/sms/index', ['type'=>'sms'])}}">
+		<form class="am-form form-validation" action="{{:MyUrl('admin/sms/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/sms/index', ['type'=>'sms'])}}">
 			<div class="am-form-group">
 				<label>{{$data.common_sms_apikey.name}}<span class="am-form-group-label-tips">{{$data.common_sms_apikey.describe}}</span></label>
 				<input type="text" name="{{$data.common_sms_apikey.only_tag}}" placeholder="{{$data.common_sms_apikey.name}}" data-validation-message="{{$data.common_sms_apikey.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_sms_apikey.value}}"{{/if}} />

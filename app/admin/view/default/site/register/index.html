@@ -8,7 +8,7 @@
 
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'register'])}}" enctype="multipart/form-data">
+        <form class="am-form form-validation" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>'register'])}}" enctype="multipart/form-data">
             <div class="am-form-group">
                 <label>{{$data.home_user_reg_type.name}}<span class="am-form-group-label-tips">{{$data.home_user_reg_type.describe}}</span></label>
                 <select name="{{$data.home_user_reg_type.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.home_user_reg_type.name}}">

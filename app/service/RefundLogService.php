@@ -29,6 +29,7 @@ class RefundLogService
      * @version  1.0.0
      * @datetime 2019-05-07T00:57:36+0800
      * @param   [array]             $params         [输入参数]
+     * @param   [int]               $pay_id         [支付id]
      * @param   [int]               $user_id        [用户id]
      * @param   [int]               $business_id    [业务订单id]
      * @param   [float]             $pay_price      [业务订单实际支付金额]
@@ -46,6 +47,7 @@ class RefundLogService
     public static function RefundLogInsert($params = [])
     {
         $data = [
+            'pay_id'            => isset($params['pay_id']) ? intval($params['pay_id']) : 0,
             'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
             'business_id'       => isset($params['business_id']) ? intval($params['business_id']) : 0,
             'pay_price'         => isset($params['pay_price']) ? PriceNumberFormat($params['pay_price']) : 0.00,

@@ -9,7 +9,7 @@
 		</div>
 
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/seo/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/seo/index')}}">
+		<form class="am-form form-validation" action="{{:MyUrl('admin/seo/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/seo/index')}}">
 			<div class="am-form-group">
 				<label>{{$data.home_seo_url_model.name}}<span class="am-form-group-label-tips">{{$data.home_seo_url_model.describe}}</span></label>
 				<select name="{{$data.home_seo_url_model.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_seo_url_model.error_tips}}" required>

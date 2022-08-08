@@ -10,7 +10,7 @@
         
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <!-- form start -->
-            <form class="am-form form-validation view-save" action="{{:MyUrl('admin/sqlconsole/implement')}}" method="POST" request-type="ajax-fun" request-value="ViewImplementBack">
+            <form class="am-form form-validation" action="{{:MyUrl('admin/sqlconsole/implement')}}" method="POST" request-type="ajax-fun" request-value="ViewImplementBack">
                 <div class="am-form-group">
                     <textarea rows="16" name="sql" class="am-radius" placeholder="SQL语句" data-validation-message="请填写需要执行的SQL语句" required></textarea>
                 </div>

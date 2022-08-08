@@ -16,7 +16,7 @@
 	    </div>
 
 		<!-- form start -->
-		<form class="am-form form-validation view-save" action="{{:MyUrl('admin/appmini/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appmini/config', ['nav_type'=>$nav_type])}}">
+		<form class="am-form form-validation" action="{{:MyUrl('admin/appmini/save', ['nav_type'=>$nav_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appmini/config', ['nav_type'=>$nav_type])}}">
 			{{switch $nav_type}}
 				{{case weixin}}
 					<!-- 微信 -->

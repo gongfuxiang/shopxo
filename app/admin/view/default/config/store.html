@@ -4,7 +4,7 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/config/store')}}">
+        <form class="am-form form-validation" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/config/store')}}">
             
             <div class="am-form-group">
                 <label>{{$data.common_customer_store_tel.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_tel.describe}}</span></label>

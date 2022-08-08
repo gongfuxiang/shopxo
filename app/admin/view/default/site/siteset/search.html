@@ -12,7 +12,7 @@
         <!-- nav end -->
 
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
+        <form class="am-form form-validation" action="{{:MyUrl('admin/site/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/site/index', ['nav_type'=>$nav_type, 'view_type'=>$view_type])}}" enctype="multipart/form-data">
             <div class="am-form-group">
                 <label>{{$data.home_search_keywords_type.name}}</label>
                 <select name="{{$data.home_search_keywords_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_search_keywords_type.error_tips}}">

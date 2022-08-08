@@ -8,7 +8,7 @@
 
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation view-save" action="{{:MyUrl('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'app'])}}" enctype="multipart/form-data">
+        <form class="am-form form-validation" action="{{:MyUrl('admin/appconfig/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'app'])}}" enctype="multipart/form-data">
             <div class="am-form-group">
                 <label>{{$data.common_app_is_use_mobile_detail.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_use_mobile_detail.describe}}</span></label>
                 <select name="{{$data.common_app_is_use_mobile_detail.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_use_mobile_detail.error_tips}}" required>
