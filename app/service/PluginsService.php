@@ -399,7 +399,15 @@ class PluginsService
      * @version  1.0.0
      * @date     2020-01-02
      * @param    [string]          $plugins        [应用标记]
-     * @param    [string]          $action         [事件方法(Upload 上传, Install 安装, Uninstall 卸载, Download 下载, Upgrade 更新, Delete 删除)]
+     * @param    [string]          $action         [事件方法(
+     *  Upload          上传
+     *  BeginInstall    安装前（验证返回状态）
+     *  Install         安装
+     *  Uninstall       卸载
+     *  Download        下载
+     *  BeginUpgrade    更新前（验证返回状态）
+     *  Upgrade         更新
+     *  Delete          删除)]
      * @param    [array]           $params         [输入参数]
      */
     public static function PluginsEventCall($plugins, $action, $params = [])
@@ -408,7 +416,7 @@ class PluginsService
         $plugins = '\app\plugins\\'.$plugins.'\\Event';
         if(!class_exists($plugins))
         {
-            return DataReturn('应用事件未定义['.$plugins.']', -1);
+            return DataReturn('应用事件未定义['.$plugins.']', 0);
         }
 
         // 调用方法
@@ -416,7 +424,7 @@ class PluginsService
         $obj = new $plugins($params);
         if(!method_exists($obj, $action))
         {
-            return DataReturn('应用事件方法未定义['.$action.']', -1);
+            return DataReturn('应用事件方法未定义['.$action.']', 0);
         }
 
         // 调用方法仅传递请求参数
@@ -424,7 +432,12 @@ class PluginsService
         {
             $params = $params['data_request'];
         }
-        return DataReturn('调用成功', 0, $obj->$action($params));
+        $ret = $obj->$action($params);
+        if(!empty($ret) && is_array($ret) && array_key_exists('code', $ret) && array_key_exists('data', $ret) && array_key_exists('msg', $ret))
+        {
+            return $ret;
+        }
+        return DataReturn('调用成功', 0, $ret);
     }
 
     /**

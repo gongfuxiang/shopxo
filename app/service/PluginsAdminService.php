@@ -166,6 +166,14 @@ class PluginsAdminService
         $config = self::GetPluginsConfig($plugins);
         if(!empty($config) && !empty($config['base']) && !empty($config['base']['name']))
         {
+            // 插件前置事件
+            $ret = PluginsService::PluginsEventCall($plugins, 'BeginInstall', $params);
+            if(!empty($ret) && isset($ret['code']) && $ret['code'] != 0)
+            {
+                return $ret;
+            }
+
+            // 添加处理
             $cache = PluginsService::PluginsCacheData($plugins);
             $data = [
                 'name'      => $config['base']['name'],
@@ -1468,6 +1476,13 @@ php;
         if(!self::PluginsExist($params['plugins_value']))
         {
             return DataReturn('应用不存在['.$params['plugins_value'].']、请先安装', -1);
+        }
+
+        // 插件前置事件
+        $ret = PluginsService::PluginsEventCall($params['plugins_value'], 'BeginUpgrade', $params);
+        if(!empty($ret) && isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
         }
 
         // 包处理
