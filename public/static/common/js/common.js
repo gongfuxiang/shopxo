@@ -352,7 +352,7 @@ function FromInit(form_name)
 			if(this.isFormValid())
 			{
 				// 多选插件校验
-				if($form.find('.chosen-select'))
+				if($form.find('select.chosen-select'))
 				{
 					var is_success = true;
 					$form.find('select.chosen-select').each(function(k, v)
@@ -647,9 +647,9 @@ function FormDataFill(json, tag)
 		});
 
 		// 多选插件事件更新
-		if($('.chosen-select').length > 0)
+		if($('select.chosen-select').length > 0)
 		{
-			$('.chosen-select').trigger('chosen:updated');
+			$('select.chosen-select').trigger('chosen:updated');
 		}
 	}
 }
@@ -862,9 +862,9 @@ function TreeFormSaveBackHandle(e)
 	        				// 移出当前存在父节点中的数据
 	        				$popup.find('select[name="pid"] option[value="'+json['id']+'"]').remove();
 	        				// 多选插件事件更新
-							if($('.chosen-select').length > 0)
+							if($('select.chosen-select').length > 0)
 							{
-								$('.chosen-select').trigger('chosen:updated');
+								$('select.chosen-select').trigger('chosen:updated');
 							}
 		        		} else {
 		        			// 是否未启用
@@ -1898,9 +1898,9 @@ function TreeFormInit()
 	});
 
 	// 多选插件事件更新
-	if($('.chosen-select').length > 0)
+	if($('select.chosen-select').length > 0)
 	{
-		$('.chosen-select').trigger('chosen:updated');
+		$('select.chosen-select').trigger('chosen:updated');
 	}
 }
 
@@ -2759,9 +2759,9 @@ $(function()
 
 
 	// 多选插件初始化
-	if($('.chosen-select').length > 0)
+	if($('select.chosen-select').length > 0)
 	{
-		$('.chosen-select').chosen({
+		$('select.chosen-select').chosen({
 			inherit_select_classes: true,
 			enable_split_word_search: true,
 			search_contains: true,
@@ -2927,9 +2927,9 @@ $(function()
 		$($(this).parents('#tree').data('popup-tag') || ''+popup_tag+'').find('input[name="pid"], select[name="pid"]').val(id);
 
 		// 多选插件事件更新
-		if($('.chosen-select').length > 0)
+		if($('select.chosen-select').length > 0)
 		{
-			$('.chosen-select').trigger('chosen:updated');
+			$('select.chosen-select').trigger('chosen:updated');
 		}
 	});
 
