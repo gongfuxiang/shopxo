@@ -575,25 +575,22 @@ class StatisticalService
         $data = [];
         $value_arr = [];
         $name_arr = [];
-        if(!empty($status_arr))
+        $date = self::DayCreate($params['start'], $params['end']);
+        foreach($date as $day)
         {
-            $date = self::DayCreate($params['start'], $params['end']);
-            foreach($date as $day)
-            {
-                // 当前日期名称
-                $name_arr[] = date('Y-m-d', $day['start']);
+            // 当前日期名称
+            $name_arr[] = date('Y-m-d', $day['start']);
 
-                // 根据状态获取数量
-                foreach($status_arr as $status)
-                {
-                    // 获取订单
-                    $where = [
-                        ['status', '=', $status],
-                        ['add_time', '>=', $day['start']],
-                        ['add_time', '<=', $day['end']],
-                    ];
-                    $value_arr[$status][] = Db::name('Order')->where($where)->count();
-                }
+            // 根据状态获取数量
+            foreach($status_arr as $status)
+            {
+                // 获取订单
+                $where = [
+                    ['status', '=', $status],
+                    ['add_time', '>=', $day['start']],
+                    ['add_time', '<=', $day['end']],
+                ];
+                $value_arr[$status][] = Db::name('Order')->where($where)->count();
             }
         }
 
@@ -639,25 +636,22 @@ class StatisticalService
         // 订单收入总计、是否有收入统计权限
         if(AdminIsPower('index', 'income'))
         {
-            if(!empty($status_arr))
+            $date = self::DayCreate($params['start'], $params['end']);
+            foreach($date as $day)
             {
-                $date = self::DayCreate($params['start'], $params['end']);
-                foreach($date as $day)
-                {
-                    // 当前日期名称
-                    $name_arr[] = date('Y-m-d', $day['start']);
+                // 当前日期名称
+                $name_arr[] = date('Y-m-d', $day['start']);
 
-                    // 根据状态获取数量
-                    foreach($status_arr as $status)
-                    {
-                        // 获取订单
-                        $where = [
-                            ['status', '=', $status],
-                            ['add_time', '>=', $day['start']],
-                            ['add_time', '<=', $day['end']],
-                        ];
-                        $value_arr[$status][] = Db::name('Order')->where($where)->sum('pay_price');
-                    }
+                // 根据状态获取数量
+                foreach($status_arr as $status)
+                {
+                    // 获取订单
+                    $where = [
+                        ['status', '=', $status],
+                        ['add_time', '>=', $day['start']],
+                        ['add_time', '<=', $day['end']],
+                    ];
+                    $value_arr[$status][] = Db::name('Order')->where($where)->sum('pay_price');
                 }
             }
 

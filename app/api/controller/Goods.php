@@ -30,7 +30,7 @@ use app\service\AppService;
 class Goods extends Common
 {
     /**
-     * [__construct 构造方法]
+     * 构造方法
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
