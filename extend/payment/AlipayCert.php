@@ -469,23 +469,24 @@ class AlipayCert
         $refund_reason = empty($params['refund_reason']) ? $params['order_no'].'订单退款'.$params['refund_price'].'元' : $params['refund_reason'];
 
         // 退款参数
-        $parameter = array(
-            'app_id'                =>  $this->config['appid'],
-            'method'                =>  'alipay.trade.refund',
-            'format'                =>  'JSON',
-            'charset'               =>  'utf-8',
-            'sign_type'             =>  'RSA2',
-            'timestamp'             =>  date('Y-m-d H:i:s'),
-            'version'               =>  '1.0',
+        $parameter = [
+            'app_id'                => $this->config['appid'],
+            'method'                => 'alipay.trade.refund',
+            'format'                => 'JSON',
+            'charset'               => 'utf-8',
+            'sign_type'             => 'RSA2',
+            'timestamp'             => date('Y-m-d H:i:s'),
+            'version'               => '1.0',
             'app_cert_sn'           => $this->GetCertSNFromContent($this->config['cert_content']),
             'alipay_root_cert_sn'   => $this->GetRootCertSNFromContent($this->config['out_root_cert_content']),
-        );
-        $biz_content = array(
-            'out_trade_no'          =>  $params['order_no'],
-            'trade_no'              =>  $params['trade_no'],
-            'refund_amount'         =>  (string) $params['refund_price'],
-            'refund_reason'         =>  $refund_reason,
-        );
+        ];
+        $biz_content = [
+            'out_request_no'        => $params['order_no'].'JE'.str_replace('.', '', $params['refund_price']),
+            'out_trade_no'          => $params['order_no'],
+            'trade_no'              => $params['trade_no'],
+            'refund_amount'         => (string) $params['refund_price'],
+            'refund_reason'         => $refund_reason,
+        ];
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
 
         // 生成签名参数+签名
