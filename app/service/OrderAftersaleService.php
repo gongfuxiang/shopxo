@@ -1205,7 +1205,7 @@ class OrderAftersaleService
             'normal_money'      => PriceNumberFormat($user_wallet['data']['normal_money']+$aftersale['price']),
             'upd_time'          => time(),
         ];
-        if(!Db::name('PluginsWallet')->where(['id'=>$user_wallet['data']['id']])->update($data))
+        if(Db::name('PluginsWallet')->where(['id'=>$user_wallet['data']['id']])->update($data) === false)
         {
             return DataReturn('钱包更新失败', -10);
         }
