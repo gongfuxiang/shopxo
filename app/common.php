@@ -796,6 +796,12 @@ function IsGoodsSiteTypeConsistent($site_type)
         return 1;
     }
 
+    // 商品类型为 销售+自提、包含其中
+    if($site_type == 4 && in_array($common_site_type, [0, 2]))
+    {
+        return 1;
+    }
+
     // 不一致
     return 0;
 }
