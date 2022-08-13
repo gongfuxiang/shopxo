@@ -5,6 +5,7 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\MathTrig;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 
 class Operations
 {
@@ -75,10 +76,10 @@ class Operations
 
         // Validate parameters
         if (!$x && !$y) {
-            return Functions::NAN();
+            return ExcelError::NAN();
         }
         if (!$x && $y < 0.0) {
-            return Functions::DIV0();
+            return ExcelError::DIV0();
         }
 
         // Return
@@ -101,29 +102,27 @@ class Operations
      */
     public static function product(...$args)
     {
+        $args = array_filter(
+            Functions::flattenArray($args),
+            function ($value) {
+                return $value !== null;
+            }
+        );
+
         // Return value
-        $returnValue = null;
+        $returnValue = (count($args) === 0) ? 0.0 : 1.0;
 
         // Loop through arguments
-        foreach (Functions::flattenArray($args) as $arg) {
+        foreach ($args as $arg) {
             // Is it a numeric value?
             if (is_numeric($arg)) {
-                if ($returnValue === null) {
-                    $returnValue = $arg;
-                } else {
-                    $returnValue *= $arg;
-                }
+                $returnValue *= $arg;
             } else {
-                return Functions::VALUE();
+                return ExcelError::throwError($arg);
             }
         }
 
-        // Return
-        if ($returnValue === null) {
-            return 0;
-        }
-
-        return $returnValue;
+        return (float) $returnValue;
     }
 
     /**

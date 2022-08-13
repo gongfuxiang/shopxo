@@ -58,10 +58,11 @@ if (!function_exists('abort')) {
 if (!function_exists('app')) {
     /**
      * 快速获取容器中的实例 支持依赖注入
-     * @param string $name        类名或标识 默认获取当前应用实例
-     * @param array  $args        参数
-     * @param bool   $newInstance 是否每次创建新的实例
-     * @return object|App
+     * @template T
+     * @param string|class-string<T> $name        类名或标识 默认获取当前应用实例
+     * @param array                  $args        参数
+     * @param bool                   $newInstance 是否每次创建新的实例
+     * @return T|object|App
      */
     function app(string $name = '', array $args = [], bool $newInstance = false)
     {

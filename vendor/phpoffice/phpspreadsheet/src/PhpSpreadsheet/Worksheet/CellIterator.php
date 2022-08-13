@@ -4,6 +4,7 @@ namespace PhpOffice\PhpSpreadsheet\Worksheet;
 
 use Iterator;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use PhpOffice\PhpSpreadsheet\Collection\Cells;
 
 /**
  * @template TKey
@@ -11,12 +12,23 @@ use PhpOffice\PhpSpreadsheet\Cell\Cell;
  */
 abstract class CellIterator implements Iterator
 {
+    public const TREAT_NULL_VALUE_AS_EMPTY_CELL = 1;
+
+    public const TREAT_EMPTY_STRING_AS_EMPTY_CELL = 2;
+
     /**
      * Worksheet to iterate.
      *
      * @var Worksheet
      */
     protected $worksheet;
+
+    /**
+     * Cell Collection to iterate.
+     *
+     * @var Cells
+     */
+    protected $cellCollection;
 
     /**
      * Iterate only existing cells.
@@ -31,7 +43,7 @@ abstract class CellIterator implements Iterator
     public function __destruct()
     {
         // @phpstan-ignore-next-line
-        $this->worksheet = null;
+        $this->worksheet = $this->cellCollection = null;
     }
 
     /**

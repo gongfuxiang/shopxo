@@ -25,6 +25,9 @@ class Styles extends BaseParserClass
     private $theme;
 
     /** @var array */
+    private $workbookPalette = [];
+
+    /** @var array */
     private $styles = [];
 
     /** @var array */
@@ -39,6 +42,11 @@ class Styles extends BaseParserClass
     public function setNamespace(string $namespace): void
     {
         $this->namespace = $namespace;
+    }
+
+    public function setWorkbookPalette(array $palette): void
+    {
+        $this->workbookPalette = $palette;
     }
 
     /**
@@ -119,7 +127,7 @@ class Styles extends BaseParserClass
         }
         if (isset($fontStyleXml->vertAlign)) {
             $attr = $this->getStyleAttributes($fontStyleXml->vertAlign);
-            if (!isset($attr['val'])) {
+            if (isset($attr['val'])) {
                 $verticalAlign = strtolower((string) $attr['val']);
                 if ($verticalAlign === 'superscript') {
                     $fontStyle->setSuperscript(true);
@@ -186,12 +194,14 @@ class Styles extends BaseParserClass
         $diagonalUp = self::boolean($diagonalUp);
         $diagonalDown = $this->getAttribute($borderStyleXml, 'diagonalDown');
         $diagonalDown = self::boolean($diagonalDown);
-        if (!$diagonalUp && !$diagonalDown) {
-            $borderStyle->setDiagonalDirection(Borders::DIAGONAL_NONE);
-        } elseif ($diagonalUp && !$diagonalDown) {
+        if ($diagonalUp === false) {
+            if ($diagonalDown === false) {
+                $borderStyle->setDiagonalDirection(Borders::DIAGONAL_NONE);
+            } else {
+                $borderStyle->setDiagonalDirection(Borders::DIAGONAL_DOWN);
+            }
+        } elseif ($diagonalDown === false) {
             $borderStyle->setDiagonalDirection(Borders::DIAGONAL_UP);
-        } elseif (!$diagonalUp && $diagonalDown) {
-            $borderStyle->setDiagonalDirection(Borders::DIAGONAL_DOWN);
         } else {
             $borderStyle->setDiagonalDirection(Borders::DIAGONAL_BOTH);
         }
@@ -355,7 +365,11 @@ class Styles extends BaseParserClass
             return (string) $attr['rgb'];
         }
         if (isset($attr['indexed'])) {
-            return Color::indexedColor((int) ($attr['indexed'] - 7), $background)->getARGB() ?? '';
+            if (empty($this->workbookPalette)) {
+                return Color::indexedColor((int) ($attr['indexed'] - 7), $background)->getARGB() ?? '';
+            }
+
+            return Color::indexedColor((int) ($attr['indexed']), $background, $this->workbookPalette)->getARGB() ?? '';
         }
         if (isset($attr['theme'])) {
             if ($this->theme !== null) {

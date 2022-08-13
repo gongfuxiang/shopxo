@@ -44,6 +44,10 @@ class Sqlsrv extends PDOConnection
             $dsn .= ',' . $config['hostport'];
         }
 
+        if (!empty($config['trust_server_certificate'])) {
+            $dsn .= ';TrustServerCertificate=' . $config['trust_server_certificate'];
+        }
+
         return $dsn;
     }
 

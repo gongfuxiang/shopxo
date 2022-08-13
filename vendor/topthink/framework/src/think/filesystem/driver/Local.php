@@ -42,8 +42,15 @@ class Local extends Driver
         );
     }
 
+    /**
+     * 获取文件访问地址
+     * @param string $path 文件路径
+     * @return string
+     */
     public function url(string $path): string
     {
+        $path = str_replace('\\', '/', $path);
+
         if (isset($this->config['url'])) {
             return $this->concatPathToUrl($this->config['url'], $path);
         }

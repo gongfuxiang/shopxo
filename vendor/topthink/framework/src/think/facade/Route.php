@@ -56,6 +56,7 @@ use think\route\Url as UrlBuild;
  * @method static RuleItem put(string $rule, mixed $route) 注册PUT路由
  * @method static RuleItem delete(string $rule, mixed $route) 注册DELETE路由
  * @method static RuleItem patch(string $rule, mixed $route) 注册PATCH路由
+ * @method static RuleItem head(string $rule, mixed $route) 注册HEAD路由
  * @method static RuleItem options(string $rule, mixed $route) 注册OPTIONS路由
  * @method static Resource resource(string $rule, string $route) 注册资源路由
  * @method static RuleItem view(string $rule, string $template = '', array $vars = []) 注册视图路由

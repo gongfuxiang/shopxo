@@ -25,6 +25,13 @@ class MorphToMany extends BelongsToMany
 {
 
     /**
+     * 多态关系的模型名映射别名的数组
+     *
+     * @var array
+     */
+    protected static $morphMap = [];
+
+    /**
      * 多态字段名
      * @var string
      */
@@ -58,6 +65,9 @@ class MorphToMany extends BelongsToMany
         $this->morphType  = $morphType;
         $this->inverse    = $inverse;
         $this->morphClass = $inverse ? $model : get_class($parent);
+        if (isset(static::$morphMap[$this->morphClass])) {
+            $this->morphClass = static::$morphMap[$this->morphClass];
+        }
 
         $foreignKey = $inverse ? $morphKey : $localKey;
         $localKey   = $inverse ? $localKey : $morphKey;
@@ -458,6 +468,23 @@ class MorphToMany extends BelongsToMany
 
             $this->baseQuery = true;
         }
+    }
+
+    /**
+     * 设置或获取多态关系的模型名映射别名的数组
+     *
+     * @param  array|null  $map
+     * @param  bool  $merge
+     * @return array
+     */
+    public static function morphMap(array $map = null, $merge = true): array
+    {
+        if (is_array($map)) {
+            static::$morphMap = $merge && static::$morphMap
+                ? $map + static::$morphMap : $map;
+        }
+
+        return static::$morphMap;
     }
 
 }

@@ -1,8 +1,7 @@
 # ZipStream-PHP
 
-[![Build Status](https://travis-ci.org/maennchen/ZipStream-PHP.svg?branch=master)](https://travis-ci.org/maennchen/ZipStream-PHP)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maennchen/ZipStream-PHP/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maennchen/ZipStream-PHP/)
-[![Code Coverage](https://scrutinizer-ci.com/g/maennchen/ZipStream-PHP/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/maennchen/ZipStream-PHP/)
+![.github/workflows/php.yml](https://github.com/maennchen/ZipStream-PHP/workflows/.github/workflows/php.yml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/maennchen/ZipStream-PHP/badge.svg?branch=master)](https://coveralls.io/github/maennchen/ZipStream-PHP?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/maennchen/zipstream-php/v/stable)](https://packagist.org/packages/maennchen/zipstream-php)
 [![Total Downloads](https://poser.pugx.org/maennchen/zipstream-php/downloads)](https://packagist.org/packages/maennchen/zipstream-php)
 [![Financial Contributors on Open Collective](https://opencollective.com/zipstream/all/badge.svg?label=financial+contributors)](https://opencollective.com/zipstream) [![License](https://img.shields.io/github/license/maennchen/zipstream-php.svg)](LICENSE)
@@ -59,11 +58,13 @@ the current default storage method is 'deflate' i.e files are stored with Compre
 
 See the [Wiki](https://github.com/maennchen/ZipStream-PHP/wiki) for details.
 
-## Known issue
+## Known issues
 
-The native Mac OS archive extraction tool might not open archives in some conditions. A workaround is to disable the Zip64 feature with the option `$opt->setEnableZip64(false)`. This limits the archive to 4 Gb and 64k files but will allow Mac OS users to open them without issue. See #116.
+The native Mac OS archive extraction tool prior to macOS 10.15 might not open archives in some conditions. A workaround is to disable the Zip64 feature with the option `$opt->setEnableZip64(false)`. This limits the archive to 4 Gb and 64k files but will allow users on macOS 10.14 and below to open them without issue. See #116.
 
-The linux `unzip` utility might not handle properly unicode characters. It is recommended to extract with another tool like [7-zip](https://www.7-zip.org/). See #146.
+The linux `unzip` utility might not handle properly unicode characters. It is recommended to extract with another tool like [7-zip](https://www.7-zip.org/). See [#146](https://github.com/maennchen/ZipStream-PHP/issues/146).
+
+It is the responsability of the client code to make sure that files are not saved with the same path, as it is not possible for the library to figure it out while streaming a zip. See [#154](https://github.com/maennchen/ZipStream-PHP/issues/154).
 
 ## Upgrade to version 2.0.0
 

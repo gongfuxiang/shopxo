@@ -4,7 +4,7 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Statistical\Distributions;
 
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
-use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 use PhpOffice\PhpSpreadsheet\Calculation\MathTrig;
 
 class Poisson
@@ -44,19 +44,23 @@ class Poisson
         }
 
         if (($value < 0) || ($mean < 0)) {
-            return Functions::NAN();
+            return ExcelError::NAN();
         }
 
         if ($cumulative) {
             $summer = 0;
             $floor = floor($value);
             for ($i = 0; $i <= $floor; ++$i) {
-                $summer += $mean ** $i / MathTrig\Factorial::fact($i);
+                /** @var float */
+                $fact = MathTrig\Factorial::fact($i);
+                $summer += $mean ** $i / $fact;
             }
 
             return exp(0 - $mean) * $summer;
         }
+        /** @var float */
+        $fact = MathTrig\Factorial::fact($value);
 
-        return (exp(0 - $mean) * $mean ** $value) / MathTrig\Factorial::fact($value);
+        return (exp(0 - $mean) * $mean ** $value) / $fact;
     }
 }

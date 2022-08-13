@@ -222,11 +222,16 @@ class Font
      * @param RichText|string $cellText Text to calculate width
      * @param int $rotation Rotation angle
      * @param null|FontStyle $defaultFont Font object
-     *
-     * @return int Column width
+     * @param bool $filterAdjustment Add space for Autofilter or Table dropdown
      */
-    public static function calculateColumnWidth(FontStyle $font, $cellText = '', $rotation = 0, ?FontStyle $defaultFont = null)
-    {
+    public static function calculateColumnWidth(
+        FontStyle $font,
+        $cellText = '',
+        $rotation = 0,
+        ?FontStyle $defaultFont = null,
+        bool $filterAdjustment = false,
+        int $indentAdjustment = 0
+    ): int {
         // If it is rich text, use plain text
         if ($cellText instanceof RichText) {
             $cellText = $cellText->getPlainText();
@@ -237,17 +242,23 @@ class Font
             $lineTexts = explode("\n", $cellText);
             $lineWidths = [];
             foreach ($lineTexts as $lineText) {
-                $lineWidths[] = self::calculateColumnWidth($font, $lineText, $rotation = 0, $defaultFont);
+                $lineWidths[] = self::calculateColumnWidth($font, $lineText, $rotation = 0, $defaultFont, $filterAdjustment);
             }
 
             return max($lineWidths); // width of longest line in cell
         }
 
         // Try to get the exact text width in pixels
-        $approximate = self::$autoSizeMethod == self::AUTOSIZE_METHOD_APPROX;
+        $approximate = self::$autoSizeMethod === self::AUTOSIZE_METHOD_APPROX;
         $columnWidth = 0;
         if (!$approximate) {
-            $columnWidthAdjust = ceil(self::getTextWidthPixelsExact('n', $font, 0) * 1.07);
+            $columnWidthAdjust = ceil(
+                self::getTextWidthPixelsExact(
+                    str_repeat('n', 1 * (($filterAdjustment ? 3 : 1) + ($indentAdjustment * 2))),
+                    $font,
+                    0
+                ) * 1.07
+            );
 
             try {
                 // Width of text in pixels excl. padding
@@ -259,7 +270,11 @@ class Font
         }
 
         if ($approximate) {
-            $columnWidthAdjust = self::getTextWidthPixelsApprox('n', $font, 0);
+            $columnWidthAdjust = self::getTextWidthPixelsApprox(
+                str_repeat('n', 1 * (($filterAdjustment ? 3 : 1) + ($indentAdjustment * 2))),
+                $font,
+                0
+            );
             // Width of text in pixels excl. padding, approximation
             // and addition because Excel adds some padding, just use approx width of 'n' glyph
             $columnWidth = self::getTextWidthPixelsApprox($cellText, $font, $rotation) + $columnWidthAdjust;

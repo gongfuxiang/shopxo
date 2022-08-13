@@ -5,6 +5,9 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Logical;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ErrorValue;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\Value;
 
 class Conditional
 {
@@ -45,15 +48,16 @@ class Conditional
      */
     public static function statementIf($condition = true, $returnIfTrue = 0, $returnIfFalse = false)
     {
-        if (Functions::isError($condition)) {
+        $condition = ($condition === null) ? true : Functions::flattenSingleValue($condition);
+
+        if (ErrorValue::isError($condition)) {
             return $condition;
         }
 
-        $condition = ($condition === null) ? true : (bool) Functions::flattenSingleValue($condition);
         $returnIfTrue = $returnIfTrue ?? 0;
         $returnIfFalse = $returnIfFalse ?? false;
 
-        return ($condition) ? $returnIfTrue : $returnIfFalse;
+        return ((bool) $condition) ? $returnIfTrue : $returnIfFalse;
     }
 
     /**
@@ -84,7 +88,7 @@ class Conditional
      */
     public static function statementSwitch(...$arguments)
     {
-        $result = Functions::VALUE();
+        $result = ExcelError::VALUE();
 
         if (count($arguments) > 0) {
             $targetValue = Functions::flattenSingleValue($arguments[0]);
@@ -106,7 +110,7 @@ class Conditional
             }
 
             if ($switchSatisfied !== true) {
-                $result = $hasDefaultClause ? $defaultClause : Functions::NA();
+                $result = $hasDefaultClause ? $defaultClause : ExcelError::NA();
             }
         }
 
@@ -136,7 +140,7 @@ class Conditional
 
         $errorpart = $errorpart ?? '';
 
-        return self::statementIf(Functions::isError($testValue), $errorpart, $testValue);
+        return self::statementIf(ErrorValue::isError($testValue), $errorpart, $testValue);
     }
 
     /**
@@ -162,7 +166,7 @@ class Conditional
 
         $napart = $napart ?? '';
 
-        return self::statementIf(Functions::isNa($testValue), $napart, $testValue);
+        return self::statementIf(ErrorValue::isNa($testValue), $napart, $testValue);
     }
 
     /**
@@ -186,7 +190,7 @@ class Conditional
         $argumentCount = count($arguments);
 
         if ($argumentCount % 2 != 0) {
-            return Functions::NA();
+            return ExcelError::NA();
         }
         // We use instance of Exception as a falseValue in order to prevent string collision with value in cell
         $falseValueException = new Exception();
@@ -200,6 +204,6 @@ class Conditional
             }
         }
 
-        return Functions::NA();
+        return ExcelError::NA();
     }
 }

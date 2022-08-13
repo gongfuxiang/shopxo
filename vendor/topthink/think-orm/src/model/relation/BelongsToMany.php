@@ -157,7 +157,12 @@ class BelongsToMany extends Relation
             }
         }
 
-        $result->setRelation($this->pivotDataName, $this->newPivot($pivot));
+        $pivotData = $this->pivot->newInstance($pivot, [
+            [$this->localKey, '=', $this->parent->getKey(), null],
+            [$this->foreignKey, '=', $result->getKey(), null],
+        ]);
+
+        $result->setRelation($this->pivotDataName, $pivotData);
         return $pivot;
     }
 

@@ -703,6 +703,8 @@ abstract class Builder
         // 比较运算
         if ($value instanceof Closure) {
             $value = $this->parseClosure($query, $value);
+        } elseif ($value instanceof Raw) {
+            $value = $this->parseRaw($query, $value);
         }
 
         if ('=' == $exp && is_null($value)) {

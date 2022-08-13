@@ -22,20 +22,25 @@
     }
   ],
   "require": {
-    "php": ">= 7.1",
+    "php": "^7.4 || ^8.0",
     "symfony/polyfill-mbstring": "^1.0",
     "psr/http-message": "^1.0",
     "myclabs/php-enum": "^1.5"
   },
   "require-dev": {
-    "phpunit/phpunit": ">= 7.5",
-    "guzzlehttp/guzzle": ">= 6.3",
+    "phpunit/phpunit": "^8.5.8 || ^9.4.2",
+    "guzzlehttp/guzzle": "^6.5.3 || ^7.2.0",
     "ext-zip": "*",
-    "mikey179/vfsstream": "^1.6"
+    "mikey179/vfsstream": "^1.6",
+    "vimeo/psalm": "^4.1",
+    "php-coveralls/php-coveralls": "^2.4"
   },
   "autoload": {
     "psr-4": {
       "ZipStream\\": "src/"
     }
+  },
+  "archive": {
+    "exclude": ["/test", "/CHANGELOG.md", "/CONTRIBUTING.md", "/phpunit.xml.dist", "/psalm.xml"]
   }
 }

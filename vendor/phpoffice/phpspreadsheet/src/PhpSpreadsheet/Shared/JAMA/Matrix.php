@@ -3,7 +3,7 @@
 namespace PhpOffice\PhpSpreadsheet\Shared\JAMA;
 
 use PhpOffice\PhpSpreadsheet\Calculation\Exception as CalculationException;
-use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
 
 /**
@@ -543,7 +543,7 @@ class Matrix
                     if ($validValues) {
                         $this->A[$i][$j] += $value;
                     } else {
-                        $this->A[$i][$j] = Functions::NAN();
+                        $this->A[$i][$j] = ExcelError::NAN();
                     }
                 }
             }
@@ -643,7 +643,7 @@ class Matrix
                     if ($validValues) {
                         $this->A[$i][$j] -= $value;
                     } else {
-                        $this->A[$i][$j] = Functions::NAN();
+                        $this->A[$i][$j] = ExcelError::NAN();
                     }
                 }
             }
@@ -745,7 +745,7 @@ class Matrix
                     if ($validValues) {
                         $this->A[$i][$j] *= $value;
                     } else {
-                        $this->A[$i][$j] = Functions::NAN();
+                        $this->A[$i][$j] = ExcelError::NAN();
                     }
                 }
             }
@@ -808,7 +808,7 @@ class Matrix
                             $M->set($i, $j, $this->A[$i][$j] / $value);
                         }
                     } else {
-                        $M->set($i, $j, Functions::NAN());
+                        $M->set($i, $j, ExcelError::NAN());
                     }
                 }
             }
@@ -1090,7 +1090,7 @@ class Matrix
                     if ($validValues) {
                         $this->A[$i][$j] = $this->A[$i][$j] ** $value;
                     } else {
-                        $this->A[$i][$j] = Functions::NAN();
+                        $this->A[$i][$j] = ExcelError::NAN();
                     }
                 }
             }
@@ -1134,6 +1134,7 @@ class Matrix
             $this->checkMatrixDimensions($M);
             for ($i = 0; $i < $this->m; ++$i) {
                 for ($j = 0; $j < $this->n; ++$j) {
+                    // @phpstan-ignore-next-line
                     $this->A[$i][$j] = trim($this->A[$i][$j], '"') . trim($M->get($i, $j), '"');
                 }
             }

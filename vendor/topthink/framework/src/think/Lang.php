@@ -129,6 +129,8 @@ class Lang
             return;
         }
 
+        $this->setLangSet($langset);
+
         // 加载系统语言包
         $this->load([
             $this->app->getThinkPath() . 'lang' . DIRECTORY_SEPARATOR . $langset . '.php',

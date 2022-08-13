@@ -350,7 +350,7 @@ abstract class BaseQuery
             $field = array_merge((array) $this->options['field'], $field);
         }
 
-        $this->options['field'] = array_unique($field);
+        $this->options['field'] = array_unique($field, SORT_REGULAR);
 
         return $this;
     }
@@ -379,7 +379,7 @@ abstract class BaseQuery
             $field = array_merge((array) $this->options['field'], $field);
         }
 
-        $this->options['field'] = array_unique($field);
+        $this->options['field'] = array_unique($field, SORT_REGULAR);
 
         return $this;
     }
@@ -424,7 +424,7 @@ abstract class BaseQuery
             $field = array_merge((array) $this->options['field'], $field);
         }
 
-        $this->options['field'] = array_unique($field);
+        $this->options['field'] = array_unique($field, SORT_REGULAR);
 
         return $this;
     }
@@ -628,7 +628,7 @@ abstract class BaseQuery
         if (!isset($total) && !$simple) {
             $options = $this->getOptions();
 
-            unset($this->options['order'], $this->options['limit'], $this->options['page'], $this->options['field']);
+            unset($this->options['order'], $this->options['cache'], $this->options['limit'], $this->options['page'], $this->options['field']);
 
             $bind  = $this->bind;
             $total = $this->count();
@@ -705,7 +705,7 @@ abstract class BaseQuery
             ->limit(1)
             ->find();
 
-        $result = $data[$key];
+        $result = $data[$key] ?? 0;
 
         if (is_numeric($result)) {
             $lastId = 'asc' == $sort ? ($result - 1) + ($page - 1) * $listRows : ($result + 1) - ($page - 1) * $listRows;
@@ -765,14 +765,15 @@ abstract class BaseQuery
     }
 
     /**
-     * 查询缓存
+     * 查询缓存 数据为空不缓存
      * @access public
      * @param mixed             $key    缓存key
      * @param integer|\DateTime $expire 缓存有效期
      * @param string|array      $tag    缓存标签
+     * @param bool              $always 始终缓存
      * @return $this
      */
-    public function cache($key = true, $expire = null, $tag = null)
+    public function cache($key = true, $expire = null, $tag = null, bool $always = false)
     {
         if (false === $key || !$this->getConnection()->getCache()) {
             return $this;
@@ -783,9 +784,23 @@ abstract class BaseQuery
             $key    = true;
         }
 
-        $this->options['cache'] = [$key, $expire, $tag];
+        $this->options['cache']        = [$key, $expire, $tag];
+        $this->options['cache_always'] = $always;
 
         return $this;
+    }
+
+    /**
+     * 查询缓存 允许缓存空数据
+     * @access public
+     * @param mixed             $key    缓存key
+     * @param integer|\DateTime $expire 缓存有效期
+     * @param string|array      $tag    缓存标签
+     * @return $this
+     */
+    public function cacheAlways($key = true, $expire = null, $tag = null)
+    {
+        return $this->cache($key, $expire, $tag, true);
     }
 
     /**

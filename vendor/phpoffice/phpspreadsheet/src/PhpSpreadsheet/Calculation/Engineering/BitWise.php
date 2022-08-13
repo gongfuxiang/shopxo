@@ -5,6 +5,7 @@ namespace PhpOffice\PhpSpreadsheet\Calculation\Engineering;
 use PhpOffice\PhpSpreadsheet\Calculation\ArrayEnabled;
 use PhpOffice\PhpSpreadsheet\Calculation\Exception;
 use PhpOffice\PhpSpreadsheet\Calculation\Functions;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 
 class BitWise
 {
@@ -161,7 +162,7 @@ class BitWise
 
         $result = floor($number * (2 ** $shiftAmount));
         if ($result > 2 ** 48 - 1) {
-            return Functions::NAN();
+            return ExcelError::NAN();
         }
 
         return $result;
@@ -199,7 +200,7 @@ class BitWise
 
         $result = floor($number / (2 ** $shiftAmount));
         if ($result > 2 ** 48 - 1) { // possible because shiftAmount can be negative
-            return Functions::NAN();
+            return ExcelError::NAN();
         }
 
         return $result;
@@ -210,25 +211,26 @@ class BitWise
      *
      * @param mixed $value
      *
-     * @return float|int
+     * @return float
      */
     private static function validateBitwiseArgument($value)
     {
         $value = self::nullFalseTrueToNumber($value);
 
         if (is_numeric($value)) {
+            $value = (float) $value;
             if ($value == floor($value)) {
                 if (($value > 2 ** 48 - 1) || ($value < 0)) {
-                    throw new Exception(Functions::NAN());
+                    throw new Exception(ExcelError::NAN());
                 }
 
                 return floor($value);
             }
 
-            throw new Exception(Functions::NAN());
+            throw new Exception(ExcelError::NAN());
         }
 
-        throw new Exception(Functions::VALUE());
+        throw new Exception(ExcelError::VALUE());
     }
 
     /**
@@ -244,13 +246,13 @@ class BitWise
 
         if (is_numeric($value)) {
             if (abs($value) > 53) {
-                throw new Exception(Functions::NAN());
+                throw new Exception(ExcelError::NAN());
             }
 
             return (int) $value;
         }
 
-        throw new Exception(Functions::VALUE());
+        throw new Exception(ExcelError::VALUE());
     }
 
     /**

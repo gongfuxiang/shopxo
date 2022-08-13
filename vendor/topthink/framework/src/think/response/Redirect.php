@@ -74,9 +74,9 @@ class Redirect extends Response
      * @access public
      * @return $this
      */
-    public function remember()
+    public function remember($complete = false)
     {
-        $this->session->set('redirect_url', $this->request->url());
+        $this->session->set('redirect_url', $this->request->url($complete));
 
         return $this;
     }

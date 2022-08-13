@@ -96,7 +96,7 @@ abstract class Dispatch
         if ($data instanceof Response) {
             $response = $data;
         } elseif ($data instanceof ResponseInterface) {
-            $response = Response::create($data->getBody()->getContents(), 'html', $data->getStatusCode());
+            $response = Response::create((string) $data->getBody(), 'html', $data->getStatusCode());
 
             foreach ($data->getHeaders() as $header => $values) {
                 $response->header([$header => implode(", ", $values)]);

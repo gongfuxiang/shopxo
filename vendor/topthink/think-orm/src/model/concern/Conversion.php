@@ -82,11 +82,16 @@ trait Conversion
      * 设置需要附加的输出属性
      * @access public
      * @param  array $append   属性列表
+     * @param  bool  $merge    是否合并
      * @return $this
      */
-    public function append(array $append = [])
+    public function append(array $append = [], bool $merge = false)
     {
-        $this->append = $append;
+        if ($merge) {
+            $this->append = array_merge($this->append, $append);
+        } else {
+            $this->append = $append;
+        }
 
         return $this;
     }
@@ -147,11 +152,16 @@ trait Conversion
      * 设置需要隐藏的输出属性
      * @access public
      * @param  array $hidden   属性列表
+     * @param  bool  $merge    是否合并
      * @return $this
      */
-    public function hidden(array $hidden = [])
+    public function hidden(array $hidden = [], bool $merge = false)
     {
-        $this->hidden = $hidden;
+        if ($merge) {
+            $this->hidden = array_merge($this->hidden, $hidden);
+        } else {
+            $this->hidden = $hidden;
+        }
 
         return $this;
     }
@@ -160,11 +170,16 @@ trait Conversion
      * 设置需要输出的属性
      * @access public
      * @param  array $visible
+     * @param  bool  $merge    是否合并
      * @return $this
      */
-    public function visible(array $visible = [])
+    public function visible(array $visible = [], bool $merge = false)
     {
-        $this->visible = $visible;
+        if ($merge) {
+            $this->visible = array_merge($this->visible, $visible);
+        } else {
+            $this->visible = $visible;
+        }
 
         return $this;
     }

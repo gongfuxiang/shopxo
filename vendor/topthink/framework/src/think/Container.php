@@ -108,11 +108,11 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
 
     /**
      * 获取容器中的对象实例 不存在则创建
-     * @access public
-     * @param string     $abstract    类名或者标识
-     * @param array|true $vars        变量
-     * @param bool       $newInstance 是否每次创建新的实例
-     * @return object
+     * @template T
+     * @param string|class-string<T> $abstract    类名或者标识
+     * @param array                  $vars        变量
+     * @param bool                   $newInstance 是否每次创建新的实例
+     * @return T|object
      */
     public static function pull(string $abstract, array $vars = [], bool $newInstance = false)
     {
@@ -121,9 +121,9 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
 
     /**
      * 获取容器中的对象实例
-     * @access public
-     * @param string $abstract 类名或者标识
-     * @return object
+     * @template T
+     * @param string|class-string<T> $abstract 类名或者标识
+     * @return T|object
      */
     public function get($abstract)
     {
@@ -232,11 +232,11 @@ class Container implements ContainerInterface, ArrayAccess, IteratorAggregate, C
 
     /**
      * 创建类的实例 已经存在则直接获取
-     * @access public
-     * @param string $abstract    类名或者标识
-     * @param array  $vars        变量
-     * @param bool   $newInstance 是否每次创建新的实例
-     * @return mixed
+     * @template T
+     * @param string|class-string<T> $abstract    类名或者标识
+     * @param array                  $vars        变量
+     * @param bool                   $newInstance 是否每次创建新的实例
+     * @return T|object
      */
     public function make(string $abstract, array $vars = [], bool $newInstance = false)
     {

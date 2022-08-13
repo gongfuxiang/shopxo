@@ -2,6 +2,8 @@
 
 namespace PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ErrorValue;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\Value;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
@@ -117,6 +119,9 @@ class Worksheet extends WriterPart
 
         // AlternateContent
         $this->writeAlternateContent($objWriter, $worksheet);
+
+        // Table
+        $this->writeTable($objWriter, $worksheet);
 
         // ConditionalFormattingRuleExtensionList
         // (Must be inserted last. Not insert last, an Excel parse error will occur)
@@ -313,10 +318,7 @@ class Worksheet extends WriterPart
         }
 
         // Set Zero Height row
-        if (
-            (string) $worksheet->getDefaultRowDimension()->getZeroHeight() === '1' ||
-            strtolower((string) $worksheet->getDefaultRowDimension()->getZeroHeight()) == 'true'
-        ) {
+        if ($worksheet->getDefaultRowDimension()->getZeroHeight()) {
             $objWriter->writeAttribute('zeroHeight', '1');
         }
 
@@ -476,7 +478,10 @@ class Worksheet extends WriterPart
         ) {
             foreach ($conditions as $formula) {
                 // Formula
-                $objWriter->writeElement('formula', Xlfn::addXlfn($formula));
+                if (is_bool($formula)) {
+                    $formula = $formula ? 'TRUE' : 'FALSE';
+                }
+                $objWriter->writeElement('formula', Xlfn::addXlfn("$formula"));
             }
         } else {
             if ($conditional->getConditionType() == Conditional::CONDITION_CONTAINSBLANKS) {
@@ -523,7 +528,7 @@ class Worksheet extends WriterPart
                     $objWriter->writeElement('formula', 'AND(MONTH(' . $cellCoordinate . ')=MONTH(EDATE(TODAY(),0+1)),YEAR(' . $cellCoordinate . ')=YEAR(EDATE(TODAY(),0+1)))');
                 }
             } else {
-                $objWriter->writeElement('formula', $conditional->getConditions()[0]);
+                $objWriter->writeElement('formula', (string) ($conditional->getConditions()[0]));
             }
         }
     }
@@ -544,7 +549,7 @@ class Worksheet extends WriterPart
                     $objWriter->writeElement('formula', 'ISERROR(SEARCH("' . $txt . '",' . $cellCoordinate . '))');
                 }
             } else {
-                $objWriter->writeElement('formula', $conditional->getConditions()[0]);
+                $objWriter->writeElement('formula', (string) ($conditional->getConditions()[0]));
             }
         }
     }
@@ -989,6 +994,25 @@ class Worksheet extends WriterPart
     }
 
     /**
+     * Write Table.
+     */
+    private function writeTable(XMLWriter $objWriter, PhpspreadsheetWorksheet $worksheet): void
+    {
+        $tableCount = $worksheet->getTableCollection()->count();
+
+        $objWriter->startElement('tableParts');
+        $objWriter->writeAttribute('count', (string) $tableCount);
+
+        for ($t = 1; $t <= $tableCount; ++$t) {
+            $objWriter->startElement('tablePart');
+            $objWriter->writeAttribute('r:id', 'rId_table_' . $t);
+            $objWriter->endElement();
+        }
+
+        $objWriter->endElement();
+    }
+
+    /**
      * Write PageSetup.
      */
     private function writePageSetup(XMLWriter $objWriter, PhpspreadsheetWorksheet $worksheet): void
@@ -1118,11 +1142,15 @@ class Worksheet extends WriterPart
         // Highest row number
         $highestRow = $worksheet->getHighestRow();
 
-        // Loop through cells
+        // Loop through cells building a comma-separated list of the columns in each row
+        // This is a trade-off between the memory usage that is required for a full array of columns,
+        //      and execution speed
+        /** @var array<int, string> $cellsByRow */
         $cellsByRow = [];
         foreach ($worksheet->getCoordinates() as $coordinate) {
-            $cellAddress = Coordinate::coordinateFromString($coordinate);
-            $cellsByRow[$cellAddress[1]][] = $coordinate;
+            [$column, $row] = Coordinate::coordinateFromString($coordinate);
+            $cellsByRow[$row] = $cellsByRow[$row] ?? '';
+            $cellsByRow[$row] .= "{$column},";
         }
 
         $currentRow = 0;
@@ -1131,7 +1159,7 @@ class Worksheet extends WriterPart
             $rowDimension = $worksheet->getRowDimension($currentRow);
 
             // Write current row?
-            $writeCurrentRow = isset($cellsByRow[$currentRow]) || $rowDimension->getRowHeight() >= 0 || $rowDimension->getVisible() == false || $rowDimension->getCollapsed() == true || $rowDimension->getOutlineLevel() > 0 || $rowDimension->getXfIndex() !== null;
+            $writeCurrentRow = isset($cellsByRow[$currentRow]) || $rowDimension->getRowHeight() >= 0 || $rowDimension->getVisible() === false || $rowDimension->getCollapsed() === true || $rowDimension->getOutlineLevel() > 0 || $rowDimension->getXfIndex() !== null;
 
             if ($writeCurrentRow) {
                 // Start a new row
@@ -1168,9 +1196,12 @@ class Worksheet extends WriterPart
 
                 // Write cells
                 if (isset($cellsByRow[$currentRow])) {
-                    foreach ($cellsByRow[$currentRow] as $cellAddress) {
+                    // We have a comma-separated list of column names (with a trailing entry); split to an array
+                    $columnsInRow = explode(',', $cellsByRow[$currentRow]);
+                    array_pop($columnsInRow);
+                    foreach ($columnsInRow as $column) {
                         // Write cell
-                        $this->writeCell($objWriter, $worksheet, $cellAddress, $aFlippedStringTable);
+                        $this->writeCell($objWriter, $worksheet, "{$column}{$currentRow}", $aFlippedStringTable);
                     }
                 }
 
@@ -1250,7 +1281,7 @@ class Worksheet extends WriterPart
     {
         $calculatedValue = $this->getParentWriter()->getPreCalculateFormulas() ? $cell->getCalculatedValue() : $cellValue;
         if (is_string($calculatedValue)) {
-            if (\PhpOffice\PhpSpreadsheet\Calculation\Functions::isError($calculatedValue)) {
+            if (ErrorValue::isError($calculatedValue)) {
                 $this->writeCellError($objWriter, 'e', $cellValue, $calculatedValue);
 
                 return;
@@ -1277,7 +1308,7 @@ class Worksheet extends WriterPart
                 $objWriter,
                 $this->getParentWriter()->getOffice2003Compatibility() === false,
                 'v',
-                ($this->getParentWriter()->getPreCalculateFormulas() && !is_array($calculatedValue) && substr($calculatedValue, 0, 1) !== '#')
+                ($this->getParentWriter()->getPreCalculateFormulas() && !is_array($calculatedValue) && substr($calculatedValue ?? '', 0, 1) !== '#')
                     ? StringHelper::formatNumber($calculatedValue) : '0'
             );
         }

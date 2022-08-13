@@ -241,6 +241,7 @@ class BelongsTo extends OneToOne
                 if (!empty($this->bindAttr)) {
                     // 绑定关联属性
                     $this->bindAttr($result, $relationModel);
+                    $result->hidden([$relation]);
                 }
             }
         }
@@ -282,6 +283,7 @@ class BelongsTo extends OneToOne
         if (!empty($this->bindAttr)) {
             // 绑定关联属性
             $this->bindAttr($result, $relationModel);
+            $result->hidden([$relation]);
         }
     }
 

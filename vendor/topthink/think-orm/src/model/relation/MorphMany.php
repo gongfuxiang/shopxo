@@ -30,6 +30,7 @@ class MorphMany extends Relation
      * @var string
      */
     protected $morphKey;
+
     /**
      * 多态字段名
      * @var string
@@ -329,6 +330,33 @@ class MorphMany extends Relation
         }
 
         return empty($result) ? false : $result;
+    }
+
+    /**
+     * 获取多态关联外键
+     * @return string
+     */
+    public function getMorphKey()
+    {
+        return $this->morphKey;
+    }
+
+    /**
+     * 获取多态字段名
+     * @return string
+     */
+    public function getMorphType()
+    {
+        return $this->morphType;
+    }
+
+    /**
+     * 获取多态类型
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

@@ -12,6 +12,8 @@ namespace think\db\builder;
 
 use think\db\Builder;
 use think\db\Query;
+use think\db\exception\DbException as Exception;
+use think\db\Raw;
 
 /**
  * Oracle数据库驱动
@@ -64,19 +66,51 @@ class Oracle extends Builder
     /**
      * 字段和表名处理
      * @access public
-     * @param  Query  $query  查询对象
-     * @param  string $key
-     * @param  string $strict
+     * @param Query $query 查询对象
+     * @param string $key
+     * @param bool $strict
      * @return string
+     * @throws Exception
      */
     public function parseKey(Query $query, $key, bool $strict = false): string
     {
+        if (is_int($key)) {
+            return (string) $key;
+        } elseif ($key instanceof Raw) {
+            return $this->parseRaw($query, $key);
+        }
+
         $key = trim($key);
 
         if (strpos($key, '->') && false === strpos($key, '(')) {
             // JSON字段支持
             [$field, $name] = explode($key, '->');
             $key            = $field . '."' . $name . '"';
+        } elseif (strpos($key, '.') && !preg_match('/[,\'\"\(\)\[\s]/', $key)) {
+            [$table, $key] = explode('.', $key, 2);
+
+            $alias = $query->getOptions('alias');
+
+            if ('__TABLE__' == $table) {
+                $table = $query->getOptions('table');
+                $table = is_array($table) ? array_shift($table) : $table;
+            }
+
+            if (isset($alias[$table])) {
+                $table = $alias[$table];
+            }
+        }
+
+        if ($strict && !preg_match('/^[\w\.\*]+$/', $key)) {
+            throw new Exception('not support data:' . $key);
+        }
+
+        if ('*' != $key && !preg_match('/[,\'\"\*\(\)\[.\s]/', $key)) {
+            $key = '"' . $key . '"';
+        }
+
+        if (isset($table)) {
+            $key = '"' . $table . '".' . $key;
         }
 
         return $key;

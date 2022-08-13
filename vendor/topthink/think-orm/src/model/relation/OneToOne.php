@@ -187,16 +187,28 @@ abstract class OneToOne extends Relation
      */
     public function save($data, bool $replace = true)
     {
+        $model = $this->make();
+
+        return $model->replace($replace)->save($data) ? $model : false;
+    }
+
+    /**
+     * 创建关联对象实例
+     * @param array|Model $data
+     * @return Model
+     */
+    public function make($data = []): Model
+    {
         if ($data instanceof Model) {
             $data = $data->getData();
         }
 
-        $model = new $this->model;
         // 保存关联表数据
         $data[$this->foreignKey] = $this->parent->{$this->localKey};
 
-        return $model->replace($replace)->save($data) ? $model : false;
+        return new $this->model($data);
     }
+
 
     /**
      * 绑定关联表的属性到父模型属性
