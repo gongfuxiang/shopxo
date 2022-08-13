@@ -74,7 +74,7 @@ input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single
 .am-input-group-sm > .am-input-group-label { line-height: 26px; }
 
 body {margin:0;color:#666;}
-html,body {position:relative;background:#fff;height:100%;width:100%;}
+html,body {position:relative;height:100%;width:100%;}
 h1,h2,h3,h4,h5,h6 {font-family:'Karla',sans-serif;margin:10px 0;}
 h1 {line-height:42px;}
 h2 {line-height:32px;}
@@ -502,60 +502,54 @@ table.am-table .am-btn-default {
     color: #444;
 }
 table.am-table .am-btn-default:hover {
-    background: #444;
+    background: #444 !important;
     color: #fff;
 }
-
 table.am-table .am-btn-primary {
     border: 1px solid #0c79b1;
     background: #fff;
     color: #0c79b1;
 }
 table.am-table .am-btn-primary:hover {
-    background: #0c79b1;
+    background: #0c79b1 !important;
     color: #fff;
 }
-
 table.am-table .am-btn-secondary {
     border: 1px solid #3bb4f2;
     background: #fff;
     color: #3bb4f2;
 }
 table.am-table .am-btn-secondary:hover {
-    background: #3bb4f2;
+    background: #3bb4f2 !important;
     color: #fff;
 }
-
 table.am-table .am-btn-success {
     border: 1px solid #5eb95e;
     background: #fff;
     color: #5eb95e;
 }
 table.am-table .am-btn-success:hover {
-    background: #5eb95e;
+    background: #5eb95e !important;
     color: #fff;
 }
-
 table.am-table .am-btn-warning {
     border: 1px solid #F37B1D;
     background: #fff;
     color: #F37B1D;
 }
 table.am-table .am-btn-warning:hover {
-    background: #F37B1D;
+    background: #F37B1D !important;
     color: #fff;
 }
-
 table.am-table .am-btn-danger {
     border: 1px solid #dd514c;
     background: #fff;
     color: #dd514c;
 }
 table.am-table .am-btn-danger:hover {
-    background: #dd514c;
+    background: #dd514c !important;
     color: #fff;
 }
-
 
 /**
  * 分类列表优化

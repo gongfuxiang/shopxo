@@ -40,7 +40,7 @@ class Index extends Common
 	}
 
 	/**
-	 * [Index 首页]
+	 * 首页
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -62,7 +62,7 @@ class Index extends Common
 	}
 
 	/**
-	 * [Init 初始化页面]
+	 * 初始化页面
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -132,6 +132,27 @@ class Index extends Common
 		// 钩子初始化
         $this->PluginsInit();
 		return MyView();
+	}
+
+	/**
+	 * 配色切换
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2022-08-13
+	 * @desc    description
+	 */
+	public function Color()
+	{
+		// 是否指定配色（0默认白色、1黑色）
+		if(isset($this->data_request['value']) && $this->data_request['value'] == 1)
+		{
+			MyCookie($this->admin_color_value_key, 1);
+		} else {
+			MyCookie($this->admin_color_value_key, null);
+		}
+		// 跳转首页
+		return MyRedirect(MyUrl('admin/index/index'));
 	}
 
 	/**

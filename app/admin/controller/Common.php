@@ -74,6 +74,10 @@ class Common extends BaseController
     // 系统类型
     protected $system_type;
 
+    // 主题颜色key
+    protected $admin_color_value_key = 'admin_color_value';
+    protected $admin_color_value = 0;
+
 	/**
      * 构造方法
      * @author   Devil
@@ -291,6 +295,18 @@ class Common extends BaseController
 
         // 系统环境参数最大数
         MyViewAssign('env_max_input_vars_count', SystemService::EnvMaxInputVarsCount());
+
+        // 主题配色
+        $this->admin_color_value = intval(MyCookie($this->admin_color_value_key));
+        if($this->admin_color_value == 1)
+        {
+            MyViewAssign('admin_color_name', '普通白色');
+            MyViewAssign('admin_color_url', MyUrl('admin/index/color', ['value'=>0]));
+        } else {
+            MyViewAssign('admin_color_name', '夜间深色');
+            MyViewAssign('admin_color_url', MyUrl('admin/index/color', ['value'=>1]));
+        }
+        MyViewAssign('admin_color_value', $this->admin_color_value);
 	}
 
     /**

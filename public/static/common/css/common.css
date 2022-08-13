@@ -18,16 +18,43 @@ html input[disabled] { cursor: default !important; color: #b1b1b1 !important; ba
 }
 
 /* 没数据 */
-.table-no {text-align:center;padding:115px 0;background:#FFF !important;color: #888; }
+.table-no {
+    text-align: center;
+    padding: 115px 0;
+    background: #FFF;
+    color: #888;
+}
 
 /* 公共dl样式 */
-.dl-content dt { float: left; padding-left: 5px; overflow: hidden; width: 120px; }
-.dl-content dd { padding-left: 120px; }
-.dl-content dd:not(:last-child) { border-bottom: 1px solid #efefef; }
-.dl-content dt, .dl-content dd { font-weight: normal !important; text-align: left; margin-top: 0px; line-height: 20px; min-height: 40px; padding-top: 10px; padding-bottom: 10px; }
-.dl-content-dd-only dd { padding-left: 0; }
-.dl-content-dd-compact dd { line-height: 25px; min-height: 25px; padding: 0; }
-
+.dl-content dt {
+    float: left;
+    padding-left: 5px;
+    overflow: hidden;
+    width: 120px;
+}
+.dl-content dd {
+    padding-left: 120px;
+}
+.dl-content dd:not(:last-child) {
+    border-bottom: 1px solid #efefef;
+}
+.dl-content dt, .dl-content dd {
+    font-weight: normal !important;
+    text-align: left;
+    margin-top: 0px;
+    line-height: 20px;
+    min-height: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.dl-content-dd-only dd {
+    padding-left: 0;
+}
+.dl-content-dd-compact dd {
+    line-height: 25px;
+    min-height: 25px;
+    padding: 0;
+}
 /**
  * 表单优化
  */
@@ -357,6 +384,8 @@ ul.plug-file-upload-view li i {
     top: 5px;
     cursor: pointer;
     text-shadow: -2px 1px #fff;
+    padding-left: 5px;
+    line-height: 14px;
 }
 ul.plug-file-upload-view li:hover > i {
     color: #e90f0f;

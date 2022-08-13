@@ -2247,6 +2247,8 @@ class BuyService
             // 是否开启虚拟订单快速创建订单
             if($ret['data']['base']['site_model'] == 3 && MyC('common_fictitious_order_direct_pay') == 1)
             {
+                // 指定订单类型
+                $params['site_model'] = $ret['data']['base']['site_model'];
                 // 调用订单添加
                 $ret = self::OrderInsert($params);
                 if($ret['code'] == 0)

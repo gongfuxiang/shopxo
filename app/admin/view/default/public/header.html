@@ -67,6 +67,11 @@
 			{{/if}}
 		{{/foreach}}
 	{{/if}}
+
+    <!-- 主题配色 -->
+    {{if isset($admin_color_value) and $admin_color_value eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/admin/{{$default_theme}}/css/color/black.css?v={{:MyC('home_static_cache_version')}}" />
+    {{/if}}
 </head>
 <script type="text/javascript">
     var __system_type__ = '{{$system_type}}';

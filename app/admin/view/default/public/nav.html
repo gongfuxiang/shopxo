@@ -10,6 +10,12 @@
 	</button>
 	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+			<li class="am-dropdown">
+				<a href="{{$admin_color_url}}">
+					<i class="am-icon-adjust"></i>
+					<span>{{$admin_color_name}}</span>
+				</a>
+			</li>
 			{{if AdminIsPower('cache', 'statusupdate')}}
 				<li class="am-dropdown">
 					<a href="javascript:;" class="submit-ajax" data-url="{{:MyUrl('admin/cache/statusupdate')}}" data-is-confirm="0" data-is-loading="1">

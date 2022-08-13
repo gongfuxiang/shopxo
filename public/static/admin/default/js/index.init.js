@@ -515,7 +515,7 @@ $(function()
             success: function(result)
             {
                 AMUI.dialog.loading('close');
-                if(result.code == 0)
+                if(result.code == 0 && typeof(result.data) == 'object')
                 {
                     // html内容处理
                     // 基础信息
