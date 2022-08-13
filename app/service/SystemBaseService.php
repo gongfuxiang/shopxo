@@ -178,7 +178,26 @@ class SystemBaseService
             'home_seo_site_title'               => MyC('home_seo_site_title', null, true),
             'home_seo_site_keywords'            => MyC('home_seo_site_keywords', null, true),
             'home_seo_site_description'         => MyC('home_seo_site_description', null, true),
-            
+
+            // 小程序基础信息
+            // 微信小程序
+            'common_app_mini_weixin_title'      => MyC('common_app_mini_weixin_title', null, true),
+            'common_app_mini_weixin_describe'   => MyC('common_app_mini_weixin_describe', null, true),
+            // 支付宝小程序
+            'common_app_mini_alipay_title'      => MyC('common_app_mini_alipay_title', null, true),
+            'common_app_mini_alipay_describe'   => MyC('common_app_mini_alipay_describe', null, true),
+            // 百度小程序
+            'common_app_mini_baidu_title'       => MyC('common_app_mini_baidu_title', null, true),
+            'common_app_mini_baidu_describe'    => MyC('common_app_mini_baidu_describe', null, true),
+            // 头条小程序
+            'common_app_mini_toutiao_title'     => MyC('common_app_mini_toutiao_title', null, true),
+            'common_app_mini_toutiao_describe'  => MyC('common_app_mini_toutiao_describe', null, true),
+            // QQ小程序
+            'common_app_mini_qq_title'          => MyC('common_app_mini_qq_title', null, true),
+            'common_app_mini_qq_describe'       => MyC('common_app_mini_qq_describe', null, true),
+            // 快手小程序
+            'common_app_mini_kuaishou_title'    => MyC('common_app_mini_kuaishou_title', null, true),
+            'common_app_mini_kuaishou_describe' => MyC('common_app_mini_kuaishou_describe', null, true),
         ];
 
         // 支付宝小程序在线客服
