@@ -41,7 +41,7 @@
 		<!-- save win end -->
 
         <!-- list start -->
-		<div id="tree" class="am-margin-top-sm" data-node-url="{{:MyUrl('admin/region/getnodeson')}}" data-del-url="{{:MyUrl('admin/region/delete')}}" data-popup-tag="#data-save-win" data-rank="4">
+		<div id="tree" class="am-margin-top-sm" data-node-url="{{:MyUrl('admin/region/getnodeson')}}" data-del-url="{{:MyUrl('admin/region/delete')}}" data-popup-tag="#data-save-win" data-rank="3">
 			{{include file="public/loading" /}}
 		</div>
 		<!-- list end -->
@@ -55,7 +55,7 @@
 
 <script type="text/javascript">
 	// 初始化
-	Tree(0, $('#tree').data('node-url'), 0, 1, 1);
+	Tree(0, $('#tree').data('node-url'), 0, 1);
 
 	// 回调处理
 	function TreeFormSaveBack(e)

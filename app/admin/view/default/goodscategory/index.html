@@ -19,23 +19,6 @@
 				<div class="am-popup-bd">
 					<!-- form start -->
 					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/goodscategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
-						<div class="am-form-group">
-							<label class="block">父级</label>
-							<select name="pid" class="am-radius chosen-select forth-selection-form-category" data-placeholder="可选择..." data-validation-message="请选择商品分类">
-	                            <option value="0">可选择...</option>
-	                            {{if !empty($goods_category_list)}}
-	                                {{foreach $goods_category_list as $v}}
-	                                    <option value="{{$v.id}}">一级 - {{$v.name}}</option>
-	                                    {{if !empty($v['items'])}}
-	                                        {{foreach $v.items as $vs}}
-	                                            <option style="padding-left: 30px;" value="{{$vs.id}}">二级 - {{$vs.name}}</option>
-	                                        {{/foreach}}
-	                                    {{/if}}
-	                                {{/foreach}}
-	                            {{/if}}
-	                        </select>
-	                    </div>
-
 						<div class="am-form-group am-form-file">
 							<label class="block">icon图标</label>
 							<ul class="plug-file-upload-view goods-category-icon-images-view" data-form-name="icon" data-max-number="1" data-dialog-type="images">
@@ -97,6 +80,7 @@
 						</div>
 						<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
 							<input type="hidden" name="id" />
+							<input type="hidden" name="pid" value="0" />
 							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>
 					</form>
@@ -121,7 +105,7 @@
 
 <script type="text/javascript">
 	// 初始化
-	Tree(0, $('#tree').data('node-url'), 0, 1, 1);
+	Tree(0, $('#tree').data('node-url'), 0, 1);
 
 	// 回调处理
 	function TreeFormSaveBack(e)

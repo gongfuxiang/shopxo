@@ -663,10 +663,9 @@ function FormDataFill(json, tag)
  * @param    {[int]}    	id    			[节点id]
  * @param    {[string]}   	url   			[请求url地址]
  * @param    {[int]}      	level 			[层级]
- * @param    {[int]}      	is_add_node 	[是否开启新增子级按钮]
  * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
  */
-function Tree(id, url, level, is_add_node, is_delete_all)
+function Tree(id, url, level = 0, is_delete_all = 0)
 {
 	$.ajax({
 		url: RequestUrlHandle(url),
@@ -681,12 +680,13 @@ function Tree(id, url, level, is_add_node, is_delete_all)
 				html = '';
 				for(var i in result.data)
 				{
-					html += TreeItemHtmlHandle(result.data[i], id, level, is_add_node, is_delete_all)
+					html += TreeItemHtmlHandle(result.data[i], id, level, is_delete_all)
 				}
 
 				// 是否首次
 				if(id == 0)
 				{
+					$('#tree').attr('data-is-delete-all', is_delete_all);
 					html = '<table class="am-table am-table-striped am-table-hover">'+html+'</table>';
 					$('#tree').html(html);
 				} else {
@@ -716,44 +716,34 @@ function Tree(id, url, level, is_add_node, is_delete_all)
  * @date    2020-11-19
  * @desc    description
  * @param    {[boject]}     item            [数据]
- * @param    {[int]}    	id    			[节点id]
+ * @param    {[int]}    	pid    			[节点pid]
  * @param    {[int]}      	level 			[层级]
- * @param    {[int]}      	is_add_node 	[是否开启新增子级按钮]
  * @param    {[int]}      	is_delete_all	[是否所有开启删除按钮]
  */
-function TreeItemHtmlHandle(item, id, level, is_add_node, is_delete_all)
+function TreeItemHtmlHandle(item, pid, level, is_delete_all)
 {
 	// 基础参数处理
-	is_add_node = is_add_node || 0;
 	is_delete_all = is_delete_all || 0;
-	var is_astrict_rank = parseInt($('#tree').attr('data-rank')) || 0;
-				var delete_url = $('#tree').data('del-url');
-	var class_name = $('#data-list-'+id).attr('class') || '';
+	var rank = parseInt($('#tree').attr('data-rank')) || 0;
+	var delete_url = $('#tree').data('del-url');
+	var class_name = $('#data-list-'+pid).attr('class') || '';
 		class_name = class_name.replace('tree-change-item', '').replace('am-active', '');
 	var popup_tag = $('#tree').data('popup-tag') || ''+popup_tag+'';
 
 	// 数据 start
-	var is_active = (item['is_enable'] == 0) ? 'am-active' : '';
-	html = '<tr id="data-list-'+item['id']+'" class="'+class_name+' tree-pid-'+id+' '+is_active+'"><td>';
-	tmp_level = (id != 0) ? parseInt(level)+20 : parseInt(level);
-	var son_css = '';
-	if(item['is_son'] == 'ok')
+	var is_active = (item.is_enable == 0) ? 'am-active' : '';
+	html = '<tr id="data-list-'+item.id+'" data-value="'+item.id+'" data-level="'+level+'" class="'+class_name+' tree-pid-'+pid+' '+is_active+'"><td>';
+	var left = (pid != 0) ? parseInt(level)*20 : parseInt(level);
+	html += '<span class="name" style="padding-left:'+left+'px;">';
+	if(item.is_son == 'ok')
 	{
-		html += '<a href="javascript:;" class="am-icon-plus tree-submit" data-id="'+item['id']+'" data-level="'+tmp_level+'" data-is_add_node="'+is_add_node+'" data-is_delete_all="'+is_delete_all+'" style="margin-right:8px;width:12px;';
-		if(id != 0)
-		{
-			html += 'margin-left:'+tmp_level+'px;';
-		}
-		html += '"></a>';
-	} else {
-		son_css = 'padding-left:'+tmp_level+'px;';
+		html += '<a href="javascript:;" class="am-icon-plus tree-submit" data-id="'+item.id+'" data-is-delete-all="'+is_delete_all+'" style="margin-right:8px;width:12px;"></a>';
 	}
-	html += '<span style="'+son_css+'">';
-	if((item['icon'] || null) != null)
+	if((item.icon || null) != null)
 	{
-		html += '<a href="'+item['icon']+'" target="_blank"><img src="'+item['icon']+'" width="20" height="20" class="am-vertical-align-middle am-margin-right-xs" /></a>';
+		html += '<a href="'+item.icon+'" target="_blank"><img src="'+item.icon+'" width="20" height="20" class="am-vertical-align-middle am-margin-right-xs" /></a>';
 	}
-	html += '<span>'+(item['name_alias'] || item['name'])+'</span>';
+	html += '<span>'+(item.name_alias || item.name)+'</span>';
 	html += '</span>';
 	// 数据 end
 
@@ -761,21 +751,20 @@ function TreeItemHtmlHandle(item, id, level, is_add_node, is_delete_all)
 	html += '<div class="am-fr am-margin-right-lg submit">';
 
 	// 新增
-	var rank = tmp_level/20+1;
-	if(is_add_node == 1 && (is_astrict_rank == 0 || rank < is_astrict_rank))
+	if(level < rank-1)
 	{
-		html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus am-margin-right-sm tree-submit-add-node" data-am-modal="{target: \''+popup_tag+'\'}" data-id="'+item['id']+'" '+(item['is_enable'] == 0 ? 'style="display:none;"' : '')+'> 新增</button>';
+		html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus am-margin-right-sm tree-submit-add-node" data-am-modal="{target: \''+popup_tag+'\'}" data-id="'+item.id+'" '+(item.is_enable == 0 ? 'style="display:none;"' : '')+'> 新增</button>';
 	}
 
 	// 编辑
-	html += '<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: \''+popup_tag+'\'}" data-json="'+encodeURIComponent(item['json'])+'" data-is-exist-son="'+item['is_son']+'"> 编辑</button>';
-	if(item['is_son'] != 'ok' || is_delete_all == 1)
+	html += '<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: \''+popup_tag+'\'}" data-json="'+encodeURIComponent(item.json)+'" data-is-exist-son="'+item.is_son+'"> 编辑</button>';
+	if(item.is_son != 'ok' || is_delete_all == 1)
 	{
 		// 是否需要删除子数据
-		var pid_class = is_delete_all == 1 ? '.tree-pid-'+item['id'] : '';
+		var pid_class = is_delete_all == 1 ? '.tree-pid-'+item.id : '';
 
 		// 删除
-		html += '<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-margin-left-sm submit-delete" data-id="'+item['id']+'" data-url="'+delete_url+'" data-ext-delete-tag="'+pid_class+'"> 删除</button>';
+		html += '<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-margin-left-sm submit-delete" data-id="'+item.id+'" data-url="'+delete_url+'" data-ext-delete-tag="'+pid_class+'"> 删除</button>';
 	}
 	html += '</div>';
 	// 操作项 end
@@ -884,14 +873,23 @@ function TreeFormSaveBackHandle(e)
 	        		}
         		} else {
         			// 存在pid直接拉取下级数据,则追加新数据
+        			var is_delete_all = parseInt($('#tree').attr('data-is-delete-all') || 0);
         			if(json.pid > 0)
         			{
-        				Tree(json.pid, $('#tree').data('node-url'), 1, 1, 1);
+        				// 没有展开图标则增加
+        				if($('#data-list-'+json.pid+' .tree-submit').length == 0)
+        				{
+        					$('#data-list-'+json.pid+' td span.name').prepend('<a href="javascript:;" class="am-icon-minus-square tree-submit" data-id="'+json.pid+'" data-is_delete_all="'+is_delete_all+'" style="margin-right:8px;width:12px;"></a>');
+        				}
+
+        				// 数据子级读取
+        				var level = $('#data-list-'+json.pid).length > 0 ? parseInt($('#data-list-'+json.pid).attr('data-level') || 0)+1 : 0;
+        				Tree(json.pid, $('#tree').data('node-url'), level, is_delete_all);
         			} else {
         				json['json'] = e.data;
 
         				// 拼接html数据
-	        			var html = TreeItemHtmlHandle(json, 0, 1, 1);
+	        			var html = TreeItemHtmlHandle(json, 0, is_delete_all);
 
 	        			// 首次则增加table标签容器
 	        			if($('#tree table tbody').length > 0)
@@ -2951,19 +2949,34 @@ $(function()
 				$(this).removeClass('am-icon-plus');
 				$(this).addClass('am-icon-minus-square');
 				$('.tree-pid-'+id).css('display', 'grid');
+				$('.tree-pid-'+id).each(function(k, v)
+				{
+					if($('.tree-pid-'+$(this).attr('data-value')).length > 0)
+					{
+						$(this).find('td .tree-submit').removeClass('am-icon-plus');
+						$(this).find('td .tree-submit').addClass('am-icon-minus-square');
+					}
+				});
 			} else {
 				$(this).removeClass('am-icon-minus-square');
 				$(this).addClass('am-icon-plus');
 				$('.tree-pid-'+id).css('display', 'none');
+				$('.tree-pid-'+id).each(function(k, v)
+				{
+					if($('.tree-pid-'+$(this).attr('data-value')).length > 0)
+					{
+						$(this).find('td .tree-submit').removeClass('am-icon-minus-square');
+						$(this).find('td .tree-submit').addClass('am-icon-plus');
+					}
+				});
 			}
 		} else {
 			var url = $(this).parents('#tree').data('node-url') || '';
-			var level = parseInt($(this).attr('data-level')) || 0;
-			var is_add_node = parseInt($(this).attr('data-is_add_node')) || 0;
-			var is_delete_all = parseInt($(this).attr('data-is_delete_all')) || 0;
+			var level = parseInt($(this).parents('tr').attr('data-level') || 0)+1;
+			var is_delete_all = parseInt($(this).attr('data-is-delete-all')) || 0;
 			if(id > 0 && url != '')
 			{
-				Tree(id, url, level, is_add_node, is_delete_all);
+				Tree(id, url, level, is_delete_all);
 			} else {
 				Prompt('参数有误');
 			}
