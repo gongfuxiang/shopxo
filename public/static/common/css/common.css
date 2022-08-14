@@ -203,7 +203,7 @@ form.am-form-full-screen .business-form-block {
     text-align: center;
 }
 .am-popup-hd .am-close {
-    font-size: 22px;
+    line-height: 24px;
     opacity: 1;
 }
 .am-popup-hd .am-close:hover {

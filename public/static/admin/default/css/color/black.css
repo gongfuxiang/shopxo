@@ -31,7 +31,8 @@ html,body {
 .am-table-bordered > thead + tbody > tr:first-child > td,
 .form-popup-submit,
 .form-table-fields-button-container,
-#inspect-upgrade-popup .upgrade-bottom-content {
+#inspect-upgrade-popup .upgrade-bottom-content,
+.form-inventory-submit {
     border-top: 1px solid #4c4d4f;
 }
 .am-popup,
@@ -50,7 +51,8 @@ iframe,
 .am-panel,
 .am-list > li,
 .am-slider-default,
-.tree-list li .item-content {
+.tree-list li .item-content,
+.popup-not-title .am-popup-inner {
     background-color: #141414;
 }
 .am-popup-hd,
@@ -176,7 +178,11 @@ form.am-form .am-form-group,
 .am-nav-tabs > li.am-active > a,
 .am-nav-tabs > li.am-active > a:hover,
 .am-nav-tabs > li.am-active > a:focus,
-.am-nav-tabs > li > a:hover {
+.am-nav-tabs > li > a:hover,
+.am-tabs-bd,
+.forth-selection-list .forth-selection-items .forth-selection-content,
+.forth-selection-list .forth-selection-items .forth-selection-content li,
+.spec-inventory-list ul li:not(:last-child) {
     border-color: #4c4d4f;
 }
 .am-nav > li.am-active > a,
@@ -203,7 +209,8 @@ form.am-form .am-form-group,
 .am-switch .am-switch-label,
 .form-table-fields-button-container,
 .coupon-content-module .module-items,
-#inspect-upgrade-popup .upgrade-bottom-content {
+#inspect-upgrade-popup .upgrade-bottom-content,
+.form-inventory-submit {
     background: #252525;
 }
 .business-operations-submit:hover,
@@ -430,6 +437,9 @@ table.am-table .am-btn-danger,
 form.am-form .am-form-group:hover, .plug-file-upload-view:hover {
     background: #262727;
 }
+form.am-form .am-form-group-refreshing:hover {
+    background: none;
+}
 .am-form-group:hover input,
 .am-form-group:hover select,
 .am-form-group:hover textarea,
@@ -587,4 +597,7 @@ header {
 .modal-dialog-not-title .am-close:hover {
     background: #252525;
     border: 3px solid #5a5a5a;
+}
+.admin-login {
+    background: rgba(0,0,0,.85);
 }
