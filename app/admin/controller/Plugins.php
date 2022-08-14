@@ -195,6 +195,11 @@ class Plugins extends Common
         MyViewAssign('plugins_css', file_exists(ROOT_PATH.'static'.DS.$plugins_css) ? $plugins_css : '');
         $plugins_js = $module_name.DS.'js'.DS.$plugins_name.DS.$group.DS.'common.js';
         MyViewAssign('plugins_js', file_exists(ROOT_PATH.'static'.DS.$plugins_js) ? $plugins_js : '');
+
+        // 列表数据
+        MyViewAssign('data_total', $this->data_total);
+        MyViewAssign('data_list', $this->data_list);
+        MyViewAssign('data', $this->data_detail);
     }
 }
 ?>

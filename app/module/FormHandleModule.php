@@ -328,7 +328,13 @@ class FormHandleModule
                 $db->where($this->where);
 
                 // 总数
-                $this->data_total = (int) $db->count();
+                // 是否去重
+                if(empty($form_data['distinct']))
+                {
+                    $this->data_total = (int) $db->count();
+                } else {
+                    $this->data_total = (int) $db->count('DISTINCT '.$form_data['distinct']);
+                }
                 if($this->data_total > 0)
                 {
                     // 增加排序、未设置则默认[ id desc ]

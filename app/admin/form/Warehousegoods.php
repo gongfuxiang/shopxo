@@ -171,6 +171,7 @@ class WarehouseGoods
                 'select_field'  => 'wg.*',
                 'order_by'      => 'wg.id desc',
                 'group'         => 'wg.id',
+                'distinct'      => 'wg.id',
                 'detail_dkey'   => 'wg.id',
                 'data_handle'   => 'WarehouseGoodsService::WarehouseGoodsListHandle',
                 'is_page'       => 1,
