@@ -331,6 +331,19 @@ class FormHandleModule
                 $this->data_total = (int) $db->count();
                 if($this->data_total > 0)
                 {
+                    // 增加排序、未设置则默认[ id desc ]
+                    $order_by = empty($this->order_by['data']) ? (array_key_exists('order_by', $form_data) ? $form_data['order_by'] : 'id desc') : $this->order_by['data'];
+                    if(!empty($order_by))
+                    {
+                        $db->order($order_by);
+                    }
+
+                    // 分组
+                    if(!empty($form_data['group']))
+                    {
+                        $db->group($form_data['group']);
+                    }
+
                     // 是否使用分页
                     $is_page = (!isset($form_data['is_page']) || $form_data['is_page'] == 1);
                     if($is_page)
@@ -360,13 +373,6 @@ class FormHandleModule
 
                         // 增加分页
                         $db->limit($this->page_start, $this->page_size);
-                    }
-
-                    // 增加排序、未设置则默认[ id desc ]
-                    $order_by = empty($this->order_by['data']) ? (array_key_exists('order_by', $form_data) ? $form_data['order_by'] : 'id desc') : $this->order_by['data'];
-                    if(!empty($order_by))
-                    {
-                        $db->order($order_by);
                     }
 
                     // 读取数据

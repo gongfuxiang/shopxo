@@ -170,6 +170,7 @@ class WarehouseGoods
                 'table_obj'     => Db::name('WarehouseGoods')->alias('wg')->leftJoin('warehouse_goods_spec wgs', 'wg.id=wgs.warehouse_goods_id'),
                 'select_field'  => 'wg.*',
                 'order_by'      => 'wg.id desc',
+                'group'         => 'wg.id',
                 'detail_dkey'   => 'wg.id',
                 'data_handle'   => 'WarehouseGoodsService::WarehouseGoodsListHandle',
                 'is_page'       => 1,

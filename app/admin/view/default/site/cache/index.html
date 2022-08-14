@@ -79,7 +79,7 @@
                     <div class="am-form-group">
                         <label>{{$data.common_cache_data_redis_expire.name}}<span class="am-form-group-label-tips">{{$data.common_cache_data_redis_expire.describe}}</span></label>
                         <div class="am-input-group am-input-group-sm">
-                            <input type="number" min="0" name="{{$data.common_cache_data_redis_expire.only_tag}}" placeholder="{{$data.common_cache_data_redis_expire.name}}" data-validation-message="{{$data.common_cache_data_redis_expire.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cache_data_redis_expire.value}}"{{/if}} />
+                            <input type="number" min="0" name="{{$data.common_cache_data_redis_expire.only_tag}}" placeholder="{{$data.common_cache_data_redis_expire.name}}" data-validation-message="{{$data.common_cache_data_redis_expire.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_cache_data_redis_expire.value}}"{{/if}} />
                             <span class="am-input-group-btn">
                                 <button class="am-btn am-btn-default" type="button">秒</button>
                           </span>

@@ -24,7 +24,6 @@ html,body {
 .am-table > thead > tr > th,
 .am-table > tbody > tr > th,
 .am-table > tfoot > tr > th,
-.am-table > thead > tr > td,
 .am-table > tbody > tr > td,
 .am-table > tfoot > tr > td,
 .am-table-bordered > thead + tbody > tr:first-child > th,
@@ -34,6 +33,13 @@ html,body {
 #inspect-upgrade-popup .upgrade-bottom-content,
 .form-inventory-submit {
     border-top: 1px solid #4c4d4f;
+}
+.am-table > thead > tr > td {
+    border-bottom: 1px solid #4c4d4f;
+}
+.am-table > thead > tr > td,
+.am-table > tbody > tr:first-child > td {
+    border-top: 0px !important;
 }
 .am-popup,
 .popup-not-title .am-popup-inner {
@@ -83,18 +89,6 @@ iframe,
 .am-switch .am-switch-handle-off.am-switch-default,
 .realstore-list-container li .am-switch .am-switch-handle-off {
     background: #3f3f3f;
-}
-.am-switch .am-switch-handle-on.am-switch-default,
-.am-switch .am-switch-handle-off.am-switch-default,
-.am-popup-hd .am-close:hover,
-ul.am-dropdown-content > li > a,
-.am-nav > li.am-active > a,
-.am-nav > li.am-active > a:hover,
-.am-nav > li.am-active > a:focus,
-.business-operations-submit:hover,
-.plug-file-upload-submit:hover,
-.content-right [class*="-content"] .nav-items:hover {
-    color: #999;
 }
 .second-nav li.am-active a,
 .goods-nav li a:hover, .goods-nav-active,
@@ -350,7 +344,8 @@ table.am-table .am-btn-default,
 }
 .am-page-loading,
 .multilingual-page-loading,
-.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close,
+.am-tagsinput .am-badge-primary {
     background: #333;
 }
 .am-table-scrollable-horizontal {
@@ -397,6 +392,20 @@ table.am-table .am-btn-default,
 .chosen-container-active .chosen-choices li.search-field input[type="text"],
 .admin-multilingual-select {
     color: #666 !important;
+}
+.am-switch .am-switch-handle-on.am-switch-default,
+.am-switch .am-switch-handle-off.am-switch-default,
+.am-popup-hd .am-close:hover,
+ul.am-dropdown-content > li > a,
+.am-nav > li.am-active > a,
+.am-nav > li.am-active > a:hover,
+.am-nav > li.am-active > a:focus,
+.business-operations-submit:hover,
+.plug-file-upload-submit:hover,
+.content-right [class*="-content"] .nav-items:hover,
+.chosen-container-single .chosen-default,
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+    color: #999 !important;
 }
 .admin-multilingual-select,
 .common-nav-bar {
@@ -454,7 +463,9 @@ form.am-form .am-form-group-refreshing:hover {
 button.colorpicker-submit:hover {
     border: 1px solid #999;
 }
-button.colorpicker-submit:hover {
+button.colorpicker-submit:hover,
+.am-tagsinput .tag [data-role="remove"]:hover {
+    -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
 .edui-default .edui-dialog-caption,
@@ -544,7 +555,7 @@ fieldset[disabled] .am-form-field {
 }
 header {
     background-color: #19222c !important;
-    border-color: #0e1319 !important;
+    border-color: #151d26 !important;
 }
 .admin-sidebar-sub {
     background: #393939;
@@ -600,4 +611,10 @@ header {
 }
 .admin-login {
     background: rgba(0,0,0,.85);
+}
+/**
+ * 编辑器还是使用白底色
+ */
+.edui-default iframe {
+    background: transparent !important;
 }
