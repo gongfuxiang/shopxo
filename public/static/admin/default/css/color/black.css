@@ -176,7 +176,8 @@ form.am-form .am-form-group,
 .am-tabs-bd,
 .forth-selection-list .forth-selection-items .forth-selection-content,
 .forth-selection-list .forth-selection-items .forth-selection-content li,
-.spec-inventory-list ul li:not(:last-child) {
+.spec-inventory-list ul li:not(:last-child),
+#package-upgrade-modal .am-scrollable-vertical {
     border-color: #4c4d4f;
 }
 .am-nav > li.am-active > a,
