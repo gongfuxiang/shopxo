@@ -1058,7 +1058,7 @@ function CallPluginsData($plugins, $attachment_field = [], $service_name = '', $
     $plugins_class = 'app\plugins\\'.$plugins.'\service\BaseService';
     if(class_exists($plugins_class))
     {
-        if(ethod_exists($plugins_class, 'BaseConfig'))
+        if(method_exists($plugins_class, 'BaseConfig'))
         {
             return $plugins_class::BaseConfig();
         }
