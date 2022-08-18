@@ -240,6 +240,7 @@ function MyView($view = '', $data = [])
             'data'          => &$data,
         ]);
 
+    // 调用框架视图方法
     $result = \think\facade\View::fetch($view, $data);
 
     // 模板引擎数据渲染后钩子
