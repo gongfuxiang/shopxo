@@ -10,7 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\IntegralService;
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\UserService;
 
 /**
@@ -20,29 +21,10 @@ use app\service\UserService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class User extends Common
+class User extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-     * [Index 用户列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -52,7 +34,6 @@ class User extends Common
 	{
 		// Excel地址
 		MyViewAssign('excel_url', MyUrl('admin/user/excelexport', $this->data_request));
-
 		return MyView();
 	}
 
@@ -69,7 +50,7 @@ class User extends Common
     }
 
 	/**
-	 * [ExcelExport excel文件导出]
+	 * excel文件导出
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -77,12 +58,6 @@ class User extends Common
 	 */
 	public function ExcelExport()
 	{
-		// 是否有权限
-        if(!AdminIsPower())
-        {
-            return $this->error('无权限');
-        }
-
         // 获取数据列表
 		$data_params = [
 			'where'		=> $this->form_where,
@@ -93,11 +68,11 @@ class User extends Common
 
 		// Excel驱动导出数据
 		$excel = new \base\Excel(array('filename'=>'user', 'title'=>MyConst('excel_user_title_list'), 'data'=>$data['data'], 'msg'=>'没有相关数据'));
-		return $excel->Export();
+		$excel->Export();
 	}
 
 	/**
-	 * [SaveInfo 用户添加/编辑页面]
+	 * 添加/编辑页面
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -121,30 +96,36 @@ class User extends Common
 			$data['birthday_text'] = empty($data['birthday']) ? '' : date('Y-m-d', $data['birthday']);
 		}
 
+		// 模板数据
+		$assign = [
+			// 静态数据
+			'common_gender_list' => MyConst('common_gender_list'),
+		];
+
 		// 用户编辑页面钩子
 		$hook_name = 'plugins_view_admin_user_save';
-        MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+        $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
         [
             'hook_name'    	=> $hook_name,
             'is_backend'   	=> true,
             'user_id'      	=> isset($params['id']) ? $params['id'] : 0,
             'data'			=> &$data,
             'params'       	=> &$params,
-        ]));
+        ]);
 
-		// 性别
-		MyViewAssign('common_gender_list', MyConst('common_gender_list'));
-
-		// 数据
+		// 数据/参数
 		unset($params['id']);
-        MyViewAssign('data', $data);
-		MyViewAssign('params', $params);
+        $assign['data'] = $data;
+		$assign['params'] = $params;
+
+		// 数据赋值
+		MyViewAssign($assign);
 		return MyView();
 	}
 
 
 	/**
-	 * [Save 用户添加/编辑]
+	 * 用户添加/编辑
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -161,11 +142,11 @@ class User extends Common
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return UserService::UserSave($params);
+		return ApiService::ApiDataReturn(UserService::UserSave($params));
 	}
 
 	/**
-	 * [Delete 用户删除]
+	 * 用户删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -182,7 +163,7 @@ class User extends Common
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return UserService::UserDelete($params);
+		return ApiService::ApiDataReturn(UserService::UserDelete($params));
 	}
 }
 ?>

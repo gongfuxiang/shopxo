@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\StoreService;
 use app\service\PluginsAdminService;
 use app\service\ResourcesService;
@@ -23,7 +25,7 @@ use app\service\PluginsUpgradeService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Pluginsadmin extends Common
+class Pluginsadmin extends Base
 {
     /**
      * 构造方法
@@ -37,14 +39,8 @@ class Pluginsadmin extends Common
         // 调用父类前置方法
         parent::__construct();
 
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-
         // 小导航
-        $this->view_type = input('view_type', 'home');
+        $this->view_type = empty($this->data_request['view_type']) ? 'index' : $this->data_request['view_type'];
     }
 
     /**
@@ -56,30 +52,30 @@ class Pluginsadmin extends Common
      */
     public function Index()
     {
-        // 导航参数
-        MyViewAssign('view_type', $this->view_type);
+        // 模板数据
+        $assign = [
+            // 导航参数
+            'view_type' => $this->view_type,
 
-        // 参数
-        $params = $this->data_request;
-
-        // 应用商店地址
-        MyViewAssign('store_url', StoreService::StoreUrl());
+            // 应用商店地址
+            'store_url' => StoreService::StoreUrl(),
+        ];
 
         // 页面类型
-        if($this->view_type == 'home')
+        if($this->view_type == 'index')
         {
             // 插件列表
             $ret = PluginsAdminService::PluginsList(['is_power'=>true]);
-            MyViewAssign('data_list', $ret['data']);
+            $assign['data_list'] = $ret['data'];
 
             // 插件更新信息
             $upgrade = PluginsService::PluginsUpgradeInfo($ret['data']);
-            MyViewAssign('upgrade_info', $upgrade['data']);
-
-            return MyView();
-        } else {
-            return MyView('upload');
+            $assign['upgrade_info'] = $upgrade['data'];
         }
+
+        // 数据赋值
+        MyViewAssign($assign);
+        return MyView($this->view_type);
     }
 
     /**
@@ -93,9 +89,6 @@ class Pluginsadmin extends Common
     {
         // 参数
         $params = $this->data_request;
-
-        // 参数
-        MyViewAssign('params', $params);
 
         // 获取数据
         $data = [];
@@ -113,7 +106,12 @@ class Pluginsadmin extends Common
                 }
             }
         }
-        MyViewAssign('data', $data);
+
+        // 模板数据
+        $assign = [
+            'data'      => $data,
+            'params'    => $params,
+        ];
 
         // 名称校验
         if(!empty($params['plugins']))
@@ -121,7 +119,8 @@ class Pluginsadmin extends Common
             $ret = PluginsAdminService::PluginsVerification($params, $params['plugins']);
             if($ret['code'] != 0)
             {
-                MyViewAssign('verification_msg', $ret['msg']);
+                $assign['verification_msg'] = $ret['msg'];
+                MyViewAssign($assign);
                 return MyView('first_step');
             }
         }
@@ -129,13 +128,17 @@ class Pluginsadmin extends Common
         // 标记为空或等于view 并且 编辑数据为空则走第一步
         if(empty($params['plugins']) && empty($data['data'][0]))
         {
+            MyViewAssign($assign);
             return MyView('first_step');
         } else {
             // 编辑器文件存放地址
-            MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('plugins_'.$params['plugins']));
+            $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue('plugins_'.$params['plugins']);
 
             // 唯一标记
-            MyViewAssign('plugins', $params['plugins']);
+            $assign['plugins'] = $params['plugins'];
+
+            //数据赋值
+            MyViewAssign($assign);
             return MyView('save_info');
         }
     }
@@ -156,7 +159,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始处理
-        return PluginsAdminService::PluginsSave($this->data_post);
+        return ApiService::ApiDataReturn(PluginsAdminService::PluginsSave($this->data_post));
     }
 
     /**
@@ -175,11 +178,11 @@ class Pluginsadmin extends Common
         }
 
         // 开始处理
-        return PluginsAdminService::PluginsDelete($this->data_post);
+        return ApiService::ApiDataReturn(PluginsAdminService::PluginsDelete($this->data_post));
     }
 
     /**
-     * [StatusUpdate 状态更新]
+     * 状态更新
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -194,7 +197,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始处理
-        return PluginsAdminService::PluginsStatusUpdate($this->data_post);
+        return ApiService::ApiDataReturn(PluginsAdminService::PluginsStatusUpdate($this->data_post));
     }
 
     /**
@@ -213,7 +216,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始处理
-        return PluginsAdminService::PluginsUpload($this->data_request);
+        return ApiService::ApiDataReturn(PluginsAdminService::PluginsUpload($this->data_request));
     }
 
     /**
@@ -232,8 +235,6 @@ class Pluginsadmin extends Common
         {
             MyViewAssign('msg', $ret['msg']);
             return MyView('public/tips_error');
-        } else {
-            return $ret;
         }
     }
 
@@ -254,7 +255,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始操作
-        return PluginsAdminService::PluginsInstall($this->data_request);
+        return ApiService::ApiDataReturn(PluginsAdminService::PluginsInstall($this->data_request));
     }
 
     /**
@@ -274,7 +275,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始操作
-        return PluginsAdminService::PluginsUninstall($this->data_request);
+        return ApiService::ApiDataReturn(PluginsAdminService::PluginsUninstall($this->data_request));
     }
 
     /**
@@ -294,7 +295,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始操作
-        return PluginsAdminService::SortSave($this->data_post);
+        return ApiService::ApiDataReturn(PluginsAdminService::SortSave($this->data_post));
     }
 
     /**
@@ -314,7 +315,7 @@ class Pluginsadmin extends Common
         }
 
         // 开始操作
-        return PluginsUpgradeService::Run($this->data_post);
+        return ApiService::ApiDataReturn(PluginsUpgradeService::Run($this->data_post));
     }
 }
 ?>

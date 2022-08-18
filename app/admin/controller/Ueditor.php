@@ -11,7 +11,7 @@
 namespace app\admin\controller;
 
 use app\service\UeditorService;
-use app\service\ResourcesService;
+use app\service\ApiService;
 
 /**
  * 百度编辑器控制器入口
@@ -48,7 +48,7 @@ class Ueditor extends Common
      */
     public function Index()
     {
-        return json(UeditorService::Run($this->data_request));
+        return ApiService::ApiDataReturn(UeditorService::Run($this->data_request));
     }
 }
 ?>

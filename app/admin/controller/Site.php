@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\SystemService;
 use app\service\ConfigService;
 use app\service\GoodsService;
@@ -24,7 +26,7 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Site extends Common
+class Site extends Base
 {
 	public $nav_type;
 	public $view_type;
@@ -41,15 +43,9 @@ class Site extends Common
 		// 调用父类前置方法
 		parent::__construct();
 
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-
 		// 导航类型
-		$this->nav_type = input('nav_type', 'base');
-		$this->view_type = input('view_type', 'index');
+		$this->nav_type = empty($this->data_request['nav_type']) ? 'base' : $this->data_request['nav_type'];
+		$this->view_type = empty($this->data_request['view_type']) ? 'index' : $this->data_request['view_type'];
 
 		// 仅网站设置页面存在多个子页面
         if($this->nav_type != 'siteset')
@@ -69,11 +65,10 @@ class Site extends Common
 	public function Index()
 	{
 		// 公共数据
-		$this->CurrentViewInit();
+		$assign = $this->CurrentViewInit();
 
 		// 配置信息
-		$data = ConfigService::ConfigList();
-		MyViewAssign('data', $data);
+		$assign['data'] = ConfigService::ConfigList();
 
 		// 数据处理
 		switch($this->nav_type)
@@ -84,11 +79,11 @@ class Site extends Common
 	        	if(!empty($data['common_self_extraction_address']) && !empty($data['common_self_extraction_address']['value']))
 				{
 					$address = ConfigService::SiteTypeExtractionAddressList($data['common_self_extraction_address']['value']);
-					MyViewAssign('sitetype_address_list', $address['data']);
+					$assign['sitetype_address_list'] = $address['data'];
 				}
 
 				// 加载地图api
-	        	MyViewAssign('is_load_map_api', 1);
+	        	$assign['is_load_map_api'] = 1;
 				break;
 
 			// 网站设置
@@ -122,26 +117,25 @@ class Site extends Common
             			$c['config_category_ids'] = array_key_exists($c['id'], $floor_category) ? explode(',', $floor_category[$c['id']]) : [];
             		}
             	}
-            	MyViewAssign('goods_category_list', $category);
+            	$assign['goods_category_list'] = $category;
 
             	// 楼层自定义商品
             	if(!empty($data['home_index_floor_manual_mode_goods']) && !empty($data['home_index_floor_manual_mode_goods']['value']))
             	{
             		$ret = SiteService::FloorManualModeGoodsViewHandle(json_decode($data['home_index_floor_manual_mode_goods']['value'], true));
-            		MyViewAssign('floor_manual_mode_goods_list', $ret['data']);
+            		$assign['floor_manual_mode_goods_list'] = $ret['data'];
             	}
 
             	// 支付方式
-            	$payment_list = PaymentService::PaymentList(['is_enable'=>1, 'is_open_user'=>1]);
-            	MyViewAssign('payment_list', $payment_list);
-
-            	// 默认支付方式
-            	//$params['common_default_payment'] = empty($params['common_default_payment']) ? '' : json_encode($params['common_default_payment'], JSON_UNESCAPED_UNICODE);
+            	$assign['payment_list'] = PaymentService::PaymentList(['is_enable'=>1, 'is_open_user'=>1]);
 				break;
 		}
 
 		// 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('common'));
+        $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue('common');
+
+        // 数据赋值
+        MyViewAssign($assign);
 
         // 视图
         $view = 'site/'.$this->nav_type.'/'.$this->view_type;
@@ -158,55 +152,58 @@ class Site extends Common
 	 */
 	public function CurrentViewInit()
 	{
-		// 主/子导航
-        MyViewAssign('nav_type', $this->nav_type);
-        MyViewAssign('view_type', $this->view_type);
+		// 模板数据
+		$assign = [
+			// 主/子导航
+	        'nav_type' 								=> $this->nav_type,
+	        'view_type' 							=> $this->view_type,
 
-		// 时区
-		MyViewAssign('site_timezone_list', MyConst('site_timezone_list'));
+			// 时区
+			'site_timezone_list' 					=> MyConst('site_timezone_list'),
 
-		// 平台
-		MyViewAssign('common_platform_type', MyConst('common_platform_type'));
+			// 平台
+			'common_platform_type' 					=> MyConst('common_platform_type'),
 
-		// 关闭开启
-		MyViewAssign('common_close_open_list', MyConst('common_close_open_list'));
+			// 关闭开启
+			'common_close_open_list' 				=> MyConst('common_close_open_list'),
 
-		// 登录方式
-		MyViewAssign('common_login_type_list', MyConst('common_login_type_list'));
+			// 登录方式
+			'common_login_type_list' 				=> MyConst('common_login_type_list'),
 
-		// 用户注册类型列表
-		MyViewAssign('common_user_reg_type_list', MyConst('common_user_reg_type_list'));
+			// 用户注册类型列表
+			'common_user_reg_type_list' 			=> MyConst('common_user_reg_type_list'),
 
-		// 图片验证码规则
-		MyViewAssign('site_images_verify_rules_list', MyConst('site_images_verify_rules_list'));
+			// 图片验证码规则
+			'site_images_verify_rules_list' 		=> MyConst('site_images_verify_rules_list'),
 
-		// 热门搜索关键字
-		MyViewAssign('common_search_keywords_type_list', MyConst('common_search_keywords_type_list'));
+			// 热门搜索关键字
+			'common_search_keywords_type_list' 		=> MyConst('common_search_keywords_type_list'),
 
-		// 是否
-		MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
+			// 是否
+			'common_is_text_list' 					=> MyConst('common_is_text_list'),
 
-		// 站点类型
-		MyViewAssign('common_site_type_list', MyConst('common_site_type_list'));
+			// 站点类型
+			'common_site_type_list' 				=> MyConst('common_site_type_list'),
 
-		// 扣除库存规则
-		MyViewAssign('common_deduction_inventory_rules_list', MyConst('common_deduction_inventory_rules_list'));
+			// 扣除库存规则
+			'common_deduction_inventory_rules_list'	=> MyConst('common_deduction_inventory_rules_list'),
 
-		// 增加销量规则
-		MyViewAssign('common_sales_count_inc_rules_list', MyConst('common_sales_count_inc_rules_list'));
+			// 增加销量规则
+			'common_sales_count_inc_rules_list' 	=> MyConst('common_sales_count_inc_rules_list'),
 
-		// 首页商品排序规则
-		MyViewAssign('goods_order_by_type_list', MyConst('goods_order_by_type_list'));
-		MyViewAssign('goods_order_by_rule_list', MyConst('goods_order_by_rule_list'));
+			// 首页商品排序规则
+			'goods_order_by_type_list' 				=> MyConst('goods_order_by_type_list'),
+			'goods_order_by_rule_list' 				=> MyConst('goods_order_by_rule_list'),
 
-		// 首页楼层数据类型
-		MyViewAssign('common_site_floor_data_type_list', MyConst('common_site_floor_data_type_list'));
+			// 首页楼层数据类型
+			'common_site_floor_data_type_list' 		=> MyConst('common_site_floor_data_type_list'),
 
-		// 搜索参数类型
-		MyViewAssign('common_goods_parameters_type_list', MyConst('common_goods_parameters_type_list'));
+			// 搜索参数类型
+			'common_goods_parameters_type_list' 	=> MyConst('common_goods_parameters_type_list'),
+		];
 
 		// 主导航
-		MyViewAssign('second_nav_list', [
+		$assign['second_nav_list'] = [
 			[
 				'name'	=> '基础配置',
 				'type'	=> 'base',
@@ -251,10 +248,10 @@ class Site extends Common
 				'name'	=> '扩展项',
 				'type'	=> 'extends',
 			],
-		]);
+		];
 
 		// 网站设置导航
-		MyViewAssign('siteset_nav_list', [
+		$assign['siteset_nav_list'] = [
 			[
 				'name'	=> '首页',
 				'type'	=> 'index',
@@ -279,7 +276,8 @@ class Site extends Common
 				'name'	=> '扩展',
 				'type'	=> 'extends',
 			],
-		]);
+		];
+		return $assign;
 	}
 	
 	/**
@@ -407,8 +405,7 @@ class Site extends Common
 					break;
 			}
 		}
-
-		return $ret;
+		return ApiService::ApiDataReturn($ret);
 	}
 
 	/**
@@ -434,7 +431,7 @@ class Site extends Common
             MyViewAssign('data', $ret['data']['data']);
             $ret['data']['data'] = MyView('site/public/goods_search');
         }
-        return $ret;
+        return ApiService::ApiDataReturn($ret);
     }
 }
 ?>

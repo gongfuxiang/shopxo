@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\ConfigService;
 
 /**
@@ -19,29 +21,10 @@ use app\service\ConfigService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Sms extends Common
+class Sms extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-     * [Index 配置列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,22 +32,21 @@ class Sms extends Common
      */
 	public function Index()
 	{
-		// 配置信息
-		MyViewAssign('data', ConfigService::ConfigList());
-
 		// 导航
-		$type = input('type', 'sms');
-		MyViewAssign('nav_type', $type);
-		if($type == 'sms')
-		{
-			return MyView('index');
-		} else {
-			return MyView('message');
-		}
+		$type = empty($this->data_request['type']) ? 'index' : $this->data_request['type'];
+		$assign = [
+			// 配置信息
+			'data'					=> ConfigService::ConfigList(),
+
+			// 页面导航
+			'nav_type'				=> $type,
+		];
+		MyViewAssign($assign);
+		return MyView($type);
 	}
 
 	/**
-	 * [Save 配置数据保存]
+	 * 保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -72,7 +54,7 @@ class Sms extends Common
 	 */
 	public function Save()
 	{
-		return ConfigService::ConfigSave($_POST);
+		return ApiService::ApiDataReturn(ConfigService::ConfigSave($_POST));
 	}
 }
 ?>

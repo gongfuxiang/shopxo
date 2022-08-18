@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Common;
+use app\service\ApiService;
 use app\service\StatisticalService;
 use app\service\StoreService;
 use app\service\SystemUpgradeService;
@@ -37,6 +39,12 @@ class Index extends Common
 
 		// 登录校验
 		$this->IsLogin();
+
+		// 权限校验
+		if(in_array($this->action_name, ['storeaccountsbind', 'inspectupgrade', 'inspectupgradeconfirm', 'stats']))
+		{
+			$this->IsPower();
+		}
 	}
 
 	/**
@@ -56,7 +64,6 @@ class Index extends Common
 		{
 			$to_url = base64_decode(urldecode($this->data_request['to_url']));
 		}
-
 		MyViewAssign('to_url', $to_url);
 		return MyView();
 	}
@@ -70,6 +77,9 @@ class Index extends Common
 	 */
 	public function Init()
 	{
+		// 模板数据
+		$assign = [];
+
 		// 系统信息
 		$mysql_ver = \think\facade\Db::query('SELECT VERSION() AS `ver`');
 		$data = [
@@ -80,7 +90,7 @@ class Index extends Common
 			'host'			=>	isset($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : '',
 			'ver'			=>	'ShopXO'.' '.APPLICATION_VERSION,
 		];
-		MyViewAssign('data', $data);
+		$assign['data'] = $data;
 
 		// 用户是否有数据统计权限
 		$is_stats = AdminIsPower('index', 'stats');
@@ -89,15 +99,15 @@ class Index extends Common
 		{
 			// 默认时间
 			$default_day = '30-day';
-			MyViewAssign('default_day', $default_day);
+			$assign['default_day'] = $default_day;
 
 			// 收入统计权限
 			$is_income = AdminIsPower('index', 'income');
-			MyViewAssign('is_income', $is_income);
+			$assign['is_income'] = $is_income;
 
 			// 时间
 			$time_data = StatisticalService::DateTimeList();
-			MyViewAssign('time_data', $time_data);
+			$assign['time_data'] = $time_data;
 
 			// 基础数据总计
 			$time = [];
@@ -107,27 +117,28 @@ class Index extends Common
 				$time['end'] = strtotime($time_data[$default_day]['end']);
 			}
 			$base_count = StatisticalService::BaseTotalCount($time);
-			MyViewAssign('base_count', $base_count['data']);
+			$assign['base_count'] = $base_count['data'];
 
 			// 用户
 			$user = StatisticalService::UserYesterdayTodayTotal();
-			MyViewAssign('user', $user['data']);
+			$assign['user'] = $user['data'];
 
 			// 订单总数
 			$order_number = StatisticalService::OrderNumberYesterdayTodayTotal();
-			MyViewAssign('order_number', $order_number['data']);
+			$assign['order_number'] = $order_number['data'];
 
 			// 订单成交总量
 			$order_complete_number = StatisticalService::OrderCompleteYesterdayTodayTotal();
-			MyViewAssign('order_complete_number', $order_complete_number['data']);
+			$assign['order_complete_number'] = $order_complete_number['data'];
 
 			// 订单收入总计
 			if($is_income)
 			{
 				$order_complete_money = StatisticalService::OrderCompleteMoneyYesterdayTodayTotal();
-				MyViewAssign('order_complete_money', $order_complete_money['data']);
+				$assign['order_complete_money'] = $order_complete_money['data'];
 			}
 		}
+		MyViewAssign($assign);
 
 		// 钩子初始化
         $this->PluginsInit();
@@ -164,36 +175,41 @@ class Index extends Common
      * @desc    description
      */
     private function PluginsInit()
-    {        
-        // 顶部钩子
-        MyViewAssign('plugins_admin_view_index_init_top_data', MyEventTrigger('plugins_admin_view_index_init_top', ['hook_name'=>'plugins_admin_view_index_init_top', 'is_backend'=>false, 'admin'=>$this->admin]));
-
-        // 公告顶部钩子
-        MyViewAssign('plugins_admin_view_index_init_notice_top_data', MyEventTrigger('plugins_admin_view_index_init_notice_top', ['hook_name'=>'plugins_admin_view_index_init_notice_top', 'is_backend'=>false, 'admin'=>$this->admin]));
-
-        // 基础统计顶部钩子
-        MyViewAssign('plugins_admin_view_index_init_stats_base_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_base_top', ['hook_name'=>'plugins_admin_view_index_init_stats_base_top', 'is_backend'=>false, 'admin'=>$this->admin]));
-
-        // 基础统计内部顶部钩子
-        MyViewAssign('plugins_admin_view_index_init_stats_inside_base_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_inside_base_top', ['hook_name'=>'plugins_admin_view_index_init_stats_inside_base_top', 'is_backend'=>false, 'admin'=>$this->admin]));
-
-        // 订单金额走势统计内部顶部钩子
-        MyViewAssign('plugins_admin_view_index_init_stats_inside_amount_trend_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_inside_amount_trend_top', ['hook_name'=>'plugins_admin_view_index_init_stats_inside_amount_trend_top', 'is_backend'=>false, 'admin'=>$this->admin]));
-
-    	// 订单交易走势统计内部顶部钩子
-        MyViewAssign('plugins_admin_view_index_init_stats_inside_order_trading_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_inside_order_trading_top', ['hook_name'=>'plugins_admin_view_index_init_stats_inside_order_trading_top', 'is_backend'=>false, 'admin'=>$this->admin]));
-
-        // 组合商品和支付统计内部顶部钩子
-        MyViewAssign('plugins_admin_view_index_init_stats_inside_compose_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_inside_compose_top', ['hook_name'=>'plugins_admin_view_index_init_stats_inside_compose_top', 'is_backend'=>false, 'admin'=>$this->admin]));
-
-        // 地域分布统计内部顶部钩子
-        MyViewAssign('plugins_admin_view_index_init_stats_inside_region_top_data', MyEventTrigger('plugins_admin_view_index_init_stats_inside_region_top', ['hook_name'=>'plugins_admin_view_index_init_stats_inside_region_top', 'is_backend'=>false, 'admin'=>$this->admin]));
-
-        // 系统信息顶部钩子
-        MyViewAssign('plugins_admin_view_index_init_system_info_top_data', MyEventTrigger('plugins_admin_view_index_init_system_info_top', ['hook_name'=>'plugins_admin_view_index_init_system_info_top', 'is_backend'=>false, 'admin'=>$this->admin]));
-
-        // 底部钩子
-        MyViewAssign('plugins_admin_view_index_init_bottom_data', MyEventTrigger('plugins_admin_view_index_init_bottom', ['hook_name'=>'plugins_admin_view_index_init_bottom', 'is_backend'=>false, 'admin'=>$this->admin]));
+    {
+    	// 钩子列表
+    	$hook_arr = [
+    		// 顶部钩子
+    		'plugins_admin_view_index_init_top',
+    		// 公告顶部钩子
+    		'plugins_admin_view_index_init_notice_top',
+    		// 基础统计顶部钩子
+    		'plugins_admin_view_index_init_stats_base_top',
+    		// 基础统计内部顶部钩子
+    		'plugins_admin_view_index_init_stats_inside_base_top',
+    		// 订单金额走势统计内部顶部钩子
+    		'plugins_admin_view_index_init_stats_inside_amount_trend_top',
+    		// 订单交易走势统计内部顶部钩子
+    		'plugins_admin_view_index_init_stats_inside_order_trading_top',
+    		// 组合商品和支付统计内部顶部钩子
+    		'plugins_admin_view_index_init_stats_inside_compose_top',
+    		// 地域分布统计内部顶部钩子
+    		'plugins_admin_view_index_init_stats_inside_region_top',
+    		// 系统信息顶部钩子
+    		'plugins_admin_view_index_init_system_info_top',
+    		// 底部钩子
+    		'plugins_admin_view_index_init_bottom',
+    	];
+    	$assign = [];
+    	foreach($hook_arr as $hook_name)
+    	{
+    		// 基础统计顶部钩子
+	        $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
+	        	['hook_name'	=> $hook_name,
+	        	'is_backend'	=> false,
+	        	'admin'			=> $this->admin,
+	        ]);
+    	}
+    	MyViewAssign($assign);
     }
 
 	/**
@@ -212,12 +228,9 @@ class Index extends Common
             return $this->error('非法访问');
         }
 
-        // 权限校验
-		$this->IsPower();
-
         // 开始处理
         $params = $this->data_request;
-        return StoreService::SiteStoreAccountsBind($params);
+        return ApiService::ApiDataReturn(StoreService::SiteStoreAccountsBind($params));
 	}
 
 	/**
@@ -236,12 +249,9 @@ class Index extends Common
             return $this->error('非法访问');
         }
 
-        // 权限校验
-		$this->IsPower();
-
         // 开始处理
         $params = $this->data_request;
-        return StoreService::SiteInspectUpgrade($params);
+        return ApiService::ApiDataReturn(StoreService::SiteInspectUpgrade($params));
 	}
 
 	/**
@@ -260,12 +270,9 @@ class Index extends Common
             return $this->error('非法访问');
         }
 
-        // 权限校验
-		$this->IsPower();
-
         // 开始处理
         $params = $this->data_request;
-        return SystemUpgradeService::Run($params);
+        return ApiService::ApiDataReturn(SystemUpgradeService::Run($params));
 	}
 
 	/**
@@ -284,12 +291,9 @@ class Index extends Common
             return $this->error('非法访问');
         }
 
-        // 权限校验
-		$this->IsPower();
-
 		// 开始处理
 		$params = $this->data_request;
-        return StatisticalService::StatsData($params);
+        return ApiService::ApiDataReturn(StatisticalService::StatsData($params));
 	}
 }
 ?>

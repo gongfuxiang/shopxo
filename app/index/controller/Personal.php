@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\SeoService;
 use app\service\UserService;
 use app\service\NavigationService;
@@ -40,7 +41,7 @@ class Personal extends Common
     }
 
 	/**
-	 * [Index 首页]
+	 * 资料页
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -48,17 +49,19 @@ class Personal extends Common
 	 */
 	public function Index()
 	{
-        // 用户展示数据
-		MyViewAssign('personal_show_list', NavigationService::UsersPersonalShowFieldList());
-
-        // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('个人资料', 1));
-
+		// 模板数据
+		$assign = [
+			// 用户展示数据
+			'personal_show_list' => NavigationService::UsersPersonalShowFieldList(),
+	        // 浏览器名称
+	        'home_seo_site_title' => SeoService::BrowserSeoTitle('个人资料', 1),
+		];
+		MyViewAssign($assign);
 		return MyView();
 	}
 
 	/**
-	 * [SaveInfo 编辑页面]
+	 * 编辑页面
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -66,20 +69,21 @@ class Personal extends Common
 	 */
 	public function SaveInfo()
 	{
-		// 性别
-		MyViewAssign('common_gender_list', MyConst('common_gender_list'));
-
-		// 数据
-		MyViewAssign('data', $this->user);
-
-        // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('个人资料编辑', 1));
-
+		// 模板数据
+		$assign = [
+			// 用户数据
+			'data' 					=> $this->user,
+			// 性别
+			'common_gender_list' 	=> MyConst('common_gender_list'),
+	        // 浏览器名称
+	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle('个人资料编辑', 1),
+		];
+		MyViewAssign($assign);
 		return MyView();
 	}
 
 	/**
-	 * [Save 数据保存]
+	 * 保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -94,9 +98,9 @@ class Personal extends Common
 		}
 
 		// 开始操作
-		$params = input('post.');
+		$params = $this->data_post;
         $params['user'] = $this->user;
-        return UserService::PersonalSave($params);
+        return ApiService::ApiDataReturn(UserService::PersonalSave($params));
 	}
 }
 ?>

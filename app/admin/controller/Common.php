@@ -131,7 +131,7 @@ class Common extends BaseController
     }
 
 	/**
-	 * [IsLogin 登录校验]
+	 * 登录校验
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -159,16 +159,19 @@ class Common extends BaseController
 	 */
 	public function ViewInit()
 	{
+        // 模板数据
+        $assign = [];
+
         // 系统类型
         $this->system_type = SystemService::SystemTypeValue();
-        MyViewAssign('system_type', $this->system_type);
+        $assign['system_type'] = $this->system_type;
 
         // 公共参数
-        MyViewAssign('params', $this->data_request);
+        $assign['params'] = $this->data_request;
 
 		// 主题
         $default_theme = 'default';
-        MyViewAssign('default_theme', $default_theme);
+        $assign['default_theme'] = $default_theme;
 
         // 当前系统操作名称
         $this->module_name = RequestModule();
@@ -176,9 +179,9 @@ class Common extends BaseController
         $this->action_name = RequestAction();
 
         // 当前系统操作名称
-        MyViewAssign('module_name', $this->module_name);
-        MyViewAssign('controller_name', $this->controller_name);
-        MyViewAssign('action_name', $this->action_name);
+        $assign['module_name'] = $this->module_name;
+        $assign['controller_name'] = $this->controller_name;
+        $assign['action_name'] = $this->action_name;
 
         // 当前插件操作名称, 兼容插件模块名称
         if(empty($this->data_request['pluginsname']))
@@ -193,77 +196,77 @@ class Common extends BaseController
         }
 
         // 当前插件操作名称
-        MyViewAssign('plugins_module_name', $this->plugins_module_name);
-        MyViewAssign('plugins_controller_name', $this->plugins_controller_name);
-        MyViewAssign('plugins_action_name', $this->plugins_action_name);
+        $assign['plugins_module_name'] = $this->plugins_module_name;
+        $assign['plugins_controller_name'] = $this->plugins_controller_name;
+        $assign['plugins_action_name'] = $this->plugins_action_name;
 
         // 管理员
-        MyViewAssign('admin', $this->admin);
+        $assign['admin'] = $this->admin;
 
         // 权限菜单
-        MyViewAssign('left_menu', $this->left_menu);
+        $assign['left_menu'] = $this->left_menu;
 
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
         $this->page_size = min(empty($this->data_request['page_size']) ? MyC('common_page_size', 10, true) : intval($this->data_request['page_size']), 1000);
-        MyViewAssign('page', $this->page);
-        MyViewAssign('page_size', $this->page_size);
+        $assign['page'] = $this->page;
+        $assign['page_size'] = $this->page_size;
 
         // 货币符号
-        MyViewAssign('currency_symbol', ResourcesService::CurrencyDataSymbol());
+        $assign['currency_symbol'] = ResourcesService::CurrencyDataSymbol();
 
 		// 控制器静态文件状态css,js
         $module_css = $this->module_name.DS.$default_theme.DS.'css'.DS.$this->controller_name;
         $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$this->action_name.'.css') ? '.'.$this->action_name.'.css' : '.css';
-        MyViewAssign('module_css', file_exists(ROOT_PATH.'static'.DS.$module_css) ? $module_css : '');
+        $assign['module_css'] = file_exists(ROOT_PATH.'static'.DS.$module_css) ? $module_css : '';
 
         $module_js = $this->module_name.DS.$default_theme.DS.'js'.DS.$this->controller_name;
         $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$this->action_name.'.js') ? '.'.$this->action_name.'.js' : '.js';
-        MyViewAssign('module_js', file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '');
+        $assign['module_js'] = file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '';
 
         // 价格正则
-        MyViewAssign('default_price_regex', MyConst('common_regex_price'));
+        $assign['default_price_regex'] = MyConst('common_regex_price');
 
 		// 附件host地址
-        MyViewAssign('attachment_host', SystemBaseService::AttachmentHost());
+        $assign['attachment_host'] = SystemBaseService::AttachmentHost();
 
         // css/js引入host地址
-        MyViewAssign('public_host', MyConfig('shopxo.public_host'));
+        $assign['public_host'] = MyConfig('shopxo.public_host');
 
         // 当前url地址
-        MyViewAssign('my_domain', __MY_DOMAIN__);
+        $assign['my_domain'] = __MY_DOMAIN__;
 
         // 当前完整url地址
-        MyViewAssign('my_url', __MY_URL__);
+        $assign['my_url'] = __MY_URL__;
 
         // 项目public目录URL地址
-        MyViewAssign('my_public_url', __MY_PUBLIC_URL__);
+        $assign['my_public_url'] = __MY_PUBLIC_URL__;
 
         // 当前http类型
-        MyViewAssign('my_http', __MY_HTTP__);
+        $assign['my_http'] = __MY_HTTP__;
 
         // 首页地址
-        MyViewAssign('home_url', SystemService::HomeUrl());
+        $assign['home_url'] = SystemService::HomeUrl();
 
         // 开发模式
-        MyViewAssign('shopxo_is_develop', MyConfig('shopxo.is_develop'));
+        $assign['shopxo_is_develop'] = MyConfig('shopxo.is_develop');
 
         // 是否加载视频播放器组件
-        MyViewAssign('is_load_ckplayer', 0);
+        $assign['is_load_ckplayer'] = 0;
 
         // 默认不加载地图api、类型默认百度地图
-        MyViewAssign('is_load_map_api', 0);
-        MyViewAssign('load_map_type', MyC('common_map_type', 'baidu', true));
+        $assign['is_load_map_api'] = 0;
+        $assign['load_map_type'] = MyC('common_map_type', 'baidu', true);
 
         // 布局样式+管理
-        MyViewAssign('is_load_layout', 0);
-        MyViewAssign('is_load_layout_admin', 0);
+        $assign['is_load_layout'] = 0;
+        $assign['is_load_layout_admin'] = 0;
 
         // 是否加载附件组件
-        MyViewAssign('is_load_upload_editor', !empty($this->admin) ? 1 : 0);
+        $assign['is_load_upload_editor'] = !empty($this->admin) ? 1 : 0;
 
         // 站点名称
-        MyViewAssign('admin_theme_site_name', MyC('admin_theme_site_name', 'ShopXO', true));
+        $assign['admin_theme_site_name'] = MyC('admin_theme_site_name', 'ShopXO', true);
 
         // 站点商店信息
         $site_store_error = '';
@@ -278,35 +281,38 @@ class Common extends BaseController
                 $site_store_error = $ret['msg'];
             }
         }
-        MyViewAssign('site_store_error', $site_store_error);
-        MyViewAssign('site_store_info', $site_store_info);
+        $assign['site_store_error'] = $site_store_error;
+        $assign['site_store_info'] = $site_store_info;
 
         // 更多链接地址
         $site_store_links = empty($site_store_info['links']) ? [] : $site_store_info['links'];
-        MyViewAssign('site_store_links', $site_store_links);
+        $assign['site_store_links'] = $site_store_links;
 
         // 系统基础信息
         $is_system_show_base = (empty($site_store_info) || empty($site_store_info['vip']) || !isset($site_store_info['vip']['status']) || $site_store_info['vip']['status'] == 0 || ($site_store_info['vip']['status'] == 1 && (AdminIsPower('index', 'storeaccountsbind') || AdminIsPower('index', 'inspectupgrade')))) ? 1 : 0;
-        MyViewAssign('is_system_show_base', $is_system_show_base);
+        $assign['is_system_show_base'] = $is_system_show_base;
 
         // 后台公告
         $admin_notice = MyC('admin_notice');
-        MyViewAssign('admin_notice',  empty($admin_notice) ? '' : str_replace("\n", '<br />', $admin_notice));
+        $assign['admin_notice'] = empty($admin_notice) ? '' : str_replace("\n", '<br />', $admin_notice);
 
         // 系统环境参数最大数
-        MyViewAssign('env_max_input_vars_count', SystemService::EnvMaxInputVarsCount());
+        $assign['env_max_input_vars_count'] = SystemService::EnvMaxInputVarsCount();
 
         // 主题配色
         $this->admin_color_value = intval(MyCookie($this->admin_color_value_key));
         if($this->admin_color_value == 1)
         {
-            MyViewAssign('admin_color_name', '普通白色');
-            MyViewAssign('admin_color_url', MyUrl('admin/index/color', ['value'=>0]));
+            $assign['admin_color_name'] = '普通白色';
+            $assign['admin_color_url'] = MyUrl('admin/index/color', ['value'=>0]);
         } else {
-            MyViewAssign('admin_color_name', '夜间深色');
-            MyViewAssign('admin_color_url', MyUrl('admin/index/color', ['value'=>1]));
+            $assign['admin_color_name'] = '夜间深色';
+            $assign['admin_color_url'] = MyUrl('admin/index/color', ['value'=>1]);
         }
-        MyViewAssign('admin_color_value', $this->admin_color_value);
+        $assign['admin_color_value'] = $this->admin_color_value;
+
+        // 模板赋值
+        MyViewAssign($assign);
 	}
 
     /**
@@ -324,6 +330,7 @@ class Common extends BaseController
         if(!empty($module))
         {
             // 调用表格处理
+            $assign = [];
             $params = $this->data_request;
             $params['system_admin'] = $this->admin;
             $ret = (new FormHandleModule())->Run($module['module'], $module['action'], $params);
@@ -336,19 +343,19 @@ class Common extends BaseController
                 $this->form_md5_key = $ret['data']['md5_key'];
                 $this->form_user_fields = $ret['data']['user_fields'];
                 $this->form_order_by = $ret['data']['order_by'];
-                MyViewAssign('form_table', $this->form_table);
-                MyViewAssign('form_params', $this->form_params);
-                MyViewAssign('form_md5_key', $this->form_md5_key);
-                MyViewAssign('form_user_fields', $this->form_user_fields);
-                MyViewAssign('form_order_by', $this->form_order_by);
+                $assign['form_table'] = $this->form_table;
+                $assign['form_params'] = $this->form_params;
+                $assign['form_md5_key'] = $this->form_md5_key;
+                $assign['form_user_fields'] = $this->form_user_fields;
+                $assign['form_order_by'] = $this->form_order_by;
 
                 // 列表数据
                 $this->data_total = $ret['data']['data_total'];
                 $this->data_list = $ret['data']['data_list'];
                 $this->data_detail = $ret['data']['data_detail'];
-                MyViewAssign('data_total', $this->data_total);
-                MyViewAssign('data_list', $this->data_list);
-                MyViewAssign('data', $this->data_detail);
+                $assign['data_total'] = $this->data_total;
+                $assign['data_list'] = $this->data_list;
+                $assign['data'] = $this->data_detail;
 
                 // 分页数据
                 $this->page = $ret['data']['page'];
@@ -356,15 +363,17 @@ class Common extends BaseController
                 $this->page_size = $ret['data']['page_size'];
                 $this->page_html = $ret['data']['page_html'];
                 $this->page_url = $ret['data']['page_url'];
-                MyViewAssign('page', $this->page);
-                MyViewAssign('page_start', $this->page_start);
-                MyViewAssign('page_size', $this->page_size);
-                MyViewAssign('page_html', $this->page_html);
-                MyViewAssign('page_url', $this->page_url);
+                $assign['page'] = $this->page;
+                $assign['page_start'] = $this->page_start;
+                $assign['page_size'] = $this->page_size;
+                $assign['page_html'] = $this->page_html;
+                $assign['page_url'] = $this->page_url;
             } else {
                 $this->form_error = $ret['msg'];
-                MyViewAssign('form_error', $this->form_error);
+                $assign['form_error'] = $this->form_error;
             }
+            // 模板赋值
+            MyViewAssign($assign);
         }
     }
 
@@ -378,14 +387,14 @@ class Common extends BaseController
 	protected function IsPower()
 	{
 		// 不需要校验权限的方法
-		$unwanted_power = ['getnodeson'];
+		$unwanted_power = ['getnodeson', 'node'];
         if(!AdminIsPower(null, null, $unwanted_power))
         {
             if(IS_AJAX)
             {
                 exit(json_encode(DataReturn('无权限', -1000)));
             } else {
-                return $this->error('无权限');
+                MyRedirect(MyUrl('admin/error/tips', ['msg'=>urlencode(base64_encode('无权限'))]), true);
             }
         }
 	}
@@ -461,23 +470,32 @@ class Common extends BaseController
      */
     private function CommonPluginsInit()
     {
-        // css钩子
-        MyViewAssign('plugins_admin_css_data', MyEventTrigger('plugins_admin_css', ['hook_name'=>'plugins_admin_css', 'is_backend'=>true]));
+        // 模板数据
+        $assign = [];
 
-        // js钩子
-        MyViewAssign('plugins_admin_js_data', MyEventTrigger('plugins_admin_js', ['hook_name'=>'plugins_admin_js', 'is_backend'=>true]));
-        
-        // 公共header内钩子
-        MyViewAssign('plugins_admin_common_header_data', MyEventTrigger('plugins_admin_common_header', ['hook_name'=>'plugins_admin_common_header', 'is_backend'=>true, 'admin'=>$this->admin]));
-
-        // 公共页面底部钩子
-        MyViewAssign('plugins_admin_common_page_bottom_data', MyEventTrigger('plugins_admin_common_page_bottom', ['hook_name'=>'plugins_admin_common_page_bottom', 'is_backend'=>true, 'admin'=>$this->admin]));
-
-        // 公共顶部钩子
-        MyViewAssign('plugins_admin_view_common_top_data', MyEventTrigger('plugins_admin_view_common_top', ['hook_name'=>'plugins_admin_view_common_top', 'is_backend'=>true, 'admin'=>$this->admin]));
-
-        // 公共底部钩子
-        MyViewAssign('plugins_admin_view_common_bottom_data', MyEventTrigger('plugins_admin_view_common_bottom', ['hook_name'=>'plugins_admin_view_common_bottom', 'is_backend'=>true, 'admin'=>$this->admin]));
+        // 钩子列表
+        $hook_arr = [
+            // css钩子
+            'plugins_admin_css',
+            // js钩子
+            'plugins_admin_js',
+            // 公共header内钩子
+            'plugins_admin_common_header',
+            // 公共页面底部钩子
+            'plugins_admin_common_page_bottom',
+            // 公共顶部钩子
+            'plugins_admin_view_common_top',
+            // 公共底部钩子
+            'plugins_admin_view_common_bottom',
+        ];
+        foreach($hook_arr as $hook_name)
+        {
+            $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
+                ['hook_name'    => $hook_name,
+                'is_backend'    => false,
+                'admin'         => $this->admin,
+            ]);
+        }
 
         // 公共表格钩子名称动态处理
         $current = 'plugins_view_admin_'.$this->controller_name;
@@ -492,31 +510,34 @@ class Common extends BaseController
         }
 
         // 表格列表公共标识
-        MyViewAssign('hook_name_form_grid', $current.'_grid');
+        $assign['hook_name_form_grid'] = $current.'_grid';
         // 内容外部顶部
-        MyViewAssign('hook_name_content_top', $current.'_content_top');
+        $assign['hook_name_content_top'] = $current.'_content_top';
         // 内容外部底部
-        MyViewAssign('hook_name_content_bottom', $current.'_content_bottom');
+        $assign['hook_name_content_bottom'] = $current.'_content_bottom';
         // 内容内部顶部
-        MyViewAssign('hook_name_content_inside_top', $current.'_content_inside_top');
+        $assign['hook_name_content_inside_top'] = $current.'_content_inside_top';
         // 内容内部底部
-        MyViewAssign('hook_name_content_inside_bottom', $current.'_content_inside_bottom');
+        $assign['hook_name_content_inside_bottom'] = $current.'_content_inside_bottom';
         // 表格列表顶部操作
-        MyViewAssign('hook_name_form_top_operate', $current.'_top_operate');
+        $assign['hook_name_form_top_operate'] = $current.'_top_operate';
         // 表格列表底部操作
-        MyViewAssign('hook_name_form_bottom_operate', $current.'_bottom_operate');
+        $assign['hook_name_form_bottom_operate'] = $current.'_bottom_operate';
         // 表格列表后面操作栏
-        MyViewAssign('hook_name_form_list_operate', $current.'_list_operate');
+        $assign['hook_name_form_list_operate'] = $current.'_list_operate';
 
         // 公共详情页面钩子名称动态处理
         // 内容外部顶部
-        MyViewAssign('hook_name_detail_top', $current.'_detail_top');
+        $assign['hook_name_detail_top'] = $current.'_detail_top';
         // 内容外部底部
-        MyViewAssign('hook_name_detail_bottom', $current.'_detail_bottom');
+        $assign['hook_name_detail_bottom'] = $current.'_detail_bottom';
         // 内容内部顶部
-        MyViewAssign('hook_name_detail_inside_top', $current.'_detail_inside_top');
+        $assign['hook_name_detail_inside_top'] = $current.'_detail_inside_top';
         // 内容内部底部
-        MyViewAssign('hook_name_detail_inside_bottom', $current.'_detail_inside_bottom');
+        $assign['hook_name_detail_inside_bottom'] = $current.'_detail_inside_bottom';
+
+        // 模板赋值
+        MyViewAssign($assign);
     }
 }
 ?>

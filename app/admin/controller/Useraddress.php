@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\UserAddressService;
 use app\service\ResourcesService;
 
@@ -20,27 +22,8 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class UserAddress extends Common
+class UserAddress extends Base
 {
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列表
      * @author   Devil
@@ -74,24 +57,31 @@ class UserAddress extends Common
      */
     public function SaveInfo()
     {
-        // 参数
-        $params = $this->data_request;
-
         // 数据
-        $data = $data = $this->data_detail;
-        MyViewAssign('data', $data);
+        $data = $this->data_detail;
 
-        // 加载地图api
-        MyViewAssign('is_load_map_api', 1);
+        // 模板数据
+        $assign = [
+            // 数据
+            'data'              => $data,
+
+            // 加载地图api
+            'is_load_map_api'   => 1,
+        ];
 
         // 编辑器文件存放地址
         if(!empty($data['user_id']))
         {
-            MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($data['user_id'])));
+            $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($data['user_id']));
         }
 
+        // 参数处理
+        $params = $this->data_request;
         unset($params['id']);
-        MyViewAssign('params', $params);
+        $assign['params'] = $params;
+
+        // 数据赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -114,11 +104,12 @@ class UserAddress extends Common
         $params = $this->data_request;
         if(empty($params['user_id']))
         {
-            return DataReturn('用户信息有误', -1);
+            $ret = DataReturn('用户信息有误', -1);
+        } else {
+            $params['user'] = ['id'=>$params['user_id']];
+            $ret = UserAddressService::UserAddressSave($params);
         }
-
-        $params['user'] = ['id'=>$params['user_id']];
-        return UserAddressService::UserAddressSave($params);
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -139,7 +130,7 @@ class UserAddress extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return UserAddressService::UserAddressAdminDelete($params);
+        return ApiService::ApiDataReturn(UserAddressService::UserAddressAdminDelete($params));
     }
 }
 ?>

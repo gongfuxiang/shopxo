@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\SeoService;
 use app\service\SafetyService;
 use app\service\NavigationService;
@@ -40,7 +41,7 @@ class Safety extends Common
     }
 
 	/**
-	 * [Index 首页]
+	 * 首页
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -48,24 +49,24 @@ class Safety extends Common
 	 */
 	public function Index()
 	{
-		// 安全信息列表
-		MyViewAssign('safety_panel_list', NavigationService::UsersSafetyPanelList());
-
-		// 数据列表
-		$data = array(
+		// 模板数据
+		$assign = [
+			// 基础数据
+			'data' 					=> [
 				'mobile'	=>	$this->user['mobile_security'],
 				'email'		=>	$this->user['email_security'],
-			);
-		MyViewAssign('data', $data);
-
-        // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('安全设置', 1));
-
+			],
+			// 安全信息列表
+			'safety_panel_list'		=> NavigationService::UsersSafetyPanelList(),
+	        // 浏览器名称
+	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle('安全设置', 1),
+        ];
+        MyViewAssign($assign);
 		return MyView();
 	}
 
 	/**
-	 * [LoginPwdInfo 登录密码修改页面]
+	 * 登录密码修改页面
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -75,12 +76,11 @@ class Safety extends Common
 	{
         // 浏览器名称
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('登录密码修改 - 安全设置', 1));
-
 		return MyView();
 	}
 
 	/**
-	 * [MobileInfo 原手机号码修改页面]
+	 * 原手机号码修改页面
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -99,7 +99,7 @@ class Safety extends Common
 	}
 
 	/**
-	 * [NewMobileInfo 新手机号码修改页面]
+	 * 新手机号码修改页面
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -114,12 +114,11 @@ class Safety extends Common
 
         // 浏览器名称
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('手机号码修改 - 安全设置', 1));
-
 		return MyView();
 	}
 
 	/**
-	 * [EmailInfo 电子邮箱修改页面]
+	 * 电子邮箱修改页面
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -138,7 +137,7 @@ class Safety extends Common
 	}
 
 	/**
-	 * [NewEmailInfo 新电子邮箱修改页面]
+	 * 新电子邮箱修改页面
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -153,12 +152,11 @@ class Safety extends Common
 
         // 浏览器名称
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('电子邮箱修改 - 安全设置', 1));
-        
 		return MyView();
 	}
 
 	/**
-	 * [VerifyEntry 验证码显示]
+	 * 验证码显示
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -166,18 +164,18 @@ class Safety extends Common
 	 */
 	public function VerifyEntry()
 	{
-		$params = array(
-                'width' => 100,
-                'height' => 28,
-                'use_point_back' => false,
-                'key_prefix' => 'safety',
-            );
+		$params = [
+            'width' 			=> 100,
+            'height' 			=> 28,
+            'use_point_back'	=> false,
+            'key_prefix' 		=> 'safety',
+        ];
         $verify = new \base\Verify($params);
         $verify->Entry();
 	}
 
 	/**
-	 * [LoginPwdUpdate 登录密码修改]
+	 * 登录密码修改
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -188,17 +186,17 @@ class Safety extends Common
 		// 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error('非法访问');
+            return $this->error('非法访问');
         }
 
         // 开始处理
-        $params = input('post.');
+        $params = $this->data_post;
         $params['user'] = $this->user;
-        return SafetyService::LoginPwdUpdate($params);
+        return ApiService::ApiDataReturn(SafetyService::LoginPwdUpdate($params));
 	}
 
 	/**
-	 * [VerifySend 验证码发送]
+	 * 验证码发送
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -209,19 +207,18 @@ class Safety extends Common
 		// 是否ajax请求
         if(!IS_AJAX)
         {
-            MyViewAssign('msg', '非法访问');
-            return MyView('public/tips_error');
+            return $this->error('非法访问');
         }
 
         // 开始处理
-        $params = input('post.');
+        $params = $this->data_post;
         $params['user'] = $this->user;
-        return SafetyService::VerifySend($params);
+        return ApiService::ApiDataReturn(SafetyService::VerifySend($params));
 	}
 
 
 	/**
-	 * [VerifyCheck 原账户验证码校验]
+	 * 原账户验证码校验
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -232,18 +229,17 @@ class Safety extends Common
 		// 是否ajax请求
         if(!IS_AJAX)
         {
-            MyViewAssign('msg', '非法访问');
-            return MyView('public/tips_error');
+            return $this->error('非法访问');
         }
 
         // 开始处理
-        $params = input('post.');
+        $params = $this->data_post;
         $params['user'] = $this->user;
-        return SafetyService::VerifyCheck($params);
+        return ApiService::ApiDataReturn(SafetyService::VerifyCheck($params));
 	}
 
 	/**
-	 * [AccountsUpdate 账户更新]
+	 * 账户更新
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -254,14 +250,13 @@ class Safety extends Common
 		// 是否ajax请求
         if(!IS_AJAX)
         {
-            MyViewAssign('msg', '非法访问');
-            return MyView('public/tips_error');
+            return $this->error('非法访问');
         }
 
         // 开始处理
-        $params = input('post.');
+        $params = $this->data_post;
         $params['user'] = $this->user;
-        return SafetyService::AccountsUpdate($params);
+        return ApiService::ApiDataReturn(SafetyService::AccountsUpdate($params));
 	}
 }
 ?>

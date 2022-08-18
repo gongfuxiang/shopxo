@@ -8,7 +8,7 @@
 
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/email/index', ['type'=>'email'])}}">
+		<form class="am-form form-validation" action="{{:MyUrl('admin/email/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/email/index', ['type'=>'index'])}}">
 			<div class="am-form-group">
 				<label>{{$data.common_email_smtp_host.name}}<span class="am-form-group-label-tips">{{$data.common_email_smtp_host.describe}}</span></label>
 				<input type="text" name="{{$data.common_email_smtp_host.only_tag}}" placeholder="{{$data.common_email_smtp_host.name}}" data-validation-message="{{$data.common_email_smtp_host.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_email_smtp_host.value}}"{{/if}} />

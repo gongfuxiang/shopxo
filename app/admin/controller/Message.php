@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\MessageService;
 
 /**
@@ -19,29 +21,10 @@ use app\service\MessageService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Message extends Common
+class Message extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-     * [Index 消息列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -65,7 +48,7 @@ class Message extends Common
     }
 
 	/**
-	 * [Delete 消息删除]
+	 * 删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -82,7 +65,7 @@ class Message extends Common
         // 开始处理
         $params = $this->data_request;
         $params['admin'] = $this->admin;
-        return MessageService::MessageDelete($params);
+        return ApiService::ApiDataReturn(MessageService::MessageDelete($params));
 	}
 }
 ?>

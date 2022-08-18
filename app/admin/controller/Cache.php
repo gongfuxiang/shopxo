@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\CacheService;
 use app\service\AdminPowerService;
 
@@ -20,29 +22,10 @@ use app\service\AdminPowerService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Cache extends Common
+class Cache extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-	 * [Index 首页]
+	 * 首页
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -56,7 +39,7 @@ class Cache extends Common
 	}
 
 	/**
-	 * [StatusUpdate 站点缓存更新]
+	 * 站点缓存更新
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -75,11 +58,11 @@ class Cache extends Common
 		// 初始化菜单
 		AdminPowerService::PowerMenuInit($this->admin);
 
-		return DataReturn('更新成功', 0);
+		return ApiService::ApiDataReturn(DataReturn('更新成功', 0));
 	}
 
 	/**
-	 * [TemplateUpdate 模板缓存更新]
+	 * 模板缓存更新
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -91,11 +74,11 @@ class Cache extends Common
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'temp');
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'temp');
 
-		return DataReturn('更新成功', 0);
+		return ApiService::ApiDataReturn(DataReturn('更新成功', 0));
 	}
 
 	/**
-	 * [ModuleUpdate 模块缓存更新]
+	 * 模块缓存更新
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -103,11 +86,11 @@ class Cache extends Common
 	 */
 	public function ModuleUpdate()
 	{
-		return DataReturn('更新成功', 0);
+		return ApiService::ApiDataReturn(DataReturn('更新成功', 0));
 	}
 
 	/**
-	 * [LogDelete 日志删除]
+	 * 日志删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -119,7 +102,7 @@ class Cache extends Common
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'log');
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'log');
 
-		return DataReturn('更新成功', 0);
+		return ApiService::ApiDataReturn(DataReturn('更新成功', 0));
 	}
 }
 ?>

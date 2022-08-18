@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\SqlConsoleService;
 
 /**
@@ -19,29 +21,10 @@ use app\service\SqlConsoleService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Sqlconsole extends Common
+class Sqlconsole extends Base
 {
     /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
-    /**
-     * [Index 首页]
+     * 首页
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -70,11 +53,12 @@ class Sqlconsole extends Common
         // 是否开启开发者模式
         if(MyConfig('shopxo.is_develop') !== true)
         {
-            return DataReturn('请先开启开发者模式', -1);
+            $ret = DataReturn('请先开启开发者模式', -1);
+        } else {
+            // 开始处理
+            $ret = SqlConsoleService::Implement($this->data_request);
         }
-
-        // 开始处理
-        return SqlConsoleService::Implement($this->data_request);
+        return ApiService::ApiDataReturn($ret);
     }
 }
 ?>

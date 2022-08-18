@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\IntegralService;
+use app\admin\controller\Base;
 
 /**
  * 用户积分日志管理
@@ -19,29 +19,10 @@ use app\service\IntegralService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class IntegralLog extends Common
+class IntegralLog extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-     * [Index 用户积分日志列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1

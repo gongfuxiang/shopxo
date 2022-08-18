@@ -45,30 +45,34 @@ class CustomView extends Common
 	public function Index()
 	{
 		// 获取页面
-		$id = input('id');
-		$params = [
-			'where' => ['is_enable'=>1, 'id'=>$id],
-			'field' => 'id,title,content,is_header,is_footer,is_full_screen,access_count',
-			'm' => 0,
-			'n' => 1,
-		];
-		$data = CustomViewService::CustomViewList($params);
-		if(!empty($data['data'][0]))
+		if(!empty($this->data_request['id']))
 		{
-			// 访问统计
-			CustomViewService::CustomViewAccessCountInc(['id'=>$id]);
+			$id = intval($this->data_request['id']);
+			$params = [
+				'where' => ['is_enable'=>1, 'id'=>$id],
+				'field' => 'id,title,content,is_header,is_footer,is_full_screen,access_count',
+				'm' => 0,
+				'n' => 1,
+			];
+			$ret = CustomViewService::CustomViewList($params);
+			if(!empty($ret['data']) && !empty($ret['data'][0]))
+			{
+				// 访问统计
+				CustomViewService::CustomViewAccessCountInc(['id'=>$id]);
 
-			// 浏览器标题
-			MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle($data['data'][0]['title']));
-
-			MyViewAssign('data', $data['data'][0]);
-            MyViewAssign('is_header', $data['data'][0]['is_header']);
-            MyViewAssign('is_footer', $data['data'][0]['is_footer']);
-			return MyView();
-		} else {
-			MyViewAssign('msg', '页面不存在或已删除');
-			return MyView('public/tips_error');
+				// 模板数据
+				$assign = [
+					'data' 					=> $ret['data'][0],
+		            'is_header' 			=> $ret['data'][0]['is_header'],
+		            'is_footer' 			=> $ret['data'][0]['is_footer'],
+					'home_seo_site_title'	=> SeoService::BrowserSeoTitle($ret['data'][0]['title']),
+				];
+				MyViewAssign($assign);
+				return MyView();
+			}
 		}
+		MyViewAssign('msg', '页面不存在或已删除');
+		return MyView('public/tips_error');
 	}
 }
 ?>

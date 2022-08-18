@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\RegionService;
 
 /**
@@ -19,26 +21,10 @@ use app\service\RegionService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Region extends Common
+class Region extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-	}
-
-	/**
-     * [Index 地区列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -46,17 +32,13 @@ class Region extends Common
      */
 	public function Index()
 	{
-		// 权限校验
-		$this->IsPower();
-
 		// 是否启用
 		MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
-
 		return MyView();
 	}
 
 	/**
-	 * [GetNodeSon 获取节点子列表]
+	 * 获取节点子列表
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -64,21 +46,18 @@ class Region extends Common
 	 */
 	public function GetNodeSon()
 	{
-		// 权限校验
-		$this->IsPower();
-
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error('非法访问');
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
-		return RegionService::RegionNodeSon($this->data_request);
+		return ApiService::ApiDataReturn(RegionService::RegionNodeSon($this->data_request));
 	}
 
 	/**
-	 * [Save 地区保存]
+	 * 保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -86,31 +65,25 @@ class Region extends Common
 	 */
 	public function Save()
 	{
-		// 权限校验
-		$this->IsPower();
-
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error('非法访问');
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
-		return RegionService::RegionSave($this->data_request);
+		return ApiService::ApiDataReturn(RegionService::RegionSave($this->data_request));
 	}
 
 	/**
-	 * [Delete 地区删除]
+	 * 删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
 	 * @datetime 2016-12-25T22:36:12+0800
 	 */
 	public function Delete()
-	{
-		// 权限校验
-		$this->IsPower();
-		
+	{		
 		// 是否ajax
 		if(!IS_AJAX)
 		{
@@ -120,7 +93,7 @@ class Region extends Common
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return RegionService::RegionDelete($params);
+		return ApiService::ApiDataReturn(RegionService::RegionDelete($params));
 	}
 
 	/**
@@ -136,17 +109,17 @@ class Region extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error('非法访问');
+            return $this->error('非法访问');
         }
 
         // 获取地区
+        $pid = empty($this->data_request['pid']) ? 0 : intval($this->data_request['pid']);
         $params = [
             'where' => [
-                'pid'   => isset($this->data_request['pid']) ? intval($this->data_request['pid']) : 0,
+                ['pid', '=', $pid],
             ],
         ];
-        $data = RegionService::RegionNode($params);
-        return DataReturn('操作成功', 0, $data);
+        return ApiService::ApiDataReturn(DataReturn('获取成功', 0, RegionService::RegionNode($params)));
     }
 }
 ?>

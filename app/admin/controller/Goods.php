@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\GoodsService;
 use app\service\RegionService;
@@ -24,27 +26,8 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Goods extends Common
+class Goods extends Base
 {
-	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
 	/**
      * 列表
      * @author   Devil
@@ -66,20 +49,20 @@ class Goods extends Common
      */
     public function Detail()
     {
-    	$data = $this->data_detail;
-        if(!empty($data))
+    	// 模板数据
+    	$assign = [
+    		// 商品参数类型
+            'common_goods_parameters_type_list' => MyConst('common_goods_parameters_type_list'),
+    	];
+        if(!empty($this->data_detail))
         {
             // 获取商品编辑规格
-            $specifications = GoodsService::GoodsEditSpecifications($data['id']);
-            MyViewAssign('specifications', $specifications);
+            $assign['specifications'] = GoodsService::GoodsEditSpecifications($this->data_detail['id']);
 
             // 获取商品编辑参数
-            $parameters = GoodsService::GoodsEditParameters($data['id']);
-            MyViewAssign('parameters', $parameters);
-
-            // 商品参数类型
-            MyViewAssign('common_goods_parameters_type_list', MyConst('common_goods_parameters_type_list'));
+            $assign['parameters'] = GoodsService::GoodsEditParameters($this->data_detail['id']);
         }
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -95,47 +78,47 @@ class Goods extends Common
 		// 参数
 		$params = $this->data_request;
 
-		// 商品信息
+		// 是否存在数据
 		$data = $this->data_detail;
-		if(!empty($params['id']))
+		if(!empty($params['id']) && empty($data))
 		{
-			if(empty($data))
-			{
-				return $this->error('商品信息不存在', MyUrl('admin/goods/index'));
-			}
-
-			// 获取商品编辑规格
-			$specifications = GoodsService::GoodsEditSpecifications($data['id']);
-            MyViewAssign('specifications', $specifications);
-
-            // 获取商品编辑参数
-            $parameters = GoodsService::GoodsEditParameters($data['id']);
-            MyViewAssign('parameters', $parameters);
+			return $this->error('商品信息不存在', MyUrl('admin/goods/index'));
 		}
 
-		// 地区信息
-		MyViewAssign('region_province_list', RegionService::RegionItems(['pid'=>0]));
+		// 模板信息
+		$assign = [
+			// 商品参数类型
+			'common_goods_parameters_type_list'	=> MyConst('common_goods_parameters_type_list'),
+			// 站点类型
+			'common_site_type_list'				=> MyConst('common_site_type_list'),
+			// 当前系统设置的站点类型
+			'common_site_type'					=> SystemBaseService::SiteTypeValue(),
+			// 地区信息
+			'region_province_list'				=> RegionService::RegionItems(['pid'=>0]),
+			// 商品分类
+			'goods_category_list' 				=> GoodsService::GoodsCategoryAll(),
+			// 品牌
+			'brand_list' 						=> BrandService::CategoryBrand(),
+			// 编辑器文件存放地址
+			'editor_path_type'					=> ResourcesService::EditorPathTypeValue('goods'),
+		];
 
-		// 商品分类
-		MyViewAssign('goods_category_list', GoodsService::GoodsCategoryAll());
+		// 商品信息
+		if(!empty($data))
+		{
+			// 获取商品编辑规格
+			$assign['specifications'] = GoodsService::GoodsEditSpecifications($data['id']);
 
-		// 品牌
-		MyViewAssign('brand_list', BrandService::CategoryBrand());
+            // 获取商品编辑参数
+            $assign['parameters'] = GoodsService::GoodsEditParameters($data['id']);
+		}
 
 		// 规格扩展数据
 		$goods_spec_extends = GoodsService::GoodsSpecificationsExtends($params);
-		MyViewAssign('goods_specifications_extends', $goods_spec_extends['data']);
-
-        // 站点类型
-        MyViewAssign('common_site_type_list', MyConst('common_site_type_list'));
-        // 当前系统设置的站点类型
-        MyViewAssign('common_site_type', SystemBaseService::SiteTypeValue());
-
-        // 商品参数类型
-        MyViewAssign('common_goods_parameters_type_list', MyConst('common_goods_parameters_type_list'));
+		$assign['goods_specifications_extends'] = $goods_spec_extends['data'];
 
         // 商品参数模板
-        $data_params = array(
+        $data_params = [
             'm'     => 0,
             'n'     => 0,
             'where' => [
@@ -143,31 +126,31 @@ class Goods extends Common
                 ['config_count', '>', 0],
             ],
             'field' => 'id,name',
-        );
+        ];
         $template = GoodsParamsService::GoodsParamsTemplateList($data_params);
-        MyViewAssign('goods_template_list', $template['data']);
+        $assign['goods_template_list'] = $template['data'];
 
         // 是否拷贝
-        MyViewAssign('is_copy', (isset($params['is_copy']) && $params['is_copy'] == 1) ? 1 : 0);
+        $assign['is_copy'] = (isset($params['is_copy']) && $params['is_copy'] == 1) ? 1 : 0;
 
 		// 商品编辑页面钩子
 		$hook_name = 'plugins_view_admin_goods_save';
-        MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+        $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
         [
             'hook_name'    	=> $hook_name,
             'is_backend'   	=> true,
             'goods_id'      => isset($params['id']) ? $params['id'] : 0,
             'data'			=> &$data,
             'params'       	=> &$params,
-        ]));
+        ]);
 
-        // 编辑器文件存放地址
-		MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('goods'));
-
-		// 数据
+		// 数据/参数
 		unset($params['id'], $params['is_copy']);
-		MyViewAssign('data', $data);
-		MyViewAssign('params', $params);
+		$assign['data'] = $data;
+		$assign['params'] = $params;
+
+		// 数据赋值
+		MyViewAssign($assign);
 		return MyView();
 	}
 
@@ -189,7 +172,7 @@ class Goods extends Common
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return GoodsService::GoodsSave($params);
+		return ApiService::ApiDataReturn(GoodsService::GoodsSave($params));
 	}
 
 	/**
@@ -210,7 +193,7 @@ class Goods extends Common
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return GoodsService::GoodsDelete($params);
+		return ApiService::ApiDataReturn(GoodsService::GoodsDelete($params));
 	}
 
 	/**
@@ -231,7 +214,7 @@ class Goods extends Common
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return GoodsService::GoodsStatusUpdate($params);
+		return ApiService::ApiDataReturn(GoodsService::GoodsStatusUpdate($params));
 	}
 }
 ?>

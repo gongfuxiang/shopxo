@@ -20,7 +20,12 @@ namespace app\index\controller;
 class QrCode extends Common
 {
     /**
-     * [__construct 构造方法]
+     * 构造方法
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-11-30
+     * @desc    description
      */
     public function __construct()
     {
@@ -36,14 +41,12 @@ class QrCode extends Common
      */
     public function Index()
     {
-        $params = input();
-        if(empty($params['content']))
+        if(empty($this->data_request['content']))
         {
             MyViewAssign('msg', '内容参数为空');
             return MyView('public/tips_error');
         }
-
-        (new \base\Qrcode())->View($params);
+        (new \base\Qrcode())->View($this->data_request);
     }
 
     /**
@@ -55,8 +58,7 @@ class QrCode extends Common
      */
     public function Download()
     {
-        $params = input();
-        $ret = (new \base\Qrcode())->Download($params);
+        $ret = (new \base\Qrcode())->Download($this->data_request);
         if(!empty($ret) && isset($ret['code']) && $ret['code'] != 0)
         {
             MyViewAssign('msg', $ret['msg']);

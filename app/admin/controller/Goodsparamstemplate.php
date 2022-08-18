@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\GoodsParamsService;
 
 /**
@@ -20,28 +22,8 @@ use app\service\GoodsParamsService;
  * @date    2020-11-27
  * @desc    description
  */
-class GoodsParamsTemplate extends Common
+class GoodsParamsTemplate extends Base
 {
-	/**
-     * 构造方法
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-11-27
-     * @desc    description
-     */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
 	/**
      * 列表
      * @author  Devil
@@ -65,15 +47,18 @@ class GoodsParamsTemplate extends Common
      */
     public function Detail()
     {
-        // 数据
-        $data = $this->data_detail;
+        // 模板数据
+        $assign = [
+            // 商品参数类型
+            'common_goods_parameters_type_list' =>  MyConst('common_goods_parameters_type_list'),
 
-        // 商品参数类型
-        MyViewAssign('common_goods_parameters_type_list', MyConst('common_goods_parameters_type_list'));
+            // 数据
+            'data'                              => $this->data_detail,
 
-        // 参数配置
-        MyViewAssign('parameters', empty($data['config_data']) ? [] : $data['config_data']);
-
+            // 参数配置
+            'parameters'                        => empty($this->data_detail['config_data']) ? [] : $this->data_detail['config_data'],
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -93,11 +78,14 @@ class GoodsParamsTemplate extends Common
         // 数据
         $data = $this->data_detail;
 
-        // 商品参数类型
-        MyViewAssign('common_goods_parameters_type_list', MyConst('common_goods_parameters_type_list'));
+        // 模板数据
+        $assign = [
+            // 商品参数类型
+            'common_goods_parameters_type_list' => MyConst('common_goods_parameters_type_list'),
 
-        // 参数配置
-        MyViewAssign('parameters', empty($data['config_data']) ? [] : $data['config_data']);
+            // 参数配置
+            'parameters'                        => empty($data['config_data']) ? [] : $data['config_data'],
+        ];
 
         // 编辑页面钩子
         $hook_name = 'plugins_view_admin_goods_params_template_save';
@@ -110,10 +98,13 @@ class GoodsParamsTemplate extends Common
             'params'        => &$params,
         ]));
 
-        // 数据
+        // 数据/参数
         unset($params['id']);
-        MyViewAssign('data', $data);
-        MyViewAssign('params', $params);
+        $assign['data'] = $data;
+        $assign['params'] = $params;
+
+        // 数据赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -135,7 +126,7 @@ class GoodsParamsTemplate extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return GoodsParamsService::GoodsParamsTemplateSave($params);
+        return ApiService::ApiDataReturn(GoodsParamsService::GoodsParamsTemplateSave($params));
 	}
 
 	/**
@@ -157,7 +148,7 @@ class GoodsParamsTemplate extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return GoodsParamsService::GoodsParamsTemplateDelete($params);
+        return ApiService::ApiDataReturn(GoodsParamsService::GoodsParamsTemplateDelete($params));
 	}
 
     /**
@@ -178,7 +169,7 @@ class GoodsParamsTemplate extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return GoodsParamsService::GoodsParamsTemplateStatusUpdate($params);
+        return ApiService::ApiDataReturn(GoodsParamsService::GoodsParamsTemplateStatusUpdate($params));
     }
 }
 ?>

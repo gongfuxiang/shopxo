@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\GoodsService;
 use app\service\UserService;
@@ -44,7 +45,7 @@ class Buy extends Common
     }
     
     /**
-     * [Index 首页]
+     * 订单确认页
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -99,15 +100,21 @@ class Buy extends Common
                 $buy_base = $ret['data']['base'];
                 $buy_goods = $ret['data']['goods'];
 
+                // 模板数据
+                $assign = [
+                    'base'                  => $buy_base,
+                    'buy_goods'             => $buy_goods,
+                    // 浏览器名称
+                    'home_seo_site_title'   => SeoService::BrowserSeoTitle('订单确认', 1),
+                    // 公共销售模式
+                    'common_site_type'      => $buy_base['common_site_type'],
+                    // 支付方式
+                    'payment_list'          => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
+                ];
+
                 // 用户地址
                 $address = UserAddressService::UserAddressList(['user'=>$this->user]);
-                MyViewAssign('user_address_list', $address['data']);
-
-                // 支付方式
-                MyViewAssign('payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
-
-                // 公共销售模式
-                MyViewAssign('common_site_type', $buy_base['common_site_type']);
+                $assign['user_address_list'] = $address['data'];
 
                 // 地址选中处理
                 // 防止选中id不存在地址列表中
@@ -116,22 +123,16 @@ class Buy extends Common
                 {
                     unset($params['address_id']);
                 }
+                $assign['params'] = $params;
 
+                // 数据赋值
+                MyViewAssign($assign);
                 // 钩子
                 $this->PluginsHook($ret['data'], $params);
-
-                // 浏览器名称
-                MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单确认', 1));
-
-                // 页面数据
-                MyViewAssign('base', $buy_base);
-                MyViewAssign('buy_goods', $buy_goods);
-                MyViewAssign('params', $params);
                 return MyView();
-            } else {
-                MyViewAssign('msg', isset($ret['msg']) ? $ret['msg'] : '参数错误');
-                return MyView('public/tips_error');
             }
+            MyViewAssign('msg', isset($ret['msg']) ? $ret['msg'] : '参数错误');
+            return MyView('public/tips_error');
         }
     }
 
@@ -178,16 +179,18 @@ class Buy extends Common
             // 订单确认页面底部钩子
             'plugins_view_buy_bottom',
         ];
+        $assign = [];
         foreach($hook_arr as $hook_name)
         {
-            MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+            $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
                 [
                     'hook_name'     => $hook_name,
                     'is_backend'    => false,
                     'data'          => $data,
                     'params'        => $params,
-                ]));
+                ]);
         }
+        MyViewAssign($assign);
     }
 
     /**
@@ -200,15 +203,14 @@ class Buy extends Common
      */
     public function Add()
     {
-        if($this->data_post)
+        $params = $this->data_post;
+        if(!empty($params))
         {
-            $params = $this->data_post;
             $params['user'] = $this->user;
-            return BuyService::OrderInsert($params);
-        } else {
-            MyViewAssign('msg', '非法访问');
-            return MyView('public/tips_error');
+            return ApiService::ApiDataReturn(BuyService::OrderInsert($params));
         }
+        MyViewAssign('msg', '非法访问');
+        return MyView('public/tips_error');
     }
 }
 ?>

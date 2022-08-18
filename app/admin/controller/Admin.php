@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\service\ApiService;
 use app\service\AdminService;
 use app\service\SystemBaseService;
 
@@ -105,6 +106,13 @@ class Admin extends Common
 			}
 		}
 
+		// 模板数据
+		$assign = [
+			'id' 						=> isset($params['id']) ? $params['id'] : 0,
+			'common_gender_list' 		=> MyConst('common_gender_list'),
+			'common_admin_status_list'	=> MyConst('common_admin_status_list'),
+		];
+
 		// 角色
 		$role_params = [
 			'where'		=> [
@@ -113,27 +121,26 @@ class Admin extends Common
 			'field'		=> 'id,name',
 		];
 		$role = AdminService::RoleList($role_params);
-		MyViewAssign('role_list', $role['data']);
-
-		MyViewAssign('id', isset($params['id']) ? $params['id'] : 0);
-		MyViewAssign('common_gender_list', MyConst('common_gender_list'));
-		MyViewAssign('common_admin_status_list', MyConst('common_admin_status_list'));
+		$assign['role_list'] = $role['data'];
 
 		// 管理员编辑页面钩子
         $hook_name = 'plugins_view_admin_admin_save';
-        MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+        $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
         [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'admin_id'      => isset($params['id']) ? $params['id'] : 0,
             'data'          => &$data,
             'params'        => &$params,
-        ]));
+        ]);
 
         // 数据
         unset($params['id']);
-        MyViewAssign('data', $data);
-        MyViewAssign('params', $params);
+        $assign['data'] = $data;
+        $assign['params'] = $params;
+
+        // 数据赋值
+        MyViewAssign($assign);
 		return MyView();
 	}
 
@@ -168,7 +175,7 @@ class Admin extends Common
 
 		// 开始操作
 		$params['admin'] = $this->admin;
-		return AdminService::AdminSave($params);
+		return ApiService::ApiDataReturn(AdminService::AdminSave($params));
 	}
 
 	/**
@@ -190,7 +197,7 @@ class Admin extends Common
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return AdminService::AdminDelete($params);
+		return ApiService::ApiDataReturn(AdminService::AdminDelete($params));
 	}
 
 	/**
@@ -209,8 +216,11 @@ class Admin extends Common
 			return MyRedirect(MyUrl('admin/index/index'));
 		}
 
-        // 登录方式
-        MyViewAssign('admin_login_type', MyC('admin_login_type', [], true));
+		// 模板数据
+		$assign = [
+			// 登录方式
+			'admin_login_type'	=> MyC('admin_login_type', [], true),
+		];
 
         // 背景图片
         $host = SystemBaseService::AttachmentHost();
@@ -231,16 +241,18 @@ class Admin extends Common
             $host.'/static/admin/default/images/login/14.jpg',
             $host.'/static/admin/default/images/login/15.jpg',
         ];
-        MyViewAssign('bg_images_list', $bg_images_list);
+        $assign['bg_images_list'] = $bg_images_list;
 
 		// 管理员登录页面钩子
         $hook_name = 'plugins_view_admin_login_info';
-        MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+        $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
         [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
-        ]));
+        ]);
 
+        // 数据赋值
+        MyViewAssign($assign);
 		return MyView();
 	}
 
@@ -262,7 +274,7 @@ class Admin extends Common
 
 		// 开始操作
 		$params = $this->data_post;
-		return AdminService::Login($params);
+		return ApiService::ApiDataReturn(AdminService::Login($params));
 	}
 
     /**
@@ -301,7 +313,7 @@ class Admin extends Common
         }
 
         // 调用服务层
-        return AdminService::LoginVerifySend($this->data_post);
+        return ApiService::ApiDataReturn(AdminService::LoginVerifySend($this->data_post));
     }
 
 	/**

@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\SlideService;
 use app\service\ResourcesService;
 
@@ -20,27 +22,8 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Slide extends Common
+class Slide extends Base
 {
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列表
      * @author   Devil
@@ -74,20 +57,23 @@ class Slide extends Common
      */
     public function SaveInfo()
     {
+        // 模板数据
+        $assign = [
+            // 静态资源
+            'common_is_enable_list' => MyConst('common_is_enable_list'),
+            'common_platform_type'  => MyConst('common_platform_type'),
+            'common_app_event_type' => MyConst('common_app_event_type'),
+            // 编辑器文件存放地址
+            'editor_path_type'      => ResourcesService::EditorPathTypeValue('slide'),
+        ];
+
         // 参数
         $params = $this->data_request;
-
-        // 静态资源
-        MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
-        MyViewAssign('common_platform_type', MyConst('common_platform_type'));
-        MyViewAssign('common_app_event_type', MyConst('common_app_event_type'));
-
-        // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('slide'));
-
-        // 数据
         unset($params['id']);
-        MyViewAssign('params', $params);
+        $assign['params'] = $params;
+
+        // 数据赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -108,7 +94,7 @@ class Slide extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return SlideService::SlideSave($params);
+        return ApiService::ApiDataReturn(SlideService::SlideSave($params));
     }
 
     /**
@@ -128,7 +114,7 @@ class Slide extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return SlideService::SlideDelete($params);
+        return ApiService::ApiDataReturn(SlideService::SlideDelete($params));
     }
 
     /**
@@ -148,7 +134,7 @@ class Slide extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return SlideService::SlideStatusUpdate($params);
+        return ApiService::ApiDataReturn(SlideService::SlideStatusUpdate($params));
     }
 }
 ?>

@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\PluginsUpgradeService;
 
 /**
@@ -19,28 +21,8 @@ use app\service\PluginsUpgradeService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Packageupgrade extends Common
+class Packageupgrade extends Base
 {
-    /**
-     * 构造方法
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-28
-     * @desc    description
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 软件更新
      * @author  Devil
@@ -51,7 +33,7 @@ class Packageupgrade extends Common
      */
     public function Upgrade()
     {
-        return PluginsUpgradeService::Run($this->data_post);
+        return ApiService::ApiDataReturn(PluginsUpgradeService::Run($this->data_post));
     }
 }
 ?>

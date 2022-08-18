@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\ArticleService;
 use app\service\ResourcesService;
 
@@ -20,27 +22,8 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Article extends Common
+class Article extends Base
 {
-	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
 	/**
      * 列表
      * @author   Devil
@@ -74,34 +57,40 @@ class Article extends Common
 	 */
 	public function SaveInfo()
 	{
-		// 参数
+		// 模板数据
+		$assign = [
+			// 编辑器文件存放地址
+			'editor_path_type'	=> ResourcesService::EditorPathTypeValue('article'),
+		];
+
+		// 文章分类
+        $article_category = ArticleService::ArticleCategoryList(['field'=>'id,name']);
+        $assign['article_category_list'] = $article_category['data'];
+
+        // 参数
         $params = $this->data_request;
 
         // 数据
         $data = $this->data_detail;
 
-		// 文章分类
-        $article_category = ArticleService::ArticleCategoryList(['field'=>'id,name']);
-        MyViewAssign('article_category_list', $article_category['data']);
-
         // 文章编辑页面钩子
         $hook_name = 'plugins_view_admin_article_save';
-        MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+        $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
         [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'article_id'    => isset($params['id']) ? $params['id'] : 0,
             'data'          => &$data,
             'params'        => &$params,
-        ]));
+        ]);
 
-        // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('article'));
-
-        // 数据
+        // 数据/参数
         unset($params['id']);
-        MyViewAssign('data', $data);
-        MyViewAssign('params', $params);
+        $assign['data'] = $data;
+        $assign['params'] = $params;
+
+        // 模板赋值
+		MyViewAssign($assign);
         return MyView();
 	}
 
@@ -122,7 +111,7 @@ class Article extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return ArticleService::ArticleSave($params);
+        return ApiService::ApiDataReturn(ArticleService::ArticleSave($params));
 	}
 
 	/**
@@ -143,7 +132,7 @@ class Article extends Common
         // 开始处理
         $params = $this->data_request;
         $params['admin'] = $this->admin;
-        return ArticleService::ArticleDelete($params);
+        return ApiService::ApiDataReturn(ArticleService::ArticleDelete($params));
 	}
 
 	/**
@@ -164,7 +153,7 @@ class Article extends Common
         // 开始处理
         $params = $this->data_request;
         $params['admin'] = $this->admin;
-        return ArticleService::ArticleStatusUpdate($params);
+        return ApiService::ApiDataReturn(ArticleService::ArticleStatusUpdate($params));
 	}
 }
 ?>

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\OrderService;
 use app\service\PaymentService;
 use app\service\GoodsCommentsService;
@@ -56,15 +57,16 @@ class Order extends Common
      */
     public function Index()
     {
-        // 支付参数
-        $pay_params = OrderService::PayParamsHandle($this->data_request);
-        MyViewAssign('pay_params', $pay_params);
-
-        // 发起支付 - 支付方式
-        MyViewAssign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
-
-        // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('我的订单', 1));
+        // 模板数据
+        $assign = [
+            // 支付参数
+            'pay_params'            => OrderService::PayParamsHandle($this->data_request),
+            // 支付方式
+            'buy_payment_list'      => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
+            // 浏览器名称
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle('我的订单', 1),
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -78,31 +80,26 @@ class Order extends Common
      */
     public function Detail()
     {
-        // 获取订单信息
-        $data = $this->data_detail;
-        if(empty($data))
+        // 订单信息
+        if(empty($this->data_detail))
         {
             MyViewAssign('msg', '没有相关数据');
             return MyView('public/tips_error');
         }
 
-        // 发起支付 - 支付方式
-        MyViewAssign('buy_payment_list', PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]));
-
-        // 虚拟销售配置
-        $site_fictitious = ConfigService::SiteFictitiousConfig();
-        MyViewAssign('site_fictitious', $site_fictitious['data']);
-
-        // 支付参数
-        $pay_params = OrderService::PayParamsHandle($this->data_request);
-        MyViewAssign('pay_params', $pay_params);
-
-        // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单详情', 1));
-
-        // 数据赋值
-        MyViewAssign('data', $data);
-        MyViewAssign('params', $this->data_request);
+        // 模板数据
+        $assign = [
+            'data'                  => $this->data_detail,
+            // 支付参数
+            'pay_params'            => OrderService::PayParamsHandle($this->data_request),
+            // 支付方式
+            'buy_payment_list'      => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
+            // 虚拟销售配置
+            'site_fictitious'       => ConfigService::SiteFictitiousConfig(),
+            // 浏览器名称
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle('订单详情', 1),
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -124,15 +121,17 @@ class Order extends Common
             return MyView('public/tips_error');
         }
 
-        // 上一个页面 url 地址
-        MyViewAssign('referer_url', empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : $_SERVER['HTTP_REFERER']);
-        MyViewAssign('data', $data);
-
-        // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单评论', 1));
-
-        // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['id']));
+        // 模板数据
+        $assign = [
+            'data'                  => $data,
+            // 上一个页面url地址
+            'referer_url'           => empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : htmlentities($_SERVER['HTTP_REFERER']),
+            // 浏览器名称
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle('订单评论', 1),
+            // 编辑器文件存放地址
+            'editor_path_type'      => ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['id']),
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -188,10 +187,9 @@ class Order extends Common
             $params['user'] = $this->user;
             $params['business_type'] = 'order';
             return GoodsCommentsService::Comments($params);
-        } else {
-            MyViewAssign('msg', '非法访问');
-            return MyView('public/tips_error');
         }
+        MyViewAssign('msg', '非法访问');
+        return MyView('public/tips_error');
     }
 
     /**
@@ -216,10 +214,9 @@ class Order extends Common
             } else {
                 return MyRedirect($ret['data']['data']);
             }
-        } else {
-            MyViewAssign('msg', $ret['msg']);
-            return MyView('public/tips_error');
         }
+        MyViewAssign('msg', $ret['msg']);
+        return MyView('public/tips_error');
     }
 
     /**
@@ -246,12 +243,17 @@ class Order extends Common
             $ret = OrderService::Respond($params);
         }
 
-        // 自定义链接
-        MyViewAssign('to_url', MyUrl('index/order/index'));
-        MyViewAssign('to_title', '我的订单');
+        // 模板数据
+        $assign = [
+            // 自定义链接
+            'to_url'    => MyUrl('index/order/index'),
+            'to_title'  => '我的订单',
+            // 状态信息
+            'msg'       => $ret['msg'],
+        ];
+        MyViewAssign($assign);
 
-        // 状态
-        MyViewAssign('msg', $ret['msg']);
+        // 根据不同状态展示成功和失败
         if($ret['code'] == 0)
         {
             return MyView('public/tips_success');
@@ -275,11 +277,10 @@ class Order extends Common
             $params['user_id'] = $this->user['id'];
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
-            return OrderService::OrderCancel($params);
-        } else {
-            MyViewAssign('msg', '非法访问');
-            return MyView('public/tips_error');
+            return ApiService::ApiDataReturn(OrderService::OrderCancel($params));
         }
+        MyViewAssign('msg', '非法访问');
+        return MyView('public/tips_error');
     }
 
     /**
@@ -298,11 +299,10 @@ class Order extends Common
             $params['user_id'] = $this->user['id'];
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
-            return OrderService::OrderCollect($params);
-        } else {
-            MyViewAssign('msg', '非法访问');
-            return MyView('public/tips_error');
+            return ApiService::ApiDataReturn(OrderService::OrderCollect($params));
         }
+        MyViewAssign('msg', '非法访问');
+        return MyView('public/tips_error');
     }
 
     /**
@@ -322,11 +322,10 @@ class Order extends Common
             $params['creator'] = $this->user['id'];
             $params['creator_name'] = $this->user['user_name_view'];
             $params['user_type'] = 'user';
-            return OrderService::OrderDelete($params);
-        } else {
-            MyViewAssign('msg', '非法访问');
-            return MyView('public/tips_error');
+            return ApiService::ApiDataReturn(OrderService::OrderDelete($params));
         }
+        MyViewAssign('msg', '非法访问');
+        return MyView('public/tips_error');
     }
 
     /**
@@ -343,11 +342,10 @@ class Order extends Common
         {
             $params = $this->data_post;
             $params['user'] = $this->user;
-            return OrderService::OrderPayCheck($params);
-        } else {
-            MyViewAssign('msg', '非法访问');
-            return MyView('public/tips_error');
+            return ApiService::ApiDataReturn(OrderService::OrderPayCheck($params));
         }
+        MyViewAssign('msg', '非法访问');
+        return MyView('public/tips_error');
     }
 }
 ?>

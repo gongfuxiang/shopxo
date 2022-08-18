@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\layout\service\BaseLayout;
 
 /**
@@ -59,7 +60,7 @@ class Layout extends Common
             MyViewAssign('data', $ret['data']['data']);
             $ret['data']['data'] = MyView('../../../layout/view/public/common/goodssearch');
         }
-        return $ret;
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -81,7 +82,7 @@ class Layout extends Common
         // 获取数据
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return BaseLayout::GoodsDataList($params);
+        return ApiService::ApiDataReturn(BaseLayout::GoodsDataList($params));
     }
 }
 ?>

@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\AppMiniService;
 use app\service\ConfigService;
 use app\service\StoreService;
@@ -22,7 +24,7 @@ use app\service\StoreService;
  * @date    2020-07-13
  * @desc    description
  */
-class Appmini extends Common
+class Appmini extends Base
 {
 	private $params;
 	private $application_name;
@@ -43,12 +45,6 @@ class Appmini extends Common
 		// 调用父类前置方法
 		parent::__construct();
 
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-
 		// 参数
 		$this->params = $this->data_request;
 		$this->params['application_name'] = empty($this->data_request['nav_type']) ? 'weixin' : trim($this->data_request['nav_type']);
@@ -68,29 +64,33 @@ class Appmini extends Common
 	public function Index()
 	{
         // 公共视图
-		$this->CurrentViewInit();
+		$assign = $this->CurrentViewInit();
 
+		// 根据页面处理
 		switch($this->view_type)
 		{
 			// 首页
 			case 'index' :
 				// 默认主题
-				MyViewAssign('theme', AppMiniService::DefaultTheme());
+				$assign['theme'] = AppMiniService::DefaultTheme();
 
 				// 获取主题列表
 				$data = AppMiniService::ThemeList($this->params);
-				MyViewAssign('data_list', $data);
+				$assign['data_list'] = $data;
 
 				// 插件更新信息
 	            $upgrade = AppMiniService::AppMiniUpgradeInfo(['terminal'=>$this->params['application_name'], 'data'=>$data]);
-	            MyViewAssign('upgrade_info', $upgrade['data']);
+	            $assign['upgrade_info'] = $upgrade['data'];
 				break;
 
 			// 源码包列表
 			case 'package' :
-				$this->Package();
+				$assign = array_merge($assign, $this->Package());
 				break;
 		}
+
+		// 模板赋值
+		MyViewAssign($assign);
 		return MyView($this->view_type);
 	}
 
@@ -132,11 +132,13 @@ class Appmini extends Common
 				'url' => $host.'qq.html',
 			],
 		];
-		MyViewAssign('nav_dev_tips', $nav_dev_tips);
 
 		// 源码包列表
 		$ret = AppMiniService::DownloadDataList($this->params);
-		MyViewAssign('data_list', $ret['data']);
+		return [
+			'nav_dev_tips'	=> $nav_dev_tips,
+			'data_list'		=> $ret['data'],
+		];
 	}
 
 	/**
@@ -149,37 +151,38 @@ class Appmini extends Common
 	 */
 	public function CurrentViewInit()
 	{
-		// 操作导航类型
-		MyViewAssign('nav_type', $this->params['application_name']);
+		return [
+			// 操作导航类型
+			'nav_type' 				=> $this->params['application_name'],
 
-		// 操作页面类型
-		MyViewAssign('view_type', $this->view_type);
+			// 操作页面类型
+			'view_type' 			=> $this->view_type,
 
-		// 应用商店
-        MyViewAssign('store_theme_url', StoreService::StoreThemeUrl());
+			// 应用商店
+	        'store_theme_url' 		=> StoreService::StoreThemeUrl(),
 
-		// 小程序平台
-		MyViewAssign('common_appmini_type', MyConst('common_appmini_type'));
+			// 小程序平台
+			'common_appmini_type' 	=> MyConst('common_appmini_type'),
 
-		// 是否
-		MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
+			// 是否
+			'common_is_text_list' 	=> MyConst('common_is_text_list'),
 
-		// 基础导航
-		$base_nav = [
-			[
-				'view_type'	=> 'index',
-				'name'		=> '当前主题',
-			],
-			[
-				'view_type'	=> 'upload',
-				'name'		=> '主题安装',
-			],
-			[
-				'view_type'	=> 'package',
-				'name'		=> '源码包下载',
+			// 基础导航
+			'base_nav'				=> [
+				[
+					'view_type'	=> 'index',
+					'name'		=> '当前主题',
+				],
+				[
+					'view_type'	=> 'upload',
+					'name'		=> '主题安装',
+				],
+				[
+					'view_type'	=> 'package',
+					'name'		=> '源码包下载',
+				],
 			],
 		];
-		MyViewAssign('base_nav', $base_nav);
 	}
 
 	/**
@@ -199,7 +202,7 @@ class Appmini extends Common
 		}
 
 		// 开始处理
-		return AppMiniService::ThemeUpload($this->params);
+		return ApiService::ApiDataReturn(AppMiniService::ThemeUpload($this->params));
 	}
 
 	/**
@@ -218,7 +221,7 @@ class Appmini extends Common
 		{
 			$ret['msg'] = '切换成功';
 		}
-		return $ret;
+		return ApiService::ApiDataReturn($ret);
 	}
 
 	/**
@@ -236,8 +239,6 @@ class Appmini extends Common
         {
             MyViewAssign('msg', $ret['msg']);
             return MyView('public/tips_error');
-        } else {
-            return $ret;
         }
 	}
 
@@ -259,7 +260,7 @@ class Appmini extends Common
 
 		// 开始处理
 		$params = array_merge($this->params, $this->data_request);
-		return AppMiniService::ThemeDelete($params);
+		return ApiService::ApiDataReturn(AppMiniService::ThemeDelete($params));
 	}
 
 	/**
@@ -273,10 +274,13 @@ class Appmini extends Common
 	public function Config()
 	{
 		// 公共视图
-		$this->CurrentViewInit();
+		$assign = $this->CurrentViewInit();
 
 		// 配置信息
-		MyViewAssign('data', ConfigService::ConfigList());
+		$assign['data'] = ConfigService::ConfigList();
+
+		// 模板赋值
+		MyViewAssign($assign);
 		return MyView();
 	}
 
@@ -297,7 +301,7 @@ class Appmini extends Common
 		}
 
 		// 开始操作
-		return AppMiniService::Created($this->params);
+		return ApiService::ApiDataReturn(AppMiniService::Created($this->params));
 	}
 
 	/**
@@ -310,7 +314,7 @@ class Appmini extends Common
 	 */
 	public function Save()
 	{
-		return ConfigService::ConfigSave($_POST);
+		return ApiService::ApiDataReturn(ConfigService::ConfigSave($_POST));
 	}
 
 	/**
@@ -326,11 +330,11 @@ class Appmini extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error('非法访问');
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
-		return AppMiniService::Delete($this->params);
+		return ApiService::ApiDataReturn(AppMiniService::Delete($this->params));
 	}
 }
 ?>

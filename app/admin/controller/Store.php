@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
 use app\service\StoreService;
 
 /**
@@ -19,25 +20,8 @@ use app\service\StoreService;
  * @version  0.0.1
  * @@date    2019-06-13
  */
-class Store extends Common
+class Store extends Base
 {
-    /**
-     * 构造方法
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-06-13
-     * @desc    description
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-    }
-
     /**
      * 应用商店首页
      * @author  Devil

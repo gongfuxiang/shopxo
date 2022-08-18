@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\OrderService;
 use app\service\PaymentService;
 use app\service\ExpressService;
@@ -21,28 +23,8 @@ use app\service\ExpressService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Order extends Common
+class Order extends Base
 {
-    /**
-     * 构造方法
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-28
-     * @desc    description
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 订单列表
      * @author  Devil
@@ -53,6 +35,12 @@ class Order extends Common
      */
     public function Index()
     {
+        // 模板数据
+        $assign = [
+            // 快递公司
+            'express_list'  => ExpressService::ExpressList(),
+        ];
+
         // 发起支付 - 支付方式
         $pay_wparams = [
             'where' => [
@@ -60,11 +48,10 @@ class Order extends Common
                 ['payment', 'in', MyConfig('shopxo.under_line_list')],
             ],
         ];
-        MyViewAssign('buy_payment_list', PaymentService::BuyPaymentList($pay_wparams));
+        $assign['buy_payment_list'] = PaymentService::BuyPaymentList($pay_wparams);
 
-        // 快递公司
-        MyViewAssign('express_list', ExpressService::ExpressList());
-
+        // 数据赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -103,7 +90,7 @@ class Order extends Common
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         $params['user_type'] = 'admin';
-        return OrderService::OrderDelete($params);
+        return ApiService::ApiDataReturn(OrderService::OrderDelete($params));
     }
 
     /**
@@ -128,7 +115,7 @@ class Order extends Common
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         $params['user_type'] = 'admin';
-        return OrderService::OrderCancel($params);
+        return ApiService::ApiDataReturn(OrderService::OrderCancel($params));
     }
 
     /**
@@ -152,7 +139,7 @@ class Order extends Common
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         $params['user_type'] = 'admin';
-        return OrderService::OrderDelivery($params);
+        return ApiService::ApiDataReturn(OrderService::OrderDelivery($params));
     }
 
     /**
@@ -177,7 +164,7 @@ class Order extends Common
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         $params['user_type'] = 'admin';
-        return OrderService::OrderCollect($params);
+        return ApiService::ApiDataReturn(OrderService::OrderCollect($params));
     }
 
     /**
@@ -202,7 +189,7 @@ class Order extends Common
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
         $params['user_type'] = 'admin';
-        return OrderService::OrderConfirm($params);
+        return ApiService::ApiDataReturn(OrderService::OrderConfirm($params));
     }
 
     /**
@@ -217,7 +204,7 @@ class Order extends Common
     {
         $params = $this->data_request;
         $params['admin'] = $this->admin;
-        return OrderService::OrderPaymentUnderLinePay($params);
+        return ApiService::ApiDataReturn(OrderService::OrderPaymentUnderLinePay($params));
     }
 }
 ?>

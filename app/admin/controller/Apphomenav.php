@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\AppHomeNavService;
 use app\service\ResourcesService;
 
@@ -20,27 +22,8 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class AppHomeNav extends Common
+class AppHomeNav extends Base
 {
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列表
      * @author   Devil
@@ -74,19 +57,23 @@ class AppHomeNav extends Common
      */
     public function SaveInfo()
     {
-        // 参数
-        $params = $this->data_request;
+        // 模板数据
+        $assign = [
+            // 静态数据
+            'common_platform_type'  => MyConst('common_platform_type'),
+            'common_app_event_type' => MyConst('common_app_event_type'),
 
-        // 静态数据
-        MyViewAssign('common_platform_type', MyConst('common_platform_type'));
-        MyViewAssign('common_app_event_type', MyConst('common_app_event_type'));
-
-        // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('app_nav'));
+            // 编辑器文件存放地址
+            'editor_path_type'      => ResourcesService::EditorPathTypeValue('app_nav'),
+        ];
 
         // 数据
+        $params = $this->data_request;
         unset($params['id']);
-        MyViewAssign('params', $params);
+        $assign['params'] = $params;
+
+        // 模板赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -107,7 +94,7 @@ class AppHomeNav extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return AppHomeNavService::AppHomeNavSave($params);
+        return ApiService::ApiDataReturn(AppHomeNavService::AppHomeNavSave($params));
     }
 
     /**
@@ -128,7 +115,7 @@ class AppHomeNav extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return AppHomeNavService::AppHomeNavDelete($params);
+        return ApiService::ApiDataReturn(AppHomeNavService::AppHomeNavDelete($params));
     }
 
     /**
@@ -148,7 +135,7 @@ class AppHomeNav extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return AppHomeNavService::AppHomeNavStatusUpdate($params);
+        return ApiService::ApiDataReturn(AppHomeNavService::AppHomeNavStatusUpdate($params));
     }
 }
 ?>

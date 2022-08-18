@@ -10,8 +10,10 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\AppCenterNavService;
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\ResourcesService;
+use app\service\AppCenterNavService;
 
 /**
  * 手机管理-用户中心导航管理
@@ -20,27 +22,8 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class AppCenterNav extends Common
+class AppCenterNav extends Base
 {
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列
      * @author   Devil
@@ -74,19 +57,23 @@ class AppCenterNav extends Common
      */
     public function SaveInfo()
     {
-        // 参数
-        $params = $this->data_request;
+        // 模板数据
+        $assign = [
+            // 静态数据
+            'common_platform_type'  => MyConst('common_platform_type'),
+            'common_app_event_type' => MyConst('common_app_event_type'),
 
-        // 静态数据
-        MyViewAssign('common_platform_type', MyConst('common_platform_type'));
-        MyViewAssign('common_app_event_type', MyConst('common_app_event_type'));
-
-        // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('app_center_nav'));
+            // 编辑器文件存放地址
+            'editor_path_type'      => ResourcesService::EditorPathTypeValue('app_center_nav'),
+        ];
 
         // 数据
+        $params = $this->data_request;
         unset($params['id']);
-        MyViewAssign('params', $params);
+        $assign['params'] = $params;
+
+        // 模板赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -107,7 +94,7 @@ class AppCenterNav extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return AppCenterNavService::AppCenterNavSave($params);
+        return ApiService::ApiDataReturn(AppCenterNavService::AppCenterNavSave($params));
     }
 
     /**
@@ -128,7 +115,7 @@ class AppCenterNav extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return AppCenterNavService::AppCenterNavDelete($params);
+        return ApiService::ApiDataReturn(AppCenterNavService::AppCenterNavDelete($params));
     }
 
     /**
@@ -148,7 +135,7 @@ class AppCenterNav extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return AppCenterNavService::AppCenterNavStatusUpdate($params);
+        return ApiService::ApiDataReturn(AppCenterNavService::AppCenterNavStatusUpdate($params));
     }
 }
 ?>

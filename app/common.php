@@ -205,6 +205,16 @@ function MyEventTrigger($key, $params = [])
  */
 function MyViewAssign($data, $value = '')
 {
+    // 模板引擎数据渲染分配钩子
+    $hook_name = 'plugins_view_assign_data';
+    MyEventTrigger($hook_name,
+        [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'data'          => &$data,
+            'value'         => &$value,
+        ]);
+
     \think\facade\View::assign($data, $value);
 }
 
@@ -220,7 +230,30 @@ function MyViewAssign($data, $value = '')
  */
 function MyView($view = '', $data = [])
 {
-    return \think\facade\View::fetch($view, $data);
+    // 模板引擎数据渲染前钩子
+    $hook_name = 'plugins_view_fetch_begin';
+    MyEventTrigger($hook_name,
+        [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'view'          => &$view,
+            'data'          => &$data,
+        ]);
+
+    $result = \think\facade\View::fetch($view, $data);
+
+    // 模板引擎数据渲染后钩子
+    $hook_name = 'plugins_view_fetch_end';
+    MyEventTrigger($hook_name,
+        [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'view'          => &$view,
+            'data'          => $data,
+            'result'        => &$result,
+        ]);
+
+    return $result;
 }
 
 /**
@@ -328,7 +361,7 @@ function IsUrl($value)
 }
 
 /**
- * 文件快速排序
+ * 快速排序
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -336,9 +369,10 @@ function IsUrl($value)
  * @desc    description
  * @param  [array] $data [需要排序的数据（选择一个基准元素，将待排序分成小和打两罐部分，以此类推递归的排序划分两罐部分）]
  * @param  [array]       [数组字段]
- * @return [array]       [排序好的数据，从小到大排序]
+ * @param  [int]         [类型（0从小到大、1从大到小）]
+ * @return [array]       [排序好的数据]
  */
-function ArrayQuickSort($data, $field)
+function ArrayQuickSort($data, $field, $type = 0)
 {
     if(!empty($data) && is_array($data))
     {
@@ -350,16 +384,31 @@ function ArrayQuickSort($data, $field)
         $right_array = array();
         for($i=1; $i<$len; $i++)
         {
-            if($base[$field] > $data[$i][$field])
+            if($type == 0)
             {
-                $left_array[] = $data[$i];
+                if($base[$field] > $data[$i][$field])
+                {
+                    $left_array[] = $data[$i];
+                } else {
+                    $right_array[] = $data[$i];
+                }
             } else {
-                $right_array[] = $data[$i];
+                if($base[$field] < $data[$i][$field])
+                {
+                    $left_array[] = $data[$i];
+                } else {
+                    $right_array[] = $data[$i];
+                }
             }
         }
-        if(!empty($left_array)) $left_array = ArrayQuickSort($left_array, $field);
-        if(!empty($right_array)) $right_array = ArrayQuickSort($right_array, $field);
-
+        if(!empty($left_array))
+        {
+            $left_array = ArrayQuickSort($left_array, $field, $type);
+        }
+        if(!empty($right_array))
+        {
+            $right_array = ArrayQuickSort($right_array, $field, $type);
+        }
         return array_merge($left_array, array($base), $right_array);
     }
 }

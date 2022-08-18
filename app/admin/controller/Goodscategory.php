@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\GoodsService;
 use app\service\ResourcesService;
 
@@ -20,29 +22,10 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class GoodsCategory extends Common
+class GoodsCategory extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-     * [Index 分类列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -50,20 +33,23 @@ class GoodsCategory extends Common
      */
 	public function Index()
 	{
-		// 静态数据
-		MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
+		// 模板数据
+		$assign = [
+			// 静态数据
+			'common_is_text_list' 	=> MyConst('common_is_text_list'),
 
-        // 商品分类
-        MyViewAssign('goods_category_list', GoodsService::GoodsCategoryAll());
+	        // 商品分类
+	        'goods_category_list' 	=> GoodsService::GoodsCategoryAll(),
 
-        // 编辑器文件存放地址
-		MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('goods_category'));
-
+	        // 编辑器文件存放地址
+			'editor_path_type' 		=> ResourcesService::EditorPathTypeValue('goods_category'),
+		];
+		MyViewAssign($assign);
 		return MyView();
 	}
 
 	/**
-	 * [GetNodeSon 获取节点子列表]
+	 * 获取节点子列表
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -74,16 +60,16 @@ class GoodsCategory extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error('非法访问');
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
-		return GoodsService::GoodsCategoryNodeSon($this->data_request);
+		return ApiService::ApiDataReturn(GoodsService::GoodsCategoryNodeSon($this->data_request));
 	}
 
 
 	/**
-	 * [Save 分类保存]
+	 * 保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -94,15 +80,15 @@ class GoodsCategory extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error('非法访问');
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
-		return GoodsService::GoodsCategorySave($this->data_request);
+		return ApiService::ApiDataReturn(GoodsService::GoodsCategorySave($this->data_request));
 	}
 
 	/**
-	 * [Delete 分类删除]
+	 * 删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -119,7 +105,7 @@ class GoodsCategory extends Common
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return GoodsService::GoodsCategoryDelete($params);
+		return ApiService::ApiDataReturn(GoodsService::GoodsCategoryDelete($params));
 	}
 }
 ?>

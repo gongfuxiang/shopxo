@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\GoodsService;
 use app\service\GoodsCommentsService;
 use app\service\GoodsBrowseService;
@@ -58,11 +59,8 @@ class Goods extends Common
             'is_params' => true,
         ];
         $ret = GoodsService::GoodsList($params);
-        if(empty($ret['data'][0]) || $ret['data'][0]['is_delete_time'] != 0)
+        if(!empty($ret['data']) && !empty($ret['data'][0]) && $ret['data'][0]['is_delete_time'] == 0)
         {
-            MyViewAssign('msg', '资源不存在或已被删除');
-            return MyView('/public/tips_error');
-        } else {
             // 商品信息
             $goods = $ret['data'][0];
 
@@ -76,52 +74,35 @@ class Goods extends Common
             // 商品收藏总数
             $goods['favor_count'] = GoodsFavorService::GoodsFavorTotal(['goods_id'=>$goods_id]);
 
-            // 钩子
-            $this->PluginsHook($goods_id, $goods);
+            // 模板数据
+            $assign = [
+                // 商品信息
+                'goods'             => $goods,
+                // 商品购买按钮列表
+                'buy_button'        => GoodsService::GoodsBuyButtonList($goods),
+                // 中间tabs导航
+                'middle_tabs_nav'   => GoodsService::GoodsDetailMiddleTabsNavList($goods),
 
-            // 商品数据
-            MyViewAssign('goods', $goods);
+                // 面包屑导航
+                'breadcrumb_data'   => GoodsService::GoodsBreadcrumbData($goods),
 
-            // seo
-            $seo_title = empty($goods['seo_title']) ? $goods['title'] : $goods['seo_title'];
-            MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle($seo_title, 2));
-            if(!empty($goods['seo_keywords']))
-            {
-                MyViewAssign('home_seo_site_keywords', $goods['seo_keywords']);
-            }
-            if(!empty($goods['seo_desc']) || !empty($goods['simple_desc']))
-            {
-                MyViewAssign('home_seo_site_description', empty($goods['seo_desc']) ? $goods['simple_desc'] : $goods['seo_desc']);
-            }
+                // 加载放大镜
+                'is_load_imagezoom' => 1,
 
-            // 二维码
-            $qrcode = GoodsService::GoodsQrcode($goods_id, $goods['add_time']);
-            $qrcode_url = ($qrcode['code'] == 0 && isset($qrcode['data']['url'])) ? $qrcode['data']['url'] : '';
-            MyViewAssign('qrcode_url', $qrcode_url);
-
-            // 商品访问统计
-            GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
-
-            // 用户商品浏览
-            GoodsBrowseService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
-
-            // 商品购买按钮列表
-            $buy_button = GoodsService::GoodsBuyButtonList($goods);
-            MyViewAssign('buy_button', $buy_button);
-
-            // 中间tabs导航
-            $middle_tabs_nav = GoodsService::GoodsDetailMiddleTabsNavList($goods);
-            MyViewAssign('middle_tabs_nav', $middle_tabs_nav);
+                // 加载视频播放器组件
+                'is_load_ckplayer'  => 1,
+            ];
+            // 是否商品详情页展示相册
+            $assign['common_is_goods_detail_show_photo'] = MyC('common_is_goods_detail_show_photo', 0, true);
 
             // 详情商品评分
-            if(!empty($middle_tabs_nav) && in_array('comments', $middle_tabs_nav['type']))
+            if(!empty($assign['middle_tabs_nav']) && in_array('comments', $assign['middle_tabs_nav']['type']))
             {
-                $goods_score = GoodsCommentsService::GoodsCommentsScore($goods_id);
-                MyViewAssign('goods_score', $goods_score);
+                $assign['goods_score'] = GoodsCommentsService::GoodsCommentsScore($goods_id);
             }
 
             // 详情tab商品 猜你喜欢
-            if(!empty($middle_tabs_nav) && in_array('guess_you_like', $middle_tabs_nav['type']))
+            if(!empty($assign['middle_tabs_nav']) && in_array('guess_you_like', $assign['middle_tabs_nav']['type']))
             {
                 $params = [
                     'where'     => [
@@ -133,7 +114,7 @@ class Goods extends Common
                     'n'         => 16,
                 ];
                 $like_goods = GoodsService::GoodsList($params);
-                MyViewAssign('detail_like_goods', $like_goods['data']);
+                $assign['detail_like_goods'] = $like_goods['data'];
             }
 
             // 左侧商品 看了又看
@@ -147,23 +128,38 @@ class Goods extends Common
                 'n'         => 10,
             ];
             $right_goods = GoodsService::GoodsList($params);
-            MyViewAssign('left_goods', $right_goods['data']);
+            $assign['left_goods'] = $right_goods['data'];
 
-            // 是否商品详情页展示相册
-            MyViewAssign('common_is_goods_detail_show_photo', MyC('common_is_goods_detail_show_photo', 0, true));
+            // seo
+            $seo_title = empty($goods['seo_title']) ? $goods['title'] : $goods['seo_title'];
+            $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle($seo_title, 2);
+            if(!empty($goods['seo_keywords']))
+            {
+                $assign['home_seo_site_keywords'] = $goods['seo_keywords'];
+            }
+            if(!empty($goods['seo_desc']) || !empty($goods['simple_desc']))
+            {
+                $assign['home_seo_site_description'] = empty($goods['seo_desc']) ? $goods['simple_desc'] : $goods['seo_desc'];
+            }
 
-            // 面包屑导航
-            $breadcrumb_data = GoodsService::GoodsBreadcrumbData($goods);
-            MyViewAssign('breadcrumb_data', $breadcrumb_data);
+            // 二维码
+            $qrcode = GoodsService::GoodsQrcode($goods_id, $goods['add_time']);
+            $assign['qrcode_url'] = ($qrcode['code'] == 0 && isset($qrcode['data']['url'])) ? $qrcode['data']['url'] : '';
 
-            // 加载放大镜
-            MyViewAssign('is_load_imagezoom', 1);
+            // 商品访问统计
+            GoodsService::GoodsAccessCountInc(['goods_id'=>$goods_id]);
 
-            // 加载视频播放器组件
-            MyViewAssign('is_load_ckplayer', 1);
+            // 用户商品浏览
+            GoodsBrowseService::GoodsBrowseSave(['goods_id'=>$goods_id, 'user'=>$this->user]);
 
+            // 数据赋值
+            MyViewAssign($assign);
+            // 钩子
+            $this->PluginsHook($goods_id, $goods);
             return MyView();
         }
+        MyViewAssign('msg', '资源不存在或已被删除');
+        return MyView('/public/tips_error');
     }
 
     /**
@@ -188,7 +184,7 @@ class Goods extends Common
         // 开始处理
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return GoodsFavorService::GoodsFavorCancel($params);
+        return ApiService::ApiDataReturn(GoodsFavorService::GoodsFavorCancel($params));
     }
 
     /**
@@ -209,7 +205,7 @@ class Goods extends Common
 
         // 开始处理
         $params = $this->data_post;
-        return GoodsService::GoodsSpecType($params);
+        return ApiService::ApiDataReturn(GoodsService::GoodsSpecType($params));
     }
 
     /**
@@ -230,7 +226,7 @@ class Goods extends Common
 
         // 开始处理
         $params = $this->data_post;
-        return GoodsService::GoodsSpecDetail($params);
+        return ApiService::ApiDataReturn(GoodsService::GoodsSpecDetail($params));
     }
 
     /**
@@ -251,7 +247,7 @@ class Goods extends Common
 
         // 开始处理
         $params = $this->data_post;
-        return GoodsService::GoodsStock($params);
+        return ApiService::ApiDataReturn(GoodsService::GoodsStock($params));
     }
 
     /**
@@ -307,7 +303,7 @@ class Goods extends Common
             'page_total'        => $page_total,
             'data'              => MyView('', ['data'=>$data['data']]),
         ];
-        return DataReturn('请求成功', 0, $result);
+        return ApiService::ApiDataReturn(DataReturn('请求成功', 0, $result));
     }
 
     /**
@@ -392,16 +388,18 @@ class Goods extends Common
             // 商品页面基础信息购买小导航内部中间钩子
             'plugins_view_goods_detail_base_buy_nav_min_inside',
         ];
+        $assign = [];
         foreach($hook_arr as $hook_name)
         {
-            MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+            $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
                 [
                     'hook_name'    => $hook_name,
                     'is_backend'   => false,
                     'goods_id'     => $goods_id,
                     'goods'        => &$goods,
-                ]));
+                ]);
         }
+        MyViewAssign($assign);
     }
 }
 ?>

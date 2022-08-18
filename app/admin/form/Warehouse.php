@@ -233,7 +233,7 @@ class Warehouse
         $ids = Db::name('Warehouse')->where($this->condition_base)->column($field);
         if(!empty($ids))
         {
-            $result = RegionService::RegionNode(['field'=>'id,name', 'where'=>['id'=>$ids]]);
+            $result = RegionService::RegionNode(['field'=>'id,name', 'where'=>[['id', 'in', $ids]]]);
         }
         return $result;
     }

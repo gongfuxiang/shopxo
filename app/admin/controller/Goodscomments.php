@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\GoodsCommentsService;
 
 /**
@@ -19,27 +21,8 @@ use app\service\GoodsCommentsService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Goodscomments extends Common
+class Goodscomments extends Base
 {
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列表
      * @author   Devil
@@ -74,22 +57,24 @@ class Goodscomments extends Common
      */
     public function SaveInfo()
     {
+        // 模板数据
+        $assign = [
+            // 数据
+            'data'                                      => $this->data_detail,
+            // 静态数据
+            'common_is_show_list'                       => MyConst('common_is_show_list'),
+            'common_is_text_list'                       => MyConst('common_is_text_list'),
+            'common_goods_comments_rating_list'         => MyConst('common_goods_comments_rating_list'),
+            'common_goods_comments_business_type_list'  => MyConst('common_goods_comments_business_type_list'),
+        ];
+   
         // 参数
         $params = $this->data_request;
-
-        // 数据
-        $data = $this->data_detail;
-        MyViewAssign('data', $data);
-
-        // 静态数据
-        MyViewAssign('common_is_show_list', MyConst('common_is_show_list'));
-        MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
-        MyViewAssign('common_goods_comments_rating_list', MyConst('common_goods_comments_rating_list'));
-        MyViewAssign('common_goods_comments_business_type_list', MyConst('common_goods_comments_business_type_list'));
-
-        // 参数
         unset($params['id']);
-        MyViewAssign('params', $params);
+        $assign['params'] = $params;
+
+        // 数据赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -110,7 +95,7 @@ class Goodscomments extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return GoodsCommentsService::GoodsCommentsSave($params);
+        return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsSave($params));
     }
 
     /**
@@ -130,7 +115,7 @@ class Goodscomments extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return GoodsCommentsService::GoodsCommentsDelete($params);
+        return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsDelete($params));
     }
 
     /**
@@ -150,7 +135,7 @@ class Goodscomments extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return GoodsCommentsService::GoodsCommentsReply($params);
+        return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsReply($params));
     }
 
     /**
@@ -170,7 +155,7 @@ class Goodscomments extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return GoodsCommentsService::GoodsCommentsStatusUpdate($params);
+        return ApiService::ApiDataReturn(GoodsCommentsService::GoodsCommentsStatusUpdate($params));
     }
 }
 ?>

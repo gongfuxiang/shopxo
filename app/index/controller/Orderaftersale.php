@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\OrderAftersaleService;
 use app\service\SeoService;
 use app\service\ResourcesService;
@@ -70,16 +71,23 @@ class Orderaftersale extends Common
         $ret = OrderAftersaleService::OrdferGoodsRow($order_id, $order_detail_id, $this->user['id']);
         if($ret['code'] == 0)
         {
-            MyViewAssign('goods', $ret['data']['items']);
-            MyViewAssign('order', $ret['data']);
+            // 模板数据
+            $assign = [
+                'order'                         => $ret['data'],
+                'goods'                         => $ret['data']['items'],
+                // 订单售后搜索form key
+                'form_search_keywords_form_key' => 'f0p',
+                // 浏览器名称
+                'home_seo_site_title'           => SeoService::BrowserSeoTitle('订单售后详情', 1),
+            ];
 
             // 仅退款原因
             $return_only_money_reason = MyC('home_order_aftersale_return_only_money_reason');
-            MyViewAssign('return_only_money_reason_list', empty($return_only_money_reason) ? [] : explode("\n", $return_only_money_reason));
+            $assign['return_only_money_reason_list'] = empty($return_only_money_reason) ? [] : explode("\n", $return_only_money_reason);
 
             // 退款退货原因
             $return_money_goods_reason = MyC('home_order_aftersale_return_money_goods_reason');
-            MyViewAssign('return_money_goods_reason_list', empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason));
+            $assign['return_money_goods_reason_list'] = empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason);
 
             // 获取当前订单商品售后最新的一条纪录
             $data_params = [
@@ -98,36 +106,31 @@ class Orderaftersale extends Common
             } else {
                 $new_aftersale_data = [];
             }
-            MyViewAssign('new_aftersale_data', $new_aftersale_data);
+            $assign['new_aftersale_data'] = $new_aftersale_data;
 
             // 进度
-            MyViewAssign('step_data', OrderAftersaleService::OrderAftersaleStep($new_aftersale_data));
+            $assign['step_data'] = OrderAftersaleService::OrderAftersaleStep($new_aftersale_data);
 
             // 可退款退货
             $returned = OrderAftersaleService::OrderAftersaleCalculation($order_id, $order_detail_id);
-            MyViewAssign('returned_data', $returned['data']);
+            $assign['returned_data'] = $returned['data'];
 
             // 退货地址
             $return_goods_address = OrderAftersaleService::OrderAftersaleReturnGoodsAddress($order_id);
-            MyViewAssign('return_goods_address', $return_goods_address);
+            $assign['return_goods_address'] = $return_goods_address;
 
             // 静态数据
-            MyViewAssign('common_order_aftersale_type_list', MyConst('common_order_aftersale_type_list'));
+            $assign['common_order_aftersale_type_list'] = MyConst('common_order_aftersale_type_list');
 
             // 编辑器文件存放地址
-            MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id)));
+            $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id));
 
-            // 浏览器名称
-            MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单售后详情', 1));
-
-            // 订单售后搜索form key
-            MyViewAssign('form_search_keywords_form_key', 'f0p');
-            MyViewAssign('params', $this->data_request);
+            // 数据赋值
+            MyViewAssign($assign);
             return MyView();
-        } else {
-            MyViewAssign('msg', $ret['msg']);
-            return MyView('public/tips_error');
         }
+        MyViewAssign('msg', $ret['msg']);
+        return MyView('public/tips_error');
     }
 
     /**
@@ -149,7 +152,7 @@ class Orderaftersale extends Common
         
         $params = $this->data_request;
         $params['user'] = $this->user;
-        return OrderAftersaleService::AftersaleCreate($params);
+        return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleCreate($params));
     }
 
     /**
@@ -171,7 +174,7 @@ class Orderaftersale extends Common
 
         $params = $this->data_request;
         $params['user'] = $this->user;
-        return OrderAftersaleService::AftersaleDelivery($params);
+        return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleDelivery($params));
     }
 
     /**
@@ -193,7 +196,7 @@ class Orderaftersale extends Common
 
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return OrderAftersaleService::AftersaleCancel($params);
+        return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleCancel($params));
     }
 }
 ?>

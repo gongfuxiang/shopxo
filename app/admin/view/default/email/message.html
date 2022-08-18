@@ -17,7 +17,7 @@
                 <div class="am-panel-bd am-padding-vertical-xs">
                 	<div class="am-form-group">
 						<label>{{$data.admin_email_login_template.name}}<span class="am-form-group-label-tips">{{$data.admin_email_login_template.describe}}</span></label>
-						<script type="text/plain" id="admin_email_login_template" name="{{$data.admin_email_login_template.only_tag}}">{{if !empty($data)}}{{$data.admin_email_login_template.value|raw}}{{/if}}</script>
+						<textarea id="admin_email_login_template" name="{{$data.admin_email_login_template.only_tag}}">{{if !empty($data)}}{{$data.admin_email_login_template.value}}{{/if}}</textarea>
 					</div>
                 </div>
             </div>
@@ -30,23 +30,23 @@
                 <div class="am-panel-bd am-padding-vertical-xs">
 					<div class="am-form-group">
 						<label>{{$data.common_email_currency_template.name}}<span class="am-form-group-label-tips">{{$data.common_email_currency_template.describe}}</span></label>
-						<script type="text/plain" id="common_email_currency_template" name="{{$data.common_email_currency_template.only_tag}}">{{if !empty($data)}}{{$data.common_email_currency_template.value|raw}}{{/if}}</script>
+						<textarea id="common_email_currency_template" name="{{$data.common_email_currency_template.only_tag}}">{{if !empty($data)}}{{$data.common_email_currency_template.value}}{{/if}}</textarea>
 					</div>
                     <div class="am-form-group">
                         <label>{{$data.home_email_login_template.name}}<span class="am-form-group-label-tips">{{$data.home_email_login_template.describe}}</span></label>
-                        <script type="text/plain" id="home_email_login_template" name="{{$data.home_email_login_template.only_tag}}">{{if !empty($data)}}{{$data.home_email_login_template.value|raw}}{{/if}}</script>
+                        <textarea id="home_email_login_template" name="{{$data.home_email_login_template.only_tag}}">{{if !empty($data)}}{{$data.home_email_login_template.value}}{{/if}}</textarea>
                     </div>
 					<div class="am-form-group">
 						<label>{{$data.home_email_user_reg.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_reg.describe}}</span></label>
-						<script type="text/plain" id="email_user_reg" name="{{$data.home_email_user_reg.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_reg.value|raw}}{{/if}}</script>
+						<textarea id="email_user_reg" name="{{$data.home_email_user_reg.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_reg.value}}{{/if}}</textarea>
 					</div>
 					<div class="am-form-group">
 						<label>{{$data.home_email_user_forget_pwd.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_forget_pwd.describe}}</span></label>
-						<script type="text/plain" id="email_user_forget_pwd" name="{{$data.home_email_user_forget_pwd.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_forget_pwd.value|raw}}{{/if}}</script>
+						<textarea id="email_user_forget_pwd" name="{{$data.home_email_user_forget_pwd.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_forget_pwd.value}}{{/if}}</textarea>
 					</div>
 					<div class="am-form-group">
 						<label>{{$data.home_email_user_email_binding.name}}<span class="am-form-group-label-tips">{{$data.home_email_user_email_binding.describe}}</span></label>
-						<script type="text/plain" id="email_user_email_binding" name="{{$data.home_email_user_email_binding.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_email_binding.value|raw}}{{/if}}</script>
+						<textarea id="email_user_email_binding" name="{{$data.home_email_user_email_binding.only_tag}}">{{if !empty($data)}}{{$data.home_email_user_email_binding.value}}{{/if}}</textarea>
 					</div>
 				</div>
 			</div>

@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\GoodsFavorService;
 
 /**
@@ -20,27 +22,8 @@ use app\service\GoodsFavorService;
  * @date    2020-06-30
  * @desc    description
  */
-class Goodsfavor extends Common
+class Goodsfavor extends Base
 {
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列表
      * @author  Devil
@@ -86,7 +69,7 @@ class Goodsfavor extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return GoodsFavorService::GoodsFavorDelete($params);
+        return ApiService::ApiDataReturn(GoodsFavorService::GoodsFavorDelete($params));
     }
 }
 ?>

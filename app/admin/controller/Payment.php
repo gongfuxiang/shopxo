@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\PaymentService;
 use app\service\StoreService;
 use app\service\ResourcesService;
@@ -21,29 +23,10 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Payment extends Common
+class Payment extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-     * [Index 支付方式列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -51,28 +34,32 @@ class Payment extends Common
      */
 	public function Index()
 	{
+        // 模板数据
+        $assign = [
+            // 不能删除的支付方式
+            'cannot_deleted_list'   => PaymentService::$cannot_deleted_list,
+
+            // 适用平台
+            'common_platform_type'  => MyConst('common_platform_type'),
+
+            // 应用商店
+            'store_payment_url'     => StoreService::StorePaymentUrl(),
+        ];
         // 插件列表
         $ret = PaymentService::PluginsPaymentList();
-        MyViewAssign('data_list', $ret['data']);
-
-        // 不能删除的支付方式
-        MyViewAssign('cannot_deleted_list', PaymentService::$cannot_deleted_list);
-
-        // 适用平台
-        MyViewAssign('common_platform_type', MyConst('common_platform_type'));
-
-        // 应用商店
-        MyViewAssign('store_payment_url', StoreService::StorePaymentUrl());
+        $assign['data_list'] = $ret['data'];
 
         // 插件更新信息
         $upgrade = PaymentService::PaymentUpgradeInfo($ret['data']);
-        MyViewAssign('upgrade_info', $upgrade['data']);
+        $assign['upgrade_info'] = $upgrade['data'];
 
+        // 数据赋值
+        MyViewAssign($assign);
         return MyView();
 	}
 
     /**
-     * [SaveInfo 添加/编辑页面]
+     * 添加/编辑页面
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -94,18 +81,22 @@ class Payment extends Common
                 $data = $data[0];
             }
         }
-        MyViewAssign('data', $data);
+        // 模板数据
+        $assign = [
+            'data'                  => $data,
 
-        // 适用平台
-        MyViewAssign('common_platform_type', MyConst('common_platform_type'));
+            // 适用平台
+            'common_platform_type'  => MyConst('common_platform_type'),
 
-        // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('payment'));
+            // 编辑器文件存放地址
+            'editor_path_type'      => ResourcesService::EditorPathTypeValue('payment'),
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
 	/**
-	 * [Save 支付方式保存]
+	 * 保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -120,11 +111,11 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::PaymentUpdate($this->data_request);
+        return ApiService::ApiDataReturn(PaymentService::PaymentUpdate($this->data_request));
 	}
 
 	/**
-     * [StatusUpdate 状态更新]
+     * 状态更新
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -139,7 +130,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::PaymentStatusUpdate($this->data_request);
+        return ApiService::ApiDataReturn(PaymentService::PaymentStatusUpdate($this->data_request));
     }
 
     /**
@@ -159,7 +150,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::Install($this->data_request);
+        return ApiService::ApiDataReturn(PaymentService::Install($this->data_request));
     }
 
     /**
@@ -179,7 +170,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::Uninstall($this->data_request);
+        return ApiService::ApiDataReturn(PaymentService::Uninstall($this->data_request));
     }
 
     /**
@@ -199,7 +190,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::Delete($this->data_request);
+        return ApiService::ApiDataReturn(PaymentService::Delete($this->data_request));
     }
 
     /**
@@ -219,7 +210,7 @@ class Payment extends Common
         }
 
         // 开始操作
-        return PaymentService::Upload($this->data_request);
+        return ApiService::ApiDataReturn(PaymentService::Upload($this->data_request));
     }
 }
 ?>

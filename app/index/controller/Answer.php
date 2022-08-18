@@ -11,6 +11,7 @@
 namespace app\index\controller;
 
 use app\service\SeoService;
+use app\service\ApiService;
 use app\service\AnswerService;
 
 /**
@@ -64,9 +65,12 @@ class Answer extends Common
      */
     public function Detail()
     {
-        MyViewAssign('data', $this->data_detail);
-        MyViewAssign('is_header', 0);
-        MyViewAssign('is_footer', 0);
+        $assign = [
+            'data'      => $this->data_detail,
+            'is_header' => 0,
+            'is_footer' => 0,
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -82,7 +86,7 @@ class Answer extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return AnswerService::AnswerSave($params);
+        return ApiService::ApiDataReturn(AnswerService::AnswerSave($params));
     }
 }
 ?>

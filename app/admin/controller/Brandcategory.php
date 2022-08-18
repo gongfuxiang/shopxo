@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\BrandCategoryService;
 
 /**
@@ -19,29 +21,10 @@ use app\service\BrandCategoryService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class BrandCategory extends Common
+class BrandCategory extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-     * [Index 品牌分类列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -51,12 +34,11 @@ class BrandCategory extends Common
 	{
 		// 是否启用
 		MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
-
 		return MyView();
 	}
 
 	/**
-	 * [GetNodeSon 获取节点子列表]
+	 * 获取节点子列表
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -67,15 +49,15 @@ class BrandCategory extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error('非法访问');
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
-		return BrandCategoryService::BrandCategoryNodeSon($this->data_request);
+		return ApiService::ApiDataReturn(BrandCategoryService::BrandCategoryNodeSon($this->data_request));
 	}
 
 	/**
-	 * [Save 品牌分类保存]
+	 * 保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -86,15 +68,15 @@ class BrandCategory extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error('非法访问');
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
-		return BrandCategoryService::BrandCategorySave($this->data_request);
+		return ApiService::ApiDataReturn(BrandCategoryService::BrandCategorySave($this->data_request));
 	}
 
 	/**
-	 * [Delete 品牌分类删除]
+	 * 删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -111,7 +93,7 @@ class BrandCategory extends Common
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return BrandCategoryService::BrandCategoryDelete($params);
+		return ApiService::ApiDataReturn(BrandCategoryService::BrandCategoryDelete($params));
 	}
 }
 ?>

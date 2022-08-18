@@ -44,10 +44,10 @@ class Search extends Common
      */
     public function Index()
     {
-        $keywords = input('post.wd');
-        if(!empty($keywords))
+        // post搜索
+        if(!empty($this->data_post['wd']))
         {
-            return MyRedirect(MyUrl('index/search/index', ['wd'=>StrToAscii($keywords)]));
+            return MyRedirect(MyUrl('index/search/index', ['wd'=>StrToAscii($this->data_post['wd'])]));
         }
 
         // 搜素条件
@@ -75,89 +75,71 @@ class Search extends Common
             $params['wd'] = AsciiToStr($params['wd']);
         }
 
-        // 基础参数赋值
-        MyViewAssign('is_map', $map['is_map']);
-        MyViewAssign('params', $params);
-        MyViewAssign('page_html', $page_html);
-        MyViewAssign('data_total', $ret['data']['total']);
-        MyViewAssign('data_list', $ret['data']['data']);
+        // 模板数据
+        $assign = [
+            // 基础参数
+            'is_map'            => $map['is_map'],
+            'params'            => $params,
+            'page_html'         => $page_html,
+            'data_total'        => $ret['data']['total'],
+            'data_list'         => $ret['data']['data'],
+            // 排序方式
+            'map_order_by_list' => SearchService::SearchMapOrderByList($this->data_request),
+            // 面包屑导航
+            'breadcrumb_data'   => SearchService::SearchBreadcrumbData($params),
+        ];
 
         // 品牌列表
-        $brand_list = SearchService::SearchMapHandle(SearchService::CategoryBrandList($map, $this->data_request), 'bid', 'id', $this->data_request);
-        MyViewAssign('brand_list', $brand_list);
+        $assign['brand_list'] = SearchService::SearchMapHandle(SearchService::CategoryBrandList($map, $this->data_request), 'bid', 'id', $this->data_request);
 
         // 指定数据
-        $search_map_info = SearchService::SearchMapInfo($this->data_request);
-        MyViewAssign('search_map_info', $search_map_info);
+        $assign['search_map_info'] = SearchService::SearchMapInfo($this->data_request);
 
         // 商品分类
-        $category_list = SearchService::SearchMapHandle(SearchService::GoodsCategoryList($this->data_request), 'cid', 'id', $this->data_request);
-        MyViewAssign('category_list', $category_list);
+        $assign['category_list'] = SearchService::SearchMapHandle(SearchService::GoodsCategoryList($this->data_request), 'cid', 'id', $this->data_request);
 
         // 筛选价格区间
-        $screening_price_list = SearchService::SearchMapHandle(SearchService::ScreeningPriceList($this->data_request), 'peid', 'id', $this->data_request);
-        MyViewAssign('screening_price_list', $screening_price_list);
+        $assign['screening_price_list'] = SearchService::SearchMapHandle(SearchService::ScreeningPriceList($this->data_request), 'peid', 'id', $this->data_request);
 
         // 商品参数
-        $goods_params_list = SearchService::SearchMapHandle(SearchService::SearchGoodsParamsValueList($map, $this->data_request), 'psid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);
-        MyViewAssign('goods_params_list', $goods_params_list);
+        $assign['goods_params_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsParamsValueList($map, $this->data_request), 'psid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);
 
         // 商品规格
-        $goods_spec_list = SearchService::SearchMapHandle(SearchService::SearchGoodsSpecValueList($map, $this->data_request), 'scid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);
-        MyViewAssign('goods_spec_list', $goods_spec_list);
+        $assign['goods_spec_list'] = SearchService::SearchMapHandle(SearchService::SearchGoodsSpecValueList($map, $this->data_request), 'scid', 'id', $this->data_request, ['is_ascii'=>true, 'field'=>'value']);
 
-        // 排序方式
-        MyViewAssign('map_order_by_list', SearchService::SearchMapOrderByList($this->data_request));
-
-        // 面包屑导航
-        $breadcrumb_data = SearchService::SearchBreadcrumbData($params);
-        MyViewAssign('breadcrumb_data', $breadcrumb_data);
-
-        // 搜索记录
+        // 增加搜索记录
         $params['user_id'] = empty($this->user) ? 0 : $this->user['id'];
         $params['search_result_data'] = $ret['data'];
         SearchService::SearchAdd($params);
 
-        // seo
-        $this->SetSeo($search_map_info, $params);
+        // seo信息
+        // 默认关键字
+        $seo_title = empty($params['wd']) ? '' : $params['wd'];
+        if(!empty($assign['search_map_info']))
+        {
+            // 分类、品牌
+            $seo_info = empty($assign['search_map_info']['category']) ? (empty($assign['search_map_info']['brand']) ? [] : $assign['search_map_info']['brand']) : $assign['search_map_info']['category'];
+            if(!empty($seo_info))
+            {
+                $seo_title = empty($seo_info['seo_title']) ? $seo_info['name'] : $seo_info['seo_title'];
+                // 关键字和描述
+                if(!empty($seo_info['seo_keywords']))
+                {
+                    $assign['home_seo_site_keywords'] = $seo_info['seo_keywords'];
+                }
+                if(!empty($seo_info['seo_desc']))
+                {
+                    $assign['home_seo_site_description'] = $seo_info['seo_desc'];
+                }
+            }
+        }
+        $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(empty($seo_title) ? '商品搜索' : $seo_title, 1);
 
+        // 模板赋值
+        MyViewAssign($assign);
         // 钩子
         $this->PluginsHook();
         return MyView();
-    }
-
-    /**
-     * seo设置
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-01-11
-     * @desc    description
-     * @param   [array]     $data   [条件基础数据]
-     * @param   [array]     $params [输入参数]
-     */
-    private function SetSeo($data = [], $params = [])
-    {
-        // 默认关键字
-        $seo_title = empty($params['wd']) ? '' : $params['wd'];
-
-        // 分类、品牌
-        $seo_data = empty($data['category']) ? (empty($data['brand']) ? [] : $data['brand']) : $data['category'];
-        if(!empty($seo_data))
-        {
-            $seo_title = empty($seo_data['seo_title']) ? $seo_data['name'] : $seo_data['seo_title'];
-
-            // 关键字和描述
-            if(!empty($seo_data['seo_keywords']))
-            {
-                MyViewAssign('home_seo_site_keywords', $seo_data['seo_keywords']);
-            }
-            if(!empty($seo_data['seo_desc']))
-            {
-                MyViewAssign('home_seo_site_description', $seo_data['seo_desc']);
-            }
-        }
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(empty($seo_title) ? '商品搜索' : $seo_title, 1));
     }
 
     /**
@@ -210,14 +192,16 @@ class Search extends Common
             // 搜索页面筛选条件内尾部钩子
             'plugins_view_search_map_inside_end',
         ];
+        $assign = [];
         foreach($hook_arr as $hook_name)
         {
-            MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+            $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
                 [
                     'hook_name'    => $hook_name,
                     'is_backend'   => false,
-                ]));
+                ]);
         }
+        MyViewAssign($assign);
     }
 }
 ?>

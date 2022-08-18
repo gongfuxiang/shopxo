@@ -66,9 +66,12 @@ class Message extends Common
      */
     public function Detail()
     {
-        MyViewAssign('data', $this->data_detail);
-        MyViewAssign('is_header', 0);
-        MyViewAssign('is_footer', 0);
+        $assign = [
+            'data'      => $this->data_detail,
+            'is_header' => 0,
+            'is_footer' => 0,
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 }

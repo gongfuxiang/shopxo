@@ -202,31 +202,34 @@ class Common extends BaseController
      */
     public function ViewInit()
     {
+        // 模板数据
+        $assign = [];
+
         // 系统类型
         $this->system_type = SystemService::SystemTypeValue();
-        MyViewAssign('system_type', $this->system_type);
+        $assign['system_type'] = $this->system_type;
 
         // 公共参数
-        MyViewAssign('params', $this->data_request);
+        $assign['params'] = $this->data_request;
 
         // 货币符号
-        MyViewAssign('currency_symbol', ResourcesService::CurrencyDataSymbol());
+        $assign['currency_symbol'] = ResourcesService::CurrencyDataSymbol();
 
         // 站点类型
-        MyViewAssign('common_site_type', SystemBaseService::SiteTypeValue());
+        $assign['common_site_type'] = SystemBaseService::SiteTypeValue();
 
         // 预约模式
-        MyViewAssign('common_order_is_booking', MyC('common_order_is_booking', 0, true));
+        $assign['common_order_is_booking'] = MyC('common_order_is_booking', 0, true);
 
         // 商店信息
-        MyViewAssign('common_customer_store_tel', MyC('common_customer_store_tel'));
-        MyViewAssign('common_customer_store_email', MyC('common_customer_store_email'));
-        MyViewAssign('common_customer_store_address', MyC('common_customer_store_address'));
-        MyViewAssign('common_customer_store_qrcode', AttachmentPathViewHandle(MyC('common_customer_store_qrcode')));
+        $assign['common_customer_store_tel'] = MyC('common_customer_store_tel');
+        $assign['common_customer_store_email'] = MyC('common_customer_store_email');
+        $assign['common_customer_store_address'] = MyC('common_customer_store_address');
+        $assign['common_customer_store_qrcode'] = AttachmentPathViewHandle(MyC('common_customer_store_qrcode'));
         
         // 主题
         $default_theme = strtolower(MyC('common_default_theme', 'default', true));
-        MyViewAssign('default_theme', $default_theme);
+        $assign['default_theme'] = $default_theme;
 
         // 当前系统操作名称
         $this->module_name = RequestModule();
@@ -234,9 +237,9 @@ class Common extends BaseController
         $this->action_name = RequestAction();
 
         // 当前系统操作名称
-        MyViewAssign('module_name', $this->module_name);
-        MyViewAssign('controller_name', $this->controller_name);
-        MyViewAssign('action_name', $this->action_name);
+        $assign['module_name'] = $this->module_name;
+        $assign['controller_name'] = $this->controller_name;
+        $assign['action_name'] = $this->action_name;
 
         // 当前插件操作名称, 兼容插件模块名称
         if(empty($this->data_request['pluginsname']))
@@ -251,141 +254,144 @@ class Common extends BaseController
         }
 
         // 当前插件操作名称
-        MyViewAssign('plugins_module_name', $this->plugins_module_name);
-        MyViewAssign('plugins_controller_name', $this->plugins_controller_name);
-        MyViewAssign('plugins_action_name', $this->plugins_action_name);
+        $assign['plugins_module_name'] = $this->plugins_module_name;
+        $assign['plugins_controller_name'] = $this->plugins_controller_name;
+        $assign['plugins_action_name'] = $this->plugins_action_name;
 
         // 分页信息
         $this->page = max(1, isset($this->data_request['page']) ? intval($this->data_request['page']) : 1);
         $this->page_size = min(empty($this->data_request['page_size']) ? MyC('common_page_size', 10, true) : intval($this->data_request['page_size']), 1000);
-        MyViewAssign('page', $this->page);
-        MyViewAssign('page_size', $this->page_size);
+        $assign['page'] = $this->page;
+        $assign['page_size'] = $this->page_size;
 
         // 控制器静态文件状态css,js
         $module_css = $this->module_name.DS.$default_theme.DS.'css'.DS.$this->controller_name;
         $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$this->action_name.'.css') ? '.'.$this->action_name.'.css' : '.css';
-        MyViewAssign('module_css', file_exists(ROOT_PATH.'static'.DS.$module_css) ? $module_css : '');
+        $assign['module_css'] = file_exists(ROOT_PATH.'static'.DS.$module_css) ? $module_css : '';
 
         $module_js = $this->module_name.DS.$default_theme.DS.'js'.DS.$this->controller_name;
         $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$this->action_name.'.js') ? '.'.$this->action_name.'.js' : '.js';
-        MyViewAssign('module_js', file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '');
+        $assign['module_js'] = file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '';
 
         // 导航
-        MyViewAssign('nav_header', $this->nav_header);
-        MyViewAssign('nav_footer', $this->nav_footer);
-        MyViewAssign('nav_quick', $this->nav_quick);
+        $assign['nav_header'] = $this->nav_header;
+        $assign['nav_footer'] = $this->nav_footer;
+        $assign['nav_quick'] = $this->nav_quick;
 
         // 导航/底部默认显示
-        MyViewAssign('is_header', 1);
-        MyViewAssign('is_footer', 1);
+        $assign['is_header'] = 1;
+        $assign['is_footer'] = 1;
 
         // 左侧大分类是否隐藏展开
         $common_goods_category_hidden = ($this->controller_name != 'index' || MyC('home_index_banner_left_status', 1) != 1) ? 1 : 0;
-        MyViewAssign('common_goods_category_hidden', $common_goods_category_hidden);
+        $assign['common_goods_category_hidden'] = $common_goods_category_hidden;
 
         // 价格正则
-        MyViewAssign('default_price_regex', MyConst('common_regex_price'));
+        $assign['default_price_regex'] = MyConst('common_regex_price');
 
         // 附件host地址
-        MyViewAssign('attachment_host', SystemBaseService::AttachmentHost());
+        $assign['attachment_host'] = SystemBaseService::AttachmentHost();
 
         // css/js引入host地址
-        MyViewAssign('public_host', MyConfig('shopxo.public_host'));
+        $assign['public_host'] = MyConfig('shopxo.public_host');
 
         // 当前url地址
-        MyViewAssign('my_domain', __MY_DOMAIN__);
+        $assign['my_domain'] = __MY_DOMAIN__;
 
         // 当前完整url地址
-        MyViewAssign('my_url', __MY_URL__);
+        $assign['my_url'] = __MY_URL__;
 
         // 项目public目录URL地址
-        MyViewAssign('my_public_url', __MY_PUBLIC_URL__);
+        $assign['my_public_url'] = __MY_PUBLIC_URL__;
 
         // 当前http类型
-        MyViewAssign('my_http', __MY_HTTP__);
+        $assign['my_http'] = __MY_HTTP__;
 
         // 首页地址
-        MyViewAssign('home_url', SystemService::HomeUrl());
+        $assign['home_url'] = SystemService::HomeUrl();
 
         // url模式
-        MyViewAssign('url_model', MyC('home_seo_url_model', 0));
+        $assign['url_model'] = MyC('home_seo_url_model', 0);
 
         // seo
-        MyViewAssign('home_seo_site_title', MyC('home_seo_site_title'));
-        MyViewAssign('home_seo_site_keywords', MyC('home_seo_site_keywords'));
-        MyViewAssign('home_seo_site_description', MyC('home_seo_site_description'));
+        $assign['home_seo_site_title'] = MyC('home_seo_site_title');
+        $assign['home_seo_site_keywords'] = MyC('home_seo_site_keywords');
+        $assign['home_seo_site_description'] = MyC('home_seo_site_description');
 
         // 用户数据
-        MyViewAssign('user', $this->user);
+        $assign['user'] = $this->user;
 
         // 用户中心菜单
-        MyViewAssign('user_left_menu', NavigationService::UsersCenterLeftList());
+        $assign['user_left_menu'] = NavigationService::UsersCenterLeftList();
 
         // 商品大分类
-        MyViewAssign('goods_category_list', GoodsService::GoodsCategoryAll());
+        $assign['goods_category_list'] = GoodsService::GoodsCategoryAll();
 
         // 搜索框下热门关键字
-        MyViewAssign('home_search_keywords', SearchService::SearchKeywordsList());
+        $assign['home_search_keywords'] = SearchService::SearchKeywordsList();
 
         // 开发模式
-        MyViewAssign('shopxo_is_develop', MyConfig('shopxo.is_develop'));
+        $assign['shopxo_is_develop'] = MyConfig('shopxo.is_develop');
 
         // 顶部右侧导航
-        MyViewAssign('common_nav_top_right_list', NavigationService::HomeHavTopRight(['user'=>$this->user]));
+        $assign['common_nav_top_right_list'] = NavigationService::HomeHavTopRight(['user'=>$this->user]);
 
         // 底部导航
-        MyViewAssign('common_bottom_nav_list', NavigationService::BottomNavigation(['user'=>$this->user]));
+        $assign['common_bottom_nav_list'] = NavigationService::BottomNavigation(['user'=>$this->user]);
 
         // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue(empty($this->user['id']) ? 'public' : 'user-'.$this->user['id']));
+        $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue(empty($this->user['id']) ? 'public' : 'user-'.$this->user['id']);
 
         // 分类展示层级模式
-        MyViewAssign('category_show_level', MyC('common_show_goods_category_level', 3, true));
+        $assign['category_show_level'] = MyC('common_show_goods_category_level', 3, true);
 
         // 备案信息
-        MyViewAssign('home_site_icp', MyC('home_site_icp'));
-        MyViewAssign('home_site_security_record_name', MyC('home_site_security_record_name'));
-        MyViewAssign('home_site_security_record_url', MyC('home_site_security_record_url'));
-        MyViewAssign('home_site_telecom_license', MyC('home_site_telecom_license'));
-        MyViewAssign('home_site_company_license', MyC('home_site_company_license'));
+        $assign['home_site_icp'] = MyC('home_site_icp');
+        $assign['home_site_security_record_name'] = MyC('home_site_security_record_name');
+        $assign['home_site_security_record_url'] = MyC('home_site_security_record_url');
+        $assign['home_site_telecom_license'] = MyC('home_site_telecom_license');
+        $assign['home_site_company_license'] = MyC('home_site_company_license');
 
         // 布局样式+管理
-        MyViewAssign('is_load_layout', 0);
-        MyViewAssign('is_load_layout_admin', 0);
+        $assign['is_load_layout'] = 0;
+        $assign['is_load_layout_admin'] = 0;
 
         // 默认不加载放大镜
-        MyViewAssign('is_load_imagezoom', 0);
+        $assign['is_load_imagezoom'] = 0;
 
         // 是否加载视频播放器组件
-        MyViewAssign('is_load_ckplayer', 0);
+        $assign['is_load_ckplayer'] = 0;
 
         // 默认不加载地图api、类型默认百度地图
-        MyViewAssign('is_load_map_api', 0);
-        MyViewAssign('load_map_type', MyC('common_map_type', 'baidu', true));
+        $assign['is_load_map_api'] = 0;
+        $assign['load_map_type'] = MyC('common_map_type', 'baidu', true);
 
         // 是否加载附件组件
         $admin = AdminService::LoginInfo();
-        MyViewAssign('is_load_upload_editor', (!empty($this->user) || !empty($admin)) ? 1 : 0);
+        $assign['is_load_upload_editor'] = (!empty($this->user) || !empty($admin)) ? 1 : 0;
 
         // 登录/注册方式
-        MyViewAssign('home_user_login_type', MyC('home_user_login_type', [], true));
-        MyViewAssign('home_user_reg_type', MyC('home_user_reg_type', [], true));
+        $assign['home_user_login_type'] = MyC('home_user_login_type', [], true);
+        $assign['home_user_reg_type'] = MyC('home_user_reg_type', [], true);
 
         // 底部信息
-        MyViewAssign('home_theme_footer_bottom_powered', htmlspecialchars_decode(MyC('home_theme_footer_bottom_powered')));
+        $assign['home_theme_footer_bottom_powered'] = htmlspecialchars_decode(MyC('home_theme_footer_bottom_powered'));
 
         // 纯净模式
-        MyViewAssign('page_pure', in_array($this->controller_name.$this->action_name, ['usermodallogininfo']) ? 1 : 0);
+        $assign['page_pure'] = in_array($this->controller_name.$this->action_name, ['usermodallogininfo']) ? 1 : 0;
 
         // 系统环境参数最大数
-        MyViewAssign('env_max_input_vars_count', SystemService::EnvMaxInputVarsCount());
+        $assign['env_max_input_vars_count'] = SystemService::EnvMaxInputVarsCount();
 
         // 站点商店信息
         $site_store_info = StoreService::SiteStoreInfo();
-        MyViewAssign('site_store_info', $site_store_info);
+        $assign['site_store_info'] = $site_store_info;
         // 更多链接地址
         $site_store_links = empty($site_store_info['links']) ? [] : $site_store_info['links'];
-        MyViewAssign('site_store_links', $site_store_links);
+        $assign['site_store_links'] = $site_store_links;
+
+        // 模板赋值
+        MyViewAssign($assign);
     }
 
     /**
@@ -403,6 +409,7 @@ class Common extends BaseController
         if(!empty($module))
         {
             // 调用表格处理
+            $assign = [];
             $params = $this->data_request;
             $params['system_user'] = $this->user;
             $ret = (new FormHandleModule())->Run($module['module'], $module['action'], $params);
@@ -415,19 +422,19 @@ class Common extends BaseController
                 $this->form_md5_key = $ret['data']['md5_key'];
                 $this->form_user_fields = $ret['data']['user_fields'];
                 $this->form_order_by = $ret['data']['order_by'];
-                MyViewAssign('form_table', $this->form_table);
-                MyViewAssign('form_params', $this->form_params);
-                MyViewAssign('form_md5_key', $this->form_md5_key);
-                MyViewAssign('form_user_fields', $this->form_user_fields);
-                MyViewAssign('form_order_by', $this->form_order_by);
+                $assign['form_table'] = $this->form_table;
+                $assign['form_params'] = $this->form_params;
+                $assign['form_md5_key'] = $this->form_md5_key;
+                $assign['form_user_fields'] = $this->form_user_fields;
+                $assign['form_order_by'] = $this->form_order_by;
 
                 // 列表数据
                 $this->data_total = $ret['data']['data_total'];
                 $this->data_list = $ret['data']['data_list'];
                 $this->data_detail = $ret['data']['data_detail'];
-                MyViewAssign('data_total', $this->data_total);
-                MyViewAssign('data_list', $this->data_list);
-                MyViewAssign('data', $this->data_detail);
+                $assign['data_total'] = $this->data_total;
+                $assign['data_list'] = $this->data_list;
+                $assign['data'] = $this->data_detail;
 
                 // 分页数据
                 $this->page = $ret['data']['page'];
@@ -435,15 +442,17 @@ class Common extends BaseController
                 $this->page_size = $ret['data']['page_size'];
                 $this->page_html = $ret['data']['page_html'];
                 $this->page_url = $ret['data']['page_url'];
-                MyViewAssign('page', $this->page);
-                MyViewAssign('page_start', $this->page_start);
-                MyViewAssign('page_size', $this->page_size);
-                MyViewAssign('page_html', $this->page_html);
-                MyViewAssign('page_url', $this->page_url);
+                $assign['page'] = $this->page;
+                $assign['page_start'] = $this->page_start;
+                $assign['page_size'] = $this->page_size;
+                $assign['page_html'] = $this->page_html;
+                $assign['page_url'] = $this->page_url;
             } else {
                 $this->form_error = $ret['msg'];
-                MyViewAssign('form_error', $this->form_error);
+                $assign['form_error'] = $this->form_error;
             }
+            // 模板赋值
+            MyViewAssign($assign);
         }
     }
 
@@ -569,93 +578,78 @@ class Common extends BaseController
      */
     private function CommonPluginsInit()
     {
-        // css钩子
-        MyViewAssign('plugins_css_data', MyEventTrigger('plugins_css', ['hook_name'=>'plugins_css', 'is_backend'=>false]));
+        // 模板数据
+        $assign = [];
 
-        // js钩子
-        MyViewAssign('plugins_js_data', MyEventTrigger('plugins_js', ['hook_name'=>'plugins_js', 'is_backend'=>false]));
-        
-        // 公共header内钩子
-        MyViewAssign('plugins_common_header_data', MyEventTrigger('plugins_common_header', ['hook_name'=>'plugins_common_header', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 公共页面底部钩子
-        MyViewAssign('plugins_common_page_bottom_data', MyEventTrigger('plugins_common_page_bottom', ['hook_name'=>'plugins_common_page_bottom', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 公共顶部钩子
-        MyViewAssign('plugins_view_common_top_data', MyEventTrigger('plugins_view_common_top', ['hook_name'=>'plugins_view_common_top', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 公共底部钩子
-        MyViewAssign('plugins_view_common_bottom_data', MyEventTrigger('plugins_view_common_bottom', ['hook_name'=>'plugins_view_common_bottom', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // header公共顶部钩子
-        MyViewAssign('plugins_view_common_top_header_data', MyEventTrigger('plugins_view_common_top_header', ['hook_name'=>'plugins_view_common_top_header', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // footer公共底部钩子
-        MyViewAssign('plugins_view_common_bottom_footer_data', MyEventTrigger('plugins_view_common_bottom_footer', ['hook_name'=>'plugins_view_common_bottom_footer', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 公共顶部小导航钩子-左侧前面
-        MyViewAssign('plugins_view_header_navigation_top_left_begin_data', MyEventTrigger('plugins_view_header_navigation_top_left_begin', ['hook_name'=>'plugins_view_header_navigation_top_left_begin', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 公共顶部小导航钩子-左侧后面
-        MyViewAssign('plugins_view_header_navigation_top_left_end_data', MyEventTrigger('plugins_view_header_navigation_top_left_end', ['hook_name'=>'plugins_view_header_navigation_top_left_end', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 公共顶部小导航钩子-右侧前面
-        MyViewAssign('plugins_view_header_navigation_top_right_begin_data', MyEventTrigger('plugins_view_header_navigation_top_right_begin', ['hook_name'=>'plugins_view_header_navigation_top_right_begin', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 公共顶部小导航钩子-右侧后面
-        MyViewAssign('plugins_view_header_navigation_top_right_end_data', MyEventTrigger('plugins_view_header_navigation_top_right_end', ['hook_name'=>'plugins_view_header_navigation_top_right_end', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 用户登录页面顶部钩子
-        MyViewAssign('plugins_view_user_login_info_top_data', MyEventTrigger('plugins_view_user_login_info_top', ['hook_name'=>'plugins_view_user_login_info_top', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 用户登录内底部钩子
-        MyViewAssign('plugins_view_user_login_inside_bottom_data', MyEventTrigger('plugins_view_user_login_inside_bottom', ['hook_name'=>'plugins_view_user_login_inside_bottom', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 用户登录内容页面底部钩子
-        MyViewAssign('plugins_view_user_login_content_bottom_data', MyEventTrigger('plugins_view_user_login_content_bottom', ['hook_name'=>'plugins_view_user_login_content_bottom', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 用户注册页面钩子
-        MyViewAssign('plugins_view_user_reg_info_data', MyEventTrigger('plugins_view_user_reg_info', ['hook_name'=>'plugins_view_user_reg_info', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 用户注册页面顶部钩子
-        MyViewAssign('plugins_view_user_reg_info_top_data', MyEventTrigger('plugins_view_user_reg_info_top', ['hook_name'=>'plugins_view_user_reg_info_top', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 用户注册页面内底部钩子
-        MyViewAssign('plugins_view_user_reg_info_inside_bottom_data', MyEventTrigger('plugins_view_user_reg_info_inside_bottom', ['hook_name'=>'plugins_view_user_reg_info_inside_bottom', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 用户注册页面底部钩子
-        MyViewAssign('plugins_view_user_reg_info_bottom_data', MyEventTrigger('plugins_view_user_reg_info_bottom', ['hook_name'=>'plugins_view_user_reg_info_bottom', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 底部导航上面钩子
-        MyViewAssign('plugins_view_common_footer_top_data', MyEventTrigger('plugins_view_common_footer_top', ['hook_name'=>'plugins_view_common_footer_top', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // logo右侧
-        MyViewAssign('plugins_view_common_logo_right_data', MyEventTrigger('plugins_view_common_logo_right', ['hook_name'=>'plugins_view_common_logo_right', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 公共搜索框右侧
-        MyViewAssign('plugins_view_common_search_right_data', MyEventTrigger('plugins_view_common_search_right', ['hook_name'=>'plugins_view_common_search_right', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 公共搜索框内左侧
-        MyViewAssign('plugins_view_common_search_inside_left_data', MyEventTrigger('plugins_view_common_search_inside_left', ['hook_name'=>'plugins_view_common_search_inside_left', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 公共搜索框内右侧
-        MyViewAssign('plugins_view_common_search_inside_right_data', MyEventTrigger('plugins_view_common_search_inside_right', ['hook_name'=>'plugins_view_common_search_inside_right', 'is_backend'=>false, 'user'=>$this->user]));
-
-
-        // 中间导航左侧
-        MyViewAssign('plugins_view_common_header_nav_left_data', MyEventTrigger('plugins_view_common_header_nav_left', ['hook_name'=>'plugins_view_common_header_nav_left', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 中间导航搜索内部
-        MyViewAssign('plugins_view_common_header_nav_search_inside_data', MyEventTrigger('plugins_view_common_header_nav_search_inside', ['hook_name'=>'plugins_view_common_header_nav_search_inside', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 中间导航内容内部顶部
-        MyViewAssign('plugins_view_common_header_nav_content_inside_top_data', MyEventTrigger('plugins_view_common_header_nav_content_inside_top', ['hook_name'=>'plugins_view_common_header_nav_content_inside_top', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 中间导航内容内部底部
-        MyViewAssign('plugins_view_common_header_nav_content_inside_bottom_data', MyEventTrigger('plugins_view_common_header_nav_content_inside_bottom', ['hook_name'=>'plugins_view_common_header_nav_content_inside_bottom', 'is_backend'=>false, 'user'=>$this->user]));
-
-        // 中间导航右侧
-        MyViewAssign('plugins_view_common_header_nav_right_data', MyEventTrigger('plugins_view_common_header_nav_right', ['hook_name'=>'plugins_view_common_header_nav_right', 'is_backend'=>false, 'user'=>$this->user]));
+        // 钩子列表
+        $hook_arr = [
+            // css钩子
+            'plugins_css',
+            // js钩子
+            'plugins_js',
+            // 公共header内钩子
+            'plugins_common_header',
+            // 公共页面底部钩子
+            'plugins_common_page_bottom',
+            // 公共顶部钩子
+            'plugins_view_common_top',
+            // 公共底部钩子
+            'plugins_view_common_bottom',
+            // header公共顶部钩子
+            'plugins_view_common_top_header',
+            // footer公共底部钩子
+            'plugins_view_common_bottom_footer',
+            // 公共顶部小导航钩子-左侧前面
+            'plugins_view_header_navigation_top_left_begin',
+            // 公共顶部小导航钩子-左侧后面
+            'plugins_view_header_navigation_top_left_end',
+            // 公共顶部小导航钩子-右侧前面
+            'plugins_view_header_navigation_top_right_begin',
+            // 公共顶部小导航钩子-右侧后面
+            'plugins_view_header_navigation_top_right_end',
+            // 用户登录页面顶部钩子
+            'plugins_view_user_login_info_top',
+            // 用户登录内底部钩子
+            'plugins_view_user_login_inside_bottom',
+            // 用户登录内容页面底部钩子
+            'plugins_view_user_login_content_bottom',
+            // 用户注册页面钩子
+            'plugins_view_user_reg_info',
+            // 用户注册页面顶部钩子
+            'plugins_view_user_reg_info_top',
+            // 用户注册页面内底部钩子
+            'plugins_view_user_reg_info_inside_bottom',
+            // 用户注册页面底部钩子
+            'plugins_view_user_reg_info_bottom',
+            // 底部导航上面钩子
+            'plugins_view_common_footer_top',
+            // logo右侧
+            'plugins_view_common_logo_right',
+            // 公共搜索框右侧
+            'plugins_view_common_search_right',
+            // 公共搜索框内左侧
+            'plugins_view_common_search_inside_left',
+            // 公共搜索框内右侧
+            'plugins_view_common_search_inside_right',
+            // 中间导航左侧
+            'plugins_view_common_header_nav_left',
+            // 中间导航搜索内部
+            'plugins_view_common_header_nav_search_inside',
+            // 中间导航内容内部顶部
+            'plugins_view_common_header_nav_content_inside_top',
+            // 中间导航内容内部底部
+            'plugins_view_common_header_nav_content_inside_bottom',
+            // 中间导航右侧
+            'plugins_view_common_header_nav_right',
+        ];
+        foreach($hook_arr as $hook_name)
+        {
+            $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
+                ['hook_name'    => $hook_name,
+                'is_backend'    => false,
+                'user'          => $this->user,
+            ]);
+        }
 
         // 公共表格钩子名称动态处理
         $current = 'plugins_view_index_'.$this->controller_name;
@@ -670,31 +664,34 @@ class Common extends BaseController
         }
 
         // 表格列表公共标识
-        MyViewAssign('hook_name_form_grid', $current.'_grid');
+        $assign['hook_name_form_grid'] = $current.'_grid';
         // 内容外部顶部
-        MyViewAssign('hook_name_content_top', $current.'_content_top');
+        $assign['hook_name_content_top'] = $current.'_content_top';
         // 内容外部底部
-        MyViewAssign('hook_name_content_bottom', $current.'_content_bottom');
+        $assign['hook_name_content_bottom'] = $current.'_content_bottom';
         // 内容内部顶部
-        MyViewAssign('hook_name_content_inside_top', $current.'_content_inside_top');
+        $assign['hook_name_content_inside_top'] = $current.'_content_inside_top';
         // 内容内部底部
-        MyViewAssign('hook_name_content_inside_bottom', $current.'_content_inside_bottom');
+        $assign['hook_name_content_inside_bottom'] = $current.'_content_inside_bottom';
         // 表格列表顶部操作
-        MyViewAssign('hook_name_form_top_operate', $current.'_top_operate');
+        $assign['hook_name_form_top_operate'] = $current.'_top_operate';
         // 表格列表底部操作
-        MyViewAssign('hook_name_form_bottom_operate', $current.'_bottom_operate');
+        $assign['hook_name_form_bottom_operate'] = $current.'_bottom_operate';
         // 表格列表后面操作栏
-        MyViewAssign('hook_name_form_list_operate', $current.'_list_operate');
+        $assign['hook_name_form_list_operate'] = $current.'_list_operate';
 
         // 公共详情页面钩子名称动态处理
         // 内容外部顶部
-        MyViewAssign('hook_name_detail_top', $current.'_detail_top');
+        $assign['hook_name_detail_top'] = $current.'_detail_top';
         // 内容外部底部
-        MyViewAssign('hook_name_detail_bottom', $current.'_detail_bottom');
+        $assign['hook_name_detail_bottom'] = $current.'_detail_bottom';
         // 内容内部顶部
-        MyViewAssign('hook_name_detail_inside_top', $current.'_detail_inside_top');
+        $assign['hook_name_detail_inside_top'] = $current.'_detail_inside_top';
         // 内容内部底部
-        MyViewAssign('hook_name_detail_inside_bottom', $current.'_detail_inside_bottom');
+        $assign['hook_name_detail_inside_bottom'] = $current.'_detail_inside_bottom';
+
+        // 模板赋值
+        MyViewAssign($assign);
     }
 }
 ?>

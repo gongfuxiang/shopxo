@@ -37,7 +37,7 @@ class Plugins extends Common
     }
     
     /**
-     * [Index 首页]
+     * 首页
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -61,7 +61,7 @@ class Plugins extends Common
         {
             if(IS_AJAX)
             {
-                return DataReturn($ret, -5000);
+                return ApiService::ApiDataReturn(DataReturn($ret, -5000));
             } else {
                 MyViewAssign('msg', $ret);
                 return MyView('public/tips_error');
@@ -79,9 +79,6 @@ class Plugins extends Common
 
         // 视图初始化
         $this->PluginsViewInit($pluginsname, $pluginscontrol, $pluginsaction);
-
-        // 编辑器文件存放地址定义
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('plugins_'.$pluginsname));
 
         // 调用
         $ret = PluginsService::PluginsControlCall($pluginsname, $pluginscontrol, $pluginsaction, 'index', $params);
@@ -137,10 +134,17 @@ class Plugins extends Common
      */
     public function PluginsViewInit($plugins_name, $plugins_control, $plugins_action)
     {
-        // 应用名称/控制器/方法
-        MyViewAssign('plugins_name', $plugins_name);
-        MyViewAssign('plugins_control', $plugins_control);
-        MyViewAssign('plugins_action', $plugins_action);
+        // 模板数据
+        $assign = [
+            // 应用名称/控制器/方法
+            'plugins_name'      => $plugins_name,
+            'plugins_control'   => $plugins_control,
+            'plugins_action'    => $plugins_action,
+            // 列表数据
+            'data_total'        => $this->data_total,
+            'data_list'         => $this->data_list,
+            'data'              => $this->data_detail,
+        ];
 
         // 当前操作名称
         $module_name = 'plugins';
@@ -151,22 +155,23 @@ class Plugins extends Common
         // 控制器静态文件状态css,js
         $module_css = $module_name.DS.'css'.DS.$plugins_name.DS.$group.DS.$plugins_control;
         $module_css .= file_exists(ROOT_PATH.'static'.DS.$module_css.'.'.$plugins_action.'.css') ? '.'.$plugins_action.'.css' : '.css';
-        MyViewAssign('module_css', file_exists(ROOT_PATH.'static'.DS.$module_css) ? $module_css : '');
+        $assign['module_css'] = file_exists(ROOT_PATH.'static'.DS.$module_css) ? $module_css : '';
 
         $module_js = $module_name.DS.'js'.DS.$plugins_name.DS.$group.DS.$plugins_control;
         $module_js .= file_exists(ROOT_PATH.'static'.DS.$module_js.'.'.$plugins_action.'.js') ? '.'.$plugins_action.'.js' : '.js';
-        MyViewAssign('module_js', file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '');
+        $assign['module_js'] = file_exists(ROOT_PATH.'static'.DS.$module_js) ? $module_js : '';
 
         // 应用公共css,js
         $plugins_css = $module_name.DS.'css'.DS.$plugins_name.DS.$group.DS.'common.css';
-        MyViewAssign('plugins_css', file_exists(ROOT_PATH.'static'.DS.$plugins_css) ? $plugins_css : '');
+        $assign['plugins_css'] = file_exists(ROOT_PATH.'static'.DS.$plugins_css) ? $plugins_css : '';
         $plugins_js = $module_name.DS.'js'.DS.$plugins_name.DS.$group.DS.'common.js';
-        MyViewAssign('plugins_js', file_exists(ROOT_PATH.'static'.DS.$plugins_js) ? $plugins_js : '');
+        $assign['plugins_js'] = file_exists(ROOT_PATH.'static'.DS.$plugins_js) ? $plugins_js : '';
 
-        // 列表数据
-        MyViewAssign('data_total', $this->data_total);
-        MyViewAssign('data_list', $this->data_list);
-        MyViewAssign('data', $this->data_detail);
+        // 编辑器文件存放地址定义
+        $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue('plugins_'.$plugins_name);
+
+        // 模板赋值
+        MyViewAssign($assign);
     }
 }
 ?>

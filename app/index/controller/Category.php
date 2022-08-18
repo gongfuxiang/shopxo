@@ -45,7 +45,6 @@ class Category extends Common
     {
         // 浏览器名称
         MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('商品分类', 1));
-
         return MyView();
     }
 }

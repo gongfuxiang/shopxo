@@ -43,10 +43,15 @@ class Map extends Common
      */
     public function Index()
     {
-        // 加载地图
-        MyViewAssign('is_load_map_api', 1);
-        MyViewAssign('is_header', 0);
-        MyViewAssign('is_footer', 0);
+        // 模板数据
+        $assign = [
+            // 加载地图
+            'is_load_map_api'   => 1,
+            // 关闭头尾
+            'is_header'         => 0,
+            'is_footer'         => 0,
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 }

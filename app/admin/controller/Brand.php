@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\BrandService;
 use app\service\BrandCategoryService;
 use app\service\ResourcesService;
@@ -21,27 +23,8 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Brand extends Common
+class Brand extends Base
 {
-	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
 	/**
      * 列表
      * @author   Devil
@@ -75,37 +58,42 @@ class Brand extends Common
      */
     public function SaveInfo()
     {
+        // 模板数据
+        $assign = [
+            // 静态数据
+            'common_is_enable_list' => MyConst('common_is_enable_list'),
+            // 编辑器文件存放地址
+            'editor_path_type'      => ResourcesService::EditorPathTypeValue('brand'),
+        ];
+
+        // 品牌分类
+		$brand_category = BrandCategoryService::BrandCategoryList(['field'=>'id,name']);
+		$assign['brand_category'] = $brand_category['data'];
+
         // 参数
         $params = $this->data_request;
 
         // 数据
         $data = $this->data_detail;
 
-        // 是否启用
-        MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
-
-        // 品牌分类
-		$brand_category = BrandCategoryService::BrandCategoryList(['field'=>'id,name']);
-		MyViewAssign('brand_category', $brand_category['data']);
-
         // 编辑页面钩子
         $hook_name = 'plugins_view_admin_brand_save';
-        MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+        $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
         [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'data_id'       => isset($params['id']) ? $params['id'] : 0,
             'data'          => &$data,
             'params'        => &$params,
-        ]));
+        ]);
 
-        // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('brand'));
-
-        // 数据
+        // 数据/参数
         unset($params['id']);
-        MyViewAssign('data', $data);
-        MyViewAssign('params', $params);
+        $assign['data'] = $data;
+        $assign['params'] = $params;
+
+        // 模板赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -126,7 +114,7 @@ class Brand extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return BrandService::BrandSave($params);
+        return ApiService::ApiDataReturn(BrandService::BrandSave($params));
 	}
 
 	/**
@@ -147,7 +135,7 @@ class Brand extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return BrandService::BrandDelete($params);
+        return ApiService::ApiDataReturn(BrandService::BrandDelete($params));
 	}
 
 	/**
@@ -167,7 +155,7 @@ class Brand extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return BrandService::BrandStatusUpdate($params);
+        return ApiService::ApiDataReturn(BrandService::BrandStatusUpdate($params));
     }
 }
 ?>

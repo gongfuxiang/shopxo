@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\RegionService;
 
 /**
@@ -51,13 +52,13 @@ class Region extends Common
         }
 
         // 获取地区
+        $pid = empty($this->data_request['pid']) ? 0 : intval($this->data_request['pid']);
         $params = [
             'where' => [
-                'pid'   => intval(input('pid', 0)),
+                ['pid', '=', $pid],
             ],
         ];
-        $data = RegionService::RegionNode($params);
-        return DataReturn('操作成功', 0, $data);
+        return ApiService::ApiDataReturn(DataReturn('获取成功', 0, RegionService::RegionNode($params)));
     }
 
     /**
@@ -70,7 +71,7 @@ class Region extends Common
      */
     public function All()
     {
-        return RegionService::RegionAll();
+        return ApiService::ApiDataReturn(RegionService::RegionAll());
     }
 }
 ?>

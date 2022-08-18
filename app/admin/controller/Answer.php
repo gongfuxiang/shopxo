@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\AnswerService;
 
 /**
@@ -19,27 +21,8 @@ use app\service\AnswerService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Answer extends Common
+class Answer extends Base
 {
-	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
 	/**
      * 列表
      * @author   Devil
@@ -74,6 +57,12 @@ class Answer extends Common
      */
     public function SaveInfo()
     {
+        // 模板数据
+        $assign = [
+            // 静态数据
+            'common_is_show_list' => MyConst('common_is_show_list'),
+            'common_is_text_list' => MyConst('common_is_text_list'),
+        ];
         // 数据
         $data = $this->data_detail;
         if(!empty($data))
@@ -90,16 +79,15 @@ class Answer extends Common
                 $data['reply'] = str_replace('<br />', "\n", $data['reply']);
             }
         }
-        MyViewAssign('data', $data);
-
-        // 静态数据
-        MyViewAssign('common_is_show_list', MyConst('common_is_show_list'));
-        MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
+        $assign['data'] = $data;
 
         // 参数
         $params = $this->data_request;
         unset($params['id']);
-        MyViewAssign('params', $params);
+        $assign['params'] = $params;
+
+        // 数据赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -120,7 +108,7 @@ class Answer extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return AnswerService::AnswerSave($params);
+        return ApiService::ApiDataReturn(AnswerService::AnswerSave($params));
     }
 
 	/**
@@ -141,7 +129,7 @@ class Answer extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return AnswerService::AnswerDelete($params);
+        return ApiService::ApiDataReturn(AnswerService::AnswerDelete($params));
 	}
 
 	/**
@@ -161,7 +149,7 @@ class Answer extends Common
 
 		// 开始处理
         $params = $this->data_request;
-        return AnswerService::AnswerReply($params);
+        return ApiService::ApiDataReturn(AnswerService::AnswerReply($params));
 	}
 
 	/**
@@ -181,7 +169,7 @@ class Answer extends Common
 
 		// 开始处理
         $params = $this->data_request;
-        return AnswerService::AnswerStatusUpdate($params);
+        return ApiService::ApiDataReturn(AnswerService::AnswerStatusUpdate($params));
 	}
 }
 ?>

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\SeoService;
 use app\service\GoodsBrowseService;
 
@@ -37,7 +38,7 @@ class UserGoodsBrowse extends Common
         // 是否登录
         $this->IsLogin();
     }
-    
+
     /**
      * 列表
      * @author  Devil
@@ -63,9 +64,12 @@ class UserGoodsBrowse extends Common
      */
     public function Detail()
     {
-        MyViewAssign('data', $this->data_detail);
-        MyViewAssign('is_header', 0);
-        MyViewAssign('is_footer', 0);
+        $assign = [
+            'data'      => $this->data_detail,
+            'is_header' => 0,
+            'is_footer' => 0,
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -88,7 +92,7 @@ class UserGoodsBrowse extends Common
         // 开始处理
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return GoodsBrowseService::GoodsBrowseDelete($params);
+        return ApiService::ApiDataReturn(GoodsBrowseService::GoodsBrowseDelete($params));
     }
 }
 ?>

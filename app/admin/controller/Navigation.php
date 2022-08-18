@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\ArticleService;
 use app\service\NavigationService;
 use app\service\GoodsService;
@@ -23,7 +25,7 @@ use app\service\DesignService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Navigation extends Common
+class Navigation extends Base
 {
 	private $nav_type;
 
@@ -39,12 +41,6 @@ class Navigation extends Common
 		// 调用父类前置方法
 		parent::__construct();
 
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-
 		// 导航类型
 		$this->nav_type = empty($this->data_request['nav_type']) ? 'header' : $this->data_request['nav_type'];
 	}
@@ -58,6 +54,16 @@ class Navigation extends Common
      */
 	public function Index()
 	{
+		// 模板数据
+		$assign = [
+			// 导航类型
+			'nav_type'				=> $this->nav_type,
+			// 一级分类
+			'nav_header_pid_list'	=> NavigationService::LevelOneNav(['nav_type'=>$this->nav_type]),
+			// 商品分类
+			'goods_category_list'	=> GoodsService::GoodsCategoryAll(),
+		];
+
         // 获取列表
         $data_params = [
             'where'         => $this->form_where,
@@ -65,27 +71,22 @@ class Navigation extends Common
         ];
         $data_params['where'][] = ['nav_type', '=', $this->nav_type];
         $ret = NavigationService::NavList($data_params);
-		MyViewAssign('data_list', $ret['data']);
-
-		// 一级分类
-		MyViewAssign('nav_header_pid_list', NavigationService::LevelOneNav(['nav_type'=>$this->nav_type]));
-
+		$assign['data_list'] = $ret['data'];
+		
 		// 获取分类和文章
 		$article_category_content = ArticleService::ArticleCategoryListContent();
-        MyViewAssign('article_list', $article_category_content['data']);
-
-		// 商品分类
-		MyViewAssign('goods_category_list', GoodsService::GoodsCategoryAll());
+		$assign['article_list'] = $article_category_content['data'];
 
 		// 自定义页面
         $custom_view = CustomViewService::CustomViewList(['where'=>['is_enable'=>1], 'field'=>'id,title', 'n'=>0]);
-		MyViewAssign('customview_list', $custom_view['data']);
+		$assign['customview_list'] = $custom_view['data'];
 
 		// 页面设计
         $design_view = DesignService::DesignList(['where'=>['is_enable'=>1], 'field'=>'id,name', 'n'=>0]);
-		MyViewAssign('design_list', $design_view['data']);
+		$assign['design_list'] = $design_view['data'];
 
-		MyViewAssign('nav_type', $this->nav_type);
+		// 数据赋值
+		MyViewAssign($assign);
 		return MyView();
 	}
 
@@ -107,7 +108,7 @@ class Navigation extends Common
         // 开始处理
         $params = $this->data_request;
         $params['nav_type'] = $this->nav_type;
-        return NavigationService::NavSave($params);
+        return ApiService::ApiDataReturn(NavigationService::NavSave($params));
 	}
 
 	/**
@@ -127,7 +128,7 @@ class Navigation extends Common
 
 		// 开始处理
         $params = $this->data_request;
-        return NavigationService::NavDelete($params);
+        return ApiService::ApiDataReturn(NavigationService::NavDelete($params));
 	}
 
 	/**
@@ -147,7 +148,7 @@ class Navigation extends Common
 
 		// 开始处理
         $params = $this->data_request;
-        return NavigationService::NavStatusUpdate($params);
+        return ApiService::ApiDataReturn(NavigationService::NavStatusUpdate($params));
 	}
 }
 ?>

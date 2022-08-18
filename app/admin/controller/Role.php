@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\AdminRoleService;
 
 /**
@@ -19,27 +21,8 @@ use app\service\AdminRoleService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Role extends Common
+class Role extends Base
 {
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列表
      * @author   Devil
@@ -84,13 +67,16 @@ class Role extends Common
             $params['role_id'] =  $data['id'];
         }
 
+        // 模板数据
+        $assign = [];
+
         // 权限列表
         $power = AdminRoleService::RolePowerEditData($params);
-        MyViewAssign('power', $power);
+        $assign['power'] = $power;
 
         // 角色编辑页面钩子
         $hook_name = 'plugins_view_admin_role_save';
-        MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+        $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
         [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
@@ -98,12 +84,15 @@ class Role extends Common
             'data'          => &$data,
             'power'         => &$power,
             'params'        => &$params,
-        ]));
+        ]);
 
-        // 数据
+        // 数据/参数
         unset($params['id']);
-        MyViewAssign('data', $data);
-        MyViewAssign('params', $params);
+        $assign['data'] = $data;
+        $assign['params'] = $params;
+
+        // 模板赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -119,11 +108,11 @@ class Role extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error('非法访问');
+            return $this->error('非法访问');
         }
 
         // 开始操作
-        return AdminRoleService::RoleSave($this->data_post);
+        return ApiService::ApiDataReturn(AdminRoleService::RoleSave($this->data_post));
     }
 
     /**
@@ -138,11 +127,11 @@ class Role extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error('非法访问');
+            return $this->error('非法访问');
         }
 
         // 开始操作
-        return AdminRoleService::RoleDelete($this->data_post);
+        return ApiService::ApiDataReturn(AdminRoleService::RoleDelete($this->data_post));
     }
 
     /**
@@ -163,7 +152,7 @@ class Role extends Common
         // 开始操作
         $params = $this->data_post;
         $params['admin'] = $this->admin;
-        return AdminRoleService::RoleStatusUpdate($params);
+        return ApiService::ApiDataReturn(AdminRoleService::RoleStatusUpdate($params));
     }
 }
 ?>

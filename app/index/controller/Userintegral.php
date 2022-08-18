@@ -49,12 +49,15 @@ class UserIntegral extends Common
      */
     public function Index()
     {
-        // 用户积分
-        $integral = IntegralService::UserIntegral($this->user['id']);
-        MyViewAssign('user_integral_data', $integral);
+        // 模板数据
+        $assign = [
+            // 用户积分
+            'user_integral_data'    => IntegralService::UserIntegral($this->user['id']),
 
-        // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('我的积分', 1));
+            // 浏览器名称
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle('我的积分', 1),
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -68,9 +71,12 @@ class UserIntegral extends Common
      */
     public function Detail()
     {
-        MyViewAssign('data', $this->data_detail);
-        MyViewAssign('is_header', 0);
-        MyViewAssign('is_footer', 0);
+        $assign = [
+            'data'      => $this->data_detail,
+            'is_header' => 0,
+            'is_footer' => 0,
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 }

@@ -10,8 +10,9 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\service\BuyService;
+use app\service\ApiService;
 use app\service\SeoService;
+use app\service\BuyService;
 
 /**
  * 购物车
@@ -47,17 +48,22 @@ class Cart extends Common
      */
     public function Index()
     {
+        // 购物车列表
         $cart_list = BuyService::CartList(['user'=>$this->user]);
-        MyViewAssign('cart_list', $cart_list['data']);
 
+        // 基础信息
         $base = [
             'total_price'   => empty($cart_list['data']) ? 0 : array_sum(array_column($cart_list['data'], 'total_price')),
             'buy_count'   => empty($cart_list['data']) ? 0 : array_sum(array_column($cart_list['data'], 'stock')),
         ];
-        MyViewAssign('base', $base);
 
-        // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('购物车', 1));
+        // 数据赋值
+        $assign = [
+            'base'                  => $base,
+            'cart_list'             => $cart_list['data'],
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle('购物车', 1),
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -74,12 +80,12 @@ class Cart extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            $this->error('非法访问');
+            return $this->error('非法访问');
         }
 
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return BuyService::CartSave($params);
+        return ApiService::ApiDataReturn(BuyService::CartSave($params));
     }
 
     /**
@@ -100,7 +106,7 @@ class Cart extends Common
 
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return BuyService::CartDelete($params);
+        return ApiService::ApiDataReturn(BuyService::CartDelete($params));
     }
 
     /**
@@ -121,7 +127,7 @@ class Cart extends Common
 
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return BuyService::CartStock($params);
+        return ApiService::ApiDataReturn(BuyService::CartStock($params));
     }
 }
 ?>

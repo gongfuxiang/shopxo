@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\SeoService;
 use app\service\UserAddressService;
 use app\service\ResourcesService;
@@ -40,7 +41,7 @@ class UserAddress extends Common
     }
     
     /**
-     * [Index 首页]
+     * 首页
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -48,18 +49,22 @@ class UserAddress extends Common
      */
     public function Index()
     {
+        // 模板数据
+        $assign = [
+            // 浏览器名称
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle('我的地址', 1),
+        ];
         // 用户地址列表
         $data = UserAddressService::UserAddressList(['user'=>$this->user]);
-        MyViewAssign('user_address_list', $data['data']);
+        $assign['user_address_list'] = $data['data'];
 
-        // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('我的地址', 1));
-
+        // 模板赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
     /**
-     * [SaveInfo 地址添加/编辑页面]
+     * 地址添加/编辑页面
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -67,8 +72,20 @@ class UserAddress extends Common
      */
     public function SaveInfo()
     {
+        // 模板数据
+        $assign = [
+            // 关闭头尾
+            'is_header'         => 0,
+            'is_footer'         => 0,
+
+            // 加载地图
+            'is_load_map_api'   => 1,
+
+            // 编辑器文件存放地址
+            'editor_path_type'  => ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($this->user['id'])),
+        ];
+
         // 地址数据
-        $data = [];
         if(!empty($this->data_request))
         {
             $params = $this->data_request;
@@ -76,21 +93,15 @@ class UserAddress extends Common
             $ret = UserAddressService::UserAddressRow($params);
             $data = $ret['data'];
         }
-        MyViewAssign('data', $data);
+        $assign['data'] = $data;
 
-        // 加载地图
-        MyViewAssign('is_load_map_api', 1);
-
-        // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($this->user['id'])));
-
-        MyViewAssign('is_header', 0);
-        MyViewAssign('is_footer', 0);
+        // 模板赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
     /**
-     * [Save 用户地址保存]
+     * 保存
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -100,11 +111,11 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserAddressService::UserAddressSave($params);
+        return ApiService::ApiDataReturn(UserAddressService::UserAddressSave($params));
     }
 
     /**
-     * 删除地址
+     * 删除
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -115,7 +126,7 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserAddressService::UserAddressDelete($params);
+        return ApiService::ApiDataReturn(UserAddressService::UserAddressDelete($params));
     }
 
     /**
@@ -130,7 +141,7 @@ class UserAddress extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return UserAddressService::UserAddressDefault($params);
+        return ApiService::ApiDataReturn(UserAddressService::UserAddressDefault($params));
     }
 }
 ?>

@@ -45,32 +45,33 @@ class Agreement extends Common
      */
     public function Index()
     {
-        // 参数
-        $params = $this->data_request;
+        // 是否仅展示内容
+        $is_content = (isset($this->data_request['is_content']) && $this->data_request['is_content'] == 1) ? 0 : 1;
+        // 模板数据
+        $assign = [
+            'is_header' => $is_content,
+            'is_footer' => $is_content,
+        ];
 
         // 获取协议内容
-        $data = [];
-        if(!empty($params['document']))
+        if(!empty($this->data_request['document']))
         {
             // 获取协议内容
-            $ret = AgreementService::AgreementData($params);
+            $ret = AgreementService::AgreementData($this->data_request);
 
             // 浏览器标题
             if(!empty($ret['data']))
             {
                 if(!empty($ret['data']['name']))
                 {
-                    MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle($ret['data']['name']));
+                    $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle($ret['data']['name']);
                 }
-                $data = $ret['data'];
+                $assign['data'] = $ret['data'];
             }
         }
 
-        // 是否仅展示内容
-        $is_content = (isset($params['is_content']) && $params['is_content'] == 1) ? 0 : 1;
-        MyViewAssign('is_header', $is_content);
-        MyViewAssign('is_footer', $is_content);
-        MyViewAssign('data', $data);
+        // 数据赋值
+        MyViewAssign($assign);
         return MyView();
     }
 }

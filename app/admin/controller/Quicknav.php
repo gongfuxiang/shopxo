@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\QuickNavService;
 use app\service\ResourcesService;
 
@@ -20,27 +22,8 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class QuickNav extends Common
+class QuickNav extends Base
 {
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列表
      * @author   Devil
@@ -74,19 +57,23 @@ class QuickNav extends Common
      */
     public function SaveInfo()
     {
-        // 参数
+        // 模板数据
+        $assign = [
+            // 静态数据
+            'common_platform_type'  => MyConst('common_platform_type'),
+            'common_app_event_type' => MyConst('common_app_event_type'),
+
+            // 编辑器文件存放地址
+            'editor_path_type'      => ResourcesService::EditorPathTypeValue('quick_nav'),
+        ];
+
+        // 参数处理
         $params = $this->data_request;
-
-        // 静态数据
-        MyViewAssign('common_platform_type', MyConst('common_platform_type'));
-        MyViewAssign('common_app_event_type', MyConst('common_app_event_type'));
-
-        // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('quick_nav'));
-
-        // 数据
         unset($params['id']);
-        MyViewAssign('params', $params);
+        $assign['params'] = $params;
+
+        //数据赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -107,7 +94,7 @@ class QuickNav extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return QuickNavService::QuickNavSave($params);
+        return ApiService::ApiDataReturn(QuickNavService::QuickNavSave($params));
     }
 
     /**
@@ -128,7 +115,7 @@ class QuickNav extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return QuickNavService::QuickNavDelete($params);
+        return ApiService::ApiDataReturn(QuickNavService::QuickNavDelete($params));
     }
 
     /**
@@ -148,7 +135,7 @@ class QuickNav extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return QuickNavService::QuickNavStatusUpdate($params);
+        return ApiService::ApiDataReturn(QuickNavService::QuickNavStatusUpdate($params));
     }
 }
 ?>

@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\ConfigService;
 
 /**
@@ -19,27 +21,8 @@ use app\service\ConfigService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Config extends Common
+class Config extends Base
 {
-	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
 	/**
      * 后台配置
      * @author   Devil
@@ -49,19 +32,24 @@ class Config extends Common
      */
 	public function Index()
 	{
-		// 静态数据
-		MyViewAssign('common_excel_charset_list', MyConst('common_excel_charset_list'));
-		MyViewAssign('common_excel_export_type_list', MyConst('common_excel_export_type_list'));
-		MyViewAssign('common_map_type_list', MyConst('common_map_type_list'));
-		MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
-		MyViewAssign('common_login_type_list', MyConst('common_login_type_list'));
-        MyViewAssign('common_close_open_list', MyConst('common_close_open_list'));
-		MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
+		// 模板数据
+		$assign = [
+			// 静态数据
+			'common_excel_charset_list' 	=> MyConst('common_excel_charset_list'),
+			'common_excel_export_type_list'	=> MyConst('common_excel_export_type_list'),
+			'common_map_type_list' 			=> MyConst('common_map_type_list'),
+			'common_is_enable_list' 		=> MyConst('common_is_enable_list'),
+			'common_login_type_list' 		=> MyConst('common_login_type_list'),
+	        'common_close_open_list' 		=> MyConst('common_close_open_list'),
+			'common_is_text_list' 			=> MyConst('common_is_text_list'),
 
-		// 配置信息
-		MyViewAssign('data', ConfigService::ConfigList());
-		
-		MyViewAssign('view_type', 'index');
+			// 数据
+			'data'							=> ConfigService::ConfigList(),
+
+			// 页面类型
+			'view_type'						=> 'index',
+		];
+		MyViewAssign($assign);
 		return MyView();
 	}
 
@@ -74,10 +62,15 @@ class Config extends Common
      */
 	public function Store()
 	{
-		// 配置信息
-		MyViewAssign('data', ConfigService::ConfigList());
-		
-		MyViewAssign('view_type', 'store');
+		// 模板数据
+		$assign = [
+			// 数据
+			'data'		=> ConfigService::ConfigList(),
+
+			// 页面类型
+			'view_type'	=> 'store',
+		];
+		MyViewAssign($assign);
 		return MyView();
 	}
 
@@ -124,7 +117,7 @@ class Config extends Common
 		}
 		
 		// 保存
-		return ConfigService::ConfigSave($params);
+		return ApiService::ApiDataReturn(ConfigService::ConfigSave($params));
 	}
 }
 ?>

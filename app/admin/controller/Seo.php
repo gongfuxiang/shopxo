@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\ConfigService;
 
 /**
@@ -19,29 +21,10 @@ use app\service\ConfigService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Seo extends Common
+class Seo extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-     * [Index 配置列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,23 +32,26 @@ class Seo extends Common
      */
 	public function Index()
 	{
-		// url模式
-		MyViewAssign('seo_url_model_list', MyConst('seo_url_model_list'));
+		// 模板数据
+		$assign = [
+			// url模式
+			'seo_url_model_list' 		=> MyConst('seo_url_model_list'),
 
-		// 文章标题seo方案
-		MyViewAssign('seo_article_browser_list', MyConst('seo_article_browser_list'));
+			// 文章标题seo方案
+			'seo_article_browser_list'	=> MyConst('seo_article_browser_list'),
 
-		// 频道标题seo方案
-		MyViewAssign('seo_channel_browser_list', MyConst('seo_channel_browser_list'));
+			// 频道标题seo方案
+			'seo_channel_browser_list'	=> MyConst('seo_channel_browser_list'),
 
-		// 配置信息
-		MyViewAssign('data', ConfigService::ConfigList());
-		
+			// 配置信息
+			'data' 						=> ConfigService::ConfigList(),
+		];
+		MyViewAssign($assign);
 		return MyView();
 	}
 
 	/**
-	 * [Save 配置数据保存]
+	 * 保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -73,7 +59,7 @@ class Seo extends Common
 	 */
 	public function Save()
 	{
-		return ConfigService::ConfigSave($this->data_request);
+		return ApiService::ApiDataReturn(ConfigService::ConfigSave($this->data_request));
 	}
 }
 ?>

@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\GoodsFavorService;
 use app\service\SeoService;
 
@@ -63,9 +64,12 @@ class UserGoodsFavor extends Common
      */
     public function Detail()
     {
-        MyViewAssign('data', $this->data_detail);
-        MyViewAssign('is_header', 0);
-        MyViewAssign('is_footer', 0);
+        $assign = [
+            'data'      => $this->data_detail,
+            'is_header' => 0,
+            'is_footer' => 0,
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -87,7 +91,7 @@ class UserGoodsFavor extends Common
 
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return GoodsFavorService::GoodsFavorDelete($params);
+        return ApiService::ApiDataReturn(GoodsFavorService::GoodsFavorDelete($params));
     }
 }
 ?>

@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\ConfigService;
 use app\service\ResourcesService;
 
@@ -20,27 +22,8 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Agreement extends Common
+class Agreement extends Base
 {
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 配置列表
      * @author  Devil
@@ -51,11 +34,14 @@ class Agreement extends Common
      */
     public function Index()
     {
-        // 配置信息
-        MyViewAssign('data', ConfigService::ConfigList());
+        // 模板数据
+        $assign = [
+            // 配置信息
+            'data'               => ConfigService::ConfigList(),
 
-        // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('agreement'));
+            // 编辑器文件存放地址
+            'editor_path_type'  => ResourcesService::EditorPathTypeValue('agreement'),
+        ];
 
         // 导航数据
         $nav_data = [
@@ -68,11 +54,14 @@ class Agreement extends Common
                 'type'  => 'privacy',
             ]
         ];
-        MyViewAssign('nav_data', $nav_data);
+        $assign['nav_data'] = $nav_data;
 
         // 导航/视图
-        $nav_type = input('nav_type', 'register');
-        MyViewAssign('nav_type', $nav_type);
+        $nav_type = empty($this->data_request['nav_type']) ? 'register' : $this->data_request['nav_type'];
+        $assign['nav_type'] = $nav_type;
+
+        // 数据赋值
+        MyViewAssign($assign);
         return MyView($nav_type);
     }
 
@@ -86,7 +75,7 @@ class Agreement extends Common
      */
     public function Save()
     {
-        return ConfigService::ConfigSave($_POST);
+        return ApiService::ApiDataReturn(ConfigService::ConfigSave($_POST));
     }
 }
 ?>

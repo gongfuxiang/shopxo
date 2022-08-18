@@ -245,7 +245,7 @@ class UserAddress
      */
     public function RegionProvinceItems()
     {
-        return RegionService::RegionNode(['field'=>'id,name', 'where'=>['pid'=>0]]);;
+        return RegionService::RegionNode(['field'=>'id,name', 'where'=>[['pid', '=', 0]]]);;
     }
 }
 ?>

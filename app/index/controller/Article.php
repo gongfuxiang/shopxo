@@ -10,8 +10,9 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
-use app\service\ArticleService;
 use app\service\SeoService;
+use app\service\ApiService;
+use app\service\ArticleService;
 
 /**
  * 文章详情
@@ -77,29 +78,34 @@ class Article extends Common
 				return MyRedirect($article['jump_url']);
 			}
 
-			// 获取分类
-			$article_category = ArticleService::ArticleCategoryList();
-            MyViewAssign('category_list', $article_category['data']);
+            // 模板数据
+            $assign = [
+                // 文章
+                'article'           => $article,
+                // 上一篇、下一篇
+                'last_next_data'    => ArticleService::ArticleLastNextData($id),
+            ];
 
-            // 上一篇、下一篇
-            MyViewAssign('last_next_data', ArticleService::ArticleLastNextData($id));
+			// 文章分类
+			$article_category = ArticleService::ArticleCategoryList();
+            $assign['category_list'] = $article_category['data'];
 
             // seo
             $seo_title = empty($article['seo_title']) ? $article['title'] : $article['seo_title'];
-            MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle($seo_title, 2));
+            $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle($seo_title, 2);
             if(!empty($article['seo_keywords']))
             {
-                MyViewAssign('home_seo_site_keywords', $article['seo_keywords']);
+                $assign['home_seo_site_keywords'] = $article['seo_keywords'];
             }
             if(!empty($article['seo_desc']))
             {
-                MyViewAssign('home_seo_site_description', $article['seo_desc']);
+                $assign['home_seo_site_description'] = $article['seo_desc'];
             }
-            
+
+			// 数据赋值
+            MyViewAssign($assign);
             // 钩子
             $this->PluginsContentHook($id, $article);
-
-			MyViewAssign('article', $article);
 			return MyView();
 		}
 
@@ -142,22 +148,26 @@ class Article extends Common
         ];
         $ret = ArticleService::ArticleList($data_params);
 
+        // 模板数据
+        $assign = [
+            'page_html' => $page->GetPageHtml(),
+            'data_list' => $ret['data'],
+            'params'    => $this->data_request,
+        ];
+
         // 获取分类
         $article_category = ArticleService::ArticleCategoryList();
-        MyViewAssign('category_list', $article_category['data']);
+        $assign['category_list'] = $article_category['data'];
 
         // 分类信息
         $category_info = ArticleService::ArticleCategoryInfo($this->data_request, $article_category['data']);
-        MyViewAssign('category_info', $category_info);
+        $assign['category_info'] = $category_info;
 
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(empty($category_info) ? '所有文章' : $category_info['name'], 1));
+        $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(empty($category_info) ? '所有文章' : $category_info['name'], 1);
 
-        // 基础参数赋值
-        MyViewAssign('page_html', $page->GetPageHtml());
-        MyViewAssign('data_list', $ret['data']);
-        MyViewAssign('params', $this->data_request);
-
+        // 数据赋值
+        MyViewAssign($assign);
         // 钩子
         $this->PluginsCategoryHook($ret['data'], $this->data_request);
         return MyView();
@@ -193,16 +203,18 @@ class Article extends Common
             // 分类左侧内部底部钩子
             'plugins_view_article_category_left_inside_botton',
         ];
+        $assign = [];
         foreach($hook_arr as $hook_name)
         {
-            MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+            $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
                 'data'          => &$data,
                 'params'        => $params,
-            ]));
+            ]);
         }
+        MyViewAssign($assign);
     }
 
     /**
@@ -235,16 +247,18 @@ class Article extends Common
             // 文章左侧内部底部钩子
             'plugins_view_article_detail_left_inside_botton',
         ];
+        $assign = [];
         foreach($hook_arr as $hook_name)
         {
-            MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+            $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
             [
                 'hook_name'     => $hook_name,
                 'is_backend'    => false,
                 'article_id'    => $article_id,
                 'article'       => &$article,
-            ]));
+            ]);
         }
+        MyViewAssign($assign);
     }
 }
 ?>

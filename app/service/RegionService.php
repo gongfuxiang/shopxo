@@ -89,7 +89,7 @@ class RegionService
         $order_by = empty($params['order_by']) ? 'sort asc,id asc' : trim($params['order_by']);
 
         // 基础条件
-        $where['is_enable'] = 1;
+        $where[] = ['is_enable', '=', 1];
         return Db::name('Region')->where($where)->field($field)->order($order_by)->select()->toArray();
     }
 
@@ -268,17 +268,17 @@ class RegionService
         {
             // 所有一级
             $field = 'id,pid,name';
-            $data = self::RegionNode(['field'=>$field,'where'=>['pid'=>0]]);
+            $data = self::RegionNode(['field'=>$field,'where'=>[['pid', '=', 0]]]);
             if(!empty($data))
             {
                 // 所有二级
-                $two = self::RegionNode(['field'=>$field,'where'=>['pid'=>array_column($data, 'id')]]);
+                $two = self::RegionNode(['field'=>$field,'where'=>[['pid', 'in', array_column($data, 'id')]]]);
                 $two_group = [];
                 $three_group = [];
                 if(!empty($two))
                 {
                     // 所有三级
-                    $three = self::RegionNode(['field'=>$field,'where'=>['pid'=>array_column($two, 'id')]]);
+                    $three = self::RegionNode(['field'=>$field,'where'=>[['pid', 'in', array_column($two, 'id')]]]);
                     if(!empty($three))
                     {
                         // 三级集合组

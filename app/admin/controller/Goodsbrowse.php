@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\GoodsBrowseService;
 
 /**
@@ -20,27 +22,8 @@ use app\service\GoodsBrowseService;
  * @date    2020-06-30
  * @desc    description
  */
-class GoodsBrowse extends Common
+class GoodsBrowse extends Base
 {
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-03T12:39:08+0800
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列表
      * @author  Devil
@@ -86,7 +69,7 @@ class GoodsBrowse extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return GoodsBrowseService::GoodsBrowseDelete($params);
+        return ApiService::ApiDataReturn(GoodsBrowseService::GoodsBrowseDelete($params));
     }
 }
 ?>

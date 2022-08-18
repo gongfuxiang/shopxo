@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\FormTableService;
 
 /**
@@ -50,7 +51,7 @@ class FormTable extends Common
         $params = $this->data_post;
         $params['user_id'] = $this->user['id'];
         $params['user_type'] = 1;
-        return FormTableService::FieldsSelectSave($params);
+        return ApiService::ApiDataReturn(FormTableService::FieldsSelectSave($params));
     }
 
     /**
@@ -66,7 +67,7 @@ class FormTable extends Common
         $params = $this->data_post;
         $params['user_id'] = $this->user['id'];
         $params['user_type'] = 1;
-        return FormTableService::FieldsSelectReset($params);
+        return ApiService::ApiDataReturn(FormTableService::FieldsSelectReset($params));
     }
 }
 ?>

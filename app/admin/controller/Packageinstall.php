@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\PackageInstallService;
 
 /**
@@ -19,28 +21,8 @@ use app\service\PackageInstallService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class PackageInstall extends Common
+class PackageInstall extends Base
 {
-    /**
-     * 构造方法
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-28
-     * @desc    description
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 获取安装参数
      * @author  Devil
@@ -66,7 +48,7 @@ class PackageInstall extends Common
      */
     public function Install()
     {
-        return PackageInstallService::Install($this->data_post);
+        return ApiService::ApiDataReturn(PackageInstallService::Install($this->data_post));
     }
 }
 ?>

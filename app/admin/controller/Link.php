@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\LinkService;
 
 /**
@@ -19,27 +21,8 @@ use app\service\LinkService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Link extends Common
+class Link extends Base
 {
-	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
 	/**
      * 列表
      * @author   Devil
@@ -81,7 +64,7 @@ class Link extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return LinkService::LinkSave($params);
+        return ApiService::ApiDataReturn(LinkService::LinkSave($params));
 	}
 
 	/**
@@ -102,7 +85,7 @@ class Link extends Common
         // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
-        return LinkService::LinkDelete($params);
+        return ApiService::ApiDataReturn(LinkService::LinkDelete($params));
 	}
 
 	/**
@@ -122,7 +105,7 @@ class Link extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return LinkService::LinkStatusUpdate($params);
+        return ApiService::ApiDataReturn(LinkService::LinkStatusUpdate($params));
 	}
 }
 ?>

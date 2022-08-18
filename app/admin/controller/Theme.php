@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\ThemeService;
 use app\service\ConfigService;
 use app\service\StoreService;
@@ -21,7 +23,7 @@ use app\service\StoreService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Theme extends Common
+class Theme extends Base
 {
     private $view_type;
 
@@ -37,14 +39,8 @@ class Theme extends Common
 		// 调用父类前置方法
 		parent::__construct();
 
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-
 		// 小导航
-		$this->view_type = input('view_type', 'index');
+		$this->view_type = empty($this->data_request['view_type']) ? 'index' : $this->data_request['view_type'];
 	}
 
 	/**
@@ -56,26 +52,32 @@ class Theme extends Common
      */
 	public function Index()
 	{
-		// 导航参数
-		MyViewAssign('view_type', $this->view_type);
+		// 模板数据
+		$assign = [
+			// 导航参数
+			'view_type' 		=> $this->view_type,
 
-        // 应用商店
-        MyViewAssign('store_theme_url', StoreService::StoreThemeUrl());
+	        // 应用商店
+	        'store_theme_url'	=> StoreService::StoreThemeUrl(),
+        ];
 
         // 是否默认首页
 		if($this->view_type == 'index')
 		{
             // 默认主题
-            MyViewAssign('theme', ThemeService::DefaultTheme());
+            $assign['theme'] = ThemeService::DefaultTheme();
 
             // 获取主题列表
-            $data = ThemeService::ThemeList();
-            MyViewAssign('data_list', $data);
+            $data_list = ThemeService::ThemeList();
+            $assign['data_list'] = $data_list;
 
             // 插件更新信息
-            $upgrade = ThemeService::ThemeUpgradeInfo($data);
-            MyViewAssign('upgrade_info', $upgrade['data']);
+            $upgrade = ThemeService::ThemeUpgradeInfo($data_list);
+            $assign['upgrade_info'] = $upgrade['data'];
 		}
+
+		// 数据赋值
+		MyViewAssign($assign);
         return MyView($this->view_type);
 	}
 
@@ -89,16 +91,11 @@ class Theme extends Common
 	public function Save()
 	{
         $params['common_default_theme'] = empty($this->data_request['theme']) ? 'default' : $this->data_request['theme'];
-		$ret = ConfigService::ConfigSave($params);
-        if($ret['code'] == 0)
-        {
-            $ret['msg'] = '切换成功';
-        }
-        return $ret;
+        return ApiService::ApiDataReturn(ConfigService::ConfigSave($params));
 	}
 
 	/**
-	 * [Delete 删除]
+	 * 删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -113,11 +110,11 @@ class Theme extends Common
 		}
 
 		// 开始处理
-		return ThemeService::ThemeDelete($this->data_request);
+		return ApiService::ApiDataReturn(ThemeService::ThemeDelete($this->data_request));
 	}
 
 	/**
-	 * [Upload 模板上传安装]
+	 * 模板上传安装
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -132,7 +129,7 @@ class Theme extends Common
 		}
 
 		// 开始处理
-		return ThemeService::ThemeUpload($this->data_request);
+		return ApiService::ApiDataReturn(ThemeService::ThemeUpload($this->data_request));
 	}
 
 	/**
@@ -151,8 +148,6 @@ class Theme extends Common
         {
             MyViewAssign('msg', $ret['msg']);
             return MyView('public/tips_error');
-        } else {
-            return $ret;
         }
     }
 }

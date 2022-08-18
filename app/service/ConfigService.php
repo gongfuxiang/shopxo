@@ -232,9 +232,9 @@ class ConfigService
                 return $ret;
             }
 
-            return DataReturn('编辑成功'.'['.$success.']');
+            return DataReturn('操作成功'.'['.$success.']');
         }
-        return DataReturn('编辑失败', -100);
+        return DataReturn('操作失败', -100);
     }
 
     /**

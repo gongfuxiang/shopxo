@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\ConfigService;
 
 /**
@@ -19,29 +21,10 @@ use app\service\ConfigService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class AppConfig extends Common
+class AppConfig extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-     * [Index 配置列表]
+     * 配置列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,21 +32,26 @@ class AppConfig extends Common
      */
 	public function Index()
 	{
-		// 配置信息
-		MyViewAssign('data', ConfigService::ConfigList());
+		// 模板数据
+        $assign = [
+        	// 配置数据
+        	'data'					=> ConfigService::ConfigList(),
+            // 静态数据
+            'common_platform_type'  => MyConst('common_platform_type'),
+            'common_is_text_list' 	=> MyConst('common_is_text_list'),
+        ];
 
-		// 静态数据
-		MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
-		MyViewAssign('common_platform_type', MyConst('common_platform_type'));
-		
 		// 导航/视图
-        $nav_type = input('nav_type', 'base');
-        MyViewAssign('nav_type', $nav_type);
+        $nav_type = empty($this->data_request['nav_type']) ? 'base' : $this->data_request['nav_type'];
+        $assign['nav_type'] = $nav_type;
+
+        // 模板赋值
+        MyViewAssign($assign);
         return MyView($nav_type);
 	}
 
 	/**
-	 * [Save 配置数据保存]
+	 * 配置数据保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -76,7 +64,7 @@ class AppConfig extends Common
 			'common_user_onekey_bind_mobile_list',
 			'common_user_address_platform_import_list',
 		];
-		return ConfigService::ConfigSave(ConfigService::FieldsEmptyDataHandle($_POST, $field_list));
+		return ApiService::ApiDataReturn(ConfigService::ConfigSave(ConfigService::FieldsEmptyDataHandle($_POST, $field_list)));
 	}
 }
 ?>

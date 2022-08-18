@@ -56,95 +56,93 @@ class Index extends Common
      */
     public function Index()
     {
-        // 首页轮播
-        $banner = BannerService::Banner();
-        MyViewAssign('banner_list', $banner);
-
-        // 手机默认下导航
-        $navigation = IsMobile() ? AppHomeNavService::AppHomeNav() : [];
-        MyViewAssign('navigation', $navigation);
-
-        // 用户订单状态
-        $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
-        MyViewAssign('user_order_status', $user_order_status['data']);
-
-        // 文章
-        $article_list = ArticleService::HomeArticleList();
-        MyViewAssign('article_list', $article_list);
-
         // 数据模式
         $floor_data_type = MyC('home_index_floor_data_type', 0, true);
-        MyViewAssign('floor_data_type', $floor_data_type);
 
         // 是否设计模式
         $admin = AdminService::LoginInfo();
         $is_design = (!empty($this->data_request['save_url']) && isset($this->data_request['is_design']) && $this->data_request['is_design'] == 1 && $floor_data_type == 2 && !empty($admin)) ? 1 : 0;
-        MyViewAssign('is_design', $is_design);
+
+        // 模板数据
+        $assign = [
+            // 数据模式
+            'floor_data_type'   => $floor_data_type,
+            // 是否设计模式
+            'is_design'         => $is_design,
+            // 首页轮播
+            'banner_list'       => BannerService::Banner(),
+            // 手机默认下导航
+            'navigation'        => IsMobile() ? AppHomeNavService::AppHomeNav() : [],
+            // 文章
+            'article_list'      => ArticleService::HomeArticleList(),
+        ];
+
+        // 用户订单状态
+        $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1]);
+        $assign['user_order_status'] = $user_order_status['data'];
+
+        // 是否设计模式
         if($is_design == 1)
         {
             // 保存数据地址
-            MyViewAssign('layout_save_url', base64_decode(urldecode($this->data_request['save_url'])));
+            $assign['layout_save_url'] = base64_decode(urldecode($this->data_request['save_url']));
 
             // 设计配置数据
-            $layout_data = LayoutService::LayoutConfigAdminData('home');
-            MyViewAssign('layout_data', $layout_data);
+            $assign['layout_data'] = LayoutService::LayoutConfigAdminData('home');
 
             // 页面列表
-            $pages_list = BaseLayout::PagesList();
-            MyViewAssign('pages_list', $pages_list);
+            $assign['pages_list'] = BaseLayout::PagesList();
 
             // 商品分类
-            $goods_category = GoodsService::GoodsCategory(['is_all'=>1]);
-            MyViewAssign('goods_category_list', $goods_category);
+            $assign['goods_category_list'] = GoodsService::GoodsCategory(['is_all'=>1]);
 
             // 商品搜索分类（分类）
-            MyViewAssign('layout_goods_category', $goods_category);
-            MyViewAssign('layout_goods_category_field', 'gci.category_id');
+            $assign['layout_goods_category'] = $goods_category;
+            $assign['layout_goods_category_field'] = 'gci.category_id';
 
             // 品牌
-            MyViewAssign('brand_list', BrandService::CategoryBrand());
+            $assign['brand_list'] = BrandService::CategoryBrand();
 
             // 静态数据
-            MyViewAssign('border_style_type_list', BaseLayout::$border_style_type_list);
-            MyViewAssign('goods_view_list_show_style', BaseLayout::$goods_view_list_show_style);
-            MyViewAssign('many_images_view_list_show_style', BaseLayout::$many_images_view_list_show_style);
+            $assign['border_style_type_list'] = BaseLayout::$border_style_type_list;
+            $assign['goods_view_list_show_style'] = BaseLayout::$goods_view_list_show_style;
+            $assign['many_images_view_list_show_style'] = BaseLayout::$many_images_view_list_show_style;
 
             // 首页商品排序规则
-            MyViewAssign('goods_order_by_type_list', MyConst('goods_order_by_type_list'));
-            MyViewAssign('goods_order_by_rule_list', MyConst('goods_order_by_rule_list'));
+            $assign['goods_order_by_type_list'] = MyConst('goods_order_by_type_list');
+            $assign['goods_order_by_rule_list'] = MyConst('goods_order_by_rule_list');
 
             // 浏览器名称
-            MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('首页设计', 1));
+            $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle('首页设计', 1);
 
             // 编辑器文件存放地址定义
-            MyViewAssign('editor_path_type', 'index-design');
+            $assign['editor_path_type'] = 'index-design';
 
             // 加载布局样式+管理
-            MyViewAssign('is_load_layout', 1);
-            MyViewAssign('is_load_layout_admin', 1);
+            $assign['is_load_layout'] = 1;
+            $assign['is_load_layout_admin'] = 1;
         } else {
             // 数据模式
             if($floor_data_type == 2)
             {
                 // 设计配置数据
-                $layout_data = LayoutService::LayoutConfigData('home');
-                MyViewAssign('layout_data', $layout_data);
+                $assign['layout_data'] = LayoutService::LayoutConfigData('home');
 
                 // 加载布局样式
-                MyViewAssign('is_load_layout', 1);
+                $assign['is_load_layout'] = 1;
             } else {
                 // 楼层数据
-                MyViewAssign('goods_floor_list', GoodsService::HomeFloorList());
+                $assign['goods_floor_list'] = GoodsService::HomeFloorList();
             }
         }
 
         // 友情链接
-        $link_list = LinkService::HomeLinkList();
-        MyViewAssign('link_list', $link_list);
+        $assign['link_list'] = LinkService::HomeLinkList();
 
+        // 数据赋值
+        MyViewAssign($assign);
         // 钩子
         $this->PluginsHook();
-        
         return MyView();
     }
 
@@ -169,15 +167,17 @@ class Index extends Common
             // 轮播混合数据底部钩子
             'plugins_view_home_banner_mixed_bottom',
         ];
+        $assign = [];
         foreach($hook_arr as $hook_name)
         {
-            MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+            $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
                 [
                     'hook_name'    => $hook_name,
                     'is_backend'    => false,
                     'user'          => $this->user,
-                ]));
+                ]);
         }
+        MyViewAssign($assign);
     }
 }
 ?>

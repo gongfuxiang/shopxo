@@ -10,7 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
-use app\service\OrderService;
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\OrderAftersaleService;
 
 /**
@@ -20,28 +21,8 @@ use app\service\OrderAftersaleService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Orderaftersale extends Common
+class Orderaftersale extends Base
 {
-    /**
-     * 构造方法
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-11-30
-     * @desc    description
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列表
      * @author   Devil
@@ -54,7 +35,6 @@ class Orderaftersale extends Common
     {
         // 静态数据
         MyViewAssign('common_order_aftersale_refundment_list', MyConst('common_order_aftersale_refundment_list'));
-
         return MyView();
     }
 
@@ -87,7 +67,7 @@ class Orderaftersale extends Common
         }
 
         $params = $this->data_request;
-        return OrderAftersaleService::AftersaleConfirm($params);
+        return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleConfirm($params));
     }
 
     /**
@@ -109,7 +89,7 @@ class Orderaftersale extends Common
         $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
-        return OrderAftersaleService::AftersaleAudit($params);
+        return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleAudit($params));
     }
 
     /**
@@ -131,7 +111,7 @@ class Orderaftersale extends Common
         $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
-        return OrderAftersaleService::AftersaleRefuse($params);
+        return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleRefuse($params));
     }
 
     /**
@@ -153,7 +133,7 @@ class Orderaftersale extends Common
         $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
-        return OrderAftersaleService::AftersaleCancel($params);
+        return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleCancel($params));
     }
 
     /**
@@ -175,7 +155,7 @@ class Orderaftersale extends Common
         $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
-        return OrderAftersaleService::AftersaleDelete($params);
+        return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleDelete($params));
     }
 }
 ?>

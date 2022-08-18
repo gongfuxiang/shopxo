@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\ConfigService;
 
 /**
@@ -19,29 +21,10 @@ use app\service\ConfigService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Email extends Common
+class Email extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-     * [Index 配置列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -49,25 +32,24 @@ class Email extends Common
      */
 	public function Index()
 	{
-		// 配置信息
-		MyViewAssign('data', ConfigService::ConfigList());
-		$type = input('type', 'email');
-
-		// 静态数据
-		MyViewAssign('common_is_text_list', MyConst('common_is_text_list'));
-
 		// 导航
-		MyViewAssign('nav_type', $type);
-		if($type == 'email')
-		{
-			return MyView('index');
-		} else {
-			return MyView('message');
-		}
+		$type = empty($this->data_request['type']) ? 'index' : $this->data_request['type'];
+		$assign = [
+
+			// 静态数据
+			'common_is_text_list'	=> MyConst('common_is_text_list'),
+			// 配置信息
+			'data'					=> ConfigService::ConfigList(),
+
+			// 页面导航
+			'nav_type'				=> $type,
+		];
+		MyViewAssign($assign);
+		return MyView($type);
 	}
 
 	/**
-	 * [Save 配置数据保存]
+	 * 保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -75,11 +57,11 @@ class Email extends Common
 	 */
 	public function Save()
 	{
-		return ConfigService::ConfigSave($_POST);
+		return ApiService::ApiDataReturn(ConfigService::ConfigSave($_POST));
 	}
 
 	/**
-	 * [EmailTest 邮件测试]
+	 * 邮件测试
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -88,23 +70,25 @@ class Email extends Common
 	public function EmailTest()
 	{
 		// 验证码公共基础参数
-		$verify_param = array(
-				'expire_time' => MyC('common_verify_expire_time'),
+		$verify_param = [
+				'expire_time' 	=> MyC('common_verify_expire_time'),
 				'interval_time'	=>	MyC('common_verify_interval_time'),
-			);
+			];
 
 		$obj = new \base\Email($verify_param);
-		$email_param = array(
+		$email_param = [
 				'email'		=>	isset($this->data_request['email']) ? $this->data_request['email'] : '',
 				'content'	=>	'邮件配置-发送测试内容',
 				'title'		=>	MyC('home_site_name').' - '.'测试',
-			);
+			];
 		// 发送
 		if($obj->SendHtml($email_param))
 		{
-			return DataReturn('发送成功');
+			$ret = DataReturn('发送成功');
+		} else {
+			$ret = DataReturn('发送失败'.'['.$obj->error.']', -100);
 		}
-		return DataReturn('发送失败'.'['.$obj->error.']', -100);
+		return ApiService::ApiDataReturn($ret);
 	}
 }
 ?>

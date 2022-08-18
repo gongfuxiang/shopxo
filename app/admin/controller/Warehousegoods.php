@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\WarehouseGoodsService;
 use app\service\WarehouseService;
 use app\service\GoodsService;
@@ -22,28 +24,8 @@ use app\service\GoodsService;
  * @date    2020-07-11
  * @desc    description
  */
-class WarehouseGoods extends Common
+class WarehouseGoods extends Base
 {
-    /**
-     * 构造方法
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-07-11
-     * @desc    description
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列表
      * @author  Devil
@@ -54,6 +36,12 @@ class WarehouseGoods extends Common
      */
     public function Index()
     {
+        // 模板数据
+        $assign = [
+            // 商品分类
+            'goods_category_list'   => GoodsService::GoodsCategoryAll(),
+        ];
+
         // 有效仓库列表
         $data_params = [
             'field'     => 'id,name',
@@ -63,11 +51,10 @@ class WarehouseGoods extends Common
             ],
         ];
         $warehouse = WarehouseService::WarehouseList($data_params);
-        MyViewAssign('warehouse_list', $warehouse['data']);
-
-        // 商品分类
-        MyViewAssign('goods_category_list', GoodsService::GoodsCategoryAll());
-
+        $assign['warehouse_list'] = $warehouse['data'];
+        
+        // 数据赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -80,6 +67,7 @@ class WarehouseGoods extends Common
      */
     public function Detail()
     {
+        // 商品和规格数据
         $data = [];
         $spec = [];
         if(!empty($this->data_request['id']))
@@ -102,8 +90,13 @@ class WarehouseGoods extends Common
                 }
             }
         }
-        MyViewAssign('spec', $spec);
-        MyViewAssign('data', $data);
+
+        // 数据赋值
+        $assign = [
+            'spec'   => $spec,
+            'data'   => $data,
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -128,9 +121,12 @@ class WarehouseGoods extends Common
             $data = empty($ret['data']) ? [] : $ret['data'];
         }
 
-        // 数据
-        MyViewAssign('data', $data);
-        MyViewAssign('params', $params);
+        // 数据赋值
+        $assign = [
+            'params'    => $params,
+            'data'      => $data,
+        ];
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -152,7 +148,7 @@ class WarehouseGoods extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return WarehouseGoodsService::WarehouseGoodsInventorySave($params);
+        return ApiService::ApiDataReturn(WarehouseGoodsService::WarehouseGoodsInventorySave($params));
     }
 
     /**
@@ -174,7 +170,7 @@ class WarehouseGoods extends Common
         // 开始处理
         $params = $this->data_request;
         $params['admin'] = $this->admin;
-        return WarehouseGoodsService::WarehouseGoodsDelete($params);
+        return ApiService::ApiDataReturn(WarehouseGoodsService::WarehouseGoodsDelete($params));
     }
 
     /**
@@ -196,7 +192,7 @@ class WarehouseGoods extends Common
         // 开始处理
         $params = $this->data_request;
         $params['admin'] = $this->admin;
-        return WarehouseGoodsService::WarehouseGoodsStatusUpdate($params);
+        return ApiService::ApiDataReturn(WarehouseGoodsService::WarehouseGoodsStatusUpdate($params));
     }
 
     /**
@@ -222,7 +218,7 @@ class WarehouseGoods extends Common
             MyViewAssign('data', $ret['data']['data']);
             $ret['data']['data'] = MyView();
         }
-        return $ret;
+        return ApiService::ApiDataReturn($ret);
     }
 
     /**
@@ -243,7 +239,7 @@ class WarehouseGoods extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return WarehouseGoodsService::WarehouseGoodsAdd($params);
+        return ApiService::ApiDataReturn(WarehouseGoodsService::WarehouseGoodsAdd($params));
     }
 
     /**
@@ -264,7 +260,7 @@ class WarehouseGoods extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return WarehouseGoodsService::WarehouseGoodsDel($params);
+        return ApiService::ApiDataReturn(WarehouseGoodsService::WarehouseGoodsDel($params));
     }
 }
 ?>

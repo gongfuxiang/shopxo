@@ -8,46 +8,36 @@
 // +----------------------------------------------------------------------
 // | Author: Devil
 // +----------------------------------------------------------------------
-namespace app\index\controller;
+namespace app\admin\controller;
+
+use app\admin\controller\Common;
 
 /**
- * 支付
+ * 管理员公共基础控制器
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Pay extends Common
+class Base extends Common
 {
     /**
      * 构造方法
      * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-11-30
-     * @desc    description
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2016-12-03T12:39:08+0800
      */
     public function __construct()
     {
+        // 调用父类前置方法
         parent::__construct();
-    }
 
-    /**
-     * 二维码支付展示
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-28
-     * @desc    description
-     */
-    public function Qrcode()
-    {
-        if(!empty($this->data_request['url']) && !empty($this->data_request['order_no']) && !empty($this->data_request['name']) && !empty($this->data_request['msg']))
-        {
-            return MyView();
-        }
-        MyViewAssign('msg', '参数有误');
-        return MyView('public/tips_error');
+        // 登录校验
+        $this->IsLogin();
+
+        // 权限校验
+        $this->IsPower();
     }
 }
 ?>

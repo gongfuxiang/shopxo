@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\UeditorService;
 
 /**
@@ -44,7 +45,7 @@ class Ueditor extends Common
      */
     public function Index()
     {
-        return json(UeditorService::Run(input()));
+        return ApiService::ApiDataReturn(UeditorService::Run(input()));
     }
 }
 ?>

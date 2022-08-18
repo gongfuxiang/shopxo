@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\index\controller;
 
+use app\service\ApiService;
 use app\service\SystemService;
 use app\service\OrderService;
 use app\service\GoodsService;
@@ -96,18 +97,25 @@ class User extends Common
         // 登录校验
         $this->IsLogin();
 
+        // 模板数据
+        $assign = [
+            // 订单页面订单状态form key
+            'form_search_order_status_form_key'             => 'status',
+            'form_search_order_user_is_comments_form_key'   => 'user_is_comments',
+            // 浏览器名称
+            'home_seo_site_title'                           => SeoService::BrowserSeoTitle('用户中心', 1),
+        ];
+
         // 用户中心基础信息 mini 导航
-        $mini_navigation = NavigationService::UserCenterMiniNavigation(['user'=>$this->user]);
-        MyViewAssign('mini_navigation', $mini_navigation);
+        $assign['mini_navigation'] = NavigationService::UserCenterMiniNavigation(['user'=>$this->user]);
 
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1, 'is_aftersale'=>1]);
-        MyViewAssign('user_order_status', $user_order_status['data']);
+        $assign['user_order_status'] = $user_order_status['data'];
 
         // 未读消息总数
         $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
-        $common_message_total = MessageService::UserMessageTotal($params);
-        MyViewAssign('common_message_total', $common_message_total);
+        $assign['common_message_total'] = MessageService::UserMessageTotal($params);
 
         // 获取进行中的订单列表
         $params = $this->data_request;
@@ -123,11 +131,11 @@ class User extends Common
             'where'     => $where,
         );
         $order = OrderService::OrderList($order_params);
-        MyViewAssign('order_list', $order['data']);
+        $assign['order_list'] = $order['data'];
 
         // 获取购物车
         $cart_list = BuyService::CartList(['user'=>$this->user]);
-        MyViewAssign('cart_list', $cart_list['data']);
+        $assign['cart_list'] = $cart_list['data'];
 
         // 收藏商品
         $favor_params = array(
@@ -139,7 +147,7 @@ class User extends Common
             ],
         );
         $favor = GoodsFavorService::GoodsFavorList($favor_params);
-        MyViewAssign('goods_favor_list', $favor['data']);
+        $assign['goods_favor_list'] = $favor['data'];
 
         // 我的足迹
         $browse_params = array(
@@ -150,19 +158,13 @@ class User extends Common
                 ['b.user_id', '=', $this->user['id']],
             ],
         );
-        $data = GoodsBrowseService::GoodsBrowseList($browse_params);
-        MyViewAssign('goods_browse_list', $data['data']);
+        $browse = GoodsBrowseService::GoodsBrowseList($browse_params);
+        $assign['goods_browse_list'] = $browse['data'];
 
-        // 订单页面订单状态form key
-        MyViewAssign('form_search_order_status_form_key', 'status');
-        MyViewAssign('form_search_order_user_is_comments_form_key', 'user_is_comments');
-
+        // 数据赋值
+        MyViewAssign($assign);
         // 钩子
         $this->PluginsHook();
-
-        // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('用户中心', 1));
-
         return MyView();
     }
 
@@ -195,15 +197,17 @@ class User extends Common
             // 聚合内容里面底部钩子
             'plugins_view_user_various_inside_bottom',
         ];
+        $assign = [];
         foreach($hook_arr as $hook_name)
         {
-            MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+            $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
                 [
                     'hook_name'     => $hook_name,
                     'is_backend'    => false,
                     'user'          => $this->user,
-                ]));
+                ]);
         }
+        MyViewAssign($assign);
     }
 
     /**
@@ -218,18 +222,21 @@ class User extends Common
     {
         if(empty($this->user))
         {
-            // 浏览器名称
-            MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('密码找回', 1));
-
-            // 左侧图片,随机其中一个
+            // 左侧图片
             $left_data = UserService::UserEntranceLeftData(['left_key'=>'forgetpwd', 'cache_key'=>SystemService::CacheKey('shopxo.cache_user_forgetpwd_left_key')]);
-            MyViewAssign('user_forgetpwd_left_data', empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)]);
 
+            // 模板数据
+            $assign = [
+                // 左侧图片、随机其中一个
+                'user_forgetpwd_left_data'  => empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)],
+                // 浏览器名称
+                'home_seo_site_title'   => SeoService::BrowserSeoTitle('密码找回', 1),
+            ];
+            MyViewAssign($assign);
             return MyView();
-        } else {
-            MyViewAssign('msg', '已经登录了，如要重置密码，请先退出当前账户');
-            return MyView('public/tips_error');
         }
+        MyViewAssign('msg', '已经登录了，如要重置密码，请先退出当前账户');
+        return MyView('public/tips_error');
     }
 
     /**
@@ -247,24 +254,23 @@ class User extends Common
         {
             if(empty($this->user))
             {
-                // 浏览器名称
-                MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('用户注册', 1));
-
-                // 返回地址
-                MyViewAssign('referer_url', $this->GetrefererUrl());
-
-                // 注册背景图片
-                MyViewAssign('user_register_bg_images', MyC('home_site_user_register_bg_images'));
-
+                // 模板数据
+                $assign = [
+                    // 返回地址
+                    'referer_url'               => $this->GetrefererUrl(),
+                    // 注册背景图片
+                    'user_register_bg_images'   => MyC('home_site_user_register_bg_images'),
+                    // 浏览器名称
+                    'home_seo_site_title'       => SeoService::BrowserSeoTitle('用户注册', 1),
+                ];
+                MyViewAssign($assign);
                 return MyView();
-            } else {
-                MyViewAssign('msg', '已经登录了，如要注册新账户，请先退出当前账户');
-                return MyView('public/tips_error');
             }
-        } else {
-            MyViewAssign('msg', '暂时关闭用户注册');
+            MyViewAssign('msg', '已经登录了，如要注册新账户，请先退出当前账户');
             return MyView('public/tips_error');
         }
+        MyViewAssign('msg', '暂时关闭用户注册');
+        return MyView('public/tips_error');
     }
 
     /**
@@ -281,25 +287,26 @@ class User extends Common
         {
             if(empty($this->user))
             {
-                // 浏览器名称
-                MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('用户登录', 1));
-
-                // 返回地址
-                MyViewAssign('referer_url', $this->GetrefererUrl());
-
-                // 左侧图片,随机其中一个
+                // 左侧图片
                 $left_data = UserService::UserEntranceLeftData(['left_key'=>'login', 'cache_key'=>SystemService::CacheKey('shopxo.cache_user_login_left_key')]);
-                MyViewAssign('user_login_left_data', empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)]);
-
+                
+                // 模板数据
+                $assign = [
+                    // 返回地址
+                    'referer_url'               => $this->GetrefererUrl(),
+                    // 注册背景图片
+                    'user_login_left_data'      => empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)],
+                    // 浏览器名称
+                    'home_seo_site_title'       => SeoService::BrowserSeoTitle('用户登录', 1),
+                ];
+                MyViewAssign($assign);
                 return MyView();
-            } else {
-                MyViewAssign('msg', '已经登录了，请勿重复登录');
-                return MyView('public/tips_error');
             }
-        } else {
-            MyViewAssign('msg', '暂时关闭用户登录');
+            MyViewAssign('msg', '已经登录了，请勿重复登录');
             return MyView('public/tips_error');
         }
+        MyViewAssign('msg', '暂时关闭用户登录');
+        return MyView('public/tips_error');
     }
 
     /**
@@ -312,27 +319,31 @@ class User extends Common
      */
     public function ModalLoginInfo()
     {
-        MyViewAssign('is_header', 0);
-        MyViewAssign('is_footer', 0);
-        MyViewAssign('is_to_home', 0);
-
+        // 模板数据
+        $assign = [
+            'is_header'     => 0,
+            'is_footer'     => 0,
+            'is_to_home'    => 0,
+        ];
         if(count(MyC('home_user_login_type', [], true)) > 0)
         {
             if(empty($this->user))
             {
                 // 浏览器名称
-                MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('用户登录', 1));
-                
-                MyViewAssign('referer_url', $this->GetrefererUrl());
+                $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle('用户登录', 1);
+
+                // 返回地址
+                $assign['referer_url'] = $this->GetrefererUrl();
+                MyViewAssign($assign);
                 return MyView();
-            } else {
-                MyViewAssign('msg', '已经登录了，请勿重复登录');
-                return MyView('public/tips_error');
             }
-        } else {
-            MyViewAssign('msg', '暂时关闭用户登录');
+            $assign['msg'] = '已经登录了，请勿重复登录';
+            MyViewAssign($assign);
             return MyView('public/tips_error');
         }
+        $assign['msg'] = '暂时关闭用户登录';
+        MyViewAssign($assign);
+        return MyView('public/tips_error');
     }
 
     /**
@@ -352,7 +363,7 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::Reg($this->data_post);
+        return ApiService::ApiDataReturn(UserService::Reg($this->data_post));
     }
 
     /**
@@ -372,7 +383,7 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::Login($this->data_post);
+        return ApiService::ApiDataReturn(UserService::Login($this->data_post));
     }
 
     /**
@@ -411,7 +422,7 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::LoginVerifySend($this->data_post);
+        return ApiService::ApiDataReturn(UserService::LoginVerifySend($this->data_post));
     }
 
     /**
@@ -431,7 +442,7 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::RegVerifySend($this->data_post);
+        return ApiService::ApiDataReturn(UserService::RegVerifySend($this->data_post));
     }
 
     /**
@@ -451,7 +462,7 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::ForgetPwdVerifySend($this->data_post);
+        return ApiService::ApiDataReturn(UserService::ForgetPwdVerifySend($this->data_post));
     }
 
     /**
@@ -471,7 +482,7 @@ class User extends Common
         }
 
         // 调用服务层
-        return UserService::ForgetPwd($this->data_post);
+        return ApiService::ApiDataReturn(UserService::ForgetPwd($this->data_post));
     }
 
     /**
@@ -489,9 +500,10 @@ class User extends Common
 
         // 登录返回
         $body_html = (!empty($ret['data']['body_html']) && is_array($ret['data']['body_html'])) ? implode(' ', $ret['data']['body_html']) : $ret['data']['body_html'];
-        MyViewAssign('body_html', $body_html);
-        MyViewAssign('msg', $ret['msg']);
-
+        MyViewAssign([
+            'body_html' => $body_html,
+            'msg'       => $ret['msg'],
+        ]);
         return MyView();
     }
 
@@ -517,7 +529,7 @@ class User extends Common
         $params = $_POST;
         $params['user'] = $this->user;
         $params['img_field'] = 'file';
-        return UserService::UserAvatarUpload($params);
+        return ApiService::ApiDataReturn(UserService::UserAvatarUpload($params));
     }
 }
 ?>

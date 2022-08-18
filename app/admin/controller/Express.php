@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\ExpressService;
 use app\service\ResourcesService;
 
@@ -20,29 +22,10 @@ use app\service\ResourcesService;
  * @version  0.0.1
  * @datetime 2016-12-01T21:51:08+0800
  */
-class Express extends Common
+class Express extends Base
 {
 	/**
-	 * 构造方法
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-03T12:39:08+0800
-	 */
-	public function __construct()
-	{
-		// 调用父类前置方法
-		parent::__construct();
-
-		// 登录校验
-		$this->IsLogin();
-
-		// 权限校验
-		$this->IsPower();
-	}
-
-	/**
-     * [Index 快递列表]
+     * 列表
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -50,17 +33,20 @@ class Express extends Common
      */
 	public function Index()
 	{
-		// 是否启用
-		MyViewAssign('common_is_enable_list', MyConst('common_is_enable_list'));
+		// 模板数据
+		$assign = [
+			// 静态数据
+			'common_is_enable_list'	=> MyConst('common_is_enable_list'),
 
-        // 编辑器文件存放地址
-		MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('express'));
-
+	        // 编辑器文件存放地址
+			'editor_path_type' 		=> ResourcesService::EditorPathTypeValue('express'),
+		];
+		MyViewAssign($assign);
 		return MyView();
 	}
 
 	/**
-	 * [GetNodeSon 获取节点子列表]
+	 * 获取节点子列表
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -71,15 +57,15 @@ class Express extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error('非法访问');
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
-		return ExpressService::ExpressNodeSon($this->data_request);
+		return ApiService::ApiDataReturn(ExpressService::ExpressNodeSon($this->data_request));
 	}
 
 	/**
-	 * [Save 快递保存]
+	 * 保存
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -90,15 +76,15 @@ class Express extends Common
 		// 是否ajax请求
 		if(!IS_AJAX)
 		{
-			$this->error('非法访问');
+			return $this->error('非法访问');
 		}
 
 		// 开始操作
-		return ExpressService::ExpressSave($this->data_request);
+		return ApiService::ApiDataReturn(ExpressService::ExpressSave($this->data_request));
 	}
 
 	/**
-	 * [Delete 快递删除]
+	 * 删除
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -115,7 +101,7 @@ class Express extends Common
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return ExpressService::ExpressDelete($params);
+		return ApiService::ApiDataReturn(ExpressService::ExpressDelete($params));
 	}
 }
 ?>

@@ -46,7 +46,6 @@ class Design extends Common
      */
     public function Index()
     {
-        $data = [];
         if(!empty($this->data_request['id']))
         {
             $data_params = [
@@ -61,36 +60,38 @@ class Design extends Common
             if($ret['code'] == 0 && !empty($ret['data']) && !empty($ret['data'][0]))
             {
                 $data = $ret['data'][0];
+
+                // 访问统计
+                DesignService::DesignAccessCountInc(['design_id'=>$data['id']]);
+
+                // 模板数据
+                $assign = [
+                    'data'              => $data,
+                    // 配置处理
+                    'layout_data'       => BaseLayout::ConfigHandle($data['config']),
+                    // 加载布局样式
+                    'is_load_layout'    => 1,
+                    // 头尾
+                    'is_header'         => $data['is_header'],
+                    'is_footer'         => $data['is_footer'],
+                ];
+
+                // seo
+                $seo_title = empty($data['seo_title']) ? $data['name'] : $data['seo_title'];
+                $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle($seo_title, 2);
+                if(!empty($data['seo_keywords']))
+                {
+                    $assign['home_seo_site_keywords'] = $data['seo_keywords'];
+                }
+                if(!empty($data['seo_desc']))
+                {
+                    $assign['home_seo_site_description'] = $data['seo_desc'];
+                }
+
+                // 数据赋值
+                MyViewAssign($assign);
+                return MyView();
             }
-        }
-        if(!empty($data))
-        {
-            // 访问统计
-            DesignService::DesignAccessCountInc(['design_id'=>$data['id']]);
-
-            // 配置处理
-            $layout_data = BaseLayout::ConfigHandle($data['config']);
-            MyViewAssign('layout_data', $layout_data);
-
-            // 加载布局样式
-            MyViewAssign('is_load_layout', 1);
-
-            // seo
-            $seo_title = empty($data['seo_title']) ? $data['name'] : $data['seo_title'];
-            MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle($seo_title, 2));
-            if(!empty($data['seo_keywords']))
-            {
-                MyViewAssign('home_seo_site_keywords', $data['seo_keywords']);
-            }
-            if(!empty($data['seo_desc']))
-            {
-                MyViewAssign('home_seo_site_description', $data['seo_desc']);
-            }
-
-            // 头尾
-            MyViewAssign('is_header', $data['is_header']);
-            MyViewAssign('is_footer', $data['is_footer']);
-            return MyView();
         }
         MyViewAssign('msg', '页面不存在或已删除');
         return MyView('public/tips_error');

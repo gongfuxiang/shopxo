@@ -31,6 +31,15 @@ class ApiService
      */
     public static function ApiDataReturn($data)
     {
+        // api统一返回钩子
+        $hook_name = 'plugins_service_api_data_return';
+        MyEventTrigger($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data'          => &$data,
+            ]);
+
         return json($data);
     }
 }

@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\admin\controller\Base;
+use app\service\ApiService;
 use app\service\WarehouseService;
 use app\service\ResourcesService;
 
@@ -21,28 +23,8 @@ use app\service\ResourcesService;
  * @date    2020-07-07
  * @desc    description
  */
-class Warehouse extends Common
+class Warehouse extends Base
 {
-    /**
-     * 构造方法
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-07-07
-     * @desc    description
-     */
-    public function __construct()
-    {
-        // 调用父类前置方法
-        parent::__construct();
-
-        // 登录校验
-        $this->IsLogin();
-
-        // 权限校验
-        $this->IsPower();
-    }
-
     /**
      * 列表
      * @author  Devil
@@ -84,27 +66,32 @@ class Warehouse extends Common
         // 数据
         $data = $this->data_detail;
 
+        // 模板数据
+        $assign = [
+            // 加载地图api
+            'is_load_map_api'   => 1,
+            // 编辑器文件存放地址
+            'editor_path_type'  => ResourcesService::EditorPathTypeValue('warehouse'),
+        ];
+
         // 编辑页面钩子
         $hook_name = 'plugins_view_admin_warehouse_save';
-        MyViewAssign($hook_name.'_data', MyEventTrigger($hook_name,
+        $assign[$hook_name.'_data'] = MyEventTrigger($hook_name,
         [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'warehouse_id'  => isset($params['id']) ? $params['id'] : 0,
             'data'          => &$data,
             'params'        => &$params,
-        ]));
+        ]);
 
-        // 加载地图api
-        MyViewAssign('is_load_map_api', 1);
-
-        // 编辑器文件存放地址
-        MyViewAssign('editor_path_type', ResourcesService::EditorPathTypeValue('warehouse'));
-
-        // 数据
+        // 数据/参数
         unset($params['id']);
-        MyViewAssign('data', $data);
-        MyViewAssign('params', $params);
+        $assign['data'] = $data;
+        $assign['params'] = $params;
+
+        // 数据赋值
+        MyViewAssign($assign);
         return MyView();
     }
 
@@ -126,7 +113,7 @@ class Warehouse extends Common
 
         // 开始处理
         $params = $this->data_request;
-        return WarehouseService::WarehouseSave($params);
+        return ApiService::ApiDataReturn(WarehouseService::WarehouseSave($params));
     }
 
     /**
@@ -148,7 +135,7 @@ class Warehouse extends Common
         // 开始处理
         $params = $this->data_request;
         $params['admin'] = $this->admin;
-        return WarehouseService::WarehouseDelete($params);
+        return ApiService::ApiDataReturn(WarehouseService::WarehouseDelete($params));
     }
 
     /**
@@ -170,7 +157,7 @@ class Warehouse extends Common
         // 开始处理
         $params = $this->data_request;
         $params['admin'] = $this->admin;
-        return WarehouseService::WarehouseStatusUpdate($params);
+        return ApiService::ApiDataReturn(WarehouseService::WarehouseStatusUpdate($params));
     }
 }
 ?>

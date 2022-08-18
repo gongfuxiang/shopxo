@@ -10,6 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\admin\controller;
 
+use app\service\ApiService;
+
 /**
  * 空控制器响应
  * @author   Devil
@@ -34,11 +36,26 @@ class Error extends Common
     {
         if(IS_AJAX)
         {
-            return DataReturn(RequestController().' 控制器不存在', -1000);
+            return ApiService::ApiDataReturn(DataReturn(RequestController().' 控制器不存在', -1000));
         } else {
             MyViewAssign('msg', RequestController().' 控制器不存在');
             return MyView('public/tips_error');
         }
+    }
+
+    /**
+     * 错误信息提示
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-17
+     * @desc    description
+     */
+    public function Tips()
+    {
+        $msg = empty($this->data_request['msg']) ? '异常错误' : urldecode(base64_decode($this->data_request['msg']));
+        MyViewAssign('msg', $msg);
+        return MyView('public/tips_error');
     }
 }
 ?>

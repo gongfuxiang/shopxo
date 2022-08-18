@@ -47,9 +47,10 @@ class Region extends Common
     public function Index()
     {
         // 获取地区
+        $pid = empty($this->data_request['pid']) ? 0 : intval($this->data_request['pid']);
         $params = [
             'where' => [
-                'pid'   => isset($this->data_post['pid']) ? intval($this->data_post['pid']) : 0,
+                ['pid', '=', $pid],
             ],
         ];
         $result = RegionService::RegionNode($params);
