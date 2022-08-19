@@ -14,30 +14,33 @@ FromInit('form.form-validation-store-accounts');
  */
 function ParametersItemHtmlCreated(type, name, value)
 {
+    // 参数容器
+    var $parameters_table = $('.parameters-table');
+
+    // 拼接html
     var index = parseInt(Math.random()*1000001);
     var html = '<tr class="parameters-line-'+index+'">';
         html += '<td class="am-text-middle">';
-        html += '<select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="请选择商品参数展示类型">';
-        html += '<option value="0" '+(type == 0 ? 'selected' : '')+'>全部</option>';
-        html += '<option value="1" '+(type == 1 || type == undefined ? 'selected' : '')+'>详情</option>';
-        html += '<option value="2" '+(type == 2 ? 'selected' : '')+'>基础</option>';
+        html += '<select name="parameters_type[]" class="am-radius chosen-select" data-validation-message="'+$parameters_table.data('type-message')+'">';
+        html += '<option value="0" '+(type == 0 ? 'selected' : '')+'>'+$parameters_table.data('type-all-name')+'</option>';
+        html += '<option value="1" '+(type == 1 || type == undefined ? 'selected' : '')+'>'+$parameters_table.data('type-detail-name')+'</option>';
+        html += '<option value="2" '+(type == 2 ? 'selected' : '')+'>'+$parameters_table.data('type-base-name')+'</option>';
         html += '</select>';
         html += '</td>';
         html += '<td class="am-text-middle">';
-        html += '<input type="text" name="parameters_name[]" placeholder="参数名称" value="'+(name || '')+'" data-validation-message="请填写参数名称" maxlength="160" required />';
+        html += '<input type="text" name="parameters_name[]" placeholder="'+$parameters_table.data('params-name')+'" value="'+(name || '')+'" data-validation-message="'+$parameters_table.data('params-message')+'" maxlength="160" required />';
         html += '</td>';
         html += '<td class="am-text-middle">';
-        html += '<input type="text" name="parameters_value[]" placeholder="参数值" value="'+(value || '')+'" maxlength="200" data-validation-message="请填写参数值" />';
+        html += '<input type="text" name="parameters_value[]" placeholder="'+$parameters_table.data('value-message')+'" value="'+(value || '')+'" maxlength="200" data-validation-message="'+$parameters_table.data('value-message')+'" />';
         html += '</td>';
         html += '<td class="am-text-middle">';
-        html += '<a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">上移</a> ';
-        html += '<a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">下移</a> ';
-        html += '<a href="javascript:;" class="am-text-xs am-text-danger line-remove">移除</a>';
+        html += '<a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">'+$parameters_table.data('move-top-name')+'</a> ';
+        html += '<a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">'+$parameters_table.data('move-bottom-name')+'</a> ';
+        html += '<a href="javascript:;" class="am-text-xs am-text-danger line-remove">'+$parameters_table.data('remove-name')+'</a>';
         html += '</td>';
         html += '</tr>';
 
     // 数据添加
-    var $parameters_table = $('.parameters-table');
     $parameters_table.append(html);
 
     // select组件初始化
@@ -45,7 +48,7 @@ function ParametersItemHtmlCreated(type, name, value)
         inherit_select_classes: true,
         enable_split_word_search: true,
         search_contains: true,
-        no_results_text: '没有匹配到结果'
+        no_results_text: lang_chosen_select_no_results_text
     });
 }
 
@@ -237,14 +240,36 @@ $(function()
         StoreAccountsPopupOpen();
     });
 
+    // 商品规格和参数拖拽排序
+    if($('table.specifications-table').length > 0)
+    {
+        $('table.specifications-table tbody').dragsort({ dragSelector: 'tr'});
+    }
+    if($('table.parameters-table').length > 0)
+    {
+        var len = $('table.parameters-table tbody tr').length;
+        if(len == 0)
+        {
+            $('table.parameters-table tbody').html('<tr><td></td></tr>');
+        }
+        $('table.parameters-table tbody').dragsort({ dragSelector: 'tr'});
+        if(len == 0)
+        {
+            $('table.parameters-table tbody').html('');
+        }
+    }
+
     // 商品规格和参数上下移动
     $('.specifications-table,.parameters-table').on('click', '.line-move', function()
     {
+        // 父级table
+        var $table = $(this).parents('table');
+
         // 类型
         var type = $(this).data('type') || null;
         if(type == null)
         {
-            Prompt('操作类型配置有误');
+            Prompt($table.data('move-type-tips') || '操作类型配置有误');
             return false;
         }
 
@@ -258,7 +283,7 @@ $(function()
             case 'top' :
                 if(index == 0)
                 {
-                    Prompt('已到最顶部');
+                    Prompt($table.data('move-top-tips') || '已到最顶部');
                     return false;
                 }
                 $parent.prev().insertAfter($parent);
@@ -268,7 +293,7 @@ $(function()
             case 'bottom' :
                 if(index >= count-1)
                 {
-                    Prompt('已到最底部');
+                    Prompt($table.data('move-bottom-tips') || '已到最底部');
                     return false;
                 }
                 $parent.next().insertBefore($parent);
@@ -276,7 +301,7 @@ $(function()
 
             // 默认
             default :
-                Prompt('操作类型配置有误');
+                Prompt($table.data('move-type-tips') || '操作类型配置有误');
         }
     });
 
@@ -295,7 +320,7 @@ $(function()
     });
 
     // 商品参数配置信息复制
-    var $parameters_copy_modal = $('#parameters-quick-copy-modal');
+    var $quick_modal = $('#parameters-quick-copy-modal');
     var clipboard = new ClipboardJS('.parameters-quick-copy',
     {
         text: function()
@@ -311,24 +336,24 @@ $(function()
                 });
             });
             data = JSON.stringify(data);
-            $parameters_copy_modal.find('textarea').val(data);
+            $quick_modal.find('textarea').val(data);
             return data;
         }
     });
     clipboard.on('success', function(e)
     {
-        Prompt('复制成功', 'success');
+        Prompt($parameters_table.data('copy-success-tips') || '复制成功', 'success');
     });
     clipboard.on('error', function(e)
     {
         // 复制失败则开启复制窗口，让用户自己复制
-        $parameters_copy_modal.modal({
+        $quick_modal.modal({
             width: 200,
             height: 135
         });
     });
     // 点击选中复制的值
-    $parameters_copy_modal.find('textarea').on('click', function()
+    $quick_modal.find('textarea').on('click', function()
     {
         $(this).select();
     });
@@ -341,7 +366,7 @@ $(function()
         var data = $parameters_quick_config.find('textarea').val() || null;
         if(data == null)
         {
-            Prompt('请先粘贴配置信息');
+            Prompt($parameters_table.data('copy-no-tips') || '请先粘贴配置信息');
             return false;
         }
 
@@ -349,12 +374,12 @@ $(function()
         try {
             data = JSON.parse(data);
         } catch(e) {
-            Prompt('配置格式错误');
+            Prompt($parameters_table.data('copy-error-tips') || '配置格式错误');
             return false;
         }
         if(data.length <= 0)
         {
-            Prompt('配置为空');
+            Prompt($parameters_table.data('copy-empty-tips') || '配置为空');
             return false;
         }
 
@@ -368,7 +393,7 @@ $(function()
             ParametersItemHtmlCreated(type, name, value);
         }
         $('#parameters-quick-container').dropdown('close');
-        Prompt('生成成功', 'success');
+        Prompt($parameters_table.data('created-success-tips') || '生成成功', 'success');
     });
 
     // 商品参数清空

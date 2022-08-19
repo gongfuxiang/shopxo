@@ -2763,7 +2763,7 @@ $(function()
 			inherit_select_classes: true,
 			enable_split_word_search: true,
 			search_contains: true,
-			no_results_text: '没有匹配到结果'
+			no_results_text: lang_chosen_select_no_results_text
 		});
 	}
 	// 多选插件 空内容失去焦点验证bug兼容处理
