@@ -20,10 +20,13 @@
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/common/css/common.css" />
 	<link rel="stylesheet" type="text/css" href="{{$Think.__MY_ROOT_PUBLIC__}}static/install/css/index.css" />
 	<script type="text/javascript">
+		// 基础配置
 		var __system_type__ = '{{$system_type}}';
 		var __seo_url_suffix__ = '{{:MyC("home_seo_url_html_suffix", "html", true)}}';
 	    var __env_max_input_vars_count__ = '{{$env_max_input_vars_count}}';
 	    var __map_view_url__ = '{{:MyUrl("admin/map/index")}}';
 	    var __load_map_type__ = '{{$load_map_type}}';
+	    // 基础提示信息
+    	var lang_chosen_select_no_results_text = '没有匹配到结果';
 	</script>
 <body>

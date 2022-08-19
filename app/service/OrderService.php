@@ -148,7 +148,7 @@ class OrderService
         // 是否直接跳转
         if($success_count > 0 && $success_count == count($order_data))
         {
-            return DataReturn('操作成功', 0, ['is_success'=>1]);
+            return DataReturn(MyLang('common.operate_success'), 0, ['is_success'=>1]);
         }
 
         // 订单金额大于0则必须存在支付方式
@@ -623,7 +623,7 @@ class OrderService
             // 订单支付日志已支付则直接返回
             if($pay_data['data']['pay_log_data']['status'] == 1)
             {
-                return DataReturn('操作成功', 0);
+                return DataReturn(MyLang('common.operate_success'), 0);
             }
 
             // 启动事务
@@ -1885,12 +1885,12 @@ class OrderService
 
             // 提交事务
             Db::commit();
-            return DataReturn('取消成功', 0);
+            return DataReturn(MyLang('common.cancel_success'), 0);
         }
 
         // 事务回滚
         Db::rollback();
-        return DataReturn('取消失败', -1);
+        return DataReturn(MyLang('common.cancel_fail'), -1);
     }
 
     /**
@@ -2320,7 +2320,7 @@ class OrderService
             // 用户消息
             MessageService::MessageAdd($order['user_id'], '订单删除', '订单删除成功', self::$business_type_name, $order['id']);
 
-            return DataReturn('删除成功', 0);
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
         return DataReturn('删除失败或资源不存在', -1);
     }
@@ -2496,12 +2496,12 @@ class OrderService
                         return DataReturn('订单商品销量增加失败['.$v['title'].']', -10);
                     }
                 }
-                return DataReturn('操作成功', 0);
+                return DataReturn(MyLang('common.operate_success'), 0);
             } else {
                 return DataReturn('订单有误，没有找到相关商品', -100);
             }
         }
-        return DataReturn('无需处理', 0);
+        return DataReturn(MyLang('common.handle_noneed'), 0);
     }
 
     /**

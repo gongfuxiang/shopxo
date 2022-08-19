@@ -76,7 +76,7 @@ class RefundLogService
     public static function RefundLogTypeList($params = [])
     {
         $data = Db::name('RefundLog')->field('payment as id, payment_name as name')->group('payment,payment_name')->select()->toArray();
-        return DataReturn('处理成功', 0, $data);
+        return DataReturn(MyLang('common.handle_success'), 0, $data);
     }
 
     /**

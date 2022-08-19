@@ -101,7 +101,7 @@ class OrderSplitService
         }
 
         // 返回数据
-        return DataReturn('操作成功', 0, $data);
+        return DataReturn(MyLang('common.operate_success'), 0, $data);
     }
 
     /**

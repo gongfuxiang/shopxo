@@ -268,7 +268,7 @@ class ResourcesService
             $params['id'] = $attachment_id;
             $params['url'] = self::AttachmentPathViewHandle($data['url']);
             $params['add_time'] = date('Y-m-d H:i:s', $data['add_time']);
-            return DataReturn('添加成功', 0, $params);
+            return DataReturn(MyLang('common.insert_success'), 0, $params);
         }
 
         // 删除本地图片
@@ -276,7 +276,7 @@ class ResourcesService
         {
             \base\FileUtil::UnlinkFile($params['path']);
         }
-        return DataReturn('添加失败', -100);
+        return DataReturn(MyLang('common.insert_fail'), -100);
     }
 
     /**
@@ -383,9 +383,9 @@ class ResourcesService
                     // 删除附件
                     \base\FileUtil::UnlinkFile($path);
 
-                    $ret = DataReturn('删除成功', 0);
+                    $ret = DataReturn(MyLang('common.delete_success'), 0);
                 } else {
-                    $ret = DataReturn('删除失败', -100);
+                    $ret = DataReturn(MyLang('common.delete_fail'), -100);
                 }
             } else {
                 $ret = DataReturn('没有删除权限', -1);
@@ -393,9 +393,9 @@ class ResourcesService
         } else {
             if(DB::name('Attachment')->where(['id'=>$data['id']])->delete())
             {
-                $ret = DataReturn('删除成功', 0);
+                $ret = DataReturn(MyLang('common.delete_success'), 0);
             } else {
-                $ret = DataReturn('删除失败', -100);
+                $ret = DataReturn(MyLang('common.delete_fail'), -100);
             }
         }
 
@@ -431,7 +431,7 @@ class ResourcesService
             // 删除数据库数据
             if(!DB::name('Attachment')->where($where)->delete())
             {
-                return DataReturn('删除失败', -1);
+                return DataReturn(MyLang('common.delete_fail'), -1);
             }
 
             // 删除磁盘文件
@@ -454,7 +454,7 @@ class ResourcesService
             'data'              => $data,
         ]);
 
-        return DataReturn('删除成功', 0);
+        return DataReturn(MyLang('common.delete_success'), 0);
     }
 
     /**

@@ -49,11 +49,33 @@
 <div>
     <span class="business-operations-submit specifications-nav-title-add">+ 添加规格值</span>
     <span class="business-operations-submit am-margin-left-sm specifications-nav-set-all am-icon-cogs" data-am-modal="{target: '#spec-popup-all-operation'}"> 高级批量设置</span>
+    <span class="am-text-warning am-margin-left-sm">可直接点中规格行拖拽排序或点击上下移动</span>
 </div>
 <div class="goods-specifications am-padding-top-sm">
     <!-- 规格列表 -->
     <div class="specifications-container am-scrollable-horizontal">
-        <table class="am-table am-table-bordered am-table-centered specifications-table am-margin-bottom-sm am-table-striped am-table-hover table-thead-beautify am-margin-bottom-0">
+        <table class="am-table am-table-bordered am-table-centered specifications-table am-margin-bottom-sm am-table-striped am-table-hover table-thead-beautify am-margin-bottom-0"
+            data-spec-add-max-number="{{:MyC('common_spec_add_max_number', 3, true)}}" 
+            data-spec-max-error="最多添加{{:MyC('common_spec_add_max_number', 3, true)}}列规格，可在后台管理[系统设置-后台配置]中配置" 
+            data-spec-type-name="规格名" 
+            data-spec-value-name="规格值" 
+            data-spec-type-message="请填写规格名" 
+            data-spec-value-message="请填写规格值" 
+            data-spec-empty-data-tips="请先添加规格" 
+            data-spec-empty-fill-tips="请先填写规格" 
+            data-spec-images-name="上传图片" 
+            data-spec-images-message="请上传规格图片" 
+            data-spec-add-value-message="添加规格值" 
+            data-spec-min-tips-message="至少需要保留一行规格值" 
+            data-spec-all-name="全部" 
+            data-spec-quick-error="快捷操作规格为空" 
+            data-spec-quick-tips-title="温馨提示" 
+            data-spec-quick-tips-msg="生成规格将清空现有规格数据、是否继续？" 
+            data-spec-quick-success="生成成功" 
+            data-move-type-tips="操作类型配置有误" 
+            data-move-top-tips="已到最顶部" 
+            data-move-bottom-tips="已到最底部" 
+        >
             <thead class="title-nav">
                 <tr>
                     {{if !empty($specifications['type'])}}

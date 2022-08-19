@@ -54,7 +54,7 @@ class BrandService
 
         // 获取列表
         $data = Db::name('Brand')->where($where)->field($field)->order($order_by)->limit($m, $n)->select()->toArray();
-        return DataReturn('处理成功', 0, self::BrandListHandle($data, $params));
+        return DataReturn(MyLang('common.handle_success'), 0, self::BrandListHandle($data, $params));
     }
 
     /**
@@ -324,7 +324,7 @@ class BrandService
             if($brand_id <= 0)
             {
                 Db::rollback();
-                return DataReturn('添加失败', -100);
+                return DataReturn(MyLang('common.insert_fail'), -100);
             }
         } else {
             $data['upd_time'] = time();
@@ -332,7 +332,7 @@ class BrandService
             if(Db::name('Brand')->where(['id'=>$brand_id])->update($data) === false)
             {
                 Db::rollback();
-                return DataReturn('编辑失败', -100); 
+                return DataReturn(MyLang('common.edit_fail'), -100); 
             }
         }
 
@@ -347,7 +347,7 @@ class BrandService
 
         // 提交事务
         Db::commit();
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
@@ -378,7 +378,7 @@ class BrandService
                 }
             }
         }
-        return DataReturn('添加成功', 0);
+        return DataReturn(MyLang('common.insert_success'), 0);
     }
 
     /**
@@ -406,10 +406,10 @@ class BrandService
         // 删除操作
         if(Db::name('Brand')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn('删除成功');
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
 
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 
     /**
@@ -450,9 +450,9 @@ class BrandService
         // 数据更新
         if(Db::name('Brand')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-            return DataReturn('操作成功');
+            return DataReturn(MyLang('common.operate_success'), 0);
         }
-        return DataReturn('操作失败', -100);
+        return DataReturn(MyLang('common.operate_fail'), -100);
     }
 }
 ?>

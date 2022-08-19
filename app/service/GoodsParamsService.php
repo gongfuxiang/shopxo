@@ -41,7 +41,7 @@ class GoodsParamsService
 
         // 获取列表
         $data = Db::name('GoodsParamsTemplate')->where($where)->order($order_by)->field($field)->limit($m, $n)->select()->toArray();
-        return DataReturn('处理成功', 0, self::GoodsParamsTemplateListHandle($data, $params));
+        return DataReturn(MyLang('common.handle_success'), 0, self::GoodsParamsTemplateListHandle($data, $params));
     }
 
     /**
@@ -185,7 +185,7 @@ class GoodsParamsService
 
             // 完成
             Db::commit();
-            return DataReturn('操作成功', 0);
+            return DataReturn(MyLang('common.operate_success'), 0);
         } catch(\Exception $e) {
             Db::rollback();
             return DataReturn($e->getMessage(), -1);
@@ -233,7 +233,7 @@ class GoodsParamsService
 
             // 完成
             Db::commit();
-            return DataReturn('删除成功', 0);
+            return DataReturn(MyLang('common.delete_success'), 0);
         } catch(\Exception $e) {
             Db::rollback();
             return DataReturn($e->getMessage(), -1);
@@ -279,9 +279,9 @@ class GoodsParamsService
         // 数据更新
         if(Db::name('GoodsParamsTemplate')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-            return DataReturn('操作成功');
+            return DataReturn(MyLang('common.operate_success'), 0);
         }
-        return DataReturn('操作失败', -100);
+        return DataReturn(MyLang('common.operate_fail'), -100);
     }
 
     /**
@@ -312,7 +312,7 @@ class GoodsParamsService
             }
             if(!empty($data))
             {
-                return DataReturn('处理成功', 0, $data);
+                return DataReturn(MyLang('common.handle_success'), 0, $data);
             }
         }
         return DataReturn('请填写参数配置', -1);

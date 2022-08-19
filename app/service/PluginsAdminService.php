@@ -141,7 +141,7 @@ class PluginsAdminService
             'db_data'   => $db_data,
             'dir_data'  => array_values($dir_data),
         ];
-        return DataReturn('处理成功', 0, $data);
+        return DataReturn(MyLang('common.handle_success'), 0, $data);
     }
 
     /**
@@ -308,10 +308,10 @@ class PluginsAdminService
             {
                 // 提交事务
                 Db::commit();
-                return DataReturn('操作成功');
+                return DataReturn(MyLang('common.operate_success'), 0);
             }
         } else {
-            $ret = DataReturn('操作失败', -100);
+            $ret = DataReturn(MyLang('common.operate_fail'), -100);
         }
 
         // 事务回退
@@ -414,7 +414,7 @@ class PluginsAdminService
             return DataReturn('应用钩子部署失败', -10);
         }
 
-        return DataReturn('处理成功', 0);
+        return DataReturn(MyLang('common.handle_success'), 0);
     }
 
     /**
@@ -490,7 +490,7 @@ class PluginsAdminService
             // 插件事件回调
             PluginsService::PluginsEventCall($plugins, 'Delete', $params);
 
-            return DataReturn('删除成功');
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
         return $ret;
     }
@@ -625,7 +625,7 @@ class PluginsAdminService
             return $ret;
         }
 
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
@@ -864,7 +864,7 @@ php;
             }
         }
 
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
@@ -923,7 +923,7 @@ php;
             return DataReturn('应用配置文件创建失败', -10);
         }
 
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
@@ -1572,7 +1572,7 @@ php;
 
                 // 完成
                 Db::commit();
-                return DataReturn('操作成功', 0);
+                return DataReturn(MyLang('common.operate_success'), 0);
             } catch(\Exception $e) {
                 Db::rollback();
                 return DataReturn($e->getMessage(), -1);

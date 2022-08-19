@@ -35,10 +35,30 @@ class ConstService
         // 数据定义
         $container = self::ConstData();
 
-        // 匹配数据
-        // 空 key 则返回全部
-        // 未匹配到数据则返回null
-        $data = empty($key) ? $container : (array_key_exists($key, $container) ? $container[$key] : $default);
+        // 是否读取全部
+        if(empty($key))
+        {
+            $data = $container;
+        } else {
+            // 是否存在多级
+            $arr = explode('.', $key);
+            if(count($arr) == 1)
+            {
+                $data = array_key_exists($key, $container) ? $container[$key] : $default;
+            } else {
+                $data = $container;
+                foreach($arr as $v)
+                {
+                    if(isset($data[$v]))
+                    {
+                        $data = $data[$v];
+                    } else {
+                        $data = $default;
+                        break;
+                    }
+                }
+            }
+        }
 
         // 常量数据读取钩子
         $hook_name = 'plugins_service_const_data';

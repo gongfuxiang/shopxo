@@ -411,9 +411,9 @@ class PaymentService
         $data['upd_time'] = time();
         if(Db::name('Payment')->where(['id'=>intval($params['id'])])->update($data))
         {
-            return DataReturn('编辑成功', 0);
+            return DataReturn(MyLang('common.edit_success'), 0);
         }
-        return DataReturn('编辑失败', -100); 
+        return DataReturn(MyLang('common.edit_fail'), -100); 
     }
 
     /**
@@ -475,9 +475,9 @@ class PaymentService
         // 数据更新
         if(Db::name('Payment')->where(['payment'=>$params['id']])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-            return DataReturn('操作成功');
+            return DataReturn(MyLang('common.operate_success'), 0);
         }
-        return DataReturn('操作失败', -100);
+        return DataReturn(MyLang('common.operate_fail'), -100);
     }
 
     /**
@@ -734,13 +734,13 @@ class PaymentService
         // 删除
         if(!@unlink($file))
         {
-            return DataReturn('删除失败', -100);
+            return DataReturn(MyLang('common.delete_fail'), -100);
         }
 
         // 删除入口文件
         self::PaymentEntranceDelete(['payment' => $payment]);
 
-        return DataReturn('删除成功');
+        return DataReturn(MyLang('common.delete_success'), 0);
     }
 
     /**
@@ -1012,7 +1012,7 @@ php;
             }
         }
 
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
@@ -1056,7 +1056,7 @@ php;
             }
         }
 
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**

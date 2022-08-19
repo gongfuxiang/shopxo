@@ -152,16 +152,16 @@ class AppHomeNavService
             $data['add_time'] = time();
             if(Db::name('AppHomeNav')->insertGetId($data) > 0)
             {
-                return DataReturn('添加成功', 0);
+                return DataReturn(MyLang('common.insert_success'), 0);
             }
-            return DataReturn('添加失败', -100);
+            return DataReturn(MyLang('common.insert_fail'), -100);
         } else {
             $data['upd_time'] = time();
             if(Db::name('AppHomeNav')->where(['id'=>intval($params['id'])])->update($data))
             {
-                return DataReturn('编辑成功', 0);
+                return DataReturn(MyLang('common.edit_success'), 0);
             }
-            return DataReturn('编辑失败', -100);
+            return DataReturn(MyLang('common.edit_fail'), -100);
         }
     }
 
@@ -190,10 +190,10 @@ class AppHomeNavService
         // 删除操作
         if(Db::name('AppHomeNav')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn('删除成功');
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
 
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 
     /**
@@ -234,9 +234,9 @@ class AppHomeNavService
         // 数据更新
         if(Db::name('AppHomeNav')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-            return DataReturn('操作成功');
+            return DataReturn(MyLang('common.operate_success'), 0);
         }
-        return DataReturn('操作失败', -100);
+        return DataReturn(MyLang('common.operate_fail'), -100);
     }
 
     /**

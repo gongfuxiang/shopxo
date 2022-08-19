@@ -79,7 +79,7 @@ class IntegralService
 
         // 获取数据列表
         $data = Db::name('UserIntegralLog')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
-        return DataReturn('处理成功', 0, self::IntegralLogListHandle($data, $params));
+        return DataReturn(MyLang('common.handle_success'), 0, self::IntegralLogListHandle($data, $params));
     }
 
     /**
@@ -282,7 +282,7 @@ class IntegralService
                         }
                     }
                 }
-                return DataReturn('操作成功', 0);
+                return DataReturn(MyLang('common.operate_success'), 0);
             }
         }
         return DataReturn('没有需要操作的数据', 0);
@@ -390,7 +390,7 @@ class IntegralService
             }
         }
 
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**

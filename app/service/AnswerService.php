@@ -57,7 +57,7 @@ class AnswerService
 
         // 获取数据列表
         $data = Db::name('Answer')->field($field)->where($where)->limit($m, $n)->order($order_by)->select()->toArray();
-        return DataReturn('处理成功', 0, self::AnswerListHandle($data, $params));
+        return DataReturn(MyLang('common.handle_success'), 0, self::AnswerListHandle($data, $params));
     }
 
     /**
@@ -279,9 +279,9 @@ class AnswerService
             $data['upd_time'] = time();
             if(Db::name('Answer')->where(['id'=>intval($params['id'])])->update($data))
             {
-                return DataReturn('编辑成功', 0);
+                return DataReturn(MyLang('common.edit_success'), 0);
             }
-            return DataReturn('编辑失败', -100); 
+            return DataReturn(MyLang('common.edit_fail'), -100); 
         }
     }
 
@@ -339,9 +339,9 @@ class AnswerService
         // 开始删除
         if(Db::name('Answer')->where($where)->delete())
         {
-            return DataReturn('删除成功', 0);
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
-        return DataReturn('删除失败', -1);
+        return DataReturn(MyLang('common.delete_fail'), -1);
     }
 
     /**
@@ -400,9 +400,9 @@ class AnswerService
         ];
         if(Db::name('Answer')->where($where)->update($data))
         {
-            return DataReturn('操作成功');
+            return DataReturn(MyLang('common.operate_success'), 0);
         }
-        return DataReturn('操作失败', -100);
+        return DataReturn(MyLang('common.operate_fail'), -100);
     }
 
     /**
@@ -443,9 +443,9 @@ class AnswerService
         // 数据更新
         if(Db::name('Answer')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-           return DataReturn('编辑成功');
+           return DataReturn(MyLang('common.edit_success'), 0);
         }
-        return DataReturn('编辑失败', -100);
+        return DataReturn(MyLang('common.edit_fail'), -100);
     }
 
     /**

@@ -232,9 +232,9 @@ class ConfigService
                 return $ret;
             }
 
-            return DataReturn('操作成功'.'['.$success.']');
+            return DataReturn(MyLang('common.operate_success').'['.$success.']');
         }
-        return DataReturn('操作失败', -100);
+        return DataReturn(MyLang('common.operate_fail'), -100);
     }
 
     /**
@@ -363,9 +363,9 @@ class ConfigService
                     }
                 }
             }
-            return DataReturn('处理成功', 0);
+            return DataReturn(MyLang('common.handle_success'), 0);
         }
-        return DataReturn('无需处理', 0);
+        return DataReturn(MyLang('common.handle_noneed'), 0);
     }
 
     /**
@@ -398,7 +398,7 @@ class ConfigService
             MyCache($cache_key, $data);
         }
         
-        return DataReturn('操作成功', 0, $data);
+        return DataReturn(MyLang('common.operate_success'), 0, $data);
     }
 
     /**
@@ -469,7 +469,7 @@ class ConfigService
             }
         }
 
-        return DataReturn('操作成功', 0, $data);
+        return DataReturn(MyLang('common.operate_success'), 0, $data);
     }
 
     /**
@@ -493,7 +493,7 @@ class ConfigService
             'title'     => $title,
             'tips'      => str_replace("\n", '<br />', $tips),
         ];
-        return DataReturn('操作成功', 0, $result);
+        return DataReturn(MyLang('common.operate_success'), 0, $result);
     }
 
     /**

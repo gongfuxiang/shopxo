@@ -37,7 +37,7 @@ class BrandCategoryService
 
         $data = Db::name('BrandCategory')->where(['is_enable'=>1])->field($field)->order($order_by)->select()->toArray();
         
-        return DataReturn('处理成功', 0, $data);
+        return DataReturn(MyLang('common.handle_success'), 0, $data);
     }
 
     /**
@@ -62,9 +62,9 @@ class BrandCategoryService
                 $v['delete_url']    = MyUrl('admin/brandcategory/delete');
                 $v['json']          = json_encode($v);
             }
-            return DataReturn('操作成功', 0, $data);
+            return DataReturn(MyLang('common.operate_success'), 0, $data);
         }
-        return DataReturn('没有相关数据', -100);
+        return DataReturn(MyLang('common.no_data'), -100);
     }
 
     /**
@@ -105,16 +105,16 @@ class BrandCategoryService
             $data['add_time'] = time();
             if(Db::name('BrandCategory')->insertGetId($data) > 0)
             {
-                return DataReturn('添加成功', 0);
+                return DataReturn(MyLang('common.insert_success'), 0);
             }
-            return DataReturn('添加失败', -100);
+            return DataReturn(MyLang('common.insert_fail'), -100);
         } else {
             $data['upd_time'] = time();
             if(Db::name('BrandCategory')->where(['id'=>intval($params['id'])])->update($data))
             {
-                return DataReturn('编辑成功', 0);
+                return DataReturn(MyLang('common.edit_success'), 0);
             }
-            return DataReturn('编辑失败', -100);
+            return DataReturn(MyLang('common.edit_fail'), -100);
         }
     }
 
@@ -150,9 +150,9 @@ class BrandCategoryService
         // 开始删除
         if(Db::name('BrandCategory')->where(['id'=>intval($params['id'])])->delete())
         {
-            return DataReturn('删除成功', 0);
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 }
 ?>

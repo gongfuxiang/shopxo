@@ -41,7 +41,7 @@ class AdminRoleService
 
         // 获取角色列表
         $data = Db::name('Role')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
-        return DataReturn('处理成功', 0, self::RoleListHandle($data, $params));
+        return DataReturn(MyLang('common.handle_success'), 0, self::RoleListHandle($data, $params));
     }
 
     /**
@@ -143,9 +143,9 @@ class AdminRoleService
         // 数据更新
         if(Db::name('Role')->where(['id'=>intval($params['id'])])->update(['is_enable'=>intval($params['state'])]))
         {
-            return DataReturn('编辑成功');
+            return DataReturn(MyLang('common.edit_success'), 0);
         }
-        return DataReturn('编辑失败或数据未改变', -100);
+        return DataReturn(MyLang('common.edit_fail'), -100);
     }
 
     /**
@@ -351,7 +351,7 @@ class AdminRoleService
             // 清除用户权限数据
             AdminPowerService::PowerCacheDelete();
 
-            return DataReturn('操作成功', 0);
+            return DataReturn(MyLang('common.operate_success'), 0);
         } catch(\Exception $e) {
             Db::rollback();
             return DataReturn($e->getMessage(), -1);
@@ -397,11 +397,11 @@ class AdminRoleService
             // 清除用户权限数据
             AdminPowerService::PowerCacheDelete();
 
-            return DataReturn('删除成功', 0);
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
 
         Db::rollback();
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 
     /**

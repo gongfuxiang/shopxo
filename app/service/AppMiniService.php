@@ -340,7 +340,7 @@ class AppMiniService
         // 开始删除主题
         if(\base\FileUtil::UnlinkDir(self::$old_path.DS.$id))
         {
-            return DataReturn('删除成功');
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
         return DataReturn('删除失败或资源不存在', -100);
     }
@@ -628,7 +628,7 @@ class AppMiniService
 
             // 默认
             default :
-                $ret = DataReturn('无需处理', 0);
+                $ret = DataReturn(MyLang('common.handle_noneed'), 0);
         }
         if(isset($ret['code']) && $ret['code'] != 0)
         {
@@ -652,7 +652,7 @@ class AppMiniService
         // 生成成功删除目录
         \base\FileUtil::UnlinkDir($new_dir);
 
-        return DataReturn('生成成功', 0);
+        return DataReturn(MyLang('common.created_success'), 0);
     }
 
     /**
@@ -788,13 +788,13 @@ class AppMiniService
         // 成功
         if($sucs == count($params['ids']))
         {
-            return DataReturn('删除成功');
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
 
         // 失败
         if($fail == count($params['ids']))
         {
-            return DataReturn('删除失败', -100);
+            return DataReturn(MyLang('common.delete_fail'), -100);
         }
 
         return DataReturn('成功['.$sucs.'],失败['.$fail.']');

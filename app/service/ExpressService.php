@@ -127,9 +127,9 @@ class ExpressService
                 $v['is_son']    = (Db::name('Express')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
                 $v['json']      = json_encode($v);
             }
-            return DataReturn('操作成功', 0, $data);
+            return DataReturn(MyLang('common.operate_success'), 0, $data);
         }
-        return DataReturn('没有相关数据', -100);
+        return DataReturn(MyLang('common.no_data'), -100);
     }
 
     /**
@@ -181,20 +181,20 @@ class ExpressService
             $data['id'] = Db::name('Express')->insertGetId($data);
             if($data['id'] <= 0)
             {
-                return DataReturn('添加失败', -100);
+                return DataReturn(MyLang('common.insert_fail'), -100);
             }
         } else {
             $data['upd_time'] = time();
             if(Db::name('Express')->where(['id'=>intval($params['id'])])->update($data) === false)
             {
-                return DataReturn('编辑失败', -100);
+                return DataReturn(MyLang('common.edit_fail'), -100);
             } else {
                 $data['id'] = $params['id'];
             }
         }
 
         $res = self::DataHandle([$data]);
-        return DataReturn('操作成功', 0, json_encode($res[0]));
+        return DataReturn(MyLang('common.operate_success'), 0, json_encode($res[0]));
     }
 
     /**
@@ -229,9 +229,9 @@ class ExpressService
         // 开始删除
         if(Db::name('Express')->where(['id'=>intval($params['id'])])->delete())
         {
-            return DataReturn('删除成功', 0);
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 }
 ?>

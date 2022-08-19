@@ -61,6 +61,70 @@ function MySession($name = '', $value = '')
 }
 
 /**
+ * 获取语言
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-08-19
+ * @desc    框架默认仅支持二级分组数据、这里做了支持N级处理（由于参数可能存在数组解析原因）这里单独处理不使用框架处理
+ * @param   [string]          $key  [语言key（支持 . 多级）]
+ * @param   [array]           $vars [替换参数]
+ * @param   [string]          $lang [指定语言]
+ */
+function MyLang($key, $vars = [], $lang = '')
+{
+    $value = '';
+    if(!empty($key))
+    {
+        // 仅一级则直接读取
+        $arr = explode('.', $key);
+        if(count($arr) == 1)
+        {
+            $value = lang($key, [], $lang);
+        } else {
+            // 默认先读取第一级
+            $value = lang($arr[0], [], $lang);
+            // 移除第一级
+            array_shift($arr);
+            // 循环后面级别的数据
+            foreach($arr as $v)
+            {
+                if(isset($value[$v]))
+                {
+                    $value = $value[$v];
+                } else {
+                    // 未匹配到则赋空值
+                    $value = $key;
+                    break;
+                }
+            }
+        }
+
+        // 变量解析
+        if(is_string($value) && !empty($value) && !empty($vars) && is_array($vars))
+        {
+            // 为了检测的方便，数字索引的判断仅仅是参数数组的第一个元素的key为数字0
+            // 数字索引采用的是系统的 sprintf 函数替换，用法请参考 sprintf 函数
+            if(key($vars) === 0)
+            {
+                // 数字索引解析
+                array_unshift($vars, $value);
+                $value = call_user_func_array('sprintf', $vars);
+            } else {
+                // 关联索引解析
+                $replace = array_keys($vars);
+                foreach($replace as &$v)
+                {
+                    $v = "{:{$v}}";
+                }
+                $value = str_replace($replace, $vars, $value);
+            }
+        }
+    }
+    return $value;
+}
+
+/**
  * cookie管理
  * @author  Devil
  * @blog    http://gong.gg/

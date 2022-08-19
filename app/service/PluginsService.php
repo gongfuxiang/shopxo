@@ -62,7 +62,7 @@ class PluginsService
             // 存储缓存
             self::PluginsCacheStorage($plugins, $data);
         }
-        return DataReturn('处理成功', 0, $data);
+        return DataReturn(MyLang('common.handle_success'), 0, $data);
     }
 
     /**
@@ -204,9 +204,9 @@ class PluginsService
             // 删除缓存
             self::PluginsCacheDelete($params['plugins']);
             
-            return DataReturn('操作成功');
+            return DataReturn(MyLang('common.operate_success'), 0);
         }
-        return DataReturn('操作失败', -100);
+        return DataReturn(MyLang('common.operate_fail'), -100);
     }
 
     /**
@@ -266,7 +266,7 @@ class PluginsService
     public static function PluginsField($plugins, $field)
     {
         $data = Db::name('Plugins')->where(['plugins'=>$plugins])->value($field);
-        return DataReturn('操作成功', 0, $data);
+        return DataReturn(MyLang('common.operate_success'), 0, $data);
     }
 
     /**

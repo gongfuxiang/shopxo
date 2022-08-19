@@ -72,7 +72,7 @@ class OrderAftersaleService
 
             return $ret;
         }
-        return DataReturn('没有相关数据', -100);
+        return DataReturn(MyLang('common.no_data'), -100);
     }
 
     /**
@@ -261,9 +261,9 @@ class OrderAftersaleService
             }
 
             // 返回成功
-            return DataReturn('申请成功', 0, $data_id);
+            return DataReturn(MyLang('common.apply_success'), 0, $data_id);
         }
-        return DataReturn('申请失败', -100);
+        return DataReturn(MyLang('common.apply_fail'), -100);
     }
 
     /**
@@ -372,9 +372,9 @@ class OrderAftersaleService
             }
 
             // 返回成功
-            return DataReturn('操作成功', 0);
+            return DataReturn(MyLang('common.operate_success'), 0);
         }
-        return DataReturn('操作失败', -100);
+        return DataReturn(MyLang('common.operate_fail'), -100);
     }
 
     /**
@@ -679,9 +679,9 @@ class OrderAftersaleService
             }
 
             // 返回成功
-            return DataReturn('取消成功');
+            return DataReturn(MyLang('common.cancel_success'), 0);
         }
-        return DataReturn('取消失败', -100);
+        return DataReturn(MyLang('common.cancel_fail'), -100);
     }
 
     /**
@@ -1399,9 +1399,9 @@ class OrderAftersaleService
             }
 
             // 返回成功
-            return DataReturn('删除成功', 0);
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 
     /**
@@ -1506,7 +1506,7 @@ class OrderAftersaleService
             }
         }
 
-        return DataReturn('操作成功', 0, ['returned_quantity'=>$returned_quantity, 'refund_price'=>PriceNumberFormat($refund_price)]);
+        return DataReturn(MyLang('common.operate_success'), 0, ['returned_quantity'=>$returned_quantity, 'refund_price'=>PriceNumberFormat($refund_price)]);
     }
 
     /**

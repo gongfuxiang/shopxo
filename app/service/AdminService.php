@@ -79,7 +79,7 @@ class AdminService
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
         $data = Db::name('Role')->field($field)->where($where)->select()->toArray();
-        return DataReturn('处理成功', 0, $data);
+        return DataReturn(MyLang('common.handle_success'), 0, $data);
     }
 
     /**
@@ -295,9 +295,9 @@ class AdminService
                 self::LoginLogout();
             }
             
-            return DataReturn('编辑成功', 0);
+            return DataReturn(MyLang('common.edit_success'), 0);
         }
-        return DataReturn('编辑失败或数据未改变', -100);
+        return DataReturn(MyLang('common.edit_fail'), -100);
     }
 
     /**
@@ -330,9 +330,9 @@ class AdminService
         // 删除操作
         if(Db::name('Admin')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn('删除成功');
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 
     /**
@@ -640,9 +640,9 @@ class AdminService
                 $verify['data']->Remove();
             }
 
-            return DataReturn('发送成功'.$code, 0);
+            return DataReturn(MyLang('common.send_success'), 0);
         }
-        return DataReturn('发送失败'.'['.$obj->error.']', -100);
+        return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
     }
 
     /**
@@ -707,7 +707,7 @@ class AdminService
                 $field = 'username';
                 break;
         }
-        return DataReturn('操作成功', 0, $field);
+        return DataReturn(MyLang('common.operate_success'), 0, $field);
     }
 
     /**

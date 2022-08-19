@@ -93,7 +93,7 @@ class GoodsFavorService
             // 删除收藏
             if(Db::name('GoodsFavor')->where($data)->delete() > 0)
             {
-                return DataReturn('取消成功', 0, [
+                return DataReturn(MyLang('common.cancel_success'), 0, [
                     'text'      => '收藏',
                     'status'    => 0,
                     'count'     => self::GoodsFavorTotal(['goods_id'=>$data['goods_id']]),
@@ -137,7 +137,7 @@ class GoodsFavorService
 
         $data = ['goods_id'=>intval($params['goods_id']), 'user_id'=>$params['user']['id']];
         $temp = Db::name('GoodsFavor')->where($data)->find();
-        return DataReturn('操作成功', 0, empty($temp) ? 0 : 1);
+        return DataReturn(MyLang('common.operate_success'), 0, empty($temp) ? 0 : 1);
     }
 
     /**
@@ -202,7 +202,7 @@ class GoodsFavorService
 
         // 获取数据
         $data = Db::name('GoodsFavor')->alias('f')->join('goods g', 'g.id=f.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select()->toArray();
-        return DataReturn('处理成功', 0, self::GoodsFavorListHandle($data, $params));
+        return DataReturn(MyLang('common.handle_success'), 0, self::GoodsFavorListHandle($data, $params));
     }
 
     /**
@@ -285,9 +285,9 @@ class GoodsFavorService
         // 删除
         if(Db::name('GoodsFavor')->where($where)->delete())
         {
-            return DataReturn('删除成功', 0);
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 }
 ?>

@@ -194,7 +194,7 @@ class WarehouseGoodsService
 
         // 提交事务
         Db::commit();
-        return DataReturn('删除成功', 0);
+        return DataReturn(MyLang('common.delete_success'), 0);
     }
 
     /**
@@ -261,11 +261,11 @@ class WarehouseGoodsService
 
             // 提交事务
             Db::commit();
-            return DataReturn('编辑成功', 0);
+            return DataReturn(MyLang('common.edit_success'), 0);
         }
 
         Db::rollback();
-        return DataReturn('编辑失败', -100);
+        return DataReturn(MyLang('common.edit_fail'), -100);
     }
 
     /**
@@ -352,7 +352,7 @@ class WarehouseGoodsService
                 }
             }
         }
-        return DataReturn('处理成功', 0, $result);
+        return DataReturn(MyLang('common.handle_success'), 0, $result);
     }
 
     /**
@@ -401,10 +401,10 @@ class WarehouseGoodsService
             ];
             if(Db::name('WarehouseGoods')->insertGetId($data) <= 0)
             {
-                return DataReturn('添加失败', -100);
+                return DataReturn(MyLang('common.insert_fail'), -100);
             }
         }
-        return DataReturn('添加成功', 0);
+        return DataReturn(MyLang('common.insert_success'), 0);
     }
 
     /**
@@ -457,11 +457,11 @@ class WarehouseGoodsService
 
             // 提交事务
             Db::commit();
-            return DataReturn('删除成功', 0);
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
 
         Db::rollback();
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 
     /**
@@ -713,7 +713,7 @@ class WarehouseGoodsService
 
             // 完成
             Db::commit();
-            return DataReturn('操作成功', 0);
+            return DataReturn(MyLang('common.operate_success'), 0);
         } catch(\Exception $e) {
             Db::rollback();
             return DataReturn($e->getMessage(), -1);
@@ -853,7 +853,7 @@ class WarehouseGoodsService
             return $ret;
         }
 
-        return DataReturn('更新成功', 0);
+        return DataReturn(MyLang('common.update_success'), 0);
     }
 
     /**

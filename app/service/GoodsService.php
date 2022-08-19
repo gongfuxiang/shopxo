@@ -1389,7 +1389,7 @@ class GoodsService
         ]);
 
         // 返回信息
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
@@ -1421,7 +1421,7 @@ class GoodsService
                 return DataReturn('规格参数添加失败', -1);
             }
         }
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
@@ -1465,7 +1465,7 @@ class GoodsService
             return $ret;
         }
 
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
@@ -1753,7 +1753,7 @@ class GoodsService
                 }
             }
         }
-        return DataReturn('添加成功', 0);
+        return DataReturn(MyLang('common.insert_success'), 0);
     }
 
     /**
@@ -1787,7 +1787,7 @@ class GoodsService
                 }
             }
         }
-        return DataReturn('添加成功', 0);
+        return DataReturn(MyLang('common.insert_success'), 0);
     }
 
     /**
@@ -1821,7 +1821,7 @@ class GoodsService
                 }
             }
         }
-        return DataReturn('添加成功', 0);
+        return DataReturn(MyLang('common.insert_success'), 0);
     }
 
     /**
@@ -1943,7 +1943,7 @@ class GoodsService
             }
         }
 
-        return DataReturn('添加成功', 0);
+        return DataReturn(MyLang('common.insert_success'), 0);
     }
 
     /**
@@ -1986,7 +1986,7 @@ class GoodsService
 
             // 提交事务
             Db::commit();
-            return DataReturn('删除成功', 0);
+            return DataReturn(MyLang('common.delete_success'), 0);
         } catch(\Exception $e) {
             Db::rollback();
             return DataReturn($e->getMessage(), -1);
@@ -2116,7 +2116,7 @@ class GoodsService
 
             // 提交事务
             Db::commit();
-            return DataReturn('操作成功');
+            return DataReturn(MyLang('common.operate_success'), 0);
         } catch(\Exception $e) {
             Db::rollback();
             return DataReturn($e->getMessage(), -1);
@@ -2353,7 +2353,7 @@ class GoodsService
             }
 
             // 返回成功
-            return DataReturn('操作成功', 0, $data);
+            return DataReturn(MyLang('common.operate_success'), 0, $data);
         }
 
         return DataReturn('没有相关规格', -100);
@@ -2457,7 +2457,7 @@ class GoodsService
                     return $ret;
                 }
 
-                return DataReturn('操作成功', 0, $data);
+                return DataReturn(MyLang('common.operate_success'), 0, $data);
             }
         }
         return DataReturn('没有相关规格类型', -100);
@@ -2527,9 +2527,9 @@ class GoodsService
                 $v['is_son']    = (Db::name('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
                 $v['json']      = json_encode($v);
             }
-            return DataReturn('操作成功', 0, $data);
+            return DataReturn(MyLang('common.operate_success'), 0, $data);
         }
-        return DataReturn('没有相关数据', -100);
+        return DataReturn(MyLang('common.no_data'), -100);
     }
 
     /**
@@ -2630,13 +2630,13 @@ class GoodsService
             $data['id'] = Db::name('GoodsCategory')->insertGetId($data);
             if($data['id'] <= 0)
             {
-                return DataReturn('添加失败', -100);
+                return DataReturn(MyLang('common.insert_fail'), -100);
             }
         } else {
             $data['upd_time'] = time();
             if(Db::name('GoodsCategory')->where(['id'=>intval($params['id'])])->update($data) === false)
             {
-                return DataReturn('编辑失败', -100);
+                return DataReturn(MyLang('common.edit_fail'), -100);
             } else {
                 $data['id'] = $params['id'];
             }
@@ -2646,7 +2646,7 @@ class GoodsService
         MyCache(SystemService::CacheKey('shopxo.cache_goods_category_key'), null);
 
         $res = self::GoodsCategoryDataHandle([$data]);
-        return DataReturn('操作成功', 0, json_encode($res[0]));
+        return DataReturn(MyLang('common.operate_success'), 0, json_encode($res[0]));
     }
 
     /**
@@ -2687,9 +2687,9 @@ class GoodsService
             // 删除大分类缓存
             MyCache(SystemService::CacheKey('shopxo.cache_goods_category_key'), null);
 
-            return DataReturn('删除成功', 0);
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 
     /**
@@ -3123,7 +3123,7 @@ class GoodsService
             $result['data'] = $goods['data'];
             $result['page_total'] = ceil($result['total']/$result['page_size']);
         }
-        return DataReturn('处理成功', 0, $result);
+        return DataReturn(MyLang('common.handle_success'), 0, $result);
     }
 
     /**

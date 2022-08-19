@@ -31,15 +31,6 @@ class UserService
     public static $user_token_key = 'user_token_data';
 
     /**
-     * 
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2019-02-27
-     * @desc    description
-     */
-    
-    /**
      * 获取用户登录信息
      * @author  Devil
      * @blog    http://gong.gg/
@@ -173,7 +164,7 @@ class UserService
 
         // 获取用户列表
         $data = Db::name('User')->where($where)->order($order_by)->field($field)->limit($m, $n)->select()->toArray();
-        return DataReturn('处理成功', 0, self::UserListHandle($data, $params));
+        return DataReturn(MyLang('common.handle_success'), 0, self::UserListHandle($data, $params));
     }
 
     /**
@@ -391,6 +382,7 @@ class UserService
             'weixin_openid'         => isset($params['weixin_openid']) ? $params['weixin_openid'] :  '',
             'weixin_unionid'        => isset($params['weixin_unionid']) ? $params['weixin_unionid'] :  '',
             'weixin_web_openid'     => isset($params['weixin_web_openid']) ? $params['weixin_web_openid'] :  '',
+            'kuaishou_openid'       => isset($params['kuaishou_openid']) ? $params['kuaishou_openid'] :  '',
             'birthday'              => empty($params['birthday']) ? 0 : strtotime($params['birthday']),
             'referrer'              => empty($params['referrer']) ? 0 : intval($params['referrer']),
         ];
@@ -470,9 +462,9 @@ class UserService
                 }
                 IntegralService::UserIntegralLogAdd($user_id, $old_integral, $opt_integral, '管理员操作', $integral_type, $params['admin']['id']);
             }
-            return DataReturn('操作成功', 0);
+            return DataReturn(MyLang('common.operate_success'), 0);
         }
-        return DataReturn('操作失败', -100);
+        return DataReturn(MyLang('common.operate_fail'), -100);
     }
 
     /**
@@ -483,7 +475,7 @@ class UserService
      * @date    2022-02-13
      * @desc    description
      * @param   [array]        $data     [用户更新信息]
-     * @param   [int]          $user_id [用户id]
+     * @param   [int]          $user_id  [用户id]
      */
     public static function UserUpdateHandle($data, $user_id)
     {
@@ -502,9 +494,9 @@ class UserService
             {
                 return $ret;
             }
-            return DataReturn('更新成功', 0);
+            return DataReturn(MyLang('common.update_success'), 0);
         }
-        return DataReturn('更新失败', -100);
+        return DataReturn(MyLang('common.update_fail'), -100);
     }
 
     /**
@@ -531,13 +523,13 @@ class UserService
         // 删除操作
         if(Db::name('User')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn('删除成功');
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 
     /**
-     * [UserLoginRecord 用户登录记录]
+     * 用户登录记录
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -736,9 +728,9 @@ class UserService
         {
             // 设置session
             self::UserLoginRecord($params['user']['id']);
-            return DataReturn('上传成功', 0);
+            return DataReturn(MyLang('common.upload_success'), 0);
         }
-        return DataReturn('上传失败', -100);
+        return DataReturn(MyLang('common.upload_fail'), -100);
     }
 
     /**
@@ -1218,7 +1210,7 @@ class UserService
                 }
                 break;
         }
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
@@ -1265,9 +1257,9 @@ class UserService
             {
                 return DataReturn('验证码错误', -12);
             }
-            return DataReturn('操作成功', 0, $verify);
+            return DataReturn(MyLang('common.operate_success'), 0, $verify);
         }
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
@@ -1326,7 +1318,7 @@ class UserService
                 }
                 break;
         }
-        return DataReturn('操作成功', 0, $field);
+        return DataReturn(MyLang('common.operate_success'), 0, $field);
     }
 
     /**
@@ -1425,9 +1417,9 @@ class UserService
                 $verify['data']->Remove();
             }
 
-            return DataReturn('发送成功', 0);
+            return DataReturn(MyLang('common.send_success'), 0);
         } else {
-            return DataReturn('发送失败'.'['.$obj->error.']', -100);
+            return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
         }
     }
 
@@ -1527,9 +1519,9 @@ class UserService
                 $verify['data']->Remove();
             }
 
-            return DataReturn('发送成功', 0);
+            return DataReturn(MyLang('common.send_success'), 0);
         } else {
-            return DataReturn('发送失败'.'['.$obj->error.']', -100);
+            return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
         }
     }
 
@@ -1611,9 +1603,9 @@ class UserService
                 $verify['data']->Remove();
             }
 
-            return DataReturn('发送成功', 0);
+            return DataReturn(MyLang('common.send_success'), 0);
         } else {
-            return DataReturn('发送失败'.'['.$obj->error.']', -100);
+            return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
         }
     }
 
@@ -1634,14 +1626,14 @@ class UserService
             {
                 return DataReturn('手机号码不存在', -3);
             }
-            return DataReturn('操作成功', 0, 'mobile');
+            return DataReturn(MyLang('common.operate_success'), 0, 'mobile');
         } else if(CheckEmail($accounts))
         {
             if(!self::IsExistAccounts($accounts, 'email'))
             {
                 return DataReturn('电子邮箱不存在', -3);
             }
-            return DataReturn('操作成功', 0, 'email');
+            return DataReturn(MyLang('common.operate_success'), 0, 'email');
         }
         return DataReturn('手机/邮箱格式有误', -4);
     }
@@ -1737,7 +1729,7 @@ class UserService
             {
                 $obj->Remove();
             }
-            return DataReturn('操作成功', 0);
+            return DataReturn(MyLang('common.operate_success'), 0);
         }
         return $ret;
     }
@@ -1796,9 +1788,9 @@ class UserService
             // 更新用户session数据
             self::UserLoginRecord($params['user']['id']);
 
-            return DataReturn('编辑成功', 0);
+            return DataReturn(MyLang('common.edit_success'), 0);
         }
-        return DataReturn('编辑失败或数据未改变', -100);
+        return DataReturn(MyLang('common.edit_fail'), -100);
     }
 
     /**
@@ -1861,7 +1853,7 @@ class UserService
                 }
             }
 
-            return DataReturn('授权成功', 0, $user);
+            return DataReturn(MyLang('common.auth_success'), 0, $user);
         } else {
             // 是否需要添加用户
             $is_insert_user = false;
@@ -1958,12 +1950,12 @@ class UserService
                     {
                         return DataReturn('用户等待审核中', -110);
                     }
-                    return DataReturn('授权成功', 0, self::AppUserInfoHandle($ret['data']['user_id']));
+                    return DataReturn(MyLang('common.auth_success'), 0, self::AppUserInfoHandle($ret['data']['user_id']));
                 }
                 return $ret;
             }
         }
-        return DataReturn('授权成功', 0, self::AppUserInfoHandle(null, null, null, $data));
+        return DataReturn(MyLang('common.auth_success'), 0, self::AppUserInfoHandle(null, null, null, $data));
     }
 
     /**
@@ -2259,9 +2251,9 @@ class UserService
                 'user_id'       => $user_id,
             ];
 
-            return DataReturn('添加成功', 0, $result);
+            return DataReturn(MyLang('common.insert_success'), 0, $result);
         }
-        return DataReturn('添加失败', -100);
+        return DataReturn(MyLang('common.insert_fail'), -100);
     }
 
     /**
@@ -2573,9 +2565,9 @@ class UserService
         // 状态
         if($status)
         {
-            return DataReturn('发送成功', 0);
+            return DataReturn(MyLang('common.send_success'), 0);
         }
-        return DataReturn('发送失败'.'['.$obj->error.']', -100);
+        return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
     }
 
     /**
@@ -2742,7 +2734,7 @@ class UserService
                 }
             }
         }
-        return DataReturn('操作成功', 0, $data);
+        return DataReturn(MyLang('common.operate_success'), 0, $data);
     }
 
     /**

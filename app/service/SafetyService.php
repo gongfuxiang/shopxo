@@ -84,7 +84,7 @@ class SafetyService
         $ret = self::UserLoginPwdUpdate($accounts, $user['id'], $params['new_pwd']);
         if($ret['code'] != 0)
         {
-            return DataReturn('操作成功', 0);
+            return DataReturn(MyLang('common.operate_success'), 0);
         }
         return $ret;
     }
@@ -124,9 +124,9 @@ class SafetyService
                 return $ret;
             }
 
-            return DataReturn('修改成功', 0);
+            return DataReturn(MyLang('common.change_success'), 0);
         }
-        return DataReturn('修改失败', -100);
+        return DataReturn(MyLang('common.change_fail'), -100);
     }
 
     /**
@@ -177,9 +177,9 @@ class SafetyService
             {
                 return DataReturn('验证码错误', -12);
             }
-            return DataReturn('操作成功', 0, $verify);
+            return DataReturn(MyLang('common.operate_success'), 0, $verify);
         }
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
@@ -271,9 +271,9 @@ class SafetyService
                 $verify['data']->Remove();
             }
 
-            return DataReturn('发送成功', 0);
+            return DataReturn(MyLang('common.send_success'), 0);
         }
-        return DataReturn('发送失败'.'['.$obj->error.']', -100);
+        return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
     }
 
     /**
@@ -451,9 +451,9 @@ class SafetyService
                 return $ret;
             }
 
-            return DataReturn('操作成功', 0);
+            return DataReturn(MyLang('common.operate_success'), 0);
         }
-        return DataReturn('操作失败', -100);
+        return DataReturn(MyLang('common.operate_fail'), -100);
     }
 }
 ?>

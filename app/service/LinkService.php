@@ -69,7 +69,7 @@ class LinkService
         $where = empty($params['where']) ? [] : $params['where'];
         $order_by = empty($params['order_by']) ? 'sort asc,id desc' : trim($params['order_by']);
         $data = Db::name('Link')->field($field)->where($where)->order($order_by)->select()->toArray();
-        return DataReturn('处理成功', 0, self::LinkListHandle($data, $params));
+        return DataReturn(MyLang('common.handle_success'), 0, self::LinkListHandle($data, $params));
     }
 
     /**
@@ -173,16 +173,16 @@ class LinkService
             $data['add_time'] = time();
             if(Db::name('Link')->insertGetId($data) > 0)
             {
-                return DataReturn('添加成功', 0);
+                return DataReturn(MyLang('common.insert_success'), 0);
             }
-            return DataReturn('添加失败', -100);
+            return DataReturn(MyLang('common.insert_fail'), -100);
         } else {
             $data['upd_time'] = time();
             if(Db::name('Link')->where(['id'=>intval($params['id'])])->update($data))
             {
-                return DataReturn('编辑成功', 0);
+                return DataReturn(MyLang('common.edit_success'), 0);
             }
-            return DataReturn('编辑失败', -100); 
+            return DataReturn(MyLang('common.edit_fail'), -100); 
         }
     }
 
@@ -211,10 +211,10 @@ class LinkService
         // 删除操作
         if(Db::name('Link')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn('删除成功');
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
 
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 
     /**
@@ -255,9 +255,9 @@ class LinkService
         // 数据更新
         if(Db::name('Link')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-            return DataReturn('编辑成功');
+            return DataReturn(MyLang('common.edit_success'), 0);
         }
-        return DataReturn('编辑失败', -100);
+        return DataReturn(MyLang('common.edit_fail'), -100);
     }
 }
 ?>

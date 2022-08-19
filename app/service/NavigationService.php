@@ -261,7 +261,7 @@ class NavigationService
             }
         }
 
-        return DataReturn('处理成功', 0, $result);
+        return DataReturn(MyLang('common.handle_success'), 0, $result);
     }
 
     /**
@@ -535,9 +535,9 @@ class NavigationService
                 // 清除缓存
                 MyCache($cache_key, null);
 
-                return DataReturn('编辑成功', 0);
+                return DataReturn(MyLang('common.edit_success'), 0);
             } else {
-                return DataReturn('编辑失败或数据未改变', -100);
+                return DataReturn(MyLang('common.edit_fail'), -100);
             }
         }
     }
@@ -577,12 +577,12 @@ class NavigationService
             MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key'), null);
             MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'), null);
 
-            return DataReturn('删除成功');
+            return DataReturn(MyLang('common.delete_success'), 0);
         }
 
         // 回滚事务
         Db::rollback();
-        return DataReturn('删除失败', -100);
+        return DataReturn(MyLang('common.delete_fail'), -100);
     }
 
     /**
@@ -627,9 +627,9 @@ class NavigationService
             MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key'), null);
             MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'), null);
 
-            return DataReturn('编辑成功');
+            return DataReturn(MyLang('common.edit_success'), 0);
         }
-        return DataReturn('编辑失败', -100);
+        return DataReturn(MyLang('common.edit_fail'), -100);
     }
 
     /**
