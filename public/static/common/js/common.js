@@ -1,5 +1,5 @@
 /**
- * [Prompt 公共提示]
+ * 公共提示
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -70,7 +70,7 @@ function Prompt(msg, type, time)
 }
 
 /**
- * [ArrayTurnJson js数组转json]
+ * js数组转json
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -89,7 +89,7 @@ function ArrayTurnJson(all, object)
 }
 
 /**
- * [GetFormVal 获取form表单的数据]
+ * 获取form表单的数据
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -190,7 +190,7 @@ function GetFormVal(element, is_json)
 }
 
 /**
- * [IsExitsFunction 方法是否已定义]
+ * 方法是否已定义
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -208,7 +208,7 @@ function IsExitsFunction(fun_name)
 }
 
 /**
- * [GetTagValue 根据tag对象获取值]
+ * 根据tag对象获取值
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -243,7 +243,7 @@ function GetTagValue(tag_obj)
 }
 
 /**
- * [$form.validator 公共表单校验, 添加class form-validation 类的表单自动校验]
+ * 公共表单校验, 添加class form-validation 类的表单自动校验
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -368,7 +368,7 @@ function FromInit(form_name)
 							if((value || null) == null && value != '0')
 							{
 								is_success = false;
-								Prompt(msg || '请选择项');
+								Prompt(msg || lang_select_not_chosen_tips || '请选择项');
 								$(this).trigger('blur');
 								return false;
 							} else {
@@ -378,12 +378,20 @@ function FromInit(form_name)
 									if(minchecked > 0 && count < minchecked)
 									{
 										is_success = false;
-										msg = msg || '至少选择'+minchecked+'项';
+										if((msg || null) == null)
+										{
+											var temp_msg = lang_select_chosen_min_tips || '至少选择{value}项';
+											msg = temp_msg.replace('{value}', minchecked);
+										}
 									}
 									if(maxchecked > 0 && count > maxchecked)
 									{
 										is_success = false;
-										msg = msg || '最多选择'+maxchecked+'项';
+										if((msg || null) == null)
+										{
+											var temp_msg = lang_select_chosen_max_tips || '最多选择{value}项';
+											msg = temp_msg.replace('{value}', maxchecked);
+										}
 									}
 									if(is_success === false)
 									{
@@ -424,7 +432,7 @@ function FromInit(form_name)
 				if(request_handle.indexOf(request_type) == -1)
 				{
 	            	$button.button('reset');
-	            	Prompt('表单[类型]参数配置有误');
+	            	Prompt(lang_form_config_type_params_tips || '表单[类型]参数配置有误');
 	            	return false;
 				}
 
@@ -433,7 +441,7 @@ function FromInit(form_name)
 				if(request_type_value.indexOf(request_type) != -1 && request_value == null)
 				{
 	        		$button.button('reset');
-					Prompt('表单[类型值]参数配置有误');
+					Prompt(lang_form_config_value_params_tips || '表单[类型值]参数配置有误');
 					return false;
 				}
 
@@ -452,7 +460,7 @@ function FromInit(form_name)
 	            		{
 	            			window[request_value](GetFormVal(form_name, true));
 	            		} else {
-	            			Prompt('['+request_value+']表单定义的方法未定义');
+	            			Prompt((lang_form_call_fun_not_exist_tips || '表单配置的方法未定义')+'['+request_value+']');
 	            		}
 	            		return false;
 						break;
@@ -483,7 +491,7 @@ function FromInit(form_name)
 						if(!IsExitsFunction(request_value))
 	            		{
 	            			$button.button('reset');
-	            			Prompt('['+request_value+']表单定义的方法未定义');
+	            			Prompt((lang_form_call_fun_not_exist_tips || '表单配置的方法未定义')+'['+request_value+']');
 	            			return false;
 	            		}
 						break;
@@ -494,7 +502,7 @@ function FromInit(form_name)
 				if(action == null || method == null)
 				{
 	            	$button.button('reset');
-	            	Prompt('表单[action或method]参数配置有误');
+	            	Prompt(lang_form_config_main_tips || '表单[action或method]参数配置有误');
 	            	return false;
 				}
 
@@ -513,7 +521,7 @@ function FromInit(form_name)
 					if(env_vars_count > 0 && form_data_count > env_vars_count)
 					{
 						$button.button('reset');
-						Prompt('请求参数数量已超出php.ini限制[max_input_vars]('+form_data_count+'>'+env_vars_count+')');
+						Prompt((lang_max_input_vars_tips || '请求参数数量已超出php.ini限制')+'[max_input_vars]('+form_data_count+'>'+env_vars_count+')');
 						return false;
 					}
 				}
@@ -539,7 +547,7 @@ function FromInit(form_name)
 	                			window[request_value](result);
 	                		} else {
 		            			$button.button('reset');
-	                			Prompt('['+request_value+']表单定义的方法未定义');
+	                			Prompt((lang_form_call_fun_not_exist_tips || '表单配置的方法未定义')+'['+request_value+']');
 	                		}
 	                	} else {
 	                		// 统一处理
@@ -586,7 +594,7 @@ function FromInit(form_name)
 		            {
 		            	$.AMUI.progress.done();
 		            	$button.button('reset');
-		            	Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+		            	Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
 		            }
 	            });
 			}
@@ -600,7 +608,7 @@ FromInit('form.form-validation');
 FromInit('form.form-validation-search');
 
 /**
- * [FormDataFill 表单数据填充]
+ * 表单数据填充
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -655,7 +663,7 @@ function FormDataFill(json, tag)
 }
 
 /**
- * [Tree 树方法]
+ * 树方法
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
@@ -702,7 +710,7 @@ function Tree(id, url, level = 0, is_delete_all = 0)
 		},
 		error: function(xhr, type)
 		{
-			$('#tree').find('p').text(HtmlToString(xhr.responseText) || '异常错误');
+			$('#tree').find('p').text(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'));
 			$('#tree').find('img').remove();
 		}
 	});
@@ -753,18 +761,18 @@ function TreeItemHtmlHandle(item, pid, level, is_delete_all)
 	// 新增
 	if(level < rank-1)
 	{
-		html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus am-margin-right-sm tree-submit-add-node" data-am-modal="{target: \''+popup_tag+'\'}" data-id="'+item.id+'" '+(item.is_enable == 0 ? 'style="display:none;"' : '')+'> 新增</button>';
+		html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus am-margin-right-sm tree-submit-add-node" data-am-modal="{target: \''+popup_tag+'\'}" data-id="'+item.id+'" '+(item.is_enable == 0 ? 'style="display:none;"' : '')+'> '+(lang_operate_add_name || '新增')+'</button>';
 	}
 
 	// 编辑
-	html += '<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: \''+popup_tag+'\'}" data-json="'+encodeURIComponent(item.json)+'" data-is-exist-son="'+item.is_son+'"> 编辑</button>';
+	html += '<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: \''+popup_tag+'\'}" data-json="'+encodeURIComponent(item.json)+'" data-is-exist-son="'+item.is_son+'"> '+(lang_operate_edit_name || '编辑')+'</button>';
 	if(item.is_son != 'ok' || is_delete_all == 1)
 	{
 		// 是否需要删除子数据
 		var pid_class = is_delete_all == 1 ? '.tree-pid-'+item.id : '';
 
 		// 删除
-		html += '<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-margin-left-sm submit-delete" data-id="'+item.id+'" data-url="'+delete_url+'" data-ext-delete-tag="'+pid_class+'"> 删除</button>';
+		html += '<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-margin-left-sm submit-delete" data-id="'+item.id+'" data-url="'+delete_url+'" data-ext-delete-tag="'+pid_class+'"> '+(lang_operate_delete_name || '删除')+'</button>';
 	}
 	html += '</div>';
 	// 操作项 end
@@ -918,7 +926,7 @@ function TreeFormSaveBackHandle(e)
 }
 
 /**
- * [ImageFileUploadShow 图片上传预览]
+ * 图片上传预览
  * @param  {[string]} class_name 		[class名称]
  * @param  {[string]} show_img   		[预览图片id或class]
  * @param  {[string]} default_images    [默认图片]
@@ -935,11 +943,11 @@ function ImageFileUploadShow(class_name, show_img, default_images)
 				filextension = filextension.toLowerCase();
 			if((filextension!='.jpg') && (filextension!='.gif') && (filextension!='.jpeg') && (filextension!='.png') && (filextension!='.bmp'))
 			{
-				Prompt("图片格式错误，请重新上传");
+				Prompt(lang_upload_images_format_tips || '图片格式错误，请重新上传');
 			} else {
 				if(document.all)
 				{
-					Prompt('ie浏览器不可用');
+					Prompt(lang_ie_browser_tips || 'ie浏览器不可用');
 					/*imgFile.select();
 					path = document.selection.createRange().text;
 					$(this).parent().parent().find('img').attr('src', '');
@@ -960,7 +968,7 @@ function ImageFileUploadShow(class_name, show_img, default_images)
 }
 
 /**
- * [VideoFileUploadShow 视频上传预览]
+ * 视频上传预览
  * @param  {[string]} class_name 		[class名称]
  * @param  {[string]} show_video   		[预览视频id或class]
  * @param  {[string]} default_video     [默认视频]
@@ -977,11 +985,11 @@ function VideoFileUploadShow(class_name, show_video, default_video)
 				filextension = filextension.toLowerCase();
 			if(filextension != '.mp4')
 			{
-				Prompt("视频格式错误，请重新上传");
+				Prompt(lang_upload_video_format_tips || '视频格式错误，请重新上传');
 			} else {
 				if(document.all)
 				{
-					Prompt('ie浏览器不可用');
+					Prompt(lang_ie_browser_tips || 'ie浏览器不可用');
 					/*imgFile.select();
 					path = document.selection.createRange().text;
 					$(this).parent().parent().find('img').attr('src', '');
@@ -999,41 +1007,6 @@ function VideoFileUploadShow(class_name, show_video, default_video)
 			$(show_video).attr('src', default_video || default_video);
 		}
 	});
-}
-
- 
-// 校验浏览器是否支持视频播放
-function CheckVideo()
-{
-	if(document.createElement('video').canPlayType)
-	{
-		var vid_test = document.createElement("video");
-		var ogg_test = vid_test.canPlayType('video/ogg; codecs="theora, vorbis"');
-		if(!ogg_test)
-		{
-			h264_test = vid_test.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
-			if(!h264_test)
-			{
-				document.getElementById("checkVideoResult").innerHTML = "Sorry. No video support."
-			} else {
-				if(h264_test == "probably")
-				{
-					document.getElementById("checkVideoResult").innerHTML = "Yes! Full support!";
-				} else {
-					document.getElementById("checkVideoResult").innerHTML = "Well. Some support.";
-				}
-			}
-		} else {
-			if(ogg_test == "probably")
-			{
-				document.getElementById("checkVideoResult").innerHTML = "Yes! Full support!";
-			} else {
-				document.getElementById("checkVideoResult").innerHTML = "Well. Some support.";
-			}
-		}
-	} else {
-		document.getElementById("checkVideoResult").innerHTML = "Sorry. No video support."
-	}
 }
 
 /**
@@ -1110,7 +1083,7 @@ function FomatFloat(value, pos)
 }
 
 /**
- * [DataDelete 数据删除]
+ * 数据删除
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -1128,12 +1101,12 @@ function DataDelete(e)
 	var view_value = e.attr('data-view-value') || '';
 	var ext_delete_tag = e.attr('data-ext-delete-tag') || null;
 	var is_loading = parseInt(e.attr('data-is-loading') || 0);
-	var loading_msg = e.attr('data-loading-msg') || '正在处理中、请稍候...';
+	var loading_msg = e.attr('data-loading-msg') || lang_request_handle_loading_tips || '正在处理中、请稍候...';
 
 	// 参数校验
 	if((id || null) == null || (url || null) == null)
 	{
-		Prompt('参数配置有误');
+		Prompt(lang_params_error_tips || '参数配置有误');
 		return false;
 	}
 
@@ -1200,7 +1173,7 @@ function DataDelete(e)
                 			result['data_id'] = id;
                 			window[value](result);
                 		} else {
-                			Prompt('['+value+']配置方法未定义');
+                			Prompt((lang_config_fun_not_exist_tips || '配置方法未定义')+'['+value+']');
                 		}
 						break;
 
@@ -1246,13 +1219,13 @@ function DataDelete(e)
 				AMUI.dialog.loading('close');
 			}
 			$.AMUI.progress.done();
-			Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+			Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
 		}
 	});
 }
 
 /**
- * [ConfirmDataDelete 数据删除]
+ * 数据删除
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -1261,8 +1234,8 @@ function DataDelete(e)
  */
 function ConfirmDataDelete(e)
 {
-	var title = e.attr('data-title') || '温馨提示';
-	var msg = e.attr('data-msg') || '删除后不可恢复、确认操作吗？';
+	var title = e.attr('data-title') || lang_reminder_title || '温馨提示';
+	var msg = e.attr('data-msg') || lang_delete_confirm_tips || '删除后不可恢复、确认操作吗？';
 	var is_confirm = (e.attr('data-is-confirm') == undefined || e.attr('data-is-confirm') == 1) ? 1 : 0;
 
 	if(is_confirm == 1)
@@ -1282,7 +1255,7 @@ function ConfirmDataDelete(e)
 }
 
 /**
- * [AjaxRequest ajax网络请求]
+ * ajax网络请求
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -1301,7 +1274,7 @@ function AjaxRequest(e)
 	var view_value = e.attr('data-view-value') || '';
 	var is_example = e.hasClass('btn-loading-example');
 	var is_loading = parseInt(e.attr('data-is-loading') || 0);
-	var loading_msg = e.attr('data-loading-msg') || '正在处理中、请稍候...';
+	var loading_msg = e.attr('data-loading-msg') || lang_request_handle_loading_tips || '正在处理中、请稍候...';
 
 	// 请求数据
 	var data = {"value": value, "field": field};
@@ -1369,7 +1342,7 @@ function AjaxRequest(e)
                 		{
                 			window[value](result);
                 		} else {
-                			Prompt('['+value+']配置方法未定义');
+                			Prompt((lang_config_fun_not_exist_tips || '配置方法未定义')+'['+value+']');
                 		}
 						break;
 
@@ -1417,13 +1390,13 @@ function AjaxRequest(e)
 				e.button('reset');
 			}
 			$.AMUI.progress.done();
-			Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+			Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
 		}
 	});
 }
 
 /**
- * [ConfirmNetworkAjax 确认网络请求]
+ * 确认网络请求
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -1432,9 +1405,8 @@ function AjaxRequest(e)
  */
 function ConfirmNetworkAjax(e)
 {
-	var title = e.attr('data-title') || '温馨提示';
-	var msg = e.attr('data-msg') || '操作后不可恢复、确认继续吗？';
-
+	var title = e.attr('data-title') || lang_reminder_title || '温馨提示';
+	var msg = e.attr('data-msg') || lang_operate_confirm_tips || '操作后不可恢复、确认继续吗？';
 	AMUI.dialog.confirm({
 		title: title,
 		content: msg,
@@ -1467,7 +1439,7 @@ function FullscreenOpen()
     {
         elem.requestFullScreen();
     } else {
-        Prompt("浏览器不支持全屏API或已被禁用");
+        Prompt(lang_browser_api_error_tips || '浏览器不支持全屏API或已被禁用');
         return false;
     }
     return true;
@@ -1497,7 +1469,7 @@ function FullscreenExit()
     {
         elem.exitFullscreen();
     } else {
-        Prompt("浏览器不支持全屏API或已被禁用");
+        Prompt(lang_browser_api_error_tips || '浏览器不支持全屏API或已被禁用');
         return false;
     }
     return true;
@@ -1520,7 +1492,7 @@ function FullscreenEscEvent()
 		var $fullscreen = $('.fullscreen-event');
 		if(($fullscreen.attr('data-status') || 0) == 1)
 		{
-			$fullscreen.find('.fullscreen-text').text($fullscreen.attr('data-fulltext-open') || '开启全屏');
+			$fullscreen.find('.fullscreen-text').text($fullscreen.attr('data-fulltext-open') || lang_fullscreen_open_name || '开启全屏');
 			$fullscreen.attr('data-status', 0);
 		}
 	}
@@ -1670,7 +1642,7 @@ function MobileBrowserEnvironment()
 }
 
 /**
- * [pagelibrary 分页按钮获取]
+ * 分页按钮获取
  * @param  {[int]} total      [数据总条数]
  * @param  {[int]} number     [页面数据显示条数]
  * @param  {[int]} page       [当前页码数]
@@ -1727,7 +1699,7 @@ function PageLibrary(total, number, page, sub_number)
 }
 
 /**
- * [RegionNodeData 地区联动]
+ * 地区联动
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0
@@ -1977,7 +1949,7 @@ function MapInit(lng, lat, level, is_dragend, mapid)
 			    var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
 			    map.addControl(cr); //添加版权控件
 			    var bs = map.getBounds();   //返回地图可视区域
-			    cr.addCopyright({id: 1, content: "<div class='map-copy'><span>拖动红色图标直接定位</span></div>", bounds:bs});
+			    cr.addCopyright({id: 1, content: '<div class="map-dragging-tips"><span>'+(lang_map_dragging_icon_tips || '拖动红色图标直接定位')+'</span></div>', bounds:bs});
 		    }
 			break;
 
@@ -2107,7 +2079,7 @@ function MapInit(lng, lat, level, is_dragend, mapid)
 
 		// 默认
 		default :
-			Prompt('该地图功能未定义('+__load_map_type__+')');
+			Prompt((lang_map_type_not_exist_tips || '该地图功能未定义')+'('+__load_map_type__+')');
 	}
 
 	//获取地址坐标
@@ -2452,9 +2424,7 @@ function RegionLinkageInit()
 function RequestUrlHandle(url)
 {
 	// 增加系统参数
-	url = UrlFieldReplace('system_type', __system_type__, url);
-
-	return url;
+	return UrlFieldReplace('system_type', __system_type__, url);
 }
 
 /**
@@ -2524,7 +2494,7 @@ $(function()
     	var val = $(this).data('val') || null;
     	if(key == null || val == null)
     	{
-    		Prompt('排序数据值有误');
+    		Prompt(lang_operate_params_error || '排序数据值有误');
     		return false;
     	}
 
@@ -2557,7 +2527,7 @@ $(function()
     	// 是否有选择的数据
 		if(fields.length <= 0)
 		{
-			Prompt('请先选择数据');
+			Prompt(lang_before_choice_data_tips || '请先选择数据');
 			return false;
 		}
 
@@ -2593,7 +2563,7 @@ $(function()
 			{
 				$.AMUI.progress.done();
 				$button.button('reset');
-				Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+				Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
 			}
 		});
     });
@@ -2604,11 +2574,11 @@ $(function()
     	var value = parseInt($(this).attr('data-value')) || 0;
         if(value == 1)
         {
-        	var not_checked_text = $(this).data('not-checked-text') || '全选';
+        	var not_checked_text = $(this).data('not-checked-text') || lang_select_all_name || '全选';
             $(this).text(not_checked_text);
             $('.form-table-fields-list-container ul li').find('input[type="checkbox"]').uCheck('uncheck');
         } else {
-            var checked_text = $(this).data('checked-text') || '反选';
+            var checked_text = $(this).data('checked-text') || lang_select_reverse_name || '反选';
             $(this).text(checked_text);
             $('.form-table-fields-list-container ul li').find('input[type="checkbox"]').uCheck('check');
         }
@@ -2621,11 +2591,11 @@ $(function()
     	var value = parseInt($(this).attr('data-value')) || 0;
         if(value == 1)
         {
-        	var not_checked_text = $(this).data('not-checked-text') || '全选';
+        	var not_checked_text = $(this).data('not-checked-text') || lang_select_all_name || '全选';
             $(this).text(not_checked_text);
             $('.form-table-operate-checkbox').find('input[type="checkbox"]').uCheck('uncheck');
         } else {
-            var checked_text = $(this).data('checked-text') || '反选';
+            var checked_text = $(this).data('checked-text') || lang_select_reverse_name || '反选';
             $(this).text(checked_text);
             $('.form-table-operate-checkbox').find('input[type="checkbox"]').uCheck('check');
         }
@@ -2639,7 +2609,7 @@ $(function()
     	var url = $(this).data('url') || null;
     	if(url == null)
     	{
-    		Prompt('url参数有误');
+    		Prompt(lang_operate_params_error || 'url参数有误');
     		return false;
     	}
 
@@ -2647,7 +2617,7 @@ $(function()
     	var form = $(this).data('form') || null;
     	if(form == null)
     	{
-    		Prompt('form参数有误');
+    		Prompt(lang_operate_params_error || 'form参数有误');
     		return false;
     	}
 
@@ -2655,15 +2625,15 @@ $(function()
 		var values = FromTableCheckedValues(form, '.am-table-scrollable-horizontal');
 		if(values.length <= 0)
 		{
-			Prompt('请先选中数据');
+			Prompt(lang_before_choice_data_tips || '请先选中数据');
 			return false;
 		}
 
 		// 提交字段名称|超时时间|标题|描述
 		var key = $(this).data('key') || form;
 		var timeout = $(this).data('timeout') || 60000;
-		var title = $(this).data('confirm-title') || '温馨提示';
-		var msg = $(this).data('confirm-msg') || '删除后不可恢复、确认操作吗？';
+		var title = $(this).data('confirm-title') || lang_reminder_title || '温馨提示';
+		var msg = $(this).data('confirm-msg') || lang_delete_confirm_tips || '删除后不可恢复、确认操作吗？';
 
 		// 再次确认
 		AMUI.dialog.confirm({
@@ -2705,7 +2675,7 @@ $(function()
 					error: function(xhr, type)
 					{
 						$.AMUI.progress.done();
-						Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+						Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
 					}
 				});
 			},
@@ -2729,12 +2699,12 @@ $(function()
 		{
 			if(FullscreenOpen())
 			{
-				$(this).find('.fullscreen-text').text($(this).attr('data-fulltext-exit') || '退出全屏');
+				$(this).find('.fullscreen-text').text($(this).attr('data-fulltext-exit') || lang_fullscreen_exit_name || '退出全屏');
 			}
 		} else {
 			if(FullscreenExit())
 			{
-				$(this).find('.fullscreen-text').text($(this).attr('data-fulltext-open') || '开启全屏');
+				$(this).find('.fullscreen-text').text($(this).attr('data-fulltext-open') || lang_fullscreen_open_name || '开启全屏');
 			}
 		}
 		$(this).attr('data-status', status == 0 ? 1 : 0);
@@ -2776,7 +2746,7 @@ $(function()
 	});
 	
 	/**
-	 * [submit-delete 删除数据列表]
+	 * 删除数据列表
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -2790,7 +2760,7 @@ $(function()
 	});
 
 	/**
-	 * [submit-state 公共数据状态操作]
+	 * 公共数据状态操作
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -2809,10 +2779,10 @@ $(function()
 		var field = $this.attr('data-field') || '';
 		var is_update_status = $this.attr('data-is-update-status') || 0;
 		var is_loading = parseInt($this.attr('data-is-loading') || 0);
-		var loading_msg = $this.attr('data-loading-msg') || '正在处理中、请稍候...';
+		var loading_msg = $this.attr('data-loading-msg') || lang_request_handle_loading_tips || '正在处理中、请稍候...';
 		if(id == undefined || url == undefined)
 		{
-			Prompt('参数配置有误');
+			Prompt(lang_params_error_tips || '参数配置有误');
 			return false;
 		}
 
@@ -2876,13 +2846,13 @@ $(function()
 					AMUI.dialog.loading('close');
 				}
 				$.AMUI.progress.done();
-				Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+				Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
 			}
 		});
 	});
 
 	/**
-	 * [submit-edit 公共编辑]
+	 * 公共编辑
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -2909,7 +2879,7 @@ $(function()
 	});
 
 	/**
-	 * [tree-submit-add-node 公共无限节点 - 新子节点]
+	 * 公共无限节点 - 新子节点
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -2932,7 +2902,7 @@ $(function()
 	});
 
 	/**
-	 * [tree-submit 公共无限节点]
+	 * 公共无限节点
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -2978,13 +2948,13 @@ $(function()
 			{
 				Tree(id, url, level, is_delete_all);
 			} else {
-				Prompt('参数有误');
+				Prompt(lang_operate_params_error || '参数有误');
 			}
 		}
 	});
 
 	/**
-	 * [tree-submit-add 公共无限节点新增按钮处理]
+	 * 公共无限节点新增按钮处理
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -2996,7 +2966,7 @@ $(function()
 	});
 
 	/**
-	 * [submit-ajax 公共数据ajax操作]
+	 * 公共数据ajax操作
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -3056,7 +3026,7 @@ $(function()
 		address += $('#form-address').val();
 		if(province.length <= 0 && address.length <= 0)
 		{
-			Prompt('地址为空');
+			Prompt(lang_address_data_empty_tips || '地址为空');
 			return false;
 		}
 
@@ -3074,7 +3044,7 @@ $(function()
 					{
 						MapInit(point.lng, point.lat);
 					} else {
-						Prompt('您选择地址没有解析到结果！');
+						Prompt(lang_map_address_analysis_tips || '您选择地址没有解析到结果！');
 					}
 				}, province);
 				break;
@@ -3091,7 +3061,7 @@ $(function()
 			                var lnglat = result.geocodes[0].location;
 			                MapInit(lnglat.lng, lnglat.lat);
 			            } else {
-			                Prompt('您选择地址没有解析到结果！');
+			                Prompt(lang_map_address_analysis_tips || '您选择地址没有解析到结果！');
 			            }
 			        });
 				});
@@ -3123,7 +3093,7 @@ $(function()
 
 			// 默认
 			default :
-				Prompt('该地图功能未定义('+__load_map_type__+')');
+				Prompt((lang_map_type_not_exist_tips || '该地图功能未定义')+'('+__load_map_type__+')');
 		}
 	});
 
@@ -3253,7 +3223,8 @@ $(function()
 	                	// 是否限制数量
 	                    if(max_number > 0 && $tag.find('li').length >= max_number)
 	                    {
-	                        Prompt('最多上传'+max_number+'张图片');
+	                    	var temp_msg = lang_upload_images_max_tips || '最多上传{value}张图片';
+	                        Prompt(temp_msg.replace('{value}', max_number));
 	                        break;
 	                    }
 
@@ -3301,7 +3272,8 @@ $(function()
 	                	// 是否限制数量
 	                    if(max_number > 0 && $tag.find('li').length >= max_number)
 	                    {
-	                        Prompt('最多上传'+max_number+'个视频');
+	                    	var temp_msg = upload_video_max_tips || '最多上传{value}个视频';
+	                        Prompt(temp_msg.replace('{value}', max_number));
 	                        break;
 	                    }
 
@@ -3349,7 +3321,8 @@ $(function()
 	                	// 是否限制数量
 	                    if(max_number > 0 && $tag.find('li').length >= max_number)
 	                    {
-	                        Prompt('最多上传'+max_number+'个附件');
+	                    	var temp_msg = upload_annex_max_tips || '最多上传{value}个附件';
+	                        Prompt(temp_msg.replace('{value}', max_number));
 	                        break;
 	                    }
 
@@ -3376,14 +3349,14 @@ $(function()
     	// 组件是否初始化
     	if(typeof(upload_editor) != 'object')
     	{
-    		Prompt('组件未初始化');
+    		Prompt(lang_assembly_not_init_tips || '组件未初始化');
             return false;
     	}
 
     	// 容器是否指定
         if(($(this).attr('data-view-tag') || null) == null)
         {
-            Prompt('未指定容器');
+            Prompt(lang_not_specified_container_tips || '未指定容器');
             return false;
         }
 
@@ -3411,14 +3384,14 @@ $(function()
         }
         if(dialog_type == null)
         {
-            Prompt('未指定加载组建');
+            Prompt(lang_not_specified_assembly_tips || '未指定加载组建');
             return false;
         }
 
         // 是否指定form名称
         if(($view_tag.attr('data-form-name') || null) == null)
         {
-            Prompt('未指定表单name名称');
+            Prompt(lang_not_specified_form_name_tips || '未指定表单name名称');
             return false;
         }
 
@@ -3480,7 +3453,7 @@ $(function()
     	var url = $(this).data('url') || null;
     	if(url == null)
     	{
-    		Prompt('url未配置');
+    		Prompt(lang_operate_params_error || 'url未配置');
     		return false;
     	}
 
@@ -3502,7 +3475,7 @@ $(function()
     	var lat = $(this).data('lat') || null;
     	if(lng == null || lat == null)
     	{
-    		Prompt('坐标有误');
+    		Prompt(lang_map_coordinate_tips || '坐标有误');
     		return false;
     	}
 
@@ -3532,7 +3505,7 @@ $(function()
     // 关闭窗口
     $(document).on('click', '.window-close-event', function()
     {
-    	if(confirm($(this).data('msg') || '您确定要关闭本页吗？'))
+    	if(confirm($(this).data('msg') || lang_window_close_confirm_tips || '您确定要关闭本页吗？'))
     	{
 			var user_agent = navigator.userAgent;
 		    if(user_agent.indexOf('Firefox') != -1 || user_agent.indexOf('Chrome') != -1)
@@ -3545,5 +3518,4 @@ $(function()
 		    window.close();
 		}
     });
-
 });

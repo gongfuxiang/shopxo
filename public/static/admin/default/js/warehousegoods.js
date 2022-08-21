@@ -34,7 +34,7 @@ $(function()
         var keywords = $('.forth-selection-form-keywords').val();
         if(warehouse_id <= 0)
         {
-            Prompt('请选择仓库');
+            Prompt(lang_warehouse_choice_tips || '请选择仓库');
             return false;
         }
 
@@ -65,7 +65,7 @@ $(function()
             {
                 $.AMUI.progress.done();
                 $this.button('reset');
-                var msg = HtmlToString(xhr.responseText) || '异常错误';
+                var msg = HtmlToString(xhr.responseText) || (lang_error_text || '异常错误');
                 Prompt(msg, null, 30);
                 $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+msg+'</div>');
             }
@@ -83,7 +83,7 @@ $(function()
         var goods_id = $this.parents('li').data('gid');
         if(warehouse_id <= 0)
         {
-            Prompt('请选择仓库');
+            Prompt(lang_warehouse_choice_tips || '请选择仓库');
             return false;
         }
 
@@ -107,7 +107,7 @@ $(function()
             error: function(xhr, type)
             {
                 $.AMUI.progress.done();
-                Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+                Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
             }
         });
     });

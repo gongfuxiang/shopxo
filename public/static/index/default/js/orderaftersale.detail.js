@@ -57,7 +57,7 @@ $(function()
             $form_panel.find('select[name="reason"]').html(html);
         } else {
             $form_panel.find('select[name="reason"]').html('');
-            Prompt('退款原因数据为空');
+            Prompt(lang_refund_reason_empty_tips || '退款原因数据为空');
         }
         $form_panel.find('.chosen-select').val('').trigger('chosen:updated');
     });

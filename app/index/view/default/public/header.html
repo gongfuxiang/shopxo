@@ -90,7 +90,16 @@
         var __map_view_url__ = '{{:MyUrl("index/map/index")}}';
         var __load_map_type__ = '{{$load_map_type}}';
         // 基础提示信息
-    	var lang_chosen_select_no_results_text = '没有匹配到结果';
+	    var lang_chosen_select_no_results_text = '没有匹配到结果';
+	    var lang_error_text = '异常错误';
+	    // 语言定义（用于js调用、模板引擎直接使用$lang_data.xxx获取对应语言即可）
+	    {{if !empty($lang_data)}}
+	        {{foreach $lang_data as $k=>$v}}
+	            {{if !empty($k) and isset($v) and !is_array($v)}}
+	                var lang_{{$k}} = '{{$v}}';
+	            {{/if}}
+	        {{/foreach}}
+	    {{/if}}
 	</script>
 	
 	<!-- 公共header内钩子 -->

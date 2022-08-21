@@ -33,18 +33,37 @@ class Common extends BaseController
      */
     public function __construct()
     {
-        // 当前方法
-        MyViewAssign('action', RequestAction());
+        // 模板数据
+        $assign = [
+            // 当前方法
+            'action'                    => RequestAction(),
 
-        // 系统类型
-        MyViewAssign('system_type', SystemService::SystemTypeValue());
+            // 系统类型
+            'system_type'               => SystemService::SystemTypeValue(),
 
-        // 系统环境参数最大数
-        MyViewAssign('env_max_input_vars_count', SystemService::EnvMaxInputVarsCount());
+            // 系统环境参数最大数
+            'env_max_input_vars_count'  => SystemService::EnvMaxInputVarsCount(),
 
-        // 默认不加载地图api、类型默认百度地图
-        MyViewAssign('is_load_map_api', 0);
-        MyViewAssign('load_map_type', MyC('common_map_type', 'baidu', true));
+            // 默认不加载地图api、类型默认百度地图
+            'is_load_map_api'           => 0,
+            'load_map_type'             => MyC('common_map_type', 'baidu', true),
+        ];
+
+        // 页面语言
+        $lang_common = MyLang('page_common');
+        if(empty($lang_common) || !is_array($lang_common))
+        {
+            $lang_common = [];
+        }
+        $lang_page = MyLang('page_'.RequestController());
+        if(empty($lang_page) || !is_array($lang_page))
+        {
+            $lang_page = [];
+        }
+        $assign['lang_data'] = array_merge($lang_common, $lang_page);
+
+        // 模板赋值
+        MyViewAssign($assign);
     }
 
     /**

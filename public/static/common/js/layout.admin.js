@@ -19,6 +19,7 @@ var $layout_content_obj = null;
 var $page_parent_obj = null;
 var $base_show_style_value_obj = null;
 var $base_title_keywords_obj = null;
+var $layout = $('.layout-container');
 var $offcanvas_layout_config = $('#offcanvas-layout-config');
 var $offcanvas_config_images = $('#offcanvas-module-config-images');
 var $offcanvas_config_many_images = $('#offcanvas-module-config-many-images');
@@ -38,15 +39,11 @@ var $popup_goods_search = $('#popup-module-goods-search');
 var $popup_goods_category = $('#popup-module-goods-category');
 
 // 布局模块类型信息
-var layout_module_type_arr = {
-    "images": "单图",
-    "many-images": "多图",
-    "video": "视频",
-    "goods": "商品",
-    "title": "标题",
-    "border": "辅助线",
-    "height": "辅助空白"
-}
+var layout_module_type_arr = {};
+$('#renovation-tabs-module button').each(function(k, v)
+{
+    layout_module_type_arr[$(this).data('value')] = $(this).text();
+});
 
 /**
  * 模块拖拽初始化
@@ -84,12 +81,17 @@ function ModuleDragSortInit(event)
 function StructureDragHtmlCreate(value)
 {
     // 基础
+    var switch_on = $layout.data('switch-on-text') || '开启';
+    var switch_off = $layout.data('switch-off-text') || '关闭';
+    var set_title = $layout.data('layout-set-title') || '布局设置';
+    var del_title = $layout.data('layout-del-title') || '布局移除';
+    var content_tips = $layout.data('layout-content-tips') || '模块内容区域';
     var html = '<div class="layout-view" data-value="'+value+'">';
         html += '<i class="layout-view-dragenter-icon am-icon-sort-asc am-icon-lg am-hide"></i>';
         html += '<div class="layout-content-submit drag-submit">';
-        html += '<input type="checkbox" class="switch-checkbox" checked="true" data-size="xs" data-on-color="success" data-off-color="warning" data-off-text="关闭" data-on-text="开启" />';
-        html += ' <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-square-o layout-submit layout-submit-set"> 布局设置</button>';
-        html += ' <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit layout-submit-del"> 布局移除</button>';
+        html += '<input type="checkbox" class="switch-checkbox" checked="true" data-size="xs" data-on-color="success" data-off-color="warning" data-off-text="'+switch_off+'" data-on-text="'+switch_on+'" />';
+        html += ' <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-square-o layout-submit layout-submit-set"> '+set_title+'</button>';
+        html += ' <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit layout-submit-del"> '+del_title+'</button>';
         html += '</div>';
 
     // 容器设置
@@ -98,7 +100,7 @@ function StructureDragHtmlCreate(value)
         content_submit += '</div>';
 
     // 默认内容提示信息
-    var content_tips = '<div class="layout-content-tips">模块内容区域</div>';
+    var content_tips = '<div class="layout-content-tips">'+content_tips+'</div>';
 
     // 根据布局类型处理
     var arr = value.toString().split(':');
@@ -148,11 +150,12 @@ function RenovationModuleDragHtmlCreate(value)
     // 根据模块类型处理
     if((layout_module_type_arr[value] || null) == null)
     {
-        Prompt('模块未定义['+value+']');
+        Prompt(($layout.data('module-not-exist-tips') || '模块未定义')+'['+value+']');
         return false;
     }
 
     // 基础
+    var config_first_tips = $layout.data('config-first-tips') || '请配置';
     var index = parseInt(Math.random()*1000001);
     var doc = 'module-content-index-'+value+'-'+index;
     var html = '<div class="module-view">';
@@ -162,7 +165,7 @@ function RenovationModuleDragHtmlCreate(value)
         html += ' <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit module-view-submit-del"></button>';
         html += '</div>';
         html += '<div class="module-content module-content-type-'+value+' '+doc+'">';
-        html += '<div class="am-text-center am-padding-vertical-sm am-text-primary">请配置'+layout_module_type_arr[value]+'</div>';
+        html += '<div class="am-text-center am-padding-vertical-sm am-text-primary">'+config_first_tips+layout_module_type_arr[value]+'</div>';
         html += '</div>';
         html += '</div>';
     return html;
@@ -179,7 +182,7 @@ function RenovationModuleDragHtmlCreate(value)
  */
 function ModuleToPrompt(to_name)
 {
-    Prompt(to_name || '未设置链接地址', 'warning');
+    Prompt(to_name || ($layout.data('url-not-set-tips') || '未设置链接地址'), 'warning');
 }
 
 /**
@@ -464,14 +467,14 @@ function FormBackModuleConfigImagesHandle(data)
     var doc = $offcanvas_config_images.attr('data-doc') || null;
     if(doc == null)
     {
-        Prompt('模块标记有误');
+        Prompt($layout.data('module-tab-tips') || '模块标记有误');
         return false;
     }
 
     // 图片必须
     if((data.content_images || null) == null)
     {
-        Prompt('请上传图片');
+        Prompt($layout.data('upload-images-tips') || '请上传图片');
         return false;
     }
 
@@ -514,7 +517,7 @@ function FormBackModuleConfigManyImagesHandle(data)
     var doc = $offcanvas_config_many_images.attr('data-doc') || null;
     if(doc == null)
     {
-        Prompt('模块标记有误');
+        Prompt($layout.data('module-tab-tips') || '模块标记有误');
         return false;
     }
 
@@ -557,14 +560,14 @@ function FormBackModuleConfigManyImagesHandle(data)
     }
     if(data_list.length <= 0)
     {
-        Prompt('请先添加图片并配置');
+        Prompt($layout.data('config-images-tips') || '请先添加图片并配置');
         return false;
     }
     for(var i in data_list)
     {
         if((data_list[i]['images'] || null) == null)
         {
-            Prompt('请上传图片');
+            Prompt($layout.data('upload-images-tips') || '请上传图片');
             return false;
         }
     }
@@ -713,14 +716,14 @@ function FormBackModuleConfigVideoHandle(data)
     var doc = $offcanvas_config_video.attr('data-doc') || null;
     if(doc == null)
     {
-        Prompt('模块标记有误');
+        Prompt($layout.data('module-tab-tips') || '模块标记有误');
         return false;
     }
 
     // 视频
     if((data.content_video || null) == null)
     {
-        Prompt('请上传视频');
+        Prompt($layout.data('upload-video-tips') || '请上传视频');
         return false;
     }
 
@@ -763,7 +766,7 @@ function FormBackModuleConfigGoodsHandle(data)
     var doc = $offcanvas_config_goods.attr('data-doc') || null;
     if(doc == null)
     {
-        Prompt('模块标记有误');
+        Prompt($layout.data('module-tab-tips') || '模块标记有误');
         return false;
     }
 
@@ -776,7 +779,7 @@ function FormBackModuleConfigGoodsHandle(data)
         case 'goods' :
             if((data.goods_ids || null) == null)
             {
-                Prompt('请选择商品');
+                Prompt($layout.data('choice-goods-tips') || '请选择商品');
                 return false;
             }
             goods_ids = data.goods_ids;
@@ -786,7 +789,7 @@ function FormBackModuleConfigGoodsHandle(data)
         case 'category' :
             if((data.goods_category_value || null) == null)
             {
-                Prompt('请选择商品分类');
+                Prompt($layout.data('choice-goods-category-tips') || '请选择商品分类');
                 return false;
             }
             var category = JSON.parse(decodeURIComponent(data.goods_category_value)) || null;
@@ -794,7 +797,7 @@ function FormBackModuleConfigGoodsHandle(data)
             break;
 
         default :
-            Prompt('数据类型有误['+data.goods_data_type+']');
+            Prompt(($layout.data('data-type-tips') || '数据类型有误')+'['+data.goods_data_type+']');
             return false;
     }
 
@@ -948,7 +951,7 @@ function FormBackModuleConfigGoodsHandle(data)
                     // 关闭商品窗口
                     $offcanvas_config_goods.offCanvas('close');
                 } else {
-                    Prompt('商品信息为空');
+                    Prompt($layout.data('goods-data-empty-tips') || '商品信息为空');
                 }
             } else {
                 Prompt(res.msg);
@@ -957,7 +960,7 @@ function FormBackModuleConfigGoodsHandle(data)
         error:function(res)
         {
             $this.button('reset');
-            var msg = HtmlToString(xhr.responseText) || '异常错误';
+            var msg = HtmlToString(xhr.responseText) || (lang_error_text || '异常错误');
             Prompt(msg, null, 30);
         }
     });
@@ -978,14 +981,14 @@ function FormBackModuleConfigTitleHandle(data)
     var doc = $offcanvas_config_title.attr('data-doc') || null;
     if(doc == null)
     {
-        Prompt('模块标记有误');
+        Prompt($layout.data('module-tab-tips') || '模块标记有误');
         return false;
     }
 
     // 视频
     if((data.content_title || null) == null)
     {
-        Prompt('请填写主标题');
+        Prompt($layout.data('main-title-tips') || '请填写主标题');
         return false;
     }
 
@@ -1081,19 +1084,19 @@ function FormBackModuleConfigBorderHandle(data)
     var doc = $offcanvas_config_border.attr('data-doc') || null;
     if(doc == null)
     {
-        Prompt('模块标记有误');
+        Prompt($layout.data('module-tab-tips') || '模块标记有误');
         return false;
     }
 
     // 边线类型、和大小
     if((data.style_border_style || null) == null)
     {
-        Prompt('请选择边线类型');
+        Prompt($layout.data('border-style-tips') || '请选择边线类型');
         return false;
     }
     if((data.style_border_width || null) == null)
     {
-        Prompt('请输入边线、最大10的数字');
+        Prompt($layout.data('border-style-max-tips') || '请输入边线、最大10的数字');
         return false;
     }
 
@@ -1130,14 +1133,14 @@ function FormBackModuleConfigHeightHandle(data)
     var doc = $offcanvas_config_height.attr('data-doc') || null;
     if(doc == null)
     {
-        Prompt('模块标记有误');
+        Prompt($layout.data('module-tab-tips') || '模块标记有误');
         return false;
     }
 
     // 高度
     if((data.style_height || null) == null)
     {
-        Prompt('请输入高度、最大100的数字');
+        Prompt($layout.data('height-max-tips') || '请输入高度、最大100的数字');
         return false;
     }
 
@@ -1207,7 +1210,7 @@ function FormBackModuleModalTitleKeywordsHandle(data)
     if((data.content_keywords || null) == null)
     {
         $modal_title_keywords.find('input[name="content_keywords"]').focus();
-        Prompt('请填写关键字');
+        Prompt($layout.data('keywords-tips') || '请填写关键字');
         return false;
     }
 
@@ -1259,7 +1262,7 @@ function FormBackModulePopupGoodsSearchHandle(data)
             }
             if(json == null)
             {
-                Prompt('请先选择商品分类');
+                Prompt($layout.data('before-choice-goods-category-tips') || '请先选择商品分类');
                 return false;
             }
             params['value'] = json;
@@ -1270,7 +1273,7 @@ function FormBackModulePopupGoodsSearchHandle(data)
             var $vbs = $vb.find('ul li.active a');
             if($vbs.length <= 0)
             {
-                Prompt('请先选择品牌');
+                Prompt($layout.data('before-choice-brand-tips') || '请先选择品牌');
                 return false;
             }
             params['value'] = {
@@ -1285,7 +1288,7 @@ function FormBackModulePopupGoodsSearchHandle(data)
             if(value == '')
             {
                 $vb.find('input').focus();
-                Prompt('请先输入关键字1~30个字符');
+                Prompt($layout.data('before-input-keywords-tips') || '请先输入关键字1~30个字符');
                 return false;
             }
             // 输入关键字去除引号
@@ -1315,7 +1318,7 @@ function ModuleConfigImagesToContentHtml(name)
     // 无数据
     if((name || null) == null)
     {
-        return '<a href="javascript:;" class="form-view-choice-container-submit">请选择跳转链接</a>';
+        return '<a href="javascript:;" class="form-view-choice-container-submit">'+($layout.data('choice-url-tips') || '请选择跳转链接')+'</a>';
     }
 
     // 有数据
@@ -1323,7 +1326,7 @@ function ModuleConfigImagesToContentHtml(name)
         html += '<span class="am-text-truncate">'+name+'</span>';
         html += '<i class="am-icon-close am-margin-left-xs"></i>';
         html += '</span>';
-        html += '<a href="javascript:;" class="form-view-choice-container-submit am-margin-left-sm">修改</a>';
+        html += '<a href="javascript:;" class="form-view-choice-container-submit am-margin-left-sm">'+($layout.data('edit-name') || '修改')+'</a>';
     return html;
 }
 
@@ -1341,7 +1344,7 @@ function ModuleConfigGoodsCategoryContentHtml(name)
     // 无数据
     if((name || null) == null)
     {
-        return '<a href="javascript:;" class="form-view-choice-container-submit">请选择商品分类</a>';
+        return '<a href="javascript:;" class="form-view-choice-container-submit">'+($layout.data('choice-goods-category-tips') || '请选择商品分类')+'</a>';
     }
 
     // 设置数据
@@ -1349,7 +1352,7 @@ function ModuleConfigGoodsCategoryContentHtml(name)
         html += '<span class="am-text-truncate">'+name+'</span>';
         html += '<i class="am-icon-close am-margin-left-xs"></i>';
         html += '</span>';
-        html += '<a href="javascript:;" class="form-view-choice-container-submit am-margin-left-sm">修改</a>';
+        html += '<a href="javascript:;" class="form-view-choice-container-submit am-margin-left-sm">'+($layout.data('edit-name') || '修改')+'</a>';
     return html;
 }
 
@@ -1400,11 +1403,11 @@ function ModuleConfigManyImagesItemContentHtml(images, type, name, value)
         html += '<div class="am-form-group am-form-file am-form-group-refreshing">';
         html += '<ul class="plug-file-upload-view module-slider-type-images-view module-slider-type-images-view-'+index+'" data-form-name="content_images_'+index+'" data-max-number="1" data-delete="0" data-dialog-type="images">';
         html += '<li>';
-        html += '<input type="text" name="content_images_'+index+'" data-validation-message="请上传图片" value="'+(images || '')+'" required />';
+        html += '<input type="text" name="content_images_'+index+'" data-validation-message="'+($layout.data('upload-images-tips') || '请上传图片')+'" value="'+(images || '')+'" required />';
         html += '<img src="'+(images || $offcanvas_config_many_images.data('default-images'))+'" />';
         html += '</li>';
         html += '</ul>';
-        html += '<div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-'+index+'">+上传图片</div>';
+        html += '<div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-'+index+'">+'+($layout.data('upload-images-name') || '上传图片')+'</div>';
         html += '</div>';
         html += '<div class="am-form-group am-form-group-refreshing">';
         html += '<div class="form-view-choice-container am-margin-top-xs" data-key="'+index+'">';
@@ -1508,17 +1511,17 @@ function ModuleConfigGoodsSearchPageShowName(data)
         {
             // 商品分类
             case 'category' :
-                name = '商品分类-'+value[value.length-1]['name'];
+                name = ($layout.data('goods-category-name') || '商品分类')+'-'+value[value.length-1]['name'];
                 break;
 
             // 品牌
             case 'brand' :
-                name = '品牌-'+value['name'];
+                name = ($layout.data('brand-name') || '品牌')+'-'+value['name'];
                 break;
 
             // 关键字
             case 'keywords' :
-                name = '关键字-'+value;
+                name = ($layout.data('keywords-name') || '关键字')+'-'+value;
                 break;
         }
     }
@@ -1809,7 +1812,7 @@ function LayoutSwitchInit()
 $(function()
 {
     // 布局拖拽
-    $('.layout-container').dragsort({
+    $layout.dragsort({
         dragSelector: '.drag-submit',
         placeHolderTemplate: '<div class="drag-sort-dotted"></div>'
     });
@@ -1875,7 +1878,7 @@ $(function()
 
             // 容器设置弹出框提示初始化
             $('.layout-content-submit-set').popover({
-                content: '容器设置',
+                content: $layout.data('layout-content-set-tips') || '容器设置',
                 trigger: 'hover focus',
                 theme: 'sm'
             });
@@ -1943,8 +1946,8 @@ $(function()
     {
         var $this = $(this);
         AMUI.dialog.confirm({
-            title: '温馨提示',
-            content: '移除后不可恢复、确定继续吗？',
+            title: $layout.data('layout-reminder-title') || '温馨提示',
+            content: $layout.data('layout-reminder-msg') || '移除后不可恢复、确定继续吗？',
             onConfirm: function(e)
             {
                 // 移除布局
@@ -1953,7 +1956,7 @@ $(function()
                 // 无布局则添加提示信息
                 if($('.layout-container .layout-view').length <= 0)
                 {
-                    $('.layout-container').html('<div class="layout-container-tips">布局拖放到该区域松开鼠标即可</div>');
+                    $layout.html('<div class="layout-container-tips">'+($layout.data('layout-container-tips') || '布局拖放到该区域松开鼠标即可')+'</div>');
                 }
             }
         });
@@ -2050,17 +2053,17 @@ $(function()
 
                 // 模块弹出框提示初始化
                 $('.module-view-submit-drag').popover({
-                    content: '拖拽排序',
+                    content: $layout.data('module-drag-title') || '拖拽排序',
                     trigger: 'hover focus',
                     theme: 'sm'
                 });
                 $('.module-view-submit-set').popover({
-                    content: '模块设置',
+                    content: $layout.data('module-set-title') || '模块设置',
                     trigger: 'hover focus',
                     theme: 'sm'
                 });
                 $('.module-view-submit-del').popover({
-                    content: '模块移除',
+                    content: $layout.data('module-del-title') || '模块移除',
                     trigger: 'hover focus',
                     theme: 'sm'
                 });
@@ -2078,8 +2081,8 @@ $(function()
     {
         var $this = $(this);
         AMUI.dialog.confirm({
-            title: '温馨提示',
-            content: '移除后不可恢复、确定继续吗？',
+            title: $layout.data('layout-reminder-title') || '温馨提示',
+            content: $layout.data('layout-reminder-msg') || '移除后不可恢复、确定继续吗？',
             onConfirm: function(e)
             {
                 // 模块容器
@@ -2091,7 +2094,7 @@ $(function()
                 // 无模块则添加提示信息
                 if($module_view.find('.module-view').length <= 0)
                 {
-                    $module_view.html('<div class="layout-content-tips">模块内容区域</div>');
+                    $module_view.html('<div class="layout-content-tips">'+($layout.data('layout-content-tips') || '模块内容区域')+'</div>');
                 }
             }
         });
@@ -2107,7 +2110,7 @@ $(function()
         var doc = $parent.data('doc') || null;
         if(value == null || index == null || doc == null)
         {
-            Prompt('模块属性有误');
+            Prompt($layout.data('module-attr-tips') || '模块属性有误');
             return false;
         }
 
@@ -2159,7 +2162,7 @@ $(function()
                 // 图片处理
                 var default_images = $config.data('default-images');
                 var html = '<li>';
-                    html += '<input type="text" name="content_images" value="'+(json.content_images || '')+'" data-validation-message="请上传图片" value="" required />';
+                    html += '<input type="text" name="content_images" value="'+(json.content_images || '')+'" data-validation-message="'+($layout.data('upload-images-tips') || '请上传图片')+'" value="" required />';
                     html += '<img src="'+(json.content_images || default_images)+'" />';
                     html += '</li>';
                 $config.find('ul.module-images-type-images-view').html(html);
@@ -2227,7 +2230,7 @@ $(function()
 
                     // 未定义
                     default :
-                        console.info('模块组件未定义['+goods_data_type+']')
+                        console.info(($layout.data('module-assembly-not-exist-tips') || '模块组件未定义')+'['+goods_data_type+']')
                 }
                 
                 // tab处理
@@ -2321,7 +2324,7 @@ $(function()
         var json = $(this).attr('data-json') || null;
         if(value == null || name == null)
         {
-            Prompt('参数值有误');
+            Prompt($layout.data('params-tips') || '参数值有误');
             return false;
         }
         if(json != null)
@@ -2335,7 +2338,7 @@ $(function()
             // 单一商品
             case 'goods' :
                 // 初始化搜索数据
-                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> 请搜索商品</div>');
+                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+($layout.data('search-goods-tips') || '请搜索商品')+'</div>');
                 $('.goods-page-container').html(PageLibrary());
 
                 // 弹窗数据设置并打开
@@ -2428,7 +2431,7 @@ $(function()
         if(index == 2)
         {
             var to_type = 'pages-custom-url';
-            var to_name = '自定义链接';
+            var to_name = $layout.data('custom-url-name') || '自定义链接';
             var to_value = GetFormVal('.pages-custom-url-container', true);
             var count = 0;
             for(var i in to_value)
@@ -2440,7 +2443,7 @@ $(function()
             }
             if(count >= Object.keys(to_value).length)
             {
-                Prompt('请至少填写一个地址');
+                Prompt($layout.data('custom-url-tips') || '请至少填写一个地址');
                 return false;
             }
             to_value = encodeURIComponent(JSON.stringify(to_value));
@@ -2456,7 +2459,7 @@ $(function()
             }
             if(to_type == '' || to_name == '')
             {
-                Prompt('请先选择页面');
+                Prompt($layout.data('before-choice-page-tips') || '请先选择页面');
                 return false;
             }
 
@@ -2467,14 +2470,14 @@ $(function()
                 case 'goods' :
                     if(json == null)
                     {
-                        Prompt('请选择商品');
+                        Prompt($layout.data('choice-goods-tips') || '请选择商品');
                         return false;
                     }
 
                     // 选择位置是否存在
                     if($page_parent_obj == null)
                     {
-                        Prompt('请先选择链接位置');
+                        Prompt($layout.data('before-choice-url-position-tips') || '请先选择链接位置');
                         return false;
                     }
 
@@ -2486,7 +2489,7 @@ $(function()
                 case 'goods_search' :
                     if(json == null)
                     {
-                        Prompt('请先配置商品搜索');
+                        Prompt($layout.data('before-config-goods-search-tips') || '请先配置商品搜索');
                         return false;
                     }
 
@@ -2516,7 +2519,7 @@ $(function()
             // 商品
             case 'goods' :
                 // 初始化搜索数据
-                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> 请搜索商品</div>');
+                $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+($layout.data('search-goods-tips') || '请搜索商品')+'</div>');
                 $('.goods-page-container').html(PageLibrary());
 
                 // 弹窗数据设置并打开
@@ -2563,7 +2566,7 @@ $(function()
                 break;
 
             default :
-                Prompt('类型事件未定义['+value+']')
+                Prompt(($layout.data('type-event-not-exist-tips') || '类型事件未定义')+'['+value+']')
         }
     });
 
@@ -2602,7 +2605,7 @@ $(function()
         }
         if(json == null)
         {
-            Prompt('请先选择商品分类');
+            Prompt($layout.data('before-choice-goods-category-tips') || '请先选择商品分类');
             return false;
         }
 
@@ -2619,7 +2622,7 @@ $(function()
     $offcanvas_config_goods.on('click', '.offcanvas-config-goods-category-container .form-view-choice-container-active i.am-icon-close', function()
     {
         var $parent = $(this).parents('.form-view-choice-container-content');
-        $parent.html('<a href="javascript:;" class="form-view-choice-container-submit">请选择商品分类</a>');
+        $parent.html('<a href="javascript:;" class="form-view-choice-container-submit">'+($layout.data('choice-goods-category-tips') || '请选择商品分类')+'</a>');
         $parent.parent().find('input[name="goods_category_value"]').val('');
         return false;
     });
@@ -2677,7 +2680,7 @@ $(function()
             error:function(res)
             {
                 $this.button('reset');
-                var msg = HtmlToString(xhr.responseText) || '异常错误';
+                var msg = HtmlToString(xhr.responseText) || (lang_error_text || '异常错误');
                 Prompt(msg, null, 30);
                 $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+msg+'</div>');
             }
@@ -2741,7 +2744,7 @@ $(function()
         var goods_ids = $popup_goods_select.attr('data-goods-ids') || null;
         if(goods_ids == null)
         {
-            Prompt('请先选择商品');
+            Prompt($layout.data('before-choice-goods-tips') || '请先选择商品');
             return false;
         }
 
@@ -2793,7 +2796,7 @@ $(function()
                         // 清空选择的商品id
                         $popup_goods_select.attr('data-goods-ids', '');
                     } else {
-                        Prompt('商品信息为空');
+                        Prompt($layout.data('goods-data-empty-tips') || '商品信息为空');
                     }
                 } else {
                     Prompt(res.msg);
@@ -2802,7 +2805,7 @@ $(function()
             error:function(res)
             {
                 $this.button('reset');
-                var msg = HtmlToString(xhr.responseText) || '异常错误';
+                var msg = HtmlToString(xhr.responseText) || (lang_error_text || '异常错误');
                 Prompt(msg, null, 30);
             }
         });
@@ -2827,10 +2830,10 @@ $(function()
         $(this).parent().addClass('active').siblings().removeClass('active');
 
         // 分类数据
-        var data = $(this).data('json') || null;
+        var data = $(this).find('span.data-json').text() || null;
         if(data != null)
         {
-            data = JSON.parse(decodeURIComponent(data)) || null;
+            data = JSON.parse(data) || null;
         }
         
         // 参数
@@ -2843,8 +2846,10 @@ $(function()
             var html = '';
             for(var i in data)
             {
-                var json = (data[i]['items'] || null) == null ? '' : encodeURIComponent(JSON.stringify(data[i]['items']));
-                html += '<li><a href="javascript:;" data-json="'+json+'" data-value="'+data[i]['id']+'"><span>'+data[i]['name']+'</span>';
+                var json = (data[i]['items'] || null) == null ? '' : JSON.stringify(data[i]['items']);
+                html += '<li><a href="javascript:;" data-value="'+data[i]['id']+'">';
+                html += '<span class="data-name">'+data[i]['name']+'</span>';
+                html += '<span class="data-json am-hide">'+json+'</span>';
                 if((data[i]['items'] || null) != null)
                 {
                     html += '<i class="am-icon-angle-double-right am-fr"></i>';
@@ -2877,7 +2882,7 @@ $(function()
             {
                 text += ' > ';
             }
-            var name = $(this).find('a span').text();
+            var name = $(this).find('a span.data-name').text();
             value.push({"id":$(this).find('a').data('value'), "name":name});
             text += name;
         });
@@ -3058,7 +3063,7 @@ $(function()
             error:function(xhr, type)
             {
                 $this.button('reset');
-                var msg = HtmlToString(xhr.responseText) || '异常错误';
+                var msg = HtmlToString(xhr.responseText) || (lang_error_text || '异常错误');
                 Prompt(msg, null, 30);
             }
         });

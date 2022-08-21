@@ -99,7 +99,7 @@ $(function()
             var address_id = parseInt($('form.nav-buy input[name="address_id"]').val());
             if(address_id == -1)
             {
-                Prompt('请选择地址');
+                Prompt(lang_address_choice_tips || '请选择地址');
                 return false;
             }
         }
@@ -112,7 +112,7 @@ $(function()
             var payment_id = parseInt($('form.nav-buy input[name="payment_id"]').val()) || 0;
             if(payment_id === 0)
             {
-                Prompt('请选择支付');
+                Prompt(lang_payment_choice_tips || '请选择支付');
                 return false;
             }
         }

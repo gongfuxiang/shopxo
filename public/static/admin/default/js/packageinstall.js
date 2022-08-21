@@ -27,7 +27,7 @@ function RequestHandle(key, opt, msg)
     {
         $progress.addClass('am-hide');
         $error.removeClass('am-hide');
-        $error.find('.msg-text').text('请求参数有误');
+        $error.find('.msg-text').text(lang_operate_params_error || '请求参数有误');
         return false;
     }
 
@@ -38,7 +38,7 @@ function RequestHandle(key, opt, msg)
     }
 
     // 加载提示
-    $progress.find('.msg-text').text(msg || '正在获取中...');
+    $progress.find('.msg-text').text(msg || lang_get_loading_tips || '正在获取中...');
 
     // ajax
     $.ajax({
@@ -55,12 +55,12 @@ function RequestHandle(key, opt, msg)
                 {
                     // 获取下载地址
                     case 'url' :
-                        RequestHandle(result.data, 'download', '正在下载中...');
+                        RequestHandle(result.data, 'download', lang_download_loading_tips || '正在下载中...');
                         break;
 
                     // 下载插件包
                     case 'download' :
-                        RequestHandle(result.data, 'install', '正在安装中...');
+                        RequestHandle(result.data, 'install', lang_install_loading_tips || '正在安装中...');
                         break;
 
                     // 安装完成
@@ -77,7 +77,7 @@ function RequestHandle(key, opt, msg)
             } else {
                 $progress.addClass('am-hide');
                 $error.removeClass('am-hide');
-                $error.find('.msg-text').text(((result || null) == null) ? '返回数据格式错误' : (result.msg || '异常错误'));
+                $error.find('.msg-text').text(((result || null) == null) ? (lang_error_text || '异常错误') : (result.msg || (lang_error_text || '异常错误')));
             }
         },
         error: function(xhr, type)
@@ -103,7 +103,7 @@ function RequestHandle(key, opt, msg)
                 }
             }
             var msg = (typeof(data) == 'object') ? data.msg : data;
-            $error.find('.msg-text').text(msg || '异常错误');
+            $error.find('.msg-text').text(msg || (lang_error_text || '异常错误'));
         }
     });
 }

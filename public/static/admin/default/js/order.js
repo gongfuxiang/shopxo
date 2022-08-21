@@ -35,13 +35,13 @@ $(function()
         var id = $('form.delivery-form input[name=id]').val() || 0;
         if(id == 0)
         {
-            Prompt('订单id有误');
+            Prompt(lang_order_id_empty || '订单id有误');
             return false;
         }
         var express_id = $('form.delivery-form input[name=express_id]').val() || 0;
         if(express_id == 0)
         {
-            Prompt('请选择快递方式');
+            Prompt(lang_express_choice_tips || '请选择快递方式');
             return false;
         }
     });
@@ -69,13 +69,13 @@ $(function()
         var id = $('form.pay-form input[name=id]').val() || 0;
         if(id == 0)
         {
-            Prompt('订单id有误');
+            Prompt(lang_order_id_empty || '订单id有误');
             return false;
         }
         var payment_id = $('form.pay-form input[name=payment_id]').val() || 0;
         if(payment_id == 0)
         {
-            Prompt('请选择支付方式');
+            Prompt(lang_payment_choice_tips || '请选择支付方式');
             return false;
         }
     });
@@ -93,7 +93,7 @@ $(function()
     {
         if(($('form.take-form input[name=id]').val() || 0) == 0)
         {
-            Prompt('订单id有误');
+            Prompt(lang_order_id_empty || '订单id有误');
             return false;
         }
     });

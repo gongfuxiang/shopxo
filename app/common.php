@@ -143,7 +143,7 @@ function MyCookie($name = '', $value = '', $is_encryption = true)
         $value = urlencode(Authcode(base64_encode(json_encode($value)), 'ENCODE'));
     }
     $res = cookie($name, $value);
-    return ($res === '' || !$is_encryption) ? $res : json_decode(base64_decode(Authcode(urldecode($res), 'DECODE')), true);
+    return ($res === null || $res === '' || !$is_encryption) ? $res : json_decode(base64_decode(Authcode(urldecode($res), 'DECODE')), true);
 }
 
 /**

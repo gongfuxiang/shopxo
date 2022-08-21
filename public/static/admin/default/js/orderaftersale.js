@@ -13,17 +13,17 @@ $(function()
         // 用户信息
         $popup.find('input[name="id"]').val(data.id);
         $popup.find('.user-info img').attr('src', data.user.avatar || $popup.find('.user-info img').attr('src'));
-        $popup.find('.user-info .user-base .username span').html(data.user.username || '<span class="cr-ddd">未填写</span>');
-        $popup.find('.user-info .user-base .nickname span').html(data.user.nickname || '<span class="cr-ddd">未填写</span>');
-        $popup.find('.user-info .user-base .mobile span').html(data.user.mobile || '<span class="cr-ddd">未填写</span>');
-        $popup.find('.user-info .user-base .email span').html(data.user.email || '<span class="cr-ddd">未填写</span>');
+        $popup.find('.user-info .user-base .username span').html(data.user.username || '');
+        $popup.find('.user-info .user-base .nickname span').html(data.user.nickname || '');
+        $popup.find('.user-info .user-base .mobile span').html(data.user.mobile || '');
+        $popup.find('.user-info .user-base .email span').html(data.user.email || '');
 
         // 申请信息
-        $popup.find('.apply-info .type span').html(data.type_text || '<span class="cr-ddd">未填写</span>');
-        $popup.find('.apply-info .reason span').html(data.reason || '<span class="cr-ddd">未填写</span>');
-        $popup.find('.apply-info .number span').html(data.number || '<span class="cr-ddd">未填写</span>');
-        $popup.find('.apply-info .price span').html(data.order_data.currency_data.currency_symbol+data.price || '<span class="cr-ddd">未填写</span>');
-        $popup.find('.apply-info .msg span').html(data.msg || '<span class="cr-ddd">未填写</span>');
+        $popup.find('.apply-info .type span').html(data.type_text || '');
+        $popup.find('.apply-info .reason span').html(data.reason || '');
+        $popup.find('.apply-info .number span').html(data.number || '');
+        $popup.find('.apply-info .price span').html(data.order_data.currency_data.currency_symbol+data.price || '');
+        $popup.find('.apply-info .msg span').html(data.msg || '');
 
         $popup.modal(); 
     }

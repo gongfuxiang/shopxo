@@ -82,14 +82,14 @@ $(function()
                     Prompt(result.msg);
                 }
             },
-            error: function()
+            error: function(xhr, type)
             {
                 $this.button('reset');
                 if(is_win == 1)
                 {
                     $('.verify-submit-win').button('reset');
                 }
-                Prompt('网络错误');
+                Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
             }
         });
     });
@@ -176,14 +176,14 @@ $(function()
                         Prompt(result.msg);
                     }
                 },
-                error: function()
+                error: function(xhr, type)
                 {
                     $this.button('reset');
                     if(is_win == 1)
                     {
                         $('.verify-submit-win-new').button('reset');
                     }
-                    Prompt('网络错误');
+                    Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
                 }
             });         
         } else {

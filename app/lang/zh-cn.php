@@ -17,8 +17,67 @@
  * @datetime 2016-12-01T21:51:08+0800
  */
 return [
-    // 公共
-    'common'                    => [
+    // 页面公共
+    'page_common'           => [
+        // 基础
+        'reminder_title'                    => '温馨提示',
+        'operate_params_error'              => '操作参数有误',
+        'select_reverse_name'               => '反选',
+        'select_all_name'                   => '全选',
+        'loading_tips'                      => '加载中...',
+        'goods_stock_max_tips'              => '最大限购数量',
+        'goods_stock_min_tips'              => '最低起购数量',
+        'goods_inventory_number_tips'       => '库存数量',
+        'goods_no_choice_spec_tips'         => '请选择规格',
+        'store_enabled_tips'                => '您的浏览器不支持本地存储。请禁用“专用模式”，或升级到现代浏览器。',
+        // 上传下载
+        'get_loading_tips'                  => '正在获取中..',
+        'download_loading_tips'             => '正在下载中..',
+        'update_loading_tips'               => '正在更新中..',
+        'install_loading_tips'              => '正在安装中..',
+        'system_download_loading_tips'      => '系统包正在下载中...',
+        'upgrade_download_loading_tips'     => '升级包正在下载中...',
+        // 公共common.js
+        'select_not_chosen_tips'            => '请选择项',
+        'select_chosen_min_tips'            => '至少选择{value}项',
+        'select_chosen_max_tips'            => '最多选择{value}项',
+        'upload_images_max_tips'            => '最多上传{value}张图片',
+        'upload_video_max_tips'             => '最多上传{value}个视频',
+        'upload_annex_max_tips'             => '最多上传{value}个附件',
+        'form_config_type_params_tips'      => '表单[类型]参数配置有误',
+        'form_config_value_params_tips'     => '表单[类型]参数配置有误',
+        'form_call_fun_not_exist_tips'      => '表单定义的方法未定义',
+        'form_config_main_tips'             => '表单[action或method]参数配置有误',
+        'max_input_vars_tips'               => '请求参数数量已超出php.ini限制',
+        'operate_add_name'                  => '新增',
+        'operate_edit_name'                 => '编辑',
+        'operate_delete_name'               => '删除',
+        'upload_images_format_tips'         => '图片格式错误，请重新上传',
+        'upload_video_format_tips'          => '视频格式错误，请重新上传',
+        'ie_browser_tips'                   => 'ie浏览器不可用',
+        'browser_api_error_tips'            => '浏览器不支持全屏API或已被禁用',
+        'request_handle_loading_tips'       => '正在处理中、请稍候...',
+        'params_error_tips'                 => '参数配置有误',
+        'config_fun_not_exist_tips'         => '配置方法未定义',
+        'delete_confirm_tips'               => '删除后不可恢复、确认操作吗？',
+        'operate_confirm_tips'              => '操作后不可恢复、确认继续吗？',
+        'window_close_confirm_tips'         => '您确定要关闭本页吗？',
+        'fullscreen_open_name'              => '开启全屏',
+        'fullscreen_exit_name'              => '退出全屏',
+        'map_dragging_icon_tips'            => '拖动红色图标直接定位',
+        'map_type_not_exist_tips'           => '该地图功能未定义',
+        'map_address_analysis_tips'         => '您选择地址没有解析到结果！',
+        'map_coordinate_tips'               => '坐标有误',
+        'before_choice_data_tips'           => '请先选择数据',
+        'address_data_empty_tips'           => '地址为空',
+        'assembly_not_init_tips'            => '组件未初始化',
+        'not_specified_container_tips'      => '未指定容器',
+        'not_specified_assembly_tips'       => '未指定加载组建',
+        'not_specified_form_name_tips'      => '未指定表单name名称',
+    ],
+
+    // 公共基础
+    'common'            => [
         'error'             => '异常错误',
         'operate_fail'      => '操作失败',
         'operate_success'   => '操作成功',

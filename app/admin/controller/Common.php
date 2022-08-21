@@ -151,7 +151,7 @@ class Common extends BaseController
 	}
 
 	/**
-	 * [ViewInit 视图初始化]
+	 * 视图初始化
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -310,6 +310,19 @@ class Common extends BaseController
             $assign['admin_color_url'] = MyUrl('admin/index/color', ['value'=>1]);
         }
         $assign['admin_color_value'] = $this->admin_color_value;
+
+        // 页面语言
+        $lang_common = MyLang('page_common');
+        if(empty($lang_common) || !is_array($lang_common))
+        {
+            $lang_common = [];
+        }
+        $lang_page = MyLang('page_'.$this->controller_name);
+        if(empty($lang_page) || !is_array($lang_page))
+        {
+            $lang_page = [];
+        }
+        $assign['lang_data'] = array_merge($lang_common, $lang_page);
 
         // 模板赋值
         MyViewAssign($assign);

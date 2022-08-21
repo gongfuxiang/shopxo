@@ -226,7 +226,7 @@ class SystemBaseService
         ];
 
         // 公共配置信息钩子
-        $hook_name = 'plugins_service_base_commin';
+        $hook_name = 'plugins_service_base_common';
         MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,

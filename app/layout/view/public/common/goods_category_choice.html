@@ -3,9 +3,10 @@
         <ul class="goods-category-select-1 am-scrollable-vertical am-list am-list-border am-fl" data-level="1">
             {{foreach $goods_category_list as $k=>$v}}
                 <li>
-                    <a href="javascript:;" data-json="{{:urlencode(json_encode($v['items']))}}" data-index="{{$k}}" data-value="{{$v.id}}">
-                        <span>{{$v.name}}</span>
+                    <a href="javascript:;" data-index="{{$k}}" data-value="{{$v.id}}">
+                        <span class="data-name">{{$v.name}}</span>
                         {{if !empty($v['items'])}}
+                            <span class="data-json am-hide">{{:json_encode($v['items'], JSON_UNESCAPED_UNICODE)}}</span>
                             <i class="am-icon-angle-double-right am-fr"></i>
                         {{/if}}
                     </a>

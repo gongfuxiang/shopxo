@@ -315,10 +315,10 @@ iframe { border: 0; }
 }
 
 /**
- * 地图提示
+ * 地图拖动提示
  */
-.map-copy { margin:0px 6px 6px 0px; background-color:#FFF; box-shadow:0 1px 6px rgba(0,0,0,0.35); padding:3px 5px; border-radius: 3px; }
-.map-copy span { font-size:12px; font-weight:700; color:#f99797; }
+.map-dragging-tips { margin:0px 6px 6px 0px; background-color:#FFF; box-shadow:0 1px 6px rgba(0,0,0,0.35); padding:3px 5px; border-radius: 3px; }
+.map-dragging-tips span { font-size:12px; font-weight:700; color:#f99797; }
 
 /**
  * 公共图片上传

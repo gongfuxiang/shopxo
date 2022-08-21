@@ -5,10 +5,10 @@ console.log("\u6280\u672f\u652f\u6301\uff1a\u0068\u0074\u0074\u0070\u003a\u002f\
 var store = $.AMUI.store;
 if(!store.enabled)
 {
-  alert('您的浏览器不支持本地存储。请禁用“专用模式”，或升级到现代浏览器。');
+  alert(lang_store_enabled_tips || '您的浏览器不支持本地存储。请禁用“专用模式”，或升级到现代浏览器。');
 } else {
-    // 选择缓存key
-    var store_user_menu_key = 'store-user-menu-active-key';
+  // 选择缓存key
+  var store_user_menu_key = 'store-user-menu-active-key';
 }
 
 // 购物车数量更新
@@ -17,12 +17,12 @@ function HomeCartNumberTotalUpdate(number)
     var $this = $('.common-cart-total');
     if(number <= 0)
     {
-        $this.text(0);
-        $('.mobile-navigation .common-cart-total').text('');
-        $this.removeClass('am-badge am-badge-danger');
+      $this.text(0);
+      $('.mobile-navigation .common-cart-total').text('');
+      $this.removeClass('am-badge am-badge-danger');
     } else {
-        $this.text(number);
-        $this.addClass('am-badge am-badge-danger');
+      $this.text(number);
+      $this.addClass('am-badge am-badge-danger');
     }
 }
 
@@ -247,5 +247,4 @@ $(function()
     {
       FromInit('form.form-validation-user-avatar');
     }
-    
 });

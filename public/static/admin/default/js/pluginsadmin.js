@@ -49,9 +49,9 @@ $(function()
     // 插件设置事件
     $('.plugins-set-event').on('click', function()
     {
-        if($(this).parents('.am-gallery-item').hasClass('am-active'))
+        if($(this).parents('.item').hasClass('am-active'))
         {
-            Prompt('请先点击勾勾启用');
+            Prompt(lang_not_enable_tips || '请先点击勾勾启用');
         } else {
             window.location.href = $(this).data('set-url');
         }
@@ -93,7 +93,7 @@ $(function()
         }
         if(len <= 0)
         {
-            Prompt('没有可保存的插件数据');
+            Prompt(lang_save_no_data_tips || '没有可保存的插件数据');
             return false;
         }
 
@@ -122,7 +122,7 @@ $(function()
             error: function(xhr, type)
             {
                 $.AMUI.progress.done();
-                Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+                Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
             }
         });
     });

@@ -17,7 +17,7 @@
                 <h4 class="am-popup-title">提问/留言</h4>
                 <span data-am-modal-close class="am-close">&times;</span></div>
             <div class="am-popup-bd">
-                <form class="am-form form-validation-plugins-answer-ask view-save" action="{{:MyUrl('index/answer/save')}}" method="POST" request-type="ajax-reload">
+                <form class="am-form form-validation" action="{{:MyUrl('index/answer/save')}}" method="POST" request-type="ajax-reload">
                     <div class="am-form-group">
                         <label>昵称<span class="am-form-group-label-tips-must">必填</span></label>
                         <input type="text" name="name" placeholder="昵称" minlength="1" maxlength="30" data-validation-message="昵称格式 1~30 个字符之间" class="am-radius" required /></div>
@@ -31,7 +31,7 @@
                         <label>内容<span class="am-form-group-label-tips-must">必填</span></label>
                         <textarea class="am-radius am-validate" name="content" rows="5" minlength="5" maxlength="1000" placeholder="内容至少5个字" data-validation-message="内容格式 5~1000 个字符之间" required></textarea>
                     </div>
-                    <div class="am-form-group am-form-group-refreshing">
+                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg">
                         <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">提交</button></div>
                 </form>
             </div>

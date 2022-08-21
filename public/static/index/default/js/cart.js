@@ -92,7 +92,7 @@ $(function()
             error: function(xhr, type)
             {
                 $.AMUI.progress.done();
-                Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+                Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
             }
         });
     }
@@ -114,7 +114,7 @@ $(function()
             if(max > 0 && temp_stock > max)
             {
                 $input.val(max);
-                Prompt('最大限购数量'+max+unit);
+                Prompt((lang_goods_stock_max_tips || '最大限购数量')+max+unit);
                 return false;
             }
         } else {
@@ -122,7 +122,7 @@ $(function()
             if(temp_stock < min)
             {
                 $input.val(min);
-                Prompt('最低起购数量'+min+unit);
+                Prompt((lang_goods_stock_min_tips || '最低起购数量')+min+unit);
                 return false;
             }
         }
@@ -160,10 +160,10 @@ $(function()
     {
         if($(this).find('input').is(':checked'))
         {
-            $(this).find('span.el-text').text('反选');
+            $(this).find('span.el-text').text(lang_select_reverse_name || '反选');
             $('.am-table').find('input[type="checkbox"]').not(':disabled').uCheck('check');
         } else {
-            $(this).find('span.el-text').text('全选');
+            $(this).find('span.el-text').text(lang_select_all_name || '全选');
             $('.am-table').find('input[type="checkbox"]').not(':disabled').uCheck('uncheck');
         }
 
@@ -217,7 +217,7 @@ $(function()
         var ids = $(this).parents('form').find('input[name="ids"]').val() || 0;
         if(ids == 0)
         {
-            Prompt('请选择商品');
+            Prompt(lang_goods_no_choice_tips || '请选择商品');
             return false;
         }
     });

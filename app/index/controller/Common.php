@@ -161,7 +161,7 @@ class Common extends BaseController
     }
 
     /**
-     * [CommonInit 公共数据初始化]
+     * 公共数据初始化
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -174,7 +174,7 @@ class Common extends BaseController
     }
 
     /**
-     * [IsLogin 登录校验]
+     * 登录校验
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -194,7 +194,7 @@ class Common extends BaseController
     }
 
     /**
-     * [ViewInit 视图初始化]
+     * 视图初始化
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -389,6 +389,19 @@ class Common extends BaseController
         // 更多链接地址
         $site_store_links = empty($site_store_info['links']) ? [] : $site_store_info['links'];
         $assign['site_store_links'] = $site_store_links;
+
+        // 页面语言
+        $lang_common = MyLang('page_common');
+        if(empty($lang_common) || !is_array($lang_common))
+        {
+            $lang_common = [];
+        }
+        $lang_page = MyLang('page_'.$this->controller_name);
+        if(empty($lang_page) || !is_array($lang_page))
+        {
+            $lang_page = [];
+        }
+        $assign['lang_data'] = array_merge($lang_common, $lang_page);
 
         // 模板赋值
         MyViewAssign($assign);
