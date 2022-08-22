@@ -277,7 +277,8 @@ UE.I18N['en'] = {
             'noneAlign':{'title':'None Float'},
             'leftAlign':{'title':'Left Float'},
             'rightAlign':{'title':'Right Float'},
-            'centerAlign':{'title':'Center In A Line'}
+            'centerAlign':{'title':'Center In A Line'},
+            'lang_input_search':'Search'
         },
         'uploadSelectFile':'Select File',
         'uploadAddFile':'Add File',
@@ -308,14 +309,16 @@ UE.I18N['en'] = {
         'imageLoadError':"Error,please check the network or URL！",
         'searchRemind':"Enter the search keyword!",
         'searchLoading':"Image is loading,please wait...",
-        'searchRetry':" Sorry,can't find the image,please try again!"
+        'searchRetry':" Sorry,can't find the image,please try again!",
+        'deleteConfirmTips': 'Are you sure you want to delete?'
     },
     'attachment':{
         'static':{
             'lang_tab_upload': 'Upload',
             'lang_tab_online': 'Online',
             'lang_start_upload':"Start upload",
-            'lang_drop_remind':"You can drop files here, a single maximum of 300 files"
+            'lang_drop_remind':"You can drop files here, a single maximum of 300 files",
+            'lang_input_search':'Search'
         },
         'uploadSelectFile':'Select File',
         'uploadAddFile':'Add File',
@@ -338,7 +341,8 @@ UE.I18N['en'] = {
         'errorInterrupt':'File Upload Interrupted',
         'errorUploadRetry':'Upload Error, Please Retry.',
         'errorHttp':'Http Error',
-        'errorServerUpload':'Server Result Error.'
+        'errorServerUpload':'Server Result Error.',
+        'deleteConfirmTips': 'Are you sure you want to delete?'
     },
 
     'insertvideo':{
@@ -346,6 +350,7 @@ UE.I18N['en'] = {
             'lang_tab_insertV':"Video",
             'lang_tab_searchV':"Search",
             'lang_tab_uploadV':"Upload",
+            'lang_tab_onlineV':"Online",
             'lang_video_url':" URL ",
             'lang_video_size':"Video Size",
             'lang_videoW':"Width",
@@ -363,7 +368,8 @@ UE.I18N['en'] = {
             'lang_upload_width':"Width",
             'lang_upload_height':"Height",
             'lang_upload_alignment':"Alignment",
-            'lang_format_advice':"Recommends mp4 format."
+            'lang_format_advice':"Recommends mp4 format.",
+            'lang_input_search':'Search'
         },
         'numError':"Please enter the correct Num. e.g 123,400",
         'floatLeft':"Float left",
@@ -424,7 +430,8 @@ UE.I18N['en'] = {
         'errorInterrupt':'File Upload Interrupted',
         'errorUploadRetry':'Upload Error, Please Retry.',
         'errorHttp':'Http Error',
-        'errorServerUpload':'Server Result Error.'
+        'errorServerUpload':'Server Result Error.',
+        'deleteConfirmTips': 'Are you sure you want to delete?'
     },
     'webapp':{
         'tip1':"This function provided by Baidu APP,please apply for baidu APPKey webmaster first!",

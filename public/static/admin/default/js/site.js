@@ -27,7 +27,7 @@ function AddressModalHandle(data)
         var lat = data.lat || null;
         if(name == null || tel == null || province == null || city == null || county == null || address == null)
         {
-            Prompt(lang_operate_params_error || '数据填写有误');
+            Prompt(window['lang_operate_params_error'] || '数据填写有误');
             return false;
         }
 
@@ -120,8 +120,8 @@ $(function()
         if(value.length > 0)
         {
             AMUI.dialog.confirm({
-                title: lang_reminder_title || '温馨提示',
-                content: lang_remove_confirm_tips || '移除后保存生效、确认继续吗？',
+                title: window['lang_reminder_title'] || '温馨提示',
+                content: window['lang_remove_confirm_tips'] || '移除后保存生效、确认继续吗？',
                 onConfirm: function(options)
                 {
                     value.splice(index, 1);
@@ -142,14 +142,14 @@ $(function()
         var value = SelfExtractionAddressValue();
         if(value.length <= 0)
         {
-            Prompt(lang_address_no_data || '地址数据为空');
+            Prompt(window['lang_address_no_data'] || '地址数据为空');
             return false;
         }
 
         var item = value[index] || null;
         if(item == null)
         {
-            Prompt(lang_address_not_exist || '地址不存在');
+            Prompt(window['lang_address_not_exist'] || '地址不存在');
             return false;
         }
 
@@ -158,7 +158,7 @@ $(function()
         if((item.logo || null) != null)
         {
             html += '<li>';
-            html += '<input type="text" name="logo" value="'+item.logo+'" data-validation-message="'+(lang_address_logo_message || '请上传logo图片')+'" required />';
+            html += '<input type="text" name="logo" value="'+item.logo+'" data-validation-message="'+(window['lang_address_logo_message'] || '请上传logo图片')+'" required />';
             html += '<img src="'+item.logo+'" alt="'+item.name+'" />';
             html += '<i>×</i>';
             html += '</li>';
@@ -252,7 +252,7 @@ $(function()
             {
                 $.AMUI.progress.done();
                 $this.button('reset');
-                var msg = HtmlToString(xhr.responseText) || (lang_error_text || '异常错误');
+                var msg = HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误');
                 Prompt(msg, null, 30);
                 $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+msg+'</div>');
             }

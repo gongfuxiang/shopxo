@@ -368,7 +368,7 @@ function FromInit(form_name)
 							if((value || null) == null && value != '0')
 							{
 								is_success = false;
-								Prompt(msg || lang_select_not_chosen_tips || '请选择项');
+								Prompt(msg || window['lang_select_not_chosen_tips'] || '请选择项');
 								$(this).trigger('blur');
 								return false;
 							} else {
@@ -380,7 +380,7 @@ function FromInit(form_name)
 										is_success = false;
 										if((msg || null) == null)
 										{
-											var temp_msg = lang_select_chosen_min_tips || '至少选择{value}项';
+											var temp_msg = window['lang_select_chosen_min_tips'] || '至少选择{value}项';
 											msg = temp_msg.replace('{value}', minchecked);
 										}
 									}
@@ -389,7 +389,7 @@ function FromInit(form_name)
 										is_success = false;
 										if((msg || null) == null)
 										{
-											var temp_msg = lang_select_chosen_max_tips || '最多选择{value}项';
+											var temp_msg = window['lang_select_chosen_max_tips'] || '最多选择{value}项';
 											msg = temp_msg.replace('{value}', maxchecked);
 										}
 									}
@@ -432,7 +432,7 @@ function FromInit(form_name)
 				if(request_handle.indexOf(request_type) == -1)
 				{
 	            	$button.button('reset');
-	            	Prompt(lang_form_config_type_params_tips || '表单[类型]参数配置有误');
+	            	Prompt(window['lang_form_config_type_params_tips'] || '表单[类型]参数配置有误');
 	            	return false;
 				}
 
@@ -441,7 +441,7 @@ function FromInit(form_name)
 				if(request_type_value.indexOf(request_type) != -1 && request_value == null)
 				{
 	        		$button.button('reset');
-					Prompt(lang_form_config_value_params_tips || '表单[类型值]参数配置有误');
+					Prompt(window['lang_form_config_value_params_tips'] || '表单[类型值]参数配置有误');
 					return false;
 				}
 
@@ -460,7 +460,7 @@ function FromInit(form_name)
 	            		{
 	            			window[request_value](GetFormVal(form_name, true));
 	            		} else {
-	            			Prompt((lang_form_call_fun_not_exist_tips || '表单配置的方法未定义')+'['+request_value+']');
+	            			Prompt((window['lang_form_call_fun_not_exist_tips'] || '表单配置的方法未定义')+'['+request_value+']');
 	            		}
 	            		return false;
 						break;
@@ -491,7 +491,7 @@ function FromInit(form_name)
 						if(!IsExitsFunction(request_value))
 	            		{
 	            			$button.button('reset');
-	            			Prompt((lang_form_call_fun_not_exist_tips || '表单配置的方法未定义')+'['+request_value+']');
+	            			Prompt((window['lang_form_call_fun_not_exist_tips'] || '表单配置的方法未定义')+'['+request_value+']');
 	            			return false;
 	            		}
 						break;
@@ -502,7 +502,7 @@ function FromInit(form_name)
 				if(action == null || method == null)
 				{
 	            	$button.button('reset');
-	            	Prompt(lang_form_config_main_tips || '表单[action或method]参数配置有误');
+	            	Prompt(window['lang_form_config_main_tips'] || '表单[action或method]参数配置有误');
 	            	return false;
 				}
 
@@ -521,7 +521,7 @@ function FromInit(form_name)
 					if(env_vars_count > 0 && form_data_count > env_vars_count)
 					{
 						$button.button('reset');
-						Prompt((lang_max_input_vars_tips || '请求参数数量已超出php.ini限制')+'[max_input_vars]('+form_data_count+'>'+env_vars_count+')');
+						Prompt((window['lang_max_input_vars_tips'] || '请求参数数量已超出php.ini限制')+'[max_input_vars]('+form_data_count+'>'+env_vars_count+')');
 						return false;
 					}
 				}
@@ -547,7 +547,7 @@ function FromInit(form_name)
 	                			window[request_value](result);
 	                		} else {
 		            			$button.button('reset');
-	                			Prompt((lang_form_call_fun_not_exist_tips || '表单配置的方法未定义')+'['+request_value+']');
+	                			Prompt((window['lang_form_call_fun_not_exist_tips'] || '表单配置的方法未定义')+'['+request_value+']');
 	                		}
 	                	} else {
 	                		// 统一处理
@@ -594,7 +594,7 @@ function FromInit(form_name)
 		            {
 		            	$.AMUI.progress.done();
 		            	$button.button('reset');
-		            	Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+		            	Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
 		            }
 	            });
 			}
@@ -710,7 +710,7 @@ function Tree(id, url, level = 0, is_delete_all = 0)
 		},
 		error: function(xhr, type)
 		{
-			$('#tree').find('p').text(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'));
+			$('#tree').find('p').text(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'));
 			$('#tree').find('img').remove();
 		}
 	});
@@ -761,18 +761,18 @@ function TreeItemHtmlHandle(item, pid, level, is_delete_all)
 	// 新增
 	if(level < rank-1)
 	{
-		html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus am-margin-right-sm tree-submit-add-node" data-am-modal="{target: \''+popup_tag+'\'}" data-id="'+item.id+'" '+(item.is_enable == 0 ? 'style="display:none;"' : '')+'> '+(lang_operate_add_name || '新增')+'</button>';
+		html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus am-margin-right-sm tree-submit-add-node" data-am-modal="{target: \''+popup_tag+'\'}" data-id="'+item.id+'" '+(item.is_enable == 0 ? 'style="display:none;"' : '')+'> '+(window['lang_operate_add_name'] || '新增')+'</button>';
 	}
 
 	// 编辑
-	html += '<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: \''+popup_tag+'\'}" data-json="'+encodeURIComponent(item.json)+'" data-is-exist-son="'+item.is_son+'"> '+(lang_operate_edit_name || '编辑')+'</button>';
+	html += '<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: \''+popup_tag+'\'}" data-json="'+encodeURIComponent(item.json)+'" data-is-exist-son="'+item.is_son+'"> '+(window['lang_operate_edit_name'] || '编辑')+'</button>';
 	if(item.is_son != 'ok' || is_delete_all == 1)
 	{
 		// 是否需要删除子数据
 		var pid_class = is_delete_all == 1 ? '.tree-pid-'+item.id : '';
 
 		// 删除
-		html += '<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-margin-left-sm submit-delete" data-id="'+item.id+'" data-url="'+delete_url+'" data-ext-delete-tag="'+pid_class+'"> '+(lang_operate_delete_name || '删除')+'</button>';
+		html += '<button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o am-margin-left-sm submit-delete" data-id="'+item.id+'" data-url="'+delete_url+'" data-ext-delete-tag="'+pid_class+'"> '+(window['lang_operate_delete_name'] || '删除')+'</button>';
 	}
 	html += '</div>';
 	// 操作项 end
@@ -943,11 +943,11 @@ function ImageFileUploadShow(class_name, show_img, default_images)
 				filextension = filextension.toLowerCase();
 			if((filextension!='.jpg') && (filextension!='.gif') && (filextension!='.jpeg') && (filextension!='.png') && (filextension!='.bmp'))
 			{
-				Prompt(lang_upload_images_format_tips || '图片格式错误，请重新上传');
+				Prompt(window['lang_upload_images_format_tips'] || '图片格式错误，请重新上传');
 			} else {
 				if(document.all)
 				{
-					Prompt(lang_ie_browser_tips || 'ie浏览器不可用');
+					Prompt(window['lang_ie_browser_tips'] || 'ie浏览器不可用');
 					/*imgFile.select();
 					path = document.selection.createRange().text;
 					$(this).parent().parent().find('img').attr('src', '');
@@ -985,11 +985,11 @@ function VideoFileUploadShow(class_name, show_video, default_video)
 				filextension = filextension.toLowerCase();
 			if(filextension != '.mp4')
 			{
-				Prompt(lang_upload_video_format_tips || '视频格式错误，请重新上传');
+				Prompt(window['lang_upload_video_format_tips'] || '视频格式错误，请重新上传');
 			} else {
 				if(document.all)
 				{
-					Prompt(lang_ie_browser_tips || 'ie浏览器不可用');
+					Prompt(window['lang_ie_browser_tips'] || 'ie浏览器不可用');
 					/*imgFile.select();
 					path = document.selection.createRange().text;
 					$(this).parent().parent().find('img').attr('src', '');
@@ -1101,12 +1101,12 @@ function DataDelete(e)
 	var view_value = e.attr('data-view-value') || '';
 	var ext_delete_tag = e.attr('data-ext-delete-tag') || null;
 	var is_loading = parseInt(e.attr('data-is-loading') || 0);
-	var loading_msg = e.attr('data-loading-msg') || lang_request_handle_loading_tips || '正在处理中、请稍候...';
+	var loading_msg = e.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
 
 	// 参数校验
 	if((id || null) == null || (url || null) == null)
 	{
-		Prompt(lang_params_error_tips || '参数配置有误');
+		Prompt(window['lang_params_error_tips'] || '参数配置有误');
 		return false;
 	}
 
@@ -1173,7 +1173,7 @@ function DataDelete(e)
                 			result['data_id'] = id;
                 			window[value](result);
                 		} else {
-                			Prompt((lang_config_fun_not_exist_tips || '配置方法未定义')+'['+value+']');
+                			Prompt((window['lang_config_fun_not_exist_tips'] || '配置方法未定义')+'['+value+']');
                 		}
 						break;
 
@@ -1219,7 +1219,7 @@ function DataDelete(e)
 				AMUI.dialog.loading('close');
 			}
 			$.AMUI.progress.done();
-			Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+			Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
 		}
 	});
 }
@@ -1234,8 +1234,8 @@ function DataDelete(e)
  */
 function ConfirmDataDelete(e)
 {
-	var title = e.attr('data-title') || lang_reminder_title || '温馨提示';
-	var msg = e.attr('data-msg') || lang_delete_confirm_tips || '删除后不可恢复、确认操作吗？';
+	var title = e.attr('data-title') || window['lang_reminder_title'] || '温馨提示';
+	var msg = e.attr('data-msg') || window['lang_delete_confirm_tips'] || '删除后不可恢复、确认操作吗？';
 	var is_confirm = (e.attr('data-is-confirm') == undefined || e.attr('data-is-confirm') == 1) ? 1 : 0;
 
 	if(is_confirm == 1)
@@ -1274,7 +1274,7 @@ function AjaxRequest(e)
 	var view_value = e.attr('data-view-value') || '';
 	var is_example = e.hasClass('btn-loading-example');
 	var is_loading = parseInt(e.attr('data-is-loading') || 0);
-	var loading_msg = e.attr('data-loading-msg') || lang_request_handle_loading_tips || '正在处理中、请稍候...';
+	var loading_msg = e.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
 
 	// 请求数据
 	var data = {"value": value, "field": field};
@@ -1342,7 +1342,7 @@ function AjaxRequest(e)
                 		{
                 			window[value](result);
                 		} else {
-                			Prompt((lang_config_fun_not_exist_tips || '配置方法未定义')+'['+value+']');
+                			Prompt((window['lang_config_fun_not_exist_tips'] || '配置方法未定义')+'['+value+']');
                 		}
 						break;
 
@@ -1390,7 +1390,7 @@ function AjaxRequest(e)
 				e.button('reset');
 			}
 			$.AMUI.progress.done();
-			Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+			Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
 		}
 	});
 }
@@ -1405,8 +1405,8 @@ function AjaxRequest(e)
  */
 function ConfirmNetworkAjax(e)
 {
-	var title = e.attr('data-title') || lang_reminder_title || '温馨提示';
-	var msg = e.attr('data-msg') || lang_operate_confirm_tips || '操作后不可恢复、确认继续吗？';
+	var title = e.attr('data-title') || window['lang_reminder_title'] || '温馨提示';
+	var msg = e.attr('data-msg') || window['lang_operate_confirm_tips'] || '操作后不可恢复、确认继续吗？';
 	AMUI.dialog.confirm({
 		title: title,
 		content: msg,
@@ -1439,7 +1439,7 @@ function FullscreenOpen()
     {
         elem.requestFullScreen();
     } else {
-        Prompt(lang_browser_api_error_tips || '浏览器不支持全屏API或已被禁用');
+        Prompt(window['lang_browser_api_error_tips'] || '浏览器不支持全屏API或已被禁用');
         return false;
     }
     return true;
@@ -1469,7 +1469,7 @@ function FullscreenExit()
     {
         elem.exitFullscreen();
     } else {
-        Prompt(lang_browser_api_error_tips || '浏览器不支持全屏API或已被禁用');
+        Prompt(window['lang_browser_api_error_tips'] || '浏览器不支持全屏API或已被禁用');
         return false;
     }
     return true;
@@ -1492,7 +1492,7 @@ function FullscreenEscEvent()
 		var $fullscreen = $('.fullscreen-event');
 		if(($fullscreen.attr('data-status') || 0) == 1)
 		{
-			$fullscreen.find('.fullscreen-text').text($fullscreen.attr('data-fulltext-open') || lang_fullscreen_open_name || '开启全屏');
+			$fullscreen.find('.fullscreen-text').text($fullscreen.attr('data-fulltext-open') || window['lang_fullscreen_open_name'] || '开启全屏');
 			$fullscreen.attr('data-status', 0);
 		}
 	}
@@ -1949,7 +1949,7 @@ function MapInit(lng, lat, level, is_dragend, mapid)
 			    var cr = new BMap.CopyrightControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT});
 			    map.addControl(cr); //添加版权控件
 			    var bs = map.getBounds();   //返回地图可视区域
-			    cr.addCopyright({id: 1, content: '<div class="map-dragging-tips"><span>'+(lang_map_dragging_icon_tips || '拖动红色图标直接定位')+'</span></div>', bounds:bs});
+			    cr.addCopyright({id: 1, content: '<div class="map-dragging-tips"><span>'+(window['lang_map_dragging_icon_tips'] || '拖动红色图标直接定位')+'</span></div>', bounds:bs});
 		    }
 			break;
 
@@ -2079,7 +2079,7 @@ function MapInit(lng, lat, level, is_dragend, mapid)
 
 		// 默认
 		default :
-			Prompt((lang_map_type_not_exist_tips || '该地图功能未定义')+'('+__load_map_type__+')');
+			Prompt((window['lang_map_type_not_exist_tips'] || '该地图功能未定义')+'('+__load_map_type__+')');
 	}
 
 	//获取地址坐标
@@ -2494,7 +2494,7 @@ $(function()
     	var val = $(this).data('val') || null;
     	if(key == null || val == null)
     	{
-    		Prompt(lang_operate_params_error || '排序数据值有误');
+    		Prompt(window['lang_operate_params_error'] || '排序数据值有误');
     		return false;
     	}
 
@@ -2527,7 +2527,7 @@ $(function()
     	// 是否有选择的数据
 		if(fields.length <= 0)
 		{
-			Prompt(lang_before_choice_data_tips || '请先选择数据');
+			Prompt(window['lang_before_choice_data_tips'] || '请先选择数据');
 			return false;
 		}
 
@@ -2563,7 +2563,7 @@ $(function()
 			{
 				$.AMUI.progress.done();
 				$button.button('reset');
-				Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+				Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
 			}
 		});
     });
@@ -2574,11 +2574,11 @@ $(function()
     	var value = parseInt($(this).attr('data-value')) || 0;
         if(value == 1)
         {
-        	var not_checked_text = $(this).data('not-checked-text') || lang_select_all_name || '全选';
+        	var not_checked_text = $(this).data('not-checked-text') || window['lang_select_all_name'] || '全选';
             $(this).text(not_checked_text);
             $('.form-table-fields-list-container ul li').find('input[type="checkbox"]').uCheck('uncheck');
         } else {
-            var checked_text = $(this).data('checked-text') || lang_select_reverse_name || '反选';
+            var checked_text = $(this).data('checked-text') || window['lang_select_reverse_name'] || '反选';
             $(this).text(checked_text);
             $('.form-table-fields-list-container ul li').find('input[type="checkbox"]').uCheck('check');
         }
@@ -2591,11 +2591,11 @@ $(function()
     	var value = parseInt($(this).attr('data-value')) || 0;
         if(value == 1)
         {
-        	var not_checked_text = $(this).data('not-checked-text') || lang_select_all_name || '全选';
+        	var not_checked_text = $(this).data('not-checked-text') || window['lang_select_all_name'] || '全选';
             $(this).text(not_checked_text);
             $('.form-table-operate-checkbox').find('input[type="checkbox"]').uCheck('uncheck');
         } else {
-            var checked_text = $(this).data('checked-text') || lang_select_reverse_name || '反选';
+            var checked_text = $(this).data('checked-text') || window['lang_select_reverse_name'] || '反选';
             $(this).text(checked_text);
             $('.form-table-operate-checkbox').find('input[type="checkbox"]').uCheck('check');
         }
@@ -2609,7 +2609,7 @@ $(function()
     	var url = $(this).data('url') || null;
     	if(url == null)
     	{
-    		Prompt(lang_operate_params_error || 'url参数有误');
+    		Prompt(window['lang_operate_params_error'] || 'url参数有误');
     		return false;
     	}
 
@@ -2617,7 +2617,7 @@ $(function()
     	var form = $(this).data('form') || null;
     	if(form == null)
     	{
-    		Prompt(lang_operate_params_error || 'form参数有误');
+    		Prompt(window['lang_operate_params_error'] || 'form参数有误');
     		return false;
     	}
 
@@ -2625,15 +2625,15 @@ $(function()
 		var values = FromTableCheckedValues(form, '.am-table-scrollable-horizontal');
 		if(values.length <= 0)
 		{
-			Prompt(lang_before_choice_data_tips || '请先选中数据');
+			Prompt(window['lang_before_choice_data_tips'] || '请先选中数据');
 			return false;
 		}
 
 		// 提交字段名称|超时时间|标题|描述
 		var key = $(this).data('key') || form;
 		var timeout = $(this).data('timeout') || 60000;
-		var title = $(this).data('confirm-title') || lang_reminder_title || '温馨提示';
-		var msg = $(this).data('confirm-msg') || lang_delete_confirm_tips || '删除后不可恢复、确认操作吗？';
+		var title = $(this).data('confirm-title') || window['lang_reminder_title'] || '温馨提示';
+		var msg = $(this).data('confirm-msg') || window['lang_delete_confirm_tips'] || '删除后不可恢复、确认操作吗？';
 
 		// 再次确认
 		AMUI.dialog.confirm({
@@ -2675,7 +2675,7 @@ $(function()
 					error: function(xhr, type)
 					{
 						$.AMUI.progress.done();
-						Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+						Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
 					}
 				});
 			},
@@ -2699,12 +2699,12 @@ $(function()
 		{
 			if(FullscreenOpen())
 			{
-				$(this).find('.fullscreen-text').text($(this).attr('data-fulltext-exit') || lang_fullscreen_exit_name || '退出全屏');
+				$(this).find('.fullscreen-text').text($(this).attr('data-fulltext-exit') || window['lang_fullscreen_exit_name'] || '退出全屏');
 			}
 		} else {
 			if(FullscreenExit())
 			{
-				$(this).find('.fullscreen-text').text($(this).attr('data-fulltext-open') || lang_fullscreen_open_name || '开启全屏');
+				$(this).find('.fullscreen-text').text($(this).attr('data-fulltext-open') || window['lang_fullscreen_open_name'] || '开启全屏');
 			}
 		}
 		$(this).attr('data-status', status == 0 ? 1 : 0);
@@ -2733,7 +2733,7 @@ $(function()
 			inherit_select_classes: true,
 			enable_split_word_search: true,
 			search_contains: true,
-			no_results_text: lang_chosen_select_no_results_text
+			no_results_text: window['lang_chosen_select_no_results_text']
 		});
 	}
 	// 多选插件 空内容失去焦点验证bug兼容处理
@@ -2779,10 +2779,10 @@ $(function()
 		var field = $this.attr('data-field') || '';
 		var is_update_status = $this.attr('data-is-update-status') || 0;
 		var is_loading = parseInt($this.attr('data-is-loading') || 0);
-		var loading_msg = $this.attr('data-loading-msg') || lang_request_handle_loading_tips || '正在处理中、请稍候...';
+		var loading_msg = $this.attr('data-loading-msg') || window['lang_request_handle_loading_tips'] || '正在处理中、请稍候...';
 		if(id == undefined || url == undefined)
 		{
-			Prompt(lang_params_error_tips || '参数配置有误');
+			Prompt(window['lang_params_error_tips'] || '参数配置有误');
 			return false;
 		}
 
@@ -2846,7 +2846,7 @@ $(function()
 					AMUI.dialog.loading('close');
 				}
 				$.AMUI.progress.done();
-				Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+				Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
 			}
 		});
 	});
@@ -2948,7 +2948,7 @@ $(function()
 			{
 				Tree(id, url, level, is_delete_all);
 			} else {
-				Prompt(lang_operate_params_error || '参数有误');
+				Prompt(window['lang_operate_params_error'] || '参数有误');
 			}
 		}
 	});
@@ -3026,7 +3026,7 @@ $(function()
 		address += $('#form-address').val();
 		if(province.length <= 0 && address.length <= 0)
 		{
-			Prompt(lang_address_data_empty_tips || '地址为空');
+			Prompt(window['lang_address_data_empty_tips'] || '地址为空');
 			return false;
 		}
 
@@ -3044,7 +3044,7 @@ $(function()
 					{
 						MapInit(point.lng, point.lat);
 					} else {
-						Prompt(lang_map_address_analysis_tips || '您选择地址没有解析到结果！');
+						Prompt(window['lang_map_address_analysis_tips'] || '您选择地址没有解析到结果！');
 					}
 				}, province);
 				break;
@@ -3061,7 +3061,7 @@ $(function()
 			                var lnglat = result.geocodes[0].location;
 			                MapInit(lnglat.lng, lnglat.lat);
 			            } else {
-			                Prompt(lang_map_address_analysis_tips || '您选择地址没有解析到结果！');
+			                Prompt(window['lang_map_address_analysis_tips'] || '您选择地址没有解析到结果！');
 			            }
 			        });
 				});
@@ -3093,7 +3093,7 @@ $(function()
 
 			// 默认
 			default :
-				Prompt((lang_map_type_not_exist_tips || '该地图功能未定义')+'('+__load_map_type__+')');
+				Prompt((window['lang_map_type_not_exist_tips'] || '该地图功能未定义')+'('+__load_map_type__+')');
 		}
 	});
 
@@ -3223,7 +3223,7 @@ $(function()
 	                	// 是否限制数量
 	                    if(max_number > 0 && $tag.find('li').length >= max_number)
 	                    {
-	                    	var temp_msg = lang_upload_images_max_tips || '最多上传{value}张图片';
+	                    	var temp_msg = window['lang_upload_images_max_tips'] || '最多上传{value}张图片';
 	                        Prompt(temp_msg.replace('{value}', max_number));
 	                        break;
 	                    }
@@ -3349,14 +3349,14 @@ $(function()
     	// 组件是否初始化
     	if(typeof(upload_editor) != 'object')
     	{
-    		Prompt(lang_assembly_not_init_tips || '组件未初始化');
+    		Prompt(window['lang_assembly_not_init_tips'] || '组件未初始化');
             return false;
     	}
 
     	// 容器是否指定
         if(($(this).attr('data-view-tag') || null) == null)
         {
-            Prompt(lang_not_specified_container_tips || '未指定容器');
+            Prompt(window['lang_not_specified_container_tips'] || '未指定容器');
             return false;
         }
 
@@ -3384,14 +3384,14 @@ $(function()
         }
         if(dialog_type == null)
         {
-            Prompt(lang_not_specified_assembly_tips || '未指定加载组建');
+            Prompt(window['lang_not_specified_assembly_tips'] || '未指定加载组建');
             return false;
         }
 
         // 是否指定form名称
         if(($view_tag.attr('data-form-name') || null) == null)
         {
-            Prompt(lang_not_specified_form_name_tips || '未指定表单name名称');
+            Prompt(window['lang_not_specified_form_name_tips'] || '未指定表单name名称');
             return false;
         }
 
@@ -3453,7 +3453,7 @@ $(function()
     	var url = $(this).data('url') || null;
     	if(url == null)
     	{
-    		Prompt(lang_operate_params_error || 'url未配置');
+    		Prompt(window['lang_operate_params_error'] || 'url未配置');
     		return false;
     	}
 
@@ -3475,7 +3475,7 @@ $(function()
     	var lat = $(this).data('lat') || null;
     	if(lng == null || lat == null)
     	{
-    		Prompt(lang_map_coordinate_tips || '坐标有误');
+    		Prompt(window['lang_map_coordinate_tips'] || '坐标有误');
     		return false;
     	}
 
@@ -3505,7 +3505,7 @@ $(function()
     // 关闭窗口
     $(document).on('click', '.window-close-event', function()
     {
-    	if(confirm($(this).data('msg') || lang_window_close_confirm_tips || '您确定要关闭本页吗？'))
+    	if(confirm($(this).data('msg') || window['lang_window_close_confirm_tips'] || '您确定要关闭本页吗？'))
     	{
 			var user_agent = navigator.userAgent;
 		    if(user_agent.indexOf('Firefox') != -1 || user_agent.indexOf('Chrome') != -1)

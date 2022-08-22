@@ -277,7 +277,8 @@ UE.I18N['zh-cn'] = {
             'noneAlign':{'title':'无浮动'},
             'leftAlign':{'title':'左浮动'},
             'rightAlign':{'title':'右浮动'},
-            'centerAlign':{'title':'居中独占一行'}
+            'centerAlign':{'title':'居中独占一行'},
+            'lang_input_search':'搜索'
         },
         'uploadSelectFile':'点击选择图片',
         'uploadAddFile':'继续添加',
@@ -308,14 +309,16 @@ UE.I18N['zh-cn'] = {
         'imageLoadError':"图片加载失败！请检查链接地址或网络状态！",
         'searchRemind':"请输入搜索关键词",
         'searchLoading':"图片加载中，请稍后……",
-        'searchRetry':" :( ，抱歉，没有找到图片！请重试一次！"
+        'searchRetry':" :( ，抱歉，没有找到图片！请重试一次！",
+        'deleteConfirmTips': '确定要删除吗？'
     },
     'attachment':{
         'static':{
             'lang_tab_upload': '上传附件',
             'lang_tab_online': '在线附件',
             'lang_start_upload':"开始上传",
-            'lang_drop_remind':"可以将文件拖到这里，单次最多可选100个文件"
+            'lang_drop_remind':"可以将文件拖到这里，单次最多可选100个文件",
+            'lang_input_search':'搜索'
         },
         'uploadSelectFile':'点击选择文件',
         'uploadAddFile':'继续添加',
@@ -338,7 +341,8 @@ UE.I18N['zh-cn'] = {
         'errorInterrupt':'文件传输中断',
         'errorUploadRetry':'上传失败，请重试',
         'errorHttp':'http请求错误',
-        'errorServerUpload':'服务器返回出错'
+        'errorServerUpload':'服务器返回出错',
+        'deleteConfirmTips': '确定要删除吗？'
     },
     'insertvideo':{
         'static':{
@@ -363,8 +367,8 @@ UE.I18N['zh-cn'] = {
             'lang_upload_width':"宽度",
             'lang_upload_height':"高度",
             'lang_upload_alignment':"对齐方式",
-            'lang_format_advice':"建议使用mp4格式."
-
+            'lang_format_advice':"建议使用mp4格式.",
+            'lang_input_search':'搜索'
         },
         'numError':"请输入正确的数值，如123,400",
         'floatLeft':"左浮动",
@@ -425,7 +429,8 @@ UE.I18N['zh-cn'] = {
         'errorInterrupt':'文件传输中断',
         'errorUploadRetry':'上传失败，请重试',
         'errorHttp':'http请求错误',
-        'errorServerUpload':'服务器返回出错'
+        'errorServerUpload':'服务器返回出错',
+        'deleteConfirmTips': '确定要删除吗？'
     },
     'webapp':{
         'tip1':"本功能由百度APP提供，如看到此页面，请各位站长首先申请百度APPKey!",

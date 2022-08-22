@@ -7,6 +7,21 @@
  * @since   2012-6-4 15:58:41
  */
 (function($) {
+    // 默认语言
+    var lang = (window['lang_multilingual_default_code'] || 'zh-cn') == 'en' ? 'en' : 'zh-cn';
+    var lang_list = {
+        'zh-cn': {
+            confirm: '确认',
+            close: '关闭',
+            clear: '清除'
+        },
+        'en': {
+            confirm: 'confirm',
+            close: 'close',
+            clear: 'clear'
+        }
+    };
+    var lang_data = lang_list[lang] || lang_list['zh-cn'];
     var ColorHex=new Array('00','33','66','99','CC','FF');
     var SpColorHex=new Array('FF0000','00FF00','0000FF','FFFF00','00FFFF','FF00FF');
     $.fn.colorpicker = function(options) {
@@ -96,7 +111,7 @@
             +'<tr><td colspan=21 bgcolor=#cccccc>'
             +'<table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse">'
             +'<tr><td width="3"><td><input type="text" id="DisColor'+index+'" size="3" disabled style="border:solid 1px #000000;background-color:#000000;padding:0;"></td>'
-            +'<td width="3"><td><input type="text" id="HexColor'+index+'" style="border:inset 1px;font-family:Arial;width:58px;" value="#000000"><a href="javascript:void(0);" id="_determine'+index+'">确定</a> | <a href="javascript:void(0);" id="_cclose'+index+'">关闭</a> | <a href="javascript:void(0);" id="_creset'+index+'">清除</a></td></tr></table></td></table>'
+            +'<td width="3"><td><input type="text" id="HexColor'+index+'" style="border:inset 1px;font-family:Arial;width:58px;" value="#000000"><a href="javascript:void(0);" id="_determine'+index+'">'+lang_data.confirm+'</a> | <a href="javascript:void(0);" id="_cclose'+index+'">'+lang_data.close+'</a> | <a href="javascript:void(0);" id="_creset'+index+'">'+lang_data.clear+'</a></td></tr></table></td></table>'
             +'<table id="CT'+index+'" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border-color:#333;border-width:0 1px 1px 1px;border-style:solid;">'
             +colorTable+'</table>';
             $('#colorpanel'+index).html(colorTable);

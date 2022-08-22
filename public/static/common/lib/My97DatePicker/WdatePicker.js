@@ -2,6 +2,8 @@
  * My97 DatePicker 4.8.5
  * License: http://www.my97.net/license.asp
  */
+// 默认语言
+var lang = (window['lang_multilingual_default_code'] || 'auto') == 'en' ? 'en' : 'auto';
 var $dp,WdatePicker;(function(){var Config={
 	$langList:[{name:'en',charset:'UTF-8'},
 	{name:'zh-cn',charset:'gb2312'},
@@ -27,7 +29,7 @@ var $dp,WdatePicker;(function(){var Config={
 	autoUpdateOnChanged:null,
 	weekMethod:'MSExcel',
 	position:{},
-	lang:'auto',
+	lang:lang,
 	skin:'default',
 	dateFmt:'yyyy-MM-dd',
 	realDateFmt:'yyyy-MM-dd',

@@ -960,7 +960,7 @@ function FormBackModuleConfigGoodsHandle(data)
         error:function(res)
         {
             $this.button('reset');
-            var msg = HtmlToString(xhr.responseText) || (lang_error_text || '异常错误');
+            var msg = HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误');
             Prompt(msg, null, 30);
         }
     });
@@ -2680,7 +2680,7 @@ $(function()
             error:function(res)
             {
                 $this.button('reset');
-                var msg = HtmlToString(xhr.responseText) || (lang_error_text || '异常错误');
+                var msg = HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误');
                 Prompt(msg, null, 30);
                 $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+msg+'</div>');
             }
@@ -2805,7 +2805,7 @@ $(function()
             error:function(res)
             {
                 $this.button('reset');
-                var msg = HtmlToString(xhr.responseText) || (lang_error_text || '异常错误');
+                var msg = HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误');
                 Prompt(msg, null, 30);
             }
         });
@@ -3063,7 +3063,7 @@ $(function()
             error:function(xhr, type)
             {
                 $this.button('reset');
-                var msg = HtmlToString(xhr.responseText) || (lang_error_text || '异常错误');
+                var msg = HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误');
                 Prompt(msg, null, 30);
             }
         });

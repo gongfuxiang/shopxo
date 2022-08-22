@@ -34,7 +34,7 @@ $(function()
             },
             error: function(xhr, type)
             {
-                Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+                Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
             }
         });
     }, 2000);

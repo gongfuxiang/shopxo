@@ -31,7 +31,7 @@ function GoodsCommentsHtml(page)
     if((page || 1) <= 1)
     {
         $('.goods-page-no-data').removeClass('none');
-        $('.goods-page-no-data span').text(lang_loading_tips || '加载中...');
+        $('.goods-page-no-data span').text(window['lang_loading_tips'] || '加载中...');
     } else {
         $('.goods-page-no-data').addClass('none');
     }
@@ -54,13 +54,13 @@ function GoodsCommentsHtml(page)
             if($('.goods-comment-content article').length <= 0)
             {
                 $('.goods-page-no-data').removeClass('none');
-                $('.goods-page-no-data span').text(lang_comment_no_data_tips || '没有评论数据');
+                $('.goods-page-no-data span').text(window['lang_comment_no_data_tips'] || '没有评论数据');
             }
         },
         error: function(xhr, type)
         {
             $('.goods-page-no-data').removeClass('none');
-            Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+            Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
         }
     });
 }
@@ -111,17 +111,17 @@ function BuyCartCheck(e)
     var unit = $('.stock-tips .stock').data('unit') || '';
     if(stock < min)
     {
-        Prompt((lang_goods_stock_min_tips || '最低起购数量')+min+unit);
+        Prompt((window['lang_goods_stock_min_tips'] || '最低起购数量')+min+unit);
         return false;
     }
     if(max > 0 && stock > max)
     {
-        Prompt((lang_goods_stock_max_tips || '最大限购数量')+max+unit);
+        Prompt((window['lang_goods_stock_max_tips'] || '最大限购数量')+max+unit);
         return false;
     }
     if(stock > inventory)
     {
-        Prompt((lang_goods_inventory_number_tips || '库存数量')+inventory+unit);
+        Prompt((window['lang_goods_inventory_number_tips'] || '库存数量')+inventory+unit);
         return false;
     }
 
@@ -140,7 +140,7 @@ function BuyCartCheck(e)
                     $(this).addClass('sku-not-active');
                 }
             });
-            Prompt(lang_goods_no_choice_spec_tips || '请选择规格');
+            Prompt(window['lang_goods_no_choice_spec_tips'] || '请选择规格');
             return false;
         }
 
@@ -196,7 +196,7 @@ function BuyCartHandle(e)
 
         // 默认
         default :
-            Prompt(lang_operate_params_error || '操作参数配置有误');
+            Prompt(window['lang_operate_params_error'] || '操作参数配置有误');
     }
     return true;
 }
@@ -296,7 +296,7 @@ function GoodsSpecDetail()
         error: function(xhr, type)
         {
             $.AMUI.progress.done();
-            Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+            Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
         }
     });
 }
@@ -377,7 +377,7 @@ function GoodsSpecType()
         error: function(xhr, type)
         {
             $.AMUI.progress.done();
-            Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+            Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
         }
     });
 }
@@ -464,7 +464,7 @@ function GoodsNumberChange()
         error: function(xhr, type)
         {
             $.AMUI.progress.done();
-            Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+            Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
         }
     });
 }
@@ -656,7 +656,7 @@ $(function() {
                 {
                     $.AMUI.progress.done();
                     PoptitClose();
-                    Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+                    Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
                 }
             });
         }
@@ -734,13 +734,13 @@ $(function() {
         if(max > 0 && stock > max)
         {
             $input.val(max);
-            Prompt((lang_goods_stock_max_tips || '最大限购数量')+max+unit);
+            Prompt((window['lang_goods_stock_max_tips'] || '最大限购数量')+max+unit);
             return false;
         }
         if(stock > inventory)
         {
             $input.val(min);
-            Prompt((lang_goods_inventory_number_tips || '库存数量')+inventory+unit);
+            Prompt((window['lang_goods_inventory_number_tips'] || '库存数量')+inventory+unit);
             return false;
         }
         $input.val(stock);
@@ -755,7 +755,7 @@ $(function() {
         if(value < min)
         {
             $input.val(min);
-            Prompt((lang_goods_stock_min_tips || '最低起购数量')+min+unit);
+            Prompt((window['lang_goods_stock_min_tips'] || '最低起购数量')+min+unit);
             return false;
         }
         $input.val(value);

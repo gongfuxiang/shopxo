@@ -14,12 +14,12 @@ function SystemUpgradeRequestHandle(params)
     // 参数处理
     if((params || null) == null)
     {
-        Prompt(lang_operate_params_error || '操作参数有误');
+        Prompt(window['lang_operate_params_error'] || '操作参数有误');
         return false;
     }
     var url = params.url || null;
     var opt = params.opt || 'url';
-    var msg = params.msg || lang_get_loading_tips || '正在获取中...';
+    var msg = params.msg || window['lang_get_loading_tips'] || '正在获取中...';
 
     // 加载提示
     AMUI.dialog.loading({title: msg});
@@ -40,21 +40,21 @@ function SystemUpgradeRequestHandle(params)
                     // 获取下载地址
                     case 'url' :
                         params['opt'] = 'download_system';
-                        params['msg'] = lang_system_download_loading_tips || '系统包正在下载中...';
+                        params['msg'] = window['lang_system_download_loading_tips'] || '系统包正在下载中...';
                         SystemUpgradeRequestHandle(params);
                         break;
 
                     // 下载系统包
                     case 'download_system' :
                         params['opt'] = 'download_upgrade';
-                        params['msg'] = lang_upgrade_download_loading_tips || '升级包正在下载中...';
+                        params['msg'] = window['lang_upgrade_download_loading_tips'] || '升级包正在下载中...';
                         SystemUpgradeRequestHandle(params);
                         break;
 
                     // 下载升级包
                     case 'download_upgrade' :
                         params['opt'] = 'upgrade';
-                        params['msg'] = lang_update_loading_tips || '正在更新中...';
+                        params['msg'] = window['lang_update_loading_tips'] || '正在更新中...';
                         SystemUpgradeRequestHandle(params);
                         break;
 
@@ -69,13 +69,13 @@ function SystemUpgradeRequestHandle(params)
                 }
             } else {
                 AMUI.dialog.loading('close');
-                Prompt(((result || null) == null) ? (lang_error_text || '异常错误') : (result.msg || (lang_error_text || '异常错误')));
+                Prompt(((result || null) == null) ? (window['lang_error_text'] || '异常错误') : (result.msg || (window['lang_error_text'] || '异常错误')));
             }
         },
         error: function(xhr, type)
         {
             AMUI.dialog.loading('close');
-            Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'));
+            Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'));
         }
     });
 }
@@ -131,7 +131,7 @@ function EchartsOrderProfit(title_arr, name_arr, data)
                 dataView : {show: true, readOnly: false},
                 magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
                 restore : {show: true},
-                saveAsImage : {name: lang_order_transaction_amount_name || '订单成交金额走势', show: true}
+                saveAsImage : {name: window['lang_order_transaction_amount_name'] || '订单成交金额走势', show: true}
             }
         },
         grid: {
@@ -192,7 +192,7 @@ function EchartsOrderTrading(title_arr, name_arr, data)
                 dataView : {show: true, readOnly: false},
                 magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
                 restore : {show: true},
-                saveAsImage : {name: lang_order_trading_trend_name || '订单交易走势', show: true}
+                saveAsImage : {name: window['lang_order_trading_trend_name'] || '订单交易走势', show: true}
             }
         },
         grid: {
@@ -235,7 +235,7 @@ function EchartsGoodsHot(data)
     var chart = echarts.init(document.getElementById('echarts-goods-hot'), 'macarons');
     var option = {
         title : {
-            subtext: lang_goods_hot_tips || '仅显示前30条商品',
+            subtext: window['lang_goods_hot_tips'] || '仅显示前30条商品',
             x:'center'
         },
         tooltip : {
@@ -260,7 +260,7 @@ function EchartsGoodsHot(data)
                     }
                 },
                 restore : {show: false},
-                saveAsImage : {name: lang_goods_hot_name || '热销商品', show: true}
+                saveAsImage : {name: window['lang_goods_hot_name'] || '热销商品', show: true}
             }
         },
         calculable : true,
@@ -305,7 +305,7 @@ function EchartsPayType(title_arr, name_arr, data)
                 dataView : {show: true, readOnly: false},
                 magicType : {show: true, type: ['line', 'bar']},
                 restore : {show: false},
-                saveAsImage : {name: lang_payment_name || '支付方式', show: true}
+                saveAsImage : {name: window['lang_payment_name'] || '支付方式', show: true}
             }
         },
         calculable : true,
@@ -343,7 +343,7 @@ function EchartsOrderMapWholeCountry(name_arr, data)
     var option = {
         title: {
             text: '',
-            subtext: lang_order_region_tips || '仅显示30条数据'
+            subtext: window['lang_order_region_tips'] || '仅显示30条数据'
         },
         tooltip: {
             trigger: 'axis',
@@ -361,7 +361,7 @@ function EchartsOrderMapWholeCountry(name_arr, data)
                 dataView : {show: true, readOnly: false},
                 magicType : {show: true, type: ['line', 'bar']},
                 restore : {show: true},
-                saveAsImage : {name: lang_order_region_name || '订单地域分布', show: true}
+                saveAsImage : {name: window['lang_order_region_name'] || '订单地域分布', show: true}
             }
         },
         grid: {
@@ -475,7 +475,7 @@ function EchartsInit(e)
                         break;
 
                     default :
-                        var msg = lang_operate_params_error || '操作类型未定义';
+                        var msg = window['lang_operate_params_error'] || '操作类型未定义';
                         console.info(msg+'['+type+']')
                 }
                 
@@ -492,7 +492,7 @@ function EchartsInit(e)
         {
             e.button('reset');
             $.AMUI.progress.done();
-            Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+            Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
         }
     });
 }
@@ -504,7 +504,7 @@ $(function()
     $('.inspect-upgrade-submit').on('click', function()
     {
         // 基础信息
-        AMUI.dialog.loading({title: lang_upgrade_check_loading_tips || '正在获取最新内容、请稍候...'});
+        AMUI.dialog.loading({title: window['lang_upgrade_check_loading_tips'] || '正在获取最新内容、请稍候...'});
 
         // ajax请求
         $.ajax({
@@ -523,8 +523,8 @@ $(function()
                     // 是否存在数据、网络不通将返回空数据
                     if((result.data || null) != null)
                     {
-                        var upgrade_version_name = lang_upgrade_version_name || '更新版本：';
-                        var upgrade_date_name = lang_upgrade_date_name || '更新日期：';
+                        var upgrade_version_name = window['lang_upgrade_version_name'] || '更新版本：';
+                        var upgrade_date_name = window['lang_upgrade_date_name'] || '更新日期：';
                         var html = '<p class="upgrade-title">';
                             html += '<i class="am-icon-info-circle am-icon-md am-text-warning"></i>';
                             html += '<span class="am-margin-left-xs">'+result.data.title+'</span>';
@@ -584,7 +584,7 @@ $(function()
             error: function(xhr, type)
             {
                 AMUI.dialog.loading('close');
-                Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+                Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
             }
         });
     });
@@ -626,7 +626,7 @@ $(function()
         var is_empty_time = parseInt($(this).parents('.right-operate').data('empty-time')) || 0;
         if(is_empty_time == 0 && (start == '' || end == ''))
         {
-            Prompt(lang_operate_params_error || '快捷时间配置有误');
+            Prompt(window['lang_operate_params_error'] || '快捷时间配置有误');
             return false;
         }
 

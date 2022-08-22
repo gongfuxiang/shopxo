@@ -76,26 +76,79 @@ function MyLang($key, $vars = [], $lang = '')
     $value = '';
     if(!empty($key))
     {
-        // 仅一级则直接读取
-        $arr = explode('.', $key);
-        if(count($arr) == 1)
+        // key使用 . 分隔
+        $key_arr = explode('.', $key);
+
+        // 是否插件语言
+        if(RequestController() == 'plugins')
         {
-            $value = lang($key, [], $lang);
-        } else {
-            // 默认先读取第一级
-            $value = lang($arr[0], [], $lang);
-            // 移除第一级
-            array_shift($arr);
-            // 循环后面级别的数据
-            foreach($arr as $v)
+            // 静态存储、不用每次都从磁盘读取
+            static $lang_data = [];
+            $file = APP_PATH.'plugins'.DS.MyInput('pluginsname').DS.'lang'.DS.MyConfig('lang.default_lang').'.php';
+            $md5_key = md5($file);
+            if(!array_key_exists($md5_key, $lang_data) && file_exists($file))
             {
-                if(isset($value[$v]))
+                $lang_data[$md5_key] = require $file;
+            }
+            if(!empty($lang_data[$md5_key]))
+            {
+                $temp_lang_data = $lang_data[$md5_key];
+                // 仅一级则直接读取
+                if(count($key_arr) == 1)
                 {
-                    $value = $value[$v];
+                    if(array_key_exists($key, $temp_lang_data))
+                    {
+                        $value = $temp_lang_data[$key];
+                    }
                 } else {
-                    // 未匹配到则赋空值
-                    $value = $key;
-                    break;
+                    // 默认先读取第一级
+                    if(array_key_exists($key_arr[0], $temp_lang_data))
+                    {
+                        $value = $temp_lang_data[$key_arr[0]];
+                    }
+                    // 移除第一级
+                    array_shift($key_arr);
+                    // 循环后面级别的数据
+                    foreach($key_arr as $v)
+                    {
+                        if(is_array($value) && array_key_exists($v, $value))
+                        {
+                            $value = $value[$v];
+                        } else {
+                            // 未匹配到则赋空值
+                            $value = $key;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 默认也从系统读取
+        // 插件未读取成功则从系统读取
+        if($value === '')
+        {
+            // 系统语言
+            // 仅一级则直接读取
+            if(count($key_arr) == 1)
+            {
+                $value = lang($key, [], $lang);
+            } else {
+                // 默认先读取第一级
+                $value = lang($key_arr[0], [], $lang);
+                // 移除第一级
+                array_shift($key_arr);
+                // 循环后面级别的数据
+                foreach($key_arr as $v)
+                {
+                    if(isset($value[$v]))
+                    {
+                        $value = $value[$v];
+                    } else {
+                        // 未匹配到则赋空值
+                        $value = $key;
+                        break;
+                    }
                 }
             }
         }

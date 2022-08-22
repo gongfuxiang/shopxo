@@ -341,7 +341,7 @@
                             window.event.preventDefault();    //取消事件的默认行为  
                             window.event.stopPropagation();   //阻止事件的传播
                         } finally {
-                            if(!confirm("确定要删除吗？")) return;
+                            if(!confirm(lang.deleteConfirmTips)) return;
                             var url = editor.getOpt("serverUrl");
                             var join = (url.indexOf('?') == -1) ? '?' : '&';
                             $.post(url + join+"action=deletefile", { "id": del.attr("data-id") }, function(response) {

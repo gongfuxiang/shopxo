@@ -48,7 +48,7 @@ function ParametersItemHtmlCreated(type, name, value)
         inherit_select_classes: true,
         enable_split_word_search: true,
         search_contains: true,
-        no_results_text: lang_chosen_select_no_results_text
+        no_results_text: window['lang_chosen_select_no_results_text']
     });
 }
 
@@ -111,7 +111,7 @@ function PackageUpgradeRequestHandle(params)
     var key = params.key || '';
     var terminal = params.terminal || '';
     var opt = params.opt || 'url';
-    var msg = params.msg || lang_get_loading_tips || '正在获取中...';
+    var msg = params.msg || window['lang_get_loading_tips'] || '正在获取中...';
 
     // 加载提示
     AMUI.dialog.loading({title: msg});
@@ -133,7 +133,7 @@ function PackageUpgradeRequestHandle(params)
                     case 'url' :
                         params['key'] = result.data;
                         params['opt'] = 'download';
-                        params['msg'] = lang_download_loading_tips || '正在下载中...';
+                        params['msg'] = window['lang_download_loading_tips'] || '正在下载中...';
                         PackageUpgradeRequestHandle(params);
                         break;
 
@@ -141,7 +141,7 @@ function PackageUpgradeRequestHandle(params)
                     case 'download' :
                         params['key'] = result.data;
                         params['opt'] = 'upgrade';
-                        params['msg'] = lang_update_loading_tips || '正在更新中...';
+                        params['msg'] = window['lang_update_loading_tips'] || '正在更新中...';
                         PackageUpgradeRequestHandle(params);
                         break;
 
@@ -156,13 +156,13 @@ function PackageUpgradeRequestHandle(params)
                 }
             } else {
                 AMUI.dialog.loading('close');
-                Prompt(((result || null) == null) ? (lang_error_text || '异常错误') : (result.msg || (lang_error_text || '异常错误')));
+                Prompt(((result || null) == null) ? (window['lang_error_text'] || '异常错误') : (result.msg || (window['lang_error_text'] || '异常错误')));
             }
         },
         error: function(xhr, type)
         {
             AMUI.dialog.loading('close');
-            Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'));
+            Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'));
         }
     });
 }
@@ -199,7 +199,7 @@ $(function()
         var terminal = $(this).data('terminal') || '';
         if(name == null || type == null || value == null || json == null)
         {
-            Prompt(lang_operate_params_error || '操作事件参数配置有误');
+            Prompt(window['lang_operate_params_error'] || '操作事件参数配置有误');
             return false;
         }
         
@@ -227,7 +227,7 @@ $(function()
         var terminal = $(this).attr('data-terminal') || '';
         if(url == null || type == null || value == null)
         {
-            Prompt(lang_operate_params_error || '操作参数有误');
+            Prompt(window['lang_operate_params_error'] || '操作参数有误');
             return false;
         }
         $('#package-upgrade-modal').modal('close');
@@ -269,7 +269,7 @@ $(function()
         var type = $(this).data('type') || null;
         if(type == null)
         {
-            Prompt($table.data('move-type-tips') || lang_operate_params_error || '操作类型配置有误');
+            Prompt($table.data('move-type-tips') || window['lang_operate_params_error'] || '操作类型配置有误');
             return false;
         }
 

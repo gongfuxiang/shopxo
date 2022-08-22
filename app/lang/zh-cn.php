@@ -20,6 +20,8 @@ return [
     // 页面公共
     'page_common'           => [
         // 基础
+        'chosen_select_no_results_text'     => '没有匹配到结果',
+        'error_text'                        => '异常错误',
         'reminder_title'                    => '温馨提示',
         'operate_params_error'              => '操作参数有误',
         'select_reverse_name'               => '反选',

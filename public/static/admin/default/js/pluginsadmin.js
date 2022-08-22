@@ -51,7 +51,7 @@ $(function()
     {
         if($(this).parents('.item').hasClass('am-active'))
         {
-            Prompt(lang_not_enable_tips || '请先点击勾勾启用');
+            Prompt(window['lang_not_enable_tips'] || '请先点击勾勾启用');
         } else {
             window.location.href = $(this).data('set-url');
         }
@@ -93,7 +93,7 @@ $(function()
         }
         if(len <= 0)
         {
-            Prompt(lang_save_no_data_tips || '没有可保存的插件数据');
+            Prompt(window['lang_save_no_data_tips'] || '没有可保存的插件数据');
             return false;
         }
 
@@ -122,7 +122,7 @@ $(function()
             error: function(xhr, type)
             {
                 $.AMUI.progress.done();
-                Prompt(HtmlToString(xhr.responseText) || (lang_error_text || '异常错误'), null, 30);
+                Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
             }
         });
     });

@@ -391,17 +391,7 @@ class Common extends BaseController
         $assign['site_store_links'] = $site_store_links;
 
         // 页面语言
-        $lang_common = MyLang('page_common');
-        if(empty($lang_common) || !is_array($lang_common))
-        {
-            $lang_common = [];
-        }
-        $lang_page = MyLang('page_'.$this->controller_name);
-        if(empty($lang_page) || !is_array($lang_page))
-        {
-            $lang_page = [];
-        }
-        $assign['lang_data'] = array_merge($lang_common, $lang_page);
+        $assign['lang_data'] = SystemService::PageViewLangData();
 
         // 模板赋值
         MyViewAssign($assign);

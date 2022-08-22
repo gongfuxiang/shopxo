@@ -189,5 +189,41 @@ class SystemService
     {
         return MyC('common_domain_host', __MY_URL__, true);
     }
+
+    /**
+     * 页面语言数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-22
+     * @desc    description
+     */
+    public static function PageViewLangData()
+    {
+        // 页面公共语言
+        $lang_common = MyLang('page_common');
+        if(empty($lang_common) || !is_array($lang_common))
+        {
+            $lang_common = [];
+        }
+        // 当前控制器
+        $lang_page = MyLang('page_'.RequestController());
+        if(empty($lang_page) || !is_array($lang_page))
+        {
+            $lang_page = [];
+        }
+        $data = array_merge($lang_common, $lang_page);
+
+        // 页面语言读取钩子
+        $hook_name = 'plugins_page_view_lang_data';
+        MyEventTrigger($hook_name,
+            [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'data'          => &$data,
+            ]);
+
+        return $data;
+    }
 }
 ?>
