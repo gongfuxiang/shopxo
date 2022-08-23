@@ -61,15 +61,20 @@ if(empty($_SERVER['HTTP_HOST']))
     // 查看是几级域名
     $arr = explode('.', $main_domain);
     $len = count($arr);
-    // 判断是否是双后缀
-    $preg = '/[\w].+\.(com|net|org|gov|edu|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn)\.cn$/';
-    if($len > 2 && preg_match($preg, $main_domain))
+    if($len < 2)
     {
-        // 双后缀取后3位
-        $main_domain = $arr[$len-3].'.'.$arr[$len-2].'.'.$arr[$len-1];
+        $main_domain = '';
     } else {
-        // 非双后缀取后两位
-        $main_domain = $arr[$len-2].'.'.$arr[$len-1];
+        // 判断是否是双后缀
+        $preg = '/[\w].+\.(com|net|org|gov|edu|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn)\.cn$/';
+        if($len > 2 && preg_match($preg, $main_domain))
+        {
+            // 双后缀取后3位
+            $main_domain = $arr[$len-3].'.'.$arr[$len-2].'.'.$arr[$len-1];
+        } else {
+            // 非双后缀取后两位
+            $main_domain = $arr[$len-2].'.'.$arr[$len-1];
+        }
     }
 }
 define('__MY_MAIN_DOMAIN__', $main_domain);
