@@ -57,7 +57,17 @@ function MyConst($key = '', $default = null)
  */
 function MySession($name = '', $value = '')
 {
-    return session($name, $value);
+    // 调用框架session统一方法
+    $res = session($name, $value);
+
+    // 调用框架session数据保存、避免页面退出导致session保存失败
+    // 框架是页面return才自动执行这个方法的
+    if($value !== '' && $value !== null)
+    {
+        \think\facade\Session::save();
+    }
+
+    return $res;
 }
 
 /**

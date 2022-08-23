@@ -23,7 +23,7 @@
                         >
                             {{switch $t.view_type}}
                                 {{case checkbox}}
-                                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs form-table-operate-checkbox-submit" data-value="{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}1{{else /}}0{{/if}}" data-checked-text="{{$t.checked_text}}" data-not-checked-text="{{$t.not_checked_text}}" {{if empty($data_list)}}disabled{{/if}}>{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}{{$t.checked_text}}{{else /}}{{$t.not_checked_text}}{{/if}}</button>
+                                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs form-table-operate-checkbox-submit" data-value="{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}1{{else /}}0{{/if}}" data-checked-text="{{$t.checked_text}}" data-not-checked-text="{{$t.not_checked_text}}" {{if empty($form_table_data_list)}}disabled{{/if}}>{{if isset($t['is_checked']) and $t['is_checked'] eq 1}}{{$t.checked_text}}{{else /}}{{$t.not_checked_text}}{{/if}}</button>
                                 {{/case}}
                                 {{default /}}
                                     {{if isset($t['label'])}}{{$t.label}}{{/if}}
@@ -150,16 +150,17 @@
             {{/if}}
         </thead>
         <tbody>
-            {{if !empty($data_list) and !empty($form_table['base']['key_field'])}}
+            {{php}}$form_table_data_list = empty($form_table_data_list) ? (empty($data_list) ? [] : $data_list) : $form_table_data_list;{{/php}}
+            {{if !empty($form_table_data_list) and !empty($form_table['base']['key_field'])}}
                 <!-- 处理数据数量小于默认数量 -->
-                {{for start="0" end="count($data_list)"}}
+                {{for start="0" end="count($form_table_data_list)"}}
                     <!-- 1. tr 主键id名称 -->
                     <!-- 2. 是否黄色选中class -->
                     <tr
-                        {{if isset($data_list[$i][$form_table['base']['key_field']])}}
-                            id="data-list-{{$data_list[$i][$form_table['base']['key_field']]}}"
+                        {{if isset($form_table_data_list[$i][$form_table['base']['key_field']])}}
+                            id="data-list-{{$form_table_data_list[$i][$form_table['base']['key_field']]}}"
                         {{/if}}
-                        {{if !empty($form_table['base']['status_field']) and isset($data_list[$i][$form_table['base']['status_field']]) and $data_list[$i][$form_table['base']['status_field']] eq 0}}
+                        {{if !empty($form_table['base']['status_field']) and isset($form_table_data_list[$i][$form_table['base']['status_field']]) and $form_table_data_list[$i][$form_table['base']['status_field']] eq 0}}
                             class="am-active"
                         {{/if}}
                     >
@@ -183,7 +184,7 @@
                                     {{/if}}
                                 "
                                 >
-                                    {{if isset($data_list[$i]) and !empty($t['view_type']) and !empty($t['view_key'])}}
+                                    {{if isset($form_table_data_list[$i]) and !empty($t['view_type']) and !empty($t['view_key'])}}
                                         <!-- 数据匹配 -->
                                         {{switch $t.view_type}}
                                             {{case field}}
@@ -195,8 +196,8 @@
                                                 <!-- 如果字段为数组则处理多个字段拼接数据 -->
                                                 {{if is_array($t['view_key'])}}
                                                     {{foreach $t['view_key'] as $fk=>$fv}}
-                                                        {{if isset($data_list[$i][$fv])}}
-                                                            <span>{{$data_list[$i][$fv]}}</span>
+                                                        {{if isset($form_table_data_list[$i][$fv])}}
+                                                            <span>{{$form_table_data_list[$i][$fv]}}</span>
                                                             <!-- 多个字段拼接数据的的拼接字符 -->
                                                             {{if isset($t['view_key_join']) and $fk lt count($t['view_key'])-1}}
                                                                 <span>{{$t.view_key_join|raw}}</span>
@@ -205,24 +206,24 @@
                                                     {{/foreach}}
                                                 {{else /}}
                                                     <!-- 是否存在数据 key -->
-                                                    {{if isset($data_list[$i][$t['view_key']])}}
+                                                    {{if isset($form_table_data_list[$i][$t['view_key']])}}
                                                         <!-- 是否指定数据转换 -->
                                                         {{if !empty($t['view_data']) and is_array($t['view_data'])}}
                                                             <!-- 不存在数组中则不显示 -->
-                                                            {{if isset($t['view_data'][$data_list[$i][$t['view_key']]])}}
+                                                            {{if isset($t['view_data'][$form_table_data_list[$i][$t['view_key']]])}}
                                                                 <!-- 是否指定二维数组key取值 -->
                                                                 {{if !empty($t['view_data_key'])}}
-                                                                    {{if isset($t['view_data'][$data_list[$i][$t['view_key']]][$t['view_data_key']])}}
-                                                                        {{$t['view_data'][$data_list[$i][$t['view_key']]][$t['view_data_key']]}}
+                                                                    {{if isset($t['view_data'][$form_table_data_list[$i][$t['view_key']]][$t['view_data_key']])}}
+                                                                        {{$t['view_data'][$form_table_data_list[$i][$t['view_key']]][$t['view_data_key']]}}
                                                                     {{/if}}
                                                                 {{else /}}
-                                                                    {{$t['view_data'][$data_list[$i][$t['view_key']]]}}
+                                                                    {{$t['view_data'][$form_table_data_list[$i][$t['view_key']]]}}
                                                                 {{/if}}
                                                             {{/if}}
 
                                                         <!-- 直接展示数据 -->
                                                         {{else /}}
-                                                            {{$data_list[$i][$t['view_key']]|raw}}
+                                                            {{$form_table_data_list[$i][$t['view_key']]|raw}}
                                                         {{/if}}
                                                     {{/if}}
                                                 {{/if}}
@@ -233,19 +234,19 @@
                                             {{/case}}
                                             {{case module}}
                                                 <!-- 从模块加载自定义模块数据 -->
-                                                {{:ModuleInclude(empty($t['template']) ? $t['view_key'] : $t['template'], $data_list[$i], [
+                                                {{:ModuleInclude(empty($t['template']) ? $t['view_key'] : $t['template'], $form_table_data_list[$i], [
                                                     'form'      => $t,
                                                     'params'    => isset($form_params) ? $form_params : [],
                                                 ])}}
                                             {{/case}}
                                             {{case status}}
                                                 <!-- 数据状态操作按钮组件 -->
-                                                {{if !empty($t['key_field']) and !empty($t['post_url']) and !empty($data_list[$i][$t['key_field']]) and array_key_exists($t['view_key'], $data_list[$i])}}
+                                                {{if !empty($t['key_field']) and !empty($t['post_url']) and !empty($form_table_data_list[$i][$t['key_field']]) and array_key_exists($t['view_key'], $form_table_data_list[$i])}}
                                                     <a href="javascript:;"
-                                                        class="am-icon-btn am-icon-check submit-state {{if $data_list[$i][$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
+                                                        class="am-icon-btn am-icon-check submit-state {{if $form_table_data_list[$i][$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
                                                         data-url="{{$t.post_url}}"
-                                                        data-id="{{if isset($data_list[$i][$t['key_field']])}}{{$data_list[$i][$t['key_field']]}}{{/if}}"
-                                                        data-state="{{$data_list[$i][$t['view_key']]}}"
+                                                        data-id="{{if isset($form_table_data_list[$i][$t['key_field']])}}{{$form_table_data_list[$i][$t['key_field']]}}{{/if}}"
+                                                        data-state="{{$form_table_data_list[$i][$t['view_key']]}}"
                                                         data-field="{{$t.view_key}}"
                                                         data-is-update-status="{{if isset($t['is_form_su']) and $t['is_form_su'] eq 1}}1{{else /}}0{{/if}}"
                                                         data-is-loading="{{if isset($t['is_loading']) and $t['is_loading'] eq 1}}1{{else /}}0{{/if}}"
@@ -256,7 +257,7 @@
                                             {{case operate}}
                                                 <!-- 是否操作列 -->
                                                 <!-- 模块数据 -->
-                                                {{:ModuleInclude($t['view_key'], $data_list[$i], [
+                                                {{:ModuleInclude($t['view_key'], $form_table_data_list[$i], [
                                                     'form'      => $t,
                                                     'params'    => isset($form_params) ? $form_params : [],
                                                 ])}}
@@ -271,8 +272,8 @@
                                                     $hook_data = MyEventTrigger($hook_name_form_list_operate, [
                                                         'hook_name'     => $hook_name_form_list_operate,
                                                         'is_backend'    => true,
-                                                        'id'            => isset($data_list[$i][$form_table['base']['key_field']]) ? $data_list[$i][$form_table['base']['key_field']] : 0,
-                                                        'data'          => $data_list[$i],
+                                                        'id'            => isset($form_table_data_list[$i][$form_table['base']['key_field']]) ? $form_table_data_list[$i][$form_table['base']['key_field']] : 0,
+                                                        'data'          => $form_table_data_list[$i],
                                                     ]);
                                                     if(!empty($hook_data) && is_array($hook_data))
                                                     {
@@ -287,42 +288,42 @@
                                                 {{/php}}
                                             {{/case}}
                                             {{case radio}}
-                                                {{if isset($data_list[$i][$form_table['base']['key_field']])}}
+                                                {{if isset($form_table_data_list[$i][$form_table['base']['key_field']])}}
                                                     <!-- 是否配置指定数据不显示控件 -->
                                                     {{if
                                                         !isset($t['not_show_data']) or 
                                                         empty($t['not_show_key']) or 
-                                                        (is_array($t['not_show_data']) and isset($data_list[$i][$t['not_show_key']]) and !in_array($data_list[$i][$t['not_show_key']], $t['not_show_data'])) or 
-                                                        (isset($t['not_show_type']) and isset($data_list[$i][$t['not_show_key']]) and (
-                                                            ($t['not_show_type'] eq 0 and $data_list[$i][$t['not_show_key']] eq $t['not_show_data']) or 
-                                                            ($t['not_show_type'] eq 1 and $data_list[$i][$t['not_show_key']] gt $t['not_show_data']) or 
-                                                            ($t['not_show_type'] eq 2 and $data_list[$i][$t['not_show_key']] lt $t['not_show_data'])
+                                                        (is_array($t['not_show_data']) and isset($form_table_data_list[$i][$t['not_show_key']]) and !in_array($form_table_data_list[$i][$t['not_show_key']], $t['not_show_data'])) or 
+                                                        (isset($t['not_show_type']) and isset($form_table_data_list[$i][$t['not_show_key']]) and (
+                                                            ($t['not_show_type'] eq 0 and $form_table_data_list[$i][$t['not_show_key']] eq $t['not_show_data']) or 
+                                                            ($t['not_show_type'] eq 1 and $form_table_data_list[$i][$t['not_show_key']] gt $t['not_show_data']) or 
+                                                            ($t['not_show_type'] eq 2 and $form_table_data_list[$i][$t['not_show_key']] lt $t['not_show_data'])
                                                         ))
                                                     }}
                                                         <div class="form-table-operate-radio">
                                                             <label class="am-radio am-secondary am-radio-inline">
-                                                                <input type="radio" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
+                                                                <input type="radio" name="{{$t.view_key}}" value="{{$form_table_data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
                                                             </label>
                                                         </div>
                                                     {{/if}}
                                                 {{/if}}
                                             {{/case}}
                                             {{case checkbox}}
-                                                {{if isset($data_list[$i][$form_table['base']['key_field']])}}
+                                                {{if isset($form_table_data_list[$i][$form_table['base']['key_field']])}}
                                                     <!-- 是否配置指定数据不显示控件 -->
                                                     {{if
                                                         !isset($t['not_show_data']) or 
                                                         empty($t['not_show_key']) or 
-                                                        (is_array($t['not_show_data']) and isset($data_list[$i][$t['not_show_key']]) and !in_array($data_list[$i][$t['not_show_key']], $t['not_show_data'])) or 
-                                                        (isset($t['not_show_type']) and isset($data_list[$i][$t['not_show_key']]) and (
-                                                            ($t['not_show_type'] eq 0 and $data_list[$i][$t['not_show_key']] eq $t['not_show_data']) or 
-                                                            ($t['not_show_type'] eq 1 and $data_list[$i][$t['not_show_key']] gt $t['not_show_data']) or 
-                                                            ($t['not_show_type'] eq 2 and $data_list[$i][$t['not_show_key']] lt $t['not_show_data'])
+                                                        (is_array($t['not_show_data']) and isset($form_table_data_list[$i][$t['not_show_key']]) and !in_array($form_table_data_list[$i][$t['not_show_key']], $t['not_show_data'])) or 
+                                                        (isset($t['not_show_type']) and isset($form_table_data_list[$i][$t['not_show_key']]) and (
+                                                            ($t['not_show_type'] eq 0 and $form_table_data_list[$i][$t['not_show_key']] eq $t['not_show_data']) or 
+                                                            ($t['not_show_type'] eq 1 and $form_table_data_list[$i][$t['not_show_key']] gt $t['not_show_data']) or 
+                                                            ($t['not_show_type'] eq 2 and $form_table_data_list[$i][$t['not_show_key']] lt $t['not_show_data'])
                                                         ))
                                                     }}
                                                         <div class="form-table-operate-checkbox">
                                                             <label class="am-checkbox am-secondary am-checkbox-inline">
-                                                                <input type="checkbox" name="{{$t.view_key}}" value="{{$data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
+                                                                <input type="checkbox" name="{{$t.view_key}}" value="{{$form_table_data_list[$i][$form_table['base']['key_field']]}}" {{if isset($t['is_checked']) and $t['is_checked'] eq 1}}checked{{/if}} data-am-ucheck />
                                                             </label>
                                                         </div>
                                                     {{/if}}
@@ -341,8 +342,8 @@
                                                 $hook_data = MyEventTrigger($hook_name_form_grid.'_'.$t['unique_key'], [
                                                     'hook_name'     => $hook_name_form_grid.'_'.$t['unique_key'],
                                                     'is_backend'    => true,
-                                                    'id'            => isset($data_list[$i][$form_table['base']['key_field']]) ? $data_list[$i][$form_table['base']['key_field']] : 0,
-                                                    'data'          => $data_list[$i],
+                                                    'id'            => isset($form_table_data_list[$i][$form_table['base']['key_field']]) ? $form_table_data_list[$i][$form_table['base']['key_field']] : 0,
+                                                    'data'          => $form_table_data_list[$i],
                                                 ]);
                                                 if(!empty($hook_data) && is_array($hook_data))
                                                 {
@@ -365,7 +366,7 @@
             {{/if}}
         </tbody>
     </table>
-    {{if empty($data_list)}}
+    {{if empty($form_table_data_list)}}
         {{include file="public/not_data" /}}
     {{/if}}
 </div>

@@ -35,11 +35,7 @@ html,body {
     border-top: 1px solid #4c4d4f;
 }
 .am-table > thead > tr > td {
-    border-bottom: 1px solid #4c4d4f;
-}
-.am-table > thead > tr > td,
-.am-table > tbody > tr:first-child > td {
-    border-top: 0px !important;
+    border-bottom: 1px solid #4c4d4f !important;
 }
 .am-popup,
 .popup-not-title .am-popup-inner {

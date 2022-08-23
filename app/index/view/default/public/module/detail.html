@@ -43,7 +43,8 @@
     {{/php}}
 
     <!-- data -->
-    {{if !empty($data)}}
+    {{php}}$form_table_data_detail = empty($form_table_data_detail) ? (empty($data) ? [] : $data) : $form_table_data_detail;{{/php}}
+    {{if !empty($form_table_data_detail)}}
         {{block name="detail_data"}}
             {{if !empty($form_table) and !empty($form_table['form']) and is_array($form_table['form'])}}
                 {{if !empty($form_table['base']) and !empty($form_table['base']['detail_title'])}}
@@ -66,8 +67,8 @@
                                         <!-- 如果字段为数组则处理多个字段拼接数据 -->
                                         {{if is_array($t['view_key'])}}
                                             {{foreach $t['view_key'] as $fk=>$fv}}
-                                                {{if isset($data[$fv])}}
-                                                    {{$data[$fv]}}
+                                                {{if isset($form_table_data_detail[$fv])}}
+                                                    {{$form_table_data_detail[$fv]}}
                                                     <!-- 多个字段拼接数据的的拼接字符 -->
                                                     {{if isset($t['view_key_join']) and $fk lt count($t['view_key'])-1}}
                                                         {{$t.view_key_join|raw}}
@@ -76,24 +77,24 @@
                                             {{/foreach}}
                                         {{else /}}
                                             <!-- 是否存在数据 key -->
-                                            {{if isset($data[$t['view_key']])}}
+                                            {{if isset($form_table_data_detail[$t['view_key']])}}
                                                 <!-- 是否指定数据转换 -->
                                                 {{if !empty($t['view_data']) and is_array($t['view_data'])}}
                                                     <!-- 不存在数组中则不显示 -->
-                                                    {{if isset($t['view_data'][$data[$t['view_key']]])}}
+                                                    {{if isset($t['view_data'][$form_table_data_detail[$t['view_key']]])}}
                                                         <!-- 是否指定二维数组key取值 -->
                                                         {{if !empty($t['view_data_key'])}}
-                                                            {{if isset($t['view_data'][$data[$t['view_key']]][$t['view_data_key']])}}
-                                                                {{$t['view_data'][$data[$t['view_key']]][$t['view_data_key']]}}
+                                                            {{if isset($t['view_data'][$form_table_data_detail[$t['view_key']]][$t['view_data_key']])}}
+                                                                {{$t['view_data'][$form_table_data_detail[$t['view_key']]][$t['view_data_key']]}}
                                                             {{/if}}
                                                         {{else /}}
-                                                            {{$t['view_data'][$data[$t['view_key']]]}}
+                                                            {{$t['view_data'][$form_table_data_detail[$t['view_key']]]}}
                                                         {{/if}}
                                                     {{/if}}
 
                                                 <!-- 直接展示数据 -->
                                                 {{else /}}
-                                                    {{$data[$t['view_key']]|raw}}
+                                                    {{$form_table_data_detail[$t['view_key']]|raw}}
                                                 {{/if}}
                                             {{/if}}
                                         {{/if}}
@@ -104,16 +105,16 @@
                                     {{/case}}
                                     {{case module}}
                                         <!-- 从模块加载自定义模块数据 -->
-                                        {{:ModuleInclude($t['view_key'], $data, ['form_request_type'=>'detail'])}}
+                                        {{:ModuleInclude($t['view_key'], $form_table_data_detail, ['form_request_type'=>'detail'])}}
                                     {{/case}}
                                     {{case status}}
                                         <!-- 数据状态操作按钮组件 -->
                                         {{if !empty($t['key_field']) and !empty($t['post_url'])}}
                                             <a href="javascript:;"
-                                                class="am-icon-btn am-icon-check submit-state {{if $data[$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
+                                                class="am-icon-btn am-icon-check submit-state {{if $form_table_data_detail[$t['view_key']] eq 1}}am-success{{else /}}am-default{{/if}}"
                                                 data-url="{{$t.post_url}}"
-                                                data-id="{{if isset($data[$t['key_field']])}}{{$data[$t['key_field']]}}{{/if}}"
-                                                data-state="{{$data[$t['view_key']]}}"
+                                                data-id="{{if isset($form_table_data_detail[$t['key_field']])}}{{$form_table_data_detail[$t['key_field']]}}{{/if}}"
+                                                data-state="{{$form_table_data_detail[$t['view_key']]}}"
                                                 data-field="{{$t.view_key}}"
                                                 data-is-update-status="{{if isset($t['is_form_su'])}}{{$t.is_form_su}}{{else /}}0{{/if}}"
                                             ></a>
@@ -132,8 +133,8 @@
                                         $hook_data = MyEventTrigger($hook_name_form_grid.'_'.$t['unique_key'], [
                                             'hook_name'     => $hook_name_form_grid.'_'.$t['unique_key'],
                                             'is_backend'    => true,
-                                            'id'            => isset($data[$form_table['base']['key_field']]) ? $data[$form_table['base']['key_field']] : 0,
-                                            'data'          => $data,
+                                            'id'            => isset($form_table_data_detail[$form_table['base']['key_field']]) ? $form_table_data_detail[$form_table['base']['key_field']] : 0,
+                                            'data'          => $form_table_data_detail,
                                         ]);
                                         if(!empty($hook_data) && is_array($hook_data))
                                         {

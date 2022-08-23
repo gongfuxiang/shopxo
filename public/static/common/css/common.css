@@ -736,6 +736,13 @@ button.colorpicker-submit img {
     -moz-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
     box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
 }
+.am-table-scrollable-horizontal .am-table > thead > tr > td {
+    border-bottom: 1px solid #e8e6e6;
+}
+.am-table-scrollable-horizontal .am-table > thead > tr > td,
+.am-table-scrollable-horizontal .am-table > tbody > tr:first-child > td {
+    border-top: 0px !important;
+}
 
 /**
  * 表格头部美化

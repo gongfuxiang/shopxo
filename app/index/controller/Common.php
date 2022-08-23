@@ -435,9 +435,9 @@ class Common extends BaseController
                 $this->data_total = $ret['data']['data_total'];
                 $this->data_list = $ret['data']['data_list'];
                 $this->data_detail = $ret['data']['data_detail'];
-                $assign['data_total'] = $this->data_total;
-                $assign['data_list'] = $this->data_list;
-                $assign['data'] = $this->data_detail;
+                $assign['form_table_data_total'] = $this->data_total;
+                $assign['form_table_data_list'] = $this->data_list;
+                $assign['form_table_data_detail'] = $this->data_detail;
 
                 // 分页数据
                 $this->page = $ret['data']['page'];
