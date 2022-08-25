@@ -4,23 +4,19 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation" action="{{:MyUrl('admin/goodsparamstemplate/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/goodsparamstemplate/index', $params)}}" enctype="multipart/form-data">
-			<legend>
-				<span class="am-text-default">商品参数{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
-				<a href="{{:MyUrl('admin/goodsparamstemplate/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> 返回</a>
-			</legend>
+		<form class="am-form form-validation am-form-full-screen" action="{{:MyUrl('admin/goodsparamstemplate/save')}}" method="POST" request-type="ajax-reload" request-value="parent">
 			<div class="am-form-group">
-				<label>名称</label>
+				<label>名称<span class="am-form-group-label-tips-must">必填</span></label>
 				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
 			</div>
 
-			<div class="am-margin-top-lg">
-				<label class="block">参数配置</label>
+			<div class="business-form-group">
+				<label class="block">参数配置<span class="am-form-group-label-tips-must">必填</span></label>
 				{{include file="public/goodsparamstemplate/tips" /}}
 				<!-- 通过配置生成商品参数 -->
 				<div class="am-dropdown" id="parameters-quick-container" data-am-dropdown>
 					<span class="business-operations-submit am-dropdown-toggle parameters-quick-add">
-						<span>快捷操作</span>
+						<span>商品参数模板</span>
 						<i class="am-icon-caret-down"></i>
 					</span>
 					<div class="am-dropdown-content parameters-quick-config">
@@ -38,6 +34,7 @@
 					<i class="am-icon-times"></i>
 					<span>清空参数</span>
 				</span>
+				<span class="am-text-warning am-margin-left-sm">可直接点中参数行拖拽排序或点击上下移动</span>
 				{{include file="public/goodsparamstemplate/table" /}}
 			</div>
 
@@ -56,7 +53,7 @@
 				<div class="am-alert am-alert-secondary">
 					<label class="am-text-sm am-text-warning">该区域为插件扩展数据，请按照插件文档填写相应的值</label>
 					<div>
-						{{foreach $plugins_view_admin_brand_save_data as $hook}}
+						{{foreach $plugins_view_admin_goods_params_template_save_data as $hook}}
 		                    {{if is_string($hook) or is_int($hook)}}
 		                        {{$hook|raw}}
 		                    {{/if}}
@@ -66,9 +63,11 @@
 			{{/if}}
 			<!-- 插件扩展数据 end -->
 
-			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
-				<input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
-				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+			<div class="am-form-group am-form-group-refreshing am-margin-top-lg">
+				<div class="am-padding-bottom-sm">
+					<input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+				</div>
 			</div>
 		</form>
         <!-- form end -->

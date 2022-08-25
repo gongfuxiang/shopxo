@@ -104,11 +104,13 @@ form.am-form .am-form-group-refreshing,
 .plug-file-upload-view {
     border-bottom: 0 !important;
 }
-form.am-form-full-screen .am-form-group,
-form.am-form-full-screen .plug-file-upload-view,
-form.am-form-full-screen .business-form-group,
-form.am-form-full-screen .business-form-block {
-    padding-right: 5px !important;
+@media only screen and (min-width: 641px) {
+    form.am-form-full-screen .am-form-group,
+    form.am-form-full-screen .plug-file-upload-view,
+    form.am-form-full-screen .business-form-group,
+    form.am-form-full-screen .business-form-block {
+        padding-right: 5px !important;
+    }
 }
 
 /**

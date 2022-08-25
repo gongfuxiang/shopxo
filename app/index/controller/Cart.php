@@ -12,7 +12,7 @@ namespace app\index\controller;
 
 use app\service\ApiService;
 use app\service\SeoService;
-use app\service\BuyService;
+use app\service\GoodsCartService;
 
 /**
  * 购物车
@@ -49,12 +49,12 @@ class Cart extends Common
     public function Index()
     {
         // 购物车列表
-        $cart_list = BuyService::CartList(['user'=>$this->user]);
+        $cart_list = GoodsCartService::GoodsCartList(['user'=>$this->user]);
 
         // 基础信息
         $base = [
             'total_price'   => empty($cart_list['data']) ? 0 : array_sum(array_column($cart_list['data'], 'total_price')),
-            'buy_count'   => empty($cart_list['data']) ? 0 : array_sum(array_column($cart_list['data'], 'stock')),
+            'buy_count'     => empty($cart_list['data']) ? 0 : array_sum(array_column($cart_list['data'], 'stock')),
         ];
 
         // 数据赋值
@@ -85,7 +85,7 @@ class Cart extends Common
 
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return ApiService::ApiDataReturn(BuyService::CartSave($params));
+        return ApiService::ApiDataReturn(GoodsCartService::GoodsCartSave($params));
     }
 
     /**
@@ -106,7 +106,7 @@ class Cart extends Common
 
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return ApiService::ApiDataReturn(BuyService::CartDelete($params));
+        return ApiService::ApiDataReturn(GoodsCartService::GoodsCartDelete($params));
     }
 
     /**
@@ -127,7 +127,7 @@ class Cart extends Common
 
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return ApiService::ApiDataReturn(BuyService::CartStock($params));
+        return ApiService::ApiDataReturn(GoodsCartService::GoodsCartStock($params));
     }
 }
 ?>

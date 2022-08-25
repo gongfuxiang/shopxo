@@ -4,9 +4,21 @@
         <div class="am-alert am-alert-warning am-radius" data-am-alert>
             <button type="button" class="am-close">&times;</button>
             <p>1. 批量添加规格可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。</p>
-            <p>2. 商品添加成功后，仓库管理->仓库商品中添加并配置库存</p>
+            <p>2. 可以后台 商品管理->商品规格 中配置规格模板、选择商品规格模块快速生成对应规格数据、有效的提供效率</p>
+            <p>3. 商品添加成功后，仓库管理->仓库商品中添加并配置库存</p>
         </div>
-        <span class="business-operations-submit quick-spec-title-add">+ 批量添加规格</span>
+        <!-- 规格模板 -->
+        <div class="am-inline-block business-operations-submit" id="specifications-quick-container" data-url="{{:MyUrl('admin/goods/spectemplate')}}">
+            <select class="am-radius chosen-select goods-template-spec-select" data-placeholder="商品规格模板..." data-validation-message="请选择商品规格模板">
+                <option value="">商品规格模板...</option>
+                {{if !empty($goods_spec_template_list)}}
+                    {{foreach $goods_spec_template_list as $v}}
+                        <option value="{{$v.content}}">{{$v.name}}</option>
+                    {{/foreach}}
+                {{/if}}
+            </select>
+        </div>
+        <span class="business-operations-submit am-margin-left-sm quick-spec-title-add">+ 批量添加规格</span>
         <span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created"> 生成规格</span>
     </div>
     <div class="goods-specifications am-margin-top-sm" {{if empty($data['spec_base'])}}style="display: none;"{{/if}}>

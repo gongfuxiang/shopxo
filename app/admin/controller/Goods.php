@@ -13,11 +13,12 @@ namespace app\admin\controller;
 use app\admin\controller\Base;
 use app\service\ApiService;
 use app\service\SystemBaseService;
+use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\RegionService;
 use app\service\BrandService;
 use app\service\GoodsParamsService;
-use app\service\ResourcesService;
+use app\service\GoodsSpecService;
 
 /**
  * 商品管理
@@ -111,6 +112,10 @@ class Goods extends Base
 
             // 获取商品编辑参数
             $assign['parameters'] = GoodsService::GoodsEditParameters($data['id']);
+
+            // 商品规格模板
+			$spec_template = GoodsSpecService::GoodsCategorySpecTemplateList(['category_ids'=>$data['category_ids']]);
+			$assign['goods_spec_template_list'] = $spec_template['data'];
 		}
 
 		// 规格扩展数据
@@ -127,8 +132,8 @@ class Goods extends Base
             ],
             'field' => 'id,name',
         ];
-        $template = GoodsParamsService::GoodsParamsTemplateList($data_params);
-        $assign['goods_template_list'] = $template['data'];
+        $params_template = GoodsParamsService::GoodsParamsTemplateList($data_params);
+        $assign['goods_params_template_list'] = $params_template['data'];
 
         // 是否拷贝
         $assign['is_copy'] = (isset($params['is_copy']) && $params['is_copy'] == 1) ? 1 : 0;
@@ -215,6 +220,27 @@ class Goods extends Base
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(GoodsService::GoodsStatusUpdate($params));
+	}
+
+	/**
+	 * 规格模板
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-01-12T22:23:06+0800
+	 */
+	public function SpecTemplate()
+	{
+		// 是否ajax
+		if(!IS_AJAX)
+		{
+			return $this->error('非法访问');
+		}
+
+		// 开始操作
+		$params = $this->data_post;
+		$params['admin'] = $this->admin;
+		return ApiService::ApiDataReturn(GoodsSpecService::GoodsCategorySpecTemplateList($params));
 	}
 }
 ?>

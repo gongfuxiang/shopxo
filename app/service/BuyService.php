@@ -12,8 +12,9 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\SystemBaseService;
-use app\service\GoodsService;
 use app\service\UserService;
+use app\service\GoodsService;
+use app\service\GoodsCartService;
 use app\service\UserAddressService;
 use app\service\ResourcesService;
 use app\service\PaymentService;
@@ -31,488 +32,6 @@ use app\service\OrderCurrencyService;
  */
 class BuyService
 {
-    /**
-     * 购物车添加/更新
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function CartSave($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'goods_id',
-                'error_msg'         => '商品id有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'stock',
-                'error_msg'         => '购买数量有误',
-            ],
-            [
-                'checked_type'      => 'min',
-                'key_name'          => 'stock',
-                'checked_data'      => 1,
-                'error_msg'         => '购买数量有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 查询用户状态是否正常
-        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
-
-        // 获取商品
-        $goods_id = intval($params['goods_id']);
-        $goods = Db::name('Goods')->where(['id'=>$goods_id, 'is_shelves'=>1, 'is_delete_time'=>0])->find();
-        if(empty($goods))
-        {
-            return DataReturn('商品不存在或已删除', -2);
-        }
-
-        // 无封面图片
-        if(empty($goods['images']))
-        {
-            $goods['images'] = ResourcesService::AttachmentPathHandle(GoodsService::GoodsImagesCoverHandle($goods_id));
-        }
-
-        // 是否支持购物车操作
-        $ret = GoodsService::IsGoodsSiteTypeConsistent($goods_id, $goods['site_type']);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
-
-        // 规格处理
-        $spec = self::GoodsSpecificationsHandle($params);
-
-        // 获取商品基础信息
-        $spec_params = array_merge($params, [
-            'id'    => $goods_id,
-            'spec'  => $spec,
-        ]);
-        $goods_base = GoodsService::GoodsSpecDetail($spec_params);
-        if($goods_base['code'] != 0)
-        {
-            return $goods_base;
-        }
-
-        // 是否存在规格
-        if(!empty($spec))
-        {
-            // 获取商品规格图片
-            $images = self::BuyGoodsSpecImages($goods_id, $spec);
-            if(!empty($images))
-            {
-                $goods['images'] = $images;
-                $goods['images_old'] = ResourcesService::AttachmentPathViewHandle($images);
-            }
-
-            // 规格库存赋值
-            $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
-        }
-
-        // 数量
-        $stock = ($goods['buy_max_number'] > 0 && $params['stock'] > $goods['buy_max_number']) ? $goods['buy_max_number'] : $params['stock'];
-
-        // 库存
-        if($stock > $goods['inventory'])
-        {
-            return DataReturn('库存不足', -1);
-        }
-
-        // 添加购物车
-        $data = [
-            'user_id'       => $params['user']['id'],
-            'goods_id'      => $goods_id,
-            'title'         => $goods['title'],
-            'images'        => $goods['images'],
-            'original_price'=> $goods_base['data']['spec_base']['original_price'],
-            'price'         => $goods_base['data']['spec_base']['price'],
-            'stock'         => $stock,
-            'spec'          => empty($spec) ? '' : json_encode($spec, JSON_UNESCAPED_UNICODE),
-        ];
-
-        // 存在则更新
-        $where = ['user_id'=>$data['user_id'], 'goods_id'=>$data['goods_id'], 'spec'=>$data['spec']];
-        $temp = Db::name('Cart')->where($where)->find();
-        if(empty($temp))
-        {
-            $data['add_time'] = time();
-            if(Db::name('Cart')->insertGetId($data) > 0)
-            {
-                return DataReturn(MyLang('common.join_success'), 0, self::UserCartTotal($params));
-            }
-        } else {
-            $data['upd_time'] = time();
-            $data['stock'] += $temp['stock'];
-            if($data['stock'] > $goods['inventory'])
-            {
-                $data['stock'] = $goods['inventory'];
-            }
-            if($goods['buy_max_number'] > 0 && $data['stock'] > $goods['buy_max_number'])
-            {
-                $data['stock'] = $goods['buy_max_number'];
-            }
-            if(Db::name('Cart')->where($where)->update($data))
-            {
-                return DataReturn(MyLang('common.join_success'), 0, self::UserCartTotal($params));
-            }
-        }
-        
-        return DataReturn(MyLang('common.join_fail'), -100);
-    }
-
-    /**
-     * 商品规格解析
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-21
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function GoodsSpecificationsHandle($params = [])
-    {
-        $spec = '';
-        if(!empty($params['spec']))
-        {
-            if(!is_array($params['spec']))
-            {
-                $spec = json_decode(htmlspecialchars_decode($params['spec']), true);
-            } else {
-                $spec = $params['spec'];
-            }
-        }
-        return empty($spec) ? '' : $spec;
-    }
-
-    /**
-     * 获取购物车列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function CartList($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 基础参数
-        $where = (!empty($params['where']) && is_array($params['where'])) ? $params['where'] : [];
-        $where[] = ['c.user_id', '=', $params['user']['id']];
-        $field = 'c.*, g.inventory_unit, g.is_shelves, g.is_delete_time, g.buy_min_number, g.buy_max_number, g.model, g.site_type';
-
-        // 购物车列表读取前钩子
-        $hook_name = 'plugins_service_cart_goods_list_begin';
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'params'        => &$params,
-            'where'         => &$where,
-            'field'         => &$field,
-        ]);
-
-        // 获取购物车数据
-        $data = Db::name('Cart')->alias('c')->leftJoin('goods g', 'g.id=c.goods_id')->where($where)->field($field)->order('c.id desc')->select()->toArray();
-
-        // 数据处理
-        $data = self::CartListDataHandle($data, $params);
-        return DataReturn(MyLang('common.operate_success'), 0, $data);
-    }
-
-    /**
-     * 购物车列表数据处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2022-04-05
-     * @desc    description
-     * @param   [array]          $data   [购物车数据]
-     * @param   [array]          $params [输入参数]
-     */
-    public static function CartListDataHandle($data, $params = [])
-    {
-        if(!empty($data))
-        {
-            // 商品处理
-            $res = GoodsService::GoodsDataHandle($data, ['data_key_field'=>'goods_id']);
-            $data = $res['data'];
-            foreach($data as &$v)
-            {
-                // 规格
-                $v['spec'] = empty($v['spec']) ? null : json_decode($v['spec'], true);
-
-                // 获取商品基础信息
-                $spec_params = array_merge($params, [
-                    'id'    => $v['goods_id'],
-                    'spec'  => $v['spec'],
-                    'stock' => $v['stock'],
-                ]);
-                $goods_base = GoodsService::GoodsSpecDetail($spec_params);
-                $v['is_invalid'] = 0;
-                if($goods_base['code'] == 0)
-                {
-                    $v['inventory'] = $goods_base['data']['spec_base']['inventory'];
-                    $v['price'] = $goods_base['data']['spec_base']['price'];
-                    $v['original_price'] = $goods_base['data']['spec_base']['original_price'];
-                    $v['spec_weight'] = $goods_base['data']['spec_base']['weight'];
-                    $v['spec_volume'] = $goods_base['data']['spec_base']['volume'];
-                    $v['spec_coding'] = $goods_base['data']['spec_base']['coding'];
-                    $v['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
-                    $v['extends'] = $goods_base['data']['spec_base']['extends'];
-                } else {
-                    $v['is_invalid'] = 1;
-                    $v['inventory'] = 0;
-                    $v['spec_weight'] = 0;
-                    $v['spec_volume'] = 0;
-                    $v['spec_coding'] = '';
-                    $v['spec_barcode'] = '';
-                    $v['extends'] = '';
-                }
-
-                // 基础信息
-                $v['total_price'] = PriceNumberFormat($v['stock']* $v['price']);
-                $v['buy_max_number'] = ($v['buy_max_number'] <= 0) ? $v['inventory']: $v['buy_max_number'];
-
-                // 错误处理
-                $v['is_error'] = 0;
-                $v['error_msg'] = '';
-                if($v['is_delete_time'] != 0)
-                {
-                    $v['is_error'] = 1;
-                    $v['error_msg'] = '已作废';
-                }
-                if(empty($v['error_msg']) && $v['is_invalid'] == 1)
-                {
-                    $v['is_error'] = 1;
-                    $v['error_msg'] = '已失效';
-                }
-                if(empty($v['error_msg']) && $v['is_shelves'] != 1)
-                {
-                    $v['is_error'] = 1;
-                    $v['error_msg'] = '已下架';
-                }
-                if(empty($v['error_msg']) && $v['inventory'] <= 0)
-                {
-                    $v['is_error'] = 1;
-                    $v['error_msg'] = '没货了';
-                }
-                if(empty($v['error_msg']))
-                {
-                    $ret = GoodsService::IsGoodsSiteTypeConsistent($v['goods_id'], $v['site_type']);
-                    if($ret['code'] != 0)
-                    {
-                        $v['is_error'] = 1;
-                        $v['error_msg'] = $ret['msg'];
-                    }
-                }
-            }
-        }
-        return $data;
-    }
-
-    /**
-     * 购物车删除
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-14
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function CartDelete($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '删除数据id有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 查询用户状态是否正常
-        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
-
-        // 删除
-        $where = [
-            'id'        => is_array($params['id']) ? $params['id'] : explode(',', $params['id']),
-            'user_id'   => $params['user']['id']
-        ];
-        if(Db::name('Cart')->where($where)->delete())
-        {
-            return DataReturn(MyLang('common.delete_success'), 0, self::UserCartTotal($params));
-        }
-        return DataReturn('删除失败或资源不存在', -100);
-    }
-
-    /**
-     * 购物车数量保存
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-14
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function CartStock($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'id',
-                'error_msg'         => '数据id有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'goods_id',
-                'error_msg'         => '商品id有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'stock',
-                'error_msg'         => '购买数量有误',
-            ],
-            [
-                'checked_type'      => 'min',
-                'key_name'          => 'stock',
-                'checked_data'      => 1,
-                'error_msg'         => '购买数量有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return DataReturn($ret, -1);
-        }
-
-        // 查询用户状态是否正常
-        $ret = UserService::UserStatusCheck('id', $params['user']['id']);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
-
-        // 条件
-        $where = [
-            'id'        => intval($params['id']),
-            'goods_id'  => intval($params['goods_id']),
-            'user_id'   => intval($params['user']['id']),
-        ];
-
-        // 数量
-        $stock = intval($params['stock']);
-
-        // 获取购物车数据
-        $data = Db::name('Cart')->where($where)->field('goods_id,title,price,stock,spec')->find();
-        if(empty($data))
-        {
-            return DataReturn('请先加入购物车', -1);
-        }
-        $data['stock'] = $stock;
-        $data['spec'] = empty($data['spec']) ? null : json_decode($data['spec'], true);
-
-        // 商品校验
-        $ret = self::BuyGoodsCheck(['goods'=>[$data]]);
-        if($ret['code'] != 0)
-        {
-            return $ret;
-        }
-
-        // 更新数据
-        $upd_data = [
-            'stock'     => $stock,
-            'upd_time'  => time(),
-        ];
-        if(Db::name('Cart')->where($where)->update($upd_data))
-        {
-            // 获取商品基础信息、更新商品价格信息
-            $spec_params = array_merge($params, [
-                'id'    => $data['goods_id'],
-                'spec'  => $data['spec'],
-                'stock' => $data['stock'],
-            ]);
-            $goods_base = GoodsService::GoodsSpecDetail($spec_params);
-            if($goods_base['code'] == 0)
-            {
-                $data['price'] = $goods_base['data']['spec_base']['price'];
-                $data['original_price'] = $goods_base['data']['spec_base']['original_price'];
-            }
-
-            // 增加价格总计
-            $data['total_price'] = PriceNumberFormat($data['stock']*$data['price']);
-
-            // 购物车更新成功钩子
-            $hook_name = 'plugins_service_cart_update_success';
-            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
-                'hook_name'     => $hook_name,
-                'is_backend'    => true,
-                'params'        => $params,
-                'data'          => &$data,
-                'goods_id'      => $params['goods_id']
-            ]));
-            if(isset($ret['code']) && $ret['code'] != 0)
-            {
-                return $ret;
-            }
-
-            return DataReturn(MyLang('common.update_success'), 0, $data);
-        }
-        return DataReturn(MyLang('common.update_fail'), -100);
-    }
-
     /**
      * 下订单 - 正常购买
      * @author   Devil
@@ -617,6 +136,30 @@ class BuyService
     }
 
     /**
+     * 商品规格解析
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-21
+     * @desc    description
+     * @param   [array]          $params [输入参数]
+     */
+    public static function GoodsSpecificationsHandle($params = [])
+    {
+        $spec = '';
+        if(!empty($params['spec']))
+        {
+            if(!is_array($params['spec']))
+            {
+                $spec = json_decode(htmlspecialchars_decode($params['spec']), true);
+            } else {
+                $spec = $params['spec'];
+            }
+        }
+        return empty($spec) ? '' : $spec;
+    }
+
+    /**
      * 下订单 - 购物车
      * @author   Devil
      * @blog    http://gong.gg/
@@ -652,7 +195,7 @@ class BuyService
             ['g.is_shelves', '=', 1],
             ['c.id', 'in', explode(',', $params['ids'])],
         ];
-        return self::CartList($params);
+        return GoodsCartService::GoodsCartList($params);
     }
 
     /**
@@ -1635,64 +1178,6 @@ class BuyService
             return DataReturn(MyLang('common.insert_success'), 0);
         }
         return DataReturn('订单地址添加失败', -1);
-    }
-
-    /**
-     * 购物车总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function CartTotal($where = [])
-    {
-        return (int) Db::name('Cart')->where($where)->count();
-    }
-
-    /**
-     * 用户购物车总数
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     * @return  [int|string]             [超过99则返回 99+]
-     */
-    public static function UserCartTotal($params = [])
-    {
-        // 请求参数
-        $p = [
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
-            ],
-        ];
-        $ret = ParamsChecked($params, $p);
-        if($ret !== true)
-        {
-            return 0;
-        }
-
-        // 条件
-        $where = [
-            ['user_id', '=', $params['user']['id']]
-        ];
-
-        // 购物车总数读取前钩子
-        $hook_name = 'plugins_service_user_cart_total_begin';
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'params'        => $params,
-            'where'         => &$where,
-        ]);
-
-        $total = self::CartTotal($where);
-        return ($total > 99) ? '99+' : $total;
     }
 
     /**

@@ -206,15 +206,15 @@
 						<!-- 通过配置生成商品参数 -->
 						<div class="am-dropdown" id="parameters-quick-container" data-am-dropdown>
 							<span class="business-operations-submit am-dropdown-toggle parameters-quick-add">
-								<span>快捷操作</span>
+								<span>商品参数模板</span>
 								<i class="am-icon-caret-down"></i>
 							</span>
 							<div class="am-dropdown-content parameters-quick-config">
 								<div class="am-margin-bottom-sm">
 									<select class="am-radius chosen-select goods-template-params-select" data-placeholder="请选择模板..." data-validation-message="选择商品参数模板">
-										{{if !empty($goods_template_list) and is_array($goods_template_list)}}
-											<option value="">请选择模板...</option>
-											{{foreach $goods_template_list as $v}}
+										<option value="">请选择模板...</option>
+										{{if !empty($goods_params_template_list) and is_array($goods_params_template_list)}}
+											{{foreach $goods_params_template_list as $v}}
 												<option value="{{:urlencode(json_encode($v['config_data'], JSON_UNESCAPED_UNICODE))}}">{{$v.name}}</option>
 											{{/foreach}}
 										{{/if}}

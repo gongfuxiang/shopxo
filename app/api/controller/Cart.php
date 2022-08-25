@@ -12,7 +12,7 @@ namespace app\api\controller;
 
 use app\service\ApiService;
 use app\service\SystemBaseService;
-use app\service\BuyService;
+use app\service\GoodsCartService;
 
 /**
  * 购物车
@@ -48,10 +48,10 @@ class Cart extends Common
      */
     public function Index()
     {
-        $ret = BuyService::CartList(['user'=>$this->user]);
+        $ret = GoodsCartService::GoodsCartList(['user'=>$this->user]);
         $result = [
             'data'              => $ret['data'],
-            'common_cart_total' => BuyService::UserCartTotal(['user'=>$this->user]),
+            'common_cart_total' => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
         ];
 
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
@@ -69,7 +69,7 @@ class Cart extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return ApiService::ApiDataReturn(BuyService::CartSave($params));
+        return ApiService::ApiDataReturn(GoodsCartService::GoodsCartSave($params));
     }
 
     /**
@@ -84,7 +84,7 @@ class Cart extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return ApiService::ApiDataReturn(BuyService::CartDelete($params));
+        return ApiService::ApiDataReturn(GoodsCartService::GoodsCartDelete($params));
     }
 
     /**
@@ -99,7 +99,7 @@ class Cart extends Common
     {
         $params = $this->data_post;
         $params['user'] = $this->user;
-        return ApiService::ApiDataReturn(BuyService::CartStock($params));
+        return ApiService::ApiDataReturn(GoodsCartService::GoodsCartStock($params));
     }
 }
 ?>

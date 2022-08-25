@@ -721,4 +721,82 @@ $(function()
         }
         $('#parameters-quick-container textarea').val(value || '');
     });
+
+    // 商品规格模板数据获取、选择商品分类后异步读取
+    var $spec_quick = $('#specifications-quick-container');
+    $('select[name="category_id"]').on('change', function()
+    {
+        var value = $(this).val() || '';
+        $.ajax({
+            url: RequestUrlHandle($spec_quick.data('url')),
+            type: 'POST',
+            dataType: 'json',
+            timeout: 305000,
+            data: {"category_ids": value},
+            success: function(result)
+            {
+                if((result.data || null) != null && result.data.length > 0)
+                {
+                    var html = '';
+                    for(var i in result.data)
+                    {
+                        html += '<option value="'+result.data[i]['content']+'">'+result.data[i]['name']+'</option>';
+                    }
+                    $spec_quick.find('select').append(html);
+                } else {
+                    $spec_quick.find('select option').each(function(k, v)
+                    {
+                        if(k > 0)
+                        {
+                            $(this).remove();
+                        }
+                    });
+                }
+                $spec_quick.find('select').trigger('chosen:updated');
+            },
+            error: function(xhr, type)
+            {
+                Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'));
+            }
+        });
+    });
+    // 规格模板选择
+    $(document).on('click', '#specifications-quick-container select option, #specifications-quick-container .chosen-container .chosen-results li.active-result', function()
+    {
+        var value = $spec_quick.find('select').val() || null;
+        if(value == null)
+        {
+            Prompt($spec_quick.data('spec-template-tips') || '规格模板数据有误');
+            return false;
+        }
+        value = value.split(',');
+        var name = $spec_quick.find('select').find('option:selected').text();
+
+        // 名称是否已存在
+        var status = true;
+        $('.spec-quick .goods-specifications table tbody tr').each(function()
+        {
+            var temp_name = $(this).find('td:first').find('input').val();
+            if(temp_name == name)
+            {
+                status = false;
+            }
+        });
+        if(!status)
+        {
+            Prompt(($spec_quick.data('spec-template-name-tips') || '相同规格名称已经存在')+'('+name+')');
+            return false;
+        }
+
+        // 模拟点击添加一个规格类型
+        $('.quick-spec-title-add').trigger('click');
+        // 填入规格名称
+        $('.spec-quick .goods-specifications table tbody tr:last td:first input').val(name);
+        // 加入规格值
+        for(var i in value)
+        {
+            $('.spec-quick .goods-specifications table tbody tr:last td:last .quick-spec-value-add').trigger('click');
+            $('.spec-quick .goods-specifications table tbody tr:last td:last .value-item:eq(-2) input').val(value[i]);
+        }
+    });
 });

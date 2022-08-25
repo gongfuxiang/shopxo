@@ -15,12 +15,12 @@ use app\service\SystemService;
 use app\service\OrderService;
 use app\service\GoodsService;
 use app\service\UserService;
-use app\service\BuyService;
 use app\service\SeoService;
 use app\service\MessageService;
 use app\service\NavigationService;
 use app\service\GoodsBrowseService;
 use app\service\GoodsFavorService;
+use app\service\GoodsCartService;
 
 /**
  * 用户
@@ -134,7 +134,7 @@ class User extends Common
         $assign['order_list'] = $order['data'];
 
         // 获取购物车
-        $cart_list = BuyService::CartList(['user'=>$this->user]);
+        $cart_list = GoodsCartService::GoodsCartList(['user'=>$this->user]);
         $assign['cart_list'] = $cart_list['data'];
 
         // 收藏商品

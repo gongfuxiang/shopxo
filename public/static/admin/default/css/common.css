@@ -61,7 +61,7 @@ select {height:28px !important;}
 .t-l {text-align:left;}
 .t-r {text-align:right;}
 .o-h { overflow: hidden; }
-input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single:hover,.am-tagsinput:hover, button.colorpicker-submit:hover { border-style:solid; border-width:1px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; border:1px solid #4FACF5 !important; box-shadow:0 0 5px #4FACF5 !important; }
+input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single:hover,.am-tagsinput:hover, button.colorpicker-submit:hover { border-style:solid; border-width:1px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; border:1px solid #4FACF5 !important; -webkit-box-shadow: 0 0 5px #4FACF5 !important; box-shadow:0 0 5px #4FACF5 !important; }
 .am-input-group-sm > .am-input-group-btn > .am-btn,
 .am-input-group-sm > .am-form-field,
 .am-input-group-sm > .am-input-group-label,

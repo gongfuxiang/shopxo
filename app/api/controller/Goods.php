@@ -11,6 +11,7 @@
 namespace app\api\controller;
 
 use app\service\ApiService;
+use app\service\AppService;
 use app\service\SystemBaseService;
 use app\service\GoodsService;
 use app\service\BuyService;
@@ -18,7 +19,7 @@ use app\service\GoodsCommentsService;
 use app\service\ResourcesService;
 use app\service\GoodsFavorService;
 use app\service\GoodsBrowseService;
-use app\service\AppService;
+use app\service\GoodsCartService;
 
 /**
  * 商品
@@ -122,7 +123,7 @@ class Goods extends Common
                 // 数据返回
                 $result = [
                     'goods'                 => $goods,
-                    'common_cart_total'     => BuyService::UserCartTotal(['user'=>$this->user]),
+                    'common_cart_total'     => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
                     'buy_button'            => $buy_button,
                     'middle_tabs_nav'       => $middle_tabs_nav,
                     'nav_more_list'         => $nav_more_list,

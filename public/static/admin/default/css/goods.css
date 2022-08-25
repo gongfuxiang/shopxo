@@ -223,3 +223,29 @@ ul li {
         width: calc(50% - 12px) !important;
     }
 }
+
+/**
+ * 规格模板快捷操作
+ */
+#specifications-quick-container {
+    padding: 0;
+}
+#specifications-quick-container .chosen-container {
+    min-width: 120px;
+}
+#specifications-quick-container .chosen-container-single .chosen-default,
+#specifications-quick-container .chosen-container-single .chosen-single {
+    border-color: transparent !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    height: 29px;
+    line-height: 29px;
+}
+#specifications-quick-container .chosen-container .chosen-drop {
+    border-style: dashed;
+    left: -1px;
+    width: calc(100% + 2px);
+}
+#specifications-quick-container:hover .chosen-container .chosen-drop {
+    border-color: #666  !important;
+}

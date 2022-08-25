@@ -21,6 +21,7 @@ use app\service\ArticleService;
 use app\service\MessageService;
 use app\service\AppService;
 use app\service\PluginsService;
+use app\service\GoodsCartService;
 
 /**
  * 首页
@@ -62,7 +63,7 @@ class Index extends Common
         }
 
         // 购物车数量
-        $common_cart_total = BuyService::UserCartTotal(['user'=>$this->user]);
+        $common_cart_total = GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]);
 
         // 未读消息总数
         $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];

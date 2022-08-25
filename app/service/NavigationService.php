@@ -12,7 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\SystemService;
-use app\service\BuyService;
+use app\service\GoodsCartService;
 use app\service\MessageService;
 use app\service\OrderService;
 use app\service\GoodsService;
@@ -648,7 +648,7 @@ class NavigationService
         if(!empty($params['user']))
         {
             // 购物车商品总数
-            $common_cart_total = BuyService::UserCartTotal(['user'=>$params['user']]);
+            $common_cart_total = GoodsCartService::UserGoodsCartTotal(['user'=>$params['user']]);
 
             // 未读消息总数
             $message_params = ['user'=>$params['user'], 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
@@ -1002,7 +1002,7 @@ class NavigationService
         if(!empty($params['user']))
         {
             // 购物车商品总数
-            $common_cart_total = BuyService::UserCartTotal(['user'=>$params['user']]);
+            $common_cart_total = GoodsCartService::UserGoodsCartTotal(['user'=>$params['user']]);
         }
         
         // 列表

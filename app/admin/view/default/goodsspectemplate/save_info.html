@@ -1,0 +1,69 @@
+{{include file="public/header" /}}
+
+<!-- right content start  -->
+<div class="content-right">
+	<div class="content">
+		<!-- form start -->
+		<form class="am-form form-validation am-form-full-screen" action="{{:MyUrl('admin/goodsspectemplate/save')}}" method="POST" request-type="ajax-reload" request-value="parent">
+			<div class="am-form-group">
+				<label>商品分类<span class="am-form-group-label-tips-must">必选、包含子级</span></label>
+				<br />
+				<select name="category_id" class="am-radius chosen-select" data-placeholder="请选择..." data-validation-message="请选择商品分类" required>
+					{{if !empty($goods_category_list)}}
+						<option value="">请选择...</option>
+						{{foreach $goods_category_list as $v}}
+							<option value="{{$v.id}}" {{if isset($data['category_id']) and $data['category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					{{/if}}
+				</select>
+			</div>
+			<div class="am-form-group">
+				<label>规格名称<span class="am-form-group-label-tips-must">必填</span></label>
+				<input type="text" name="name" placeholder="规格名称" minlength="1" maxlength="30" data-validation-message="规格名称格式1~30个字符" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+			</div>
+
+			<div class="am-form-group">
+				<label>规格值<span class="am-form-group-label-tips-must">必填</span></label>
+				<input type="text" name="content" placeholder="规格值（输入回车可实现多个）" minlength="1" maxlength="1000" data-validation-message="规格值格式1~1000个字符" class="am-radius" {{if !empty($data['content'])}} value="{{$data.content}}"{{/if}} required data-am-tagsinput />
+			</div>
+
+			<div class="am-form-group">
+			    <label class="block">是否启用</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
+			</div>
+
+			<!-- 插件扩展数据 start -->
+			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_admin_goods_spec_template_save</span>
+                </div>
+            {{/if}}
+			{{if !empty($plugins_view_admin_goods_spec_template_save_data) and is_array($plugins_view_admin_goods_spec_template_save_data)}}
+				<div class="am-alert am-alert-secondary">
+					<label class="am-text-sm am-text-warning">该区域为插件扩展数据，请按照插件文档填写相应的值</label>
+					<div>
+						{{foreach $plugins_view_admin_goods_spec_template_save_data as $hook}}
+		                    {{if is_string($hook) or is_int($hook)}}
+		                        {{$hook|raw}}
+		                    {{/if}}
+		                {{/foreach}}
+					</div>
+				</div>
+			{{/if}}
+			<!-- 插件扩展数据 end -->
+
+			<div class="am-form-group am-form-group-refreshing am-margin-top-lg">
+				<div class="am-padding-bottom-sm">
+					<input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+				</div>
+			</div>
+		</form>
+        <!-- form end -->
+	</div>
+</div>
+<!-- right content end  -->
+		
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->

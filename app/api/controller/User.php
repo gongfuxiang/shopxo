@@ -22,6 +22,7 @@ use app\service\GoodsFavorService;
 use app\service\GoodsBrowseService;
 use app\service\IntegralService;
 use app\service\AppMiniUserService;
+use app\service\GoodsCartService;
 
 /**
  * 用户
@@ -271,7 +272,7 @@ class User extends Common
             'user_goods_browse_count'           => $user_goods_browse_count,
             'common_message_total'              => $common_message_total,
             'navigation'                        => AppCenterNavService::AppCenterNav(),
-            'common_cart_total'                 => BuyService::UserCartTotal(['user'=>$this->user]),
+            'common_cart_total'                 => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
         );
 
         // 返回数据
