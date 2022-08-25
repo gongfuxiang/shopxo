@@ -735,6 +735,15 @@ $(function()
             data: {"category_ids": value},
             success: function(result)
             {
+                // 移除现有模板
+                $spec_quick.find('select option').each(function(k, v)
+                {
+                    if(k > 0)
+                    {
+                        $(this).remove();
+                    }
+                });
+                // 循环处理得到的最新模板
                 if((result.data || null) != null && result.data.length > 0)
                 {
                     var html = '';
@@ -743,15 +752,8 @@ $(function()
                         html += '<option value="'+result.data[i]['content']+'">'+result.data[i]['name']+'</option>';
                     }
                     $spec_quick.find('select').append(html);
-                } else {
-                    $spec_quick.find('select option').each(function(k, v)
-                    {
-                        if(k > 0)
-                        {
-                            $(this).remove();
-                        }
-                    });
                 }
+                // 更新select组件
                 $spec_quick.find('select').trigger('chosen:updated');
             },
             error: function(xhr, type)
