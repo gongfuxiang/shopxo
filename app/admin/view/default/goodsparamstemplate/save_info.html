@@ -6,10 +6,21 @@
 		<!-- form start -->
 		<form class="am-form form-validation am-form-full-screen" action="{{:MyUrl('admin/goodsparamstemplate/save')}}" method="POST" request-type="ajax-reload" request-value="parent">
 			<div class="am-form-group">
+				<label>商品分类<span class="am-form-group-label-tips-must">必选、包含子级</span></label>
+				<br />
+				<select name="category_id" class="am-radius chosen-select" data-placeholder="请选择..." data-validation-message="请选择商品分类" required>
+					{{if !empty($goods_category_list)}}
+						<option value="">请选择...</option>
+						{{foreach $goods_category_list as $v}}
+							<option value="{{$v.id}}" {{if isset($data['category_id']) and $data['category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
+						{{/foreach}}
+					{{/if}}
+				</select>
+			</div>
+			<div class="am-form-group">
 				<label>名称<span class="am-form-group-label-tips-must">必填</span></label>
 				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
 			</div>
-
 			<div class="business-form-group">
 				<label class="block">参数配置<span class="am-form-group-label-tips-must">必填</span></label>
 				{{include file="public/goodsparamstemplate/tips" /}}
@@ -37,7 +48,6 @@
 				<span class="am-text-warning am-margin-left-sm">可直接点中参数行拖拽排序或点击上下移动</span>
 				{{include file="public/goodsparamstemplate/table" /}}
 			</div>
-
 			<div class="am-form-group">
 			    <label class="block">是否启用</label>
 			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />

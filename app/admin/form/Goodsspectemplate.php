@@ -81,7 +81,6 @@ class GoodsSpecTemplate
                     'view_data'     => $this->goods_category_list,
                     'search_config' => [
                         'form_type'             => 'select',
-                        'form_name'             => 'category_id',
                         'where_type'            => 'in',
                         'data'                  => $this->goods_category_list,
                         'is_multiple'           => 1,

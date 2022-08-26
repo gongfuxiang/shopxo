@@ -12,6 +12,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use app\service\ApiService;
+use app\service\GoodsService;
 use app\service\GoodsParamsService;
 
 /**
@@ -85,6 +86,9 @@ class GoodsParamsTemplate extends Base
 
             // 参数配置
             'parameters'                        => empty($data['config_data']) ? [] : $data['config_data'],
+
+            // 商品分类
+            'goods_category_list'               => GoodsService::GoodsCategoryList(['where'=>[['pid', '=', 0]]]),
         ];
 
         // 编辑页面钩子

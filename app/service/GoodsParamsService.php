@@ -11,6 +11,7 @@
 namespace app\service;
 
 use think\facade\Db;
+use app\service\GoodsService;
 
 /**
  * 商品参数服务层
@@ -23,7 +24,7 @@ use think\facade\Db;
 class GoodsParamsService
 {
     /**
-     * 列表
+     * 商品分类参数模板
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -31,17 +32,34 @@ class GoodsParamsService
      * @desc    description
      * @param   [array]          $params [输入参数]
      */
-    public static function GoodsParamsTemplateList($params = [])
+    public static function GoodsCategoryParamsTemplateList($params = [])
     {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'id desc' : trim($params['order_by']);
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
+        // 请求类型
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'category_ids',
+                'error_msg'         => '请选择商品分类',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
 
-        // 获取列表
-        $data = Db::name('GoodsParamsTemplate')->where($where)->order($order_by)->field($field)->limit($m, $n)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::GoodsParamsTemplateListHandle($data, $params));
+        // 获取分类下所有分类id
+        $data = [];
+        $ids = GoodsService::GoodsCategoryParentIds($params['category_ids']);
+        if(!empty($ids))
+        {
+            $where = [
+                ['category_id', 'in', $ids],
+                ['is_enable', '=', 1],
+            ];
+            $data = self::GoodsParamsTemplateListHandle(Db::name('GoodsParamsTemplate')->where($where)->field('id,name,config_count')->order('id desc')->select()->toArray(), $params);
+        }
+        return DataReturn(MyLang('common.operate_success'), 0, $data);
     }
 
     /**
@@ -75,11 +93,11 @@ class GoodsParamsService
                 $v['config_data'] = empty($config[$v['id']]) ? [] : $config[$v['id']];
 
                 // 时间
-                if(isset($v['add_time']))
+                if(array_key_exists('add_time', $v))
                 {
                     $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
                 }
-                if(isset($v['upd_time']))
+                if(array_key_exists('upd_time', $v))
                 {
                     $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
                 }
@@ -102,6 +120,11 @@ class GoodsParamsService
         // 请求类型
         $p = [
             [
+                'checked_type'      => 'empty',
+                'key_name'          => 'category_id',
+                'error_msg'         => '请选择商品分类',
+            ],
+            [
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,30',
@@ -123,6 +146,7 @@ class GoodsParamsService
 
         // 数据
         $data = [
+            'category_id'   => intval($params['category_id']),
             'name'          => $params['name'],
             'config_count'  => count($config['data']),
             'is_enable'     => isset($params['is_enable']) ? intval($params['is_enable']) : 0,

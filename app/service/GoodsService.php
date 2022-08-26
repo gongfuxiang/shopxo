@@ -17,6 +17,7 @@ use app\service\ResourcesService;
 use app\service\BrandService;
 use app\service\RegionService;
 use app\service\WarehouseGoodsService;
+use app\service\GoodsSpecService;
 use app\service\GoodsParamsService;
 use app\service\GoodsCommentsService;
 
@@ -3185,6 +3186,43 @@ class GoodsService
             'name'  => $goods['title'],
         ];
         return $result;
+    }
+
+    /**
+     * 商品基础模板
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-08-26
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function GoodsBaseTemplate($params = [])
+    {
+        // 请求类型
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'category_ids',
+                'error_msg'         => '请选择商品分类',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 规格模板
+        $spec = GoodsSpecService::GoodsCategorySpecTemplateList($params);
+
+        // 参数模板
+        $parameter = GoodsParamsService::GoodsCategoryParamsTemplateList($params);
+
+        return DataReturn(MyLang('common.operate_success'), 0, [
+            'spec'      => $spec['data'],
+            'params'    => $parameter['data'],
+        ]);
     }
 }
 ?>

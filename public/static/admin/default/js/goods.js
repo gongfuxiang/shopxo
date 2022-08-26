@@ -708,7 +708,7 @@ $(function()
     });
 
     // 商品参数模板选择
-    $('.goods-template-params-select').on('change', function()
+    $('#parameters-quick-container select').on('change', function()
     {
         var value = $(this).val() || null;
         if(value != null)
@@ -722,13 +722,14 @@ $(function()
         $('#parameters-quick-container textarea').val(value || '');
     });
 
-    // 商品规格模板数据获取、选择商品分类后异步读取
+    // 商品规格模板和参数模板数据获取、选择商品分类后异步读取
     var $spec_quick = $('#specifications-quick-container');
+    var $params_quick = $('#parameters-quick-container');
     $('select[name="category_id"]').on('change', function()
     {
         var value = $(this).val() || '';
         $.ajax({
-            url: RequestUrlHandle($spec_quick.data('url')),
+            url: RequestUrlHandle($(this).data('base-template-url')),
             type: 'POST',
             dataType: 'json',
             timeout: 305000,
@@ -743,18 +744,41 @@ $(function()
                         $(this).remove();
                     }
                 });
-                // 循环处理得到的最新模板
-                if((result.data || null) != null && result.data.length > 0)
+                $params_quick.find('select option').each(function(k, v)
                 {
-                    var html = '';
-                    for(var i in result.data)
+                    if(k > 0)
                     {
-                        html += '<option value="'+result.data[i]['content']+'">'+result.data[i]['name']+'</option>';
+                        $(this).remove();
                     }
-                    $spec_quick.find('select').append(html);
+                });
+                // 循环处理得到的最新模板
+                if((result.data || null) != null)
+                {
+                    // 规格模板
+                    if((result.data.spec || null) != null && result.data.spec.length > 0)
+                    {
+                        var html = '';
+                        for(var i in result.data.spec)
+                        {
+                            html += '<option value="'+result.data.spec[i]['content']+'" data-origin-name="'+result.data.spec[i]['name']+'">'+result.data.spec[i]['name']+'</option>';
+                        }
+                        $spec_quick.find('select').append(html);
+                    }
+
+                    // 参数模板
+                    if((result.data.params || null) != null && result.data.params.length > 0)
+                    {
+                        var html = '';
+                        for(var i in result.data.params)
+                        {
+                            html += '<option value="'+encodeURIComponent(JSON.stringify(result.data.params[i]['config_data']))+'" data-origin-name="'+result.data.spec[i]['name']+'">'+result.data.params[i]['name']+'</option>';
+                        }
+                        $params_quick.find('select').append(html);
+                    }
                 }
                 // 更新select组件
                 $spec_quick.find('select').trigger('chosen:updated');
+                $params_quick.find('select').trigger('chosen:updated');
             },
             error: function(xhr, type)
             {
@@ -765,40 +789,43 @@ $(function()
     // 规格模板选择
     $(document).on('click', '#specifications-quick-container select option, #specifications-quick-container .chosen-container .chosen-results li.active-result', function()
     {
-        var value = $spec_quick.find('select').val() || null;
-        if(value == null)
+        if($(this).index() > 0)
         {
-            Prompt($spec_quick.data('spec-template-tips') || '规格模板数据有误');
-            return false;
-        }
-        value = value.split(',');
-        var name = $spec_quick.find('select').find('option:selected').text();
-
-        // 名称是否已存在
-        var status = true;
-        $('.spec-quick .goods-specifications table tbody tr').each(function()
-        {
-            var temp_name = $(this).find('td:first').find('input').val();
-            if(temp_name == name)
+            var value = $spec_quick.find('select').val() || null;
+            if(value == null)
             {
-                status = false;
+                Prompt($spec_quick.data('spec-template-tips') || '规格模板数据有误');
+                return false;
             }
-        });
-        if(!status)
-        {
-            Prompt(($spec_quick.data('spec-template-name-tips') || '相同规格名称已经存在')+'('+name+')');
-            return false;
-        }
+            value = value.split(',');
+            var name = $spec_quick.find('select').find('option:selected').data('origin-name');
 
-        // 模拟点击添加一个规格类型
-        $('.quick-spec-title-add').trigger('click');
-        // 填入规格名称
-        $('.spec-quick .goods-specifications table tbody tr:last td:first input').val(name);
-        // 加入规格值
-        for(var i in value)
-        {
-            $('.spec-quick .goods-specifications table tbody tr:last td:last .quick-spec-value-add').trigger('click');
-            $('.spec-quick .goods-specifications table tbody tr:last td:last .value-item:eq(-2) input').val(value[i]);
+            // 名称是否已存在
+            var status = true;
+            $('.spec-quick .goods-specifications table tbody tr').each(function()
+            {
+                var temp_name = $(this).find('td:first').find('input').val();
+                if(temp_name == name)
+                {
+                    status = false;
+                }
+            });
+            if(!status)
+            {
+                Prompt(($spec_quick.data('spec-template-name-tips') || '相同规格名称已经存在')+'('+name+')');
+                return false;
+            }
+
+            // 模拟点击添加一个规格类型
+            $('.quick-spec-title-add').trigger('click');
+            // 填入规格名称
+            $('.spec-quick .goods-specifications table tbody tr:last td:first input').val(name);
+            // 加入规格值
+            for(var i in value)
+            {
+                $('.spec-quick .goods-specifications table tbody tr:last td:last .quick-spec-value-add').trigger('click');
+                $('.spec-quick .goods-specifications table tbody tr:last td:last .value-item:eq(-2) input').val(value[i]);
+            }
         }
     });
 });

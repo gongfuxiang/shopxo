@@ -77,7 +77,7 @@
 					<div class="am-form-group">
 						<label>商品分类<span class="am-form-group-label-tips-must">至少选择一个</span></label>
 						<br />
-						<select name="category_id" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="请选择..." data-validation-message="请至少选择一个商品分类" required>
+						<select name="category_id" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="请选择..." data-validation-message="请至少选择一个商品分类" data-base-template-url="{{:MyUrl('admin/goods/basetemplate')}}" required>
 							{{if !empty($goods_category_list)}}
 								{{foreach $goods_category_list as $v}}
 									<option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>一级 - {{$v.name}}</option>
@@ -211,11 +211,11 @@
 							</span>
 							<div class="am-dropdown-content parameters-quick-config">
 								<div class="am-margin-bottom-sm">
-									<select class="am-radius chosen-select goods-template-params-select" data-placeholder="请选择模板..." data-validation-message="选择商品参数模板">
-										<option value="">请选择模板...</option>
-										{{if !empty($goods_params_template_list) and is_array($goods_params_template_list)}}
-											{{foreach $goods_params_template_list as $v}}
-												<option value="{{:urlencode(json_encode($v['config_data'], JSON_UNESCAPED_UNICODE))}}">{{$v.name}}</option>
+									<select class="am-radius chosen-select" data-placeholder="商品参数模板..." data-validation-message="请选择商品参数模板">
+										<option value="">商品参数模板...</option>
+										{{if !empty($goods_base_template) and !empty($goods_base_template['params']) and is_array($goods_base_template['params'])}}
+											{{foreach $goods_base_template.params as $v}}
+												<option value="{{:urlencode(json_encode($v['config_data'], JSON_UNESCAPED_UNICODE))}}" data-origin-name="{{$v.name}}">{{$v.name}}</option>
 											{{/foreach}}
 										{{/if}}
 									</select>

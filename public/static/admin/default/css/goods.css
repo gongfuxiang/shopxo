@@ -233,6 +233,9 @@ ul li {
 #specifications-quick-container .chosen-container {
     min-width: 120px;
 }
+#specifications-quick-container select {
+    border: 0px;
+}
 #specifications-quick-container .chosen-container-single .chosen-default,
 #specifications-quick-container .chosen-container-single .chosen-single {
     border-color: transparent !important;

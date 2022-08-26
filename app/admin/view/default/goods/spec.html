@@ -8,12 +8,15 @@
             <p>3. 商品添加成功后，仓库管理->仓库商品中添加并配置库存</p>
         </div>
         <!-- 规格模板 -->
-        <div class="am-inline-block business-operations-submit" id="specifications-quick-container" data-url="{{:MyUrl('admin/goods/spectemplate')}}">
-            <select class="am-radius chosen-select goods-template-spec-select" data-placeholder="商品规格模板..." data-validation-message="请选择商品规格模板">
+        <div class="am-inline-block business-operations-submit" id="specifications-quick-container"
+            data-spec-template-tips="规格模板数据有误" 
+            data-spec-template-name-tips="相同规格名称已经存在" 
+        >
+            <select class="am-radius chosen-select" data-placeholder="商品规格模板..." data-validation-message="请选择商品规格模板">
                 <option value="">商品规格模板...</option>
-                {{if !empty($goods_spec_template_list)}}
-                    {{foreach $goods_spec_template_list as $v}}
-                        <option value="{{$v.content}}">{{$v.name}}</option>
+                {{if !empty($goods_base_template) and !empty($goods_base_template['spec']) and is_array($goods_base_template['spec'])}}
+                    {{foreach $goods_base_template.spec as $v}}
+                        <option value="{{$v.content}}" data-origin-name="{{$v.name}}">{{$v.name}}</option>
                     {{/foreach}}
                 {{/if}}
             </select>

@@ -17,24 +17,24 @@ use app\service\ResourcesService;
 use app\service\GoodsService;
 use app\service\RegionService;
 use app\service\BrandService;
-use app\service\GoodsParamsService;
-use app\service\GoodsSpecService;
 
 /**
  * 商品管理
- * @author   Devil
- * @blog     http://gong.gg/
- * @version  0.0.1
- * @datetime 2016-12-01T21:51:08+0800
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-03-31
+ * @desc    description
  */
 class Goods extends Base
 {
 	/**
      * 列表
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  0.0.1
-     * @datetime 2016-12-06T21:31:53+0800
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-31
+     * @desc    description
      */
 	public function Index()
 	{
@@ -43,10 +43,11 @@ class Goods extends Base
 
 	/**
      * 详情
-     * @author   Devil
-     * @blog     http://gong.gg/
-     * @version  1.0.0
-     * @datetime 2019-08-05T08:21:54+0800
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-31
+     * @desc    description
      */
     public function Detail()
     {
@@ -69,10 +70,11 @@ class Goods extends Base
 
 	/**
 	 * 添加/编辑页面
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-14T21:37:02+0800
+	 * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-31
+     * @desc    description
 	 */
 	public function SaveInfo()
 	{
@@ -113,27 +115,14 @@ class Goods extends Base
             // 获取商品编辑参数
             $assign['parameters'] = GoodsService::GoodsEditParameters($data['id']);
 
-            // 商品规格模板
-			$spec_template = GoodsSpecService::GoodsCategorySpecTemplateList(['category_ids'=>$data['category_ids']]);
-			$assign['goods_spec_template_list'] = $spec_template['data'];
+            // 基础模板
+            $goods_base_template = GoodsService::GoodsBaseTemplate(['category_ids'=>$data['category_ids']]);
+        	$assign['goods_base_template'] = $goods_base_template['data'];
 		}
 
 		// 规格扩展数据
 		$goods_spec_extends = GoodsService::GoodsSpecificationsExtends($params);
 		$assign['goods_specifications_extends'] = $goods_spec_extends['data'];
-
-        // 商品参数模板
-        $data_params = [
-            'm'     => 0,
-            'n'     => 0,
-            'where' => [
-                ['is_enable', '=', 1],
-                ['config_count', '>', 0],
-            ],
-            'field' => 'id,name',
-        ];
-        $params_template = GoodsParamsService::GoodsParamsTemplateList($data_params);
-        $assign['goods_params_template_list'] = $params_template['data'];
 
         // 是否拷贝
         $assign['is_copy'] = (isset($params['is_copy']) && $params['is_copy'] == 1) ? 1 : 0;
@@ -161,10 +150,11 @@ class Goods extends Base
 
 	/**
 	 * 添加/编辑
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-14T21:37:02+0800
+	 * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-31
+     * @desc    description
 	 */
 	public function Save()
 	{
@@ -182,10 +172,11 @@ class Goods extends Base
 
 	/**
 	 * 删除
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2016-12-15T11:03:30+0800
+	 * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-31
+     * @desc    description
 	 */
 	public function Delete()
 	{
@@ -203,10 +194,11 @@ class Goods extends Base
 
 	/**
 	 * 状态更新
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-01-12T22:23:06+0800
+	 * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-31
+     * @desc    description
 	 */
 	public function StatusUpdate()
 	{
@@ -223,13 +215,14 @@ class Goods extends Base
 	}
 
 	/**
-	 * 规格模板
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-01-12T22:23:06+0800
-	 */
-	public function SpecTemplate()
+     * 基础模板
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-03-31
+     * @desc    description
+     */
+	public function BaseTemplate()
 	{
 		// 是否ajax
 		if(!IS_AJAX)
@@ -240,7 +233,7 @@ class Goods extends Base
 		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return ApiService::ApiDataReturn(GoodsSpecService::GoodsCategorySpecTemplateList($params));
+		return ApiService::ApiDataReturn(GoodsService::GoodsBaseTemplate($params));
 	}
 }
 ?>

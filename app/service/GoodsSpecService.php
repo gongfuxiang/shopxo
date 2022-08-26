@@ -57,7 +57,7 @@ class GoodsSpecService
                 ['category_id', 'in', $ids],
                 ['is_enable', '=', 1],
             ];
-            $data = self::GoodsSpecTemplateListHandle(Db::name('GoodsSpecTemplate')->where($where)->field('id,name,content')->order('id desc')->select()->toArray());
+            $data = self::GoodsSpecTemplateListHandle(Db::name('GoodsSpecTemplate')->where($where)->field('id,name,content')->order('id desc')->select()->toArray(), $params);
         }
         return DataReturn(MyLang('common.operate_success'), 0, $data);
     }
