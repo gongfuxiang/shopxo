@@ -11,9 +11,9 @@
 	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
 			<li class="am-dropdown">
-				<a href="{{$admin_color_url}}">
+				<a href="{{$theme_color_url}}">
 					<i class="am-icon-adjust"></i>
-					<span>{{$admin_color_name}}</span>
+					<span>{{$theme_color_name}}</span>
 				</a>
 			</li>
 			{{if AdminIsPower('cache', 'statusupdate')}}
@@ -25,17 +25,17 @@
 				</li>
 			{{/if}}
 
-			<li class="am-dropdown">
-				<a href="{{$home_url}}" target="_blank">
-					<i class="am-icon-home"></i>
-					<span>查看首页</span>
-				</a>
-			</li>
-
 			<li class="am-dropdown am-hide-sm-only">
 				<a href="javascript:;" class="fullscreen-event" data-fulltext-open="开启全屏" data-fulltext-exit="退出全屏">
 					<i class="am-icon-arrows-alt"></i>
 					<span class="fullscreen-text">开启全屏</span>
+				</a>
+			</li>
+
+			<li class="am-dropdown">
+				<a href="{{$home_url}}" target="_blank">
+					<i class="am-icon-home"></i>
+					<span>查看首页</span>
 				</a>
 			</li>
 			

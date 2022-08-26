@@ -75,8 +75,8 @@ class Common extends BaseController
     protected $system_type;
 
     // 主题颜色key
-    protected $admin_color_value_key = 'admin_color_value';
-    protected $admin_color_value = 0;
+    protected $theme_color_value_key = 'admin_theme_color_value';
+    protected $theme_color_value = 0;
 
 	/**
      * 构造方法
@@ -300,16 +300,16 @@ class Common extends BaseController
         $assign['env_max_input_vars_count'] = SystemService::EnvMaxInputVarsCount();
 
         // 主题配色
-        $this->admin_color_value = intval(MyCookie($this->admin_color_value_key));
-        if($this->admin_color_value == 1)
+        $this->theme_color_value = intval(MyCookie($this->theme_color_value_key));
+        if($this->theme_color_value == 1)
         {
-            $assign['admin_color_name'] = '普通白色';
-            $assign['admin_color_url'] = MyUrl('admin/index/color', ['value'=>0]);
+            $assign['theme_color_name'] = '普通白色';
+            $assign['theme_color_url'] = MyUrl('admin/index/color', ['value'=>0]);
         } else {
-            $assign['admin_color_name'] = '夜间深色';
-            $assign['admin_color_url'] = MyUrl('admin/index/color', ['value'=>1]);
+            $assign['theme_color_name'] = '夜间深色';
+            $assign['theme_color_url'] = MyUrl('admin/index/color', ['value'=>1]);
         }
-        $assign['admin_color_value'] = $this->admin_color_value;
+        $assign['theme_color_value'] = $this->theme_color_value;
 
         // 页面语言
         $assign['lang_data'] = SystemService::PageViewLangData();

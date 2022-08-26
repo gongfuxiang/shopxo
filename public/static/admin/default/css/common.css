@@ -424,7 +424,7 @@ ul {margin-top:0;}
 .admin .am-g {padding-left:0;padding-right:0;}
 /*---right Content---*/
 .content-right .content {padding:10px 10px 0 10px;}
-.admin-sidebar-list li a {padding:0.6rem;}
+.admin-sidebar-list li a {padding:0.65rem;}
 .common-left-menu a:hover { background:rgba(118, 119, 120, 0.45); }
 .common-left-menu-active {background:#1cc09f !important;color:#fff !important;}
 #ifcontent {border:0px;}

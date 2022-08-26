@@ -423,7 +423,8 @@ table.am-table .am-btn-danger,
 .block-container,
 .block-combination-container-2 li,
 .plugins-intellectstools-goods-category-choice .goods-category-choice-content,
-.plugins-intellectstools-goods-category-choice .goods-category-choice .already-select-tips {
+.plugins-intellectstools-goods-category-choice .goods-category-choice .already-select-tips,
+ul.am-dropdown-content {
     background-color: #1d1d1d !important;
     border-color: #292929;
 }

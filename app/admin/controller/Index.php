@@ -158,9 +158,9 @@ class Index extends Common
 		// 是否指定配色（0默认白色、1黑色）
 		if(isset($this->data_request['value']) && $this->data_request['value'] == 1)
 		{
-			MyCookie($this->admin_color_value_key, 1);
+			MyCookie($this->theme_color_value_key, 1);
 		} else {
-			MyCookie($this->admin_color_value_key, null);
+			MyCookie($this->theme_color_value_key, null);
 		}
 		// 跳转首页
 		return MyRedirect(MyUrl('admin/index/index'));

@@ -69,35 +69,36 @@
 	{{/if}}
 
     <!-- 主题配色 -->
-    {{if isset($admin_color_value) and $admin_color_value eq 1}}
-        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/admin/{{$default_theme}}/css/color/black.css?v={{:MyC('home_static_cache_version')}}" />
+    {{if isset($theme_color_value) and $theme_color_value eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/color/black.css?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
+
+    <script type="text/javascript">
+        // 基础配置
+        var __system_type__ = '{{$system_type}}';
+        var __root__ = '{{$public_host}}';
+        var __my_http__ = '{{$my_http}}';
+        var __my_url__ = '{{$my_url}}';
+        var __my_public_url__ = '{{$my_public_url}}';
+        var __public__ = '{{$public_host}}';
+        var __default_theme__ = '{{$default_theme}}';
+        var __attachment_host__ = '{{$attachment_host}}';
+        var __seo_url_suffix__ = '{{:MyC("home_seo_url_html_suffix", "html", true)}}';
+        var __currency_symbol__ = '{{$currency_symbol}}';
+        var __is_mobile__ = '{{if IsMobile()}}1{{else}}0{{/if}}';
+        var __env_max_input_vars_count__ = '{{$env_max_input_vars_count}}';
+        var __map_view_url__ = '{{:MyUrl("admin/map/index")}}';
+        var __load_map_type__ = '{{$load_map_type}}';
+        // 语言定义（用于js调用、模板引擎直接使用$lang_data.xxx获取对应语言即可）
+        {{if !empty($lang_data)}}
+            {{foreach $lang_data as $k=>$v}}
+                {{if !empty($k) and isset($v) and !is_array($v)}}
+                    var lang_{{$k}} = '{{$v}}';
+                {{/if}}
+            {{/foreach}}
+        {{/if}}
+    </script>
 </head>
-<script type="text/javascript">
-    // 基础配置
-    var __system_type__ = '{{$system_type}}';
-    var __root__ = '{{$public_host}}';
-    var __my_http__ = '{{$my_http}}';
-    var __my_url__ = '{{$my_url}}';
-    var __my_public_url__ = '{{$my_public_url}}';
-    var __public__ = '{{$public_host}}';
-    var __default_theme__ = '{{$default_theme}}';
-	var __attachment_host__ = '{{$attachment_host}}';
-    var __seo_url_suffix__ = '{{:MyC("home_seo_url_html_suffix", "html", true)}}';
-    var __currency_symbol__ = '{{$currency_symbol}}';
-    var __is_mobile__ = '{{if IsMobile()}}1{{else}}0{{/if}}';
-    var __env_max_input_vars_count__ = '{{$env_max_input_vars_count}}';
-    var __map_view_url__ = '{{:MyUrl("admin/map/index")}}';
-    var __load_map_type__ = '{{$load_map_type}}';
-    // 语言定义（用于js调用、模板引擎直接使用$lang_data.xxx获取对应语言即可）
-    {{if !empty($lang_data)}}
-        {{foreach $lang_data as $k=>$v}}
-            {{if !empty($k) and isset($v) and !is_array($v)}}
-                var lang_{{$k}} = '{{$v}}';
-            {{/if}}
-        {{/foreach}}
-    {{/if}}
-</script>
 <body>
 {{if $module_name.$controller_name.$action_name neq 'adminindexindex'}}
     {{include file="public/page_loading" /}}
