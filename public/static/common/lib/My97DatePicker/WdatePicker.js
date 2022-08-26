@@ -3,7 +3,7 @@
  * License: http://www.my97.net/license.asp
  */
 // 默认语言
-var lang = (window['lang_multilingual_default_code'] || 'auto') == 'en' ? 'en' : 'auto';
+var lang = (window['lang_multilingual_default_code'] || 'auto') == 'en' ? 'en' : 'zh-cn';
 var $dp,WdatePicker;(function(){var Config={
 	$langList:[{name:'en',charset:'UTF-8'},
 	{name:'zh-cn',charset:'gb2312'},
