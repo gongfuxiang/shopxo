@@ -59,6 +59,8 @@ class AppCenterNav extends Base
     {
         // 模板数据
         $assign = [
+            // 当前数据
+            'data'                  => $this->data_detail,
             // 静态数据
             'common_platform_type'  => MyConst('common_platform_type'),
             'common_app_event_type' => MyConst('common_app_event_type'),

@@ -83,6 +83,7 @@ class Payment extends Base
         }
         // 模板数据
         $assign = [
+            // 当前数据
             'data'                  => $data,
 
             // 适用平台

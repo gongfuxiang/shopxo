@@ -59,6 +59,8 @@ class Slide extends Base
     {
         // 模板数据
         $assign = [
+            // 当前数据
+            'data'                  => $this->data_detail,
             // 静态资源
             'common_is_enable_list' => MyConst('common_is_enable_list'),
             'common_platform_type'  => MyConst('common_platform_type'),

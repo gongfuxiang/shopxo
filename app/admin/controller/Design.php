@@ -76,6 +76,7 @@ class Design extends Base
 
         // 模板数据
         $assign = [
+            // 当前数据
             'layout_data'                       => $layout_data,
             'data'                              => $data,
 

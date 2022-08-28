@@ -62,7 +62,7 @@ class UserAddress extends Base
 
         // 模板数据
         $assign = [
-            // 数据
+            // 当前数据
             'data'              => $data,
 
             // 加载地图api

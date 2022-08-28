@@ -59,7 +59,7 @@ class Goodscomments extends Base
     {
         // 模板数据
         $assign = [
-            // 数据
+            // 当前数据
             'data'                                      => $this->data_detail,
             // 静态数据
             'common_is_show_list'                       => MyConst('common_is_show_list'),

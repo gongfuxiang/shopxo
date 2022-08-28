@@ -356,9 +356,13 @@ class Common extends BaseController
                 $this->data_total = $ret['data']['data_total'];
                 $this->data_list = $ret['data']['data_list'];
                 $this->data_detail = $ret['data']['data_detail'];
+                // 建议使用新的变量、避免冲突
                 $assign['form_table_data_total'] = $this->data_total;
                 $assign['form_table_data_list'] = $this->data_list;
                 $assign['form_table_data_detail'] = $this->data_detail;
+                // 兼容老版本的数据读取变量（永久保留）
+                $assign['data_list'] = $this->data_list;
+                $assign['data'] = $this->data_detail;
 
                 // 分页数据
                 $this->page = $ret['data']['page'];

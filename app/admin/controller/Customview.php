@@ -59,7 +59,10 @@ class CustomView extends Base
 		// 参数
 		$params = $this->data_request;
         unset($params['id']);
-        MyViewAssign('params', $params);
+        MyViewAssign([
+            'data'  	=> $this->data_detail,
+            'params'	=> $params,
+        ]);
 		return MyView();
 	}
 
