@@ -1508,20 +1508,30 @@ function FullscreenEscEvent()
  * @param   {[string]}        field [字段名称]
  * @param   {[string]}        value [字段值, null 则去除字段]
  * @param   {[string]}        url   [自定义url]
+ * @param   {[string]}        anchor[锚点、传入空字符串则表示去除已存在的锚点]
  */
-function UrlFieldReplace(field, value, url)
+function UrlFieldReplace(field, value, url = null, anchor = null)
 {
     // 当前页面url地址
     url = url || window.location.href;
 
     // 锚点
-    var anchor = '';
-    if(url.indexOf('#') >= 0)
+    if(url.indexOf('#') != -1)
     {
-        anchor = url.substr(url.indexOf('#'));
-        url = url.substr(0, url.indexOf('#'));
+    	var temp_url = url.split('#');
+        	url = temp_url[0];
+        // 未指定锚点则使用url自带的
+        if(temp_url.length > 1 && anchor === null)
+        {
+        	anchor = temp_url[1];
+        }
+    }
+    if((anchor || null) != null && anchor.indexOf('#') == -1)
+    {
+    	anchor = '#'+anchor;
     }
 
+    // 是否存在问号参数
     if(url.indexOf('?') >= 0)
     {
         var str = url.substr(0, url.lastIndexOf('.'+__seo_url_suffix__));

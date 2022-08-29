@@ -17,7 +17,8 @@ $(function()
             if(store_address_use_status < $('ul.address-list li').length)
             {
                 store.set(store_use_new_address_status_key, undefined);
-                window.location.href = UrlFieldReplace('address_id', $('ul.address-list li:first').data('value'));
+                var anchor = $('.address').attr('id') || '';
+                window.location.href = UrlFieldReplace('address_id', $('ul.address-list li:first').data('value'), null, anchor);
             }
         }
     }
@@ -34,15 +35,16 @@ $(function()
                 e.stopPropagation();
             }
         } else {
-            // 底部地址同步
-            window.location.href = UrlFieldReplace('address_id', $(this).data('value'));
+            var anchor = $(this).parents('.address').attr('id') || '';
+            window.location.href = UrlFieldReplace('address_id', $(this).data('value'), null, anchor);
         }
     });
 
     // 手机模式下选择地址
     $('.address').on('click', 'ul.address-list li', function()
     {
-        window.location.href = UrlFieldReplace('address_id', $(this).data('value'));
+        var anchor = $(this).parents('.address').attr('id') || '';
+        window.location.href = UrlFieldReplace('address_id', $(this).data('value'), null, anchor);
     });
 
     // 手机模式下关闭地址选中
@@ -62,11 +64,13 @@ $(function()
     // 混合列表选择
     $('.business-item ul li').on('click', function()
     {
-        var field = $(this).parents('.business-item').data('field') || null;
+        var $parent = $(this).parents('.business-item');
+        var field = $parent.data('field') || null;
         var value = $(this).data('value') || null;
         if(field != null && value != null)
         {
-            window.location.href = UrlFieldReplace(field, value);
+            var anchor = $parent.attr('id') || '';
+            window.location.href = UrlFieldReplace(field, value, null, anchor);
         }
     });
 
@@ -125,7 +129,8 @@ $(function()
     $extraction_popup = $('#extraction-address-popup');
     $extraction_popup.find('.extraction-address-item button').on('click', function()
     {
-        window.location.href = UrlFieldReplace('address_id', $(this).data('value'));
+        var anchor = $(this).parents('.address').attr('id') || '';
+        window.location.href = UrlFieldReplace('address_id', $(this).data('value'), null, anchor);
     });
     $('.extraction-default .extraction-address-item').on('click', function(e)
     {
@@ -140,6 +145,7 @@ $(function()
     {
         var value = $(this).data('value') || 0;
         var url = UrlFieldReplace('address_id', null);
-        window.location.href = UrlFieldReplace('site_model', value, url);
+        var anchor = $(this).parents('.buy-header-nav').attr('id') || '';
+        window.location.href = UrlFieldReplace('site_model', value, url, anchor);
     });
 }); 

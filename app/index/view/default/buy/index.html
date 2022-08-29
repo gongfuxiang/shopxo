@@ -47,7 +47,7 @@
 
         <!-- 销售+自提 -->
         {{if $common_site_type eq 4}}
-            <div data-am-widget="tabs" class="am-tabs am-tabs-d2 buy-header-nav">
+            <div id="buy-items-tabs" data-am-widget="tabs" class="am-tabs am-tabs-d2 buy-header-nav">
                 <ul class="am-tabs-nav am-cf">
                     <li {{if isset($base['site_model']) and $base['site_model'] eq 0}}class="am-active"{{/if}}><a href="javascript:;" data-value="0">快递邮寄</a></li>
                     <li {{if isset($base['site_model']) and $base['site_model'] eq 2}}class="am-active"{{/if}}><a href="javascript:;" data-value="2">自提点取货</a></li>
@@ -57,7 +57,7 @@
 
         <!-- 快递 - 用户地址 -->
         {{if isset($base['site_model']) and $base['site_model'] eq 0}}
-            <div class="address user-address-container">
+            <div id="buy-items-address" class="address user-address-container">
                 <div class="control">
                     <h3>
                         确认收货地址
@@ -118,7 +118,7 @@
 
         <!-- 自提点 - 自提地址 -->
         {{if isset($base['site_model']) and $base['site_model'] eq 2}}
-            <div class="address extraction-address-container">
+            <div id="buy-items-address" class="address extraction-address-container">
                 <div class="control">
                     <h3>确认自提点地址</h3>
                     {{if !empty($base['address'])}}
@@ -522,7 +522,7 @@
 
         <!-- 支付方式 -->
         {{if $base['actual_price'] gt 0 and $common_order_is_booking neq 1}}
-            <div class="buy-items business-item payment" data-field="payment_id">
+            <div id="buy-items-payment" class="buy-items business-item payment" data-field="payment_id">
                 <h3>选择支付</h3>
                 {{if !empty($payment_list)}}
                     <ul class="payment-list">
