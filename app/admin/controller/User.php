@@ -133,13 +133,6 @@ class User extends Base
 	 */
 	public function Save()
 	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(UserService::UserSave($params));
@@ -154,13 +147,6 @@ class User extends Base
 	 */
 	public function Delete()
 	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(UserService::UserDelete($params));

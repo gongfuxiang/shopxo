@@ -152,13 +152,6 @@ class Pluginsadmin extends Base
      */
     public function Save()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         return ApiService::ApiDataReturn(PluginsAdminService::PluginsSave($this->data_post));
     }
 
@@ -171,13 +164,6 @@ class Pluginsadmin extends Base
      */
     public function Delete()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         return ApiService::ApiDataReturn(PluginsAdminService::PluginsDelete($this->data_post));
     }
 
@@ -190,13 +176,6 @@ class Pluginsadmin extends Base
      */
     public function StatusUpdate()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         return ApiService::ApiDataReturn(PluginsAdminService::PluginsStatusUpdate($this->data_post));
     }
 
@@ -209,13 +188,6 @@ class Pluginsadmin extends Base
      */
     public function Upload()
     {
-        // 是否ajax
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         return ApiService::ApiDataReturn(PluginsAdminService::PluginsUpload($this->data_request));
     }
 
@@ -229,7 +201,6 @@ class Pluginsadmin extends Base
      */
     public function Download()
     {
-        // 开始处理
         $ret = PluginsAdminService::PluginsDownload($this->data_request);
         if(isset($ret['code']) && $ret['code'] != 0)
         {
@@ -248,13 +219,6 @@ class Pluginsadmin extends Base
      */
     public function Install()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(PluginsAdminService::PluginsInstall($this->data_request));
     }
 
@@ -268,13 +232,6 @@ class Pluginsadmin extends Base
      */
     public function Uninstall()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(PluginsAdminService::PluginsUninstall($this->data_request));
     }
 
@@ -288,13 +245,6 @@ class Pluginsadmin extends Base
      */
     public function SortSave()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(PluginsAdminService::SortSave($this->data_post));
     }
 
@@ -308,13 +258,6 @@ class Pluginsadmin extends Base
      */
     public function Upgrade()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(PluginsUpgradeService::Run($this->data_post));
     }
 }

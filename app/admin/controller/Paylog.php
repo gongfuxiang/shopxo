@@ -59,13 +59,6 @@ class PayLog extends Base
      */
     public function Close()
     {
-        // 是否ajax
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始操作
         $params = $this->data_post;
         $params['admin'] = $this->admin;
         return ApiService::ApiDataReturn(PayLogService::PayLogClose($params));

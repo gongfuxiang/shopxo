@@ -140,13 +140,6 @@ class WarehouseGoods extends Base
      */
     public function InventorySave()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(WarehouseGoodsService::WarehouseGoodsInventorySave($params));
     }
@@ -161,13 +154,6 @@ class WarehouseGoods extends Base
      */
     public function Delete()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         $params['admin'] = $this->admin;
         return ApiService::ApiDataReturn(WarehouseGoodsService::WarehouseGoodsDelete($params));
@@ -183,13 +169,6 @@ class WarehouseGoods extends Base
      */
     public function StatusUpdate()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         $params['admin'] = $this->admin;
         return ApiService::ApiDataReturn(WarehouseGoodsService::WarehouseGoodsStatusUpdate($params));
@@ -205,13 +184,6 @@ class WarehouseGoods extends Base
      */
     public function GoodsSearch()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 搜索数据
         $ret = WarehouseGoodsService::GoodsSearchList($this->data_request);
         if($ret['code'] == 0)
         {
@@ -231,13 +203,6 @@ class WarehouseGoods extends Base
      */
     public function GoodsAdd()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(WarehouseGoodsService::WarehouseGoodsAdd($params));
     }
@@ -252,13 +217,6 @@ class WarehouseGoods extends Base
      */
     public function GoodsDel()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(WarehouseGoodsService::WarehouseGoodsDel($params));
     }

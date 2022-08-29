@@ -60,12 +60,6 @@ class Orderaftersale extends Base
      */
     public function Confirm()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         $params = $this->data_request;
         return ApiService::ApiDataReturn(OrderAftersaleService::AftersaleConfirm($params));
     }
@@ -80,12 +74,6 @@ class Orderaftersale extends Base
      */
     public function Audit()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
@@ -102,12 +90,6 @@ class Orderaftersale extends Base
      */
     public function Refuse()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
@@ -124,12 +106,6 @@ class Orderaftersale extends Base
      */
     public function Cancel()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];
@@ -146,12 +122,6 @@ class Orderaftersale extends Base
      */
     public function Delete()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
         $params['creator_name'] = $this->admin['username'];

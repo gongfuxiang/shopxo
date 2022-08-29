@@ -78,12 +78,6 @@ class Order extends Base
      */
     public function Delete()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         // 删除操作
         $params = $this->data_request;
         $params['user_id'] = $params['value'];
@@ -103,12 +97,6 @@ class Order extends Base
      */
     public function Cancel()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         // 取消操作
         $params = $this->data_request;
         $params['user_id'] = $params['value'];
@@ -128,12 +116,6 @@ class Order extends Base
      */
     public function Delivery()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         // 发货操作
         $params = $this->data_request;
         $params['creator'] = $this->admin['id'];
@@ -152,12 +134,6 @@ class Order extends Base
      */
     public function Collect()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         // 收货操作
         $params = $this->data_request;
         $params['user_id'] = $params['value'];
@@ -177,12 +153,6 @@ class Order extends Base
      */
     public function Confirm()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         // 订单确认
         $params = $this->data_request;
         $params['user_id'] = $params['value'];

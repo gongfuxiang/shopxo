@@ -99,13 +99,6 @@ class Navigation extends Base
      */
 	public function Save()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         $params['nav_type'] = $this->nav_type;
         return ApiService::ApiDataReturn(NavigationService::NavSave($params));
@@ -120,13 +113,6 @@ class Navigation extends Base
 	 */
 	public function Delete()
 	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(NavigationService::NavDelete($params));
 	}
@@ -140,13 +126,6 @@ class Navigation extends Base
 	 */
 	public function StatusUpdate()
 	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(NavigationService::NavStatusUpdate($params));
 	}

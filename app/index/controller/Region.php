@@ -45,13 +45,6 @@ class Region extends Common
      */
     public function Index()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 获取地区
         $pid = empty($this->data_request['pid']) ? 0 : intval($this->data_request['pid']);
         $params = [
             'where' => [

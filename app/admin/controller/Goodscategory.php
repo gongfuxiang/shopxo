@@ -57,13 +57,6 @@ class GoodsCategory extends Base
 	 */
 	public function GetNodeSon()
 	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
 		return ApiService::ApiDataReturn(GoodsService::GoodsCategoryNodeSon($this->data_request));
 	}
 
@@ -77,13 +70,6 @@ class GoodsCategory extends Base
 	 */
 	public function Save()
 	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
 		return ApiService::ApiDataReturn(GoodsService::GoodsCategorySave($this->data_request));
 	}
 
@@ -96,13 +82,6 @@ class GoodsCategory extends Base
 	 */
 	public function Delete()
 	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(GoodsService::GoodsCategoryDelete($params));

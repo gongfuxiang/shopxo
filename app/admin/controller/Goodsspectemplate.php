@@ -104,13 +104,6 @@ class GoodsSpecTemplate extends Base
      */
     public function Save()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(GoodsSpecService::GoodsSpecTemplateSave($params));
     }
@@ -125,13 +118,6 @@ class GoodsSpecTemplate extends Base
      */
     public function Delete()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(GoodsSpecService::GoodsSpecTemplateDelete($params));
@@ -147,13 +133,6 @@ class GoodsSpecTemplate extends Base
      */
     public function StatusUpdate()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(GoodsSpecService::GoodsSpecTemplateStatusUpdate($params));
     }

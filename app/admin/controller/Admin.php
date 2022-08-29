@@ -154,12 +154,6 @@ class Admin extends Common
      */
 	public function Save()
 	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
 		// 登录校验
 		$this->IsLogin();
 
@@ -188,13 +182,6 @@ class Admin extends Common
      */
 	public function Delete()
 	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(AdminService::AdminDelete($params));
@@ -266,13 +253,6 @@ class Admin extends Common
      */
 	public function Login()
 	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
 		$params = $this->data_post;
 		return ApiService::ApiDataReturn(AdminService::Login($params));
 	}
@@ -306,13 +286,6 @@ class Admin extends Common
      */
     public function LoginVerifySend()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 调用服务层
         return ApiService::ApiDataReturn(AdminService::LoginVerifySend($this->data_post));
     }
 

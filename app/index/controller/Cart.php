@@ -77,12 +77,6 @@ class Cart extends Common
      */
     public function Save()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsCartService::GoodsCartSave($params));
@@ -98,12 +92,6 @@ class Cart extends Common
      */
     public function Delete()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsCartService::GoodsCartDelete($params));
@@ -119,12 +107,6 @@ class Cart extends Common
      */
     public function Stock()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsCartService::GoodsCartStock($params));

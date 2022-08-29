@@ -356,13 +356,6 @@ class User extends Common
      */
     public function Reg()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 调用服务层
         return ApiService::ApiDataReturn(UserService::Reg($this->data_post));
     }
 
@@ -376,13 +369,6 @@ class User extends Common
      */
     public function Login()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 调用服务层
         return ApiService::ApiDataReturn(UserService::Login($this->data_post));
     }
 
@@ -415,13 +401,6 @@ class User extends Common
      */
     public function LoginVerifySend()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 调用服务层
         return ApiService::ApiDataReturn(UserService::LoginVerifySend($this->data_post));
     }
 
@@ -435,13 +414,6 @@ class User extends Common
      */
     public function RegVerifySend()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 调用服务层
         return ApiService::ApiDataReturn(UserService::RegVerifySend($this->data_post));
     }
 
@@ -455,13 +427,6 @@ class User extends Common
      */
     public function ForgetPwdVerifySend()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 调用服务层
         return ApiService::ApiDataReturn(UserService::ForgetPwdVerifySend($this->data_post));
     }
 
@@ -475,13 +440,6 @@ class User extends Common
      */
     public function ForgetPwd()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 调用服务层
         return ApiService::ApiDataReturn(UserService::ForgetPwd($this->data_post));
     }
 
@@ -517,16 +475,10 @@ class User extends Common
      */
     public function UserAvatarUpload()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         // 登录校验
         $this->IsLogin();
 
-        $params = $_POST;
+        $params = $this->data_post;
         $params['user'] = $this->user;
         $params['img_field'] = 'file';
         return ApiService::ApiDataReturn(UserService::UserAvatarUpload($params));

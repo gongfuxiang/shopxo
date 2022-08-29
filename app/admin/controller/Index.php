@@ -222,13 +222,6 @@ class Index extends Common
 	 */
 	public function StoreAccountsBind()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(StoreService::SiteStoreAccountsBind($params));
 	}
@@ -243,13 +236,6 @@ class Index extends Common
 	 */
 	public function InspectUpgrade()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(StoreService::SiteInspectUpgrade($params));
 	}
@@ -264,13 +250,6 @@ class Index extends Common
 	 */
 	public function InspectUpgradeConfirm()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(SystemUpgradeService::Run($params));
 	}
@@ -285,13 +264,6 @@ class Index extends Common
 	 */
 	public function Stats()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-		// 开始处理
 		$params = $this->data_request;
         return ApiService::ApiDataReturn(StatisticalService::StatsData($params));
 	}

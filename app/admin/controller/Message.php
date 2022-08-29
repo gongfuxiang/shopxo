@@ -56,13 +56,6 @@ class Message extends Base
 	 */
 	public function Delete()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         $params['admin'] = $this->admin;
         return ApiService::ApiDataReturn(MessageService::MessageDelete($params));

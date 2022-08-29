@@ -183,13 +183,6 @@ class Safety extends Common
 	 */
 	public function LoginPwdUpdate()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SafetyService::LoginPwdUpdate($params));
@@ -204,13 +197,6 @@ class Safety extends Common
 	 */
 	public function VerifySend()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SafetyService::VerifySend($params));
@@ -226,13 +212,6 @@ class Safety extends Common
 	 */
 	public function VerifyCheck()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SafetyService::VerifyCheck($params));
@@ -247,13 +226,6 @@ class Safety extends Common
 	 */
 	public function AccountsUpdate()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SafetyService::AccountsUpdate($params));

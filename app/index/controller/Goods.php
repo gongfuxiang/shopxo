@@ -172,12 +172,6 @@ class Goods extends Common
      */
     public function Favor()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-        
         // 是否登录
         $this->IsLogin();
 
@@ -197,13 +191,6 @@ class Goods extends Common
      */
     public function SpecType()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_post;
         return ApiService::ApiDataReturn(GoodsService::GoodsSpecType($params));
     }
@@ -218,13 +205,6 @@ class Goods extends Common
      */
     public function SpecDetail()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_post;
         return ApiService::ApiDataReturn(GoodsService::GoodsSpecDetail($params));
     }
@@ -239,13 +219,6 @@ class Goods extends Common
      */
     public function Stock()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_post;
         return ApiService::ApiDataReturn(GoodsService::GoodsStock($params));
     }
@@ -259,12 +232,6 @@ class Goods extends Common
      */
     public function Comments()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         // 参数
         $params = $this->data_request;
         if(empty($params['goods_id']))

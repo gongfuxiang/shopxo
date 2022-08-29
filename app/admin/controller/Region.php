@@ -46,13 +46,6 @@ class Region extends Base
 	 */
 	public function GetNodeSon()
 	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
 		return ApiService::ApiDataReturn(RegionService::RegionNodeSon($this->data_request));
 	}
 
@@ -65,13 +58,6 @@ class Region extends Base
 	 */
 	public function Save()
 	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
 		return ApiService::ApiDataReturn(RegionService::RegionSave($this->data_request));
 	}
 
@@ -84,13 +70,6 @@ class Region extends Base
 	 */
 	public function Delete()
 	{		
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
 		return ApiService::ApiDataReturn(RegionService::RegionDelete($params));
@@ -106,12 +85,6 @@ class Region extends Base
      */
     public function Node()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         // 获取地区
         $pid = empty($this->data_request['pid']) ? 0 : intval($this->data_request['pid']);
         $params = [

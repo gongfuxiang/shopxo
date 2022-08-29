@@ -103,13 +103,6 @@ class Theme extends Base
 	 */
 	public function Delete()
 	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始处理
 		return ApiService::ApiDataReturn(ThemeService::ThemeDelete($this->data_request));
 	}
 
@@ -122,13 +115,6 @@ class Theme extends Base
 	 */
 	public function Upload()
 	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始处理
 		return ApiService::ApiDataReturn(ThemeService::ThemeUpload($this->data_request));
 	}
 
@@ -142,7 +128,6 @@ class Theme extends Base
      */
     public function Download()
     {
-        // 开始处理
         $ret = ThemeService::ThemeDownload($this->data_request);
         if(isset($ret['code']) && $ret['code'] != 0)
         {

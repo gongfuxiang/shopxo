@@ -105,13 +105,6 @@ class Payment extends Base
 	 */
 	public function Save()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(PaymentService::PaymentUpdate($this->data_request));
 	}
 
@@ -124,13 +117,6 @@ class Payment extends Base
      */
     public function StatusUpdate()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(PaymentService::PaymentStatusUpdate($this->data_request));
     }
 
@@ -144,13 +130,6 @@ class Payment extends Base
      */
     public function Install()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(PaymentService::Install($this->data_request));
     }
 
@@ -164,13 +143,6 @@ class Payment extends Base
      */
     public function Uninstall()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(PaymentService::Uninstall($this->data_request));
     }
 
@@ -184,13 +156,6 @@ class Payment extends Base
      */
     public function Delete()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(PaymentService::Delete($this->data_request));
     }
 
@@ -204,13 +169,6 @@ class Payment extends Base
      */
     public function Upload()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(PaymentService::Upload($this->data_request));
     }
 }

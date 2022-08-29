@@ -141,13 +141,6 @@ class Design extends Base
      */
     public function Save()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         return ApiService::ApiDataReturn(DesignService::DesignSave($this->data_post));
     }
 
@@ -161,13 +154,6 @@ class Design extends Base
      */
     public function StatusUpdate()
     {
-        // 是否ajax
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(DesignService::DesignStatusUpdate($this->data_post));
     }
     
@@ -181,13 +167,6 @@ class Design extends Base
      */
     public function Delete()
     {
-        // 是否ajax
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(DesignService::DesignDelete($this->data_post));
     }
 
@@ -201,13 +180,6 @@ class Design extends Base
      */
     public function Sync()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(DesignService::DesignSync($this->data_post));
     }
 
@@ -221,13 +193,6 @@ class Design extends Base
      */
     public function Upload()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始操作
         return ApiService::ApiDataReturn(DesignService::DesignUpload($this->data_request));
     }
 }

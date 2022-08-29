@@ -195,13 +195,6 @@ class Appmini extends Base
 	 */
 	public function ThemeUpload()
 	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始处理
 		return ApiService::ApiDataReturn(AppMiniService::ThemeUpload($this->params));
 	}
 
@@ -252,13 +245,6 @@ class Appmini extends Base
 	 */
 	public function ThemeDelete()
 	{
-		// 是否ajax
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始处理
 		$params = array_merge($this->params, $this->data_request);
 		return ApiService::ApiDataReturn(AppMiniService::ThemeDelete($params));
 	}
@@ -294,13 +280,6 @@ class Appmini extends Base
 	 */
 	public function Created()
 	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			$this->error('非法访问');
-		}
-
-		// 开始操作
 		return ApiService::ApiDataReturn(AppMiniService::Created($this->params));
 	}
 
@@ -327,13 +306,6 @@ class Appmini extends Base
 	 */
 	public function Delete()
 	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始操作
 		return ApiService::ApiDataReturn(AppMiniService::Delete($this->params));
 	}
 }

@@ -83,13 +83,6 @@ class UserGoodsBrowse extends Common
      */
     public function Delete()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsBrowseService::GoodsBrowseDelete($params));

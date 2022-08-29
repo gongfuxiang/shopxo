@@ -60,13 +60,6 @@ class Goodsfavor extends Base
      */
     public function Delete()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(GoodsFavorService::GoodsFavorDelete($params));

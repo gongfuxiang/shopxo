@@ -88,13 +88,6 @@ class AppCenterNav extends Base
      */
     public function Save()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(AppCenterNavService::AppCenterNavSave($params));
     }
@@ -108,13 +101,6 @@ class AppCenterNav extends Base
      */
     public function Delete()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(AppCenterNavService::AppCenterNavDelete($params));
@@ -129,13 +115,6 @@ class AppCenterNav extends Base
      */
     public function StatusUpdate()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(AppCenterNavService::AppCenterNavStatusUpdate($params));
     }

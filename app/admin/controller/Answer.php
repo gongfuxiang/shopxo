@@ -100,13 +100,6 @@ class Answer extends Base
      */
     public function Save()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(AnswerService::AnswerSave($params));
     }
@@ -120,13 +113,6 @@ class Answer extends Base
 	 */
 	public function Delete()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(AnswerService::AnswerDelete($params));
@@ -141,13 +127,6 @@ class Answer extends Base
 	 */
 	public function Reply()
 	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(AnswerService::AnswerReply($params));
 	}
@@ -161,13 +140,6 @@ class Answer extends Base
 	 */
 	public function StatusUpdate()
 	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			return $this->error('非法访问');
-		}
-
-		// 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(AnswerService::AnswerStatusUpdate($params));
 	}

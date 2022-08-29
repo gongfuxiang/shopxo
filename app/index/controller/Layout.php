@@ -45,13 +45,6 @@ class Layout extends Common
      */
     public function GoodsSearch()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 获取数据
         $params = $this->data_post;
         $params['user'] = $this->user;
         $ret = BaseLayout::GoodsSearchList($params);
@@ -73,13 +66,6 @@ class Layout extends Common
      */
     public function GoodsData()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 获取数据
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(BaseLayout::GoodsDataList($params));

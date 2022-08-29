@@ -418,12 +418,6 @@ class Site extends Base
 	 */
     public function GoodsSearch()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         // 搜索数据
         $ret = SiteService::GoodsSearchList($this->data_post);
         if($ret['code'] == 0)

@@ -75,13 +75,6 @@ class CustomView extends Base
 	 */
 	public function Save()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(CustomViewService::CustomViewSave($params));
 	}
@@ -95,13 +88,6 @@ class CustomView extends Base
 	 */
 	public function Delete()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         $params['user_type'] = 'admin';
         return ApiService::ApiDataReturn(CustomViewService::CustomViewDelete($params));
@@ -116,13 +102,6 @@ class CustomView extends Base
 	 */
 	public function StatusUpdate()
 	{
-		// 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
-        // 开始处理
         $params = $this->data_request;
         return ApiService::ApiDataReturn(CustomViewService::CustomViewStatusUpdate($params));
 	}

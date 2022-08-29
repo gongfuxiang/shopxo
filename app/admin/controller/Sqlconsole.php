@@ -44,18 +44,11 @@ class Sqlconsole extends Base
      */
     public function Implement()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            return $this->error('非法访问');
-        }
-
         // 是否开启开发者模式
         if(MyConfig('shopxo.is_develop') !== true)
         {
             $ret = DataReturn('请先开启开发者模式', -1);
         } else {
-            // 开始处理
             $ret = SqlConsoleService::Implement($this->data_request);
         }
         return ApiService::ApiDataReturn($ret);

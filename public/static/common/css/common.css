@@ -644,6 +644,11 @@ button.colorpicker-submit img {
     border: 1px solid #ddd;
     position: relative;
 }
+.am-table-scrollable-horizontal .table-no {
+    position: sticky;
+    left: 0;
+    top: 0;
+}
 .am-table-scrollable-horizontal .am-table {
     border: 0;
     margin: 0;

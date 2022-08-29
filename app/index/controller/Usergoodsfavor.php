@@ -83,12 +83,6 @@ class UserGoodsFavor extends Common
      */
     public function Delete()
     {
-        // 是否ajax请求
-        if(!IS_AJAX)
-        {
-            $this->error('非法访问');
-        }
-
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(GoodsFavorService::GoodsFavorDelete($params));

@@ -91,13 +91,6 @@ class Personal extends Common
 	 */
 	public function Save()
 	{
-		// 是否ajax请求
-		if(!IS_AJAX)
-		{
-			$this->error('非法访问');
-		}
-
-		// 开始操作
 		$params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(UserService::PersonalSave($params));
