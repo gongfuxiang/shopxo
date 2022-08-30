@@ -889,6 +889,24 @@ button.colorpicker-submit img {
 }
 
 /**
+ * 列表信息
+ */
+.form-inside-dl-content dt,
+.form-inside-dl-content dd {
+    line-height: 18px;
+    min-height: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.form-inside-dl-content dt {
+    width: 70px;
+}
+.form-inside-dl-content dd {
+    padding-left: 80px;
+}
+
+
+/**
  * 公共联动地区组件样式
  */
 .region-linkage .chosen-select {

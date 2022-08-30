@@ -1526,9 +1526,12 @@ function UrlFieldReplace(field, value, url = null, anchor = null)
         	anchor = temp_url[1];
         }
     }
+    // 存在锚点则增加#号、则赋空字符
     if((anchor || null) != null && anchor.indexOf('#') == -1)
     {
     	anchor = '#'+anchor;
+    } else {
+    	anchor = '';
     }
 
     // 是否存在问号参数
