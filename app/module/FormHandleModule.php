@@ -246,6 +246,12 @@ class FormHandleModule
 
             // 当前页面地址
             $this->page_url = MyUrl($this->module_name.'/'.$this->controller_name.'/'.$this->action_name);
+
+            // 已开启删除功能未配置删除数据地址
+            if(isset($this->form_data['base']['is_delete']) && $this->form_data['base']['is_delete'] == 1 && empty($this->form_data['base']['delete_url']))
+            {
+                $this->form_data['base']['delete_url'] = MyUrl($this->module_name.'/'.$this->controller_name.'/delete');
+            }
         } else {
             // 处理插件页面模块
             $this->plugins_module_name = $this->out_params['pluginsname'];
@@ -258,6 +264,17 @@ class FormHandleModule
                 $this->page_url = PluginsAdminUrl($this->plugins_module_name, $this->plugins_controller_name, $this->plugins_action_name);
             } else {
                 $this->page_url = PluginsHomeUrl($this->plugins_module_name, $this->plugins_controller_name, $this->plugins_action_name);
+            }
+
+            // 已开启删除功能未配置删除数据地址
+            if(isset($this->form_data['base']['is_delete']) && $this->form_data['base']['is_delete'] == 1 && empty($this->form_data['base']['delete_url']))
+            {
+                if($this->module_name == 'admin')
+                {
+                    $this->form_data['base']['delete_url'] = PluginsAdminUrl($this->plugins_module_name, $this->plugins_controller_name, 'delete');
+                } else {
+                    $this->form_data['base']['delete_url'] = PluginsHomeUrl($this->plugins_module_name, $this->plugins_controller_name, 'delete');
+                }
             }
         }
 
