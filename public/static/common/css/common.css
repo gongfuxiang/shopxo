@@ -109,7 +109,7 @@ form.am-form .am-form-group-refreshing,
     form.am-form-full-screen .plug-file-upload-view,
     form.am-form-full-screen .business-form-group,
     form.am-form-full-screen .business-form-block {
-        padding-right: 5px !important;
+        padding-right: 5px;
     }
 }
 

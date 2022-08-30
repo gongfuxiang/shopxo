@@ -236,6 +236,14 @@ class FormHandleModule
         $this->controller_name = RequestController();
         $this->action_name = RequestAction();
 
+        // 是否开启删除
+        $is_delete = isset($this->form_data['base']['is_delete']) && $this->form_data['base']['is_delete'] == 1;
+        // 删除数据key默认ids
+        if($is_delete && empty($this->form_data['base']['delete_key']))
+        {
+            $this->form_data['base']['delete_key'] = 'ids';
+        }
+
         // 当前插件操作名称, 兼容插件模块名称
         if(empty($this->out_params['pluginsname']))
         {
@@ -248,7 +256,7 @@ class FormHandleModule
             $this->page_url = MyUrl($this->module_name.'/'.$this->controller_name.'/'.$this->action_name);
 
             // 已开启删除功能未配置删除数据地址
-            if(isset($this->form_data['base']['is_delete']) && $this->form_data['base']['is_delete'] == 1 && empty($this->form_data['base']['delete_url']))
+            if($is_delete && empty($this->form_data['base']['delete_url']))
             {
                 $this->form_data['base']['delete_url'] = MyUrl($this->module_name.'/'.$this->controller_name.'/delete');
             }
@@ -267,7 +275,7 @@ class FormHandleModule
             }
 
             // 已开启删除功能未配置删除数据地址
-            if(isset($this->form_data['base']['is_delete']) && $this->form_data['base']['is_delete'] == 1 && empty($this->form_data['base']['delete_url']))
+            if($is_delete && empty($this->form_data['base']['delete_url']))
             {
                 if($this->module_name == 'admin')
                 {

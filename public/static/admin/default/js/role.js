@@ -3,7 +3,6 @@ $(function()
 	/**
 	 * 全选/取消
 	 */
-
 	$('.node-choice').on('click', function()
 	{
 		var state = $(this).is(':checked');
