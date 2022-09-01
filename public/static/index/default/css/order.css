@@ -11,7 +11,6 @@ ul.progress li i.step {
     display: block;
     background-color: #e1e1e1;
 }
-
 ul.progress li .digital {
     background-color: #f7f7f7;
     border-radius: 50px;
@@ -23,16 +22,13 @@ ul.progress li .digital {
     font-weight: 700;
     border: 6px solid #e1e1e1;
 }
-
 ul.progress li .base .title {
     font-weight: 500;
     color: #666;
 }
-
 ul.progress li .base .date {
     color: #999;
 }
-
 ul.progress li.steps-success .digital {
     border: 6px solid #4CAF50;
     color: #fff;
@@ -56,7 +52,6 @@ ul.progress li.current .title {
 .base-right .icon-success {
     color: #28801c;
 }
-
 @media only screen and (min-width: 641px) {
     ul.progress {
         overflow: hidden;
@@ -83,7 +78,6 @@ ul.progress li.current .title {
         margin-top: 50px;
     }
 }
-
 @media only screen and (max-width: 641px) {
     ul.progress li i.step {
         height: 60px;
@@ -101,7 +95,6 @@ ul.progress li.current .title {
     }
 }
 
-
 /**
  * 文本列表
  */
@@ -112,7 +105,6 @@ ul.progress li.current .title {
 .items-detail {
     color: #666;
 }
-
 
 /**
  * 订单详情基础
@@ -169,7 +161,6 @@ ul.progress li.current .title {
     }
 }
 
-
 /**
  * 业务面板
  */
@@ -178,7 +169,6 @@ ul.progress li.current .title {
     box-shadow: none;
     -webkit-box-shadow: none;
 }
-
 
 /**
  * 支付弹窗
@@ -198,14 +188,6 @@ ul.progress li.current .title {
   .business-item ul li { width: calc(50% - 5px); }
   .business-item ul li:nth-child(2n) { margin-right: 0; }
 }
-
-
-/**
- * 商品列表
- */
-.original-price { color: #9c9c9c; text-decoration: line-through; }
-.line-price { color: #3c3c3c; }
-
 
 /**
  * 虚拟销售

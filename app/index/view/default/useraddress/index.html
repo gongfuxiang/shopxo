@@ -23,7 +23,7 @@
     <div class="user-content">
         <div class="user-content-body">
             <div class="control">
-                <button class="am-btn am-btn-primary am-btn-xs am-icon-plus address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址"> 新增新地址</button>
+                <button class="am-btn am-btn-primary am-btn-xs am-icon-plus address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}"> 新增新地址</button>
             </div>
             {{if !empty($user_address_list)}}
                 <ul class="address-list">
@@ -54,7 +54,7 @@
                                     <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
                                     <span class="cut">|</span>
                                 {{/if}}
-                                <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}" data-popup-title="编辑地址"> 编辑</a>
+                                <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}"> 编辑</a>
                                 <span class="cut">|</span>
                                 <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> 删除</a>
                             </div>

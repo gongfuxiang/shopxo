@@ -103,7 +103,7 @@ class ScreeningPriceService
                 $data['id'] = $params['id'];
             }
         }
-        return DataReturn(MyLang('common.operate_success'), 0, json_encode($data));
+        return DataReturn(MyLang('common.operate_success'), 0, $data);
     }
 
     /**

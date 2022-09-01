@@ -70,7 +70,10 @@
         {{if $module_data.order_data.items.original_price gt 0}}
             <span class="original-price am-margin-right-xs">{{$module_data.order_data.currency_data.currency_symbol}}{{$module_data.order_data.items.original_price}}</span>
         {{/if}}
-        <span>{{$module_data.order_data.currency_data.currency_symbol}}{{$module_data.order_data.items.price}} x {{$module_data.order_data.items.buy_number}}</span>
+        <span>
+            <span class="line-price">{{$module_data.order_data.currency_data.currency_symbol}}{{$module_data.order_data.items.price}}</span>
+            <span>x{{$module_data.order_data.items.buy_number}}</span>
+        </span>
     </div>
 
     <!-- 用户订单售后列表基础底部-开始 -->

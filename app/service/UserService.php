@@ -2663,7 +2663,7 @@ class UserService
             }
             if(!empty($user_ids))
             {
-                $data = Db::name('User')->where(['id'=>$user_ids])->column('username,nickname,mobile,email,avatar,province,city', 'id');
+                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,username,nickname,mobile,email,avatar,province,city', 'id');
             }
 
             // 数据处理

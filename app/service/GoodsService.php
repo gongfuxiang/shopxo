@@ -2647,7 +2647,7 @@ class GoodsService
         MyCache(SystemService::CacheKey('shopxo.cache_goods_category_key'), null);
 
         $res = self::GoodsCategoryDataHandle([$data]);
-        return DataReturn(MyLang('common.operate_success'), 0, json_encode($res[0]));
+        return DataReturn(MyLang('common.operate_success'), 0, $res[0]);
     }
 
     /**

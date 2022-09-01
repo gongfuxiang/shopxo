@@ -64,7 +64,7 @@
                         <button type="button" class="am-close am-fr mobile-address-close-submit">&times;</button>
                     </h3>
                     {{if !empty($user_address_list)}}
-                        <button class="am-btn am-btn-primary am-btn-xs address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button>
+                        <button class="am-btn am-btn-primary am-btn-xs address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">使用新地址</button>
                     {{/if}}
                 </div>
                 {{if !empty($user_address_list)}}
@@ -99,7 +99,7 @@
                                         <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
                                         <span class="cut">|</span>
                                     {{/if}}
-                                    <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}" data-popup-title="编辑地址"> 编辑</a>
+                                    <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}"> 编辑</a>
                                     <span class="cut">|</span>
                                     <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> 删除</a>
                                 </div>
@@ -110,7 +110,7 @@
                     <div class="table-no">
                         <i class="am-icon-warning"></i>
                         <span>没有地址</span>
-                        <button class="am-btn am-btn-secondary am-btn-xs am-margin-left-sm address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}" data-popup-title="新增地址">使用新地址</button>
+                        <button class="am-btn am-btn-secondary am-btn-xs am-margin-left-sm address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">使用新地址</button>
                     </div>
                 {{/if}}
             </div>

@@ -114,7 +114,10 @@
             {{if $item.original_price gt 0}}
                 <span class="original-price am-margin-right-xs">{{$module_data.currency_data.currency_symbol}}{{$item.original_price}}</span>
             {{/if}}
-            <span>{{$module_data.currency_data.currency_symbol}}{{$item.price}}x{{$item.buy_number}}</span>
+            <span>
+                <span class="line-price">{{$module_data.currency_data.currency_symbol}}{{$item.price}}</span>
+                <span>x{{$item.buy_number}}</span>
+            </span>
             {{if $item['returned_quantity'] gt 0 or $item['refund_price'] gt 0}}
                 <span class="am-text-danger am-margin-left-lg">已退 {{$item.returned_quantity}} / {{$module_data.currency_data.currency_symbol}}{{$item.refund_price}}</span>
             {{/if}}

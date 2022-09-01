@@ -34,8 +34,14 @@ class Payment extends Base
      */
 	public function Index()
 	{
+        // 插件列表
+        $payment = PaymentService::PluginsPaymentList();
+
         // 模板数据
         $assign = [
+            // 支付插件列表
+            'data_list'             => empty($payment['data']) ? [] : $payment['data'],
+
             // 不能删除的支付方式
             'cannot_deleted_list'   => PaymentService::$cannot_deleted_list,
 
@@ -45,12 +51,9 @@ class Payment extends Base
             // 应用商店
             'store_payment_url'     => StoreService::StorePaymentUrl(),
         ];
-        // 插件列表
-        $ret = PaymentService::PluginsPaymentList();
-        $assign['data_list'] = $ret['data'];
 
         // 插件更新信息
-        $upgrade = PaymentService::PaymentUpgradeInfo($ret['data']);
+        $upgrade = PaymentService::PaymentUpgradeInfo($payment['data']);
         $assign['upgrade_info'] = $upgrade['data'];
 
         // 数据赋值

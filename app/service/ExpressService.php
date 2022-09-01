@@ -194,7 +194,7 @@ class ExpressService
         }
 
         $res = self::DataHandle([$data]);
-        return DataReturn(MyLang('common.operate_success'), 0, json_encode($res[0]));
+        return DataReturn(MyLang('common.operate_success'), 0, $res[0]);
     }
 
     /**

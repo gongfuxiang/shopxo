@@ -165,11 +165,9 @@ ul.address-list, .business-item ul { overflow: hidden; }
 .goods-base { float: left; top: 0; margin-left: 85px; }
 .goods-attr { margin-top: 5px;  }
 .goods-attr li { color: #888; line-height: 16px; }
-.original-price { color: #999; text-decoration: line-through; }
 .am-table { margin-bottom: 10px; }
 .am-table > tbody > tr > td { border-top: 1px solid #eee; }
 .am-table > thead > tr > th { border-bottom: 1px solid #f5f5f5; }
-
 @media only screen and (min-width:640px)  {
     .cart-content table tr .base { width: 40%; }
     .cart-content table tr .price { width: 20%; }

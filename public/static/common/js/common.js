@@ -761,11 +761,11 @@ function TreeItemHtmlHandle(item, pid, level, is_delete_all)
 	// 新增
 	if(level < rank-1)
 	{
-		html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus am-margin-right-sm tree-submit-add-node" data-am-modal="{target: \''+popup_tag+'\'}" data-id="'+item.id+'" '+(item.is_enable == 0 ? 'style="display:none;"' : '')+'> '+(window['lang_operate_add_name'] || '新增')+'</button>';
+		html += '<button class="am-btn am-btn-success am-btn-xs am-radius am-icon-plus am-margin-right-sm tree-submit-add-node" data-am-modal="{target: \''+popup_tag+'\'}" data-id="'+item.id+'"> '+(window['lang_operate_add_name'] || '新增')+'</button>';
 	}
 
 	// 编辑
-	html += '<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: \''+popup_tag+'\'}" data-json="'+encodeURIComponent(item.json)+'" data-is-exist-son="'+item.is_son+'"> '+(window['lang_operate_edit_name'] || '编辑')+'</button>';
+	html += '<button class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-edit submit-edit" data-am-modal="{target: \''+popup_tag+'\'}" data-json="'+encodeURIComponent(item.json)+'" data-is-exist-son="'+(item.is_son || 'no')+'"> '+(window['lang_operate_edit_name'] || '编辑')+'</button>';
 	if(item.is_son != 'ok' || is_delete_all == 1)
 	{
 		// 是否需要删除子数据
@@ -802,23 +802,16 @@ function TreeFormSaveBackHandle(e)
         // 数据处理
         if((e.data || null) != null)
         {
-        	var json = JSON.parse(decodeURIComponent(e.data));
+        	if(typeof(e.data) == 'object')
+        	{
+        		var json = e.data;
+        		var string = JSON.stringify(e.data);
+        	} else {
+        		var json = JSON.parse(decodeURIComponent(e.data));
+        		var string = e.data;
+        	}
         	if((json.id || null) != null)
         	{
-        		// 是否存在pid节点数据
-    			var pid_arr = [];
-    			if($popup.find('select[name="pid"]').length > 0)
-    			{
-	    			$popup.find('select[name="pid"] option').each(function()
-	    			{
-						var value = $(this).val();
-						if(value != '')
-						{
-							pid_arr.push(value);
-						}
-					});
-				}
-
     			// 存在数据编辑、则添加
         		var $obj = $('#data-list-'+json.id);
         		if($obj.length > 0)
@@ -841,44 +834,7 @@ function TreeFormSaveBackHandle(e)
 	        		}
 
 	        		// 属性json数据更新
-	        		$obj.find('.submit-edit').attr('data-json', encodeURIComponent(e.data));
-
-	        		// pid改变后不可再次操作
-	        		if(pid_arr.length > 0)
-	        		{
-		        		if(json_old.pid != json.pid)
-		        		{
-		        			// 移出操作项（由于修改父级后，数据可能已经不在当前节点下、禁止再次编辑）
-		        			$obj.find('.submit').remove();
-
-		        			// 更新记录样式
-		        			$obj.addClass('tree-change-item');
-
-		        			// 存在父节点数据则移出当前的元素option
-		        			// 防止交叉关联导致造成垃圾数据残留在数据库中
-	        				// 移出当前存在父节点中的数据
-	        				$popup.find('select[name="pid"] option[value="'+json['id']+'"]').remove();
-	        				// 多选插件事件更新
-							if($('select.chosen-select').length > 0)
-							{
-								$('select.chosen-select').trigger('chosen:updated');
-							}
-		        		} else {
-		        			// 是否未启用
-		        			if(json.is_enable != 1)
-		        			{
-		        				$obj.find('.tree-submit-add-node').hide();
-		        			} else {
-		        				$obj.find('.tree-submit-add-node').show();
-		        			}
-
-		        			// 如果当前节点id不存在pid节点中则隐藏新增操作按钮
-		        			if(pid_arr.indexOf(json.id) == -1)
-		        			{
-		        				$obj.find('.tree-submit-add-node').hide();
-		        			}
-		        		}
-	        		}
+	        		$obj.find('.submit-edit').attr('data-json', encodeURIComponent(string));
         		} else {
         			// 存在pid直接拉取下级数据,则追加新数据
         			var is_delete_all = parseInt($('#tree').attr('data-is-delete-all') || 0);
@@ -894,10 +850,10 @@ function TreeFormSaveBackHandle(e)
         				var level = $('#data-list-'+json.pid).length > 0 ? parseInt($('#data-list-'+json.pid).attr('data-level') || 0)+1 : 0;
         				Tree(json.pid, $('#tree').data('node-url'), level, is_delete_all);
         			} else {
-        				json['json'] = e.data;
+        				json['json'] = string;
 
         				// 拼接html数据
-	        			var html = TreeItemHtmlHandle(json, 0, is_delete_all);
+	        			var html = TreeItemHtmlHandle(json, 0, 0, is_delete_all);
 
 	        			// 首次则增加table标签容器
 	        			if($('#tree table tbody').length > 0)
@@ -906,14 +862,6 @@ function TreeFormSaveBackHandle(e)
 	        				
 	        			} else {
 	        				$('#tree').html('<table class="am-table am-table-striped am-table-hover"><tbody>'+html+'</tbody></table>');
-	        			}
-        				// 刚刚创建的数据不支持新增操作
-        				// 因为级数据还不在父级选择节点数据中
-        				// 需要刷新页面重新加载数据
-        				// 如果当前节点id不存在pid节点中则隐藏新增操作按钮
-	        			if(pid_arr.indexOf(json.id) == -1)
-	        			{
-	        				$('#data-list-'+json.id).find('.tree-submit-add-node').hide();
 	        			}
 	        		}
         		}

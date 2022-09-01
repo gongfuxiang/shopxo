@@ -237,8 +237,23 @@ input.add,input.min{width:15px}
     font-weight: bold;
 }
 
-/* 价格颜色 */
-.price, .price strong {color: #c00; }
+/* 价格 */
+.original-price,
+.line-price {
+    font-family: Verdana,Tahoma,arial;
+}
+.original-price {
+    color: #888;
+    text-decoration:
+    line-through; }
+.line-price {
+    color: #3c3c3c;
+    font-weight: 700;
+}
+.price,
+.price strong {
+    color: #c00;
+}
 
 /* 公共错误提示页面 */
 .tips-error, .tips-success { margin: 10% 0; background: #fff; }
@@ -617,7 +632,6 @@ ul.am-dropdown-content > .am-active > a:focus,
  * 弹窗
  */
 .am-popup-bd {
-    padding: 5px;
     background: none;
 }
 
