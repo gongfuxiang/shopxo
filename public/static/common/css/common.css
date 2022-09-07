@@ -100,8 +100,12 @@ form.am-form .am-form-group,
     padding: 15px 20% 20px 5px;
     margin-bottom: 0;
 }
+.plug-file-upload-view,
 form.am-form .am-form-group-refreshing,
-.plug-file-upload-view {
+form.am-form-pure .am-form-group,
+form.am-form-pure .plug-file-upload-view,
+form.am-form-pure .business-form-group,
+form.am-form-pure .business-form-block {
     border-bottom: 0 !important;
 }
 @media only screen and (min-width: 641px) {
@@ -708,7 +712,8 @@ button.colorpicker-submit img {
     height: auto;
     position: sticky;
 }
-.am-table-scrollable-horizontal .am-table .chosen-container .chosen-drop {
+.am-table-scrollable-horizontal .am-table .chosen-container .chosen-drop,
+.am-table-scrollable-horizontal .am-table .am-dropdown-content {
     z-index: 1;
 }
 .am-table-scrollable-horizontal .am-table tr th {
@@ -893,8 +898,8 @@ button.colorpicker-submit img {
  */
 .form-inside-dl-content dt,
 .form-inside-dl-content dd {
-    line-height: 18px;
-    min-height: 30px;
+    line-height: 14px;
+    min-height: 24px;
     padding-top: 5px;
     padding-bottom: 5px;
 }
@@ -1037,11 +1042,11 @@ form .am-tab-panel .am-form-group:last-child {
  * 仓库信息
  */
 .warehouse-item-container * {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 .warehouse-item-container .warehouse-icon {
-  width: 14px;
-  height: 14px;
+    width: 14px;
+    height: 14px;
 }
 
 /**
@@ -1052,4 +1057,23 @@ form .am-tab-panel .am-form-group:last-child {
 }
 .platform-list-value-container > div.am-input-group button {
     width: 110px;
+}
+
+/**
+ * 分类列表
+ */
+#tree table.am-table td {
+    line-height: 32px;
+    padding: 0.4rem 0.7rem;
+}
+#tree table.am-table td button.am-btn {
+    vertical-align: unset;
+}
+@media only screen and (min-width: 641px) {
+    #tree tr .submit {
+        display: none;
+    }
+    #tree tr:hover .submit {
+        display: block !important;
+    }
 }

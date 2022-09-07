@@ -9062,7 +9062,6 @@ TODO:
   margin-right: auto;
   width: 270px;
   max-width: 100%;
-  border-radius: 0;
   background: #f8f8f8;
   /*@media @large-up {
     width: @modal-lg;
@@ -9159,7 +9158,6 @@ TODO:
   border-left: 1px solid #dedede;
 }
 .am-modal-no-btn .am-modal-dialog {
-  border-radius: 0;
   border-bottom: none;
 }
 .am-modal-no-btn .am-modal-bd {

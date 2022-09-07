@@ -103,7 +103,7 @@ class BrandService
                 }
             }
 
-            // 数处理
+            // 数据处理
             foreach($data as &$v)
             {
                 // 分类名称
@@ -251,9 +251,10 @@ class BrandService
                 'error_msg'         => '官网地址格式有误',
             ],
             [
-                'checked_type'      => 'length',
+                'checked_type'      => 'max',
                 'key_name'          => 'sort',
-                'checked_data'      => '3',
+                'checked_data'      => 255,
+                'is_checked'        => 1,
                 'error_msg'         => '顺序 0~255 之间的数值',
             ],
             [

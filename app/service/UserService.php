@@ -1286,7 +1286,7 @@ class UserService
                 // 手机号码是否不存在
                 if(!self::IsExistAccounts($params['accounts'], 'mobile'))
                 {
-                     return DataReturn('手机号码不存在', -3);
+                     return DataReturn('手机号码不存在、请先注册！', -3);
                 }
                 $field = 'mobile';
                 break;
@@ -1302,7 +1302,7 @@ class UserService
                 // 电子邮箱是否不存在
                 if(!self::IsExistAccounts($params['accounts'], 'email'))
                 {
-                     return DataReturn('电子邮箱不存在', -3);
+                     return DataReturn('电子邮箱不存在、请先注册！', -3);
                 }
                 $field = 'email';
                 break;

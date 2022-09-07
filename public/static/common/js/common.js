@@ -735,7 +735,7 @@ function TreeItemHtmlHandle(item, pid, level, is_delete_all)
 	var rank = parseInt($('#tree').attr('data-rank')) || 0;
 	var delete_url = $('#tree').data('del-url');
 	var class_name = $('#data-list-'+pid).attr('class') || '';
-		class_name = class_name.replace('tree-change-item', '').replace('am-active', '');
+		class_name = class_name.replace('am-active', '');
 	var popup_tag = $('#tree').data('popup-tag') || ''+popup_tag+'';
 
 	// 数据 start
@@ -3233,7 +3233,7 @@ $(function()
 	                	// 是否限制数量
 	                    if(max_number > 0 && $tag.find('li').length >= max_number)
 	                    {
-	                    	var temp_msg = upload_video_max_tips || '最多上传{value}个视频';
+	                    	var temp_msg = window['lang_upload_video_max_tips'] || '最多上传{value}个视频';
 	                        Prompt(temp_msg.replace('{value}', max_number));
 	                        break;
 	                    }
@@ -3282,7 +3282,7 @@ $(function()
 	                	// 是否限制数量
 	                    if(max_number > 0 && $tag.find('li').length >= max_number)
 	                    {
-	                    	var temp_msg = upload_annex_max_tips || '最多上传{value}个附件';
+	                    	var temp_msg = window['lang_upload_annex_max_tips'] || '最多上传{value}个附件';
 	                        Prompt(temp_msg.replace('{value}', max_number));
 	                        break;
 	                    }

@@ -2926,10 +2926,6 @@ function ParamsChecked($data, $params)
                 {
                     return '长度规则值未定义['.$v['key_name'].']';
                 }
-                if(!is_string($v['checked_data']))
-                {
-                    return '内部调用参数配置有误['.$v['key_name'].']';
-                }
                 if(!isset($data[$v['key_name']]))
                 {
                     return $v['error_msg'];

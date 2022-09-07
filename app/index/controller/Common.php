@@ -393,6 +393,9 @@ class Common extends BaseController
         // 页面语言
         $assign['lang_data'] = SystemService::PageViewLangData();
 
+        // 省市联动是否必选选择
+        $assign['is_force_region_choice'] = 1;
+
         // 模板赋值
         MyViewAssign($assign);
     }

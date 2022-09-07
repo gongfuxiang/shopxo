@@ -173,8 +173,8 @@ $(function()
             $(this).attr('value', $(this).val());
         });
         $parent.after($parent.prop('outerHTML'));
-        $spec_table.find('tbody tr:last').attr('class', 'line-'+index+' line-not-first');
-        $spec_table.find('tbody tr:last').attr('data-line-tag', '.line-'+index);
+        $parent.next().attr('class', 'line-'+index+' line-not-first');
+        $parent.next().attr('data-line-tag', '.line-'+index);
     });
 
     // 规格行移除

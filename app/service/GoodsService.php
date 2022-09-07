@@ -112,26 +112,49 @@ class GoodsService
                 unset($where_base[array_search('pid', $temp_column)]);
                 sort($where_base);
             }
-            foreach($data as &$v)
+
+            // 获取所有二级
+            $two_group = [];
+            $params['where'] = array_merge($where_base, [['pid', 'in', array_column($data, 'id')]]);
+            $two = self::GoodsCategoryList($params);
+            if(!empty($two))
             {
-                $params['where'] = array_merge($where_base, [['pid', '=', $v['id']]]);
-                $v['items'] = self::GoodsCategoryList($params);
-                if(!empty($v['items']))
+                // 二级分组
+                foreach($two as $tv)
                 {
-                    // 一次性查出所有二级下的三级、再做归类、避免sql连接超多
-                    $params['where'] = array_merge($where_base, [['pid', 'in', array_column($v['items'], 'id')]]);
-                    $itemss = self::GoodsCategoryList($params);
-                    if(!empty($itemss))
+                    if(!array_key_exists($tv['pid'], $two_group))
+                    {
+                        $two_group[$tv['pid']] = [];
+                    }
+                    $two_group[$tv['pid']][] = $tv;
+                }
+
+                // 获取所有三级
+                $three_group = [];
+                $params['where'] = array_merge($where_base, [['pid', 'in', array_column($two, 'id')]]);
+                $three = self::GoodsCategoryList($params);
+                if(!empty($three))
+                {
+                    // 三级分组
+                    foreach($three as $tv)
+                    {
+                        if(!array_key_exists($tv['pid'], $three_group))
+                        {
+                            $three_group[$tv['pid']] = [];
+                        }
+                        $three_group[$tv['pid']][] = $tv;
+                    }
+                }
+
+                // 数据组合
+                foreach($data as &$v)
+                {
+                    $v['items'] = (empty($two_group) || !array_key_exists($v['id'], $two_group)) ? [] : $two_group[$v['id']];
+                    if(!empty($v['items']))
                     {
                         foreach($v['items'] as &$vs)
                         {
-                            foreach($itemss as $vss)
-                            {
-                                if($vs['id'] == $vss['pid'])
-                                {
-                                    $vs['items'][] = $vss;
-                                }
-                            }
+                            $vs['items'] = (empty($three_group) || !array_key_exists($vs['id'], $three_group)) ? [] : $three_group[$vs['id']];
                         }
                     }
                 }
