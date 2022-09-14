@@ -223,7 +223,7 @@ class Order extends Common
 
 
     /**
-     * [Cancel 订单取消]
+     * 订单取消
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0
@@ -239,7 +239,7 @@ class Order extends Common
     }
 
     /**
-     * [Collect 订单收货]
+     * 订单收货
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0

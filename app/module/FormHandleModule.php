@@ -703,6 +703,27 @@ class FormHandleModule
                             }
                         }
                         break;
+
+                    // 字段
+                    case 'field' :
+                        // 是否开启弹出提示
+                        if(isset($v['is_popover']) && $v['is_popover'] == 1)
+                        {
+                            // 是否指定弹出提示数据字段
+                            if(empty($v['popover_field']) && !empty($v['view_key']) && !is_array($v['view_key']))
+                            {
+                                $v['popover_field'] = $v['view_key'];
+                            }
+                        }
+                        break;
+
+                    // 图片
+                    case 'images' :
+                        if(empty($v['images_shape']))
+                        {
+                            $v['images_shape'] = 'radius';
+                        }
+                        break;
                 }
             }
 

@@ -54,54 +54,77 @@
                 {{/if}}
                 <dl class="dl-content">
                     {{foreach $form_table.form as $t}}
-                        {{if isset($t['label']) and isset($t['view_type']) and in_array($t['view_type'], ['field', 'module', 'status']) and (!isset($t['is_detail']) or $t['is_detail'] eq 1)}}
+                        {{if isset($t['label']) and isset($t['view_type']) and in_array($t['view_type'], ['images', 'field', 'module', 'status']) and (!isset($t['is_detail']) or $t['is_detail'] eq 1)}}
                             <dt><strong>{{$t.label}}</strong></dt>
                             <dd>
                                 {{switch $t.view_type}}
-                                    {{case field}}
-                                        <!-- 前后固定拼接的值 前面 -->
-                                        {{if isset($t['view_join_first'])}}
-                                            <span>{{$t.view_join_first}}</span>
+                                    {{case images}}
+                                        {{if !empty($form_table_data_detail[$t['view_key']])}}
+                                            <img src="{{$form_table_data_detail[$t['view_key']]}}" class="am-img-thumbnail {{if !empty($t['images_shape'])}}am-{{$t.images_shape}}{{/if}}" style="{{if !empty($t['images_width'])}}width:{{$t.images_width}}px;{{/if}}{{if !empty($t['images_height'])}}height:{{$t.images_width}}px;{{/if}}" />
                                         {{/if}}
+                                    {{/case}}
+                                    {{case field}}
+                                        <p class="
+                                            {{if isset($t['is_badge']) and $t['is_badge'] eq 1}}
+                                                am-badge {{if !empty($t['badge_key']) and !empty($t['badge_style']) and isset($form_table_data_detail[$t['badge_key']]) and isset($t['badge_style'][$form_table_data_detail[$t['badge_key']]]) and substr($t['badge_style'][$form_table_data_detail[$t['badge_key']]], 0, 1) neq '#'}}am-badge-{{$t['badge_style'][$form_table_data_detail[$t['badge_key']]]}} {{/if}} 
+                                                {{if !empty($t['badge_shape'])}}am-{{$t.badge_shape}} {{/if}} 
+                                            {{/if}} 
+                                            {{if isset($t['is_color']) and $t['is_color'] eq 1 and !empty($t['color_key']) and !empty($t['color_style']) and isset($form_table_data_detail[$t['color_key']]) and isset($t['color_style'][$form_table_data_detail[$t['color_key']]]) and substr($t['color_style'][$form_table_data_detail[$t['color_key']]], 0, 1) neq '#'}}am-text-{{$t['color_style'][$form_table_data_detail[$t['color_key']]]}}{{/if}} 
+                                            {{if !empty($t['text_truncate'])}}am-text-truncate{{if $t['text_truncate'] eq 2}}-2{{/if}}{{/if}}" 
+                                            style="
+                                            {{if isset($t['is_badge']) and $t['is_badge'] eq 1 and !empty($t['badge_key']) and !empty($t['badge_style']) and is_array($t['badge_style']) and isset($form_table_data_detail[$t['badge_key']]) and isset($t['badge_style'][$form_table_data_detail[$t['badge_key']]]) and substr($t['badge_style'][$form_table_data_detail[$t['badge_key']]], 0, 1) eq '#'}}background: {{$t['badge_style'][$form_table_data_detail[$t['badge_key']]]}};{{/if}} 
+                                            {{if isset($t['is_color']) and $t['is_color'] eq 1 and !empty($t['color_key']) and !empty($t['color_style']) and is_array($t['color_style']) and isset($form_table_data_detail[$t['color_key']]) and isset($t['color_style'][$form_table_data_detail[$t['color_key']]]) and substr($t['color_style'][$form_table_data_detail[$t['color_key']]], 0, 1) eq '#'}}color: {{$t['color_style'][$form_table_data_detail[$t['color_key']]]}};{{/if}}" 
+                                            {{if isset($t['is_popover']) and $t['is_popover'] eq 1 and !empty($t['popover_field']) and !empty($form_table_data_detail[$t['popover_field']])}}data-am-popover="{content: '{{$form_table_data_detail[$t['popover_field']]|raw}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}
+                                        >
+                                            {{if isset($t['is_round_point']) and $t['is_round_point'] eq 1}}
+                                                <i class="am-icon-circle am-margin-right-xs {{if !empty($t['round_point_key']) and !empty($t['round_point_style']) and is_array($t['round_point_style']) and isset($form_table_data_detail[$t['round_point_key']]) and isset($t['round_point_style'][$form_table_data_detail[$t['round_point_key']]]) and substr($t['round_point_style'][$form_table_data_detail[$t['round_point_key']]], 0, 1) neq '#'}}am-text-{{$t['round_point_style'][$form_table_data_detail[$t['round_point_key']]]}}{{/if}}" 
+                                                style="{{if !empty($t['round_point_key']) and !empty($t['round_point_style']) and is_array($t['round_point_style']) and isset($form_table_data_detail[$t['round_point_key']]) and isset($t['round_point_style'][$form_table_data_detail[$t['round_point_key']]]) and substr($t['round_point_style'][$form_table_data_detail[$t['round_point_key']]], 0, 1) eq '#'}}color: {{$t['round_point_style'][$form_table_data_detail[$t['round_point_key']]]}};{{/if}}"></i>
+                                            {{/if}}
 
-                                        <!-- 如果字段为数组则处理多个字段拼接数据 -->
-                                        {{if is_array($t['view_key'])}}
-                                            {{foreach $t['view_key'] as $fk=>$fv}}
-                                                {{if isset($form_table_data_detail[$fv])}}
-                                                    {{$form_table_data_detail[$fv]}}
-                                                    <!-- 多个字段拼接数据的的拼接字符 -->
-                                                    {{if isset($t['view_key_join']) and $fk lt count($t['view_key'])-1}}
-                                                        {{$t.view_key_join|raw}}
-                                                    {{/if}}
-                                                {{/if}}
-                                            {{/foreach}}
-                                        {{else /}}
-                                            <!-- 是否存在数据 key -->
-                                            {{if isset($form_table_data_detail[$t['view_key']])}}
-                                                <!-- 是否指定数据转换 -->
-                                                {{if !empty($t['view_data']) and is_array($t['view_data'])}}
-                                                    <!-- 不存在数组中则不显示 -->
-                                                    {{if isset($t['view_data'][$form_table_data_detail[$t['view_key']]])}}
-                                                        <!-- 是否指定二维数组key取值 -->
-                                                        {{if !empty($t['view_data_key'])}}
-                                                            {{if isset($t['view_data'][$form_table_data_detail[$t['view_key']]][$t['view_data_key']])}}
-                                                                {{$t['view_data'][$form_table_data_detail[$t['view_key']]][$t['view_data_key']]}}
-                                                            {{/if}}
-                                                        {{else /}}
-                                                            {{$t['view_data'][$form_table_data_detail[$t['view_key']]]}}
+                                            <!-- 前后固定拼接的值 前面 -->
+                                            {{if isset($t['view_join_first'])}}
+                                                <span>{{$t.view_join_first}}</span>
+                                            {{/if}}
+
+                                            <!-- 如果字段为数组则处理多个字段拼接数据 -->
+                                            {{if is_array($t['view_key'])}}
+                                                {{foreach $t['view_key'] as $fk=>$fv}}
+                                                    {{if isset($form_table_data_detail[$fv])}}
+                                                        {{$form_table_data_detail[$fv]}}
+                                                        <!-- 多个字段拼接数据的的拼接字符 -->
+                                                        {{if isset($t['view_key_join']) and $fk lt count($t['view_key'])-1}}
+                                                            {{$t.view_key_join|raw}}
                                                         {{/if}}
                                                     {{/if}}
+                                                {{/foreach}}
+                                            {{else /}}
+                                                <!-- 是否存在数据 key -->
+                                                {{if isset($form_table_data_detail[$t['view_key']])}}
+                                                    <!-- 是否指定数据转换 -->
+                                                    {{if !empty($t['view_data']) and is_array($t['view_data'])}}
+                                                        <!-- 不存在数组中则不显示 -->
+                                                        {{if isset($t['view_data'][$form_table_data_detail[$t['view_key']]])}}
+                                                            <!-- 是否指定二维数组key取值 -->
+                                                            {{if !empty($t['view_data_key'])}}
+                                                                {{if isset($t['view_data'][$form_table_data_detail[$t['view_key']]][$t['view_data_key']])}}
+                                                                    {{$t['view_data'][$form_table_data_detail[$t['view_key']]][$t['view_data_key']]}}
+                                                                {{/if}}
+                                                            {{else /}}
+                                                                {{$t['view_data'][$form_table_data_detail[$t['view_key']]]}}
+                                                            {{/if}}
+                                                        {{/if}}
 
-                                                <!-- 直接展示数据 -->
-                                                {{else /}}
-                                                    {{$form_table_data_detail[$t['view_key']]|raw}}
+                                                    <!-- 直接展示数据 -->
+                                                    {{else /}}
+                                                        {{$form_table_data_detail[$t['view_key']]|raw}}
+                                                    {{/if}}
                                                 {{/if}}
                                             {{/if}}
-                                        {{/if}}
-                                        <!-- 前后固定拼接的值 后面 -->
-                                        {{if isset($t['view_join_last'])}}
-                                            <span>{{$t.view_join_last}}</span>
-                                        {{/if}}
+                                            <!-- 前后固定拼接的值 后面 -->
+                                            {{if isset($t['view_join_last'])}}
+                                                <span>{{$t.view_join_last}}</span>
+                                            {{/if}}
+                                        </p>
                                     {{/case}}
                                     {{case module}}
                                         <!-- 从模块加载自定义模块数据 -->

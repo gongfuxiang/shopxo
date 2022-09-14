@@ -1011,9 +1011,8 @@ function ModalLoad(url, title, class_tag, full, full_max)
  * @param   {[float]}      value [金额]
  * @param   {[int]}        pos   [位数 默认2]
  */
-function FomatFloat(value, pos)
+function FomatFloat(value, pos = 2)
 {
-	pos = pos || 2;
 	var f_x = Math.round(value*Math.pow(10, pos))/Math.pow(10, pos);
 
 	var s_x = f_x.toString();

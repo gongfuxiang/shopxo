@@ -36,7 +36,7 @@ html input[disabled] { cursor: default !important; color: #b1b1b1 !important; ba
     padding-left: 120px;
 }
 .dl-content dd:not(:last-child) {
-    border-bottom: 1px solid #efefef;
+    border-bottom: 1px solid rgba(0,0,0,.06);
 }
 .dl-content dt, .dl-content dd {
     font-weight: normal !important;
@@ -473,6 +473,36 @@ ul.plug-file-upload-view-file li {
 }
 
 /**
+ * 框架表格类样式覆盖
+ */
+.am-table-striped > tbody > tr:nth-child(odd) > td, .am-table-striped > tbody > tr:nth-child(odd) > th,
+.am-list-striped > li:nth-of-type(even) {
+    background-color: #fafafa;
+}
+.am-table-bordered > thead > tr > th, .am-table-bordered > tbody > tr > th, .am-table-bordered > tfoot > tr > th, .am-table-bordered > thead > tr > td, .am-table-bordered > tbody > tr > td, .am-table-bordered > tfoot > tr > td {
+    border-left: 1px solid rgba(0,0,0,.06);
+}
+.am-table > thead > tr > th, .am-table > tbody > tr > th, .am-table > tfoot > tr > th, .am-table > thead > tr > td, .am-table > tbody > tr > td, .am-table > tfoot > tr > td {
+    border-top: 1px solid rgba(0,0,0,.06);
+}
+.am-table > thead > tr > th {
+    border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.am-table-hover > tbody > tr:hover > td, .am-table-hover > tbody > tr:hover > th {
+    background-color:  #f5f5f5;
+}
+.am-panel-default,
+.am-list > li {
+    border-color: rgba(0,0,0,.06);
+}
+.am-panel-default > .am-panel-hd {
+    border-color: transparent;
+}
+.am-table > thead > tr > td.am-active, .am-table > tbody > tr > td.am-active, .am-table > tfoot > tr > td.am-active, .am-table > thead > tr > th.am-active, .am-table > tbody > tr > th.am-active, .am-table > tfoot > tr > th.am-active, .am-table > thead > tr.am-active > td, .am-table > tbody > tr.am-active > td, .am-table > tfoot > tr.am-active > td, .am-table > thead > tr.am-active > th, .am-table > tbody > tr.am-active > th, .am-table > tfoot > tr.am-active > th {
+    background-color: #ffffeb;
+}
+
+/**
  * 颜色选择插件
  */
 button.colorpicker-submit:hover, button.colorpicker-submit:active, button.colorpicker-submit:focus {
@@ -645,7 +675,7 @@ button.colorpicker-submit img {
  * 表格-基础样式
  */
 .am-table-scrollable-horizontal {
-    border: 1px solid #ddd;
+    border: 1px solid rgba(0,0,0,.06);
     position: relative;
 }
 .am-table-scrollable-horizontal .table-no {
@@ -677,7 +707,7 @@ button.colorpicker-submit img {
     border-left: 0;
 }
 .am-table-scrollable-horizontal .am-table tr th {
-    background: #e8e6e6;
+    background: #fafafa;
     min-width: 100px;
     position: sticky;
     top: 0;
@@ -724,6 +754,10 @@ button.colorpicker-submit img {
     background: #fff;
     z-index: 4;
 }
+.am-table-scrollable-horizontal .am-table-striped > tbody > tr:nth-child(odd) > td.am-grid-fixed-left,
+.am-table-scrollable-horizontal .am-table-striped > tbody > tr:nth-child(odd) > td.am-grid-fixed-right {
+    background-color: #fafafa;
+}
 .am-table-scrollable-horizontal .am-table tr th.am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr th.am-grid-fixed-right {
     z-index: 5;
@@ -739,21 +773,40 @@ button.colorpicker-submit img {
     box-shadow: 0px 0px 1px #ddd;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-left-shadow {
-    -webkit-box-shadow: 5px 0px 10px rgba(136, 136, 136, 0.3);
-    -moz-box-shadow: 5px 0px 10px rgba(136, 136, 136, 0.3);
-    box-shadow: 5px 0px 10px rgba(136, 136, 136, 0.3);
+    -webkit-box-shadow: 5px 0px 10px rgba(136, 136, 136, 0.2);
+    -moz-box-shadow: 5px 0px 10px rgba(136, 136, 136, 0.2);
+    box-shadow: 5px 0px 10px rgba(136, 136, 136, 0.2);
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-right-shadow {
-    -webkit-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
-    -moz-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
-    box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.3);
+    -webkit-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.2);
+    -moz-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.2);
+    box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.2);
 }
 .am-table-scrollable-horizontal .am-table > thead > tr > td {
-    border-bottom: 1px solid #e8e6e6;
+    border-bottom: 1px solid rgba(0,0,0,.06);
 }
 .am-table-scrollable-horizontal .am-table > thead > tr > td,
 .am-table-scrollable-horizontal .am-table > tbody > tr:first-child > td {
     border-top: 0px !important;
+}
+.am-table-scrollable-horizontal .am-table > tbody > tr > td .am-text-truncate-2 {
+    max-height: 34px;
+    height: auto;
+}
+
+/**
+ * 表格-操作栏更多操作列表样式
+ */
+.am-table-scrollable-horizontal .am-table tr .am-operate-grid-more-list .am-dropdown-content {
+    padding: 10px;
+    width: 140px;
+    min-width: auto;
+    -webkit-box-shadow: 0px -2px 10px rgb(136 136 136 / 40%);
+    -moz-box-shadow: 0px -2px 10px rgb(136 136 136 / 0.4);
+    box-shadow: 0px -2px 10px rgb(136 136 136 / 40%);
+}
+.am-table-scrollable-horizontal .am-table tr .am-operate-grid-more-list .am-dropdown-content .am-badge:not(:last-child) {
+    margin-right: 5px;
 }
 
 /**
@@ -779,7 +832,7 @@ button.colorpicker-submit img {
  * 表格-搜索条件
  */
 .form-table-search {
-    background: #eee;
+    background: #fafafa;
 }
 .form-table-search td {
     padding: 8px  !important;
@@ -834,7 +887,7 @@ button.colorpicker-submit img {
     border-top: 0;
 }
 .form-table-fields-button-container {
-    border-top: 1px solid #dedede;
+    border-top: 1px solid rgba(0,0,0,.06);
     height: 50px;
 }
 .form-table-fields-button-container .form-table-field-confirm-submit {
@@ -1076,4 +1129,12 @@ form .am-tab-panel .am-form-group:last-child {
     #tree tr:hover .submit {
         display: block !important;
     }
+}
+
+/**
+ * 弹出框
+ */
+.am-popover {
+    max-width: 260px;
+    border-radius: 2px;
 }

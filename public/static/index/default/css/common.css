@@ -581,9 +581,9 @@ ul.am-dropdown-content > .am-active > a:focus,
 }
 
 .am-btn-success {
-    color: #5eb95e !important;
-    background-color: #E4F3E4;
-    border-color: #d2e8d2;
+    color: #258f25 !important;
+    background-color: #a8e6a8;
+    border-color: #7fe27f;
 }
 .am-btn-success:hover, .am-btn-success:focus {
     background-color: #5eb95e;
