@@ -2106,6 +2106,30 @@ function FormTableContainerInit()
 			$(this).find('.am-grid-fixed-left').last().addClass('am-grid-fixed-left-shadow');
 			$(this).find('.am-grid-fixed-right').first().addClass('am-grid-fixed-right-shadow');
 		});
+
+		// 右侧操作栏更多按钮显示容器宽度处理
+		$('.am-table-scrollable-horizontal .am-table tr .am-operate-grid-more-list button.am-dropdown-toggle').on('click', function()
+		{
+			var $parent = $(this).parent();
+			var length = $parent.find('.am-dropdown-content .am-badge').length;
+			if(length == 0)
+			{
+				Prompt(window['lang_not_operate_error'] || '没有相关操作', 'warning');
+				$parent.removeClass('am-active');
+				$parent.find('.am-dropdown-content').remove();
+			} else {
+				if(length > 1)
+				{
+					var width = ((length-1)*10)+30;
+					$parent.find('.am-dropdown-content .am-badge').each(function(k, v)
+					{
+						width += $(this).outerWidth();
+					});
+					$parent.find('.am-dropdown-content').css('width', width+'px');
+				}
+				$parent.addClass('am-dropdown-flip');
+			}
+		});
 	}
 }
 

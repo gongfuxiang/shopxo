@@ -798,8 +798,9 @@ button.colorpicker-submit img {
  * 表格-操作栏更多操作列表样式
  */
 .am-table-scrollable-horizontal .am-table tr .am-operate-grid-more-list .am-dropdown-content {
-    padding: 10px;
-    width: 140px;
+    padding: 10px 5px;
+    width: 75px;
+    text-align: center;
     min-width: auto;
     -webkit-box-shadow: 0px -2px 10px rgb(136 136 136 / 40%);
     -moz-box-shadow: 0px -2px 10px rgb(136 136 136 / 0.4);

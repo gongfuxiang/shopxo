@@ -24,6 +24,7 @@ return [
         'error_text'                        => '异常错误',
         'reminder_title'                    => '温馨提示',
         'operate_params_error'              => '操作参数有误',
+        'not_operate_error'                 => '没有相关操作',
         'select_reverse_name'               => '反选',
         'select_all_name'                   => '全选',
         'loading_tips'                      => '加载中...',
