@@ -2464,6 +2464,42 @@ function CursorPos(e)
     return pos;
 }
 
+/**
+ * json字符串转json对象
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-09-19
+ * @desc    description
+ * @param   {[string]}        value [json字符串]
+ */
+function JsonStringToJsonObject(value)
+{
+	if((value || null) != null && typeof(value) == 'string')
+    {
+        value = JSON.parse(print_data);
+    }
+    return value;
+}
+
+/**
+ * json对象转json字符串
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-09-19
+ * @desc    description
+ * @param   {[object]}        value [json对象]
+ */
+function JsonObjectToJsonString(value)
+{
+	if((value || null) != null && typeof(value) == 'object')
+    {
+        value = JSON.stringify(print_data);
+    }
+    return value;
+}
+
 
 // 公共数据操作
 $(function()
@@ -2665,6 +2701,95 @@ $(function()
 			},
 			onCancel: function(){}
 		});
+    });
+
+    // 表格公共excel导出操作
+    $('.form-table-operate-top-export-excel-submit').on('click', function()
+    {
+    	// 表单基础
+    	var form_name = 'form.form-validation-search';
+    	var $form = $(form_name);
+    	var request_value = $form.attr('request-value') || null;
+    	if(request_value == null)
+		{
+			Prompt(window['lang_form_config_value_params_tips'] || '表单[类型值]参数配置有误');
+			return false;
+		}
+
+		// 拼接参数
+    	var params = GetFormVal(form_name, true);
+		var pv = 'form_table_is_export_excel=1&';
+		for(var i in params)
+		{
+			if(params[i] != undefined && params[i] != '')
+			{
+				pv += i+'='+encodeURIComponent(params[i])+'&';
+			}
+		}
+		var join = (request_value.indexOf('?') >= 0) ? '&' : '?';
+		request_value += join+pv.substr(0, pv.length-1);
+		window.open(request_value);
+    });
+
+    // 表格公共excel导出操作
+    $(document).on('click', '.form-table-operate-top-data-print-submit,.common-print-submit', function()
+    {
+    	// 打印和模板数据
+    	var print_data = window['print_data'] || null;
+    	var print_template = window['print_template'] || null;
+    	if(print_data == null || print_template == null)
+    	{
+    		Prompt(window['lang_operate_params_error'] || '操作参数有误');
+    		return false;
+    	}
+
+    	// 需要打印的数据
+        var result = [];
+
+    	// 是否列表选择多选
+    	var print_is_list_choice = parseInt(window['print_is_list_choice'] || 0);
+    	if(print_is_list_choice == 1)
+    	{
+    		// 获取数据id
+            var values = FromTableCheckedValues('form_checkbox_value', '.am-table-scrollable-horizontal');
+            if(values.length <= 0)
+            {
+                Prompt(window['lang_before_choice_data_tips'] || '请先选择数据');
+                return false;
+            }
+
+            // 获取需要打印的数据
+	        var field = window['print_data_list_key'] || 'id';
+	        print_data = JsonStringToJsonObject(print_data);
+	        for(var i in print_data)
+	        {
+	            if((print_data[i][field] || null) != null && values.indexOf(print_data[i][field]) != -1)
+	            {
+	                result.push(print_data[i]);
+	            }
+	        }
+	        if(result.length == 0)
+	        {
+	        	Prompt(window['lang_not_operate_error'] || '没有相关数据');
+	        	return false;
+	        }
+    	} else {
+    		result = print_data;
+    	}
+
+        // 初始化模板
+		var ht = new hiprint.PrintTemplate({template: JsonStringToJsonObject(print_template)});
+
+		// 是否导出pdf
+		if($(this).data('is-pdf') == 1)
+		{
+			// 导出pdf
+			var filename = $(this).data('file-name') || 'file-'+(new Date().getTime());
+			ht.toPdf(result, filename);
+		} else {
+			// 调用打印组件
+        	ht.print(result, {});
+		}
     });
 
     /**

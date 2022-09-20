@@ -189,7 +189,7 @@
                                         {{switch $t.view_type}}
                                             {{case images}}
                                                 {{if !empty($form_table_data_list[$i][$t['view_key']])}}
-                                                    <img src="{{$form_table_data_list[$i][$t['view_key']]}}" class="am-img-thumbnail {{if !empty($t['images_shape'])}}am-{{$t.images_shape}}{{/if}}" style="{{if !empty($t['images_width'])}}width:{{$t.images_width}}px;{{/if}}{{if !empty($t['images_height'])}}height:{{$t.images_width}}px;{{/if}}" />
+                                                    <img src="{{$form_table_data_list[$i][$t['view_key']]}}" class="am-img-thumbnail {{if !empty($t['images_shape'])}}am-{{$t.images_shape}}{{/if}}" style="{{if !empty($t['images_width'])}}width:{{$t.images_width}}px;{{/if}}{{if !empty($t['images_height'])}}height:{{$t.images_height}}px;{{/if}}" />
                                                 {{/if}}
                                             {{/case}}
                                             {{case field}}
@@ -205,6 +205,17 @@
                                                     {{if isset($t['is_color']) and $t['is_color'] eq 1 and !empty($t['color_key']) and !empty($t['color_style']) and is_array($t['color_style']) and isset($form_table_data_list[$i][$t['color_key']]) and isset($t['color_style'][$form_table_data_list[$i][$t['color_key']]]) and substr($t['color_style'][$form_table_data_list[$i][$t['color_key']]], 0, 1) eq '#'}}color: {{$t['color_style'][$form_table_data_list[$i][$t['color_key']]]}};{{/if}}" 
                                                     {{if isset($t['is_popover']) and $t['is_popover'] eq 1 and !empty($t['popover_field']) and !empty($form_table_data_list[$i][$t['popover_field']])}}data-am-popover="{content: '{{$form_table_data_list[$i][$t['popover_field']]|raw}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}
                                                 >
+                                                    <!-- 图标+提示 -->
+                                                    {{if isset($t['is_first_tips']) and $t['is_first_tips'] eq 1 and ((!empty($t['first_tips_key']) and !empty($form_table_data_list[$i][$t['first_tips_key']])) or (!empty($t['first_tips_data'])))}}
+                                                        <a href="javascript:;" class="am-margin-right-xs {{if !empty($t['first_tips_style'])}}am-text-{{$t.first_tips_style}}{{/if}} am-icon-{{if empty($t['first_tips_icon'])}}exclamation-circle{{else /}}{{$t.first_tips_icon}}{{/if}}" data-am-popover="{content: '{{if !empty($t['first_tips_key']) and !empty($form_table_data_list[$i][$t['first_tips_key']])}}{{$form_table_data_list[$i][$t['first_tips_key']]}}{{else /}}{{$t.first_tips_data}}{{/if}}', trigger: 'hover focus', theme: '{{if !empty($t['first_tips_style'])}}{{$t.first_tips_style}}{{/if}} sm'}"></a>
+                                                    {{/if}}
+
+                                                    <!-- 连接+提示 -->
+                                                    {{if isset($t['is_first_link']) and $t['is_first_link'] eq 1 and ((!empty($t['first_link_key']) and !empty($form_table_data_list[$i][$t['first_link_key']])) or (!empty($t['first_link_data'])))}}
+                                                        <a href="{{if !empty($t['first_link_key']) and !empty($form_table_data_list[$i][$t['first_link_key']])}}{{$form_table_data_list[$i][$t['first_link_key']]}}{{else /}}{{$t.first_link_data}}{{/if}}" class="am-margin-right-xs {{if !empty($t['first_link_style'])}}am-text-{{$t.first_link_style}}{{/if}} am-icon-{{if empty($t['first_link_icon'])}}external-link{{else /}}{{$t.first_link_icon}}{{/if}}" target="_blank" {{if !empty($t['first_link_popover'])}}data-am-popover="{content: '{{$t.first_link_popover}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}></a>
+                                                    {{/if}}
+
+                                                    <!-- 圆点 -->
                                                     {{if isset($t['is_round_point']) and $t['is_round_point'] eq 1}}
                                                         <i class="am-icon-circle am-margin-right-xs {{if !empty($t['round_point_key']) and !empty($t['round_point_style']) and is_array($t['round_point_style']) and isset($form_table_data_list[$i][$t['round_point_key']]) and isset($t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]]) and substr($t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]], 0, 1) neq '#'}}am-text-{{$t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]]}}{{/if}}" 
                                                         style="{{if !empty($t['round_point_key']) and !empty($t['round_point_style']) and is_array($t['round_point_style']) and isset($form_table_data_list[$i][$t['round_point_key']]) and isset($t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]]) and substr($t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]], 0, 1) eq '#'}}color: {{$t['round_point_style'][$form_table_data_list[$i][$t['round_point_key']]]}};{{/if}}"></i>
@@ -389,6 +400,17 @@
             {{/if}}
         </tbody>
     </table>
+    <!-- 是否开启数据打印操作 -->
+    {{if isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1}}
+        <script type="text/javascript">
+            // 定义打印配置
+            var print_is_list_choice = 1;
+            // 模板打印数据
+            var print_data = {{if empty($form_table_data_list)}}''{{else /}}{{:json_encode($form_table_data_list, JSON_UNESCAPED_UNICODE)}}{{/if}};
+            // 打印模板
+            var print_template = {{if empty($form_table['base']['data_print_template'])}}{}{{else /}}{{if is_array($form_table['base']['data_print_template'])}}{{:json_encode($form_table['base']['data_print_template'], JSON_UNESCAPED_UNICODE)}}{{else /}}{{$form_table.base.data_print_template|raw}}{{/if}}{{/if}};
+        </script>
+    {{/if}}
     {{if empty($form_table_data_list)}}
         {{include file="public/not_data" /}}
     {{/if}}

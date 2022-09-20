@@ -19,6 +19,21 @@
     }
 {{/php}}
 
+<!-- 是否开启数据打印操作 -->
+{{if isset($form_table['base']['is_data_print']) and $form_table['base']['is_data_print'] eq 1}}
+    <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-print form-table-operate-top-data-print-submit" data-am-popover="{content: '选中列表需要打印的数据（可多选）', trigger: 'hover focus', theme: 'warning sm'}"> 数据打印</button>
+{{/if}}
+
+<!-- 是否开启数据导出pdf操作 -->
+{{if isset($form_table['base']['is_data_export_pdf']) and $form_table['base']['is_data_export_pdf'] eq 1}}
+    <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-file-pdf-o form-table-operate-top-data-print-submit" data-is-pdf="1" data-am-popover="{content: '选中列表需要导出的数据（可多选）', trigger: 'hover focus', theme: 'warning sm'}"> 导出PDF</button>
+{{/if}}
+
+<!-- 是否开启数据导出excel操作 -->
+{{if isset($form_table['base']['is_data_export_excel']) and $form_table['base']['is_data_export_excel'] eq 1}}
+    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-file-excel-o form-table-operate-top-export-excel-submit" data-am-popover="{content: '以搜索条件导出全部数据', trigger: 'hover focus', theme: 'warning sm'}"> 导出Excel</button>
+{{/if}}
+
 <!-- 是否开启删除操作 -->
 {{if isset($form_table['base']['is_delete']) and $form_table['base']['is_delete'] eq 1}}
     <button
@@ -30,12 +45,13 @@
         data-confirm-title="{{if isset($form_table['base']['confirm_title'])}}{{$form_table.base.confirm_title}}{{/if}}"
         data-confirm-msg="{{if isset($form_table['base']['confirm_msg'])}}{{$form_table.base.confirm_msg}}{{/if}}"
         data-timeout="{{if isset($form_table['base']['timeout'])}}{{$form_table.base.timeout}}{{/if}}"
+        data-am-popover="{content: '选中列表需要删除的数据（可多选）', trigger: 'hover focus', theme: 'warning sm'}"
     > 删除</button>
 {{/if}}
 
 <!-- 是否开启搜索操作 公共搜索操作放在最后面 -->
 {{if isset($form_table['base']['is_search']) and $form_table['base']['is_search'] eq 1}}
-    <a href="{{if isset($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" class="am-btn am-btn-warning am-radius am-btn-sm am-icon-filter"> 重置</a>
+    <a href="{{if isset($form_table['base']['search_url'])}}{{$form_table.base.search_url}}{{/if}}" class="am-btn am-btn-warning am-radius am-btn-sm am-icon-filter" data-am-popover="{content: '清除搜索条件', trigger: 'hover focus', theme: 'warning sm'}"> 重置</a>
     <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs btn-loading-example am-icon-search" data-am-loading="{loadingText:' 搜索中...'}"> 搜索</button>
 
     <!-- 排序数据字段 -->

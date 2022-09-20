@@ -62,6 +62,9 @@ class FormHandleModule
     public $data_list;
     public $data_detail;
 
+    // 是否导出excel
+    public $is_export_excel;
+
     /**
      * 运行入口
      * @author  Devil
@@ -119,6 +122,9 @@ class FormHandleModule
 
         // 数据列表处理
         $this->FormDataListHandle();
+
+        // 导出excel处理
+        $this->FormDataExportExcelHandle();
 
         // 数据返回
         $data = [
@@ -295,6 +301,9 @@ class FormHandleModule
                 $this->form_data['base']['search_url'] = $this->page_url;
             }
         }
+
+        // 是否导出excel
+        $this->is_export_excel = (isset($this->out_params['form_table_is_export_excel']) && $this->out_params['form_table_is_export_excel'] == 1);
     }
 
     /**
@@ -375,9 +384,9 @@ class FormHandleModule
                         $db->group($form_data['group']);
                     }
 
-                    // 是否使用分页
+                    // 是否使用分页、非导出模式下
                     $is_page = (!isset($form_data['is_page']) || $form_data['is_page'] == 1);
-                    if($is_page)
+                    if($is_page && !$this->is_export_excel)
                     {
                         // 是否定义分页提示信息
                         $tips_msg = '';
@@ -452,6 +461,84 @@ class FormHandleModule
                     $this->data_list = [];
                 }
             }
+        }
+    }
+
+    /**
+     * excel导出处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-09-20
+     * @desc    description
+     */
+    public function FormDataExportExcelHandle()
+    {
+        if($this->is_export_excel)
+        {
+            // 错误提示
+            $error_msg = '';
+            if(empty($this->form_data['data']))
+            {
+                $error_msg = '请先定义数据配置';
+            }
+
+            // 是否存在数据
+            if(empty($error_msg) && empty($this->data_list))
+            {
+                $error_msg = '没有相关数据、请重新输入搜索条件再试！';
+            }
+
+            // 根据表单配置标题处理、仅获取field类型的配置项
+            $title = [];
+            foreach($this->form_data['form'] as $v)
+            {
+                if(isset($v['view_type']) && $v['view_type'] == 'field' && !empty($v['label']) && !empty($v['view_key']))
+                {
+                    $title[$v['view_key']] = [
+                        'name' => $v['label'],
+                        'type' => 'string',
+                    ];
+                }
+            }
+            if(empty($error_msg) && empty($title))
+            {
+                $error_msg = '没有相关field类型的表单配置';
+            }
+
+            // 提示错误
+            if(!empty($error_msg))
+            {
+                die('<!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="utf-8" />
+                        <title>错误提示</title>
+                    </head>
+                    <body style="text-align:center;">
+                        <p style="color:#666;font-size:14px;margin-top:10%;margin-bottom:30px;">'.$error_msg.'</p>
+                        <a href="javascript:;" onClick="WindowClose()" style="text-decoration:none;color:#fff;background:#f00;padding:5px 15px;border-radius:2px;font-size:12px;">关闭页面</a>
+                    </body>
+                        <script type="text/javascript">
+                            function WindowClose()
+                            {
+                                var user_agent = navigator.userAgent;
+                                if(user_agent.indexOf("Firefox") != -1 || user_agent.indexOf("Chrome") != -1)
+                                {
+                                    location.href = "about:blank";
+                                } else {
+                                    window.opener = null;
+                                    window.open("", "_self");
+                                }
+                                window.close();
+                            }
+                        </script>
+                    </html>');
+            }
+
+            // Excel驱动导出数据
+            $excel = new \base\Excel(['title'=>$title, 'data'=>$this->data_list]);
+            $excel->Export();
         }
     }
 

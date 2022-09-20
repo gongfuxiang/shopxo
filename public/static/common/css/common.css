@@ -55,6 +55,26 @@ html input[disabled] { cursor: default !important; color: #b1b1b1 !important; ba
     min-height: 25px;
     padding: 0;
 }
+.dl-content dt:hover, .dl-content dd:hover,
+.data-avg-text-list li:hover {
+    background: #f9f9f9;
+}
+
+/* 公共avg列表 */
+.data-avg-text-list,
+.data-avg-text-list li {
+    border-color: rgba(0,0,0,.06);
+    border-style: solid;
+}
+.data-avg-text-list {
+    border-width: 1px 0 0 1px;
+}
+.data-avg-text-list li {
+    border-width: 0 1px 1px 0;
+    padding: 10px;
+    min-height: 80px;
+}
+
 /**
  * 表单优化
  */
@@ -121,7 +141,7 @@ form.am-form-pure .business-form-block {
  * 插件
  */
 .chosen-container { width: 100% !important; }
-.am-tagsinput { display: block; padding: 3px 5px; border-radius: 2px; min-height: 30px; }
+.am-tagsinput { display: block; padding: 3px 5px; border-radius: 2px; min-height: 31px; }
 .chosen-choices, .chosen-single { border-radius: 2px; }
 .chosen-choices li { overflow: hidden; }
 .chosen-choices li.search-field input[type="text"] { height: 29px !important; }
@@ -129,8 +149,8 @@ form.am-form-pure .business-form-block {
 .am-tagsinput input[type="text"]:hover { box-shadow: 0 0 0 #fff !important; border: 0 !important; }
 .chosen-choices li.search-field input[type="text"]:focus,
 .am-tagsinput input[type="text"]:focus { border-color: #fff; -webkit-box-shadow: inset 0 0 0 0 !important; box-shadow: inset 0 0 0 0 !important; }
-.chosen-choices { padding: 0px 3px !important; min-height: 30px; }
-.chosen-container-single .chosen-single { height: 30px; line-height: 30px; }
+.chosen-choices { padding: 0px 3px !important; min-height: 31px; }
+.chosen-container-single .chosen-single { height: 31px; line-height: 31px; }
 .chosen-container-multi .chosen-choices li.search-field { padding-left: 3px; }
 .chosen-container-single .chosen-single { color: #444 !important; }
 .chosen-container-single .chosen-default { color: #999 !important; }
@@ -473,36 +493,6 @@ ul.plug-file-upload-view-file li {
 }
 
 /**
- * 框架表格类样式覆盖
- */
-.am-table-striped > tbody > tr:nth-child(odd) > td, .am-table-striped > tbody > tr:nth-child(odd) > th,
-.am-list-striped > li:nth-of-type(even) {
-    background-color: #fafafa;
-}
-.am-table-bordered > thead > tr > th, .am-table-bordered > tbody > tr > th, .am-table-bordered > tfoot > tr > th, .am-table-bordered > thead > tr > td, .am-table-bordered > tbody > tr > td, .am-table-bordered > tfoot > tr > td {
-    border-left: 1px solid rgba(0,0,0,.06);
-}
-.am-table > thead > tr > th, .am-table > tbody > tr > th, .am-table > tfoot > tr > th, .am-table > thead > tr > td, .am-table > tbody > tr > td, .am-table > tfoot > tr > td {
-    border-top: 1px solid rgba(0,0,0,.06);
-}
-.am-table > thead > tr > th {
-    border-bottom: 1px solid rgba(0,0,0,.06);
-}
-.am-table-hover > tbody > tr:hover > td, .am-table-hover > tbody > tr:hover > th {
-    background-color:  #f5f5f5;
-}
-.am-panel-default,
-.am-list > li {
-    border-color: rgba(0,0,0,.06);
-}
-.am-panel-default > .am-panel-hd {
-    border-color: transparent;
-}
-.am-table > thead > tr > td.am-active, .am-table > tbody > tr > td.am-active, .am-table > tfoot > tr > td.am-active, .am-table > thead > tr > th.am-active, .am-table > tbody > tr > th.am-active, .am-table > tfoot > tr > th.am-active, .am-table > thead > tr.am-active > td, .am-table > tbody > tr.am-active > td, .am-table > tfoot > tr.am-active > td, .am-table > thead > tr.am-active > th, .am-table > tbody > tr.am-active > th, .am-table > tfoot > tr.am-active > th {
-    background-color: #ffffeb;
-}
-
-/**
  * 颜色选择插件
  */
 button.colorpicker-submit:hover, button.colorpicker-submit:active, button.colorpicker-submit:focus {
@@ -781,9 +771,6 @@ button.colorpicker-submit img {
     -webkit-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.2);
     -moz-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.2);
     box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.2);
-}
-.am-table-scrollable-horizontal .am-table > thead > tr > td {
-    border-bottom: 1px solid rgba(0,0,0,.06);
 }
 .am-table-scrollable-horizontal .am-table > thead > tr > td,
 .am-table-scrollable-horizontal .am-table > tbody > tr:first-child > td {
@@ -1138,4 +1125,29 @@ form .am-tab-panel .am-form-group:last-child {
 .am-popover {
     max-width: 260px;
     border-radius: 2px;
+}
+
+/**
+ * 二级导航
+ */
+.second-nav {
+    background: #90b9ff;
+}
+.second-nav li a {
+    color: #fff;
+}
+.second-nav > li > a:hover {
+    font-weight: bold;
+    background-color: transparent;
+}
+.second-nav li.am-active a,
+.second-nav li.am-active a:hover {
+    background-color: #1cc09f !important;
+    color: #fff !important;
+}
+/**
+ * 三级导航
+ */
+.table-nav {
+    border-bottom: 1px solid #eee;
 }

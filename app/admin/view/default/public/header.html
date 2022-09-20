@@ -17,6 +17,12 @@
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/ckplayer/css/ckplayer.css?v={{:MyC('home_static_cache_version')}}" />
     {{/if}}
 
+    <!-- 打印css -->
+    {{if isset($is_load_hiprint) and $is_load_hiprint eq 1}}
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/hiprint/css/hiprint.css" />
+        <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/lib/hiprint/css/print-lock.css" />
+    {{/if}}
+
     <!-- 可视化拖拽 -->
     {{if isset($is_load_layout) and $is_load_layout eq 1}}
         <link rel="stylesheet" type="text/css" href="{{$public_host}}static/common/css/layout.css?v={{:MyC('home_static_cache_version')}}" />

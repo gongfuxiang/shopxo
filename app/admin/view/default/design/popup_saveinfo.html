@@ -31,7 +31,7 @@
 
                         <div class="am-form-group">
                             <label class="block">是否启用<span class="am-form-group-label-tips">可选、默认是</span></label>
-                            <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_enable']) and $data['is_enable'] eq 1}}checked="true"{{/if}} />
+                            <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
                         </div>
                         <div class="am-form-group">
                             <label class="block">是否含头部<span class="am-form-group-label-tips">可选、默认是</span></label>

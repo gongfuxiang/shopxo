@@ -258,6 +258,9 @@ class Common extends BaseController
         $assign['is_load_map_api'] = 0;
         $assign['load_map_type'] = MyC('common_map_type', 'baidu', true);
 
+        // 默认不加载打印组件
+        $assign['is_load_hiprint'] = 0;
+
         // 布局样式+管理
         $assign['is_load_layout'] = 0;
         $assign['is_load_layout_admin'] = 0;

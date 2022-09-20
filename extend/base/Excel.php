@@ -89,13 +89,8 @@ class Excel
 	 */
 	public function Export()
 	{
-		// 是否有数据
-		if(empty($this->title) && empty($this->data))
-		{
-			echo '<script>alert("'.$this->msg.'");</script>';
-			echo '<script>window.location.href="'.$this->jump_url.'"</script>';
-			die;
-		}
+		// 错误校验
+		$this->IsErrorCheck();
 
 		// 导出类型
 		$export_type = MyC('common_excel_export_type', 0, true);
@@ -137,7 +132,7 @@ class Excel
 			{
 				if(array_key_exists($tk, $v))
 				{
-					$temp .= ($index == 0 ? '' : ',').str_replace([',', "\n"], [ '，', ''], $v[$tk]);
+					$temp .= ($index == 0 ? '' : ',').str_replace([',', "\n"], [ '，', ''], $v[$tk])."\t";
 				}
 				$index++;
 			}
@@ -196,14 +191,6 @@ class Excel
 	 */
 	public function ExportExcel()
 	{
-		// 是否有数据
-		if(empty($this->title) && empty($this->data))
-		{
-			echo '<script>alert("'.$this->msg.'");</script>';
-			echo '<script>window.location.href="'.$this->jump_url.'"</script>';
-			die;
-		}
-
 		// 获取配置编码类型
 		$excel_charset = MyC('admin_excel_charset', 0);
 		$charset = MyConst('common_excel_charset_list')[$excel_charset]['value'];
@@ -382,6 +369,47 @@ class Excel
 			'data'	=> $data,
 		];
 		return DataReturn('处理成功', 0, $result);
+	}
+
+	/**
+	 * 错误校验
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2022-09-20
+	 * @desc    description
+	 */
+	public function IsErrorCheck()
+	{
+		// 是否有数据
+		if(empty($this->title) && empty($this->data))
+		{
+			die('<!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="utf-8" />
+                        <title>错误提示</title>
+                    </head>
+                    <body style="text-align:center;">
+                        <p style="color:#666;font-size:14px;margin-top:10%;margin-bottom:30px;">'.$this->msg.'</p>
+                        <a href="javascript:;" onClick="WindowClose()" style="text-decoration:none;color:#fff;background:#f00;padding:5px 15px;border-radius:2px;font-size:12px;">关闭页面</a>
+                    </body>
+                        <script type="text/javascript">
+                            function WindowClose()
+                            {
+                                var user_agent = navigator.userAgent;
+                                if(user_agent.indexOf("Firefox") != -1 || user_agent.indexOf("Chrome") != -1)
+                                {
+                                    location.href = "about:blank";
+                                } else {
+                                    window.opener = null;
+                                    window.open("", "_self");
+                                }
+                                window.close();
+                            }
+                        </script>
+                    </html>');
+		}
 	}
 }
 ?>

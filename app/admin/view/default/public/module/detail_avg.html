@@ -52,16 +52,21 @@
                     <div class="am-panel-hd">{{$form_table.base.detail_title}}</div>
                     <div class="am-panel-bd">
                 {{/if}}
-                <dl class="dl-content">
+                <ul class="data-avg-text-list am-avg-sm-{{if empty($form_table['base']['detail_avg_sm_value'])}}2{{else /}}{{$form_table.base.detail_avg_sm_value}}{{/if}} am-avg-md-{{if empty($form_table['base']['detail_avg_md_value'])}}3{{else /}}{{$form_table.base.detail_avg_md_value}}{{/if}} am-avg-lg-{{if empty($form_table['base']['detail_avg_lg_value'])}}4{{else /}}{{$form_table.base.detail_avg_lg_value}}{{/if}} am-radius">
                     {{foreach $form_table.form as $t}}
                         {{if isset($t['label']) and isset($t['view_type']) and in_array($t['view_type'], ['images', 'field', 'module', 'status']) and (!isset($t['is_detail']) or $t['is_detail'] eq 1)}}
-                            <dt><strong>{{$t.label}}</strong></dt>
-                            <dd>
-                                {{include file="public/module/detail_content" /}}
-                            </dd>
+                            <li>
+                                <div class="data-avg-text-list-title">
+                                    <strong>{{$t.label}}</strong>
+                                </div>
+                                <div class="data-avg-text-list-content am-margin-top-xs">
+                                    {{include file="public/module/detail_content" /}}
+                                </div>
+                            </li>
                         {{/if}}
                     {{/foreach}}
-                </dl>
+                </ul>
+            </dl>
                 {{if !empty($form_table['base']) and !empty($form_table['base']['detail_title'])}}
                     </div>
                     </div>
