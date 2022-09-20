@@ -1,0 +1,241 @@
+@media print {
+    body {
+        margin: 0px;
+        padding: 0px;
+    }
+}
+@page {
+    margin: 0;
+}
+.hiprint-printPaper * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box; /* Firefox */
+    -webkit-box-sizing: border-box; /* Safari */
+   
+}
+.hiprint-printPaper *:focus {
+    outline: -webkit-focus-ring-color auto 0px;
+}
+.hiprint-page-break-avoid {
+    page-break-after: avoid;
+}
+.hiprint-printPaper {
+    position: relative;
+    padding: 0 0 0 0;
+    page-break-after: always;
+    overflow-x: hidden;
+    overflow: hidden;
+}
+.hiprint-printPaper .hiprint-printPaper-content {
+    position: relative;
+}
+.hiprint-printPaper.design {
+    overflow: visible;
+}
+.hiprint-printTemplate .hiprint-printPanel {
+    page-break-after: always;
+}
+.hiprint-printPaper, .hiprint-printPanel {
+    box-sizing: border-box;
+}
+.hiprint-printPanel .hiprint-printPaper:last-child {
+    page-break-after: avoid;
+}
+.hiprint-printTemplate .hiprint-printPanel:last-child {
+    page-break-after: avoid;
+}
+.hiprint-headerLine:hover, .hiprint-footerLine:hover {
+    border-color: #f00 !important;
+}
+.hiprint-printPaper.design {
+    border: 1px dashed rgba(0,0,0,.06);
+    background: -webkit-linear-gradient(top, transparent 15px, #fcfcfc 15px, #fcfcfc 16px, transparent 16px, transparent 31px, #fcfcfc 31px, #fcfcfc 32px, transparent 32px, transparent 47px, #fcfcfc 47px, #fcfcfc 48px, transparent 48px, transparent 63px, #fafafa 63px, #fafafa 63px),
+  -webkit-linear-gradient( left, transparent 15px, #fcfcfc 15px, #fcfcfc 16px, transparent 16px, transparent 31px, #fcfcfc 31px, #fcfcfc 32px, transparent 32px, transparent 47px, #fcfcfc 47px, #fcfcfc 48px, transparent 48px, transparent 63px, #fafafa 63px, #fafafa 63px);
+  background-size: 64px 64px;
+  background-repeat: repeat;
+}
+.design .hiprint-printElement-table-content, .design .hiprint-printElement-longText-content {
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.design .resize-panel {
+    box-sizing: border-box;
+    border: 1px dotted;
+}
+.hiprint-printElement-text {
+    background-color: transparent;
+    background-repeat: repeat;
+    padding: 0 0 0 0;
+    border: 0.75pt none rgb(0,0,0);
+    direction: ltr;
+    font-family: 'SimSun';
+    font-size: 9pt;
+    font-style: normal;
+    font-weight: normal;
+    padding-bottom: 0pt;
+    padding-left: 0pt;
+    padding-right: 0pt;
+    padding-top: 0pt;
+    text-align: left;
+    text-decoration: none;
+    line-height: 9.75pt;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.design .hiprint-printElement-text-content {
+    border: 1px dashed rgb(206, 188, 188);
+    box-sizing: border-box;
+}
+.hiprint-printElement-longText {
+    background-color: transparent;
+    background-repeat: repeat;
+    border: 0.75pt none rgb(0,0,0);
+    direction: ltr;
+    font-family: 'SimSun';
+    font-size: 9pt;
+    font-style: normal;
+    font-weight: normal;
+    padding-bottom: 0pt;
+    padding-left: 0pt;
+    padding-right: 0pt;
+    padding-top: 0pt;
+    text-align: left;
+    text-decoration: none;
+    line-height: 9.75pt;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    word-break: break-all;
+    /*white-space: pre-wrap*/
+}
+
+
+
+.hiprint-printElement-table {
+    background-color: transparent;
+    background-repeat: repeat;
+    color: rgb(0,0,0);
+    border-color: rgb(0,0,0);
+    border-style: none;
+    direction: ltr;
+    font-family: 'SimSun';
+    font-size: 9pt;
+    font-style: normal;
+    font-weight: normal;
+    padding-bottom: 0pt;
+    padding-left: 0pt;
+    padding-right: 0pt;
+    padding-top: 0pt;
+    text-align: left;
+    text-decoration: none;
+    padding: 0 0 0 0;
+    box-sizing: border-box;
+    line-height: 9.75pt;
+}
+.hiprint-printElement-table thead {
+    background: #e8e8e8;
+    font-weight: 700;
+}
+.hiprint-printElement-tableTarget, .hiprint-printElement-tableTarget tr, .hiprint-printElement-tableTarget td {
+    border-color: rgb(0,0,0);
+    border-style: none;
+    border: 1px solid rgb(0,0,0);
+    font-weight: normal;
+    direction: ltr;
+    padding-bottom: 0pt;
+    padding-left: 0pt;
+    padding-right: 0pt;
+    padding-top: 0pt;
+    text-decoration: none;
+    vertical-align: middle;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.hiprint-printElement-tableTarget td {
+    height: 18pt;
+}
+.hiprint-printPaper .hiprint-paperNumber {
+    font-size: 9pt;
+}
+.design .hiprint-printElement-table-handle {
+    position: absolute;
+    height: 21pt;
+    width: 21pt;
+    background: red;
+    z-index:1;
+}
+.hiprint-printPaper .hiprint-paperNumber-disabled {
+    float: right !important;
+    right: 0 !important;
+    color: gainsboro !important;
+}
+.hiprint-printElement-vline, .hiprint-printElement-hline {
+    border: 0px none rgb(0,0,0);
+    
+}
+.hiprint-printElement-vline {
+    border-left: 0.75pt solid #000;
+    border-right: 0px none rgb(0,0,0) !important;
+    border-bottom: 0px none rgb(0,0,0) !important;
+    border-top: 0px none rgb(0,0,0) !important;
+}
+.hiprint-printElement-hline {
+    border-top: 0.75pt solid #000;
+    border-right: 0px none rgb(0,0,0) !important;
+    border-bottom: 0px none rgb(0,0,0) !important;
+    border-left: 0px none rgb(0,0,0) !important;
+}
+.hiprint-printElement-oval, .hiprint-printElement-rect {
+    border: 0.75pt solid #000;
+}
+.hiprint-text-content-middle {
+    display:table;
+}
+.hiprint-text-content-middle>div {
+    display: table-cell;
+    vertical-align:middle
+}
+.hiprint-text-content-bottom {
+    display: table;
+}
+.hiprint-text-content-bottom > div {
+    display: table-cell;
+    vertical-align: bottom
+}
+
+/*hi-grid-row */
+.hi-grid-row {
+    position: relative;
+    height: auto;
+    margin-right: 0;
+    margin-left: 0;
+    zoom: 1;
+    display: block;
+    box-sizing: border-box;
+}
+
+    .hi-grid-row::after, .hi-grid-row::before {
+        display: table;
+        content: '';
+        box-sizing: border-box;
+    }
+.hi-grid-col {
+    display: block;
+    box-sizing: border-box;
+    position: relative;
+    float: left;
+    flex: 0 0 auto;
+}
+.table-grid-row {
+    margin-left: -0pt;
+    margin-right: -0pt;
+}
+.tableGridColumnsGutterRow {
+    padding-left: 0pt;
+    padding-right: 0pt;
+}
+.hiprint-gridColumnsFooter {
+    text-align: left;
+    clear: both;
+}
