@@ -109,6 +109,9 @@ class SearchService
      */
     public static function SearchMapHandle($data, $pid, $did, $params, $ext = [])
     {
+        // 移除分页
+        unset($params['page']);
+
         // ascii字段处理
         $is_ascii = isset($ext['is_ascii']) && $ext['is_ascii'] == true;
         $field = empty($ext['field']) ? 'value' : $ext['field'];
