@@ -19,8 +19,7 @@ time, mark, audio, video {
 }
 li { list-style-type: none; }
 button { outline: none; }
-
-*, body, .am-btn { font-size: 12px; }
+body{ font-size: 12px; }
 
 .am-form select,.am-form textarea,.am-form input[type="text"],.am-form input[type="password"],.am-form input[type="datetime"],.am-form input[type="datetime-local"],.am-form input[type="date"],.am-form input[type="month"],.am-form input[type="time"],.am-form input[type="week"],.am-form input[type="number"],.am-form input[type="email"],.am-form input[type="url"],.am-form input[type="search"],.am-form input[type="tel"],.am-form input[type="color"],.am-form-field {
     font-size: 12px !important;
@@ -720,6 +719,14 @@ table.am-table .am-btn-danger:focus, table.am-table .am-btn-danger:active, table
 table.am-table .am-btn-danger:hover {
     background: #f00;
     color: #fff !important;
+}
+
+/**
+ * 下拉选框
+ */
+.am-selected-btn.am-btn-default {
+    border: 1px solid #ccc !important;
+    border-radius: 2px;
 }
 
 /**

@@ -395,7 +395,7 @@ body {
   font-weight: normal;
   line-height: 1.6;
   color: #333333;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
 }
 /**
  * 1. http://usabilitypost.com/2012/11/15/w-optimizelegibility-on-mobile-devices/
@@ -9527,7 +9527,7 @@ TODO:
   margin-top: -4px;
 }
 .am-popover-sm {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 .am-popover-sm .am-popover-inner {
   padding: 5px;
@@ -10623,7 +10623,7 @@ label.am-radio {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 .am-selected-list li {
   position: relative;

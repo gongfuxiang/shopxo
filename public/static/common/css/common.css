@@ -74,6 +74,15 @@ html input[disabled] { cursor: default !important; color: #b1b1b1 !important; ba
     padding: 10px;
     min-height: 80px;
 }
+.data-avg-text-list li .data-avg-text-list-title {
+    color: #b9b9b9;
+}
+.data-avg-text-list li .data-avg-text-list-content {
+    margin-top: 5px;
+}
+.data-avg-text-list li:hover .data-avg-text-list-content {
+    color: #000;
+}
 
 /**
  * 表单优化
@@ -490,6 +499,12 @@ ul.plug-file-upload-view-file li {
 }
 .am-btn {
     padding: 0.6em 1em;
+    font-size: 1.2rem;
+}
+.am-dropdown-content {
+    -webkit-box-shadow: 0px 2px 10px rgb(136 136 136 / 40%);
+    -moz-box-shadow: 0px 2px 10px rgb(136 136 136 / 0.4);
+    box-shadow: 0px 2px 10px rgb(136 136 136 / 40%);
 }
 
 /**
@@ -789,9 +804,6 @@ button.colorpicker-submit img {
     width: 75px;
     text-align: center;
     min-width: auto;
-    -webkit-box-shadow: 0px -2px 10px rgb(136 136 136 / 40%);
-    -moz-box-shadow: 0px -2px 10px rgb(136 136 136 / 0.4);
-    box-shadow: 0px -2px 10px rgb(136 136 136 / 40%);
 }
 .am-table-scrollable-horizontal .am-table tr .am-operate-grid-more-list .am-dropdown-content .am-badge:not(:last-child) {
     margin-right: 5px;
@@ -1150,4 +1162,15 @@ form .am-tab-panel .am-form-group:last-child {
  */
 .table-nav {
     border-bottom: 1px solid #eee;
+}
+
+/**
+ * 富文本默认样式
+ */
+.richtext {
+    font-family: sans-serif;
+    font-size: 12px;
+}
+.richtext p {
+    margin:5px 0;
 }

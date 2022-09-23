@@ -2777,6 +2777,13 @@ $(function()
     		result = print_data;
     	}
 
+    	// 是否已引入hiprint库
+    	if((window['hiprint'] || null) == null)
+    	{
+    		Prompt(window['lang_not_load_lib_hiprint_error'] || '请先引入hiprint组件库');
+    		return false;
+    	}
+
         // 初始化模板
 		var ht = new hiprint.PrintTemplate({template: JsonStringToJsonObject(print_template)});
 
@@ -2842,7 +2849,8 @@ $(function()
 			inherit_select_classes: true,
 			enable_split_word_search: true,
 			search_contains: true,
-			no_results_text: window['lang_chosen_select_no_results_text']
+			no_results_text: window['lang_chosen_select_no_results_text'],
+			disable_search_threshold: 10
 		});
 	}
 	// 多选插件 空内容失去焦点验证bug兼容处理
@@ -2851,6 +2859,69 @@ $(function()
 		if($(this).parent().find('li').length <= 1 || $(this).parent().parent().find('.chosen-default').length >= 1)
 		{
 			$(this).parent().parent().prev().trigger('blur');
+		}
+	});
+	// 多选插件分组支持组单选
+	$(document).on('click', '.chosen-container-multi .chosen-results li', function()
+	{
+	    var $chosen = $(this).parents('.chosen-container');
+	    var is_group_single = parseInt($chosen.prev().data('group-single') || 0);
+		if(is_group_single == 1 && !$(this).hasClass('group-result'))
+		{
+			var index = $(this).index();
+			var $parent = $(this).parent();
+			var count = $parent.find('li').length;
+			var arr = [];
+			// 获取前面选中的数据
+			var temp_index = index-1;
+			while(temp_index != 0)
+			{
+				var $li = $parent.find('li').eq(temp_index);
+				if($li.hasClass('group-result'))
+				{
+					break;
+				}
+				if($li.hasClass('result-selected'))
+				{
+					var value = $li.attr('data-option-array-index') || null;
+					if(value != null)
+					{
+						arr.push(value);
+					}
+				}
+				temp_index--;
+			}
+			// 获取后面选中的数据
+			temp_index = index+1;
+			while(temp_index < count)
+			{
+				var $li = $parent.find('li').eq(temp_index);
+				if($li.hasClass('group-result'))
+				{
+					break;
+				}
+				if($li.hasClass('result-selected'))
+				{
+					var value = $li.attr('data-option-array-index') || null;
+					if(value != null)
+					{
+						arr.push(value);
+					}
+				}
+				temp_index++;
+			}
+			if(arr.length > 0)
+			{
+				$chosen.find('.chosen-choices li').each(function(k, v)
+				{
+					var $a = $(this).find('a.search-choice-close');
+					var value = $a.attr('data-option-array-index');
+					if(arr.indexOf(value) != -1)
+					{
+						$a.trigger('click');
+					}
+				});
+			}
 		}
 	});
 	

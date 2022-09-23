@@ -73,10 +73,10 @@ class FormHandleModule
      * @date    2020-06-02
      * @desc    description
      * @param   [string]          $module     [模块位置]
-     * @param   [string]          $action     [模块方法（默认 Run 方法，可自动匹配控制器方法名）]
+     * @param   [string]          $action     [模块方法（默认 Index/Run 方法，可自动匹配控制器方法名）]
      * @param   [mixed]           $params     [参数数据]
      */
-    public function Run($module, $action = 'Run', $params = [])
+    public function Run($module, $action = 'Index', $params = [])
     {
         // 参数校验
         $ret = $this->ParamsCheckHandle($module, $action, $params);

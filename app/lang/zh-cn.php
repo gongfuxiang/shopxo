@@ -78,6 +78,7 @@ return [
         'not_specified_container_tips'      => '未指定容器',
         'not_specified_assembly_tips'       => '未指定加载组建',
         'not_specified_form_name_tips'      => '未指定表单name名称',
+        'not_load_lib_hiprint_error'        => '请先引入hiprint组件库',
     ],
 
     // 公共基础

@@ -211,8 +211,9 @@ class PaymentService
         {
             $where['is_open_user'] = intval($params['is_open_user']);
         }
+        $field = empty($params['field']) ? 'id,logo,name,sort,payment,config,apply_terminal,apply_terminal_old,element,is_enable,is_open_user' : $params['field'];
 
-        return self::DataListHandle(Db::name('Payment')->where($where)->field('id,logo,name,sort,payment,config,apply_terminal,apply_terminal_old,element,is_enable,is_open_user')->order('sort asc')->select()->toArray());
+        return self::DataListHandle(Db::name('Payment')->where($where)->field($field)->order('sort asc')->select()->toArray());
     }
 
     /**
@@ -257,12 +258,27 @@ class PaymentService
         {
             foreach($data as &$v)
             {
-                $v['logo_old'] = $v['logo'];
-                $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
-                $v['element'] = empty($v['element']) ? '' : json_decode($v['element'], true);
-                $v['config'] = empty($v['config']) ? '' : json_decode($v['config'], true);
-                $v['apply_terminal'] = empty($v['apply_terminal']) ? '' : json_decode($v['apply_terminal'], true);
-                $v['apply_terminal_old'] = empty($v['apply_terminal_old']) ? '' : json_decode($v['apply_terminal_old'], true);
+                if(array_key_exists('logo', $v))
+                {
+                    $v['logo_old'] = $v['logo'];
+                    $v['logo'] = ResourcesService::AttachmentPathViewHandle($v['logo']);
+                }
+                if(array_key_exists('element', $v))
+                {
+                    $v['element'] = empty($v['element']) ? '' : json_decode($v['element'], true);
+                }
+                if(array_key_exists('config', $v))
+                {
+                    $v['config'] = empty($v['config']) ? '' : json_decode($v['config'], true);
+                }
+                if(array_key_exists('apply_terminal', $v))
+                {
+                    $v['apply_terminal'] = empty($v['apply_terminal']) ? '' : json_decode($v['apply_terminal'], true);
+                }
+                if(array_key_exists('apply_terminal_old', $v))
+                {
+                    $v['apply_terminal_old'] = empty($v['apply_terminal_old']) ? '' : json_decode($v['apply_terminal_old'], true);
+                }
             }
         }
         return $data;

@@ -269,7 +269,7 @@ class Order
                         'form_type'         => 'select',
                         'form_name'         => 'payment_id',
                         'where_type'        => 'in',
-                        'data'              => PaymentService::PaymentList(),
+                        'data'              => PaymentService::PaymentList(['field'=>'id,name']),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,

@@ -56,10 +56,8 @@
                     {{foreach $form_table.form as $t}}
                         {{if isset($t['label']) and isset($t['view_type']) and in_array($t['view_type'], ['images', 'field', 'module', 'status']) and (!isset($t['is_detail']) or $t['is_detail'] eq 1)}}
                             <li>
-                                <div class="data-avg-text-list-title">
-                                    <strong>{{$t.label}}</strong>
-                                </div>
-                                <div class="data-avg-text-list-content am-margin-top-xs">
+                                <div class="data-avg-text-list-title">{{$t.label}}</div>
+                                <div class="data-avg-text-list-content">
                                     {{include file="public/module/detail_content" /}}
                                 </div>
                             </li>

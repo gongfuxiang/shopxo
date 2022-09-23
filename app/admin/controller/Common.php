@@ -381,6 +381,12 @@ class Common extends BaseController
                 $assign['page_size'] = $this->page_size;
                 $assign['page_html'] = $this->page_html;
                 $assign['page_url'] = $this->page_url;
+
+                // 是否开启打印和pdf导出、则引入组件
+                if((isset($this->form_table['base']['is_data_print']) && $this->form_table['base']['is_data_print'] == 1) || (isset($this->form_table['base']['is_data_export_pdf']) && $this->form_table['base']['is_data_export_pdf'] == 1))
+                {
+                    $assign['is_load_hiprint'] = 1;
+                }
             } else {
                 $this->form_error = $ret['msg'];
                 $assign['form_error'] = $this->form_error;

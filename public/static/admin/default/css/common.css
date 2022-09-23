@@ -21,7 +21,20 @@ time, mark, audio, video {
     font-family: "Microsoft YaHei",SimSun;
     font-style: normal;
 }
-* { font-size: 12px; }
+body {font-size: 12px;margin:0;color:#666;}
+html,body {position:relative;height:100%;width:100%;}
+h1 {line-height:42px;}
+h2 {line-height:32px;}
+h3 small {color:#444444;}
+h4 {line-height:22px;}
+h4 small {color:#444444;}
+h5 {font-size:15px;}
+h5 small {color:#444444;}
+b {font-weight:600;}
+i{ font-style: normal; }
+a:hover {outline:0;text-decoration:none;}
+a:active {outline:0;text-decoration:none;}
+a:focus {outline:0;text-decoration:none;}
 .w100 {width:100%;}
 .fw-100 {font-weight:100;}
 .fw-700 {font-weight:700;}
@@ -72,22 +85,6 @@ input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single
 .am-alert-tips, .am-alert-tips * { font-size: 12px; }
 .am-btn-sm { font-size: 12px; }
 .am-input-group-sm > .am-input-group-label { line-height: 26px; }
-
-body {margin:0;color:#666;}
-html,body {position:relative;height:100%;width:100%;}
-h1,h2,h3,h4,h5,h6 {font-family:'Karla',sans-serif;margin:10px 0;}
-h1 {line-height:42px;}
-h2 {line-height:32px;}
-h3 small {color:#444444;}
-h4 {line-height:22px;}
-h4 small {color:#444444;}
-h5 {font-size:15px;}
-h5 small {color:#444444;}
-b {font-weight:600;}
-i{ font-style: normal; }
-a:hover {outline:0;text-decoration:none;}
-a:active {outline:0;text-decoration:none;}
-a:focus {outline:0;text-decoration:none;}
 .container {width:auto;}
 .container-alt {margin-left:auto;margin-right:auto;padding-left:15px;padding-right:15px;}
 /* Footer */
@@ -387,10 +384,11 @@ header { background-color:#4386fb !important; border-color:#4386fb; color:#fff; 
 header, header.am-topbar { min-height:32px; }
 header .am-topbar-brand  { height:32px; }
 header .am-dropdown-content {border-radius:2px;}
-header .am-topbar-brand h2 { margin: 0; }
 header .header-nav-submit { margin: 4px 10px 0 0; padding: 4px 10px;}
+header .am-topbar-brand h2 { font-size: 18px; line-height: 32px; }
+header .admin-site-vice-name { font-size: 12px; color: #eaeaea; }
 ul {margin-top:0;}
-.admin-header {position:fixed;top:0;right:0;z-index:1000;font-size:1.4rem;margin-bottom:0;}
+.admin-header {position:fixed;top:0;right:0;z-index:1000;margin-bottom:0;}
 .admin-sidebar {width:260px;min-height:100%;float:left;border-right:1px solid #cecece;}
 .admin-sidebar.am-active {z-index:1600;}
 .admin-sidebar-list {margin-bottom:0;}
