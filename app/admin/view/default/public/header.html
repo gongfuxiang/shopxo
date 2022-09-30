@@ -106,7 +106,8 @@
     </script>
 </head>
 <body>
-{{if $module_name.$controller_name.$action_name neq 'adminindexindex'}}
+<!-- 页面加载层 -->
+{{if isset($is_page_loading) and $is_page_loading eq 1}}
     {{include file="public/page_loading" /}}
 {{/if}}
 

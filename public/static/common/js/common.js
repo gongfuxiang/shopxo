@@ -2107,29 +2107,51 @@ function FormTableContainerInit()
 			$(this).find('.am-grid-fixed-right').first().addClass('am-grid-fixed-right-shadow');
 		});
 
-		// 右侧操作栏更多按钮显示容器宽度处理
+		// 右侧操作栏更多按钮显示容器宽度处理点击事件、鼠标进入和移除事件
 		$('.am-table-scrollable-horizontal .am-table tr .am-operate-grid-more-list button.am-dropdown-toggle').on('click', function()
 		{
-			var $parent = $(this).parent();
-			var length = $parent.find('.am-dropdown-content .am-badge').length;
-			if(length == 0)
-			{
-				Prompt(window['lang_not_operate_error'] || '没有相关操作', 'warning');
-				$parent.removeClass('am-active');
-				$parent.find('.am-dropdown-content').remove();
-			} else {
-				if(length > 1)
-				{
-					var width = ((length-1)*10)+30;
-					$parent.find('.am-dropdown-content .am-badge').each(function(k, v)
-					{
-						width += $(this).outerWidth();
-					});
-					$parent.find('.am-dropdown-content').css('width', width+'px');
-				}
-				$parent.addClass('am-dropdown-flip');
-			}
+			FormTableContainerOperateGridMoreListInit($(this));
 		});
+		$('.am-table-scrollable-horizontal .am-table tr .am-operate-grid-more-list button.am-dropdown-toggle').on('mouseenter', function()
+		{
+			FormTableContainerOperateGridMoreListInit($(this));
+		});
+		$('.am-table-scrollable-horizontal .am-table tr .am-operate-grid-more-list button.am-dropdown-toggle').on('mouseleave', function()
+		{
+			FormTableContainerOperateGridMoreListInit($(this));
+		});
+	}
+}
+
+/**
+ * 表格容器列表更多操作处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-09-27
+ * @desc    description
+ * @param   {[object]}        e [当前对象]
+ */
+function FormTableContainerOperateGridMoreListInit(e)
+{
+	var $parent = e.parent();
+	var length = $parent.find('.am-dropdown-content .am-badge').length;
+	if(length == 0)
+	{
+		Prompt(window['lang_not_operate_error'] || '没有相关操作', 'warning');
+		$parent.removeClass('am-active');
+		$parent.find('.am-dropdown-content').remove();
+	} else {
+		if(length > 1)
+		{
+			var width = ((length-1)*10)+30;
+			$parent.find('.am-dropdown-content .am-badge').each(function(k, v)
+			{
+				width += e.outerWidth();
+			});
+			$parent.find('.am-dropdown-content').css('width', width+'px');
+		}
+		$parent.addClass('am-dropdown-flip');
 	}
 }
 
@@ -2477,7 +2499,7 @@ function JsonStringToJsonObject(value)
 {
 	if((value || null) != null && typeof(value) == 'string')
     {
-        value = JSON.parse(print_data);
+        value = eval('(' + value + ')');
     }
     return value;
 }
@@ -2495,9 +2517,23 @@ function JsonObjectToJsonString(value)
 {
 	if((value || null) != null && typeof(value) == 'object')
     {
-        value = JSON.stringify(print_data);
+        value = JSON.stringify(value);
     }
     return value;
+}
+
+/**
+ * 弹出内容处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-09-26
+ * @desc    description
+ * @param   [string]          content [展示的内容]
+ */
+function PopoverContentHandle(content)
+{
+	return content.replace(new RegExp("\n", 'g'), '<br />').replace(new RegExp("'", 'g'), '').replace(new RegExp('"', 'g'), '');
 }
 
 
@@ -2799,12 +2835,10 @@ $(function()
 		}
     });
 
-    /**
-	 * 页面加载 loading
-	 */
+    // 页面加载loading
 	if($('.am-page-loading').length > 0)
 	{
-		$('.am-page-loading').fadeOut(500);
+		$('.am-page-loading').fadeOut(800);
 	}
 
 	// 全屏操作
@@ -3697,5 +3731,70 @@ $(function()
 		    }
 		    window.close();
 		}
+    });
+
+    // dropdown组件hover显示
+    $(document).on('mouseenter', '.am-dropdown .am-dropdown-toggle', function()
+    {
+        $('body .am-dropdown').each(function(k, v)
+        {
+            var config = JsonStringToJsonObject($(this).attr('data-am-dropdown')) || null;
+            if(config != null && (config.trigger || null) == 'hover')
+            {
+                $(this).dropdown('close');
+            }
+        });
+        var $parent = $(this).parent();
+        var config = JsonStringToJsonObject($parent.attr('data-am-dropdown')) || null;
+        if(config != null && (config.trigger || null) == 'hover')
+        {
+            if($parent.find('.am-dropdown-content').css('display') != 'block')
+            {
+            	$parent.find('.am-dropdown-content').attr('data-is-stay', 1);
+                $parent.dropdown('open');
+            }
+        }
+    });
+    $(document).on('mouseleave', '.am-dropdown .am-dropdown-toggle', function()
+    {
+        var $parent = $(this).parent();
+        var config = JsonStringToJsonObject($parent.attr('data-am-dropdown')) || null;
+        if(config != null && (config.trigger || null) == 'hover')
+        {
+        	$parent.find('.am-dropdown-content').attr('data-is-stay', 0);
+            setTimeout(function()
+            {
+                if((parseInt($parent.find('.am-dropdown-content').attr('data-is-stay') || 0)) == 0)
+                {
+                    $parent.dropdown('close');
+                }
+            }, 1000);
+        }
+    });
+    $(document).on('mouseenter', '.am-dropdown .am-dropdown-content', function()
+    {
+        var $parent = $(this).parent();
+        var config = JsonStringToJsonObject($parent.attr('data-am-dropdown')) || null;
+        if(config != null && (config.trigger || null) == 'hover')
+        {
+            $(this).attr('data-is-stay', 1);
+        }
+    });
+    $(document).on('mouseleave', '.am-dropdown .am-dropdown-content', function()
+    {
+        var $parent = $(this).parent();
+        var config = JsonStringToJsonObject($parent.attr('data-am-dropdown')) || null;
+        if(config != null && (config.trigger || null) == 'hover')
+        {
+            $(this).attr('data-is-stay', 0);
+            $parent.dropdown('close');
+        }
+    });
+
+    // 返回上一页、默认-1
+    $(document).on('click', '.back-submit-event', function()
+    {
+    	var number = $(this).data('number') || '-1';
+    	window.history.go(number);
     });
 });

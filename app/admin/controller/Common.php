@@ -40,6 +40,12 @@ class Common extends BaseController
     protected $data_get;
     protected $data_request;
 
+    // 页面操作表单
+    protected $form_back_params;
+    protected $form_back_control;
+    protected $form_back_action;
+    protected $form_back_url;
+
     // 当前系统操作名称
     protected $module_name;
     protected $controller_name;
@@ -173,6 +179,22 @@ class Common extends BaseController
         $default_theme = 'default';
         $assign['default_theme'] = $default_theme;
 
+        // 基础表单数据、去除数组和对象列
+        $form_back_params = $this->data_request;
+        if(!empty($form_back_params) && is_array($form_back_params))
+        {
+            foreach($form_back_params as $k=>$v)
+            {
+                if(is_array($v) || is_object($v))
+                {
+                    unset($form_back_params[$k]);
+                }
+            }
+            unset($form_back_params['id'], $form_back_params['form_back_control'], $form_back_params['form_back_action']);
+        }
+        $this->form_back_params = $form_back_params;
+        $assign['form_back_params'] = $this->form_back_params;
+
         // 当前系统操作名称
         $this->module_name = RequestModule();
         $this->controller_name = RequestController();
@@ -186,19 +208,34 @@ class Common extends BaseController
         // 当前插件操作名称, 兼容插件模块名称
         if(empty($this->data_request['pluginsname']))
         {
+            // 插件名称/控制器/方法
             $this->plugins_module_name = '';
             $this->plugins_controller_name = '';
             $this->plugins_action_name = '';
+
+            // 页面表单操作指定返回、方法默认index
+            $this->form_back_control = empty($this->data_request['form_back_control']) ? $this->controller_name : $this->data_request['form_back_control'];
+            $this->form_back_action = empty($this->data_request['form_back_action']) ? 'index' : $this->data_request['form_back_action'];
+            $this->form_back_url = MyUrl($this->module_name.'/'.$this->form_back_control.'/'.$this->form_back_action, $this->form_back_params);
         } else {
+            // 插件名称/控制器/方法
             $this->plugins_module_name = $this->data_request['pluginsname'];
             $this->plugins_controller_name = empty($this->data_request['pluginscontrol']) ? 'index' : $this->data_request['pluginscontrol'];
             $this->plugins_action_name = empty($this->data_request['pluginsaction']) ? 'index' : $this->data_request['pluginsaction'];
+
+            // 页面表单操作指定返回、方法默认index
+            $this->form_back_control = empty($this->data_request['form_back_control']) ? $this->plugins_controller_name : $this->data_request['form_back_control'];
+            $this->form_back_action = empty($this->data_request['form_back_action']) ? 'index' : $this->data_request['form_back_action'];
+            $this->form_back_url = PluginsAdminUrl($this->plugins_module_name, $this->form_back_control, $this->form_back_action, $this->form_back_params);
         }
 
         // 当前插件操作名称
         $assign['plugins_module_name'] = $this->plugins_module_name;
         $assign['plugins_controller_name'] = $this->plugins_controller_name;
         $assign['plugins_action_name'] = $this->plugins_action_name;
+
+        // 基础表单返回url
+        $assign['form_back_url'] = $this->form_back_url;
 
         // 管理员
         $assign['admin'] = $this->admin;
@@ -250,6 +287,10 @@ class Common extends BaseController
 
         // 开发模式
         $assign['shopxo_is_develop'] = MyConfig('shopxo.is_develop');
+
+        // 加载页面加载层、是否加载图片动画
+        $assign['is_page_loading'] = ($this->module_name.$this->controller_name.$this->action_name == 'adminindexindex') ? 0 : 1;
+        $assign['is_page_loading_images'] = 1;
 
         // 是否加载视频播放器组件
         $assign['is_load_ckplayer'] = 0;

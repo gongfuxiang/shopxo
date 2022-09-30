@@ -672,7 +672,7 @@ button.colorpicker-submit img {
  */
 .am-page-loading {
     opacity: 1;
-    background: #f5f5f5;
+    background: #fafafa;
     display: block;
 }
 
@@ -786,6 +786,9 @@ button.colorpicker-submit img {
     -webkit-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.2);
     -moz-box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.2);
     box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.2);
+}
+.am-table-scrollable-horizontal .am-table > thead > tr > td {
+    border-bottom: 1px solid rgba(0,0,0,.06);
 }
 .am-table-scrollable-horizontal .am-table > thead > tr > td,
 .am-table-scrollable-horizontal .am-table > tbody > tr:first-child > td {
@@ -1173,4 +1176,20 @@ form .am-tab-panel .am-form-group:last-child {
 }
 .richtext p {
     margin:5px 0;
+}
+
+/**
+ * 表单内部操作导航
+ */
+.form-legend-fixed {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+}
+.form-legend-fixed-right button {
+    border: 0px;
+}
+.form-legend-fixed-right .am-badge:not(:first-child) {
+    margin-left: 10px;
 }

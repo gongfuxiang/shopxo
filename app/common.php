@@ -12,6 +12,20 @@
 // 应用公共文件
 
 /**
+ * 弹出内容处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-09-26
+ * @desc    description
+ * @param   [string]          $content [展示的内容]
+ */
+function PopoverContentHandle($content)
+{
+    return str_replace(["\n", "'", '"'], ['<br />', '', ''], $content);
+}
+
+/**
  * 生成uuid
  * @author  Devil
  * @blog    http://gong.gg/

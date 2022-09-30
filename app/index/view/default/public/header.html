@@ -120,6 +120,11 @@
 	</script>
 </head>
 <body {{if in_array(MiniAppEnv(), MyConfig('shopxo.mini_app_type_list'))}}class="mini-app-env"{{/if}}>
+<!-- 页面加载层 -->
+{{if isset($is_page_loading) and $is_page_loading eq 1}}
+    {{include file="public/page_loading" /}}
+{{/if}}
+
 <!-- css钩子 -->
 {{if (!isset($page_pure) or $page_pure neq 1) and (!isset($is_header) or $is_header eq 1)}}
     {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

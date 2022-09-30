@@ -2088,6 +2088,8 @@ th {
 /* Bordered version */
 .am-table-bordered {
   border: 1px solid rgba(0,0,0,.06);
+}
+table.am-table-bordered {
   border-left: none;
 }
 .am-table-bordered > thead > tr > th,
