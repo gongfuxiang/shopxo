@@ -12,6 +12,7 @@ namespace app\module;
 
 use think\facade\Db;
 use app\service\FormTableService;
+use app\service\ResourcesService;
 
 /**
  * 动态表格处理
@@ -436,6 +437,64 @@ class FormHandleModule
             // 数据处理
             if(!empty($this->data_list))
             {
+                // 合并数据
+                $data_merge = (!empty($form_data['data_merge']) && is_array($form_data['data_merge'])) ? $form_data['data_merge'] : [];
+
+                // 时间字段和格式
+                $is_handle_time_field = isset($form_data['is_handle_time_field']) && $form_data['is_handle_time_field'] == 1;
+                $handle_time_format = empty($form_data['handle_time_format']) ? '' : $form_data['handle_time_format'];
+
+                // 固定值名称
+                $is_fixed_name_field = isset($form_data['is_fixed_name_field']) && $form_data['is_fixed_name_field'] == 1;
+                $fixed_name_data = empty($form_data['fixed_name_data']) ? [] : $form_data['fixed_name_data'];
+
+                // 附件字段
+                $is_handle_annex_field = isset($form_data['is_handle_annex_field']) && $form_data['is_handle_annex_field'] == 1;
+                $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['icon', 'images'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
+
+                // 数据处理
+                if(!empty($data_merge) || $is_handle_time_field || $is_fixed_name_field || $is_handle_annex_field)
+                {
+                    foreach($this->data_list as &$v)
+                    {
+                        if(!empty($v) && is_array($v))
+                        {
+                            // 合并数据
+                            if(!empty($data_merge))
+                            {
+                                $v = array_merge($v, $data_merge);
+                            }
+
+                            // 其他单独字段数据处理
+                            foreach($v as $ks=>$vs)
+                            {
+                                // 时间处理
+                                if($is_handle_time_field && substr($ks, -5) == '_time')
+                                {
+                                    $format = empty($handle_time_format) ? 'Y-m-d H:i:s' : (is_array($handle_time_format) ? (empty($handle_time_format[$ks]) ? 'Y-m-d H:i:s' : $handle_time_format[$ks]) : $handle_time_format);
+                                    $v[$ks] = empty($vs) ? '' : (is_numeric($vs) ? date($format, $vs) : $vs);
+                                }
+
+                                // 固定值名称处理
+                                if($is_fixed_name_field && !empty($fixed_name_data) && is_array($fixed_name_data) && array_key_exists($ks, $fixed_name_data) && !empty($fixed_name_data[$ks]['data']))
+                                {
+                                    $temp_data = $fixed_name_data[$ks]['data'];
+                                    $temp_field = empty($fixed_name_data[$ks]['field']) ? $ks.'_name' : $fixed_name_data[$ks]['field'];
+                                    $temp_key = empty($fixed_name_data[$ks]['key']) ? 'name' : $fixed_name_data[$ks]['key'];
+                                    $temp = array_key_exists($vs, $temp_data) ? $temp_data[$vs] : '';
+                                    $v[$temp_field] = empty($temp) ? '' : (is_array($temp) ? (isset($temp[$temp_key]) ? $temp[$temp_key] : '') : $temp);
+                                }
+
+                                // 附件字段处理
+                                if($is_handle_annex_field && !empty($handle_annex_fields) && in_array($ks, $handle_annex_fields) && !empty($vs))
+                                {
+                                    $v[$ks] = ResourcesService::AttachmentPathViewHandle($vs);
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // 是否已定义数据处理、必须存在双冒号
                 $m = $this->ServiceActionModule($form_data, 'data_handle');
                 if(!empty($m))
