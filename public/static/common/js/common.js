@@ -964,13 +964,14 @@ function VideoFileUploadShow(class_name, show_video, default_video)
  * @version 1.0.0
  * @date    2018-09-13
  * @desc    description
- * @param   {[string]}        url   	[加载url]
- * @param   {[string]}        title 	[标题]
- * @param   {[string]}        class_tag [指定class]
- * @param   {[int]}        	  full 		[是否满屏（0否, 1是）]
- * @param   {[int]}        	  full_max	[满屏最大限制（max-width:1200px）（0否, 1是）]
+ * @param   {[string]}        url   		[加载url]
+ * @param   {[string]}        title 		[标题]
+ * @param   {[string]}        class_tag 	[指定class]
+ * @param   {[int]}        	  full 			[是否满屏（0否, 1是）]
+ * @param   {[int]}        	  full_max		[满屏最大限制（max-width:1200px）（0否, 1是）]
+ * @param   {[string]}        full_max_size	[满屏最大限制指定（默认空 最大1200、有效值 md 800, lg 1000）]
  */
-function ModalLoad(url, title, class_tag, full, full_max)
+function ModalLoad(url, title, class_tag, full = 0, full_max = 0, full_max_size = '')
 {
 	// class 定义
 	var ent = 'popup-iframe';
@@ -991,6 +992,11 @@ function ModalLoad(url, title, class_tag, full, full_max)
 	if((full_max || 0) == 1)
 	{
 		ent += ' popup-full-max';
+		// 满屏最大限制指定大小类型
+		if((full_max_size || null) != null)
+		{
+			ent += '-'+full_max_size;
+		}
 	}
 	
 	// 调用弹窗组件
@@ -2457,6 +2463,28 @@ function UrlUseCurrentHostHandle(url)
 }
 
 /**
+ * 下拉选择组件初始化
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-10-02
+ * @desc    description
+ */
+function SelectChosenInit()
+{
+	if($('select.chosen-select').length > 0)
+	{
+		$('select.chosen-select').chosen({
+			inherit_select_classes: true,
+			enable_split_word_search: true,
+			search_contains: true,
+			no_results_text: window['lang_chosen_select_no_results_text'],
+			disable_search_threshold: 10
+		});
+	}
+}
+
+/**
  * 获取鼠标光标位置
  * @author  Devil
  * @blog    http://gong.gg/
@@ -2533,7 +2561,7 @@ function JsonObjectToJsonString(value)
  */
 function PopoverContentHandle(content)
 {
-	return content.replace(new RegExp("\n", 'g'), '<br />').replace(new RegExp("'", 'g'), '').replace(new RegExp('"', 'g'), '');
+	return content.replace(new RegExp("\n", 'g'), '<br />').replace(new RegExp("\r", 'g'), '').replace(new RegExp("'", 'g'), '').replace(new RegExp('"', 'g'), '');
 }
 
 
@@ -2876,17 +2904,9 @@ $(function()
 	});
 
 
-	// 多选插件初始化
-	if($('select.chosen-select').length > 0)
-	{
-		$('select.chosen-select').chosen({
-			inherit_select_classes: true,
-			enable_split_word_search: true,
-			search_contains: true,
-			no_results_text: window['lang_chosen_select_no_results_text'],
-			disable_search_threshold: 10
-		});
-	}
+	// 下拉选择组件初始化
+	SelectChosenInit();
+
 	// 多选插件 空内容失去焦点验证bug兼容处理
 	$(document).on('blur', 'ul.chosen-choices .search-field, div.chosen-select .chosen-search', function()
 	{
@@ -3676,9 +3696,10 @@ $(function()
     	var class_tag = $(this).data('class') || '';
     	var full = parseInt($(this).data('full')) || 0;
     	var full_max = parseInt($(this).data('full-max')) || 0;
+    	var full_max_size = $(this).data('full-max-size') || '';
 
     	// 调用弹窗方法
-        ModalLoad(url, title, class_tag, full, full_max);
+        ModalLoad(url, title, class_tag, full, full_max, full_max_size);
     });
 
     // 地图弹窗
@@ -3698,10 +3719,11 @@ $(function()
     	var class_tag = $(this).data('class') || '';
     	var full = parseInt($(this).data('full')) || 0;
     	var full_max = parseInt($(this).data('full-max')) || 0;
+    	var full_max_size = $(this).data('full-max-size') || '';
 
     	// 调用弹窗方法
     	var url = UrlFieldReplace('lat', lat, UrlFieldReplace('lng', lng, __map_view_url__));
-        ModalLoad(url, title, class_tag, full, full_max);
+        ModalLoad(url, title, class_tag, full, full_max, full_max_size);
     });
 
     // 弹窗全屏

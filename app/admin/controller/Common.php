@@ -302,6 +302,9 @@ class Common extends BaseController
         // 默认不加载打印组件
         $assign['is_load_hiprint'] = 0;
 
+        // 默认不加载echarts图表组件
+        $assign['is_load_echarts'] = 0;
+
         // 布局样式+管理
         $assign['is_load_layout'] = 0;
         $assign['is_load_layout_admin'] = 0;

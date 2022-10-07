@@ -72,8 +72,11 @@
 <script type='text/javascript' src="{{$public_host}}static/common/lib/jshash/md5-min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- echarts 图表 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/echarts.min.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/macarons.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{if isset($is_load_echarts) and $is_load_echarts eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/echarts.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/macarons.js?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/shine.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}}
 
 <!-- ueditor 编辑器 -->
 <script type='text/javascript' src="{{$my_public_url}}static/common/lib/ueditor/ueditor.config.js?v={{:MyC('home_static_cache_version')}}"></script>

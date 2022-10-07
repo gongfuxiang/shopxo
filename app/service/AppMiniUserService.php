@@ -174,9 +174,9 @@ class AppMiniUserService
             } else {
                 $status = false;
                 // 如果用户openid为空则绑定到用户下面
-                if(empty($user['toutiao_openid']))
+                if(empty($user['weixin_openid']))
                 {
-                    $status = UserService::UserOpenidBind($user['id'], $ret['data']['openid'], 'toutiao_openid');
+                    $status = UserService::UserOpenidBind($user['id'], $ret['data']['openid'], 'weixin_openid');
                 }
                 // 如果用户unionid为空则绑定到用户下面
                 if(empty($user['weixin_unionid']) && !empty($unionid))
@@ -529,7 +529,7 @@ class AppMiniUserService
         if($ret['code'] == 0)
         {
             // 先从数据库获取用户信息
-            $user = UserService::AppUserInfoHandle(null, 'toutiao_openid', $ret['data']['openid']);
+            $user = UserService::AppUserInfoHandle(null, 'kuaishou_openid', $ret['data']['openid']);
             if(empty($user))
             {
                 $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);

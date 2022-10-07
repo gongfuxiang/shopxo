@@ -54,8 +54,11 @@
 {{/if}}
 
 <!-- echarts 图表 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/echarts.min.js?v={{:MyC('home_static_cache_version')}}"></script>
-<script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/macarons.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{if isset($is_load_echarts) and $is_load_echarts eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/echarts.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/macarons.js?v={{:MyC('home_static_cache_version')}}"></script>
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/echarts/shine.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}}
 
 <!-- amazeui插件 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.min.js?v={{:MyC('home_static_cache_version')}}"></script>

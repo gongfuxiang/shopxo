@@ -22,7 +22,7 @@
  */
 function PopoverContentHandle($content)
 {
-    return str_replace(["\n", "'", '"'], ['<br />', '', ''], $content);
+    return str_replace(["\n", "\r", "'", '"'], ['<br />', '', '', ''], $content);
 }
 
 /**

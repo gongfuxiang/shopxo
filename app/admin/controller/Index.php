@@ -137,6 +137,9 @@ class Index extends Common
 				$order_complete_money = StatisticalService::OrderCompleteMoneyYesterdayTodayTotal();
 				$assign['order_complete_money'] = $order_complete_money['data'];
 			}
+
+			// 加载图表组件
+            $assign['is_load_echarts'] = 1;
 		}
 		MyViewAssign($assign);
 
