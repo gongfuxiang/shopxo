@@ -3819,4 +3819,29 @@ $(function()
     	var number = $(this).data('number') || '-1';
     	window.history.go(number);
     });
+
+    // 页面切换
+    var temp_scroll_original_index = 0;
+    $(document).on('click', '.tabs-switch-horizontal-container ul li', function()
+    {
+        var $scroll_obj = $(this).parents('.tabs-switch-horizontal-container');
+        var parent_width = $scroll_obj.width();
+        var current_width = $(this).outerWidth(true);
+        var current_index = $(this).index();
+        if(current_index != temp_scroll_original_index)
+        {
+        	// 计算当前元素前面的元素宽度（含padding、margin、border）
+        	var scroll = 0;
+            for(var i=0;i<=current_index;i++)
+            {
+            	scroll += $scroll_obj.find('ul li:eq('+i+')').outerWidth(true);
+            }
+            // 减去父元素宽度一半
+            scroll -= parent_width/2;
+            // 减去当前元素宽度一半
+            scroll -= current_width/2;
+            $scroll_obj.animate({'scrollLeft': scroll});
+        }
+        temp_scroll_original_index = current_index;
+    });
 });

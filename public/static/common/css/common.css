@@ -1203,3 +1203,43 @@ form .am-tab-panel .am-form-group:last-child {
 .form-legend-fixed-right .am-badge:not(:first-child) {
     margin-left: 10px;
 }
+
+
+/**
+ * 滚动条样式
+ */
+::-webkit-scrollbar {
+    width: 3px;
+    height: 6px;
+}
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:vertical {
+    display: none;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track:vertical {
+    background-color: black;
+}
+::-webkit-scrollbar-track-piece {
+    background-color: #fafafa;
+}
+::-webkit-scrollbar-track-piece {
+    border-top: 1px solid rgba(0,0,0,.01);
+}
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:vertical {
+    margin-right: 10px;
+    background-color: #f0f0f0;
+}
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:vertical:hover {
+    background-color: #a9a9a9;
+}
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-corner:vertical {
+    background-color: #e5e5e5;
+}
+::-webkit-scrollbar-resizer,
+::-webkit-scrollbar-resizer:vertical {
+    background-color: #ff6e00;
+}
