@@ -421,11 +421,11 @@ class FormHandleModule
                 }
             } else {
                 // 默认条件
-                $this->where = empty($form_data['detail_where']) ? [] : $form_data['detail_where'];
+                $this->where = empty($this->out_params['detail_where']) ? ((!empty($form_data['detail_where']) && is_array($form_data['detail_where'])) ? $form_data['detail_where'] : []) : $this->out_params['detail_where'];
 
                 // 单独处理条件
-                $detail_dkey = empty($form_data['detail_dkey']) ? 'id' : $form_data['detail_dkey'];
-                $detail_pkey = empty($form_data['detail_pkey']) ? 'id' : $form_data['detail_pkey'];
+                $detail_dkey = empty($this->out_params['detail_dkey']) ? (empty($form_data['detail_dkey']) ? 'id' : $form_data['detail_dkey']) : $this->out_params['detail_dkey'];
+                $detail_pkey = empty($this->out_params['detail_pkey']) ? (empty($form_data['detail_pkey']) ? 'id' : $form_data['detail_pkey']) : $this->out_params['detail_pkey'];
                 $value = empty($this->out_params[$detail_pkey]) ? 0 : $this->out_params[$detail_pkey];
                 $this->where[] = [$detail_dkey, '=', $value];
                 $db->where($this->where);
