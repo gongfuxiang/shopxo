@@ -12,6 +12,21 @@
 // 应用公共文件
 
 /**
+ * 获取汉字首字母
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-10-09
+ * @desc    description
+ * @param   [string]          $string [汉字]
+ */
+function PinyinLetter($string)
+{
+    $letter = (new \Overtrue\Pinyin\Pinyin())->abbr($string);
+    return empty($letter) ? '' : $letter;
+}
+
+/**
  * 弹出内容处理
  * @author  Devil
  * @blog    http://gong.gg/

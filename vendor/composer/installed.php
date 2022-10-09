@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '63c34add78493b12c507e7c5a24fddd34d112e00',
+        'reference' => '2a77126a1909be677e6bde7c623bb5a0fb75d32b',
         'name' => 'shopxo/shopxo',
         'dev' => true,
     ),
@@ -80,6 +80,15 @@
             'install_path' => __DIR__ . '/../myclabs/php-enum',
             'aliases' => array(),
             'reference' => 'b942d263c641ddb5190929ff840c68f78713e937',
+            'dev_requirement' => false,
+        ),
+        'overtrue/pinyin' => array(
+            'pretty_version' => '4.0.8',
+            'version' => '4.0.8.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../overtrue/pinyin',
+            'aliases' => array(),
+            'reference' => '04bdb4d33d50e8fb1aa5a824064c5151c4b15dc2',
             'dev_requirement' => false,
         ),
         'phpoffice/phpspreadsheet' => array(
@@ -160,7 +169,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '63c34add78493b12c507e7c5a24fddd34d112e00',
+            'reference' => '2a77126a1909be677e6bde7c623bb5a0fb75d32b',
             'dev_requirement' => false,
         ),
         'symfony/polyfill-mbstring' => array(

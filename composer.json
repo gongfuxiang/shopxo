@@ -27,7 +27,8 @@
         "topthink/think-orm": "^2.0",
         "topthink/think-multi-app": "^1.0",
         "topthink/think-view": "^1.0",
-        "phpoffice/phpspreadsheet": "^1.4"
+        "phpoffice/phpspreadsheet": "^1.4",
+        "overtrue/pinyin": "^4.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
