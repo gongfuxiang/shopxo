@@ -55,6 +55,7 @@ select {height:28px !important;}
 .bk-cr-gray {background:#f3f3f3 !important;}
 .bk-cr-ffd {background:#ffd !important;}
 .bk-cr-white {background-color: #fff;}
+.am-nav-pills > li.am-fr {float: right !important;}
 .am-form select,.am-form textarea,.am-form input[type="text"],.am-form input[type="password"],.am-form input[type="datetime"],.am-form input[type="datetime-local"],.am-form input[type="date"],.am-form input[type="month"],.am-form input[type="time"],.am-form input[type="week"],.am-form input[type="number"],.am-form input[type="email"],.am-form input[type="url"],.am-form input[type="search"],.am-form input[type="tel"],.am-form input[type="color"],.am-form-field {font-size:12px !important;}
 select {height:28px !important;}
 input:hover, select:hover, textarea:hover, .chosen-choices:hover, .chosen-single:hover,.am-tagsinput:hover, button.colorpicker-submit:hover { border-style:solid; border-width:1px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; border:1px solid #4FACF5 !important; -webkit-box-shadow: 0 0 5px #4FACF5 !important; box-shadow:0 0 5px #4FACF5 !important; }
@@ -97,7 +98,7 @@ ul {margin-top:0;}
 .admin-sidebar {height:100%;overflow-x:hidden;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
 .admin-sidebar .am-icon-angle-down {margin-top: 2px;}
 @media only screen and (min-width:641px) {
-    header { left: 159px; }
+    header { left: 160px; }
     header .am-topbar-brand, .am-topbar-nav > li > a { line-height: 32px; }
   .admin-sidebar {display:block;width:160px;z-index:1; position: fixed; top: 0; left: 0;}
   .admin-offcanvas-bar {position:static;width:auto;background:none;-webkit-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);transform:translate3d(0,0,0);overflow-y:visible;min-height:100%;padding-bottom: 50px;}

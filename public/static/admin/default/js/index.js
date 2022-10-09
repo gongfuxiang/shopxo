@@ -82,7 +82,7 @@ $(function()
             $(this).removeClass('am-icon-indent').addClass('am-icon-dedent');
             $('#admin-offcanvas').animate({width: '160px'}, 300);
             $('#ifcontent').animate({paddingLeft: '160px'}, 300);
-            $('header.admin-header').animate({left: '159px'}, 300);
+            $('header.admin-header').animate({left: '160px'}, 300);
             $('#admin-offcanvas').removeClass('menu-mini-event');
             setTimeout(function() {
                 $('#admin-offcanvas').removeClass('menu-mini');
@@ -181,7 +181,7 @@ $(function()
             {
                 $('#admin-offcanvas').css({'width': '160px'});
                 $('#ifcontent').css({'padding-left':'160px'});
-                $('header.admin-header').css({'left': '159px'});
+                $('header.admin-header').css({'left': '160px'});
             }
         }
     });
