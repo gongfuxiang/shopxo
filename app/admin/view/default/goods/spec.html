@@ -230,7 +230,7 @@
                         {{foreach $type.value as $spec_key=>$spec}}
                             {{if !empty($spec['images'])}}
                                 <li class="spec-images-items spec-images-items-{{$type.id}}{{$spec_key}}">
-                                    <input type="text" name="spec_images_name[{{$type.id}}{{$spec_key}}]" placeholder="规格名称" class="am-radius t-c" data-validation-message="请填写规格名称" value="{{$spec.name}}" required >
+                                    <input type="text" name="spec_images_name[{{$type.id}}{{$spec_key}}]" placeholder="规格名称" class="am-radius am-text-center" data-validation-message="请填写规格名称" value="{{$spec.name}}" required >
                                     <ul class="plug-file-upload-view spec-images-view-{{$type.id}}{{$spec_key}}" data-form-name="spec_images[{{$type.id}}{{$spec_key}}]" data-max-number="1" data-delete='0' data-dialog-type="images">
                                         <li>
                                             <input type="hidden" name="spec_images[{{$type.id}}{{$spec_key}}]" value="{{$spec.images_old}}" data-validation-message="请上传规格图片" required />
