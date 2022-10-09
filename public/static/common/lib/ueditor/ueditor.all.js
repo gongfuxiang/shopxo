@@ -6918,6 +6918,8 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                     '<style type=\'text/css\'>' +
                     //设置四周的留边
                     '.view{padding:0;word-wrap:break-word;cursor:text;height:90%;}\n' +
+                    //图片最大宽度100%
+                    '.view img{max-width:100%;}\n' +
                     //设置默认字体和字号
                     //font-family不能呢随便改，在safari下fillchar会有解析问题
                     'body{font-family:sans-serif;font-size:12px;color:#333;}' +

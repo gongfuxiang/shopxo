@@ -10,7 +10,7 @@
 			{{foreach $left_menu as $v}}
 				{{if empty($v['items'])}}
 					<li>
-						<a href="javascript:;" data-type="menu" data-url="{{$v.url}}">
+						<a href="javascript:;" data-type="menu" data-url="{{$v.url}}" data-key="{{$v.id}}">
 							{{if !empty($v['icon'])}}<span class="iconfont {{$v.icon}}"></span>{{/if}}
 							<p class="nav-name am-inline-block am-text-break">{{$v.name}}</p>
 						</a>
@@ -25,7 +25,7 @@
 						<ul class="am-list am-collapse admin-sidebar-sub" id="power-menu-{{$v.id}}">
 							{{foreach $v.items as $vs}}
 								<li>
-									<a href="javascript:;" class="menu-items-{{$vs.id}}" data-parent-id="{{$v.id}}" data-type="menu" data-url="{{$vs.url}}">
+									<a href="javascript:;" class="menu-items-{{$vs.id}}" data-parent-id="{{$v.id}}" data-type="menu" data-url="{{$vs.url}}" data-key="{{$v.id}}-{{$vs.id}}">
 										{{if !empty($vs['icon'])}}<span class="{{$vs.icon}}"></span>{{/if}}
 										<p class="nav-name am-inline-block am-text-break">{{$vs.name}}</p>
 									</a>
@@ -37,9 +37,8 @@
 			{{/foreach}}
 		</ul>
 	</div>
+	<a href="javascript:;" class="am-icon-dedent menu-scaling-submit am-hide-sm-only" data-status="0"></a>
 </div>
-
-<button class="am-btn am-btn-primary am-radius am-btn-xs menu-scaling-submit am-hide-sm-only am-icon-angle-double-left" data-status="0"></button>
 <div class="menu-mini-container-tips am-animation-slide-right">
 	<div class="mui-mbar-tab-tip am-icon-caret-left"></div>
 	<span></span>

@@ -1189,7 +1189,7 @@ form .am-tab-panel .am-form-group:last-child {
 }
 
 /**
- * 表单内部操作导航
+ * 表单内部顶部操作导航
  */
 .form-legend-fixed {
     position: sticky;
@@ -1201,6 +1201,27 @@ form .am-tab-panel .am-form-group:last-child {
     border: 0px;
 }
 .form-legend-fixed-right .am-badge:not(:first-child) {
+    margin-left: 10px;
+}
+
+/**
+ * 表单内部底部操作导航
+ */
+.form-bottom-nav-fixed {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 10;
+    border-top: 1px solid #e5e5e5;
+    padding: 10px;
+    text-align: right;
+}
+.form-bottom-nav-fixed button {
+    border: 0px;
+}
+.form-bottom-nav-fixed .am-badge:not(:first-child) {
     margin-left: 10px;
 }
 

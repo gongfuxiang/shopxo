@@ -2564,6 +2564,82 @@ function PopoverContentHandle(content)
 	return content.replace(new RegExp("\n", 'g'), '<br />').replace(new RegExp("\r", 'g'), '').replace(new RegExp("'", 'g'), '').replace(new RegExp('"', 'g'), '');
 }
 
+/**
+ * 数据打印处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-10-09
+ * @desc    description
+ * @param   {int}        is_pdf [是否导出PDF（0否、1是）]
+ */
+function DataPrintHandle(is_pdf = 0)
+{
+	// 打印和模板数据
+	var print_data = window['print_data'] || null;
+	var print_template = window['print_template'] || null;
+	if(print_data == null || print_template == null)
+	{
+		Prompt(window['lang_operate_params_error'] || '操作参数有误');
+		return false;
+	}
+
+	// 需要打印的数据
+    var result = [];
+
+	// 是否列表选择多选
+	var print_is_list_choice = parseInt(window['print_is_list_choice'] || 0);
+	if(print_is_list_choice == 1)
+	{
+		// 获取数据id
+        var values = FromTableCheckedValues('form_checkbox_value', '.am-table-scrollable-horizontal');
+        if(values.length <= 0)
+        {
+            Prompt(window['lang_before_choice_data_tips'] || '请先选择数据');
+            return false;
+        }
+
+        // 获取需要打印的数据
+        var field = window['print_data_list_key'] || 'id';
+        print_data = JsonStringToJsonObject(print_data);
+        for(var i in print_data)
+        {
+            if((print_data[i][field] || null) != null && values.indexOf(print_data[i][field]) != -1)
+            {
+                result.push(print_data[i]);
+            }
+        }
+        if(result.length == 0)
+        {
+        	Prompt(window['lang_not_operate_error'] || '没有相关数据');
+        	return false;
+        }
+	} else {
+		result = print_data;
+	}
+
+	// 是否已引入hiprint库
+	if((window['hiprint'] || null) == null)
+	{
+		Prompt(window['lang_not_load_lib_hiprint_error'] || '请先引入hiprint组件库');
+		return false;
+	}
+
+    // 初始化模板
+	var ht = new hiprint.PrintTemplate({template: JsonStringToJsonObject(print_template)});
+
+	// 是否导出pdf
+	if(is_pdf == 1)
+	{
+		// 导出pdf
+		var filename = $(this).data('file-name') || 'file-'+(new Date().getTime());
+		ht.toPdf(result, filename);
+	} else {
+		// 调用打印组件
+    	ht.print(result, {});
+	}
+}
+
 
 // 公共数据操作
 $(function()
@@ -2798,69 +2874,7 @@ $(function()
     // 表格公共excel导出操作
     $(document).on('click', '.form-table-operate-top-data-print-submit,.common-print-submit', function()
     {
-    	// 打印和模板数据
-    	var print_data = window['print_data'] || null;
-    	var print_template = window['print_template'] || null;
-    	if(print_data == null || print_template == null)
-    	{
-    		Prompt(window['lang_operate_params_error'] || '操作参数有误');
-    		return false;
-    	}
-
-    	// 需要打印的数据
-        var result = [];
-
-    	// 是否列表选择多选
-    	var print_is_list_choice = parseInt(window['print_is_list_choice'] || 0);
-    	if(print_is_list_choice == 1)
-    	{
-    		// 获取数据id
-            var values = FromTableCheckedValues('form_checkbox_value', '.am-table-scrollable-horizontal');
-            if(values.length <= 0)
-            {
-                Prompt(window['lang_before_choice_data_tips'] || '请先选择数据');
-                return false;
-            }
-
-            // 获取需要打印的数据
-	        var field = window['print_data_list_key'] || 'id';
-	        print_data = JsonStringToJsonObject(print_data);
-	        for(var i in print_data)
-	        {
-	            if((print_data[i][field] || null) != null && values.indexOf(print_data[i][field]) != -1)
-	            {
-	                result.push(print_data[i]);
-	            }
-	        }
-	        if(result.length == 0)
-	        {
-	        	Prompt(window['lang_not_operate_error'] || '没有相关数据');
-	        	return false;
-	        }
-    	} else {
-    		result = print_data;
-    	}
-
-    	// 是否已引入hiprint库
-    	if((window['hiprint'] || null) == null)
-    	{
-    		Prompt(window['lang_not_load_lib_hiprint_error'] || '请先引入hiprint组件库');
-    		return false;
-    	}
-
-        // 初始化模板
-		var ht = new hiprint.PrintTemplate({template: JsonStringToJsonObject(print_template)});
-
-		// 是否导出pdf
-		if($(this).data('is-pdf') == 1)
-		{
-			// 导出pdf
-			var filename = $(this).data('file-name') || 'file-'+(new Date().getTime());
-			ht.toPdf(result, filename);
-		} else {
-			// 调用打印组件
-        	ht.print(result, {});
-		}
+    	DataPrintHandle($(this).data('is-pdf'));
     });
 
     // 页面加载loading

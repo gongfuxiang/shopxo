@@ -3,31 +3,48 @@ $(function()
     // 左侧菜单箭头方向回调处理
     $('#admin-offcanvas li.admin-parent').on('open.collapse.amui', function()
     {
-        $(this).find('a i').toggleClass('left-menu-more-ico-rotate');
+        $(this).find('a i').toggleClass('left-menu-more-icon-rotate');
     }).on('close.collapse.amui', function()
     {
-        $(this).find('a i').toggleClass('left-menu-more-ico-rotate');
+        $(this).find('a i').toggleClass('left-menu-more-icon-rotate');
     });
 
     // url加载
     $(document).on('click', '.common-left-menu li a, .common-nav-top li a, .menu-mini-container-popup ul li a', function()
     {
-        var link = $(this).data('url') || null;
+        var url = $(this).data('url') || null;
         var type = $(this).data('type');
-        if(link != null)
+        var key = $(this).data('key');
+        if(url != null)
         {
-        	// 打开url地址
-            $('#ifcontent').attr('src', link);
+            // 先隐藏所有的iframe
+            // 页面未打开则添加iframe并打开
+            if($('#ifcontent iframe.iframe-item-key-'+key).length == 0)
+            {
+                $('#ifcontent').append('<iframe src="'+url+'" width="100%" height="100%" class="iframe-item-key-'+key+'"></iframe>');
+            }
+
+            // 添加快捷导航
+            if($('.header-menu-open-pages-list ul li.nav-item-key-'+key).length == 0)
+            {
+                var html = '<li data-url="'+url+'" data-key="'+key+'" class="nav-item-key-'+key+'">';
+                    html += '<span>'+$(this).find('.nav-name').text()+'</span>';
+                    html += '<a href="javascript:;" class="am-icon-close"></a>';
+                    html += '</li>';
+                $('.header-menu-open-pages-list ul').append(html);
+            }
+            // 模拟点击当前元素
+            $('.header-menu-open-pages-list ul li.nav-item-key-'+key).trigger('click');
 
             // 顶部菜单事件，关闭弹层
             if(type == 'nav')
             {
-            	if($(document).width() < 641)
-            	{
-            		$('.header-nav-submit').trigger('click');
-            	} else {
-            		$(this).parents('.common-nav-top').trigger('click');
-            	}
+                if($(document).width() < 641)
+                {
+                    $('.header-nav-submit').trigger('click');
+                } else {
+                    $(this).parents('.common-nav-top').trigger('click');
+                }
             }
 
             // 关闭左侧弹层
@@ -54,15 +71,15 @@ $(function()
         $('.menu-mini-container-tips').hide();
         if(status == 0)
         {
-            $(this).animate({left: '59px'}, 300);
-            $(this).removeClass('am-icon-angle-double-left').addClass('am-icon-angle-double-right');
+            $(this).animate({left: '18.5px'}, 300);
+            $(this).removeClass('am-icon-dedent').addClass('am-icon-indent');
             $('#admin-offcanvas').addClass('menu-mini').addClass('menu-mini-event');
             $('#admin-offcanvas').animate({width: '55px'}, 300);
             $('#ifcontent').animate({paddingLeft: '55px'}, 300);
-            $('header.admin-header').animate({left: '54px'}, 300);
+            $('header.admin-header').animate({left: '55px'}, 300);
         } else {
-            $(this).animate({left: '164px'}, 300);
-            $(this).removeClass('am-icon-angle-double-right').addClass('am-icon-angle-double-left');
+            $(this).animate({left: '123.5px'}, 300);
+            $(this).removeClass('am-icon-indent').addClass('am-icon-dedent');
             $('#admin-offcanvas').animate({width: '160px'}, 300);
             $('#ifcontent').animate({paddingLeft: '160px'}, 300);
             $('header.admin-header').animate({left: '159px'}, 300);
@@ -154,7 +171,7 @@ $(function()
         {
             $('.menu-scaling-submit').attr('data-status', 0);
             $('.menu-scaling-submit').css({'left': '164px'});
-            $('.menu-scaling-submit').removeClass('am-icon-angle-double-right').addClass('am-icon-angle-double-left');
+            $('.menu-scaling-submit').removeClass('am-icon-indent').addClass('am-icon-dedent');
             $('#admin-offcanvas').css({'width': 'inherit'});
             $('#admin-offcanvas').removeClass('menu-mini').removeClass('menu-mini-event');
             $('#ifcontent').css({'padding-left':0});
@@ -167,5 +184,37 @@ $(function()
                 $('header.admin-header').css({'left': '159px'});
             }
         }
+    });
+
+    // 页面切换
+    $(document).on('click', '.header-menu-open-pages-list ul li', function()
+    {
+        // 选中当前页面
+        $('.header-menu-open-pages-list ul li').removeClass('am-active');
+        $(this).addClass('am-active');
+        var key = $(this).data('key');
+        // 显示当前页面
+        $('#ifcontent iframe').hide();
+        $('#ifcontent iframe.iframe-item-key-'+key).show();
+    });
+    // 页面移除
+    $(document).on('click', '.header-menu-open-pages-list ul li a', function()
+    {
+        // 移除当前页面
+        var $parent = $(this).parent();
+        var key = $parent.data('key');
+        $parent.remove();
+        $('#ifcontent iframe.iframe-item-key-'+key).remove();
+        // 当前没有选中的导航则模拟点击最后一个选中
+        if($('.header-menu-open-pages-list ul li.am-active').length == 0)
+        {
+            $('.header-menu-open-pages-list ul li:last').trigger('click');
+        }
+        // 无页面则添加默认初始化页面
+        if($('.header-menu-open-pages-list ul li').length == 0)
+        {
+            $('#ifcontent iframe').show();
+        }
+        return false;
     });
 });

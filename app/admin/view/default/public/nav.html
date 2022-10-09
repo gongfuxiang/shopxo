@@ -1,13 +1,23 @@
 <header class="am-topbar am-topbar-inverse admin-header">
+	<!-- logo/名称信息 -->
 	<div class="am-topbar-brand">
 		<a href="{{:MyUrl('admin/index/index')}}">
 			<h2>{{$admin_theme_site_name}}<span class="admin-site-vice-name am-margin-left-xs">后台管理系统</span></h2>
 		</a>
 	</div>
+
+	<!-- 快捷导航 -->
+    <div class="am-fl am-text-nowrap am-scrollable-horizontal header-menu-open-pages-list tabs-switch-horizontal-container">
+        <ul></ul>
+    </div>
+
+    <!-- 手机模式下导航按钮 -->
 	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-xs am-btn-success am-show-sm-only am-radius header-nav-submit" data-am-collapse="{target: '#topbar-collapse'}">
 		<span class="am-sr-only">导航切换</span>
 		<i class="am-icon-bars"></i>
 	</button>
+
+	<!-- 右侧内容 -->
 	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
 			<li class="am-dropdown">
