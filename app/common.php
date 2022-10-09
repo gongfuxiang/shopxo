@@ -12,6 +12,23 @@
 // 应用公共文件
 
 /**
+ * 获取汉字拼音、默认返回数组
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-10-09
+ * @desc    description
+ * @param   [string]          $string    [汉字]
+ * @param   [boolean]         $is_string [返回字符串]
+ * @param   [string]          $join      [字符串连接符号]
+ */
+function ChinesePinyin($string, $is_string = false, $join = '')
+{
+    $value = (new \Overtrue\Pinyin\Pinyin())->convert($string);
+    return ($is_string && is_array($value)) ? implode($join, $value) : $value;
+}
+
+/**
  * 获取汉字首字母
  * @author  Devil
  * @blog    http://gong.gg/
@@ -20,10 +37,10 @@
  * @desc    description
  * @param   [string]          $string [汉字]
  */
-function PinyinLetter($string)
+function ChineseLetter($string)
 {
-    $letter = (new \Overtrue\Pinyin\Pinyin())->abbr($string);
-    return empty($letter) ? '' : $letter;
+    $value = (new \Overtrue\Pinyin\Pinyin())->abbr($string);
+    return empty($value) ? '' : $value;
 }
 
 /**
