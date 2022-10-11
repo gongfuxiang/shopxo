@@ -36,7 +36,7 @@ html input[disabled] { cursor: default !important; color: #b1b1b1 !important; ba
     padding-left: 120px;
 }
 .dl-content dd:not(:last-child) {
-    border-bottom: 1px solid rgba(0,0,0,.06);
+    border-bottom: 1px solid rgba(0,0,0,.03);
 }
 .dl-content dt, .dl-content dd {
     font-weight: normal !important;
@@ -144,7 +144,265 @@ form.am-form-pure .business-form-block {
     form.am-form-full-screen .business-form-block {
         padding-right: 5px;
     }
+
+    .form-group-item > [class*="am-u-"]:first-child  > .am-form-group:first-child,
+    .form-group-item > [class*="am-u-"]:first-child > .am-cf > [class*="am-u-"]:first-child .am-form-group {
+        padding-left: 0;
+    }
+    .form-group-item > [class*="am-u-"]:last-child > .am-form-group,
+    .form-group-item > [class*="am-u-"]:last-child > .am-cf > [class*="am-u-"]:last-child .am-form-group {
+        padding-right: 0;
+    }
 }
+
+/**
+ * 水平表单
+ */
+.am-form-horizontal .am-form-horizontal-title,
+.am-form-horizontal .am-form-horizontal-content {
+    display: inline-block;
+    vertical-align: middle;
+}
+.am-form-horizontal .am-form-group-label-tips-must,
+.am-form-horizontal .am-form-group-label-tips-icon {
+    margin-left: 2px !important;
+}
+.am-form-horizontal .am-form-horizontal-title {
+    text-align: right;
+}
+
+.am-form-horizontal .am-form-horizontal-title,
+.am-form-horizontal-4 .am-form-horizontal-title {
+    width: 50px;
+}
+.am-form-horizontal .am-form-horizontal-content,
+.am-form-horizontal-4 .am-form-horizontal-content {
+    width: calc(100% - 55px);
+}
+.am-form-horizontal.tips-must .am-form-horizontal-content,
+.am-form-horizontal-4.tips-must .am-form-horizontal-content {
+    width: calc(100% - 70px);
+}
+.am-form-horizontal.tips-icon .am-form-horizontal-content,
+.am-form-horizontal-4.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 73px);
+}
+.am-form-horizontal.tips-must.tips-icon .am-form-horizontal-content,
+.am-form-horizontal-4.tips-must.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 85px);
+}
+
+.am-form-horizontal-2 .am-form-horizontal-title {
+    width: 25px;
+}
+.am-form-horizontal-2 .am-form-horizontal-content {
+    width: calc(100% - 30px);
+}
+.am-form-horizontal-2.tips-must .am-form-horizontal-content {
+    width: calc(100% - 45px);
+}
+.am-form-horizontal-2.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 48px);
+}
+.am-form-horizontal-2.tips-must.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 60px);
+}
+
+.am-form-horizontal-3 .am-form-horizontal-title {
+    width: 38px;
+}
+.am-form-horizontal-3 .am-form-horizontal-content {
+    width: calc(100% - 43px);
+}
+.am-form-horizontal-3.tips-must .am-form-horizontal-content {
+    width: calc(100% - 57px);
+}
+.am-form-horizontal-3.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 60px);
+}
+.am-form-horizontal-3.tips-must.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 73px);
+}
+
+.am-form-horizontal-5 .am-form-horizontal-title {
+    width: 62px;
+}
+.am-form-horizontal-5 .am-form-horizontal-content {
+    width: calc(100% - 67px);
+}
+.am-form-horizontal-5.tips-must .am-form-horizontal-content {
+    width: calc(100% - 82px);
+}
+.am-form-horizontal-5.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 85px);
+}
+.am-form-horizontal-5.tips-must.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 97px);
+}
+
+.am-form-horizontal-6 .am-form-horizontal-title {
+    width: 74px;
+}
+.am-form-horizontal-6 .am-form-horizontal-content {
+    width: calc(100% - 79px);
+}
+.am-form-horizontal-6.tips-must .am-form-horizontal-content {
+    width: calc(100% - 94px);
+}
+.am-form-horizontal-6.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 97px);
+}
+.am-form-horizontal-6.tips-must.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 109px);
+}
+
+.am-form-horizontal-7 .am-form-horizontal-title {
+    width: 86px;
+}
+.am-form-horizontal-7 .am-form-horizontal-content {
+    width: calc(100% - 91px);
+}
+.am-form-horizontal-7.tips-must .am-form-horizontal-content {
+    width: calc(100% - 106px);
+}
+.am-form-horizontal-7.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 109px);
+}
+.am-form-horizontal-7.tips-must.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 121px);
+}
+
+.am-form-horizontal-8 .am-form-horizontal-title {
+    width: 98px;
+}
+.am-form-horizontal-8 .am-form-horizontal-content {
+    width: calc(100% - 103px);
+}
+.am-form-horizontal-8.tips-must .am-form-horizontal-content {
+    width: calc(100% - 118px);
+}
+.am-form-horizontal-8.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 121px);
+}
+.am-form-horizontal-8.tips-must.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 133px);
+}
+
+.am-form-horizontal-9 .am-form-horizontal-title {
+    width: 110px;
+}
+.am-form-horizontal-9 .am-form-horizontal-content {
+    width: calc(100% - 115px);
+}
+.am-form-horizontal-9.tips-must .am-form-horizontal-content {
+    width: calc(100% - 130px);
+}
+.am-form-horizontal-9.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 133px);
+}
+.am-form-horizontal-9.tips-must.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 145px);
+}
+
+.am-form-horizontal-10 .am-form-horizontal-title {
+    width: 122px;
+}
+.am-form-horizontal-10 .am-form-horizontal-content {
+    width: calc(100% - 127px);
+}
+.am-form-horizontal-10.tips-must .am-form-horizontal-content {
+    width: calc(100% - 142px);
+}
+.am-form-horizontal-10.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 145px);
+}
+.am-form-horizontal-10.tips-must.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 157px);
+}
+
+.am-form-horizontal-11 .am-form-horizontal-title {
+    width: 134px;
+}
+.am-form-horizontal-11 .am-form-horizontal-content {
+    width: calc(100% - 139px);
+}
+.am-form-horizontal-11.tips-must .am-form-horizontal-content {
+    width: calc(100% - 154);
+}
+.am-form-horizontal-11.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 157px);
+}
+.am-form-horizontal-11.tips-must.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 169px);
+}
+
+.am-form-horizontal-12 .am-form-horizontal-title {
+    width: 146px;
+}
+.am-form-horizontal-12 .am-form-horizontal-content {
+    width: calc(100% - 151px);
+}
+.am-form-horizontal-12.tips-must .am-form-horizontal-content {
+    width: calc(100% - 166);
+}
+.am-form-horizontal-12.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 169px);
+}
+.am-form-horizontal-12.tips-must.tips-icon .am-form-horizontal-content {
+    width: calc(100% - 181px);
+}
+
+/**
+ * 水平多个表单组合
+ */
+.am-form-horizontal-compose-2 .am-form-horizontal-item,
+.am-form-horizontal-compose-3 .am-form-horizontal-item,
+.am-form-horizontal-compose-4 .am-form-horizontal-item,
+.am-form-horizontal-compose-5 .am-form-horizontal-item,
+.am-form-horizontal-compose-6 .am-form-horizontal-item,
+.am-form-horizontal-compose-7 .am-form-horizontal-item,
+.am-form-horizontal-compose-8 .am-form-horizontal-item,
+.am-form-horizontal-compose-9 .am-form-horizontal-item,
+.am-form-horizontal-compose-10 .am-form-horizontal-item,
+.am-form-horizontal-compose-11 .am-form-horizontal-item,
+.am-form-horizontal-compose-12 .am-form-horizontal-item {
+    display: inline-block;
+    vertical-align: middle;
+}
+.am-form-horizontal-compose-2 .am-form-horizontal-item {
+    width: calc(50% - 2px);
+}
+.am-form-horizontal-compose-3 .am-form-horizontal-item {
+    width: calc(33.33% - 3px);
+}
+.am-form-horizontal-compose-4 .am-form-horizontal-item {
+    width: calc(25% - 3px);
+}
+.am-form-horizontal-compose-5 .am-form-horizontal-item {
+    width: calc(20% - 3.5px);
+}
+.am-form-horizontal-compose-6 .am-form-horizontal-item {
+    width: calc(16.66% - 3.5px);
+}
+.am-form-horizontal-compose-7 .am-form-horizontal-item {
+    width: calc(14.28% - 3.5px);
+}
+.am-form-horizontal-compose-8 .am-form-horizontal-item {
+    width: calc(12.5% - 3.5px);
+}
+.am-form-horizontal-compose-9 .am-form-horizontal-item {
+    width: calc(11.11% - 3.7px);
+}
+.am-form-horizontal-compose-10 .am-form-horizontal-item {
+    width: calc(10% - 3.7px);
+}
+.am-form-horizontal-compose-11 .am-form-horizontal-item {
+    width: calc(9.09% - 3.7px);
+}
+.am-form-horizontal-compose-12 .am-form-horizontal-item {
+    width: calc(8.33% - 3.7px);
+}
+
 
 /**
  * 插件
@@ -349,6 +607,7 @@ iframe { border: 0; }
     border: 1px dashed #ccc;
     background: #fff;
     cursor: pointer;
+    vertical-align: middle;
  }
  .business-operations-submit:hover {
     color: #333;
@@ -388,6 +647,7 @@ iframe { border: 0; }
     cursor: pointer;
     min-width: 100px;
     text-align: center;
+    vertical-align: middle;
 }
 .plug-file-upload-submit:hover {
     color: #36c;
@@ -692,7 +952,7 @@ button.colorpicker-submit img {
  * 表格-基础样式
  */
 .am-table-scrollable-horizontal {
-    border: 1px solid rgba(0,0,0,.06);
+    border: 1px solid rgba(0,0,0,.03);
     position: relative;
 }
 .am-table-scrollable-horizontal .table-no {
@@ -798,7 +1058,7 @@ button.colorpicker-submit img {
     box-shadow: -5px 0px 10px rgba(136, 136, 136, 0.2);
 }
 .am-table-scrollable-horizontal .am-table > thead > tr > td {
-    border-bottom: 1px solid rgba(0,0,0,.06);
+    border-bottom: 1px solid rgba(0,0,0,.03);
 }
 .am-table-scrollable-horizontal .am-table > thead > tr > td,
 .am-table-scrollable-horizontal .am-table > tbody > tr:first-child > td {
@@ -900,7 +1160,7 @@ button.colorpicker-submit img {
     border-top: 0;
 }
 .form-table-fields-button-container {
-    border-top: 1px solid rgba(0,0,0,.06);
+    border-top: 1px solid rgba(0,0,0,.03);
     height: 50px;
 }
 .form-table-fields-button-container .form-table-field-confirm-submit {
