@@ -22,7 +22,12 @@ html input[disabled] { cursor: default !important; color: #b1b1b1 !important; ba
     text-align: center;
     padding: 115px 0;
     background: #FFF;
-    color: #888;
+    color: #b9b7b7;
+}
+.table-no > i {
+    font-size: 18px;
+    color: #e8e8e8;
+    display: block;
 }
 
 /* 公共dl样式 */
