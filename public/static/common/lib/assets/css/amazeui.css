@@ -1832,9 +1832,6 @@ fieldset[disabled] .am-btn-secondary.am-active {
   background-color: #F37B1D;
   border-color: #F37B1D;
 }
-a.am-btn-warning:visited {
-  color: #fff;
-}
 .am-btn-warning:hover,
 .am-btn-warning:focus,
 .am-btn-warning:active,
