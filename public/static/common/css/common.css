@@ -150,11 +150,13 @@ form.am-form-pure .business-form-block {
         padding-right: 5px;
     }
 
-    .form-group-item > [class*="am-u-"]:first-child  > .am-form-group:first-child,
+    .form-group-item > [class*="am-u-"]:first-child > .am-form-group,
+    .form-group-item > [class*="am-u-"]:first-child > .am-cf > .am-form-group,
     .form-group-item > [class*="am-u-"]:first-child > .am-cf > [class*="am-u-"]:first-child .am-form-group {
         padding-left: 0;
     }
     .form-group-item > [class*="am-u-"]:last-child > .am-form-group,
+    .form-group-item > [class*="am-u-"]:last-child > .am-cf > .am-form-group,
     .form-group-item > [class*="am-u-"]:last-child > .am-cf > [class*="am-u-"]:last-child .am-form-group {
         padding-right: 0;
     }
