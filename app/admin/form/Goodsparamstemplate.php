@@ -63,6 +63,7 @@ class GoodsParamsTemplate
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/goodsparamstemplate/delete'),
                 'delete_key'    => 'ids',
+                'is_middle'     => 0,
                 'detail_title'  => '基础信息',
             ],
             // 表单配置

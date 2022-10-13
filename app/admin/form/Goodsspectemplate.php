@@ -63,6 +63,7 @@ class GoodsSpecTemplate
                 'is_delete'     => 1,
                 'delete_url'    => MyUrl('admin/goodsspectemplate/delete'),
                 'delete_key'    => 'ids',
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [

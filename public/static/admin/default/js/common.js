@@ -72,7 +72,7 @@ function FormTableHeightHandle()
         // 内容高度
         var height_top = $('.form-table-operate-top').outerHeight(true) || 0;
         var height_bottom = $('.form-table-operate-bottom').outerHeight(true) || 0;
-        $('.am-table-scrollable-horizontal').css('max-height', 'calc(100% - '+(height_top+height_bottom)+'px)');
+        $('.am-table-scrollable-horizontal').css('height', 'calc(100% - '+(height_top+height_bottom)+'px)');
     }
     // 表格内容外围高度
     if($('.form-validation-search').length > 0)

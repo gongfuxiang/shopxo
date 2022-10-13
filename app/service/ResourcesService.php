@@ -70,7 +70,7 @@ class ResourcesService
      * @version 1.0.0
      * @date    2018-12-12
      * @desc    description
-     * @param   [string]          $value [附件路径地址]
+     * @param   [string|array]          $value [附件路径地址]
      */
     public static function AttachmentPathHandle($value)
     {
@@ -84,7 +84,27 @@ class ResourcesService
             __MY_ROOT_PUBLIC__,
             $attachment_host_path,
         ];
-        return empty($value) ? '' : str_replace($search, DS, $value);
+
+        // 是否数组
+        if(!empty($value))
+        {
+            if(is_array($value))
+            {
+                foreach($value as &$v)
+                {
+                    // 是否二级url
+                    if(isset($v['url']))
+                    {
+                        $v['url'] = empty($v['url']) ? '' : str_replace($search, DS, $v['url']);
+                    } else {
+                        $v = empty($v) ? '' : str_replace($search, DS, $v);
+                    }
+                }
+            } else {
+                $value = empty($value) ? '' : str_replace($search, DS, $value);
+            }
+        }
+        return $value;
     }
 
     /**
@@ -95,7 +115,7 @@ class ResourcesService
      * @date    2018-08-07
      * @desc    description
      * @param   [array]          $params [输入参数]
-     * @param   [array]           $data   [字段列表]
+     * @param   [array]          $data   [字段列表]
      */
     public static function AttachmentParams($params, $data)
     {
@@ -117,19 +137,42 @@ class ResourcesService
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2019-01-13T15:13:30+0800
-     * @param    [string]                   $value [附件地址]
+     * @param    [string|array]             $value [附件地址]
      */
     public static function AttachmentPathViewHandle($value)
     {
         if(!empty($value))
         {
-            if(substr($value, 0, 4) != 'http')
+            // 附件地址
+            $host = SystemBaseService::AttachmentHost();
+
+            // 是否数组
+            if(is_array($value))
             {
-                return SystemBaseService::AttachmentHost().$value;
+                foreach($value as &$v)
+                {
+                    // 是否二级url
+                    if(isset($v['url']))
+                    {
+                        if(substr($v['url'], 0, 4) != 'http')
+                        {
+                            $v['url'] = $host.$v['url'];
+                        }
+                    } else {
+                        if(substr($v, 0, 4) != 'http')
+                        {
+                            $v = $host.$v;
+                        }
+                    }
+                }
+            } else {
+                if(substr($value, 0, 4) != 'http')
+                {
+                    $value = $host.$value;
+                }
             }
-            return $value;
         }
-        return '';
+        return $value;
     }
 
     /**
