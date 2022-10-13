@@ -76,14 +76,14 @@ html input[disabled] { cursor: default !important; color: #b1b1b1 !important; ba
 }
 .data-avg-text-list li {
     border-width: 0 1px 1px 0;
-    padding: 10px;
-    min-height: 80px;
+    padding: 5px;
+    min-height: 67px;
 }
 .data-avg-text-list li .data-avg-text-list-title {
     color: #b9b9b9;
 }
 .data-avg-text-list li .data-avg-text-list-content {
-    margin-top: 5px;
+    margin-top: 2px;
 }
 .data-avg-text-list li:hover .data-avg-text-list-content {
     color: #000;
