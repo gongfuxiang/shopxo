@@ -2852,22 +2852,22 @@ $(function()
     	var request_value = $form.attr('request-value') || null;
     	if(request_value == null)
 		{
-			Prompt(window['lang_form_config_value_params_tips'] || '表单[类型值]参数配置有误');
-			return false;
-		}
-
-		// 拼接参数
-    	var params = GetFormVal(form_name, true);
-		var pv = 'form_table_is_export_excel=1&';
-		for(var i in params)
-		{
-			if(params[i] != undefined && params[i] != '')
+			// 不存在表单则直接使用当前地址
+			request_value = window.open(UrlFieldReplace('form_table_is_export_excel', 1));
+		} else {
+			// 拼接参数
+	    	var params = GetFormVal(form_name, true);
+			var pv = 'form_table_is_export_excel=1&';
+			for(var i in params)
 			{
-				pv += i+'='+encodeURIComponent(params[i])+'&';
+				if(params[i] != undefined && params[i] != '')
+				{
+					pv += i+'='+encodeURIComponent(params[i])+'&';
+				}
 			}
+			var join = (request_value.indexOf('?') >= 0) ? '&' : '?';
+			request_value += join+pv.substr(0, pv.length-1);
 		}
-		var join = (request_value.indexOf('?') >= 0) ? '&' : '?';
-		request_value += join+pv.substr(0, pv.length-1);
 		window.open(request_value);
     });
 

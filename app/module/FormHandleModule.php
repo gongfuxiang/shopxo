@@ -543,7 +543,7 @@ class FormHandleModule
             }
 
             // 是否存在数据
-            if(empty($error_msg) && empty($this->data_list))
+            if(empty($error_msg) && empty($this->data_list) && empty($this->data_detail))
             {
                 $error_msg = '没有相关数据、请重新输入搜索条件再试！';
             }
@@ -595,8 +595,56 @@ class FormHandleModule
                     </html>');
             }
 
+            // 列表或详情数据
+            $list = empty($this->data_list) ? [$this->data_detail] : $this->data_list;
+
+            // 是否存在详情列表数据定义
+            $data = [];
+            if(!empty($this->form_data['detail_form_list']))
+            {
+                foreach($list as $v)
+                {
+                    foreach($this->form_data['detail_form_list'] as $dv)
+                    {
+                        if(!empty($dv) && !empty($dv['label']) && !empty($dv['field']) && !empty($dv['data']) && !empty($v[$dv['field']]) && is_array($v[$dv['field']]))
+                        {
+                            $is_first = true;
+                            $is_title = true;
+                            foreach($v[$dv['field']] as $vs)
+                            {
+                                $temp = $is_first ? $v : [];
+                                foreach($dv['data'] as $dvk=>$dvv)
+                                {
+                                    // 追加数据导列表
+                                    $field = $dv['field'].'_'.$dvk;
+                                    $temp[$field] = isset($vs[$dvk]) ? $vs[$dvk] : '';
+
+                                    // 追加表头
+                                    if($is_title)
+                                    {
+                                        $title[$field] = [
+                                            'name' => $dv['label'].' - '.$dvv,
+                                            'type' => 'string',
+                                        ];
+                                    }
+                                    $is_first = false;
+                                }
+                                unset($temp[$dv['field']]);
+                                $data[] = $temp;
+                                $is_title = false;
+                            }
+                        }
+                    }
+                }
+            }
+            if(empty($data) && !empty($list))
+            {
+                $data = $list;
+                unset($list);
+            }
+
             // Excel驱动导出数据
-            $excel = new \base\Excel(['title'=>$title, 'data'=>$this->data_list]);
+            $excel = new \base\Excel(['title'=>$title, 'data'=>$data]);
             $excel->Export();
         }
     }

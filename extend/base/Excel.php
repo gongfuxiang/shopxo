@@ -130,10 +130,7 @@ class Excel
 			$index = 0;
 			foreach($this->title as $tk=>$tv)
 			{
-				if(array_key_exists($tk, $v))
-				{
-					$temp .= ($index == 0 ? '' : ',').str_replace([',', "\n"], [ '，', ''], $v[$tk])."\t";
-				}
+				$temp .= ($index == 0 ? '' : ',').(array_key_exists($tk, $v) ? str_replace([',', "\n"], [ '，', ''], $v[$tk]) : '')."\t";
 				$index++;
 			}
 			$csv_content .= (($excel_charset == 0) ? $temp : iconv('utf-8', $charset, $temp))."\n";
@@ -248,7 +245,7 @@ class Excel
 				            $drawing->setOffsetY(15);
 				            $drawing->setWorksheet($spreadsheet->getActiveSheet());
 						} else {
-							$value = ($excel_charset == 0) ? $v[$tk] : iconv('utf-8', $charset, $v[$tk]);
+							$value = array_key_exists($tk, $v) ? (($excel_charset == 0) ? $v[$tk] : iconv('utf-8', $charset, $v[$tk])) : '';
 							$sheet->setCellValueByColumnAndRow($temp_cum+1, $temp_row, $value);
 						}
 

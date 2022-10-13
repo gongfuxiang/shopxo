@@ -1116,13 +1116,35 @@ button.colorpicker-submit img {
 }
 
 /**
- * 表格-相关样式
+ * 表格-顶部操作相关样式
  */
 .form-table-operate-top > .am-btn:not(:last-child) {
     margin-right: 10px;
 }
 .form-table-operate-top .am-btn {
     margin-bottom: 10px;
+}
+
+/**
+ * 表格-详情底部操作
+ */
+.form-navigation-present-operate {
+    padding-bottom: 30px;
+}
+.form-detail-nav-operate {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    padding: 10px;
+    text-align: right;
+}
+.form-detail-nav-operate > .am-btn {
+    -webkit-box-shadow: 0 0 8px rgb(154 154 154 / 40%);
+    box-shadow: 0 0 8px rgb(154 154 154 / 40%);
+}
+.form-detail-nav-operate > .am-btn:not(:last-child) {
+    margin-right: 10px;
 }
 
 /**
