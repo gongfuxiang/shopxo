@@ -548,6 +548,7 @@ form.am-form-pure .business-form-block {
 }
 .am-modal-dialog {
     width: auto;
+    box-shadow: rgb(136 136 136 / 60%) 0px 0px 30px;
 }
 .am-modal-dialog .am-modal-bd span {
     vertical-align: middle;
@@ -1053,10 +1054,12 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table-striped > tbody > tr:nth-child(odd) > td.am-grid-fixed-right {
     background-color: #fafafa;
 }
-.am-table-scrollable-horizontal .am-table tr th,
+.am-table-scrollable-horizontal .am-table tr th {
+    z-index: 5;
+}
 .am-table-scrollable-horizontal .am-table tr th.am-grid-fixed-left,
 .am-table-scrollable-horizontal .am-table tr th.am-grid-fixed-right {
-    z-index: 5;
+    z-index: 6;
 }
 .am-table-scrollable-horizontal .am-table tr .am-grid-fixed-left {
     -webkit-box-shadow: 1px 0px 1px #ddd;
@@ -1244,6 +1247,19 @@ button.colorpicker-submit img {
 /**
  * 内部表格
  */
+.form-inside-table-layer {
+    max-height: 50px;
+    overflow: hidden;
+}
+.form-inside-table-layer-auto {
+    max-height: 100%;
+}
+.form-inside-stretch-submit {
+    margin-top: 5px;
+}
+.form-inside-stretch-submit > a {
+    text-decoration: none !important;
+}
 .form-inside-table tr th,
 .form-inside-table tr td {
     padding: 5px !important;
@@ -1252,6 +1268,8 @@ button.colorpicker-submit img {
 .form-inside-table tr th {
     background: transparent !important;
     padding-top: 0 !important;
+    color: #777777;
+    font-weight: 300 !important;
 }
 .form-inside-table tr th:first-child,
 .form-inside-table tr td:first-child {
@@ -1263,6 +1281,7 @@ button.colorpicker-submit img {
 }
 .form-inside-table tr:last-child td {
     padding-bottom: 0 !important;
+    border-bottom: 0 !important;
 }
 
 /**
@@ -1447,7 +1466,7 @@ form .am-tab-panel .am-form-group:last-child {
  * 弹出框
  */
 .am-popover {
-    max-width: 260px;
+    max-width: 320px;
     border-radius: 2px;
 }
 

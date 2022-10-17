@@ -143,6 +143,9 @@
 /**
  * 删除modal
  */
+.am-modal-confirm .am-modal-dialog {
+    box-shadow: rgb(85 85 85 / 60%) 0px 0px 30px;
+}
 @media only screen and (min-width: 641px) {
     .plugins-data-list ul li {
         width: 50%;

@@ -638,6 +638,9 @@ class GoodsService
                 $place_origin_list = RegionService::RegionName(array_column($data, 'place_origin'));
             }
 
+            // 商品分类
+            $category_group = $is_category ? self::GoodsListCategoryGroupList(array_column($data, $data_key_field)) : [];
+
             // 开始处理数据
             foreach($data as &$v)
             {
@@ -751,9 +754,15 @@ class GoodsService
                 // 是否需要分类名称
                 if($is_category && !empty($data_id))
                 {
-                    $v['category_ids'] = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$data_id])->column('category_id');
-                    $category_name = Db::name('GoodsCategory')->where(['id'=>$v['category_ids']])->column('name');
-                    $v['category_text'] = implode('，', $category_name);
+                    if(array_key_exists($data_id, $category_group))
+                    {
+                        $temp = $category_group[$data_id];
+                        $v['category_ids'] = $temp['category_ids'];
+                        $v['category_text'] = empty($temp['category_names']) ? '' : implode('，', $temp['category_names']);
+                    } else {
+                        $v['category_ids'] = [];
+                        $v['category_text'] = '';
+                    }
                 }
 
                 // 规格基础
@@ -832,6 +841,44 @@ class GoodsService
             ]);
         }
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 商品列表获取产品分类分组信息
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-10-13
+     * @desc    description
+     * @param   [array]          $goods_ids [商品id]
+     */
+    public static function GoodsListCategoryGroupList($goods_ids)
+    {
+        $result = [];
+        $category_join = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods_ids])->field('goods_id,category_id')->select()->toArray();
+        if(!empty($category_join))
+        {
+            $category_name = Db::name('GoodsCategory')->where(['id'=>array_unique(array_column($category_join, 'category_id'))])->column('name', 'id');
+            if(!empty($category_name))
+            {
+                foreach($category_join as $v)
+                {
+                    if(array_key_exists($v['category_id'], $category_name))
+                    {
+                        if(!array_key_exists($v['goods_id'], $result))
+                        {
+                            $result[$v['goods_id']] = [
+                                'category_ids'  => [],
+                                'category_names' => [],
+                            ];
+                        }
+                        $result[$v['goods_id']]['category_ids'][] = $v['category_id'];
+                        $result[$v['goods_id']]['category_names'][] = $category_name[$v['category_id']];
+                    }
+                }
+            }
+        }
+        return $result;
     }
 
     /**

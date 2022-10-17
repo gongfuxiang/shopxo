@@ -2877,6 +2877,31 @@ $(function()
     	DataPrintHandle($(this).data('is-pdf'));
     });
 
+    // 表格内部表格伸缩事件
+    $(document).on('click', '.form-inside-stretch-submit > a', function()
+    {
+    	var $container = $(this).parents('.form-inside-table-container');
+    	var $layer = $container.find('.form-inside-table-layer');
+    	var open_text = $(this).data('open-text') || null;
+    	var close_text = $(this).data('close-text') || null;
+    	if($layer.hasClass('form-inside-table-layer-auto'))
+    	{
+    		$layer.removeClass('form-inside-table-layer-auto');
+    		$(this).removeClass('am-icon-angle-double-up').addClass('am-icon-angle-double-down');
+    		if(open_text != null)
+    		{
+    			$(this).text(' '+open_text);
+    		}
+    	} else {
+    		$layer.addClass('form-inside-table-layer-auto');
+    		$(this).addClass('am-icon-angle-double-up').removeClass('am-icon-angle-double-down');
+    		if(close_text != null)
+    		{
+    			$(this).text(' '+close_text);
+    		}
+    	}
+    });
+
     // 页面加载loading
 	if($('.am-page-loading').length > 0)
 	{
@@ -3124,6 +3149,22 @@ $(function()
 
 		// 开始填充数据
 		FormDataFill(data, '#'+tag);
+	});
+
+	/**
+	 * 公共无限节点 - 双击编辑
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2022-10-16
+	 * @desc    description
+	 */
+	$(document).on('dblclick', '#tree table.am-table td', function()
+	{
+		if($(this).find('.submit-edit').length > 0)
+		{
+			$(this).find('.submit-edit').trigger('click');
+		}
 	});
 
 	/**

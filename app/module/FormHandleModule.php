@@ -554,7 +554,8 @@ class FormHandleModule
             {
                 if(isset($v['view_type']) && $v['view_type'] == 'field' && !empty($v['label']) && !empty($v['view_key']))
                 {
-                    $title[$v['view_key']] = [
+                    $key = is_array($v['view_key']) ? $v['view_key'][0] : $v['view_key'];
+                    $title[$key] = [
                         'name' => $v['label'],
                         'type' => 'string',
                     ];
