@@ -45,7 +45,7 @@
                         <div class="am-margin-top-xs">
                             <p>姓名：{{$data.address_data.idcard_name}}</p>
                             <p>号码：{{$data.address_data.idcard_number}}</p>
-                            {{if !empty($data['address_data']['idcard_front']) or !empty($module_data['address_data']['idcard_back'])}}
+                            {{if !empty($data['address_data']['idcard_front']) or !empty($data['address_data']['idcard_back'])}}
                                 <p class="am-nbfc"><span class="am-fl">照片：</span>{{if !empty($data['address_data']['idcard_front'])}}<a href="{{$data.address_data.idcard_front}}" target="_blank" class="am-fl"><img width="100" height="68" src="{{$data.address_data.idcard_front}}" alt="身份证人像面" class="am-img-thumbnail am-radius am-block" /></a>{{/if}} {{if !empty($data['address_data']['idcard_back'])}}<a href="{{$data.address_data.idcard_back}}" target="_blank" class="am-fl am-margin-left-xs"><img width="100" height="68" src="{{$data.address_data.idcard_back}}" alt="身份证人像面" class="am-img-thumbnail am-radius am-block" /></a>{{/if}}</p>
                             {{/if}}
                         </div>

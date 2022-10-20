@@ -140,6 +140,9 @@ class Index extends Common
 
 			// 加载图表组件
             $assign['is_load_echarts'] = 1;
+
+            // 加载动画数数
+        	$assign['is_load_animation_count'] = 1;
 		}
 		MyViewAssign($assign);
 

@@ -1736,9 +1736,6 @@ fieldset[disabled] .am-btn-default.am-active {
   background-color: #0e90d2;
   border-color: #0e90d2;
 }
-a.am-btn-primary:visited {
-  color: #fff;
-}
 .am-btn-primary:hover,
 .am-btn-primary:focus,
 .am-btn-primary:active,
@@ -1783,9 +1780,6 @@ fieldset[disabled] .am-btn-primary.am-active {
   color: #fff;
   background-color: #3bb4f2;
   border-color: #3bb4f2;
-}
-a.am-btn-secondary:visited {
-  color: #fff;
 }
 .am-btn-secondary:hover,
 .am-btn-secondary:focus,
@@ -1877,9 +1871,6 @@ fieldset[disabled] .am-btn-warning.am-active {
   background-color: #dd514c;
   border-color: #dd514c;
 }
-a.am-btn-danger:visited {
-  color: #fff;
-}
 .am-btn-danger:hover,
 .am-btn-danger:focus,
 .am-btn-danger:active,
@@ -1924,9 +1915,6 @@ fieldset[disabled] .am-btn-danger.am-active {
   color: #fff;
   background-color: #5eb95e;
   border-color: #5eb95e;
-}
-a.am-btn-success:visited {
-  color: #fff;
 }
 .am-btn-success:hover,
 .am-btn-success:focus,
@@ -4541,18 +4529,16 @@ a.am-badge:focus {
   font-size: 20px;
   font-weight: bold;
   line-height: 24px;
-  color: #000;
+  color: #ccc;
   text-shadow: 0 1px 0 #fff;
-  opacity: .2;
   -webkit-transition: all .3s;
   transition: all .3s;
 }
 .am-close:hover,
 .am-close:focus {
-  color: #000;
+  color: #666;
   text-decoration: none;
   cursor: pointer;
-  opacity: .5;
   outline: none;
 }
 .am-close[class*="am-icon-"] {
@@ -7491,8 +7477,6 @@ img.am-thumbnail,
 .am-vertical-align-middle,
 .am-vertical-align-bottom {
   display: inline-block;
-  font-size: 1.6rem;
-  /* 1 */
   max-width: 100%;
 }
 .am-vertical-align-middle {

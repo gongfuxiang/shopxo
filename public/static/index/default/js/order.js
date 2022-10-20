@@ -28,19 +28,6 @@ $(function()
         $pay_popup.modal();
     });
 
-    // 混合列表选择
-    $('.business-item ul li').on('click', function()
-    {
-        if($(this).hasClass('selected'))
-        {
-            $('form.pay-form input[name='+$(this).parent().data('type')+'_id]').val(0);
-            $(this).removeClass('selected');
-        } else {
-            $('form.pay-form input[name='+$(this).parent().data('type')+'_id]').val($(this).data('value'));
-            $(this).addClass('selected').siblings('li').removeClass('selected');
-        }
-    });
-
     // 支付表单
     $('form.pay-form button[type=submit]').on('click', function()
     {

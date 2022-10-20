@@ -15,27 +15,10 @@ ul.address-list li .user-base {font-size: 14px; font-weight: 700; margin-bottom:
 .address-default { display:block !important;}  
 
 /* 物流/支付 */
-.business-item ul li { border:1px solid transparent ;overflow: hidden; float: left; cursor: pointer; padding: 5px; border: 1px solid #e5e5e5; margin: 0 10px 10px 0; }
-ul.logistics-list li.selected, ul.payment-list li.selected, .confirm-selected {border-color:#d2364c ;position:relative;box-shadow: 0px 0 0px 1px #d2364c;}
-ul.logistics-list li.selected i.icon-active, ul.payment-list li.selected i.icon-active, .confirm-selected i.icon-active {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    font-size: 0;
-    line-height: 0;
-    right: 0px;
-    bottom: 0px;
-    background: url(../images/sys-item-selected.gif) no-repeat right bottom;
-}
-.business-item ul { padding: 10px 3px 5px 5px;}
-ul.logistics-list li img, ul.payment-list li img { width: 36px; height: 36px; vertical-align: middle; }
-
-.business-item ul li, ul.address-list li {
-  -webkit-transition: border-color .2s ease-in;
-  -moz-transition: border-color .2s ease-in;
-  -ms-transition: border-color .2s ease-in;
-  -o-transition: border-color .2s ease-in;
-  transition: border-color .2s ease-in;
+@media only screen and (min-width: 640px) {
+  .business-item ul li:nth-child(3n) {
+      margin-right: 10px;
+  }
 }
 
 /*运费、留言、扩展数据*/

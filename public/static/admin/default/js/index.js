@@ -170,7 +170,6 @@ $(function()
         if($(document).width() <= 640)
         {
             $('.menu-scaling-submit').attr('data-status', 0);
-            $('.menu-scaling-submit').css({'left': '164px'});
             $('.menu-scaling-submit').removeClass('am-icon-indent').addClass('am-icon-dedent');
             $('#admin-offcanvas').css({'width': 'inherit'});
             $('#admin-offcanvas').removeClass('menu-mini').removeClass('menu-mini-event');

@@ -109,8 +109,8 @@
                 {{else /}}
                     <div class="table-no">
                         <i class="am-icon-warning"></i>
-                        <span>没有地址</span>
-                        <button class="am-btn am-btn-secondary am-btn-xs am-margin-left-sm address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">使用新地址</button>
+                        <p>没有地址</p>
+                        <button class="am-btn am-btn-secondary am-btn-xs am-margin-top-sm address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">使用新地址</button>
                     </div>
                 {{/if}}
             </div>
@@ -158,8 +158,8 @@
                     {{else /}}
                         <div class="table-no">
                             <i class="am-icon-warning"></i>
-                            <span>没有地址</span>
-                            <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius am-margin-left-sm" data-am-modal="{target: '#extraction-address-popup'}">选择取货地址</button>
+                            <p>没有地址</p>
+                            <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius am-margin-top-sm" data-am-modal="{target: '#extraction-address-popup'}">选择取货地址</button>
                         </div>
                     {{/if}}
 
@@ -532,7 +532,8 @@
                                     <img src="{{$payment.logo}}" />
                                 {{/if}}
                                 <span>{{$payment.name}}</span>
-                                <i class="icon-active"></i>
+                                <div class="rotate"></div>
+                                <i class="am-icon-check"></i>
                             </li>
                         {{/foreach}}
                     </ul>

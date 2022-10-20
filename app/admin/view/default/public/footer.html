@@ -89,7 +89,9 @@
 <script type='text/javascript' src="{{$public_host}}static/common/lib/dragsort/jquery.dragsort-0.5.2.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 
 <!-- 动画数数 -->
-<script type='text/javascript' src="{{$public_host}}static/common/lib/animation-count-to/animation.count.to.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{if isset($is_load_animation_count) and $is_load_animation_count eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/animation-count-to/animation.count.to.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}}
 
 <!-- amazeui插件 -->
 <script type='text/javascript' src="{{$public_host}}static/common/lib/amazeui-switch/amazeui.switch.min.js?v={{:MyC('home_static_cache_version')}}"></script>

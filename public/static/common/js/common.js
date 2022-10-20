@@ -3899,4 +3899,19 @@ $(function()
         }
         temp_scroll_original_index = current_index;
     });
+
+    // 混合业务列表选择
+    $(document).on('click', '.business-item ul li', function()
+    {
+        var $form = $(this).parents('form');
+        var $parent = $(this).parent();
+        if($(this).hasClass('selected'))
+        {
+            $form.find('input[name='+$parent.data('type')+'_id]').val(0);
+            $(this).removeClass('selected');
+        } else {
+            $form.find('input[name='+$parent.data('type')+'_id]').val($(this).data('value'));
+            $(this).addClass('selected').siblings('li').removeClass('selected');
+        }
+    });
 });

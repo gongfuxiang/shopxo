@@ -603,38 +603,62 @@ class FormHandleModule
             $data = [];
             if(!empty($this->form_data['detail_form_list']))
             {
+                $is_table_title = true;
+                $detail_form_count = count($this->form_data['detail_form_list']);
                 foreach($list as $v)
                 {
+                    // 当前详情数据最大数记录
+                    $detail_data_row_max = 0;
                     foreach($this->form_data['detail_form_list'] as $dv)
                     {
-                        if(!empty($dv) && !empty($dv['label']) && !empty($dv['field']) && !empty($dv['data']) && !empty($v[$dv['field']]) && is_array($v[$dv['field']]))
+                        // 追加表头
+                        if($is_table_title && !empty($dv) && !empty($dv['label']) && !empty($dv['field']) && !empty($dv['data']))
                         {
-                            $is_first = true;
-                            $is_title = true;
-                            foreach($v[$dv['field']] as $vs)
+                            foreach($dv['data'] as $dvk=>$dvv)
                             {
-                                $temp = $is_first ? $v : [];
-                                foreach($dv['data'] as $dvk=>$dvv)
-                                {
-                                    // 追加数据导列表
-                                    $field = $dv['field'].'_'.$dvk;
-                                    $temp[$field] = isset($vs[$dvk]) ? $vs[$dvk] : '';
-
-                                    // 追加表头
-                                    if($is_title)
-                                    {
-                                        $title[$field] = [
-                                            'name' => $dv['label'].' - '.$dvv,
-                                            'type' => 'string',
-                                        ];
-                                    }
-                                    $is_first = false;
-                                }
-                                unset($temp[$dv['field']]);
-                                $data[] = $temp;
-                                $is_title = false;
+                                $title[$dv['field'].'_'.$dvk] = [
+                                    'name' => $dv['label'].' - '.$dvv,
+                                    'type' => 'string',
+                                ];
                             }
                         }
+                        // 当前详情数据最大数记录
+                        $temp_max = (count($v[$dv['field']]) == count($v[$dv['field']], 1)) ? 1 : count($v[$dv['field']]);
+                        if($temp_max > $detail_data_row_max)
+                        {
+                            $detail_data_row_max = $temp_max;
+                        }
+                    }
+                    $is_table_title = false;
+
+                    // 根据详情数据追加数据
+                    for($i=0; $i<$detail_data_row_max; $i++)
+                    {
+                        $temp = ($i == 0) ? $v : [];
+                        for($t=0; $t<$detail_form_count; $t++)
+                        {
+                            $dv = $this->form_data['detail_form_list'][$t];
+                            if(!empty($v[$dv['field']]))
+                            {
+                                $dv_data = array_keys($dv['data']);
+                                foreach($dv_data as $df)
+                                {
+                                    $fk = $dv['field'];
+                                    $field = $dv['field'].'_'.$df;
+                                    // 非二维数组则转二维数组
+                                    if(count($v[$fk]) == count($v[$fk], 1))
+                                    {
+                                        $v[$fk] = [$v[$fk]];
+                                    }
+                                    // 存在数据则追加数据字段
+                                    if(isset($v[$fk][$i]) && isset($v[$fk][$i][$df]))
+                                    {
+                                        $temp[$field] = $v[$fk][$i][$df];
+                                    }
+                                }
+                            }
+                        }
+                        $data[] = $temp;
                     }
                 }
             }
@@ -961,6 +985,14 @@ class FormHandleModule
                     } elseif(array_key_exists($params_where_name.'_max', $this->out_params) && $this->out_params[$params_where_name.'_max'] !== null && $this->out_params[$params_where_name.'_max'] !== '')
                     {
                         $this->out_params[$form_key.'_max'] = $this->out_params[$params_where_name.'_max'];
+                    // start字段
+                    } elseif(array_key_exists($params_where_name.'_start', $this->out_params) && $this->out_params[$params_where_name.'_start'] !== null && $this->out_params[$params_where_name.'_start'] !== '')
+                    {
+                        $this->out_params[$form_key.'_start'] = $this->out_params[$params_where_name.'_start'];
+                    // end字段
+                    } elseif(array_key_exists($params_where_name.'_end', $this->out_params) && $this->out_params[$params_where_name.'_end'] !== null && $this->out_params[$params_where_name.'_end'] !== '')
+                    {
+                        $this->out_params[$form_key.'_end'] = $this->out_params[$params_where_name.'_end'];
                     }
 
                     // 根据组件类型处理

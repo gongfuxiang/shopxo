@@ -444,7 +444,7 @@ function EchartsInit(e)
                 var chart = null;
                 switch(type)
                 {
-                    // 支付方式
+                    // 基础数据总数
                     case 'base-count' :
                         EchartsBaseCount(res.data);
                         break;

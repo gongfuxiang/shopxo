@@ -5,7 +5,7 @@
 </button>
 {{if !empty($module_data['operate_data'])}}
     {{if $module_data['operate_data']['is_confirm'] eq 1}}
-        <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/confirm')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！">
+        <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/confirm')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="是否操作确认，操作后不可恢复！">
             <i class="am-icon-check-circle-o"></i>
             <span>确认</span>
         </button>

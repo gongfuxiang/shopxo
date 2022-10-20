@@ -413,6 +413,9 @@ class Common extends BaseController
         // 默认不加载echarts图表组件
         $assign['is_load_echarts'] = 0;
 
+        // 默认不加载动画数数
+        $assign['is_load_animation_count'] = 0;
+
         // 是否加载附件组件
         $admin = AdminService::LoginInfo();
         $assign['is_load_upload_editor'] = (!empty($this->user) || !empty($admin)) ? 1 : 0;

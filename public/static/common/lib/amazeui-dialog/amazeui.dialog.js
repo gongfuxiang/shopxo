@@ -24,7 +24,7 @@ dialog.alert = function(options) {
     };
   var html = [];
   html.push('<div class="am-modal am-modal-alert '+options.class_name+'" tabindex="-1">');
-  html.push('<div class="am-modal-dialog">');
+  html.push('<div class="am-modal-dialog am-radius">');
   if(options.title !== null || options.isClose === true)
   {
     html.push('<div class="am-modal-hd">');
@@ -70,7 +70,7 @@ dialog.confirm = function(options) {
 
   var html = [];
   html.push('<div class="am-modal am-modal-confirm" tabindex="-1">');
-  html.push('<div class="am-modal-dialog">');
+  html.push('<div class="am-modal-dialog am-radius">');
   html.push('<div class="am-modal-hd">' + options.title + '</div>');
   html.push('<div class="am-modal-bd"><div class="am-padding-horizontal-xl am-padding-vertical-xs">' + options.content + '</div></div>');
   html.push('<div class="am-modal-footer">');
@@ -109,7 +109,7 @@ dialog.loading = function(options) {
     } else {
       var html = [];
       html.push('<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">');
-      html.push('<div class="am-modal-dialog">');
+      html.push('<div class="am-modal-dialog am-radius">');
       html.push('<div class="am-modal-bd am-padding-vertical-0">');
       html.push('<div class="am-padding-horizontal-sm am-padding-vertical-sm">');
       html.push('<span class="am-icon-spinner am-icon-spin"></span>');
@@ -178,16 +178,16 @@ dialog.popup = function(options) {
   // 是否存在标题
   if(options.title != null)
   {
-    html.push('<div class="am-popup '+options.class+'">');
-    html.push('<div class="am-popup-inner">');
+    html.push('<div class="am-popup am-radius '+options.class+'">');
+    html.push('<div class="am-popup-inner am-radius">');
     html.push('<div class="am-popup-hd">');
     html.push('<h4 class="am-popup-title">' + options.title + '</h4>');
     html.push('<span data-am-modal-close  class="am-close">&times;</span>');
     html.push('</div>');
     html.push('<div class="am-popup-bd">' + options.content + '</div>');
   } else {
-    html.push('<div class="am-popup '+options.class+' popup-not-title">');
-    html.push('<div class="am-popup-inner">');
+    html.push('<div class="am-popup am-radius '+options.class+' popup-not-title">');
+    html.push('<div class="am-popup-inner am-radius">');
     html.push('<span data-am-modal-close class="am-close am-close-alt am-icon-times"></span>');
     html.push(options.content);
   }

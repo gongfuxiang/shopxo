@@ -4,13 +4,13 @@
 <!-- 扩展 -->
 {{block name="form_extend"}}
     <!-- 取货弹窗 -->
-    <div class="am-modal am-modal-no-btn" tabindex="-1" id="order-take-modal">
+    <div class="am-modal am-radius am-nbfc" tabindex="-1" id="order-take-modal">
         <div class="am-modal-dialog">
             <div class="am-modal-hd">
                 <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
             </div>
             <div class="am-modal-bd">
-                <form class="am-form form-validation-take take-form" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
+                <form class="am-form form-validation-take" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
                     <div class="am-form-group am-form-group-refreshing am-margin-bottom-0">
                         <label>取货码</label>
                         <input type="text" autocomplete="off" name="extraction_code" placeholder="取货码" minlength="4" maxlength="4" data-validation-message="请填写4位数取货码" class="am-radius" required />
@@ -26,14 +26,14 @@
     </div>
 
     <!-- 发货弹窗 -->
-    <div class="am-popup" id="order-delivery-popup">
+    <div class="am-popup am-radius" id="order-delivery-popup">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
                 <h4 class="am-popup-title">发货操作</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
-                <form class="am-form form-validation-delivery delivery-form" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
+                <form class="am-form form-validation-delivery am-form-popup-fixed" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
                     <div class="business-item">
                         {{if !empty($express_list)}}
                             <ul class="express-list" data-type="express">
@@ -44,7 +44,8 @@
                                                 <img src="{{$express.icon}}" />
                                             {{/if}}
                                             <span>{{$express.name}}</span>
-                                            <i class="icon-active"></i>
+                                            <div class="rotate"></div>
+                                            <i class="am-icon-check"></i>
                                         </li>
                                     {{/if}}
                                 {{/foreach}}
@@ -60,7 +61,7 @@
                         <input type="text" autocomplete="off" name="express_number" placeholder="快递单号" minlength="1" data-validation-message="请填写快递单号" class="am-radius" required />
                     </div>
                     
-                    <div class="am-margin-top-lg am-padding-bottom-lg">
+                    <div class="am-form-popup-submit">
                         <input type="hidden" name="id" value="0" />
                         <input type="hidden" name="express_id" value="0" />
                         <input type="hidden" name="user_id" value="0" />
@@ -72,14 +73,14 @@
     </div>
 
     <!-- 支付弹窗 -->
-    <div class="am-popup" id="order-pay-popup">
+    <div class="am-popup am-radius" id="order-pay-popup">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
                 <h4 class="am-popup-title">支付操作</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
-                <form class="am-form form-validation-pay pay-form" action="{{:MyUrl('admin/order/pay')}}" method="POST" request-type="ajax-reload">
+                <form class="am-form form-validation-pay am-form-popup-fixed" action="{{:MyUrl('admin/order/pay')}}" method="POST" request-type="ajax-reload">
                     <div class="business-item">
                         {{if !empty($buy_payment_list)}}
                             <ul class="payment-list" data-type="payment">
@@ -89,7 +90,8 @@
                                             <img src="{{$payment.logo}}" />
                                         {{/if}}
                                         <span>{{$payment.name}}</span>
-                                        <i class="icon-active"></i>
+                                        <div class="rotate"></div>
+                                        <i class="am-icon-check"></i>
                                     </li>
                                 {{/foreach}}
                             </ul>
@@ -98,7 +100,7 @@
                             {{include file="public/not_data" /}}
                         {{/if}}
                     </div>
-                    <div class="am-margin-top-sm am-padding-bottom-lg">
+                    <div class="am-form-popup-submit">
                         <input type="hidden" name="id" value="0" />
                         <input type="hidden" name="payment_id" value="0" />
                         <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>

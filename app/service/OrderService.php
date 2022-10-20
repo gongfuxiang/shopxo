@@ -2286,10 +2286,11 @@ class OrderService
             case 'admin' :
                 $delete_field = 'is_delete_time';
                 break;
-
             case 'user' :
                 $delete_field = 'user_is_delete_time';
                 break;
+            default :
+                $delete_field = empty($params['delete_field']) ? '' : $params['delete_field'];
         }
         if(empty($delete_field))
         {
@@ -2310,19 +2311,44 @@ class OrderService
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
-        // 删除操作
-        $data = [
-            $delete_field   => time(),
-            'upd_time'      => time(),
-        ];
-        if(Db::name('Order')->where($where)->update($data))
-        {
+        // 启动事务
+        Db::startTrans();
+
+        // 捕获异常
+        try {
+            // 删除操作
+            $data = [
+                $delete_field   => time(),
+                'upd_time'      => time(),
+            ];
+            if(!Db::name('Order')->where($where)->update($data))
+            {
+                throw new \Exception(MyLang('common.delete_fail'));
+            }
+
             // 用户消息
             MessageService::MessageAdd($order['user_id'], '订单删除', '订单删除成功', self::$business_type_name, $order['id']);
 
+            // 订单删除成功钩子
+            $hook_name = 'plugins_service_order_delete_success';
+            $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'order_id'      => $params['id'],
+                'params'        => $params,
+            ]));
+            if(isset($ret['code']) && $ret['code'] != 0)
+            {
+                throw new \Exception($ret['msg']);
+            }
+
+            // 完成
+            Db::commit();
             return DataReturn(MyLang('common.delete_success'), 0);
+        } catch(\Exception $e) {
+            Db::rollback();
+            return DataReturn($e->getMessage(), -1);
         }
-        return DataReturn('删除失败或资源不存在', -1);
     }
 
     /**

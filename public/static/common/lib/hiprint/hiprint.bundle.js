@@ -1591,6 +1591,9 @@ var hiprint = function (t) {
                     p = this.getFooterFormatter(n, i);
                 return p && a.append(p(n, e, o, r)), a;
             }, TableExcelHelper.createTableRow = function (t, e, n, i) {
+                if(Object.prototype.toString.call(e) != '[object Array]') {
+                    e = [e];
+                }
                 var o = TableExcelHelper.reconsitutionTableColumnTree(t),
                     r = $("<tbody></tbody>");
                 (e || (e = []), i.groupFields.length) ? _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_1__.a.groupBy(e, i.groupFields, function (t) {
