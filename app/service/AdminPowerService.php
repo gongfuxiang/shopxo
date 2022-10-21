@@ -314,35 +314,24 @@ class AdminPowerService
             MyCache(SystemService::CacheKey('shopxo.cache_admin_power_key').$admin_id, $admin_power);
             MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin_id, $admin_plugins);
         }
-        return true;
-    }
-
-    /**
-     * 获取菜单数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2022-05-16
-     * @desc    description
-     * @param   [array]          $admin [管理员信息]
-     */
-    public static function MenuData($admin)
-    {
-        if(!empty($admin['id']))
-        {
-            $data = MyCache(SystemService::CacheKey('shopxo.cache_admin_left_menu_key').$admin['id']);
-        }
 
         // 后台左侧菜单钩子
         $hook_name = 'plugins_service_admin_menu_data';
         MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'admin'         => $admin,
-            'data'          => &$data,
+            'hook_name'         => $hook_name,
+            'is_backend'        => true,
+            'admin'             => $admin,
+            'admin_left_menu'   => &$admin_left_menu,
+            'admin_power'       => &$admin_power,
+            'admin_plugins'     => &$admin_plugins,
         ]);
 
-        return empty($data) ? [] : $data;
+        // 返回菜单和权限数据
+        return [
+            'admin_left_menu'   => $admin_left_menu,
+            'admin_power'       => $admin_power,
+            'admin_plugins'     => $admin_plugins,
+        ];
     }
 
     /**

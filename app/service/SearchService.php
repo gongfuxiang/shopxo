@@ -508,70 +508,73 @@ class SearchService
      */
     public static function SearchAdd($params = [])
     {
-        // 排序
-        $ov_arr = empty($params['ov']) ? '' : explode('-', $params['ov']);
-        if(empty($ov_arr) && !empty($params['order_by_type']) && !empty($params['order_by_field']))
+        // 是否增加搜索记录
+        if(MyC('home_search_history_record', 0) == 1)
         {
-            $ov_arr = [$params['order_by_field'], $params['order_by_type']];
-        }
-
-        // 结果仅保留商品id
-        if(!empty($params['search_result_data']) && is_array($params['search_result_data']) && !empty($params['search_result_data']['data']))
-        {
-            $params['search_result_data']['data'] = array_column($params['search_result_data']['data'], 'id');
-        }
-
-        // 日志数据
-        $data = [
-            'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
-            'keywords'          => empty($params['wd']) ? '' : $params['wd'],
-            'order_by_field'    => empty($ov_arr) ? '' : $ov_arr[0],
-            'order_by_type'     => empty($ov_arr) ? '' : $ov_arr[1],
-            'search_result'     => empty($params['search_result_data']) ? '' : json_encode($params['search_result_data'], JSON_UNESCAPED_UNICODE),
-            'ymd'               => date('Ymd'),
-            'add_time'          => time(),
-        ];
-
-        // 参数处理
-        $field_arr = [
-            'brand_ids'             => ['brand_ids', 'brand', 'bid'],
-            'category_ids'          => ['category_ids', 'category_id', 'cid'],
-            'screening_price_values'=> ['screening_price_values', 'peid'],
-            'goods_params_values'   => ['goods_params_values', 'psid'],
-            'goods_spec_values'     => ['goods_spec_values', 'scid'],
-        ];
-        foreach($field_arr as $k=>$v)
-        {
-            $item = [];
-            foreach($v as $vs)
+            // 排序
+            $ov_arr = empty($params['ov']) ? '' : explode('-', $params['ov']);
+            if(empty($ov_arr) && !empty($params['order_by_type']) && !empty($params['order_by_field']))
             {
-                if(!empty($params[$vs]))
+                $ov_arr = [$params['order_by_field'], $params['order_by_type']];
+            }
+
+            // 结果仅保留商品id
+            if(!empty($params['search_result_data']) && is_array($params['search_result_data']) && !empty($params['search_result_data']['data']))
+            {
+                $params['search_result_data']['data'] = array_column($params['search_result_data']['data'], 'id');
+            }
+
+            // 日志数据
+            $data = [
+                'user_id'           => isset($params['user_id']) ? intval($params['user_id']) : 0,
+                'keywords'          => empty($params['wd']) ? '' : $params['wd'],
+                'order_by_field'    => empty($ov_arr) ? '' : $ov_arr[0],
+                'order_by_type'     => empty($ov_arr) ? '' : $ov_arr[1],
+                'search_result'     => empty($params['search_result_data']) ? '' : json_encode($params['search_result_data'], JSON_UNESCAPED_UNICODE),
+                'ymd'               => date('Ymd'),
+                'add_time'          => time(),
+            ];
+
+            // 参数处理
+            $field_arr = [
+                'brand_ids'             => ['brand_ids', 'brand', 'bid'],
+                'category_ids'          => ['category_ids', 'category_id', 'cid'],
+                'screening_price_values'=> ['screening_price_values', 'peid'],
+                'goods_params_values'   => ['goods_params_values', 'psid'],
+                'goods_spec_values'     => ['goods_spec_values', 'scid'],
+            ];
+            foreach($field_arr as $k=>$v)
+            {
+                $item = [];
+                foreach($v as $vs)
                 {
-                    // 价格区间
-                    if($vs == 'peid')
+                    if(!empty($params[$vs]))
                     {
-                        $temp_price = Db::name('ScreeningPrice')->where(['is_enable'=>1, 'id'=>intval($params[$vs])])->field('min_price,max_price')->find();
-                        $params[$vs] = empty($temp_price) ? '' : implode('-', $temp_price);
-                    }
+                        // 价格区间
+                        if($vs == 'peid')
+                        {
+                            $temp_price = Db::name('ScreeningPrice')->where(['is_enable'=>1, 'id'=>intval($params[$vs])])->field('min_price,max_price')->find();
+                            $params[$vs] = empty($temp_price) ? '' : implode('-', $temp_price);
+                        }
 
-                    // Ascii处理
-                    if(in_array($vs, ['psid', 'scid']))
-                    {
-                        $params[$vs] = AsciiToStr($params[$vs]);
-                    }
+                        // Ascii处理
+                        if(in_array($vs, ['psid', 'scid']))
+                        {
+                            $params[$vs] = AsciiToStr($params[$vs]);
+                        }
 
-                    // 合并参数
-                    $tv = (substr($params[$vs], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params[$vs]), true) : $params[$vs];
-                    if($tv !== '' && $tv !== null)
-                    {
-                        $item = array_merge($item, is_array($tv) ? $tv : [$tv]);
+                        // 合并参数
+                        $tv = (substr($params[$vs], 0, 1) == '{') ? json_decode(htmlspecialchars_decode($params[$vs]), true) : $params[$vs];
+                        if($tv !== '' && $tv !== null)
+                        {
+                            $item = array_merge($item, is_array($tv) ? $tv : [$tv]);
+                        }
                     }
                 }
+                $data[$k] = empty($item) ? '' : (is_array($item) ? json_encode($item, JSON_UNESCAPED_UNICODE) : $item);
             }
-            $data[$k] = empty($item) ? '' : (is_array($item) ? json_encode($item, JSON_UNESCAPED_UNICODE) : $item);
+            Db::name('SearchHistory')->insert($data);
         }
-
-        Db::name('SearchHistory')->insert($data);
     }
 
     /**

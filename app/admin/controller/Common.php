@@ -109,8 +109,8 @@ class Common extends BaseController
 		$this->admin = AdminService::LoginInfo();
 
 		// 权限菜单
-		AdminPowerService::PowerMenuInit($this->admin);
-		$this->left_menu = AdminPowerService::MenuData($this->admin);
+		$menu = AdminPowerService::PowerMenuInit($this->admin);
+		$this->left_menu = $menu['admin_left_menu'];
 
 		// 视图初始化
 		$this->ViewInit();

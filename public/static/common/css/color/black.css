@@ -9,9 +9,10 @@ html,body {
 .am-table-striped > tbody > tr:nth-child(odd) > th {
     background-color: #1d1d1d;
 }
+pre,
 .am-table-hover > tbody > tr:hover > td,
 .am-table-hover > tbody > tr:hover > th {
-    background-color: #181818;
+    background-color: #202020;
 }
 .am-table-bordered > thead > tr > th,
 .am-table-bordered > tbody > tr > th,
@@ -77,7 +78,7 @@ html,body {
     background: transparent;
 }
 .dl-content dt:hover, .dl-content dd:hover, .data-avg-text-list li:hover {
-    background: #202020;
+    background: #1a1a1a;
 }
 .data-avg-text-list li:hover .data-avg-text-list-content {
     color: #e9e9e9;
@@ -410,7 +411,7 @@ iframe,
 .am-list-bordered > li > a:hover,
 .am-list-border > li > a:focus,
 .am-list-bordered > li > a:focus {
-    background-color: #262727;
+    background-color: #181818;
 }
 .am-table > thead > tr > td.am-primary,
 .am-table > tbody > tr > td.am-primary,
@@ -590,6 +591,9 @@ fieldset[disabled] .am-form-field {
 .plugins-data-list ul li .submit-state.am-success {
     color: #fff !important;
 }
+.am-ucheck-checkbox:disabled + .am-ucheck-icons, .am-ucheck-radio:disabled + .am-ucheck-icons {
+    color: #252525;
+}
 header {
     background-color: #19222c !important;
     border-color: #151d26 !important;
@@ -664,12 +668,44 @@ ul.plug-file-upload-view li {
 #modal-plugins-multilingual-select-container .am-modal-bd ul {
     border: 1px solid #2b2b2b;
 }
+.data-avg-text-list, .data-avg-text-list li {
+    border-color: #232323;
+}
 
 /**
  * 编辑器还是使用白底色
  */
 .edui-default iframe {
     background: transparent !important;
+}
+
+/**
+ * 打印模板
+ */
+.hiprint-printPaper.design {
+    background: -webkit-linear-gradient(top, transparent 15px, #181818 15px, #181818 16px, transparent 16px, transparent 31px, #181818 31px, #181818 32px, transparent 32px, transparent 47px, #181818 47px, #181818 48px, transparent 48px, transparent 63px, #1c1c1c 63px, #1c1c1c 63px), -webkit-linear-gradient( left, transparent 15px, #181818 15px, #181818 16px, transparent 16px, transparent 31px, #181818 31px, #181818 32px, transparent 32px, transparent 47px, #181818 47px, #181818 48px, transparent 48px, transparent 63px, #1c1c1c 63px, #1c1c1c 63px);
+    background-size: 64px 64px;
+    background-repeat: repeat;
+}
+.right-option-setting {
+    background: rgb(28 28 28 / 70%);
+}
+.hiprint-option-items .hiprint-option-item-field input, .hiprint-option-items .hiprint-option-item-field select, .hiprint-option-items .hiprint-option-item-field textarea {
+    border-color: rgb(47 47 47);
+}
+
+.hiprint-printElement-table thead {
+    background: #2d2d2d;
+}
+.hiprint-printElement-table td {
+    color: #666;
+    border-color: #242424;
+}
+.hitable .selected {
+    background: #3d3d3d;
+}
+.drag-list li .item a {
+    color: #999;
 }
 
 /**
@@ -746,6 +782,9 @@ ul.plug-file-upload-view li {
 .header-menu-open-pages-list ul li a:hover {
     color: #802c12;
 }
+.list-find li .item-content:hover {
+    border-color: #454545;
+}
 .product-unit-table thead tr > th:last-child, .product-unit-table tbody tr > td:last-child {
     background: rgb(30 30 30);
     box-shadow: rgb(136 136 136 / 10%) -5px 0px 8px;
@@ -801,7 +840,7 @@ ul.plug-file-upload-view li {
 }
 ::-webkit-scrollbar-corner,
 ::-webkit-scrollbar-corner:vertical {
-    background-color: #f9f9f9;
+    background-color: #353535;
 }
 ::-webkit-scrollbar-resizer,
 ::-webkit-scrollbar-resizer:vertical {
