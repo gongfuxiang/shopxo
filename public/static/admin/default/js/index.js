@@ -1,5 +1,25 @@
+/**
+ * 顶部导航页面打开容器处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-10-21
+ * @desc    description
+ */
+function HeaderMenuPagesListHandle()
+{
+    if($('.header-menu-open-pages-list').length > 0)
+    {
+        var width = $('.admin-header .am-topbar-brand').width()+$('.admin-header .am-topbar-right').width()+215;
+        $('.header-menu-open-pages-list').css('width', $(window).width()-width);
+    }
+}
+
 $(function()
 {
+    // 处理顶部导航页面列表宽度
+    HeaderMenuPagesListHandle();
+
     // 左侧菜单箭头方向回调处理
     $('#admin-offcanvas li.admin-parent').on('open.collapse.amui', function()
     {
@@ -183,6 +203,9 @@ $(function()
                 $('header.admin-header').css({'left': '160px'});
             }
         }
+
+        // 处理顶部导航页面列表宽度
+        HeaderMenuPagesListHandle();
     });
 
     // 页面切换

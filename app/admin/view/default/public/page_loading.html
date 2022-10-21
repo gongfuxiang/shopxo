@@ -1,7 +1,11 @@
 <div class="am-modal am-page-loading">
-    {{if isset($is_page_loading_images) and $is_page_loading_images eq 1}}
-        <img src="{{$attachment_host}}/static/common/images/loading.gif" />
+    {{if isset($is_page_loading_images) and $is_page_loading_images eq 1 and !empty($page_loading_images_url)}}
+        <img src="{{$page_loading_images_url}}" />
     {{else /}}
-        <span class="am-icon-spinner am-icon-pulse am-icon-lg"></span>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     {{/if}}
 </div>

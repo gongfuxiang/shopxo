@@ -1501,9 +1501,10 @@ class GoodsService
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2018-12-16T01:56:42+0800
-     * @param    [int]            $goods_id [商品id]
+     * @param   [int]            $goods_id [商品id]
+     * @param   [array]          $params   [输入参数]
      */
-    public static function GoodsSaveBaseUpdate($goods_id)
+    public static function GoodsSaveBaseUpdate($goods_id, $params = [])
     {
         $data = Db::name('GoodsSpecBase')->field('min(price) AS min_price, max(price) AS max_price, sum(inventory) AS inventory, min(original_price) AS min_original_price, max(original_price) AS max_original_price')->where(['goods_id'=>$goods_id])->find();
         if(empty($data))
@@ -1529,7 +1530,8 @@ class GoodsService
         $ret = EventReturnHandle(MyEventTrigger($hook_name, [
             'hook_name'     => $hook_name,
             'is_backend'    => true,
-            'goods_id'      => $goods_id
+            'goods_id'      => $goods_id,
+            'params'        => $params,
         ]));
         if(isset($ret['code']) && $ret['code'] != 0)
         {

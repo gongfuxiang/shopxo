@@ -265,7 +265,8 @@ class Common extends BaseController
         $assign['default_price_regex'] = MyConst('common_regex_price');
 
 		// 附件host地址
-        $assign['attachment_host'] = SystemBaseService::AttachmentHost();
+        $attachment_host = SystemBaseService::AttachmentHost();
+        $assign['attachment_host'] = $attachment_host;
 
         // css/js引入host地址
         $assign['public_host'] = MyConfig('shopxo.public_host');
@@ -290,7 +291,8 @@ class Common extends BaseController
 
         // 加载页面加载层、是否加载图片动画
         $assign['is_page_loading'] = ($this->module_name.$this->controller_name.$this->action_name == 'adminindexindex') ? 0 : 1;
-        $assign['is_page_loading_images'] = 1;
+        $assign['is_page_loading_images'] = 0;
+        $assign['page_loading_images_url'] = $attachment_host.'/static/common/images/loading.gif';
 
         // 是否加载视频播放器组件
         $assign['is_load_ckplayer'] = 0;
