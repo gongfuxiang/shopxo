@@ -200,6 +200,7 @@ form.am-form .am-form-group,
     background: #212121;
 }
 .coupon-content-module .module-items .view-to,
+.wallet-content-module .module-items .view-to,
 .am-form-group:hover>label {
     color: #f5f5f5 !important;
 }
@@ -211,15 +212,18 @@ form.am-form .am-form-group,
 .plug-file-upload-submit,
 .am-switch .am-switch-label,
 .form-table-fields-button-container,
-.coupon-content-module .module-items,
 #inspect-upgrade-popup .upgrade-bottom-content,
 .form-inventory-submit {
     background: #1e1e1e;
 }
+.wallet-content-module .module-items,
+.coupon-content-module .module-items {
+    background: #212121;
+}
 .business-operations-submit:hover,
 .plug-file-upload-submit:hover,
 .content-right [class*="-content"] .nav-items:hover {
-    border-color: #666;
+    border-color: #353535;
 }
 hr,
 .am-divider-default,
@@ -255,7 +259,8 @@ table.am-table .am-btn-default,
 .am-pagination > li > span:hover,
 .am-pagination > li > a:focus,
 .am-pagination > li > span:focus,
-.coupon-content-module .module-items p.total {
+.coupon-content-module .module-items p.total,
+.wallet-content-module .module-items p.total {
     color: #888;
 }
 .am-pagination > .am-disabled > span,

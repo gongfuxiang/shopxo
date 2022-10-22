@@ -69,11 +69,11 @@ class Index extends Common
      */
     private function IsInstall()
     {
-        // 是否已安装
         if(file_exists(ROOT.'config/database.php'))
         {
-            exit('你已经安装过该系统，重新安装需要先删除 ./config/database.php 文件');
+            return DataReturn('你已经安装过该系统，重新安装需要先删除 ./config/database.php 文件', -1);
         }
+        return DataReturn('success', 0);
     }
 
     /**
@@ -86,7 +86,11 @@ class Index extends Common
      */
     public function Index()
     {
-        $this->IsInstall();
+        $ret = $this->IsInstall();
+        if($ret['code'] != 0)
+        {
+            exit($ret['msg']);
+        }
         $this->behavior_obj->ReportInstallLog(['msg'=>'协议阅读']);
         return MyView();
     }
@@ -101,7 +105,11 @@ class Index extends Common
      */
     public function Check()
     {
-        $this->IsInstall();
+        $ret = $this->IsInstall();
+        if($ret['code'] != 0)
+        {
+            exit($ret['msg']);
+        }
         $this->behavior_obj->ReportInstallLog(['msg'=>'环境检测']);
         return MyView();
     }
@@ -116,7 +124,11 @@ class Index extends Common
      */
     public function Create()
     {
-        $this->IsInstall();
+        $ret = $this->IsInstall();
+        if($ret['code'] != 0)
+        {
+            exit($ret['msg']);
+        }
         $this->behavior_obj->ReportInstallLog(['msg'=>'数据信息填写']);
 
         MyViewAssign('charset_type_list' , $this->charset_type_list);
@@ -164,10 +176,11 @@ class Index extends Common
         }
 
         // 配置文件校验
-        if(file_exists(ROOT.'config/database.php'))
+        $ret = $this->IsInstall();
+        if($ret['code'] != 0)
         {
-            $this->behavior_obj->ReportInstallLog(['msg'=>'你已经安装过该系统，重新安装需要先删除[./config/database.php 文件]']);
-            return DataReturn('你已经安装过该系统，重新安装需要先删除[./config/database.php 文件]', -1);
+            $this->behavior_obj->ReportInstallLog(['msg'=>'Confirm():'.$ret['msg']]);
+            return $ret;
         }
 
         // 安装应用数据库配置文件生成
@@ -189,6 +202,14 @@ class Index extends Common
         {
             MyViewAssign('msg', '非法访问');
             return MyView('public/error');
+        }
+
+        // 配置文件校验
+        $ret = $this->IsInstall();
+        if($ret['code'] != 0)
+        {
+            $this->behavior_obj->ReportInstallLog(['msg'=>'Add():'.$ret['msg']]);
+            return $ret;
         }
 
         // 开始安装
