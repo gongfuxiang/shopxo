@@ -163,9 +163,6 @@
                     <div class="am-form-group">
                         <label>{{$data.common_data_encryption_secret.name}}<span class="am-form-group-label-tips">{{$data.common_data_encryption_secret.describe}}</span></label>
                         <input type="text" name="{{$data.common_data_encryption_secret.only_tag}}" placeholder="{{$data.common_data_encryption_secret.describe}}" data-validation-message="{{$data.common_data_encryption_secret.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_data_encryption_secret.value}}"{{/if}} />
-                        <div class="am-alert am-alert-warning">
-                            <p>一些常用的数据加解密使用、比如用户登录信息加密临时存储。<strong class="am-text-danger">PS：强烈建议修改</strong></p>
-                        </div>
                     </div>
 
                     <div class="am-form-group">
