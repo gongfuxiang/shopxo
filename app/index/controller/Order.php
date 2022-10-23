@@ -88,6 +88,7 @@ class Order extends Common
         }
 
         // 模板数据
+        $site_fictitious = ConfigService::SiteFictitiousConfig();
         $assign = [
             'data'                  => $this->data_detail,
             // 支付参数
@@ -95,7 +96,7 @@ class Order extends Common
             // 支付方式
             'buy_payment_list'      => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
             // 虚拟销售配置
-            'site_fictitious'       => ConfigService::SiteFictitiousConfig(),
+            'site_fictitious'       => $site_fictitious['data'],
             // 浏览器名称
             'home_seo_site_title'   => SeoService::BrowserSeoTitle('订单详情', 1),
         ];

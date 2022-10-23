@@ -201,7 +201,7 @@ class AdminPowerService
      * @param   [array]         $admin      [管理员信息]
      * @param   [boolean]       $is_refresh [是否强制刷新]
      */
-    public static function PowerMenuInit($admin, $is_refresh = false)
+    public static function PowerMenuInit($admin = [], $is_refresh = false)
     {
         // 不存在管理员信息则读取登录信息
         if(empty($admin))
@@ -219,7 +219,7 @@ class AdminPowerService
         $admin_plugins = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$admin_id);
 
         // 缓存没数据则从数据库重新读取
-        if((($role_id > 0 || $admin_id == 1) && empty($admin_left_menu)) || $is_refresh || MyEnv('app_debug'))
+        if((($role_id > 0 || $admin_id == 1) && (empty($admin_left_menu) || empty($admin_power))) || $is_refresh || MyEnv('app_debug'))
         {
             // 获取一级数据
             if($admin_id == 1 || $role_id == 1)
@@ -332,34 +332,6 @@ class AdminPowerService
             'admin_power'       => $admin_power,
             'admin_plugins'     => $admin_plugins,
         ];
-    }
-
-    /**
-     * 获取权限数据
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2020-09-24
-     * @desc    description
-     */
-    public static function PowerData()
-    {
-        $admin = AdminService::LoginInfo();
-        if(!empty($admin['id']))
-        {
-            $data = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_key').$admin['id']);
-        }
-
-        // 后台左侧菜单权限钩子
-        $hook_name = 'plugins_service_admin_menu_power_data';
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'admin'         => $admin,
-            'data'          => &$data,
-        ]);
-
-        return empty($data) ? [] : $data;
     }
 }
 ?>

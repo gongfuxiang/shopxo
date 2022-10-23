@@ -936,8 +936,8 @@ function AdminIsPower($controller = null, $action = null, $unwanted_power = [])
 
         // 权限
         // 角色组权限列表校验
-        $power = \app\service\AdminPowerService::PowerData();
-        if(!empty($power) && is_array($power) && in_array($controller.'_'.$action, $power))
+        $res = \app\service\AdminPowerService::PowerMenuInit();
+        if(!empty($res) && !empty($res['admin_power']) && is_array($res['admin_power']) && in_array($controller.'_'.$action, $res['admin_power']))
         {
             return true;
         }

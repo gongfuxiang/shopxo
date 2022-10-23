@@ -216,7 +216,7 @@
                                                     <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-fr order-submit submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/Collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">收货</button>
                                                 {{/if}}
                                                 {{if in_array($order['status'], [4]) and $order['user_is_comments'] eq 0}}
-                                                    <a href="{{:MyUrl('index/order/Comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-warning am-btn-xs am-radius am-fr order-submit">评价</a>
+                                                    <a href="{{:MyUrl('index/order/comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-warning am-btn-xs am-radius am-fr order-submit">评价</a>
                                                 {{/if}}
                                             </div>
                                         {{/if}}
