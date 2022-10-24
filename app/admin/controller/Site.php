@@ -68,7 +68,8 @@ class Site extends Base
 		$assign = $this->CurrentViewInit();
 
 		// 配置信息
-		$assign['data'] = ConfigService::ConfigList();
+		$data = ConfigService::ConfigList();
+		$assign['data'] = $data;
 
 		// 数据处理
 		switch($this->nav_type)
