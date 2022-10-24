@@ -84,6 +84,9 @@ class Index extends Common
         // 是否设计模式
         if($is_design == 1)
         {
+            // 商品分类
+            $goods_category = GoodsService::GoodsCategory(['is_all'=>1]);
+
             // 保存数据地址
             $assign['layout_save_url'] = base64_decode(urldecode($this->data_request['save_url']));
 
@@ -94,7 +97,7 @@ class Index extends Common
             $assign['pages_list'] = BaseLayout::PagesList();
 
             // 商品分类
-            $assign['goods_category_list'] = GoodsService::GoodsCategory(['is_all'=>1]);
+            $assign['goods_category_list'] = $goods_category;
 
             // 商品搜索分类（分类）
             $assign['layout_goods_category'] = $goods_category;

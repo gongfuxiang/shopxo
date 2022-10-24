@@ -11423,19 +11423,19 @@ tbody.am-collapse.am-in {
   * Divider Theme: default
   */
 .am-divider-default {
-  border-top: 1px solid rgba(0,0,0,.03);
+  border-top: 1px solid #eee;
 }
 /**
   * Divider Theme: dotted
   */
 .am-divider-dotted {
-  border-top: 1px dotted #ccc;
+  border-top: 1px dotted #eee;
 }
 /**
   * Divider Theme: dashed
   */
 .am-divider-dashed {
-  border-top: 1px dashed #ccc;
+  border-top: 1px dashed #eee;
 }
 .am-figure-zoomable {
   position: relative;
