@@ -1126,9 +1126,6 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table > tbody > tr:first-child > td {
     border-top: 0px !important;
 }
-.am-table-scrollable-horizontal .am-table > tbody > tr:last-child td {
-    border-bottom: 1px solid rgb(123 123 123 / 3%);
-}
 .am-table-scrollable-horizontal .am-table > tbody > tr > td .am-text-truncate-2 {
     max-height: 34px;
     height: auto;

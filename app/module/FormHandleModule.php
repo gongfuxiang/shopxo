@@ -634,7 +634,7 @@ class FormHandleModule
                     // 根据详情数据追加数据
                     for($i=0; $i<$detail_data_row_max; $i++)
                     {
-                        $temp = ($i == 0) ? $v : [];
+                        $temp = $v;
                         for($t=0; $t<$detail_form_count; $t++)
                         {
                             $dv = $this->form_data['detail_form_list'][$t];

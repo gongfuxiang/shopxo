@@ -185,6 +185,11 @@ form.am-form .am-form-group,
 .forth-selection-list .forth-selection-items .forth-selection-content li,
 .spec-inventory-list ul li:not(:last-child),
 #package-upgrade-modal .am-scrollable-vertical,
+hr,
+.am-divider-default,
+.am-divider-dashed,
+.am-divider-dashed,
+.chosen-container-active.chosen-with-drop .chosen-single,
 .product-container table tbody tr td select, .product-container table tbody tr td textarea, .product-container table tbody tr td input[type="text"], .product-container table tbody tr td input[type="password"], .product-container table tbody tr td input[type="datetime"], .product-container table tbody tr td input[type="datetime-local"], .product-container table tbody tr td input[type="date"], .product-container table tbody tr td input[type="month"], .product-container table tbody tr td input[type="time"], .product-container table tbody tr td input[type="week"], .product-container table tbody tr td input[type="number"], .product-container table tbody tr td input[type="email"], .product-container table tbody tr td input[type="url"], .product-container table tbody tr td input[type="search"], .product-container table tbody tr td input[type="tel"], .product-container table tbody tr td input[type="color"] {
     border-color: #232323;
 }
@@ -224,12 +229,6 @@ form.am-form .am-form-group,
 .plug-file-upload-submit:hover,
 .content-right [class*="-content"] .nav-items:hover {
     border-color: #353535;
-}
-hr,
-.am-divider-default,
-.am-divider-dashed,
-.am-divider-dashed {
-    border-color: #232323;
 }
 .am-img-thumbnail {
     background-color: #484848;
@@ -819,6 +818,13 @@ ul.plug-file-upload-view li {
 }
 #modal-unit-list .am-selected-list li:not(:last-child) {
     border-bottom: 1px solid #222222;
+}
+.table-bottom-item-right .auto-sales-deliver {
+    border-color: #2f2f2f;
+}
+.product-table-input-search-list {
+    border-color: #404040;
+    background: #191919;
 }
 @media only screen and (max-width: 640px) {
     .admin-offcanvas-bar:after {

@@ -123,7 +123,7 @@ class Excel
 	    $csv_title = implode(',', array_map(function($v) {
 	    	return str_replace([',', "\n"], ['，', ''], $v['name']);
 	    }, $this->title));
-	    $csv_content = (($excel_charset == 0) ? $csv_title : iconv('utf-8', $charset, $csv_title))."\n";
+	    $csv_content = (($excel_charset == 0) ? $csv_title : mb_convert_encoding($csv_title, $charset, 'utf-8'))."\n";
 		foreach($this->data as $v)
 		{
 			$temp = '';
@@ -133,7 +133,7 @@ class Excel
 				$temp .= ($index == 0 ? '' : ',').((array_key_exists($tk, $v) && !is_array($v[$tk])) ? str_replace([',', "\n"], [ '，', ''], $v[$tk]) : '')."\t";
 				$index++;
 			}
-			$csv_content .= (($excel_charset == 0) ? $temp : iconv('utf-8', $charset, $temp))."\n";
+			$csv_content .= (($excel_charset == 0) ? $temp : mb_convert_encoding($temp, $charset, 'utf-8'))."\n";
 		}
 
 	    // 头信息设置
@@ -207,7 +207,7 @@ class Excel
 			if(array_key_exists($temp_cum, $letter_data))
 			{
 				$temp_letter = $letter_data[$temp_cum].$temp_row;
-				$value = ($excel_charset == 0) ? $v['name'] : iconv('utf-8', $charset, $v['name']);
+				$value = ($excel_charset == 0) ? $v['name'] : mb_convert_encoding($v['name'], $charset, 'utf-8');
 	    		$sheet->setCellValue($temp_letter, $value);
 	    		$sheet->getStyle($temp_letter)->getFont()->setBold(true);
 	    		$temp_cum++;
@@ -245,7 +245,7 @@ class Excel
 				            $drawing->setOffsetY(15);
 				            $drawing->setWorksheet($spreadsheet->getActiveSheet());
 						} else {
-							$value = (array_key_exists($tk, $v) && is_array($v[$tk])) ? (($excel_charset == 0) ? $v[$tk] : iconv('utf-8', $charset, $v[$tk])) : '';
+							$value = (array_key_exists($tk, $v) && !is_array($v[$tk])) ? (($excel_charset == 0) ? $v[$tk] : mb_convert_encoding($v[$tk], $charset, 'utf-8')) : '';
 							$sheet->setCellValueByColumnAndRow($temp_cum+1, $temp_row, $value);
 						}
 

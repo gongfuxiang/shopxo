@@ -2097,6 +2097,9 @@ table.am-table-bordered {
 .am-table-bordered > thead + tbody > tr:first-child > td {
   border-top: 1px solid rgba(0,0,0,.03);
 }
+.am-table-bordered > thead + tbody > tr:last-child td {
+    border-bottom: 1px solid rgb(123 123 123 / 3%);
+}
 /* Border-radius version */
 .am-table-radius {
   border: 1px solid rgba(0,0,0,.03);
@@ -2871,6 +2874,7 @@ fieldset[disabled] .am-checkbox-inline {
   margin-top: -0.5em;
   line-height: 1;
   z-index: 2;
+  color: #888;
 }
 .am-form-icon label ~ [class*='am-icon-'] {
   top: 70%;
@@ -6931,6 +6935,15 @@ a.am-close:hover {
   background-color: #fff;
   border: 1px solid rgba(0,0,0,.03);
   border-width: 1px 0;
+}
+.am-list > li.am-hover {
+  background-color: #f6f6f6;
+}
+.am-list > li:hover {
+  background-color: #f9f9f9;
+}
+.am-list > li.am-active {
+  background-color: #ffd;
 }
 .am-list > li > a {
   display: block;
