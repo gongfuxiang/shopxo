@@ -421,7 +421,7 @@ class GoodsCartService
         $data['spec'] = empty($data['spec']) ? null : json_decode($data['spec'], true);
 
         // 商品校验
-        $ret = self::BuyGoodsCheck(['goods'=>[$data]]);
+        $ret = BuyService::BuyGoodsCheck(['goods'=>[$data]]);
         if($ret['code'] != 0)
         {
             return $ret;

@@ -597,7 +597,7 @@ iframe { border: 0; }
     .region-linkage select:not(:first-child) { margin-bottom: 5px; }
 
     /* 表单 */
-    form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block { padding: 5px; }
+    form.am-form .am-form-group, .plug-file-upload-view, .business-form-group, .business-form-block { padding: 5px; border-bottom: 0; }
 }
 
 /**
