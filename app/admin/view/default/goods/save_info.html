@@ -151,7 +151,7 @@
 						    <p>3. 当设置的商品类型不在系统设置的站点类型包含的时候，商品加入购物车功能将失效</p>
 						</div>
 						<select name="site_type" class="am-radius chosen-select am-margin-top-xs" data-placeholder="可选择..." data-validation-message="请选择商品类型">
-							<option value="-1">可选择...</option>
+							<option value="">可选择...</option>
 							{{if !empty($common_site_type_list)}}
 								{{foreach $common_site_type_list as $v}}
 									<option value="{{$v.value}}" {{if isset($data['site_type']) and $v['value'] eq $data['site_type']}}selected{{/if}}>{{$v.name}}</option>

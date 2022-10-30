@@ -151,6 +151,9 @@ ul {margin-top:0;}
 /**
  * 列表按钮美化
  */
+table.am-table .am-btn {
+    padding: 0.4em 1em;
+}
 table.am-table .am-btn-default {
     border: 1px solid #444;
     background: #fff;
@@ -204,6 +207,16 @@ table.am-table .am-btn-danger {
 table.am-table .am-btn-danger:hover {
     background: #dd514c !important;
     color: #fff;
+}
+
+/**
+ * 下拉选框
+ */
+table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdown-toggle,
+.am-selected > .am-selected-btn.am-btn-default:hover {
+    background: #fff !important;
+    color: #666 !important;
+    border-color: #ddd !important;
 }
 
 /**

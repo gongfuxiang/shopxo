@@ -637,6 +637,9 @@ ul.am-dropdown-content > .am-active > a:focus,
 /**
  * 列表按钮美化
  */
+table.am-table .am-btn {
+    padding: 0.4em 1em;
+}
 table.am-table .am-btn-default {
     border: 1px solid #666;
     background: #fff;
@@ -728,19 +731,23 @@ table.am-table .am-btn-danger:hover, table.am-table .am-btn-danger:active, table
 }
 
 /**
+ * 下拉选框
+ */
+table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdown-toggle,
+.am-selected > .am-selected-btn.am-btn-default,
+.am-selected > .am-selected-btn.am-btn-default:hover {
+    background: #fff !important;
+    color: #666 !important;
+    border-color: #ccc !important;
+    border-radius: 2px;
+}
+
+/**
  * 下拉选择组件
  */
 .chosen-container .chosen-results li.highlighted {
     background-color: #edf6ff !important;
     color: #409eff !important;
-}
-
-/**
- * 下拉选框
- */
-.am-selected-btn.am-btn-default {
-    border: 1px solid #ccc !important;
-    border-radius: 2px;
 }
 
 /**

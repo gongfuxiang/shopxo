@@ -10855,6 +10855,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.init();
 	};
 
+	var placeholder = '点击选择...';
 	Selected.DEFAULTS = {
 	  btnWidth: null,
 	  btnSize: null,
@@ -10862,12 +10863,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  dropUp: 0,
 	  maxHeight: null,
 	  maxChecked: null,
-	  placeholder: '点击选择...',
+	  placeholder: placeholder,
 	  selectedClass: 'am-checked',
 	  disabledClass: 'am-disabled',
 	  searchBox: false,
 	  tpl: '<div class="am-selected am-dropdown ' +
-	  '<%= dropUp ? \'am-dropdown-up\': \'\' %>" id="<%= id %>" data-am-dropdown>' +
+	  '<%= dropUp ? \'am-dropdown-up\': \'\' %>" id="<%= id %>" data-am-dropdown data-placeholder="'+placeholder+'">' +
 	  '  <button type="button" class="am-selected-btn am-btn am-dropdown-toggle">' +
 	  '    <span class="am-selected-status am-fl"></span>' +
 	  '    <i class="am-selected-icon am-icon-caret-' +
@@ -10878,7 +10879,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  '<span class="am-icon-chevron-left">返回</span></h2>' +
 	  '   <% if (searchBox) { %>' +
 	  '   <div class="am-selected-search">' +
-	  '     <input autocomplete="off" class="am-form-field am-input-sm" />' +
+	  '     <div class="am-form-group am-form-icon am-form-feedback"><input autocomplete="off" class="am-form-field am-input-sm" /><i class="am-icon-search"></i></div>' +
 	  '   </div>' +
 	  '   <% } %>' +
 	  '    <ul class="am-selected-list">' +

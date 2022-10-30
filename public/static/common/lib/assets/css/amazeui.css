@@ -3032,7 +3032,7 @@ fieldset[disabled] .am-checkbox-inline {
   border-radius: 0 0 0 0;
 }
 .am-nav-tabs > li > a:hover {
-  border-color: #eeeeee #eeeeee rgba(0,0,0,.06);
+  border-color: #eeeeee #eeeeee #f7f7f7;
 }
 .am-nav-tabs > li.am-active > a,
 .am-nav-tabs > li.am-active > a:hover,

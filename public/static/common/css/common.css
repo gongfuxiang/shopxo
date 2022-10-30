@@ -177,6 +177,12 @@ form.am-form-pure .business-form-block {
         padding-right: 0;
     }
 }
+/**
+ * 图标表单不加内边距
+ */
+form.am-form .am-form-group.am-form-icon {
+    padding: 0 !important;
+}
 
 /**
  * 水平表单
@@ -587,6 +593,12 @@ iframe { border: 0; }
 .am-modal .am-form-group,
 .business-form-block {
     padding: 10px 5px !important;
+}
+/**
+ * 图标表单不加内边距
+ */
+.am-modal .am-form-group.am-form-icon {
+    padding: 0 !important;
 }
 
 /**
@@ -1705,4 +1717,61 @@ form.am-form-popup-fixed .am-form-popup-submit {
 ::-webkit-scrollbar-resizer,
 ::-webkit-scrollbar-resizer:vertical {
     background-color: #ff6e00;
+}
+
+
+/**
+ * 输入框、选择框数据清除
+ */
+a.input-clearout-submit {
+    position: fixed !important;
+    left: 0px;
+    top: 0px;
+    z-index: 2;
+    display: none !important;
+    text-decoration: none !important;
+}
+a.input-clearout-submit > i {
+    margin: 0 !important;
+    line-height: 11px !important;
+    display: block;
+    border: 1px solid #dedede;
+    border-radius: 50px;
+    padding: 0px 2.37px 1px 2.37px;
+    font-size: 12px;
+    color: #cccccc;
+}
+.input-clearout-element {
+    padding-right: 25px !important;
+    box-sizing: border-box;
+}
+a.input-clearout-submit:hover,
+.chosen-container-single > .chosen-single:hover + a.input-clearout-submit,
+.am-selected > .am-selected-btn:hover + a.input-clearout-submit,
+select:hover + a.input-clearout-submit,
+textarea:hover + a.input-clearout-submit,
+input[type="text"]:hover + a.input-clearout-submit,
+input[type="password"]:hover + a.input-clearout-submit,
+input[type="datetime"]:hover + a.input-clearout-submit,
+input[type="datetime-local"]:hover + a.input-clearout-submit,
+input[type="date"]:hover + a.input-clearout-submit,
+input[type="month"]:hover + a.input-clearout-submit,
+input[type="time"]:hover + a.input-clearout-submit,
+input[type="week"]:hover + a.input-clearout-submit,
+input[type="number"]:hover + a.input-clearout-submit,
+input[type="email"]:hover + a.input-clearout-submit,
+input[type="url"]:hover + a.input-clearout-submit,
+input[type="search"]:hover + a.input-clearout-submit,
+input[type="tel"]:hover + a.input-clearout-submit,
+input[type="color"]:hover + a.input-clearout-submit {
+    display: block !important;
+}
+a.input-clearout-submit:hover > i,
+a.input-clearout-submit:focus > i {
+    color: #7b7b7b;
+    border-color: #999;
+}
+.chosen-container-single > .chosen-single.input-clearout-element > .chosen-single-icon,
+.am-selected > .am-selected-btn.input-clearout-element > .am-selected-icon {
+    display: none;
 }

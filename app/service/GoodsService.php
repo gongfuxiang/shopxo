@@ -1247,7 +1247,7 @@ class GoodsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'site_type',
-                'checked_data'      => array_merge([-1], array_column(MyConst('common_site_type_list'), 'value')),
+                'checked_data'      => array_merge(array_column(MyConst('common_site_type_list'), 'value')),
                 'is_checked'        => 2,
                 'error_msg'         => '商品类型数据值范围有误',
             ],
@@ -1345,7 +1345,7 @@ class GoodsService
             'is_exist_many_spec'        => empty($specifications['data']['title']) ? 0 : 1,
             'spec_base'                 => empty($specifications_base['data']) ? '' : json_encode($specifications_base['data'], JSON_UNESCAPED_UNICODE),
             'fictitious_goods_value'    => $fictitious_goods_value,
-            'site_type'                 => isset($params['site_type']) ? $params['site_type'] : -1,
+            'site_type'                 => (isset($params['site_type']) && $params['site_type'] != '') ? $params['site_type'] : -1,
         ];
 
         // 是否存在赠送积分

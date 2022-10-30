@@ -2640,6 +2640,87 @@ function DataPrintHandle(is_pdf = 0)
 	}
 }
 
+/**
+ * 输入框清除按钮处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-10-30
+ * @desc    description
+ * @param   {[object]}        e [当前元素对象]
+ */
+function InputClearOutHandle(e)
+{
+	var value = '';
+	// input/textarea、排除非下拉搜索的input
+	if((e.is('input') || e.is('textarea')) && !e.parent().hasClass('chosen-search') && !e.parent().hasClass('search-field') && !e.parent().hasClass('am-selected-search'))
+	{
+		var status = e.attr('data-is-clearout');
+		if(status == undefined || parseInt(status) == 1)
+		{
+			value = e.val();
+		}
+	}
+	// 插件下拉选择组件
+	if(e.parents('.chosen-container').length > 0 && !e.is('input'))
+	{
+		var status = e.parents('.chosen-container').prev().attr('data-is-clearout');
+		if(status == undefined || parseInt(status) == 1)
+		{
+			value = e.parents('.chosen-container').prev().val();
+		}
+	}
+	// 框架下拉选择组件
+	if(e.parents('.am-selected').length > 0 && !e.is('input'))
+	{
+		var status = e.parents('.am-selected').prev().attr('data-is-clearout');
+		if(status == undefined || parseInt(status) == 1)
+		{
+			value = e.parents('.am-selected').prev().val();
+		}
+	}
+	// 值不为空或undefined
+	if(value !== '' && value !== undefined && value !== null)
+	{
+		if(
+			((e.is('input') || e.is('textarea')) && e.attr('disabled') != 'disabled' && e.attr('readonly') != 'readonly') || 
+			(e.parents('.chosen-container').length > 0 && !e.is('input')) ||
+			(e.parents('.am-selected').length > 0 && !e.is('input'))
+		)
+		{
+			// 添加清除按钮
+	    	if(!e.next().is('a.input-clearout-submit'))
+	    	{
+	    		e.after('<a href="javascript:;" class="input-clearout-submit"><i>&times;</i></a>');
+	    	}
+	    	// 清除按钮位置处理
+	    	var top = e.offset().top-$(window).scrollTop();
+			var left = e.offset().left;
+			var width = e.innerWidth();
+			var height = e.innerHeight();
+			// 存在弹窗则减去弹窗的外边距
+			if(e.parents('.am-popup').length > 0)
+			{
+				var offset = e.parents('.am-popup').offset();
+				top -= offset.top;
+				left -= offset.left;
+			}
+			// 设置位置
+	    	e.next().css({'left':(left+width-23)+'px', 'top':(top+1)+'px', 'padding': (((height-14)/2)-0.1)+'px 5px'});
+	    	e.addClass('input-clearout-element');
+
+	    	return false;
+    	}
+	} else {
+		// 无数据、存在清除按钮则移除
+		if(e.next().is('a.input-clearout-submit'))
+		{
+			e.next().remove();
+			e.removeClass('input-clearout-element');
+		}
+	}
+}
+
 
 // 公共数据操作
 $(function()
@@ -3913,5 +3994,64 @@ $(function()
             $form.find('input[name='+$parent.data('type')+'_id]').val($(this).data('value'));
             $(this).addClass('selected').siblings('li').removeClass('selected');
         }
+    });
+
+    // 输入数据框添加清除按钮 - 鼠标进入事件
+    $(document).on('mouseenter', 'select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"]', function()
+    {
+    	InputClearOutHandle($(this));
+    });
+    // 输入数据框添加清除按钮 - 输入事件
+    $(document).on('keyup', 'select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"]', function()
+    {
+    	InputClearOutHandle($(this));
+    });
+    // 下拉选择组件
+    $(document).on('mouseenter', '.chosen-container .chosen-single, .am-selected .am-selected-btn', function()
+    {
+    	InputClearOutHandle($(this));
+    });
+     $(document).on('mouseleave', '.chosen-container .chosen-single, .am-selected .am-selected-btn', function()
+    {
+    	$(this).removeClass('input-clearout-element');
+    });
+    // 鼠标进入清除按钮 - 增加元素class
+	$(document).on('mouseenter', 'a.input-clearout-submit', function()
+	{
+		$(this).prev().addClass('input-clearout-element');
+	});
+	// 鼠标移开清除按钮 - 移除元素class
+	$(document).on('mouseleave', 'a.input-clearout-submit', function()
+	{
+		$(this).prev().removeClass('input-clearout-element');
+	});
+	// 输入数据框清除
+    $(document).on('click', 'a.input-clearout-submit', function()
+    {
+    	// 文本框则清空数据
+    	if($(this).prev().is('input') || $(this).prev().is('textarea'))
+    	{
+    		$(this).prev().val('');
+    	}
+    	// 插件下拉选择组件
+    	if($(this).parents('.chosen-container').length > 0)
+    	{
+    		var $select = $(this).parents('.chosen-container').prev();
+    		$select.val('');
+    		$select.trigger('chosen:updated');
+    		$select.trigger('change');
+    	}
+    	// 框架下拉选择组件
+    	if($(this).parents('.am-selected').length > 0)
+    	{
+    		var $select = $(this).parents('.am-selected');
+    		$select.prev().val('');
+    		$select.find('.am-selected-btn .am-selected-status').text($select.prev().attr('placeholder') || $select.data('placeholder'));
+    		$select.find('.am-selected-list li.am-checked').removeClass('am-checked');
+    	}
+    	// 移除class
+    	$(this).prev().removeClass('input-clearout-element');
+    	// 删除清除按钮
+    	$(this).remove();
     });
 });
