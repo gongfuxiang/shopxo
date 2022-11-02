@@ -356,6 +356,9 @@ class FormHandleModule
             $select_field = empty($form_data['select_field']) ? '*' : $form_data['select_field'];
             $db->field($select_field);
 
+            // 是否使用分页、非导出模式下
+            $is_page = (!isset($form_data['is_page']) || $form_data['is_page'] == 1);
+
             // 数据读取
             if($is_list)
             {
@@ -385,37 +388,12 @@ class FormHandleModule
                         $db->group($form_data['group']);
                     }
 
-                    // 是否使用分页、非导出模式下
-                    $is_page = (!isset($form_data['is_page']) || $form_data['is_page'] == 1);
+                    // 增加分页
                     if($is_page && !$this->is_export_excel)
                     {
-                        // 是否定义分页提示信息
-                        $tips_msg = '';
-                        $m = $this->ServiceActionModule($form_data, 'page_tips_handle');
-                        if(!empty($m))
-                        {
-                            $module = $m['module'];
-                            $action = $m['action'];
-                            $tips_msg = $module::$action($this->where);
-                        }
-
-                        // 分页组件
-                        $page_params = [
-                            'number'    => $this->page_size,
-                            'total'     => $this->data_total,
-                            'where'     => $this->out_params,
-                            'page'      => $this->page,
-                            'url'       => $this->page_url,
-                            'tips_msg'  => $tips_msg,
-                        ];
-                        $page = new \base\Page($page_params);
-                        $this->page_start = $page->GetPageStarNumber();
-                        $this->page_html = $page->GetPageHtml();
-
-                        // 增加分页
+                        $this->page_start = intval(($this->page-1)*$this->page_size);
                         $db->limit($this->page_start, $this->page_size);
                     }
-
                     // 读取数据
                     $this->data_list = $db->select()->toArray();
                 }
@@ -511,6 +489,59 @@ class FormHandleModule
                     } else {
                         $this->data_list = $res;
                     }
+                }
+
+                // 分页处理
+                if($is_page && $is_list && !$this->is_export_excel)
+                {
+                    // 是否定义分页提示信息
+                    $tips_msg = '';
+                    $m = $this->ServiceActionModule($form_data, 'page_tips_handle');
+                    if(!empty($m))
+                    {
+                        $module = $m['module'];
+                        $action = $m['action'];
+                        $tips_msg = $module::$action($this->where);
+                    }
+
+                    // 分页统计数据
+                    if(isset($form_data['is_page_stats']) && $form_data['is_page_stats'] == 1 && !empty($form_data['page_stats_data']) && is_array($form_data['page_stats_data']))
+                    {
+                        $stats_data = [];
+                        foreach($form_data['page_stats_data'] as $pv)
+                        {
+                            if(!empty($pv['name']))
+                            {
+                                // 数据字段
+                                $field = empty($pv['field']) ? 'id' : $pv['field'];
+                                // 是否数据列表汇总（0数据库地区、1列表汇总）
+                                if(isset($pv['type']) && $pv['type'] == 1)
+                                {
+                                    $value = empty($this->data_list) ? 0 : array_sum(array_column($this->data_list, $field));
+                                } else {
+                                    $stats_fun = empty($pv['fun']) ? 'sum' : $pv['fun'];
+                                    $value = $db->$stats_fun($field);
+                                }
+                                $stats_data[] = $pv['name'].$value.(empty($pv['unit']) ? '' : $pv['unit']);
+                            }
+                        }
+                        if(!empty($stats_data))
+                        {
+                            $tips_msg .= implode('&nbsp;&nbsp;&nbsp;', $stats_data);
+                        }
+                    }
+
+                    // 分页组件
+                    $page_params = [
+                        'number'    => $this->page_size,
+                        'total'     => $this->data_total,
+                        'where'     => $this->out_params,
+                        'page'      => $this->page,
+                        'url'       => $this->page_url,
+                        'tips_msg'  => $tips_msg,
+                    ];
+                    $page = new \base\Page($page_params);
+                    $this->page_html = $page->GetPageHtml();
                 }
 
                 // 是否详情页
