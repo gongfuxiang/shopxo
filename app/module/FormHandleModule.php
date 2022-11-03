@@ -507,6 +507,10 @@ class FormHandleModule
                     // 分页统计数据
                     if(isset($form_data['is_page_stats']) && $form_data['is_page_stats'] == 1 && !empty($form_data['page_stats_data']) && is_array($form_data['page_stats_data']))
                     {
+                        // 当前数据字段列
+                        $data_item_fields = (empty($this->data_list) || empty($this->data_list[0])) ? [] : array_keys($this->data_list[0]);
+
+                        // 统计数据集合
                         $stats_data = [];
                         foreach($form_data['page_stats_data'] as $pv)
                         {
@@ -514,10 +518,10 @@ class FormHandleModule
                             {
                                 // 数据字段
                                 $field = empty($pv['field']) ? 'id' : $pv['field'];
-                                // 是否数据列表汇总（0数据库地区、1列表汇总）
-                                if(isset($pv['type']) && $pv['type'] == 1)
+                                // 数据字段存在当前数据列表中则直接汇总
+                                if(in_array($field, $data_item_fields))
                                 {
-                                    $value = empty($this->data_list) ? 0 : array_sum(array_column($this->data_list, $field));
+                                    $value = empty($this->data_list) ? 0 : PriceBeautify(PriceNumberFormat(array_sum(array_column($this->data_list, $field))));
                                 } else {
                                     $stats_fun = empty($pv['fun']) ? 'sum' : $pv['fun'];
                                     $value = $db->$stats_fun($field);
