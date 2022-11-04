@@ -8154,6 +8154,9 @@ img.am-thumbnail,
 .am-monospace {
   font-family: Monaco, Menlo, Consolas, "Courier New", "FontAwesome", monospace;
 }
+.am-text-white {
+  color: #fff;
+}
 .am-text-grey {
   color: #b9b9b9;
 }

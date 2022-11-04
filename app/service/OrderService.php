@@ -1168,22 +1168,6 @@ class OrderService
     }
 
     /**
-     * 提示信息
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-09-29
-     * @desc    description
-     * @param   [array]          $where [条件]
-     */
-    public static function OrderTipsMsg($where = [])
-    {
-        $total_price = Db::name('Order')->where($where)->sum('total_price');
-        $pay_price = Db::name('Order')->where($where)->sum('pay_price');
-        return '订单总额 '.$total_price.' 元，支付总额 '.$pay_price.' 元';
-    }
-
-    /**
      * 订单列表
      * @author   Devil
      * @blog    http://gong.gg/

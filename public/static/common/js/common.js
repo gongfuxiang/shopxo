@@ -4054,4 +4054,55 @@ $(function()
     	// 删除清除按钮
     	$(this).remove();
     });
+
+    // 下拉组件输入框快捷添加则不触发失去焦点事件
+    $(document).on('blur', '.chosen-container > .chosen-drop > .chosen-search > input', function()
+    {
+        if(parseInt($(this).parents('.chosen-container').prev().data('no-results-operate-button') || 0) == 1)
+        {
+            return false;
+        }
+    });
+    // 下拉组件快捷添加
+    $(document).on('click', '.chosen-container > .chosen-drop > .chosen-results > .no-results > .chosen-select-quick-add-submit', function()
+    {
+        var $this = $(this);
+        var $parent = $this.parents('.chosen-container');
+        var $select = $parent.prev();
+        var value = $parent.find('.chosen-search input').val();
+        var is_customer = $select.data('is-customer') || 0;
+        var is_supplier = $select.data('is-supplier') || 0;
+        var json = JsonStringToJsonObject($select.data('no-results-operate-button-params')) || {};
+        var data_field = $select.data('no-results-operate-button-data-field');
+        json[data_field] = value;
+        $this.button('loading');
+        $.ajax({
+            url: RequestUrlHandle($select.data('quick-add-url')),
+            type: 'POST',
+            dataType: 'json',
+            timeout: 30000,
+            data: json,
+            success: function(result)
+            {
+                $this.button('reset');
+                if(result.code == 0)
+                {
+                    // 添加数据到列表
+                    $select.append('<option value="'+result.data+'">'+value+'</option>');
+                    // 选中并更新列表数据
+                    $select.val(result.data);
+                    $select.trigger('chosen:updated').trigger('change');
+                    // 关闭下拉选择
+                    $parent.removeClass('chosen-with-drop').removeClass('chosen-container-active');
+                } else {
+                    Prompt(result.msg);
+                }
+            },
+            error: function(xhr, type)
+            {
+                $this.button('reset');
+                Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'));
+            }
+        });
+    });
 });
