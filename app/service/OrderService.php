@@ -1479,7 +1479,7 @@ class OrderService
             if($user_type == 'admin')
             {
                 $result['is_confirm']    = ($data['status'] == 0) ? 1 : 0;
-                $result['is_pay']        = ($data['pay_status'] == 0 && !in_array($data['status'], [5,6])) ? 1 : 0;
+                $result['is_pay']        = ($data['pay_status'] == 0 && !in_array($data['status'], [0,5,6])) ? 1 : 0;
                 $result['is_delivery']   = ($data['status'] == 2 && (isset($data['order_model']) && in_array($data['order_model'], [0,2,3]))) ? 1 : 0;
                 $result['is_collect']    = ($data['status'] == 3) ? 1 : 0;
                 $result['is_cancel']     = (in_array($data['status'], [0,1]) || (in_array($data['status'], [2,3,4]) && $data['pay_status'] == 0)) ? 1 : 0;
