@@ -965,7 +965,15 @@ class UserService
             $body_html = [];
 
             // 用户登录后钩子
-            $user = self::UserInfo('id', $user_id, 'id,system_type,username,nickname,mobile,email,gender,avatar,province,city,birthday');
+            $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,birthday');
+
+            // 会员码生成处理
+            if(empty($user['number_code']))
+            {
+                $user['number_code'] = self::UserNumberCodeCreatedHandle($user_id);
+            }
+
+            // 登录钩子
             $hook_name = 'plugins_service_user_login_end';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [
                 'hook_name'     => $hook_name,
@@ -2060,6 +2068,12 @@ class UserService
 
         if(!empty($user))
         {
+            // 会员码生成处理
+            if(empty($user['number_code']))
+            {
+                $user['number_code'] = self::UserNumberCodeCreatedHandle($user['id']);
+            }
+
             // 用户信息处理
             $user = self::UserHandle($user);
 
@@ -2220,6 +2234,9 @@ class UserService
         $user_id = Db::name('User')->insertGetId($data);
         if($user_id > 0)
         {
+            // 会员码生成处理
+            self::UserNumberCodeCreatedHandle($user_id);
+
             // 清除推荐id
             if(isset($data['referrer']))
             {
@@ -2230,7 +2247,7 @@ class UserService
             $body_html = [];
 
             // 注册成功后钩子
-            $user = self::UserInfo('id', $user_id, 'id,username,nickname,mobile,email,gender,avatar,province,city,birthday');
+            $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,birthday');
             $hook_name = 'plugins_service_user_register_end';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [
                 'hook_name'     => $hook_name,
@@ -2254,6 +2271,27 @@ class UserService
             return DataReturn(MyLang('common.insert_success'), 0, $result);
         }
         return DataReturn(MyLang('common.insert_fail'), -100);
+    }
+
+    /**
+     * 会员码生成处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-11-09
+     * @desc    description
+     * @param   [int]          $user_id [用户id]
+     */
+    public static function UserNumberCodeCreatedHandle($user_id)
+    {
+        // 会员码
+        $max = 10;
+        $len = strlen($user_id);
+        $number_code = ($len < $max) ? GetNumberCode($max-$len).$user_id : GetNumberCode(1).$user_id;
+
+        // 更新数据库
+        Db::name('User')->where(['id'=>$user_id])->update(['number_code'=>$number_code]);
+        return $number_code;
     }
 
     /**
@@ -2663,7 +2701,7 @@ class UserService
             }
             if(!empty($user_ids))
             {
-                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,username,nickname,mobile,email,avatar,province,city', 'id');
+                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,number_code,system_type,username,nickname,mobile,email,avatar,province,city', 'id');
             }
 
             // 数据处理
