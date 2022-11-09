@@ -80,9 +80,9 @@ class ResourcesService
 
         // 替换处理
         $search = [
+            $attachment_host_path,
             __MY_PUBLIC_URL__,
             __MY_ROOT_PUBLIC__,
-            $attachment_host_path,
         ];
 
         // 是否数组
