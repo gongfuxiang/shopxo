@@ -11644,9 +11644,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }
 	  if (i == l) {
-	    qrCodeAlg = new QRCodeAlg(this.options.text, this.options.correctLevel);
+	    qrCodeAlg = new QRCodeAlg(this.options.text.toString(), this.options.correctLevel);
 	    qrcodeAlgObjCache.push({
-	      text: this.options.text,
+	      text: this.options.text.toString(),
 	      correctLevel: this.options.correctLevel,
 	      obj: qrCodeAlg
 	    });

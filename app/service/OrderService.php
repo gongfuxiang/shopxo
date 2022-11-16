@@ -93,6 +93,10 @@ class OrderService
                 return DataReturn('状态不可操作['.$status_text.'-'.$order['order_no'].']', -1);
             }
 
+            // 订单详情
+            $detail = self::OrderItemList([$order]);
+            $order['detail'] = (empty($detail) || !array_key_exists($order['id'], $detail)) ? [] : $detail[$order['id']];
+
             // 订单用户
             $order['user'] = UserService::UserHandle(UserService::UserInfo('id', $order['user_id']));
             if(empty($order['user']))
@@ -230,6 +234,7 @@ class OrderService
             'user'          => $current_user,
             'business_ids'  => $order_ids,
             'business_nos'  => $order_nos,
+            'business_data' => $order_data,
             'total_price'   => $total_price,
             'payment'       => $payment['payment'],
             'payment_name'  => $payment['name'],
@@ -246,6 +251,7 @@ class OrderService
             'user_id'       => $current_user['id'],
             'business_ids'  => $order_ids,
             'business_nos'  => $order_nos,
+            'business_data' => $order_data,
             'total_price'   => $total_price,
             'payment'       => $payment['payment'],
             'payment_name'  => $payment['name'],
@@ -263,6 +269,7 @@ class OrderService
             'business_type' => 'system-order',
             'business_ids'  => $order_ids,
             'business_nos'  => $order_nos,
+            'business_data' => $order_data,
             'order_id'      => $pay_log['data']['id'],
             'order_no'      => $pay_log['data']['log_no'],
             'name'          => '订单支付',

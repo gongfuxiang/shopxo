@@ -6,17 +6,19 @@
         </div>
         <div class="am-popup-bd">
             <form class="am-form pay-form am-form-popup-fixed" method="post" action="{{:MyUrl('index/order/pay')}}">
-                <div class="business-item">
+                <div class="business-list business-list-nbfc">
                     {{if !empty($buy_payment_list)}}
-                        <ul class="payment-list" data-type="payment">
+                        <ul class="am-avg-sm-2 am-avg-md-3 payment-list" data-type="payment">
                             {{foreach $buy_payment_list as $payment}}
-                                <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
-                                    {{if !empty($payment.logo)}}
-                                        <img src="{{$payment.logo}}" />
-                                    {{/if}}
-                                    <span>{{$payment.name}}</span>
-                                    <div class="rotate"></div>
-                                    <i class="am-icon-check"></i>
+                                <li class="am-padding-sm" data-value="{{$payment.id}}">
+                                    <div class="business-item am-nbfc am-padding-sm am-radius">
+                                        {{if !empty($payment.logo)}}
+                                            <img src="{{$payment.logo}}" class="am-radius" />
+                                        {{/if}}
+                                        <span>{{$payment.name}}</span>
+                                        <div class="rotate"></div>
+                                        <i class="am-icon-check"></i>
+                                    </div>
                                 </li>
                             {{/foreach}}
                         </ul>

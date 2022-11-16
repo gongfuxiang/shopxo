@@ -94,8 +94,8 @@ ul {margin-top:0;}
 .admin-sidebar-list li a .nav-name {line-height: 14px;width: calc(100% - 50px);}
 .admin-sidebar-sub {margin-top:0;margin-bottom:0;box-shadow:0 16px 8px -15px #e2e2e2 inset;background:#646464;padding-left:10px;}
 .admin-sidebar-sub li:first-child {border-top:1px solid #dedede;}
-.admin-sidebar-sub li { background: #404246 !important; border-color: #393b3e !important ; }
-.admin-sidebar {height:100%;overflow-x:hidden;overflow-y:scroll;-webkit-overflow-scrolling:touch;}
+.admin-sidebar-sub li { background: #404246 !important; border-color: #393b3e !important; }
+.admin-sidebar {height:100%;overflow-x:hidden;overflow-y:scroll;-webkit-overflow-scrolling:touch;scrollbar-width: none;}
 .admin-sidebar .am-icon-angle-down {margin-top: 2px;}
 @media only screen and (min-width:641px) {
     header { left: 160px; }
@@ -116,7 +116,7 @@ ul {margin-top:0;}
 .admin {width:100%;height:100%;display:flex;display:-webkit-flex;padding-top:33px;background:#fff;}
 .admin .am-g {padding-left:0;padding-right:0;}
 /*---right Content---*/
-.content-right .content {padding:10px 10px 0 10px;}
+.content-right > .content {padding:10px 10px 0 10px;}
 .admin-sidebar-list li a {padding:0.65rem;}
 .common-left-menu a:hover { background:rgba(118, 119, 120, 0.45); }
 .common-left-menu-active {background:#1cc09f !important;color:#fff !important;}

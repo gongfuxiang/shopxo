@@ -225,7 +225,7 @@ class User extends Common
     }
 
     /**
-     * [ClientCenter 用户中心]
+     * 用户中心
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  1.0.0

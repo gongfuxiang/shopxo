@@ -70,9 +70,10 @@ class ResourcesService
      * @version 1.0.0
      * @date    2018-12-12
      * @desc    description
-     * @param   [string|array]          $value [附件路径地址]
+     * @param   [string|array]    $value [附件路径地址]
+     * @param   [string]          $field [url字段名称]
      */
-    public static function AttachmentPathHandle($value)
+    public static function AttachmentPathHandle($value, $field = 'url')
     {
         // 配置文件附件url地址
         $attachment_host = SystemBaseService::AttachmentHost();
@@ -92,10 +93,10 @@ class ResourcesService
             {
                 foreach($value as &$v)
                 {
-                    // 是否二级url
-                    if(isset($v['url']))
+                    // 是否二级
+                    if(isset($v[$field]))
                     {
-                        $v['url'] = empty($v['url']) ? '' : str_replace($search, DS, $v['url']);
+                        $v[$field] = empty($v[$field]) ? '' : str_replace($search, DS, $v[$field]);
                     } else {
                         $v = empty($v) ? '' : str_replace($search, DS, $v);
                     }
@@ -137,9 +138,10 @@ class ResourcesService
      * @blog     http://gong.gg/
      * @version  1.0.0
      * @datetime 2019-01-13T15:13:30+0800
-     * @param    [string|array]             $value [附件地址]
+     * @param    [string|array]   $value [附件地址]
+     * @param    [string]         $field [url字段名称]
      */
-    public static function AttachmentPathViewHandle($value)
+    public static function AttachmentPathViewHandle($value, $field = 'url')
     {
         if(!empty($value))
         {
@@ -151,12 +153,12 @@ class ResourcesService
             {
                 foreach($value as &$v)
                 {
-                    // 是否二级url
-                    if(isset($v['url']))
+                    // 是否二级
+                    if(isset($v[$field]))
                     {
-                        if(substr($v['url'], 0, 4) != 'http')
+                        if(substr($v[$field], 0, 4) != 'http')
                         {
-                            $v['url'] = $host.$v['url'];
+                            $v[$field] = $host.$v[$field];
                         }
                     } else {
                         if(substr($v, 0, 4) != 'http')
@@ -777,6 +779,22 @@ class ResourcesService
         }
 
         return empty($uid) ? '' : md5($uid);
+    }
+
+    /**
+     * 获取表结构
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-11-12
+     * @desc    description
+     * @param   [string]          $table [表名称、可以是大写字母会自动转为小写前面加下划线分隔]
+     */
+    public static function TableStructureData($table)
+    {
+        $table_name = MyConfig('database.connections.mysql.prefix').strtolower(preg_replace('/\B([A-Z])/', '_$1', $table));
+        $res = Db::query('SELECT COLUMN_NAME AS field,COLUMN_COMMENT AS name FROM INFORMATION_SCHEMA.Columns WHERE `table_name`="'.$table_name.'"');
+        return empty($res) ? [] : array_column($res, 'name', 'field');
     }
 }
 ?>

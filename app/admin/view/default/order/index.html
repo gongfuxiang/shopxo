@@ -34,18 +34,20 @@
             </div>
             <div class="am-popup-bd">
                 <form class="am-form form-validation-delivery am-form-popup-fixed" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
-                    <div class="business-item">
+                    <div class="business-list business-list-nbfc">
                         {{if !empty($express_list)}}
-                            <ul class="express-list" data-type="express">
+                            <ul class="am-avg-sm-2 am-avg-md-3 express-list" data-type="express">
                                 {{foreach $express_list as $express}}
                                     {{if $express.is_enable eq 1}}
-                                        <li class="express-items-{{$express.id}}" data-value="{{$express.id}}">
-                                            {{if !empty($express.icon)}}
-                                                <img src="{{$express.icon}}" />
-                                            {{/if}}
-                                            <span>{{$express.name}}</span>
-                                            <div class="rotate"></div>
-                                            <i class="am-icon-check"></i>
+                                        <li class="am-padding-sm" data-value="{{$express.id}}">
+                                            <div class="business-item am-nbfc am-padding-sm am-radius">
+                                                {{if !empty($express.icon)}}
+                                                    <img src="{{$express.icon}}" class="am-radius" />
+                                                {{/if}}
+                                                <span>{{$express.name}}</span>
+                                                <div class="rotate"></div>
+                                                <i class="am-icon-check"></i>
+                                            </div>
                                         </li>
                                     {{/if}}
                                 {{/foreach}}
@@ -81,17 +83,19 @@
             </div>
             <div class="am-popup-bd">
                 <form class="am-form form-validation-pay am-form-popup-fixed" action="{{:MyUrl('admin/order/pay')}}" method="POST" request-type="ajax-reload">
-                    <div class="business-item">
+                    <div class="business-list business-list-nbfc">
                         {{if !empty($buy_payment_list)}}
-                            <ul class="payment-list" data-type="payment">
+                            <ul class="am-avg-sm-2 am-avg-md-3 payment-list" data-type="payment">
                                 {{foreach $buy_payment_list as $payment}}
-                                    <li class="payment-items-{{$payment.id}}" data-value="{{$payment.id}}">
-                                        {{if !empty($payment.logo)}}
-                                            <img src="{{$payment.logo}}" />
-                                        {{/if}}
-                                        <span>{{$payment.name}}</span>
-                                        <div class="rotate"></div>
-                                        <i class="am-icon-check"></i>
+                                    <li class="am-padding-sm" data-value="{{$payment.id}}">
+                                        <div class="business-item am-nbfc am-padding-sm am-radius">
+                                            {{if !empty($payment.logo)}}
+                                                <img src="{{$payment.logo}}" class="am-radius" />
+                                            {{/if}}
+                                            <span>{{$payment.name}}</span>
+                                            <div class="rotate"></div>
+                                            <i class="am-icon-check"></i>
+                                        </div>
                                     </li>
                                 {{/foreach}}
                             </ul>

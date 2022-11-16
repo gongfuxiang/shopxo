@@ -12,6 +12,31 @@
 // 应用公共文件
 
 /**
+ * 两个数组字段对比处理、arr1不存在arr2中的字段则移除
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-11-12
+ * @desc    description
+ * @param   [array]          $arr1 [待处理的数据]
+ * @param   [array]          $arr2 [参考对比的数据]
+ */
+function ArrayFieldContrastHandle($arr1, $arr2)
+{
+    if(!empty($arr1) && is_array($arr1) && is_array($arr2))
+    {
+        foreach($arr1 as $fk=>$fv)
+        {
+            if(!array_key_exists($fk, $arr2))
+            {
+                unset($arr1[$fk]);
+            }
+        }
+    }
+    return $arr1;
+}
+
+/**
  * 获取汉字拼音、默认返回数组
  * @author  Devil
  * @blog    http://gong.gg/

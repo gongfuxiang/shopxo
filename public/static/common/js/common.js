@@ -627,12 +627,13 @@ function FormDataFill(json, tag)
 		$form = $(tag);
 		for(var i in json)
 		{
-			$form.find('input[type="hidden"][name="'+i+'"], input[type="text"][name="'+i+'"], input[type="password"][name="'+i+'"], input[type="email"][name="'+i+'"], input[type="number"][name="'+i+'"], input[type="date"][name="'+i+'"], textarea[name="'+i+'"], select[name="'+i+'"], input[type="url"][name="'+i+'"]').val(json[i]);
+			$form.find('input[type="hidden"][name="'+i+'"], input[type="text"][name="'+i+'"], input[type="password"][name="'+i+'"], input[type="email"][name="'+i+'"], input[type="number"][name="'+i+'"], input[type="date"][name="'+i+'"], textarea[name="'+i+'"], select[name="'+i+'"], input[type="url"][name="'+i+'"]').val(json[i]).trigger('change');
 
 			// input radio
 			$form.find('input[type="radio"][name="'+i+'"]').each(function(k, v)
 			{
 				this.checked = (json[i] == $(this).val());
+				$(this).trigger('change');
 			});
 		}
 
@@ -652,6 +653,7 @@ function FormDataFill(json, tag)
 			var name = $(this).find('input').attr('name') || null;
 			var state = (name == null || (json[name] || 0) == 0) ? false : true;
 			$(this).find('input').bootstrapSwitch('state', state);
+			$(this).find('input').trigger('change');
 		});
 
 		// 多选插件事件更新
@@ -3982,16 +3984,30 @@ $(function()
     });
 
     // 混合业务列表选择
-    $(document).on('click', '.business-item ul li', function()
+    $(document).on('click', '.business-list ul li', function()
     {
-        var $form = $(this).parents('form');
+        var $business = ($(this).parents('form').length == 1) ? $(this).parents('form') : $(this).parents('.business-list');
         var $parent = $(this).parent();
+        var type = $parent.data('type');
+        var $input = $business.find('input[name='+type+']').length == 0 ? $business.find('input[name='+type+'_id]') : $business.find('input[name='+type+']');
+        var value = $input.val();
         if($(this).hasClass('selected'))
         {
-            $form.find('input[name='+$parent.data('type')+'_id]').val(0);
-            $(this).removeClass('selected');
+        	if(parseInt($parent.data('is-required') || 0) == 0)
+        	{
+	            $input.val('');
+	            if(value != '')
+	            {
+	            	$input.trigger('change');
+	            }
+	            $(this).removeClass('selected');
+            }
         } else {
-            $form.find('input[name='+$parent.data('type')+'_id]').val($(this).data('value'));
+            $input.val($(this).data('value'));
+            if(value != $(this).data('value'))
+            {
+            	$input.trigger('change');
+            }
             $(this).addClass('selected').siblings('li').removeClass('selected');
         }
     });
@@ -4003,6 +4019,11 @@ $(function()
     });
     // 输入数据框添加清除按钮 - 输入事件
     $(document).on('keyup', 'select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"]', function()
+    {
+    	InputClearOutHandle($(this));
+    });
+    // 输入数据框添加清除按钮 - 获取焦点事件
+    $(document).on('focus', 'select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"]', function()
     {
     	InputClearOutHandle($(this));
     });
@@ -4031,7 +4052,7 @@ $(function()
     	// 文本框则清空数据
     	if($(this).prev().is('input') || $(this).prev().is('textarea'))
     	{
-    		$(this).prev().val('');
+    		$(this).prev().val('').trigger('change');
     	}
     	// 插件下拉选择组件
     	if($(this).parents('.chosen-container').length > 0)
@@ -4054,6 +4075,17 @@ $(function()
     	// 删除清除按钮
     	$(this).remove();
     });
+    // 页面滚动则移除input删除按钮
+    $(window).on('scroll', function()
+	{
+		$('*').removeClass('input-clearout-element');
+		$('.input-clearout-submit').remove();
+	});
+	$('*').on('scroll', function()
+	{
+		$('*').removeClass('input-clearout-element');
+		$('.input-clearout-submit').remove();
+	});
 
     // 下拉组件输入框快捷添加则不触发失去焦点事件
     $(document).on('blur', '.chosen-container > .chosen-drop > .chosen-search > input', function()

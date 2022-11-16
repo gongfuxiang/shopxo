@@ -1607,31 +1607,37 @@ form.am-form-popup-fixed .am-form-popup-submit {
     border-top: 1px solid #eee;
     z-index: 2;
 }
+.am-popup.popup-not-title form.am-form-popup-fixed .am-form-popup-submit {
+    width: calc(100% - 50px);
+    margin-left: 25px;
+}
 
 /**
  * 混合业务列表选择
  */
-.business-item ul {
-    padding: 5px;
+.business-list-nbfc {
     overflow: hidden;
 }
-.business-item ul li {
-    border:1px solid transparent;
-    overflow: hidden;
-    float: left;
+.business-list-nbfc ul {
+    width: calc(100% + 1.8rem);
+    margin-left: -0.9rem;
+    margin-top: -0.9rem;
+}
+.business-list ul li .business-item {
+    border: 1px solid #ddd;
     cursor: pointer;
-    padding: 5px;
-    border: 1px solid #eee;
-    margin: 0 10px 10px 0;
-    border-radius: 2px;
+    background: #fff;
+    position: relative;
 }
-.business-item ul li img {
-    width: 36px;
-    height: 36px;
+.business-list ul li .business-item img {
+    width: 16px;
+    height: 15px;
+}
+.business-list ul li .business-item img,
+.business-list ul li .business-item span {
     vertical-align: middle;
-    border-radius: 2px;
 }
-.business-item ul li .rotate {
+.business-list ul li .business-item .rotate {
     background-color: #d2364c;
     width: 22px;
     height: 70px;
@@ -1641,84 +1647,22 @@ form.am-form-popup-fixed .am-form-popup-submit {
     bottom: -20px;
     display: none;
 }
-.business-item ul li i.am-icon-check {
+.business-list ul li .business-item i.am-icon-check {
     position: absolute;
-    right: 1px;
+    right: 0;
     bottom: 0;
     color: #fff !important;
     display: none;
 }
-.business-item ul li.selected .rotate,
-.business-item ul li.selected i.am-icon-check {
+.business-list ul li.selected .business-item .rotate,
+.business-list ul li.selected .business-item i.am-icon-check {
     display: block;
 }
-.business-item ul li:hover {
+.business-list ul li.selected .business-item,
+.business-list ul li .business-item:hover {
     border: 1px solid #d2364c;
     box-shadow: 0px 0 0px 1px #d2364c;
 }
-.business-item ul li.selected {
-    border-color: #d2364c;
-    position: relative;
-    box-shadow: 0px 0 0px 1px #d2364c;
-}
-@media only screen and (min-width:640px) {
-    .business-item ul li {
-        width:calc(33% - 5px);
-    }
-    .business-item ul li:nth-child(3n) {
-        margin-right: 0;
-    }
-}
-@media only screen and (max-width:640px) {
-    .business-item ul li {
-        width: calc(50% - 5px);
-    }
-    .business-item ul li:nth-child(2n) {
-        margin-right: 0;
-    }
-}
-
-
-
-/**
- * 滚动条样式
- */
-::-webkit-scrollbar {
-    width: 3px;
-    height: 6px;
-}
-::-webkit-scrollbar-button,
-::-webkit-scrollbar-button:vertical {
-    display: none;
-}
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-track:vertical {
-    background-color: black;
-}
-::-webkit-scrollbar-track-piece {
-    background-color: #fafafa;
-}
-::-webkit-scrollbar-track-piece {
-    border-top: 1px solid rgba(0,0,0,.01);
-}
-::-webkit-scrollbar-thumb,
-::-webkit-scrollbar-thumb:vertical {
-    margin-right: 10px;
-    background-color: #f0f0f0;
-}
-::-webkit-scrollbar-thumb:hover,
-::-webkit-scrollbar-thumb:vertical:hover {
-    background-color: #a9a9a9;
-}
-::-webkit-scrollbar-corner,
-::-webkit-scrollbar-corner:vertical {
-    background-color: #e5e5e5;
-}
-::-webkit-scrollbar-resizer,
-::-webkit-scrollbar-resizer:vertical {
-    background-color: #ff6e00;
-}
-
 
 /**
  * 输入框、选择框数据清除
@@ -1774,4 +1718,51 @@ a.input-clearout-submit:focus > i {
 .chosen-container-single > .chosen-single.input-clearout-element > .chosen-single-icon,
 .am-selected > .am-selected-btn.input-clearout-element > .am-selected-icon {
     display: none;
+}
+
+
+
+/**
+ * 滚动条样式
+ */
+::-webkit-scrollbar {
+    width: 3px;
+    height: 6px;
+}
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:vertical {
+    display: none;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track:vertical {
+    background-color: black;
+}
+::-webkit-scrollbar-track-piece {
+    background-color: #fafafa;
+}
+::-webkit-scrollbar-track-piece {
+    border-top: 1px solid rgba(0,0,0,.01);
+}
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:vertical {
+    margin-right: 10px;
+    background-color: #f0f0f0;
+}
+::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:vertical:hover {
+    background-color: #a9a9a9;
+}
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-corner:vertical {
+    background-color: #e5e5e5;
+}
+::-webkit-scrollbar-resizer,
+::-webkit-scrollbar-resizer:vertical {
+    background-color: #ff6e00;
+}
+/**
+ * 滚动条样式 - 火狐浏览器、使用更窄的样式
+ */
+* {
+    scrollbar-width: thin;
 }

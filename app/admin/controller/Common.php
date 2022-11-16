@@ -297,6 +297,9 @@ class Common extends BaseController
         // 是否加载视频播放器组件
         $assign['is_load_ckplayer'] = 0;
 
+        // 是否加载条形码组件
+        $assign['is_load_barcode'] = 0;
+
         // 默认不加载地图api、类型默认百度地图
         $assign['is_load_map_api'] = 0;
         $assign['load_map_type'] = MyC('common_map_type', 'baidu', true);

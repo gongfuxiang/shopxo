@@ -113,6 +113,11 @@
     <script type='text/javascript' src="{{$public_host}}static/common/lib/ckplayer/js/ckplayer.min.js?v={{:MyC('home_static_cache_version')}}"></script>
 {{/if}}
 
+<!-- 条形码 -->
+{{if isset($is_load_barcode) and $is_load_barcode eq 1}}
+    <script type='text/javascript' src="{{$public_host}}static/common/lib/JsBarcode/JsBarcode.all.min.js?v={{:MyC('home_static_cache_version')}}"></script>
+{{/if}}
+
 <!-- map -->
 {{if isset($is_load_map_api) and $is_load_map_api eq 1 and !empty($load_map_type)}}
     {{switch $load_map_type}}

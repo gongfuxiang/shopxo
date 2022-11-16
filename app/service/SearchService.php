@@ -120,17 +120,20 @@ class SearchService
             // 是否转ascii处理主键字段
             if($is_ascii && !empty($field) && isset($v[$field]))
             {
-                $v[$did] = StrToAscii(($v[$field]));
+                $v[$did] = StrToAscii($v[$field]);
             }
-            if((isset($params[$pid]) && $params[$pid] == $v[$did]))
+            $temp_params = $params;
+            if(isset($v[$did]))
             {
-                $temp_params = $params;
-                unset($temp_params[$pid]);
-            } else {
-                $temp_params = array_merge($params, [$pid=>$v[$did]]);
+                if(isset($params[$pid]) && $params[$pid] == $v[$did])
+                {
+                    unset($temp_params[$pid]);
+                } else {
+                    $temp_params = array_merge($params, [$pid=>$v[$did]]);
+                }
             }
             $v['url'] = MyUrl('index/search/index', $temp_params);
-            $v['is_active'] = (isset($params[$pid]) && $params[$pid] == $v[$did]) ? 1 : 0;
+            $v['is_active'] = (isset($params[$pid]) && isset($v[$did]) && $params[$pid] == $v[$did]) ? 1 : 0;
         }
         return $data;
     }

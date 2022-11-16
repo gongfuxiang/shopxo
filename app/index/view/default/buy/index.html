@@ -522,22 +522,26 @@
 
         <!-- 支付方式 -->
         {{if $base['actual_price'] gt 0 and $common_order_is_booking neq 1}}
-            <div id="buy-items-payment" class="buy-items business-item payment" data-field="payment_id">
+            <div id="buy-items-payment" class="buy-items">
                 <h3>选择支付</h3>
-                {{if !empty($payment_list)}}
-                    <ul class="payment-list">
-                        {{foreach $payment_list as $payment}}
-                            <li data-value="{{$payment.id}}" class="{{if isset($params['payment_id']) and $params['payment_id'] eq $payment['id']}}selected{{/if}}">
-                                {{if !empty($payment.logo)}}
-                                    <img src="{{$payment.logo}}" />
-                                {{/if}}
-                                <span>{{$payment.name}}</span>
-                                <div class="rotate"></div>
-                                <i class="am-icon-check"></i>
-                            </li>
-                        {{/foreach}}
-                    </ul>
-                {{/if}}
+                <div class="business-list business-list-nbfc payment am-margin-top-sm" data-field="payment_id">
+                    {{if !empty($payment_list)}}
+                        <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 payment-list" data-is-required="1">
+                            {{foreach $payment_list as $payment}}
+                                <li data-value="{{$payment.id}}" class="am-padding-sm {{if isset($params['payment_id']) and $params['payment_id'] eq $payment['id']}}selected{{/if}}">
+                                    <div class="business-item am-nbfc am-padding-sm am-radius">
+                                        {{if !empty($payment.logo)}}
+                                            <img src="{{$payment.logo}}" class="am-radius" />
+                                        {{/if}}
+                                        <span>{{$payment.name}}</span>
+                                        <div class="rotate"></div>
+                                        <i class="am-icon-check"></i>
+                                    </div>
+                                </li>
+                            {{/foreach}}
+                        </ul>
+                    {{/if}}
+                </div>
                 {{if empty($payment_list)}}
                     <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
                 {{/if}}

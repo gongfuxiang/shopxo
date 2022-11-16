@@ -62,14 +62,14 @@ $(function()
     });
 
     // 混合列表选择
-    $('.business-item ul li').on('click', function()
+    $('.business-list ul li').on('click', function()
     {
-        var $parent = $(this).parents('.business-item');
+        var $parent = $(this).parents('.business-list');
         var field = $parent.data('field') || null;
         var value = $(this).data('value') || null;
         if(field != null && value != null)
         {
-            var anchor = $parent.attr('id') || '';
+            var anchor = $parent.attr('id') || $(this).parents('.buy-items').attr('id') || '';
             window.location.href = UrlFieldReplace(field, value, null, anchor);
         }
     });

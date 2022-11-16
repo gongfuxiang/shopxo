@@ -70,6 +70,7 @@
     margin-top: 4px;
     margin-left: 20px;
     height: 25px;
+    scrollbar-width: none;
 }
 .header-menu-open-pages-list ul li {
     display: inline-block;
