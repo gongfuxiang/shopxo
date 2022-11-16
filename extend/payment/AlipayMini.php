@@ -146,6 +146,33 @@ class AlipayMini
             'buyer_id'              => $params['user']['alipay_openid'],
             'timeout_express'       => $this->OrderAutoCloseTime(),
         );
+        // 商品详情
+        if(isset($params['business_type']) && $params['business_type'] == 'system-order' && !empty($params['business_data']) && is_array($params['business_data']))
+        {
+            $goods_detail = [];
+            foreach($params['business_data'] as $bv)
+            {
+                if(!empty($bv['detail']) && is_array($bv['detail']))
+                {
+                    foreach($bv['detail'] as $dv)
+                    {
+                        if(!empty($dv['goods_id']) && !empty($dv['title']) && !empty($dv['buy_number']) && !empty($dv['price']))
+                        {
+                            $goods_detail[] = [
+                                'goods_id'      => $dv['goods_id'],
+                                'goods_name'    => $dv['title'],
+                                'quantity'      => $dv['buy_number'],
+                                'price'         => $dv['price'],
+                            ];
+                        }
+                    }
+                }
+            }
+            if(!empty($goods_detail))
+            {
+                $biz_content['goods_detail'] = $goods_detail;
+            }
+        }
         $parameter['biz_content'] = json_encode($biz_content, JSON_UNESCAPED_UNICODE);
 
         // 生成签名参数+签名
