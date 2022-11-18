@@ -2877,15 +2877,10 @@ class GoodsService
         // 错误信息
         $error = '';
 
-        // 是否已下架、还有库存
+        // 是否已下架
         if($goods['is_shelves'] != 1)
         {
             $error = '已下架';
-        } else {
-            if($goods['inventory'] <= 0)
-            {
-                $error = '没货了';
-            }
         }
 
         // 按钮列表
@@ -2900,10 +2895,10 @@ class GoodsService
         if(empty($error))
         {
             // 获取商品类型
-            $res = self::GoodsSalesModelType($goods['id'], $goods['site_type']);
+            $model_type = self::GoodsSalesModelType($goods['id'], $goods['site_type']);
 
             // 是否展示型
-            if($res['data'] == 1)
+            if($model_type['data'] == 1)
             {
                 $data[] = [
                     'color' => 'main',
@@ -2929,8 +2924,8 @@ class GoodsService
 
                 // 商品类型是否和当前站点类型一致
                 $cart = [];
-                $res = self::IsGoodsSiteTypeConsistent($goods['id'], $goods['site_type']);
-                if($res['code'] == 0)
+                $ret = self::IsGoodsSiteTypeConsistent($goods['id'], $goods['site_type']);
+                if($ret['code'] == 0)
                 {
                     // 加入购物车
                     $cart = [
@@ -2942,7 +2937,7 @@ class GoodsService
                         'icon'  => 'am-icon-opencart',
                     ];
                 } else {
-                    $error = $res['msg'];
+                    $error = $ret['msg'];
                 }
 
                 // 主按钮顺序处理，手机端立即购买放在最后面
@@ -2959,6 +2954,12 @@ class GoodsService
                     {
                         $data[] = $cart;
                     }
+                }
+
+                // 还有库存
+                if($goods['inventory'] <= 0)
+                {
+                    $error = '没货了';
                 }
             }
         }
