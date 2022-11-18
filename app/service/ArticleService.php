@@ -285,22 +285,35 @@ class ArticleService
             return $ret;
         }
 
+        // 添加或保存
         if(empty($params['id']))
         {
             $data['add_time'] = time();
-            if(Db::name('Article')->insertGetId($data) > 0)
+            $article_id = Db::name('Article')->insertGetId($data);
+            if($article_id <= 0)
             {
-                return DataReturn(MyLang('common.insert_success'), 0);
+                return DataReturn(MyLang('common.insert_fail'), -100);
             }
-            return DataReturn(MyLang('common.insert_fail'), -100);
         } else {
             $data['upd_time'] = time();
-            if(Db::name('Article')->where(['id'=>intval($params['id'])])->update($data))
+            $article_id = intval($params['id']);
+            if(!Db::name('Article')->where(['id'=>$article_id])->update($data))
             {
-                return DataReturn(MyLang('common.edit_success'), 0);
+                return DataReturn(MyLang('common.edit_fail'), -100);
             }
-            return DataReturn(MyLang('common.edit_fail'), -100); 
         }
+
+        // 文章保存处理成功钩子
+        $hook_name = 'plugins_service_article_save_success_handle';
+        MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'params'        => $params,
+            'data'          => $data,
+            'article_id'    => $article_id,
+        ]);
+
+        return DataReturn(MyLang('common.operate_success'), 0);
     }
 
     /**
