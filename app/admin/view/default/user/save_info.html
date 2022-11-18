@@ -4,103 +4,190 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation" action="{{:MyUrl('admin/user/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/user/index', $params)}}">
+		<form class="am-form form-validation am-form-full-screen" action="{{:MyUrl('admin/user/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/user/index', $params)}}">
 			<legend>
 				<span class="am-text-default">用户{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
 				<a href="{{:MyUrl('admin/user/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> 返回</a>
 			</legend>
-			<div class="am-form-group">
-				<label>系统类型</label>
-				<input type="text" name="system_type_name" class="am-radius" placeholder="系统类型" data-validation-message="系统类型 2~60 个字符" value="{{if empty($data['system_type'])}}default{{else /}}{{$data.system_type}}{{/if}}" />
-			</div>
-			<div class="am-form-group">
-				<label>用户名</label>
-				<input type="text" name="username" class="am-radius" placeholder="用户名" data-validation-message="用户名 2~30 个字符" {{if !empty($data)}} value="{{$data.username}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>昵称</label>
-				<input type="text" name="nickname" class="am-radius" placeholder="昵称" data-validation-message="昵称最多 30 个字符" {{if !empty($data)}} value="{{$data.nickname}}"{{/if}} />
-			</div>
+			<div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>系统类型</label>
+						<input type="text" name="system_type_name" class="am-radius" placeholder="系统类型" data-validation-message="系统类型2~60字符" value="{{if empty($data['system_type'])}}default{{else /}}{{$data.system_type}}{{/if}}" />
+					</div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-cf">
+                		<div class="am-u-sm-6 am-padding-horizontal-0">
+		                	<div class="am-form-group">
+								<label>用户名</label>
+								<input type="text" name="username" class="am-radius" placeholder="用户名" data-validation-message="用户名2~30个字符" value="{{if !empty($data['username'])}}{{$data.username}}{{/if}}" />
+							</div>
+						</div>
+						<div class="am-u-sm-6 am-padding-horizontal-0">
+							<div class="am-form-group">
+								<label>昵称</label>
+								<input type="text" name="nickname" class="am-radius" placeholder="昵称" data-validation-message="昵称最多 30 个字符" value="{{if !empty($data['nickname'])}}{{$data.nickname}}{{/if}}" />
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>手机号码</label>
+						<input type="text" name="mobile" class="am-radius" placeholder="手机号码" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="手机号码格式错误" value="{{if !empty($data['mobile'])}}{{$data.mobile}}{{/if}}" />
+					</div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>电子邮箱</label>
+						<input type="email" name="email" class="am-radius" placeholder="电子邮箱" data-validation-message="电子邮箱格式错误" value="{{if !empty($data['email'])}}{{$data.email}}{{/if}}" />
+					</div>
+                </div>
+            </div>
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>支付宝openid</label>
+						<input type="text" name="alipay_openid" class="am-radius" placeholder="支付宝openid" data-validation-message="请填写支付宝openid" value="{{if !empty($data['alipay_openid'])}}{{$data.alipay_openid}}{{/if}}" />
+					</div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>百度openid</label>
+						<input type="text" name="baidu_openid" class="am-radius" placeholder="百度openid" data-validation-message="请填写百度openid" value="{{if !empty($data['baidu_openid'])}}{{$data.baidu_openid}}{{/if}}" />
+					</div>
+                </div>
+            </div>
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>头条openid</label>
+						<input type="text" name="toutiao_openid" class="am-radius" placeholder="头条openid" data-validation-message="请填写头条openid" value="{{if !empty($data['toutiao_openid'])}}{{$data.toutiao_openid}}{{/if}}" />
+					</div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>头条unionid</label>
+						<input type="text" name="toutiao_unionid" class="am-radius" placeholder="头条unionid" data-validation-message="请填写头条unionid" value="{{if !empty($data['toutiao_unionid'])}}{{$data.toutiao_unionid}}{{/if}}" />
+					</div>
+                </div>
+            </div>
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>QQopenid</label>
+						<input type="text" name="qq_openid" class="am-radius" placeholder="QQopenid" data-validation-message="请填写QQopenid" value="{{if !empty($data['qq_openid'])}}{{$data.qq_openid}}{{/if}}" />
+					</div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>QQunionid</label>
+						<input type="text" name="qq_unionid" class="am-radius" placeholder="QQunionid" data-validation-message="请填写QQunionid" value="{{if !empty($data['qq_unionid'])}}{{$data.qq_unionid}}{{/if}}" />
+					</div>
+                </div>
+            </div>
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>微信openid</label>
+						<input type="text" name="weixin_openid" class="am-radius" placeholder="微信openid" data-validation-message="请填写微信openid" value="{{if !empty($data['weixin_openid'])}}{{$data.weixin_openid}}{{/if}}" />
+					</div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>微信unionid</label>
+						<input type="text" name="weixin_unionid" class="am-radius" placeholder="微信unionid" data-validation-message="请填写微信unionid" value="{{if !empty($data['weixin_unionid'])}}{{$data.weixin_unionid}}{{/if}}" />
+					</div>
+                </div>
+            </div>
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>微信webopenid</label>
+						<input type="text" name="weixin_web_openid" class="am-radius" placeholder="微信webopenid" data-validation-message="请填写微信webopenid" value="{{if !empty($data['weixin_web_openid'])}}{{$data.weixin_web_openid}}{{/if}}" />
+					</div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>快手openid</label>
+						<input type="text" name="kuaishou_openid" class="am-radius" placeholder="快手openid" data-validation-message="请填写快手openid" value="{{if !empty($data['kuaishou_openid'])}}{{$data.kuaishou_openid}}{{/if}}" />
+					</div>
+                </div>
+            </div>
 
-			<div class="am-form-group">
-				<label>手机号码</label>
-				<input type="text" name="mobile" class="am-radius" placeholder="手机号码" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="手机号码格式错误" {{if !empty($data)}} value="{{$data.mobile}}"{{/if}} />
+			<div class="am-cf">
+                <div class="am-u-sm-3 am-padding-horizontal-0">
+					<div class="am-form-group">
+						<label>所在省</label>
+						<input type="text" placeholder="所在省" name="province" data-validation-message="所在省最多60个字符" class="am-radius" value="{{if !empty($data['province'])}}{{$data.province}}{{/if}}" />
+					</div>
+				</div>
+				<div class="am-u-sm-3 am-padding-horizontal-0">
+					<div class="am-form-group">
+						<label>所在市</label>
+						<input type="text" placeholder="所在市" name="city" data-validation-message="所在市最多60个字符" class="am-radius" value="{{if !empty($data['city'])}}{{$data.city}}{{/if}}" />
+					</div>
+				</div>
+				<div class="am-u-sm-3 am-padding-horizontal-0">
+					<div class="am-form-group">
+						<label>所在区/县</label>
+						<input type="text" placeholder="所在区/县" name="county" data-validation-message="所在区/县最多60个字符" class="am-radius" value="{{if !empty($data['county'])}}{{$data.county}}{{/if}}" />
+					</div>
+				</div>
+				<div class="am-u-sm-3 am-padding-horizontal-0">
+					<div class="am-form-group">
+						<label>详细地址</label>
+						<input type="text" placeholder="详细地址" name="address" data-validation-message="详细地址2~60个字符" class="am-radius" value="{{if !empty($data['address'])}}{{$data.address}}{{/if}}" />
+					</div>
+				</div>
 			</div>
-			<div class="am-form-group">
-				<label>电子邮箱</label>
-				<input type="email" name="email" class="am-radius" placeholder="电子邮箱" data-validation-message="电子邮箱格式错误" {{if !empty($data)}} value="{{$data.email}}"{{/if}} />
-			</div>
+			
+			<div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>有效积分</label>
+						<input type="number" placeholder="有效积分" name="integral" min="0" data-validation-message="请输入有效积分" class="am-radius" value="{{if !empty($data['integral'])}}{{$data.integral}}{{/if}}" />
+					</div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>锁定积分</label>
+						<input type="number" placeholder="锁定积分" name="locking_integral" min="0" data-validation-message="请输入锁定积分" class="am-radius" value="{{if !empty($data['locking_integral'])}}{{$data.locking_integral}}{{/if}}" />
+					</div>
+                </div>
+            </div>
 
-			<div class="am-form-group">
-				<label>支付宝openid</label>
-				<input type="text" name="alipay_openid" class="am-radius" placeholder="支付宝openid" data-validation-message="请填写支付宝openid" {{if !empty($data)}} value="{{$data.alipay_openid}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>百度openid</label>
-				<input type="text" name="baidu_openid" class="am-radius" placeholder="百度openid" data-validation-message="请填写百度openid" {{if !empty($data)}} value="{{$data.baidu_openid}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>头条openid</label>
-				<input type="text" name="toutiao_openid" class="am-radius" placeholder="头条openid" data-validation-message="请填写头条openid" {{if !empty($data)}} value="{{$data.toutiao_openid}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>头条unionid</label>
-				<input type="text" name="toutiao_unionid" class="am-radius" placeholder="头条unionid" data-validation-message="请填写头条unionid" {{if !empty($data)}} value="{{$data.toutiao_unionid}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>QQopenid</label>
-				<input type="text" name="qq_openid" class="am-radius" placeholder="QQopenid" data-validation-message="请填写QQopenid" {{if !empty($data)}} value="{{$data.qq_openid}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>QQunionid</label>
-				<input type="text" name="qq_unionid" class="am-radius" placeholder="QQunionid" data-validation-message="请填写QQunionid" {{if !empty($data)}} value="{{$data.qq_unionid}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>微信openid</label>
-				<input type="text" name="weixin_openid" class="am-radius" placeholder="微信openid" data-validation-message="请填写微信openid" {{if !empty($data)}} value="{{$data.weixin_openid}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>微信unionid</label>
-				<input type="text" name="weixin_unionid" class="am-radius" placeholder="微信unionid" data-validation-message="请填写微信unionid" {{if !empty($data)}} value="{{$data.weixin_unionid}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>微信webopenid</label>
-				<input type="text" name="weixin_web_openid" class="am-radius" placeholder="微信webopenid" data-validation-message="请填写微信webopenid" {{if !empty($data)}} value="{{$data.weixin_web_openid}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>快手openid</label>
-				<input type="text" name="kuaishou_openid" class="am-radius" placeholder="微信webopenid" data-validation-message="请填写快手openid" {{if !empty($data)}} value="{{$data.kuaishou_openid}}"{{/if}} />
-			</div>
+            <div class="am-cf">
+            	<div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>生日</label>
+						<input type="text" name="birthday" class="am-radius Wdate" placeholder="生日" pattern="{{:MyConst('common_regex_date')}}" data-validation-message="生日格式有误" {{if !empty($data)}} value="{{$data.birthday_text}}" {{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" />
+					</div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>邀请用户ID</label>
+						<input type="number" placeholder="邀请用户ID" name="referrer" data-validation-message="请输入邀请用户ID" min="0" class="am-radius" value="{{if !empty($data['referrer'])}}{{$data.referrer}}{{/if}}" />
+					</div>
+                </div>
+            </div>
 
-			<div class="am-form-group">
-				<label>生日</label>
-				<input type="text" name="birthday" class="am-radius Wdate" placeholder="生日" pattern="{{:MyConst('common_regex_date')}}" data-validation-message="生日格式有误" {{if !empty($data)}} value="{{$data.birthday_text}}" {{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" />
-			</div>
-			<div class="am-form-group">
-				<label>详细地址</label>
-				<input type="text" placeholder="详细地址" name="address" data-validation-message="详细地址2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.address}}"{{/if}} />
-			</div>
-			{{include file="lib/gender" /}}
-			<div class="am-form-group">
-				<label>有效积分</label>
-				<input type="number" placeholder="有效积分" name="integral" min="0" data-validation-message="请输入有效积分" class="am-radius" {{if !empty($data)}} value="{{$data.integral}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>锁定积分</label>
-				<input type="number" placeholder="锁定积分" name="locking_integral" min="0" data-validation-message="请输入锁定积分" class="am-radius" {{if !empty($data)}} value="{{$data.locking_integral}}"{{/if}} />
-			</div>
+            <div class="am-cf">
+            	<div class="am-u-sm-6 am-padding-horizontal-0">
+	                {{include file="lib/user_status" /}}
+	            </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>登录密码</label>
+						<input type="text" placeholder="登录密码" name="pwd" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="登录密码格式 6~18 个字符之间" class="am-radius" value="" />
+					</div>
+                </div>
+            </div>
 
-			{{include file="lib/user_status" /}}
-
-			<div class="am-form-group">
-				<label>邀请用户ID</label>
-				<input type="number" placeholder="邀请用户ID" name="referrer" data-validation-message="请输入邀请用户ID" min="0" class="am-radius" {{if !empty($data)}} value="{{$data.referrer}}"{{/if}} />
-			</div>
-
-			<div class="am-form-group">
-				<label>登录密码</label>
-				<input type="text" placeholder="登录密码" name="pwd" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="登录密码格式 6~18 个字符之间" class="am-radius" value="" />
-			</div>
+            {{include file="lib/gender" /}}
 
 			<!-- 插件扩展数据 start -->
 			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

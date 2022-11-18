@@ -178,6 +178,16 @@ class User
                     ],
                 ],
                 [
+                    'label'         => '所在区/县',
+                    'view_type'     => 'field',
+                    'view_key'      => 'county',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
+                        'where_type'        => 'like',
+                    ],
+                ],
+                [
                     'label'         => '详细地址',
                     'view_type'     => 'field',
                     'view_key'      => 'address',
