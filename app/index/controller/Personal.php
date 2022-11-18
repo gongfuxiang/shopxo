@@ -72,7 +72,7 @@ class Personal extends Common
 		// 模板数据
 		$assign = [
 			// 用户数据
-			'data' 					=> $this->user,
+			'data' 					=> UserService::UserHandle(UserService::UserInfo('id', $this->user['id'])),
 			// 性别
 			'common_gender_list' 	=> MyConst('common_gender_list'),
 	        // 浏览器名称
@@ -95,5 +95,21 @@ class Personal extends Common
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(UserService::PersonalSave($params));
 	}
+
+	/**
+     * 用户头像上传
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-03
+     * @desc    description
+     */
+    public function UserAvatarUpload()
+    {
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        $params['img_field'] = 'file';
+        return ApiService::ApiDataReturn(UserService::UserAvatarUpload($params));
+    }
 }
 ?>

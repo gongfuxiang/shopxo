@@ -549,11 +549,11 @@ class ConstService
                         'name' => '性别',
                         'type' => 'string',
                     ],
-                'birthday_text'=>   [
+                'birthday'      =>   [
                         'name' => '生日',
                         'type' => 'string',
                     ],
-                'status_text'=>   [
+                'status_text'   =>   [
                         'name' => '状态',
                         'type' => 'string',
                     ],

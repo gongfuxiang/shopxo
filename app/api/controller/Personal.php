@@ -11,17 +11,16 @@
 namespace app\api\controller;
 
 use app\service\ApiService;
-use app\service\SystemBaseService;
-use app\service\IntegralService;
+use app\service\UserService;
 
 /**
- * 用户积分管理
+ * 用户资料
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
- * @datetime 2016-12-01T21:51:08+0800
+ * @datetime 2017-03-02T22:48:35+0800
  */
-class UserIntegral extends Common
+class Personal extends Common
 {
     /**
      * 构造方法
@@ -40,47 +39,53 @@ class UserIntegral extends Common
     }
 
     /**
-     * 用户积分列表
-     * @author   Devil
+     * 个人资料
+     * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
-     * @date    2018-09-28
+     * @date    2022-11-18
      * @desc    description
      */
     public function Index()
     {
-        // 参数
-        $params = $this->data_post;
-        $params['user'] = $this->user;
-
-        // 分页
-        $number = 10;
-        $page = max(1, isset($this->data_post['page']) ? intval($this->data_post['page']) : 1);
-
-        // 条件
-        $where = IntegralService::UserIntegralLogListWhere($params);
-
-        // 获取总数
-        $total = IntegralService::IntegralLogTotal($where);
-        $page_total = ceil($total/$number);
-        $start = intval(($page-1)*$number);
-
-        // 获取列表
-        $data_params = array(
-            'm'         => $start,
-            'n'         => $number,
-            'where'     => $where,
-        );
-        $data = IntegralService::IntegralLogList($data_params);
-
-        // 返回数据
-        $result = [
-            'total'         => $total,
-            'page_total'    => $page_total,
-            'data'          => $data['data'],
+        $data = [
+            // 用户数据
+            'data'          => UserService::UserHandle(UserService::UserInfo('id', $this->user['id'])),
+            // 性别
+            'gender_list'   => MyConst('common_gender_list'),
         ];
-        return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
+        return ApiService::ApiDataReturn(DataReturn('success', 0, $data));
     }
 
+    /**
+     * 保存
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-11-18
+     * @desc    description
+     */
+    public function Save()
+    {
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        return ApiService::ApiDataReturn(UserService::PersonalSave($params));
+    }
+
+    /**
+     * 用户头像上传
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-12-03
+     * @desc    description
+     */
+    public function UserAvatarUpload()
+    {
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        $params['img_field'] = 'file';
+        return ApiService::ApiDataReturn(UserService::UserAvatarUpload($params));
+    }
 }
 ?>

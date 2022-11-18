@@ -750,10 +750,13 @@ class NavigationService
             'nickname'          =>  [
                 'name' => '昵称'
             ],
+            'address_info'      => [
+                'name' => '地址'
+            ],
             'gender_text'       =>  [
                 'name' => '性别'
             ],
-            'birthday_text'     =>  [
+            'birthday'          =>  [
                 'name' => '生日'
             ],
             'mobile_security'   =>  [

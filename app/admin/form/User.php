@@ -200,11 +200,10 @@ class User
                 [
                     'label'         => '生日',
                     'view_type'     => 'field',
-                    'view_key'      => 'birthday_text',
+                    'view_key'      => 'birthday',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'date',
-                        'form_name'         => 'birthday',
                         'is_point'          => 1,
                     ],
                 ],

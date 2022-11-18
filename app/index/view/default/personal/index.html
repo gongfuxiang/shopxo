@@ -38,7 +38,7 @@
     							{{if empty($user[$k])}}
     								<span class="items-value-empty">未填写</span>
     							{{elseif $k eq 'avatar' /}}
-                                    <img src="{{$user[$k]}}" width="50" height="50" />
+                                    <img src="{{$user[$k]}}" width="50" height="50" class="am-radius" />
                                 {{else /}}
     								{{$user[$k]}}
     							{{/if}}

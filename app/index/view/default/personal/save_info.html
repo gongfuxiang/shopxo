@@ -22,28 +22,60 @@
   <!-- content start -->
   <div class="user-content">
     <div class="user-content-body">
-			<!-- form start -->
-			<form class="am-form form-validation" action="{{:MyUrl('index/personal/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('index/personal/index')}}">
-				<legend>
-					<span class="am-text-default">个人资料</span>
-					<a href="{{:MyUrl('index/personal/index')}}" class="am-fr am-text-xs am-margin-top-sm am-icon-mail-reply"> 返回</a>
-				</legend>
-				<div class="am-form-group">
-					<label>昵称</label>
-					<input type="text" name="nickname" placeholder="昵称" minlength="2" maxlength="16" data-validation-message="昵称 2~16 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.nickname}}"{{/if}} required />
-				</div>
+            <!-- form start -->
+            <form class="am-form form-validation am-form-full-screen" action="{{:MyUrl('index/personal/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('index/personal/index')}}">
+                <legend>
+                    <span class="am-text-default">个人资料</span>
+                    <a href="{{:MyUrl('index/personal/index')}}" class="am-fr am-text-xs am-margin-top-sm am-icon-mail-reply"> 返回</a>
+                </legend>
+                <div class="am-cf">
+                    <div class="am-u-sm-6 am-padding-horizontal-0">
+                        <div class="am-form-group">
+                            <label>昵称<span class="am-form-group-label-tips-must">必填</span></label>
+                            <input type="text" name="nickname" placeholder="昵称" minlength="2" maxlength="16" data-validation-message="昵称2~16个字符之间" class="am-radius" value="{{if !empty($data['nickname'])}}{{$data.nickname}}{{/if}}"required />
+                        </div>
+                    </div>
+                    <div class="am-u-sm-6 am-padding-horizontal-0">
+                        <div class="am-form-group">
+                            <label>生日</label>
+                            <input type="text" name="birthday" class="am-form-field am-radius Wdate" placeholder="生日" data-validation-message="生日格式有误" value="{{if !empty($data['birthday'])}}{{$data.birthday}}{{/if}}" onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="am-cf">
+                    <div class="am-u-sm-3 am-padding-horizontal-0">
+                        <div class="am-form-group">
+                            <label>所在省</label>
+                            <input type="text" placeholder="所在省" name="province" data-validation-message="所在省最多30个字符" class="am-radius" value="{{if !empty($data['province'])}}{{$data.province}}{{/if}}" />
+                        </div>
+                    </div>
+                    <div class="am-u-sm-3 am-padding-horizontal-0">
+                        <div class="am-form-group">
+                            <label>所在市</label>
+                            <input type="text" placeholder="所在市" name="city" data-validation-message="所在市最多30个字符" class="am-radius" value="{{if !empty($data['city'])}}{{$data.city}}{{/if}}" />
+                        </div>
+                    </div>
+                    <div class="am-u-sm-3 am-padding-horizontal-0">
+                        <div class="am-form-group">
+                            <label>所在区/县</label>
+                            <input type="text" placeholder="所在区/县" name="county" data-validation-message="所在区/县最多30个字符" class="am-radius" value="{{if !empty($data['county'])}}{{$data.county}}{{/if}}" />
+                        </div>
+                    </div>
+                    <div class="am-u-sm-3 am-padding-horizontal-0">
+                        <div class="am-form-group">
+                            <label>详细地址</label>
+                            <input type="text" placeholder="详细地址" name="address" data-validation-message="详细地址2~30个字符" class="am-radius" value="{{if !empty($data['address'])}}{{$data.address}}{{/if}}" />
+                        </div>
+                    </div>
+                </div>
                 {{include file="lib/gender" /}}
-				<div class="am-form-group">
-					<label>生日</label>
-					<input type="text" name="birthday" class="am-form-field am-radius Wdate" placeholder="生日" data-validation-message="生日格式有误" {{if !empty($data)}} value="{{$data.birthday_text}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
-				</div>
-				<div class="am-form-group am-form-group-refreshing">
-					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
-				</div>
-			</form>
-			<!-- form end -->
-		</div>
-	</div>
+                <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                </div>
+            </form>
+            <!-- form end -->
+        </div>
+    </div>
   <!-- content end -->
 </div>
 

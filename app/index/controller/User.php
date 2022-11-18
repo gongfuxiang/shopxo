@@ -464,24 +464,5 @@ class User extends Common
         ]);
         return MyView();
     }
-
-    /**
-     * 用户头像上传
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-12-03
-     * @desc    description
-     */
-    public function UserAvatarUpload()
-    {
-        // 登录校验
-        $this->IsLogin();
-
-        $params = $this->data_post;
-        $params['user'] = $this->user;
-        $params['img_field'] = 'file';
-        return ApiService::ApiDataReturn(UserService::UserAvatarUpload($params));
-    }
 }
 ?>

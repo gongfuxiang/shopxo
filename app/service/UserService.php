@@ -207,7 +207,7 @@ class UserService
                 // 生日
                 if(array_key_exists('birthday', $v))
                 {
-                    $v['birthday_text'] = empty($v['birthday']) ? '' : date('Y-m-d', $v['birthday']);
+                    $v['birthday'] = empty($v['birthday']) ? '' : date('Y-m-d', $v['birthday']);
                 }
 
                 // 头像
@@ -371,7 +371,7 @@ class UserService
             'province'              => empty($params['province']) ? '' : $params['province'],
             'city'                  => empty($params['city']) ? '' : $params['city'],
             'county'                => empty($params['county']) ? '' : $params['county'],
-            'address'               => isset($params['address']) ? $params['address'] :  '',
+            'address'               => empty($params['address']) ? '' : $params['address'],
             'gender'                => intval($params['gender']),
             'integral'              => intval($params['integral']),
             'locking_integral'      => intval($params['locking_integral']),
@@ -587,29 +587,35 @@ class UserService
             // 基础数据处理
             if(isset($user['add_time']))
             {
-                $user['add_time_text']  =   date('Y-m-d H:i:s', $user['add_time']);
+                $user['add_time_text'] = date('Y-m-d H:i:s', $user['add_time']);
             }
             if(isset($user['upd_time']))
             {
-                $user['upd_time_text']  =   date('Y-m-d H:i:s', $user['upd_time']);
+                $user['upd_time_text'] = date('Y-m-d H:i:s', $user['upd_time']);
             }
             if(isset($user['gender']))
             {
-                $user['gender_text']    =   MyConst('common_gender_list')[$user['gender']]['name'];
+                $user['gender_text'] = MyConst('common_gender_list')[$user['gender']]['name'];
             }
             if(isset($user['birthday']))
             {
-                $user['birthday_text']  =   empty($user['birthday']) ? '' : date('Y-m-d', $user['birthday']);
+                $user['birthday'] = empty($user['birthday']) ? '' : date('Y-m-d', $user['birthday']);
             }
 
             // 邮箱/手机
             if(isset($user['mobile']))
             {
-                $user['mobile_security']=   empty($user['mobile']) ? '' : mb_substr($user['mobile'], 0, 3, 'utf-8').'***'.mb_substr($user['mobile'], -3, null, 'utf-8');
+                $user['mobile_security'] = empty($user['mobile']) ? '' : mb_substr($user['mobile'], 0, 3, 'utf-8').'***'.mb_substr($user['mobile'], -3, null, 'utf-8');
             }
             if(isset($user['email']))
             {
-                $user['email_security'] =   empty($user['email']) ? '' : mb_substr($user['email'], 0, 3, 'utf-8').'***'.mb_substr($user['email'], -3, null, 'utf-8');
+                $user['email_security'] = empty($user['email']) ? '' : mb_substr($user['email'], 0, 3, 'utf-8').'***'.mb_substr($user['email'], -3, null, 'utf-8');
+            }
+
+            // 地址信息
+            if(isset($user['province']) && isset($user['city']) && isset($user['county']) && isset($user['address']))
+            {
+                $user['address_info'] = $user['province'].$user['city'].$user['county'].$user['address'];
             }
 
             // 显示名称,根据规则优先展示
@@ -660,31 +666,6 @@ class UserService
         $p = [
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'img_width',
-                'error_msg'         => '图片宽度不能为空',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'img_height',
-                'error_msg'         => '图片高度不能为空',
-            ],
-            [
-                'checked_type'      => 'isset',
-                'key_name'          => 'img_x',
-                'error_msg'         => '图片裁剪x坐标有误',
-            ],
-            [
-                'checked_type'      => 'isset',
-                'key_name'          => 'img_y',
-                'error_msg'         => '图片裁剪y坐标有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'img_field',
-                'error_msg'         => '图片name字段值不能为空',
-            ],
-            [
-                'checked_type'      => 'empty',
                 'key_name'          => 'user',
                 'error_msg'         => '用户信息有误',
             ],
@@ -693,6 +674,14 @@ class UserService
         if($ret !== true)
         {
             return DataReturn($ret, -1);
+        }
+
+        // 缓存key、是否操作频繁
+        $cache_key = 'cache_user_avatar_upload_frequency_'.$params['user']['id'];
+        $cache_value = MyCache($cache_key);
+        if(!empty($cache_value) && $cache_value['time']+3600 > time() && $cache_value['count'] >= 5)
+        {
+            return DataReturn('操作频繁，请稍后再试！', -1);
         }
 
         // 开始处理图片存储
@@ -711,7 +700,14 @@ class UserService
             return DataReturn($error, -2);
         }
 
-        $original = $images_obj->GetCompressCut($_FILES[$params['img_field']], $root_path.$img_path.'original'.$date, 800, 800, $params['img_x'], $params['img_y'], $params['img_width'], $params['img_height']);
+        // 是否指定裁剪信息
+        $original_dir = $root_path.$img_path.'original'.$date;
+        if(!empty($params['img_width']) && !empty($params['img_height']) && isset($params['img_x']) && isset($params['img_y']))
+        {
+            $original = $images_obj->GetCompressCut($_FILES[$params['img_field']], $original_dir, 800, 800, $params['img_x'], $params['img_y'], $params['img_width'], $params['img_height']);
+        } else {
+            $original = $images_obj->GetOriginal($_FILES[$params['img_field']], $original_dir);
+        }
         if(!empty($original))
         {
             $compr = $images_obj->GetBinaryCompress($root_path.$img_path.'original'.$date.$original, $root_path.$img_path.'compr'.$date, 200, 200);
@@ -719,17 +715,33 @@ class UserService
         }
         if(empty($compr) || empty($small))
         {
-            return DataReturn('图片有误，请换一张', -3);
+            return DataReturn('图片有误，请换一张！', -3);
+        }
+        $avatar = DS.$img_path.'compr'.$date.$compr;
+
+        // 缓存记录
+        if(empty($cache_value))
+        {
+            $cache_value = ['count'=>1, 'time'=>time()];
+        } else {
+            $cache_value['count']++;
+        }
+        MyCache($cache_key, $cache_value, 3600);
+
+        // app则直接返回图片地址
+        if(APPLICATION == 'app')
+        {
+            return DataReturn(MyLang('common.upload_success'), 0, ResourcesService::AttachmentPathViewHandle($avatar));
         }
 
         // 更新用户头像
         $data = [
-            'avatar'    => DS.$img_path.'compr'.$date.$compr,
+            'avatar'    => $avatar,
             'upd_time'  => time(),
         ];
         if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
         {
-            // 设置session
+            // web端用户登录纪录处理
             self::UserLoginRecord($params['user']['id']);
             return DataReturn(MyLang('common.upload_success'), 0);
         }
@@ -968,7 +980,7 @@ class UserService
             $body_html = [];
 
             // 用户登录后钩子
-            $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,birthday');
+            $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,county,birthday');
 
             // 会员码生成处理
             if(empty($user['number_code']))
@@ -1762,7 +1774,7 @@ class UserService
                 'checked_type'      => 'length',
                 'checked_data'      => '2,16',
                 'key_name'          => 'nickname',
-                'error_msg'         => '昵称 2~16 个字符之间',
+                'error_msg'         => '昵称2~16个字符之间',
             ],
             [
                 'checked_type'      => 'isset',
@@ -1792,16 +1804,32 @@ class UserService
             'birthday'      => empty($params['birthday']) ? '' : strtotime($params['birthday']),
             'nickname'      => $params['nickname'],
             'gender'        => intval($params['gender']),
+            'province'      => empty($params['province']) ? '' : $params['province'],
+            'city'          => empty($params['city']) ? '' : $params['city'],
+            'county'        => empty($params['county']) ? '' : $params['county'],
+            'address'       => empty($params['address']) ? '' : $params['address'],
             'upd_time'      => time(),
         ];
+        // 是否存在头像
+        if(!empty($params['avatar']))
+        {
+            $data['avatar'] = ResourcesService::AttachmentPathHandle($params['avatar']);
+        }
+
+        // 更新用户信息
         if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
         {
-            // 更新用户session数据
-            self::UserLoginRecord($params['user']['id']);
+            // // web端用户登录纪录处理
+            if(APPLICATION == 'web')
+            {
+                self::UserLoginRecord($params['user']['id']);
+            }
 
-            return DataReturn(MyLang('common.edit_success'), 0);
+            // 成功并返回用户信息
+            $user = self::UserHandle(self::UserInfo('id', $params['user']['id']));
+            return DataReturn(MyLang('common.change_success'), 0, $user);
         }
-        return DataReturn(MyLang('common.edit_fail'), -100);
+        return DataReturn(MyLang('common.change_fail'), -100);
     }
 
     /**
@@ -1824,6 +1852,7 @@ class UserService
             'gender'            => empty($params['gender']) ? 0 : intval($params['gender']),
             'province'          => empty($params['province']) ? '' : $params['province'],
             'city'              => empty($params['city']) ? '' : $params['city'],
+            'county'            => empty($params['county']) ? '' : $params['county'],
             'mobile'            => empty($params['mobile']) ? '' : $params['mobile'],
             'referrer'          => isset($params['referrer']) ? $params['referrer'] : 0,
         ];
@@ -2250,7 +2279,7 @@ class UserService
             $body_html = [];
 
             // 注册成功后钩子
-            $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,birthday');
+            $user = self::UserInfo('id', $user_id, 'id,number_code,system_type,username,nickname,mobile,email,gender,avatar,province,city,county,birthday');
             $hook_name = 'plugins_service_user_register_end';
             $ret = EventReturnHandle(MyEventTrigger($hook_name, [
                 'hook_name'     => $hook_name,
@@ -2335,6 +2364,10 @@ class UserService
                 ],
                 'city'          => [
                     'key'   => 'city',
+                    'type'  => 'string'
+                ],
+                'county'          => [
+                    'key'   => 'county',
                     'type'  => 'string'
                 ],
                 'gender'        => [
@@ -2461,6 +2494,10 @@ class UserService
             if(empty($mobile_user['city']) && !empty($params['city']))
             {
                 $data['city'] = $params['city'];
+            }
+            if(empty($mobile_user['county']) && !empty($params['county']))
+            {
+                $data['county'] = $params['county'];
             }
             if(empty($mobile_user) && isset($params['gender']))
             {
@@ -2704,7 +2741,7 @@ class UserService
             }
             if(!empty($user_ids))
             {
-                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,number_code,system_type,username,nickname,mobile,email,avatar,province,city', 'id');
+                $data = Db::name('User')->where(['id'=>$user_ids])->column('id,number_code,system_type,username,nickname,mobile,email,avatar,province,city,county', 'id');
             }
 
             // 数据处理

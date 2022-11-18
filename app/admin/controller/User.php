@@ -91,9 +91,6 @@ class User extends Base
 			{
 				return $this->error('用户信息不存在', MyUrl('admin/user/index'));
 			}
-
-			// 生日
-			$data['birthday_text'] = empty($data['birthday']) ? '' : date('Y-m-d', $data['birthday']);
 		}
 
 		// 模板数据
