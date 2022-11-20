@@ -2202,11 +2202,12 @@ class UserService
         {
             return '';
         }
-        
+
         $where = [
             ['system_type', '=', SystemService::SystemTypeValue()],
             [$where_field, '=', $where_value],
             ['is_delete_time', '=', 0],
+            ['is_logout_time', '=', 0],
         ];
         return Db::name('User')->where($where)->field($field)->find();
     }
@@ -2444,13 +2445,13 @@ class UserService
         // 手机号码格式
         if(!CheckMobile($params['mobile']))
         {
-             return DataReturn('手机号码格式错误', -2);
+            return DataReturn('手机号码格式错误', -2);
         }
 
         // 验证码校验
         $verify_params = [
-            'key_prefix' => 'user_bind_'.md5($params['mobile']),
-            'expire_time' => MyC('common_verify_expire_time')
+            'key_prefix'    => 'user_bind_'.md5($params['mobile']),
+            'expire_time'   => MyC('common_verify_expire_time')
         ];
         $obj = new \base\Sms($verify_params);
 

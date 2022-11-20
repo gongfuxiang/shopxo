@@ -23,7 +23,7 @@
 	<div class="user-content">
     	<div class="user-content-body">
 			{{foreach $safety_panel_list as $v}}
-				<section class="am-panel am-panel-default am-radius am-panel-{{if empty($data[$v['type']]) and empty($v['msg'])}}danger{{else /}}default{{/if}}">
+				<section class="am-panel am-panel-default am-radius am-panel-{{if (empty($data[$v['type']]) and empty($v['msg'])) or ($v['type'] eq 'logout')}}danger{{else /}}default{{/if}}">
 					<header class="am-panel-hd">
 						<h3 class="am-panel-title">{{$v.title}}</h3>
 					</header>
@@ -33,9 +33,11 @@
 								<span>{{$v.msg}}</span>
 							{{/if}}
 							{{if empty($data[$v['type']]) and !empty($v['tips'])}}
-								{{$v.no_msg}}
+								{{if !empty($v['no_msg'])}}
+									{{$v.no_msg}}
+								{{/if}}
 							{{else /}}
-								{{if !empty($data[$v['type']])}}
+								{{if !empty($v['ok_msg']) and !empty($data[$v['type']])}}
 									{{:str_replace('#accounts#', $data[$v['type']], $v['ok_msg'])}}
 								{{/if}}
 							{{/if}}
@@ -43,11 +45,7 @@
 								<p class="am-text-xs am-margin-bottom-xs">{{$v.tips}}</p>
 							{{/if}}
 						</div>
-						{{if empty($data[$v['type']]) and empty($v['msg'])}}
-							<a href="{{$v.url}}" class="am-btn am-btn-danger am-radius am-btn-xs am-fr">绑定</a>
-						{{else /}}
-							<a href="{{$v.url}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-fr">修改</a>
-						{{/if}}
+						<a href="{{$v.url}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-fr">{{if empty($v['submit_text'])}}{{if empty($data[$v['type']]) and empty($v['msg'])}}绑定{{else /}}修改{{/if}}{{else /}}{{$v.submit_text}}{{/if}}</a>
 					</div>
 				</section>
 			{{/foreach}}

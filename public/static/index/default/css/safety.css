@@ -13,14 +13,9 @@
 .user-content-body #verify-win .am-modal-bd .base .verify-tips { font-size: 12px; }
 .user-content-body #verify-img { vertical-align: middle; border: 1px solid #ccc; }
 
-.user-content-body legend {
-    padding-bottom: 0.2rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #e5e5e5;
-}
-.user-content-body .legend-title {
-    font-size: 16px;
-}
-.user-content-body a {
-    color: #e7747f;
+/**
+ * 协议内容
+ */
+.user-content-body .document-content {
+    height: 350px;
 }

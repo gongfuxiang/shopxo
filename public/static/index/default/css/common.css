@@ -1012,6 +1012,7 @@ legend .legend-title {
 legend a.am-fr {
     color: #e7747f;
     margin-top: 10px;
+    text-decoration: none;
 }
 .items-value-empty {
     color: #999;

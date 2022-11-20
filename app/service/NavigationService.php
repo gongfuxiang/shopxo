@@ -800,26 +800,33 @@ class NavigationService
     {
         $data = [
             [
-                'title'     =>  '登录密码',
-                'msg'       =>  '互联网存在被盗风险，建议您定期更改密码以保护安全。',
-                'url'       =>  MyUrl('index/safety/loginpwdinfo'),
-                'type'      =>  'loginpwd',
+                'title'         =>  '登录密码',
+                'msg'           =>  '互联网存在被盗风险，建议您定期更改密码以保护安全。',
+                'url'           =>  MyUrl('index/safety/loginpwdinfo'),
+                'type'          =>  'loginpwd',
             ],
             [
-                'title'     =>  '手机号码',
-                'no_msg'    =>  '您还没有绑定手机号码',
-                'ok_msg'    =>  '已绑定手机 #accounts#',
-                'tips'      =>  '可用于登录，密码找回，账户安全管理校验，接受账户提醒通知。',
-                'url'       =>  MyUrl('index/safety/mobileinfo'),
-                'type'      =>  'mobile',
+                'title'         =>  '手机号码',
+                'no_msg'        =>  '您还没有绑定手机号码',
+                'ok_msg'        =>  '已绑定手机 #accounts#',
+                'tips'          =>  '可用于登录，密码找回，账户安全管理校验，接受账户提醒通知。',
+                'url'           =>  MyUrl('index/safety/mobileinfo'),
+                'type'          =>  'mobile',
             ],
             [
-                'title'     =>  '电子邮箱',
-                'no_msg'    =>  '您还没有绑定电子邮箱',
-                'ok_msg'    =>  '已绑定电子邮箱 #accounts#',
-                'tips'      =>  '可用于登录，密码找回，账户安全管理校验，接受账户提醒邮件。',
-                'url'       =>  MyUrl('index/safety/emailinfo'),
-                'type'      =>  'email',
+                'title'         =>  '电子邮箱',
+                'no_msg'        =>  '您还没有绑定电子邮箱',
+                'ok_msg'        =>  '已绑定电子邮箱 #accounts#',
+                'tips'          =>  '可用于登录，密码找回，账户安全管理校验，接受账户提醒邮件。',
+                'url'           =>  MyUrl('index/safety/emailinfo'),
+                'type'          =>  'email',
+            ],
+            [
+                'title'         =>  '账号注销',
+                'tips'          =>  '不可存在未完成的订单',
+                'url'           =>  MyUrl('index/safety/logoutinfo'),
+                'type'          => 'logout',
+                'submit_text'   =>  '注销',
             ],
         ];
 
@@ -937,7 +944,7 @@ class NavigationService
                     [
                         'name'      =>  '安全设置',
                         'url'       =>  MyUrl('index/safety/index'),
-                        'contains'  =>  ['indexsafetyindex', 'indexsafetyloginpwdinfo', 'indexsafetymobileinfo', 'indexsafetynewmobileinfo', 'indexsafetyemailinfo', 'indexsafetynewemailinfo'],
+                        'contains'  =>  ['indexsafetyindex', 'indexsafetyloginpwdinfo', 'indexsafetymobileinfo', 'indexsafetynewmobileinfo', 'indexsafetyemailinfo', 'indexsafetynewemailinfo', 'indexsafetylogoutinfo'],
                         'is_show'   =>  1,
                         'icon'      =>  'am-icon-user-secret',
                         'is_system' =>  1,

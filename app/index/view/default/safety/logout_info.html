@@ -1,0 +1,51 @@
+{{include file="public/header" /}}
+
+<!-- header top nav -->
+{{include file="public/header_top_nav" /}}
+
+<!-- search -->
+{{include file="public/nav_search" /}}
+
+<!-- header nav -->
+{{include file="public/header_nav" /}}
+
+<!-- goods category -->
+{{include file="public/goods_category" /}}
+
+<!-- content -->
+<div class="am-container user-main">
+
+    <!-- user menu start -->
+    {{include file="public/user_menu" /}}
+    <!-- user menu end -->
+
+    <!-- content start -->
+    <div class="user-content">
+        <div class="user-content-body">
+            <legend>
+                <span class="am-text-default">账号注销</span>
+                <a href="{{:MyUrl('index/safety/index')}}" class="am-fr am-text-xs am-margin-top-sm am-icon-mail-reply"> 返回</a>
+            </legend>
+
+            <div class="am-text-center am-margin-top-lg">
+                <p class="am-text-sm">{{$document_data.name}}</p>
+                <p class="am-text-grey">{{$document_data.upd_time_time}}</p>
+            </div>
+
+            <div class="am-panel am-panel-default am-scrollable-vertical am-margin-top am-radius document-content">
+                <div class="am-panel-bd">{{$document_data.value|raw}}</div>
+            </div>
+
+            <div class="am-text-center am-margin-vertical-lg">
+                <button type="submit" class="am-btn am-btn-default am-radius am-btn-xs am-margin-right-lg submit-ajax" data-url="{{:MyUrl('index/safety/logout')}}" data-view="jump" data-value="{{$home_url}}" data-msg="账号注销后不可恢复、确定继续吗？">确认注销</button>
+                <a href="{{:MyUrl('index/safety/index')}}" class="am-btn am-btn-primary am-radius am-btn-xs am-margin-left-lg">取消</a>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+</div>
+
+<!-- footer start -->
+{{include file="public/footer" /}}
+<!-- footer end -->
+<!-- footer end -->

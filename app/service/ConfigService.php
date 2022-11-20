@@ -27,12 +27,14 @@ class ConfigService
     public static $not_cache_field_list = [
         'common_agreement_userregister',
         'common_agreement_userprivacy',
+        'common_agreement_userlogout',
     ];
 
     // 富文本,不实例化的字段
     public static $rich_text_list = [
         'common_agreement_userregister',
         'common_agreement_userprivacy',
+        'common_agreement_userlogout',
         'common_email_currency_template',
         'home_footer_info',
         'home_email_user_reg',

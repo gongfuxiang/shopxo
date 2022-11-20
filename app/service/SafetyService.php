@@ -349,7 +349,7 @@ class SafetyService
     }
 
     /**
-     * 账户更新
+     * 账号更新
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -454,6 +454,56 @@ class SafetyService
             return DataReturn(MyLang('common.operate_success'), 0);
         }
         return DataReturn(MyLang('common.operate_fail'), -100);
+    }
+
+    /**
+     * 账号注销
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-11-20
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function AccountsLogout($params = [])
+    {
+        // 数据验证
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'user',
+                'error_msg'         => '用户信息有误',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 是否还有未完成的订单
+        $where = [
+            ['user_id', '=', $params['user']['id']],
+            ['status', '<=', 3]
+        ];
+        $count = Db::name('Order')->where($where)->count();
+        if($count > 0)
+        {
+            return DataReturn('存在'.$count.'个订单未完成', -1);
+        }
+
+        // 账号注销
+        $data = [
+            'status'            => 2,
+            'is_logout_time'    => time(),
+            'upd_time'          => time(),
+        ];
+        if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
+        {
+            UserService::Logout();
+            return DataReturn(MyLang('common.logout_success'), 0);
+        }
+        return DataReturn(MyLang('common.logout_fail'), -1);
     }
 }
 ?>

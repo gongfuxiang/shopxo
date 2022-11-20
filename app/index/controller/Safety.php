@@ -14,6 +14,7 @@ use app\service\ApiService;
 use app\service\SeoService;
 use app\service\SafetyService;
 use app\service\NavigationService;
+use app\service\AgreementService;
 
 /**
  * 安全
@@ -156,6 +157,29 @@ class Safety extends Common
 	}
 
 	/**
+	 * 账号注销页面
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-03-28T10:12:20+0800
+	 */
+	public function LogoutInfo()
+	{
+		// 协议
+		$document = AgreementService::AgreementData(['document'=>'userlogout']);
+
+		// 模板数据
+		$assign = [
+			// 协议内容
+			'document_data'			=> $document['data'],
+	        // 浏览器名称
+	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle('账号注销 - 安全设置', 1),
+        ];
+        MyViewAssign($assign);
+		return MyView();
+	}
+
+	/**
 	 * 验证码显示
 	 * @author   Devil
 	 * @blog     http://gong.gg/
@@ -218,7 +242,7 @@ class Safety extends Common
 	}
 
 	/**
-	 * 账户更新
+	 * 账号更新
 	 * @author   Devil
 	 * @blog     http://gong.gg/
 	 * @version  0.0.1
@@ -229,6 +253,20 @@ class Safety extends Common
         $params = $this->data_post;
         $params['user'] = $this->user;
         return ApiService::ApiDataReturn(SafetyService::AccountsUpdate($params));
+	}
+
+	/**
+	 * 账号注销
+	 * @author   Devil
+	 * @blog     http://gong.gg/
+	 * @version  0.0.1
+	 * @datetime 2017-03-28T17:04:36+0800
+	 */
+	public function Logout()
+	{
+        $params = $this->data_post;
+        $params['user'] = $this->user;
+        return ApiService::ApiDataReturn(SafetyService::AccountsLogout($params));
 	}
 }
 ?>

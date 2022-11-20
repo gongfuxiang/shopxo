@@ -52,6 +52,10 @@ class Agreement extends Base
             [
                 'name'  => '用户隐私政策',
                 'type'  => 'privacy',
+            ],
+            [
+                'name'  => '账号注销协议',
+                'type'  => 'logout',
             ]
         ];
         $assign['nav_data'] = $nav_data;

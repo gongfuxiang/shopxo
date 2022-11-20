@@ -119,6 +119,8 @@ return [
         'loading_success'   => '加载成功',
         'request_fail'      => '请求失败',
         'request_success'   => '请求成功',
+        'logout_fail'       => '注销失败',
+        'logout_success'    => '注销成功',
         'no_data'           => '没有相关数据',
     ],
 ];
