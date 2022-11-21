@@ -2909,57 +2909,59 @@ class GoodsService
                 ];
                 $error = '仅展示';
             } else {
-                // web端class
-                $class_name = (APPLICATION == 'web') ? 'buy-event login-event' : '';
-
-                // 购买
-                $buy = [
-                    'color' => 'main',
-                    'type'  => 'buy',
-                    'title' => '点此按钮到下一步确认购买信息',
-                    'name'  => (MyC('common_order_is_booking', 0, true) == 1) ? '立即预约' : '立即购买',
-                    'class' => $class_name,
-                    'icon'  => '',
-                ];
-
-                // 商品类型是否和当前站点类型一致
-                $cart = [];
-                $ret = self::IsGoodsSiteTypeConsistent($goods['id'], $goods['site_type']);
-                if($ret['code'] == 0)
-                {
-                    // 加入购物车
-                    $cart = [
-                        'color' => 'second',
-                        'type'  => 'cart',
-                        'title' => '加入购物车',
-                        'name'  => '加入购物车',
-                        'class' => $class_name,
-                        'icon'  => 'am-icon-opencart',
-                    ];
-                } else {
-                    $error = $ret['msg'];
-                }
-
-                // 主按钮顺序处理，手机端立即购买放在最后面
-                if(APPLICATION == 'app')
-                {
-                    if(!empty($cart))
-                    {
-                        $data[] = $cart;
-                    }
-                    $data[] = $buy;
-                } else {
-                    $data[] = $buy;
-                    if(!empty($cart))
-                    {
-                        $data[] = $cart;
-                    }
-                }
-
                 // 还有库存
                 if($goods['inventory'] <= 0)
                 {
                     $error = '没货了';
+                }
+                if(empty($error))
+                {
+                    // web端class
+                    $class_name = (APPLICATION == 'web') ? 'buy-event login-event' : '';
+
+                    // 购买
+                    $buy = [
+                        'color' => 'main',
+                        'type'  => 'buy',
+                        'title' => '点此按钮到下一步确认购买信息',
+                        'name'  => (MyC('common_order_is_booking', 0, true) == 1) ? '立即预约' : '立即购买',
+                        'class' => $class_name,
+                        'icon'  => '',
+                    ];
+
+                    // 商品类型是否和当前站点类型一致
+                    $cart = [];
+                    $ret = self::IsGoodsSiteTypeConsistent($goods['id'], $goods['site_type']);
+                    if($ret['code'] == 0)
+                    {
+                        // 加入购物车
+                        $cart = [
+                            'color' => 'second',
+                            'type'  => 'cart',
+                            'title' => '加入购物车',
+                            'name'  => '加入购物车',
+                            'class' => $class_name,
+                            'icon'  => 'am-icon-opencart',
+                        ];
+                    } else {
+                        $error = $ret['msg'];
+                    }
+
+                    // 主按钮顺序处理，手机端立即购买放在最后面
+                    if(APPLICATION == 'app')
+                    {
+                        if(!empty($cart))
+                        {
+                            $data[] = $cart;
+                        }
+                        $data[] = $buy;
+                    } else {
+                        $data[] = $buy;
+                        if(!empty($cart))
+                        {
+                            $data[] = $cart;
+                        }
+                    }
                 }
             }
         }
