@@ -170,7 +170,16 @@ class AppMiniUserService
             }
             if(empty($user))
             {
-                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid'], 'unionid'=>$unionid]);
+                // 微信已无用户端获取用户基础信息、直接添加用户
+                $params['openid'] = $ret['data']['openid'];
+                $params['weixin_unionid'] = $unionid;
+                $params['nickname'] = '微信用户';
+                $ret = UserService::AuthUserProgram($params, 'weixin_openid');
+                // 存在用户id则添加用户存在标记
+                if(!empty($ret['data']['id']))
+                {
+                    $ret['data']['is_user_exist'] = 1;
+                }
             } else {
                 $status = false;
                 // 如果用户openid为空则绑定到用户下面

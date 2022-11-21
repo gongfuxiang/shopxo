@@ -2100,12 +2100,6 @@ class UserService
 
         if(!empty($user))
         {
-            // 会员码生成处理
-            if(empty($user['number_code']))
-            {
-                $user['number_code'] = self::UserNumberCodeCreatedHandle($user['id']);
-            }
-
             // 用户信息处理
             $user = self::UserHandle($user);
 
@@ -2113,8 +2107,14 @@ class UserService
             $user['is_mandatory_bind_mobile'] = intval(MyC('common_user_is_mandatory_bind_mobile'));
 
             // 基础处理
-            if(isset($user['id']))
+            if(!empty($user['id']))
             {
+                // 会员码生成处理
+                if(empty($user['number_code']))
+                {
+                    $user['number_code'] = self::UserNumberCodeCreatedHandle($user['id']);
+                }
+
                 // 非token数据库校验，则重新生成token更新到数据库
                 if($where_field != 'token')
                 {
@@ -2386,6 +2386,11 @@ class UserService
                         // url处理
                         case 'url' :
                             $params[$k] = str_replace(['&amp;'], ['&'], $params[$k]);
+                            // 头像如果是默认则置空
+                            if($k == 'avatar' && !empty($params[$k]) && stripos($params[$k], 'default-user-avatar.jpg') !== false)
+                            {
+                                $params[$k] = '';
+                            }
                             break;
 
                         // 整数
