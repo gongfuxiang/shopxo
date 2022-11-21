@@ -523,7 +523,7 @@ class PluginsService
         $time = 3600;
         $key = 'plugins_upgrade_check_info';
         $res = MyCache($key);
-        if(empty($res))
+        if(empty($res) || (isset($params['is_force_new']) && $params['is_force_new'] == 1))
         {
             if(!empty($params) && !empty($params['db_data']) && is_array($params['db_data']))
             {
@@ -586,6 +586,49 @@ class PluginsService
     {
         $data = Db::name('Plugins')->field('id,name,plugins')->where(['is_enable'=>1])->order(PluginsAdminService::$plugins_order_by)->select()->toArray();
         return empty($data) ? [] : $data;
+    }
+
+    /**
+     * 插件新版本检查
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2022-11-21
+     * @desc    description
+     * @param   [string]          $plugins [插件标识、空则全部]
+     */
+    public static function PluginsNewVersionCheck($plugins = '')
+    {
+        // 是否存在插件未更新的情况
+        $where = empty($plugins) ? [] : ['plugins'=>$plugins];
+        $plugins_list = Db::name('Plugins')->where($where)->column('plugins');
+        if(!empty($plugins_list))
+        {
+            $data = [];
+            foreach($plugins_list as $plugins)
+            {
+                $config = PluginsAdminService::GetPluginsConfig($plugins);
+                if(!empty($config['base']))
+                {
+                    $data[$plugins] = $config['base'];
+                }
+            }
+            if(!empty($data))
+            {
+                $check = self::PluginsUpgradeInfo(['db_data'=>$data, 'is_force_new'=>1]);
+                if(isset($check['code']) && $check['code'] == 0 && !empty($check['data']))
+                {
+                    foreach($check['data'] as $v)
+                    {
+                        if(isset($data[$v['plugins']]))
+                        {
+                            return DataReturn('('.$data[$v['plugins']]['name'].' v'.$v['version_new'].')插件有新版本待更新', -1);
+                        }
+                    }
+                }
+            }
+        }
+        return DataReturn('无需要更新的插件', 0);
     }
 }
 ?>

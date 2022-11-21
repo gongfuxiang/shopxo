@@ -11,6 +11,7 @@
 namespace app\service;
 
 use app\service\SqlConsoleService;
+use app\service\PluginsService;
 
 /**
  * 系统更新服务层
@@ -41,6 +42,14 @@ class SystemUpgradeService
      */
     public static function Run($params = [])
     {
+        // 是否存在插件未更新的情况
+        $plugins_check = PluginsService::PluginsNewVersionCheck();
+        if($plugins_check['code'] != 0)
+        {
+            return $plugins_check;
+        }
+        return DataReturn('test', -1);
+
         // 参数校验
         $ret = self::ParamsCheck($params);
         if($ret['code'] != 0)
