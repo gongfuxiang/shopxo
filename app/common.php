@@ -1874,7 +1874,8 @@ function MyUrl($path, $params = [])
     $ds = ($script_name == 'index.php') ? '/' : '';
     $join = ($script_name != 'index.php' || $url_model == 0) ? $ds.'?s=' : '/';
     $len = $is_api ? 4 : ($is_install ? 8 : 6);
-    $url = str_replace('/'.$path, $join.substr($path, $len), $url);
+    $path = substr($path, $len);
+    $url = str_replace('/'.$path, $join.$path, $url);
 
     // 避免非当前目录生成url索引错误
     if($script_name != 'index.php' && $is_index)

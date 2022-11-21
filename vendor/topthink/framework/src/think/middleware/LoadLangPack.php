@@ -70,33 +70,35 @@ class LoadLangPack
 
         if ($request->get($this->config['detect_var'])) {
             // url中设置了语言变量
-            $langSet = strtolower($request->get($this->config['detect_var']));
+            $langSet = $request->get($this->config['detect_var']);
         } elseif ($request->header($this->config['header_var'])) {
             // Header中设置了语言变量
-            $langSet = strtolower($request->header($this->config['header_var']));
+            $langSet = $request->header($this->config['header_var']);
         } elseif ($request->cookie($this->config['cookie_var'])) {
             // Cookie中设置了语言变量
-            $langSet = strtolower($request->cookie($this->config['cookie_var']));
+            $langSet = $request->cookie($this->config['cookie_var']);
         } elseif ($request->server('HTTP_ACCEPT_LANGUAGE')) {
             // 自动侦测浏览器语言
-            $match = preg_match('/^([a-z\d\-]+)/i', $request->server('HTTP_ACCEPT_LANGUAGE'), $matches);
-            if ($match) {
-                $langSet = strtolower($matches[1]);
-                if (isset($this->config['accept_language'][$langSet])) {
-                    $langSet = $this->config['accept_language'][$langSet];
-                }
+            $langSet = $request->server('HTTP_ACCEPT_LANGUAGE');
+        }
+
+        if (preg_match('/^([a-z\d\-]+)/i', $langSet, $matches)) {
+            $langSet = strtolower($matches[1]);
+            if (isset($this->config['accept_language'][$langSet])) {
+                $langSet = $this->config['accept_language'][$langSet];
             }
+        } else {
+            $langSet = $this->lang->getLangSet();
         }
 
         if (empty($this->config['allow_lang_list']) || in_array($langSet, $this->config['allow_lang_list'])) {
             // 合法的语言
-            $range = $langSet;
-            $this->lang->setLangSet($range);
+            $this->lang->setLangSet($langSet);
         } else {
-            $range = $this->lang->getLangSet();
+            $langSet = $this->lang->getLangSet();
         }
 
-        return $range;
+        return $langSet;
     }
 
     /**

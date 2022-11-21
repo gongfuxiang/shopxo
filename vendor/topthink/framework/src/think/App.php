@@ -39,7 +39,7 @@ use think\initializer\RegisterService;
  */
 class App extends Container
 {
-    const VERSION = '6.0.13LTS';
+    const VERSION = '6.1.0';
 
     /**
      * 应用调试模式
@@ -152,7 +152,6 @@ class App extends Container
         'session'                 => Session::class,
         'validate'                => Validate::class,
         'view'                    => View::class,
-        'filesystem'              => Filesystem::class,
         'think\DbManager'         => Db::class,
         'think\LogManager'        => Log::class,
         'think\CacheManager'      => Cache::class,

@@ -1,6 +1,6 @@
 ![](https://box.kancloud.cn/5a0aaa69a5ff42657b5c4715f3d49221) 
 
-ThinkPHP 6.0
+ThinkPHP 6.1
 ===============
 
 [![Build Status](https://travis-ci.org/top-think/framework.svg?branch=6.0)](https://travis-ci.org/top-think/framework)
@@ -11,9 +11,8 @@ ThinkPHP 6.0
 [![PHP Version](https://img.shields.io/badge/php-%3E%3D7.1-8892BF.svg)](http://www.php.net/)
 [![License](https://poser.pugx.org/topthink/framework/license)](https://packagist.org/packages/topthink/framework)
 
-ThinkPHP6.0底层架构采用PHP7.1改写和进一步优化。
 
-[官方应用服务市场](https://market.topthink.com) | [`ThinkAPI`——官方统一API服务](https://docs.topthink.com/think-api/)
+[官方服务](https://www.topthink.com) | [`ThinkAPI`——官方统一API](https://doc.topthink.com/think-api)
 
 ## 主要新特性
 
@@ -35,7 +34,7 @@ ThinkPHP6.0底层架构采用PHP7.1改写和进一步优化。
 * 统一和精简大量用法
 
 
-> ThinkPHP6.0的运行环境要求PHP7.2+，兼容PHP8.1
+> ThinkPHP6.1的运行环境要求PHP7.2.5+，兼容PHP8.1
 
 ## 安装
 

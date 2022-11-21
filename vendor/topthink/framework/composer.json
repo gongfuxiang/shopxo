@@ -22,8 +22,6 @@
         "php": ">=7.2.5",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "league/flysystem": "^1.1.4",
-        "league/flysystem-cached-adapter": "^1.0",
         "psr/log": "~1.0",
         "psr/container": "~1.0",
         "psr/simple-cache": "^1.0",
