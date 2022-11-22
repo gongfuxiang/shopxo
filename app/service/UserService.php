@@ -700,6 +700,23 @@ class UserService
             return DataReturn($error, -2);
         }
 
+        // 头像处理前钩子
+        $hook_name = 'plugins_service_user_avatar_upload_begin';
+        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'user_id'       => $params['user']['id'],
+            'params'        => $params,
+            'files'         => $_FILES,
+            'root_path'     => $root_path,
+            'img_path'      => $img_path,
+            'date'          => $date,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // 是否指定裁剪信息
         $original_dir = $root_path.$img_path.'original'.$date;
         if(!empty($params['img_width']) && !empty($params['img_height']) && isset($params['img_x']) && isset($params['img_y']))
@@ -728,6 +745,24 @@ class UserService
         }
         MyCache($cache_key, $cache_value, 3600);
 
+        // 头像处理后钩子
+        $hook_name = 'plugins_service_user_avatar_upload_end';
+        $ret = EventReturnHandle(MyEventTrigger($hook_name, [
+            'hook_name'     => $hook_name,
+            'is_backend'    => true,
+            'user_id'       => $params['user']['id'],
+            'params'        => $params,
+            'files'         => $_FILES,
+            'root_path'     => $root_path,
+            'img_path'      => $img_path,
+            'date'          => $date,
+            'avatar'        => $avatar,
+        ]));
+        if(isset($ret['code']) && $ret['code'] != 0)
+        {
+            return $ret;
+        }
+
         // app则直接返回图片地址
         if(APPLICATION == 'app')
         {
@@ -741,6 +776,20 @@ class UserService
         ];
         if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
         {
+            // 头像处理成功钩子
+            $hook_name = 'plugins_service_user_avatar_upload_success';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'user_id'       => $params['user']['id'],
+                'params'        => $params,
+                'files'         => $_FILES,
+                'root_path'     => $root_path,
+                'img_path'      => $img_path,
+                'date'          => $date,
+                'avatar'        => $avatar,
+            ]);
+
             // web端用户登录纪录处理
             self::UserLoginRecord($params['user']['id']);
             return DataReturn(MyLang('common.upload_success'), 0);
