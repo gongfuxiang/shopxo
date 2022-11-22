@@ -250,7 +250,7 @@ class User extends Common
 
         // 未读消息总数
         $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
-        $common_message_total = MessageService::UserMessageTotal($params);
+        $message_total = MessageService::UserMessageTotal($params);
 
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1, 'is_aftersale'=>1]);
@@ -261,18 +261,18 @@ class User extends Common
 
         // 初始化数据
         $result = array(
-            'integral'                          => $user_integral,
-            'avatar'                            => $this->user['avatar'],
-            'nickname'                          => $this->user['nickname'],
-            'username'                          => $this->user['username'],
-            'user_name_view'                    => $this->user['user_name_view'],
-            'user_order_status'                 => $user_order_status['data'],
-            'user_order_count'                  => $user_order_count,
-            'user_goods_favor_count'            => $user_goods_favor_count,
-            'user_goods_browse_count'           => $user_goods_browse_count,
-            'common_message_total'              => $common_message_total,
-            'navigation'                        => AppCenterNavService::AppCenterNav(),
-            'common_cart_total'                 => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
+            'integral'                  => $user_integral,
+            'avatar'                    => $this->user['avatar'],
+            'nickname'                  => $this->user['nickname'],
+            'username'                  => $this->user['username'],
+            'user_name_view'            => $this->user['user_name_view'],
+            'user_order_status'         => $user_order_status['data'],
+            'user_order_count'          => $user_order_count,
+            'user_goods_favor_count'    => $user_goods_favor_count,
+            'user_goods_browse_count'   => $user_goods_browse_count,
+            'message_total'             => $message_total,
+            'navigation'                => AppCenterNavService::AppCenterNav(),
+            'cart_total'                => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
         );
 
         // 返回数据

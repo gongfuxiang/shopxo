@@ -32,8 +32,6 @@ class User extends Base
      */
 	public function Index()
 	{
-		// Excel地址
-		MyViewAssign('excel_url', MyUrl('admin/user/excelexport', $this->data_request));
 		return MyView();
 	}
 
@@ -48,28 +46,6 @@ class User extends Base
     {
         return MyView();
     }
-
-	/**
-	 * excel文件导出
-	 * @author   Devil
-	 * @blog     http://gong.gg/
-	 * @version  0.0.1
-	 * @datetime 2017-01-10T15:46:00+0800
-	 */
-	public function ExcelExport()
-	{
-        // 获取数据列表
-		$data_params = [
-			'where'		=> $this->form_where,
-			'm'			=> 0,
-			'n'			=> 0,
-		];
-		$data = UserService::UserList($data_params);
-
-		// Excel驱动导出数据
-		$excel = new \base\Excel(array('filename'=>'user', 'title'=>MyConst('excel_user_title_list'), 'data'=>$data['data'], 'msg'=>'没有相关数据'));
-		$excel->Export();
-	}
 
 	/**
 	 * 添加/编辑页面

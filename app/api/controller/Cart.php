@@ -38,9 +38,9 @@ class Cart extends Common
         // 是否登录
         $this->IsLogin();
     }
-    
+
     /**
-     * [Index 首页]
+     * 首页
      * @author   Devil
      * @blog     http://gong.gg/
      * @version  0.0.1
@@ -48,12 +48,12 @@ class Cart extends Common
      */
     public function Index()
     {
-        $ret = GoodsCartService::GoodsCartList(['user'=>$this->user]);
-        $result = [
-            'data'              => $ret['data'],
-            'common_cart_total' => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
-        ];
+        // 汇总
+        $result = GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]);
 
+        // 列表
+        $list = GoodsCartService::GoodsCartList(['user'=>$this->user]);
+        $result['data'] = $list['data'];
         return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
     }
 

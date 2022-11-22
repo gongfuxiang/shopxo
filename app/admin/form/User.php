@@ -39,12 +39,11 @@ class User
         return [
             // 基础配置
             'base' => [
-                'key_field'     => 'id',
-                'is_search'     => 1,
-                'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/user/delete'),
-                'delete_key'    => 'ids',
-                'is_middle'     => 0,
+                'key_field'             => 'id',
+                'is_search'             => 1,
+                'is_delete'             => 1,
+                'is_data_export_excel'  => 1,
+                'is_middle'             => 0,
             ],
             // 表单配置
             'form' => [
@@ -82,8 +81,11 @@ class User
                 ],
                 [
                     'label'         => '头像',
-                    'view_type'     => 'module',
-                    'view_key'      => 'user/module/avatar',
+                    'view_type'     => 'images',
+                    'view_key'      => 'avatar',
+                    'images_width'  => 40,
+                    'images_height' => 40,
+                    'width'         => 65,
                 ],
                 [
                     'label'         => '用户名',
@@ -128,12 +130,11 @@ class User
                 [
                     'label'         => '性别',
                     'view_type'     => 'field',
-                    'view_key'      => 'gender',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_gender_list'),
+                    'view_key'      => 'gender_name',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
+                        'form_name'         => 'gender',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_gender_list'),
                         'data_key'          => 'id',
@@ -144,12 +145,11 @@ class User
                 [
                     'label'         => '状态',
                     'view_type'     => 'field',
-                    'view_key'      => 'status',
-                    'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_user_status_list'),
+                    'view_key'      => 'status_name',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
+                        'form_name'         => 'status',
                         'where_type'        => 'in',
                         'data'              => MyConst('common_user_status_list'),
                         'data_key'          => 'id',
@@ -267,9 +267,17 @@ class User
             ],
             // 数据配置
             'data'  => [
-                'table_name'    => 'User',
-                'data_handle'   => 'UserService::UserListHandle',
-                'is_page'       => 1,
+                'table_name'            => 'User',
+                'data_handle'           => 'UserService::UserListHandle',
+                'is_fixed_name_field'   => 1,
+                'fixed_name_data'       => [
+                    'status'        => [
+                        'data'  => MyConst('common_user_status_list'),
+                    ],
+                    'gender'    => [
+                        'data'  => MyConst('common_gender_list'),
+                    ],
+                ],
             ],
         ];
     }

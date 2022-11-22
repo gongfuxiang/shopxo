@@ -643,17 +643,18 @@ class NavigationService
      */
     public static function HomeHavTopRight($params = [])
     {
-        $common_cart_total = 0;
-        $common_message_total = -1;
+        $cart_total = 0;
+        $message_total = -1;
         if(!empty($params['user']))
         {
-            // 购物车商品总数
-            $common_cart_total = GoodsCartService::UserGoodsCartTotal(['user'=>$params['user']]);
+            // 购物车商品汇总
+            $cart_res = GoodsCartService::UserGoodsCartTotal(['user'=>$params['user']]);
+            $cart_total = $cart_res['buy_number'];
 
             // 未读消息总数
             $message_params = ['user'=>$params['user'], 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
-            $common_message_total = MessageService::UserMessageTotal($message_params);
-            $common_message_total = ($common_message_total <= 0) ? -1 : $common_message_total;
+            $message_total = MessageService::UserMessageTotal($message_params);
+            $message_total = ($message_total <= 0) ? -1 : $message_total;
         }
         
         // 列表
@@ -699,7 +700,7 @@ class NavigationService
                 'name'      => '购物车',
                 'type'      => 'cart',
                 'is_login'  => 1,
-                'badge'     => $common_cart_total,
+                'badge'     => $cart_total,
                 'icon'      => 'am-icon-shopping-cart',
                 'url'       => MyUrl('index/cart/index'),
                 'items'     => [],
@@ -708,7 +709,7 @@ class NavigationService
                 'name'      => '消息',
                 'type'      => 'message',
                 'is_login'  => 1,
-                'badge'     => $common_message_total,
+                'badge'     => $message_total,
                 'icon'      => 'am-icon-bell',
                 'url'       => MyUrl('index/message/index'),
                 'items'     => [],
@@ -1008,11 +1009,12 @@ class NavigationService
      */
     public static function BottomNavigation($params = [])
     {
-        $common_cart_total = 0;
+        $cart_total = 0;
         if(!empty($params['user']))
         {
-            // 购物车商品总数
-            $common_cart_total = GoodsCartService::UserGoodsCartTotal(['user'=>$params['user']]);
+            // 购物车商品汇总
+            $cart_res = GoodsCartService::UserGoodsCartTotal(['user'=>$params['user']]);
+            $cart_total = $cart_res['buy_number'];
         }
         
         // 列表
@@ -1036,7 +1038,7 @@ class NavigationService
             [
                 'name'      => '购物车',
                 'is_login'  => 1,
-                'badge'     => $common_cart_total,
+                'badge'     => $cart_total,
                 'icon'      => 'nav-icon-cart',
                 'only_tag'  => 'cartindex',
                 'url'       => MyUrl('index/cart/index'),

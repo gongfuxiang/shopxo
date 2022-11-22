@@ -470,7 +470,7 @@ class GoodsCartService
     }
 
     /**
-     * 购物车总数
+     * 购物车汇总
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -480,7 +480,16 @@ class GoodsCartService
      */
     public static function GoodsCartTotal($where = [])
     {
-        return (int) Db::name('Cart')->where($where)->count();
+        $data = Db::name('Cart')->where($where)->field('SUM(`stock`*`price`) AS total_price, SUM(`stock`) AS buy_number')->find();
+        if(empty($data['buy_number']))
+        {
+            $data['buy_number'] = 0;
+        }
+        if(empty($data['total_price']))
+        {
+            $data['total_price'] = 0.00;
+        }
+        return $data;
     }
 
     /**
@@ -491,7 +500,7 @@ class GoodsCartService
      * @date    2018-09-29
      * @desc    description
      * @param   [array]          $params [输入参数]
-     * @return  [int|string]             [超过99则返回 99+]
+     * @return  [array]                  [总数超过99则返回 99+]
      */
     public static function UserGoodsCartTotal($params = [])
     {
@@ -506,7 +515,7 @@ class GoodsCartService
         $ret = ParamsChecked($params, $p);
         if($ret !== true)
         {
-            return 0;
+            return ['buy_number'=>0, 'total_price'=>0.00];
         }
 
         // 条件
@@ -523,8 +532,13 @@ class GoodsCartService
             'where'         => &$where,
         ]);
 
-        $total = self::GoodsCartTotal($where);
-        return ($total > 99) ? '99+' : $total;
+        // 获取汇总
+        $data = self::GoodsCartTotal($where);
+        if($data['buy_number'] > 99)
+        {
+            $data['buy_number'] = '99+';
+        }
+        return $data;
     }
 
     /**

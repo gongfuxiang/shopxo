@@ -122,11 +122,11 @@ class Goods extends Common
 
                 // 数据返回
                 $result = [
-                    'goods'                 => $goods,
-                    'common_cart_total'     => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
-                    'buy_button'            => $buy_button,
-                    'middle_tabs_nav'       => $middle_tabs_nav,
-                    'nav_more_list'         => $nav_more_list,
+                    'goods'             => $goods,
+                    'cart_total'        => GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]),
+                    'buy_button'        => $buy_button,
+                    'middle_tabs_nav'   => $middle_tabs_nav,
+                    'nav_more_list'     => $nav_more_list,
                 ];
                 $ret = SystemBaseService::DataReturn($result);
             }

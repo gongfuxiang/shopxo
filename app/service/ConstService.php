@@ -534,54 +534,6 @@ class ConstService
                 1 => ['value' => 1, 'name' => 'PATHINFO模式'],
                 2 => ['value' => 2, 'name' => 'PATHINFO模式+短地址'],
             ],
-
-            // 用户excel导出标题列表
-            'excel_user_title_list'     =>  [
-                'username'      =>  [
-                        'name' => '用户名',
-                        'type' => 'string',
-                    ],
-                'nickname'      =>  [
-                        'name' => '昵称',
-                        'type' => 'int',
-                    ],
-                'gender_text'   =>  [
-                        'name' => '性别',
-                        'type' => 'string',
-                    ],
-                'birthday'      =>   [
-                        'name' => '生日',
-                        'type' => 'string',
-                    ],
-                'status_text'   =>   [
-                        'name' => '状态',
-                        'type' => 'string',
-                    ],
-                'mobile'        =>  [
-                        'name' => '手机号码',
-                        'type' => 'int',
-                    ],
-                'email'         =>  [
-                        'name' => '电子邮箱',
-                        'type' => 'string',
-                    ],
-                'province'      =>  [
-                        'name' => '所在省',
-                        'type' => 'string',
-                    ],
-                'city'      =>  [
-                        'name' => '所在市',
-                        'type' => 'string',
-                    ],
-                'address'       =>  [
-                        'name' => '详细地址',
-                        'type' => 'string',
-                    ],
-                'add_time'      =>  [
-                        'name' => '注册时间',
-                        'type' => 'string',
-                    ],
-            ],
         ];
     }
 }

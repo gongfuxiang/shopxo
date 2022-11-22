@@ -62,12 +62,12 @@ class Index extends Common
         	$data_list = GoodsService::HomeFloorList();
         }
 
-        // 购物车数量
-        $common_cart_total = GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]);
+        // 购物车汇总
+        $cart_total = GoodsCartService::UserGoodsCartTotal(['user'=>$this->user]);
 
         // 未读消息总数
         $params = ['user'=>$this->user, 'is_more'=>1, 'is_read'=>0];
-        $common_message_total = MessageService::UserMessageTotal($params);
+        $message_total = MessageService::UserMessageTotal($params);
 
 		// 返回数据
 		$result = [
@@ -75,9 +75,9 @@ class Index extends Common
 			'banner_list'			=> BannerService::Banner(),
 			'data_list'				=> $data_list,
 			'article_list'			=> ArticleService::HomeArticleList(),
-			'right_icon_list'		=> AppService::HomeRightIconList(['message_total'=>$common_message_total]),
-			'common_cart_total'		=> $common_cart_total,
-			'common_message_total'	=> $common_message_total,
+			'right_icon_list'		=> AppService::HomeRightIconList(['message_total'=>$message_total]),
+			'cart_total'			=> $cart_total,
+			'message_total'			=> $message_total,
 			'plugins_sort_list'		=> PluginsService::PluginsSortList(),
 		];
 		return ApiService::ApiDataReturn(SystemBaseService::DataReturn($result));
