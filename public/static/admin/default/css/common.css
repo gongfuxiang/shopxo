@@ -210,6 +210,28 @@ table.am-table .am-btn-danger:hover {
 }
 
 /**
+ * 列表操作按钮美化
+ */
+table.am-table .am-operate-grid .am-btn {
+    background: transparent;
+    padding: 2px 5px;
+    width: auto;
+    border: 0px !important;
+}
+table.am-table .am-operate-grid .am-btn:nth-child(2) {
+    margin-top: 0;
+}
+table.am-table .am-operate-grid .am-btn:nth-child(odd) {
+    float: left;
+}
+table.am-table .am-operate-grid .am-btn:nth-child(even) {
+    float: right;
+}
+table.am-table .am-operate-grid .am-btn:nth-child(n+3) {
+    margin-top: 8px;
+}
+
+/**
  * 下拉选框
  */
 table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdown-toggle,
