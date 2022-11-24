@@ -2,7 +2,7 @@
     <label>展示模式</label>
     <div class="config-view-show-style">
         {{foreach $goods_view_list_show_style as $k=>$v}}
-            <label class="am-radio-inline">
+            <label class="am-checkbox-inline">
                 <input type="radio" name="view_list_show_style" value="{{$k}}" data-am-ucheck  {{if $k eq 'routine'}}checked{{/if}} /> {{$v}}
             </label>
         {{/foreach}}

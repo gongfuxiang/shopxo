@@ -34,8 +34,11 @@
                 <div class="am-panel am-panel-default">
                     <div class="am-panel-hd">样式设置</div>
                     <div class="am-panel-bd">
+                        <!-- 背景色 -->
+                        {{include file="../../../layout/view/public/style/background_color" key="" required="" /}}
+
                         <!-- 圆角 -->
-                        {{include file="../../../layout/view/public/style/border_radius" key="" required="" /}}
+                        {{include file="../../../layout/view/public/style/border_radius" max="1000" key="" required="" /}}
 
                         <!-- 边线类型 -->
                         {{include file="../../../layout/view/public/style/border_style_4" key="" /}}
@@ -55,7 +58,7 @@
                 <div class="am-panel am-panel-default">
                     <div class="am-panel-hd">图片固定</div>
                     <div class="am-panel-bd">
-                        {{include file="../../../layout/view/public/content/media_fixed" key="_media_fixed" required="" name="图片容器高度" /}}
+                        {{include file="../../../layout/view/public/content/media_fixed" key="_media_fixed" required="" /}}
                     </div>
                 </div>
 

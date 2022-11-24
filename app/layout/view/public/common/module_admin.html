@@ -17,7 +17,7 @@
                                 {{switch vss.value}}
                                     {{case images}}
                                         <a href="javascript:ModuleToPrompt('{{$vss.config.content_to_name}}');" class="module-images-content {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                            <img src="{{$vss.config.content_images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                            <img src="{{$vss.config.content_images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
                                         </a>
                                     {{/case}}
                                     {{case many-images}}
@@ -28,7 +28,7 @@
                                                         {{foreach $vss.config.data_list as $i}}
                                                             <li>
                                                                 <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
                                                                 </a>
                                                             </li>
                                                         {{/foreach}}
@@ -41,7 +41,7 @@
                                                         <li>
                                                             <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
                                                                 <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
                                                                 </a>
                                                             </div>
                                                         </li>
@@ -54,7 +54,7 @@
                                                         {{foreach $vss.config.data_list as $i}}
                                                             <li>
                                                                 <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
                                                                 </a>
                                                             </li>
                                                         {{/foreach}}
@@ -62,9 +62,73 @@
                                                 </div>
                                         {{/switch}}
                                     {{/case}}
+                                    {{case images-text}}
+                                        {{switch vss.config.view_list_show_style}}
+                                            {{case rolling}}
+                                                <div class="am-slider am-slider-default am-slider-carousel {{$vss.config.frontend_config.nav_dot_ent}}" data-am-flexslider="{itemWidth: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_width'])}}200{{else /}}{{$vss.config.view_list_show_style_value_arr.item_width}}{{/if}}, itemMargin: {{if empty($vss['config']['view_list_show_style_value_arr']) or empty($vss['config']['view_list_show_style_value_arr']['item_margin'])}}0{{else /}}{{$vss.config.view_list_show_style_value_arr.item_margin}}{{/if}}, slideshow: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_auto_play']) or $vss['config']['view_list_show_style_value_arr']['is_auto_play'] eq 0}}false{{else /}}true{{/if}}, controlNav: {{if empty($vss['config']['view_list_show_style_value_arr']) or !isset($vss['config']['view_list_show_style_value_arr']['is_nav_dot']) or $vss['config']['view_list_show_style_value_arr']['is_nav_dot'] eq 0}}false{{else /}}true{{/if}}}">
+                                                    <ul class="am-slides">
+                                                        {{foreach $vss.config.data_list as $ik=>$i}}
+                                                            <li>
+                                                                <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                    <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                        <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                    </a>
+                                                                    {{if !empty($i['title'])}}
+                                                                        <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
+                                                                    {{/if}}
+                                                                    {{if !empty($i['desc'])}}
+                                                                        <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['desc'])}} {{$vss.config.frontend_config.item_field_style[$ik]['desc']}}{{/if}}">{{$i.desc}}</p>
+                                                                    {{/if}}
+                                                                </div>
+                                                            </li>
+                                                        {{/foreach}}
+                                                    </ul>
+                                                </div>
+                                            {{/case}}
+                                            {{case leftright}}
+                                                <ul class="module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                    {{foreach $vss.config.data_list as $ik=>$i}}
+                                                        <li>
+                                                            <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="am-fl {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                </a>
+                                                                <div class="am-fl" style="{{$vss.config.frontend_config.item_right_style}}">
+                                                                    {{if !empty($i['title'])}}
+                                                                        <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
+                                                                    {{/if}}
+                                                                    {{if !empty($i['desc'])}}
+                                                                        <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['desc'])}} {{$vss.config.frontend_config.item_field_style[$ik]['desc']}}{{/if}}">{{$i.desc}}</p>
+                                                                    {{/if}}
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    {{/foreach}}
+                                                </ul>
+                                            {{/case}}
+                                            {{default /}}
+                                                <ul class="module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                    {{foreach $vss.config.data_list as $ik=>$i}}
+                                                        <li>
+                                                            <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                </a>
+                                                                {{if !empty($i['title'])}}
+                                                                    <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
+                                                                {{/if}}
+                                                                {{if !empty($i['desc'])}}
+                                                                    <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['desc'])}} {{$vss.config.frontend_config.item_field_style[$ik]['desc']}}{{/if}}">{{$i.desc}}</p>
+                                                                {{/if}}
+                                                            </div>
+                                                        </li>
+                                                    {{/foreach}}
+                                                </ul>
+                                        {{/switch}}
+                                    {{/case}}
                                     {{case video}}
                                         <div class="module-video-content {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                            <video src="{{$vss.config.content_video}}" poster="{{if !empty($vss['config']['content_images'])}}{{$vss.config.content_images}}{{/if}}" controls class="{{$vss.config.frontend_config.media_fixed.media_ent}}">your browser does not support the video tag</video>
+                                            <video src="{{$vss.config.content_video}}" poster="{{if !empty($vss['config']['content_images'])}}{{$vss.config.content_images}}{{/if}}" controls class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">your browser does not support the video tag</video>
                                         </div>
                                     {{/case}}
                                     {{case goods}}
@@ -78,7 +142,7 @@
                                                                     <li>
                                                                         <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
                                                                             <a href="{{$g.goods_url}}" target="_blank" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                                                                <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                                <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
                                                                             </a>
                                                                             <div class="item-bottom">
                                                                                 <div class="module-title">
@@ -98,7 +162,7 @@
                                                             <li>
                                                                 <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
                                                                     <a href="{{$g.goods_url}}" target="_blank" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                                                        <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" />
+                                                                        <img src="{{$g.images}}" alt="{{$g.title}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
                                                                     </a>
                                                                     <div class="item-bottom">
                                                                         <div class="module-title">
@@ -134,6 +198,11 @@
                                                 </div>
                                             {{/if}}
                                         </div>
+                                    {{/case}}
+                                    {{case custom}}
+                                        {{if !empty($vss['config']['custom'])}}
+                                            {{:base64_decode($vss.config.custom)}}
+                                        {{/if}}
                                     {{/case}}
                                 {{/switch}}
                             </div>

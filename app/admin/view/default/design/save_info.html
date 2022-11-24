@@ -5,10 +5,10 @@
         <legend class="am-padding-horizontal-xs am-padding-bottom-xs">
             <img src="{{if empty($data['logo'])}}{{$attachment_host}}/static/common/images/default-images-mini.png{{else /}}{{$data.logo}}{{/if}}" class="am-img-thumbnail am-radius page-top-nav-logo" />
             <span class="page-top-nav-title">
-                <span>{{$data.name}}</span>
-                <a href="javascript:;" class="am-icon-eyedropper am-margin-left-xs" data-am-modal="{target: '#popup-saveinfo'}"></a>
+                <span class="am-text-xs">{{$data.name}}</span>
+                <a href="javascript:;" class="am-icon-eyedropper am-text-xs am-margin-left-xs" data-am-modal="{target: '#popup-saveinfo'}"></a>
             </span>
-            <a href="{{:MyUrl('index/design/index', ['id'=>$data['id']])}}" target="_blank" class="am-fr">查看 >></a>
+            <a href="{{:MyUrl('index/design/index', ['id'=>$data['id']])}}" target="_blank" class="am-fr am-text-xs am-margin-top-sm">查看 >></a>
         </legend>
         <div class="am-padding-bottom-sm">
             <div class="layout-operate-container am-fr" data-save-url="{{:MyUrl('admin/design/save')}}" data-json="{{:urlencode(json_encode($data))}}">

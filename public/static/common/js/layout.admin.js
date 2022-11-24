@@ -2,9 +2,11 @@
 FromInit('form.form-validation-layout-config');
 FromInit('form.form-validation-module-offcanvas-images');
 FromInit('form.form-validation-module-offcanvas-many-images');
+FromInit('form.form-validation-module-offcanvas-images-text');
 FromInit('form.form-validation-module-offcanvas-video');
 FromInit('form.form-validation-module-offcanvas-goods');
 FromInit('form.form-validation-module-offcanvas-title');
+FromInit('form.form-validation-module-offcanvas-custom');
 FromInit('form.form-validation-module-offcanvas-border');
 FromInit('form.form-validation-module-offcanvas-height');
 
@@ -23,9 +25,11 @@ var $layout = $('.layout-container');
 var $offcanvas_layout_config = $('#offcanvas-layout-config');
 var $offcanvas_config_images = $('#offcanvas-module-config-images');
 var $offcanvas_config_many_images = $('#offcanvas-module-config-many-images');
+var $offcanvas_config_images_text = $('#offcanvas-module-config-images-text');
 var $offcanvas_config_video = $('#offcanvas-module-config-video');
 var $offcanvas_config_goods = $('#offcanvas-module-config-goods');
 var $offcanvas_config_title = $('#offcanvas-module-config-title');
+var $offcanvas_config_custom = $('#offcanvas-module-config-custom');
 var $offcanvas_config_border = $('#offcanvas-module-config-border');
 var $offcanvas_config_height = $('#offcanvas-module-config-height');
 
@@ -195,8 +199,9 @@ function ModuleToPrompt(to_name)
  * @param   {[object]}        data          [数据]
  * @param   {[string]}        key           [key]
  * @param   {[array]}         replace_rules [替换规则]
+ * @param   {[array]}         exclude       [排除样式]
  */
-function StyleBaseHandle(data, key, replace_rules)
+function StyleBaseHandle(data, key, replace_rules, exclude)
 {
     // 样式容器
     var style = '';
@@ -240,7 +245,10 @@ function StyleBaseHandle(data, key, replace_rules)
         var l = data[key+type+'_left'] || value;
         if((t != 0 || r != 0 || b != 0 || l != 0) || (t != '' || r != '' || b != '' || l != ''))
         {
-            style += arr[i]['css']+':'+ t+unit+' '+r+unit+' '+b+unit+' '+l+unit+';';
+            if((exclude || null) == null || exclude.indexOf(arr[i]['css']) == -1)
+            {
+                style += arr[i]['css']+':'+ t+unit+' '+r+unit+' '+b+unit+' '+l+unit+';';
+            }
         }
     }
 
@@ -277,6 +285,16 @@ function StyleBaseHandle(data, key, replace_rules)
             "unit": ""
         },
         {
+            "type": "align",
+            "css": "text-align",
+            "unit": ""
+        },
+        {
+            "type": "font_size",
+            "css": "font-size",
+            "unit": "px"
+        },
+        {
             "type": "margin",
             "css": "margin",
             "unit": "px"
@@ -301,19 +319,21 @@ function StyleBaseHandle(data, key, replace_rules)
     {
         if((data[key+arr2[i]['type']] || null) != null)
         {
-            // 样式值
-            var v = data[key+arr2[i]['type']]+arr2[i]['unit'];
-
-            // 替换规则
-            // rules {"field":{"value":"hello","var":"var"}}
-            if((replace_rules || null) != null && (replace_rules[arr2[i]['type']] || null) != null)
+            if((exclude || null) == null || exclude.indexOf(arr2[i]['css']) == -1)
             {
-                var rules = replace_rules[arr2[i]['type']];
-                var reg = new RegExp(rules['var'], 'g');
-                v = rules['value'].replace(reg, data[key+arr2[i]['type']]);
-            }
+                // 样式值
+                var v = data[key+arr2[i]['type']]+arr2[i]['unit'];
 
-            style += arr2[i]['css']+':'+v+';';
+                // 替换规则
+                // rules {"field":{"value":"hello","var":"var"}}
+                if((replace_rules || null) != null && (replace_rules[arr2[i]['type']] || null) != null)
+                {
+                    var rules = replace_rules[arr2[i]['type']];
+                    var reg = new RegExp(rules['var'], 'g');
+                    v = rules['value'].replace(reg, data[key+arr2[i]['type']]);
+                }
+                style += arr2[i]['css']+':'+v+';';
+            }
         }
     }
 
@@ -487,7 +507,7 @@ function FormBackModuleConfigImagesHandle(data)
     // html拼接
     var html = '<div class="module-images-container" style="'+style+'">';
         html += '<a href="javascript:ModuleToPrompt(\''+(data.content_to_name || '')+'\');" class="'+media_fixed.media_container_ent+'" style="'+media_fixed.media_container_style+'">';
-        html += '<img src="'+data['content_images']+'" class="'+media_fixed.media_ent+'" />';
+        html += '<img src="'+data['content_images']+'" class="'+media_fixed.media_ent+'" style="'+media_fixed.media_container_style+'" />';
         html += '</a>';
         html += '</div>';
     var $doc = $(doc);
@@ -521,7 +541,7 @@ function FormBackModuleConfigManyImagesHandle(data)
         return false;
     }
 
-    // 多图图片
+    // 数据字段
     var fields = {
         "content_images_": "images",
         "content_to_name_": "name",
@@ -532,18 +552,20 @@ function FormBackModuleConfigManyImagesHandle(data)
     var data_list = [];
     for(var i in data)
     {
-        for(var f in fields)
+        var loc = i.lastIndexOf('_');
+        if(loc != -1)
         {
-            if(i.substr(0, f.length) == f)
+            var key = i.substr(0, loc+1);
+            var last = i.substr(loc+1);
+            for(var f in fields)
             {
-                var key = i.replace(f, '') || null;
-                if(key != null)
+                if(key == f)
                 {
                     // 临时索引记录
-                    var index = key_temp.indexOf(key);
+                    var index = key_temp.indexOf(last);
                     if(index == -1)
                     {
-                        key_temp.push(key);
+                        key_temp.push(last);
                         index = key_temp.length-1;
                     }
 
@@ -553,8 +575,8 @@ function FormBackModuleConfigManyImagesHandle(data)
                         data_list[index] = {};
                     }
                     data_list[index][fields[f]] = (fields[f] != 'value' || (data[i] || null) == null) ? data[i] : (JSON.parse(decodeURIComponent(data[i])) || '');
+                    delete data[i];
                 }
-                delete data[i];
             }
         }
     }
@@ -589,7 +611,7 @@ function FormBackModuleConfigManyImagesHandle(data)
         {
             item_html += '<li>';
             item_html += '<a href="javascript:ModuleToPrompt(\''+(data_list[i]['name'] || '')+'\');" class="'+media_fixed.media_container_ent+'" style="'+media_fixed.media_container_style+'">'
-            item_html += '<img src="'+data_list[i]['images']+'" class="'+media_fixed.media_ent+'" />';
+            item_html += '<img src="'+data_list[i]['images']+'" class="'+media_fixed.media_ent+'" style="'+media_fixed.media_container_style+'" />';
             item_html += '</a>';
             item_html += '</li>';
         }
@@ -641,13 +663,13 @@ function FormBackModuleConfigManyImagesHandle(data)
             var lg = show_style_value.view_list_number_lg || 5;
 
             // 外边距
-            var margin = show_style_value.style_margin || 0;
+            var item_margin = parseInt(show_style_value.style_margin || 0);
 
             // 数据项样式处理
-            var item_style = (margin > 0) ? 'margin:'+margin+'px 0 0 '+margin+'px;' : '';
+            var item_style = (item_margin > 0) ? 'margin:'+item_margin+'px 0 0 '+item_margin+'px;' : '';
 
             // 设置了外边距，则计算平均移动值
-            var avg = (margin > 0) ? 'module-list-content-avg-'+margin : '';
+            var avg = (item_margin > 0) ? 'module-list-content-avg-'+item_margin : '';
 
             // 列表class
             list_ent = avg+' module-list-sm-'+sm+' module-list-md-'+md+' module-list-lg-'+md+' ';
@@ -658,7 +680,7 @@ function FormBackModuleConfigManyImagesHandle(data)
                 html += '<li>';
                 html += '<div class="module-item" style="'+item_style+'">';
                 html += '<a href="javascript:ModuleToPrompt(\''+(data_list[i]['name'] || '')+'\');" class="'+media_fixed.media_container_ent+'" style="'+media_fixed.media_container_style+'">'
-                html += '<img src="'+data_list[i]['images']+'" class="'+media_fixed.media_ent+'" />';
+                html += '<img src="'+data_list[i]['images']+'" class="'+media_fixed.media_ent+'" style="'+media_fixed.media_container_style+'" />';
                 html += '</a>';
                 html += '</div>';
                 html += '</li>';
@@ -702,6 +724,245 @@ function FormBackModuleConfigManyImagesHandle(data)
 }
 
 /**
+ * 模块-图文处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-05-18
+ * @desc    description
+ * @param   {[object]}        data [表单数据]
+ */
+function FormBackModuleConfigImagesTextHandle(data)
+{
+    // 基础信息
+    var doc = $offcanvas_config_images_text.attr('data-doc') || null;
+    if(doc == null)
+    {
+        Prompt($layout.data('module-tab-tips') || '模块标记有误');
+        return false;
+    }
+
+    // 数据字段
+    var fields = {
+        "content_images_": "images",
+        "content_title_": "title",
+        "content_title_style_color_": "title_style_color",
+        "content_title_style_font_size_": "title_style_font_size",
+        "content_title_style_align_": "title_style_align",
+        "content_title_style_margin_top_": "title_style_margin_top",
+        "content_title_style_margin_right_": "title_style_margin_right",
+        "content_title_style_margin_bottom_": "title_style_margin_bottom",
+        "content_title_style_margin_left": "title_style_margin_left",
+        "content_desc_": "desc",
+        "content_desc_style_color_": "desc_style_color",
+        "content_desc_style_font_size_": "desc_style_font_size",
+        "content_desc_style_align_": "desc_style_align",
+        "content_desc_style_margin_top_": "desc_style_margin_top",
+        "content_desc_style_margin_right_": "desc_style_margin_right",
+        "content_desc_style_margin_bottom_": "desc_style_margin_bottom",
+        "content_desc_style_margin_left": "desc_style_margin_left",
+        "content_to_name_": "name",
+        "content_to_type_": "type",
+        "content_to_value_": "value"
+    };
+    var key_temp = [];
+    var data_list = [];
+    for(var i in data)
+    {
+        var loc = i.lastIndexOf('_');
+        if(loc != -1)
+        {
+            var key = i.substr(0, loc+1);
+            var last = i.substr(loc+1);
+            for(var f in fields)
+            {
+                if(key == f)
+                {
+                    // 临时索引记录
+                    var index = key_temp.indexOf(last);
+                    if(index == -1)
+                    {
+                        key_temp.push(last);
+                        index = key_temp.length-1;
+                    }
+
+                    // 数据组合
+                    if(data_list[index] == undefined)
+                    {
+                        data_list[index] = {};
+                    }
+                    data_list[index][fields[f]] = (fields[f] != 'value' || (data[i] || null) == null) ? data[i] : (JSON.parse(decodeURIComponent(data[i])) || '');
+                    delete data[i];
+                }
+            }
+        }
+    }
+    if(data_list.length <= 0)
+    {
+        Prompt($layout.data('config-images-text-tips') || '请先添加图文并配置');
+        return false;
+    }
+    for(var i in data_list)
+    {
+        if((data_list[i]['images'] || null) == null && (data_list[i]['title'] || null) == null)
+        {
+            Prompt($layout.data('upload-images-or-title-tips') || '图片和标题必填一项');
+            return false;
+        }
+    }
+    // 展示模式
+    var show_style = data.view_list_show_style || null;
+    if(show_style == null)
+    {
+        Prompt($layout.data('data-show-modal-tips') || '请选择数据展示模式');
+            return false;
+    }
+
+    // 样式处理
+    var style = StyleBaseHandle(data, 'style_');
+
+    // 图片固定
+    var media_fixed = MediaFixedHandle(data);
+
+    // html拼接
+    var html = '<div class="module-slider-container" style="'+style+'">';
+    // 初始化参数
+    var option = {};
+
+    // 参数处理
+    var show_style_value = ViewListShowStyleValueHandle(data.view_list_show_style_value);
+
+    // 外边距
+    var item_margin = parseInt(show_style_value.style_margin || 0);
+
+    // 数据项样式处理
+    var item_style = (item_margin > 0 && show_style != 'rolling') ? 'margin:'+item_margin+'px 0 0 '+item_margin+'px;' : '';
+
+    // 内容处理
+    var item_html = '';
+    var item_right_style = '';
+    var item_field_style = [];
+    for(var i in data_list)
+    {
+        // 字段样式
+        if(item_field_style[i] == undefined)
+        {
+            item_field_style[i] = {};
+        }
+        item_field_style[i]['title'] = StyleBaseHandle(data_list[i], 'title_style_');
+        item_field_style[i]['desc'] = StyleBaseHandle(data_list[i], 'desc_style_');
+
+        // 拼接html
+        item_html += '<li>';
+        item_html += '<div class="module-item" style="'+item_style+'">';
+        switch(show_style)
+        {
+            // 左右
+            case 'leftright' :
+                var style_media_fixed_width = parseInt(data.style_media_fixed_width || 0);
+                item_right_style = 'margin-left:10px;'+((style_media_fixed_width > 0) ? 'width: calc(100% - '+(style_media_fixed_width+10)+'px);' : '');
+                item_html += '<a href="javascript:ModuleToPrompt(\''+(data_list[i]['name'] || '')+'\');" class="am-fl '+media_fixed.media_container_ent+'" style="'+media_fixed.media_container_style+'">'
+                item_html += '<img src="'+data_list[i]['images']+'" class="'+media_fixed.media_ent+'" style="'+media_fixed.media_container_style+'" />';
+                item_html += '</a>';
+                item_html += '<div class="am-fl" style="'+item_right_style+'">';
+                if((data_list[i]['title'] || null) != null)
+                {
+                    item_html += '<p style="'+item_field_style[i]['title']+'">'+data_list[i]['title']+'</p>';
+                }
+                if((data_list[i]['desc'] || null) != null)
+                {
+                    item_html += '<p style="'+item_field_style[i]['desc']+'">'+data_list[i]['desc']+'</p>';
+                }
+                item_html += '</div>';
+                break;
+
+            // 默认 上下、滚动
+            case 'updown' :
+            default :
+                item_html += '<a href="javascript:ModuleToPrompt(\''+(data_list[i]['name'] || '')+'\');" class="'+media_fixed.media_container_ent+'" style="'+media_fixed.media_container_style+'">'
+                item_html += '<img src="'+data_list[i]['images']+'" class="'+media_fixed.media_ent+'" style="'+media_fixed.media_container_style+'" />';
+                item_html += '</a>';
+                if((data_list[i]['title'] || null) != null)
+                {
+                    item_html += '<p style="'+item_field_style[i]['title']+'">'+data_list[i]['title']+'</p>';
+                }
+                if((data_list[i]['desc'] || null) != null)
+                {
+                    item_html += '<p style="'+item_field_style[i]['desc']+'">'+data_list[i]['desc']+'</p>';
+                }
+                break;
+        }
+        item_html += '</div>';
+        item_html += '</li>';
+    }
+
+    // 滚动
+    var nav_dot_ent = '';
+    var list_ent = '';
+    if(show_style == 'rolling')
+    {
+        // 参数处理
+        var show_style_value = ViewRollingShowStyleValueHandle(data.view_list_show_style_value);
+
+        // 是否展示导航点
+        nav_dot_ent = show_style_value.is_nav_dot ? '' : 'slides-rolling-not-dot';
+
+        // html拼接
+        html += '<div class="am-slider am-slider-default am-slider-carousel '+nav_dot_ent+'">';
+        html += '<ul class="am-slides">';
+        html += item_html;
+        html += '</ul>';
+        html += '</div>';
+
+        // 组件参数
+        option = {
+            itemWidth: show_style_value.item_width,
+            itemMargin: show_style_value.item_margin,
+            slideshow: show_style_value.is_auto_play,
+            controlNav: show_style_value.is_nav_dot
+        };
+    } else {
+        // 列表展示数量
+        var sm = show_style_value.view_list_number_sm || 2;
+        var md = show_style_value.view_list_number_md || 5;
+        var lg = show_style_value.view_list_number_lg || 5;
+        // 设置了外边距，则计算平均移动值
+        var avg = (item_margin > 0) ? 'module-list-content-avg-'+item_margin : '';
+
+        // 列表class
+        list_ent = avg+' module-list-sm-'+sm+' module-list-md-'+md+' module-list-lg-'+md+' ';
+        html += '<ul class="module-list-content '+list_ent+'">';
+        html += item_html;
+        html += '</ul>';
+    }
+    html += '</div>';
+
+    // 模块容器设置
+    var $doc = $(doc);
+    $doc.html(html);
+
+    // 数据加入配置
+    data['frontend_config'] = {
+        "style": style,
+        "item_style": item_style,
+        "item_right_style": item_right_style,
+        "item_field_style": item_field_style,
+        "nav_dot_ent": nav_dot_ent,
+        "list_ent": list_ent,
+        "media_fixed": media_fixed
+    }
+    data['data_list'] = data_list;
+    $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+
+    // 滚动初始化
+    if(show_style == 'rolling')
+    {
+        $doc.find('.am-slider').flexslider(option);
+    }
+    $offcanvas_config_images_text.offCanvas('close');
+}
+
+/**
  * 模块-视频处理
  * @author  Devil
  * @blog    http://gong.gg/
@@ -736,7 +997,7 @@ function FormBackModuleConfigVideoHandle(data)
     // html拼接
     var html = '<div class="module-video-container" style="'+style+'">';
         html += '<div class="module-video-content '+media_fixed.media_container_ent+'" style="'+media_fixed.media_container_style+'">';
-        html += '<video src="'+data.content_video+'" poster="'+(data.content_images || '')+'" controls class="'+media_fixed.media_ent+'">your browser does not support the video tag</video>';
+        html += '<video src="'+data.content_video+'" poster="'+(data.content_images || '')+'" controls class="'+media_fixed.media_ent+'" style="'+media_fixed.media_container_style+'">your browser does not support the video tag</video>';
         html += '</div>';
         html += '</div>';
     var $doc = $(doc);
@@ -860,7 +1121,7 @@ function FormBackModuleConfigGoodsHandle(data)
                         item_html += '<li>';
                         item_html += '<div class="module-item" style="'+item_style+'">';
                         item_html += '<a href="'+list[i]['goods_url']+'" target="_blank" class="'+media_fixed.media_container_ent+'" style="'+media_fixed.media_container_style+'">';
-                        item_html += '<img src="'+list[i]['images']+'" alt="'+list[i]['title']+'" class="'+media_fixed.media_ent+'" />';
+                        item_html += '<img src="'+list[i]['images']+'" alt="'+list[i]['title']+'" class="'+media_fixed.media_ent+'" style="'+media_fixed.media_container_style+'" />';
                         item_html += '</a>';
                         item_html += '<div class="item-bottom">';
                         item_html += '<div class="module-title">';
@@ -1067,6 +1328,40 @@ function FormBackModuleConfigTitleHandle(data)
     }
     $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
     $offcanvas_config_title.offCanvas('close');
+}
+
+/**
+ * 模块-自定义html处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-06-04
+ * @desc    description
+ * @param   {[object]}        data [表单数据]
+ */
+function FormBackModuleConfigCustomHandle(data)
+{
+    // 基础信息
+    var doc = $offcanvas_config_custom.attr('data-doc') || null;
+    if(doc == null)
+    {
+        Prompt($layout.data('module-tab-tips') || '模块标记有误');
+        return false;
+    }
+
+    // 模块容器设置
+    var $doc = $(doc);
+    $doc.html(data.custom || '');
+
+    // 自定义html、转为base64
+    if((data['custom'] || null) != null)
+    {
+        data['custom'] =  CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(data.custom));
+    }
+
+    // 数据加入配置
+    $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+    $offcanvas_config_custom.offCanvas('close');
 }
 
 /**
@@ -1420,6 +1715,116 @@ function ModuleConfigManyImagesItemContentHtml(images, type, name, value)
         html += '</div>';
         html += '</div>';
         html += '</div>';
+    return html;
+}
+
+/**
+ * 模块-图文信息生成
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-05-18
+ * @desc    description
+ * @param   {[object]}        data        [配置数据]
+ */
+function ModuleConfigImagesTextItemContentHtml(data)
+{
+    if((data || null) == null)
+    {
+        data = {};
+    }
+    if((data.title_style_align || null) == null)
+    {
+        data.title_style_align = 'left';
+    }
+    if((data.desc_style_align || null) == null)
+    {
+        data.desc_style_align = 'left';
+    }
+    var index = parseInt(Math.random()*1000001);
+    var html = `<div class="am-panel am-panel-default am-padding-sm">
+                    <a href="javascript:;" class="am-close am-close-alt am-icon-times"></a>
+                    <div class="am-form-group am-form-file am-form-group-refreshing">
+                        <ul class="plug-file-upload-view module-slider-type-images-view module-slider-type-images-view-`+index+`" data-form-name="content_images_`+index+`" data-max-number="1" data-delete="0" data-dialog-type="images">
+                            <li>
+                                <input type="text" name="content_images_`+index+`" value="`+(data.images || '')+`" />
+                                <img src="`+(data.images || $offcanvas_config_many_images.data('default-images'))+`" />
+                            </li>
+                        </ul>
+                    <div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-`+index+`">+`+($layout.data('upload-images-name') || '上传图片')+`</div>
+                    </div>
+                    <div class="am-form-group am-form-group-refreshing">
+                    <div class="form-view-choice-container am-margin-top-xs" data-key="`+index+`">
+                        <input type="hidden" name="content_to_type_`+index+`" value="`+(data.type || '')+`" />
+                        <input type="hidden" name="content_to_name_`+index+`" value="`+(data.name || '')+`" />
+                        <input type="hidden" name="content_to_value_`+index+`" value="`+((data.value || null) == null ? '' : encodeURIComponent(JSON.stringify(data.value)))+`" />
+                        <div class="form-view-choice-container-content">
+                            `+ModuleConfigImagesToContentHtml(name)+`
+                        </div>
+                    </div>
+                </div>`;
+        // 标题
+        var title_style_color = (data.title_style_color || null) == null ? '' : 'background-color:'+data.title_style_color+';border-color:'+data.title_style_color+';';
+        html += `<div class="am-form-group am-form-group-refreshing">
+                    <label>标题</label>
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="text" placeholder="标题" name="content_title_`+index+`" value="`+(data.title || '')+`" class="am-form-field" />
+                        <input type="hidden" name="content_title_style_color_`+index+`" value="`+(data.title_style_color || '')+`" />
+                        <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-color-images-text-content-title-style-color-`+index+`" data-position="fixed" data-input-tag=".module-style-color-images-text-content-title-style-color-`+index+`" data-color-tag="input[name='content_title_style_color_`+index+`']" data-color-style="background-color|border-color" style="`+title_style_color+`">
+                            <img src="`+__attachment_host__+`/static/common/images/colorpicker.png" />
+                        </a>
+                    </div>`;
+
+        // 外边距
+        html += `<div class="am-input-group am-input-group-sm group-border-width am-margin-top-xs">
+                    <input type="number" data-is-clearout="0" placeholder="外上" name="content_title_style_margin_top_`+index+`" min="0" max="60" data-validation-message="标题外边距上最大60" value="`+(data.title_style_margin_top || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外右" name="content_title_style_margin_right_`+index+`" min="0" max="60" data-validation-message="标题外边距右最大60" value="`+(data.title_style_margin_right || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外下" name="content_title_style_margin_bottom_`+index+`" min="0" max="60" data-validation-message="标题外边距下最大60" value="`+(data.title_style_margin_bottom || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外左" name="content_title_style_margin_left_`+index+`" min="0" max="60" data-validation-message="标题外边距左最大60" value="`+(data.title_style_margin_left || '')+`" class="am-form-field" />
+                    <span class="am-input-group-label">px</span>
+                </div>`;
+
+        // 字体大小和左右居中
+        html += `<div class="am-margin-top-xs am-nbfc">
+                    <div class="am-input-group am-input-group-sm am-fl group-input-font-size">
+                        <input type="number" data-is-clearout="0" placeholder="大小" name="content_title_style_font_size_`+index+`" min="0" max="50" value="`+(data.title_style_font_size || '')+`" class="am-form-field" />
+                        <span class="am-input-group-label">px</span>
+                    </div>
+                    <div class="am-fr group-text-align-style"><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="left" data-am-ucheck `+(data.title_style_align == 'left' ? 'checked' : '')+` /> 居左</label><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="center" data-am-ucheck `+(data.title_style_align == 'center' ? 'checked' : '')+` /> 居中</label><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="right" data-am-ucheck `+(data.title_style_align == 'right' ? 'checked' : '')+` /> 居右</label></div>
+                    </div>`;
+        html += `</div>`;
+
+        // 描述
+        var desc_style_color = (data.desc_style_color || null) == null ? '' : 'background-color:'+data.desc_style_color+';border-color:'+data.desc_style_color+';';
+        html += `<div class="am-form-group am-form-group-refreshing">
+                    <label>描述</label>
+                    <div class="am-input-group am-input-group-sm">
+                        <input type="text" placeholder="描述" name="content_desc_`+index+`" value="`+(data.desc || '')+`" class="am-form-field" />
+                        <input type="hidden" name="content_desc_style_color_`+index+`" value="`+(data.desc_style_color || '')+`" />
+                        <a href="javascript:;" class="am-input-group-label colorpicker-submit module-style-color-images-text-content-desc-style-color-`+index+`" data-position="fixed" data-input-tag=".module-style-color-images-text-content-desc-style-color-`+index+`" data-color-tag="input[name='content_desc_style_color_`+index+`']" data-color-style="background-color|border-color" style="`+desc_style_color+`">
+                            <img src="`+__attachment_host__+`/static/common/images/colorpicker.png" />
+                        </a>
+                    </div>`;
+
+        // 外边距
+        html += `<div class="am-input-group am-input-group-sm group-border-width am-margin-top-xs">
+                    <input type="number" data-is-clearout="0" placeholder="外上" name="content_desc_style_margin_top_`+index+`" min="0" max="60" data-validation-message="描述外边距上最大60" value="`+(data.desc_style_margin_top || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外右" name="content_desc_style_margin_right_`+index+`" min="0" max="60" data-validation-message="描述外边距右最大60" value="`+(data.desc_style_margin_right || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外下" name="content_desc_style_margin_bottom_`+index+`" min="0" max="60" data-validation-message="描述外边距下最大60" value="`+(data.desc_style_margin_bottom || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外左" name="content_desc_style_margin_left_`+index+`" min="0" max="60" data-validation-message="描述外边距左最大60" value="`+(data.desc_style_margin_left || '')+`" class="am-form-field" />
+                    <span class="am-input-group-label">px</span>
+                </div>`;
+
+        // 字体大小和左右居中
+        html += `<div class="am-margin-top-xs am-nbfc">
+                    <div class="am-input-group am-input-group-sm am-fl group-input-font-size">
+                        <input type="number" data-is-clearout="0" placeholder="大小" name="content_desc_style_font_size_`+index+`" min="0" max="50" value="`+(data.desc_style_font_size || '')+`" class="am-form-field" />
+                        <span class="am-input-group-label">px</span>
+                    </div>
+                    <div class="am-fr group-text-align-style"><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="left" data-am-ucheck `+(data.desc_style_align == 'left' ? 'checked' : '')+` /> 居左</label><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="center" data-am-ucheck `+(data.desc_style_align == 'center' ? 'checked' : '')+` /> 居中</label><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="right" data-am-ucheck `+(data.desc_style_align == 'right' ? 'checked' : '')+` /> 居右</label></div>
+                    </div>
+                </div>`;
+        html += `</div>`;
     return html;
 }
 
@@ -2185,6 +2590,26 @@ $(function()
                 $config.find('.config-many-images-container').html(html);
                 break;
 
+            // 图文
+            case 'images-text' :
+                // 多图图片
+                var html = '';
+                if((json.data_list || null) != null && json.data_list.length > 0)
+                {
+                    for(var i in json.data_list)
+                    {
+                        html += ModuleConfigImagesTextItemContentHtml(json.data_list[i]);
+                    }
+                }
+                $config.find('.config-images-text-container').html(html);
+                // 展示模式默认空，必须要选择
+                var images_text_show_style_arr = ['updown', 'leftright', 'rolling'];
+                if(images_text_show_style_arr.indexOf(json.view_list_show_style) == -1)
+                {
+                    json['view_list_show_style'] = '';
+                }
+                break;
+
             // 视频
             case 'video' :
                 // 视频地址
@@ -2264,13 +2689,30 @@ $(function()
                 // 链接地址处理
                 $config.find('.form-view-choice-container-content').html(ModuleConfigImagesToContentHtml(json.content_to_name || ''));
                 break;
+
+            // 自定义html
+            case 'custom' :
+                json['custom'] = ((json['custom'] || null) == null) ? '' : CryptoJS.enc.Base64.parse(json.custom).toString(CryptoJS.enc.Utf8);
+                break;
+
+            default :
+                if($config.length == 0)
+                {
+                    Prompt('模块未配置('+value+')');
+                    return false;
+                }
         }
- 
+
         // 表单数据赋值
         FormDataFill(json, config_doc);
 
         // 背景色组件处理
         ModuleColorpickerHandle($config);
+
+        // 单选框初始化
+        $config.find('input[type="checkbox"], input[type="radio"]').uCheck();
+        // 颜色选择器初始化
+        ColorPickerInit();
 
         // 更新选择组件
         $config.find('.chosen-select').trigger('chosen:updated');
@@ -2918,8 +3360,8 @@ $(function()
         $(this).parent().remove();
     });
 
-    // 展示模式切换
-    $(document).on('click', 'input[name="view_list_show_style"]', function()
+    // 配置多图 - 展示模式切换
+    $(document).on('click', '#offcanvas-module-config-many-images input[name="view_list_show_style"]', function()
     {
         $base_show_style_value_obj = $(this).parents('.config-view-show-style').find('input[name="view_list_show_style_value"]');
         switch($(this).val())
@@ -2968,6 +3410,83 @@ $(function()
                 $base_show_style_value_obj.val('');
         }
     });
+
+
+    // 左侧配置 - 图文- 图文添加
+    $offcanvas_config_images_text.on('click', '.config-images-text-item-add', function()
+    {
+        $offcanvas_config_images_text.find('.config-images-text-container').append(ModuleConfigImagesTextItemContentHtml());
+        // 单选框初始化
+        $offcanvas_config_images_text.find('input[type="checkbox"], input[type="radio"]').uCheck();
+        // 颜色选择器初始化
+        ColorPickerInit();
+    });
+
+    // 配置图文 - 选择页面事件
+    $offcanvas_config_images_text.on('click', '.form-view-choice-container-submit', function(e)
+    {
+        OffcanvasConfigPagesChoice($(this), e);
+    });
+
+    // 左侧配置 - 配置图文 - 链接地址 - 移除
+    $offcanvas_config_images_text.on('click', '.form-view-choice-container-active i.am-icon-close', function(e)
+    {
+        OffcanvasConfigPagesRemove($(this), e);
+    });
+
+    // 左侧配置 - 配置图文 - 移除
+    $(document).on('click', '#offcanvas-module-config-images-text .config-images-text-container .am-panel a.am-close', function()
+    {
+        $(this).parent().remove();
+    });
+
+    // 配置图文 - 展示模式切换
+    $(document).on('click', '#offcanvas-module-config-images-text input[name="view_list_show_style"]', function()
+    {
+        $base_show_style_value_obj = $(this).parents('.config-view-show-style').find('input[name="view_list_show_style_value"]');
+        switch($(this).val())
+        {
+            // 滚动
+            case 'rolling' :
+                // 数据填充
+                var json = ViewRollingShowStyleValueHandle($base_show_style_value_obj.val());
+                if(json['item_margin'] <= 0)
+                {
+                    json['item_margin'] = '';
+                }
+                FormDataFill(json, '#modal-module-rolling-config');
+
+                // 开关状态
+                $modal_rolling_config.find('input[name="is_auto_play"]').bootstrapSwitch('state', json.is_auto_play);
+                $modal_rolling_config.find('input[name="is_nav_dot"]').bootstrapSwitch('state', json.is_nav_dot);
+
+                // 开启弹窗
+                $modal_rolling_config.modal({
+                    width: 260,
+                    height: 370,
+                    closeViaDimmer: false
+                });
+                break;
+
+            // 默认
+            default :
+                // 数据填充
+                var json = ViewListShowStyleValueHandle($base_show_style_value_obj.val());
+                if(json['style_margin'] <= 0)
+                {
+                    json['style_margin'] = '';
+                }
+                FormDataFill(json, '#modal-module-list-config');
+
+                // 开启弹窗
+                $modal_list_config.modal({
+                    width: 260,
+                    height: 225,
+                    closeViaDimmer: false
+                });
+        }
+    });
+
 
     // 左侧配置 - 标题 - 右侧按钮 - 选择页面事件
     $offcanvas_config_title.on('click', '.form-view-choice-container-submit', function(e)

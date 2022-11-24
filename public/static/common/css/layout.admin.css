@@ -212,6 +212,11 @@
 .colorpicker-submit {
     background-color: #fff;
 }
+.colorpicker-submit img {
+    width: 14px;
+    height: 14px;
+    float: right;
+}
 
 /**
  * 模块设置侧边栏
@@ -276,13 +281,8 @@
 .module-offcanvas-container .am-panel .am-panel-bd .am-form-group:last-child {
     padding-bottom: 5px !important;
 }
-@media only screen and (max-width: 640px) {
-    .module-offcanvas-container .am-offcanvas-bar {
-        width: 280px;
-    }
-    .module-offcanvas-container .form-submit-container {
-        width: 279px;
-    }
+.module-offcanvas-container .am-input-group-label {
+    border-color: #ddd;
 }
 
 /**
@@ -310,17 +310,17 @@
 .group-border-radius-color .am-input-group-label {
     border-left: 0;
 }
-.group-border-radius-color .colorpicker-submit img {
-    width: 14px;
-    height: 14px;
-}
 .group-border-style .chosen-container {
     width: 72px !important;
     display: block;
     float: left;
 }
 .group-border-style .chosen-container:not(:last-child) {
-    margin-right: 5px;
+    margin-right: 4px;
+}
+.group-text-align-style {
+    border: 1px solid #ddd;
+    padding: 5px 8px;
 }
 @media only screen and (max-width: 640px) {
     .group-border-style .chosen-container {
@@ -374,7 +374,8 @@
     height: 33px;
 }
 #offcanvas-module-config-goods .config-goods-list li .am-close,
-#offcanvas-module-config-many-images .config-many-images-container .am-panel .am-close {
+#offcanvas-module-config-many-images .config-many-images-container .am-panel .am-close,
+#offcanvas-module-config-images-text .config-images-text-container .am-panel .am-close {
     position: absolute;
     top: -8px;
     right: -8px;
@@ -394,13 +395,18 @@
 }
 
 /**
- * 模块设置侧边栏 - 多图
+ * 模块设置侧边栏 - 多图、图文
  */
-#offcanvas-module-config-many-images .config-many-images-container .am-panel {
+#offcanvas-module-config-many-images .config-many-images-container .am-panel,
+#offcanvas-module-config-images-text .config-images-text-container .am-panel {
     position: relative;
 }
-#offcanvas-module-config-many-images .config-many-images-container .am-panel .am-form-group:last-child {
+#offcanvas-module-config-many-images .config-many-images-container .am-panel .am-form-group:last-child,
+#offcanvas-module-config-images-text .config-images-text-container .am-panel .am-form-group:last-child {
     padding-bottom: 5px !important;
+}
+#offcanvas-module-config-images-text .config-images-text-container .am-panel .group-input-font-size {
+    width: 110px;
 }
 
 /**

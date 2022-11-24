@@ -35,9 +35,11 @@
             <div class="renovation-drag scrollspy-nav" data-am-tabs="{noSwipe: 1}" data-am-sticky>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="images">单图</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="many-images">多图</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="images-text">图文</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="video">视频</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="goods">商品</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="title">标题</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="custom">自定义html</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="border">辅助线</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="height">辅助空白</button>
             </div>
@@ -68,6 +70,8 @@
     data-goods-category-name="商品分类" 
     data-brand-name="品牌" 
     data-keywords-name="关键字" 
+    data-config-images-text-tips="请先添加图文并配置" 
+    data-upload-images-or-title-tips="图片和标题必填一项" 
     data-upload-images-name="上传图片" 
     data-upload-images-tips="请上传图片" 
     data-config-images-tips="请先添加图片并配置" 
@@ -95,6 +99,7 @@
     data-search-goods-tips="请搜索商品" 
     data-custom-url-name="自定义链接" 
     data-custom-url-tips="请至少填写一个地址" 
+    data-data-show-modal-tips="请选择数据展示模式" 
 >
     {{if !empty($layout_data) and is_array($layout_data)}}
         {{foreach $layout_data as $k=>$v}}
@@ -133,6 +138,9 @@
 <!-- 侧边栏 - 模块配置 - 多图 -->
 {{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_many_images" /}}
 
+<!-- 侧边栏 - 模块配置 - 图文 -->
+{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_images_text" /}}
+
 <!-- 侧边栏 - 模块配置 - 视频 -->
 {{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_video" /}}
 
@@ -141,6 +149,9 @@
 
 <!-- 侧边栏 - 模块配置 - 标题 -->
 {{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_title" /}}
+
+<!-- 侧边栏 - 模块配置 - 自定义html -->
+{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_custom" /}}
 
 <!-- 侧边栏 - 模块配置 - 辅助线 -->
 {{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_border" /}}

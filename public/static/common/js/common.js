@@ -2723,12 +2723,68 @@ function InputClearOutHandle(e)
 	}
 }
 
+/**
+ * 颜色选择器初始化
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-11-23
+ * @desc    description
+ */
+function ColorPickerInit()
+{
+	// 颜色选择器
+	if($('.colorpicker-submit').length > 0)
+	{
+		$('.colorpicker-submit').each(function(k, v)
+		{
+			if(parseInt($(this).attr('data-is-init') || 0) == 0)
+			{
+				$(this).colorpicker(
+			    {
+			    	target: $(this),
+			        fillcolor: true,
+			        success: function(o, color)
+			        {
+			        	var style_arr = (o.context.dataset.colorStyle || 'color').split('|');
+			        	var style_value = {};
+			        	for(var i in style_arr)
+			        	{
+			        		style_value[style_arr[i]] = color;
+			        	}
+			            $(o.context.dataset.inputTag).css(style_value);
+			            $(o.context.dataset.colorTag).val(color);
+			            $(o.context.dataset.colorTag).trigger('change');
+			        },
+			        reset: function(o)
+			        {
+			        	var color = '';
+			        	var style_arr = (o.context.dataset.colorStyle || 'color').split('|');
+			        	var style_value = {};
+			        	for(var i in style_arr)
+			        	{
+			        		style_value[style_arr[i]] = color;
+			        	}
+			            $(o.context.dataset.inputTag).css(style_value);
+			            $(o.context.dataset.colorTag).val(color);
+			            $(o.context.dataset.colorTag).trigger('change');
+			        }
+			    });
+			    $(this).attr('data-is-init', 1);
+			}
+		});
+	}
+}
+
 
 // 公共数据操作
 $(function()
 {
     // 表格初始化
     FormTableContainerInit();
+
+    // 颜色选择器初始化
+    ColorPickerInit();
 
     // 表格字段数据排序
     $('.form-sort-container .sort-icon').on('click', function()
@@ -3518,46 +3574,6 @@ $(function()
     {
     	VideoFileUploadShow('.video-file-event');
     }
-
-
-	// 颜色选择器
-	if($('.colorpicker-submit').length > 0)
-	{
-		$('.colorpicker-submit').each(function(k, v)
-		{
-			$(this).colorpicker(
-		    {
-		    	target: $(this),
-		        fillcolor: true,
-		        success: function(o, color)
-		        {
-		        	var style_arr = (o.context.dataset.colorStyle || 'color').split('|');
-		        	var style_value = {};
-		        	for(var i in style_arr)
-		        	{
-		        		style_value[style_arr[i]] = color;
-		        	}
-		            $(o.context.dataset.inputTag).css(style_value);
-		            $(o.context.dataset.colorTag).val(color);
-		            $(o.context.dataset.colorTag).trigger('change');
-		        },
-		        reset: function(o)
-		        {
-		        	var color = '';
-		        	var style_arr = (o.context.dataset.colorStyle || 'color').split('|');
-		        	var style_value = {};
-		        	for(var i in style_arr)
-		        	{
-		        		style_value[style_arr[i]] = color;
-		        	}
-		            $(o.context.dataset.inputTag).css(style_value);
-		            $(o.context.dataset.colorTag).val(color);
-		            $(o.context.dataset.colorTag).trigger('change');
-		        }
-		    });
-		});
-	}
-
 
     // 监听多图上传和上传附件组件的插入动作
     if(typeof(upload_editor) == 'object')

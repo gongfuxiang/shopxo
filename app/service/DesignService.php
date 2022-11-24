@@ -12,6 +12,7 @@ namespace app\service;
 
 use think\facade\Db;
 use app\service\ResourcesService;
+use app\layout\service\BaseLayout;
 
 /**
  * 页面设计服务层
@@ -97,7 +98,7 @@ class DesignService
         $attachment = ResourcesService::AttachmentParams($params, $data_fields);
 
         // 配置信息
-        $config = empty($params['config']) ? '' : (is_array($params['config']) ? json_encode($params['config'], JSON_UNESCAPED_UNICODE) : htmlspecialchars_decode($params['config'])) ;
+        $config = empty($params['config']) ? '' : BaseLayout::ConfigSaveHandle($params['config']);
 
         // 数据
         $data = [

@@ -53,7 +53,7 @@
                             </div>
                             <div class="am-form-group am-form-group-refreshing">
                                 <label>数量</label>
-                                <input type="number" placeholder="数量" name="goods_order_limit_number" min="0" max="50" data-validation-message="数量最大50" value="10" class="am-radius am-form-field" />
+                                <input type="number" data-is-clearout="0" placeholder="数量" name="goods_order_limit_number" min="0" max="50" data-validation-message="数量最大50" value="10" class="am-radius am-form-field" />
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                         {{include file="../../../layout/view/public/style/background_color" key="_module" required="" /}}
 
                         <!-- 圆角 -->
-                        {{include file="../../../layout/view/public/style/border_radius" key="_module" required="" /}}
+                        {{include file="../../../layout/view/public/style/border_radius" max="1000" key="_module" required="" /}}
 
                         <!-- 边线类型 -->
                         {{include file="../../../layout/view/public/style/border_style_4" key="_module" /}}
@@ -94,7 +94,7 @@
                     <div class="am-panel-hd">商品样式</div>
                     <div class="am-panel-bd">
                         <!-- 圆角 -->
-                        {{include file="../../../layout/view/public/style/border_radius" key="" required="" /}}
+                        {{include file="../../../layout/view/public/style/border_radius" max="1000" key="" required="" /}}
 
                         <!-- 边线类型 -->
                         {{include file="../../../layout/view/public/style/border_style" key="" required="" /}}
@@ -114,7 +114,7 @@
                 <div class="am-panel am-panel-default">
                     <div class="am-panel-hd">图片固定</div>
                     <div class="am-panel-bd">
-                        {{include file="../../../layout/view/public/content/media_fixed" key="_media_fixed" required="" name="图片容器高度" /}}
+                        {{include file="../../../layout/view/public/content/media_fixed" key="_media_fixed" required="" /}}
                     </div>
                 </div>
 

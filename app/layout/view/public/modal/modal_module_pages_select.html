@@ -74,8 +74,10 @@
                                 </div>
                                 <div class="pages-custom-url-container am-padding-sm">
                                     {{foreach :MyConst('common_platform_type') as $v}}
-                                        <div class="am-input-group am-input-group-sm am-radius">
-                                            <span class="am-input-group-label">{{$v.name}}</span>
+                                        <div class="am-input-group am-input-group-sm">
+                                            <span class="am-input-group-btn">
+                                                <button type="button" class="am-btn am-btn-default am-radius">{{$v.name}}</button>
+                                            </span>
                                             <input type="text" name="pages_custom_url_{{$v.value}}" placeholder="{{$v.name}}" class="am-form-field am-radius" value="" />
                                         </div>
                                     {{/foreach}}

@@ -45,6 +45,13 @@ class BaseLayout
         'list'      => '列表模式',
     ];
 
+    // 图文样式类型
+    public static $images_text_view_list_show_style = [
+        'updown'    => '上图下文',
+        'leftright' => '左图右文',
+        'rolling'   => '滚动模式',
+    ];
+
     /**
      * 配置处理-保存
      * @author  Devil
@@ -102,6 +109,27 @@ class BaseLayout
                                                     $vss['config'][$mik] = ResourcesService::AttachmentPathHandle($miv);
                                                 }
                                             }
+                                            break;
+
+                                        // 图文 images-text
+                                        case 'images-text' :
+                                            foreach($vss['config']['data_list'] as &$itl)
+                                            {
+                                                $itl['images'] = ResourcesService::AttachmentPathHandle($itl['images']);
+                                            }
+                                            $key = 'content_images_';
+                                            foreach($vss['config'] as $mik=>$miv)
+                                            {
+                                                if(substr($mik, 0, strlen($key)) == $key)
+                                                {
+                                                    $vss['config'][$mik] = ResourcesService::AttachmentPathHandle($miv);
+                                                }
+                                            }
+                                            break;
+
+                                        // 自定义html custom
+                                        case 'custom' :
+                                            $vss['config']['custom'] = empty($vss['config']['custom']) ? '' : base64_decode($vss['config']['custom']);
                                             break;
                                     }
                                 }
@@ -203,6 +231,22 @@ class BaseLayout
                                                 }
                                                 break;
 
+                                            // 图文 images-text
+                                            case 'images-text' :
+                                                foreach($vss['config']['data_list'] as &$itl)
+                                                {
+                                                    $itl['images'] = ResourcesService::AttachmentPathViewHandle($itl['images']);
+                                                }
+                                                $key = 'content_images_';
+                                                foreach($vss['config'] as $mik=>$miv)
+                                                {
+                                                    if(substr($mik, 0, strlen($key)) == $key)
+                                                    {
+                                                        $vss['config'][$mik] = ResourcesService::AttachmentPathViewHandle($miv);
+                                                    }
+                                                }
+                                                break;
+
                                             // 商品
                                             case 'goods' :
                                                 $p = [
@@ -226,6 +270,11 @@ class BaseLayout
                                                 }
                                                 $res = self::GoodsDataList($p);
                                                 $vss['config']['data_list'] = $res['data'];
+                                                break;
+
+                                            // 自定义html
+                                            case 'custom' :
+                                                $vss['config']['custom'] = empty($vss['config']['custom']) ? '' : base64_encode(htmlspecialchars_decode($vss['config']['custom']));
                                                 break;
 
                                         }
@@ -326,6 +375,15 @@ class BaseLayout
                                                 }
                                                 break;
 
+                                            // 图文 images-text
+                                            case 'images-text' :
+                                                foreach($vss['config']['data_list'] as &$itl)
+                                                {
+                                                    $itl['images'] = ResourcesService::AttachmentPathViewHandle($itl['images']);
+                                                    $itl['url'] = self::LayoutUrlValueHandle($itl['type'], $itl['value']);
+                                                }
+                                                break;
+
                                             // 商品
                                             case 'goods' :
                                                 $p = [
@@ -383,6 +441,11 @@ class BaseLayout
                                                     'title_more_url'    => self::LayoutUrlValueHandle($vss['config']['content_to_type'], $vss['config']['content_to_value']),
                                                     'keywords_list'     => $keywords_list,
                                                 ];
+                                                break;
+
+                                            // 自定义html
+                                            case 'custom' :
+                                                $vss['config']['custom'] = empty($vss['config']['custom']) ? '' : htmlspecialchars_decode($vss['config']['custom']);
                                                 break;
                                         }
                                     }
@@ -673,10 +736,10 @@ class BaseLayout
                 {
                     foreach($v as &$vs)
                     {
-                        $vs = empty($vs) ? '' : urldecode($vs);
+                        $vs = is_array($vs) ? $vs : (empty($vs) ? '' : urldecode($vs));
                     }
                 } else {
-                    $v = empty($v) ? '' : urldecode($v);
+                    $v = is_array($v) ? $v : (empty($v) ? '' : urldecode($v));
                 }
             }
         }

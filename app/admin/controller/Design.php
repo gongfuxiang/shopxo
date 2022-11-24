@@ -97,6 +97,7 @@ class Design extends Base
             'border_style_type_list'            => BaseLayout::$border_style_type_list,
             'goods_view_list_show_style'        => BaseLayout::$goods_view_list_show_style,
             'many_images_view_list_show_style'  => BaseLayout::$many_images_view_list_show_style,
+            'images_text_view_list_show_style'  => BaseLayout::$images_text_view_list_show_style,
 
             // 首页商品排序规则
             'goods_order_by_type_list'          => MyConst('goods_order_by_type_list'),
