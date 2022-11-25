@@ -1,7 +1,7 @@
-<div class="banner">
-    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
-        <ul class="am-slides">
-            {{if !empty($banner_list)}}
+{{if !empty($banner_list)}}
+    <div class="banner">
+        <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+            <ul class="am-slides">
                 {{foreach $banner_list as $banner}}
                     {{if !empty($banner['images_url'])}}
                         <li {{if !empty($banner['bg_color'])}}style="background: {{$banner.bg_color}};"{{/if}} title="{{$banner.name}}">
@@ -21,7 +21,7 @@
                         </li>
                     {{/if}}
                 {{/foreach}}
-            {{/if}}
-        </ul>
+            </ul>
+        </div>
     </div>
-</div>
+{{/if}}

@@ -19,13 +19,9 @@
 <!-- banner -->
 {{include file="public/home_banner" /}}
 
-<!-- 轮播上内容 -->
-<div class="am-container slideall">
-    <!-- 轮播-手机导航 -->
-    {{include file="public/home_nav" /}}
-
-    <!-- 轮播-聚合内容 -->
-    {{if MyC('home_index_banner_right_status', 1) eq 1}}
+<!-- 轮播-聚合内容 -->
+{{if MyC('home_index_banner_right_status', 1) eq 1}}
+    <div class="am-container slideall">
         <div class="banner-mixed">
             <div class="mod-vip">
                 <div class="m-baseinfo">
@@ -104,8 +100,11 @@
                 {{/foreach}}
             {{/if}}
         </div>
-    {{/if}}
-</div>
+    </div>
+{{/if}}
+
+<!-- 轮播-手机导航 -->
+{{include file="public/home_nav" /}}
 
 <!-- 楼层数据顶部钩子 -->
 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
