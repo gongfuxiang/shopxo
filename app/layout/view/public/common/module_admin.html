@@ -74,7 +74,9 @@
                                                                         <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
                                                                     </a>
                                                                     {{if !empty($i['title'])}}
-                                                                        <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
+                                                                        <a href="javascript:ModuleToPrompt('{{$i.name}}');">
+                                                                            <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
+                                                                        </a>
                                                                     {{/if}}
                                                                     {{if !empty($i['desc'])}}
                                                                         <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['desc'])}} {{$vss.config.frontend_config.item_field_style[$ik]['desc']}}{{/if}}">{{$i.desc}}</p>
@@ -95,7 +97,9 @@
                                                                 </a>
                                                                 <div class="am-fl" style="{{$vss.config.frontend_config.item_right_style}}">
                                                                     {{if !empty($i['title'])}}
-                                                                        <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
+                                                                        <a href="javascript:ModuleToPrompt('{{$i.name}}');">
+                                                                            <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
+                                                                        </a>
                                                                     {{/if}}
                                                                     {{if !empty($i['desc'])}}
                                                                         <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['desc'])}} {{$vss.config.frontend_config.item_field_style[$ik]['desc']}}{{/if}}">{{$i.desc}}</p>
@@ -115,7 +119,9 @@
                                                                     <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
                                                                 </a>
                                                                 {{if !empty($i['title'])}}
-                                                                    <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
+                                                                    <a href="javascript:ModuleToPrompt('{{$i.name}}');">
+                                                                        <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
+                                                                    </a>
                                                                 {{/if}}
                                                                 {{if !empty($i['desc'])}}
                                                                     <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['desc'])}} {{$vss.config.frontend_config.item_field_style[$ik]['desc']}}{{/if}}">{{$i.desc}}</p>

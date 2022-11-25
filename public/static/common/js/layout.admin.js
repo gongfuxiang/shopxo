@@ -861,13 +861,15 @@ function FormBackModuleConfigImagesTextHandle(data)
             case 'leftright' :
                 var style_media_fixed_width = parseInt(data.style_media_fixed_width || 0);
                 item_right_style = 'margin-left:10px;'+((style_media_fixed_width > 0) ? 'width: calc(100% - '+(style_media_fixed_width+10)+'px);' : '');
-                item_html += '<a href="javascript:ModuleToPrompt(\''+(data_list[i]['name'] || '')+'\');" class="am-fl '+media_fixed.media_container_ent+'" style="'+media_fixed.media_container_style+'">'
+                item_html += '<a href="javascript:ModuleToPrompt(\''+(data_list[i]['name'] || '')+'\');" class="am-fl '+media_fixed.media_container_ent+'" style="'+media_fixed.media_container_style+'">';
                 item_html += '<img src="'+data_list[i]['images']+'" class="'+media_fixed.media_ent+'" style="'+media_fixed.media_container_style+'" />';
                 item_html += '</a>';
                 item_html += '<div class="am-fl" style="'+item_right_style+'">';
                 if((data_list[i]['title'] || null) != null)
                 {
+                    item_html += '<a href="javascript:ModuleToPrompt(\''+(data_list[i]['name'] || '')+'\');">';
                     item_html += '<p style="'+item_field_style[i]['title']+'">'+data_list[i]['title']+'</p>';
+                    item_html += '</a>';
                 }
                 if((data_list[i]['desc'] || null) != null)
                 {
@@ -884,7 +886,9 @@ function FormBackModuleConfigImagesTextHandle(data)
                 item_html += '</a>';
                 if((data_list[i]['title'] || null) != null)
                 {
+                    item_html += '<a href="javascript:ModuleToPrompt(\''+(data_list[i]['name'] || '')+'\');">';
                     item_html += '<p style="'+item_field_style[i]['title']+'">'+data_list[i]['title']+'</p>';
+                    item_html += '</a>';
                 }
                 if((data_list[i]['desc'] || null) != null)
                 {
