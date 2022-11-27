@@ -416,9 +416,31 @@ class DesignService
                             case 'many-images' :
                                 if(!empty($vss['config']['data_list']))
                                 {
-                                    foreach($vss['config']['data_list'] as &$iv)
+                                    foreach($vss['config']['data_list'] as &$miv)
                                     {
-                                        $iv['images'] = self::FileSave($data_id, $iv['images'], 'images', $dir);
+                                        $miv['images'] = self::FileSave($data_id, $miv['images'], 'images', $dir);
+                                    }
+                                }
+                                break;
+
+                            // 图文
+                            case 'images-text' :
+                                if(!empty($vss['config']['data_list']))
+                                {
+                                    foreach($vss['config']['data_list'] as &$itv)
+                                    {
+                                        $itv['images'] = self::FileSave($data_id, $itv['images'], 'images', $dir);
+                                    }
+                                }
+                                break;
+
+                            // 图片魔方
+                            case 'images-magic-cube' :
+                                if(!empty($vss['config']['data_list']))
+                                {
+                                    foreach($vss['config']['data_list'] as &$imcv)
+                                    {
+                                        $imcv['images'] = self::FileSave($data_id, $imcv['images'], 'images', $dir);
                                     }
                                 }
                                 break;
