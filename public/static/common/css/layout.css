@@ -2,7 +2,7 @@
  * 公共
  */
 .layout-container [class*="am-u-"] {padding-left:0;padding-right:0;}
-.layout-container a {text-decoration: none;color: #333;}
+.layout-container a {text-decoration: none;}
 .layout-container img {-webkit-transition: transform .3s ease-in;-moz-transition: transform .3s ease-in;-ms-transition: transform .3s ease-in;-o-transition: transform .3s ease-in;transition: transform .3s ease-in;}
 .layout-container img:hover {transform: scale(1.03);-moz-transform: scale(1.03);-webkit-transform: scale(1.03);-o-transform: scale(1.03);-ms-transform: scale(1.03);}
 
@@ -1930,3 +1930,11 @@
 .module-fixed-doc-ent-height{height:100%}
 .module-fixed-doc-ent-auto{margin:0 auto}
 .module-fixed-doc-ent-cover{object-fit:cover}
+
+/**
+ * 图片魔方
+ */
+.layout-module-images-magic-cube a img {
+    width: 100%;
+    height: 100%;
+}

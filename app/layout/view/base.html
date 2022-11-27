@@ -36,6 +36,7 @@
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="images">单图</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="many-images">多图</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="images-text">图文</button>
+                <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="images-magic-cube">图片魔方</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="video">视频</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="goods">商品</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="title">标题</button>
@@ -100,6 +101,7 @@
     data-custom-url-name="自定义链接" 
     data-custom-url-tips="请至少填写一个地址" 
     data-data-show-modal-tips="请选择数据展示模式" 
+    data-data-show-modal-error-tips="展示模式有误" 
 >
     {{if !empty($layout_data) and is_array($layout_data)}}
         {{foreach $layout_data as $k=>$v}}
@@ -111,7 +113,7 @@
                         <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-square-o layout-submit layout-submit-set"> 布局设置</button>
                         <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit layout-submit-del"> 布局移除</button>
                     </div>
-                    <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($v['config'])}}{{:urlencode(json_encode($v['config']))}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}">
+                    <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($v['config'])}}{{:urlencode(base64_encode(json_encode($v['config'])))}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}">
                         {{foreach $v.children as $ks=>$vs}}
                             {{if count($v['value_arr']) eq 1}}
                                 {{include file="../../../layout/view/public/common/module_admin" /}}
@@ -140,6 +142,9 @@
 
 <!-- 侧边栏 - 模块配置 - 图文 -->
 {{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_images_text" /}}
+
+<!-- 侧边栏 - 模块配置 - 图片魔方 -->
+{{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_images_magic_cube" /}}
 
 <!-- 侧边栏 - 模块配置 - 视频 -->
 {{include file="../../../layout/view/public/offcanvas/offcanvas_module_config_video" /}}

@@ -35,6 +35,7 @@ class BaseLayout
     // 商品样式类型
     public static $goods_view_list_show_style = [
         'routine'   => '常规模式',
+        'leftright' => '左图右文',
         'rolling'   => '滚动模式',
     ];
 
@@ -50,6 +51,28 @@ class BaseLayout
         'updown'    => '上图下文',
         'leftright' => '左图右文',
         'rolling'   => '滚动模式',
+    ];
+
+    // 图片魔方样式类型
+    public static $images_magic_cube_view_list_show_style = [
+        'g1'    => '1图',
+        'v2'    => '2竖图',
+        'v3'    => '3竖图',
+        'v4'    => '4竖图',
+        'h2'    => '2横图',
+        'h3'    => '3横图',
+        'h4'    => '4横图',
+        'lr12'  => '1左右2',
+        'lr13'  => '1左右3',
+        'lr21'  => '2左右1',
+        'lr31'  => '3左右1',
+        'tb12'  => '1上下2',
+        'tb13'  => '1上下3',
+        'tb21'  => '2上下1',
+        'tb31'  => '3上下1',
+        'lrv2h2'=> '2竖左右横2',
+        'lrh2v2'=> '2横左右竖2',
+        'g4'    => '4图',
     ];
 
     /**
@@ -127,9 +150,25 @@ class BaseLayout
                                             }
                                             break;
 
-                                        // 自定义html custom
-                                        case 'custom' :
-                                            $vss['config']['custom'] = empty($vss['config']['custom']) ? '' : base64_decode($vss['config']['custom']);
+                                        // 图片魔方 images-magic-cube
+                                        case 'images-magic-cube' :
+                                            foreach($vss['config']['data_list'] as &$imc)
+                                            {
+                                                $imc['images'] = ResourcesService::AttachmentPathHandle($imc['images']);
+                                            }
+                                            $key = 'content_images_';
+                                            foreach($vss['config'] as $mik=>$miv)
+                                            {
+                                                if(substr($mik, 0, strlen($key)) == $key)
+                                                {
+                                                    $vss['config'][$mik] = ResourcesService::AttachmentPathHandle($miv);
+                                                }
+                                            }
+                                            break;
+
+                                        // 商品 goods
+                                        case 'goods' :
+                                            unset($vss['config']['data_list']);
                                             break;
                                     }
                                 }
@@ -165,12 +204,6 @@ class BaseLayout
             {
                 foreach($config as &$v)
                 {
-                    // 配置信息处理
-                    if(!empty($v['config']))
-                    {
-                        $v['config']['frontend_config'] = empty($v['config']['frontend_config']) ? '' : self::FrontendConfigHandle($v['config']['frontend_config']);
-                    }
-
                     // 布局类型
                     $v['value_arr'] = explode(':', $v['value']);
 
@@ -179,12 +212,6 @@ class BaseLayout
                     {
                         foreach($v['children'] as &$vs)
                         {
-                            // 配置信息处理
-                            if(!empty($vs['config']))
-                            {
-                                $vs['config']['frontend_config'] = empty($vs['config']['frontend_config']) ? '' : self::FrontendConfigHandle($vs['config']['frontend_config']);
-                            }
-
                             // 容器
                             if(!empty($vs['children']) && is_array($vs['children']))
                             {
@@ -193,9 +220,6 @@ class BaseLayout
                                 {
                                     if(!empty($vss['value']) && !empty($vss['config']))
                                     {
-                                        // 前端配置信息处理
-                                        $vss['config']['frontend_config'] = empty($vss['config']['frontend_config']) ? '' : self::FrontendConfigHandle($vss['config']['frontend_config']);
-
                                         // 滚动配置
                                         if(array_key_exists('view_list_show_style_value', $vss['config']))
                                         {
@@ -247,6 +271,22 @@ class BaseLayout
                                                 }
                                                 break;
 
+                                            // 图片魔方 images-magic-cube
+                                            case 'images-magic-cube' :
+                                                foreach($vss['config']['data_list'] as &$imc)
+                                                {
+                                                    $imc['images'] = ResourcesService::AttachmentPathViewHandle($imc['images']);
+                                                }
+                                                $key = 'content_images_';
+                                                foreach($vss['config'] as $mik=>$miv)
+                                                {
+                                                    if(substr($mik, 0, strlen($key)) == $key)
+                                                    {
+                                                        $vss['config'][$mik] = ResourcesService::AttachmentPathViewHandle($miv);
+                                                    }
+                                                }
+                                                break;
+
                                             // 商品
                                             case 'goods' :
                                                 $p = [
@@ -271,12 +311,6 @@ class BaseLayout
                                                 $res = self::GoodsDataList($p);
                                                 $vss['config']['data_list'] = $res['data'];
                                                 break;
-
-                                            // 自定义html
-                                            case 'custom' :
-                                                $vss['config']['custom'] = empty($vss['config']['custom']) ? '' : base64_encode(htmlspecialchars_decode($vss['config']['custom']));
-                                                break;
-
                                         }
                                     }
                                 }
@@ -381,6 +415,15 @@ class BaseLayout
                                                 {
                                                     $itl['images'] = ResourcesService::AttachmentPathViewHandle($itl['images']);
                                                     $itl['url'] = self::LayoutUrlValueHandle($itl['type'], $itl['value']);
+                                                }
+                                                break;
+
+                                            // 图片魔方 images-magic-cube
+                                            case 'images-magic-cube' :
+                                                foreach($vss['config']['data_list'] as &$imc)
+                                                {
+                                                    $imc['images'] = ResourcesService::AttachmentPathViewHandle($imc['images']);
+                                                    $imc['url'] = self::LayoutUrlValueHandle($imc['type'], $imc['value']);
                                                 }
                                                 break;
 
@@ -493,9 +536,6 @@ class BaseLayout
                     }
                 }
             }
-
-            // 前端配置处理
-            $config['frontend_config'] = empty($config['frontend_config']) ? '' : self::FrontendConfigHandle($config['frontend_config']);
 
             // 滚动配置
             if(array_key_exists('view_list_show_style_value', $config))
@@ -715,35 +755,6 @@ class BaseLayout
 
         // 返回url
         return $url;
-    }
-
-    /**
-     * 前端配置处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2021-06-18
-     * @desc    description
-     * @param   [array]          $data [配偶者数据]
-     */
-    public static function FrontendConfigHandle($data)
-    {
-        if(!empty($data) && is_array($data))
-        {
-            foreach($data as &$v)
-            {
-                if(is_array($v))
-                {
-                    foreach($v as &$vs)
-                    {
-                        $vs = is_array($vs) ? $vs : (empty($vs) ? '' : urldecode($vs));
-                    }
-                } else {
-                    $v = is_array($v) ? $v : (empty($v) ? '' : urldecode($v));
-                }
-            }
-        }
-        return $data;
     }
 
     /**

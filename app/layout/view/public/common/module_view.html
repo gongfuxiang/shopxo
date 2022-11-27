@@ -124,6 +124,339 @@
                                                 </ul>
                                         {{/switch}}
                                     {{/case}}
+                                    {{case images-magic-cube}}
+                                        <div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-{{$vss.config.view_list_show_style}} {{$vss.config.frontend_config.list_ent}}">
+                                            {{switch vss.config.view_list_show_style}}
+                                                {{case g1}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case v2}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case v3}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case v3}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][3])}}{{$vss.config.frontend_config.item_style[3]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case h2}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case h3}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case h4}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][3])}}{{$vss.config.frontend_config.item_style[3]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lr12}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lr13}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lr21}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lr31}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case tb12}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                {{/case}}
+                                                {{case tb13}}
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][3])}}{{$vss.config.frontend_config.item_style[3]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                {{/case}}
+                                                {{case tb21}}
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case tb31}}
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][3])}}{{$vss.config.frontend_config.item_style[3]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lrv2h2}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case lrh2v2}}
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                        </a>
+                                                        <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                        <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                            <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block" />
+                                                        </a>
+                                                    </div>
+                                                {{/case}}
+                                                {{case g4}}
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][0])}}{{$vss.config.frontend_config.item_style[0]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][0]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][0]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][0]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][1])}}{{$vss.config.frontend_config.item_style[1]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][1]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][1]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][1]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="am-nbfc">
+                                                        <div class="am-fl item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][2])}}{{$vss.config.frontend_config.item_style[2]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][2]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][2]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][2]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                        <div class="am-fr item-module-magic-cube" style="{{if !empty($vss['config']['frontend_config']['item_style']) and !empty($vss['config']['frontend_config']['item_style'][3])}}{{$vss.config.frontend_config.item_style[3]}}{{/if}}">
+                                                            <a {{if empty($vss['config']['data_list'][3]['url'])}}href="javascript:;"{{else /}}href="{{$vss['config']['data_list'][3]['url']}}" target="_blank"{{/if}} class="am-block am-nbfc" style="{{if !empty($vss['config']['frontend_config']['images_style'])}}{{$vss.config.frontend_config.images_style}}{{/if}}">
+                                                                <img src="{{$vss['config']['data_list'][3]['images']}}" class="am-block" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                {{/case}}
+                                            {{/switch}}
+                                        </div>
+                                    {{/case}}
                                     {{case video}}
                                         <div class="module-video-content {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
                                             <video src="{{$vss.config.video}}" poster="{{if !empty($vss['config']['content_images'])}}{{$vss.config.content_images}}{{/if}}" controls class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">your browser does not support the video tag</video>
@@ -153,6 +486,25 @@
                                                             </ul>
                                                         </div>
                                                     </div>
+                                                {{/case}}
+                                                {{case leftright}}
+                                                    <ul class="module-goods-content module-list-content {{$vss.config.frontend_config.list_ent}}">
+                                                        {{foreach $vss.config.data_list as $ik=>$i}}
+                                                            <li>
+                                                                <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
+                                                                    <a href="{{$g.goods_url}}" target="_blank" class="am-fl {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                        <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                    </a>
+                                                                    <div class="am-fl" style="{{$vss.config.frontend_config.item_right_style}}">
+                                                                        <div class="module-title">
+                                                                            <a href="{{$g.goods_url}}" target="_blank">{{$i.title}}</a>
+                                                                        </div>
+                                                                        <p class="module-price">{{$currency_symbol}}{{$g.price}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        {{/foreach}}
+                                                    </ul>
                                                 {{/case}}
                                                 {{default /}}
                                                     <ul class="module-goods-content module-list-content {{$vss.config.frontend_config.list_ent}}">

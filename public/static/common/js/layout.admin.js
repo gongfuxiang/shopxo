@@ -3,6 +3,7 @@ FromInit('form.form-validation-layout-config');
 FromInit('form.form-validation-module-offcanvas-images');
 FromInit('form.form-validation-module-offcanvas-many-images');
 FromInit('form.form-validation-module-offcanvas-images-text');
+FromInit('form.form-validation-module-offcanvas-images-magic-cube');
 FromInit('form.form-validation-module-offcanvas-video');
 FromInit('form.form-validation-module-offcanvas-goods');
 FromInit('form.form-validation-module-offcanvas-title');
@@ -26,6 +27,7 @@ var $offcanvas_layout_config = $('#offcanvas-layout-config');
 var $offcanvas_config_images = $('#offcanvas-module-config-images');
 var $offcanvas_config_many_images = $('#offcanvas-module-config-many-images');
 var $offcanvas_config_images_text = $('#offcanvas-module-config-images-text');
+var $offcanvas_config_images_magic_cube = $('#offcanvas-module-config-images-magic-cube');
 var $offcanvas_config_video = $('#offcanvas-module-config-video');
 var $offcanvas_config_goods = $('#offcanvas-module-config-goods');
 var $offcanvas_config_title = $('#offcanvas-module-config-title');
@@ -199,7 +201,7 @@ function ModuleToPrompt(to_name)
  * @param   {[object]}        data          [数据]
  * @param   {[string]}        key           [key]
  * @param   {[array]}         replace_rules [替换规则]
- * @param   {[array]}         exclude       [排除样式]
+ * @param   {[array]}         exclude       [排除css]
  */
 function StyleBaseHandle(data, key, replace_rules, exclude)
 {
@@ -245,10 +247,26 @@ function StyleBaseHandle(data, key, replace_rules, exclude)
         var l = data[key+type+'_left'] || value;
         if((t != 0 || r != 0 || b != 0 || l != 0) || (t != '' || r != '' || b != '' || l != ''))
         {
-            if((exclude || null) == null || exclude.indexOf(arr[i]['css']) == -1)
+            if((exclude || null) != null)
             {
-                style += arr[i]['css']+':'+ t+unit+' '+r+unit+' '+b+unit+' '+l+unit+';';
+                if(exclude.indexOf(arr[i][t]) != -1)
+                {
+                    t = 0;
+                }
+                if(exclude.indexOf(arr[i][r]) != -1)
+                {
+                    r = 0;
+                }
+                if(exclude.indexOf(arr[i][b]) != -1)
+                {
+                    b = 0;
+                }
+                if(exclude.indexOf(arr[i][l]) != -1)
+                {
+                    l = 0;
+                }
             }
+            style += arr[i]['css']+':'+ t+unit+' '+r+unit+' '+b+unit+' '+l+unit+';';
         }
     }
 
@@ -338,6 +356,56 @@ function StyleBaseHandle(data, key, replace_rules, exclude)
     }
 
     return style;
+}
+
+/**
+ * 表单回调数据列表处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2022-11-25
+ * @desc    description
+ * @param   {[object]}        data   [表单数据]
+ * @param   {[object]}        fields [处理字段]
+ */
+function FormBackDataListHandle(data, fields)
+{
+    var key_temp = [];
+    var data_list = [];
+    for(var i in data)
+    {
+        var loc = i.lastIndexOf('_');
+        if(loc != -1)
+        {
+            var key = i.substr(0, loc+1);
+            var last = i.substr(loc+1);
+            for(var f in fields)
+            {
+                if(key == f)
+                {
+                    // 临时索引记录
+                    var index = key_temp.indexOf(last);
+                    if(index == -1)
+                    {
+                        key_temp.push(last);
+                        index = key_temp.length-1;
+                    }
+
+                    // 数据组合
+                    if(data_list[index] == undefined)
+                    {
+                        data_list[index] = {};
+                    }
+                    data_list[index][fields[f]] = (fields[f] != 'value' || (data[i] || null) == null) ? data[i] : (JSON.parse(decodeURIComponent(data[i])) || '');
+                    delete data[i];
+                }
+            }
+        }
+    }
+    return {
+        data: data,
+        data_list: data_list
+    }
 }
 
 /**
@@ -468,7 +536,7 @@ function FormBackLayoutConfigHandle(data)
         "style": style,
         "ent": ent
     }
-    $layout_content_obj.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+    $layout_content_obj.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_layout_config.offCanvas('close');
 }
 
@@ -518,7 +586,7 @@ function FormBackModuleConfigImagesHandle(data)
         "style": style,
         "media_fixed": media_fixed
     }
-    $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+    $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_config_images.offCanvas('close');
 }
 
@@ -548,38 +616,9 @@ function FormBackModuleConfigManyImagesHandle(data)
         "content_to_type_": "type",
         "content_to_value_": "value"
     };
-    var key_temp = [];
-    var data_list = [];
-    for(var i in data)
-    {
-        var loc = i.lastIndexOf('_');
-        if(loc != -1)
-        {
-            var key = i.substr(0, loc+1);
-            var last = i.substr(loc+1);
-            for(var f in fields)
-            {
-                if(key == f)
-                {
-                    // 临时索引记录
-                    var index = key_temp.indexOf(last);
-                    if(index == -1)
-                    {
-                        key_temp.push(last);
-                        index = key_temp.length-1;
-                    }
-
-                    // 数据组合
-                    if(data_list[index] == undefined)
-                    {
-                        data_list[index] = {};
-                    }
-                    data_list[index][fields[f]] = (fields[f] != 'value' || (data[i] || null) == null) ? data[i] : (JSON.parse(decodeURIComponent(data[i])) || '');
-                    delete data[i];
-                }
-            }
-        }
-    }
+    var res = FormBackDataListHandle(data, fields);
+    data = res.data;
+    var data_list = res.data_list;
     if(data_list.length <= 0)
     {
         Prompt($layout.data('config-images-tips') || '请先添加图片并配置');
@@ -713,7 +752,7 @@ function FormBackModuleConfigManyImagesHandle(data)
         "media_fixed": media_fixed
     }
     data['data_list'] = data_list;
-    $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+    $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
 
     // 滚动初始化
     if(show_style != 'list')
@@ -765,38 +804,9 @@ function FormBackModuleConfigImagesTextHandle(data)
         "content_to_type_": "type",
         "content_to_value_": "value"
     };
-    var key_temp = [];
-    var data_list = [];
-    for(var i in data)
-    {
-        var loc = i.lastIndexOf('_');
-        if(loc != -1)
-        {
-            var key = i.substr(0, loc+1);
-            var last = i.substr(loc+1);
-            for(var f in fields)
-            {
-                if(key == f)
-                {
-                    // 临时索引记录
-                    var index = key_temp.indexOf(last);
-                    if(index == -1)
-                    {
-                        key_temp.push(last);
-                        index = key_temp.length-1;
-                    }
-
-                    // 数据组合
-                    if(data_list[index] == undefined)
-                    {
-                        data_list[index] = {};
-                    }
-                    data_list[index][fields[f]] = (fields[f] != 'value' || (data[i] || null) == null) ? data[i] : (JSON.parse(decodeURIComponent(data[i])) || '');
-                    delete data[i];
-                }
-            }
-        }
-    }
+    var res = FormBackDataListHandle(data, fields);
+    data = res.data;
+    var data_list = res.data_list;
     if(data_list.length <= 0)
     {
         Prompt($layout.data('config-images-text-tips') || '请先添加图文并配置');
@@ -815,7 +825,7 @@ function FormBackModuleConfigImagesTextHandle(data)
     if(show_style == null)
     {
         Prompt($layout.data('data-show-modal-tips') || '请选择数据展示模式');
-            return false;
+        return false;
     }
 
     // 样式处理
@@ -956,7 +966,7 @@ function FormBackModuleConfigImagesTextHandle(data)
         "media_fixed": media_fixed
     }
     data['data_list'] = data_list;
-    $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+    $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
 
     // 滚动初始化
     if(show_style == 'rolling')
@@ -964,6 +974,571 @@ function FormBackModuleConfigImagesTextHandle(data)
         $doc.find('.am-slider').flexslider(option);
     }
     $offcanvas_config_images_text.offCanvas('close');
+}
+
+/**
+ * 模块-图片魔方处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-05-18
+ * @desc    description
+ * @param   {[object]}        data [表单数据]
+ */
+function FormBackModuleConfigImagesMagicCubeHandle(data)
+{
+    // 基础信息
+    var doc = $offcanvas_config_images_magic_cube.attr('data-doc') || null;
+    if(doc == null)
+    {
+        Prompt($layout.data('module-tab-tips') || '模块标记有误');
+        return false;
+    }
+
+    // 数据字段
+    var fields = {
+        "content_images_": "images",
+        "content_to_name_": "name",
+        "content_to_type_": "type",
+        "content_to_value_": "value"
+    };
+    var res = FormBackDataListHandle(data, fields);
+    data = res.data;
+    var data_list = res.data_list;
+    for(var i in data_list)
+    {
+        if((data_list[i]['images'] || null) == null)
+        {
+            Prompt($layout.data('upload-images-tips') || '请上传图片');
+            return false;
+        }
+    }
+    // 展示模式
+    var show_style = data.view_list_show_style || null;
+    if(show_style == null)
+    {
+        Prompt($layout.data('data-show-modal-tips') || '请选择数据展示模式');
+        return false;
+    }
+
+    // 外边距
+    var margin = parseInt(data.style_margin || 0);
+    data['style_item_margin_top'] = margin;
+    data['style_item_margin_left'] = margin;
+
+    // 样式处理
+    var images_style = StyleBaseHandle(data, 'style_item_');
+
+    // 设置了外边距，则计算平均移动值
+    var list_ent = (margin > 0) ? 'module-list-content-avg-'+margin : '';
+
+    // 数据处理
+    var html = '';
+    var item_style = [];
+    switch(show_style)
+    {
+        // 1图
+        case 'g1' :
+            item_style[0] = 'width:100%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 2竖图
+        case 'v2' :
+            item_style[0] = 'width:50%;';
+            item_style[1] = 'width:50%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 3竖图
+        case 'v3' :
+            item_style[0] = 'width:33.33%;';
+            item_style[1] = 'width:33.33%;';
+            item_style[2] = 'width:33.33%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fr item-module-magic-cube" style="`+item_style[2]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 4竖图
+        case 'v4' :
+            item_style[0] = 'width:25%;';
+            item_style[1] = 'width:25%;';
+            item_style[2] = 'width:25%;';
+            item_style[3] = 'width:25%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[2]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fr item-module-magic-cube" style="`+item_style[3]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 2横图
+        case 'h2' :
+            item_style[0] = 'width:100%;';
+            item_style[1] = 'width:100%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 3横图
+        case 'h3' :
+            item_style[0] = 'width:100%;';
+            item_style[1] = 'width:100%;';
+            item_style[2] = 'width:100%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="item-module-magic-cube" style="`+item_style[2]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 4横图
+        case 'h4' :
+            item_style[0] = 'width:100%;';
+            item_style[1] = 'width:100%;';
+            item_style[2] = 'width:100%;';
+            item_style[3] = 'width:100%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="item-module-magic-cube" style="`+item_style[2]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="item-module-magic-cube" style="`+item_style[3]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 1左右2
+        case 'lr12' :
+            if(margin > 0)
+            {
+                item_style[0] = 'width:calc(50% + '+(margin/2)+'px);';
+                item_style[1] = 'width:calc(50% - '+(margin/2)+'px);';
+            } else {
+                item_style[0] = 'width:50%;';
+                item_style[1] = 'width:50%;';
+            }
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                            <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 1左右3
+        case 'lr13' :
+            if(margin > 0)
+            {
+                item_style[0] = 'width:calc(50% + '+margin+'px);';
+                item_style[1] = 'width:calc(50% - '+margin+'px);';
+            } else {
+                item_style[0] = 'width:50%;';
+                item_style[1] = 'width:50%;';
+            }
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                            <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                            </a>
+                            <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 2左右1
+        case 'lr21' :
+            if(margin > 0)
+            {
+                item_style[0] = 'width:calc(50% - '+(margin/2)+'px);';
+                item_style[1] = 'width:calc(50% + '+(margin/2)+'px);';
+            } else {
+                item_style[0] = 'width:50%;';
+                item_style[1] = 'width:50%;';
+            }
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 3左右1
+        case 'lr31' :
+            if(margin > 0)
+            {
+                item_style[0] = 'width:calc(50% - '+margin+'px);';
+                item_style[1] = 'width:calc(50% + '+margin+'px);';
+            } else {
+                item_style[0] = 'width:50%;';
+                item_style[1] = 'width:50%;';
+            }
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                            <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 1上下2
+        case 'tb12' :
+            item_style[0] = 'width:100%;';
+            item_style[1] = 'width:50%;';
+            item_style[2] = 'width:50%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-nbfc">
+                            <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[1]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                            <div class="am-fr item-module-magic-cube" style="`+item_style[2]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[2]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>`;
+            break;
+
+        // 1上下3
+        case 'tb13' :
+            item_style[0] = 'width:100%;';
+            item_style[1] = 'width:33.33%;';
+            item_style[2] = 'width:33.33%;';
+            item_style[3] = 'width:33.33%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-nbfc">
+                            <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[1]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                            <div class="am-fl item-module-magic-cube" style="`+item_style[2]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[2]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                            <div class="am-fr item-module-magic-cube" style="`+item_style[3]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[3]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>`;
+            break;
+
+        // 2上下1
+        case 'tb21' :
+            item_style[0] = 'width:50%;';
+            item_style[1] = 'width:50%;';
+            item_style[2] = 'width:100%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-nbfc">
+                            <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[0]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                            <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[1]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item-module-magic-cube" style="`+item_style[2]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 3上下1
+        case 'tb31' :
+            item_style[0] = 'width:33.33%;';
+            item_style[1] = 'width:33.33%;';
+            item_style[2] = 'width:33.33%;';
+            item_style[3] = 'width:100%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-nbfc">
+                            <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[0]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                            <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[1]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                            <div class="am-fr item-module-magic-cube" style="`+item_style[2]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[2]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item-module-magic-cube" style="`+item_style[3]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 2竖左右横2
+        case 'lrv2h2' :
+            if(margin > 0)
+            {
+                item_style[0] = 'width:calc(25% + '+(margin/2)+'px);';
+                item_style[1] = 'width:calc(25% + '+(margin/2)+'px);';
+                item_style[2] = 'width:calc(50% - '+margin+'px);';
+            } else {
+                item_style[0] = 'width:25%;';
+                item_style[1] = 'width:25%;';
+                item_style[2] = 'width:50%;';
+            }
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fr item-module-magic-cube" style="`+item_style[2]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                            </a>
+                            <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+        // 2横左右竖2
+        case 'lrh2v2' :
+            if(margin > 0)
+            {
+                item_style[0] = 'width:calc(50% - '+margin+'px);';
+                item_style[1] = 'width:calc(25% + '+(margin/2)+'px);';
+                item_style[2] = 'width:calc(25% + '+(margin/2)+'px);';
+            } else {
+                item_style[0] = 'width:50%;';
+                item_style[1] = 'width:25%;';
+                item_style[2] = 'width:25%;';
+            }
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[0]['images']+`" class="am-block" />
+                            </a>
+                            <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[1]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fl item-module-magic-cube" style="`+item_style[1]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[2]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                        <div class="am-fr item-module-magic-cube" style="`+item_style[2]+`">
+                            <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                <img src="`+data_list[3]['images']+`" class="am-block" />
+                            </a>
+                        </div>
+                    </div>`;
+            break;
+
+            // 4图
+        case 'g4' :
+            item_style[0] = 'width:50%;';
+            item_style[1] = 'width:50%;';
+            item_style[2] = 'width:50%;';
+            item_style[3] = 'width:50%;';
+            html += `<div class="am-nbfc layout-module-images-magic-cube layout-module-images-magic-cube-`+show_style+` `+list_ent+`">
+                        <div class="am-nbfc">
+                            <div class="am-fl item-module-magic-cube" style="`+item_style[0]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[0]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[0]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                            <div class="am-fr item-module-magic-cube" style="`+item_style[1]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[1]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[1]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                        </div>
+                        <div class="am-nbfc">
+                            <div class="am-fl item-module-magic-cube" style="`+item_style[2]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[2]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[2]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                            <div class="am-fr item-module-magic-cube" style="`+item_style[3]+`">
+                                <a href="javascript:ModuleToPrompt('`+(data_list[3]['name'] || '')+`');" class="am-block am-nbfc" style="`+images_style+`">
+                                    <img src="`+data_list[3]['images']+`" class="am-block" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>`;
+            break;
+    }
+
+    // 模块容器设置
+    var $doc = $(doc);
+    $doc.html(html);
+
+    // 数据加入配置
+    data['frontend_config'] = {
+        list_ent: list_ent,
+        item_style: item_style,
+        images_style: images_style
+    }
+    data['data_list'] = data_list;
+    $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
+    $offcanvas_config_images_magic_cube.offCanvas('close');
 }
 
 /**
@@ -1012,7 +1587,7 @@ function FormBackModuleConfigVideoHandle(data)
         "style": style,
         "media_fixed": media_fixed
     }
-    $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+    $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_config_video.offCanvas('close');
 }
 
@@ -1122,19 +1697,19 @@ function FormBackModuleConfigGoodsHandle(data)
                     var item_html = '';
                     for(var i in list)
                     {
-                        item_html += '<li>';
-                        item_html += '<div class="module-item" style="'+item_style+'">';
-                        item_html += '<a href="'+list[i]['goods_url']+'" target="_blank" class="'+media_fixed.media_container_ent+'" style="'+media_fixed.media_container_style+'">';
-                        item_html += '<img src="'+list[i]['images']+'" alt="'+list[i]['title']+'" class="'+media_fixed.media_ent+'" style="'+media_fixed.media_container_style+'" />';
-                        item_html += '</a>';
-                        item_html += '<div class="item-bottom">';
-                        item_html += '<div class="module-title">';
-                        item_html += '<a href="'+list[i]['goods_url']+'" target="_blank">'+list[i]['title']+'</a>';
-                        item_html += '</div>';
-                        item_html += '<p class="module-price">'+__currency_symbol__+list[i]['price']+'</p>';
-                        item_html += '</div>';
-                        item_html += '</div>';
-                        item_html += '</li>';
+                        item_html += `<li>;
+                                <div class="module-item" style="`+item_style+`">
+                                    <a href="`+list[i]['goods_url']+`" target="_blank" class="`+media_fixed.media_container_ent+`" style="`+media_fixed.media_container_style+`">
+                                        <img src="`+list[i]['images']+`" alt="`+list[i]['title']+`" class="`+media_fixed.media_ent+`" style="`+media_fixed.media_container_style+`" />
+                                    </a>
+                                    <div class="item-bottom">
+                                        <div class="module-title">
+                                            <a href="`+list[i]['goods_url']+`" target="_blank">`+list[i]['title']+`</a>
+                                        </div>
+                                        <p class="module-price">`+__currency_symbol__+list[i]['price']+`</p>
+                                    </div>
+                                </div>
+                            </li>`;
                     }
 
                     // 商品容器
@@ -1146,6 +1721,7 @@ function FormBackModuleConfigGoodsHandle(data)
                     // 展示模式
                     var nav_dot_ent = '';
                     var list_ent = '';
+                    var item_right_style = '';
                     var show_style = data.view_list_show_style || 'routine';
                     switch(show_style)
                     {
@@ -1171,6 +1747,34 @@ function FormBackModuleConfigGoodsHandle(data)
                                 slideshow: show_style_value.is_auto_play,
                                 controlNav: show_style_value.is_nav_dot
                             }
+                            break;
+
+                        // 左图右文
+                        case 'leftright' :
+                            var style_media_fixed_width = parseInt(data.style_media_fixed_width || 0);
+                            item_right_style = 'margin-left:10px;'+((style_media_fixed_width > 0) ? 'width: calc(100% - '+(style_media_fixed_width+10)+'px);' : '');
+                            // 设置了外边距，则计算平均移动值
+                            var avg = (margin > 0) ? 'module-list-content-avg-'+margin : '';
+                            // 列表class
+                            list_ent = avg+' module-list-sm-'+sm+' module-list-md-'+md+' module-list-lg-'+md+' ';
+                            html += '<ul class="module-goods-content module-list-content '+list_ent+'">';
+                            for(var i in list)
+                            {
+                                html += `<li>
+                                        <div class="module-item" style="`+item_style+`">
+                                            <a href="`+list[i]['goods_url']+`" target="_blank" class="am-fl `+media_fixed.media_container_ent+`" style="`+media_fixed.media_container_style+`">
+                                                <img src="`+list[i]['images']+`" class="`+media_fixed.media_ent+`" style="`+media_fixed.media_container_style+`" />
+                                            </a>
+                                            <div class="am-fl" style="`+item_right_style+`">
+                                                <div class="module-title">
+                                                    <a href="`+list[i]['goods_url']+`" target="_blank">`+list[i]['title']+`</a>
+                                                </div>
+                                                <p class="module-price">`+__currency_symbol__+list[i]['price']+`</p>
+                                            </div>
+                                        </div>
+                                    </li>`;
+                            }
+                            html += '</ul>';
                             break;
 
                         // 常规、默认
@@ -1201,11 +1805,12 @@ function FormBackModuleConfigGoodsHandle(data)
                     data['frontend_config'] = {
                         "style": style,
                         "item_style": item_style,
+                        "item_right_style": item_right_style,
                         "nav_dot_ent": nav_dot_ent,
                         "list_ent": list_ent,
                         "media_fixed": media_fixed
                     }
-                    $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+                    $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
 
                     // 组件参数
                     if(JSON.stringify(option) !== '{}')
@@ -1330,7 +1935,7 @@ function FormBackModuleConfigTitleHandle(data)
         "style_title_vice": style_title_vice,
         "style_title_more": style_title_more
     }
-    $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+    $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_config_title.offCanvas('close');
 }
 
@@ -1357,14 +1962,8 @@ function FormBackModuleConfigCustomHandle(data)
     var $doc = $(doc);
     $doc.html(data.custom || '');
 
-    // 自定义html、转为base64
-    if((data['custom'] || null) != null)
-    {
-        data['custom'] =  CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(data.custom));
-    }
-
     // 数据加入配置
-    $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+    $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_config_custom.offCanvas('close');
 }
 
@@ -1413,7 +2012,7 @@ function FormBackModuleConfigBorderHandle(data)
     data['frontend_config'] = {
         "style": style
     }
-    $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+    $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_config_border.offCanvas('close');
 }
 
@@ -1457,7 +2056,7 @@ function FormBackModuleConfigHeightHandle(data)
     data['frontend_config'] = {
         "style": style
     }
-    $doc.attr('data-json', encodeURIComponent(JSON.stringify(data)));
+    $doc.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
     $offcanvas_config_height.offCanvas('close');
 }
 
@@ -1697,28 +2296,28 @@ function ModuleConfigGoodsItemContentHtml(data)
 function ModuleConfigManyImagesItemContentHtml(images, type, name, value)
 {
     var index = parseInt(Math.random()*1000001);
-    var html = '<div class="am-panel am-panel-default am-padding-sm">';
-        html += '<a href="javascript:;" class="am-close am-close-alt am-icon-times"></a>';
-        html += '<div class="am-form-group am-form-file am-form-group-refreshing">';
-        html += '<ul class="plug-file-upload-view module-slider-type-images-view module-slider-type-images-view-'+index+'" data-form-name="content_images_'+index+'" data-max-number="1" data-delete="0" data-dialog-type="images">';
-        html += '<li>';
-        html += '<input type="text" name="content_images_'+index+'" data-validation-message="'+($layout.data('upload-images-tips') || '请上传图片')+'" value="'+(images || '')+'" required />';
-        html += '<img src="'+(images || $offcanvas_config_many_images.data('default-images'))+'" />';
-        html += '</li>';
-        html += '</ul>';
-        html += '<div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-'+index+'">+'+($layout.data('upload-images-name') || '上传图片')+'</div>';
-        html += '</div>';
-        html += '<div class="am-form-group am-form-group-refreshing">';
-        html += '<div class="form-view-choice-container am-margin-top-xs" data-key="'+index+'">';
-        html += '<input type="hidden" name="content_to_type_'+index+'" value="'+(type || '')+'" />';
-        html += '<input type="hidden" name="content_to_name_'+index+'" value="'+(name || '')+'" />';
-        html += '<input type="hidden" name="content_to_value_'+index+'" value="'+((value || null) == null ? '' : encodeURIComponent(JSON.stringify(value)))+'" />';
-        html += '<div class="form-view-choice-container-content">';
-        html += ModuleConfigImagesToContentHtml(name);
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
-        html += '</div>';
+    var html = `<div class="am-panel am-panel-default am-padding-sm">
+            <a href="javascript:;" class="am-close am-close-alt am-icon-times"></a>
+            <div class="am-form-group am-form-file am-form-group-refreshing">
+                <ul class="plug-file-upload-view module-slider-type-images-view module-slider-type-images-view-`+index+`" data-form-name="content_images_`+index+`" data-max-number="1" data-delete="0" data-dialog-type="images">
+                    <li>
+                        <input type="text" name="content_images_`+index+`" data-validation-message="`+($layout.data('upload-images-tips') || '请上传图片')+`" value="`+(images || '')+`" required />
+                        <img src="`+(images || $offcanvas_config_many_images.data('default-images'))+`" />
+                    </li>
+                </ul>
+                <div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-`+index+`">+`+($layout.data('upload-images-name') || '上传图片')+`</div>
+            </div>
+            <div class="am-form-group am-form-group-refreshing">
+                <div class="form-view-choice-container am-margin-top-xs" data-key="`+index+`">
+                    <input type="hidden" name="content_to_type_`+index+`" value="`+(type || '')+`" />
+                    <input type="hidden" name="content_to_name_`+index+`" value="`+(name || '')+`" />
+                    <input type="hidden" name="content_to_value_`+index+`" value="`+((value || null) == null ? '' : encodeURIComponent(JSON.stringify(value)))+`" />
+                    <div class="form-view-choice-container-content">
+                        `+ModuleConfigImagesToContentHtml(name)+`
+                    </div>
+                </div>
+            </div>
+        </div>`;
     return html;
 }
 
@@ -1829,6 +2428,88 @@ function ModuleConfigImagesTextItemContentHtml(data)
                     </div>
                 </div>`;
         html += `</div>`;
+    return html;
+}
+
+/**
+ * 模块-图片魔方信息生成
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-05-18
+ * @desc    description
+ * @param   {[object]}        data        [配置数据]
+ */
+function ModuleConfigImagesMagicCubeItemContentHtml(data)
+{
+    // 基础处理
+    if((data || null) == null)
+    {
+        data = {};
+    }
+
+    // 展示模式
+    var value = (((data.view_list_show_style || null) == null) ? $offcanvas_config_images_magic_cube.find('input[name="view_list_show_style"]:checked').val() : data.view_list_show_style) || null;
+    if(value == null)
+    {
+        Prompt($layout.data('data-show-modal-tips') || '请选择数据展示模式');
+        return false;
+    }
+    var modal_arr = {g1:1, v2:2, v3:3, v4:4, h2:2, h3:3, h4:4, lr12:3, lr13:4, lr21:3, lr31:4, tb12:3, tb13:4, tb21:3, tb31:4, lrv2h2:4, lrh2v2:4, g4:4};
+    if(modal_arr[value] == undefined)
+    {
+        Prompt(($layout.data('data-show-modal-error-tips') || '展示模式有误')+'('+value+')');
+        return false;
+    }
+
+    // 编辑则重新添加
+    var count = 0;
+    if(JSON.stringify(data) == '{}')
+    {
+        // 已有数据条数、满足数量则不增加，多余则移除
+        count = $offcanvas_config_images_magic_cube.find('.config-images-magic-cube-container > .am-panel').length;
+        var max = modal_arr[value]-count;
+        if(max < 0)
+        {
+            for(var i=count;i>=modal_arr[value];i--)
+            {
+                $offcanvas_config_images_magic_cube.find('.config-images-magic-cube-container > .am-panel:eq('+i+')').remove();
+            }
+        }
+        if(max <= 0)
+        {
+            return false;
+        }
+    }
+
+    // 生成数据
+    var html = '';
+    var data_list = data.data_list || [];
+    for(var i=count;i<modal_arr[value];i++)
+    {
+        var item = data_list[i] || {};
+        html += `<div class="am-panel am-panel-default am-padding-sm">
+                <div class="am-form-group am-form-file am-form-group-refreshing">
+                    <ul class="plug-file-upload-view module-slider-type-images-view module-slider-type-images-view-`+i+`" data-form-name="content_images_`+i+`" data-max-number="1" data-delete="0" data-dialog-type="images">
+                        <li>
+                            <input type="text" name="content_images_`+i+`" data-validation-message="`+($layout.data('upload-images-tips') || '请上传图片')+`" value="`+(item.images || '')+`" required />
+                            <img src="`+(item.images || $offcanvas_config_many_images.data('default-images'))+`" />
+                        </li>
+                    </ul>
+                    <div class="plug-file-upload-submit" data-view-tag="ul.module-slider-type-images-view-`+i+`">+`+($layout.data('upload-images-name') || '上传图片')+`</div>
+                </div>
+                <div class="am-form-group am-form-group-refreshing">
+                    <div class="form-view-choice-container am-margin-top-xs" data-key="`+i+`">
+                        <input type="hidden" name="content_to_type_`+i+`" value="`+(item.type || '')+`" />
+                        <input type="hidden" name="content_to_name_`+i+`" value="`+(item.name || '')+`" />
+                        <input type="hidden" name="content_to_value_`+i+`" value="`+((item.value || null) == null ? '' : encodeURIComponent(JSON.stringify(item.value)))+`" />
+                        <div class="form-view-choice-container-content">
+                            `+ModuleConfigImagesToContentHtml(item.name)+`
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+    }
     return html;
 }
 
@@ -2025,8 +2706,8 @@ function OffcanvasConfigPagesChoice(obj, event)
 
     // 获取已选择的数据
     var $parent = $page_parent_obj.parents('.form-view-choice-container');
-    var key = $parent.data('key') || null;
-    var index = (key == null) ? '' : '_'+key;
+    var key = $parent.data('key') ;
+    var index = (key == undefined) ? '' : '_'+key;
     var to_type = $parent.find('input[name="content_to_type'+index+'"]').val() || null;
     var to_name = $parent.find('input[name="content_to_name'+index+'"]').val() || null;
     var to_value = $parent.find('input[name="content_to_value'+index+'"]').val() || null;
@@ -2097,8 +2778,8 @@ function OffcanvasConfigPagesRemove(obj, event)
 {
     var $parent = obj.parents('.form-view-choice-container');
     var $content = $parent.find('.form-view-choice-container-content');
-    var key = $parent.data('key') || null;
-    var index = (key == null) ? '' : '_'+key;
+    var key = $parent.data('key');
+    var index = (key == undefined) ? '' : '_'+key;
     $content.html(ModuleConfigImagesToContentHtml());
     $parent.find('input[name="content_to_type'+index+'"]').val('');
     $parent.find('input[name="content_to_name'+index+'"]').val('');
@@ -2151,7 +2832,7 @@ function LayoutViewConfig()
         var layout_temp = {
             "value": $(this).data('value').toString(),
             "status": ($(this).find('.layout-content-submit input[type="checkbox"]:checked').val() == 'on') ? 1 : 0,
-            "config": (json == null) ? {} : JSON.parse(decodeURIComponent(json)),
+            "config": (json == null) ? {} : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8)),
             "children": []
         };
 
@@ -2161,7 +2842,7 @@ function LayoutViewConfig()
             // 容器数据
             var json = $(this).attr('data-json') || null;
             var content_temp = {
-                "config": (json == null) ? {} : JSON.parse(decodeURIComponent(json)),
+                "config": (json == null) ? {} : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8)),
                 "children": []
             };
 
@@ -2174,7 +2855,7 @@ function LayoutViewConfig()
                 var module_config = {
                     "value": value,
                     "name": layout_module_type_arr[value],
-                    "config": (json == null) ? {} : JSON.parse(decodeURIComponent(json))
+                    "config": (json == null) ? {} : JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8))
                 };
                 // 商品模块移除商品列表
                 if(value == 'goods')
@@ -2327,7 +3008,7 @@ $(function()
         if(json != null)
         {
             // 数据解析
-            json = JSON.parse(decodeURIComponent(json)) || null;
+            json = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8)) || null;
         }
         // 获取表单字段并赋空值
         if((json || null) == null)
@@ -2383,7 +3064,7 @@ $(function()
         if(json != null)
         {
             // 数据解析
-            json = JSON.parse(decodeURIComponent(json)) || null;
+            json = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8)) || null;
         }
         // 获取表单字段并赋空值
         if((json || null) == null)
@@ -2528,7 +3209,7 @@ $(function()
         if(json != null)
         {
             // 数据解析
-            json = JSON.parse(decodeURIComponent(json)) || null;
+            json = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(json)).toString(CryptoJS.enc.Utf8)) || null;
         }
 
         // 配置模块
@@ -2568,7 +3249,6 @@ $(function()
         {
             // 图片模块
             case 'images' :
-                // 图片处理
                 var default_images = $config.data('default-images');
                 var html = '<li>';
                     html += '<input type="text" name="content_images" value="'+(json.content_images || '')+'" data-validation-message="'+($layout.data('upload-images-tips') || '请上传图片')+'" value="" required />';
@@ -2582,7 +3262,6 @@ $(function()
 
             // 多图
             case 'many-images' :
-                // 多图图片
                 var html = '';
                 if((json.data_list || null) != null && json.data_list.length > 0)
                 {
@@ -2596,7 +3275,6 @@ $(function()
 
             // 图文
             case 'images-text' :
-                // 多图图片
                 var html = '';
                 if((json.data_list || null) != null && json.data_list.length > 0)
                 {
@@ -2607,8 +3285,29 @@ $(function()
                 }
                 $config.find('.config-images-text-container').html(html);
                 // 展示模式默认空，必须要选择
-                var images_text_show_style_arr = ['updown', 'leftright', 'rolling'];
-                if(images_text_show_style_arr.indexOf(json.view_list_show_style) == -1)
+                if((json.view_list_show_style || null) == null)
+                {
+                    json['view_list_show_style'] = '';
+                }
+                break;
+
+            // 图片魔方
+            case 'images-magic-cube' :
+                var html = '';
+                if((json.data_list || null) != null && json.data_list.length > 0)
+                {
+                    html += ModuleConfigImagesMagicCubeItemContentHtml(json);
+                }
+                $config.find('.config-images-magic-cube-container').html(html);
+                var $tips_msg = $offcanvas_config_images_magic_cube.find('.tips-msg');
+                if((html || null) == null)
+                {
+                    $tips_msg.removeClass('am-hide');
+                } else {
+                    $tips_msg.addClass('am-hide');
+                }
+                // 展示模式默认空，必须要选择
+                if((json.view_list_show_style || null) == null)
                 {
                     json['view_list_show_style'] = '';
                 }
@@ -2692,11 +3391,6 @@ $(function()
 
                 // 链接地址处理
                 $config.find('.form-view-choice-container-content').html(ModuleConfigImagesToContentHtml(json.content_to_name || ''));
-                break;
-
-            // 自定义html
-            case 'custom' :
-                json['custom'] = ((json['custom'] || null) == null) ? '' : CryptoJS.enc.Base64.parse(json.custom).toString(CryptoJS.enc.Utf8);
                 break;
 
             default :
@@ -2947,8 +3641,8 @@ $(function()
 
         // 设置数据
         var $parent = $page_parent_obj.parents('.form-view-choice-container');
-        var key = $parent.data('key') || null;
-        var index = (key == null) ? '' : '_'+key;
+        var key = $parent.data('key');
+        var index = (key == undefined) ? '' : '_'+key;
         $parent.find('input[name="content_to_type'+index+'"]').val(to_type);
         $parent.find('input[name="content_to_name'+index+'"]').val(to_name);
         $parent.find('input[name="content_to_value'+index+'"]').val(to_value);
@@ -3488,6 +4182,59 @@ $(function()
                     height: 225,
                     closeViaDimmer: false
                 });
+        }
+    });
+
+
+    // 配置图片魔方 - 选择页面事件
+    $offcanvas_config_images_magic_cube.on('click', '.form-view-choice-container-submit', function(e)
+    {
+        OffcanvasConfigPagesChoice($(this), e);
+    });
+
+    // 左侧配置 - 配置图片魔方 - 链接地址 - 移除
+    $offcanvas_config_images_magic_cube.on('click', '.form-view-choice-container-active i.am-icon-close', function(e)
+    {
+        OffcanvasConfigPagesRemove($(this), e);
+    });
+
+    // 配置图片魔方 - 展示模式切换
+    $(document).on('click', '#offcanvas-module-config-images-magic-cube input[name="view_list_show_style"]', function()
+    {
+        var html = ModuleConfigImagesMagicCubeItemContentHtml();
+        if(html !== false)
+        {
+            $offcanvas_config_images_magic_cube.find('.config-images-magic-cube-container').append(html);
+        }
+    });
+
+    // 配置商品 - 展示模式切换
+    $(document).on('click', '#offcanvas-module-config-goods input[name="view_list_show_style"]', function()
+    {
+        $base_show_style_value_obj = $(this).parents('.config-view-show-style').find('input[name="view_list_show_style_value"]');
+        switch($(this).val())
+        {
+            // 滚动
+            case 'rolling' :
+                // 数据填充
+                var json = ViewRollingShowStyleValueHandle($base_show_style_value_obj.val());
+                if(json['item_margin'] <= 0)
+                {
+                    json['item_margin'] = '';
+                }
+                FormDataFill(json, '#modal-module-rolling-config');
+
+                // 开关状态
+                $modal_rolling_config.find('input[name="is_auto_play"]').bootstrapSwitch('state', json.is_auto_play);
+                $modal_rolling_config.find('input[name="is_nav_dot"]').bootstrapSwitch('state', json.is_nav_dot);
+
+                // 开启弹窗
+                $modal_rolling_config.modal({
+                    width: 260,
+                    height: 370,
+                    closeViaDimmer: false
+                });
+                break;
         }
     });
 

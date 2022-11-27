@@ -77,38 +77,39 @@ class Design extends Base
         // 模板数据
         $assign = [
             // 当前数据
-            'layout_data'                       => $layout_data,
-            'data'                              => $data,
+            'layout_data'                               => $layout_data,
+            'data'                                      => $data,
 
             // 页面列表
-            'pages_list'                        => BaseLayout::PagesList(),
+            'pages_list'                                => BaseLayout::PagesList(),
 
             // 商品分类
-            'goods_category_list'               => $goods_category,
+            'goods_category_list'                       => $goods_category,
 
             // 商品搜索分类（分类）
-            'layout_goods_category'             => $goods_category,
-            'layout_goods_category_field'       => 'gci.category_id',
+            'layout_goods_category'                     => $goods_category,
+            'layout_goods_category_field'               => 'gci.category_id',
 
             // 品牌
-            'brand_list'                        => BrandService::CategoryBrand(),
+            'brand_list'                                => BrandService::CategoryBrand(),
 
             // 静态数据
-            'border_style_type_list'            => BaseLayout::$border_style_type_list,
-            'goods_view_list_show_style'        => BaseLayout::$goods_view_list_show_style,
-            'many_images_view_list_show_style'  => BaseLayout::$many_images_view_list_show_style,
-            'images_text_view_list_show_style'  => BaseLayout::$images_text_view_list_show_style,
+            'border_style_type_list'                    => BaseLayout::$border_style_type_list,
+            'goods_view_list_show_style'                => BaseLayout::$goods_view_list_show_style,
+            'many_images_view_list_show_style'          => BaseLayout::$many_images_view_list_show_style,
+            'images_text_view_list_show_style'          => BaseLayout::$images_text_view_list_show_style,
+            'images_magic_cube_view_list_show_style'    => BaseLayout::$images_magic_cube_view_list_show_style,
 
             // 首页商品排序规则
-            'goods_order_by_type_list'          => MyConst('goods_order_by_type_list'),
-            'goods_order_by_rule_list'          => MyConst('goods_order_by_rule_list'),
+            'goods_order_by_type_list'                  => MyConst('goods_order_by_type_list'),
+            'goods_order_by_rule_list'                  => MyConst('goods_order_by_rule_list'),
 
             // 加载布局样式+管理
-            'is_load_layout'                    => 1,
-            'is_load_layout_admin'              => 1,
+            'is_load_layout'                            => 1,
+            'is_load_layout_admin'                      => 1,
 
             // 编辑器文件存放地址定义
-            'editor_path_type'                  => DesignService::AttachmentPathTypeValue($data['id']),
+            'editor_path_type'                          => DesignService::AttachmentPathTypeValue($data['id']),
         ];
         MyViewAssign($assign);
         return MyView();

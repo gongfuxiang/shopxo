@@ -1,0 +1,41 @@
+<!-- 侧边栏 - 模块配置 - 图文 -->
+<div id="offcanvas-module-config-images-magic-cube" class="am-offcanvas module-offcanvas-container" data-default-images="{{$attachment_host}}/static/common/images/default-images-mini.png">
+    <div class="am-offcanvas-bar">
+        <div class="am-offcanvas-content am-padding-0">
+            <form class="am-form form-validation-module-offcanvas-images-magic-cube" request-type="sync" request-value="FormBackModuleConfigImagesMagicCube">
+                <!-- 展示模式 -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">展示模式<span class="am-form-group-label-tips-must">必选</span></div>
+                    <div class="am-panel-bd">
+                        {{include file="../../../layout/view/public/content/images_magic_cube_show_style" /}}
+                    </div>
+                </div>
+
+                <!-- 内容 -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">内容设置<span class="am-form-group-label-tips-must">必传</span></div>
+                    <div class="am-panel-bd">
+                        <div class="config-images-magic-cube-container"></div>
+                        <p class="am-text-center am-padding-vertical-sm am-text-grey tips-msg">请先选择展示模式</p>
+                    </div>
+                </div>
+
+                <!-- 样式设置 -->
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">样式设置</div>
+                    <div class="am-panel-bd">
+                        <!-- 圆角、元素样式 -->
+                        {{include file="../../../layout/view/public/style/border_radius" max="1000" key="_item" required="" /}}
+
+                        <!-- 外边距、js取值使用 -->
+                        {{include file="../../../layout/view/public/style/margin" key="" /}}
+                    </div>
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '处理中...'}">确认</button>  
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
