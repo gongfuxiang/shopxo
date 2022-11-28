@@ -67,7 +67,7 @@
 			</ul>
 		</div>
 
-		<!-- 页脚信息 -->
+		<!-- 页脚 -->
 		<div class="am-footer-miscs">
 			<div class="am-container">
 				<!-- 友情链接 -->
@@ -84,20 +84,16 @@
 					</div>
 				{{/if}}
 
-				<p class="powered">
-					{{$home_theme_footer_bottom_powered|raw}} {{$Think.APPLICATION_VERSION}}
-				</p>
+				<!-- 页脚信息 -->
 				{{include file="public/footer_filing" /}}
 			</div>
 		</div>
 	</footer>
 {{else /}}
-	<!-- 页脚信息 -->
+	<!-- 页脚 -->
 	<footer class="am-footer am-footer am-footer-default footer-base-content">
 		<div class="am-footer-miscs">
-			<p class="powered">
-				{{$home_theme_footer_bottom_powered|raw}} {{$Think.APPLICATION_VERSION}}
-			</p>
+			<!-- 页脚信息 -->
 			{{include file="public/footer_filing" /}}
 		</div>
 	</footer>
