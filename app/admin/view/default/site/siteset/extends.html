@@ -20,6 +20,47 @@
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
+                        <label>{{$data.home_main_header_status.name}}<span class="am-form-group-label-tips">{{$data.home_main_header_status.describe}}</span></label>
+                        <select name="{{$data.home_main_header_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_main_header_status.error_tips}}" required>
+                            {{foreach $common_close_open_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_main_header_status']['value']) and $data['home_main_header_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_main_top_header_status.name}}<span class="am-form-group-label-tips">{{$data.home_main_top_header_status.describe}}</span></label>
+                        <select name="{{$data.home_main_top_header_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_main_top_header_status.error_tips}}" required>
+                            {{foreach $common_close_open_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_main_top_header_status']['value']) and $data['home_main_top_header_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_main_logo_search_status.name}}<span class="am-form-group-label-tips">{{$data.home_main_logo_search_status.describe}}</span></label>
+                        <select name="{{$data.home_main_logo_search_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_main_logo_search_status.error_tips}}" required>
+                            {{foreach $common_close_open_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_main_logo_search_status']['value']) and $data['home_main_logo_search_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_main_breadcrumb_header_status.name}}<span class="am-form-group-label-tips">{{$data.home_main_breadcrumb_header_status.describe}}</span></label>
+                        <select name="{{$data.home_main_breadcrumb_header_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_main_breadcrumb_header_status.error_tips}}" required>
+                            {{foreach $common_close_open_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_main_breadcrumb_header_status']['value']) and $data['home_main_breadcrumb_header_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+                    <div class="am-form-group">
+                        <label>{{$data.home_main_footer_content_status.name}}<span class="am-form-group-label-tips">{{$data.home_main_footer_content_status.describe}}</span></label>
+                        <select name="{{$data.home_main_footer_content_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_main_footer_content_status.error_tips}}" required>
+                            {{foreach $common_close_open_list as $v}}
+                                <option value="{{$v.value}}" {{if isset($data['home_main_footer_content_status']['value']) and $data['home_main_footer_content_status']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
+                            {{/foreach}}
+                        </select>
+                    </div>
+
+                    <div class="am-form-group">
                         <label>{{$data.home_index_friendship_link_status.name}}<span class="am-form-group-label-tips">{{$data.home_index_friendship_link_status.describe}}</span></label>
                         <select name="{{$data.home_index_friendship_link_status.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.home_index_friendship_link_status.error_tips}}" required>
                             {{foreach $common_close_open_list as $v}}

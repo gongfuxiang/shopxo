@@ -1,11 +1,13 @@
 <!-- 商品分类  -->
 <div id="goods-category" class="am-container am-hide-sm-only am-hide-md-only" data-controller-name="{{$controller_name}}">
     <div class="goods-category-s">
-        <a href="{{:MyUrl('index/category/index')}}">
-            <div class="goods-category-title">
-                <span class="all-goods">全部分类</span>
-            </div>
-        </a>
+        {{if MyC('home_main_header_status', 1) eq 1}}
+            <a href="{{:MyUrl('index/category/index')}}">
+                <div class="goods-category-title">
+                    <span class="all-goods">全部分类</span>
+                </div>
+            </a>
+        {{/if}}
         <div class="category-content" {{if (isset($common_goods_category_hidden) and $common_goods_category_hidden eq 1)}}style="display:none;"{{/if}}>
             <div class="category">
                 <ul class="category-list">

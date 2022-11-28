@@ -375,18 +375,27 @@ input.add,input.min{width:15px}
 }
 
 /**
- * 底部-手机简洁模式
+ * 底部-简洁模式
  */
-.mobile-concise-model {
+.footer-base-content {
     border-top: 0;
     background: #fff;
     color: #999;
     margin-top: 0;
     padding: 0;
 }
-.mobile-concise-model .am-footer-miscs {
+.footer-base-content .am-footer-miscs {
     padding: 5px 0;
     margin-top: 0;
+}
+.footer-base-content b {
+    color: #ededed;
+}
+.footer-base-content a {
+    color: #666;
+}
+.footer-base-content a:hover {
+    color: #333;
 }
 
 /**

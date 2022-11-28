@@ -1,157 +1,159 @@
-<header class="am-topbar shop-navigation">
-    <div class="am-container">
-        <!-- 中间导航左侧 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-            <div class="plugins-tag">
-                <span>plugins_view_common_header_nav_left</span>
-            </div>
-        {{/if}}
-        {{if !empty($plugins_view_common_header_nav_left_data) and is_array($plugins_view_common_header_nav_left_data)}}
-            {{foreach $plugins_view_common_header_nav_left_data as $hook}}
-                {{if is_string($hook) or is_int($hook)}}
-                    {{$hook|raw}}
-                {{/if}}
-            {{/foreach}}
-        {{/if}}
+{{if MyC('home_main_header_status', 1) eq 1}}
+    <header class="am-topbar shop-navigation">
+        <div class="am-container">
+            <!-- 中间导航左侧 -->
+            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                <div class="plugins-tag">
+                    <span>plugins_view_common_header_nav_left</span>
+                </div>
+            {{/if}}
+            {{if !empty($plugins_view_common_header_nav_left_data) and is_array($plugins_view_common_header_nav_left_data)}}
+                {{foreach $plugins_view_common_header_nav_left_data as $hook}}
+                    {{if is_string($hook) or is_int($hook)}}
+                        {{$hook|raw}}
+                    {{/if}}
+                {{/foreach}}
+            {{/if}}
 
-        <!-- 手机端导航伸展按钮 -->
-        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-default am-show-sm-only switch-submit" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+            <!-- 手机端导航伸展按钮 -->
+            <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-default am-show-sm-only switch-submit" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
 
-        <!-- logo -->
-        <h1 class="am-topbar-brand wap-logo am-show-sm-only">
-            <a href="{{$home_url}}">
-                <img src="{{:AttachmentPathViewHandle(MyC('home_site_logo_wap'))}}" alt="{{:MyC('home_seo_site_title')}}" />
+            <!-- logo -->
+            <h1 class="am-topbar-brand wap-logo am-show-sm-only">
+                <a href="{{$home_url}}">
+                    <img src="{{:AttachmentPathViewHandle(MyC('home_site_logo_wap'))}}" alt="{{:MyC('home_seo_site_title')}}" />
+                </a>
+            </h1>
+
+            <!-- 全部分类 -->
+            <a href="{{:MyUrl('index/category/index')}}" class="am-show-md-only">
+                <div class="goods-category-title am-hide-sm-only">
+                    <span class="all-goods">全部分类</span>
+                </div>
             </a>
-        </h1>
 
-        <!-- 全部分类 -->
-        <a href="{{:MyUrl('index/category/index')}}" class="am-show-md-only">
-            <div class="goods-category-title am-hide-sm-only">
-                <span class="all-goods">全部分类</span>
-            </div>
-        </a>
-
-        <!-- 手机端搜索 -->
-        <form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only navigation-search" role="search" action="{{:MyUrl('index/search/index')}}" method="POST">
-            <div class="am-input-group am-input-group-sm">
-                <input type="text" name="wd" class="am-form-field" placeholder="其实搜索很简单^_^ !" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
-                <span class="am-input-group-btn">
-                    <button class="am-btn am-btn-default" type="submit">
-                        <span class="am-icon-search am-icon-xs"></span>
-                    </button>
-                </span>
-            </div>
-
-            <!-- 中间导航搜索内部 -->
-            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                <div class="plugins-tag">
-                    <span>plugins_view_common_header_nav_search_inside</span>
+            <!-- 手机端搜索 -->
+            <form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only navigation-search" role="search" action="{{:MyUrl('index/search/index')}}" method="POST">
+                <div class="am-input-group am-input-group-sm">
+                    <input type="text" name="wd" class="am-form-field" placeholder="其实搜索很简单^_^ !" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
+                    <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="submit">
+                            <span class="am-icon-search am-icon-xs"></span>
+                        </button>
+                    </span>
                 </div>
-            {{/if}}
-            {{if !empty($plugins_view_common_header_nav_search_inside_data) and is_array($plugins_view_common_header_nav_search_inside_data)}}
-                {{foreach $plugins_view_common_header_nav_search_inside_data as $hook}}
-                    {{if is_string($hook) or is_int($hook)}}
-                        {{$hook|raw}}
-                    {{/if}}
-                {{/foreach}}
-            {{/if}}
-        </form>
 
-        <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
-            <!-- 中间导航内容内部顶部 -->
-            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                <div class="plugins-tag">
-                    <span>plugins_view_common_header_nav_content_inside_top</span>
-                </div>
-            {{/if}}
-            {{if !empty($plugins_view_common_header_nav_content_inside_top_data) and is_array($plugins_view_common_header_nav_content_inside_top_data)}}
-                {{foreach $plugins_view_common_header_nav_content_inside_top_data as $hook}}
-                    {{if is_string($hook) or is_int($hook)}}
-                        {{$hook|raw}}
-                    {{/if}}
-                {{/foreach}}
-            {{/if}}
-
-            {{if empty($user)}}
-                <!-- 未登录操作栏 -->
-                <div class="navigation-button am-show-sm-only">
-                    {{if !empty($home_user_login_type)}}
-                        <a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-primary am-topbar-btn am-btn-sm">登录</a>
-                    {{/if}}
-                    {{if !empty($home_user_reg_type)}}
-                        <a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn am-btn-success am-topbar-btn am-btn-sm">注册</a>
-                    {{/if}}
-                </div>
-            {{/if}}
-
-            <!-- 主导航 -->
-            {{if !empty($nav_header)}}
-                <ul class="am-nav am-nav-pills am-topbar-nav">
-                    {{foreach $nav_header as $nav}}
-                        {{if empty($nav['items'])}}
-                            <li>
-                                <a href="{{$nav.url}}" {{if $nav['is_new_window_open'] eq 1}}target="_blank"{{/if}} title="{{$nav.name}}" {{if isset($nav['active']) and $nav['active'] eq 1}}class="active"{{/if}}>{{$nav.name}}</a>
-                            </li>
-                        {{else /}}
-                            <li class="am-dropdown" data-am-dropdown>
-                                <a class="am-dropdown-toggle {{if isset($nav['active']) and $nav['active'] eq 1}}active{{/if}}" data-am-dropdown-toggle href="javascript:;">
-                                    {{$nav.name}} <span class="am-icon-caret-down"></span>
-                                </a>
-                                <ul class="am-dropdown-content">
-                                    {{foreach $nav.items as $navs}}
-                                        <li>
-                                            <a href="{{$navs.url}}" title="{{$navs.name}}" {{if isset($navs['active']) and $navs['active'] eq 1}}class="active"{{/if}}>{{$navs.name}}</a>
-                                        </li>
-                                    {{/foreach}}
-                                </ul>
-                            </li>
-                        {{/if}}
-                    {{/foreach}}
-                </ul>
-            {{/if}}
-
-            <!-- 导航右侧 -->
-            <div class="am-topbar-right am-hide-sm-only">
-                <!-- 快捷百宝箱 -->
-                {{if MyC('home_navigation_main_quick_status') eq 1}}
-                    <div class="navigation-main-quick">
-                        <a href="javascript:;" class="am-block" data-am-modal="{target: '#left-main-quick-popup'}">
-                            <span class="am-icon-sliders icon"></span>
-                            <b class="am-block"></b>
-                            <p class="am-text-truncate name">{{:MyC('home_navigation_main_quick_name', '百宝箱', true)}}</p>
-                            <i class="am-icon-angle-down"></i>
-                        </a>
+                <!-- 中间导航搜索内部 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_common_header_nav_search_inside</span>
                     </div>
                 {{/if}}
+                {{if !empty($plugins_view_common_header_nav_search_inside_data) and is_array($plugins_view_common_header_nav_search_inside_data)}}
+                    {{foreach $plugins_view_common_header_nav_search_inside_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+            </form>
+
+            <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+                <!-- 中间导航内容内部顶部 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_common_header_nav_content_inside_top</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_common_header_nav_content_inside_top_data) and is_array($plugins_view_common_header_nav_content_inside_top_data)}}
+                    {{foreach $plugins_view_common_header_nav_content_inside_top_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+
+                {{if empty($user)}}
+                    <!-- 未登录操作栏 -->
+                    <div class="navigation-button am-show-sm-only">
+                        {{if !empty($home_user_login_type)}}
+                            <a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-primary am-topbar-btn am-btn-sm">登录</a>
+                        {{/if}}
+                        {{if !empty($home_user_reg_type)}}
+                            <a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn am-btn-success am-topbar-btn am-btn-sm">注册</a>
+                        {{/if}}
+                    </div>
+                {{/if}}
+
+                <!-- 主导航 -->
+                {{if !empty($nav_header)}}
+                    <ul class="am-nav am-nav-pills am-topbar-nav">
+                        {{foreach $nav_header as $nav}}
+                            {{if empty($nav['items'])}}
+                                <li>
+                                    <a href="{{$nav.url}}" {{if $nav['is_new_window_open'] eq 1}}target="_blank"{{/if}} title="{{$nav.name}}" {{if isset($nav['active']) and $nav['active'] eq 1}}class="active"{{/if}}>{{$nav.name}}</a>
+                                </li>
+                            {{else /}}
+                                <li class="am-dropdown" data-am-dropdown>
+                                    <a class="am-dropdown-toggle {{if isset($nav['active']) and $nav['active'] eq 1}}active{{/if}}" data-am-dropdown-toggle href="javascript:;">
+                                        {{$nav.name}} <span class="am-icon-caret-down"></span>
+                                    </a>
+                                    <ul class="am-dropdown-content">
+                                        {{foreach $nav.items as $navs}}
+                                            <li>
+                                                <a href="{{$navs.url}}" title="{{$navs.name}}" {{if isset($navs['active']) and $navs['active'] eq 1}}class="active"{{/if}}>{{$navs.name}}</a>
+                                            </li>
+                                        {{/foreach}}
+                                    </ul>
+                                </li>
+                            {{/if}}
+                        {{/foreach}}
+                    </ul>
+                {{/if}}
+
+                <!-- 导航右侧 -->
+                <div class="am-topbar-right am-hide-sm-only">
+                    <!-- 快捷百宝箱 -->
+                    {{if MyC('home_navigation_main_quick_status') eq 1}}
+                        <div class="navigation-main-quick">
+                            <a href="javascript:;" class="am-block" data-am-modal="{target: '#left-main-quick-popup'}">
+                                <span class="am-icon-sliders icon"></span>
+                                <b class="am-block"></b>
+                                <p class="am-text-truncate name">{{:MyC('home_navigation_main_quick_name', '百宝箱', true)}}</p>
+                                <i class="am-icon-angle-down"></i>
+                            </a>
+                        </div>
+                    {{/if}}
+                </div>
+
+                <!-- 中间导航内容内部底部 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_common_header_nav_content_inside_bottom</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_common_header_nav_content_inside_bottom_data) and is_array($plugins_view_common_header_nav_content_inside_bottom_data)}}
+                    {{foreach $plugins_view_common_header_nav_content_inside_bottom_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
             </div>
 
-            <!-- 中间导航内容内部底部 -->
+            <!-- 中间导航右侧 -->
             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                 <div class="plugins-tag">
-                    <span>plugins_view_common_header_nav_content_inside_bottom</span>
+                    <span>plugins_view_common_header_nav_right</span>
                 </div>
             {{/if}}
-            {{if !empty($plugins_view_common_header_nav_content_inside_bottom_data) and is_array($plugins_view_common_header_nav_content_inside_bottom_data)}}
-                {{foreach $plugins_view_common_header_nav_content_inside_bottom_data as $hook}}
+            {{if !empty($plugins_view_common_header_nav_right_data) and is_array($plugins_view_common_header_nav_right_data)}}
+                {{foreach $plugins_view_common_header_nav_right_data as $hook}}
                     {{if is_string($hook) or is_int($hook)}}
                         {{$hook|raw}}
                     {{/if}}
                 {{/foreach}}
             {{/if}}
         </div>
-
-        <!-- 中间导航右侧 -->
-        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-            <div class="plugins-tag">
-                <span>plugins_view_common_header_nav_right</span>
-            </div>
-        {{/if}}
-        {{if !empty($plugins_view_common_header_nav_right_data) and is_array($plugins_view_common_header_nav_right_data)}}
-            {{foreach $plugins_view_common_header_nav_right_data as $hook}}
-                {{if is_string($hook) or is_int($hook)}}
-                    {{$hook|raw}}
-                {{/if}}
-            {{/foreach}}
-        {{/if}}
-    </div>
-</header>
+    </header>
+{{/if}}

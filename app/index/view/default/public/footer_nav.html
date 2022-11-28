@@ -12,7 +12,8 @@
     {{/foreach}}
 {{/if}}
 
-{{if !IsMobile() or (IsMobile() and MyC('common_is_mobile_concise_model') neq 1)}}
+<!-- 底部内容及页脚 -->
+{{if MyC('home_main_footer_content_status', 1) eq 1 and (!IsMobile() or (IsMobile() and MyC('common_is_mobile_concise_model') neq 1))}}
 	<!-- 底部导航 -->
 	<footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{}">
 		<div class="am-container">
@@ -86,49 +87,18 @@
 				<p class="powered">
 					{{$home_theme_footer_bottom_powered|raw}} {{$Think.APPLICATION_VERSION}}
 				</p>
-				{{if !empty($home_site_icp)}}
-					<b>|</b>
-					<p class="footer-icp">
-						<a href="https://beian.miit.gov.cn/" target="_blank">
-							<img src="{{$attachment_host}}/static/common/images/beian-icp-icon.png" alt="ICP备案" />
-							{{$home_site_icp}}
-						</a>
-					</p>
-				{{/if}}
-				{{if !empty($home_site_security_record_name)}}
-					<b>|</b>
-					<p class="footer-icp">
-						<a {{if empty($home_site_security_record_url)}}href="javascript:;"{{else /}}href="{{$home_site_security_record_url}}" target="_blank"{{/if}}>
-							<img src="{{$attachment_host}}/static/common/images/beian-gongan-icon.png" alt="公安备案" />
-							{{$home_site_security_record_name}}
-						</a>
-					</p>
-				{{/if}}
-				{{if !empty($home_site_company_license)}}
-					<b>|</b>
-					<p class="footer-icp">
-						<a href="{{$home_site_company_license}}" target="_blank">
-							<img src="{{$attachment_host}}/static/common/images/beian-company-license-icon.png" alt="电子营业执照亮照" />
-							电子营业执照亮照
-						</a>
-					</p>
-				{{/if}}
-				{{if !empty($home_site_telecom_license)}}
-					<b>|</b>
-					<p class="footer-icp">
-						<a href="javascript:;">{{$home_site_telecom_license}}</a>
-					</p>
-				{{/if}}
+				{{include file="public/footer_filing" /}}
 			</div>
 		</div>
 	</footer>
 {{else /}}
-	<footer class="am-footer am-footer am-footer-default mobile-concise-model">
-		<!-- 页脚信息 -->
+	<!-- 页脚信息 -->
+	<footer class="am-footer am-footer am-footer-default footer-base-content">
 		<div class="am-footer-miscs">
 			<p class="powered">
 				{{$home_theme_footer_bottom_powered|raw}} {{$Think.APPLICATION_VERSION}}
 			</p>
+			{{include file="public/footer_filing" /}}
 		</div>
 	</footer>
 {{/if}}

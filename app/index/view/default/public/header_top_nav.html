@@ -1,140 +1,142 @@
-<!-- 顶部导航条 start -->
-<div class="header-top">
-    <div class="am-container header">
-        <ul class="top-nav-left">
-            <div class="top-nav-items">
-                <div class="menu-hd">
-                    <!-- 公共顶部小导航钩子-左侧前面 -->
-                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                        <div class="plugins-tag">
-                            <span>plugins_view_header_navigation_top_left_begin</span>
-                        </div>
-                    {{/if}}
-                    {{if !empty($plugins_view_header_navigation_top_left_begin_data) and is_array($plugins_view_header_navigation_top_left_begin_data)}}
-                        {{foreach $plugins_view_header_navigation_top_left_begin_data as $hook}}
-                            {{if is_string($hook) or is_int($hook)}}
-                                {{$hook|raw}}
+{{if MyC('home_main_top_header_status', 1) eq 1}}
+    <!-- 顶部导航条 start -->
+    <div class="header-top">
+        <div class="am-container header">
+            <ul class="top-nav-left">
+                <div class="top-nav-items">
+                    <div class="menu-hd">
+                        <!-- 公共顶部小导航钩子-左侧前面 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_header_navigation_top_left_begin</span>
+                            </div>
+                        {{/if}}
+                        {{if !empty($plugins_view_header_navigation_top_left_begin_data) and is_array($plugins_view_header_navigation_top_left_begin_data)}}
+                            {{foreach $plugins_view_header_navigation_top_left_begin_data as $hook}}
+                                {{if is_string($hook) or is_int($hook)}}
+                                    {{$hook|raw}}
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+
+                        {{if empty($user)}}
+                            <em>您好，欢迎来到</em>
+                            <em>{{:MyC('home_site_name')}}</em>
+                            {{if !empty($home_user_login_type)}}
+                                [<a href="{{:MyUrl('index/user/logininfo')}}">登录</a>]
                             {{/if}}
-                        {{/foreach}}
-                    {{/if}}
-
-                    {{if empty($user)}}
-                        <em>您好，欢迎来到</em>
-                        <em>{{:MyC('home_site_name')}}</em>
-                        {{if !empty($home_user_login_type)}}
-                            [<a href="{{:MyUrl('index/user/logininfo')}}">登录</a>]
-                        {{/if}}
-                        {{if !empty($home_user_reg_type)}}
-                            [<a href="{{:MyUrl('index/user/reginfo')}}">注册</a>]
-                        {{/if}}
-                    {{else /}}
-                        <em>您好</em>
-                        {{if !empty($user['icon'])}}
-                            <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
-                        {{/if}}
-                        <em>{{$user.user_name_view}}，欢迎来到</em>
-                        <em>{{:MyC('home_site_name')}}</em>
-                        [<a href="{{:MyUrl('index/user/logout')}}">退出</a>]
-                    {{/if}}
-
-                    <!-- 公共顶部小导航钩子-左侧后面 -->
-                    {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                        <div class="plugins-tag">
-                            <span>plugins_view_header_navigation_top_left_end</span>
-                        </div>
-                    {{/if}}
-                    {{if !empty($plugins_view_header_navigation_top_left_end_data) and is_array($plugins_view_header_navigation_top_left_end_data)}}
-                        {{foreach $plugins_view_header_navigation_top_left_end_data as $hook}}
-                            {{if is_string($hook) or is_int($hook)}}
-                                {{$hook|raw}}
+                            {{if !empty($home_user_reg_type)}}
+                                [<a href="{{:MyUrl('index/user/reginfo')}}">注册</a>]
                             {{/if}}
-                        {{/foreach}}
-                    {{/if}}
-                </div>
-            </div>
-        </ul>
+                        {{else /}}
+                            <em>您好</em>
+                            {{if !empty($user['icon'])}}
+                                <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
+                            {{/if}}
+                            <em>{{$user.user_name_view}}，欢迎来到</em>
+                            <em>{{:MyC('home_site_name')}}</em>
+                            [<a href="{{:MyUrl('index/user/logout')}}">退出</a>]
+                        {{/if}}
 
-        <ul class="top-nav-right">
-            <!-- 公共顶部小导航钩子-右侧前面 -->
-            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                <div class="plugins-tag">
-                    <span>plugins_view_header_navigation_top_right_begin</span>
-                </div>
-            {{/if}}
-            {{if !empty($plugins_view_header_navigation_top_right_begin_data) and is_array($plugins_view_header_navigation_top_right_begin_data)}}
-                {{foreach $plugins_view_header_navigation_top_right_begin_data as $hook}}
-                    {{if is_string($hook) or is_int($hook)}}
-                        {{$hook|raw}}
-                    {{/if}}
-                {{/foreach}}
-            {{/if}}
-
-            <!-- 非首页则展示首页入口 -->
-            {{if MyC('home_header_top_is_home', 0) eq 1 and $module_name.$controller_name.$action_name neq 'indexindexindex'}}
-                <div class="top-nav-items top-nav-items-home">
-                    <div class="menu-hd ">
-                        <a href="{{$home_url}}" target="_top">
-                            <i class="am-icon-fw am-icon-home"></i>
-                            <span>商城首页</span>
-                        </a>
+                        <!-- 公共顶部小导航钩子-左侧后面 -->
+                        {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                            <div class="plugins-tag">
+                                <span>plugins_view_header_navigation_top_left_end</span>
+                            </div>
+                        {{/if}}
+                        {{if !empty($plugins_view_header_navigation_top_left_end_data) and is_array($plugins_view_header_navigation_top_left_end_data)}}
+                            {{foreach $plugins_view_header_navigation_top_left_end_data as $hook}}
+                                {{if is_string($hook) or is_int($hook)}}
+                                    {{$hook|raw}}
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
                     </div>
                 </div>
-            {{/if}}
+            </ul>
 
-            <!-- 右侧导航 -->
-            {{if !empty($common_nav_top_right_list) and is_array($common_nav_top_right_list)}}
-                {{foreach $common_nav_top_right_list as $nav}}
-                    {{if empty($nav['items'])}}
-                        <div class="top-nav-items {{if !empty($nav['type'])}}top-nav-items-{{$nav.type}}{{/if}}">
-                            <div class="menu-hd {{if isset($nav['is_login']) and $nav['is_login'] eq 1 and empty($user)}}login-event{{/if}}">
-                                <a href="{{if empty($user)}}javascript:;{{else /}}{{$nav.url}}{{/if}}" target="_top">
-                                    <i class="am-icon-fw {{$nav.icon}}"></i>
-                                    <span>{{$nav.name}}</span>
-                                    {{if isset($nav['badge']) and $nav['badge'] gt -1}}
-                                        {{if $nav['badge'] gt 0}}
-                                            <strong class="am-badge am-badge-danger am-round {{if isset($nav['type']) and $nav['type'] eq 'cart'}}common-cart-total{{/if}}">{{$nav.badge}}</strong>
-                                        {{else /}}
-                                            <strong class="am-round {{if isset($nav['type']) and $nav['type'] eq 'cart'}}common-cart-total{{/if}}">{{$nav.badge}}</strong>
+            <ul class="top-nav-right">
+                <!-- 公共顶部小导航钩子-右侧前面 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_header_navigation_top_right_begin</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_header_navigation_top_right_begin_data) and is_array($plugins_view_header_navigation_top_right_begin_data)}}
+                    {{foreach $plugins_view_header_navigation_top_right_begin_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+
+                <!-- 非首页则展示首页入口 -->
+                {{if MyC('home_header_top_is_home', 0) eq 1 and $module_name.$controller_name.$action_name neq 'indexindexindex'}}
+                    <div class="top-nav-items top-nav-items-home">
+                        <div class="menu-hd ">
+                            <a href="{{$home_url}}" target="_top">
+                                <i class="am-icon-fw am-icon-home"></i>
+                                <span>商城首页</span>
+                            </a>
+                        </div>
+                    </div>
+                {{/if}}
+
+                <!-- 右侧导航 -->
+                {{if !empty($common_nav_top_right_list) and is_array($common_nav_top_right_list)}}
+                    {{foreach $common_nav_top_right_list as $nav}}
+                        {{if empty($nav['items'])}}
+                            <div class="top-nav-items {{if !empty($nav['type'])}}top-nav-items-{{$nav.type}}{{/if}}">
+                                <div class="menu-hd {{if isset($nav['is_login']) and $nav['is_login'] eq 1 and empty($user)}}login-event{{/if}}">
+                                    <a href="{{if empty($user)}}javascript:;{{else /}}{{$nav.url}}{{/if}}" target="_top">
+                                        <i class="am-icon-fw {{$nav.icon}}"></i>
+                                        <span>{{$nav.name}}</span>
+                                        {{if isset($nav['badge']) and $nav['badge'] gt -1}}
+                                            {{if $nav['badge'] gt 0}}
+                                                <strong class="am-badge am-badge-danger am-round {{if isset($nav['type']) and $nav['type'] eq 'cart'}}common-cart-total{{/if}}">{{$nav.badge}}</strong>
+                                            {{else /}}
+                                                <strong class="am-round {{if isset($nav['type']) and $nav['type'] eq 'cart'}}common-cart-total{{/if}}">{{$nav.badge}}</strong>
+                                            {{/if}}
                                         {{/if}}
-                                    {{/if}}
-                                </a>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    {{else /}}
-                        <div class="top-nav-items {{if !empty($nav['type'])}}top-nav-items-{{$nav.type}}{{/if}}">
-                            <div class="am-dropdown menu-hd" data-am-dropdown>
-                                <a class="am-dropdown-toggle" href="javascript:;" target="_top" data-am-dropdown-toggle>
-                                    <i class="am-icon-fw {{$nav.icon}}"></i>
-                                    <span>{{$nav.name}}</span>
-                                    <i class="am-icon-angle-down"></i>
-                                </a>
-                                <ul class="am-dropdown-content">
-                                    {{foreach $nav.items as $navs}}
-                                        <li class="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}login-event{{/if}}">
-                                            <a href="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}javascript:;{{else /}}{{$navs.url}}{{/if}}">{{$navs.name}}</a>
-                                        </li>
-                                    {{/foreach}}
-                                </ul>
+                        {{else /}}
+                            <div class="top-nav-items {{if !empty($nav['type'])}}top-nav-items-{{$nav.type}}{{/if}}">
+                                <div class="am-dropdown menu-hd" data-am-dropdown>
+                                    <a class="am-dropdown-toggle" href="javascript:;" target="_top" data-am-dropdown-toggle>
+                                        <i class="am-icon-fw {{$nav.icon}}"></i>
+                                        <span>{{$nav.name}}</span>
+                                        <i class="am-icon-angle-down"></i>
+                                    </a>
+                                    <ul class="am-dropdown-content">
+                                        {{foreach $nav.items as $navs}}
+                                            <li class="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}login-event{{/if}}">
+                                                <a href="{{if ((isset($nav['is_login']) and $nav['is_login'] eq 1) or (isset($navs['is_login']) and $navs['is_login'] eq 1)) and empty($user)}}javascript:;{{else /}}{{$navs.url}}{{/if}}">{{$navs.name}}</a>
+                                            </li>
+                                        {{/foreach}}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    {{/if}}
-                {{/foreach}}
-            {{/if}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
 
-            <!-- 公共顶部小导航钩子-右侧后面 -->
-            {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
-                <div class="plugins-tag">
-                    <span>plugins_view_header_navigation_top_right_end</span>
-                </div>
-            {{/if}}
-            {{if !empty($plugins_view_header_navigation_top_right_end_data) and is_array($plugins_view_header_navigation_top_right_end_data)}}
-                {{foreach $plugins_view_header_navigation_top_right_end_data as $hook}}
-                    {{if is_string($hook) or is_int($hook)}}
-                        {{$hook|raw}}
-                    {{/if}}
-                {{/foreach}}
-            {{/if}}
-        </ul>
+                <!-- 公共顶部小导航钩子-右侧后面 -->
+                {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
+                    <div class="plugins-tag">
+                        <span>plugins_view_header_navigation_top_right_end</span>
+                    </div>
+                {{/if}}
+                {{if !empty($plugins_view_header_navigation_top_right_end_data) and is_array($plugins_view_header_navigation_top_right_end_data)}}
+                    {{foreach $plugins_view_header_navigation_top_right_end_data as $hook}}
+                        {{if is_string($hook) or is_int($hook)}}
+                            {{$hook|raw}}
+                        {{/if}}
+                    {{/foreach}}
+                {{/if}}
+            </ul>
+        </div>
     </div>
-</div>
-<!-- 顶部导航条 end -->
+    <!-- 顶部导航条 end -->
+{{/if}}

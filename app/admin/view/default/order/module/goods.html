@@ -116,6 +116,9 @@
                     <img src="{{$item['images']}}" class="am-img-thumbnail am-radius am-margin-right-xs am-fl" width="35" height="35" />
                 </a>
                 <a href="{{:MyUrl('index/goods/index', ['id'=>$item['goods_id']])}}" target="_blank" title="{{$item.title}}" {{if !empty($item['title_color'])}} style="color:{{$item.title_color}};" {{/if}} class="am-nowrap-initial">{{$item.title}}</a>
+                {{if !empty($item['model'])}}
+                    <span class="am-badge am-badge-default-plain am-radius">{{$item.model}}</span>
+                {{/if}}
             </div>
             <div class="other am-nbfc">
                 {{if !empty($item['spec_text'])}}

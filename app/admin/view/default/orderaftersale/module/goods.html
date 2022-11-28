@@ -57,6 +57,9 @@
         </a>
         <div class="am-nbfc">
             <a href="{{$module_data.order_data.items.goods_url}}" target="_blank" class="am-nowrap-initial">{{$module_data.order_data.items.title}}</a>
+            {{if !empty($module_data.order_data.items.model)}}
+                <span class="am-badge am-badge-default-plain am-radius">{{$module_data.order_data.items.model}}</span>
+            {{/if}}
             {{if !empty($module_data.order_data.items.spec)}}
                 <ul class="goods-spec am-margin-top-xs">
                     {{foreach $module_data.order_data.items.spec as $spec}}
