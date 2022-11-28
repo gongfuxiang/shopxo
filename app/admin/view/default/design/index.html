@@ -21,19 +21,19 @@
             </div>
             <div class="am-popup-bd">
                 <!-- win form start -->
-                <form class="am-form form-validation" action="{{:MyUrl('admin/design/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+                <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/design/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
                     <div class="am-alert am-radius am-alert-tips">
                         <p class="am-margin-top-xs">1. 选择已下载的页面设计zip包</p>
                         <p class="am-margin-top-xs">2. 导入将自动新增一条数据</p>
                     </div>
-                    <div class="am-form-group">
+                    <div class="am-form-group am-form-group-refreshing">
                         <div class="am-form-file">
                             <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> 选择文件</button>
                             <input type="file" name="file" class="file-event" data-tips-tag="#form-payment-tips" data-validation-message="请选择需要上传的文件" accept=".zip" multiple required />
                             <div id="form-payment-tips" class="am-margin-top-xs"></div>
                         </div>
                     </div>
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
+                    <div class="am-form-popup-submit">
                         <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认</button>
                     </div>
                 </form>

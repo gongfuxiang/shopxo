@@ -541,8 +541,8 @@ class DesignService
      * @version 1.0.0
      * @date    2022-04-19
      * @desc    description
-     * @param    [string]         $package_file [软件包地址]
-     * @param    [array]          $params       [输入参数]
+     * @param   [string]         $package_file [软件包地址]
+     * @param   [array]          $params       [输入参数]
      */
     public static function DesignUploadHandle($package_file, $params = [])
     {
@@ -626,6 +626,7 @@ class DesignService
                             return DataReturn('数据更新失败', -1);
                         }
                     }
+                    $success++;
                     continue;
                 }
 
@@ -666,7 +667,11 @@ class DesignService
         // 附件同步到数据库
         ResourcesService::AttachmentDiskFilesToDb('design', self::AttachmentPathTypeValue($data_id));
 
-        return DataReturn('导入成功');
+        if($success > 0)
+        {
+            return DataReturn('导入成功', 0);
+        }
+        return DataReturn('无效数据包', -1);
     }
 }
 ?>
