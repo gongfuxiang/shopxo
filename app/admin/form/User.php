@@ -63,7 +63,17 @@ class User
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'input',
-                        'form_name'         => 'id',
+                        'where_type'        => '=',
+                    ],
+                ],
+                [
+                    'label'         => '会员码',
+                    'view_type'     => 'field',
+                    'view_key'      => 'number_code',
+                    'width'         => 110,
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'         => 'input',
                         'where_type'        => '=',
                     ],
                 ],
