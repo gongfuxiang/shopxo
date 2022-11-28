@@ -70,9 +70,11 @@
                                                         {{foreach $vss.config.data_list as $ik=>$i}}
                                                             <li>
                                                                 <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
-                                                                    <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                                                        <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
-                                                                    </a>
+                                                                    {{if !empty($i['images'])}}
+                                                                        <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                            <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                        </a>
+                                                                    {{/if}}
                                                                     {{if !empty($i['title'])}}
                                                                         <a href="javascript:ModuleToPrompt('{{$i.name}}');">
                                                                             <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
@@ -92,9 +94,11 @@
                                                     {{foreach $vss.config.data_list as $ik=>$i}}
                                                         <li>
                                                             <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
-                                                                <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="am-fl {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
-                                                                </a>
+                                                                {{if !empty($i['images'])}}
+                                                                    <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="am-fl {{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                        <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                    </a>
+                                                                {{/if}}
                                                                 <div class="am-fl" style="{{$vss.config.frontend_config.item_right_style}}">
                                                                     {{if !empty($i['title'])}}
                                                                         <a href="javascript:ModuleToPrompt('{{$i.name}}');">
@@ -115,9 +119,11 @@
                                                     {{foreach $vss.config.data_list as $ik=>$i}}
                                                         <li>
                                                             <div class="module-item" style="{{$vss.config.frontend_config.item_style}}">
-                                                                <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
-                                                                    <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
-                                                                </a>
+                                                                {{if !empty($i['images'])}}
+                                                                    <a href="javascript:ModuleToPrompt('{{$i.name}}');" class="{{$vss.config.frontend_config.media_fixed.media_container_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}">
+                                                                        <img src="{{$i.images}}" class="{{$vss.config.frontend_config.media_fixed.media_ent}}" style="{{$vss.config.frontend_config.media_fixed.media_container_style}}" />
+                                                                    </a>
+                                                                {{/if}}
                                                                 {{if !empty($i['title'])}}
                                                                     <a href="javascript:ModuleToPrompt('{{$i.name}}');">
                                                                         <p style="{{if !empty($vss['config']['frontend_config']['item_field_style']) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]) and !empty($vss['config']['frontend_config']['item_field_style'][$ik]['title'])}} {{$vss.config.frontend_config.item_field_style[$ik]['title']}}{{/if}}">{{$i.title}}</p>
