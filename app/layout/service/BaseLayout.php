@@ -338,7 +338,7 @@ class BaseLayout
         if(!empty($config))
         {
             // 缓存key
-            $cache_key = md5(is_array($config) ? json_encode($config, JSON_UNESCAPED_UNICODE) : $config);
+            $cache_key = md5(is_array($config) ? json_encode($config, JSON_UNESCAPED_UNICODE) : $config).APPLICATION_CLIENT_TYPE;
             $data = MyCache($cache_key);
             if(empty($data) || MyEnv('app_debug'))
             {
