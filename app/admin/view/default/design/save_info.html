@@ -1,31 +1,31 @@
 {{include file="public/header" /}}
 
 {{if !empty($data)}}
-    <div class="am-container">
-        <legend class="am-padding-horizontal-xs am-padding-bottom-xs">
-            <img src="{{if empty($data['logo'])}}{{$attachment_host}}/static/common/images/default-images-mini.png{{else /}}{{$data.logo}}{{/if}}" class="am-img-thumbnail am-radius page-top-nav-logo" />
-            <span class="page-top-nav-title">
-                <span class="am-text-xs">{{$data.name}}</span>
-                <a href="javascript:;" class="am-icon-eyedropper am-text-xs am-margin-left-xs" data-am-modal="{target: '#popup-saveinfo'}"></a>
-            </span>
-            <a href="{{:MyUrl('index/design/index', ['id'=>$data['id']])}}" target="_blank" class="am-fr am-text-xs am-margin-top-sm">查看 >></a>
-        </legend>
-        <div class="am-padding-bottom-sm">
-            <div class="layout-operate-container am-fr" data-save-url="{{:MyUrl('admin/design/save')}}" data-json="{{:urlencode(json_encode($data))}}">
-                <a href="javascript:;" class="am-btn am-btn-warning am-btn-xs am-radius window-close-event" data-msg="请确认数据是否保存、继续关闭本页吗？">关闭</a>
-                <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-margin-left-sm" data-am-loading="{loadingText:'处理中...'}">保存</button>
-            </div>
-            {{include file="../../../layout/view/base" /}}
+    <legend class="am-padding-horizontal-xs am-padding-bottom-xs">
+        <img src="{{if empty($data['logo'])}}{{$attachment_host}}/static/common/images/default-images-mini.png{{else /}}{{$data.logo}}{{/if}}" class="am-img-thumbnail am-radius page-top-nav-logo" />
+        <span class="page-top-nav-title">
+            <span class="am-text-xs">{{$data.name}}</span>
+            <a href="javascript:;" class="am-icon-eyedropper am-text-xs am-margin-left-xs" data-am-modal="{target: '#popup-saveinfo'}"></a>
+        </span>
+        <a href="{{:MyUrl('index/design/index', ['id'=>$data['id']])}}" target="_blank" class="am-fr am-text-xs am-margin-top-sm">查看 >></a>
+    </legend>
+    <div class="am-padding-bottom-sm">
+        <div class="layout-operate-container am-fr" data-save-url="{{:MyUrl('admin/design/save')}}" data-json="{{:urlencode(json_encode($data))}}">
+            <a href="javascript:;" class="am-btn am-btn-warning am-btn-xs am-radius window-close-event am-icon-close" data-msg="请确认数据是否保存、继续关闭本页吗？"> 关闭</a>
+            <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-margin-left-sm am-icon-save" data-am-loading="{loadingText:' 处理中...'}"> 保存</button>
         </div>
+        {{include file="../../../layout/view/base" /}}
     </div>
 
     <!-- 页面编辑-->
     {{include file="design/popup_saveinfo" /}}
 {{else /}}
     <div class="table-no">
-        <i class="am-icon-warning"></i>
-        <span>请先添加数据</span>
-        <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-text-secondary am-margin-left-sm"> 去添加数据 >></a>
+        <i class="am-icon-skyatlas am-icon-lg"></i>
+        <div class="am-margin-top-sm">
+            <span>请先添加数据</span>
+            <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-text-secondary am-margin-left-sm"> 去添加数据 >></a>
+        </div>
     </div>
 {{/if}}
 

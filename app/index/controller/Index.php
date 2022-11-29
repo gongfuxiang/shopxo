@@ -111,6 +111,7 @@ class Index extends Common
             $assign['goods_view_list_show_style'] = BaseLayout::$goods_view_list_show_style;
             $assign['many_images_view_list_show_style'] = BaseLayout::$many_images_view_list_show_style;
             $assign['images_text_view_list_show_style'] = BaseLayout::$images_text_view_list_show_style;
+            $assign['images_magic_cube_view_list_show_style'] = BaseLayout::$images_magic_cube_view_list_show_style;
 
             // 首页商品排序规则
             $assign['goods_order_by_type_list'] = MyConst('goods_order_by_type_list');

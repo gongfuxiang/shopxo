@@ -1,5 +1,6 @@
 // 公共列表 form 搜索条件
 FromInit('form.form-validation-layout-config');
+FromInit('form.form-validation-layout-module-config');
 FromInit('form.form-validation-module-offcanvas-images');
 FromInit('form.form-validation-module-offcanvas-many-images');
 FromInit('form.form-validation-module-offcanvas-images-text');
@@ -24,6 +25,7 @@ var $base_show_style_value_obj = null;
 var $base_title_keywords_obj = null;
 var $layout = $('.layout-container');
 var $offcanvas_layout_config = $('#offcanvas-layout-config');
+var $offcanvas_layout_module_config = $('#offcanvas-layout-module-config');
 var $offcanvas_config_images = $('#offcanvas-module-config-images');
 var $offcanvas_config_many_images = $('#offcanvas-module-config-many-images');
 var $offcanvas_config_images_text = $('#offcanvas-module-config-images-text');
@@ -447,7 +449,7 @@ function MediaFixedHandle(data)
 }
 
 /**
- * 模块-容器设置处理
+ * 布局-容器设置处理
  * @author  Devil
  * @blog    http://gong.gg/
  * @version 1.0.0
@@ -502,7 +504,104 @@ function FormBackLayoutConfigHandle(data)
             }
         }
     }
+    // 圆角
+    for(var i in size_arr)
+    {
+        var key = 'style_'+size_arr[i]+'_border_radius';
+        if((data[key] || 0) > 0)
+        {
+            ent += 'layout-'+size_arr[i]+'-border-radius-'+data[key]+' ';
+        }
+    }
+    // 系统标准限宽
+    if((data['width_max_limit_value'] || null) != null)
+    {
+        ent += 'am-container ';
+    }
 
+    // 样式处理
+    var style = '';
+
+    // 背景色
+    if((data['style_background_color'] || null) != null)
+    {
+        style += 'background-color:'+data['style_background_color']+';';
+    }
+    // 边线颜色
+    if((data['style_border_color'] || null) != null)
+    {
+        style += 'border-color:'+data['style_border_color']+';';
+    }
+
+    // 类和样式处理
+    $layout_content_obj.attr('class', $offcanvas_layout_config.attr('data-ent')+' '+ent);
+    $layout_content_obj.attr('style', style);
+
+    // 数据加入配置
+    data['frontend_config'] = {
+        "style": style,
+        "ent": ent
+    }
+    $layout_content_obj.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
+    $offcanvas_layout_config.offCanvas('close');
+}
+
+/**
+ * 布局模块-容器设置处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-05-18
+ * @desc    description
+ * @param   {[object]}        data [表单数据]
+ */
+function FormBackLayoutModuleConfigHandle(data)
+{
+    // 基础信息
+    if($layout_content_obj == null)
+    {
+        Prompt('操作标记有误');
+        return false;
+    }
+
+    // 标签类定义
+    var ent = '';
+
+    // 边线大小、外边距、内边距
+    var size_arr = ['sm', 'md', 'lg'];
+    var angle_arr = ['top', 'right', 'bottom', 'left'];
+    var type_arr = {
+        "style_{var}_border_width": "layout-{var}-border",
+        "style_{var}_margin": "layout-{var}-margin",
+        "style_{var}_padding": "layout-{var}-padding",
+    };
+    for(var a in size_arr)
+    {
+        for(var b in type_arr)
+        {
+            for(var c in angle_arr)
+            {
+                var key = b.replace('{var}', size_arr[a])+'_'+angle_arr[c];
+                if((data[key] || 0) > 0)
+                {
+                    ent += type_arr[b].replace('{var}', size_arr[a])+'-'+angle_arr[c]+'-'+data[key]+' ';
+                }
+            }
+        }
+    }
+
+    // 边线类型
+    for(var a in size_arr)
+    {
+        for(var b in angle_arr)
+        {
+            var key = 'style_'+size_arr[a]+'_border_style_'+angle_arr[b];
+            if((data[key] || null) != null)
+            {
+                ent += 'layout-'+size_arr[a]+'-border-'+angle_arr[b]+'-'+data[key]+' ';
+            }
+        }
+    }
     // 圆角
     for(var i in size_arr)
     {
@@ -537,7 +636,7 @@ function FormBackLayoutConfigHandle(data)
         "ent": ent
     }
     $layout_content_obj.attr('data-json', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data)))));
-    $offcanvas_layout_config.offCanvas('close');
+    $offcanvas_layout_module_config.offCanvas('close');
 }
 
 /**
@@ -3058,14 +3157,14 @@ $(function()
         });
     });
 
-    // 容器设置
+    // 布局容器设置
     $(document).on('click', '.layout-content-submit-set', function()
     {
         // 容器内容对象
         $layout_content_obj = $(this).parents('.layout-content-container');
 
         // 配置数据
-        var config_doc = '#offcanvas-layout-config';
+        var config_doc = '#offcanvas-layout-module-config';
         var json = $layout_content_obj.attr('data-json') || null;
         if(json != null)
         {
@@ -3087,10 +3186,10 @@ $(function()
         ModuleColorpickerHandle($offcanvas_layout_config);
 
         // 指定操作类型
-        $offcanvas_layout_config.attr('data-ent', 'layout-content-container');
+        $offcanvas_layout_module_config.attr('data-ent', 'layout-content-container');
 
         // 打开配置
-        $offcanvas_layout_config.offCanvas('open');
+        $offcanvas_layout_module_config.offCanvas('open');
     });
 
     // 模块拖放

@@ -23,13 +23,7 @@ time, mark, audio, video {
 }
 body {font-size: 12px;margin:0;color:#666;}
 html,body {position:relative;height:100%;width:100%;}
-h1 {line-height:42px;}
-h2 {line-height:32px;}
-h3 small {color:#444444;}
-h4 {line-height:22px;}
-h4 small {color:#444444;}
-h5 {font-size:15px;}
-h5 small {color:#444444;}
+h3 small,h4 small,h5 small {color:#4444;}
 b {font-weight:600;}
 i{ font-style: normal; }
 a:hover {outline:0;text-decoration:none;}

@@ -1,8 +1,8 @@
 <!-- 侧边栏 - 布局 - 容器设置 -->
-<div id="offcanvas-layout-config" class="am-offcanvas module-offcanvas-container">
+<div id="offcanvas-layout-module-config" class="am-offcanvas module-offcanvas-container">
     <div class="am-offcanvas-bar">
         <div class="am-offcanvas-content am-padding-0">
-            <form class="am-form form-validation-layout-config" request-type="sync" request-value="FormBackLayoutConfig">
+            <form class="am-form form-validation-layout-module-config" request-type="sync" request-value="FormBackLayoutModuleConfig">
                 <!-- 基础样式 -->
                 <div class="am-panel am-panel-default">
                     <div class="am-panel-hd">基础样式</div>
@@ -12,11 +12,6 @@
 
                         <!-- 边线颜色 -->
                         {{include file="../../../layout/view/public/style/color" key="_border" required="" name="边线颜色"  /}}
-
-                        <!-- 系统标准限宽 -->
-                        <label class="am-checkbox-inline">
-                            <input type="checkbox" name="width_max_limit_value" value="1" data-am-ucheck checked /> 系统标准限宽(1000px、1200px)
-                        </label>
                     </div>
                 </div>
 

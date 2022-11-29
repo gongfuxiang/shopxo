@@ -17,13 +17,13 @@
 <!-- header nav end -->
 
 <!-- content start -->
-<div class="am-container">
-    {{if !empty($layout_data)}}
-        {{include file="../../../layout/view/view" /}}
-    {{else /}}
+{{if !empty($layout_data)}}
+    {{include file="../../../layout/view/view" /}}
+{{else /}}
+    <div class="am-container">
         {{include file="public/not_data" /}}
-    {{/if}}
-</div>
+    </div>
+{{/if}}
 <!-- content end -->
 
 <!-- footer start -->

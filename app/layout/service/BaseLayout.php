@@ -337,166 +337,177 @@ class BaseLayout
     {
         if(!empty($config))
         {
-            // 是否数组
-            if(!is_array($config))
+            // 缓存key
+            $cache_key = md5(is_array($config) ? json_encode($config, JSON_UNESCAPED_UNICODE) : $config);
+            $data = MyCache($cache_key);
+            if(empty($data) || MyEnv('app_debug'))
             {
-                $config = json_decode($config, true);
-            }
-            if(!empty($config))
-            {
-                foreach($config as &$v)
+                // 是否数组
+                if(!is_array($config))
                 {
-                    // 配置信息处理
-                    if(!empty($v['config']))
+                    $config = json_decode($config, true);
+                }
+                if(!empty($config))
+                {
+                    foreach($config as &$v)
                     {
                         // 配置信息处理
-                        $v['config'] = self::ConfigViewFieldHandle($v['config']);
-                    }
-
-                    // 布局类型
-                    $v['value_arr'] = explode(':', $v['value']);
-
-                    // 布局
-                    if(!empty($v['children']) && is_array($v['children']))
-                    {
-                        foreach($v['children'] as &$vs)
+                        if(!empty($v['config']))
                         {
                             // 配置信息处理
-                            if(!empty($vs['config']))
+                            $v['config'] = self::ConfigViewFieldHandle($v['config']);
+                        }
+
+                        // 布局类型
+                        $v['value_arr'] = explode(':', $v['value']);
+
+                        // 布局
+                        if(!empty($v['children']) && is_array($v['children']))
+                        {
+                            foreach($v['children'] as &$vs)
                             {
                                 // 配置信息处理
-                                $vs['config'] = self::ConfigViewFieldHandle($vs['config']);
-                            }
-
-                            // 容器
-                            if(!empty($vs['children']) && is_array($vs['children']))
-                            {
-                                // 模块
-                                foreach($vs['children'] as &$vss)
+                                if(!empty($vs['config']))
                                 {
-                                    if(!empty($vss['value']) && !empty($vss['config']))
+                                    // 配置信息处理
+                                    $vs['config'] = self::ConfigViewFieldHandle($vs['config']);
+                                }
+
+                                // 容器
+                                if(!empty($vs['children']) && is_array($vs['children']))
+                                {
+                                    // 模块
+                                    foreach($vs['children'] as &$vss)
                                     {
-                                        // 配置信息处理
-                                        $vss['config'] = self::ConfigViewFieldHandle($vss['config']);
-
-                                        // 根据模块类型处理
-                                        switch($vss['value'])
+                                        if(!empty($vss['value']) && !empty($vss['config']))
                                         {
-                                            // 视频 video
-                                            case 'video' :
-                                                $vss['config']['video'] = ResourcesService::AttachmentPathViewHandle($vss['config']['content_video']);
-                                                unset($vss['config']['content_video']);
-                                                break;
+                                            // 配置信息处理
+                                            $vss['config'] = self::ConfigViewFieldHandle($vss['config']);
 
-                                            // 单图 images
-                                            case 'images' :
-                                                // 配置重新组合
-                                                $vss['config'] = [
-                                                    'frontend_config'   => $vss['config']['frontend_config'],
-                                                    'images'            => ResourcesService::AttachmentPathViewHandle($vss['config']['content_images']),
-                                                    'url'               => self::LayoutUrlValueHandle($vss['config']['content_to_type'], $vss['config']['content_to_value']),
-                                                ];
-                                                break;
+                                            // 根据模块类型处理
+                                            switch($vss['value'])
+                                            {
+                                                // 视频 video
+                                                case 'video' :
+                                                    $vss['config']['video'] = ResourcesService::AttachmentPathViewHandle($vss['config']['content_video']);
+                                                    unset($vss['config']['content_video']);
+                                                    break;
 
-                                            // 多图 many-images
-                                            case 'many-images' :
-                                                foreach($vss['config']['data_list'] as &$mil)
-                                                {
-                                                    $mil = [
-                                                        'images'    => ResourcesService::AttachmentPathViewHandle($mil['images']),
-                                                        'url'       => self::LayoutUrlValueHandle($mil['type'], $mil['value']),
+                                                // 单图 images
+                                                case 'images' :
+                                                    // 配置重新组合
+                                                    $vss['config'] = [
+                                                        'frontend_config'   => $vss['config']['frontend_config'],
+                                                        'images'            => ResourcesService::AttachmentPathViewHandle($vss['config']['content_images']),
+                                                        'url'               => self::LayoutUrlValueHandle($vss['config']['content_to_type'], $vss['config']['content_to_value']),
                                                     ];
-                                                }
-                                                break;
+                                                    break;
 
-                                            // 图文 images-text
-                                            case 'images-text' :
-                                                foreach($vss['config']['data_list'] as &$itl)
-                                                {
-                                                    $itl['images'] = ResourcesService::AttachmentPathViewHandle($itl['images']);
-                                                    $itl['url'] = self::LayoutUrlValueHandle($itl['type'], $itl['value']);
-                                                }
-                                                break;
-
-                                            // 图片魔方 images-magic-cube
-                                            case 'images-magic-cube' :
-                                                foreach($vss['config']['data_list'] as &$imc)
-                                                {
-                                                    $imc['images'] = ResourcesService::AttachmentPathViewHandle($imc['images']);
-                                                    $imc['url'] = self::LayoutUrlValueHandle($imc['type'], $imc['value']);
-                                                }
-                                                break;
-
-                                            // 商品
-                                            case 'goods' :
-                                                $p = [
-                                                    'data_type'     => $vss['config']['goods_data_type'],
-                                                ];
-                                                switch($vss['config']['goods_data_type'])
-                                                {
-                                                    // 指定商品
-                                                    case 'goods' :
-                                                        $p['goods_ids'] = $vss['config']['goods_ids'];
-                                                        break;
-
-                                                    // 商品分类
-                                                    case 'category' :
-                                                        $category = json_decode(urldecode($vss['config']['goods_category_value']), true);
-                                                        $p['category_id'] = $category[count($category)-1]['id'];
-                                                        $p['order_limit_number'] = empty($vss['config']['goods_order_limit_number']) ? 0 : $vss['config']['goods_order_limit_number'];
-                                                        $p['order_by_type'] = isset($vss['config']['goods_order_by_type']) ? $vss['config']['goods_order_by_type'] : 0;
-                                                        $p['order_by_rule'] = isset($vss['config']['goods_order_by_rule']) ? $vss['config']['goods_order_by_rule'] : 0;
-                                                        break;
-                                                }
-                                                $res = self::GoodsDataList($p);
-                                                if(!empty($res['data']) && is_array($res['data']))
-                                                {
-                                                    foreach($res['data'] as &$g)
+                                                // 多图 many-images
+                                                case 'many-images' :
+                                                    foreach($vss['config']['data_list'] as &$mil)
                                                     {
-                                                        $g['goods_url'] = self::LayoutUrlValueHandle('goods', $g);
-                                                    }
-                                                }
-                                                $vss['config']['data_list'] = $res['data'];
-                                                break;
-
-                                            // 标题
-                                            case 'title' :
-                                                // 关键字
-                                                $keywords_list = [];
-                                                if(!empty($vss['config']['keywords_list']))
-                                                {
-                                                    foreach($vss['config']['keywords_list'] as $wd)
-                                                    {
-                                                        $keywords_list[] = [
-                                                            'keywords'  => $wd['content_keywords'],
-                                                            'color'     => empty($wd['style_keywords_color']) ? '' : $wd['style_keywords_color'],
-                                                            'url'       => self::LayoutUrlValueHandle($wd['content_to_type'], $wd['content_to_value']),
+                                                        $mil = [
+                                                            'images'    => ResourcesService::AttachmentPathViewHandle($mil['images']),
+                                                            'url'       => self::LayoutUrlValueHandle($mil['type'], $mil['value']),
                                                         ];
                                                     }
-                                                }
+                                                    break;
 
-                                                // 配置重新组合
-                                                $vss['config'] = [
-                                                    'frontend_config'   => $vss['config']['frontend_config'],
-                                                    'title'             => $vss['config']['content_title'],
-                                                    'title_vice'        => $vss['config']['content_title_vice'],
-                                                    'title_more'        => $vss['config']['content_title_more'],
-                                                    'title_more_url'    => self::LayoutUrlValueHandle($vss['config']['content_to_type'], $vss['config']['content_to_value']),
-                                                    'keywords_list'     => $keywords_list,
-                                                ];
-                                                break;
+                                                // 图文 images-text
+                                                case 'images-text' :
+                                                    foreach($vss['config']['data_list'] as &$itl)
+                                                    {
+                                                        $itl['images'] = ResourcesService::AttachmentPathViewHandle($itl['images']);
+                                                        $itl['url'] = self::LayoutUrlValueHandle($itl['type'], $itl['value']);
+                                                    }
+                                                    break;
 
-                                            // 自定义html
-                                            case 'custom' :
-                                                $vss['config']['custom'] = empty($vss['config']['custom']) ? '' : htmlspecialchars_decode($vss['config']['custom']);
-                                                break;
+                                                // 图片魔方 images-magic-cube
+                                                case 'images-magic-cube' :
+                                                    foreach($vss['config']['data_list'] as &$imc)
+                                                    {
+                                                        $imc['images'] = ResourcesService::AttachmentPathViewHandle($imc['images']);
+                                                        $imc['url'] = self::LayoutUrlValueHandle($imc['type'], $imc['value']);
+                                                    }
+                                                    break;
+
+                                                // 商品
+                                                case 'goods' :
+                                                    $p = [
+                                                        'data_type'     => $vss['config']['goods_data_type'],
+                                                    ];
+                                                    switch($vss['config']['goods_data_type'])
+                                                    {
+                                                        // 指定商品
+                                                        case 'goods' :
+                                                            $p['goods_ids'] = $vss['config']['goods_ids'];
+                                                            break;
+
+                                                        // 商品分类
+                                                        case 'category' :
+                                                            $category = json_decode(urldecode($vss['config']['goods_category_value']), true);
+                                                            $p['category_id'] = $category[count($category)-1]['id'];
+                                                            $p['order_limit_number'] = empty($vss['config']['goods_order_limit_number']) ? 0 : $vss['config']['goods_order_limit_number'];
+                                                            $p['order_by_type'] = isset($vss['config']['goods_order_by_type']) ? $vss['config']['goods_order_by_type'] : 0;
+                                                            $p['order_by_rule'] = isset($vss['config']['goods_order_by_rule']) ? $vss['config']['goods_order_by_rule'] : 0;
+                                                            break;
+                                                    }
+                                                    $res = self::GoodsDataList($p);
+                                                    if(!empty($res['data']) && is_array($res['data']))
+                                                    {
+                                                        foreach($res['data'] as &$g)
+                                                        {
+                                                            $g['goods_url'] = self::LayoutUrlValueHandle('goods', $g);
+                                                        }
+                                                    }
+                                                    $vss['config']['data_list'] = $res['data'];
+                                                    break;
+
+                                                // 标题
+                                                case 'title' :
+                                                    // 关键字
+                                                    $keywords_list = [];
+                                                    if(!empty($vss['config']['keywords_list']))
+                                                    {
+                                                        foreach($vss['config']['keywords_list'] as $wd)
+                                                        {
+                                                            $keywords_list[] = [
+                                                                'keywords'  => $wd['content_keywords'],
+                                                                'color'     => empty($wd['style_keywords_color']) ? '' : $wd['style_keywords_color'],
+                                                                'url'       => self::LayoutUrlValueHandle($wd['content_to_type'], $wd['content_to_value']),
+                                                            ];
+                                                        }
+                                                    }
+
+                                                    // 配置重新组合
+                                                    $vss['config'] = [
+                                                        'frontend_config'   => $vss['config']['frontend_config'],
+                                                        'title'             => $vss['config']['content_title'],
+                                                        'title_vice'        => $vss['config']['content_title_vice'],
+                                                        'title_more'        => $vss['config']['content_title_more'],
+                                                        'title_more_url'    => self::LayoutUrlValueHandle($vss['config']['content_to_type'], $vss['config']['content_to_value']),
+                                                        'keywords_list'     => $keywords_list,
+                                                    ];
+                                                    break;
+
+                                                // 自定义html
+                                                case 'custom' :
+                                                    $vss['config']['custom'] = empty($vss['config']['custom']) ? '' : htmlspecialchars_decode($vss['config']['custom']);
+                                                    break;
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+
+                    // 存储缓存
+                    MyCache($cache_key, $config, 180);
                 }
+            } else {
+                $config = $data;
             }
         }
         return $config;

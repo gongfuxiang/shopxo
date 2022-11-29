@@ -623,11 +623,9 @@
     height: 30px;
     vertical-align: middle;
 }
+.layout-operate-container {
+    margin-right: 10px;
+}
 .layout-operate-container .am-btn {
     padding: 4px 10px;
-}
-@media only screen and (max-width: 1025px) {
-    .layout-operate-container {
-        margin-right: 10px;
-    }
 }
