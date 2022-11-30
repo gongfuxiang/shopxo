@@ -82,8 +82,8 @@ class Page
 					{
 						continue;
 					}
-					$k = htmlspecialchars($k);
-					$v = htmlspecialchars($v);
+					$k = empty($k) ? $k : htmlspecialchars($k);
+					$v = empty($v) ? $v : htmlspecialchars($v);
 
 					if($tmp)
 					{
