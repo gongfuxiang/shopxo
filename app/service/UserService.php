@@ -1868,14 +1868,16 @@ class UserService
         // 更新用户信息
         if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
         {
-            // // web端用户登录纪录处理
-            if(APPLICATION == 'web')
+            // 重新获取用户信息
+            $user = self::UserHandle(self::UserInfo('id', $params['user']['id']));
+
+            // 重新更新用户缓存
+            self::UserLoginRecord($user['id']);
+            if(!empty($user['token']))
             {
-                self::UserLoginRecord($params['user']['id']);
+                MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user['token'], $user);
             }
 
-            // 成功并返回用户信息
-            $user = self::UserHandle(self::UserInfo('id', $params['user']['id']));
             return DataReturn(MyLang('common.change_success'), 0, $user);
         }
         return DataReturn(MyLang('common.change_fail'), -100);
