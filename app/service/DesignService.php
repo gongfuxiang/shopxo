@@ -665,7 +665,7 @@ class DesignService
         $zip->close();
 
         // 附件同步到数据库
-        ResourcesService::AttachmentDiskFilesToDb('design', self::AttachmentPathTypeValue($data_id));
+        ResourcesService::AttachmentDiskFilesToDb('design'.DS.$data_id, self::AttachmentPathTypeValue($data_id));
 
         if($success > 0)
         {
