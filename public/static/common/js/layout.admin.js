@@ -627,7 +627,7 @@ function FormBackLayoutModuleConfigHandle(data)
     }
 
     // 类和样式处理
-    $layout_content_obj.attr('class', $offcanvas_layout_config.attr('data-ent')+' '+ent);
+    $layout_content_obj.attr('class', $offcanvas_layout_module_config.attr('data-ent')+' '+ent);
     $layout_content_obj.attr('style', style);
 
     // 数据加入配置
@@ -3183,7 +3183,7 @@ $(function()
         FormDataFill(json, config_doc);
 
         // 背景色组件处理
-        ModuleColorpickerHandle($offcanvas_layout_config);
+        ModuleColorpickerHandle($offcanvas_layout_module_config);
 
         // 指定操作类型
         $offcanvas_layout_module_config.attr('data-ent', 'layout-content-container');
