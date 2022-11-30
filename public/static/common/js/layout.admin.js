@@ -890,7 +890,7 @@ function FormBackModuleConfigImagesTextHandle(data)
         "content_title_style_margin_top_": "title_style_margin_top",
         "content_title_style_margin_right_": "title_style_margin_right",
         "content_title_style_margin_bottom_": "title_style_margin_bottom",
-        "content_title_style_margin_left": "title_style_margin_left",
+        "content_title_style_margin_left_": "title_style_margin_left",
         "content_desc_": "desc",
         "content_desc_style_color_": "desc_style_color",
         "content_desc_style_font_size_": "desc_style_font_size",
@@ -898,7 +898,7 @@ function FormBackModuleConfigImagesTextHandle(data)
         "content_desc_style_margin_top_": "desc_style_margin_top",
         "content_desc_style_margin_right_": "desc_style_margin_right",
         "content_desc_style_margin_bottom_": "desc_style_margin_bottom",
-        "content_desc_style_margin_left": "desc_style_margin_left",
+        "content_desc_style_margin_left_": "desc_style_margin_left",
         "content_to_name_": "name",
         "content_to_type_": "type",
         "content_to_value_": "value"
@@ -2485,17 +2485,17 @@ function ModuleConfigImagesTextItemContentHtml(data)
 
         // 外边距
         html += `<div class="am-input-group am-input-group-sm group-border-width am-margin-top-xs">
-                    <input type="number" data-is-clearout="0" placeholder="外上" name="content_title_style_margin_top_`+index+`" min="0" max="60" data-validation-message="标题外边距上最大60" value="`+(data.title_style_margin_top || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外右" name="content_title_style_margin_right_`+index+`" min="0" max="60" data-validation-message="标题外边距右最大60" value="`+(data.title_style_margin_right || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外下" name="content_title_style_margin_bottom_`+index+`" min="0" max="60" data-validation-message="标题外边距下最大60" value="`+(data.title_style_margin_bottom || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外左" name="content_title_style_margin_left_`+index+`" min="0" max="60" data-validation-message="标题外边距左最大60" value="`+(data.title_style_margin_left || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外上" name="content_title_style_margin_top_`+index+`" min="0" max="1000" data-validation-message="标题外边距上最大1000" value="`+(data.title_style_margin_top || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外右" name="content_title_style_margin_right_`+index+`" min="0" max="1000" data-validation-message="标题外边距右最大1000" value="`+(data.title_style_margin_right || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外下" name="content_title_style_margin_bottom_`+index+`" min="0" max="1000" data-validation-message="标题外边距下最大1000" value="`+(data.title_style_margin_bottom || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外左" name="content_title_style_margin_left_`+index+`" min="0" max="1000" data-validation-message="标题外边距左最大1000" value="`+(data.title_style_margin_left || '')+`" class="am-form-field" />
                     <span class="am-input-group-label">px</span>
                 </div>`;
 
         // 字体大小和左右居中
         html += `<div class="am-margin-top-xs am-nbfc">
                     <div class="am-input-group am-input-group-sm am-fl group-input-font-size">
-                        <input type="number" data-is-clearout="0" placeholder="大小" name="content_title_style_font_size_`+index+`" min="0" max="50" value="`+(data.title_style_font_size || '')+`" class="am-form-field" />
+                        <input type="number" data-is-clearout="0" placeholder="大小" name="content_title_style_font_size_`+index+`" min="0" max="1000" data-validation-message="标题字体最大1000" value="`+(data.title_style_font_size || '')+`" class="am-form-field" />
                         <span class="am-input-group-label">px</span>
                     </div>
                     <div class="am-fr group-text-align-style"><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="left" data-am-ucheck `+(data.title_style_align == 'left' ? 'checked' : '')+` /> 居左</label><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="center" data-am-ucheck `+(data.title_style_align == 'center' ? 'checked' : '')+` /> 居中</label><label class="am-checkbox-inline"><input type="radio" name="content_title_style_align_`+index+`" value="right" data-am-ucheck `+(data.title_style_align == 'right' ? 'checked' : '')+` /> 居右</label></div>
@@ -2516,17 +2516,17 @@ function ModuleConfigImagesTextItemContentHtml(data)
 
         // 外边距
         html += `<div class="am-input-group am-input-group-sm group-border-width am-margin-top-xs">
-                    <input type="number" data-is-clearout="0" placeholder="外上" name="content_desc_style_margin_top_`+index+`" min="0" max="60" data-validation-message="描述外边距上最大60" value="`+(data.desc_style_margin_top || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外右" name="content_desc_style_margin_right_`+index+`" min="0" max="60" data-validation-message="描述外边距右最大60" value="`+(data.desc_style_margin_right || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外下" name="content_desc_style_margin_bottom_`+index+`" min="0" max="60" data-validation-message="描述外边距下最大60" value="`+(data.desc_style_margin_bottom || '')+`" class="am-form-field" />
-                    <input type="number" data-is-clearout="0" placeholder="外左" name="content_desc_style_margin_left_`+index+`" min="0" max="60" data-validation-message="描述外边距左最大60" value="`+(data.desc_style_margin_left || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外上" name="content_desc_style_margin_top_`+index+`" min="0" max="1000" data-validation-message="描述外边距上最大1000" value="`+(data.desc_style_margin_top || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外右" name="content_desc_style_margin_right_`+index+`" min="0" max="1000" data-validation-message="描述外边距右最大1000" value="`+(data.desc_style_margin_right || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外下" name="content_desc_style_margin_bottom_`+index+`" min="0" max="1000" data-validation-message="描述外边距下最大1000" value="`+(data.desc_style_margin_bottom || '')+`" class="am-form-field" />
+                    <input type="number" data-is-clearout="0" placeholder="外左" name="content_desc_style_margin_left_`+index+`" min="0" max="1000" data-validation-message="描述外边距左最大1000" value="`+(data.desc_style_margin_left || '')+`" class="am-form-field" />
                     <span class="am-input-group-label">px</span>
                 </div>`;
 
         // 字体大小和左右居中
         html += `<div class="am-margin-top-xs am-nbfc">
                     <div class="am-input-group am-input-group-sm am-fl group-input-font-size">
-                        <input type="number" data-is-clearout="0" placeholder="大小" name="content_desc_style_font_size_`+index+`" min="0" max="50" value="`+(data.desc_style_font_size || '')+`" class="am-form-field" />
+                        <input type="number" data-is-clearout="0" placeholder="大小" name="content_desc_style_font_size_`+index+`" min="0" max="1000" data-validation-message="描述字体最大1000" value="`+(data.desc_style_font_size || '')+`" class="am-form-field" />
                         <span class="am-input-group-label">px</span>
                     </div>
                     <div class="am-fr group-text-align-style"><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="left" data-am-ucheck `+(data.desc_style_align == 'left' ? 'checked' : '')+` /> 居左</label><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="center" data-am-ucheck `+(data.desc_style_align == 'center' ? 'checked' : '')+` /> 居中</label><label class="am-checkbox-inline"><input type="radio" name="content_desc_style_align_`+index+`" value="right" data-am-ucheck `+(data.desc_style_align == 'right' ? 'checked' : '')+` /> 居右</label></div>
