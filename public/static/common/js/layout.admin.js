@@ -1802,7 +1802,7 @@ function FormBackModuleConfigGoodsHandle(data)
                     var item_html = '';
                     for(var i in list)
                     {
-                        item_html += `<li>;
+                        item_html += `<li>
                                 <div class="module-item" style="`+item_style+`">
                                     <a href="`+list[i]['goods_url']+`" target="_blank" class="`+media_fixed.media_container_ent+`" style="`+media_fixed.media_container_style+`">
                                         <img src="`+list[i]['images']+`" alt="`+list[i]['title']+`" class="`+media_fixed.media_ent+`" style="`+media_fixed.media_container_style+`" />
