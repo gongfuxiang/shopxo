@@ -319,6 +319,12 @@ class Common extends BaseController
         $assign['is_header'] = 1;
         $assign['is_footer'] = 1;
 
+        // 是否已关闭顶部小导航、主导航、搜索栏则不展示头部数据
+        if(MyC('home_main_top_header_status', 1) == 0 && MyC('home_main_header_status', 1) == 0 && MyC('home_main_logo_search_status', 1) == 0)
+        {
+            $assign['is_header'] = 0;
+        }
+
         // 左侧大分类是否隐藏展开
         $common_goods_category_hidden = ($this->controller_name != 'index' || MyC('home_index_banner_left_status', 1) != 1) ? 1 : 0;
         $assign['common_goods_category_hidden'] = $common_goods_category_hidden;
