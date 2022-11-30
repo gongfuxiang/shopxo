@@ -48,7 +48,6 @@ class SystemUpgradeService
         {
             return $plugins_check;
         }
-        return DataReturn('test', -1);
 
         // 参数校验
         $ret = self::ParamsCheck($params);
