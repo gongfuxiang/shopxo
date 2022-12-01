@@ -1,20 +1,17 @@
 <!-- 布局/模块导航-->
-<div class="am-tabs renovation-tabs">
+<div class="am-tabs renovation-tabs" data-am-tabs="{noSwipe: 1}" data-am-sticky>
     <ul class="am-tabs-nav am-nav am-nav-tabs">
-        <li class="am-active" data-value="structure"><a href="#renovation-tabs-structure">布局</a></li>
-        <li data-value="module"><a href="#renovation-tabs-module">模块</a></li>
+        <li class="am-active" data-value="structure">
+            <a href="#renovation-tabs-structure">布局</a>
+        </li>
+        <li data-value="module">
+            <a href="#renovation-tabs-module">模块</a>
+        </li>
     </ul>
     <div class="am-tabs-bd am-padding-sm">
         <!-- 布局 -->
         <div class="renovation-panel am-active" id="renovation-tabs-structure">
-            <div class="am-alert" data-am-alert>
-                <button type="button" class="am-close">&times;</button>
-                <p>1. 手机模式下每一块布局全部自动100%展示、从左往右依次往下排版</p>
-                <p>2. 布局宽度以100%分为12块、每一块占比（8.33%）</p>
-                <p>3. 小屏（640px及以下）、中屏（641px及以上）、大屏（1025px及以上）</p>
-            </div>
-
-            <div class="structure-drag scrollspy-nav" data-am-tabs="{noSwipe: 1}" data-am-sticky>
+            <div class="structure-drag scrollspy-nav">
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="100">100%</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="6:6">6 : 6</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="8:4">8 : 4</button>
@@ -32,7 +29,7 @@
 
         <!-- 模块 -->
         <div class="renovation-panel am-hide" id="renovation-tabs-module">
-            <div class="renovation-drag scrollspy-nav" data-am-tabs="{noSwipe: 1}" data-am-sticky>
+            <div class="renovation-drag scrollspy-nav">
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="images">单图</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="many-images">多图</button>
                 <button type="button" draggable="true" class="am-btn am-btn-default am-radius am-btn-xs am-margin-xs" data-value="images-text">图文</button>
@@ -113,7 +110,7 @@
                         <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-square-o layout-submit layout-submit-set"> 布局设置</button>
                         <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-icon-trash-o layout-submit layout-submit-del"> 布局移除</button>
                     </div>
-                    <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($v['config'])}}{{:urlencode(base64_encode(json_encode($v['config'])))}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}">
+                    <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($v['config'])}}{{:urlencode(base64_encode(json_encode($v['config'])))}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}{{if !empty($v['config']['style_background_images'])}}background-image:url({{$v.config.style_background_images}});{{/if}}">
                         {{foreach $v.children as $ks=>$vs}}
                             {{if count($v['value_arr']) eq 1}}
                                 {{include file="../../../layout/view/public/common/module_admin" /}}

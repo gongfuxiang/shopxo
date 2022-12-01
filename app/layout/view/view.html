@@ -3,7 +3,7 @@
         {{foreach $layout_data as $k=>$v}}
             {{if !empty($v['value']) and !empty($v['children']) and is_array($v['children']) and !empty($v['value_arr']) and count($v['children']) eq count($v['value_arr']) and $v['status'] eq 1}}
                 <div class="layout-view">
-                    <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}">
+                    <div class="layout-content-children {{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.ent}}{{/if}}" style="{{if !empty($v['config']) and !empty($v['config']['frontend_config'])}}{{$v.config.frontend_config.style}}{{/if}}{{if !empty($v['config']['style_background_images'])}}background-image:url({{$v.config.style_background_images}});{{/if}}">
                         {{foreach $v.children as $ks=>$vs}}
                             {{if count($v['value_arr']) eq 1}}
                                 {{include file="../../../layout/view/public/common/module_view" /}}

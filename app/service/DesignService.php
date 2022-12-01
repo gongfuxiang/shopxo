@@ -389,12 +389,26 @@ class DesignService
             // 开始处理数据
             foreach($config as &$v)
             {
+                // 配置处理
+                if(!empty($v['config']))
+                {
+                    $v['config'] = self::ConfigAttachmentDownloadHandle($dir, $data_id, $v['config']);
+                }
+
+                // 是否存在下级数据
                 if(empty($v['children']))
                 {
                     continue;
                 }
                 foreach($v['children'] as &$vs)
                 {
+                    // 配置处理
+                    if(!empty($vs['config']))
+                    {
+                        $vs['config'] = self::ConfigAttachmentDownloadHandle($dir, $data_id, $vs['config']);
+                    }
+
+                    // 是否存在下级数据
                     if(empty($vs['children']))
                     {
                         continue;
@@ -405,6 +419,11 @@ class DesignService
                         {
                             continue;
                         }
+
+                        // 配置处理
+                        $vss['config'] = self::ConfigAttachmentDownloadHandle($dir, $data_id, $vss['config']);
+
+                        // 根据模块处理
                         switch($vss['value'])
                         {
                             // 单图
@@ -454,6 +473,28 @@ class DesignService
                 }
             }
         }
+        return $config;
+    }
+
+    /**
+     * 配置信息附件处理
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2021-06-22
+     * @desc    description
+     * @param   [string]       $dir     [存储路径]
+     * @param   [int]          $data_id [数据id]
+     * @param   [array]        $config  [配置信息]
+     */
+    public static function ConfigAttachmentDownloadHandle($dir, $data_id, $config)
+    {
+        // 背景图片
+        if(!empty($config['style_background_images']))
+        {
+            $config['style_background_images'] = self::FileSave($data_id, $config['style_background_images'], 'images', $dir);
+        }
+
         return $config;
     }
 

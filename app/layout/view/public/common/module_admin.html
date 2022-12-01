@@ -1,4 +1,4 @@
-<div class="layout-content-container {{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($vs['config'])}}{{:urlencode(base64_encode(json_encode($vs['config'])))}}{{/if}}" style="{{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.style}}{{/if}}">
+<div class="layout-content-container {{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.ent}}{{/if}}" data-json="{{if !empty($vs['config'])}}{{:urlencode(base64_encode(json_encode($vs['config'])))}}{{/if}}" style="{{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.style}}{{/if}}{{if !empty($vs['config']['style_background_images'])}}background-image:url({{$vs.config.style_background_images}});{{/if}}">
     <div class="layout-content-submit-container">
         <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-gear layout-submit layout-content-submit-set"></button>
     </div>

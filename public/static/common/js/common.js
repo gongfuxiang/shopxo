@@ -632,7 +632,14 @@ function FormDataFill(json, tag)
 			// input radio
 			$form.find('input[type="radio"][name="'+i+'"]').each(function(k, v)
 			{
-				this.checked = (json[i] == $(this).val());
+				this.checked = json[i] == $(this).val();
+				$(this).trigger('change');
+			});
+			// input checkbox
+			$form.find('input[type="checkbox"][name="'+i+'"]').each(function(k, v)
+			{
+				var temp_value = (typeof(json[i]) != 'object') ? json[i].toString().split(',') : json[i];
+				this.checked = temp_value.indexOf($(this).val()) != -1;
 				$(this).trigger('change');
 			});
 		}

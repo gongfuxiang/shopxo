@@ -110,8 +110,8 @@
             colorTable='<table width=232 border="0" cellspacing="0" cellpadding="0" style="border:1px solid #333;height: 24px;line-height: 21px;">'
             +'<tr><td colspan=21 bgcolor=#cccccc>'
             +'<table cellpadding="0" cellspacing="1" border="0" style="border-collapse: collapse">'
-            +'<tr><td width="3"><td><input type="text" id="DisColor'+index+'" size="3" disabled style="border:solid 1px #000000;background-color:#000000;padding:0;"></td>'
-            +'<td width="3"><td><input type="text" id="HexColor'+index+'" style="border:inset 1px;font-family:Arial;width:58px;" value="#000000"><a href="javascript:void(0);" id="_determine'+index+'">'+lang_data.confirm+'</a> | <a href="javascript:void(0);" id="_cclose'+index+'">'+lang_data.close+'</a> | <a href="javascript:void(0);" id="_creset'+index+'">'+lang_data.clear+'</a></td></tr></table></td></table>'
+            +'<tr><td width="3"><td><input type="text" data-is-clearout="0" id="DisColor'+index+'" size="3" disabled style="border:solid 1px #000000;background-color:#000000;padding:0;"></td>'
+            +'<td width="3"><td><input type="text" data-is-clearout="0" id="HexColor'+index+'" style="border:inset 1px;font-family:Arial;width:58px;" value="#000000"><a href="javascript:void(0);" id="_determine'+index+'">'+lang_data.confirm+'</a> | <a href="javascript:void(0);" id="_cclose'+index+'">'+lang_data.close+'</a> | <a href="javascript:void(0);" id="_creset'+index+'">'+lang_data.clear+'</a></td></tr></table></td></table>'
             +'<table id="CT'+index+'" border="1" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border-color:#333;border-width:0 1px 1px 1px;border-style:solid;">'
             +colorTable+'</table>';
             $('#colorpanel'+index).html(colorTable);

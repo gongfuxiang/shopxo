@@ -1,4 +1,4 @@
-<div class="layout-content-container {{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.ent}}{{/if}}" style="{{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.style}}{{/if}}">
+<div class="layout-content-container {{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.ent}}{{/if}}" style="{{if !empty($vs['config']) and !empty($vs['config']['frontend_config'])}}{{$vs.config.frontend_config.style}}{{/if}}{{if !empty($vs['config']['style_background_images'])}}background-image:url({{$vs.config.style_background_images}});{{/if}}">
     <div class="layout-content">
         {{if !empty($vs['children']) and is_array($vs['children'])}}
             {{foreach $vs.children as $kss=>$vss}}

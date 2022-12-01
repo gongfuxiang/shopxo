@@ -511,8 +511,8 @@ function FormBackLayoutConfigHandle(data)
             ent += 'layout-'+size_arr[i]+'-border-radius-'+data[key]+' ';
         }
     }
-    // 系统标准限宽
-    if((data['width_max_limit_value'] || null) != null)
+    // 系统标准限宽、兼容老版本的参数
+    if((data['style_width_max_limit_value'] || null) != null || (data['width_max_limit_value'] || null) != null)
     {
         ent += 'am-container ';
     }
@@ -531,9 +531,32 @@ function FormBackLayoutConfigHandle(data)
         style += 'border-color:'+data['style_border_color']+';';
     }
 
+    // 背景样式
+    // 是否不允许重复
+    if(parseInt(data.style_background_images_no_repeat || 0) == 1)
+    {
+        style += 'background-repeat:no-repeat;';
+    }
+    // 是否铺满
+    if(parseInt(data.style_background_images_size_cover || 0) == 1)
+    {
+        style += 'background-size:cover;';
+    }
+    // 是否居中
+    if(parseInt(data.style_background_images_position_center || 0) == 1)
+    {
+        style += 'background-position:center;';
+    }
+    // 背景图片
+    var temp_style = style;
+    if((data.style_background_images || null) != null)
+    {
+        temp_style += 'background-image:url('+data.style_background_images+');';
+    }
+
     // 类和样式处理
     $layout_content_obj.attr('class', $offcanvas_layout_config.attr('data-ent')+' '+ent);
-    $layout_content_obj.attr('style', style);
+    $layout_content_obj.attr('style', temp_style);
 
     // 数据加入配置
     data['frontend_config'] = {
@@ -2213,6 +2236,40 @@ function FormBackModulePopupGoodsSearchHandle(data)
 }
 
 /**
+ * 模块-基础布局处理
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2021-05-18
+ * @desc    description
+ * @param   {[object]}        data [表单数据]
+ */
+function ModuleConfigBaseContentHandle(data)
+{
+    // 默认值处理
+    data.style_width_max_limit_value = data.style_width_max_limit_value || '';
+    data.style_background_images_no_repeat = data.style_background_images_no_repeat || '';
+    data.style_background_images_size_cover = data.style_background_images_size_cover || '';
+    data.style_background_images_position_center = data.style_background_images_position_center || '';
+
+    // 图片处理
+    var $ul = $offcanvas_layout_config.find('ul.layout-style-background-images-view');
+    if((data.style_background_images || null) == null)
+    {
+        $ul.find('li').remove();
+    } else {
+        var html = `<li>
+                <input type="text" name="style_background_images" value="`+data.style_background_images+`">
+                <img src="`+data.style_background_images+`" />
+                <i>×</i>
+            </li>`;
+        $ul.html(html);
+    }
+
+    return data;
+}
+
+/**
  * 模块-图片链接地址生成
  * @author  Devil
  * @blog    http://gong.gg/
@@ -3029,7 +3086,14 @@ $(function()
                 json[i] = '';
             }
         }
+        // 节点数据处理
+        json = ModuleConfigBaseContentHandle(json);
+
+        // 表单赋值
         FormDataFill(json, config_doc);
+
+        // 单选框初始化
+        $offcanvas_layout_config.find('input[type="checkbox"], input[type="radio"]').uCheck();
 
         // 背景色组件处理
         ModuleColorpickerHandle($offcanvas_layout_config);
@@ -3085,7 +3149,13 @@ $(function()
                 json[i] = '';
             }
         }
+        // 节点数据处理
+        json = ModuleConfigBaseContentHandle(json);
+
+        // 表单赋值
         FormDataFill(json, config_doc);
+        // 单选框初始化
+        $offcanvas_layout_config.find('input[type="checkbox"], input[type="radio"]').uCheck();
 
         // 背景色组件处理
         ModuleColorpickerHandle($offcanvas_layout_config);

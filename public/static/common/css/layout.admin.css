@@ -26,7 +26,7 @@
 .renovation-tabs li:not(.am-active) a:hover {
     border-color: transparent !important;
 }
-.renovation-tabs .renovation-panel .scrollspy-nav.am-sticky {
+.renovation-tabs.am-sticky {
     background: #fff;
     border: 1px solid #eee;
     border-top: 0;
@@ -252,6 +252,7 @@
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+.module-offcanvas-container .layout-style-background-images-view li,
 .module-offcanvas-container .module-images-type-images-view li,
 .module-offcanvas-container .module-slider-type-images-view li {
     width: 100%;

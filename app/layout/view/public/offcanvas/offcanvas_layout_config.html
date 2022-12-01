@@ -7,6 +7,24 @@
                 <div class="am-panel am-panel-default">
                     <div class="am-panel-hd">基础样式</div>
                     <div class="am-panel-bd">
+                        <!-- 背景图 -->
+                        <div class="am-form-group am-form-file am-form-group-refreshing">
+                            <label class="block">背景图</label>
+                            <ul class="plug-file-upload-view layout-style-background-images-view" data-form-name="style_background_images" data-max-number="1" data-delete="1" data-dialog-type="images"></ul>
+                            <div>
+                                <span class="plug-file-upload-submit" data-view-tag="ul.layout-style-background-images-view">+上传图片</span>
+                                <label class="am-checkbox-inline am-margin-left-sm">
+                                    <input type="checkbox" name="style_background_images_position_center" value="1" data-am-ucheck /> 居中
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="style_background_images_size_cover" value="1" data-am-ucheck /> 铺满
+                                </label>
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" name="style_background_images_no_repeat" value="1" data-am-ucheck /> 不重复
+                                </label>
+                            </div>
+                        </div>
+
                         <!-- 背景色 -->
                         {{include file="../../../layout/view/public/style/background_color" key="" required="" /}}
 
@@ -15,7 +33,7 @@
 
                         <!-- 系统标准限宽 -->
                         <label class="am-checkbox-inline">
-                            <input type="checkbox" name="width_max_limit_value" value="1" data-am-ucheck checked /> 系统标准限宽(1000px、1200px)
+                            <input type="checkbox" name="style_width_max_limit_value" value="1" data-am-ucheck /> 系统标准限宽(1000px、1200px)
                         </label>
                     </div>
                 </div>
