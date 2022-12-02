@@ -757,7 +757,7 @@ function MyFileConfig($key, $value = '', $default = null, $mandatory = false)
  * @param   [string]          $key     [参数key]
  * @param   [string]          $default [默认值]
  */
-function MyInput($key = null, $default = null)
+function MyInput($key = null, $default = '')
 {
     static $params = null;
     if($params === null)
