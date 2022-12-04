@@ -2681,7 +2681,10 @@ input[type="date"].am-form-field .am-input-lg {
 .am-radio-inline + .am-radio-inline,
 .am-checkbox-inline + .am-checkbox-inline {
   margin-top: 0;
-  margin-left: 10px;
+}
+.am-radio-inline:not(:last-child),
+.am-checkbox-inline:not(:last-child) {
+  margin-right: 10px;
 }
 input[type="radio"][disabled],
 input[type="checkbox"][disabled],
@@ -4136,7 +4139,7 @@ a.am-badge:focus {
 }
 .am-comment-hd {
   background: #f8f8f8;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f7f7f7;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

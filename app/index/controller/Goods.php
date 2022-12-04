@@ -236,7 +236,7 @@ class Goods extends Common
         $params = $this->data_request;
         if(empty($params['goods_id']))
         {
-            return DataReturn('参数有误', -1);
+            return ApiService::ApiDataReturn(DataReturn('参数有误', -1));
         }
 
         // 分页

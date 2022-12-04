@@ -660,7 +660,7 @@
                     <ul class="am-avg-sm-{{:count($middle_tabs_nav['nav'])}} am-tabs-nav am-nav am-nav-tabs" data-am-sticky="{animation: 'slide-top'}">
                         {{foreach $middle_tabs_nav.nav as $k=>$v}}
                             <li class="{{if isset($v['active']) and $v['active'] eq 1}}am-active{{/if}} goods-middle-nav-{{$v.type}}">
-                                <a href="[data-tab-panel-{{$k}}]" data-type="{{$v.type}}" data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">{{$v.name}}</a>
+                                <a href="#goods-middle-tabs-nav-{{$v.type}}" data-title="{{$v.name}}" data-type="{{$v.type}}" data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">{{$v.name}}</a>
                             </li>
                         {{/foreach}}
                     </ul>
@@ -669,7 +669,7 @@
                     <div class="am-tabs-bd">
                         <!-- 详情 -->
                         {{if in_array('detail', $middle_tabs_nav['type'])}}
-                            <div class="am-tab-panel am-in am-active">
+                            <div class="am-tab-panel am-in am-active" id="goods-middle-tabs-nav-detail">
                                 {{if !empty($goods['parameters']) and !empty($goods['parameters']['detail'])}}
                                     <!-- 商品详情参数 -->
                                     <div class="am-cf tabs-nav-base-container">
@@ -732,7 +732,7 @@
 
                         <!-- 评价 -->
                         {{if in_array('comments', $middle_tabs_nav['type'])}}
-                            <div class="am-tab-panel goods-comment" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comments')}}">
+                            <div class="am-tab-panel goods-comment" id="goods-middle-tabs-nav-comments" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comments')}}">
                                 <div class="am-cf tabs-nav-base-container score-container">
                                     <div class="score am-fl">
                                         <p class="name">动态评分</p>
@@ -776,7 +776,7 @@
 
                         <!-- 猜你喜欢 -->
                         {{if in_array('guess_you_like', $middle_tabs_nav['type'])}}
-                            <div class="am-tab-panel">
+                            <div class="am-tab-panel" id="goods-middle-tabs-nav-guess_you_like">
                                 <div class="like">
                                     <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
                                         {{if !empty($detail_like_goods)}}

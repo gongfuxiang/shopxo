@@ -28,7 +28,7 @@ function PoptitClose()
  */
 function GoodsCommentsHtml(page)
 {
-    if((page || 1) <= 1)
+    if($('.goods-comment-content article').length <= 0)
     {
         $('.goods-page-no-data').removeClass('none');
         $('.goods-page-no-data span').text(window['lang_loading_tips'] || '加载中...');
@@ -774,7 +774,7 @@ $(function() {
             // 获取数据
             GoodsCommentsHtml(page);
 
-            // 回到评论顶部位置
+            // 回到顶部位置
             $(window).smoothScroll({position: $('.introduce-main').offset().top});
         }
     });

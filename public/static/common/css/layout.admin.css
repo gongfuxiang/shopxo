@@ -287,14 +287,6 @@
 }
 
 /**
- * 图片魔方展示类型
- */
-.config-view-show-style-images-magic-cube label:nth-child(7),
-.config-view-show-style-images-magic-cube label:nth-child(13) {
-    margin-left: 0;
-}
-
-/**
  * 表单小组合组件
  */
 .group-border-width input,
