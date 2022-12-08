@@ -4206,8 +4206,7 @@ $(function()
             });
         } else {
             // 开启规格选择弹窗
-            console.log(goods_id, 'spec');
-            ModalLoad(UrlFieldReplace('id', goods_id, $(this).data('cart-info-url')));
+            ModalLoad(UrlFieldReplace('id', goods_id, $(this).data('cart-info-url')), '', 'common-goods-cart-popup');
         }
     });
 });

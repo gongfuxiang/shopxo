@@ -1,0 +1,92 @@
+{{include file="public/header" /}}
+
+{{if empty($goods)}}
+    {{include file="public/not_data" /}}
+{{else /}}
+    <form class="am-form form-validation am-form-popup-fixed" method="post" action="{{:MyUrl('index/cart/save')}}" request-type="ajax-fun" request-value="GoodsCartInfoSubmitBack">
+        <div class="goods-spec-container am-padding-sm" data-spectype-url="{{:MyUrl('index/goods/spectype')}}" data-specdetail-url="{{:MyUrl('index/goods/specdetail')}}" >
+            <h2>
+                <img src="{{$goods.images}}" width="24" height="24" />
+                <span class="am-margin-left-xs">{{$goods.title}}</span>
+            </h2>
+            <hr data-am-widget="divider" class="am-divider am-divider-default" />
+            {{if $goods.inventory gt 0}}
+                {{if $goods.inventory egt $goods.buy_min_number}}
+                    <div class="goods-spec-content" data-id="{{$goods.id}}">
+                        {{if !empty($goods['specifications']['choose'])}}
+                            {{foreach $goods.specifications.choose as $key=>$spec}}
+                                {{if !empty($spec['value'])}}
+                                    <div class="spec-options sku-items am-radius">
+                                        <div class="spec-title">{{$spec.name}}</div>
+                                        <ul>
+                                            {{foreach $spec.value as $keys=>$specs}}
+                                                <li class="am-radius sku-line {{if !empty($specs['images'])}} sku-line-images{{/if}} {{if $key gt 0}} sku-dont-choose{{/if}} {{if isset($specs['is_only_level_one']) and isset($specs['inventory']) and $specs['inventory'] elt 0}} sku-items-disabled{{/if}}" data-type-value="{{$spec.name}}" data-value="{{$specs.name}}" {{if !empty($specs['images'])}} data-type-images="{{$specs.images}}"{{/if}}>
+                                                    {{if !empty($specs['images'])}}
+                                                        <img src="{{$specs.images}}" class="am-radius" />
+                                                    {{/if}}
+                                                    {{$specs.name}}<i></i>
+                                                </li>
+                                            {{/foreach}}
+                                        </ul>
+                                    </div>
+                                {{/if}}
+                            {{/foreach}}
+                        {{/if}}
+                        <div class="spec-options">
+                            <div class="spec-title">销售价</div>
+                            <div class="am-margin-top-xs am-margin-bottom-sm">
+                                <strong class="price am-text-lg" data-default-price="{{$goods.price}}" data-is-clearout="0">{{$currency_symbol}}{{$goods.price}}</strong>
+                                {{if !empty($goods['original_price']) and $goods['original_price'] gt 0}}
+                                    <span class="am-margin-left-sm original-price" data-default-price="{{$goods.original_price}}" data-price="{{$goods.original_price}}">{{$currency_symbol}}{{$goods.original_price}}</span>
+                                {{/if}}
+                            </div>
+                        </div>
+
+                        <div class="spec-options am-margin-top-sm">
+                            <div class="am-input-group am-input-group-sm number-operate">
+                                <span class="am-input-group-label am-radius stock-submit" data-type="min">-</span>
+                                <input type="number" name="stock" class="am-form-field am-text-center" value="{{$goods.buy_min_number}}" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-is-clearout="0" />
+                                <span class="am-input-group-label am-radius stock-submit" data-type="add">+</span>
+                            </div>
+                            <span class="am-margin-left-sm stock-tips">库存<span class="stock" data-original-stock="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                        </div>
+                    </div>
+                {{else /}}
+                    <p class="am-text-danger error-msg">库存不足起购数({{$goods.inventory}}<{{$goods.buy_min_number}})</p>
+                {{/if}}
+            {{else /}}
+                <p class="am-text-danger">没货了</p>
+            {{/if}}
+        </div>
+
+        <div class="am-form-popup-submit">
+            <input type="hidden" name="goods_id" value="{{$goods.id}}" />
+            <input type="hidden" name="spec" value="" />
+            {{if empty($user) or $buy_button['is_cart'] eq 0}}
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" disabled>{{if empty($user)}}请先登录{{else /}}{{$buy_button.error}}{{/if}}</button>
+            {{else /}}
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">加入购物车</button>
+            {{/if}}
+        </div>
+    </form>
+{{/if}}
+
+{{include file="public/footer" /}}
+<script type="text/javascript">
+// 购物车回调
+function GoodsCartInfoSubmitBack(e)
+{
+    $.AMUI.progress.done();
+    if(e.code == 0)
+    {
+        Prompt(e.msg, 'success');
+        setTimeout(function()
+        {
+            parent.IframePopupHomeCartNumberTotalUpdate(parseInt(e.data.buy_number), '.common-goods-cart-popup');
+        }, 1500);
+    } else {
+        Prompt(e.msg);
+        $('form.form-validation').find('button[type="submit"]').button('reset');
+    }
+}
+</script>

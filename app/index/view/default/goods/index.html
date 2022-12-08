@@ -843,7 +843,7 @@ function CartSubmitBack(e)
 {
     if(e.code == 0)
     {
-        HomeCartNumberTotalUpdate(parseInt(e.data));
+        HomeCartNumberTotalUpdate(parseInt(e.data.buy_number));
         Prompt(e.msg, 'success');
     } else {
         Prompt(e.msg);

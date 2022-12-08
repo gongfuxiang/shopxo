@@ -155,6 +155,16 @@
         scaleEnabled:true,
         toolbars: [["insertimage", "insertvideo", "attachment"]]
     });
+
+    // 子级调用购物车数量更新
+    function IframePopupHomeCartNumberTotalUpdate(value, popup = null)
+    {
+        HomeCartNumberTotalUpdate(value);
+        if((popup || null) != null)
+        {
+            $(popup).modal('close');
+        }
+    }
 </script>
 
 <!-- 项目公共 -->

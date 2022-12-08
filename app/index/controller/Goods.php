@@ -11,11 +11,12 @@
 namespace app\index\controller;
 
 use app\service\ApiService;
+use app\service\SeoService;
 use app\service\GoodsService;
 use app\service\GoodsCommentsService;
 use app\service\GoodsBrowseService;
 use app\service\GoodsFavorService;
-use app\service\SeoService;
+use app\service\GoodsCartService;
 
 /**
  * 商品详情
@@ -59,7 +60,7 @@ class Goods extends Common
             'is_params' => true,
         ];
         $ret = GoodsService::GoodsList($params);
-        if(!empty($ret['data']) && !empty($ret['data'][0]) && $ret['data'][0]['is_delete_time'] == 0)
+        if(!empty($ret['data']) && !empty($ret['data'][0]))
         {
             // 商品信息
             $goods = $ret['data'][0];
@@ -159,6 +160,45 @@ class Goods extends Common
             return MyView();
         }
         MyViewAssign('msg', '资源不存在或已被删除');
+        return MyView('/public/tips_error');
+    }
+
+    /**
+     * 加入购物车页面
+     * @author   Devil
+     * @blog     http://gong.gg/
+     * @version  0.0.1
+     * @datetime 2017-02-22T16:50:32+0800
+     */
+    public function CartInfo()
+    {
+        $goods_id = isset($this->data_request['id']) ? $this->data_request['id'] : 0;
+        $params = [
+            'where' => [
+                ['id', '=', $goods_id],
+                ['is_delete_time', '=', 0],
+            ],
+            'is_spec'   => true,
+        ];
+        $ret = GoodsService::GoodsList($params);
+        if(!empty($ret['data']) && !empty($ret['data'][0]))
+        {
+            $goods = $ret['data'][0];
+            $buy_button = GoodsService::GoodsBuyButtonList($goods);
+            MyViewAssign([
+                'goods'         => $goods,
+                'buy_button'    => $buy_button,
+                'is_header'     => 0,
+                'is_footer'     => 0,
+            ]);
+            return MyView();
+        }
+        MyViewAssign([
+            'msg'           => '商品不存在或已删除',
+            'is_header'     => 0,
+            'is_footer'     => 0,
+            'is_to_home'    => 0,
+        ]);
         return MyView('/public/tips_error');
     }
 
