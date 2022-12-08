@@ -2703,10 +2703,12 @@ function InputClearOutHandle(e)
 	    		e.after('<a href="javascript:;" class="input-clearout-submit"><i>&times;</i></a>');
 	    	}
 	    	// 清除按钮位置处理
-	    	var top = e.offset().top-$(window).scrollTop();
+	    	var scroll_top = $(document).scrollTop();
+	    	var top = e.offset().top-scroll_top;
 			var left = e.offset().left;
 			var width = e.innerWidth();
 			var height = e.innerHeight();
+
 			// 存在弹窗则减去弹窗的外边距
 			if(e.parents('.am-popup').length > 0)
 			{
@@ -2714,6 +2716,14 @@ function InputClearOutHandle(e)
 				top -= offset.top;
 				left -= offset.left;
 			}
+			// 存在tabs
+			if(e.parents('.am-tab-panel').length > 0)
+			{
+				var offset = e.parents('.am-tab-panel').offset();
+				left -= offset.left;
+				top = (scroll_top > 0) ? (scroll_top+top)-offset.top : top-offset.top;
+			}
+
 			// 设置位置
 	    	e.next().css({'left':(left+width-23)+'px', 'top':(top+1)+'px', 'padding': (((height-14)/2)-0.1)+'px 5px'});
 	    	e.addClass('input-clearout-element');
@@ -4159,5 +4169,45 @@ $(function()
                 Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'));
             }
         });
+    });
+
+    // 加入购物车
+    $('.common-cart-submit-event').on('click', function()
+    {
+        var goods_id = $(this).data('gid');
+        if(parseInt($(this).data('is-many-spec') || 0) == 0)
+        {
+            $.AMUI.progress.start();
+            $.ajax({
+                url: RequestUrlHandle($(this).data('cart-save-url')),
+                type: 'post',
+                dataType: "json",
+                timeout: 10000,
+                data: {
+                    goods_id: goods_id,
+                    stock: 1
+                },
+                success: function(res)
+                {
+                    $.AMUI.progress.done();
+                    if(res.code == 0)
+                    {
+                        HomeCartNumberTotalUpdate(parseInt(res.data.buy_number));
+                        Prompt(res.msg, 'success');
+                    } else {
+                        Prompt(res.msg);
+                    }
+                },
+                error: function(xhr, type)
+                {
+                    $.AMUI.progress.done();
+                    Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'), null, 30);
+                }
+            });
+        } else {
+            // 开启规格选择弹窗
+            console.log(goods_id, 'spec');
+            ModalLoad(UrlFieldReplace('id', goods_id, $(this).data('cart-info-url')));
+        }
     });
 });
