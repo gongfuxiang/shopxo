@@ -409,7 +409,7 @@ class SystemBaseService
     public static function IsGoodsDiscount($params = [], $plugins = '')
     {
         // 默认支持
-        $status = true;
+        $status = 1;
 
         // 是否关闭商品优惠重叠
         // 采用钩子进行处理
@@ -425,35 +425,88 @@ class SystemBaseService
                         if(!empty($old))
                         {
                             // 展示销售价格
-                            if($status && isset($params['goods']['price']))
+                            if($status == 1 && isset($params['goods']['price']))
                             {
                                 $temp = explode('-', $params['goods']['price']);
                                 $temp_old = explode('-', $old['price']);
                                 if($temp[count($temp)-1] < $temp_old[count($temp_old)-1])
                                 {
-                                    $status = false;
+                                    $status = 0;
                                 }
                             }
 
                             // 最低价
-                            if($status && isset($params['goods']['min_price']))
+                            if($status == 1 && isset($params['goods']['min_price']))
                             {
                                 if($params['goods']['min_price'] < $old['min_price'])
                                 {
-                                    $status = false;
+                                    $status = 0;
                                 }
                             }
 
                             // 最高价
-                            if($status && isset($params['goods']['max_price']))
+                            if($status == 1 && isset($params['goods']['max_price']))
                             {
                                 if($params['goods']['max_price'] < $old['max_price'])
                                 {
-                                    $status = false;
+                                    $status = 0;
                                 }
                             }
                         }
                     }
+                    break;
+
+                // 商品列表处理结束
+                case 'plugins_service_goods_list_handle_end' :
+                    $result = [];
+                    if(!empty($params['data']))
+                    {
+                        // key字段
+                        $key_field = empty($params['params']['data_key_field']) ? 'id' : $params['params']['data_key_field'];
+                        $old = Db::name('Goods')->where(['id'=>array_column($params['data'], $key_field)])->column('id,price,min_price,max_price', 'id');
+                        if(!empty($old))
+                        {
+                            foreach($params['data'] as $goods)
+                            {
+                                if(array_key_exists($goods[$key_field], $old))
+                                {
+                                    $status = 1;
+                                    $item_old = $old[$goods[$key_field]];
+                                    // 展示销售价格
+                                    if($status == 1 && isset($goods['price']))
+                                    {
+                                        $temp = explode('-', $goods['price']);
+                                        $temp_old = explode('-', $item_old['price']);
+                                        if($temp[count($temp)-1] < $temp_old[count($temp_old)-1])
+                                        {
+                                            $status = 0;
+                                        }
+                                    }
+
+                                    // 最低价
+                                    if($status == 1 && isset($goods['min_price']))
+                                    {
+                                        if($goods['min_price'] < $item_old['min_price'])
+                                        {
+                                            $status = 0;
+                                        }
+                                    }
+
+                                    // 最高价
+                                    if($status == 1 && isset($goods['max_price']))
+                                    {
+                                        if($goods['max_price'] < $item_old['max_price'])
+                                        {
+                                            $status = 0;
+                                        }
+                                    }
+
+                                    $result[$goods[$key_field]] = $status;
+                                }
+                            }
+                        }
+                    }
+                    return $result;
                     break;
 
                 // 获取规格详情
@@ -461,9 +514,9 @@ class SystemBaseService
                     if(!empty($params['data']) && !empty($params['data']['spec_base']) && !empty($params['data']['spec_base']['id']) && !empty($params['data']['spec_base']['goods_id']) && isset($params['data']['spec_base']['price']))
                     {
                         $price_old = Db::name('GoodsSpecBase')->where(['id'=>$params['data']['spec_base']['id']])->value('price');
-                        if($status && $params['data']['spec_base']['price'] < $price_old)
+                        if($status == 1 && $params['data']['spec_base']['price'] < $price_old)
                         {
-                            $status = false;
+                            $status = 0;
                         }
                     }
                     break;
