@@ -527,20 +527,18 @@
                         </div>
 
                         <!-- 购买表单 -->
-                        <form action="{{:MyUrl('index/buy/index')}}" method="post" class="buy-form">
-                            <input type="hidden" name="goods_id" value="{{$goods.id}}" />
+                        <form action="{{:MyUrl('index/buy/index')}}" method="post" class="buy-form am-hide">
                             <input type="hidden" name="buy_type" value="goods" />
-                            <input type="hidden" name="stock" value="1" />
-                            <input type="hidden" name="spec" value="" />
+                            <input type="hidden" name="goods_data" value="" />
                             <button type="submit"></button>
                         </form>
 
                         <!-- 加入购物车表单 -->
-                        <form action="{{:MyUrl('index/cart/save')}}" method="post" class="cart-form" request-type="ajax-fun" request-value="CartSubmitBack">
+                        <form action="{{:MyUrl('index/cart/save')}}" method="post" class="cart-form am-hide" request-type="ajax-fun" request-value="CartSubmitBack">
                             <input type="hidden" name="goods_id" value="{{$goods.id}}" />
                             <input type="hidden" name="stock" value="1" />
                             <input type="hidden" name="spec" value="" />
-                            <button type="submit" class="am-hide"></button>
+                            <button type="submit"></button>
                         </form>
                     {{else /}}
                         <p class="goods-not-buy-tips">{{if empty($buy_button['error'])}}暂停销售{{else /}}{{$buy_button.error}}{{/if}}</p>
@@ -616,7 +614,7 @@
             <div class="mc"> 
                  <ul>                       
                     <div class="mt">            
-                        <h2>看了又看</h2>        
+                        <h3>看了又看</h3>        
                     </div>
                     {{if !empty($left_goods)}}
                         {{foreach $left_goods as $key=>$v}}
@@ -843,7 +841,7 @@ function CartSubmitBack(e)
 {
     if(e.code == 0)
     {
-        HomeCartNumberTotalUpdate(parseInt(e.data.buy_number));
+        HomeCartNumberTotalUpdate(e.data.buy_number);
         Prompt(e.msg, 'success');
     } else {
         Prompt(e.msg);

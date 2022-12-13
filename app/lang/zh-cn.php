@@ -33,6 +33,8 @@ return [
         'goods_stock_min_tips'              => '最低起购数量',
         'goods_inventory_number_tips'       => '库存数量',
         'goods_no_choice_spec_tips'         => '请选择规格',
+        'goods_spec_empty_tips'             => '无规格数据',
+        'goods_id_empty_tips'               => '商品ID数据',
         'store_enabled_tips'                => '您的浏览器不支持本地存储。请禁用“专用模式”，或升级到现代浏览器。',
         // 上传下载
         'get_loading_tips'                  => '正在获取中..',

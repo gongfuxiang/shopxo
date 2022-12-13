@@ -4053,7 +4053,7 @@ $(function()
         var data = $(this).find('span.data-json').text() || null;
         if(data != null)
         {
-            data = JSON.parse(data) || null;
+            data = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(data)).toString(CryptoJS.enc.Utf8))
         }
         
         // 参数
@@ -4066,11 +4066,11 @@ $(function()
             var html = '';
             for(var i in data)
             {
-                var json = (data[i]['items'] || null) == null ? '' : JSON.stringify(data[i]['items']);
+                var json = ((data[i]['items'] || null) == null || data[i]['items'].length == 0) ? '' : encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(data[i]['items']))));
                 html += '<li><a href="javascript:;" data-value="'+data[i]['id']+'">';
                 html += '<span class="data-name">'+data[i]['name']+'</span>';
                 html += '<span class="data-json am-hide">'+json+'</span>';
-                if((data[i]['items'] || null) != null)
+                if((data[i]['items'] || null) != null && data[i]['items'].length > 0)
                 {
                     html += '<i class="am-icon-angle-double-right am-fr"></i>';
                 }

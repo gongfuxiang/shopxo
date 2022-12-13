@@ -2793,6 +2793,123 @@ function ColorPickerInit()
 	}
 }
 
+/**
+ * 获取规格详情
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-12-14
+ * @desc    description
+ */
+function CommonGoodsChoiceSpecDetail()
+{
+    // 是否全部选中
+    var $spec = $('.common-goods-spec-choice-content');
+    var sku_count = $spec.find('.sku-items').length;
+    var active_count = $spec.find('.sku-items li.selected').length;
+    if(active_count < sku_count)
+    {
+        return false;
+    }
+
+    // 获取规格值
+    var spec = [];
+    $spec.find('.sku-items li.selected').each(function(k, v)
+    {
+        spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
+    });
+
+    // ajax请求
+    $.AMUI.progress.start();
+    $.ajax({
+        url: RequestUrlHandle(__goods_spec_detail_url__),
+        type: 'post',
+        dataType: 'json',
+        timeout: 10000,
+        data: {"id": $spec.data('id'), "spec": spec},
+        success: function(result)
+        {
+            $.AMUI.progress.done();
+            if(result.code != 0)
+            {
+                Prompt(result.msg);
+            }
+        },
+        error: function(xhr, type)
+        {
+            $.AMUI.progress.done();
+            Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+        }
+    });
+}
+
+/**
+ * 获取规格类型
+ * @author   Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2018-12-14
+ * @desc    description
+ */
+function CommonGoodsChoiceSpecType()
+{
+    // 是否全部选中
+    var $spec = $('.common-goods-spec-choice-content');
+    var sku_count = $spec.find('.sku-items').length;
+    var active_count = $spec.find('.sku-items li.selected').length;
+    if(active_count <= 0 || active_count >= sku_count)
+    {
+        return false;
+    }
+
+    // 获取规格值
+    var spec = [];
+    $spec.find('.sku-items li.selected').each(function(k, v)
+    {
+        spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')})
+    });
+
+    // ajax请求
+    $.AMUI.progress.start();
+    $.ajax({
+        url: RequestUrlHandle(__goods_spec_type_url__),
+        type: 'post',
+        dataType: 'json',
+        timeout: 10000,
+        data: {"id": $spec.data('id'), "spec": spec},
+        success: function(result)
+        {
+            $.AMUI.progress.done();
+            if(result.code == 0)
+            {
+                var spec_count = spec.length;
+                var index = (spec_count > 0) ? spec_count : 0;
+                if(index < sku_count)
+                {
+                    $spec.find('.sku-items').eq(index).find('li').each(function(k, v)
+                    {
+                        $(this).removeClass('sku-dont-choose');
+                        var value = $(this).data('value').toString();
+                        if(result.data.spec_type.indexOf(value) == -1)
+                        {
+                            $(this).addClass('sku-items-disabled');
+                        } else {
+                            $(this).removeClass('sku-items-disabled');
+                        }
+                    });
+                }
+            } else {
+                Prompt(result.msg);
+            }
+        },
+        error: function(xhr, type)
+        {
+            $.AMUI.progress.done();
+            Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+        }
+    });
+}
+
 
 // 公共数据操作
 $(function()
@@ -4172,14 +4289,14 @@ $(function()
     });
 
     // 加入购物车
-    $('.common-cart-submit-event').on('click', function()
+    $(document).on('click', '.common-goods-cart-submit-event', function()
     {
         var goods_id = $(this).data('gid');
         if(parseInt($(this).data('is-many-spec') || 0) == 0)
         {
             $.AMUI.progress.start();
             $.ajax({
-                url: RequestUrlHandle($(this).data('cart-save-url')),
+                url: RequestUrlHandle(__goods_cart_save_url__),
                 type: 'post',
                 dataType: "json",
                 timeout: 10000,
@@ -4206,7 +4323,148 @@ $(function()
             });
         } else {
             // 开启规格选择弹窗
-            ModalLoad(UrlFieldReplace('id', goods_id, $(this).data('cart-info-url')), '', 'common-goods-cart-popup');
+            ModalLoad(UrlFieldReplace('id', goods_id, __goods_cart_info_url__), '', 'common-goods-cart-popup');
         }
+    });
+
+    // 商品规格选择
+    var $common_goods_spec_choice_submit_event_obj = null;
+    $(document).on('click', '.common-goods-spec-choice-submit-event', function()
+    {
+    	// 基础参数
+    	var goods_id = $(this).data('goods-id') || null;
+    	if(goods_id == null)
+    	{
+    		Prompt(window['lang_goods_id_empty_tips'] || '商品ID数据');
+    		return false;
+    	}
+    	var spec = $(this).data('spec') || null;
+    	if(spec == null)
+    	{
+    		Prompt(window['lang_goods_spec_empty_tips'] || '无规格数据');
+    		return false;
+    	}
+    	spec = JSON.parse(CryptoJS.enc.Base64.parse(decodeURIComponent(spec)).toString(CryptoJS.enc.Utf8));
+
+    	// 规格处理
+    	var html = `<div class="common-goods-spec-choice-container am-padding-sm">`;
+    		html += `<div class="common-goods-spec-choice-content am-scrollable-vertical" data-id="`+goods_id+`">`;
+    	for(var i in spec)
+    	{
+    		html += `<div class="spec-options sku-items am-radius">
+                    <div class="spec-title">`+spec[i]['name']+`</div>
+                    <ul>`;
+            for(var t in spec[i]['value'])
+            {
+            	var temp = spec[i]['value'][t];
+                html += `<li class="am-radius sku-line `+((temp['images'] || null) != null ? ' sku-line-images' : '')+` `+((i > 0) ? ' sku-dont-choose' : '')+` `+((parseInt(temp['is_only_level_one'] || 0) == 1 && parseInt(temp['inventory'] || 0) <= 0) ? ' sku-items-disabled' : '')+`" data-type-value="`+temp['name']+`" data-value="`+temp['name']+`" data-type-images="`+((temp['images'] || null) != null ? temp['images'] : '')+`">`;
+                        if((temp['images'] || null) != null)
+                        {
+                        	html += `<img src="`+temp['images']+`" class="am-radius" />`;
+                        }
+                        html += temp['name']+`<i></i>
+                    </li>`;
+            }
+			html += `</ul>`;
+			html += `</div>`;
+    	}
+    	html += '</div>';
+    	html += '<button type="button" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block am-margin-top-lg common-goods-spec-choice-confirm-submit">确认</button>';
+    	html += '</div>';
+
+    	// 调用弹窗组件
+		AMUI.dialog.alert({
+			isClose: true,
+			content: html
+		});
+		// 当前对象赋值
+		$common_goods_spec_choice_submit_event_obj = $(this);
+    });
+    // 商品规格选择
+    $(document).on('click', '.common-goods-spec-choice-content .spec-options ul>li', function()
+    {
+        // 规格处理
+        var $parent = $(this).parents('.common-goods-spec-choice-content');
+        var length = $parent.find('.sku-items').length;
+        var index = $(this).parents('.sku-items').index();
+        if($(this).hasClass('selected'))
+        {
+            $(this).removeClass('selected');
+
+            // 去掉元素之后的禁止
+            $parent.find('.sku-items').each(function(k, v)
+            {
+                if(k > index)
+                {
+                    $(this).find('li').removeClass('sku-items-disabled').removeClass('selected').addClass('sku-dont-choose');
+                }
+            });
+        } else {
+            if($(this).hasClass('sku-items-disabled') || $(this).hasClass('sku-dont-choose'))
+            {
+                return false;
+            }
+            $(this).addClass('selected').siblings('li').removeClass('selected');
+            $(this).parents('.sku-items').removeClass('sku-not-active');
+
+            // 去掉元素之后的禁止
+            if(index < length)
+            {
+                $parent.find('.sku-items').each(function(k, v)
+                {
+                    if(k > index)
+                    {
+                        $(this).find('li').removeClass('sku-items-disabled').removeClass('selected').addClass('sku-dont-choose');
+                    }
+                });
+            }
+
+            // 获取下一个规格类型
+            CommonGoodsChoiceSpecType();
+
+            // 获取规格详情
+            CommonGoodsChoiceSpecDetail();
+        }
+    });
+    // 商品规格选择确认
+    $(document).on('click', '.common-goods-spec-choice-confirm-submit', function()
+    {
+    	var $parent = $(this).parents('.common-goods-spec-choice-container');
+    	// 是否存在规格数据
+	    var sku_count = $parent.find('.sku-items').length;
+	    if(sku_count <= 0)
+	    {
+	    	Prompt(window['lang_goods_spec_empty_tips'] || '无规格数据');
+            return false;
+	    }
+
+	    // 是否已选择处理
+        var spec_count = $('.sku-line.selected').length;
+        if(spec_count < sku_count)
+        {
+            $parent.find('.sku-items').each(function(k, v)
+            {
+                if($(this).find('.sku-line.selected').length == 0)
+                {
+                    $(this).addClass('sku-not-active');
+                }
+            });
+            Prompt(window['lang_goods_no_choice_spec_tips'] || '请选择规格');
+            return false;
+        }
+
+        // 已选规格
+        var spec = [];
+        var value = [];
+        $('.sku-items li.selected').each(function(k, v)
+        {
+            spec.push({"type": $(this).data('type-value'), "value": $(this).data('value')});
+            value.push($(this).data('value'));
+        });
+
+	    // 赋值已选
+	    $common_goods_spec_choice_submit_event_obj.attr('data-value', encodeURIComponent(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(spec))))).text(value.join(' / '));
+	    // 关闭弹窗
+	    $(this).parents('.am-modal-dialog').find('.am-modal-hd .am-close').trigger('click');
     });
 });

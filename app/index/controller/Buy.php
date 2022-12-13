@@ -66,21 +66,15 @@ class Buy extends Common
             }
 
             // 获取下单信息
-            $data = MySession('buy_post_data');
-            if(empty($data))
+            $buy_data = MySession('buy_post_data');
+            if(empty($buy_data) || empty($buy_data['goods_data']))
             {
                 MyViewAssign('msg', '商品信息为空');
                 return MyView('public/tips_error');
-            } else {
-                // 规格数据避免被转义
-                if(!empty($data['spec']))
-                {
-                    $data['spec'] = htmlspecialchars_decode($data['spec']);
-                }
             }
 
             // 参数
-            $params = array_merge($this->data_request, $data);
+            $params = array_merge($this->data_request, $buy_data);
             $params['user'] = $this->user;
 
             // 默认支付方式
@@ -104,6 +98,7 @@ class Buy extends Common
                 $assign = [
                     'base'                  => $buy_base,
                     'buy_goods'             => $buy_goods,
+                    'buy_data'              => $buy_data,
                     // 浏览器名称
                     'home_seo_site_title'   => SeoService::BrowserSeoTitle('订单确认', 1),
                     // 公共销售模式

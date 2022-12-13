@@ -47,24 +47,8 @@ class BuyService
         $p = [
             [
                 'checked_type'      => 'empty',
-                'key_name'          => 'stock',
-                'error_msg'         => '购买数量有误',
-            ],
-            [
-                'checked_type'      => 'min',
-                'key_name'          => 'stock',
-                'checked_data'      => 1,
-                'error_msg'         => '购买数量有误',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'goods_id',
-                'error_msg'         => '商品id有误',
-            ],
-            [
-                'checked_type'      => 'isset',
-                'key_name'          => 'spec',
-                'error_msg'         => '规格参数有误',
+                'key_name'          => 'goods_data',
+                'error_msg'         => '购买商品有误',
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -72,11 +56,16 @@ class BuyService
         {
             return DataReturn($ret, -1);
         }
+        if(!is_array($params['goods_data']))
+        {
+            $params['goods_data'] = json_decode(base64_decode(urldecode($params['goods_data'])), true);
+        }
 
         // 获取商品
+        $goods_ids = array_column($params['goods_data'], 'goods_id');
         $goods_params = array_merge($params, [
             'where' => [
-                ['id', '=', intval($params['goods_id'])],
+                ['id', 'in', $goods_ids],
                 ['is_delete_time', '=', 0],
                 ['is_shelves', '=', 1],
             ],
@@ -87,51 +76,62 @@ class BuyService
         {
             return DataReturn('资源不存在或已被删除', -10);
         }
-        $goods = $ret['data'][0];
 
-        // 规格
-        $goods['spec'] = self::GoodsSpecificationsHandle($params);
-
-        // id处理、避免不同规格导致id一样
-        $goods['id'] = md5($goods['goods_id'].(empty($goods['spec']) ? 'default' : implode('', array_column($goods['spec'], 'value'))));
-
-        // 获取商品基础信息
-        $spec_params = array_merge($params, [
-            'id'    => $goods['goods_id'],
-            'spec'  => $goods['spec'],
-            'stock' => $params['stock']
-        ]);
-        $goods_base = GoodsService::GoodsSpecDetail($spec_params);
-        if($goods_base['code'] == 0)
+        // 商品处理
+        $data = [];
+        $temp_goods = array_column($ret['data'], null, 'id');
+        foreach($params['goods_data'] as $v)
         {
-            $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
-            $goods['price'] = (float) $goods_base['data']['spec_base']['price'];
-            $goods['original_price'] = (float) $goods_base['data']['spec_base']['original_price'];
-            $goods['spec_weight'] = $goods_base['data']['spec_base']['weight'];
-            $goods['spec_volume'] = $goods_base['data']['spec_base']['volume'];
-            $goods['spec_coding'] = $goods_base['data']['spec_base']['coding'];
-            $goods['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
-            $goods['extends'] = $goods_base['data']['spec_base']['extends'];
-        } else {
-            return $goods_base;
-        }
-
-        // 获取商品规格图片
-        if(!empty($goods['spec']))
-        {
-            $images = self::BuyGoodsSpecImages($goods['goods_id'], $goods['spec']);
-            if(!empty($images))
+            if(array_key_exists($v['goods_id'], $temp_goods))
             {
-                $goods['images'] = ResourcesService::AttachmentPathViewHandle($images);
-                $goods['images_old'] = $images;
+                // 商品
+                $goods = $temp_goods[$v['goods_id']];
+
+                // 规格
+                $goods['spec'] = self::GoodsSpecificationsHandle($v);
+
+                // id处理、避免不同规格导致id一样
+                $goods['id'] = md5($goods['goods_id'].(empty($goods['spec']) ? 'default' : implode('', array_column($goods['spec'], 'value'))));
+
+                // 获取商品基础信息
+                $spec_params = array_merge($params, [
+                    'id'    => $goods['goods_id'],
+                    'spec'  => $goods['spec'],
+                    'stock' => $v['stock']
+                ]);
+                $goods_base = GoodsService::GoodsSpecDetail($spec_params);
+                if($goods_base['code'] == 0)
+                {
+                    $goods['inventory'] = $goods_base['data']['spec_base']['inventory'];
+                    $goods['price'] = (float) $goods_base['data']['spec_base']['price'];
+                    $goods['original_price'] = (float) $goods_base['data']['spec_base']['original_price'];
+                    $goods['spec_weight'] = $goods_base['data']['spec_base']['weight'];
+                    $goods['spec_volume'] = $goods_base['data']['spec_base']['volume'];
+                    $goods['spec_coding'] = $goods_base['data']['spec_base']['coding'];
+                    $goods['spec_barcode'] = $goods_base['data']['spec_base']['barcode'];
+                    $goods['extends'] = $goods_base['data']['spec_base']['extends'];
+                } else {
+                    return $goods_base;
+                }
+
+                // 获取商品规格图片
+                if(!empty($goods['spec']))
+                {
+                    $images = self::BuyGoodsSpecImages($goods['goods_id'], $goods['spec']);
+                    if(!empty($images))
+                    {
+                        $goods['images'] = ResourcesService::AttachmentPathViewHandle($images);
+                        $goods['images_old'] = $images;
+                    }
+                }
+
+                // 数量/小计
+                $goods['stock'] = $v['stock'];
+                $goods['total_price'] = $v['stock']* ((float) $goods['price']);
+                $data[] = $goods;
             }
         }
-
-        // 数量/小计
-        $goods['stock'] = $params['stock'];
-        $goods['total_price'] = $params['stock']* ((float) $goods['price']);
-
-        $ret['data'] = [$goods];
+        $ret['data'] = $data;
         return $ret;
     }
 

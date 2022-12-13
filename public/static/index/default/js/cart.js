@@ -179,18 +179,27 @@ $(function()
     });
 
     // 导航固定
-    var nav_top = $('.cart-nav').length > 0 ? $('.cart-nav').offset().top : 0;
+    var $nav = $('.cart-nav');
+    var nav_top = $nav.length > 0 ? $nav.offset().top : 0;
     function CartNavPop()
     {
         var scroll = $(document).scrollTop();
-        var location = scroll+$(window).height()-100;
-        var bottom = ($(window).width() < 640) ? '49px' : '0';
+        var height = $nav.innerHeight();
+        var location = scroll+$(window).height()-height;
+        var bottom = ($(window).width() < 640) ? height+'px' : '0';
+        if($(window).width() < 640)
+        {
+            location -= $('.mobile-navigation').innerHeight();
+            var bottom = (height-1)+'px';
+        } else {
+            var bottom = 0;
+        }
         if(location < nav_top)
         {
-            $('.cart-nav').css({"position":"fixed", "bottom":bottom, "width":$('.cart-content').width()+"px", "z-index":1000});
-            $('body').css({"padding-bottom":"50px"});
+            $nav.css({"position":"fixed", "bottom":bottom, "width":$('.cart-content').width()+"px", "z-index":1000});
+            $('body').css({"padding-bottom":height+"px"});
         } else {
-            $('.cart-nav').css({"position":"relative", "bottom":0, "z-index":0, "width":"100%"});
+            $nav.css({"position":"relative", "bottom":0, "z-index":0, "width":"100%"});
             $('body').css({"padding-bottom":"0"});
         }
     }
@@ -203,7 +212,6 @@ $(function()
     // 浏览器窗口实时事件
     $(window).resize(function()
     {
-        // 导航固定初始化
         CartNavPop();
     });
 

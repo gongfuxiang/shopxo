@@ -53,6 +53,10 @@ class Page
 		$this->tips_msg = empty($params['tips_msg']) ? '' : trim($params['tips_msg']);
 		$this->page_total = 1;
 		$this->html = '';
+		// 插件基础参数不参与条件
+		$this->not_fields[] = 'pluginsname';
+		$this->not_fields[] = 'pluginscontrol';
+		$this->not_fields[] = 'pluginsaction';
 
 		/* 参数设置 */
 		$this->SetParem();
@@ -129,11 +133,11 @@ class Page
 		$this->html .= '</li>';
 
 		$this->html .= '<span class="am-margin-left-sm">每页</span>';
-		$this->html .= '<input type="text" min="1" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page_size.'" onchange="window.location.href=\''.str_replace(['&page_size='.$this->page_size, 'page_size='.$this->page_size.'&'], '', $this->url).$this->page_join.'page_size=\'+(isNaN(parseInt(this.value)) ? 10 : parseInt(this.value) || 10);" onclick="this.select()" />';
+		$this->html .= '<input type="text" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page_size.'" onchange="window.location.href=\''.str_replace(['&page_size='.$this->page_size, 'page_size='.$this->page_size.'&'], '', $this->url).$this->page_join.'page_size=\'+(isNaN(parseInt(this.value)) ? 10 : parseInt(this.value) || 10);" onclick="this.select()" />';
 		$this->html .= '<span>条</span>';
 
 		$this->html .= '<span class="am-margin-left-sm">跳转到</span>';
-		$this->html .= '<input type="text" min="1" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page.'" onchange="window.location.href=\''.$this->url.$this->page_join.'page=\'+(isNaN(parseInt(this.value)) ? 1 : parseInt(this.value) || 1);" onclick="this.select()" />';
+		$this->html .= '<input type="text" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page.'" onchange="window.location.href=\''.$this->url.$this->page_join.'page=\'+(isNaN(parseInt(this.value)) ? 1 : parseInt(this.value) || 1);" onclick="this.select()" />';
 		$this->html .= '<span>页</span>';
 
 		$this->html .= '<div>';

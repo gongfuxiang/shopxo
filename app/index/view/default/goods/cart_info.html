@@ -4,7 +4,7 @@
     {{include file="public/not_data" /}}
 {{else /}}
     <form class="am-form form-validation am-form-popup-fixed" method="post" action="{{:MyUrl('index/cart/save')}}" request-type="ajax-fun" request-value="GoodsCartInfoSubmitBack">
-        <div class="goods-spec-container am-padding-sm" data-spectype-url="{{:MyUrl('index/goods/spectype')}}" data-specdetail-url="{{:MyUrl('index/goods/specdetail')}}" >
+        <div class="goods-spec-container am-padding-sm">
             <h2>
                 <img src="{{$goods.images}}" width="24" height="24" />
                 <span class="am-margin-left-xs">{{$goods.title}}</span>
@@ -82,7 +82,7 @@ function GoodsCartInfoSubmitBack(e)
         Prompt(e.msg, 'success');
         setTimeout(function()
         {
-            parent.IframePopupHomeCartNumberTotalUpdate(parseInt(e.data.buy_number), '.common-goods-cart-popup');
+            parent.IframePopupHomeCartNumberTotalUpdate(e.data.buy_number, '.common-goods-cart-popup');
         }, 1500);
     } else {
         Prompt(e.msg);

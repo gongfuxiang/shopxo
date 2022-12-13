@@ -14,17 +14,18 @@ var dialog = dialog || {};
 
 dialog.alert = function(options) {
   options = options || {};
-  options.class_name = options.class_name || '';
+  options.class = options.class || '';
   options.title = options.title || null;
   options.content = options.content || '提示内容';
+  options.confirmText = options.confirmText || '确定';
   options.isClose = options.isClose || false;
   options.isBtn = options.isBtn || false;
   options.config = options.config || {};
   options.onConfirm = options.onConfirm || function() {
     };
   var html = [];
-  html.push('<div class="am-modal am-modal-alert '+options.class_name+'" tabindex="-1">');
-  html.push('<div class="am-modal-dialog am-radius">');
+  html.push('<div class="am-modal am-modal-alert '+options.class+'" tabindex="-1">');
+  html.push('<div class="am-modal-dialog am-radius am-nbfc">');
   if(options.title !== null || options.isClose === true)
   {
     html.push('<div class="am-modal-hd">');
@@ -41,7 +42,7 @@ dialog.alert = function(options) {
   html.push('<div class="am-modal-bd">' + options.content + '</div>');
   if(options.isBtn)
   {
-    html.push('<div class="am-modal-footer"><span class="am-modal-btn">确定</span></div>');
+    html.push('<div class="am-modal-footer"><span class="am-modal-btn">'+options.confirmText+'</span></div>');
   }
   html.push('</div>');
   html.push('</div>');
@@ -63,6 +64,8 @@ dialog.confirm = function(options) {
   options = options || {};
   options.title = options.title || '提示';
   options.content = options.content || '提示内容';
+  options.cancelText = options.cancelText || '取消';
+  options.confirmText = options.confirmText || '确定';
   options.onConfirm = options.onConfirm || function() {
     };
   options.onCancel = options.onCancel || function() {
@@ -70,12 +73,12 @@ dialog.confirm = function(options) {
 
   var html = [];
   html.push('<div class="am-modal am-modal-confirm" tabindex="-1">');
-  html.push('<div class="am-modal-dialog am-radius">');
+  html.push('<div class="am-modal-dialog am-radius am-nbfc">');
   html.push('<div class="am-modal-hd">' + options.title + '</div>');
   html.push('<div class="am-modal-bd"><div class="am-padding-horizontal-xl am-padding-vertical-xs">' + options.content + '</div></div>');
   html.push('<div class="am-modal-footer">');
-  html.push('<span class="am-modal-btn" data-am-modal-cancel>取消</span>');
-  html.push('<span class="am-modal-btn" data-am-modal-confirm>确定</span>');
+  html.push('<span class="am-modal-btn" data-am-modal-cancel>'+options.cancelText+'</span>');
+  html.push('<span class="am-modal-btn" data-am-modal-confirm>'+options.confirmText+'</span>');
   html.push('</div>');
   html.push('</div>');
   html.push('</div>');
@@ -109,7 +112,7 @@ dialog.loading = function(options) {
     } else {
       var html = [];
       html.push('<div class="am-modal am-modal-loading am-modal-no-btn" tabindex="-1" id="my-modal-loading">');
-      html.push('<div class="am-modal-dialog am-radius">');
+      html.push('<div class="am-modal-dialog am-radius am-nbfc">');
       html.push('<div class="am-modal-bd am-padding-vertical-0">');
       html.push('<div class="am-padding-horizontal-sm am-padding-vertical-sm">');
       html.push('<span class="am-icon-spinner am-icon-spin"></span>');
@@ -119,8 +122,7 @@ dialog.loading = function(options) {
       html.push('</div>');
       html.push('</div>');
 
-      return $(html.join('')).appendTo('body').modal()
-        .on('closed.modal.amui', function() {
+      return $(html.join('')).appendTo('body').modal().on('closed.modal.amui', function() {
           $(this).remove();
         });
     }
@@ -130,30 +132,29 @@ dialog.loading = function(options) {
 dialog.actions = function(options) {
   options = options || {};
   options.title = options.title || '您想整咋样?';
+  options.cancelText = options.cancelText || '取消';
   options.items = options.items || [];
-  options.onSelected = options.onSelected || function() {
-      $acions.close();
-    };
   var html = [];
   html.push('<div class="am-modal-actions">');
-  html.push('<div class="am-modal-actions-group">');
+  html.push('<div class="am-modal-actions-group am-radius am-nbfc">');
   html.push('<ul class="am-list">');
   html.push('<li class="am-modal-actions-header">' + options.title + '</li>');
   options.items.forEach(function(item, index) {
-    html.push('<li index="' + index + '">' + item.content + '</li>');
+    html.push('<li class="am-padding-sm" index="' + index + '">' + item.content + '</li>');
   });
   html.push('</ul>');
   html.push('</div>');
   html.push('<div class="am-modal-actions-group">');
-  html.push('<button class="am-btn am-btn-secondary am-btn-block" data-am-modal-close>取消</button>');
+  html.push('<button class="am-btn am-btn-secondary am-btn-block am-radius" data-am-modal-close>'+options.cancelText+'</button>');
   html.push('</div>');
   html.push('</div>');
 
-  var $acions = $(html.join('')).appendTo('body');
-
-  $acions.find('.am-list>li').bind('click', function(e) {
-    options.onSelected($(this).attr('index'), this);
-  });
+  var $acions = $(html.join('')).appendTo('body').modal();
+  if((options.onSelected || null) != null && typeof(options.onSelected) == 'function') {
+    $acions.find('.am-list>li').bind('click', function(e) {
+      options.onSelected($(this).attr('index'), $(this), $acions);
+    });
+  }
 
   return {
     show: function() {
@@ -193,8 +194,7 @@ dialog.popup = function(options) {
   }
   html.push('</div> ');
   html.push('</div>');
-  return $(html.join('')).appendTo('body').modal()
-    .on('closed.modal.amui', function() {
+  return $(html.join('')).appendTo('body').modal().on('closed.modal.amui', function() {
       var $this = $(this);
       setTimeout(function()
       {

@@ -1721,6 +1721,79 @@ a.input-clearout-submit:focus > i {
 }
 
 
+/**
+ * 商品可选规格
+ */
+.common-goods-spec-choice-content {
+    width: 360px;
+    height: auto;
+    max-height: 300px;
+    text-align: left;
+}
+.common-goods-spec-choice-content .spec-options {
+    overflow: hidden;
+    padding: 0 1px;
+    margin: 5px 0;
+}
+.common-goods-spec-choice-content .spec-title, .price-title {
+    font-weight: 500;
+}
+.common-goods-spec-choice-content .sku-line {
+    float: left;
+    margin: 5px 25px 10px 0;
+    background: #efefef;
+    padding: 8px 20px;
+    border: 1px solid #d5d5d5;
+    cursor: pointer;
+}
+.common-goods-spec-choice-content .sku-line:hover {
+    background: none;
+    color: #333;
+    border: 1px solid #e23f36;
+    box-shadow: 0px 0 0px 1px #e23f36;
+}
+.common-goods-spec-choice-content .sku-line.selected {
+    background: #e23f36;
+    color: #fff;
+    border: 1px solid #e23f36;
+}
+.common-goods-spec-choice-content .sku-line-images {
+    padding: 6px 15px !important;
+}
+.common-goods-spec-choice-content .sku-line-images img {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+.common-goods-spec-choice-content .sku-not-active {
+    border: 1px solid #f03726 !important;
+    box-shadow: 0 0px 3px #ed7f76, 0 0 6px rgba(0, 0, 0, 0);
+    padding: 5px 10px 0 10px;
+}
+.common-goods-spec-choice-content .sku-items-disabled {
+    color: #d2cfcf !important;
+    background-color: #ffffff !important;
+    border: 1px dashed #d5d5d5 !important;
+    box-shadow: none !important;
+}
+.common-goods-spec-choice-content .sku-dont-choose {
+    color: #b4b3b3 !important;
+    background-color: #ffffff !important;
+    border: 1px solid #ebeaea !important;
+    box-shadow: none !important;
+}
+.common-goods-spec-choice-content .sku-dont-choose img {
+    opacity: 0.5;
+}
+.common-goods-spec-choice-content .sku-items-disabled img {
+    opacity: 0.3;
+}
+@media only screen and (max-width: 641px) {
+    .common-goods-spec-choice-content {
+        max-width: 260px;
+    }
+}
+
 
 /**
  * 滚动条样式

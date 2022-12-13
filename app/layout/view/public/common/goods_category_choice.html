@@ -6,7 +6,7 @@
                     <a href="javascript:;" data-index="{{$k}}" data-value="{{$v.id}}">
                         <span class="data-name">{{$v.name}}</span>
                         {{if !empty($v['items'])}}
-                            <span class="data-json am-hide">{{:json_encode($v['items'], JSON_UNESCAPED_UNICODE)}}</span>
+                            <span class="data-json am-hide">{{:urlencode(base64_encode(json_encode($v['items'], JSON_UNESCAPED_UNICODE)))}}</span>
                             <i class="am-icon-angle-double-right am-fr"></i>
                         {{/if}}
                     </a>

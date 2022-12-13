@@ -30,9 +30,9 @@ function GoodsCartInfoSpecDetail()
 
     // ajax请求
     $.ajax({
-        url: $cart_info_goods_spec.data('specdetail-url'),
+        url: RequestUrlHandle(__goods_spec_detail_url__),
         type: 'post',
-        dataType: "json",
+        dataType: 'json',
         timeout: 10000,
         data: {"id": $('.goods-spec-content').data('id'), "spec": spec, "stock": stock},
         success: function(result)
@@ -105,9 +105,9 @@ function GoodsCartInfoSpecType()
 
     // ajax请求
     $.ajax({
-        url: $cart_info_goods_spec.data('spectype-url'),
+        url: RequestUrlHandle(__goods_spec_type_url__),
         type: 'post',
-        dataType: "json",
+        dataType: 'json',
         timeout: 10000,
         data: {"id": $('.goods-spec-content').data('id'), "spec": spec},
         success: function(result)
