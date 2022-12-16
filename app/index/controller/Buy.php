@@ -67,7 +67,7 @@ class Buy extends Common
 
             // 获取下单信息
             $buy_data = MySession('buy_post_data');
-            if(empty($buy_data) || empty($buy_data['goods_data']))
+            if(empty($buy_data) || (empty($buy_data['goods_data']) && empty($buy_data['ids'])))
             {
                 MyViewAssign('msg', '商品信息为空');
                 return MyView('public/tips_error');
