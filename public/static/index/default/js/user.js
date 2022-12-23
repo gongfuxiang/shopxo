@@ -8,7 +8,7 @@ $(function()
 	// 查看密码
 	$('.eye-submit').on('click', function()
 	{
-		var $obj = $(this).parent().prev();
+		var $obj = $(this).parent().parent().find('input');
 		if($obj.attr('type') == 'password')
 		{
 			$(this).addClass('cr-green');
