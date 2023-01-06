@@ -19,7 +19,7 @@
 			</div>
 			<div class="am-popup-bd">
 				<!-- form start -->
-				<form class="am-form form-validation" action="{{:MyUrl('admin/link/Save')}}" method="POST" request-type="ajax-reload" request-value="">
+				<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/link/Save')}}" method="POST" request-type="ajax-reload" request-value="">
 					<div class="am-form-group">
 						<label>名称</label>
 						<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
@@ -38,7 +38,7 @@
 						<label>描述</label>
 						<textarea rows="3" maxlength="60" name="describe" class="am-radius" placeholder="描述" data-validation-message="描述不能大于60个字符"></textarea>
 					</div>
-					<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
+					<div class="am-form-popup-submit">
 						<input type="hidden" name="id" />
 						<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
 					</div>

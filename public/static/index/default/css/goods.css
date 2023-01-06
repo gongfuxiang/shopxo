@@ -37,10 +37,10 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .iteminfo_parameter { margin-bottom: 10px; }
 .theme-signin-left{max-height:250px ;overflow-y: scroll;background: #fff;}
 .theme-options{display: block;overflow: hidden;padding-left: 10px;padding-right:10px; margin-bottom: 5px;color: #666;}
-.theme-signin-left .sku-line{float: left; margin:10px;margin-left:0;border-radius:3px ; background:#efefef ;padding:3px 8px; border: 1px solid #d5d5d5;}
+.theme-signin-left .sku-line{float: left; margin:10px;margin-left:0;border-radius: 2px; background:#efefef ;padding:3px 8px; border: 1px solid #d5d5d5;}
 .theme-signin-left .sku-line.selected{background:#d2364c;color: #fff; border: 1px solid #d2364c;}
 .sku-line-images { padding:3px !important; }
-.sku-line-images img { width: 30px; height: 30px; vertical-align: middle; }
+.sku-line-images img { width: 30px; height: 30px; vertical-align: middle;border-radius: 2px; }
 .theme-signin .btn{width:100%;font-size: 16px;padding:5px ;}
 .btn-op{position:fixed;left:0;bottom: 0;width:100%; z-index: 3;}
 .iteminfo_parameter dt.buy-event {text-align: left;width:100% ;}
@@ -66,7 +66,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 
 @media only screen and (min-width:641px) {
     .theme-span{height:0px;background:#fff ;}
-    .theme-popover{box-shadow:0 0 10px #666;position:fixed;top:20%;left:calc(50% - 250px);width:500px;bottom:auto;border:solid 6px #d3d3d3;border-radius:3px;}
+    .theme-popover{box-shadow:0 0 10px #666;position:fixed;top:20%;left:calc(50% - 250px);width:500px;bottom:auto;border:solid 6px #d3d3d3;border-radius: 2px;}
     .theme-poptit{display: none;}
 
     /*商品规格*/
@@ -74,7 +74,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
     .theme-options .cart-title{margin-top:5px ;}
     .theme-options ul{float: left;}
 
-    .theme-signin-left .sku-line {background: none;border-radius:0 ;margin:5px;border:1px solid #d5d5d5 ;color:#333; background-color: #f5f5f5; }
+    .theme-signin-left .sku-line {background: none;margin:5px;border:1px solid #d5d5d5 ;color:#333; background-color: #f5f5f5; }
     .theme-signin-left .sku-line.selected, .theme-signin-left .sku-line:hover  {background:none;color:#333;border: 1px solid #e23f36; box-shadow: 0px 0 0px 1px #e23f36; }
 
     /*选中样式*/

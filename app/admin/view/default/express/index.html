@@ -18,7 +18,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/express/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
+					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/express/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group am-form-file">
 							<label class="block">icon图标</label>
 							<ul class="plug-file-upload-view express-icon-images-view" data-form-name="icon" data-max-number="1" data-dialog-type="images">
@@ -39,7 +39,7 @@
 							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						{{include file="lib/enable" /}}
-						<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+						<div class="am-form-popup-submit">
 							<input type="hidden" name="id" />
 							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>

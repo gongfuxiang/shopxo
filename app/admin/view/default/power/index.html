@@ -27,7 +27,7 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation admin-save" action="{{:MyUrl('admin/power/save')}}" method="POST" request-type="ajax-reload">
+					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/power/save')}}" method="POST" request-type="ajax-reload">
 						<div class="am-alert am-alert-warning" data-am-alert>
                             <button type="button" class="am-close">&times;</button>
                             <p>1. 填写[ 控制器名称 和 方法名称 ]需要对应创建相应的控制器和方法的定义</p>
@@ -74,7 +74,7 @@
 							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
 						</div>
 						{{include file="lib/is_show" /}}
-						<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
+						<div class="am-form-popup-submit">
 							<input type="hidden" name="id" />
 							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>

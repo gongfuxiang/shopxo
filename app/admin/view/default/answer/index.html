@@ -31,15 +31,14 @@
                     </dd>
                 </dl>
 
-                <form class="am-form form-validation-reply" action="{{:MyUrl('admin/answer/reply')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
-                    <div class="am-form-group">
+                <form class="am-form form-validation-reply am-form-popup-fixed" action="{{:MyUrl('admin/answer/reply')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
+                    <div class="am-form-group am-form-group-refreshing">
                         <label>回复内容</label>
                         <textarea name="reply" rows="5" class="am-radius" placeholder="回复内容格式 2~230 个字符" data-validation-message="回复内容格式 2~230 个字符" minlength="2" maxlength="230" required></textarea>
                     </div>
-
-                    <div class="am-form-group reply-submit am-form-group-refreshing am-text-center">
+                    <div class="am-form-popup-submit">
                         <input type="hidden" name="id" value="" />
-                        <button type="submit" class="am-btn am-btn-success am-radius am-btn-sm" data-am-loading="{loadingText:'处理中...'}">回复</button>
+                        <button type="submit" class="am-btn am-btn-success am-radius am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">回复</button>
                     </div>
                 </form>
             </div>

@@ -55,7 +55,7 @@
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+                <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
                     <div class="am-form-group">
                         <label>导航级别</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
@@ -79,7 +79,7 @@
                     </div>
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
+                    <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="custom" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
@@ -101,7 +101,7 @@
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation-article" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+                <form class="am-form form-validation-article am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
                     <div class="am-form-group">
                         <label>导航级别</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
@@ -136,7 +136,7 @@
                     </div>
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
+                    <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="article" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
@@ -159,7 +159,7 @@
                 </div>
             <div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation-customview" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+                <form class="am-form form-validation-customview am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
                     <div class="am-form-group">
                         <label>导航级别</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
@@ -188,7 +188,7 @@
                     </div>
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
+                    <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="customview" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
@@ -210,7 +210,7 @@
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation-goods_category" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+                <form class="am-form form-validation-goods_category am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
                     <div class="am-form-group">
                         <label>导航级别</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
@@ -249,7 +249,7 @@
                     </div>
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
+                    <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="goods_category" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
@@ -271,7 +271,7 @@
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
-                <form class="am-form form-validation-design" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
+                <form class="am-form form-validation-design am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
                     <div class="am-form-group">
                         <label>导航级别</label>
                         <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
@@ -300,7 +300,7 @@
                     </div>
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
-                    <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
+                    <div class="am-form-popup-submit">
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="design" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
