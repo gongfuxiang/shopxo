@@ -2,7 +2,7 @@
     <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 am-margin-top-sm search-list">
         {{foreach $data_list as $v}}
             <li>
-                <div class="items am-padding-bottom-xs">
+                <div class="items am-padding-bottom-xs am-radius">
                     <a href="{{$v.goods_url}}" target="_blank" class="am-block">
                         <!-- 搜索页面商品信息顶部钩子 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

@@ -21,8 +21,7 @@ dialog.alert = function(options) {
   options.isClose = options.isClose || false;
   options.isBtn = options.isBtn || false;
   options.config = options.config || {};
-  options.onConfirm = options.onConfirm || function() {
-    };
+  options.onConfirm = options.onConfirm || function() {};
   var html = [];
   html.push('<div class="am-modal am-modal-alert '+options.class+'" tabindex="-1">');
   html.push('<div class="am-modal-dialog am-radius am-nbfc">');
@@ -39,7 +38,13 @@ dialog.alert = function(options) {
     }
     html.push('</div>');
   }
-  html.push('<div class="am-modal-bd">' + options.content + '</div>');
+  // 是否url模式
+  if((options.url || null) != null)
+  {
+    html.push('<iframe src="'+options.url+'" class="am-block" style="width:100%;height:calc(100% - 20px);"></iframe>');
+  } else {
+    html.push('<div class="am-modal-bd">' + options.content + '</div>');
+  }
   if(options.isBtn)
   {
     html.push('<div class="am-modal-footer"><span class="am-modal-btn">'+options.confirmText+'</span></div>');
@@ -66,10 +71,8 @@ dialog.confirm = function(options) {
   options.content = options.content || '提示内容';
   options.cancelText = options.cancelText || '取消';
   options.confirmText = options.confirmText || '确定';
-  options.onConfirm = options.onConfirm || function() {
-    };
-  options.onCancel = options.onCancel || function() {
-    };
+  options.onConfirm = options.onConfirm || function() {};
+  options.onCancel = options.onCancel || function() {};
 
   var html = [];
   html.push('<div class="am-modal am-modal-confirm" tabindex="-1">');
@@ -171,8 +174,7 @@ dialog.popup = function(options) {
   options.title = options.title || null;
   options.content = options.content || '正文';
   options.class = options.class || '';
-  options.onClose = options.onClose || function() {
-    };
+  options.onClose = options.onClose || function() {};
 
   var html = [];
 
@@ -195,6 +197,35 @@ dialog.popup = function(options) {
   html.push('</div> ');
   html.push('</div>');
   return $(html.join('')).appendTo('body').modal().on('closed.modal.amui', function() {
+      var $this = $(this);
+      setTimeout(function()
+      {
+        $this.remove();
+      }, 1000);
+      options.onClose();
+    });
+};
+
+dialog.offcanvas = function(options) {
+  options = options || {};
+  options.content = options.content || '正文';
+  options.class = options.class || '';
+  options.onClose = options.onClose || function() {};
+  options.width = ((options.width || 0) == 0) ? '' : 'width:'+options.width+'px;';
+
+  var html = [];
+  html.push('<div class="am-offcanvas am-offcanvas-popup '+options.class+'">');
+  html.push('<div class="am-offcanvas-bar am-offcanvas-bar-flip" style="'+options.width+'">');
+  // 是否url模式
+  if((options.url || null) != null)
+  {
+    html.push('<iframe src="'+options.url+'" class="am-block" style="width:100%;height:100%;"></iframe>');
+  } else {
+    html.push('<div class="am-offcanvas-content">' + options.content + '</div>');
+  }
+  html.push('</div>');
+  html.push('</div>');
+  return $(html.join('')).appendTo('body').offCanvas().on('closed.offcanvas.amui', function() {
       var $this = $(this);
       setTimeout(function()
       {

@@ -8430,7 +8430,6 @@ img.am-thumbnail,
   background: #0e90d2;
   color: #fff;
   border: 1px solid #0c7cb5;
-  border-radius: 0;
 }
 .am-alert a {
   color: #fff;
@@ -9091,7 +9090,6 @@ TODO:
   padding: 15px 10px;
   text-align: center;
   border-bottom: 1px solid rgba(0,0,0,.03);
-  border-radius: 2px 2px 0 0;
 }
 .am-modal-bd + .am-modal-bd {
   margin-top: 5px;

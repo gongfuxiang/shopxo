@@ -57,12 +57,8 @@
         </a>
         <div class="am-nbfc">
             <a href="{{$module_data.order_data.items.goods_url}}" target="_blank" class="am-nowrap-initial">{{$module_data.order_data.items.title}}</a>
-            {{if !empty($module_data.order_data.items.spec)}}
-                <ul class="goods-spec am-margin-top-xs">
-                    {{foreach $module_data.order_data.items.spec as $spec}}
-                        <li>{{$spec.type}}：{{$spec.value}}</li>
-                    {{/foreach}}
-                </ul>
+            {{if !empty($module_data['order_data']['items']['spec_text'])}}
+                <div class="am-margin-top-xs am-nowrap-initial">{{$module_data.order_data.items.spec_text}}</div>
             {{/if}}
         </div>
     </div>

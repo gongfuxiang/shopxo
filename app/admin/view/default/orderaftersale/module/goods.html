@@ -60,12 +60,8 @@
             {{if !empty($module_data.order_data.items.model)}}
                 <span class="am-badge am-badge-default-plain am-radius">{{$module_data.order_data.items.model}}</span>
             {{/if}}
-            {{if !empty($module_data.order_data.items.spec)}}
-                <ul class="goods-spec am-margin-top-xs">
-                    {{foreach $module_data.order_data.items.spec as $spec}}
-                        <li>{{$spec.type}}：{{$spec.value}}</li>
-                    {{/foreach}}
-                </ul>
+            {{if !empty($module_data['order_data']['items']['spec_text'])}}
+                <div class="am-margin-top-xs am-nowrap-initial">{{$module_data.order_data.items.spec_text}}</div>
             {{/if}}
         </div>
     </div>

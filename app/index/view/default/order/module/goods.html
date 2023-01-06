@@ -101,12 +101,8 @@
             </a>
             <div class="am-nbfc">
                 <a href="{{$item.goods_url}}" target="_blank" class="am-nowrap-initial">{{$item.title}}</a>
-                {{if !empty($item.spec)}}
-                    <ul class="goods-spec am-margin-top-xs">
-                        {{foreach $item.spec as $spec}}
-                            <li>{{$spec.type}}：{{$spec.value}}</li>
-                        {{/foreach}}
-                    </ul>
+                {{if !empty($item['spec_text'])}}
+                    <div class="am-margin-top-xs am-nowrap-initial">{{$item.spec_text}}</div>
                 {{/if}}
             </div>
         </div>

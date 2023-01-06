@@ -121,7 +121,7 @@ input.add,input.min{width:15px}
     /*分类*/
     .goods-category-s {display:block;position: absolute;z-index: 1021;}
     .goods-category-s .all-goods, .goods-category-title .all-goods {font-size: 16px;}
-    .goods-category-title{background:#d2364c;color:#fff ;height: 40px;line-height: 44px;display:block;position: absolute;width:150px ;text-align: center;top:0px;cursor: pointer;}
+    .goods-category-title{background:#d2364c;color:#fff ;height: 40px;line-height: 44px;display:block;position: absolute;width:150px ;text-align: center;top:0px;cursor: pointer;border-top-left-radius: 2px;border-top-right-radius: 2px;}
     .goods-category-s .category-content{ position:relative; width: 150px; float: left;background:#fff; top: 45px;}
     .goods-category-s .category-content .all-goods { display: block; padding: 0; border-radius: 5px 5px 0 0; font-weight: 600; line-height: 36px;width:150px;height: 36px; padding: 0; border-radius: 5px 5px 0 0; color: #fff; text-align: center; font: 16px/36px "Microsoft YaHei";}
     .goods-category-s .category-content .all-goods em{ font: 12px/36px "Microsoft YaHei"; }

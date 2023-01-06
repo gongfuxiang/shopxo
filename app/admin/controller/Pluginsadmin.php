@@ -27,6 +27,8 @@ use app\service\PluginsUpgradeService;
  */
 class Pluginsadmin extends Base
 {
+    private $view_type;
+
     /**
      * 构造方法
      * @author   Devil

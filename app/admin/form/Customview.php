@@ -41,6 +41,7 @@ class CustomView
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
                 'is_delete'     => 1,
+                'is_middle'     => 0,
                 'delete_url'    => MyUrl('admin/customview/delete'),
                 'delete_key'    => 'ids',
                 'detail_title'  => '基础信息',

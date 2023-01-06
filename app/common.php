@@ -640,7 +640,7 @@ function GetUrlHost($url)
 {
     // 地址解析
     $arr = parse_url(strtolower($url));
-    $host = (count($arr) == 1) ? $arr['path'] : (empty($arr['host']) ? '' : $arr['host']);
+    $host = (count($arr) == 1) ? (isset($arr['path']) ? $arr['path'] : '') : (empty($arr['host']) ? '' : $arr['host']);
     if(empty($host))
     {
         return $url;
@@ -662,7 +662,7 @@ function GetUrlHost($url)
     }
 
     // 判断是否是双后缀
-    $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz)$/';
+    $preg = '/[\w].+\.(com|net|org|gov|ac|bj|sh|tj|cq|he|sn|sx|nm|ln|jl|hl|js|zj|ah|fj|jx|sd|ha|hb|hn|gd|gx|hi|sc|gz|yn|gs|qh|nx|xj|tw|hk|mo|xz|edu|ge|dev|co)\.(cn|nz|mm)$/';
     if(($n > 2) && preg_match($preg, $host))
     {
         // 双后缀取后3位
@@ -2109,35 +2109,47 @@ function ScienceNumToString($num)
 }
 
 /**
- * [GetClientIP 客户端ip地址]
+ * 客户端ip地址
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  0.0.1
  * @datetime 2017-02-09T12:53:13+0800
- * @param    [boolean]        $long [是否将ip转成整数]
- * @return   [string|int]           [ip地址|ip地址整数]
+ * @param    [boolean]        $long     [是否将ip转成整数]
+ * @return   [string|int]               [ip地址|ip地址整数]
+ * @param    [boolean]        $is_single[是否仅获取一个ip]
  */
-function GetClientIP($long = false)
+function GetClientIP($long = false, $is_single = true)
 {
-    $onlineip = '';
+    $ip = '';
     if(getenv('HTTP_CLIENT_IP') && strcasecmp(getenv('HTTP_CLIENT_IP'), 'unknown'))
     { 
-        $onlineip = getenv('HTTP_CLIENT_IP'); 
+        $ip = getenv('HTTP_CLIENT_IP');
     } elseif(getenv('HTTP_X_FORWARDED_FOR') && strcasecmp(getenv('HTTP_X_FORWARDED_FOR'), 'unknown'))
     {
-        $onlineip = getenv('HTTP_X_FORWARDED_FOR'); 
+        $ip = getenv('HTTP_X_FORWARDED_FOR');
     } elseif(getenv('REMOTE_ADDR') && strcasecmp(getenv('REMOTE_ADDR'), 'unknown'))
     {
-        $onlineip = getenv('REMOTE_ADDR'); 
+        $ip = getenv('REMOTE_ADDR');
     } elseif(isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], 'unknown'))
     {
-        $onlineip = $_SERVER['REMOTE_ADDR']; 
-    } 
-    if($long)
-    {
-        $onlineip = sprintf("%u", ip2long($onlineip));
+        $ip = $_SERVER['REMOTE_ADDR'];
     }
-    return $onlineip;
+    // 整数或单ip
+    if($long || $is_single)
+    {
+        // 单ip
+        if($is_single && stripos($ip, ',') !== false)
+        {
+            $temp = explode(',', $ip);
+            $ip = $temp[0];
+        }
+        // 转整数
+        if($long)
+        {
+            $ip = sprintf("%u", ip2long($ip));
+        }
+    }
+    return $ip;
 }
 
 /**
@@ -2893,7 +2905,7 @@ function Authcode($string, $operation = 'DECODE', $key = '', $expiry = 0)
 }
 
 /**
- * [ParamsChecked 参数校验方法]
+ * 参数校验方法
  * @author   Devil
  * @blog     http://gong.gg/
  * @version  1.0.0

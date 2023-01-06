@@ -59,6 +59,20 @@ class GoodsComments
                     'width'             => 80,
                 ],
                 [
+                    'label'         => '用户信息',
+                    'view_type'     => 'module',
+                    'view_key'      => 'lib/module/user',
+                    'grid_size'     => 'sm',
+                    'is_sort'       => 1,
+                    'search_config' => [
+                        'form_type'             => 'input',
+                        'form_name'             => 'user_id',
+                        'where_type_custom'     => 'in',
+                        'where_value_custom'    => 'WhereValueUserInfo',
+                        'placeholder'           => '请输入用户名/昵称/手机/邮箱',
+                    ],
+                ],
+                [
                     'label'         => '基础信息',
                     'view_type'     => 'module',
                     'view_key'      => 'goodscomments/module/goods',
@@ -71,20 +85,6 @@ class GoodsComments
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereGoodsInfo',
                         'placeholder'           => '请输入商品名称/型号',
-                    ],
-                ],
-                [
-                    'label'         => '用户信息',
-                    'view_type'     => 'module',
-                    'view_key'      => 'lib/module/user',
-                    'grid_size'     => 'sm',
-                    'is_sort'       => 1,
-                    'search_config' => [
-                        'form_type'             => 'input',
-                        'form_name'             => 'user_id',
-                        'where_type_custom'     => 'in',
-                        'where_value_custom'    => 'WhereValueUserInfo',
-                        'placeholder'           => '请输入用户名/昵称/手机/邮箱',
                     ],
                 ],
                 [

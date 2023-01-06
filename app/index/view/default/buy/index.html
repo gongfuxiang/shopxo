@@ -64,13 +64,13 @@
                         <button type="button" class="am-close am-fr mobile-address-close-submit">&times;</button>
                     </h3>
                     {{if !empty($user_address_list)}}
-                        <button class="am-btn am-btn-primary am-btn-xs address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">使用新地址</button>
+                        <button class="am-btn am-btn-primary am-btn-xs am-radius address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">使用新地址</button>
                     {{/if}}
                 </div>
                 {{if !empty($user_address_list)}}
                     <ul class="address-list">
                         {{foreach $user_address_list as $address}}
-                            <li class="{{if (isset($params['address_id']) and $params['address_id'] eq $address['id']) or (!isset($params['address_id']) and isset($address['is_default']) and $address['is_default'] eq 1) or (count($user_address_list) eq 1)}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
+                            <li class="am-radius {{if (isset($params['address_id']) and $params['address_id'] eq $address['id']) or (!isset($params['address_id']) and isset($address['is_default']) and $address['is_default'] eq 1) or (count($user_address_list) eq 1)}}address-default{{/if}}" id="data-list-{{$address.id}}" data-value="{{$address.id}}">
                                 <div class="address-left">
                                     <div class="user-base">
                                         {{if !empty($address.alias)}}
@@ -327,7 +327,7 @@
                                 {{/php}}
                                 <!-- 分组导航内部结束钩子-结束 -->
                             </div>
-                            <div class="am-panel-bd">
+                            <div class="am-panel-bd am-radius">
                                 <!-- 分组商品顶部钩子-开始 -->
                                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                     <div class="plugins-tag">
@@ -477,7 +477,7 @@
 
                                 <!-- 扩展展示数据 -->
                                 {{if !empty($v['order_base']['extension_data'])}}
-                                    <ul class="buy-extension-data am-padding-xs am-margin-bottom-sm">
+                                    <ul class="buy-extension-data am-padding-xs am-margin-bottom-sm am-radius">
                                         {{foreach $v['order_base']['extension_data'] as $ext}}
                                             <li>
                                                 <span class="extension-items-name">{{$ext.name}}</span>
@@ -565,7 +565,7 @@
         
         <!-- 留言 -->
         <div class="buy-message am-margin-top-sm">
-            <div class="order-extra">
+            <div class="order-extra am-radius">
                 <label>买家留言</label>
                 <input type="text" class="memo-input" title="选填,对本次交易的说明（建议填写已经和卖家达成一致的说明）" placeholder="选填,建议填写和卖家达成一致的说明" />
             </div>
@@ -604,7 +604,7 @@
         <!-- 基础信息 -->
         <div class="order-nav">
             <div class="pay-confirm">
-                <div class="box">
+                <div class="box am-radius">
                     <div class="base-real-pay">
                         <em>实付款 :</em>
                         <span class="price">
@@ -668,7 +668,7 @@
                     {{/if}}
                     <!-- 订单确认页面提交订单表单内部钩子-结束 -->
                     <div class="go-btn-wrap">
-                        <button type="submit" class="btn-go btn-loading-example" title="点击此按钮，提交订单" data-am-loading="{loadingText:'处理中...'}">提交订单</button>
+                        <button type="submit" class="btn-go am-radius btn-loading-example" title="点击此按钮，提交订单" data-am-loading="{loadingText:'处理中...'}">提交订单</button>
                     </div>
                 </form>
             </div>

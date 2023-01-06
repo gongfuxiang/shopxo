@@ -109,7 +109,7 @@ html input[disabled] { cursor: default !important; color: #b1b1b1 !important; ba
 .am-form-success .chosen-choices, .am-form-success .chosen-single {
     border: 1px solid #5eb95e !important;
 }
-form.am-form .am-form-group-label-tips, form.am-form .am-form-group-label-tips-must {
+form.am-form .am-form-group-label-tips, form.am-form .am-form-group-label-tips-must, form.am-form .am-form-group-label-tips-either {
     font-size: 12px;
     font-weight: 400;
     margin-left: 10px;
@@ -119,6 +119,9 @@ form.am-form .am-form-group-label-tips {
 }
 form.am-form .am-form-group-label-tips-must {
     color: #f00;
+}
+form.am-form .am-form-group-label-tips-either {
+    color: #ff9800;
 }
 .am-form-group:hover>label {
     color: #333 !important;
@@ -581,6 +584,23 @@ form.am-form .am-form-group.am-form-icon {
         max-width: 800px;
         left: calc(50% - 400px);
     }
+}
+
+/**
+ * 侧边
+ */
+.am-offcanvas-popup .am-offcanvas-bar {
+    max-width: 90%;
+    box-shadow: 0 0 10px rgb(0 0 0 / 10%);
+}
+.am-offcanvas-popup .am-offcanvas-bar:after {
+    background: none;
+}
+.am-offcanvas-popup .am-offcanvas-bar {
+    background: #fff;
+}
+.am-offcanvas-popup .am-offcanvas-content {
+    color: #666;
 }
 
 /**
@@ -1141,6 +1161,15 @@ button.colorpicker-submit img {
 .am-table-scrollable-horizontal .am-table > tbody > tr > td .am-text-truncate-2 {
     max-height: 34px;
     height: auto;
+}
+.am-table-scrollable-horizontal ul.user-base {
+    padding-top: 2px;
+}
+.am-table-scrollable-horizontal ul.user-base li {
+    line-height: 12px;
+}
+.am-table-scrollable-horizontal ul.user-base li:first-child {
+    margin-bottom: 7px;
 }
 
 /**

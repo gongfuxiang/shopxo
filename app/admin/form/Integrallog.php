@@ -41,6 +41,7 @@ class IntegralLog
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
+                'is_middle'     => 0,
             ],
             // 表单配置
             'form' => [

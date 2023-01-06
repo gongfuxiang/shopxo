@@ -428,7 +428,7 @@ class FormHandleModule
 
                 // 附件字段
                 $is_handle_annex_field = isset($form_data['is_handle_annex_field']) && $form_data['is_handle_annex_field'] == 1;
-                $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['icon', 'images'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
+                $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['icon', 'images', 'images_url', 'video', 'video_url'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
 
                 // 数据处理
                 if(!empty($data_merge) || $is_handle_time_field || $is_fixed_name_field || $is_handle_annex_field)

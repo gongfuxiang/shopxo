@@ -44,6 +44,7 @@ class Message
                 'key_field'     => 'id',
                 'is_search'     => 1,
                 'is_delete'     => 1,
+                'is_middle'     => 0,
                 'delete_url'    => MyUrl('admin/message/delete'),
                 'delete_key'    => 'ids',
             ],

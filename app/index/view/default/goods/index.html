@@ -377,9 +377,9 @@
                                                     <div class="cart-title number">数量</div>
                                                     <dd>
                                                         <div class="am-input-group am-input-group-sm number-tag">
-                                                            <button class="am-input-group-label" id="min" type="button">-</button>
+                                                            <button class="am-input-group-label am-radius" id="min" type="button">-</button>
                                                             <input type="number" class="am-form-field" value="{{$goods.buy_min_number}}" id="text_box" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-max="{{$goods.inventory}}" data-ajax-url="{{:MyUrl('index/goods/stock')}}" />
-                                                            <button class="am-input-group-label" id="add" type="button">+</button>
+                                                            <button class="am-input-group-label am-radius" id="add" type="button">+</button>
                                                         </div>
                                                         <span class="tb-hidden stock-tips"><span>库存</span><span class="stock" data-original-stock="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span><span>{{$goods.inventory_unit}}</span></span>
                                                     </dd>
@@ -400,8 +400,8 @@
                                                 {{/if}}
 
                                                 <div class="btn-op">
-                                                    <span class="btn am-btn am-btn-default confirm login-event" data-type="cart">确认</span>
-                                                    <span class="btn close am-btn am-btn-danger cancel">取消</span>
+                                                    <span class="am-radius btn am-btn am-btn-default confirm login-event" data-type="cart">确认</span>
+                                                    <span class="am-radius btn close am-btn am-btn-danger cancel">取消</span>
                                                 </div>
                                             </div>
                                             <div class="theme-signin-right">
@@ -500,7 +500,7 @@
                                     {{switch $v.type}}
                                         {{case show}}
                                             <a href="{{if empty($v['value'])}}javascript:;{{else /}}tel:{{$v.value}}{{/if}}" 
-                                            class="buy-btn {{if !empty($v['class'])}}{{$v.class}}{{/if}}" 
+                                            class="am-radius buy-btn {{if !empty($v['class'])}}{{$v.class}}{{/if}}" 
                                             {{if !empty($v['title'])}}title="{{$v.title}}"{{/if}} 
                                             data-type="{{$v.type}}" 
                                             data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">
@@ -512,7 +512,7 @@
                                         {{/case}}
                                         {{default /}}
                                             <button type="button" 
-                                            class="buy-btn {{$v.type}}-submit {{if !empty($v['color']) and $v['color'] eq 'second'}}buy-btn-second {{/if}} {{if !empty($v['class'])}}{{$v.class}} {{/if}}" 
+                                            class="am-radius buy-btn {{$v.type}}-submit {{if !empty($v['color']) and $v['color'] eq 'second'}}buy-btn-second {{/if}} {{if !empty($v['class'])}}{{$v.class}} {{/if}}" 
                                             {{if !empty($v['title'])}}title="{{$v.title}}"{{/if}} 
                                             data-type="{{$v.type}}" 
                                             data-value="{{if isset($v['value'])}}{{$v.value}}{{/if}}">

@@ -91,7 +91,7 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 
     /*操作*/
     .btn-op{overflow: hidden;padding:10px 30%; position: static;}
-    .theme-signin .btn {width:auto; font-size:12px ;padding:5px 15px ;border-radius:0;}
+    .theme-signin .btn {width:auto; font-size:12px ;padding:5px 15px;}
     .btn.close {display:block;float: left;position: static;}
     i.buy-event{display: inline-block;}
     .btn.confirm { float: right; }

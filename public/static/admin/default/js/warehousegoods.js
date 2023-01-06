@@ -40,7 +40,10 @@ $(function()
 
         var $this = $(this);
         $.AMUI.progress.start();
-        $this.button('loading');
+        if($(this).hasClass('search-submit'))
+        {
+            $this.button('loading');
+        }
         $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($('.goods-list-container').data('loading-msg'))+'</div>');
         $.ajax({
             url: RequestUrlHandle(url),

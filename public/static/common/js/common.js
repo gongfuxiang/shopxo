@@ -758,7 +758,7 @@ function TreeItemHtmlHandle(item, pid, level, is_delete_all)
 	}
 	if((item.icon || null) != null)
 	{
-		html += '<a href="'+item.icon+'" target="_blank"><img src="'+item.icon+'" width="20" height="20" class="am-vertical-align-middle am-margin-right-xs" /></a>';
+		html += '<a href="'+item.icon+'" target="_blank" class="three-item-icon"><img src="'+item.icon+'" width="20" height="20" class="am-vertical-align-middle am-margin-right-xs am-radius" /></a>';
 	}
 	html += '<span>'+(item.name_alias || item.name)+'</span>';
 	html += '</span>';
@@ -830,6 +830,19 @@ function TreeFormSaveBackHandle(e)
 
         			// 名称更新
 	        		$obj.find('td>span>span').text(json.name_alias || json.name);
+
+	        		// 图标
+	        		if((json.icon || null) != null)
+	        		{
+	        			if($obj.find('.three-item-icon').length == 0)
+	        			{
+	        				$obj.find('td>.name').prepend('<a href="'+json.icon+'" target="_blank" class="three-item-icon"><img src="'+json.icon+'" width="20" height="20" class="am-vertical-align-middle am-margin-right-xs am-radius" /></a>');
+	        			} else {
+	        				$obj.find('.three-item-icon img').attr('src', json.icon);
+	        			}
+	        		} else {
+	        			$obj.find('.three-item-icon').remove();
+	        		}
 
 	        		// 状态处理
 	        		if(json.is_enable != json_old.is_enable)
@@ -1011,7 +1024,7 @@ function ModalLoad(url, title, class_tag, full = 0, full_max = 0, full_max_size 
 	// 调用弹窗组件
 	AMUI.dialog.popup({
 		title: title || '',
-		content: '<iframe src="'+RequestUrlHandle(url)+'" width="100%" height="100%"></iframe>',
+		content: '<iframe src="'+RequestUrlHandle(url)+'" width="100%" height="100%" class="am-block"></iframe>',
 		class: ent
 	});
 }
@@ -3988,6 +4001,37 @@ $(function()
 
     	// 调用弹窗方法
         ModalLoad(url, title, class_tag, full, full_max, full_max_size);
+    });
+
+    // 加载 loading modal 弹层
+    $(document).on('click', '.submit-modal', function()
+    {
+    	var url = $(this).data('url') || null;
+    	if(url == null)
+    	{
+    		Prompt(window['lang_operate_params_error'] || 'url未配置');
+    		return false;
+    	}
+
+    	// 宽高
+    	var config = {};
+    	var width = parseInt($(this).data('width') || 0);
+    	if(width > 0)
+    	{
+    		config['width'] = width;
+    	}
+    	var height = parseInt($(this).data('height') || 0);
+    	if(height > 0)
+    	{
+    		config['height'] = height;
+    	}
+
+    	// 调用类库方法
+    	AMUI.dialog.alert({
+    		isClose: true,
+    		config: config,
+			url: url,
+		});
     });
 
     // 地图弹窗
