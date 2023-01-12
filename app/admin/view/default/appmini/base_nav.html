@@ -6,7 +6,9 @@
             </li>
         {{/foreach}}
     {{/if}}
-    <li class="am-fr">
-        <a class="am-margin-left-sm" href="{{$store_theme_url}}" target="_blank">更多主题下载 <i class="am-icon-external-link"></i></a>
-    </li>
+    {{if !empty($store_theme_url)}}
+        <li class="am-fr">
+            <a class="am-margin-left-sm" href="{{$store_theme_url}}" target="_blank">更多主题下载 <i class="am-icon-external-link"></i></a>
+        </li>
+    {{/if}}
 </ul>

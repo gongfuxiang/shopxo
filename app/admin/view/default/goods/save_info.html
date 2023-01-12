@@ -146,7 +146,7 @@
                 		</div>
                 		<div class="am-u-sm-6 am-padding-horizontal-0">
                 			<div class="am-form-group">
-			                    <label>购买赠送积分比例<a href="javascript:;" class="am-icon-question-circle am-text-warning am-form-group-label-tips-icon am-margin-left-sm" data-am-popover="{content: '1. 按照商品金额比例乘以数量的比例进行发放<br />2. 订单完成自动将发放到用户锁定积分<br />3. 站点设置->扩展中脚本处理发放积分', trigger: 'hover focus', theme: 'sm'}"></a></label>
+			                    <label>购买赠送积分比例<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '1. 按照商品金额比例乘以数量的比例进行发放<br />2. 订单完成自动将发放到用户锁定积分<br />3. 站点设置->扩展中脚本处理发放积分', trigger: 'hover focus', theme: 'sm'}"></a></label>
 			                    <div class="am-input-group am-input-group-sm">
 			                        <input type="number" name="give_integral" placeholder="购买赠送积分" min="0" max="100" data-validation-message="购买赠送积分比例 0~100 的数字" class="am-form-field am-radius" {{if !empty($data['give_integral'])}} value="{{$data.give_integral}}"{{/if}} />
 			                        <span class="am-input-group-btn">
@@ -166,7 +166,7 @@
                 		</div>
                 		<div class="am-u-sm-6 am-padding-horizontal-0">
                 			<div class="am-form-group">
-								<label>单次最大购买数量<a href="javascript:;" class="am-icon-question-circle am-text-warning am-form-group-label-tips-icon am-margin-left-sm" data-am-popover="{content: '1. 单次最大数值 100000000<br />2. 小于等于0或空则不限', trigger: 'hover focus', theme: 'sm'}"></a></label>
+								<label>单次最大购买数量<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '1. 单次最大数值 100000000<br />2. 小于等于0或空则不限', trigger: 'hover focus', theme: 'sm'}"></a></label>
 								<input type="number" name="buy_max_number" placeholder="单次最大购买数量" min="0" max="100000000" data-validation-message="单次最大购买数量 1~100000000" class="am-radius" {{if !empty($data['buy_max_number'])}} value="{{$data.buy_max_number}}"{{/if}} />
 							</div>
                 		</div>
@@ -195,7 +195,7 @@
                 			<div class="am-cf">
                 				<div class="am-u-sm-6 am-padding-horizontal-0">
                 					<div class="am-form-group am-form-file">
-										<label class="block">封面图片<a href="javascript:;" class="am-icon-question-circle am-text-warning am-form-group-label-tips-icon am-margin-left-sm" data-am-popover="{content: '留空则取相册第一张图、建议800*800px', trigger: 'hover focus', theme: 'sm'}"></a></label>
+										<label class="block">封面图片<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '留空则取相册第一张图、建议800*800px', trigger: 'hover focus', theme: 'sm'}"></a></label>
 										<ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="images" data-max-number="1" data-dialog-type="images">
 											{{if !empty($data['images'])}}
 												<li>
@@ -210,11 +210,11 @@
                 				</div>
                 				<div class="am-u-sm-6 am-padding-horizontal-0">
                 					<div class="am-form-group">
-										<label class="block">扣减库存<a href="javascript:;" class="am-icon-question-circle am-text-warning am-form-group-label-tips-icon am-margin-left-sm" data-am-popover="{content: '扣除规则根据后台配置->扣除库存规则而定', trigger: 'hover focus', theme: 'sm'}"></a></label>
+										<label class="block">扣减库存<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '扣除规则根据后台配置->扣除库存规则而定', trigger: 'hover focus', theme: 'sm'}"></a></label>
 										<input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_deduction_inventory']) and $data['is_deduction_inventory'] eq 1) or empty($data)}}checked="true"{{/if}} />
 									</div>
 									<div class="am-form-group">
-										<label class="block">上下架<a href="javascript:;" class="am-icon-question-circle am-text-warning am-form-group-label-tips-icon am-margin-left-sm" data-am-popover="{content: '下架后用户不可见', trigger: 'hover focus', theme: 'sm'}"></a></label>
+										<label class="block">上下架<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '下架后用户不可见', trigger: 'hover focus', theme: 'sm'}"></a></label>
 										<input name="is_shelves" value="1" type="checkbox" data-off-text="下架" data-on-text="上架" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_shelves']) and $data['is_shelves'] eq 1) or empty($data)}}checked="true"{{/if}} />
 									</div>
                 				</div>

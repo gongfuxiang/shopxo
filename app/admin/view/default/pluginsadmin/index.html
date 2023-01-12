@@ -57,7 +57,9 @@
                                         <div class="base">
                                             <h3 class="name">{{$v.name}}</h3>
                                             <p>作者：{{$v.author}}</p>
-                                            <p>主页：<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
+                                            {{if empty($site_store_info) or empty($site_store_info['vip']) or !isset($site_store_info['vip']['status']) or $site_store_info['vip']['status'] eq 0}}
+                                                <p>主页：<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
+                                            {{/if}}
                                             <p>版本：{{$v.version}}</p>
                                         </div>
                                         <div class="desc">{{$v.desc}}</div>
@@ -109,7 +111,9 @@
                                         <div class="base">
                                             <h3 class="name">{{$v.name}}</h3>
                                             <p>作者：{{$v.author}}</p>
-                                            <p>主页：<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
+                                            {{if empty($site_store_info) or empty($site_store_info['vip']) or !isset($site_store_info['vip']['status']) or $site_store_info['vip']['status'] eq 0}}
+                                                <p>主页：<a href="{{$v.author_url}}" target="_blank">{{$v.author_url}}</a></p>
+                                            {{/if}}
                                             <p>版本：{{$v.version}}</p>
                                         </div>
                                         <div class="desc">{{$v.desc}}</div>

@@ -7,7 +7,9 @@
     <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus" target="_blank"> 新增</a>
     <!-- 父级内容 -->
     {__block__}
-    <a class="am-margin-left-sm" href="{{$store_design_url}}" target="_blank">更多设计模板下载 <i class="am-icon-external-link"></i></a>
+    {{if !empty($store_design_url)}}
+        <a class="am-margin-left-sm" href="{{$store_design_url}}" target="_blank">更多设计模板下载 <i class="am-icon-external-link"></i></a>
+    {{/if}}
 {{/block}}
 
 <!-- 扩展 -->

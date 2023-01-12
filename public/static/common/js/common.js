@@ -1838,7 +1838,7 @@ function TreeFormInit()
 	$title.text($title.attr('data-add-title'));
 
 	// 填充数据
-	var data = {"id":"", "pid":0, "name":"", "sort":0, "is_enable":1, "icon":"", "seo_title":"", "seo_keywords":"", "seo_desc":""};
+	var data = {id:"", pid:0, name:"", vice_name: "", describe: "", sort:0, is_enable:1, icon:"", big_images: "", seo_title:"", seo_keywords:"", seo_desc:""};
 
 	// 额外处理数据
 	data = FunSaveWinAdditional(data, 'init');

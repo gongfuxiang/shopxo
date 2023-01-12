@@ -4,32 +4,70 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation" action="{{:MyUrl('admin/warehouse/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/warehouse/index', $params)}}">
+        <form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/warehouse/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/warehouse/index', $params)}}">
             <legend>
                 <span class="am-text-default">仓库{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
                 <a href="{{:MyUrl('admin/warehouse/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> 返回</a>
             </legend>
 
-            <div class="am-form-group">
-                <label>名称<span class="am-form-group-label-tips-must">*</span></label>
-                <input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
+            <div class="am-cf">
+                <div class="am-u-md-6 am-padding-horizontal-0">
+                    <div class="am-cf">
+                        <div class="am-u-sm-8 am-padding-horizontal-0">
+                            <div class="am-form-group">
+                                <label>名称<span class="am-form-group-label-tips-must">*</span></label>
+                                <input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
+                            </div>
+                        </div>
+                        <div class="am-u-sm-4 am-padding-horizontal-0">
+                            <div class="am-form-group">
+                                <label>别名</label>
+                                <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.alias}}"{{/if}} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-u-md-6 am-padding-horizontal-0">
+                    <div class="am-cf">
+                        <div class="am-u-sm-6 am-padding-horizontal-0">
+                            <div class="am-form-group">
+                                <label class="block">是否默认</label>
+                                <input name="is_default" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_default']) and $data['is_default'] eq 1}}checked="true"{{/if}} />
+                            </div>
+                        </div>
+                        <div class="am-u-sm-6 am-padding-horizontal-0">
+                            <div class="am-form-group">
+                                <label class="block">是否启用</label>
+                                <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_enable']) and $data['is_enable'] eq 1}}checked="true"{{/if}} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="am-form-group">
-                <label>别名</label>
-                <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.alias}}"{{/if}} />
-            </div>
-            <div class="am-form-group">
-                <label>权重<span class="am-form-group-label-tips">权重数值越大代表权重越高</span></label>
-                <input type="number" name="level" placeholder="权重" minlength="0" maxlength="16" data-validation-message="请输入有效权重数值" class="am-radius" {{if !empty($data)}} value="{{$data.level}}"{{/if}} />
-            </div>
-
-            <div class="am-form-group">
-                <label>联系人<span class="am-form-group-label-tips-must">*</span></label>
-                <input type="text" name="contacts_name" placeholder="联系人" minlength="2" maxlength="16" data-validation-message="联系人格式 2~16 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.contacts_name}}"{{/if}} required />
-            </div>
-            <div class="am-form-group">
-                <label>联系电话<span class="am-form-group-label-tips-must">*</span></label>
-                <input type="text" name="contacts_tel" placeholder="电话" minlength="6" maxlength="30" data-validation-message="电话格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.contacts_tel}}"{{/if}} required />
+            
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>权重<span class="am-form-group-label-tips">权重数值越大代表权重越高</span></label>
+                        <input type="number" name="level" placeholder="权重" minlength="0" maxlength="16" data-validation-message="请输入有效权重数值" class="am-radius" {{if !empty($data)}} value="{{$data.level}}"{{/if}} />
+                    </div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-cf">
+                        <div class="am-u-sm-6 am-padding-horizontal-0">
+                            <div class="am-form-group">
+                                <label>联系人<span class="am-form-group-label-tips-must">*</span></label>
+                                <input type="text" name="contacts_name" placeholder="联系人" minlength="2" maxlength="16" data-validation-message="联系人格式 2~16 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.contacts_name}}"{{/if}} required />
+                            </div>
+                        </div>
+                        <div class="am-u-sm-6 am-padding-horizontal-0">
+                            <div class="am-form-group">
+                                <label>联系电话<span class="am-form-group-label-tips-must">*</span></label>
+                                <input type="text" name="contacts_tel" placeholder="电话" minlength="6" maxlength="30" data-validation-message="电话格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.contacts_tel}}"{{/if}} required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {{include file="lib/region_linkage" /}}
@@ -46,17 +84,7 @@
                 <div id="map" data-level="17" class="am-margin-top-xs"></div>
             </div>
 
-            <div class="am-form-group">
-                <label class="block">是否默认</label>
-                <input name="is_default" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_default']) and $data['is_default'] eq 1}}checked="true"{{/if}} />
-            </div>
-
-            <div class="am-form-group">
-                <label class="block">是否启用</label>
-                <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_enable']) and $data['is_enable'] eq 1}}checked="true"{{/if}} />
-            </div>
-
-            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+            <div class="am-form-popup-submit">
                 <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>

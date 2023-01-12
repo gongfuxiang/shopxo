@@ -4,94 +4,119 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation" action="{{:MyUrl('admin/goodscomments/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/goodscomments/index', $params)}}" enctype="multipart/form-data">
+        <form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/goodscomments/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/goodscomments/index', $params)}}" enctype="multipart/form-data">
             <legend>
                 <span class="am-text-default">商品评论{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
                 <a href="{{:MyUrl('admin/goodscomments/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> 返回</a>
             </legend>
-            <div class="am-alert am-alert-secondary goods-info" data-am-alert>
-                <p class="am-text-lg">商品信息</p>
-                {{if !empty($data['goods'])}}
-                    <div class="base am-nbfc">
-                        <a href="{{$data.goods.goods_url}}" target="_blank">
-                            <img src="{{$data.goods.images}}" alt="{{$data.goods.title}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-fl" width="60" height="60" />
-                        </a>
-                        <a class="am-text-top" href="{{$data.goods.goods_url}}" target="_blank">{{$data.goods.title}}</a>
+            <div class="am-cf">
+                <div class="am-u-md-6 am-padding-horizontal-0">
+                    <div class="am-alert am-alert-secondary goods-info" data-am-alert>
+                        <p class="am-text-sm">商品信息</p>
+                        {{if !empty($data['goods'])}}
+                            <div class="base am-nbfc">
+                                <a href="{{$data.goods.goods_url}}" target="_blank">
+                                    <img src="{{$data.goods.images}}" alt="{{$data.goods.title}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-fl" width="60" height="60" />
+                                </a>
+                                <a class="am-text-top" href="{{$data.goods.goods_url}}" target="_blank">{{$data.goods.title}}</a>
+                            </div>
+                            <p class="am-text-danger">{{$currency_symbol}}{{$data.goods.price}}</p>
+                        {{else /}}
+                            商品信息异常
+                        {{/if}}
                     </div>
-                    <p>{{$currency_symbol}}{{$data.goods.price}}</p>
-                {{else /}}
-                    商品信息异常
-                {{/if}}
+                </div>
+                <div class="am-u-md-6 am-padding-horizontal-0">
+                    <div class="am-alert am-alert-secondary user-info" data-am-alert>
+                        <p class="am-text-sm">用户信息</p>
+                        {{if !empty($data['user'])}}
+                            <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
+                            <ul class="user-base">
+                                <li>名称：{{if empty($data['user']['username'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.username}}{{/if}}</li>
+                                <li>昵称：{{if empty($data['user']['nickname'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.nickname}}{{/if}}</li>
+                                <li>手机：{{if empty($data['user']['mobile'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.mobile}}{{/if}}</li>
+                                <li>邮箱：{{if empty($data['user']['email'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.email}}{{/if}}</li>
+                            </ul>
+                        {{else /}}
+                            用户信息异常
+                        {{/if}}
+                    </div>
+                </div>
             </div>
 
-            <div class="am-alert am-alert-secondary user-info" data-am-alert>
-                <p class="am-text-lg">用户信息</p>
-                {{if !empty($data['user'])}}
-                    <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
-                    <ul class="user-base">
-                        <li>名称：{{if empty($data['user']['username'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.username}}{{/if}}</li>
-                        <li>昵称：{{if empty($data['user']['nickname'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.nickname}}{{/if}}</li>
-                        <li>手机：{{if empty($data['user']['mobile'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.mobile}}{{/if}}</li>
-                        <li>邮箱：{{if empty($data['user']['email'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.email}}{{/if}}</li>
-                    </ul>
-                {{else /}}
-                    用户信息异常
-                {{/if}}
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>业务类型<span class="am-form-group-label-tips-must">*</span></label>
+                        <select name="business_type" class="chosen-select" data-placeholder="业务类型..." data-validation-message="请选择业务类型" required>
+                            {{if !empty($common_goods_comments_business_type_list)}}
+                                {{foreach $common_goods_comments_business_type_list as $v}}
+                                    <option value="{{$v.value}}" {{if isset($data['business_type']) and $data['business_type'] eq $v.value}}selected{{/if}}>{{$v.name}}</option>
+                                {{/foreach}}
+                            {{/if}}
+                        </select>
+                    </div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>评分</label>
+                        <select name="rating" class="chosen-select" data-placeholder="未评分" data-validation-message="请选择评分" required>
+                            {{if !empty($common_goods_comments_rating_list)}}
+                                {{foreach $common_goods_comments_rating_list as $k=>$v}}
+                                    <option value="{{$k}}" {{if isset($data['rating']) and $data['rating'] eq $k}}selected{{/if}}>{{$v.name}}</option>
+                                {{/foreach}}
+                            {{/if}}
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <div class="am-form-group">
-                <label>业务类型<span class="am-form-group-label-tips-must">必选</span></label>
-                <select name="business_type" class="chosen-select" data-placeholder="业务类型..." data-validation-message="请选择业务类型" required>
-                    {{if !empty($common_goods_comments_business_type_list)}}
-                        {{foreach $common_goods_comments_business_type_list as $v}}
-                            <option value="{{$v.value}}" {{if isset($data['business_type']) and $data['business_type'] eq $v.value}}selected{{/if}}>{{$v.name}}</option>
-                        {{/foreach}}
-                    {{/if}}
-                </select>
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>评论内容<span class="am-form-group-label-tips-must">*</span></label>
+                        <textarea name="content" class="am-radius" rows="4" minlength="6" maxlength="230" data-validation-message="评论内容 6~230 个字符之间" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+                    </div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>回复内容</label>
+                        <textarea class="am-radius" name="reply" rows="4" maxlength="230" placeholder="回复内容最多 230 个字符" data-validation-message="回复内容最多 230 个字符">{{if !empty($data['reply'])}}{{$data.reply}}{{/if}}</textarea>
+                    </div>
+                </div>
             </div>
 
-            <div class="am-form-group">
-                <label>评论内容<span class="am-form-group-label-tips-must">必填</span></label>
-                <textarea name="content" class="am-radius" rows="4" minlength="6" maxlength="230" data-validation-message="评论内容 6~230 个字符之间" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>回复时间</label>
+                        <input type="text" name="reply_time" class="am-form-field am-radius Wdate" placeholder="生日" data-validation-message="回复时间格式有误" {{if !empty($data)}} value="{{if isset($data['reply_time_time'])}}{{$data.reply_time_time}}{{/if}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label class="block">是否已回复</label>
+                        <input name="is_reply" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
+                    </div>
+                </div>
             </div>
 
-            <div class="am-form-group">
-                <label>回复内容</label>
-                <textarea class="am-radius" name="reply" rows="4" maxlength="230" placeholder="回复内容最多 230 个字符" data-validation-message="回复内容最多 230 个字符">{{if !empty($data['reply'])}}{{$data.reply}}{{/if}}</textarea>
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label class="am-block">是否匿名</label>
+                        <input name="is_anonymous" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_anonymous']) and $data['is_anonymous'] eq 1}}checked="true"{{/if}} />
+                    </div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label class="am-block">是否显示</label>
+                        <input name="is_show" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_show']) and $data['is_show'] eq 1}}checked="true"{{/if}} />
+                    </div>
+                </div>
             </div>
 
-            <div class="am-form-group">
-                <label>回复时间</label>
-                <input type="text" name="reply_time" class="am-form-field am-radius Wdate" placeholder="生日" data-validation-message="回复时间格式有误" {{if !empty($data)}} value="{{if isset($data['reply_time_time'])}}{{$data.reply_time_time}}{{/if}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
-            </div>
-
-            <div class="am-form-group">
-                <label>评分<span class="am-form-group-label-tips-must">必选</span></label>
-                <select name="rating" class="chosen-select" data-placeholder="评分..." data-validation-message="请选择评分" required>
-                    {{if !empty($common_goods_comments_rating_list)}}
-                        {{foreach $common_goods_comments_rating_list as $k=>$v}}
-                            <option value="{{$k}}" {{if isset($data['rating']) and $data['rating'] eq $k}}selected{{/if}}>{{$v.name}}</option>
-                        {{/foreach}}
-                    {{/if}}
-                </select>
-            </div>
-
-            <div class="am-form-group">
-                <label class="block">是否已回复</label>
-                <input name="is_reply" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
-            </div>
-
-            <div class="am-form-group">
-                <label class="block">是否匿名</label>
-                <input name="is_anonymous" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_anonymous']) and $data['is_anonymous'] eq 1}}checked="true"{{/if}} />
-            </div>
-
-            <div class="am-form-group">
-                <label class="block">是否显示</label>
-                <input name="is_show" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_show']) and $data['is_show'] eq 1}}checked="true"{{/if}} />
-            </div>
-
-            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+            <div class="am-form-popup-submit">
                 <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
             </div>

@@ -102,6 +102,7 @@ if (!function_exists('echo_value')) {
             font: 16px Verdana, "Helvetica Neue", helvetica, Arial, 'Microsoft YaHei', sans-serif;
             margin: 0;
             padding: 0 20px 20px;
+            background: #f5f5f5;
         }
         h1{
             margin: 10px 0 0;
@@ -168,9 +169,9 @@ if (!function_exists('echo_value')) {
             border-top-right-radius: 4px;
             font-family: Consolas,"Liberation Mono",Courier,Verdana,"微软雅黑",serif;
         }
-        .exception .error-message h1 {
+        .exception .error-message {
             text-align: center;
-            margin-top: 10%;
+            margin-top: 18%;
         }
         .exception .code{
             float: left;
@@ -425,10 +426,6 @@ if (!function_exists('echo_value')) {
                 <span><?php echo implode('', ['S','h','o','p','X','O']); ?> <?php echo APPLICATION_VERSION; ?></span>
                 <span><?php echo implode('', ['T','h','i','n','k','P','H','P']); ?> v<?php echo \think\facade\App::version(); ?></span>
             </p>
-        </div>
-    <?php } else { ?>
-        <div class="copyright">
-            <a title="<?php echo implode('', ['S','h','o','p','X','O','企','业','级','免','费','开','源','商','城','系','统']); ?>" href="<?php echo implode('', ['h','t','t','p',':','/','/','e','r','r','o','r','.','s','h','o','p','x','o','.','n','e','t','/']); ?>" target="_blank"><?php echo implode('', ['查','看','解','决','方','案']); ?></a>
         </div>
     <?php } ?>
 
