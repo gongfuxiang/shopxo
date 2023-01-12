@@ -1261,10 +1261,10 @@ class OrderService
                 $user_list = UserService::GetUserViewInfo(array_column($data, 'user_id'));
             }
 
-            // 快递名称
+            // 快递信息
             if(in_array('express_id', $keys))
             {
-                $express_list = ExpressService::ExpressName(array_column($data, 'express_id'));
+                $express_list = ExpressService::ExpressData(array_column($data, 'express_id'));
             }
 
             // 支付方式名称
@@ -1350,7 +1350,17 @@ class OrderService
                 $v['pay_status_name'] = (in_array($v['status'], [2,3,4]) && $v['pay_status'] == 0) ? '待确认' : $order_pay_status[$v['pay_status']]['name'];
 
                 // 快递公司
-                $v['express_name'] = (!empty($express_list) && is_array($express_list) && array_key_exists($v['express_id'], $express_list)) ? $express_list[$v['express_id']] : null;
+                $express = (!empty($express_list) && is_array($express_list) && array_key_exists($v['express_id'], $express_list)) ? $express_list[$v['express_id']] : null;
+                if(empty($express))
+                {
+                    $v['express_name'] = '';
+                    $v['express_icon'] = '';
+                    $v['express_website_url'] = '';
+                } else {
+                    $v['express_name'] = $express['name'];
+                    $v['express_icon'] = $express['icon'];
+                    $v['express_website_url'] = $express['website_url'];
+                }
 
                 // 支付方式
                 $v['payment_name'] = (!empty($payment_list) && is_array($payment_list) && array_key_exists($v['id'], $payment_list)) ? $payment_list[$v['id']] : null;

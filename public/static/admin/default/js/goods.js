@@ -501,7 +501,7 @@ $(function()
             html += '<label class="block">'+$app_content.data('images-title')+'</label>';
             html += '<ul class="plug-file-upload-view goods-content-app-images-view-'+index+'" data-form-name="'+images_name+'_'+index+'" data-max-number="1" data-dialog-type="images">';
             html += '</ul>';
-            html += '<div class="plug-file-upload-submit" data-view-tag="ul.goods-content-app-images-view-'+index+'">+'+$app_content.data('images-name')+'</div>';
+            html += '<div class="plug-file-upload-submit" data-view-tag="ul.goods-content-app-images-view-'+index+'">+'+$app_content.data('images-title')+'</div>';
             html += '</div>';
 
             // 右侧
@@ -512,8 +512,8 @@ $(function()
             html += '</div>';
 
             // 操作按钮
-            html += '<a href="javascript:;" class="am-text-xs am-text-danger content-app-items-rem-sub">'+$app_content.data('delete-name')+'</a>';
-            html += ' <a href="javascript:;" class="am-text-xs am-margin-left-lg drag-sort-submit">'+$app_content.data('drag-name')+'</a>';
+            html += '<a href="javascript:;" class="am-text-xs am-text-danger am-icon-remove content-app-items-rem-sub"> '+$app_content.data('delete-title')+'</a>';
+            html += ' <a href="javascript:;" class="am-text-xs am-margin-left-lg am-icon-arrows drag-sort-submit"> '+$app_content.data('drag-title')+'</a>';
             html += '</li>';
         $app_content.append(html);
         $app_content.attr('index', index);

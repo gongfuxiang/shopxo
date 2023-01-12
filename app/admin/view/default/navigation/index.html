@@ -66,12 +66,12 @@
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>导航名称</label>
+                        <label>导航名称<span class="am-form-group-label-tips-must">*</span></label>
                         <input type="text" placeholder="导航名称" name="name" minlength="2" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" required />
                     </div>
                     <div class="am-form-group">
-                        <label>url地址<span class="am-form-group-label-tips">带http://或https://</span></label>
-                        <input type="url" placeholder="url地址" name="url"  data-validation-message="url格式有误" class="am-radius" required />
+                        <label>url地址<span class="am-form-group-label-tips-must">*</span></label>
+                        <input type="url" placeholder="url地址、以http://或https://开头" name="url"  data-validation-message="url格式有误" class="am-radius" required />
                     </div>
                     <div class="am-form-group">
                         <label>顺序</label>
@@ -112,7 +112,7 @@
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>文章</label>
+                        <label>文章<span class="am-form-group-label-tips-must">*</span></label>
                         <select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="文章选择有误" required>
                             <option value="">请选择...</option>
                             {{foreach $article_list as $v}}
@@ -170,7 +170,7 @@
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>自定义页面</label>
+                        <label>自定义页面<span class="am-form-group-label-tips-must">*</span></label>
                         <select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="自定义页面选择有误" required>
                             <option value="">请选择...</option>
                             {{foreach $customview_list as $v}}
@@ -221,7 +221,7 @@
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>商品分类</label>
+                        <label>商品分类<span class="am-form-group-label-tips-must">*</span></label>
                         <select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="商品分类选择有误" required>
                             <option value="">请选择...</option>
                             {{foreach $goods_category_list as $v}}
@@ -282,7 +282,7 @@
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>页面设计</label>
+                        <label>页面设计<span class="am-form-group-label-tips-must">*</span></label>
                         <select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="页面设计选择有误" required>
                             <option value="">请选择...</option>
                             {{foreach $design_list as $v}}

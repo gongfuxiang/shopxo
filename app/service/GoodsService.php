@@ -491,7 +491,7 @@ class GoodsService
      * @desc    description
      * @param   [array]         $ids       [分类id数组]
      * @param   [int]           $is_enable [是否启用 null, 0否, 1是]
-     * @param   [int]           $level     [指定级别 null, 整数、默认则全部下级]
+     * @param   [int]           $level     [指定级别 null, 整数（1~3）、默认则全部上级]
      */
     public static function GoodsCategoryParentIds($ids = [], $is_enable = null, $level = null)
     {

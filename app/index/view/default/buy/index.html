@@ -233,7 +233,7 @@
             {{if !empty($buy_goods)}}
                 <div class="goods-group-list">
                     {{foreach $buy_goods as $v}}
-                        <div class="am-panel am-panel-default am-margin-top-sm am-margin-bottom-0">
+                        <div class="am-panel am-panel-default am-margin-top-sm am-margin-bottom-0 am-radius">
                             <div class="am-panel-hd">
                                 <!-- 分组导航内部开始钩子-开始 -->
                                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -327,7 +327,7 @@
                                 {{/php}}
                                 <!-- 分组导航内部结束钩子-结束 -->
                             </div>
-                            <div class="am-panel-bd am-radius">
+                            <div class="am-panel-bd">
                                 <!-- 分组商品顶部钩子-开始 -->
                                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
                                     <div class="plugins-tag">

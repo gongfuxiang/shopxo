@@ -14,7 +14,7 @@
     right:0;
     width:80px;
     position:fixed;
-    z-index:1000;
+    z-index:10001;
     border:1px solid #eee;
     border-right:0px;
 }
@@ -149,7 +149,7 @@ ul {
     overflow:hidden;
 }
 .content-app-items > li {
-    border:3px dashed #eee;
+    border:1px dashed #eee;
     padding:10px;
 }
 ul li {

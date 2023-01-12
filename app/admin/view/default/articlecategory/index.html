@@ -20,7 +20,7 @@
 					<!-- form start -->
 					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/articlecategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group">
-							<label>名称</label>
+							<label>名称<span class="am-form-group-label-tips-must">*</span></label>
 							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
 						</div>
 						<div class="am-form-group">

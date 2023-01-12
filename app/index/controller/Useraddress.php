@@ -79,7 +79,7 @@ class UserAddress extends Common
             'is_footer'         => 0,
 
             // 加载地图
-            'is_load_map_api'   => 1,
+            'is_load_map_api'   => MyC('home_user_address_map_status'),
 
             // 编辑器文件存放地址
             'editor_path_type'  => ResourcesService::EditorPathTypeValue(UserAddressService::EditorAttachmentPathType($this->user['id'])),

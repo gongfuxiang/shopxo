@@ -343,6 +343,14 @@
                                     {{if !empty($data.express_name)}}{{$data.express_name}}{{/if}}
                                 </div>
                             </div>
+                            {{if !empty($data['express_website_url'])}}
+                                <div class="items am-cf">
+                                    <div class="items-title am-fl">快递官网：</div>
+                                    <div class="items-detail am-fl">
+                                        <a href="{{$data.express_website_url}}" target="_blank" class="am-text-primary">{{$data.express_website_url}}</a>
+                                    </div>
+                                </div>
+                            {{/if}}
                             {{if !empty($data.express_number)}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">快递单号：</div>
@@ -518,12 +526,19 @@
                                             </a>
                                             <div class="am-nbfc">
                                                 <a href="{{$goods.goods_url}}" target="_blank" class="am-nowrap-initial">{{$goods.title}}</a>
-                                                {{if !empty($goods.spec)}}
-                                                    <ul class="goods-spec am-margin-top-xs">
-                                                        {{foreach $goods.spec as $spec}}
-                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
-                                                        {{/foreach}}
-                                                    </ul>
+                                                {{if !empty($goods.spec_text)}}
+                                                    <div class="am-margin-top-xs am-nowrap-initial">{{$goods.spec_text}}</div>
+                                                {{/if}}
+                                                {{if ($data['is_can_launch_aftersale'] eq 1 or !empty($goods['orderaftersale'])) and !empty($goods['orderaftersale_btn_text'])}}
+                                                    <div class="am-fr">
+                                                        <a href="{{:MyUrl('index/orderaftersale/detail', ['oid'=>$data['id'], 'did'=>$goods['id']])}}" target="_blank" class="am-text-primary">
+                                                            {{if empty($goods['orderaftersale'])}}
+                                                                {{$goods.orderaftersale_btn_text}}
+                                                            {{else /}}
+                                                                <span class="{{if $goods['orderaftersale']['status'] eq 3}}am-text-success{{else /}}am-text-secondary{{/if}}">{{$goods.orderaftersale_btn_text}}</span>
+                                                            {{/if}}
+                                                        </a>
+                                                    </div>
                                                 {{/if}}
                                             </div>
                                         </div>

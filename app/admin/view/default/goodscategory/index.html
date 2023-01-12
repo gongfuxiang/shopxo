@@ -20,7 +20,7 @@
 					<!-- form start -->
 					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/goodscategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group am-form-file">
-							<label class="block">icon图标</label>
+							<label class="block">icon图标<span class="am-form-group-label-tips">建议100x100px</span></label>
 							<ul class="plug-file-upload-view goods-category-icon-images-view" data-form-name="icon" data-max-number="1" data-dialog-type="images">
 								<li>
 									<input type="hidden" name="icon" value="" />
@@ -31,7 +31,7 @@
 							<div class="plug-file-upload-submit" data-view-tag="ul.goods-category-icon-images-view">+上传图片</div>
 						</div>
 						<div class="am-form-group am-form-file">
-							<label class="block">大图片<span class="am-form-group-label-tips">建议大小360x360像素</span></label>
+							<label class="block">大图片<span class="am-form-group-label-tips">建议360x360px</span></label>
 							<ul class="plug-file-upload-view goods-category-big_images-images-view" data-form-name="big_images" data-max-number="1" data-dialog-type="images">
 								<li>
 									<input type="hidden" name="big_images" value="" />
@@ -49,7 +49,7 @@
 							</button>
 						</div>
 						<div class="am-form-group">
-							<label>名称</label>
+							<label>名称<span class="am-form-group-label-tips-must">*</span></label>
 							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
 						</div>
 						<div class="am-form-group">

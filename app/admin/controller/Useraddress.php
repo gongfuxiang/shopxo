@@ -66,7 +66,7 @@ class UserAddress extends Base
             'data'              => $data,
 
             // 加载地图api
-            'is_load_map_api'   => 1,
+            'is_load_map_api'   => MyC('home_user_address_map_status'),
         ];
 
         // 编辑器文件存放地址

@@ -44,7 +44,7 @@
 							</select>
 						</div>
 						<div class="am-form-group">
-							<label>权限名称</label>
+							<label>权限名称<span class="am-form-group-label-tips-must">*</span></label>
 							<input type="text" placeholder="权限名称" name="name" minlength="2" maxlength="16" data-validation-message="权限名称格式 2~8 个字符之间" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
@@ -71,7 +71,7 @@
 						</div>
 						<div class="am-form-group">
 							<label>顺序</label>
-							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" />
 						</div>
 						{{include file="lib/is_show" /}}
 						<div class="am-form-popup-submit">

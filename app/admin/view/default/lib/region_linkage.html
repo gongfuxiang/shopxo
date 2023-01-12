@@ -1,5 +1,5 @@
 <div class="am-form-group region-linkage" data-url="{{:MyUrl('admin/region/node')}}">
-    <label class="block">省市区{{if isset($is_force_region_choice) and $is_force_region_choice eq 1}}<span class="am-form-group-label-tips-must">必选</span>{{else /}}<span class="am-form-group-label-tips">可选</span>{{/if}}</label>
+    <label class="block">省市区{{if isset($is_force_region_choice) and $is_force_region_choice eq 1}}<span class="am-form-group-label-tips-must">*</span>{{/if}}</label>
     <select name="province" data-next="city" class="am-radius chosen-select" data-placeholder="省份" data-validation-message="请选择省份" data-value="{{if isset($data['province'])}}{{$data.province}}{{else /}}0{{/if}}" {{if isset($is_force_region_choice) and $is_force_region_choice eq 1}}required{{/if}}>
         <option value="">省份</option>
     </select>

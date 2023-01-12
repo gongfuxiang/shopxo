@@ -14,7 +14,6 @@
 
 <!-- content -->
 <div class="am-container user-main">
-
     <!-- user menu start -->
     {{include file="public/user_menu" /}}
     <!-- user menu end -->
@@ -46,7 +45,7 @@
 
             <!-- 商品列表 -->
             {{if !empty($goods)}}
-                <div class="am-panel am-panel-default order-base-panel">
+                <div class="am-panel am-panel-default order-base-panel am-radius">
                     <div class="am-panel-bd">
                         <!-- 用户订单售后详情顶部-开始 -->
                         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -87,12 +86,8 @@
                                             </a>
                                             <div class="am-nbfc">
                                                 <a href="{{$goods.goods_url}}" target="_blank" class="goods-title">{{$goods.title}}</a>
-                                                {{if !empty($goods.spec)}}
-                                                    <ul class="goods-spec am-margin-top-xs">
-                                                        {{foreach $goods.spec as $spec}}
-                                                            <li>{{$spec.type}}：{{$spec.value}}</li>
-                                                        {{/foreach}}
-                                                    </ul>
+                                                {{if !empty($goods.spec_text)}}
+                                                    <div class="am-margin-top-xs am-nowrap-initial">{{$goods.spec_text}}</div>
                                                 {{/if}}
                                             </div>
                                         </div>
@@ -130,7 +125,7 @@
                         <!-- 用户订单售后详情商品底部顶部-结束 -->
 
                         <!-- 基础信息 -->
-                        <div class="am-alert am-alert-secondary">
+                        <div class="am-alert am-alert-secondary am-radius">
                           {{if !empty($order.price)}}
                                 <div class="items am-cf">
                                     <div class="items-title am-fl">商品总价：</div>
@@ -231,7 +226,7 @@
                     <!-- 选择售后操作类型 -->
                     <div class="am-cf aftersale-type">
                         {{foreach $common_order_aftersale_type_list as $v}}
-                            <div class="items-align {{$v.class}}" data-type="{{$v.value}}">
+                            <div class="am-radius items-align {{$v.class}}" data-type="{{$v.value}}">
                                 <div class="items-middle">
                                     <div class="am-fl icon">
                                         <i class="{{$v.icon}}"></i>

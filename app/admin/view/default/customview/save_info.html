@@ -10,7 +10,7 @@
 				<a href="{{:MyUrl('admin/customview/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> 返回</a>
 			</legend>
 			<div class="am-form-group">
-				<label>标题</label>
+				<label>标题<span class="am-form-group-label-tips-must">*</span></label>
 				<input type="text" name="title" placeholder="标题" minlength="2" maxlength="60" data-validation-message="标题长度 2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.title}}" {{/if}} required />
 			</div>
 			<div class="am-form-group">
@@ -34,7 +34,7 @@
 			</div>
 
 			<div class="am-form-group">
-				<label>内容{{if IsMobile()}}<span class="am-form-group-label-tips">更多编辑功能请使用电脑访问</span>{{/if}}</label>
+				<label>内容<span class="am-form-group-label-tips-must">*</span>{{if IsMobile()}}<span class="am-form-group-label-tips">更多编辑功能请使用电脑访问</span>{{/if}}</label>
 				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'customview'])}}" placeholder="内容长度最少 10~105000 个字符" {{else /}} placeholder="内容长度最少 10~105000 个字符更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容长度最少 10~105000 个字符" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
 			</div>
 			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">

@@ -21,15 +21,15 @@
 					<!-- form start -->
 					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/screeningprice/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group">
-							<label>名称</label>
+							<label>名称<span class="am-form-group-label-tips-must">*</span></label>
 							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>最小价格</label>
+							<label>最小价格<span class="am-form-group-label-tips-must">*</span></label>
 							<input type="number" placeholder="最小价格" name="min_price" maxlength="10" data-validation-message="最小价格有误" class="am-radius" value="0" required />
 						</div>
 						<div class="am-form-group">
-							<label>最大价格</label>
+							<label>最大价格<span class="am-form-group-label-tips-must">*</span></label>
 							<input type="number" placeholder="最大价格" name="max_price" maxlength="10" data-validation-message="最大价格有误" class="am-radius" value="0" required />
 						</div>
 						<div class="am-form-group">

@@ -139,7 +139,7 @@ ul.progress li.current .title {
         float: left;
     }
     .order-base {
-        border: 1px solid #ddd;
+        border: 1px solid #f0f0f0;
     }
     .order-base .am-panel-default {
         border-color: #fff;
@@ -149,7 +149,7 @@ ul.progress li.current .title {
         margin: 0;
     }
     .order-base .base-left {
-        border-right: 1px solid #ddd;
+        border-right: 1px solid #f0f0f0;
     }
     .order-base .base-right {
         padding-top: 0;
@@ -157,7 +157,7 @@ ul.progress li.current .title {
 }
 @media only screen and (max-width: 641px) {
     .order-base .base-right {
-        border: 1px solid #ddd;
+        border: 1px solid #f0f0f0;
     }
 }
 

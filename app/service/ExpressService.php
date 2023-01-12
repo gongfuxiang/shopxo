@@ -23,7 +23,7 @@ use app\service\ResourcesService;
 class ExpressService
 {
     /**
-     * 获取地区名称
+     * 获取快递名称
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
@@ -46,6 +46,40 @@ class ExpressService
         if(!empty($express_ids))
         {
             $data = Db::name('Express')->where(['id'=>$express_ids])->column('name', 'id');
+        }
+
+        // id数组则直接返回
+        if(is_array($express_ids))
+        {
+            return empty($data) ? [] : $data;
+        }
+        return (!empty($data) && is_array($data) && array_key_exists($express_ids, $data)) ? $data[$express_ids] : null;
+    }
+
+    /**
+     * 获取快递信息
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-19
+     * @desc    description
+     * @param   [array|int]          $express_ids [快递id]
+     */
+    public static function ExpressData($express_ids = 0)
+    {
+        if(empty($express_ids))
+        {
+            return null;
+        }
+
+        // 参数处理查询数据
+        if(is_array($express_ids))
+        {
+            $express_ids = array_filter(array_unique($express_ids));
+        }
+        if(!empty($express_ids))
+        {
+            $data = self::DataHandle(Db::name('Express')->where(['id'=>$express_ids])->column('id,name,website_url,icon', 'id'));
         }
 
         // id数组则直接返回
@@ -113,11 +147,8 @@ class ExpressService
      */
     public static function ExpressNodeSon($params = [])
     {
-        // id
         $id = isset($params['id']) ? intval($params['id']) : 0;
-
-        // 获取数据
-        $field = 'id,pid,icon,name,sort,is_enable';
+        $field = 'id,pid,icon,name,website_url,sort,is_enable';
         $data = Db::name('Express')->field($field)->where(['pid'=>$id])->order('sort asc')->select()->toArray();
         if(!empty($data))
         {
@@ -167,11 +198,12 @@ class ExpressService
 
         // 数据
         $data = [
-            'name'                  => $params['name'],
-            'pid'                   => isset($params['pid']) ? intval($params['pid']) : 0,
-            'sort'                  => isset($params['sort']) ? intval($params['sort']) : 0,
-            'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
-            'icon'                  => $attachment['data']['icon'],
+            'pid'           => isset($params['pid']) ? intval($params['pid']) : 0,
+            'name'          => $params['name'],
+            'website_url'   => empty($params['website_url']) ? '' : $params['website_url'],
+            'sort'          => isset($params['sort']) ? intval($params['sort']) : 0,
+            'is_enable'     => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
+            'icon'          => $attachment['data']['icon'],
         ];
 
         // 添加

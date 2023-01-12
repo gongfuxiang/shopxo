@@ -21,12 +21,12 @@
 				<!-- form start -->
 				<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/link/Save')}}" method="POST" request-type="ajax-reload" request-value="">
 					<div class="am-form-group">
-						<label>名称</label>
+						<label>名称<span class="am-form-group-label-tips-must">*</span></label>
 						<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
 					</div>
 					<div class="am-form-group">
-						<label>链接地址<span class="am-form-group-label-tips">带http://或https://</span></label>
-						<input type="url" placeholder="链接地址" name="url"  data-validation-message="链接地址格式有误" class="am-radius" required />
+						<label>链接地址<span class="am-form-group-label-tips-must">*</span></label>
+						<input type="url" placeholder="链接地址、以http://或https://开头" name="url"  data-validation-message="链接地址格式有误" class="am-radius" required />
 					</div>
 					<div class="am-form-group">
 						<label>顺序</label>

@@ -2923,6 +2923,30 @@ function CommonGoodsChoiceSpecType()
     });
 }
 
+/**
+ * 二维码初始化
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2023-01-09
+ * @desc    description
+ */
+function ViewQrCodeInit()
+{
+	$('.view-qrcode-init').each(function()
+	{
+		var text = $(this).text();
+		if(text !== '')
+		{
+			$(this).empty().qrcode({
+		        text: text,
+		        width: parseInt($(this).data('width') || 100),
+		        height: parseInt($(this).data('height') || 100)
+		    });
+		}
+	});
+}
+
 
 // 公共数据操作
 $(function()
@@ -2932,6 +2956,9 @@ $(function()
 
     // 颜色选择器初始化
     ColorPickerInit();
+
+    // 二维码初始化
+    ViewQrCodeInit();
 
     // 表格字段数据排序
     $('.form-sort-container .sort-icon').on('click', function()

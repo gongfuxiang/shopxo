@@ -13,11 +13,11 @@
 					{{include file="public/not_data" /}}
 			{{else /}}
 				<div class="am-form-group">
-					<label>名称</label>
+					<label>名称<span class="am-form-group-label-tips-must">*</span></label>
 					<input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~30 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
 				</div>
 				<div class="am-form-group">
-					<label>适用终端</label>
+					<label>适用终端<span class="am-form-group-label-tips-must">*</span></label>
 				    <select name="apply_terminal" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个适用终端" required>
 						{{foreach $common_platform_type as $v}}
 							{{if isset($data) and isset($data['apply_terminal_old']) and is_array($data['apply_terminal_old']) and in_array($v['value'], $data['apply_terminal_old'])}}
