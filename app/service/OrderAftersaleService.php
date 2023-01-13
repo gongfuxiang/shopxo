@@ -941,14 +941,14 @@ class OrderAftersaleService
         // 是否仅退款操作需要退数量操作
         // 如果是仅退、订单状态为待发货或虚拟订单则退回数量
         $is_refund_only_number = false;
-        if($aftersale['type'] == 0 && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
+        $refund_price = PriceNumberFormat($order['data']['refund_price']+$aftersale['price']);
+        if($refund_price >= $order['data']['pay_price'] && $aftersale['type'] == 0 && (!in_array($order['data']['status'], [3,4]) || $order['data']['order_model'] == 3))
         {
             $is_refund_only_number = true;
             $aftersale['number'] = $order['data']['items']['buy_number'];
         }
 
         // 更新主订单
-        $refund_price = PriceNumberFormat($order['data']['refund_price']+$aftersale['price']);
         $returned_quantity = intval($order['data']['returned_quantity']+$aftersale['number']);
         $order_upd_data = [
             'pay_status'        => ($refund_price >= $order['data']['pay_price']) ? 2 : 3,
