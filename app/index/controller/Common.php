@@ -366,7 +366,7 @@ class Common extends BaseController
         $assign['user'] = $this->user;
 
         // 用户中心菜单
-        $assign['user_left_menu'] = NavigationService::UsersCenterLeftList();
+        $assign['user_left_menu'] = NavigationService::UserCenterLeftList();
 
         // 商品大分类
         $assign['goods_category_list'] = GoodsService::GoodsCategoryAll();

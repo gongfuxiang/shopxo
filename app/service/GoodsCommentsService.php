@@ -616,39 +616,49 @@ class GoodsCommentsService
      */
     public static function GoodsCommentsScore($goods_id)
     {
-        // 默认
-        $rating_list = [
-            1 => ['rating'=>1, 'name'=>'1分', 'count'=>0, 'portion'=>0],
-            2 => ['rating'=>2, 'name'=>'2分', 'count'=>0, 'portion'=>0],
-            3 => ['rating'=>3, 'name'=>'3分', 'count'=>0, 'portion'=>0],
-            4 => ['rating'=>4, 'name'=>'4分', 'count'=>0, 'portion'=>0],
-            5 => ['rating'=>5, 'name'=>'5分', 'count'=>0, 'portion'=>0],
-        ];
-        $where = [
-            ['goods_id', '=', $goods_id],
-            ['rating', '>', 0],
-        ];
-        $data = Db::name('GoodsComments')->where($where)->group('rating')->column('count(*) as count', 'rating');
-        if(!empty($data))
+        // 从缓存获取
+        $key = SystemService::CacheKey('shopxo.cache_goods_comments_score_key');
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug'))
         {
-            $sum = array_sum($data);
-            foreach($data as $rating=>$count)
+            // 默认
+            $rating_list = [
+                1 => ['rating'=>1, 'name'=>'1分', 'count'=>0, 'portion'=>0],
+                2 => ['rating'=>2, 'name'=>'2分', 'count'=>0, 'portion'=>0],
+                3 => ['rating'=>3, 'name'=>'3分', 'count'=>0, 'portion'=>0],
+                4 => ['rating'=>4, 'name'=>'4分', 'count'=>0, 'portion'=>0],
+                5 => ['rating'=>5, 'name'=>'5分', 'count'=>0, 'portion'=>0],
+            ];
+            $where = [
+                ['goods_id', '=', $goods_id],
+                ['rating', '>', 0],
+            ];
+            $data = Db::name('GoodsComments')->where($where)->group('rating')->column('count(*) as count', 'rating');
+            if(!empty($data))
             {
-                if($rating > 0 && $rating <= 5)
+                $sum = array_sum($data);
+                foreach($data as $rating=>$count)
                 {
-                    $rating_list[$rating]['count'] = $count;
-                    $rating_list[$rating]['portion'] = round(($count/$sum)*100);
+                    if($rating > 0 && $rating <= 5)
+                    {
+                        $rating_list[$rating]['count'] = $count;
+                        $rating_list[$rating]['portion'] = round(($count/$sum)*100);
+                    }
                 }
             }
+            sort($rating_list);
+            $avg = PriceNumberFormat(Db::name('GoodsComments')->where($where)->avg('rating'), 1);
+            $rate = ($avg <= 0) ? 100 : intval(($avg/5)*100);
+            $data = [
+                'avg'       => $avg,
+                'rate'      => $rate,
+                'rating'    => $rating_list,
+            ];
+
+            // 存储缓存
+            MyCache($key, $data, 180);
         }
-        sort($rating_list);
-        $avg = PriceNumberFormat(Db::name('GoodsComments')->where($where)->avg('rating'), 1);
-        $rate = ($avg <= 0) ? 100 : intval(($avg/5)*100);
-        return [
-            'avg'       => $avg,
-            'rate'      => $rate,
-            'rating'    => $rating_list,
-        ];
+        return $data;
     }
 
     /**

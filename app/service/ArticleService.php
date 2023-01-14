@@ -35,7 +35,7 @@ class ArticleService
     public static function HomeArticleList($params = [])
     {
         // 从缓存获取
-        $key = SystemService::CacheKey('shopxo.cache_home_article_list_key');
+        $key = SystemService::CacheKey('shopxo.cache_home_article_list_key').APPLICATION_CLIENT_TYPE;
         $data = MyCache($key);
         if($data === null || MyEnv('app_debug'))
         {
@@ -51,9 +51,6 @@ class ArticleService
 
             // 存储缓存
             MyCache($key, $data, 180);
-        } else {
-            // 处理数据、由于平台不一样url地址或者其他数据也会不一样
-            $data = self::ArticleListHandle($data);
         }
         return $data;
     }

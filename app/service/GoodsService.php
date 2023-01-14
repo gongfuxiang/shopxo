@@ -3011,77 +3011,85 @@ class GoodsService
      */
     public static function GoodsDetailMiddleTabsNavList($goods)
     {
-        // 是否展示商品评价
-        $is_comments = MyC('common_is_show_goods_comments', 1);
-
-        // app与web端不一致
-        if(APPLICATION == 'app') 
+        // 从缓存获取
+        $key = SystemService::CacheKey('shopxo.cache_goods_detail_middle_tabs_key').APPLICATION;
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug'))
         {
-            // 这里的 ent 值必须和系统中区域块定义的一致
-            $data = [
-                ['name'=>'商品', 'ent'=>'.page'],
-            ];
-
             // 是否展示商品评价
-            if($is_comments == 1)
+            $is_comments = MyC('common_is_show_goods_comments', 1);
+
+            // app与web端不一致
+            if(APPLICATION == 'app') 
             {
-                $data[] = ['name'=>'评价', 'ent'=>'.goods-comment'];
-            }
+                // 这里的 ent 值必须和系统中区域块定义的一致
+                $data = [
+                    ['name'=>'商品', 'ent'=>'.page'],
+                ];
 
-            // 商品详情介绍
-            $data[] = ['name'=>'详情', 'ent'=>'.goods-detail'];
-        } else {
-            // 评论总数
-            $comments_count = isset($goods['comments_count']) ? $goods['comments_count'] : GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods['id'], 'is_show'=>1]);
+                // 是否展示商品评价
+                if($is_comments == 1)
+                {
+                    $data[] = ['name'=>'评价', 'ent'=>'.goods-comment'];
+                }
 
-            // 列表
-            // type 类型
-            // name 名称
-            // active 选中（可选）
-            // value 数据值（可选）
-            $data = [
-                [
-                    'type'      => 'detail',
-                    'name'      => '详情',
-                    'active'    => 1,
-                ],
-            ];
+                // 商品详情介绍
+                $data[] = ['name'=>'详情', 'ent'=>'.goods-detail'];
+            } else {
+                // 评论总数
+                $comments_count = isset($goods['comments_count']) ? $goods['comments_count'] : GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods['id'], 'is_show'=>1]);
 
-            // 是否展示商品评价
-            if($is_comments == 1)
-            {
+                // 列表
+                // type 类型
+                // name 名称
+                // active 选中（可选）
+                // value 数据值（可选）
+                $data = [
+                    [
+                        'type'      => 'detail',
+                        'name'      => '详情',
+                        'active'    => 1,
+                    ],
+                ];
+
+                // 是否展示商品评价
+                if($is_comments == 1)
+                {
+                    $data[] = [
+                        'type'      => 'comments',
+                        'name'      => '评价('.$comments_count.')',
+                    ];
+                }
+
+                // 猜你喜欢，目前以销量最高推荐
                 $data[] = [
-                    'type'      => 'comments',
-                    'name'      => '评价('.$comments_count.')',
+                    'type'      => 'guess_you_like',
+                    'name'      => '猜你喜欢',
                 ];
             }
 
-            // 猜你喜欢，目前以销量最高推荐
-            $data[] = [
-                'type'      => 'guess_you_like',
-                'name'      => '猜你喜欢',
-            ];
-        }
+            // 商品详情中间导航钩子
+            $hook_name = 'plugins_service_goods_detail_middle_tabs_nav_handle';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'goods'         => $goods,
+                'data'          => &$data,
+            ]);
 
-        // 商品详情中间导航钩子
-        $hook_name = 'plugins_service_goods_detail_middle_tabs_nav_handle';
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'goods'         => $goods,
-            'data'          => &$data,
-        ]);
+            // web端处理格式
+            if(APPLICATION == 'web')
+            {
+                $data = [
+                    'nav'   => $data,
+                    'type'  => array_column($data, 'type'),
+                ];
+            }
 
-        // 返回数据
-        if(APPLICATION == 'app')
-        {
-            return $data;
-        } else {
-            return [
-                'nav'   => $data,
-                'type'  => array_column($data, 'type'),
-            ];
+            // 存储缓存
+            MyCache($key, $data, 180);
         }
+        return $data;
     }
 
     /**
@@ -3213,54 +3221,63 @@ class GoodsService
      */
     public static function GoodsBreadcrumbData($goods)
     {
-        // 默认首页
-        $result = [
-            [
-                'type'  => 0,
-                'name'  => '首页',
-                'url'   => SystemService::HomeUrl(),
-                'icon'  => 'am-icon-home',
-            ],
-        ];
-        // 商品分类
-        $cids = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods['id']])->column('category_id');
-        if(!empty($cids))
+        // 从缓存获取
+        $key = SystemService::CacheKey('shopxo.cache_goods_detail_breadcrumb_key');
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug'))
         {
-            $where = [
-                ['id', 'in', $cids],
-                ['is_enable', '=', 1],
+            // 默认首页
+            $data = [
+                [
+                    'type'  => 0,
+                    'name'  => '首页',
+                    'url'   => SystemService::HomeUrl(),
+                    'icon'  => 'am-icon-home',
+                ],
             ];
-            $category = Db::name('GoodsCategory')->where($where)->field('id,name')->select()->toArray();
-            if(!empty($category))
+            // 商品分类
+            $cids = Db::name('GoodsCategoryJoin')->where(['goods_id'=>$goods['id']])->column('category_id');
+            if(!empty($cids))
             {
-                $category = array_map(function($v)
+                $where = [
+                    ['id', 'in', $cids],
+                    ['is_enable', '=', 1],
+                ];
+                $category = Db::name('GoodsCategory')->where($where)->field('id,name')->select()->toArray();
+                if(!empty($category))
                 {
-                    $v['url'] = MyUrl('index/search/index', ['cid'=>$v['id']]);
-                    return $v;
-                }, $category);
-                if(count($category) == 1)
-                {
-                    $result[] = [
-                        'type'  => 0,
-                        'name'  => $category[0]['name'],
-                        'url'   => $category[0]['url'],
-                    ];
-                } else {
-                    $result[] = [
-                        'type'  => 1,
-                        'name'  => '商品分类',
-                        'data'  => $category,
-                    ];
+                    $category = array_map(function($v)
+                    {
+                        $v['url'] = MyUrl('index/search/index', ['cid'=>$v['id']]);
+                        return $v;
+                    }, $category);
+                    if(count($category) == 1)
+                    {
+                        $data[] = [
+                            'type'  => 0,
+                            'name'  => $category[0]['name'],
+                            'url'   => $category[0]['url'],
+                        ];
+                    } else {
+                        $data[] = [
+                            'type'  => 1,
+                            'name'  => '商品分类',
+                            'data'  => $category,
+                        ];
+                    }
                 }
             }
-        }
 
-        // 当前商品名称
-        $result[] = [
-            'type'  => 0,
-            'name'  => $goods['title'],
-        ];
-        return $result;
+            // 当前商品名称
+            $data[] = [
+                'type'  => 0,
+                'name'  => $goods['title'],
+            ];
+
+            // 存储缓存
+            MyCache($key, $data, 180);
+        }
+        return $data;
     }
 
     /**

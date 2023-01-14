@@ -643,88 +643,107 @@ class NavigationService
      */
     public static function HomeHavTopRight($params = [])
     {
-        $cart_total = 0;
-        $message_total = -1;
-        if(!empty($params['user']))
-        {
-            // 购物车商品汇总
-            $cart_res = GoodsCartService::UserGoodsCartTotal(['user'=>$params['user']]);
-            $cart_total = $cart_res['buy_number'];
+        // 从缓存获取
+        $key = SystemService::CacheKey('shopxo.cache_header_navigation_top_right_key');
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug'))
+        {            
+            // 列表
+            $data = [
+                [
+                    'name'      => '个人中心',
+                    'type'      => 'center',
+                    'is_login'  => 1,
+                    'badge'     => null,
+                    'icon'      => 'am-icon-user',
+                    'url'       => MyUrl('index/user/index'),
+                    'items'     => [],
+                ],
+                [
+                    'name'      => '我的商城',
+                    'type'      => 'myself',
+                    'is_login'  => 1,
+                    'badge'     => null,
+                    'icon'      => 'am-icon-cube',
+                    'url'       => '',
+                    'items'     => [
+                        [
+                            'name'  => '我的订单',
+                            'url'   => MyUrl('index/order/index'),
+                        ],
+                    ],
+                ],
+                [
+                    'name'      => '我的收藏',
+                    'type'      => 'favor',
+                    'is_login'  => 1,
+                    'badge'     => null,
+                    'icon'      => 'am-icon-heart',
+                    'url'       => '',
+                    'items'     => [
+                        [
+                            'name'  => '商品收藏',
+                            'url'   => MyUrl('index/usergoodsfavor/index'),
+                        ],
+                    ],
+                ],
+                [
+                    'name'      => '购物车',
+                    'type'      => 'cart',
+                    'is_login'  => 1,
+                    'badge'     => -1,
+                    'icon'      => 'am-icon-shopping-cart',
+                    'url'       => MyUrl('index/cart/index'),
+                    'items'     => [],
+                ],
+                [
+                    'name'      => '消息',
+                    'type'      => 'message',
+                    'is_login'  => 1,
+                    'badge'     => 0,
+                    'icon'      => 'am-icon-bell',
+                    'url'       => MyUrl('index/message/index'),
+                    'items'     => [],
+                ],
+            ];
 
-            // 未读消息总数
-            $message_params = ['user'=>$params['user'], 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
-            $message_total = MessageService::UserMessageTotal($message_params);
-            $message_total = ($message_total <= 0) ? -1 : $message_total;
+            // 顶部小导航右侧钩子
+            $hook_name = 'plugins_service_header_navigation_top_right_handle';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
+
+            // 存储缓存
+            MyCache($key, $data, 180);
         }
-        
-        // 列表
-        $data = [
-            [
-                'name'      => '个人中心',
-                'type'      => 'center',
-                'is_login'  => 1,
-                'badge'     => null,
-                'icon'      => 'am-icon-user',
-                'url'       => MyUrl('index/user/index'),
-                'items'     => [],
-            ],
-            [
-                'name'      => '我的商城',
-                'type'      => 'myself',
-                'is_login'  => 1,
-                'badge'     => null,
-                'icon'      => 'am-icon-cube',
-                'url'       => '',
-                'items'     => [
-                    [
-                        'name'  => '我的订单',
-                        'url'   => MyUrl('index/order/index'),
-                    ],
-                ],
-            ],
-            [
-                'name'      => '我的收藏',
-                'type'      => 'favor',
-                'is_login'  => 1,
-                'badge'     => null,
-                'icon'      => 'am-icon-heart',
-                'url'       => '',
-                'items'     => [
-                    [
-                        'name'  => '商品收藏',
-                        'url'   => MyUrl('index/usergoodsfavor/index'),
-                    ],
-                ],
-            ],
-            [
-                'name'      => '购物车',
-                'type'      => 'cart',
-                'is_login'  => 1,
-                'badge'     => $cart_total,
-                'icon'      => 'am-icon-shopping-cart',
-                'url'       => MyUrl('index/cart/index'),
-                'items'     => [],
-            ],
-            [
-                'name'      => '消息',
-                'type'      => 'message',
-                'is_login'  => 1,
-                'badge'     => $message_total,
-                'icon'      => 'am-icon-bell',
-                'url'       => MyUrl('index/message/index'),
-                'items'     => [],
-            ],
-        ];
 
-        // 顶部小导航右侧钩子
-        $hook_name = 'plugins_service_header_navigation_top_right_handle';
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'params'        => &$params,
-            'data'          => &$data,
-        ]);
+        // 实时数据处理
+        if(!empty($data) && !empty($params['user']))
+        {
+            // 所有类型
+            $type = array_column($data, 'type');
 
+            // 消息总数
+            $index = array_search('message', $type);
+            if($index !== false)
+            {
+                // 未读消息总数
+                $message_params = ['user'=>$params['user'], 'is_more'=>1, 'is_read'=>0, 'user_type'=>'user'];
+                $message_total = MessageService::UserMessageTotal($message_params);
+                $data[$index]['badge'] = ($message_total <= 0) ? -1 : $message_total;
+            }
+
+            // 购物车商品汇总
+            $index = array_search('cart', $type);
+            if($index !== false)
+            {
+                $cart_res = GoodsCartService::UserGoodsCartTotal(['user'=>$params['user']]);
+                $data[$index]['badge'] = $cart_res['buy_number'];
+            }
+        }
         return $data;
     }
 
@@ -852,7 +871,7 @@ class NavigationService
      * @desc    description
      * @param   [array]           $params [输入信息]
      */
-    public static function UsersCenterLeftList($params = [])
+    public static function UserCenterLeftList($params = [])
     {
         // name        名称
         // url         页面地址
@@ -862,139 +881,147 @@ class NavigationService
         // item        二级数据
         // is_system   是否系统内置菜单（0否, 1是）扩展数据可空或0
 
-        // 菜单列表
-        $data = [
-            'center' => [
-                'name'      =>  '个人中心',
-                'url'       =>  MyUrl('index/user/index'),
-                'is_show'   =>  1,
-                'contains'  =>  ['indexuserindex'],
-                'icon'      =>  'am-icon-home',
-                'is_system' =>  1,
-            ],
-            'business' => [
-                'name'      =>  '业务管理',
-                'is_show'   =>  1,
-                'icon'      =>  'am-icon-cube',
-                'is_system' =>  1,
-                'item'      =>  [
-                    [
-                        'name'      =>  '订单管理',
-                        'url'       =>  MyUrl('index/order/index'),
-                        'is_show'   =>  1,
-                        'contains'  =>  ['indexorderindex', 'indexorderdetail', 'indexordercomments'],
-                        'icon'      =>  'am-icon-th-list',
-                        'is_system' =>  1,
-                    ],
-                    [
-                        'name'      =>  '订单售后',
-                        'url'       =>  MyUrl('index/orderaftersale/index'),
-                        'is_show'   =>  1,
-                        'contains'  =>  ['indexorderaftersaleindex', 'indexorderaftersaledetail'],
-                        'icon'      =>  'am-icon-puzzle-piece',
-                        'is_system' =>  1,
-                    ],
-                    [
-                        'name'      =>  '商品收藏',
-                        'url'       =>  MyUrl('index/usergoodsfavor/index'),
-                        'contains'  =>  ['indexusergoodsfavorindex'],
-                        'is_show'   =>  1,
-                        'icon'      =>  'am-icon-heart-o',
-                        'is_system' =>  1,
-                    ],
-                ]
-            ],
-            'property' => [
-                'name'      =>  '财产中心',
-                'is_show'   =>  1,
-                'icon'      =>  'am-icon-trophy',
-                'is_system' =>  1,
-                'item'      =>  [
-                    [
-                        'name'      =>  '我的积分',
-                        'url'       =>  MyUrl('index/userintegral/index'),
-                        'contains'  =>  ['indexuserintegralindex'],
-                        'is_show'   =>  1,
-                        'icon'      =>  'am-icon-fire',
-                        'is_system' =>  1,
-                    ],
-                ]
-            ],
-            'base' => [
-                'name'      =>  '资料管理',
-                'is_show'   =>  1,
-                'icon'      =>  'am-icon-user',
-                'is_system' =>  1,
-                'item'      =>  [
-                    [
-                        'name'      =>  '个人资料',
-                        'url'       =>  MyUrl('index/personal/index'),
-                        'contains'  =>  ['indexpersonalindex', 'indexpersonalsaveinfo'],
-                        'is_show'   =>  1,
-                        'icon'      =>  'am-icon-gear',
-                        'is_system' =>  1,
-                    ],
-                    [
-                        'name'      =>  '我的地址',
-                        'url'       =>  MyUrl('index/useraddress/index'),
-                        'contains'  =>  ['indexuseraddressindex', 'indexuseraddresssaveinfo'],
-                        'is_show'   =>  1,
-                        'icon'      =>  'am-icon-street-view',
-                        'is_system' =>  1,
-                    ],
-                    [
-                        'name'      =>  '安全设置',
-                        'url'       =>  MyUrl('index/safety/index'),
-                        'contains'  =>  ['indexsafetyindex', 'indexsafetyloginpwdinfo', 'indexsafetymobileinfo', 'indexsafetynewmobileinfo', 'indexsafetyemailinfo', 'indexsafetynewemailinfo', 'indexsafetylogoutinfo'],
-                        'is_show'   =>  1,
-                        'icon'      =>  'am-icon-user-secret',
-                        'is_system' =>  1,
-                    ],
-                    [
-                        'name'      =>  '我的消息',
-                        'url'       =>  MyUrl('index/message/index'),
-                        'contains'  =>  ['indexmessageindex'],
-                        'is_show'   =>  1,
-                        'icon'      =>  'am-icon-bell-o',
-                        'is_system' =>  1,
-                    ],
-                    [
-                        'name'      =>  '我的足迹',
-                        'url'       =>  MyUrl('index/usergoodsbrowse/index'),
-                        'contains'  =>  ['indexusergoodsbrowseindex'],
-                        'is_show'   =>  1,
-                        'icon'      =>  'am-icon-lastfm',
-                        'is_system' =>  1,
-                    ],
-                    [
-                        'name'      =>  '问答/留言',
-                        'url'       =>  MyUrl('index/answer/index'),
-                        'contains'  =>  ['indexanswerindex'],
-                        'is_show'   =>  1,
-                        'icon'      =>  'am-icon-question',
-                        'is_system' =>  1,
-                    ],
-                ]
-            ],
-            'logout' => [
-                'name'      =>  '安全退出',
-                'url'       =>  MyUrl('index/user/logout'),
-                'contains'  =>  ['indexuserlogout'],
-                'is_show'   =>  1,
-                'icon'      =>  'am-icon-power-off',
-                'is_system' =>  1,
-            ],
-        ];
+        // 从缓存获取
+        $key = SystemService::CacheKey('shopxo.cache_user_center_left_nav_key');
+        $data = MyCache($key);
+        if($data === null || MyEnv('app_debug'))
+        {
+            // 菜单列表
+            $data = [
+                'center' => [
+                    'name'      =>  '个人中心',
+                    'url'       =>  MyUrl('index/user/index'),
+                    'is_show'   =>  1,
+                    'contains'  =>  ['indexuserindex'],
+                    'icon'      =>  'am-icon-home',
+                    'is_system' =>  1,
+                ],
+                'business' => [
+                    'name'      =>  '业务管理',
+                    'is_show'   =>  1,
+                    'icon'      =>  'am-icon-cube',
+                    'is_system' =>  1,
+                    'item'      =>  [
+                        [
+                            'name'      =>  '订单管理',
+                            'url'       =>  MyUrl('index/order/index'),
+                            'is_show'   =>  1,
+                            'contains'  =>  ['indexorderindex', 'indexorderdetail', 'indexordercomments'],
+                            'icon'      =>  'am-icon-th-list',
+                            'is_system' =>  1,
+                        ],
+                        [
+                            'name'      =>  '订单售后',
+                            'url'       =>  MyUrl('index/orderaftersale/index'),
+                            'is_show'   =>  1,
+                            'contains'  =>  ['indexorderaftersaleindex', 'indexorderaftersaledetail'],
+                            'icon'      =>  'am-icon-puzzle-piece',
+                            'is_system' =>  1,
+                        ],
+                        [
+                            'name'      =>  '商品收藏',
+                            'url'       =>  MyUrl('index/usergoodsfavor/index'),
+                            'contains'  =>  ['indexusergoodsfavorindex'],
+                            'is_show'   =>  1,
+                            'icon'      =>  'am-icon-heart-o',
+                            'is_system' =>  1,
+                        ],
+                    ]
+                ],
+                'property' => [
+                    'name'      =>  '财产中心',
+                    'is_show'   =>  1,
+                    'icon'      =>  'am-icon-trophy',
+                    'is_system' =>  1,
+                    'item'      =>  [
+                        [
+                            'name'      =>  '我的积分',
+                            'url'       =>  MyUrl('index/userintegral/index'),
+                            'contains'  =>  ['indexuserintegralindex'],
+                            'is_show'   =>  1,
+                            'icon'      =>  'am-icon-fire',
+                            'is_system' =>  1,
+                        ],
+                    ]
+                ],
+                'base' => [
+                    'name'      =>  '资料管理',
+                    'is_show'   =>  1,
+                    'icon'      =>  'am-icon-user',
+                    'is_system' =>  1,
+                    'item'      =>  [
+                        [
+                            'name'      =>  '个人资料',
+                            'url'       =>  MyUrl('index/personal/index'),
+                            'contains'  =>  ['indexpersonalindex', 'indexpersonalsaveinfo'],
+                            'is_show'   =>  1,
+                            'icon'      =>  'am-icon-gear',
+                            'is_system' =>  1,
+                        ],
+                        [
+                            'name'      =>  '我的地址',
+                            'url'       =>  MyUrl('index/useraddress/index'),
+                            'contains'  =>  ['indexuseraddressindex', 'indexuseraddresssaveinfo'],
+                            'is_show'   =>  1,
+                            'icon'      =>  'am-icon-street-view',
+                            'is_system' =>  1,
+                        ],
+                        [
+                            'name'      =>  '安全设置',
+                            'url'       =>  MyUrl('index/safety/index'),
+                            'contains'  =>  ['indexsafetyindex', 'indexsafetyloginpwdinfo', 'indexsafetymobileinfo', 'indexsafetynewmobileinfo', 'indexsafetyemailinfo', 'indexsafetynewemailinfo', 'indexsafetylogoutinfo'],
+                            'is_show'   =>  1,
+                            'icon'      =>  'am-icon-user-secret',
+                            'is_system' =>  1,
+                        ],
+                        [
+                            'name'      =>  '我的消息',
+                            'url'       =>  MyUrl('index/message/index'),
+                            'contains'  =>  ['indexmessageindex'],
+                            'is_show'   =>  1,
+                            'icon'      =>  'am-icon-bell-o',
+                            'is_system' =>  1,
+                        ],
+                        [
+                            'name'      =>  '我的足迹',
+                            'url'       =>  MyUrl('index/usergoodsbrowse/index'),
+                            'contains'  =>  ['indexusergoodsbrowseindex'],
+                            'is_show'   =>  1,
+                            'icon'      =>  'am-icon-lastfm',
+                            'is_system' =>  1,
+                        ],
+                        [
+                            'name'      =>  '问答/留言',
+                            'url'       =>  MyUrl('index/answer/index'),
+                            'contains'  =>  ['indexanswerindex'],
+                            'is_show'   =>  1,
+                            'icon'      =>  'am-icon-question',
+                            'is_system' =>  1,
+                        ],
+                    ]
+                ],
+                'logout' => [
+                    'name'      =>  '安全退出',
+                    'url'       =>  MyUrl('index/user/logout'),
+                    'contains'  =>  ['indexuserlogout'],
+                    'is_show'   =>  1,
+                    'icon'      =>  'am-icon-power-off',
+                    'is_system' =>  1,
+                ],
+            ];
 
-        // 用户中心左侧菜单钩子
-        $hook_name = 'plugins_service_users_center_left_menu_handle';
-        MyEventTrigger($hook_name, [
-            'hook_name'     => $hook_name,
-            'is_backend'    => true,
-            'params'        => &$params,
-            'data'          => &$data,
-        ]);
+            // 用户中心左侧菜单钩子
+            $hook_name = 'plugins_service_users_center_left_menu_handle';
+            MyEventTrigger($hook_name, [
+                'hook_name'     => $hook_name,
+                'is_backend'    => true,
+                'params'        => &$params,
+                'data'          => &$data,
+            ]);
 
+            // 存储缓存
+            MyCache($key, $data, 180);
+        }
         return $data;
     }
 

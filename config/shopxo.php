@@ -64,6 +64,15 @@ return [
     // 商品大分类缓存
     'cache_goods_category_key'              => 'cache_goods_category_key_data',
 
+    // 商品详情面包屑导航
+    'cache_goods_detail_breadcrumb_key'     => 'cache_goods_detail_breadcrumb_key_data',
+
+    // 商品详情中间导航
+    'cache_goods_detail_middle_tabs_key'    => 'cache_goods_detail_middle_tabs_key_data',
+
+    // 商品评论评分
+    'cache_goods_comments_score_key'        => 'cache_goods_comments_score_key_data',
+
     // 应用数据缓存
     'cache_plugins_data_key'                => 'cache_plugins_data_key_data_',
 
@@ -102,6 +111,9 @@ return [
 
     // 首页展示的友情链接列表数据
     'cache_home_link_list_key'              => 'cache_home_link_list_data',
+
+    // 用户中心左侧菜单
+    'cache_user_center_left_nav_key'        => 'cache_user_center_left_nav_key_data',
 
     // 站点域名地址
     'domain_url'                            => $domain_url,
