@@ -84,7 +84,7 @@ class RegionService
     public static function RegionNode($params = [])
     {
         // 数据参数
-        $field = empty($params['field']) ? 'id,name,level,letters' : $params['field'];
+        $field = empty($params['field']) ? 'id,pid,name,level,letters,lng,lat,sort,is_enable' : $params['field'];
         $where = empty($params['where']) ? [] : $params['where'];
         $order_by = empty($params['order_by']) ? 'sort asc,id asc' : trim($params['order_by']);
 
@@ -107,14 +107,14 @@ class RegionService
         $id = isset($params['id']) ? intval($params['id']) : 0;
 
         // 获取数据
-        $field = 'id,pid,name,sort,is_enable';
+        $field = 'id,pid,name,level,letters,lng,lat,sort,is_enable';
         $data = Db::name('Region')->field($field)->where(['pid'=>$id])->order('sort asc,id asc')->select()->toArray();
         if(!empty($data))
         {
             foreach($data as &$v)
             {
-                $v['is_son']            =   (Db::name('Region')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
-                $v['json']              =   json_encode($v);
+                $v['is_son']    = (Db::name('Region')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
+                $v['json']      = json_encode($v);
             }
             return DataReturn(MyLang('common.operate_success'), 0, $data);
         }
@@ -148,14 +148,21 @@ class RegionService
 
         // 数据
         $data = [
-            'name'                  => $params['name'],
-            'pid'                   => isset($params['pid']) ? intval($params['pid']) : 0,
-            'sort'                  => isset($params['sort']) ? intval($params['sort']) : 0,
-            'is_enable'             => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
+            'name'      => $params['name'],
+            'pid'       => isset($params['pid']) ? intval($params['pid']) : 0,
+            'lng'       => isset($params['lng']) ? floatval($params['lng']) : 0,
+            'lat'       => isset($params['lat']) ? floatval($params['lat']) : 0,
+            'letters'   => empty($params['letters']) ? '' : $params['letters'],
+            'sort'      => isset($params['sort']) ? intval($params['sort']) : 0,
+            'is_enable' => isset($params['is_enable']) ? intval($params['is_enable']) : 0,
         ];
-		
-		// 得到level，风车车 
-		$data['level'] = ($data['pid'] > 0) ? (Db::name('Region')->where(['id'=>$data['pid']])->value('level')+1) : 0;
+        if(!empty($params['id']))
+        {
+            $params['id'] = intval($params['id']);
+        }
+
+		// 得到level 
+		$data['level'] = ($data['pid'] > 0) ? (Db::name('Region')->where(['id'=>$data['pid']])->value('level')+1) : 1;
 
         // 添加
         if(empty($params['id']))
@@ -322,8 +329,75 @@ class RegionService
                 MyCache($key, $data, 60);
             }
         }
-
         return DataReturn('success', 0, $data);
+    }
+
+    /**
+     * 根据编号获取地区数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-01-16
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public static function RegionCodeData($params = [])
+    {
+        // 请求参数
+        $p = [
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'code',
+                'error_msg'         => '请输入地区编号',
+            ],
+        ];
+        $ret = ParamsChecked($params, $p);
+        if($ret !== true)
+        {
+            return DataReturn($ret, -1);
+        }
+
+        // 获取地区
+        $result = ['province'=>'', 'city'=>'', 'county'=>''];
+        $field = 'id,pid,level';
+        $region = self::RegionNode(['field'=>$field, 'where'=>[['id', '=', $params['code']]]]);
+        if(!empty($region) && !empty($region[0]))
+        {
+            $arr = [1=>'province', 2=>'city', 3=>'county'];
+            if(array_key_exists($region[0]['level'], $arr))
+            {
+                $result[$arr[$region[0]['level']]] = $region[0]['id'];
+                // 上一级
+                if($region[0]['level'] > 1)
+                {
+                    $region = self::RegionNode(['field'=>$field, 'where'=>[['id', '=', $region[0]['pid']]]]);
+                    if(!empty($region) && !empty($region[0]))
+                    {
+                        if(array_key_exists($region[0]['level'], $arr))
+                        {
+                            $result[$arr[$region[0]['level']]] = $region[0]['id'];
+                            // 上一级
+                            if($region[0]['level'] > 1)
+                            {
+                                $region = self::RegionNode(['field'=>$field, 'where'=>[['id', '=', $region[0]['pid']]]]);
+                                if(!empty($region) && !empty($region[0]))
+                                {
+                                    if(array_key_exists($region[0]['level'], $arr))
+                                    {
+                                        $result[$arr[$region[0]['level']]] = $region[0]['id'];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if(empty($result) || count(array_filter(array_values($result))) == 0)
+        {
+            return DataReturn('无相关地区', -1);
+        }
+        return DataReturn(MyLang('common.get_success'), 0, $result);
     }
 }
 ?>

@@ -92,7 +92,20 @@ class Region extends Base
                 ['pid', '=', $pid],
             ],
         ];
-        return ApiService::ApiDataReturn(DataReturn('获取成功', 0, RegionService::RegionNode($params)));
+        return ApiService::ApiDataReturn(DataReturn('success', 0, RegionService::RegionNode($params)));
+    }
+
+    /**
+     * 获取地区编号数据
+     * @author   Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2018-09-21
+     * @desc    description
+     */
+    public function CodeData()
+    {
+        return ApiService::ApiDataReturn(RegionService::RegionCodeData($this->data_post));
     }
 }
 ?>

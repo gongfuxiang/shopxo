@@ -20,7 +20,7 @@
 						<input type="text" name="{{$data.home_site_name.only_tag}}" minlength="1" placeholder="{{$data.home_site_name.name}}" data-validation-message="{{$data.home_site_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.home_site_name.value}}"{{/if}} required />
 					</div>
 					<div class="am-form-group">
-						<label class="block">{{$data.home_site_logo.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo.describe}}</span></label>
+						<label class="am-block">{{$data.home_site_logo.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo.describe}}</span></label>
 						<ul class="plug-file-upload-view home_site_logo-images-view" data-form-name="home_site_logo" data-max-number="1" data-delete="0" data-dialog-type="images">
 							{{if !empty($data['home_site_logo']['value'])}}
 								<li>
@@ -33,7 +33,7 @@
 					</div>
 
 					<div class="am-form-group">
-						<label class="block">{{$data.home_site_logo_wap.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo_wap.describe}}</span></label>
+						<label class="am-block">{{$data.home_site_logo_wap.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo_wap.describe}}</span></label>
 						<ul class="plug-file-upload-view home_site_logo_wap-images-view" data-form-name="home_site_logo_wap" data-max-number="1" data-delete="0" data-dialog-type="images">
 							{{if !empty($data['home_site_logo_wap']['value'])}}
 								<li>
@@ -46,7 +46,7 @@
 					</div>
 
 					<div class="am-form-group">
-						<label class="block">{{$data.home_site_logo_square.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo_square.describe}}</span></label>
+						<label class="am-block">{{$data.home_site_logo_square.name}}<span class="am-form-group-label-tips">{{$data.home_site_logo_square.describe}}</span></label>
 						<ul class="plug-file-upload-view home_site_logo_square-images-view" data-form-name="home_site_logo_square" data-max-number="1" data-delete="0" data-dialog-type="images">
 							{{if !empty($data['home_site_logo_square']['value'])}}
 								<li>

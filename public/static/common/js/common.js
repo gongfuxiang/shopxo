@@ -1838,7 +1838,17 @@ function TreeFormInit()
 	$title.text($title.attr('data-add-title'));
 
 	// 填充数据
-	var data = {id:"", pid:0, name:"", vice_name: "", describe: "", sort:0, is_enable:1, icon:"", big_images: "", seo_title:"", seo_keywords:"", seo_desc:""};
+	var data = {id:'', pid:0, name:'', vice_name:'', describe:'', letters:'', lng:'', lat:'', sort:0, is_enable:1, icon:'', big_images:'', seo_title:'', seo_keywords:'', seo_desc:''};
+	// 指定字段
+	var fields = $popup.data('fields') || null;
+	if(fields != null)
+	{
+		var arr = fields.split(',');
+		for(var i in arr)
+		{
+			data[arr[i]] = '';
+		}
+	}
 
 	// 额外处理数据
 	data = FunSaveWinAdditional(data, 'init');
@@ -3601,6 +3611,56 @@ $(function()
 	});
 	// 地址初始化
 	RegionLinkageInit();
+
+	// 地址编号搜索
+	$('.region-linkage-code button').on('click', function()
+	{
+		var code = $(this).parents('.region-linkage-code').find('input').val() || null;
+		if(code == null)
+		{
+			Prompt(window['lang_input_empty_tips'] || '请输入数据');
+			return false;
+		}
+		var $this = $(this);
+		var $parent = $this.parents('.region-linkage');
+		$this.attr('disabled', true);
+        $.ajax({
+            url: RequestUrlHandle($parent.data('code-url')),
+            type: 'POST',
+            dataType: 'json',
+            timeout: 30000,
+            data: {code: code},
+            success: function(result)
+            {
+                $this.attr('disabled', false);
+                if(result.code == 0)
+                {
+                	// 更新选中值
+                	$parent.find('select[name="province"]').attr('data-value', result.data.province);
+                	$parent.find('select[name="city"]').attr('data-value', result.data.city);
+                	$parent.find('select[name="county"]').attr('data-value', result.data.county);
+                	// 地址初始化
+					RegionLinkageInit();
+					Prompt(result.msg, 'success');
+                } else {
+                    Prompt(result.msg);
+                }
+            },
+            error: function(xhr, type)
+            {
+                $this.attr('disabled', false);
+                Prompt(HtmlToString(xhr.responseText) || (window['lang_error_text'] || '异常错误'));
+            }
+        });
+	});
+	$('.region-linkage-code input').on('keydown', function()
+	{
+		if(event.keyCode == 13)
+        {
+        	$(this).parents('.region-linkage-code').find('button').trigger('click');
+            return false;
+        }
+	});
 
 	// 根据字符串地址获取坐标位置
 	$('#map-location-submit').on('click', function()

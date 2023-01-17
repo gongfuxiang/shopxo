@@ -18,18 +18,52 @@
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
-					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/region/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
-						<div class="am-form-group">
-							<label>名称<span class="am-form-group-label-tips-must">*</span></label>
-							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
+					<form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/region/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
+						<div class="am-cf">
+							<div class="am-u-sm-6 am-padding-horizontal-0">
+								<div class="am-form-group">
+									<label>唯一编号<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '1. 留空则系统自动生成<br />3. 不要随意修改、避免数据错乱', trigger: 'hover focus', theme: 'sm'}"></a></label>
+									<input type="text" placeholder="唯一编号" name="id" maxlength="16" data-validation-message="请输入唯一编号" class="am-radius" />
+								</div>
+							</div>
+							<div class="am-u-sm-6 am-padding-horizontal-0">
+								<div class="am-form-group">
+									<label>名称<span class="am-form-group-label-tips-must">*</span></label>
+									<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
+								</div>
+							</div>
 						</div>
-						<div class="am-form-group">
-							<label>顺序</label>
-							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+						<div class="am-cf">
+							<div class="am-u-sm-6 am-padding-horizontal-0">
+								<div class="am-form-group">
+									<label>经度</label>
+									<input type="number" placeholder="经度" name="lng" step="0.01" data-validation-message="请输入经度" class="am-radius" />
+								</div>
+							</div>
+							<div class="am-u-sm-6 am-padding-horizontal-0">
+								<div class="am-form-group">
+									<label>纬度</label>
+									<input type="number" placeholder="纬度" name="lat" step="0.01" data-validation-message="请输入纬度" class="am-radius" />
+								</div>
+							</div>
 						</div>
+						<div class="am-cf">
+							<div class="am-u-sm-6 am-padding-horizontal-0">
+								<div class="am-form-group">
+									<label>首字母</label>
+									<input type="text" placeholder="首字母" name="letters" data-validation-message="请填写首字母" class="am-radius" value="" />
+								</div>
+							</div>
+							<div class="am-u-sm-6 am-padding-horizontal-0">
+								<div class="am-form-group">
+									<label>顺序</label>
+									<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" />
+								</div>
+							</div>
+						</div>
+						
 						{{include file="lib/enable" /}}
 						<div class="am-form-popup-submit">
-							<input type="hidden" name="id" />
 							<input type="hidden" name="pid" value="0" />
 							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
 						</div>

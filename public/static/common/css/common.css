@@ -1377,16 +1377,30 @@ button.colorpicker-submit img {
     padding-left: 80px;
 }
 
-
 /**
  * 公共联动地区组件样式
  */
 .region-linkage .chosen-select {
     display: -webkit-inline-box;
-    width: calc(33.3% - 3px) !important;
+    width: calc(33.33% - 3px) !important;
 }
 .region-linkage .chosen-select .chosen-single {
     width: 100%;
+}
+.region-linkage .chosen-select.chosen-container:last-child {
+    float: right;
+}
+.region-linkage-code {
+    width: 150px;
+}
+.region-linkage-code input {
+    padding: 2px 5px !important;
+    height: 20px !important;
+}
+.region-linkage-code button {
+    line-height: 20px !important;
+    height: 20px !important;
+    padding: 0 10px !important;
 }
 
 /**

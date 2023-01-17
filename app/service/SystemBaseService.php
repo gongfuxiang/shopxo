@@ -421,7 +421,15 @@ class SystemBaseService
                 case 'plugins_service_goods_handle_end' :
                     if(!empty($params['goods']) && !empty($params['goods']['id']))
                     {
-                        $old = Db::name('Goods')->field('price,min_price,max_price')->find($params['goods']['id']);
+                        // 静态类似存储数据，避免重复读取浪费mysql
+                        static $system_base_service_goods_handle_info_static_data = [];
+                        if(array_key_exists($params['goods']['id'], $system_base_service_goods_handle_info_static_data))
+                        {
+                            $old = $system_base_service_goods_handle_info_static_data[$params['goods']['id']];
+                        } else {
+                            $old = Db::name('Goods')->field('price,min_price,max_price')->find($params['goods']['id']);
+                            $system_base_service_goods_handle_info_static_data[$params['goods']['id']] = $old;
+                        }
                         if(!empty($old))
                         {
                             // 展示销售价格
@@ -463,7 +471,17 @@ class SystemBaseService
                     {
                         // key字段
                         $key_field = empty($params['params']['data_key_field']) ? 'id' : $params['params']['data_key_field'];
-                        $old = Db::name('Goods')->where(['id'=>array_column($params['data'], $key_field)])->column('id,price,min_price,max_price', 'id');
+                        $goods_ids = array_column($params['data'], $key_field);
+                        // 静态类似存储数据，避免重复读取浪费mysql
+                        $key = md5(implode('', $goods_ids));
+                        static $system_base_service_goods_list_handle_column_static_data = [];
+                        if(array_key_exists($key, $system_base_service_goods_list_handle_column_static_data))
+                        {
+                            $old = $system_base_service_goods_list_handle_column_static_data[$key];
+                        } else {
+                            $old = Db::name('Goods')->where(['id'=>$goods_ids])->column('id,price,min_price,max_price', 'id');
+                            $system_base_service_goods_list_handle_column_static_data[$key] = $old;
+                        }
                         if(!empty($old))
                         {
                             foreach($params['data'] as $goods)
@@ -513,8 +531,17 @@ class SystemBaseService
                 case 'plugins_service_goods_spec_base' :
                     if(!empty($params['data']) && !empty($params['data']['spec_base']) && !empty($params['data']['spec_base']['id']) && !empty($params['data']['spec_base']['goods_id']) && isset($params['data']['spec_base']['price']))
                     {
-                        $price_old = Db::name('GoodsSpecBase')->where(['id'=>$params['data']['spec_base']['id']])->value('price');
-                        if($status == 1 && $params['data']['spec_base']['price'] < $price_old)
+                        $base_id = $params['data']['spec_base']['id'];
+                        // 静态类似存储数据，避免重复读取浪费mysql
+                        static $system_base_service_goods_spec_base_price_static_data = [];
+                        if(array_key_exists($base_id, $system_base_service_goods_spec_base_price_static_data))
+                        {
+                            $price_old = $system_base_service_goods_spec_base_price_static_data[$base_id];
+                        } else {
+                            $price_old = Db::name('GoodsSpecBase')->where(['id'=>$base_id])->value('price');
+                            $system_base_service_goods_spec_base_price_static_data[$base_id] = $price_old;
+                        }
+                        if($params['data']['spec_base']['price'] < $price_old)
                         {
                             $status = 0;
                         }

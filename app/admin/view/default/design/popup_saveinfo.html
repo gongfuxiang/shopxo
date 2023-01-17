@@ -11,7 +11,7 @@
                     </div>
                     <div class="am-panel-bd am-padding-vertical-xs">
                         <div class="am-form-group am-form-file">
-                            <label class="block">logo<span class="am-form-group-label-tips">选传</span><span class="am-form-group-label-tips">建议大小300*300px</span></label>
+                            <label class="am-block">logo<span class="am-form-group-label-tips">选传</span><span class="am-form-group-label-tips">建议大小300*300px</span></label>
                             <ul class="plug-file-upload-view shop-logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
                                 {{if !empty($data['logo'])}}
                                     <li>
@@ -30,16 +30,16 @@
                         </div>
 
                         <div class="am-form-group">
-                            <label class="block">是否启用<span class="am-form-group-label-tips">可选、默认是</span></label>
+                            <label class="am-block">是否启用<span class="am-form-group-label-tips">可选、默认是</span></label>
                             <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
                         </div>
                         <div class="am-form-group">
-                            <label class="block">是否含头部<span class="am-form-group-label-tips">可选、默认是</span></label>
+                            <label class="am-block">是否含头部<span class="am-form-group-label-tips">可选、默认是</span></label>
                             <input name="is_header" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_header']) and $data['is_header'] eq 1) or !isset($data['is_header'])}}checked="true"{{/if}} />
                         </div>
 
                         <div class="am-form-group">
-                            <label class="block">是否含尾部<span class="am-form-group-label-tips">可选、默认是</span></label>
+                            <label class="am-block">是否含尾部<span class="am-form-group-label-tips">可选、默认是</span></label>
                             <input name="is_footer" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_footer']) and $data['is_footer'] eq 1) or !isset($data['is_footer'])}}checked="true"{{/if}} />
                         </div>
                     </div>

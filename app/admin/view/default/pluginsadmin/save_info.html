@@ -16,7 +16,7 @@
             </div>
 
             <div class="am-form-group am-form-file">
-                <label class="block">LOGO<span class="am-form-group-label-tips">建议600x600px</span></label>
+                <label class="am-block">LOGO<span class="am-form-group-label-tips">建议600x600px</span></label>
                 <ul class="plug-file-upload-view plugins-logo-view" data-form-name="logo" data-max-number="1" data-delete="0" data-dialog-type="images">
                     <li>
                         <input type="text" name="logo" value="{{if !empty($data['logo_old'])}}{{$data.logo_old}}{{/if}}" data-validation-message="请上传图片" required />
@@ -47,7 +47,7 @@
             </div>
 
             <div class="am-form-group am-form-file">
-                <label class="block">描述</label>
+                <label class="am-block">描述</label>
                 <textarea rows="3" name="desc" class="am-radius am-field-valid" placeholder="描述" minlength="2" maxlength="60" data-validation-message="描述内容格式 2~60 个字符">{{if !empty($data['desc'])}}{{$data.desc}}{{/if}}</textarea>
             </div>
 
@@ -70,7 +70,7 @@
             </div>
 
             <div class="am-form-group">
-                <label class="block">是否有前端入口<span class="am-form-group-label-tips">前端独立页面入口</span></label>
+                <label class="am-block">是否有前端入口<span class="am-form-group-label-tips">前端独立页面入口</span></label>
                 <input name="is_home" value="1" type="checkbox" data-off-text="没有" data-on-text="有" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_home']) and $data['is_home'] eq 1}}checked="true"{{/if}} />
             </div>
 

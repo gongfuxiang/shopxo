@@ -19,7 +19,7 @@
                 <input type="text" name="{{$data.common_customer_store_address.only_tag}}" placeholder="{{$data.common_customer_store_address.name}}" data-validation-message="{{$data.common_customer_store_address.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_address.value}}"{{/if}} />
             </div>
             <div class="am-form-group">
-                <label class="block">{{$data.common_customer_store_qrcode.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_qrcode.describe}}</span></label>
+                <label class="am-block">{{$data.common_customer_store_qrcode.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_qrcode.describe}}</span></label>
                 <ul class="plug-file-upload-view common_customer_store_qrcode-images-view" data-form-name="common_customer_store_qrcode" data-max-number="1" data-dialog-type="images">
                     {{if !empty($data['common_customer_store_qrcode']['value'])}}
                         <li>

@@ -46,7 +46,7 @@
 			<div class="am-cf">
         		<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-form-group am-form-file">
-						<label class="block">LOGO<span class="am-form-group-label-tips">建议150*50px</span></label>
+						<label class="am-block">LOGO<span class="am-form-group-label-tips">建议150*50px</span></label>
 						<ul class="plug-file-upload-view brand-logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
 							{{if !empty($data['logo'])}}
 								<li>
@@ -69,7 +69,7 @@
         				</div>
         				<div class="am-u-md-6 am-padding-horizontal-0">
         					<div class="am-form-group">
-							    <label class="block">是否启用</label>
+							    <label class="am-block">是否启用</label>
 							    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
 							</div>
         				</div>

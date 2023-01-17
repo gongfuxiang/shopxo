@@ -40,7 +40,7 @@
 			</div>
 
 			<div class="am-form-group am-form-file">
-				<label class="block">导航图标<span class="am-form-group-label-tips-must">*</span></label>
+				<label class="am-block">导航图标<span class="am-form-group-label-tips-must">*</span></label>
 				<ul class="plug-file-upload-view slide-images_url-images-view" data-form-name="images_url" data-max-number="1" data-delete="0" data-dialog-type="images">
 					<li>
 						<input type="text" name="images_url" value="{{if !empty($data['images_url'])}}{{$data.images_url}}{{/if}}" data-validation-message="请上传图片" required />
@@ -61,11 +61,11 @@
 				<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
 			</div>
 			<div class="am-form-group">
-			    <label class="block">是否启用</label>
+			    <label class="am-block">是否启用</label>
 			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_enable'] eq 1}} checked="true"{{/if}} />
 			</div>
 			<div class="am-form-group">
-			    <label class="block">是否需要登录</label>
+			    <label class="am-block">是否需要登录</label>
 			    <input name="is_need_login" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_need_login'] eq 1}} checked="true"{{/if}} />
 			</div>
 			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">

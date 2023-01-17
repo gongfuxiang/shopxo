@@ -195,7 +195,7 @@
                 			<div class="am-cf">
                 				<div class="am-u-sm-6 am-padding-horizontal-0">
                 					<div class="am-form-group am-form-file">
-										<label class="block">封面图片<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '留空则取相册第一张图、建议800*800px', trigger: 'hover focus', theme: 'sm'}"></a></label>
+										<label class="am-block">封面图片<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '留空则取相册第一张图、建议800*800px', trigger: 'hover focus', theme: 'sm'}"></a></label>
 										<ul class="plug-file-upload-view goods-recommended-images-view" data-form-name="images" data-max-number="1" data-dialog-type="images">
 											{{if !empty($data['images'])}}
 												<li>
@@ -210,11 +210,11 @@
                 				</div>
                 				<div class="am-u-sm-6 am-padding-horizontal-0">
                 					<div class="am-form-group">
-										<label class="block">扣减库存<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '扣除规则根据后台配置->扣除库存规则而定', trigger: 'hover focus', theme: 'sm'}"></a></label>
+										<label class="am-block">扣减库存<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '扣除规则根据后台配置->扣除库存规则而定', trigger: 'hover focus', theme: 'sm'}"></a></label>
 										<input name="is_deduction_inventory" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_deduction_inventory']) and $data['is_deduction_inventory'] eq 1) or empty($data)}}checked="true"{{/if}} />
 									</div>
 									<div class="am-form-group">
-										<label class="block">上下架<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '下架后用户不可见', trigger: 'hover focus', theme: 'sm'}"></a></label>
+										<label class="am-block">上下架<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '下架后用户不可见', trigger: 'hover focus', theme: 'sm'}"></a></label>
 										<input name="is_shelves" value="1" type="checkbox" data-off-text="下架" data-on-text="上架" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_shelves']) and $data['is_shelves'] eq 1) or empty($data)}}checked="true"{{/if}} />
 									</div>
                 				</div>
@@ -361,7 +361,7 @@
 									<li>
 										<div>
 											<div class="content-app-left">
-												<label class="block">图片</label>
+												<label class="am-block">图片</label>
 												<ul class="plug-file-upload-view goods-content-app-images-view-{{$v.id}}" data-form-name="content_app_images_{{$v.id}}" data-max-number="1" data-dialog-type="images">
 													{{if !empty($v['images'])}}
 														<li>

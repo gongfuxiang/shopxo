@@ -622,6 +622,7 @@ class GoodsService
             $is_category = (isset($params['is_category']) && $params['is_category'] == true) ? true : false;
             $is_params = (isset($params['is_params']) && $params['is_params'] == true) ? true : false;
             $data_key_field = empty($params['data_key_field']) ? 'id' : $params['data_key_field'];
+            $goods_ids = array_filter(array_column($data, $data_key_field));
 
             // 字段列表
             $keys = ArrayKeys($data);
@@ -639,7 +640,13 @@ class GoodsService
             }
 
             // 商品分类
-            $category_group = $is_category ? self::GoodsListCategoryGroupList(array_column($data, $data_key_field)) : [];
+            $category_group = $is_category ? self::GoodsListCategoryGroupList($goods_ids) : [];
+
+            // 规格
+            $spec_group = $is_spec ? self::GoodsSpecificationsData($goods_ids) : [];
+
+            // 参数
+            $params_group = $is_params ? self::GoodsParametersData($goods_ids) : [];
 
             // 开始处理数据
             foreach($data as &$v)
@@ -774,13 +781,13 @@ class GoodsService
                 // 获取规格
                 if($is_spec && !empty($data_id))
                 {
-                    $v['specifications'] = self::GoodsSpecificationsData($data_id);
+                    $v['specifications'] = (!empty($spec_group) && array_key_exists($data_id, $spec_group)) ? $spec_group[$data_id] : [];
                 }
 
                 // 获取商品参数
                 if($is_params && !empty($data_id))
                 {
-                    $v['parameters'] = self::GoodsParametersData($data_id);
+                    $v['parameters'] = (!empty($params_group) && array_key_exists($data_id, $params_group)) ? $params_group[$data_id] : [];
                 }
 
                 // 获取app内容
@@ -959,50 +966,63 @@ class GoodsService
      * @version 1.0.0
      * @date    2020-07-16
      * @desc    description
-     * @param   [int]           $goods_id [商品id]
+     * @param   [array]           $goods_ids [商品id]
      */
-    public static function GoodsSpecificationsData($goods_id)
+    public static function GoodsSpecificationsData($goods_ids)
     {
-        // 条件
-        $where = ['goods_id'=>$goods_id];
-
-        // 规格类型
-        $choose = Db::name('GoodsSpecType')->where($where)->order('id asc')->select()->toArray();
-        if(!empty($choose))
+        $group = [];
+        $data = Db::name('GoodsSpecType')->where(['goods_id'=>$goods_ids])->order('id asc')->select()->toArray();
+        if(!empty($data))
         {
-            // 数据处理
-            foreach($choose as &$temp_type)
+            // 分组
+            foreach($data as $v)
             {
-                $temp_type_value = json_decode($temp_type['value'], true);
-                foreach($temp_type_value as &$vs)
+                if(!array_key_exists($v['goods_id'], $group))
                 {
-                    $vs['images'] = ResourcesService::AttachmentPathViewHandle($vs['images']);
+                    $group[$v['goods_id']] = ['choose'=>[]];
                 }
-                $temp_type['value'] = $temp_type_value;
-                $temp_type['add_time'] = date('Y-m-d H:i:s');
+                $group[$v['goods_id']]['choose'][] = $v;
             }
-
-            // 只有一个规格的时候直接获取规格值的库存数
-            if(count($choose) == 1)
+            // 数据处理
+            foreach($group as $gid=>&$gv)
             {
-                foreach($choose[0]['value'] as &$temp_spec)
+                if(!empty($gv['choose']))
                 {
-                    $temp_spec_params = [
-                        'id'    => $goods_id,
-                        'spec'  => [
-                            ['type' => $choose[0]['name'], 'value' => $temp_spec['name']]
-                        ],
-                    ];
-                    $temp = self::GoodsSpecDetail($temp_spec_params);
-                    if($temp['code'] == 0)
+                    // 基础处理
+                    foreach($gv['choose'] as &$gvs)
                     {
-                        $temp_spec['is_only_level_one'] = 1;
-                        $temp_spec['inventory'] = $temp['data']['spec_base']['inventory'];
+                        $gvs_value = json_decode($gvs['value'], true);
+                        foreach($gvs_value as &$gvss)
+                        {
+                            $gvss['images'] = ResourcesService::AttachmentPathViewHandle($gvss['images']);
+                        }
+                        $gvs['value'] = $gvs_value;
+                        $gvs['add_time'] = date('Y-m-d H:i:s', $gvs['add_time']);
+                    }
+
+                    // 只有一个规格的时候直接获取规格值的库存数
+                    if(count($gv['choose']) == 1)
+                    {
+                        foreach($gv['choose'][0]['value'] as &$temp_spec)
+                        {
+                            $temp_spec_params = [
+                                'id'    => $gid,
+                                'spec'  => [
+                                    ['type' => $gv['choose'][0]['name'], 'value' => $temp_spec['name']]
+                                ],
+                            ];
+                            $temp = self::GoodsSpecDetail($temp_spec_params);
+                            if($temp['code'] == 0)
+                            {
+                                $temp_spec['is_only_level_one'] = 1;
+                                $temp_spec['inventory'] = $temp['data']['spec_base']['inventory'];
+                            }
+                        }
                     }
                 }
             }
         }
-        return ['choose'=>$choose];
+        return $group;
     }
 
     /**
@@ -1012,41 +1032,35 @@ class GoodsService
      * @version 1.0.0
      * @date    2020-08-31
      * @desc    description
-     * @param   [int]          $goods_id [商品id]
+     * @param   [array]           $goods_ids [商品id]
      */
-    public static function GoodsParametersData($goods_id)
+    public static function GoodsParametersData($goods_ids)
     {
-        $base = [];
-        $detail = [];
-        $list = Db::name('GoodsParams')->where(['goods_id'=>$goods_id])->order('id asc')->select()->toArray();
+        $data = [];
+        $list = Db::name('GoodsParams')->where(['goods_id'=>$goods_ids])->order('id asc')->select()->toArray();
         if(!empty($list))
         {
+            // 分组
             foreach($list as $v)
             {
-                $temp = [
-                    'name'  => $v['name'],
-                    'value' => $v['value'],
-                ];
+                if(!array_key_exists($v['goods_id'], $data))
+                {
+                    $data[$v['goods_id']] = ['base'=>[], 'detail'=>[]];
+                }
 
                 // 基础
                 if(in_array($v['type'], [0,2]))
                 {
-                    $base[] = $temp;
+                    $data[$v['goods_id']]['base'][] = $v;
                 }
 
                 // 详情
                 if(in_array($v['type'], [0,1]))
                 {
-                    $detail[] = $temp;
+                    $data[$v['goods_id']]['detail'][] = $v;
                 }
             }
         }
-
-        // 返回的数据
-        $data = [
-            'base'      => $base,
-            'detail'    => $detail,
-        ];
 
         // 商品参数钩子
         $hook_name = 'plugins_service_goods_parameters_data';
@@ -1054,7 +1068,7 @@ class GoodsService
             'hook_name'     => $hook_name,
             'is_backend'    => true,
             'data'          => &$data,
-            'goods_id'      => $goods_id,
+            'goods_ids'     => $goods_ids,
         ]);
 
         return $data;
@@ -2335,56 +2349,72 @@ class GoodsService
         // 条件
         $goods_id = intval($params['id']);
         $where = [
-            'goods_id'  => intval($params['id']),
+            'goods_id'  => $goods_id,
         ];
 
-        // 有规格值
+        // 规格数据
+        // 规格不为数组则为json字符串
+        $spec = [];
         if(!empty($params['spec']))
         {
-            // 规格不为数组则为json字符串
             if(!is_array($params['spec']))
             {
-                $params['spec'] = json_decode(htmlspecialchars_decode($params['spec']), true);
+                $spec = json_decode(htmlspecialchars_decode($params['spec']), true);
             }
-            $where['value'] = array_column($params['spec'], 'value');
+            $spec = array_column($params['spec'], 'value');
+        }
 
-            // 获取规格值基础值id
-            $ids = Db::name('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
-            if(!empty($ids))
+        // 规格基础静态临时存储
+        static $goods_service_goods_spec_base_static_data = [];
+        $key = $goods_id.(empty($spec) ? '' : md5(json_encode($spec, JSON_UNESCAPED_UNICODE)));
+        if(array_key_exists($key, $goods_service_goods_spec_base_static_data))
+        {
+            $base = $goods_service_goods_spec_base_static_data[$key];
+        } else {
+            // 有规格值
+            $base = [];
+            if(!empty($spec))
             {
-                // 根据基础值id获取规格值列表
-                $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->order('id asc')->select()->toArray();
-                if(!empty($temp_data))
+                // 获取规格值基础值id
+                $where['value'] = $spec;
+                $ids = Db::name('GoodsSpecValue')->where($where)->column('goods_spec_base_id');
+                if(!empty($ids))
                 {
-                    // 根据基础值id分组
-                    $data = [];
-                    foreach($temp_data as $v)
+                    // 根据基础值id获取规格值列表
+                    $temp_data = Db::name('GoodsSpecValue')->where(['goods_spec_base_id'=>$ids])->field('goods_spec_base_id,value')->order('id asc')->select()->toArray();
+                    if(!empty($temp_data))
                     {
-                        $data[$v['goods_spec_base_id']][] = $v;
-                    }
-
-                    // 从条件中匹配对应的规格值得到最终的基础值id
-                    $base_id = 0;
-                    $spec_str = implode('', array_column($params['spec'], 'value'));
-                    foreach($data as $value_v)
-                    {
-                        $temp_str = implode('', array_column($value_v, 'value'));
-                        if($temp_str == $spec_str)
+                        // 根据基础值id分组
+                        $data = [];
+                        foreach($temp_data as $v)
                         {
-                            $base_id = $value_v[0]['goods_spec_base_id'];
-                            break;
+                            $data[$v['goods_spec_base_id']][] = $v;
+                        }
+
+                        // 从条件中匹配对应的规格值得到最终的基础值id
+                        $base_id = 0;
+                        $spec_str = implode('', array_column($params['spec'], 'value'));
+                        foreach($data as $value_v)
+                        {
+                            $temp_str = implode('', array_column($value_v, 'value'));
+                            if($temp_str == $spec_str)
+                            {
+                                $base_id = $value_v[0]['goods_spec_base_id'];
+                                break;
+                            }
+                        }
+                        
+                        // 获取基础值数据
+                        if(!empty($base_id))
+                        {
+                            $base = Db::name('GoodsSpecBase')->find($base_id);
                         }
                     }
-                    
-                    // 获取基础值数据
-                    if(!empty($base_id))
-                    {
-                        $base = Db::name('GoodsSpecBase')->find($base_id);
-                    }
                 }
+            } else {
+                $base = Db::name('GoodsSpecBase')->where($where)->find();
             }
-        } else {
-            $base = Db::name('GoodsSpecBase')->where($where)->find();
+            $goods_service_goods_spec_base_static_data[$key] = $base;
         }
 
         // 是否有规格

@@ -38,29 +38,37 @@ class PluginsService
      */
     public static function PluginsData($plugins, $attachment_field = [], $is_cache = true)
     {
-        // 从缓存获取数据、数据不存在则从数据库读取
-        $data = ($is_cache === true) ? self::PluginsCacheData($plugins) : [];
-        if(empty($data) || !$is_cache || MyEnv('app_debug'))
+        static $static_all_plugins_data = [];
+        if(array_key_exists($plugins, $static_all_plugins_data))
         {
-            // 获取数据
-            $ret = self::PluginsField($plugins, 'data');
-            if(!empty($ret['data']))
+            $data = $static_all_plugins_data[$plugins];
+        } else {
+            // 从缓存获取数据、数据不存在则从数据库读取
+            $data = ($is_cache === true) ? self::PluginsCacheData($plugins) : [];
+            if($data === null || !$is_cache || MyEnv('app_debug'))
             {
-                // 获取插件基础字段定义
-                $field_data = self::PluginsBaseFieldData($plugins);
-
-                // 数据处理、未指定附件字段则使用系统获取的附件字段
-                if(empty($attachment_field) && !empty($field_data['attachment_field']))
+                // 获取数据
+                $ret = self::PluginsField($plugins, 'data');
+                if(!empty($ret['data']))
                 {
-                    $attachment_field = $field_data['attachment_field'];
-                }
-                $data = self::PluginsDataHandle($ret['data'], $attachment_field);
-            } else {
-                $data = [];
-            }
+                    // 获取插件基础字段定义
+                    $field_data = self::PluginsBaseFieldData($plugins);
 
-            // 存储缓存
-            self::PluginsCacheStorage($plugins, $data);
+                    // 数据处理、未指定附件字段则使用系统获取的附件字段
+                    if(empty($attachment_field) && !empty($field_data['attachment_field']))
+                    {
+                        $attachment_field = $field_data['attachment_field'];
+                    }
+                    $data = self::PluginsDataHandle($ret['data'], $attachment_field);
+                } else {
+                    $data = [];
+                }
+
+                // 存储缓存
+                self::PluginsCacheStorage($plugins, $data);
+            }
+            // 加入静态记录
+            $static_all_plugins_data[$plugins] = $data;
         }
         return DataReturn(MyLang('common.handle_success'), 0, $data);
     }

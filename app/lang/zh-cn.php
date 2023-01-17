@@ -35,6 +35,7 @@ return [
         'goods_no_choice_spec_tips'         => '请选择规格',
         'goods_spec_empty_tips'             => '无规格数据',
         'goods_id_empty_tips'               => '商品ID数据',
+        'input_empty_tips'                  => '请输入数据',
         'store_enabled_tips'                => '您的浏览器不支持本地存储。请禁用“专用模式”，或升级到现代浏览器。',
         // 上传下载
         'get_loading_tips'                  => '正在获取中..',
@@ -88,6 +89,8 @@ return [
         'error'             => '异常错误',
         'operate_fail'      => '操作失败',
         'operate_success'   => '操作成功',
+        'get_fail'          => '获取失败',
+        'get_success'       => '获取成功',
         'update_fail'       => '更新失败',
         'update_success'    => '更新成功',
         'insert_fail'       => '添加失败',

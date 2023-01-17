@@ -351,7 +351,7 @@ class UserAddressService
             'county'            => isset($params['county']) ? intval($params['county']) : 0,
             'address'           => $params['address'],
             'lng'               => isset($params['lng']) ? floatval($params['lng']) : 0,
-            'lat'               => isset($params['lat']) ? floatval($params['lat']) : 0 ,
+            'lat'               => isset($params['lat']) ? floatval($params['lat']) : 0,
             'idcard_name'       => empty($params['idcard_name']) ? '' : $params['idcard_name'],
             'idcard_number'     => empty($params['idcard_number']) ? '' : $params['idcard_number'],
             'idcard_front'      => $attachment['data']['idcard_front'],
