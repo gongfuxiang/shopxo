@@ -103,7 +103,7 @@ class User extends Common
             'form_search_order_status_form_key'             => 'status',
             'form_search_order_user_is_comments_form_key'   => 'user_is_comments',
             // 浏览器名称
-            'home_seo_site_title'                           => SeoService::BrowserSeoTitle('用户中心', 1),
+            'home_seo_site_title'                           => SeoService::BrowserSeoTitle(MyLang('user.browser_seo_title'), 1),
         ];
 
         // 用户中心基础信息 mini 导航
@@ -230,12 +230,12 @@ class User extends Common
                 // 左侧图片、随机其中一个
                 'user_forgetpwd_left_data'  => empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)],
                 // 浏览器名称
-                'home_seo_site_title'   => SeoService::BrowserSeoTitle('密码找回', 1),
+                'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('user.forget_password_browser_seo_title'), 1),
             ];
             MyViewAssign($assign);
             return MyView();
         }
-        MyViewAssign('msg', '已经登录了，如要重置密码，请先退出当前账户');
+        MyViewAssign('msg', MyLang('user.password_reset_illegal_error_tips'));
         return MyView('public/tips_error');
     }
 
@@ -261,15 +261,15 @@ class User extends Common
                     // 注册背景图片
                     'user_register_bg_images'   => MyC('home_site_user_register_bg_images'),
                     // 浏览器名称
-                    'home_seo_site_title'       => SeoService::BrowserSeoTitle('用户注册', 1),
+                    'home_seo_site_title'       => SeoService::BrowserSeoTitle(MyLang('user.user_register_browser_seo_title'), 1),
                 ];
                 MyViewAssign($assign);
                 return MyView();
             }
-            MyViewAssign('msg', '已经登录了，如要注册新账户，请先退出当前账户');
+            MyViewAssign('msg', MyLang('user.register_illegal_error_tips'));
             return MyView('public/tips_error');
         }
-        MyViewAssign('msg', '暂时关闭用户注册');
+        MyViewAssign('msg', MyLang('common.close_user_register_tips'));
         return MyView('public/tips_error');
     }
 
@@ -297,15 +297,15 @@ class User extends Common
                     // 注册背景图片
                     'user_login_left_data'      => empty($left_data['data']) ? [] : $left_data['data'][array_rand($left_data['data'], 1)],
                     // 浏览器名称
-                    'home_seo_site_title'       => SeoService::BrowserSeoTitle('用户登录', 1),
+                    'home_seo_site_title'       => SeoService::BrowserSeoTitle(MyLang('user.user_login_browser_seo_title'), 1),
                 ];
                 MyViewAssign($assign);
                 return MyView();
             }
-            MyViewAssign('msg', '已经登录了，请勿重复登录');
+            MyViewAssign('msg', MyLang('user.login_illegal_error_tips'));
             return MyView('public/tips_error');
         }
-        MyViewAssign('msg', '暂时关闭用户登录');
+        MyViewAssign('msg', MyLang('common.close_user_login_tips'));
         return MyView('public/tips_error');
     }
 
@@ -330,18 +330,18 @@ class User extends Common
             if(empty($this->user))
             {
                 // 浏览器名称
-                $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle('用户登录', 1);
+                $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(MyLang('user.user_login_browser_seo_title'), 1);
 
                 // 返回地址
                 $assign['referer_url'] = $this->GetrefererUrl();
                 MyViewAssign($assign);
                 return MyView();
             }
-            $assign['msg'] = '已经登录了，请勿重复登录';
+            $assign['msg'] = MyLang('user.login_illegal_error_tips');
             MyViewAssign($assign);
             return MyView('public/tips_error');
         }
-        $assign['msg'] = '暂时关闭用户登录';
+        $assign['msg'] = MyLang('common.close_user_login_tips');
         MyViewAssign($assign);
         return MyView('public/tips_error');
     }

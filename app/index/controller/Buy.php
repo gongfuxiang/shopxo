@@ -61,7 +61,7 @@ class Buy extends Common
             // 站点类型，是否开启了展示型
             if(SystemBaseService::SiteTypeValue() == 1)
             {
-                MyViewAssign('msg', '展示型不允许提交订单');
+                MyViewAssign('msg', MyLang('buy.show_mode_not_allow_submit_order_tips'));
                 return MyView('public/tips_error');
             }
 
@@ -69,7 +69,7 @@ class Buy extends Common
             $buy_data = MySession('buy_post_data');
             if(empty($buy_data) || (empty($buy_data['goods_data']) && empty($buy_data['ids'])))
             {
-                MyViewAssign('msg', '商品信息为空');
+                MyViewAssign('msg', MyLang('buy.gooods_data_no_data_tips'));
                 return MyView('public/tips_error');
             }
 
@@ -100,11 +100,13 @@ class Buy extends Common
                     'buy_goods'             => $buy_goods,
                     'buy_data'              => $buy_data,
                     // 浏览器名称
-                    'home_seo_site_title'   => SeoService::BrowserSeoTitle('订单确认', 1),
+                    'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('buy.browser_seo_title'), 1),
                     // 公共销售模式
                     'common_site_type'      => $buy_base['common_site_type'],
                     // 支付方式
                     'payment_list'          => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
+                    // 下单类型模式
+                    'buy_site_model_list'   => MyLang('common_buy_site_model_list'),
                 ];
 
                 // 用户地址
@@ -126,7 +128,7 @@ class Buy extends Common
                 $this->PluginsHook($ret['data'], $params);
                 return MyView();
             }
-            MyViewAssign('msg', isset($ret['msg']) ? $ret['msg'] : '参数错误');
+            MyViewAssign('msg', isset($ret['msg']) ? $ret['msg'] : MyLang('params_error_tips'));
             return MyView('public/tips_error');
         }
     }
@@ -204,7 +206,7 @@ class Buy extends Common
             $params['user'] = $this->user;
             return ApiService::ApiDataReturn(BuyService::OrderInsert($params));
         }
-        MyViewAssign('msg', '非法访问');
+        MyViewAssign('msg', MyLang('illegal_access_tips'));
         return MyView('public/tips_error');
     }
 }

@@ -141,7 +141,7 @@ class GoodsCommentsService
         }
         if($order['status'] != 4)
         {
-            $status_text = MyConst('common_order_status')[$order['status']]['name'];
+            $status_text = MyLang('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
         if($order['user_is_comments'] != 0)
@@ -202,7 +202,7 @@ class GoodsCommentsService
 
         // 获取数据列表
         $data = Db::name('GoodsComments')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::GoodsCommentsListHandle($data, $params));
+        return DataReturn(MyLang('handle_success'), 0, self::GoodsCommentsListHandle($data, $params));
     }
 
     /**
@@ -242,9 +242,9 @@ class GoodsCommentsService
             }
 
             // 静态数据
-            $common_is_text_list = MyConst('common_is_text_list');
-            $comments_rating_list = MyConst('common_goods_comments_rating_list');
-            $comments_business_type_list = MyConst('common_goods_comments_business_type_list');
+            $common_is_text_list = MyLang('common_is_text_list');
+            $comments_rating_list = MyLang('common_goods_comments_rating_list');
+            $comments_business_type_list = MyLang('common_goods_comments_business_type_list');
 
             // 用户默认头像
             $default_avatar = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyFileConfig('common_default_theme', '', 'default', true)).'/images/default-user-avatar.jpg';
@@ -422,7 +422,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'business_type',
-                'checked_data'      => array_keys(MyConst('common_order_aftersale_refundment_list')),
+                'checked_data'      => array_keys(MyLang('common_order_aftersale_refundment_list')),
                 'error_msg'         => '请选择业务类型',
             ],
             [
@@ -440,7 +440,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'rating',
-                'checked_data'      => array_keys(MyConst('common_goods_comments_rating_list')),
+                'checked_data'      => array_keys(MyLang('common_goods_comments_rating_list')),
                 'error_msg'         => '请选择评分',
             ],
         ];
@@ -466,7 +466,7 @@ class GoodsCommentsService
         // 更新
         if(Db::name('GoodsComments')->where(['id'=>intval($params['id'])])->update($data))
         {
-            return DataReturn(MyLang('common.edit_success'), 0);
+            return DataReturn(MyLang('edit_success'), 0);
         }
         return DataReturn('编辑失败或数据不存在', -100); 
     }
@@ -496,9 +496,9 @@ class GoodsCommentsService
         // 开始删除
         if(Db::name('GoodsComments')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -552,9 +552,9 @@ class GoodsCommentsService
         ];
         if(Db::name('GoodsComments')->where(['id'=>$comments_id])->update($data))
         {
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn(MyLang('common.operate_fail'), -100);
+        return DataReturn(MyLang('operate_fail'), -100);
     }
 
     /**
@@ -600,9 +600,9 @@ class GoodsCommentsService
         ];
         if(Db::name('GoodsComments')->where(['id'=>intval($params['id'])])->update($data))
         {
-            return DataReturn(MyLang('common.edit_success'), 0);
+            return DataReturn(MyLang('edit_success'), 0);
         }
-        return DataReturn(MyLang('common.edit_fail'), -100);
+        return DataReturn(MyLang('edit_fail'), -100);
     }
 
     /**

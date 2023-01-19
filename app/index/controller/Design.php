@@ -93,7 +93,7 @@ class Design extends Common
                 return MyView();
             }
         }
-        MyViewAssign('msg', '页面不存在或已删除');
+        MyViewAssign('msg', MyLang('design.design_no_data_tips'));
         return MyView('public/tips_error');
     }
 }

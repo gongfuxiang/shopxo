@@ -51,7 +51,7 @@ class Answer extends Common
     public function Index()
     {
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('问答/留言', 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('answer.browser_seo_title'), 1));
         return MyView();
     }
 

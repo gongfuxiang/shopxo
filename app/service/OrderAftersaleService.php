@@ -72,7 +72,7 @@ class OrderAftersaleService
 
             return $ret;
         }
-        return DataReturn(MyLang('common.no_data'), -100);
+        return DataReturn(MyLang('no_data'), -100);
     }
 
     /**
@@ -101,7 +101,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyConst('common_order_aftersale_type_list'), 'value'),
+                'checked_data'      => array_column(MyLang('common_order_aftersale_type_list'), 'value'),
                 'error_msg'         => '操作类型有误',
             ],
             [
@@ -261,9 +261,9 @@ class OrderAftersaleService
             }
 
             // 返回成功
-            return DataReturn(MyLang('common.apply_success'), 0, $data_id);
+            return DataReturn(MyLang('apply_success'), 0, $data_id);
         }
-        return DataReturn(MyLang('common.apply_fail'), -100);
+        return DataReturn(MyLang('apply_fail'), -100);
     }
 
     /**
@@ -326,7 +326,7 @@ class OrderAftersaleService
         }
         if($aftersale['status'] != 1)
         {
-            $common_order_aftersale_status_list = MyConst('common_order_aftersale_status_list');
+            $common_order_aftersale_status_list = MyLang('common_order_aftersale_status_list');
             return DataReturn('该售后订单状态不可操作['.$common_order_aftersale_status_list[$aftersale['status']]['name'].']', -10);
         }
 
@@ -372,9 +372,9 @@ class OrderAftersaleService
             }
 
             // 返回成功
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn(MyLang('common.operate_fail'), -100);
+        return DataReturn(MyLang('operate_fail'), -100);
     }
 
     /**
@@ -413,9 +413,9 @@ class OrderAftersaleService
     {
         if(!empty($data))
         {
-            $type_list = MyConst('common_order_aftersale_type_list');
-            $status_list = MyConst('common_order_aftersale_status_list');
-            $refundment_list = MyConst('common_order_aftersale_refundment_list');
+            $type_list = MyLang('common_order_aftersale_type_list');
+            $status_list = MyLang('common_order_aftersale_status_list');
+            $refundment_list = MyLang('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
                 // 订单商品
@@ -635,7 +635,7 @@ class OrderAftersaleService
         // 状态校验
         if(in_array($aftersale['status'], [3,5]))
         {
-            $status_list = MyConst('common_order_aftersale_status_list');
+            $status_list = MyLang('common_order_aftersale_status_list');
             return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
@@ -679,9 +679,9 @@ class OrderAftersaleService
             }
 
             // 返回成功
-            return DataReturn(MyLang('common.cancel_success'), 0);
+            return DataReturn(MyLang('cancel_success'), 0);
         }
-        return DataReturn(MyLang('common.cancel_fail'), -100);
+        return DataReturn(MyLang('cancel_fail'), -100);
     }
 
     /**
@@ -724,14 +724,14 @@ class OrderAftersaleService
         // 状态校验
         if($aftersale['status'] != 0)
         {
-            $status_list = MyConst('common_order_aftersale_status_list');
+            $status_list = MyLang('common_order_aftersale_status_list');
             return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
         // 类型
         if($aftersale['type'] != 1)
         {
-            $aftersale_type_list = MyConst('common_order_aftersale_type_list');
+            $aftersale_type_list = MyLang('common_order_aftersale_type_list');
             return DataReturn('类型不可操作['.$aftersale_type_list[$aftersale['type']]['name'].']', -1);
         }
 
@@ -801,7 +801,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'refundment',
-                'checked_data'      => array_column(MyConst('common_order_aftersale_refundment_list'), 'value'),
+                'checked_data'      => array_column(MyLang('common_order_aftersale_refundment_list'), 'value'),
                 'error_msg'         => '退款方式有误',
             ],
         ];
@@ -821,7 +821,7 @@ class OrderAftersaleService
         // 状态校验
         if($aftersale['status'] != 2)
         {
-            $status_list = MyConst('common_order_aftersale_status_list');
+            $status_list = MyLang('common_order_aftersale_status_list');
             return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
@@ -1293,7 +1293,7 @@ class OrderAftersaleService
         // 状态校验
         if(!in_array($aftersale['status'], [0,2]))
         {
-            $status_list = MyConst('common_order_aftersale_status_list');
+            $status_list = MyLang('common_order_aftersale_status_list');
             return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
@@ -1378,7 +1378,7 @@ class OrderAftersaleService
         // 状态校验
         if(!in_array($aftersale['status'], [4,5]))
         {
-            $status_list = MyConst('common_order_aftersale_status_list');
+            $status_list = MyLang('common_order_aftersale_status_list');
             return DataReturn('状态不可操作['.$status_list[$aftersale['status']]['name'].']', -1);
         }
 
@@ -1399,9 +1399,9 @@ class OrderAftersaleService
             }
 
             // 返回成功
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -1506,7 +1506,7 @@ class OrderAftersaleService
             }
         }
 
-        return DataReturn(MyLang('common.operate_success'), 0, ['returned_quantity'=>$returned_quantity, 'refund_price'=>PriceNumberFormat($refund_price)]);
+        return DataReturn(MyLang('operate_success'), 0, ['returned_quantity'=>$returned_quantity, 'refund_price'=>PriceNumberFormat($refund_price)]);
     }
 
     /**

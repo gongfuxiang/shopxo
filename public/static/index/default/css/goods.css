@@ -487,8 +487,8 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     /*左侧商品-看了又看*/
     .introduce-main{width:80%;float:left;background:#fff ;}
     .browse{display:block; float:left;width:20% ;}
+    .browse .head-title{background-color: #f7f7f7; height: 35px;line-height: 35px;text-align: center;}
     .browse ul{border:1px solid #eee ;width: 90%;}
-    .browse ul .mt{background-color: #f7f7f7; height: 35px;line-height: 35px;text-align: center;}
     .browse ul li {margin:0px 10px;padding:12px 0px;border-top: 1px dotted #DEDEDE;}
     .browse ul li.first {border-top:none;}
     .browse li img{width:100% ;}

@@ -159,7 +159,7 @@ class Goods extends Common
             $this->PluginsHook($goods_id, $goods);
             return MyView();
         }
-        MyViewAssign('msg', '资源不存在或已被删除');
+        MyViewAssign('msg', MyLang('goods.goods_no_data_tips'));
         return MyView('/public/tips_error');
     }
 
@@ -194,7 +194,7 @@ class Goods extends Common
             return MyView();
         }
         MyViewAssign([
-            'msg'           => '商品不存在或已删除',
+            'msg'           => MyLang('goods.goods_no_data_tips'),
             'is_header'     => 0,
             'is_footer'     => 0,
             'is_to_home'    => 0,
@@ -276,7 +276,7 @@ class Goods extends Common
         $params = $this->data_request;
         if(empty($params['goods_id']))
         {
-            return ApiService::ApiDataReturn(DataReturn('参数有误', -1));
+            return ApiService::ApiDataReturn(DataReturn(MyLang('params_error_tips'), -1));
         }
 
         // 分页
@@ -310,7 +310,7 @@ class Goods extends Common
             'page_total'        => $page_total,
             'data'              => MyView('', ['data'=>$data['data']]),
         ];
-        return ApiService::ApiDataReturn(DataReturn('请求成功', 0, $result));
+        return ApiService::ApiDataReturn(DataReturn('success', 0, $result));
     }
 
     /**

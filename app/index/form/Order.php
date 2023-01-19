@@ -62,14 +62,16 @@ class Order
         $base = [
             'key_field'     => 'id',
             'is_search'     => 1,
-            'detail_title'  => '基础信息',
+            'detail_title'  => MyLang('form_table_base_detail_title'),
             'is_middle'     => 0,
         ];
 
         // 表单配置
+        $lang = MyLang('order.form_table');
+        $lang_page_stats = MyLang('order.form_table_page_stats');
         $form = [
             [
-                'label'         => '基础信息',
+                'label'         => $lang['goods'],
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/goods',
                 'grid_size'     => 'xl',
@@ -79,27 +81,27 @@ class Order
                     'where_type'            => 'like',
                     'where_type_custom'     => 'in',
                     'where_value_custom'    => 'WhereBaseGoodsInfo',
-                    'placeholder'           => '请输入订单号/商品名称/型号',
+                    'placeholder'           => $lang['goods_placeholder'],
                 ],
             ],
             [
-                'label'         => '订单状态',
+                'label'         => $lang['status'],
                 'view_type'     => 'field',
                 'view_key'      => 'status',
                 'view_data_key' => 'name',
-                'view_data'     => MyConst('common_order_status'),
+                'view_data'     => MyLang('common_order_status'),
                 'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'select',
                     'where_type'        => 'in',
-                    'data'              => MyConst('common_order_status'),
+                    'data'              => MyLang('common_order_status'),
                     'data_key'          => 'id',
                     'data_name'         => 'name',
                     'is_multiple'       => 1,
                 ],
             ],
             [
-                'label'         => '支付状态',
+                'label'         => $lang['pay_status'],
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/pay_status',
                 'is_sort'       => 1,
@@ -107,14 +109,14 @@ class Order
                     'form_type'         => 'select',
                     'form_name'         => 'pay_status',
                     'where_type'        => 'in',
-                    'data'              => MyConst('common_order_pay_status'),
+                    'data'              => MyLang('common_order_pay_status'),
                     'data_key'          => 'id',
                     'data_name'         => 'name',
                     'is_multiple'       => 1,
                 ],
             ],
             [
-                'label'         => '总价(元)',
+                'label'         => $lang['total_price'],
                 'view_type'     => 'field',
                 'view_key'      => 'total_price',
                 'is_sort'       => 1,
@@ -124,7 +126,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '支付金额(元)',
+                'label'         => $lang['pay_price'],
                 'view_type'     => 'field',
                 'view_key'      => 'pay_price',
                 'is_sort'       => 1,
@@ -134,7 +136,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '单价(元)',
+                'label'         => $lang['price'],
                 'view_type'     => 'field',
                 'view_key'      => 'price',
                 'is_sort'       => 1,
@@ -144,39 +146,39 @@ class Order
                 ],
             ],
             [
-                'label'         => '订单模式',
+                'label'         => $lang['order_model'],
                 'view_type'     => 'field',
                 'view_key'      => 'order_model',
                 'view_data_key' => 'name',
-                'view_data'     => MyConst('common_order_type_list'),
+                'view_data'     => MyLang('common_order_type_list'),
                 'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'select',
                     'where_type'        => 'in',
-                    'data'              => MyConst('common_order_type_list'),
+                    'data'              => MyLang('common_order_type_list'),
                     'data_key'          => 'value',
                     'data_name'         => 'name',
                     'is_multiple'       => 1,
                 ],
             ],
             [
-                'label'         => '下单平台',
+                'label'         => $lang['client_type'],
                 'view_type'     => 'field',
                 'view_key'      => 'client_type',
                 'view_data_key' => 'name',
-                'view_data'     => MyConst('common_platform_type'),
+                'view_data'     => MyLang('common_platform_type'),
                 'is_sort'       => 1,
                 'search_config' => [
                     'form_type'         => 'select',
                     'where_type'        => 'in',
-                    'data'              => MyConst('common_platform_type'),
+                    'data'              => MyLang('common_platform_type'),
                     'data_key'          => 'value',
                     'data_name'         => 'name',
                     'is_multiple'       => 1,
                 ],
             ],
             [
-                'label'         => '地址信息',
+                'label'         => $lang['address'],
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/address',
                 'grid_size'     => 'sm',
@@ -189,7 +191,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '取货信息',
+                'label'         => $lang['take'],
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/take',
                 'width'         => 125,
@@ -202,7 +204,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '退款金额(元)',
+                'label'         => $lang['refund_price'],
                 'view_type'     => 'field',
                 'view_key'      => 'refund_price',
                 'is_sort'       => 1,
@@ -212,7 +214,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '退货数量',
+                'label'         => $lang['returned_quantity'],
                 'view_type'     => 'field',
                 'view_key'      => 'returned_quantity',
                 'is_sort'       => 1,
@@ -221,7 +223,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '购买总数',
+                'label'         => $lang['buy_number_count'],
                 'view_type'     => 'field',
                 'view_key'      => 'buy_number_count',
                 'is_sort'       => 1,
@@ -230,7 +232,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '增加金额(元)',
+                'label'         => $lang['increase_price'],
                 'view_type'     => 'field',
                 'view_key'      => 'increase_price',
                 'is_sort'       => 1,
@@ -240,7 +242,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '优惠金额(元)',
+                'label'         => $lang['preferential_price'],
                 'view_type'     => 'field',
                 'view_key'      => 'preferential_price',
                 'is_sort'       => 1,
@@ -250,7 +252,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '支付方式',
+                'label'         => $lang['payment_name'],
                 'view_type'     => 'field',
                 'view_key'      => 'payment_name',
                 'is_sort'       => 1,
@@ -265,7 +267,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '留言信息',
+                'label'         => $lang['user_note'],
                 'view_type'     => 'field',
                 'view_key'      => 'user_note',
                 'is_sort'       => 1,
@@ -275,7 +277,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '扩展信息',
+                'label'         => $lang['extension'],
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/extension',
                 'grid_size'     => 'sm',
@@ -286,7 +288,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '快递公司',
+                'label'         => $lang['express_name'],
                 'view_type'     => 'field',
                 'view_key'      => 'express_name',
                 'is_sort'       => 1,
@@ -301,7 +303,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '快递单号',
+                'label'         => $lang['express_number'],
                 'view_type'     => 'field',
                 'view_key'      => 'express_number',
                 'is_sort'       => 1,
@@ -311,7 +313,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '是否评论',
+                'label'         => $lang['is_comments'],
                 'view_type'     => 'module',
                 'view_key'      => 'order/module/is_comments',
                 'is_sort'       => 1,
@@ -319,7 +321,7 @@ class Order
                     'form_type'             => 'select',
                     'where_type'            => 'in',
                     'form_name'             => 'user_is_comments',
-                    'data'                  => MyConst('common_is_text_list'),
+                    'data'                  => MyLang('common_is_text_list'),
                     'data_key'              => 'id',
                     'data_name'             => 'name',
                     'where_type_custom'     => 'WhereTypyUserIsComments',
@@ -328,7 +330,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '确认时间',
+                'label'         => $lang['confirm_time'],
                 'view_type'     => 'field',
                 'view_key'      => 'confirm_time',
                 'is_sort'       => 1,
@@ -337,7 +339,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '支付时间',
+                'label'         => $lang['pay_time'],
                 'view_type'     => 'field',
                 'view_key'      => 'pay_time',
                 'is_sort'       => 1,
@@ -346,7 +348,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '发货时间',
+                'label'         => $lang['delivery_time'],
                 'view_type'     => 'field',
                 'view_key'      => 'delivery_time',
                 'is_sort'       => 1,
@@ -355,7 +357,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '完成时间',
+                'label'         => $lang['collect_time'],
                 'view_type'     => 'field',
                 'view_key'      => 'collect_time',
                 'is_sort'       => 1,
@@ -364,7 +366,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '取消时间',
+                'label'         => $lang['cancel_time'],
                 'view_type'     => 'field',
                 'view_key'      => 'cancel_time',
                 'is_sort'       => 1,
@@ -373,7 +375,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '关闭时间',
+                'label'         => $lang['close_time'],
                 'view_type'     => 'field',
                 'view_key'      => 'close_time',
                 'is_sort'       => 1,
@@ -382,7 +384,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '创建时间',
+                'label'         => $lang['add_time'],
                 'view_type'     => 'field',
                 'view_key'      => 'add_time',
                 'is_sort'       => 1,
@@ -391,7 +393,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '更新时间',
+                'label'         => $lang['upd_time'],
                 'view_type'     => 'field',
                 'view_key'      => 'upd_time',
                 'is_sort'       => 1,
@@ -400,7 +402,7 @@ class Order
                 ],
             ],
             [
-                'label'         => '操作',
+                'label'         => MyLang('operate_title'),
                 'view_type'     => 'operate',
                 'view_key'      => 'order/module/operate',
                 'align'         => 'center',
@@ -414,8 +416,8 @@ class Order
             array_unshift($form, [
                 'view_type'         => 'checkbox',
                 'is_checked'        => 0,
-                'checked_text'      => '反选',
-                'not_checked_text'  => '全选',
+                'checked_text'      => MyLang('reverse_select_title'),
+                'not_checked_text'  => MyLang('select_all_title'),
                 'not_show_key'      => 'status',
                 'not_show_data'     => [0,2,3,4,5,6],
                 'align'             => 'center',
@@ -433,11 +435,11 @@ class Order
             ],
             'is_page_stats'     => 1,
             'page_stats_data'   => [
-                ['name'=>'订单总额', 'field'=>'total_price', 'unit'=>'元'],
-                ['name'=>'支付总额', 'field'=>'pay_price', 'unit'=>'元'],
-                ['name'=>'商品总数', 'field'=>'buy_number_count'],
-                ['name'=>'退款', 'field'=>'refund_price', 'unit'=>'元'],
-                ['name'=>'退货', 'field'=>'returned_quantity'],
+                ['name'=>$lang_page_stats['total_price'], 'field'=>'total_price', 'unit'=>$lang_page_stats['price_unit']],
+                ['name'=>$lang_page_stats['pay_price'], 'field'=>'pay_price', 'unit'=>$lang_page_stats['price_unit']],
+                ['name'=>$lang_page_stats['buy_number_count'], 'field'=>'buy_number_count'],
+                ['name'=>$lang_page_stats['refund_price'], 'field'=>'refund_price', 'unit'=>$lang_page_stats['price_unit']],
+                ['name'=>$lang_page_stats['returned_quantity'], 'field'=>'returned_quantity'],
             ],
             'data_params'       => [
                 'is_operate'        => 1,

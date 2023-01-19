@@ -106,7 +106,7 @@ class Article
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_is_enable_list'),
+                        'data'              => MyLang('common_is_enable_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -122,7 +122,7 @@ class Article
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_is_text_list'),
+                        'data'              => MyLang('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,

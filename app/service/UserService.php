@@ -135,7 +135,7 @@ class UserService
         }
         if(!in_array($user['status'], [0,1]))
         {
-            $common_user_status_list = MyConst('common_user_status_list');
+            $common_user_status_list = MyLang('common_user_status_list');
             if(isset($common_user_status_list[$user['status']]))
             {
                 return DataReturn($common_user_status_list[$user['status']]['tips'], -110);
@@ -164,7 +164,7 @@ class UserService
 
         // 获取用户列表
         $data = Db::name('User')->where($where)->order($order_by)->field($field)->limit($m, $n)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::UserListHandle($data, $params));
+        return DataReturn(MyLang('handle_success'), 0, self::UserListHandle($data, $params));
     }
 
     /**
@@ -200,8 +200,8 @@ class UserService
             }
 
             // 开始处理数据
-            $common_gender_list = MyConst('common_gender_list');
-            $common_user_status_list = MyConst('common_user_status_list');
+            $common_gender_list = MyLang('common_gender_list');
+            $common_user_status_list = MyLang('common_user_status_list');
             foreach($data as &$v)
             {
                 // 生日
@@ -331,13 +331,13 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'gender',
-                'checked_data'      => array_column(MyConst('common_gender_list'), 'id'),
+                'checked_data'      => array_column(MyLang('common_gender_list'), 'id'),
                 'error_msg'         => '性别值范围不正确',
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'status',
-                'checked_data'      => array_column(MyConst('common_user_status_list'), 'id'),
+                'checked_data'      => array_column(MyLang('common_user_status_list'), 'id'),
                 'error_msg'         => '状态值范围不正确',
             ],
             [
@@ -465,9 +465,9 @@ class UserService
                 }
                 IntegralService::UserIntegralLogAdd($user_id, $old_integral, $opt_integral, '管理员操作', $integral_type, $params['admin']['id']);
             }
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn(MyLang('common.operate_fail'), -100);
+        return DataReturn(MyLang('operate_fail'), -100);
     }
 
     /**
@@ -497,9 +497,9 @@ class UserService
             {
                 return $ret;
             }
-            return DataReturn(MyLang('common.update_success'), 0);
+            return DataReturn(MyLang('update_success'), 0);
         }
-        return DataReturn(MyLang('common.update_fail'), -100);
+        return DataReturn(MyLang('update_fail'), -100);
     }
 
     /**
@@ -526,9 +526,9 @@ class UserService
         // 删除操作
         if(Db::name('User')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -595,7 +595,7 @@ class UserService
             }
             if(isset($user['gender']))
             {
-                $user['gender_text'] = MyConst('common_gender_list')[$user['gender']]['name'];
+                $user['gender_text'] = MyLang('common_gender_list')[$user['gender']]['name'];
             }
             if(isset($user['birthday']))
             {
@@ -766,7 +766,7 @@ class UserService
         // app则直接返回图片地址
         if(APPLICATION == 'app')
         {
-            return DataReturn(MyLang('common.upload_success'), 0, ResourcesService::AttachmentPathViewHandle($avatar));
+            return DataReturn(MyLang('upload_success'), 0, ResourcesService::AttachmentPathViewHandle($avatar));
         }
 
         // 更新用户头像
@@ -792,9 +792,9 @@ class UserService
 
             // web端用户登录纪录处理
             self::UserLoginRecord($params['user']['id']);
-            return DataReturn(MyLang('common.upload_success'), 0);
+            return DataReturn(MyLang('upload_success'), 0);
         }
-        return DataReturn(MyLang('common.upload_fail'), -100);
+        return DataReturn(MyLang('upload_fail'), -100);
     }
 
     /**
@@ -825,7 +825,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyConst('common_login_type_list'), 'value'),
+                'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
                 'error_msg'         => '登录类型有误',
             ],
             [
@@ -947,7 +947,7 @@ class UserService
         // 用户状态
         if(in_array($user['status'], [2,3]))
         {
-            return DataReturn(MyConst('common_user_status_list')[$user['status']]['tips'], -10);
+            return DataReturn(MyLang('common_user_status_list')[$user['status']]['tips'], -10);
         }
 
         // 用户登录前钩子
@@ -1007,7 +1007,7 @@ class UserService
 
             return self::UserLoginHandle($user['id'], $params);
         }
-        return DataReturn('登录失效，请重新登录', -100);
+        return DataReturn(MyLang('login_failure_tips'), -100);
     }
 
     /**
@@ -1063,7 +1063,7 @@ class UserService
             }
             return DataReturn('登录成功', 0, $result);
         }
-        return DataReturn('登录失效，请重新登录', -100);
+        return DataReturn(MyLang('login_failure_tips'), -100);
     }
 
     /**
@@ -1092,7 +1092,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyConst('common_user_reg_type_list'), 'value'),
+                'checked_data'      => array_column(MyLang('common_user_reg_type_list'), 'value'),
                 'error_msg'         => '注册类型有误',
             ],
             [
@@ -1282,7 +1282,7 @@ class UserService
                 }
                 break;
         }
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -1329,9 +1329,9 @@ class UserService
             {
                 return DataReturn('验证码错误', -12);
             }
-            return DataReturn(MyLang('common.operate_success'), 0, $verify);
+            return DataReturn(MyLang('operate_success'), 0, $verify);
         }
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -1390,7 +1390,7 @@ class UserService
                 }
                 break;
         }
-        return DataReturn(MyLang('common.operate_success'), 0, $field);
+        return DataReturn(MyLang('operate_success'), 0, $field);
     }
 
     /**
@@ -1413,7 +1413,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyConst('common_login_type_list'), 'value'),
+                'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
                 'error_msg'         => '登录类型有误',
             ],
         ];
@@ -1489,9 +1489,9 @@ class UserService
                 $verify['data']->Remove();
             }
 
-            return DataReturn(MyLang('common.send_success'), 0);
+            return DataReturn(MyLang('send_success'), 0);
         } else {
-            return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
+            return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
         }
     }
 
@@ -1515,7 +1515,7 @@ class UserService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyConst('common_user_reg_type_list'), 'value'),
+                'checked_data'      => array_column(MyLang('common_user_reg_type_list'), 'value'),
                 'error_msg'         => '注册类型有误',
             ],
         ];
@@ -1591,9 +1591,9 @@ class UserService
                 $verify['data']->Remove();
             }
 
-            return DataReturn(MyLang('common.send_success'), 0);
+            return DataReturn(MyLang('send_success'), 0);
         } else {
-            return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
+            return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
         }
     }
 
@@ -1675,9 +1675,9 @@ class UserService
                 $verify['data']->Remove();
             }
 
-            return DataReturn(MyLang('common.send_success'), 0);
+            return DataReturn(MyLang('send_success'), 0);
         } else {
-            return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
+            return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
         }
     }
 
@@ -1698,14 +1698,14 @@ class UserService
             {
                 return DataReturn('手机号码不存在', -3);
             }
-            return DataReturn(MyLang('common.operate_success'), 0, 'mobile');
+            return DataReturn(MyLang('operate_success'), 0, 'mobile');
         } else if(CheckEmail($accounts))
         {
             if(!self::IsExistAccounts($accounts, 'email'))
             {
                 return DataReturn('电子邮箱不存在', -3);
             }
-            return DataReturn(MyLang('common.operate_success'), 0, 'email');
+            return DataReturn(MyLang('operate_success'), 0, 'email');
         }
         return DataReturn('手机/邮箱格式有误', -4);
     }
@@ -1801,7 +1801,7 @@ class UserService
             {
                 $obj->Remove();
             }
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
         return $ret;
     }
@@ -1878,9 +1878,9 @@ class UserService
                 MyCache(SystemService::CacheKey('shopxo.cache_user_info').$user['token'], $user);
             }
 
-            return DataReturn(MyLang('common.change_success'), 0, $user);
+            return DataReturn(MyLang('change_success'), 0, $user);
         }
-        return DataReturn(MyLang('common.change_fail'), -100);
+        return DataReturn(MyLang('change_fail'), -100);
     }
 
     /**
@@ -1944,7 +1944,7 @@ class UserService
                 }
             }
 
-            return DataReturn(MyLang('common.auth_success'), 0, $user);
+            return DataReturn(MyLang('auth_success'), 0, $user);
         } else {
             // 是否需要添加用户
             $is_insert_user = false;
@@ -2041,12 +2041,12 @@ class UserService
                     {
                         return DataReturn('用户等待审核中', -110);
                     }
-                    return DataReturn(MyLang('common.auth_success'), 0, self::AppUserInfoHandle($ret['data']['user_id']));
+                    return DataReturn(MyLang('auth_success'), 0, self::AppUserInfoHandle($ret['data']['user_id']));
                 }
                 return $ret;
             }
         }
-        return DataReturn(MyLang('common.auth_success'), 0, self::AppUserInfoHandle(null, null, null, $data));
+        return DataReturn(MyLang('auth_success'), 0, self::AppUserInfoHandle(null, null, null, $data));
     }
 
     /**
@@ -2082,7 +2082,7 @@ class UserService
     {
         $field = null;
         $value = null;
-        $fields_arr = array_column(MyConst('common_appmini_type'), 'value');
+        $fields_arr = array_column(MyLang('common_appmini_type'), 'value');
         foreach($fields_arr as $type)
         {
             $openid = $type.'_openid';
@@ -2352,9 +2352,9 @@ class UserService
                 'user_id'       => $user_id,
             ];
 
-            return DataReturn(MyLang('common.insert_success'), 0, $result);
+            return DataReturn(MyLang('insert_success'), 0, $result);
         }
-        return DataReturn(MyLang('common.insert_fail'), -100);
+        return DataReturn(MyLang('insert_fail'), -100);
     }
 
     /**
@@ -2528,7 +2528,7 @@ class UserService
         ];
 
         // 是否小程序请求
-        $is_appmini = array_key_exists(APPLICATION_CLIENT_TYPE, MyConst('common_appmini_type'));
+        $is_appmini = array_key_exists(APPLICATION_CLIENT_TYPE, MyLang('common_appmini_type'));
 
         // 手机号码获取用户信息
         $mobile_user = self::UserInfo('mobile', $data['mobile']);
@@ -2700,9 +2700,9 @@ class UserService
         // 状态
         if($status)
         {
-            return DataReturn(MyLang('common.send_success'), 0);
+            return DataReturn(MyLang('send_success'), 0);
         }
-        return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
+        return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
     }
 
     /**
@@ -2869,7 +2869,7 @@ class UserService
                 }
             }
         }
-        return DataReturn(MyLang('common.operate_success'), 0, $data);
+        return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
     /**

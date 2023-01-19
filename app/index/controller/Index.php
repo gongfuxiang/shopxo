@@ -114,11 +114,11 @@ class Index extends Common
             $assign['images_magic_cube_view_list_show_style'] = BaseLayout::$images_magic_cube_view_list_show_style;
 
             // 首页商品排序规则
-            $assign['goods_order_by_type_list'] = MyConst('goods_order_by_type_list');
-            $assign['goods_order_by_rule_list'] = MyConst('goods_order_by_rule_list');
+            $assign['goods_order_by_type_list'] = MyLang('goods_order_by_type_list');
+            $assign['goods_order_by_rule_list'] = MyLang('goods_order_by_rule_list');
 
             // 浏览器名称
-            $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle('首页设计', 1);
+            $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(MyLang('index.design_browser_seo_title'), 1);
 
             // 编辑器文件存放地址定义
             $assign['editor_path_type'] = 'index-design';

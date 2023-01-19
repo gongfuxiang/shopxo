@@ -53,6 +53,7 @@ class Answer
      */
     public function Run($params = [])
     {
+        $lang = MyLang('answer.form_table');
         return [
             // 基础配置
             'base' => [
@@ -62,7 +63,7 @@ class Answer
             // 表单配置
             'form' => [
                 [
-                    'label'         => '联系人',
+                    'label'         => $lang['name'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
@@ -72,7 +73,7 @@ class Answer
                     ],
                 ],
                 [
-                    'label'         => '联系电话',
+                    'label'         => $lang['tel'],
                     'view_type'     => 'field',
                     'view_key'      => 'tel',
                     'is_sort'       => 1,
@@ -82,7 +83,7 @@ class Answer
                     ],
                 ],
                 [
-                    'label'         => '内容',
+                    'label'         => $lang['content'],
                     'view_type'     => 'module',
                     'view_key'      => 'answer/module/content',
                     'grid_size'     => 'lg',
@@ -93,7 +94,7 @@ class Answer
                     ],
                 ],
                 [
-                    'label'         => '回复内容',
+                    'label'         => $lang['reply'],
                     'view_type'     => 'module',
                     'view_key'      => 'answer/module/reply',
                     'grid_size'     => 'lg',
@@ -104,7 +105,7 @@ class Answer
                     ],
                 ],
                 [
-                    'label'         => '回复时间',
+                    'label'         => $lang['reply_time_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'reply_time_time',
                     'is_sort'       => 1,
@@ -114,7 +115,7 @@ class Answer
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
                     'is_sort'       => 1,
@@ -124,7 +125,7 @@ class Answer
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'answer/module/operate',
                     'align'         => 'center',

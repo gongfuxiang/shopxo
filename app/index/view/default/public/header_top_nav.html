@@ -20,22 +20,22 @@
                         {{/if}}
 
                         {{if empty($user)}}
-                            <em>您好，欢迎来到</em>
+                            <em>{{:MyLang('common.header_top_nav_left_not_login_first')}}</em>
                             <em>{{:MyC('home_site_name')}}</em>
                             {{if !empty($home_user_login_type)}}
-                                [<a href="{{:MyUrl('index/user/logininfo')}}">登录</a>]
+                                [<a href="{{:MyUrl('index/user/logininfo')}}">{{:MyLang('common.login_title')}}</a>]
                             {{/if}}
                             {{if !empty($home_user_reg_type)}}
-                                [<a href="{{:MyUrl('index/user/reginfo')}}">注册</a>]
+                                [<a href="{{:MyUrl('index/user/reginfo')}}">{{:MyLang('common.register_title')}}</a>]
                             {{/if}}
                         {{else /}}
-                            <em>您好</em>
+                            <em>{{:MyLang('common.header_top_nav_left_login_first')}}</em>
                             {{if !empty($user['icon'])}}
                                 <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
                             {{/if}}
-                            <em>{{$user.user_name_view}}，欢迎来到</em>
+                            <em>{{$user.user_name_view}}{{:MyLang('common.header_top_nav_left_login_last')}}</em>
                             <em>{{:MyC('home_site_name')}}</em>
-                            [<a href="{{:MyUrl('index/user/logout')}}">退出</a>]
+                            [<a href="{{:MyUrl('index/user/logout')}}">{{:MyLang('common.logout_title')}}</a>]
                         {{/if}}
 
                         <!-- 公共顶部小导航钩子-左侧后面 -->
@@ -76,7 +76,7 @@
                         <div class="menu-hd ">
                             <a href="{{$home_url}}" target="_top">
                                 <i class="am-icon-fw am-icon-home"></i>
-                                <span>商城首页</span>
+                                <span>{{:MyLang('common.shop_home_title')}}</span>
                             </a>
                         </div>
                     </div>

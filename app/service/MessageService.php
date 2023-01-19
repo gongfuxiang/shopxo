@@ -191,7 +191,7 @@ class MessageService
 
         // 获取数据列表
         $data = Db::name('Message')->where($where)->field($field)->limit($m, $n)->order($order_by)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::MessageListHandle($data, $params));
+        return DataReturn(MyLang('handle_success'), 0, self::MessageListHandle($data, $params));
     }
 
     /**
@@ -217,8 +217,8 @@ class MessageService
                 $user_list = UserService::GetUserViewInfo(array_column($data, 'user_id'));
             }
 
-            $common_is_read_list = MyConst('common_is_read_list');
-            $common_message_type_list = MyConst('common_message_type_list');
+            $common_is_read_list = MyLang('common_is_read_list');
+            $common_message_type_list = MyLang('common_message_type_list');
             foreach($data as &$v)
             {
                 // 用户信息
@@ -275,7 +275,7 @@ class MessageService
         // 更新用户未读消息为已读
         $where = ['user_id'=>$params['user']['id'], 'is_read'=>0];
         $ret = Db::name('Message')->where($where)->update(['is_read'=>1]);
-        return DataReturn(MyLang('common.handle_success'), 0, $ret);
+        return DataReturn(MyLang('handle_success'), 0, $ret);
     }
 
     /**
@@ -303,10 +303,10 @@ class MessageService
         // 删除操作
         if(Db::name('Message')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
 
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 }
 ?>

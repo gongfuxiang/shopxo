@@ -31,7 +31,7 @@ function GoodsCommentsHtml(page)
     if($('.goods-comment-content article').length <= 0)
     {
         $('.goods-page-no-data').removeClass('none');
-        $('.goods-page-no-data span').text(window['lang_loading_tips'] || '加载中...');
+        $('.goods-page-no-data p').text(window['lang_loading_tips'] || '加载中...');
     } else {
         $('.goods-page-no-data').addClass('none');
     }
@@ -54,7 +54,7 @@ function GoodsCommentsHtml(page)
             if($('.goods-comment-content article').length <= 0)
             {
                 $('.goods-page-no-data').removeClass('none');
-                $('.goods-page-no-data span').text(window['lang_comment_no_data_tips'] || '没有评论数据');
+                $('.goods-page-no-data p').text(window['lang_comment_no_data_tips'] || '没有评论数据');
             }
         },
         error: function(xhr, type)

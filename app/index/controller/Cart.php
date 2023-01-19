@@ -61,7 +61,7 @@ class Cart extends Common
         $assign = [
             'base'                  => $base,
             'cart_list'             => $cart_list['data'],
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle('购物车', 1),
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('cart.browser_seo_title'), 1),
         ];
         MyViewAssign($assign);
         return MyView();

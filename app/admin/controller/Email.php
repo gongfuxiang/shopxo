@@ -37,7 +37,7 @@ class Email extends Base
 		$assign = [
 
 			// 静态数据
-			'common_is_text_list'	=> MyConst('common_is_text_list'),
+			'common_is_text_list'	=> MyLang('common_is_text_list'),
 			// 配置信息
 			'data'					=> ConfigService::ConfigList(),
 

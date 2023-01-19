@@ -104,9 +104,9 @@
                     {{else /}}
                         <div class="table-no">
                             <i class="am-icon-warning"></i>
-                            <span>没有子分类数据</span>
+                            <span>{{:MyLang('category.no_sub_category_data_tips')}}</span>
                             <p class="am-margin-top-lg am-text-center am-text-grey">
-                                <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-text-secondary" title="查看分类下商品">查看分类下商品 >></a>
+                                <a href="{{:MyUrl('index/search/index', ['cid'=>$v['id']])}}" class="am-text-secondary" title="{{:MyLang('category.view_category_sub_goods_name')}}">{{:MyLang('category.view_category_sub_goods_name')}} >></a>
                             </p>
                         </div>
                     {{/if}}
@@ -114,7 +114,10 @@
             {{/foreach}}
         {{/if}}
     {{else /}}
-        <div class="table-no"><i class="am-icon-warning"></i> 没有分类数据</div>
+        <div class="table-no">
+            <i class="am-icon-skyatlas am-icon-lg"></i>
+            <p>{{:MyLang('category.no_category_data_tips')}}</p>
+        </div>
     {{/if}}
 </div>
 

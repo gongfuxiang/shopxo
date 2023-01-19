@@ -63,7 +63,12 @@ class Page
 	}
 
 	/**
-	 * [SetParem 参数设置]
+	 * 参数设置
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-01-19
+	 * @desc    description
 	 */
 	private function SetParem()
 	{
@@ -106,7 +111,12 @@ class Page
 	}
 
 	/**
-	 * [GetPageHtml 获取生成好的分页代码]
+	 * 获取生成好的分页代码
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-01-19
+	 * @desc    description
 	 */
 	public function GetPageHtml()
 	{
@@ -132,17 +142,17 @@ class Page
 		$this->html .= '<a href="'.$this->url.$this->page_join.'page='.$this->page_total.'" class="am-radius am-icon-angle-double-right"></a>';
 		$this->html .= '</li>';
 
-		$this->html .= '<span class="am-margin-left-sm">每页</span>';
+		$this->html .= '<span class="am-margin-left-sm">'.MyLang('page_each_page_name').'</span>';
 		$this->html .= '<input type="text" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page_size.'" onchange="window.location.href=\''.str_replace(['&page_size='.$this->page_size, 'page_size='.$this->page_size.'&'], '', $this->url).$this->page_join.'page_size=\'+(isNaN(parseInt(this.value)) ? 10 : parseInt(this.value) || 10);" onclick="this.select()" />';
-		$this->html .= '<span>条</span>';
+		$this->html .= '<span>'.MyLang('page_page_unit').'</span>';
 
-		$this->html .= '<span class="am-margin-left-sm">跳转到</span>';
+		$this->html .= '<span class="am-margin-left-sm">'.MyLang('page_jump_to_text').'</span>';
 		$this->html .= '<input type="text" min="1" data-is-clearout="0" class="am-form-field am-inline-block am-text-center am-margin-horizontal-xs am-radius pagination-input" value="'.$this->page.'" onchange="window.location.href=\''.$this->url.$this->page_join.'page=\'+(isNaN(parseInt(this.value)) ? 1 : parseInt(this.value) || 1);" onclick="this.select()" />';
-		$this->html .= '<span>页</span>';
+		$this->html .= '<span>'.MyLang('page_page_unit').'</span>';
 
 		$this->html .= '<div>';
-		$this->html .= '<span>共 '.$this->total.' 条数据</span>';
-		$this->html .= '<span class="am-margin-left-sm">共 '.$this->page_total.' 页</span>';
+		$this->html .= '<span>'.MyLang('page_data_total', ['total'=>$this->total]).'</span>';
+		$this->html .= '<span class="am-margin-left-sm">'.MyLang('page_page_total', ['total'=>$this->page_total]).'</span>';
 		if(!empty($this->tips_msg))
 		{
 			$this->html .= '<span class="am-margin-left-sm">'.$this->tips_msg.'</span>';
@@ -154,8 +164,13 @@ class Page
 	}
 
 	/**
-	 * [GetButtonNumberHtml 获取button显示个数的html]
-	 * @return [string] [按钮个数html代码]
+	 * 获取button显示个数的html
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-01-19
+	 * @desc    description
+	 * @return  按钮个数html代码
 	 */
 	private function GetButtonNumberHtml()
 	{
@@ -188,7 +203,12 @@ class Page
 	}
 
 	/**
-	 * [GetPageStarNumber 获取分页起始值]
+	 * 获取分页起始值
+	 * @author  Devil
+	 * @blog    http://gong.gg/
+	 * @version 1.0.0
+	 * @date    2023-01-19
+	 * @desc    description
 	 */
 	public function GetPageStarNumber()
 	{

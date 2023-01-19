@@ -207,7 +207,7 @@ class SystemService
             $lang_common = [];
         }
         // 当前控制器
-        $lang_page = MyLang('page_'.RequestController());
+        $lang_page = MyLang(RequestController().'.page_common');
         if(empty($lang_page) || !is_array($lang_page))
         {
             $lang_page = [];

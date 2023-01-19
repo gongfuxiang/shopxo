@@ -43,7 +43,7 @@ class DesignService
 
         // 获取数据
         $data = Db::name('Design')->where($where)->limit($m, $n)->order($order_by)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::DesignListHandle($data, $params));
+        return DataReturn(MyLang('handle_success'), 0, self::DesignListHandle($data, $params));
     }
 
     /**
@@ -118,17 +118,17 @@ class DesignService
             $data_id = Db::name('Design')->insertGetId($data);
             if($data_id <= 0)
             {
-                return DataReturn(MyLang('common.insert_fail'), -1);
+                return DataReturn(MyLang('insert_fail'), -1);
             }
         } else {
             $data_id = intval($params['id']);
             $data['upd_time'] = time();
             if(Db::name('Design')->where(['id'=>$data_id])->update($data) === false)
             {
-                return DataReturn(MyLang('common.update_fail'), -1);
+                return DataReturn(MyLang('update_fail'), -1);
             }
         }
-        return DataReturn(MyLang('common.operate_success'), 0, $data_id);
+        return DataReturn(MyLang('operate_success'), 0, $data_id);
     }
 
     /**
@@ -170,9 +170,9 @@ class DesignService
         // 数据更新
         if(Db::name('Design')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-           return DataReturn(MyLang('common.operate_success'), 0);
+           return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn(MyLang('common.operate_fail'), -100);
+        return DataReturn(MyLang('operate_fail'), -100);
     }
 
     /**
@@ -214,10 +214,10 @@ class DesignService
             {
                 ResourcesService::AttachmentPathTypeDelete(self::AttachmentPathTypeValue($v));
             }
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
 
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
     
     /**

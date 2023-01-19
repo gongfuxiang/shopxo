@@ -280,13 +280,13 @@
                     <!--销量/浏览/评价-->
                     <ul class="tm-ind-panel">
                         <li class="tm-ind-item">
-                            <div class="tm-indcon"><span class="tm-label">库存</span><span class="tm-count">{{$goods.inventory}}</span></div>
+                            <div class="tm-indcon"><span class="tm-label">{{:MyLang('inventory_title')}}</span><span class="tm-count">{{$goods.inventory}}</span></div>
                         </li>
                         <li class="tm-ind-item">
-                            <div class="tm-indcon"><span class="tm-label">销量</span><span class="tm-count">{{$goods.sales_count}}</span></div>
+                            <div class="tm-indcon"><span class="tm-label">{{:MyLang('sales_title')}}</span><span class="tm-count">{{$goods.sales_count}}</span></div>
                         </li>
                         <li class="tm-ind-item">
-                            <div class="tm-indcon"><span class="tm-label">热度</span><span class="tm-count">{{$goods.access_count}}</span></div>
+                            <div class="tm-indcon"><span class="tm-label">{{:MyLang('hot_title')}}</span><span class="tm-count">{{$goods.access_count}}</span></div>
                         </li>
                     </ul>
 
@@ -307,7 +307,7 @@
                         <dl class="iteminfo_parameter sys_item_specpara">
                             <dt class="buy-event mini-spec-event" data-type="buy">
                                 <div class="cart-title">
-                                    <span class="specpara-title">可选规格</span>
+                                    <span class="specpara-title">{{:MyLang('goods.panel_can_choice_spec_name')}}</span>
                                     <span class="am-icon-angle-right"></span>
                                 </div>
                             </dt>
@@ -317,7 +317,7 @@
                                 <div class="theme-popover">
                                     <div class="theme-span"></div>
                                     <div class="theme-poptit">
-                                        <a href="javascript:;" title="关闭" class="close am-icon-close am-icon-sm"></a>
+                                        <a href="javascript:;" title="{{:MyLang('close_title')}}" class="close am-icon-close am-icon-sm"></a>
                                     </div>
                                     <div class="theme-popbod dform">
                                         <form class="theme-signin am-padding-sm" action="javascript:;">
@@ -374,14 +374,14 @@
 
                                                 <!-- 库存数量 -->
                                                 <div class="theme-options">
-                                                    <div class="cart-title number">数量</div>
+                                                    <div class="cart-title number">{{:MyLang('number_title')}}</div>
                                                     <dd>
                                                         <div class="am-input-group am-input-group-sm number-tag">
                                                             <button class="am-input-group-label am-radius" id="min" type="button">-</button>
                                                             <input type="number" class="am-form-field" value="{{$goods.buy_min_number}}" id="text_box" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-max="{{$goods.inventory}}" data-ajax-url="{{:MyUrl('index/goods/stock')}}" />
                                                             <button class="am-input-group-label am-radius" id="add" type="button">+</button>
                                                         </div>
-                                                        <span class="tb-hidden stock-tips"><span>库存</span><span class="stock" data-original-stock="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span><span>{{$goods.inventory_unit}}</span></span>
+                                                        <span class="tb-hidden stock-tips"><span>{{:MyLang('inventory_title')}}</span><span class="stock" data-original-stock="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span><span>{{$goods.inventory_unit}}</span></span>
                                                     </dd>
                                                 </div>
 
@@ -400,8 +400,8 @@
                                                 {{/if}}
 
                                                 <div class="btn-op">
-                                                    <span class="am-radius btn am-btn am-btn-default confirm login-event" data-type="cart">确认</span>
-                                                    <span class="am-radius btn close am-btn am-btn-danger cancel">取消</span>
+                                                    <span class="am-radius btn am-btn am-btn-default confirm login-event" data-type="cart">{{:MyLang('confirm_title')}}</span>
+                                                    <span class="am-radius btn close am-btn am-btn-danger cancel">{{:MyLang('cancel_title')}}</span>
                                                 </div>
                                             </div>
                                             <div class="theme-signin-right">
@@ -464,13 +464,13 @@
                         {{if isset($goods['is_favor']) and $goods['is_favor'] eq 1}}
                             <span class="nav-icon login-event favor-submit text-active" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
                                 <i class="am-icon-heart am-icon-fw"></i>
-                                <em class="goods-favor-text">已收藏</em>
+                                <em class="goods-favor-text">{{:MyLang('already_favor_title')}}</em>
                                 <em class="goods-favor-count">({{$goods.favor_count}})</em>
                             </span>
                         {{else /}}
                             <span class="nav-icon favor-submit login-event" data-ajax-url="{{:MyUrl('index/goods/favor')}}">
                                 <i class="am-icon-heart am-icon-fw"></i>
-                                <em class="goods-favor-text">收藏</em>
+                                <em class="goods-favor-text">{{:MyLang('favor_title')}}</em>
                                 <em class="goods-favor-count">({{$goods.favor_count}})</em>
                             </span>
                         {{/if}}
@@ -541,7 +541,7 @@
                             <button type="submit"></button>
                         </form>
                     {{else /}}
-                        <p class="goods-not-buy-tips">{{if empty($buy_button['error'])}}暂停销售{{else /}}{{$buy_button.error}}{{/if}}</p>
+                        <p class="goods-not-buy-tips">{{if empty($buy_button['error'])}}{{:MyLang('goods_stop_sale_title')}}{{else /}}{{$buy_button.error}}{{/if}}</p>
                     {{/if}}
                 </div>
 
@@ -611,12 +611,12 @@
             {{/if}}
 
             <!-- 详情/推荐商品-->
-            <div class="mc"> 
-                 <ul>                       
-                    <div class="mt">            
-                        <h3>看了又看</h3>        
+            {{if !empty($left_goods)}}
+                <div class="recommend-goods"> 
+                    <div class="head-title">            
+                        <h3>{{:MyLang('goods.recommend_goods_title')}}</h3>        
                     </div>
-                    {{if !empty($left_goods)}}
+                     <ul>                       
                         {{foreach $left_goods as $key=>$v}}
                             <li {{if $key eq 0}}class="first"{{/if}}>
                                 <div class="p-img">                    
@@ -629,10 +629,10 @@
                                 </div>
                                 <div class="p-price"><strong>{{$currency_symbol}}{{$v.price}}</strong></div>
                             </li>
-                          {{/foreach}}
-                      {{/if}}
-                 </ul>
-            </div>
+                        {{/foreach}}
+                     </ul>
+                </div>
+            {{/if}}
         </div>
 
         <!-- 右侧内容 -->
@@ -733,7 +733,7 @@
                             <div class="am-tab-panel goods-comment" id="goods-middle-tabs-nav-comments" data-goods-id="{{$goods.id}}" data-url="{{:MyUrl('index/goods/comments')}}">
                                 <div class="am-cf tabs-nav-base-container score-container">
                                     <div class="score am-fl">
-                                        <p class="name">动态评分</p>
+                                        <p class="name">{{:MyLang('goods.dynamic_scoring_name')}}</p>
                                         <p class="value">{{$goods_score.avg}}</p>
                                     </div>
                                     <div class="am-progress am-fr">
@@ -759,14 +759,14 @@
                                                     {{/if}}
                                             {{/foreach}}
                                         {{else /}}
-                                            没有评分数据
+                                            {{:MyLang('goods.no_scoring_data_tips')}}
                                         {{/if}}
                                     </div>
                                 </div>
                                 <div class="goods-comment-content"></div>
                                 <div class="table-no goods-page-no-data none">
-                                    <i class="am-icon-warning"></i>
-                                    <span>没有评价数据</span>
+                                    <i class="am-icon-skyatlas am-icon-lg"></i>
+                                    <p>{{:MyLang('goods.no_comments_data_tips')}}</p>
                                 </div>
                                 <div class="goods-page-container"></div>
                             </div>
@@ -780,17 +780,15 @@
                                         {{if !empty($detail_like_goods)}}
                                             {{foreach $detail_like_goods as $key=>$v}}
                                                 <li>
-                                                    <div class="i-pic limit">
-                                                        <a href="{{:$v['goods_url']}}">
-                                                            <img alt="{{$v.title}}" src="{{$v.images}}" />
-                                                        </a>
-                                                        <a href="{{:$v['goods_url']}}">
-                                                            <p class="am-text-truncate-2 am-margin-bottom-xs" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
-                                                        </a>
-                                                        <p class="price fl">
-                                                            <strong>{{$currency_symbol}}{{$v.price}}</strong>
-                                                        </p>
-                                                    </div>
+                                                    <a href="{{:$v['goods_url']}}">
+                                                        <img alt="{{$v.title}}" src="{{$v.images}}" />
+                                                    </a>
+                                                    <a href="{{:$v['goods_url']}}">
+                                                        <p class="am-text-truncate-2 am-margin-bottom-xs am-text-xs" {{if !empty($v.title_color)}}style="color:{{$v.title_color}};"{{/if}}>{{$v.title}}</p>
+                                                    </a>
+                                                    <p class="price">
+                                                        <strong>{{$currency_symbol}}{{$v.price}}</strong>
+                                                    </p>
                                                 </li>
                                             {{/foreach}}
                                         {{/if}}

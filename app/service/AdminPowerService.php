@@ -132,15 +132,15 @@ class AdminPowerService
             $data['add_time'] = time();
             if(Db::name('Power')->insertGetId($data) > 0)
             {
-                return DataReturn(MyLang('common.insert_success'), 0);
+                return DataReturn(MyLang('insert_success'), 0);
             }
-            return DataReturn(MyLang('common.insert_fail'), -100);
+            return DataReturn(MyLang('insert_fail'), -100);
         } else {
             if(Db::name('Power')->where(['id'=>intval($params['id'])])->update($data) !== false)
             {
-                return DataReturn(MyLang('common.update_success'), 0);
+                return DataReturn(MyLang('update_success'), 0);
             }
-            return DataReturn(MyLang('common.update_fail'), -100);
+            return DataReturn(MyLang('update_fail'), -100);
         }
     }
 
@@ -165,9 +165,9 @@ class AdminPowerService
             // 清除用户权限数据
             self::PowerCacheDelete();
 
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**

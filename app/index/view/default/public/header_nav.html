@@ -16,7 +16,7 @@
             {{/if}}
 
             <!-- 手机端导航伸展按钮 -->
-            <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-default am-show-sm-only switch-submit" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+            <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-default am-show-sm-only switch-submit" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">{{:MyLang('common.toggle_navigation_text')}}</span> <span class="am-icon-bars"></span></button>
 
             <!-- logo -->
             <h1 class="am-topbar-brand wap-logo am-show-sm-only">
@@ -28,14 +28,14 @@
             <!-- 全部分类 -->
             <a href="{{:MyUrl('index/category/index')}}" class="am-show-md-only">
                 <div class="goods-category-title am-hide-sm-only">
-                    <span class="all-goods">全部分类</span>
+                    <span class="all-goods">{{:MyLang('common.all_category_text')}}</span>
                 </div>
             </a>
 
             <!-- 手机端搜索 -->
             <form class="am-topbar-form am-topbar-left am-form-inline am-show-sm-only navigation-search" role="search" action="{{:MyUrl('index/search/index')}}" method="POST">
                 <div class="am-input-group am-input-group-sm">
-                    <input type="text" name="wd" class="am-form-field" placeholder="其实搜索很简单^_^ !" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
+                    <input type="text" name="wd" class="am-form-field" placeholder="{{:MyLang('common.search_input_placeholder')}}" value="{{if !empty($params['wd'])}}{{$params.wd}}{{/if}}" autocomplete="off" />
                     <span class="am-input-group-btn">
                         <button class="am-btn am-btn-default" type="submit">
                             <span class="am-icon-search am-icon-xs"></span>
@@ -77,10 +77,10 @@
                     <!-- 未登录操作栏 -->
                     <div class="navigation-button am-show-sm-only">
                         {{if !empty($home_user_login_type)}}
-                            <a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-primary am-topbar-btn am-btn-sm">登录</a>
+                            <a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-primary am-topbar-btn am-btn-sm">{{:MyLang('common.login_title')}}</a>
                         {{/if}}
                         {{if !empty($home_user_reg_type)}}
-                            <a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn am-btn-success am-topbar-btn am-btn-sm">注册</a>
+                            <a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn am-btn-success am-topbar-btn am-btn-sm">{{:MyLang('common.register_title')}}</a>
                         {{/if}}
                     </div>
                 {{/if}}
@@ -119,7 +119,7 @@
                             <a href="javascript:;" class="am-block" data-am-modal="{target: '#left-main-quick-popup'}">
                                 <span class="am-icon-sliders icon"></span>
                                 <b class="am-block"></b>
-                                <p class="am-text-truncate name">{{:MyC('home_navigation_main_quick_name', '百宝箱', true)}}</p>
+                                <p class="am-text-truncate name">{{:MyC('home_navigation_main_quick_name', MyLang('common.navigation_main_quick_name'), true)}}</p>
                                 <i class="am-icon-angle-down"></i>
                             </a>
                         </div>

@@ -261,7 +261,7 @@ class NavigationService
             }
         }
 
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -277,7 +277,7 @@ class NavigationService
     {
         if(!empty($data) && is_array($data))
         {
-            $nav_type_list = MyConst('common_nav_type_list');
+            $nav_type_list = MyLang('common_nav_type_list');
             foreach($data as &$v)
             {
                 // 数据类型
@@ -535,9 +535,9 @@ class NavigationService
                 // 清除缓存
                 MyCache($cache_key, null);
 
-                return DataReturn(MyLang('common.edit_success'), 0);
+                return DataReturn(MyLang('edit_success'), 0);
             } else {
-                return DataReturn(MyLang('common.edit_fail'), -100);
+                return DataReturn(MyLang('edit_fail'), -100);
             }
         }
     }
@@ -577,12 +577,12 @@ class NavigationService
             MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key'), null);
             MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'), null);
 
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
 
         // 回滚事务
         Db::rollback();
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -627,9 +627,9 @@ class NavigationService
             MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_header_key'), null);
             MyCache(SystemService::CacheKey('shopxo.cache_common_home_nav_footer_key'), null);
 
-            return DataReturn(MyLang('common.edit_success'), 0);
+            return DataReturn(MyLang('edit_success'), 0);
         }
-        return DataReturn(MyLang('common.edit_fail'), -100);
+        return DataReturn(MyLang('edit_fail'), -100);
     }
 
     /**
@@ -649,9 +649,10 @@ class NavigationService
         if($data === null || MyEnv('app_debug'))
         {            
             // 列表
+            $lang = MyLang('header_top_nav_right');
             $data = [
                 [
-                    'name'      => '个人中心',
+                    'name'      => $lang['user_center'],
                     'type'      => 'center',
                     'is_login'  => 1,
                     'badge'     => null,
@@ -660,7 +661,7 @@ class NavigationService
                     'items'     => [],
                 ],
                 [
-                    'name'      => '我的商城',
+                    'name'      => $lang['user_shop'],
                     'type'      => 'myself',
                     'is_login'  => 1,
                     'badge'     => null,
@@ -668,13 +669,13 @@ class NavigationService
                     'url'       => '',
                     'items'     => [
                         [
-                            'name'  => '我的订单',
+                            'name'  => $lang['user_order'],
                             'url'   => MyUrl('index/order/index'),
                         ],
                     ],
                 ],
                 [
-                    'name'      => '我的收藏',
+                    'name'      => $lang['favor'],
                     'type'      => 'favor',
                     'is_login'  => 1,
                     'badge'     => null,
@@ -682,13 +683,13 @@ class NavigationService
                     'url'       => '',
                     'items'     => [
                         [
-                            'name'  => '商品收藏',
+                            'name'  => $lang['goods_favor'],
                             'url'   => MyUrl('index/usergoodsfavor/index'),
                         ],
                     ],
                 ],
                 [
-                    'name'      => '购物车',
+                    'name'      => $lang['cart'],
                     'type'      => 'cart',
                     'is_login'  => 1,
                     'badge'     => -1,
@@ -697,7 +698,7 @@ class NavigationService
                     'items'     => [],
                 ],
                 [
-                    'name'      => '消息',
+                    'name'      => $lang['message'],
                     'type'      => 'message',
                     'is_login'  => 1,
                     'badge'     => 0,

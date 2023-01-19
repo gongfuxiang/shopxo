@@ -127,7 +127,7 @@ class SystemUpgradeService
         \base\FileUtil::UnlinkFile($upgrade_url);
 
         // 返回提示
-        return DataReturn(MyLang('common.update_success'), 0);
+        return DataReturn(MyLang('update_success'), 0);
     }
 
     /**

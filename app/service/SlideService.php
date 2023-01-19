@@ -40,7 +40,7 @@ class SlideService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         $data = Db::name('Slide')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::SlideListHandle($data, $params));
+        return DataReturn(MyLang('handle_success'), 0, self::SlideListHandle($data, $params));
     }
 
     /**
@@ -57,9 +57,9 @@ class SlideService
     {
         if(!empty($data))
         {
-            $common_platform_type = MyConst('common_platform_type');
-            $common_is_enable_tips = MyConst('common_is_enable_tips');
-            $common_app_event_type = MyConst('common_app_event_type');
+            $common_platform_type = MyLang('common_platform_type');
+            $common_is_enable_tips = MyLang('common_is_enable_tips');
+            $common_app_event_type = MyLang('common_app_event_type');
             foreach($data as &$v)
             {
                 // 图片地址
@@ -104,13 +104,13 @@ class SlideService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'platform',
-                'checked_data'      => array_column(MyConst('common_platform_type'), 'value'),
+                'checked_data'      => array_column(MyLang('common_platform_type'), 'value'),
                 'error_msg'         => '平台类型有误',
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'event_type',
-                'checked_data'      => array_column(MyConst('common_app_event_type'), 'value'),
+                'checked_data'      => array_column(MyLang('common_app_event_type'), 'value'),
                 'is_checked'        => 2,
                 'error_msg'         => '事件值类型有误',
             ],
@@ -160,16 +160,16 @@ class SlideService
             $data['add_time'] = time();
             if(Db::name('Slide')->insertGetId($data) > 0)
             {
-                return DataReturn(MyLang('common.insert_success'), 0);
+                return DataReturn(MyLang('insert_success'), 0);
             }
-            return DataReturn(MyLang('common.insert_fail'), -100);
+            return DataReturn(MyLang('insert_fail'), -100);
         } else {
             $data['upd_time'] = time();
             if(Db::name('Slide')->where(['id'=>intval($params['id'])])->update($data))
             {
-                return DataReturn(MyLang('common.edit_success'), 0);
+                return DataReturn(MyLang('edit_success'), 0);
             }
-            return DataReturn(MyLang('common.edit_fail'), -100); 
+            return DataReturn(MyLang('edit_fail'), -100); 
         }
     }
 
@@ -198,10 +198,10 @@ class SlideService
         // 删除操作
         if(Db::name('Slide')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
 
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -242,9 +242,9 @@ class SlideService
         // 数据更新
         if(Db::name('Slide')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-           return DataReturn(MyLang('common.edit_success'), 0);
+           return DataReturn(MyLang('edit_success'), 0);
         }
-        return DataReturn(MyLang('common.edit_fail'), -100);
+        return DataReturn(MyLang('edit_fail'), -100);
     }
 }
 ?>

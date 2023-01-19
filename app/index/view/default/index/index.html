@@ -31,28 +31,28 @@
                     <em>
                         <span class="s-name am-text-truncate">
                             {{if !empty($user)}}
-                                <em>Hi,</em>
+                                <em>{{:MyLang('index.banner_right_already_login_first')}}</em>
                                 {{if !empty($user['icon'])}}
                                     <img src="{{$user.icon}}" class="common-user-icon" {{if !empty($user['icon_title'])}}title="{{$user.icon_title}}"{{/if}} />
                                 {{/if}}
                                 <em>{{$user.user_name_view}}</em>
                             {{else /}}
-                                <em>您好，欢迎来到</em>
+                                <em>{{:MyLang('index.banner_right_not_login_first')}}</em>
                                 <em>{{:MyC('home_site_name')}}</em>
                             {{/if}}
                         </span>
                     </em>
                     {{if !empty($user)}}
-                        <a href="{{:MyUrl('index/user/logout')}}" class="member-logout">退出</a>
+                        <a href="{{:MyUrl('index/user/logout')}}" class="member-logout">{{:MyLang('common.logout_title')}}</a>
                     {{/if}}
                 </div>
                 {{if empty($user) and (!empty($home_user_login_type) or !empty($home_user_reg_type))}}
                     <div class="member-login">
                         {{if !empty($home_user_login_type)}}
-                            <a class="am-btn-primary btn am-fl" href="{{:MyUrl('index/user/loginInfo')}}">登录</a>
+                            <a class="am-btn-primary btn am-fl" href="{{:MyUrl('index/user/loginInfo')}}">{{:MyLang('common.login_title')}}</a>
                         {{/if}}
                         {{if !empty($home_user_reg_type)}}
-                            <a class="am-btn-primary btn am-fr" href="{{:MyUrl('index/user/regInfo')}}">注册</a>
+                            <a class="am-btn-primary btn am-fr" href="{{:MyUrl('index/user/regInfo')}}">{{:MyLang('common.register_title')}}</a>
                         {{/if}}
                     </div>
                 {{/if}}
@@ -72,7 +72,7 @@
             </div>
             {{if !empty($article_list)}}
                 <div class="banner-news">
-                    <p class="banner-news-title am-text-truncate">新闻头条</p>
+                    <p class="banner-news-title am-text-truncate">{{:MyLang('index.banner_right_not_login_first')}}</p>
                     <ul>
                         {{foreach $article_list as $article}}
                             <li class="am-text-truncate">
@@ -126,8 +126,8 @@
     {{if isset($is_design) and $is_design eq 1}}
         <div class="am-margin-top-sm">
             <div class="layout-operate-container am-fr" data-save-url="{{$layout_save_url}}">
-                <a href="{{$home_url}}" class="am-btn am-btn-warning am-btn-xs am-radius">取消</a>
-                <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-margin-left-sm am-icon-save" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                <a href="{{$home_url}}" class="am-btn am-btn-warning am-btn-xs am-radius">{{:MyLang('common.cancel_text')}}</a>
+                <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-margin-left-sm am-icon-save" data-am-loading="{loadingText:'{{:MyLang('common.processing_in_text')}}'}">{{:MyLang('common.save_text')}}</button>
             </div>
             {{include file="../../../layout/view/base" /}}
         </div>
@@ -174,7 +174,7 @@
                                 {{/if}}
                             </div>
                             <span class="more">
-                                <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank">更多 <i class="am-icon-angle-right"></i></a>
+                                <a href="{{:MyUrl('index/search/index', ['cid'=>$floor['id']])}}" target="_blank">{{:MyLang('common.more_text')}} <i class="am-icon-angle-right"></i></a>
                             </span>
                         </div>
                     </div>

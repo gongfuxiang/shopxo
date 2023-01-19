@@ -134,7 +134,7 @@ class AppMiniUserService
                 $ret = UserService::UserStatusCheck('id', $user['id']);
                 if($ret['code'] == 0)
                 {
-                    $ret = DataReturn(MyLang('common.auth_success'), 0, $user);
+                    $ret = DataReturn(MyLang('auth_success'), 0, $user);
                 }
             }
         } else {
@@ -266,7 +266,7 @@ class AppMiniUserService
                 $ret = UserService::UserStatusCheck('id', $user['id']);
                 if($ret['code'] == 0)
                 {
-                    $ret = DataReturn(MyLang('common.auth_success'), 0, $user);
+                    $ret = DataReturn(MyLang('auth_success'), 0, $user);
                 }
             }   
         } else {
@@ -387,7 +387,7 @@ class AppMiniUserService
                 $ret = UserService::UserStatusCheck('id', $user['id']);
                 if($ret['code'] == 0)
                 {
-                    $ret = DataReturn(MyLang('common.auth_success'), 0, $user);
+                    $ret = DataReturn(MyLang('auth_success'), 0, $user);
                 }
             }
         } else {
@@ -510,7 +510,7 @@ class AppMiniUserService
                 $ret = UserService::UserStatusCheck('id', $user['id']);
                 if($ret['code'] == 0)
                 {
-                    $ret = DataReturn(MyLang('common.auth_success'), 0, $user);
+                    $ret = DataReturn(MyLang('auth_success'), 0, $user);
                 }
             }
         } else {
@@ -599,7 +599,7 @@ class AppMiniUserService
                 $ret = UserService::UserStatusCheck('id', $user['id']);
                 if($ret['code'] == 0)
                 {
-                    $ret = DataReturn(MyLang('common.auth_success'), 0, $user);
+                    $ret = DataReturn(MyLang('auth_success'), 0, $user);
                 }
             }
         } else {
@@ -750,7 +750,7 @@ class AppMiniUserService
                 $ret = UserService::UserStatusCheck('id', $user['id']);
                 if($ret['code'] == 0)
                 {
-                    $ret = DataReturn(MyLang('common.auth_success'), 0, $user);
+                    $ret = DataReturn(MyLang('auth_success'), 0, $user);
                 }
             }   
         } else {

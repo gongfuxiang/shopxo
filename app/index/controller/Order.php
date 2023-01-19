@@ -64,7 +64,7 @@ class Order extends Common
             // 支付方式
             'buy_payment_list'      => PaymentService::BuyPaymentList(['is_enable'=>1, 'is_open_user'=>1]),
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle('我的订单', 1),
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('order.browser_seo_title'), 1),
         ];
         MyViewAssign($assign);
         return MyView();
@@ -83,7 +83,7 @@ class Order extends Common
         // 订单信息
         if(empty($this->data_detail))
         {
-            MyViewAssign('msg', '没有相关数据');
+            MyViewAssign('msg', MyLang('no_data'));
             return MyView('public/tips_error');
         }
 
@@ -98,7 +98,7 @@ class Order extends Common
             // 虚拟销售配置
             'site_fictitious'       => $site_fictitious['data'],
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle('订单详情', 1),
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('order.detail_browser_seo_title'), 1),
         ];
         MyViewAssign($assign);
         return MyView();
@@ -118,7 +118,7 @@ class Order extends Common
         $data = $this->OrderFirst();
         if(empty($data))
         {
-            MyViewAssign('msg', '没有相关数据');
+            MyViewAssign('msg', MyLang('no_data'));
             return MyView('public/tips_error');
         }
 
@@ -128,7 +128,7 @@ class Order extends Common
             // 上一个页面url地址
             'referer_url'           => empty($_SERVER['HTTP_REFERER']) ? MyUrl('index/order/index') : htmlentities($_SERVER['HTTP_REFERER']),
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle('订单评论', 1),
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('order.comments_browser_seo_title'), 1),
             // 编辑器文件存放地址
             'editor_path_type'      => ResourcesService::EditorPathTypeValue('order_comments-'.$this->user['id'].'-'.$data['id']),
         ];
@@ -189,7 +189,7 @@ class Order extends Common
             $params['business_type'] = 'order';
             return GoodsCommentsService::Comments($params);
         }
-        MyViewAssign('msg', '非法访问');
+        MyViewAssign('msg', MyLang('illegal_access_tips'));
         return MyView('public/tips_error');
     }
 
@@ -236,9 +236,7 @@ class Order extends Common
         // 是否自定义状态
         if(isset($params['appoint_status']))
         {
-            $ret = ($params['appoint_status'] == 0) ? DataReturn('支付成功', 0) : DataReturn('支付失败', -100);
-
-            // 获取支付回调数据
+            $ret = ($params['appoint_status'] == 0) ? DataReturn(MyLang('pay_success'), 0) : DataReturn(MyLang('pay_fail'), -100);
         } else {
             $params['user'] = $this->user;
             $ret = OrderService::Respond($params);
@@ -248,7 +246,7 @@ class Order extends Common
         $assign = [
             // 自定义链接
             'to_url'    => MyUrl('index/order/index'),
-            'to_title'  => '我的订单',
+            'to_title'  => MyLang('order.browser_seo_title'),
             // 状态信息
             'msg'       => $ret['msg'],
         ];
@@ -280,7 +278,7 @@ class Order extends Common
             $params['creator_name'] = $this->user['user_name_view'];
             return ApiService::ApiDataReturn(OrderService::OrderCancel($params));
         }
-        MyViewAssign('msg', '非法访问');
+        MyViewAssign('msg', MyLang('illegal_access_tips'));
         return MyView('public/tips_error');
     }
 
@@ -302,7 +300,7 @@ class Order extends Common
             $params['creator_name'] = $this->user['user_name_view'];
             return ApiService::ApiDataReturn(OrderService::OrderCollect($params));
         }
-        MyViewAssign('msg', '非法访问');
+        MyViewAssign('msg', MyLang('illegal_access_tips'));
         return MyView('public/tips_error');
     }
 
@@ -325,7 +323,7 @@ class Order extends Common
             $params['user_type'] = 'user';
             return ApiService::ApiDataReturn(OrderService::OrderDelete($params));
         }
-        MyViewAssign('msg', '非法访问');
+        MyViewAssign('msg', MyLang('illegal_access_tips'));
         return MyView('public/tips_error');
     }
 
@@ -345,7 +343,7 @@ class Order extends Common
             $params['user'] = $this->user;
             return ApiService::ApiDataReturn(OrderService::OrderPayCheck($params));
         }
-        MyViewAssign('msg', '非法访问');
+        MyViewAssign('msg', MyLang('illegal_access_tips'));
         return MyView('public/tips_error');
     }
 }

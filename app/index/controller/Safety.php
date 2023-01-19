@@ -60,7 +60,7 @@ class Safety extends Common
 			// 安全信息列表
 			'safety_panel_list'		=> NavigationService::UsersSafetyPanelList(),
 	        // 浏览器名称
-	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle('安全设置', 1),
+	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('safety.browser_seo_title'), 1),
         ];
         MyViewAssign($assign);
 		return MyView();
@@ -76,7 +76,7 @@ class Safety extends Common
 	public function LoginPwdInfo()
 	{
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('登录密码修改 - 安全设置', 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.password_update_browser_seo_title'), 1));
 		return MyView();
 	}
 
@@ -95,7 +95,7 @@ class Safety extends Common
 		}
 
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('手机号码修改 - 安全设置', 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.mobile_update_browser_seo_title'), 1));
 		return MyView();
 	}
 
@@ -110,11 +110,11 @@ class Safety extends Common
 	{
 		if(MySession('safety_sms') == null && !empty($this->user['mobile']))
 		{
-			return $this->error('原帐号校验失败', MyUrl('index/safety/mobileinfo'));
+			return $this->error(MyLang('safety.original_account_check_error_tips'), MyUrl('index/safety/mobileinfo'));
 		}
 
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('手机号码修改 - 安全设置', 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.mobile_update_browser_seo_title'), 1));
 		return MyView();
 	}
 
@@ -133,7 +133,7 @@ class Safety extends Common
 		}
 
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('电子邮箱修改 - 安全设置', 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.email_update_browser_seo_title'), 1));
 		return MyView();
 	}
 
@@ -148,11 +148,11 @@ class Safety extends Common
 	{
 		if(MySession('safety_email') == null && !empty($this->user['email']))
 		{
-			return $this->error('原帐号校验失败', MyUrl('index/safety/emailinfo'));
+			return $this->error(MyLang('safety.original_account_check_error_tips'), MyUrl('index/safety/emailinfo'));
 		}
 
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('电子邮箱修改 - 安全设置', 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('safety.email_update_browser_seo_title'), 1));
 		return MyView();
 	}
 
@@ -173,7 +173,7 @@ class Safety extends Common
 			// 协议内容
 			'document_data'			=> $document['data'],
 	        // 浏览器名称
-	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle('账号注销 - 安全设置', 1),
+	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('safety.logout_browser_seo_title'), 1),
         ];
         MyViewAssign($assign);
 		return MyView();

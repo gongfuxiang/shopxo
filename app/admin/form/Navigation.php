@@ -76,12 +76,12 @@ class Navigation
                     'view_type'     => 'field',
                     'view_key'      => 'data_type',
                     'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_nav_type_list'),
+                    'view_data'     => MyLang('common_nav_type_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_nav_type_list'),
+                        'data'              => MyLang('common_nav_type_list'),
                         'data_key'          => 'value',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -98,7 +98,7 @@ class Navigation
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_is_show_list'),
+                        'data'              => MyLang('common_is_show_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -114,7 +114,7 @@ class Navigation
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_is_text_list'),
+                        'data'              => MyLang('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,

@@ -59,7 +59,7 @@ class GoodsSpecService
             ];
             $data = self::GoodsSpecTemplateListHandle(Db::name('GoodsSpecTemplate')->where($where)->field('id,name,content')->order('id desc')->select()->toArray(), $params);
         }
-        return DataReturn(MyLang('common.operate_success'), 0, $data);
+        return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
     /**
@@ -172,7 +172,7 @@ class GoodsSpecService
             }
 
             // 完成
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         } catch(\Exception $e) {
             return DataReturn($e->getMessage(), -1);
         }
@@ -209,7 +209,7 @@ class GoodsSpecService
             }
 
             // 完成
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         } catch(\Exception $e) {
             return DataReturn($e->getMessage(), -1);
         }
@@ -254,9 +254,9 @@ class GoodsSpecService
         // 数据更新
         if(Db::name('GoodsSpecTemplate')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn(MyLang('common.operate_fail'), -100);
+        return DataReturn(MyLang('operate_fail'), -100);
     }
 }
 ?>

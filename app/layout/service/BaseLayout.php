@@ -955,8 +955,8 @@ class BaseLayout
                 }
 
                 // 排序处理
-                $order_by_type_list = MyConst('goods_order_by_type_list');
-                $order_by_rule_list = MyConst('goods_order_by_rule_list');
+                $order_by_type_list = MyLang('goods_order_by_type_list');
+                $order_by_rule_list = MyLang('goods_order_by_rule_list');
 
                 // 排序类型
                 $order_by_type = empty($params['order_by_type']) ? $order_by_type_list[0]['value'] : (array_key_exists($params['order_by_type'], $order_by_type_list) ? $order_by_type_list[$params['order_by_type']]['value'] : $order_by_type_list[0]['value']);

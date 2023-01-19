@@ -70,7 +70,7 @@ class PluginsService
             // 加入静态记录
             $static_all_plugins_data[$plugins] = $data;
         }
-        return DataReturn(MyLang('common.handle_success'), 0, $data);
+        return DataReturn(MyLang('handle_success'), 0, $data);
     }
 
     /**
@@ -212,9 +212,9 @@ class PluginsService
             // 删除缓存
             self::PluginsCacheDelete($params['plugins']);
             
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn(MyLang('common.operate_fail'), -100);
+        return DataReturn(MyLang('operate_fail'), -100);
     }
 
     /**
@@ -274,7 +274,7 @@ class PluginsService
     public static function PluginsField($plugins, $field)
     {
         $data = Db::name('Plugins')->where(['plugins'=>$plugins])->value($field);
-        return DataReturn(MyLang('common.operate_success'), 0, $data);
+        return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
     /**

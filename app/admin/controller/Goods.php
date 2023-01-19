@@ -54,7 +54,7 @@ class Goods extends Base
     	// 模板数据
     	$assign = [
     		// 商品参数类型
-            'common_goods_parameters_type_list' => MyConst('common_goods_parameters_type_list'),
+            'common_goods_parameters_type_list' => MyLang('common_goods_parameters_type_list'),
     	];
         if(!empty($this->data_detail))
         {
@@ -91,9 +91,9 @@ class Goods extends Base
 		// 模板信息
 		$assign = [
 			// 商品参数类型
-			'common_goods_parameters_type_list'	=> MyConst('common_goods_parameters_type_list'),
+			'common_goods_parameters_type_list'	=> MyLang('common_goods_parameters_type_list'),
 			// 站点类型
-			'common_site_type_list'				=> MyConst('common_site_type_list'),
+			'common_site_type_list'				=> MyLang('common_site_type_list'),
 			// 当前系统设置的站点类型
 			'common_site_type'					=> SystemBaseService::SiteTypeValue(),
 			// 地区信息

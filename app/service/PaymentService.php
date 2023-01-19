@@ -79,7 +79,7 @@ class PaymentService
         {
             if($dh = opendir(self::$payment_dir))
             {
-                $common_platform_type = MyConst('common_platform_type');
+                $common_platform_type = MyLang('common_platform_type');
                 while(($temp_file = readdir($dh)) !== false)
                 {
                     if(substr($temp_file, 0, 1) != '.')
@@ -186,7 +186,7 @@ class PaymentService
             'is_enable'             => 0,
             'is_open_user'          => 0,
             'is_install'            => 0,
-            'apply_terminal'        => empty($data['base']['apply_terminal']) ? array_column(MyConst('common_platform_type'), 'value') : $data['base']['apply_terminal'],
+            'apply_terminal'        => empty($data['base']['apply_terminal']) ? array_column(MyLang('common_platform_type'), 'value') : $data['base']['apply_terminal'],
             'config'                => '',
         ];
     }
@@ -427,9 +427,9 @@ class PaymentService
         $data['upd_time'] = time();
         if(Db::name('Payment')->where(['id'=>intval($params['id'])])->update($data))
         {
-            return DataReturn(MyLang('common.edit_success'), 0);
+            return DataReturn(MyLang('edit_success'), 0);
         }
-        return DataReturn(MyLang('common.edit_fail'), -100); 
+        return DataReturn(MyLang('edit_fail'), -100); 
     }
 
     /**
@@ -491,9 +491,9 @@ class PaymentService
         // 数据更新
         if(Db::name('Payment')->where(['payment'=>$params['id']])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn(MyLang('common.operate_fail'), -100);
+        return DataReturn(MyLang('operate_fail'), -100);
     }
 
     /**
@@ -750,13 +750,13 @@ class PaymentService
         // 删除
         if(!@unlink($file))
         {
-            return DataReturn(MyLang('common.delete_fail'), -100);
+            return DataReturn(MyLang('delete_fail'), -100);
         }
 
         // 删除入口文件
         self::PaymentEntranceDelete(['payment' => $payment]);
 
-        return DataReturn(MyLang('common.delete_success'), 0);
+        return DataReturn(MyLang('delete_success'), 0);
     }
 
     /**
@@ -1028,7 +1028,7 @@ php;
             }
         }
 
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -1072,7 +1072,7 @@ php;
             }
         }
 
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**

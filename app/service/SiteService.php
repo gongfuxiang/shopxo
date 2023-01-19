@@ -132,7 +132,7 @@ class SiteService
                 }
             }
         }
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -182,7 +182,7 @@ class SiteService
                 $result[$k] = $temp;
             }
         }
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 }
 ?>

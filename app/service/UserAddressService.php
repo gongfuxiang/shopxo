@@ -42,7 +42,7 @@ class UserAddressService
 
         // 获取列表
         $data = Db::name('UserAddress')->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::UserAddressListHandle($data), $params);
+        return DataReturn(MyLang('handle_success'), 0, self::UserAddressListHandle($data), $params);
     }
 
     /**
@@ -70,10 +70,10 @@ class UserAddressService
         // 删除操作
         if(Db::name('UserAddress')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
 
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -207,7 +207,7 @@ class UserAddressService
             'user_id'       => $params['user']['id'],
         ]);
 
-        return DataReturn(MyLang('common.operate_success'), 0, $data);
+        return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
     /**
@@ -527,7 +527,7 @@ class UserAddressService
                 'user_id'       => $params['user']['id'],
             ]);
 
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         } else {
             return DataReturn('删除失败或资源不存在', -100);
         }

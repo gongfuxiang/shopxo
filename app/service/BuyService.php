@@ -470,7 +470,7 @@ class BuyService
         $result['base']['preferential_price'] = ($result['base']['preferential_price'] <= 0) ? 0.00 : PriceNumberFormat($result['base']['preferential_price']);
         $result['base']['increase_price'] = ($result['base']['increase_price'] <= 0) ? 0.00 : PriceNumberFormat($result['base']['increase_price']);
 
-        return DataReturn(MyLang('common.operate_success'), 0, $result);
+        return DataReturn(MyLang('operate_success'), 0, $result);
     }
 
     /**
@@ -964,7 +964,7 @@ class BuyService
         ]);
 
         // 返回信息
-        return DataReturn(MyLang('common.operate_success'), 0, $order_ids);
+        return DataReturn(MyLang('operate_success'), 0, $order_ids);
     }
 
     /**
@@ -1030,7 +1030,7 @@ class BuyService
         $order_detail_id = Db::name('OrderDetail')->insertGetId($data);
         if($order_detail_id > 0)
         {
-            return DataReturn(MyLang('common.insert_success'), 0, $order_detail_id);
+            return DataReturn(MyLang('insert_success'), 0, $order_detail_id);
         }
         return DataReturn('订单详情添加失败', -1);
     }
@@ -1071,7 +1071,7 @@ class BuyService
         // 添加订单虚拟数据
         if(Db::name('OrderExtractionCode')->insertGetId($data) > 0)
         {
-            return DataReturn(MyLang('common.insert_success'), 0);
+            return DataReturn(MyLang('insert_success'), 0);
         }
         return DataReturn('订单取货码添加失败', -1);
     }
@@ -1117,7 +1117,7 @@ class BuyService
         // 添加订单虚拟数据
         if(Db::name('OrderFictitiousValue')->insertGetId($data) > 0)
         {
-            return DataReturn(MyLang('common.insert_success'), 0);
+            return DataReturn(MyLang('insert_success'), 0);
         }
         return DataReturn('订单虚拟信息添加失败', -1);
     }
@@ -1176,7 +1176,7 @@ class BuyService
         // 添加订单地址
         if(Db::name('OrderAddress')->insertGetId($data) > 0)
         {
-            return DataReturn(MyLang('common.insert_success'), 0);
+            return DataReturn(MyLang('insert_success'), 0);
         }
         return DataReturn('订单地址添加失败', -1);
     }
@@ -1524,7 +1524,7 @@ class BuyService
                     }
                 }
             }
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
         return DataReturn('没有需要扣除库存的数据', 0);
     }
@@ -1639,7 +1639,7 @@ class BuyService
                     }
                 }
             }
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
         return DataReturn('没有需要回滚的数据', 0);
     }
@@ -1697,7 +1697,7 @@ class BuyService
             'data'          => &$result,
         ]);
 
-        return DataReturn(MyLang('common.operate_success'), 0, $result);
+        return DataReturn(MyLang('operate_success'), 0, $result);
     }
 
     /**

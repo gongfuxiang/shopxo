@@ -284,8 +284,8 @@ class GoodsService
                         // 商品数量
                         $goods_count = MyC('home_index_floor_goods_max_count', 8, true);
                         // 排序配置
-                        $floor_order_by_type_list = MyConst('goods_order_by_type_list');
-                        $floor_order_by_rule_list = MyConst('goods_order_by_rule_list');
+                        $floor_order_by_type_list = MyLang('goods_order_by_type_list');
+                        $floor_order_by_rule_list = MyLang('goods_order_by_rule_list');
                         $floor_order_by_type = MyC('home_index_floor_goods_order_by_type', 0, true);
                         $floor_order_by_rule = MyC('home_index_floor_goods_order_by_rule', 0, true);
                         // 排序字段名称
@@ -1261,7 +1261,7 @@ class GoodsService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'site_type',
-                'checked_data'      => array_merge(array_column(MyConst('common_site_type_list'), 'value')),
+                'checked_data'      => array_merge(array_column(MyLang('common_site_type_list'), 'value')),
                 'is_checked'        => 2,
                 'error_msg'         => '商品类型数据值范围有误',
             ],
@@ -1474,7 +1474,7 @@ class GoodsService
         ]);
 
         // 返回信息
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -1506,7 +1506,7 @@ class GoodsService
                 return DataReturn('规格参数添加失败', -1);
             }
         }
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -1552,7 +1552,7 @@ class GoodsService
             return $ret;
         }
 
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -1840,7 +1840,7 @@ class GoodsService
                 }
             }
         }
-        return DataReturn(MyLang('common.insert_success'), 0);
+        return DataReturn(MyLang('insert_success'), 0);
     }
 
     /**
@@ -1874,7 +1874,7 @@ class GoodsService
                 }
             }
         }
-        return DataReturn(MyLang('common.insert_success'), 0);
+        return DataReturn(MyLang('insert_success'), 0);
     }
 
     /**
@@ -1908,7 +1908,7 @@ class GoodsService
                 }
             }
         }
-        return DataReturn(MyLang('common.insert_success'), 0);
+        return DataReturn(MyLang('insert_success'), 0);
     }
 
     /**
@@ -2030,7 +2030,7 @@ class GoodsService
             }
         }
 
-        return DataReturn(MyLang('common.insert_success'), 0);
+        return DataReturn(MyLang('insert_success'), 0);
     }
 
     /**
@@ -2073,7 +2073,7 @@ class GoodsService
 
             // 提交事务
             Db::commit();
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         } catch(\Exception $e) {
             Db::rollback();
             return DataReturn($e->getMessage(), -1);
@@ -2203,7 +2203,7 @@ class GoodsService
 
             // 提交事务
             Db::commit();
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         } catch(\Exception $e) {
             Db::rollback();
             return DataReturn($e->getMessage(), -1);
@@ -2456,7 +2456,7 @@ class GoodsService
             }
 
             // 返回成功
-            return DataReturn(MyLang('common.operate_success'), 0, $data);
+            return DataReturn(MyLang('operate_success'), 0, $data);
         }
 
         return DataReturn('没有相关规格', -100);
@@ -2560,7 +2560,7 @@ class GoodsService
                     return $ret;
                 }
 
-                return DataReturn(MyLang('common.operate_success'), 0, $data);
+                return DataReturn(MyLang('operate_success'), 0, $data);
             }
         }
         return DataReturn('没有相关规格类型', -100);
@@ -2630,9 +2630,9 @@ class GoodsService
                 $v['is_son']    = (Db::name('GoodsCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
                 $v['json']      = json_encode($v);
             }
-            return DataReturn(MyLang('common.operate_success'), 0, $data);
+            return DataReturn(MyLang('operate_success'), 0, $data);
         }
-        return DataReturn(MyLang('common.no_data'), -100);
+        return DataReturn(MyLang('no_data'), -100);
     }
 
     /**
@@ -2733,13 +2733,13 @@ class GoodsService
             $data['id'] = Db::name('GoodsCategory')->insertGetId($data);
             if($data['id'] <= 0)
             {
-                return DataReturn(MyLang('common.insert_fail'), -100);
+                return DataReturn(MyLang('insert_fail'), -100);
             }
         } else {
             $data['upd_time'] = time();
             if(Db::name('GoodsCategory')->where(['id'=>intval($params['id'])])->update($data) === false)
             {
-                return DataReturn(MyLang('common.edit_fail'), -100);
+                return DataReturn(MyLang('edit_fail'), -100);
             } else {
                 $data['id'] = $params['id'];
             }
@@ -2749,7 +2749,7 @@ class GoodsService
         MyCache(SystemService::CacheKey('shopxo.cache_goods_category_key'), null);
 
         $res = self::GoodsCategoryDataHandle([$data]);
-        return DataReturn(MyLang('common.operate_success'), 0, $res[0]);
+        return DataReturn(MyLang('operate_success'), 0, $res[0]);
     }
 
     /**
@@ -2790,9 +2790,9 @@ class GoodsService
             // 删除大分类缓存
             MyCache(SystemService::CacheKey('shopxo.cache_goods_category_key'), null);
 
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -2866,7 +2866,7 @@ class GoodsService
         }
 
         // 仅可单独购买
-        $site_type_arr = MyConst('common_site_type_list');
+        $site_type_arr = MyLang('common_site_type_list');
         $msg = array_key_exists($site_type, $site_type_arr) ? '仅'.$site_type_arr[$site_type]['name'] : '仅单买';
         return DataReturn($msg, -1, $site_type);
     }
@@ -2910,7 +2910,7 @@ class GoodsService
         // 是否已下架
         if($goods['is_shelves'] != 1)
         {
-            $error = '已下架';
+            $error = MyLang('goods_already_shelves_title');
         }
 
         // 按钮列表
@@ -2933,16 +2933,16 @@ class GoodsService
                 $data[] = [
                     'color' => 'main',
                     'type'  => 'show',
-                    'name'  => MyC('common_is_exhibition_mode_btn_text', '立即咨询', true),
+                    'name'  => MyC('common_is_exhibition_mode_btn_text', MyLang('goods_show_title'), true),
                     'value' => MyC('common_customer_store_tel'),
                     'icon'  => 'am-icon-phone', 
                 ];
-                $error = '仅展示';
+                $error = MyLang('goods_only_show_title');
             } else {
                 // 还有库存
                 if($goods['inventory'] <= 0)
                 {
-                    $error = '没货了';
+                    $error = MyLang('goods_no_inventory_title');
                 }
                 if(empty($error))
                 {
@@ -2950,11 +2950,12 @@ class GoodsService
                     $class_name = (APPLICATION == 'web') ? 'buy-event login-event' : '';
 
                     // 购买
+                    $name = (MyC('common_order_is_booking', 0, true) == 1) ? MyLang('goods_booking_title') : MyLang('goods_buy_title');
                     $buy = [
                         'color' => 'main',
                         'type'  => 'buy',
-                        'title' => '点此按钮到下一步确认购买信息',
-                        'name'  => (MyC('common_order_is_booking', 0, true) == 1) ? '立即预约' : '立即购买',
+                        'title' => $name,
+                        'name'  => $name,
                         'class' => $class_name,
                         'icon'  => '',
                     ];
@@ -2965,11 +2966,12 @@ class GoodsService
                     if($ret['code'] == 0)
                     {
                         // 加入购物车
+                        $name = MyLang('goods_cart_title');
                         $cart = [
                             'color' => 'second',
                             'type'  => 'cart',
-                            'title' => '加入购物车',
-                            'name'  => '加入购物车',
+                            'title' => $name,
+                            'name'  => $name,
                             'class' => $class_name,
                             'icon'  => 'am-icon-opencart',
                         ];
@@ -3009,7 +3011,7 @@ class GoodsService
         // 是否存在按钮数据
         if(empty($data) && empty($error))
         {
-            $error = '暂停销售';
+            $error = MyLang('goods_stop_sale_title');
         }
 
         // 返回数据
@@ -3054,17 +3056,17 @@ class GoodsService
             {
                 // 这里的 ent 值必须和系统中区域块定义的一致
                 $data = [
-                    ['name'=>'商品', 'ent'=>'.page'],
+                    ['name'=>MyLang('goods_main_title'), 'ent'=>'.page'],
                 ];
 
                 // 是否展示商品评价
                 if($is_comments == 1)
                 {
-                    $data[] = ['name'=>'评价', 'ent'=>'.goods-comment'];
+                    $data[] = ['name'=>MyLang('comment_title'), 'ent'=>'.goods-comment'];
                 }
 
                 // 商品详情介绍
-                $data[] = ['name'=>'详情', 'ent'=>'.goods-detail'];
+                $data[] = ['name'=>MyLang('detail_title'), 'ent'=>'.goods-detail'];
             } else {
                 // 评论总数
                 $comments_count = isset($goods['comments_count']) ? $goods['comments_count'] : GoodsCommentsService::GoodsCommentsTotal(['goods_id'=>$goods['id'], 'is_show'=>1]);
@@ -3077,7 +3079,7 @@ class GoodsService
                 $data = [
                     [
                         'type'      => 'detail',
-                        'name'      => '详情',
+                        'name'      => MyLang('detail_title'),
                         'active'    => 1,
                     ],
                 ];
@@ -3087,14 +3089,14 @@ class GoodsService
                 {
                     $data[] = [
                         'type'      => 'comments',
-                        'name'      => '评价('.$comments_count.')',
+                        'name'      => MyLang('comment_title').'('.$comments_count.')',
                     ];
                 }
 
                 // 猜你喜欢，目前以销量最高推荐
                 $data[] = [
                     'type'      => 'guess_you_like',
-                    'name'      => '猜你喜欢',
+                    'name'      => MyLang('goods_guess_you_like_title'),
                 ];
             }
 
@@ -3237,7 +3239,7 @@ class GoodsService
             $result['data'] = $goods['data'];
             $result['page_total'] = ceil($result['total']/$result['page_size']);
         }
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -3260,7 +3262,7 @@ class GoodsService
             $data = [
                 [
                     'type'  => 0,
-                    'name'  => '首页',
+                    'name'  => MyLang('home_title'),
                     'url'   => SystemService::HomeUrl(),
                     'icon'  => 'am-icon-home',
                 ],
@@ -3291,7 +3293,7 @@ class GoodsService
                     } else {
                         $data[] = [
                             'type'  => 1,
-                            'name'  => '商品分类',
+                            'name'  => MyLang('goods_category_title'),
                             'data'  => $category,
                         ];
                     }
@@ -3341,7 +3343,7 @@ class GoodsService
         // 参数模板
         $parameter = GoodsParamsService::GoodsCategoryParamsTemplateList($params);
 
-        return DataReturn(MyLang('common.operate_success'), 0, [
+        return DataReturn(MyLang('operate_success'), 0, [
             'spec'      => $spec['data'],
             'params'    => $parameter['data'],
         ]);

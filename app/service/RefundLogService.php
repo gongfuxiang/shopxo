@@ -76,7 +76,7 @@ class RefundLogService
     public static function RefundLogTypeList($params = [])
     {
         $data = Db::name('RefundLog')->field('payment as id, payment_name as name')->group('payment,payment_name')->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, $data);
+        return DataReturn(MyLang('handle_success'), 0, $data);
     }
 
     /**
@@ -93,7 +93,7 @@ class RefundLogService
     {
         if(!empty($data))
         {
-            $refundment_list = MyConst('common_order_aftersale_refundment_list');
+            $refundment_list = MyLang('common_order_aftersale_refundment_list');
             foreach($data as &$v)
             {
                 // 用户信息

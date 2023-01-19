@@ -141,7 +141,7 @@ class Orderaftersale extends Common
                 'returned_data'             => $returned['data'],
                 'return_only_money_reason'  => empty($return_only_money_reason) ? [] : explode("\n", $return_only_money_reason),
                 'return_money_goods_reason' => empty($return_money_goods_reason) ? [] : explode("\n", $return_money_goods_reason),
-                'aftersale_type_list'       => MyConst('common_order_aftersale_type_list'),
+                'aftersale_type_list'       => MyLang('common_order_aftersale_type_list'),
                 'return_goods_address'      => $return_goods_address,
                 'editor_path_type'          => ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id)),
             ];

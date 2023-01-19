@@ -44,8 +44,8 @@ class AdminService
             $roles =  Db::name('Role')->where('id', 'in', array_column($data, 'role_id'))->column('name', 'id');
 
             // 数据处理
-            $common_gender_list = MyConst('common_gender_list');
-            $common_admin_status_list = MyConst('common_admin_status_list');
+            $common_gender_list = MyLang('common_gender_list');
+            $common_admin_status_list = MyLang('common_admin_status_list');
             foreach($data as &$v)
             {
                 // 所在角色组
@@ -79,7 +79,7 @@ class AdminService
         $where = empty($params['where']) ? [] : $params['where'];
         $field = empty($params['field']) ? '*' : $params['field'];
         $data = Db::name('Role')->field($field)->where($where)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, $data);
+        return DataReturn(MyLang('handle_success'), 0, $data);
     }
 
     /**
@@ -122,7 +122,7 @@ class AdminService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'status',
-                'checked_data'      => array_column(MyConst('common_admin_status_list'), 'value'),
+                'checked_data'      => array_column(MyLang('common_admin_status_list'), 'value'),
                 'error_msg'         => '状态值范围不正确',
             ],
             [
@@ -295,9 +295,9 @@ class AdminService
                 self::LoginLogout();
             }
             
-            return DataReturn(MyLang('common.edit_success'), 0);
+            return DataReturn(MyLang('edit_success'), 0);
         }
-        return DataReturn(MyLang('common.edit_fail'), -100);
+        return DataReturn(MyLang('edit_fail'), -100);
     }
 
     /**
@@ -330,9 +330,9 @@ class AdminService
         // 删除操作
         if(Db::name('Admin')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -350,7 +350,7 @@ class AdminService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyConst('common_login_type_list'), 'value'),
+                'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
                 'error_msg'         => '登录类型有误',
             ],
             [
@@ -564,7 +564,7 @@ class AdminService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
-                'checked_data'      => array_column(MyConst('common_login_type_list'), 'value'),
+                'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
                 'error_msg'         => '登录类型有误',
             ],
         ];
@@ -640,9 +640,9 @@ class AdminService
                 $verify['data']->Remove();
             }
 
-            return DataReturn(MyLang('common.send_success'), 0);
+            return DataReturn(MyLang('send_success'), 0);
         }
-        return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
+        return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
     }
 
     /**
@@ -707,7 +707,7 @@ class AdminService
                 $field = 'username';
                 break;
         }
-        return DataReturn(MyLang('common.operate_success'), 0, $field);
+        return DataReturn(MyLang('operate_success'), 0, $field);
     }
 
     /**

@@ -52,7 +52,7 @@ class UserAddress extends Common
         // 模板数据
         $assign = [
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle('我的地址', 1),
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('user_address.browser_seo_title'), 1),
         ];
         // 用户地址列表
         $data = UserAddressService::UserAddressList(['user'=>$this->user]);

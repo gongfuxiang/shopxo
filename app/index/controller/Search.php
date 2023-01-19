@@ -133,7 +133,7 @@ class Search extends Common
                 }
             }
         }
-        $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(empty($seo_title) ? '商品搜索' : $seo_title, 1);
+        $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(empty($seo_title) ? MyLang('search.browser_seo_title') : $seo_title, 1);
 
         // 模板赋值
         MyViewAssign($assign);

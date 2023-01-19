@@ -50,7 +50,7 @@ class UserGoodsBrowse extends Common
     public function Index()
     {
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('我的足迹', 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('user_goods_browse.browser_seo_title'), 1));
         return MyView();
     }
 

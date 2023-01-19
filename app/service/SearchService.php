@@ -218,7 +218,7 @@ class SearchService
             $result['data'] = $goods['data'];
             $result['page_total'] = ceil($result['total']/$result['page_size']);
         }
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**

@@ -84,7 +84,7 @@ class SafetyService
         $ret = self::UserLoginPwdUpdate($accounts, $user['id'], $params['new_pwd']);
         if($ret['code'] != 0)
         {
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
         return $ret;
     }
@@ -124,9 +124,9 @@ class SafetyService
                 return $ret;
             }
 
-            return DataReturn(MyLang('common.change_success'), 0);
+            return DataReturn(MyLang('change_success'), 0);
         }
-        return DataReturn(MyLang('common.change_fail'), -100);
+        return DataReturn(MyLang('change_fail'), -100);
     }
 
     /**
@@ -177,9 +177,9 @@ class SafetyService
             {
                 return DataReturn('验证码错误', -12);
             }
-            return DataReturn(MyLang('common.operate_success'), 0, $verify);
+            return DataReturn(MyLang('operate_success'), 0, $verify);
         }
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -271,9 +271,9 @@ class SafetyService
                 $verify['data']->Remove();
             }
 
-            return DataReturn(MyLang('common.send_success'), 0);
+            return DataReturn(MyLang('send_success'), 0);
         }
-        return DataReturn(MyLang('common.send_fail').'['.$obj->error.']', -100);
+        return DataReturn(MyLang('send_fail').'['.$obj->error.']', -100);
     }
 
     /**
@@ -451,9 +451,9 @@ class SafetyService
                 return $ret;
             }
 
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn(MyLang('common.operate_fail'), -100);
+        return DataReturn(MyLang('operate_fail'), -100);
     }
 
     /**
@@ -501,9 +501,9 @@ class SafetyService
         if(Db::name('User')->where(['id'=>$params['user']['id']])->update($data))
         {
             UserService::Logout();
-            return DataReturn(MyLang('common.logout_success'), 0);
+            return DataReturn(MyLang('logout_success'), 0);
         }
-        return DataReturn(MyLang('common.logout_fail'), -1);
+        return DataReturn(MyLang('logout_fail'), -1);
     }
 }
 ?>

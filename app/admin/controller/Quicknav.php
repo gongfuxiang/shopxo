@@ -63,8 +63,8 @@ class QuickNav extends Base
             'data'                  => $this->data_detail,
 
             // 静态数据
-            'common_platform_type'  => MyConst('common_platform_type'),
-            'common_app_event_type' => MyConst('common_app_event_type'),
+            'common_platform_type'  => MyLang('common_platform_type'),
+            'common_app_event_type' => MyLang('common_app_event_type'),
 
             // 编辑器文件存放地址
             'editor_path_type'      => ResourcesService::EditorPathTypeValue('quick_nav'),

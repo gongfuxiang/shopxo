@@ -72,9 +72,9 @@ class GoodsBrowseService
         }
         if($status)
         {
-            return DataReturn(MyLang('common.insert_success'), 0);
+            return DataReturn(MyLang('insert_success'), 0);
         }
-        return DataReturn(MyLang('common.insert_fail'), -100);
+        return DataReturn(MyLang('insert_fail'), -100);
     }
 
     /**
@@ -139,7 +139,7 @@ class GoodsBrowseService
 
         // 获取数据
         $data = Db::name('GoodsBrowse')->alias('b')->join('goods g', 'g.id=b.goods_id')->field($field)->where($where)->limit($m, $n)->order($order_by)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::GoodsBrowseListHandle($data, $params));
+        return DataReturn(MyLang('handle_success'), 0, self::GoodsBrowseListHandle($data, $params));
     }
 
     /**
@@ -222,9 +222,9 @@ class GoodsBrowseService
         // 删除
         if(Db::name('GoodsBrowse')->where($where)->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 }
 ?>

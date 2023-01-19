@@ -40,7 +40,7 @@ class WarehouseService
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'level desc, id desc' : trim($params['order_by']);
         $data = Db::name('Warehouse')->field($field)->where($where)->order($order_by)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::WarehouseListHandle($data, $params));
+        return DataReturn(MyLang('handle_success'), 0, self::WarehouseListHandle($data, $params));
     }
 
     /**
@@ -259,7 +259,7 @@ class WarehouseService
 
             // 完成
             Db::commit();
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         } catch(\Exception $e) {
             Db::rollback();
             return DataReturn($e->getMessage(), -1);
@@ -306,11 +306,11 @@ class WarehouseService
 
             // 提交事务
             Db::commit();
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
 
         Db::rollback();
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -368,11 +368,11 @@ class WarehouseService
 
             // 提交事务
             Db::commit();
-            return DataReturn(MyLang('common.edit_success'), 0);
+            return DataReturn(MyLang('edit_success'), 0);
         }
 
         Db::rollback();
-        return DataReturn(MyLang('common.edit_fail'), -100);
+        return DataReturn(MyLang('edit_fail'), -100);
     }
 
     /**
@@ -400,7 +400,7 @@ class WarehouseService
                 }
             }
         }
-        return DataReturn(MyLang('common.handle_success'), 0);
+        return DataReturn(MyLang('handle_success'), 0);
     }
 
     /**
@@ -436,7 +436,7 @@ class WarehouseService
                 $result[] = $v;
             }
         }
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 }
 ?>

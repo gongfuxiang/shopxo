@@ -51,7 +51,7 @@ class Orderaftersale extends Common
     public function Index()
     {
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('订单售后', 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('orderaftersale.browser_seo_title'), 1));
         return MyView();
     }
 
@@ -78,7 +78,7 @@ class Orderaftersale extends Common
                 // 订单售后搜索form key
                 'form_search_keywords_form_key' => 'f0p',
                 // 浏览器名称
-                'home_seo_site_title'           => SeoService::BrowserSeoTitle('订单售后详情', 1),
+                'home_seo_site_title'           => SeoService::BrowserSeoTitle(MyLang('orderaftersale.detail_browser_seo_title'), 1),
             ];
 
             // 仅退款原因
@@ -120,7 +120,7 @@ class Orderaftersale extends Common
             $assign['return_goods_address'] = $return_goods_address;
 
             // 静态数据
-            $assign['common_order_aftersale_type_list'] = MyConst('common_order_aftersale_type_list');
+            $assign['common_order_aftersale_type_list'] = MyLang('common_order_aftersale_type_list');
 
             // 编辑器文件存放地址
             $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue(OrderAftersaleService::EditorAttachmentPathType($this->user['id'], $order_id, $order_detail_id));
@@ -146,7 +146,7 @@ class Orderaftersale extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            MyViewAssign('msg', '非法访问');
+            MyViewAssign('msg', MyLang('illegal_access_tips'));
             return MyView('public/tips_error');
         }
         
@@ -168,7 +168,7 @@ class Orderaftersale extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            MyViewAssign('msg', '非法访问');
+            MyViewAssign('msg', MyLang('illegal_access_tips'));
             return MyView('public/tips_error');
         }
 
@@ -190,7 +190,7 @@ class Orderaftersale extends Common
         // 是否ajax请求
         if(!IS_AJAX)
         {
-            MyViewAssign('msg', '非法访问');
+            MyViewAssign('msg', MyLang('illegal_access_tips'));
             return MyView('public/tips_error');
         }
 

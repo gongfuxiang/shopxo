@@ -989,16 +989,15 @@ button { outline: none !important; }
 .common-cropper-popup .img-preview,
 .common-cropper-popup .submit-operation { overflow:hidden; }
 .common-cropper-popup .img-container { width:200px; height:200px; margin-bottom:5px; }
-.common-cropper-popup .cropper-input-images-submit { width:104px; margin:0px 5px 0px 2px; height: 32px; }
+.common-cropper-popup .cropper-input-images-submit { width:115px; margin:0px 5px 0px 2px; height: 32px; }
 .common-cropper-popup .preview-lg { width:180px; height:180px; }
 .common-cropper-popup .preview-md { width:100px; height:100px; }
 .common-cropper-popup .preview-sm { width:50px; height:50px; }
 .common-cropper-popup .img-preview { margin-left:20px; border: 1px solid #eee; background-color: #f9f9f9; }
 .common-cropper-popup .cropper-container, .cropper-input-images-submit { border-radius:2px; }
-.common-cropper-popup .am-form-file input[type="file"] { width: 105px; height: 32px; }
+.common-cropper-popup .am-form-file input[type="file"] { width: 117px !important; height: 32px; }
 .common-cropper-popup .am-form-group { width: auto; }
 .common-cropper-popup form.am-form .am-form-group-refreshing { padding: 0 !important; }
-.common-cropper-popup .am-form-file input[type="file"] { width: 106px !important; top: 0; }
 @media only screen and (max-width:640px){
     .common-cropper-popup .img-preview { margin-left:10px; }
     .common-cropper-popup .preview-md,

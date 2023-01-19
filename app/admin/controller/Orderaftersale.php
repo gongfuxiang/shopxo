@@ -34,7 +34,7 @@ class Orderaftersale extends Base
     public function Index()
     {
         // 静态数据
-        MyViewAssign('common_order_aftersale_refundment_list', MyConst('common_order_aftersale_refundment_list'));
+        MyViewAssign('common_order_aftersale_refundment_list', MyLang('common_order_aftersale_refundment_list'));
         return MyView();
     }
 

@@ -43,7 +43,7 @@ class QrCode extends Common
     {
         if(empty($this->data_request['content']))
         {
-            MyViewAssign('msg', '内容参数为空');
+            MyViewAssign('msg', MyLang('content_params_empty_tips'));
             return MyView('public/tips_error');
         }
         (new \base\Qrcode())->View($this->data_request);

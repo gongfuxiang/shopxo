@@ -1289,7 +1289,7 @@ button.colorpicker-submit img {
     height: 50px;
 }
 .form-table-fields-button-container .form-table-field-confirm-submit {
-    width: calc(100% - 130px);
+    width: calc(100% - 200px);
 }
 
 /**

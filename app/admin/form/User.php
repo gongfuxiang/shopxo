@@ -146,7 +146,7 @@ class User
                         'form_type'         => 'select',
                         'form_name'         => 'gender',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_gender_list'),
+                        'data'              => MyLang('common_gender_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -161,7 +161,7 @@ class User
                         'form_type'         => 'select',
                         'form_name'         => 'status',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_user_status_list'),
+                        'data'              => MyLang('common_user_status_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -282,10 +282,10 @@ class User
                 'is_fixed_name_field'   => 1,
                 'fixed_name_data'       => [
                     'status'        => [
-                        'data'  => MyConst('common_user_status_list'),
+                        'data'  => MyLang('common_user_status_list'),
                     ],
                     'gender'    => [
-                        'data'  => MyConst('common_gender_list'),
+                        'data'  => MyLang('common_gender_list'),
                     ],
                 ],
             ],

@@ -93,7 +93,7 @@
  * 上一篇、下一篇
  */
 .last-next-data a {
-    width: calc(100% - 175px);
+    max-width: calc(100% - 175px);
 }
 .last-next-data .text-tips {
     color: #999;

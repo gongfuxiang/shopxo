@@ -2042,7 +2042,7 @@ function FileUploadError($name, $index = false)
     }
 
     // 错误码对应的错误信息
-    $file_error_list = MyConst('common_file_upload_error_list');
+    $file_error_list = MyLang('common_file_upload_error_list');
     if(isset($file_error_list[$error]))
     {
         return $file_error_list[$error];

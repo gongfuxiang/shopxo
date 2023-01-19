@@ -42,7 +42,7 @@
 			<div class="am-form-group">
 				<label>状态<span class="am-form-group-label-tips-must">*</span></label>
 				<select name="status" class="am-radius chosen-select" data-validation-message="请选择用户状态" required>
-					{{foreach :MyConst('common_admin_status_list') as $v}}
+					{{foreach :MyLang('common_admin_status_list') as $v}}
 						<option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
 				</select>

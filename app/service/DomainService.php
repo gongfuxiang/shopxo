@@ -124,7 +124,7 @@ class DomainService
         {
             return DataReturn('域名配置部署失败', -10);
         }
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 }
 ?>

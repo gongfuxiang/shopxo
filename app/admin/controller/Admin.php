@@ -109,8 +109,8 @@ class Admin extends Common
 		// 模板数据
 		$assign = [
 			'id' 						=> isset($params['id']) ? $params['id'] : 0,
-			'common_gender_list' 		=> MyConst('common_gender_list'),
-			'common_admin_status_list'	=> MyConst('common_admin_status_list'),
+			'common_gender_list' 		=> MyLang('common_gender_list'),
+			'common_admin_status_list'	=> MyLang('common_admin_status_list'),
 		];
 
 		// 角色

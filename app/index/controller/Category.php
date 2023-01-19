@@ -44,7 +44,7 @@ class Category extends Common
     public function Index()
     {
         // 浏览器名称
-        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle('商品分类', 1));
+        MyViewAssign('home_seo_site_title', SeoService::BrowserSeoTitle(MyLang('category.browser_seo_title'), 1));
         return MyView();
     }
 }

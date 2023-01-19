@@ -54,7 +54,7 @@ class BrandService
 
         // 获取列表
         $data = Db::name('Brand')->where($where)->field($field)->order($order_by)->limit($m, $n)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::BrandListHandle($data, $params));
+        return DataReturn(MyLang('handle_success'), 0, self::BrandListHandle($data, $params));
     }
 
     /**
@@ -325,7 +325,7 @@ class BrandService
             if($brand_id <= 0)
             {
                 Db::rollback();
-                return DataReturn(MyLang('common.insert_fail'), -100);
+                return DataReturn(MyLang('insert_fail'), -100);
             }
         } else {
             $data['upd_time'] = time();
@@ -333,7 +333,7 @@ class BrandService
             if(Db::name('Brand')->where(['id'=>$brand_id])->update($data) === false)
             {
                 Db::rollback();
-                return DataReturn(MyLang('common.edit_fail'), -100); 
+                return DataReturn(MyLang('edit_fail'), -100); 
             }
         }
 
@@ -348,7 +348,7 @@ class BrandService
 
         // 提交事务
         Db::commit();
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -379,7 +379,7 @@ class BrandService
                 }
             }
         }
-        return DataReturn(MyLang('common.insert_success'), 0);
+        return DataReturn(MyLang('insert_success'), 0);
     }
 
     /**
@@ -407,10 +407,10 @@ class BrandService
         // 删除操作
         if(Db::name('Brand')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
 
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -451,9 +451,9 @@ class BrandService
         // 数据更新
         if(Db::name('Brand')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-            return DataReturn(MyLang('common.operate_success'), 0);
+            return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn(MyLang('common.operate_fail'), -100);
+        return DataReturn(MyLang('operate_fail'), -100);
     }
 }
 ?>

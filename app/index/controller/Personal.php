@@ -52,9 +52,9 @@ class Personal extends Common
 		// 模板数据
 		$assign = [
 			// 用户展示数据
-			'personal_show_list' => NavigationService::UsersPersonalShowFieldList(),
+			'personal_show_list' 	=> NavigationService::UsersPersonalShowFieldList(),
 	        // 浏览器名称
-	        'home_seo_site_title' => SeoService::BrowserSeoTitle('个人资料', 1),
+	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('personal.browser_seo_title'), 1),
 		];
 		MyViewAssign($assign);
 		return MyView();
@@ -74,9 +74,9 @@ class Personal extends Common
 			// 用户数据
 			'data' 					=> UserService::UserHandle(UserService::UserInfo('id', $this->user['id'])),
 			// 性别
-			'common_gender_list' 	=> MyConst('common_gender_list'),
+			'common_gender_list' 	=> MyLang('common_gender_list'),
 	        // 浏览器名称
-	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle('个人资料编辑', 1),
+	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('personal.edit_browser_seo_title'), 1),
 		];
 		MyViewAssign($assign);
 		return MyView();

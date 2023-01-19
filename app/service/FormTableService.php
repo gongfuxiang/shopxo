@@ -75,9 +75,9 @@ class FormTableService
         ];
         if(Db::name('FormTableUserFields')->insertGetId($data) <= 0)
         {
-            return DataReturn(MyLang('common.operate_fail'), -100);
+            return DataReturn(MyLang('operate_fail'), -100);
         }
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -124,9 +124,9 @@ class FormTableService
         ];
         if(Db::name('FormTableUserFields')->where($where)->delete() === false)
         {
-            return DataReturn(MyLang('common.operate_fail'), -100);
+            return DataReturn(MyLang('operate_fail'), -100);
         }
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -172,7 +172,7 @@ class FormTableService
         // 获取数据
         $data = Db::name('FormTableUserFields')->where($where)->order('id desc')->find();
         $data = empty($data['fields']) ? [] : json_decode($data['fields'], true);
-        return DataReturn(MyLang('common.handle_success'), 0, $data);
+        return DataReturn(MyLang('handle_success'), 0, $data);
     }
 }
 ?>

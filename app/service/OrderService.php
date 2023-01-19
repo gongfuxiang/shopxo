@@ -89,7 +89,7 @@ class OrderService
             $operate = self::OrderOperateData($order, 'user');
             if($operate['is_pay'] != 1)
             {
-                $status_text = MyConst('common_order_status')[$order['status']]['name'];
+                $status_text = MyLang('common_order_status')[$order['status']]['name'];
                 return DataReturn('状态不可操作['.$status_text.'-'.$order['order_no'].']', -1);
             }
 
@@ -152,7 +152,7 @@ class OrderService
         // 是否直接跳转
         if($success_count > 0 && $success_count == count($order_data))
         {
-            return DataReturn(MyLang('common.operate_success'), 0, ['is_success'=>1]);
+            return DataReturn(MyLang('operate_success'), 0, ['is_success'=>1]);
         }
 
         // 订单金额大于0则必须存在支付方式
@@ -438,7 +438,7 @@ class OrderService
         $operate = self::OrderOperateData($order, 'admin');
         if($operate['is_pay'] != 1)
         {
-            $status_text = MyConst('common_order_status')[$order['status']]['name'];
+            $status_text = MyLang('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.'-'.$order['order_no'].']', -1);
         }
 
@@ -630,7 +630,7 @@ class OrderService
             // 订单支付日志已支付则直接返回
             if($pay_data['data']['pay_log_data']['status'] == 1)
             {
-                return DataReturn(MyLang('common.operate_success'), 0);
+                return DataReturn(MyLang('operate_success'), 0);
             }
 
             // 启动事务
@@ -1233,10 +1233,10 @@ class OrderService
             $user_type = isset($params['user_type']) ? $params['user_type'] : 'user';
 
             // 静态数据
-            $order_status_list = MyConst('common_order_status');
-            $order_pay_status = MyConst('common_order_pay_status');
-            $common_platform_type = MyConst('common_platform_type');
-            $common_order_type_list = MyConst('common_order_type_list');
+            $order_status_list = MyLang('common_order_status');
+            $order_pay_status = MyLang('common_order_pay_status');
+            $common_platform_type = MyLang('common_platform_type');
+            $common_order_type_list = MyLang('common_order_type_list');
 
             // 仓库信息
             if(in_array('warehouse_id', $keys))
@@ -1528,8 +1528,8 @@ class OrderService
         $data = Db::name('OrderAftersale')->where(['order_id'=>$order_id])->field('status,type,number,price,reason,msg')->order('id desc')->find();
         if(!empty($data))
         {
-            $type_list = MyConst('common_order_aftersale_type_list');
-            $status_list = MyConst('common_order_aftersale_status_list');
+            $type_list = MyLang('common_order_aftersale_type_list');
+            $status_list = MyLang('common_order_aftersale_status_list');
 
             // 类型
             $data['type_text'] = array_key_exists($data['type'], $type_list) ? $type_list[$data['type']]['name'] : '';
@@ -1777,7 +1777,7 @@ class OrderService
     public static function OrderHistoryAdd($order_id, $new_status, $original_status, $msg = '', $creator = 0, $creator_name = '')
     {
         // 状态描述
-        $order_status_list = MyConst('common_order_status');
+        $order_status_list = MyLang('common_order_status');
         $original_status_name = $order_status_list[$original_status]['name'];
         $new_status_name = $order_status_list[$new_status]['name'];
         $msg .= '['.$original_status_name.'-'.$new_status_name.']';
@@ -1854,7 +1854,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_cancel'] != 1)
         {
-            $status_text = MyConst('common_order_status')[$order['status']]['name'];
+            $status_text = MyLang('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
@@ -1886,12 +1886,12 @@ class OrderService
 
             // 提交事务
             Db::commit();
-            return DataReturn(MyLang('common.cancel_success'), 0);
+            return DataReturn(MyLang('cancel_success'), 0);
         }
 
         // 事务回滚
         Db::rollback();
-        return DataReturn(MyLang('common.cancel_fail'), -1);
+        return DataReturn(MyLang('cancel_fail'), -1);
     }
 
     /**
@@ -1962,7 +1962,7 @@ class OrderService
             $operate = self::OrderOperateData($order, $user_type);
             if($operate['is_delivery'] != 1)
             {
-                $status_text = MyConst('common_order_status')[$order['status']]['name'];
+                $status_text = MyLang('common_order_status')[$order['status']]['name'];
                 throw new \Exception('状态不可操作['.$status_text.']');
             }
 
@@ -2095,7 +2095,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_collect'] != 1)
         {
-            $status_text = MyConst('common_order_status')[$order['status']]['name'];
+            $status_text = MyLang('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
@@ -2203,7 +2203,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_confirm'] != 1)
         {
-            $status_text = MyConst('common_order_status')[$order['status']]['name'];
+            $status_text = MyLang('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
@@ -2308,7 +2308,7 @@ class OrderService
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_delete'] != 1)
         {
-            $status_text = MyConst('common_order_status')[$order['status']]['name'];
+            $status_text = MyLang('common_order_status')[$order['status']]['name'];
             return DataReturn('状态不可操作['.$status_text.']', -1);
         }
 
@@ -2324,7 +2324,7 @@ class OrderService
             ];
             if(!Db::name('Order')->where($where)->update($data))
             {
-                throw new \Exception(MyLang('common.delete_fail'));
+                throw new \Exception(MyLang('delete_fail'));
             }
 
             // 用户消息
@@ -2345,7 +2345,7 @@ class OrderService
 
             // 完成
             Db::commit();
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         } catch(\Exception $e) {
             Db::rollback();
             return DataReturn($e->getMessage(), -1);
@@ -2365,7 +2365,7 @@ class OrderService
     {
         // 状态数据封装
         $result = [];
-        $order_status_list = MyConst('common_order_status');
+        $order_status_list = MyLang('common_order_status');
         foreach($order_status_list as $v)
         {
             $result[] = [
@@ -2523,12 +2523,12 @@ class OrderService
                         return DataReturn('订单商品销量增加失败['.$v['title'].']', -10);
                     }
                 }
-                return DataReturn(MyLang('common.operate_success'), 0);
+                return DataReturn(MyLang('operate_success'), 0);
             } else {
                 return DataReturn('订单有误，没有找到相关商品', -100);
             }
         }
-        return DataReturn(MyLang('common.handle_noneed'), 0);
+        return DataReturn(MyLang('handle_noneed'), 0);
     }
 
     /**

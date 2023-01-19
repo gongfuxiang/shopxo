@@ -68,16 +68,16 @@ class LayoutService
             $data['add_time'] = time();
             if(Db::name('Layout')->insertGetId($data) <= 0)
             {
-                return DataReturn(MyLang('common.insert_fail'), -1);
+                return DataReturn(MyLang('insert_fail'), -1);
             }
         } else {
             $data['upd_time'] = time();
             if(!Db::name('Layout')->where(['id'=>$info['id']])->update($data))
             {
-                return DataReturn(MyLang('common.update_fail'), -1);
+                return DataReturn(MyLang('update_fail'), -1);
             }
         }
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**

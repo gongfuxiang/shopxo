@@ -255,7 +255,7 @@ class UeditorService
             }
         }
 
-        return DataReturn(MyLang('common.no_data'), -1);
+        return DataReturn(MyLang('no_data'), -1);
     }
 
     /**
@@ -317,7 +317,7 @@ class UeditorService
         {
             return DataReturn('success', 0, $list);
         }
-        return DataReturn(MyLang('common.no_data'), -1);
+        return DataReturn(MyLang('no_data'), -1);
     }
 }
 ?>

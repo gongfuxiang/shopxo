@@ -46,7 +46,7 @@ class Pay extends Common
         {
             return MyView();
         }
-        MyViewAssign('msg', '参数有误');
+        MyViewAssign('msg', MyLang('params_error_tips'));
         return MyView('public/tips_error');
     }
 }

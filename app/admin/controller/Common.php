@@ -149,7 +149,7 @@ class Common extends BaseController
 		{
 			if(IS_AJAX)
 			{
-				exit(json_encode(DataReturn('登录失效，请重新登录', -400)));
+				exit(json_encode(DataReturn(MyLang('login_failure_tips'), -400)));
 			} else {
 				die('<script type="text/javascript">if(self.frameElement && self.frameElement.tagName == "IFRAME"){parent.location.reload();}else{window.location.href="'.MyUrl('admin/admin/logininfo').'";}</script>');
 			}

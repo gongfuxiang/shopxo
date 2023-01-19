@@ -282,7 +282,7 @@ class StatisticalService
             'yesterday_count'   => $yesterday_count,
             'today_count'       => $today_count,
         ];
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -340,7 +340,7 @@ class StatisticalService
             'yesterday_count'   => $yesterday_count,
             'today_count'       => $today_count,
         ];
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -398,7 +398,7 @@ class StatisticalService
             'yesterday_count'   => $yesterday_count,
             'today_count'       => $today_count,
         ];
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -465,7 +465,7 @@ class StatisticalService
             'yesterday_count'   => PriceNumberFormat($yesterday_count),
             'today_count'       => PriceNumberFormat($today_count),
         ];
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -514,7 +514,7 @@ class StatisticalService
             'order_sale_count'      => $order_sale_count,
             'order_complete_total'  => PriceNumberFormat($order_complete_total),
         ];
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -568,7 +568,7 @@ class StatisticalService
     public static function OrderTradingTotal($params = [])
     {
         // 订单状态列表
-        $order_status_list = MyConst('common_order_status');
+        $order_status_list = MyLang('common_order_status');
         $status_arr = array_column($order_status_list, 'id');
 
         // 循环获取统计数据
@@ -611,7 +611,7 @@ class StatisticalService
             'name_arr'  => $name_arr,
             'data'      => $data,
         ];
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -625,7 +625,7 @@ class StatisticalService
     public static function OrderProfitTotal($params = [])
     {
         // 订单状态列表
-        $order_status_list = MyConst('common_order_status');
+        $order_status_list = MyLang('common_order_status');
         $status_arr = array_column($order_status_list, 'id');
 
         // 循环获取统计数据
@@ -673,7 +673,7 @@ class StatisticalService
             'name_arr'  => $name_arr,
             'data'      => $data,
         ];
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -727,7 +727,7 @@ class StatisticalService
             'name_arr'  => array_column($data, 'name'),
             'data'      => $data,
         ];
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -792,7 +792,7 @@ class StatisticalService
             'name_arr'  => $name_arr,
             'data'      => $data,
         ];
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**
@@ -837,7 +837,7 @@ class StatisticalService
             'name_arr'  => array_column($data, 'name'),
             'data'      => array_column($data, 'value'),
         ];
-        return DataReturn(MyLang('common.handle_success'), 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**

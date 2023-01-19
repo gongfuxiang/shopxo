@@ -51,7 +51,7 @@ class GoodsParamsTemplate extends Base
         // 模板数据
         $assign = [
             // 商品参数类型
-            'common_goods_parameters_type_list' =>  MyConst('common_goods_parameters_type_list'),
+            'common_goods_parameters_type_list' =>  MyLang('common_goods_parameters_type_list'),
 
             // 数据
             'data'                              => $this->data_detail,
@@ -82,7 +82,7 @@ class GoodsParamsTemplate extends Base
         // 模板数据
         $assign = [
             // 商品参数类型
-            'common_goods_parameters_type_list' => MyConst('common_goods_parameters_type_list'),
+            'common_goods_parameters_type_list' => MyLang('common_goods_parameters_type_list'),
 
             // 参数配置
             'parameters'                        => empty($data['config_data']) ? [] : $data['config_data'],

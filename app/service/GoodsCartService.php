@@ -144,7 +144,7 @@ class GoodsCartService
                 }
             }
         }
-        return DataReturn(MyLang('common.operate_success'), 0, $data);
+        return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
     /**
@@ -327,7 +327,7 @@ class GoodsCartService
             $data['add_time'] = time();
             if(Db::name('Cart')->insertGetId($data) > 0)
             {
-                return DataReturn(MyLang('common.join_success'), 0, self::UserGoodsCartTotal($params));
+                return DataReturn(MyLang('join_success'), 0, self::UserGoodsCartTotal($params));
             }
         } else {
             $data['upd_time'] = time();
@@ -342,10 +342,10 @@ class GoodsCartService
             }
             if(Db::name('Cart')->where($where)->update($data))
             {
-                return DataReturn(MyLang('common.join_success'), 0, self::UserGoodsCartTotal($params));
+                return DataReturn(MyLang('join_success'), 0, self::UserGoodsCartTotal($params));
             }
         }
-        return DataReturn(MyLang('common.join_fail'), -100);
+        return DataReturn(MyLang('join_fail'), -100);
     }
 
     /**
@@ -464,9 +464,9 @@ class GoodsCartService
                 return $ret;
             }
 
-            return DataReturn(MyLang('common.update_success'), 0, $data);
+            return DataReturn(MyLang('update_success'), 0, $data);
         }
-        return DataReturn(MyLang('common.update_fail'), -100);
+        return DataReturn(MyLang('update_fail'), -100);
     }
 
     /**
@@ -578,9 +578,9 @@ class GoodsCartService
         // 删除
         if(Db::name('Cart')->where($where)->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0, self::UserGoodsCartTotal($params));
+            return DataReturn(MyLang('delete_success'), 0, self::UserGoodsCartTotal($params));
         }
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 }
 ?>

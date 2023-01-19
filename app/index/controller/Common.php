@@ -192,7 +192,7 @@ class Common extends BaseController
         {
             if(IS_AJAX)
             {
-                exit(json_encode(DataReturn('登录失效，请重新登录', -400)));
+                exit(json_encode(DataReturn(MyLang('login_failure_tips'), -400)));
             } else {
                 MyRedirect('index/user/logininfo', true);
             }
@@ -566,7 +566,7 @@ class Common extends BaseController
         if(MyC('home_site'.$type.'_state') != 1)
         {
             // 提示信息
-            $reason = MyC('home_site_close_reason', '升级中...', true);
+            $reason = MyC('home_site_close_reason', MyLang('upgrading_tips'), true);
 
             // 是否ajax请求
             if(IS_AJAX)
@@ -574,7 +574,7 @@ class Common extends BaseController
                 exit(json_encode(DataReturn($reason, -10000)));
             } else {
                 // 默认提示信息增加样式，则使用用户自定义信息展示
-                if($reason == '升级中...')
+                if(stripos($reason, '<html>') === false)
                 {
                     exit('<!DOCTYPE html><html><head><meta charset="utf-8" /><title>'.MyC('home_site_name').'</title><body><div style="text-align: center;margin-top: 15%;font-size: 18px;color: #f00;">'.$reason.'</div></body></html>');
                 } else {

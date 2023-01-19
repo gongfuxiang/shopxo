@@ -35,13 +35,13 @@ class Config extends Base
 		// 模板数据
 		$assign = [
 			// 静态数据
-			'common_excel_charset_list' 	=> MyConst('common_excel_charset_list'),
-			'common_excel_export_type_list'	=> MyConst('common_excel_export_type_list'),
-			'common_map_type_list' 			=> MyConst('common_map_type_list'),
-			'common_is_enable_list' 		=> MyConst('common_is_enable_list'),
-			'common_login_type_list' 		=> MyConst('common_login_type_list'),
-	        'common_close_open_list' 		=> MyConst('common_close_open_list'),
-			'common_is_text_list' 			=> MyConst('common_is_text_list'),
+			'common_excel_charset_list' 	=> MyLang('common_excel_charset_list'),
+			'common_excel_export_type_list'	=> MyLang('common_excel_export_type_list'),
+			'common_map_type_list' 			=> MyLang('common_map_type_list'),
+			'common_is_enable_list' 		=> MyLang('common_is_enable_list'),
+			'common_login_type_list' 		=> MyLang('common_login_type_list'),
+	        'common_close_open_list' 		=> MyLang('common_close_open_list'),
+			'common_is_text_list' 			=> MyLang('common_is_text_list'),
 
 			// 数据
 			'data'							=> ConfigService::ConfigList(),

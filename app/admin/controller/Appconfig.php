@@ -37,8 +37,8 @@ class AppConfig extends Base
         	// 配置数据
         	'data'					=> ConfigService::ConfigList(),
             // 静态数据
-            'common_platform_type'  => MyConst('common_platform_type'),
-            'common_is_text_list' 	=> MyConst('common_is_text_list'),
+            'common_platform_type'  => MyLang('common_platform_type'),
+            'common_is_text_list' 	=> MyLang('common_is_text_list'),
         ];
 
 		// 导航/视图

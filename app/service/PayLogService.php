@@ -122,7 +122,7 @@ class PayLogService
                 }
 
                 // 返回成功
-                return DataReturn(MyLang('common.insert_success'), 0, $data);
+                return DataReturn(MyLang('insert_success'), 0, $data);
             }
         }
         return DataReturn('支付订单添加失败', -100);
@@ -179,7 +179,7 @@ class PayLogService
     public static function PayLogTypeList($params = [])
     {
         $data = Db::name('PayLog')->field('payment as id, payment_name as name')->group('payment,payment_name')->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, $data);
+        return DataReturn(MyLang('handle_success'), 0, $data);
     }
 
     /**
@@ -265,10 +265,10 @@ class PayLogService
         // 关闭操作
         if(Db::name('PayLog')->where(['id'=>$params['ids'], 'status'=>0])->update(['status'=>2, 'close_time'=>time()]))
         {
-            return DataReturn(MyLang('common.close_success'), 0);
+            return DataReturn(MyLang('close_success'), 0);
         }
 
-        return DataReturn(MyLang('common.close_fail'), -100);
+        return DataReturn(MyLang('close_fail'), -100);
     }
 }
 ?>

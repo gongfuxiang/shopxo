@@ -169,7 +169,7 @@ class UserAddress
                         'form_type'         => 'select',
                         'form_name'         => 'is_default',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_is_text_list'),
+                        'data'              => MyLang('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,

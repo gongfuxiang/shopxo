@@ -49,8 +49,11 @@
         {{if $common_site_type eq 4}}
             <div id="buy-items-tabs" data-am-widget="tabs" class="am-tabs am-tabs-d2 buy-header-nav">
                 <ul class="am-tabs-nav am-cf">
-                    <li {{if isset($base['site_model']) and $base['site_model'] eq 0}}class="am-active"{{/if}}><a href="javascript:;" data-value="0">快递邮寄</a></li>
-                    <li {{if isset($base['site_model']) and $base['site_model'] eq 2}}class="am-active"{{/if}}><a href="javascript:;" data-value="2">自提点取货</a></li>
+                    {{if !empty($buy_site_model_list) and is_array($buy_site_model_list)}}
+                        {{foreach $buy_site_model_list as $v}}
+                            <li {{if isset($base['site_model']) and $base['site_model'] eq $v['value']}}class="am-active"{{/if}}><a href="javascript:;" data-value="{{$v.value}}">{{$v.name}}</a></li>
+                        {{/foreach}}
+                    {{/if}}
                 </ul>
             </div>
         {{/if}}
@@ -60,11 +63,11 @@
             <div id="buy-items-address" class="address user-address-container">
                 <div class="control">
                     <h3>
-                        确认收货地址
+                        <span>{{:MyLang('buy.confirm_delivery_address_name')}}</span>
                         <button type="button" class="am-close am-fr mobile-address-close-submit">&times;</button>
                     </h3>
                     {{if !empty($user_address_list)}}
-                        <button class="am-btn am-btn-primary am-btn-xs am-radius address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">使用新地址</button>
+                        <button class="am-btn am-btn-primary am-btn-xs am-radius address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">{{:MyLang('buy.use_new_address_name')}}</button>
                     {{/if}}
                 </div>
                 {{if !empty($user_address_list)}}
@@ -77,7 +80,7 @@
                                             <span class="am-badge am-badge-secondary-plain am-radius">{{$address.alias}}</span>
                                         {{/if}}
                                         {{if isset($address['is_default']) and $address['is_default'] eq 1}}
-                                            <span class="am-badge am-badge-success-plain am-radius">默认</span>
+                                            <span class="am-badge am-badge-success-plain am-radius">{{:MyLang('default_title')}}</span>
                                         {{/if}}
                                         <span class="address-detail">   
                                             <span class="user">{{$address.name}}</span>
@@ -96,21 +99,21 @@
                                 </div>
                                 <div class="address-operation-btn">
                                     {{if isset($address['is_default']) and $address['is_default'] neq 1}}
-                                        <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
+                                        <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> {{:MyLang('setup_default_title')}}</a>
                                         <span class="cut">|</span>
                                     {{/if}}
-                                    <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}"> 编辑</a>
+                                    <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}"> {{:MyLang('edit_title')}}</a>
                                     <span class="cut">|</span>
-                                    <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> 删除</a>
+                                    <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> {{:MyLang('delete_title')}}</a>
                                 </div>
                             </li>
                         {{/foreach}}
                     </ul>
                 {{else /}}
                     <div class="table-no">
-                        <i class="am-icon-warning"></i>
-                        <p>没有地址</p>
-                        <button class="am-btn am-btn-secondary am-btn-xs am-margin-top-sm address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">使用新地址</button>
+                        <i class="am-icon-skyatlas am-icon-lg"></i>
+                        <p>{{:MyLang('buy.no_delivery_address_tips')}}</p>
+                        <button class="am-btn am-btn-secondary am-btn-xs am-margin-top-sm address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">{{:MyLang('buy.use_new_address_name')}}</button>
                     </div>
                 {{/if}}
             </div>
@@ -120,13 +123,13 @@
         {{if isset($base['site_model']) and $base['site_model'] eq 2}}
             <div id="buy-items-address" class="address extraction-address-container">
                 <div class="control">
-                    <h3>确认自提点地址</h3>
+                    <h3>{{:MyLang('buy.confirm_extraction_address_name')}}</h3>
                     {{if !empty($base['address'])}}
-                        <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius" data-am-modal="{target: '#extraction-address-popup'}">选择取货地址</button>
+                        <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius" data-am-modal="{target: '#extraction-address-popup'}">{{:MyLang('buy.choice_take_address_name')}}</button>
                     {{/if}}
                 </div>
                 {{if empty($base['extraction_address'])}}
-                    <p class="am-text-danger am-text-center am-margin-top-lg">请联系管理员配置自提点地址</p>
+                    <p class="am-text-danger am-text-center am-margin-top-lg">{{:MyLang('buy.no_take_address_tips')}}</p>
                 {{else /}}
                     <!-- 选中地址 -->
                     {{if !empty($base['address'])}}
@@ -157,9 +160,9 @@
                         </div>
                     {{else /}}
                         <div class="table-no">
-                            <i class="am-icon-warning"></i>
-                            <p>没有地址</p>
-                            <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius am-margin-top-sm" data-am-modal="{target: '#extraction-address-popup'}">选择取货地址</button>
+                            <i class="am-icon-skyatlas am-icon-lg"></i>
+                            <p>{{:MyLang('buy.no_address_tips')}}</p>
+                            <button type="button" class="am-btn am-btn-default am-btn-secondary am-radius am-margin-top-sm" data-am-modal="{target: '#extraction-address-popup'}">{{:MyLang('buy.choice_take_address_name')}}</button>
                         </div>
                     {{/if}}
 
@@ -167,7 +170,7 @@
                     <div class="am-popup" id="extraction-address-popup">
                         <div class="am-popup-inner">
                             <div class="am-popup-hd">
-                              <h4 class="am-popup-title">自提点选择</h4>
+                              <h4 class="am-popup-title">{{:MyLang('buy.extraction_list_choice_title')}}</h4>
                               <span class="am-close" data-am-modal-close>&times;</span>
                             </div>
                             <div class="am-popup-bd">
@@ -193,14 +196,14 @@
                                                     <span>{{$address.county_name}}</span>
                                                     <span>{{$address.address}}</span>
                                                     {{if isset($address['lng']) and isset($address['lat']) and $address['lng'] neq 0 and $address['lat'] neq 0}}
-                                                        <a href="javascript:;" class="am-badge am-badge-default am-radius am-icon-map-marker am-margin-left-sm submit-map-popup" data-lng="{{$address.lng}}" data-lat="{{$address.lat}}"> 查看地图</a>
+                                                        <a href="javascript:;" class="am-badge am-badge-default am-radius am-icon-map-marker am-margin-left-sm submit-map-popup" data-lng="{{$address.lng}}" data-lat="{{$address.lat}}"> {{:MyLang('view_map_title')}}</a>
                                                     {{/if}}
                                                 </p>
                                             </div>
                                             {{if (isset($params['address_id']) and $params['address_id'] eq $key) or (!empty($base['address']) and $base.address.id eq $key)}}
-                                                <button type="button" class="am-btn am-btn-default am-radius" disabled>已选</button>
+                                                <button type="button" class="am-btn am-btn-default am-radius" disabled>{{:MyLang('already_choice_title')}}</button>
                                             {{else /}}
-                                                <button type="button" class="am-btn am-btn-default am-radius" data-value="{{$key}}">选择</button>
+                                                <button type="button" class="am-btn am-btn-default am-radius" data-value="{{$key}}">{{:MyLang('choice_title')}}</button>
                                             {{/if}}
                                         </li>
                                     {{/foreach}}
@@ -229,7 +232,7 @@
 
         <!-- 商品分组订单信息 -->
         <div class="buy-items">
-            <h3>订单信息</h3>
+            <h3>{{:MyLang('buy.buy_item_order_title')}}</h3>
             {{if !empty($buy_goods)}}
                 <div class="goods-group-list">
                     {{foreach $buy_goods as $v}}
@@ -301,7 +304,7 @@
                                 <!-- 地理位置 -->
                                 {{if isset($v['lng']) and isset($v['lat']) and $v['lng'] neq 0 and $v['lat'] neq 0}}
                                     <div class="am-fr">
-                                        <a href="javascript:;" class="am-badge am-badge-default am-radius am-icon-map-marker submit-map-popup" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}"> 查看地图</a>
+                                        <a href="javascript:;" class="am-badge am-badge-default am-radius am-icon-map-marker submit-map-popup" data-lng="{{$v.lng}}" data-lat="{{$v.lat}}"> {{:MyLang('view_map_title')}}</a>
                                     </div>
                                 {{/if}}
 
@@ -355,10 +358,10 @@
                                     <table class="am-table">
                                         <thead>
                                             <tr>
-                                                <th>商品信息</th>
-                                                <th class="am-hide-sm-only">单价</th>
-                                                <th class="am-hide-sm-only">数量</th>
-                                                <th class="am-hide-sm-only">金额</th>
+                                                <th>{{:MyLang('buy.goods_list_thead_base')}}</th>
+                                                <th class="am-hide-sm-only">{{:MyLang('buy.goods_list_thead_price')}}</th>
+                                                <th class="am-hide-sm-only">{{:MyLang('buy.goods_list_thead_number')}}</th>
+                                                <th class="am-hide-sm-only">{{:MyLang('buy.goods_list_thead_total')}}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -447,7 +450,10 @@
                                         </tbody>
                                     </table>
                                 {{else /}}
-                                    <div class="table-no"><i class="am-icon-warning"></i> 没有商品</div>
+                                    <div class="table-no">
+                                        <i class="am-icon-skyatlas am-icon-lg"></i>
+                                        <p>{{:MyLang('buy.not_goods_tips')}}</p>
+                                    </div>
                                 {{/if}}
 
                                 <!-- 商品分割线 -->
@@ -493,7 +499,10 @@
                                         <span class="original-price am-margin-right-xs">{{$currency_symbol}}{{$v.order_base.total_price}}</span>
                                     {{/if}}
                                     <span>
-                                        合计 <span class="price"><span>{{$currency_symbol}}</span><strong class="total-price-content line-price am-text-sm">{{$v.order_base.actual_price}}</strong></span>
+                                        <span>{{:MyLang('buy.goods_item_total_name')}}</span>
+                                         <span class="price">
+                                            <span>{{$currency_symbol}}</span><strong class="total-price-content line-price am-text-sm">{{$v.order_base.actual_price}}</strong>
+                                        </span>
                                     </span>
                                 </div>
                             </div>
@@ -501,7 +510,10 @@
                     {{/foreach}}
                 </div>
             {{else /}}
-                <div class="table-no"><i class="am-icon-warning"></i> 没有商品</div>
+                <div class="table-no">
+                    <i class="am-icon-skyatlas am-icon-lg"></i>
+                    <p>{{:MyLang('buy.not_goods_tips')}}</p>
+                </div>
             {{/if}}
         </div>
 
@@ -523,7 +535,7 @@
         <!-- 支付方式 -->
         {{if $base['actual_price'] gt 0 and $common_order_is_booking neq 1}}
             <div id="buy-items-payment" class="buy-items">
-                <h3>选择支付</h3>
+                <h3>{{:MyLang('buy.buy_item_payment_title')}}</h3>
                 <div class="business-list business-list-nbfc payment am-margin-top-sm" data-field="payment_id">
                     {{if !empty($payment_list)}}
                         <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 payment-list" data-is-required="1">
@@ -543,7 +555,10 @@
                     {{/if}}
                 </div>
                 {{if empty($payment_list)}}
-                    <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
+                    <div class="table-no">
+                        <i class="am-icon-skyatlas am-icon-lg"></i>
+                        <p>{{:MyLang('buy.not_payment_tips')}}</p>
+                    </div>
                 {{/if}}
             </div>
         {{/if}}
@@ -566,8 +581,8 @@
         <!-- 留言 -->
         <div class="buy-message am-margin-top-sm">
             <div class="order-extra am-radius">
-                <label>买家留言</label>
-                <input type="text" class="memo-input" title="选填,对本次交易的说明（建议填写已经和卖家达成一致的说明）" placeholder="选填,建议填写和卖家达成一致的说明" />
+                <label>{{:MyLang('buy.user_message_title')}}</label>
+                <input type="text" class="memo-input" placeholder="{{:MyLang('buy.user_message_placeholder')}}" />
             </div>
         </div>
 
@@ -606,7 +621,7 @@
             <div class="pay-confirm">
                 <div class="box am-radius">
                     <div class="base-real-pay">
-                        <em>实付款 :</em>
+                        <em>{{:MyLang('buy.summary_title')}}</em>
                         <span class="price">
                             <span>{{$currency_symbol}}</span><strong class="nav-total-price">{{$base.actual_price}}</strong>
                         </span>
@@ -616,29 +631,21 @@
                     {{if in_array($common_site_type, [0,2,4]) and !empty($base['address'])}}
                         <div class="pay-address">
                             <div class="buy-footer-address">
-                                <span class="buy-line-title">联系人 :</span> 
+                                <span class="buy-line-title">{{:MyLang('buy.summary_contact_name')}}</span> 
                                 <span class="buy-user">
-                                    {{if !empty($base['address'])}}
-                                        {{$base.address.name}}
-                                    {{else /}}
-                                        ...
-                                    {{/if}}
+                                    {{if empty($base['address'])}}...{{else /}}{{$base.address.name}}{{/if}}
                                 </span>
                                 <span class="buy-phone">
-                                    {{if !empty($base['address'])}}
-                                        {{$base.address.tel}}
-                                    {{else /}}
-                                        ...
-                                    {{/if}}
+                                    {{if empty($base['address'])}}...{{else /}}{{$base.address.tel}}{{/if}}
                                 </span>
                             </div>
                             <div class="buy-footer-address">
-                                <span class="buy-line-title buy-line-title-type">地址 :</span>
+                                <span class="buy-line-title buy-line-title-type">{{:MyLang('buy.summary_address')}}</span>
                                 <span class="buy-address-detail">
-                                    {{if !empty($base['address'])}}
-                                        {{$base.address.province_name}} {{$base.address.city_name}} {{$base.address.county_name}} {{$base.address.address}}
-                                    {{else /}}
+                                    {{if empty($base['address'])}}
                                         ...
+                                    {{else /}}
+                                        {{$base.address.province_name}} {{$base.address.city_name}} {{$base.address.county_name}} {{$base.address.address}}
                                     {{/if}}
                                 </span>
                             </div>
@@ -668,7 +675,7 @@
                     {{/if}}
                     <!-- 订单确认页面提交订单表单内部钩子-结束 -->
                     <div class="go-btn-wrap">
-                        <button type="submit" class="btn-go am-radius btn-loading-example" title="点击此按钮，提交订单" data-am-loading="{loadingText:'处理中...'}">提交订单</button>
+                        <button type="submit" class="btn-go am-radius btn-loading-example" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('buy.summary_submit_order_name')}}</button>
                     </div>
                 </form>
             </div>
@@ -711,12 +718,12 @@
     <div class="am-modal-dialog">
         <div class="am-modal-bd">
             <div class="content am-vertical-align-middle am-padding-vertical-sm am-text-xs">
-                <p class="am-text-success">支付跳转中、请勿关闭页面</p>
-                <p class="am-text-warning am-margin-top-lg">支付失败或长时间未响应</p>
+                <p class="am-text-success">{{:MyLang('buy.payment_layer_title')}}</p>
+                <p class="am-text-warning am-margin-top-lg">{{:MyLang('buy.payment_layer_content')}}</p>
                 <p class="am-text-warning am-margin-xs">
-                    <span>进入</span>
-                    <a href="{{:MyUrl('index/order/index')}}" class="am-text-secondary">我的订单</a>
-                    <span>后可以重新发起支付</span>
+                    <span>{{:MyLang('enter_title')}}</span>
+                    <a href="{{:MyUrl('index/order/index')}}" class="am-text-secondary">{{:MyLang('buy.payment_layer_order_button_text')}}</a>
+                    <span>{{:MyLang('buy.payment_layer_tips')}}</span>
                 </p>
             </div>
         </div>

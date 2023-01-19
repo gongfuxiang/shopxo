@@ -33,7 +33,7 @@
                             {{/foreach}}
                         {{/if}}
                         <div class="spec-options">
-                            <div class="spec-title">销售价</div>
+                            <div class="spec-title">{{:MyLang('goods_sales_price_title')}}</div>
                             <div class="am-margin-top-xs am-margin-bottom-sm">
                                 <strong class="price am-text-lg" data-default-price="{{$goods.price}}" data-is-clearout="0">{{$currency_symbol}}{{$goods.price}}</strong>
                                 {{if !empty($goods['original_price']) and $goods['original_price'] gt 0}}
@@ -48,14 +48,14 @@
                                 <input type="number" name="stock" class="am-form-field am-text-center" value="{{$goods.buy_min_number}}" min="{{$goods.buy_min_number}}" max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-original-max="{{if empty($goods['buy_max_number'])}}{{$goods.inventory}}{{else /}}{{$goods.buy_max_number}}{{/if}}" data-is-clearout="0" />
                                 <span class="am-input-group-label am-radius stock-submit" data-type="add">+</span>
                             </div>
-                            <span class="am-margin-left-sm stock-tips">库存<span class="stock" data-original-stock="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
+                            <span class="am-margin-left-sm stock-tips">{{:MyLang('inventory_title')}}<span class="stock" data-original-stock="{{$goods.inventory}}" data-min-limit="{{$goods.buy_min_number}}" data-max-limit="{{$goods.buy_max_number}}" data-unit="{{$goods.inventory_unit}}">{{$goods.inventory}}</span>{{$goods.inventory_unit}}</span>
                         </div>
                     </div>
                 {{else /}}
-                    <p class="am-text-danger error-msg">库存不足起购数({{$goods.inventory}}<{{$goods.buy_min_number}})</p>
+                    <p class="am-text-danger error-msg">{{:MyLang('goods_inventory_insufficient_min_number_tips')}}({{$goods.inventory}}<{{$goods.buy_min_number}})</p>
                 {{/if}}
             {{else /}}
-                <p class="am-text-danger">没货了</p>
+                <p class="am-text-danger">{{:MyLang('goods_no_inventory_title')}}</p>
             {{/if}}
         </div>
 
@@ -63,9 +63,9 @@
             <input type="hidden" name="goods_id" value="{{$goods.id}}" />
             <input type="hidden" name="spec" value="" />
             {{if empty($user) or $buy_button['is_cart'] eq 0}}
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" disabled>{{if empty($user)}}请先登录{{else /}}{{$buy_button.error}}{{/if}}</button>
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" disabled>{{if empty($user)}}{{:MyLang('user_no_login_tips')}}{{else /}}{{$buy_button.error}}{{/if}}</button>
             {{else /}}
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">加入购物车</button>
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('goods_cart_title')}}</button>
             {{/if}}
         </div>
     </form>

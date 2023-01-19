@@ -49,7 +49,7 @@ class Article extends Common
 		// 获取文章
 		if(empty($this->data_request['id']))
         {
-            MyViewAssign('msg', '文章ID有误');
+            MyViewAssign('msg', MyLang('article.article_id_params_tips'));
             return MyView('public/tips_error');
         }
 
@@ -110,7 +110,7 @@ class Article extends Common
 		}
 
         // 无数据
-		MyViewAssign('msg', '文章不存在或已删除');
+		MyViewAssign('msg', MyLang('article.article_no_data_tips'));
 		return MyView('public/tips_error');
 	}
 
@@ -164,7 +164,7 @@ class Article extends Common
         $assign['category_info'] = $category_info;
 
         // 浏览器名称
-        $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(empty($category_info) ? '所有文章' : $category_info['name'], 1);
+        $assign['home_seo_site_title'] = SeoService::BrowserSeoTitle(empty($category_info) ? MyLang('article.category_browser_seo_title') : $category_info['name'], 1);
 
         // 数据赋值
         MyViewAssign($assign);

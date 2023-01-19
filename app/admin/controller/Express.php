@@ -36,7 +36,7 @@ class Express extends Base
 		// 模板数据
 		$assign = [
 			// 静态数据
-			'common_is_enable_list'	=> MyConst('common_is_enable_list'),
+			'common_is_enable_list'	=> MyLang('common_is_enable_list'),
 
 	        // 编辑器文件存放地址
 			'editor_path_type' 		=> ResourcesService::EditorPathTypeValue('express'),

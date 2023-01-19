@@ -101,8 +101,8 @@ class Design extends Base
             'images_magic_cube_view_list_show_style'    => BaseLayout::$images_magic_cube_view_list_show_style,
 
             // 首页商品排序规则
-            'goods_order_by_type_list'                  => MyConst('goods_order_by_type_list'),
-            'goods_order_by_rule_list'                  => MyConst('goods_order_by_rule_list'),
+            'goods_order_by_type_list'                  => MyLang('goods_order_by_type_list'),
+            'goods_order_by_rule_list'                  => MyLang('goods_order_by_rule_list'),
 
             // 加载布局样式+管理
             'is_load_layout'                            => 1,

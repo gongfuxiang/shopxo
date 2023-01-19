@@ -55,6 +55,7 @@ class Message
      */
     public function Run($params = [])
     {
+        $lang = MyLang('message.form_table');
         return [
             // 基础配置
             'base' => [
@@ -64,23 +65,23 @@ class Message
             // 表单配置
             'form' => [
                 [
-                    'label'         => '消息类型',
+                    'label'         => $lang['type'],
                     'view_type'     => 'field',
                     'view_key'      => 'type',
                     'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_message_type_list'),
+                    'view_data'     => MyLang('common_message_type_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_message_type_list'),
+                        'data'              => MyLang('common_message_type_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
                 ],
                 [
-                    'label'         => '业务类型',
+                    'label'         => $lang['business_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
                     'is_sort'       => 1,
@@ -94,7 +95,7 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '标题',
+                    'label'         => $lang['title'],
                     'view_type'     => 'field',
                     'view_key'      => 'title',
                     'is_sort'       => 1,
@@ -104,7 +105,7 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '详情',
+                    'label'         => $lang['detail'],
                     'view_type'     => 'field',
                     'view_key'      => 'detail',
                     'grid_size'     => 'lg',
@@ -115,23 +116,23 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '状态',
+                    'label'         => $lang['is_read'],
                     'view_type'     => 'field',
                     'view_key'      => 'is_read',
                     'view_data_key' => 'name',
-                    'view_data'     => MyConst('common_is_read_list'),
+                    'view_data'     => MyLang('common_is_read_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
                         'where_type'        => 'in',
-                        'data'              => MyConst('common_is_read_list'),
+                        'data'              => MyLang('common_is_read_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
                     ],
                 ],
                 [
-                    'label'         => '时间',
+                    'label'         => $lang['add_time_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
                     'is_sort'       => 1,
@@ -141,7 +142,7 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'message/module/operate',
                     'align'         => 'center',

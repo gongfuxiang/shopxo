@@ -50,7 +50,7 @@ class AppMiniService
         self::$application_name = isset($params['application_name']) ? $params['application_name'] : 'weixin';
 
         // 小程序类型校验
-        if(!array_key_exists(self::$application_name, MyConst('common_appmini_type')))
+        if(!array_key_exists(self::$application_name, MyLang('common_appmini_type')))
         {
             return DataReturn('小程序类型有误['.self::$application_name.']', -1);
         }
@@ -340,7 +340,7 @@ class AppMiniService
         // 开始删除主题
         if(\base\FileUtil::UnlinkDir(self::$old_path.DS.$id))
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
         return DataReturn('删除失败或资源不存在', -100);
     }
@@ -430,7 +430,7 @@ class AppMiniService
         \base\FileUtil::UnlinkDir($new_dir);
 
         // 开始下载
-        $appmini_type = MyConst('common_appmini_type');
+        $appmini_type = MyLang('common_appmini_type');
         $application_name = array_key_exists(self::$application_name, $appmini_type) ? $appmini_type[self::$application_name]['name'].'-' : '';
         if(\base\FileUtil::DownloadFile($new_dir.'.zip', $application_name.$config['name'].'_v'.$config['ver'].'.zip'))
         {
@@ -628,7 +628,7 @@ class AppMiniService
 
             // 默认
             default :
-                $ret = DataReturn(MyLang('common.handle_noneed'), 0);
+                $ret = DataReturn(MyLang('handle_noneed'), 0);
         }
         if(isset($ret['code']) && $ret['code'] != 0)
         {
@@ -652,7 +652,7 @@ class AppMiniService
         // 生成成功删除目录
         \base\FileUtil::UnlinkDir($new_dir);
 
-        return DataReturn(MyLang('common.created_success'), 0);
+        return DataReturn(MyLang('created_success'), 0);
     }
 
     /**
@@ -788,13 +788,13 @@ class AppMiniService
         // 成功
         if($sucs == count($params['ids']))
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
 
         // 失败
         if($fail == count($params['ids']))
         {
-            return DataReturn(MyLang('common.delete_fail'), -100);
+            return DataReturn(MyLang('delete_fail'), -100);
         }
 
         return DataReturn('成功['.$sucs.'],失败['.$fail.']');

@@ -145,7 +145,7 @@ class Common extends BaseController
 	{
 		if(empty($this->user))
 		{
-			exit(json_encode(DataReturn('登录失效，请重新登录', -400)));
+			exit(json_encode(DataReturn(MyLang('login_failure_tips'), -400)));
 		}
     }
 

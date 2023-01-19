@@ -40,7 +40,7 @@ class CustomViewService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         $data = Db::name('CustomView')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::CustomViewListHandle($data, $params));
+        return DataReturn(MyLang('handle_success'), 0, self::CustomViewListHandle($data, $params));
     }
 
     /**
@@ -57,7 +57,7 @@ class CustomViewService
     {
         if(!empty($data))
         {
-            $common_is_enable_list = MyConst('common_is_enable_list');
+            $common_is_enable_list = MyLang('common_is_enable_list');
             foreach($data as &$v)
             {
                 // 是否启用
@@ -168,16 +168,16 @@ class CustomViewService
             $data['add_time'] = time();
             if(Db::name('CustomView')->insertGetId($data) > 0)
             {
-                return DataReturn(MyLang('common.insert_success'), 0);
+                return DataReturn(MyLang('insert_success'), 0);
             }
-            return DataReturn(MyLang('common.insert_fail'), -100);
+            return DataReturn(MyLang('insert_fail'), -100);
         } else {
             $data['upd_time'] = time();
             if(Db::name('CustomView')->where(['id'=>intval($params['id'])])->update($data))
             {
-                return DataReturn(MyLang('common.edit_success'), 0);
+                return DataReturn(MyLang('edit_success'), 0);
             }
-            return DataReturn(MyLang('common.edit_fail'), -100); 
+            return DataReturn(MyLang('edit_fail'), -100); 
         }
     }
 
@@ -206,10 +206,10 @@ class CustomViewService
         // 删除操作
         if(Db::name('CustomView')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
 
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -250,9 +250,9 @@ class CustomViewService
         // 数据更新
         if(Db::name('CustomView')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-           return DataReturn(MyLang('common.edit_success'), 0);
+           return DataReturn(MyLang('edit_success'), 0);
         }
-        return DataReturn(MyLang('common.edit_fail'), -100);
+        return DataReturn(MyLang('edit_fail'), -100);
     }
 }
 ?>

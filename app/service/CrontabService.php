@@ -82,7 +82,7 @@ class CrontabService
                 $fail++;
             }
         }
-        return DataReturn(MyLang('common.operate_success'), 0, ['sucs'=>$sucs, 'fail'=>$fail]);
+        return DataReturn(MyLang('operate_success'), 0, ['sucs'=>$sucs, 'fail'=>$fail]);
     }
 
     /**
@@ -147,7 +147,7 @@ class CrontabService
                 $fail++;
             }
         }
-        return DataReturn(MyLang('common.operate_success'), 0, ['sucs'=>$sucs, 'fail'=>$fail]);
+        return DataReturn(MyLang('operate_success'), 0, ['sucs'=>$sucs, 'fail'=>$fail]);
     }
 
     /**
@@ -174,7 +174,7 @@ class CrontabService
             'close_time'    => time(),
         ];
         $res = Db::name('PayLog')->where($where)->update($data);
-        return DataReturn(MyLang('common.operate_success'), 0, $res);
+        return DataReturn(MyLang('operate_success'), 0, $res);
     }
 
     /**
@@ -243,7 +243,7 @@ class CrontabService
                 $fail++;
             }
         }
-        return DataReturn(MyLang('common.operate_success'), 0, ['sucs'=>$sucs, 'fail'=>$fail]);
+        return DataReturn(MyLang('operate_success'), 0, ['sucs'=>$sucs, 'fail'=>$fail]);
     }
 }
 ?>

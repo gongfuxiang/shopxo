@@ -5,7 +5,8 @@
       <div class="am-comment-main">
         <header class="am-comment-hd">
           <div class="am-comment-meta">
-            <span class="am-comment-author">{{$v.user.user_name_view}}</span> 评论于 
+            <span class="am-comment-author">{{$v.user.user_name_view}}</span>
+            <span>{{:MyLang('goods.comments_first_name')}}</span> 
             <time>{{$v.add_time_hour}}</time>
           </div>
         </header>
@@ -29,7 +30,7 @@
           {{/if}}
           {{if $v['is_reply'] eq 1 and !empty($v['reply'])}}
             <div class="comment-reply">
-              <span class="comment-reply-title">管理员回复：</span>
+              <span class="comment-reply-title">{{:MyLang('goods.admin_reply_name')}}</span>
               <span class="comment-reply-desc">{{$v.reply}}</span>
             </div>
           {{/if}}

@@ -871,6 +871,7 @@ class FormHandleModule
      */
     public function FormConfigHandle()
     {
+        $lang = MyLang('form_table_search_first');
         foreach($this->form_data['form'] as $k=>&$v)
         {
             // 基础字段处理
@@ -1038,7 +1039,7 @@ class FormHandleModule
                             // 提示信息处理
                             if(empty($v['search_config']['placeholder']))
                             {
-                                $v['search_config']['placeholder'] = '请输入'.$label;
+                                $v['search_config']['placeholder'] = $lang['input'].$label;
                             }
                             break;
 
@@ -1047,7 +1048,7 @@ class FormHandleModule
                             // 提示信息处理
                             if(empty($v['search_config']['placeholder']))
                             {
-                                $v['search_config']['placeholder'] = '请选择'.$label;
+                                $v['search_config']['placeholder'] = $lang['select'].$label;
                             }
 
                             // 选择数据 key=>name
@@ -1066,11 +1067,11 @@ class FormHandleModule
                             // 提示信息处理
                             if(empty($v['search_config']['placeholder_min']))
                             {
-                                $v['search_config']['placeholder_min'] = '最小值';
+                                $v['search_config']['placeholder_min'] = $lang['section_min'];
                             }
                             if(empty($v['search_config']['placeholder_max']))
                             {
-                                $v['search_config']['placeholder_max'] = '最大值';
+                                $v['search_config']['placeholder_max'] = $lang['section_max'];
                             }
                             break;
 
@@ -1080,11 +1081,11 @@ class FormHandleModule
                             // 提示信息处理
                             if(empty($v['search_config']['placeholder_start']))
                             {
-                                $v['search_config']['placeholder_start'] = '开始';
+                                $v['search_config']['placeholder_start'] = $lang['date_start'];
                             }
                             if(empty($v['search_config']['placeholder_end']))
                             {
-                                $v['search_config']['placeholder_end'] = '结束';
+                                $v['search_config']['placeholder_end'] = $lang['date_end'];
                             }
                             break;
 
@@ -1093,7 +1094,7 @@ class FormHandleModule
                             // 提示信息处理
                             if(empty($v['search_config']['placeholder']))
                             {
-                                $v['search_config']['placeholder'] = '请选择年月';
+                                $v['search_config']['placeholder'] = $lang['ym'];
                             }
                             break;
                     }

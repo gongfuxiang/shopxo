@@ -73,7 +73,7 @@ class ArticleService
         $n = isset($params['n']) ? intval($params['n']) : 10;
 
         $data = Db::name('Article')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::ArticleListHandle($data, $params));
+        return DataReturn(MyLang('handle_success'), 0, self::ArticleListHandle($data, $params));
     }
 
     /**
@@ -289,14 +289,14 @@ class ArticleService
             $article_id = Db::name('Article')->insertGetId($data);
             if($article_id <= 0)
             {
-                return DataReturn(MyLang('common.insert_fail'), -100);
+                return DataReturn(MyLang('insert_fail'), -100);
             }
         } else {
             $data['upd_time'] = time();
             $article_id = intval($params['id']);
             if(!Db::name('Article')->where(['id'=>$article_id])->update($data))
             {
-                return DataReturn(MyLang('common.edit_fail'), -100);
+                return DataReturn(MyLang('edit_fail'), -100);
             }
         }
 
@@ -310,7 +310,7 @@ class ArticleService
             'article_id'    => $article_id,
         ]);
 
-        return DataReturn(MyLang('common.operate_success'), 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -345,7 +345,7 @@ class ArticleService
         $field = empty($params['field']) ? '*' : $params['field'];
         $order_by = empty($params['order_by']) ? 'sort asc' : trim($params['order_by']);
         $data = Db::name('ArticleCategory')->where(['is_enable'=>1])->field($field)->order($order_by)->select()->toArray();
-        return DataReturn(MyLang('common.handle_success'), 0, self::CategoryDataHandle($data));
+        return DataReturn(MyLang('handle_success'), 0, self::CategoryDataHandle($data));
     }
 
     /**
@@ -423,10 +423,10 @@ class ArticleService
         // 删除操作
         if(Db::name('Article')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
 
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -467,9 +467,9 @@ class ArticleService
         // 数据更新
         if(Db::name('Article')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-            return DataReturn(MyLang('common.edit_success'), 0);
+            return DataReturn(MyLang('edit_success'), 0);
         }
-        return DataReturn(MyLang('common.edit_fail'), -100);
+        return DataReturn(MyLang('edit_fail'), -100);
     }
 
     /**
@@ -495,9 +495,9 @@ class ArticleService
                 $v['is_son']            =   (Db::name('ArticleCategory')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
                 $v['json']              =   json_encode($v);
             }
-            return DataReturn(MyLang('common.operate_success'), 0, $data);
+            return DataReturn(MyLang('operate_success'), 0, $data);
         }
-        return DataReturn(MyLang('common.no_data'), -100);
+        return DataReturn(MyLang('no_data'), -100);
     }
 
     /**
@@ -540,19 +540,19 @@ class ArticleService
             $data['id'] = Db::name('ArticleCategory')->insertGetId($data);
             if($data['id'] <= 0)
             {
-                return DataReturn(MyLang('common.insert_fail'), -100);
+                return DataReturn(MyLang('insert_fail'), -100);
             }
             
         } else {
             $data['upd_time'] = time();
             if(Db::name('ArticleCategory')->where(['id'=>intval($params['id'])])->update($data) === false)
             {
-                return DataReturn(MyLang('common.edit_fail'), -100);
+                return DataReturn(MyLang('edit_fail'), -100);
             } else {
                 $data['id'] = $params['id'];
             }
         }
-        return DataReturn(MyLang('common.operate_success'), 0, $data);
+        return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
     /**
@@ -587,9 +587,9 @@ class ArticleService
         // 开始删除
         if(Db::name('ArticleCategory')->where(['id'=>intval($params['id'])])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -654,7 +654,7 @@ class ArticleService
                 $v['items'] = $items;
             }
         }
-        return DataReturn(MyLang('common.handle_success'), 0, $data);
+        return DataReturn(MyLang('handle_success'), 0, $data);
     }
 }
 ?>

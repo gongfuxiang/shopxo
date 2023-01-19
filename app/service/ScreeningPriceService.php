@@ -45,9 +45,9 @@ class ScreeningPriceService
                 $v['is_son']            =   (Db::name('ScreeningPrice')->where(['pid'=>$v['id']])->count() > 0) ? 'ok' : 'no';
                 $v['json']              =   json_encode($v);
             }
-            return DataReturn(MyLang('common.operate_success'), 0, $data);
+            return DataReturn(MyLang('operate_success'), 0, $data);
         }
-        return DataReturn(MyLang('common.no_data'), -100);
+        return DataReturn(MyLang('no_data'), -100);
     }
 
     /**
@@ -92,18 +92,18 @@ class ScreeningPriceService
             $data['id'] = Db::name('ScreeningPrice')->insertGetId($data);
             if($data['id'] <= 0)
             {
-                return DataReturn(MyLang('common.insert_fail'), -100);
+                return DataReturn(MyLang('insert_fail'), -100);
             }
         } else {
             $data['upd_time'] = time();
             if(Db::name('ScreeningPrice')->where(['id'=>intval($params['id'])])->update($data) === false)
             {
-                return DataReturn(MyLang('common.edit_fail'), -100);
+                return DataReturn(MyLang('edit_fail'), -100);
             } else {
                 $data['id'] = $params['id'];
             }
         }
-        return DataReturn(MyLang('common.operate_success'), 0, $data);
+        return DataReturn(MyLang('operate_success'), 0, $data);
     }
 
     /**
@@ -138,9 +138,9 @@ class ScreeningPriceService
         // 开始删除
         if(Db::name('ScreeningPrice')->where(['id'=>intval($params['id'])])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 }
 ?>

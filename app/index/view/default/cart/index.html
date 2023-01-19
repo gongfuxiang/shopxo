@@ -23,11 +23,11 @@
         <table class="am-table">
             <thead>
                 <tr>
-                    <th>商品信息</th>
-                    <th class="am-hide-sm-only">单价</th>
-                    <th>数量</th>
-                    <th class="am-hide-sm-only">金额</th>
-                    <th>操作</th>
+                    <th>{{:MyLang('cart.goods_list_thead_base')}}</th>
+                    <th class="am-hide-sm-only">{{:MyLang('cart.goods_list_thead_price')}}</th>
+                    <th>{{:MyLang('cart.goods_list_thead_number')}}</th>
+                    <th class="am-hide-sm-only">{{:MyLang('cart.goods_list_thead_total')}}</th>
+                    <th>{{:MyLang('operate_title')}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -263,7 +263,7 @@
                             <!-- 商品总价后面钩子 结束 -->
                         </td>
                         <td class="operation">
-                            <a href="javascript:;" class="am-text-danger submit-delete" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$goods.id}}" data-view="fun" data-value="ViewDeleteBack">删除</a>
+                            <a href="javascript:;" class="am-text-danger submit-delete" data-url="{{:MyUrl('index/cart/delete')}}" data-id="{{$goods.id}}" data-view="fun" data-value="ViewDeleteBack">{{:MyLang('delete_title')}}</a>
 
                             <!-- 商品操作栏 开始 -->
                             {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -297,9 +297,9 @@
             <div class="am-fl nav-left am-margin-left-xs">
                 <label class="am-checkbox-inline am-success select-all-event">
                     <input type="checkbox" value="1" data-am-ucheck />
-                    <span class="el-text">全选</span>
+                    <span class="el-text">{{:MyLang('select_all_title')}}</span>
                 </label>
-                <a href="javascript:;" class="am-margin-left-sm nav-delete-submit submit-ajax" data-url="{{:MyUrl('index/cart/delete')}}" data-id="0" data-view="reload" data-msg="删除后不可恢复、确认操作吗？">删除</a>
+                <a href="javascript:;" class="am-margin-left-sm nav-delete-submit submit-ajax" data-url="{{:MyUrl('index/cart/delete')}}" data-id="0" data-view="reload" data-msg="{{:MyLang('operate_delete_tips')}}">{{:MyLang('delete_title')}}</a>
 
                 <!-- 导航左侧内部 开始 -->
                 {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
@@ -347,29 +347,28 @@
                 <!-- 导航右侧内部 结束 -->
 
                 <form action="{{:MyUrl('index/buy/index')}}" method="post" class="am-fr">
-                    <span class="selected-tips am-fl"><span>已选商品</span> <strong>0</strong> <span>件</span></span>
-                    <span class="total-price-tips am-fl">合计：</span>
+                    <span class="selected-tips am-fl"><span>{{:MyLang('cart.summary_selected_goods_name')}}</span> <strong>0</strong> <span>{{:MyLang('cart.summary_selected_goods_unit')}}</span></span>
+                    <span class="total-price-tips am-fl">{{:MyLang('cart.summary_nav_goods_total')}}</span>
                     <strong class="nav-total-price am-fl">{{$currency_symbol}}0.00</strong>
                     <input type="hidden" name="ids" value="0" />
                     <input type="hidden" name="buy_type" value="cart" />
-                    <button type="submit" class="am-btn am-btn-primary separate-submit">结算</button>
+                    <button type="submit" class="am-btn am-btn-primary separate-submit">{{:MyLang('cart.summary_nav_button_name')}}</button>
                 </form>
             </div>
         </div>
-    {{/if}}
-    {{if empty($cart_list)}}
+    {{else /}}
         <div class="mixed-tips">
             <i class="am-icon-cart-plus am-fl icon"></i>
             <div class="mixed-tips-content am-fl">
-                <h1>您的购物车还是空的，您可以</h1>
+                <h1>{{:MyLang('cart.no_cart_data_tips')}}</h1>
                 <ul>
                     <li>
-                       <span>看看</span>
-                        <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/usergoodsfavor/index')}}{{/if}}" class="{{if empty($user)}}login-event{{/if}}">我的收藏夹</a> 
+                       <span>{{:MyLang('see_title')}}</span>
+                        <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/usergoodsfavor/index')}}{{/if}}" class="{{if empty($user)}}login-event{{/if}}">{{:MyLang('cart.no_cart_data_my_favor_name')}}</a> 
                     </li>
                     <li>
-                       <span>看看</span>
-                        <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/order/index')}}{{/if}}" class="{{if empty($user)}}login-event{{/if}}">我的订单</a> 
+                       <span>{{:MyLang('see_title')}}</span>
+                        <a href="{{if empty($user)}}javascript:;{{else /}}{{:MyUrl('index/order/index')}}{{/if}}" class="{{if empty($user)}}login-event{{/if}}">{{:MyLang('cart.no_cart_data_my_order_name')}}</a> 
                     </li>
                 </ul>
             </div>

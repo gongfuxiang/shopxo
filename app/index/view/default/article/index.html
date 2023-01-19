@@ -33,8 +33,8 @@
 		<div class="article-header am-text-center am-padding-0">
 			<h1 class="am-article-title">{{$article.title}}</h1>
 			<p class="am-article-meta">
-				<span>发布时间：{{$article.add_time}}</span>
-				<span>浏览次数：{{$article.access_count}}</span>
+				<span>{{:MyLang('article.release_time')}}{{$article.add_time}}</span>
+				<span>{{:MyLang('article.view_number')}}{{$article.access_count}}</span>
 			</p>
 			<hr class="am-article-divider" />
 		</div>
@@ -60,24 +60,20 @@
         <div class="last-next-data am-margin-top-lg am-padding-bottom-sm">
             <hr class="am-article-divider am-margin-bottom-sm" />
             <div class="am-nbfc am-padding-horizontal-sm">
-                <div class="am-nbfc">
-                    <span class="am-fl">上一篇：</span>
-                    {{if !empty($last_next_data['last'])}}
-                        <a href="{{$last_next_data.last.url}}" class="am-text-primary am-text-truncate am-fl am-block">{{$last_next_data.last.title}}</a>
-                        <span class="text-tips am-fr">{{$last_next_data.last.add_time}}</span>
-                    {{else /}}
-                        <span class="text-tips">没有符合条件的文章</span>
-                    {{/if}}
-                </div>
-                <div class="am-nbfc am-margin-top-xs">
-                    <span class="am-fl">下一篇：</span>
-                    {{if !empty($last_next_data['next'])}}
-                        <a href="{{$last_next_data.next.url}}" class="am-text-primary am-text-truncate am-fl am-block">{{$last_next_data.next.title}}</a>
-                        <span class="text-tips am-fr">{{$last_next_data.next.add_time}}</span>
-                    {{else /}}
-                        <span class="text-tips">没有符合条件的文章</span>
-                    {{/if}}
-                </div>
+            	{{if !empty($last_next_data['last'])}}
+	                <div class="am-nbfc">
+	                    <span class="am-fl">{{:MyLang('article.prev_article')}}</span>
+	                    <a href="{{$last_next_data.last.url}}" class="am-text-primary am-text-truncate am-fl am-block">{{$last_next_data.last.title}}</a>
+	                    <span class="text-tips am-fr">{{$last_next_data.last.add_time}}</span>
+	                </div>
+                {{/if}}
+                {{if !empty($last_next_data['next'])}}
+	                <div class="am-nbfc am-margin-top-xs">
+	                    <span class="am-fl">{{:MyLang('article.next_article')}}</span>
+	                    <a href="{{$last_next_data.next.url}}" class="am-text-primary am-text-truncate am-fl am-block">{{$last_next_data.next.title}}</a>
+	                    <span class="text-tips am-fr">{{$last_next_data.next.add_time}}</span>
+	                </div>
+                {{/if}}
             </div>
         </div>
 
@@ -120,7 +116,7 @@
 						<!-- 分类 -->
 						<div class="am-panel am-panel-default am-panel-group am-margin-bottom-0">
 							<div class="am-panel-hd am-padding-left-sm">
-								<h3 class="am-panel-title">文章分类</h3>
+								<h3 class="am-panel-title">{{:MyLang('article.article_category_name')}}</h3>
 							</div>
 							<ul class="am-nav category-list">
 								{{foreach $category_list as $v}}
@@ -150,7 +146,7 @@
 		</div>
 	</div>
 	<a href="javascript:;" class="am-icon-btn am-icon-th-list am-show-sm-only article-nav-button" data-am-offcanvas="{target: '#article-nav-sidebar'}">
-		<span class="am-sr-only">侧栏导航</span>
+		<span class="am-sr-only">{{:MyLang('article.article_nav_text')}}</span>
 	</a>
 </div>
 <!-- content end -->

@@ -82,7 +82,7 @@
             {{include file="public/module/form_fields_select" /}}
 
         {{else /}}
-            <div class="table-no"><i class="am-icon-warning"></i> {{if empty($form_error)}}动态表格配置有误{{else /}}{{$form_error}}{{/if}}</div>
+            <div class="table-no"><i class="am-icon-warning"></i> {{if empty($form_error)}}{{:MyLang('form_table_config_error_tips')}}{{else /}}{{$form_error}}{{/if}}</div>
         {{/if}}
 
         <!-- page start -->

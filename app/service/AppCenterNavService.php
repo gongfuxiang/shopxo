@@ -37,8 +37,8 @@ class AppCenterNavService
     {
         if(!empty($data))
         {
-            $common_platform_type = MyConst('common_platform_type');
-            $common_app_event_type = MyConst('common_app_event_type');
+            $common_platform_type = MyLang('common_platform_type');
+            $common_app_event_type = MyLang('common_app_event_type');
             foreach($data as &$v)
             {
                 // 平台类型
@@ -95,13 +95,13 @@ class AppCenterNavService
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'platform',
-                'checked_data'      => array_column(MyConst('common_platform_type'), 'value'),
+                'checked_data'      => array_column(MyLang('common_platform_type'), 'value'),
                 'error_msg'         => '平台类型有误',
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'event_type',
-                'checked_data'      => array_column(MyConst('common_app_event_type'), 'value'),
+                'checked_data'      => array_column(MyLang('common_app_event_type'), 'value'),
                 'is_checked'        => 2,
                 'error_msg'         => '事件值类型有误',
             ],
@@ -157,16 +157,16 @@ class AppCenterNavService
             $data['add_time'] = time();
             if(Db::name('AppCenterNav')->insertGetId($data) > 0)
             {
-                return DataReturn(MyLang('common.insert_success'), 0);
+                return DataReturn(MyLang('insert_success'), 0);
             }
-            return DataReturn(MyLang('common.insert_fail'), -100);
+            return DataReturn(MyLang('insert_fail'), -100);
         } else {
             $data['upd_time'] = time();
             if(Db::name('AppCenterNav')->where(['id'=>intval($params['id'])])->update($data))
             {
-                return DataReturn(MyLang('common.edit_success'), 0);
+                return DataReturn(MyLang('edit_success'), 0);
             }
-            return DataReturn(MyLang('common.edit_fail'), -100); 
+            return DataReturn(MyLang('edit_fail'), -100); 
         }
     }
 
@@ -195,10 +195,10 @@ class AppCenterNavService
         // 删除操作
         if(Db::name('AppCenterNav')->where(['id'=>$params['ids']])->delete())
         {
-            return DataReturn(MyLang('common.delete_success'), 0);
+            return DataReturn(MyLang('delete_success'), 0);
         }
 
-        return DataReturn(MyLang('common.delete_fail'), -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -239,9 +239,9 @@ class AppCenterNavService
         // 数据更新
         if(Db::name('AppCenterNav')->where(['id'=>intval($params['id'])])->update([$params['field']=>intval($params['state']), 'upd_time'=>time()]))
         {
-           return DataReturn(MyLang('common.operate_success'), 0);
+           return DataReturn(MyLang('operate_success'), 0);
         }
-        return DataReturn(MyLang('common.operate_fail'), -100);
+        return DataReturn(MyLang('operate_fail'), -100);
     }
 
     /**

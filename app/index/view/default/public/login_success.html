@@ -23,7 +23,7 @@
         <span class="msg">{{$msg}}</span>
         {{if !isset($is_home) or $is_home eq 1}}
             <div class="tips-nav">
-                <a href="{{$home_url}}" class="am-btn am-btn-secondary am-radius">回到首页</a>
+                <a href="{{$home_url}}" class="am-btn am-btn-secondary am-radius">{{:MyLang('common.back_to_the_home_title')}}</a>
             </div>
         {{/if}}
     </div>
