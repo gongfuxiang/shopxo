@@ -109,7 +109,7 @@ class Orderaftersale extends Common
             $assign['new_aftersale_data'] = $new_aftersale_data;
 
             // 进度
-            $assign['step_data'] = OrderAftersaleService::OrderAftersaleStep($new_aftersale_data);
+            $assign['step_data'] = OrderAftersaleService::OrderAftersaleStepData($new_aftersale_data);
 
             // 可退款退货
             $returned = OrderAftersaleService::OrderAftersaleCalculation($order_id, $order_detail_id);

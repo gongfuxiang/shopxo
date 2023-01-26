@@ -134,7 +134,7 @@ class IntegralLog
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'integrallog/module/operate',
                     'align'         => 'center',

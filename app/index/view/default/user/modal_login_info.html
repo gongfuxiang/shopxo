@@ -5,7 +5,7 @@
     {{if count($home_user_login_type) gt 0}}
         {{include file="user/login_content" /}}
     {{else /}}
-        <div class="am-text-center am-padding-vertical-lg register-close"><i class="am-icon-warning"></i> 暂时关闭了登录</div>
+        <div class="am-text-center am-padding-vertical-lg register-close"><i class="am-icon-warning"></i> {{:MyLang('user.login_close_tips')}}</div>
     {{/if}}
 </div>
 <!-- conntent end  -->

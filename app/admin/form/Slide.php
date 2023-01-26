@@ -158,7 +158,7 @@ class Slide
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'slide/module/operate',
                     'align'         => 'center',

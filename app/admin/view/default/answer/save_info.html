@@ -7,7 +7,7 @@
         <form class="am-form form-validation" action="{{:MyUrl('admin/answer/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/answer/index', $params)}}" enctype="multipart/form-data">
             <legend>
                 <span class="am-text-default">问答{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
-                <a href="{{:MyUrl('admin/answer/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> 返回</a>
+                <a href="{{:MyUrl('admin/answer/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
             </legend>
             <div class="am-alert am-alert-secondary user-info" data-am-alert>
                 <p class="am-text-lg">用户信息</p>
@@ -41,7 +41,7 @@
                 <input type="number" name="access_count" placeholder="访问次数" data-validation-message="请填写有效的访问次数" class="am-radius" value="{{if !empty($data['access_count'])}}{{$data.access_count}}{{else /}}0{{/if}}" />
             </div>
             <div class="am-form-group">
-                <label>内容<span class="am-form-group-label-tips-must">必填</span></label>
+                <label>内容<span class="am-form-group-label-tips-must">*</span></label>
                 <textarea class="am-radius am-validate" name="content" rows="5" minlength="5" maxlength="1000" placeholder="5~1000个字符之间" data-validation-message="内容格式 5~1000 个字符之间" required>{{if !empty($data['content'])}}{{$data.content|raw}}{{/if}}</textarea>
             </div>
             <div class="am-form-group">
@@ -51,18 +51,18 @@
 
             <div class="am-form-group">
                 <label class="am-block">是否已回复</label>
-                <input name="is_reply" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
+                <input name="is_reply" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
             </div>
 
             <div class="am-form-group">
                 <label class="am-block">是否显示</label>
-                <input name="is_show" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_show']) and $data['is_show'] eq 1}}checked="true"{{/if}} />
+                <input name="is_show" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_show']) and $data['is_show'] eq 1}}checked="true"{{/if}} />
             </div>
 
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
                 <input type="hidden" name="user_id" {{if !empty($data['user_id'])}} value="{{$data.user_id}}"{{/if}} />
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
             </div>
         </form>
         <!-- form end -->

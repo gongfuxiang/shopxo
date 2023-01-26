@@ -92,7 +92,7 @@ class Payment
                     'align'         => 'center',
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'payment/module/operate',
                     'align'         => 'center',

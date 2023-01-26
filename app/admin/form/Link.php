@@ -149,7 +149,7 @@ class Link
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'link/module/operate',
                     'align'         => 'center',

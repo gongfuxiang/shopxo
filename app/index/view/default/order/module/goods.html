@@ -115,7 +115,7 @@
                 <span>x{{$item.buy_number}}</span>
             </span>
             {{if $item['returned_quantity'] gt 0 or $item['refund_price'] gt 0}}
-                <span class="am-text-danger am-margin-left-lg">已退 {{$item.returned_quantity}} / {{$module_data.currency_data.currency_symbol}}{{$item.refund_price}}</span>
+                <span class="am-text-danger am-margin-left-lg">{{:MyLang('already_retreat_title')}} {{$item.returned_quantity}} / {{$module_data.currency_data.currency_symbol}}{{$item.refund_price}}</span>
             {{/if}}
 
             {{if ($module_data['is_can_launch_aftersale'] eq 1 or !empty($item['orderaftersale'])) and !empty($item['orderaftersale_btn_text'])}}

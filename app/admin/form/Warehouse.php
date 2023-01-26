@@ -201,7 +201,7 @@ class Warehouse
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'warehouse/module/operate',
                     'align'         => 'center',

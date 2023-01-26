@@ -14,7 +14,6 @@
 
 <!-- content -->
 <div class="am-container user-main">
-
     <!-- user menu start -->
     {{include file="public/user_menu" /}}
     <!-- user menu end -->
@@ -23,7 +22,10 @@
     <div class="user-content">
         <div class="user-content-body">
             <div class="control">
-                <button class="am-btn am-btn-primary am-btn-xs am-icon-plus address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}"> 新增新地址</button>
+                <button class="am-btn am-btn-primary am-btn-xs am-radius address-submit-save" type="button" data-url="{{:MyUrl('index/useraddress/saveinfo')}}">
+                    <i class="am-icon-plus"></i>
+                    <span>{{:MyLang('add_title')}}</span>
+                </button>
             </div>
             {{if !empty($user_address_list)}}
                 <ul class="address-list">
@@ -35,7 +37,7 @@
                                         <span class="am-badge am-badge-secondary-plain am-radius">{{$address.alias}}</span>
                                     {{/if}}
                                     {{if isset($address['is_default']) and $address['is_default'] eq 1}}
-                                        <span class="am-badge am-badge-success-plain am-radius">默认</span>
+                                        <span class="am-badge am-badge-success-plain am-radius">{{:MyLang('default_title')}}</span>
                                     {{/if}}
                                     <span class="address-detail">   
                                         <span class="user">{{$address.name}}</span>
@@ -51,18 +53,17 @@
                             </div>
                             <div class="address-operation-btn">
                                 {{if isset($address['is_default']) and $address['is_default'] neq 1}}
-                                    <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> 设为默认</a>
+                                    <a href="javascript:;" class="am-icon-check-circle-o address-default-submit" data-url="{{:MyUrl('index/useraddress/setdefault')}}" data-id="{{$address.id}}" data-view="reload"> {{:MyLang('setup_default_title')}}</a>
                                     <span class="cut">|</span>
                                 {{/if}}
-                                <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}"> 编辑</a>
+                                <a href="javascript:;" class="am-icon-edit address-submit-save" data-url="{{:MyUrl('index/useraddress/saveinfo', ['id'=>$address['id']])}}"> {{:MyLang('edit_title')}}</a>
                                 <span class="cut">|</span>
-                                <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> 删除</a>
+                                <a href="javascript:;" class="am-icon-trash-o address-submit-delete" data-url="{{:MyUrl('index/useraddress/delete')}}" data-id="{{$address.id}}"> {{:MyLang('delete_title')}}</a>
                             </div>
                         </li>
                     {{/foreach}}
                 </ul>
-            {{/if}}
-            {{if empty($user_address_list)}}
+            {{else /}}
                 {{include file="public/not_data" /}}
             {{/if}}
         </div>

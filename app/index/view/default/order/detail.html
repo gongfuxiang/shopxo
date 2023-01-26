@@ -14,7 +14,6 @@
 
 <!-- content -->
 <div class="am-container user-main">
-
     <!-- user menu start -->
     {{include file="public/user_menu" /}}
     <!-- user menu end -->
@@ -45,67 +44,28 @@
             <!-- 用户订单详情状态环节顶部-结束 -->
 
             <!-- 进度环节 -->
-            {{if !in_array($data['status'], [5,6])}}
-                <ul class="progress">
-                    <li class="steps-success {{if $data['status'] lt 2}} current{{/if}}">
-                        <p class="digital">
-                            <i class="am-icon-check"></i>
-                        </p>
-                        <div class="base">
-                            <p class="title">拍下商品</p>
-                            {{if !empty($data.add_time)}}
-                                <p class="date">{{$data.add_time}}</p>
+            {{if !empty($step_data)}}
+                <ul class="progress progress-{{:count($step_data)}}">
+                    {{foreach $step_data as $k=>$v}}
+                        <li class="{{if $v['is_check'] eq 1}} steps-success{{/if}} {{if $v['is_current'] eq 1}} current{{/if}}">
+                            {{if $k gt 0}}
+                                <i class="step"></i>
                             {{/if}}
-                        </div>
-                    </li>
-                    <li class="{{if $data['status'] gt 1}}steps-success{{/if}} {{if $data['status'] eq 2}} current{{/if}}">
-                        <i class="step"></i>
-                        <p class="digital">
-                            {{if $data['status'] gt 1}}<i class="am-icon-check"></i>{{else /}}2{{/if}}
-                        </p>
-                        <div class="base">
-                            <p class="title">付款</p>
-                            {{if !empty($data.pay_time)}}
-                                <p class="date">{{$data.pay_time}}</p>
-                            {{/if}}
-                        </div>
-                    </li>
-                    <li class="{{if $data['status'] gt 2}}steps-success{{/if}} {{if $data['status'] eq 3}} current{{/if}}">
-                        <i class="step"></i>
-                        <p class="digital">
-                            {{if $data['status'] gt 2}}<i class="am-icon-check"></i>{{else /}}3{{/if}}
-                        </p>
-                        <div class="base">
-                            <p class="title">卖家发货</p>
-                            {{if !empty($data.delivery_time)}}
-                                <p class="date">{{$data.delivery_time}}</p>
-                            {{/if}}
-                        </div>
-                    </li>
-                    <li class="{{if $data['status'] gt 3}}steps-success{{/if}} {{if $data['status'] eq 4 and $data['user_is_comments'] eq 0}} current{{/if}}">
-                        <i class="step"></i>
-                        <p class="digital">
-                            {{if $data['status'] gt 3}}<i class="am-icon-check"></i>{{else /}}4{{/if}}
-                        </p>
-                        <div class="base">
-                            <p class="title">确认收货</p>
-                            {{if !empty($data.collect_time)}}
-                                <p class="date">{{$data.collect_time}}</p>
-                            {{/if}}
-                        </div>
-                    </li>
-                    <li class="{{if $data['user_is_comments'] gt 0}}steps-success{{/if}} {{if $data['user_is_comments'] gt 0}} current{{/if}}">
-                        <i class="step"></i>
-                        <p class="digital">
-                            {{if $data['user_is_comments'] gt 0}}<i class="am-icon-check"></i>{{else /}}5{{/if}}
-                        </p>
-                        <div class="base">
-                            <p class="title">评价</p>
-                            {{if !empty($data.user_is_comments_time)}}
-                                <p class="date">{{$data.user_is_comments_time}}</p>
-                            {{/if}}
-                        </div>
-                    </li>
+                            <p class="digital">
+                                {{if $v['is_check'] eq 1}}
+                                    <i class="am-icon-check"></i>
+                                {{else /}}
+                                    {{$k+1}}
+                                {{/if}}
+                            </p>
+                            <div class="base">
+                                <p class="title">{{$v.title}}</p>
+                                {{if !empty($v['time'])}}
+                                    <p class="date">{{$v.time}}</p>
+                                {{/if}}
+                            </div>
+                        </li>
+                    {{/foreach}}
                 </ul>
             {{/if}}
 
@@ -135,11 +95,11 @@
             <div class="order-base">
                 <div class="base-left">
                     <div class="am-panel am-panel-default">
-                        <div class="am-panel-hd">订单信息</div>
+                        <div class="am-panel-hd">{{:MyLang('order.order_base_title')}}</div>
                         <div class="am-panel-bd">
                             {{if !empty($data['warehouse_name'])}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">出货服务：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_warehouse_title')}}</div>
                                     <div class="items-detail am-fl">
                                         <span class="warehouse-item-container">
                                             {{if !empty($data['warehouse_icon'])}}
@@ -161,28 +121,28 @@
                                 </div>
                             {{/if}}
                             <div class="items am-cf">
-                                <div class="items-title am-fl">订单模式：</div>
+                                <div class="items-title am-fl">{{:MyLang('order.order_base_model_title')}}</div>
                                 <div class="items-detail am-fl">{{$data.order_model_name}}</div>
                             </div>
                             <div class="items am-cf">
-                                <div class="items-title am-fl">订单编号：</div>
+                                <div class="items-title am-fl">{{:MyLang('order.order_base_order_no_title')}}</div>
                                 <div class="items-detail am-fl">{{$data.order_no}}</div>
                             </div>
                             {{if !empty($data.status_name)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">订单状态：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_status_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.status_name}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.pay_status_name)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">支付状态：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_pay_status_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.pay_status_name}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.payment_name)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">支付方式：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_payment_title')}}</div>
                                     <div class="items-detail am-fl">
                                         <span>{{$data.payment_name}}</span>
                                         {{if !empty($data['is_under_line_text'])}}
@@ -193,73 +153,73 @@
                             {{/if}}
                             {{if !empty($data.total_price)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">订单总价：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_total_price_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.total_price}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.buy_number_count)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">购买数量：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_buy_number_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.buy_number_count}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.returned_quantity)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">退货数量：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_returned_quantity_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.returned_quantity}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.user_note)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">用户留言：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_user_note_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.user_note}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.add_time)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">下单时间：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_add_time_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.add_time}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.confirm_time)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">确认时间：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_confirm_time_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.confirm_time}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.pay_time)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">付款时间：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_pay_time_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.pay_time}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.delivery_time)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">发货时间：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_delivery_time_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.delivery_time}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.collect_time)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">收货时间：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_collect_time_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.collect_time}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($data.user_is_comments_time)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">评论时间：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_user_comments_time_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.user_is_comments_time}}</div>
                                 </div>
                             {{/if}}
                             {{if in_array($data['status'], [5]) and !empty($data['cancel_time'])}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">取消时间：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_cancel_time_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.cancel_time}}</div>
                                 </div>
                             {{/if}}
                             {{if in_array($data['status'], [6]) and !empty($data['close_time'])}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">关闭时间：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_close_time_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.close_time}}</div>
                                 </div>
                             {{/if}}
@@ -279,22 +239,37 @@
                         <!-- 0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭 -->
                         {{if !empty($data['operate_data'])}}
                             {{if $data['status'] neq 2}}
-                                <span>您可以</span>
+                                <span>{{:MyLang('order.order_status_operate_first_tips')}}</span>
                             {{/if}}
                             {{if $data['operate_data']['is_cancel'] eq 1}}
-                                <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-icon-paint-brush submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$data.id}}" data-view="reload"> 取消</button>
+                                <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$data.id}}" data-view="reload">
+                                    <i class="am-icon-paint-brush"></i>
+                                    <span>{{:MyLang('cancel_title')}}</span>
+                                </button>
                             {{/if}}
                             {{if $data['operate_data']['is_pay'] eq 1}}
-                                <button class="am-btn am-btn-primary am-btn-xs am-radius am-icon-paypal submit-pay" data-id="{{$data.id}}" data-payment-id="{{$data.payment_id}}"> 支付</button>
+                                <button class="am-btn am-btn-primary am-btn-xs am-radius submit-pay" data-id="{{$data.id}}" data-payment-id="{{$data.payment_id}}">
+                                    <i class="am-icon-paypal"></i>
+                                    <span>{{:MyLang('payment_title')}}</span>
+                                </button>
                             {{/if}}
                             {{if $data['operate_data']['is_collect'] eq 1}}
-                                <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-icon-check-circle-o submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$data.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？"> 收货</button>
+                                <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$data.id}}" data-view="reload" data-msg="{{:MyLang('collect_confirm_tips')}}">
+                                    <i class="am-icon-check-circle-o"></i>
+                                    <span>{{:MyLang('collect_title')}}</span>
+                                </button>
                             {{/if}}
                             {{if $data['operate_data']['is_comments'] eq 1}}
-                                <a href="{{:MyUrl('index/order/comments', ['id'=>$data['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-icon-heart-o"> 评价</a>
+                                <a href="{{:MyUrl('index/order/comments', ['id'=>$data['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius">
+                                    <i class="am-icon-heart-o"></i>
+                                    <span>{{:MyLang('comment_title')}}</span>
+                                </a>
                             {{/if}}
                             {{if $data['operate_data']['is_delete'] eq 1}}
-                                <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-icon-trash-o submit-delete" data-url="{{:MyUrl('index/order/delete')}}" data-id="{{$data.id}}" data-view="jump" data-value="{{:MyUrl('index/order/index')}}"> 删除</button>
+                                <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius submit-delete" data-url="{{:MyUrl('index/order/delete')}}" data-id="{{$data.id}}" data-view="jump" data-value="{{:MyUrl('index/order/index')}}">
+                                    <i class="am-icon-trash-o"></i>
+                                    <span>{{:MyLang('delete_title')}}</span>
+                                </button>
                             {{/if}}
                         {{/if}}
 
@@ -322,15 +297,15 @@
 
                     <!-- 线下支付方式提示信息 -->
                     {{if in_array($data['status'], [1]) and $data['is_under_line'] eq 1}}
-                        <div class="am-alert am-alert-warning" data-am-alert>
-                            当前为线下支付方式[ <strong class="am-text-success">{{$data.payment_name}}</strong> ]、需管理员确认后方可生效，如需其它支付可以切换支付重新发起支付。
+                        <div class="am-alert am-alert-warning">
+                            <p>{{:MyLang('order.order_under_line_tips', ['payment'=>'<strong class="am-text-success">'.$data['payment_name'].'</strong>'])}}</p>
                         </div>
                     {{/if}}
 
                     <!-- 待发货提示信息 -->
                     {{if in_array($data['status'], [2])}}
-                        <div class="am-alert" data-am-alert>
-                            货物正在仓库打包、出库中...
+                        <div class="am-alert">
+                            <p>{{:MyLang('order.order_delivery_tips')}}</p>
                         </div>
                     {{/if}}
 
@@ -338,14 +313,14 @@
                     {{if $data['order_model'] eq 0 and in_array($data['status'], [3,4])}}
                         <div class="logistics">
                             <div class="items am-cf">
-                                <div class="items-title am-fl">快递公司：</div>
+                                <div class="items-title am-fl">{{:MyLang('order.order_base_express_title')}}</div>
                                 <div class="items-detail am-fl">
                                     {{if !empty($data.express_name)}}{{$data.express_name}}{{/if}}
                                 </div>
                             </div>
                             {{if !empty($data['express_website_url'])}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">快递官网：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_express_website_title')}}</div>
                                     <div class="items-detail am-fl">
                                         <a href="{{$data.express_website_url}}" target="_blank" class="am-text-primary">{{$data.express_website_url}}</a>
                                     </div>
@@ -353,7 +328,7 @@
                             {{/if}}
                             {{if !empty($data.express_number)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">快递单号：</div>
+                                    <div class="items-title am-fl">{{:MyLang('order.order_base_express_number_title')}}</div>
                                     <div class="items-detail am-fl">{{$data.express_number}}</div>
                                 </div>
                             {{/if}}
@@ -365,16 +340,16 @@
                         <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
                         <div class="extraction-take-container">
                             <p>
-                                <span>取货码：</span>
+                                <span>{{:MyLang('order.order_base_take_code_title')}}</span>
                                 {{if empty($data['extraction_data']['code'])}}
-                                    <span class="am-text-danger">取货码不存在、请联系管理员</span>
+                                    <span class="am-text-danger">{{:MyLang('order.order_base_take_code_no_exist_tips')}}</span>
                                 {{else /}}
                                     <span class="am-badge am-badge-success am-radius">{{$data.extraction_data.code}}</span>
                                 {{/if}}
                             </p>
                             {{if !empty($data['extraction_data']['images'])}}
                                 <p class="am-margin-top-xs">
-                                    <img class="qrcode-images am-img-thumbnail" src="{{$data.extraction_data.images}}" alt="取货码" width="150" height="150" />
+                                    <img class="qrcode-images am-img-thumbnail" src="{{$data.extraction_data.images}}" alt="{{:MyLang('order.order_base_take_code_title')}}" width="150" height="150" />
                                 </p>
                             {{/if}}
                         </div>
@@ -419,7 +394,10 @@
                         <div>
                             <span>{{$data.address_data.province_name}} {{$data.address_data.city_name}} {{$data.address_data.county_name}} {{$data.address_data.address}}</span>
                             {{if isset($data['address_data']['lng']) and isset($data['address_data']['lat']) and $data['address_data']['lng'] neq 0 and $data['address_data']['lat'] neq 0}}
-                                <button type="button" class="am-btn am-btn-success am-radius am-icon-map-marker submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}"> 查看位置</button>
+                                <button type="button" class="am-btn am-btn-success am-radius submit-map-popup" data-lng="{{$data.address_data.lng}}" data-lat="{{$data.address_data.lat}}">
+                                    <i class="am-icon-map-marker"></i>
+                                    <span>{{:MyLang('view_map_title')}}</span>
+                                </button>
                             {{/if}}
                         </div>
                     </div>
@@ -467,7 +445,7 @@
                                         </div>
                                         <div class="am-u-sm-10 am-u-md-11 am-list-item-text richtext">
                                             {{if empty($goods['fictitious_goods_value'])}}
-                                                <span>未配置数据</span>
+                                                <span>{{:MyLang('no_config_data_tips')}}</span>
                                             {{else /}}
                                                 {{$goods.fictitious_goods_value|raw}}
                                             {{/if}}
@@ -476,7 +454,10 @@
                                 {{/foreach}}
                             </ul>
                         {{else /}}
-                            <div class="table-no"><i class="am-icon-warning"></i> 没有订单商品数据</div>
+                            <div class="table-no">
+                                <i class="am-icon-skyatlas am-icon-lg"></i>
+                                <p>{{:MyLang('order.order_goods_no_data_tips')}}</p>
+                            </div>
                         {{/if}}
                     </div>
                 </div>
@@ -510,10 +491,10 @@
                     <table class="am-table am-table-centered">
                         <thead>
                             <tr>
-                                <th>商品信息</th>
-                                <th class="am-hide-sm-only">单价</th>
-                                <th class="am-hide-sm-only">数量</th>
-                                <th class="am-hide-sm-only">金额</th>
+                                <th>{{:MyLang('order.goods_list_thead_base')}}</th>
+                                <th class="am-hide-sm-only">{{:MyLang('order.goods_list_thead_price')}}</th>
+                                <th class="am-hide-sm-only">{{:MyLang('order.goods_list_thead_number')}}</th>
+                                <th class="am-hide-sm-only">{{:MyLang('order.goods_list_thead_total')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -551,7 +532,7 @@
                                             </span>
                                             <span class="wap-number">x{{$goods.buy_number}}</span>
                                             {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
-                                                <span class="am-badge am-round am-badge-warning-plain">已退 {{$goods.returned_quantity}}</span>
+                                                <span class="am-badge am-round am-badge-warning-plain">{{:MyLang('already_retreat_title')}} {{$goods.returned_quantity}}</span>
                                             {{/if}}
                                         </div>
                                     </td>
@@ -564,13 +545,13 @@
                                     <td class="number am-hide-sm-only">
                                         <span>x{{$goods.buy_number}}</span>
                                         {{if isset($goods['returned_quantity']) and $goods['returned_quantity'] gt 0}}
-                                            <br /><span class="am-badge am-round am-badge-warning-plain">已退 {{$goods.returned_quantity}}</span>
+                                            <br /><span class="am-badge am-round am-badge-warning-plain">{{:MyLang('already_retreat_title')}} {{$goods.returned_quantity}}</span>
                                         {{/if}}
                                     </td>
                                     <td class="price am-hide-sm-only">
                                         <strong class="total-price-content">{{$data.currency_data.currency_symbol}}{{$goods.total_price}}</strong>
                                         {{if isset($goods['refund_price']) and $goods['refund_price'] gt 0}}
-                                            <br /><span class="am-badge am-round am-badge-warning-plain">已退 {{$goods.refund_price}}</span>
+                                            <br /><span class="am-badge am-round am-badge-warning-plain">{{:MyLang('already_retreat_title')}} {{$goods.refund_price}}</span>
                                         {{/if}}
                                     </td>
                                 </tr>
@@ -615,42 +596,42 @@
                 <div class="am-alert am-alert-secondary">
                   {{if !empty($data.price)}}
                         <div class="items am-cf">
-                            <div class="items-title am-fl">商品总价：</div>
+                            <div class="items-title am-fl">{{:MyLang('order.order_base_price_title')}}</div>
                             <div class="items-detail am-fl">{{$data.currency_data.currency_symbol}}{{$data.price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.increase_price)}}
                         <div class="items am-cf">
-                            <div class="items-title am-fl">增加金额：</div>
+                            <div class="items-title am-fl">{{:MyLang('order.order_base_increase_price_title')}}</div>
                             <div class="items-detail am-fl">+{{$data.currency_data.currency_symbol}}{{$data.increase_price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.preferential_price)}}
                         <div class="items am-cf">
-                            <div class="items-title am-fl">优惠金额：</div>
+                            <div class="items-title am-fl">{{:MyLang('order.order_base_preferential_price_title')}}</div>
                             <div class="items-detail am-fl">-{{$data.currency_data.currency_symbol}}{{$data.preferential_price}}</div>
                         </div>
                     {{/if}}
                     {{if !empty($data.refund_price)}}
                         <div class="items am-cf">
-                            <div class="items-title am-fl">退款金额：</div>
+                            <div class="items-title am-fl">{{:MyLang('order.order_base_refund_price_title')}}</div>
                             <div class="items-detail am-fl">
                                 <span class="am-text-danger">-{{$data.currency_data.currency_symbol}}{{$data.refund_price}}</span>
                             </div>
                         </div>
                     {{/if}}
-                    {{if !empty($data.total_price)}}
-                        <div class="items am-cf">
-                            <div class="items-title am-fl">订单总价：</div>
-                            <div class="items-detail am-fl line-price">{{$data.currency_data.currency_symbol}}{{$data.total_price}}</div>
-                        </div>
-                    {{/if}}
                     {{if !empty($data.pay_price)}}
                         <div class="items am-cf">
-                            <div class="items-title am-fl">支付金额：</div>
+                            <div class="items-title am-fl">{{:MyLang('order.order_base_pay_price_title')}}</div>
                             <div class="items-detail am-fl">
                                 <strong class="total-price-content">{{$data.currency_data.currency_symbol}}{{$data.pay_price}}</strong>
                             </div>
+                        </div>
+                    {{/if}}
+                    {{if !empty($data.total_price)}}
+                        <div class="items am-cf">
+                            <div class="items-title am-fl">{{:MyLang('order.order_base_total_price_title')}}</div>
+                            <div class="items-detail am-fl line-price">{{$data.currency_data.currency_symbol}}{{$data.total_price}}</div>
                         </div>
                     {{/if}}
                 </div>

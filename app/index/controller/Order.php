@@ -91,6 +91,8 @@ class Order extends Common
         $site_fictitious = ConfigService::SiteFictitiousConfig();
         $assign = [
             'data'                  => $this->data_detail,
+            // 进度
+            'step_data'             => OrderService::OrderStepData($this->data_detail),
             // 支付参数
             'pay_params'            => OrderService::PayParamsHandle($this->data_request),
             // 支付方式

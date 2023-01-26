@@ -104,7 +104,7 @@ class Role
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'role/module/operate',
                     'align'         => 'center',

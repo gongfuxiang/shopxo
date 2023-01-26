@@ -386,7 +386,7 @@ class Common extends BaseController
         $assign['common_nav_top_right_list'] = NavigationService::HomeHavTopRight(['user'=>$this->user]);
 
         // 底部导航
-        $assign['common_bottom_nav_list'] = NavigationService::BottomNavigation(['user'=>$this->user]);
+        $assign['common_bottom_nav_list'] = NavigationService::BottomNavigationData(['user'=>$this->user]);
 
         // 编辑器文件存放地址
         $assign['editor_path_type'] = ResourcesService::EditorPathTypeValue(empty($this->user['id']) ? 'public' : 'user-'.$this->user['id']);

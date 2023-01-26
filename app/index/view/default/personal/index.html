@@ -22,8 +22,8 @@
     <div class="user-content">
         <div class="user-content-body">
 			<legend>
-				<span class="am-text-default">个人资料</span>
-				<a href="{{:MyUrl('index/personal/saveinfo')}}" class="am-fr am-text-xs am-margin-top-sm am-icon-edit"> 编辑</a>
+				<span class="am-text-default">{{:MyLang('personal.browser_seo_title')}}</span>
+				<a href="{{:MyUrl('index/personal/saveinfo')}}" class="am-fr am-text-xs am-margin-top-sm am-icon-edit"> {{:MyLang('edit_title')}}</a>
 			</legend>
 			<dl class="dl-content">
 				{{foreach $personal_show_list as $k=>$v}}
@@ -36,7 +36,7 @@
                                 {{/if}}
                             {{else /}}
     							{{if empty($user[$k])}}
-    								<span class="items-value-empty">未填写</span>
+    								<span class="am-text-grey">{{:MyLang('not_filled_tips')}}</span>
     							{{elseif $k eq 'avatar' /}}
                                     <img src="{{$user[$k]}}" width="50" height="50" class="am-radius" />
                                 {{else /}}

@@ -14,7 +14,10 @@
         <span>{{$module_data.address_data.address}}</span>
         {{if isset($module_data['address_data']['lng']) and isset($module_data['address_data']['lat']) and $module_data['address_data']['lng'] neq 0 and $module_data['address_data']['lat'] neq 0 }}
             <div class="am-margin-top-xs">
-                <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$module_data.address_data.lng}}" data-lat="{{$module_data.address_data.lat}}"> 查看位置</button>
+                <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-padding-xs submit-map-popup" data-lng="{{$module_data.address_data.lng}}" data-lat="{{$module_data.address_data.lat}}">
+                    <i class="am-icon-map-marker"></i>
+                    <span>{{:MyLang('view_map_title')}}</span>
+                </button>
             </div>
         {{/if}}
     </div>

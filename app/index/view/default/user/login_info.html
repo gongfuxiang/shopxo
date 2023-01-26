@@ -18,15 +18,15 @@
         <div class="am-hide-sm-only am-u-md-6 am-u-lg-8 am-vertical-align am-text-center container-left">
             {{if !empty($user_login_left_data['images'])}}
                 <a {{if empty($user_login_left_data['url'])}}href="javascript:;"{{else /}}href="{{$user_login_left_data.url}}" target="_blank"{{/if}}>
-                    <img src="{{$user_login_left_data.images}}" class="am-vertical-align-middle" alt="用户登录" />
+                    <img src="{{$user_login_left_data.images}}" class="am-vertical-align-middle" />
                 </a>
             {{/if}}
         </div>
     	<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 container-right">
             <div class="login-top">
                 {{if !empty($home_user_reg_type)}}
-                    <span class="">还没有帐号？</span>
-                    <a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">注册</a>
+                    <span>{{:MyLang('user.login_top_register_tips')}}</span>
+                    <a href="{{:MyUrl('index/user/reginfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:MyLang('register_title')}}</a>
                 {{/if}}
 
                 <!-- 用户登录页面顶部钩子 -->
@@ -47,7 +47,10 @@
         		{{if count($home_user_login_type) gt 0}}
                     {{include file="user/login_content" /}}
                 {{else /}}
-                    <div class="am-text-center am-padding-vertical-lg register-close"><i class="am-icon-warning"></i> 暂时关闭了登录</div>
+                    <div class="am-text-center am-padding-vertical-lg register-close">
+                        <i class="am-icon-warning"></i>
+                        <span>{{:MyLang('user.login_close_tips')}}</span>
+                    </div>
                 {{/if}}
     		</div>
     	</div>

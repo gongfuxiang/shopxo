@@ -53,6 +53,7 @@ class UserGoodsFavor
      */
     public function Run($params = [])
     {
+        $lang = MyLang('user_goods_favor.form_table');
         return [
             // 基础配置
             'base' => [
@@ -74,7 +75,7 @@ class UserGoodsFavor
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '商品信息',
+                    'label'         => $lang['goods'],
                     'view_type'     => 'module',
                     'view_key'      => 'usergoodsfavor/module/goods',
                     'grid_size'     => 'lg',
@@ -84,11 +85,11 @@ class UserGoodsFavor
                         'form_type'         => 'input',
                         'form_name'         => 'g.title|g.model|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords',
                         'where_type'        => 'like',
-                        'placeholder'       => '请输入商品名称/简述/SEO信息'
+                        'placeholder'       => $lang['goods_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '销售价格(元)',
+                    'label'         => $lang['price'],
                     'view_type'     => 'field',
                     'view_key'      => 'price',
                     'is_sort'       => 1,
@@ -99,7 +100,7 @@ class UserGoodsFavor
                     ],
                 ],
                 [
-                    'label'         => '原价(元)',
+                    'label'         => $lang['original_price'],
                     'view_type'     => 'field',
                     'view_key'      => 'original_price',
                     'is_sort'       => 1,
@@ -110,7 +111,7 @@ class UserGoodsFavor
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -120,7 +121,7 @@ class UserGoodsFavor
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'usergoodsfavor/module/operate',
                     'align'         => 'center',

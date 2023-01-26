@@ -107,7 +107,7 @@ class User extends Common
         ];
 
         // 用户中心基础信息 mini 导航
-        $assign['mini_navigation'] = NavigationService::UserCenterMiniNavigation(['user'=>$this->user]);
+        $assign['mini_navigation'] = NavigationService::UserCenterMiniNavigationData(['user'=>$this->user]);
 
         // 用户订单状态
         $user_order_status = OrderService::OrderStatusStepTotal(['user_type'=>'user', 'user'=>$this->user, 'is_comments'=>1, 'is_aftersale'=>1]);

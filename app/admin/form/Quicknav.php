@@ -159,7 +159,7 @@ class QuickNav
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'quicknav/module/operate',
                     'align'         => 'center',

@@ -763,36 +763,37 @@ class NavigationService
         // name         显示名称
         // value        扩展自定义值
         // tips         html提示操作内容
+        $modify_title = MyLang('modify_title');
         $data = [
             'avatar'            =>  [
-                'name' => '头像',
-                'tips' => '<a href="javascript:;" data-am-modal="{target:\'#user-avatar-popup\'}">修改</a>'
+                'name' => MyLang('user_avatar_title'),
+                'tips' => '<a href="javascript:;" data-am-modal="{target:\'#user-avatar-popup\'}">'.$modify_title.'</a>'
             ],
             'nickname'          =>  [
-                'name' => '昵称'
+                'name' => MyLang('user_nickname_title')
             ],
             'address_info'      => [
-                'name' => '地址'
+                'name' => MyLang('address_title')
             ],
             'gender_text'       =>  [
-                'name' => '性别'
+                'name' => MyLang('gender_title')
             ],
             'birthday'          =>  [
-                'name' => '生日'
+                'name' => MyLang('birthday_title')
             ],
             'mobile_security'   =>  [
-                'name' => '手机号码',
-                'tips' => '<a href="'.MyUrl('index/safety/mobileinfo').'">修改</a>'
+                'name' => MyLang('user_mobile_title'),
+                'tips' => '<a href="'.MyUrl('index/safety/mobileinfo').'">'.$modify_title.'</a>'
             ],
             'email_security'    =>  [
-                'name' => '电子邮箱',
-                'tips' => '<a href="'.MyUrl('index/safety/emailinfo').'">修改</a>'
+                'name' => MyLang('user_email_title'),
+                'tips' => '<a href="'.MyUrl('index/safety/emailinfo').'">'.$modify_title.'</a>'
             ],
             'add_time_text'     =>  [
-                'name' => '注册时间'
+                'name' => MyLang('register_time_title')
             ],
             'upd_time_text'     =>  [
-                'name' => '更新时间'
+                'name' => MyLang('upd_time_title')
             ],
         ];
 
@@ -817,37 +818,38 @@ class NavigationService
      * @desc    description
      * @param   [array]           $params [输入信息]
      */
-    public static function UsersSafetyPanelList($params = [])
+    public static function UserSafetyPanelList($params = [])
     {
+        $lang = MyLang('safety_panel_list');
         $data = [
             [
-                'title'         =>  '登录密码',
-                'msg'           =>  '互联网存在被盗风险，建议您定期更改密码以保护安全。',
-                'url'           =>  MyUrl('index/safety/loginpwdinfo'),
-                'type'          =>  'loginpwd',
+                'title'         => $lang['loginpwd']['title'],
+                'msg'           => $lang['loginpwd']['msg'],
+                'url'           => MyUrl('index/safety/loginpwdinfo'),
+                'type'          => 'loginpwd',
             ],
             [
-                'title'         =>  '手机号码',
-                'no_msg'        =>  '您还没有绑定手机号码',
-                'ok_msg'        =>  '已绑定手机 #accounts#',
-                'tips'          =>  '可用于登录，密码找回，账户安全管理校验，接受账户提醒通知。',
-                'url'           =>  MyUrl('index/safety/mobileinfo'),
-                'type'          =>  'mobile',
+                'title'         => $lang['mobile']['title'],
+                'no_msg'        => $lang['mobile']['no_msg'],
+                'ok_msg'        => $lang['mobile']['ok_msg'],
+                'tips'          => $lang['mobile']['tips'],
+                'url'           => MyUrl('index/safety/mobileinfo'),
+                'type'          => 'mobile',
             ],
             [
-                'title'         =>  '电子邮箱',
-                'no_msg'        =>  '您还没有绑定电子邮箱',
-                'ok_msg'        =>  '已绑定电子邮箱 #accounts#',
-                'tips'          =>  '可用于登录，密码找回，账户安全管理校验，接受账户提醒邮件。',
-                'url'           =>  MyUrl('index/safety/emailinfo'),
-                'type'          =>  'email',
+                'title'         => $lang['email']['title'],
+                'no_msg'        => $lang['email']['no_msg'],
+                'ok_msg'        => $lang['email']['ok_msg'],
+                'tips'          => $lang['email']['tips'],
+                'url'           => MyUrl('index/safety/emailinfo'),
+                'type'          => 'email',
             ],
             [
-                'title'         =>  '账号注销',
-                'tips'          =>  '不可存在未完成的订单',
-                'url'           =>  MyUrl('index/safety/logoutinfo'),
+                'title'         => $lang['logout']['title'],
+                'msg'           => $lang['logout']['msg'],
+                'url'           => MyUrl('index/safety/logoutinfo'),
                 'type'          => 'logout',
-                'submit_text'   =>  '注销',
+                'submit_text'   => $lang['logout']['submit_text'],
             ],
         ];
 
@@ -888,121 +890,122 @@ class NavigationService
         if($data === null || MyEnv('app_debug'))
         {
             // 菜单列表
+            $lang = MyLang('user_center_left_list');
             $data = [
                 'center' => [
-                    'name'      =>  '个人中心',
-                    'url'       =>  MyUrl('index/user/index'),
-                    'is_show'   =>  1,
-                    'contains'  =>  ['indexuserindex'],
-                    'icon'      =>  'am-icon-home',
-                    'is_system' =>  1,
+                    'name'      => $lang['center'],
+                    'url'       => MyUrl('index/user/index'),
+                    'is_show'   => 1,
+                    'contains'  => ['indexuserindex'],
+                    'icon'      => 'am-icon-home',
+                    'is_system' => 1,
                 ],
                 'business' => [
-                    'name'      =>  '业务管理',
-                    'is_show'   =>  1,
-                    'icon'      =>  'am-icon-cube',
-                    'is_system' =>  1,
-                    'item'      =>  [
+                    'name'      => $lang['business'],
+                    'is_show'   => 1,
+                    'icon'      => 'am-icon-cube',
+                    'is_system' => 1,
+                    'item'      => [
                         [
-                            'name'      =>  '订单管理',
-                            'url'       =>  MyUrl('index/order/index'),
-                            'is_show'   =>  1,
-                            'contains'  =>  ['indexorderindex', 'indexorderdetail', 'indexordercomments'],
-                            'icon'      =>  'am-icon-th-list',
-                            'is_system' =>  1,
+                            'name'      => $lang['order'],
+                            'url'       => MyUrl('index/order/index'),
+                            'is_show'   => 1,
+                            'contains'  => ['indexorderindex', 'indexorderdetail', 'indexordercomments'],
+                            'icon'      => 'am-icon-th-list',
+                            'is_system' => 1,
                         ],
                         [
-                            'name'      =>  '订单售后',
-                            'url'       =>  MyUrl('index/orderaftersale/index'),
-                            'is_show'   =>  1,
-                            'contains'  =>  ['indexorderaftersaleindex', 'indexorderaftersaledetail'],
-                            'icon'      =>  'am-icon-puzzle-piece',
-                            'is_system' =>  1,
+                            'name'      => $lang['orderaftersale'],
+                            'url'       => MyUrl('index/orderaftersale/index'),
+                            'is_show'   => 1,
+                            'contains'  => ['indexorderaftersaleindex', 'indexorderaftersaledetail'],
+                            'icon'      => 'am-icon-puzzle-piece',
+                            'is_system' => 1,
                         ],
                         [
-                            'name'      =>  '商品收藏',
-                            'url'       =>  MyUrl('index/usergoodsfavor/index'),
-                            'contains'  =>  ['indexusergoodsfavorindex'],
-                            'is_show'   =>  1,
-                            'icon'      =>  'am-icon-heart-o',
-                            'is_system' =>  1,
+                            'name'      => $lang['goodsfavor'],
+                            'url'       => MyUrl('index/usergoodsfavor/index'),
+                            'contains'  => ['indexusergoodsfavorindex'],
+                            'is_show'   => 1,
+                            'icon'      => 'am-icon-heart-o',
+                            'is_system' => 1,
                         ],
                     ]
                 ],
                 'property' => [
-                    'name'      =>  '财产中心',
-                    'is_show'   =>  1,
-                    'icon'      =>  'am-icon-trophy',
-                    'is_system' =>  1,
-                    'item'      =>  [
+                    'name'      => $lang['property'],
+                    'is_show'   => 1,
+                    'icon'      => 'am-icon-trophy',
+                    'is_system' => 1,
+                    'item'      => [
                         [
-                            'name'      =>  '我的积分',
-                            'url'       =>  MyUrl('index/userintegral/index'),
-                            'contains'  =>  ['indexuserintegralindex'],
-                            'is_show'   =>  1,
-                            'icon'      =>  'am-icon-fire',
-                            'is_system' =>  1,
+                            'name'      => $lang['integral'],
+                            'url'       => MyUrl('index/userintegral/index'),
+                            'contains'  => ['indexuserintegralindex'],
+                            'is_show'   => 1,
+                            'icon'      => 'am-icon-fire',
+                            'is_system' => 1,
                         ],
                     ]
                 ],
                 'base' => [
-                    'name'      =>  '资料管理',
-                    'is_show'   =>  1,
-                    'icon'      =>  'am-icon-user',
-                    'is_system' =>  1,
-                    'item'      =>  [
+                    'name'      => $lang['base'],
+                    'is_show'   => 1,
+                    'icon'      => 'am-icon-user',
+                    'is_system' => 1,
+                    'item'      => [
                         [
-                            'name'      =>  '个人资料',
-                            'url'       =>  MyUrl('index/personal/index'),
-                            'contains'  =>  ['indexpersonalindex', 'indexpersonalsaveinfo'],
-                            'is_show'   =>  1,
-                            'icon'      =>  'am-icon-gear',
-                            'is_system' =>  1,
+                            'name'      => $lang['personal'],
+                            'url'       => MyUrl('index/personal/index'),
+                            'contains'  => ['indexpersonalindex', 'indexpersonalsaveinfo'],
+                            'is_show'   => 1,
+                            'icon'      => 'am-icon-gear',
+                            'is_system' => 1,
                         ],
                         [
-                            'name'      =>  '我的地址',
-                            'url'       =>  MyUrl('index/useraddress/index'),
-                            'contains'  =>  ['indexuseraddressindex', 'indexuseraddresssaveinfo'],
-                            'is_show'   =>  1,
-                            'icon'      =>  'am-icon-street-view',
-                            'is_system' =>  1,
+                            'name'      => $lang['address'],
+                            'url'       => MyUrl('index/useraddress/index'),
+                            'contains'  => ['indexuseraddressindex', 'indexuseraddresssaveinfo'],
+                            'is_show'   => 1,
+                            'icon'      => 'am-icon-street-view',
+                            'is_system' => 1,
                         ],
                         [
-                            'name'      =>  '安全设置',
-                            'url'       =>  MyUrl('index/safety/index'),
-                            'contains'  =>  ['indexsafetyindex', 'indexsafetyloginpwdinfo', 'indexsafetymobileinfo', 'indexsafetynewmobileinfo', 'indexsafetyemailinfo', 'indexsafetynewemailinfo', 'indexsafetylogoutinfo'],
-                            'is_show'   =>  1,
-                            'icon'      =>  'am-icon-user-secret',
-                            'is_system' =>  1,
+                            'name'      => $lang['safety'],
+                            'url'       => MyUrl('index/safety/index'),
+                            'contains'  => ['indexsafetyindex', 'indexsafetyloginpwdinfo', 'indexsafetymobileinfo', 'indexsafetynewmobileinfo', 'indexsafetyemailinfo', 'indexsafetynewemailinfo', 'indexsafetylogoutinfo'],
+                            'is_show'   => 1,
+                            'icon'      => 'am-icon-user-secret',
+                            'is_system' => 1,
                         ],
                         [
-                            'name'      =>  '我的消息',
-                            'url'       =>  MyUrl('index/message/index'),
-                            'contains'  =>  ['indexmessageindex'],
-                            'is_show'   =>  1,
-                            'icon'      =>  'am-icon-bell-o',
-                            'is_system' =>  1,
+                            'name'      => $lang['message'],
+                            'url'       => MyUrl('index/message/index'),
+                            'contains'  => ['indexmessageindex'],
+                            'is_show'   => 1,
+                            'icon'      => 'am-icon-bell-o',
+                            'is_system' => 1,
                         ],
                         [
-                            'name'      =>  '我的足迹',
-                            'url'       =>  MyUrl('index/usergoodsbrowse/index'),
-                            'contains'  =>  ['indexusergoodsbrowseindex'],
-                            'is_show'   =>  1,
-                            'icon'      =>  'am-icon-lastfm',
-                            'is_system' =>  1,
+                            'name'      => $lang['goodsbrowse'],
+                            'url'       => MyUrl('index/usergoodsbrowse/index'),
+                            'contains'  => ['indexusergoodsbrowseindex'],
+                            'is_show'   => 1,
+                            'icon'      => 'am-icon-lastfm',
+                            'is_system' => 1,
                         ],
                         [
-                            'name'      =>  '问答/留言',
-                            'url'       =>  MyUrl('index/answer/index'),
-                            'contains'  =>  ['indexanswerindex'],
-                            'is_show'   =>  1,
-                            'icon'      =>  'am-icon-question',
-                            'is_system' =>  1,
+                            'name'      => $lang['answer'],
+                            'url'       => MyUrl('index/answer/index'),
+                            'contains'  => ['indexanswerindex'],
+                            'is_show'   => 1,
+                            'icon'      => 'am-icon-question',
+                            'is_system' => 1,
                         ],
                     ]
                 ],
                 'logout' => [
-                    'name'      =>  '安全退出',
+                    'name'      =>  $lang['logout'],
                     'url'       =>  MyUrl('index/user/logout'),
                     'contains'  =>  ['indexuserlogout'],
                     'is_show'   =>  1,
@@ -1035,7 +1038,7 @@ class NavigationService
      * @desc    description
      * @param   [array]           $params [输入信息]
      */
-    public static function BottomNavigation($params = [])
+    public static function BottomNavigationData($params = [])
     {
         $cart_total = 0;
         if(!empty($params['user']))
@@ -1046,9 +1049,10 @@ class NavigationService
         }
         
         // 列表
+        $lang = MyLang('bottom_navigation_data');
         $data = [
             [
-                'name'      => '首页',
+                'name'      => $lang['home'],
                 'is_login'  => 0,
                 'badge'     => null,
                 'icon'      => 'nav-icon-home',
@@ -1056,7 +1060,7 @@ class NavigationService
                 'url'       => SystemService::HomeUrl(),
             ],
             [
-                'name'      => '分类',
+                'name'      => $lang['category'],
                 'is_login'  => 0,
                 'badge'     => null,
                 'icon'      => 'nav-icon-category',
@@ -1064,7 +1068,7 @@ class NavigationService
                 'url'       => MyUrl('index/category/index'),
             ],
             [
-                'name'      => '购物车',
+                'name'      => $lang['cart'],
                 'is_login'  => 1,
                 'badge'     => $cart_total,
                 'icon'      => 'nav-icon-cart',
@@ -1072,7 +1076,7 @@ class NavigationService
                 'url'       => MyUrl('index/cart/index'),
             ],
             [
-                'name'      => '我的',
+                'name'      => $lang['user'],
                 'is_login'  => 1,
                 'badge'     => null,
                 'icon'      => 'nav-icon-user',
@@ -1094,15 +1098,15 @@ class NavigationService
     }
 
     /**
-     * 用户中心基础信息中 mini 导航
+     * 用户中心基础信息中mini导航
      * @author   Devil
      * @blog    http://gong.gg/
      * @version 1.0.0
      * @date    2019-03-15
      * @desc    description
-     * @param   [array]           $params [输入信息]
+     * @param   [array]           $params [输入参数]
      */
-    public static function UserCenterMiniNavigation($params = [])
+    public static function UserCenterMiniNavigationData($params = [])
     {
         $user_order_count = 0;
         $user_goods_favor_count = 0;
@@ -1125,24 +1129,25 @@ class NavigationService
         }
         
         // 列表
+        $lang = MyLang('user_center_mini_navigation_data');
         $data = [
             [
-                'name'      => '订单总数',
+                'name'      => $lang['order'],
                 'value'     => $user_order_count,
                 'url'       => MyUrl('index/order/index'),
             ],
             [
-                'name'      => '商品收藏',
+                'name'      => $lang['goodsfavor'],
                 'value'     => $user_goods_favor_count,
                 'url'       => MyUrl('index/usergoodsfavor/index'),
             ],
             [
-                'name'      => '我的足迹',
+                'name'      => $lang['goodsbrowse'],
                 'value'     => $user_goods_browse_count,
                 'url'       => MyUrl('index/usergoodsbrowse/index'),
             ],
             [
-                'name'      => '我的积分',
+                'name'      => $lang['integral'],
                 'value'     => $user_integral,
                 'url'       => MyUrl('index/userintegral/index'),
             ],

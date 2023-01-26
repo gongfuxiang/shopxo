@@ -14,7 +14,6 @@
 
 <!-- content -->
 <div class="am-container user-main">
-
     <!-- user menu start -->
     {{include file="public/user_menu" /}}
   	<!-- user menu end -->
@@ -30,7 +29,7 @@
 					<div class="am-panel-bd o-h">
 						<div class="am-fl panel-left">
 							{{if !empty($v.msg)}}
-								<span>{{$v.msg}}</span>
+								<p class="am-text-grey">{{$v.msg}}</p>
 							{{/if}}
 							{{if empty($data[$v['type']]) and !empty($v['tips'])}}
 								{{if !empty($v['no_msg'])}}
@@ -42,10 +41,10 @@
 								{{/if}}
 							{{/if}}
 							{{if !empty($v['tips'])}}
-								<p class="am-text-xs am-margin-bottom-xs">{{$v.tips}}</p>
+								<p class="am-margin-top-xs am-text-grey">{{$v.tips}}</p>
 							{{/if}}
 						</div>
-						<a href="{{$v.url}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-fr">{{if empty($v['submit_text'])}}{{if empty($data[$v['type']]) and empty($v['msg'])}}绑定{{else /}}修改{{/if}}{{else /}}{{$v.submit_text}}{{/if}}</a>
+						<a href="{{$v.url}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-fr">{{if empty($v['submit_text'])}}{{if empty($data[$v['type']]) and empty($v['msg'])}}{{:MyLang('bind_title')}}{{else /}}{{:MyLang('modify_title')}}{{/if}}{{else /}}{{$v.submit_text}}{{/if}}</a>
 					</div>
 				</section>
 			{{/foreach}}

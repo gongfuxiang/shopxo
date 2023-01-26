@@ -58,7 +58,7 @@ class Safety extends Common
 				'email'		=>	$this->user['email_security'],
 			],
 			// 安全信息列表
-			'safety_panel_list'		=> NavigationService::UsersSafetyPanelList(),
+			'safety_panel_list'		=> NavigationService::UserSafetyPanelList(),
 	        // 浏览器名称
 	        'home_seo_site_title'	=> SeoService::BrowserSeoTitle(MyLang('safety.browser_seo_title'), 1),
         ];

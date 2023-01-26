@@ -5,16 +5,16 @@
 {{block name="form_navigation"}}
     <div class="am-alert am-alert-secondary" data-am-alert>
         <div class="available">
-            <span>正常可用</span>
+            <span>{{:MyLang('user_integral.base_normal_title')}}</span>
             <span class="panel-value">{{$user_integral_data.integral}}</span>
-            <em>积分</em>
-            <span class="panel-tips">可以正常使用的积分</span>
+            <em>{{:MyLang('user_integral.base_integral_unit')}}</em>
+            <span class="panel-tips">{{:MyLang('user_integral.base_normal_tips')}}</span>
         </div>
         <div class="locking">
-            <span>当前锁定</span>
+            <span>{{:MyLang('user_integral.base_locking_title')}}</span>
             <span class="panel-value">{{$user_integral_data.locking_integral}}</span>
-            <em>积分</em>
-            <span class="panel-tips">一般积分交易中，交易并未完成、锁定相应的积分</span>
+            <em>{{:MyLang('user_integral.base_integral_unit')}}</em>
+            <span class="panel-tips">{{:MyLang('user_integral.base_locking_tips')}}</span>
         </div>
     </div>
 {{/block}}

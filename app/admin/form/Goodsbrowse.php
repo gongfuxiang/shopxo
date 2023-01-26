@@ -117,7 +117,7 @@ class GoodsBrowse
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'goodsbrowse/module/operate',
                     'align'         => 'center',

@@ -32,8 +32,8 @@
         <div class="register-container am-u-sm-centered">
             <div class="register-top">
                 {{if !empty($home_user_login_type)}}
-                    <span>我已经注册，现在就</span>
-                    <a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">登录</a>
+                    <span>{{:MyLang('user.register_top_login_tips')}}</span>
+                    <a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:MyLang('login_title')}}</a>
                 {{/if}}
 
                 <!-- 用户注册页面钩子 -->
@@ -56,13 +56,13 @@
                     <div data-am-widget="tabs" class="am-tabs am-tabs-d2" data-am-tabs="{noSwipe: 1}">
                         <ul class="am-tabs-nav am-cf">
                             {{if in_array('username', $home_user_reg_type)}}
-                                <li class="am-active"><a href="[data-tab-panel-0]">账号注册</a></li>
+                                <li class="am-active"><a href="[data-tab-panel-0]">{{:MyLang('user.register_type_username_title')}}</a></li>
                             {{/if}}
                             {{if in_array('sms', $home_user_reg_type)}}
-                                <li class="{{if !in_array('username', $home_user_reg_type)}}am-active{{/if}}"><a href="[data-tab-panel-1]">手机注册</a></li>
+                                <li class="{{if !in_array('username', $home_user_reg_type)}}am-active{{/if}}"><a href="[data-tab-panel-1]">{{:MyLang('user.register_type_mobile_title')}}</a></li>
                             {{/if}}
                             {{if in_array('email', $home_user_reg_type)}}
-                                <li class="{{if !in_array('username', $home_user_reg_type) and !in_array('sms', $home_user_reg_type)}}am-active{{/if}}"><a href="[data-tab-panel-2]">邮箱注册</a></li>
+                                <li class="{{if !in_array('username', $home_user_reg_type) and !in_array('sms', $home_user_reg_type)}}am-active{{/if}}"><a href="[data-tab-panel-2]">{{:MyLang('user.register_type_email_title')}}</a></li>
                             {{/if}}
                         </ul>
                         <div class="am-tabs-bd am-padding-bottom-sm">
@@ -71,14 +71,14 @@
                                     <!-- form start -->
                                     <form class="am-form form-validation-username" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
                                         <div class="am-form-group am-form-group-refreshing business-form-block">
-                                            <label>用户名</label>
-                                            <input type="text" name="accounts" class="am-radius am-form-field" placeholder="请使用字母、数字、下划线 2~18 个字符" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="用户名格式由 字母数字下划线 2~18 个字符" autocomplete="off" required />
+                                            <label>{{:MyLang('user.form_item_username')}}</label>
+                                            <input type="text" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_username_message')}}" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="{{:MyLang('user.form_item_username_message')}}" autocomplete="off" required />
                                         </div>
 
                                         <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                            <label>设置登录密码</label>
+                                            <label>{{:MyLang('user.form_item_password')}}</label>
                                             <div class="am-input-group am-input-group-sm">
-                                                <input type="password" name="pwd" class="am-radius am-form-field" placeholder="设置登录密码" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" autocomplete="off" required />
+                                                <input type="password" name="pwd" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_password_message')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="off" required />
                                                 <span class="am-input-group-btn">
                                                     <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
                                                 </span>
@@ -87,13 +87,13 @@
 
                                         {{if MyC('home_user_register_img_verify_state') eq 1}}
                                             <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                                <label>验证码</label>
+                                                <label>{{:MyLang('form_verify_title')}}</label>
                                                 <div class="am-input-group am-input-group-sm">
-                                                    <input type="text" name="verify" class="am-radius am-form-field" placeholder="验证码" minlength="4" maxlength="4" data-validation-message="请输入图片验证码" autocomplete="off" required />
+                                                    <input type="text" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_images_verify_message')}}" autocomplete="off" required />
                                                     <span class="am-input-group-btn">
                                                         <span class="am-btn am-btn-default am-radius form-verify">
                                                             <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'user_reg'])}}" class="am-radius c-p" id="form-verify-img" onClick="this.src=this.src+(({{$url_model}} == 0) ? '&' : '?')+Math.random();" />
-                                                            <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('form-verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'user_reg'])}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">更换一张</a>
+                                                            <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('form-verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'user_reg'])}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
                                                         </span>
                                                     </span>
                                                 </div>
@@ -103,17 +103,17 @@
                                         {{if MyC('home_is_enable_userregister_agreement') eq 1}}
                                             <div class="agreement am-padding-horizontal-sm">
                                                 <label class="am-checkbox am-success c-p">
-                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意协议" data-am-ucheck autocomplete="off" required /> 阅读并同意
+                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="{{:MyLang('user.form_item_agreement_message')}}" data-am-ucheck autocomplete="off" required /> {{:MyLang('user.form_item_agreement')}}
                                                 </label>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
-                                                <span>与</span>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userprivacy'])}}" target="_blank">《隐私政策》</a>
+                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">{{:MyLang('user.form_item_service')}}</a>
+                                                <span>{{:MyLang('and_title')}}</span>
+                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userprivacy'])}}" target="_blank">{{:MyLang('user.form_item_privacy')}}</a>
                                             </div>
                                         {{/if}}
                                         
                                         <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-sm">
                                             <input type="hidden" name="type" value="username" />
-                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
+                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('register_title')}}</button>
                                         </div>
                                     </form>
                                     <!-- form end -->
@@ -124,24 +124,24 @@
                                     <!-- form start -->
                                     <form class="am-form form-validation-sms" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
                                         <div class="am-form-group am-form-group-refreshing business-form-block">
-                                            <label>手机号码</label>
-                                            <input type="text" name="accounts" class="am-radius am-form-field" placeholder="请输入手机号码" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="手机号码格式错误" autocomplete="off" required />
+                                            <label>{{:MyLang('user.form_item_mobile')}}</label>
+                                            <input type="text" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_mobile_placeholder')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('user.form_item_mobile_message')}}" autocomplete="off" required />
                                         </div>
 
                                         <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                            <label>验证码</label>
+                                            <label>{{:MyLang('form_verify_title')}}</label>
                                             <div class="am-input-group am-input-group-sm">
-                                                <input type="number" name="verify" class="am-radius am-form-field" placeholder="验证码" minlength="4" maxlength="4" data-validation-message="验证码格式 4 位数字" autocomplete="off" required />
+                                                <input type="number" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" required />
                                                 <span class="am-input-group-btn">
-                                                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-sms">获取验证码</button>
+                                                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-sms">{{:MyLang('form_verify_button_text')}}</button>
                                                 </span>
                                             </div>
                                         </div>
 
                                         <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                            <label>设置登录密码</label>
+                                            <label>{{:MyLang('user.form_item_password')}}</label>
                                             <div class="am-input-group am-input-group-sm">
-                                                <input type="password" name="pwd" class="am-radius am-form-field" placeholder="设置登录密码" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" autocomplete="off" required />
+                                                <input type="password" name="pwd" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_password_message')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="off" required />
                                                 <span class="am-input-group-btn">
                                                     <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
                                                 </span>
@@ -151,17 +151,17 @@
                                         {{if MyC('home_is_enable_userregister_agreement') eq 1}}
                                             <div class="agreement am-padding-horizontal-sm">
                                                 <label class="am-checkbox am-success c-p">
-                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意协议" data-am-ucheck autocomplete="off" required /> 阅读并同意
+                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="{{:MyLang('user.form_item_agreement_message')}}" data-am-ucheck autocomplete="off" required /> {{:MyLang('user.form_item_agreement')}}
                                                 </label>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
-                                                <span>与</span>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userprivacy'])}}" target="_blank">《隐私政策》</a>
+                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">{{:MyLang('user.form_item_service')}}</a>
+                                                <span>{{:MyLang('and_title')}}</span>
+                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userprivacy'])}}" target="_blank">{{:MyLang('user.form_item_privacy')}}</a>
                                             </div>
                                         {{/if}}
 
                                         <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-sm">
                                             <input type="hidden" name="type" value="sms" />
-                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
+                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('register_title')}}</button>
                                         </div>
                                     </form>
                                     <!-- form end -->
@@ -172,24 +172,24 @@
                                     <!-- form start -->
                                     <form class="am-form form-validation-email" method="post" action="{{:MyUrl('index/user/reg')}}" request-type="ajax-fun" request-value="RegisterSuccessBack">
                                         <div class="am-form-group am-form-group-refreshing business-form-block">
-                                            <label>电子邮箱</label>
-                                            <input type="email" name="accounts" class="am-radius am-form-field" placeholder="请输入电子邮箱" data-validation-message="电子邮箱格式错误" autocomplete="off" required />
+                                            <label>{{:MyLang('user.form_item_email')}}</label>
+                                            <input type="email" name="accounts" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_email_placeholder')}}" data-validation-message="{{:MyLang('user.form_item_email_message')}}" autocomplete="off" required />
                                         </div>
 
                                         <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                            <label>验证码</label>
+                                            <label>{{:MyLang('form_verify_title')}}</label>
                                             <div class="am-input-group am-input-group-sm">
-                                                <input type="number" name="verify" class="am-radius am-form-field" placeholder="验证码" minlength="4" maxlength="4" data-validation-message="验证码格式 4 位数字" autocomplete="off" required />
+                                                <input type="number" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" required />
                                                 <span class="am-input-group-btn">
-                                                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-email">获取验证码</button>
+                                                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('index/user/regverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation-email">{{:MyLang('form_verify_button_text')}}</button>
                                                 </span>
                                             </div>
                                         </div>
 
                                         <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                                            <label>设置登录密码</label>
+                                            <label>{{:MyLang('user.form_item_password')}}</label>
                                             <div class="am-input-group am-input-group-sm">
-                                                <input type="password" name="pwd" class="am-radius am-form-field" placeholder="设置登录密码" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" autocomplete="off" required />
+                                                <input type="password" name="pwd" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_password_message')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="off" required />
                                                 <span class="am-input-group-btn">
                                                     <button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
                                                 </span>
@@ -199,17 +199,17 @@
                                         {{if MyC('home_is_enable_userregister_agreement') eq 1}}
                                             <div class="agreement am-padding-horizontal-sm">
                                                 <label class="am-checkbox am-success c-p">
-                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="请同意协议" data-am-ucheck autocomplete="off" required /> 阅读并同意
+                                                    <input type="checkbox" value="1" name="is_agree_agreement" data-validation-message="{{:MyLang('user.form_item_agreement_message')}}" data-am-ucheck autocomplete="off" required /> {{:MyLang('user.form_item_agreement')}}
                                                 </label>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">《服务协议》</a>
-                                                <span>与</span>
-                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userprivacy'])}}" target="_blank">《隐私政策》</a>
+                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userregister'])}}" target="_blank">{{:MyLang('user.form_item_service')}}</a>
+                                                <span>{{:MyLang('and_title')}}</span>
+                                                <a href="{{:MyUrl('index/agreement/index', ['document'=>'userprivacy'])}}" target="_blank">{{:MyLang('user.form_item_privacy')}}</a>
                                             </div>
                                         {{/if}}
 
                                         <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-sm">
                                             <input type="hidden" name="type" value="email" />
-                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">注册</button>
+                                            <button type="submit" class="am-btn am-btn-primary am-btn-block am-radius am-btn-sm btn-loading-example" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('register_title')}}</button>
                                         </div>
                                     </form>
                                     <!-- form end -->
@@ -232,7 +232,10 @@
                         </div>
                     </div>
                 {{else /}}
-                    <div class="am-text-center am-padding-vertical-lg register-close"><i class="am-icon-warning"></i> 暂时关闭了注册</div>
+                    <div class="am-text-center am-padding-vertical-lg register-close">
+                        <i class="am-icon-warning"></i>
+                        <span>{{:MyLang('user.register_close_tips')}}</span>
+                    </div>
                 {{/if}}
             </div>
         </div>

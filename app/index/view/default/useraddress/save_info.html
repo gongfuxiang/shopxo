@@ -7,57 +7,60 @@
         <div class="am-cf">
             <div class="am-u-sm-8 am-padding-horizontal-0">
                 <div class="am-form-group">
-                    <label>姓名<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="name" placeholder="姓名" minlength="2" maxlength="16" data-validation-message="姓名格式 2~16 个字符之间" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+                    <label>{{:MyLang('user_address.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="name" placeholder="{{:MyLang('user_address.form_item_name_message')}}" minlength="2" maxlength="16" data-validation-message="{{:MyLang('user_address.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
                 </div>
             </div>
             <div class="am-u-sm-4 am-padding-horizontal-0">
                 <div class="am-form-group">
-                    <label>别名</label>
-                    <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
+                    <label>{{:MyLang('user_address.form_item_alias')}}</label>
+                    <input type="text" name="alias" placeholder="{{:MyLang('user_address.form_item_alias_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('user_address.form_item_alias_message')}}" class="am-radius" {{if !empty($data['alias'])}} value="{{$data.alias}}"{{/if}} />
                 </div>
             </div>
         </div>
 
         <div class="am-form-group">
-            <label>电话<span class="am-form-group-label-tips-must">*</span></label>
-            <input type="text" name="tel" placeholder="电话" minlength="6" maxlength="30" data-validation-message="电话格式有误" class="am-radius" {{if !empty($data['tel'])}} value="{{$data.tel}}"{{/if}} required />
+            <label>{{:MyLang('user_address.form_item_tel')}}<span class="am-form-group-label-tips-must">*</span></label>
+            <input type="text" name="tel" placeholder="{{:MyLang('user_address.form_item_tel')}}" minlength="6" maxlength="30" data-validation-message="{{:MyLang('user_address.form_item_tel_message')}}" class="am-radius" {{if !empty($data['tel'])}} value="{{$data.tel}}"{{/if}} required />
         </div>
 
         {{include file="lib/region_linkage" /}}
         <div class="am-form-group">
-            <label>详细地址<span class="am-form-group-label-tips-must">*</span></label>
+            <label>{{:MyLang('user_address.form_item_address')}}<span class="am-form-group-label-tips-must">*</span></label>
             {{if MyC('home_user_address_map_status') eq 1}}
                 <div class="am-input-group am-input-group-sm">
                     <input type="hidden" name="lng" id="form-lng" {{if !empty($data['lng'])}} value="{{$data.lng}}"{{/if}} />
                     <input type="hidden" name="lat" id="form-lat" {{if !empty($data['lat'])}} value="{{$data.lat}}"{{/if}} />
-                    <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式1~80个字符之间" class="am-radius am-form-field" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} required />
+                    <input type="text" name="address" id="form-address" placeholder="{{:MyLang('user_address.form_item_address_message')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('user_address.form_item_address_message')}}" class="am-radius am-form-field" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} required />
                     <span class="am-input-group-btn">
-                        <button type="button" class="am-btn am-btn-default am-radius" id="map-location-submit"><span class="am-icon-map-marker"></span> 定位</button>
+                        <button type="button" class="am-btn am-btn-default am-radius" id="map-location-submit">
+                            <i class="am-icon-map-marker"></i>
+                            <span>{{:MyLang('location_title')}}</span>
+                        </button>
                     </span>
                 </div>
                 <div id="map" data-level="17" class="am-margin-top-xs"></div>
             {{else /}}
-                 <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式1~80个字符之间" class="am-radius" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} required />
+                <input type="text" name="address" id="form-address" placeholder="{{:MyLang('user_address.form_item_address_message')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('user_address.form_item_address_message')}}" class="am-radius" {{if !empty($data['address'])}} value="{{$data.address}}"{{/if}} required />
             {{/if}}
         </div>
 
         <div class="am-form-group">
-            <label class="am-block">是否默认</label>
-            <input name="is_default" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_default']) and $data['is_default'] eq 1}}checked="true"{{/if}} />
+            <label class="am-block">{{:MyLang('form_is_default_title')}}</label>
+            <input name="is_default" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="49" data-am-switch {{if isset($data['is_default']) and $data['is_default'] eq 1}}checked="true"{{/if}} />
         </div>
         {{if MyC('home_user_address_idcard_status') eq 1}}
             <div class="am-alert am-alert-secondary">
                 <div class="am-form-group">
-                    <label>身份证姓名<span class="am-form-group-label-tips">选填，请务必与上传的身份证件姓名保持一致</span></label>
-                    <input type="text" name="idcard_name" placeholder="身份证姓名" minlength="0" maxlength="16" data-validation-message="身份证姓名格式最多 16 个字符" class="am-radius" {{if !empty($data['idcard_name'])}} value="{{$data.idcard_name}}"{{/if}} />
+                    <label>{{:MyLang('user_address.form_item_idcard_name')}}<span class="am-form-group-label-tips">{{:MyLang('user_address.form_item_idcard_name_tips')}}</span></label>
+                    <input type="text" name="idcard_name" placeholder="{{:MyLang('user_address.form_item_idcard_name')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('user_address.form_item_idcard_name_message')}}" class="am-radius" {{if !empty($data['idcard_name'])}} value="{{$data.idcard_name}}"{{/if}} />
                 </div>
                 <div class="am-form-group">
-                    <label>身份证号码<span class="am-form-group-label-tips">选填，请务必与上传的身份证件号码保持一致</span></label>
-                    <input type="text" name="idcard_number" placeholder="身份证号码" minlength="0" maxlength="18" data-validation-message="身份证号码格式最多 18 个字符" class="am-radius" {{if !empty($data['idcard_number'])}} value="{{$data.idcard_number}}"{{/if}} />
+                    <label>{{:MyLang('user_address.form_item_idcard_number')}}<span class="am-form-group-label-tips">{{:MyLang('user_address.form_item_idcard_number_tips')}}</span></label>
+                    <input type="text" name="idcard_number" placeholder="{{:MyLang('user_address.form_item_idcard_number')}}" minlength="0" maxlength="18" data-validation-message="{{:MyLang('user_address.form_item_idcard_number_message')}}" class="am-radius" {{if !empty($data['idcard_number'])}} value="{{$data.idcard_number}}"{{/if}} />
                 </div>
                 <div class="am-form-group plug-file-upload-view">
-                    <label>身份证照片<span class="am-form-group-label-tips">选传，请使用身份证原件拍摄，图片要清晰</span></label>
+                    <label>{{:MyLang('user_address.form_item_idcard_images')}}<span class="am-form-group-label-tips">{{:MyLang('user_address.form_item_idcard_images_tips')}}</span></label>
                     <div class="am-nbfc user-address-idcard-images">
                         <div class="am-fl">
                             <ul class="plug-file-upload-view images-idcard_front" data-form-name="idcard_front" data-max-number="1" data-dialog-type="images">
@@ -69,7 +72,7 @@
                                     <i>×</i>
                                 </li>
                             </ul>
-                            <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_front">+上传人像面图片</div>
+                            <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_front">+{{:MyLang('user_address.form_item_idcard_front_button_name')}}</div>
                         </div>
                         <div class="am-fl am-margin-left-lg">
                             <ul class="plug-file-upload-view images-idcard_back" data-form-name="idcard_back" data-max-number="1" data-dialog-type="images">
@@ -81,7 +84,7 @@
                                     <i>×</i>
                                 </li>
                             </ul>
-                            <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_back">+上传国微面图片</div>
+                            <div class="plug-file-upload-submit" data-view-tag="ul.images-idcard_back">+{{:MyLang('user_address.form_item_idcard_back_button_name')}}</div>
                         </div>
                     </div>
                 </div>
@@ -90,7 +93,7 @@
 
         <div class="am-form-popup-submit">
             <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
-            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+            <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
         </div>
     </form>
     <!-- form end -->

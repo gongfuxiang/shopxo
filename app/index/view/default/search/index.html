@@ -49,9 +49,9 @@
         <!-- 手机模式下基础信息+搜索条件按钮 -->
         <div class="map-base-tips am-nbfc am-padding-horizontal-xs am-padding-vertical-sm am-show-sm">
             <p class="am-fl">
-                <span>筛选出</span>
+                <span>{{:MyLang('search.filter_out_first_text')}}</span>
                 <strong class="map-result-count am-text-danger">{{$data_total}}</strong>
-                <span>条数据</span>
+                <span>{{:MyLang('search.filter_out_last_data_text')}}</span>
             </p>
             <button class="am-btn am-btn-primary am-btn-xs am-radius am-icon-filter map-offcanvas-submit" data-am-offcanvas="{target: '#search-map'}"></button>
         </div>
@@ -92,12 +92,12 @@
                         <!-- 基础数据 -->
                         <li class="am-nbfc">
                             <p class="am-fl am-margin-left-sm">
-                                <span>筛选出</span>
+                                <span>{{:MyLang('search.filter_out_first_text')}}</span>
                                 <strong class="map-result-count am-text-danger">{{$data_total}}</strong>
-                                <span>条数据</span>
+                                <span>{{:MyLang('search.filter_out_last_data_text')}}</span>
                             </p>
                             {{if isset($is_map) and $is_map eq 1}}
-                                <a href="{{:MyUrl('index/search/index')}}" class="map-remove-submit am-fr am-margin-right-sm">清除</a>
+                                <a href="{{:MyUrl('index/search/index')}}" class="map-remove-submit am-fr am-margin-right-sm">{{:MyLang('clear_title')}}</a>
                             {{/if}}
                         </li>
 
@@ -120,7 +120,7 @@
                             <li class="am-nbfc map-brand-container" data-field="brand_ids">
                                 {{if !empty($search_map_info['brand']) and !empty($params['brand'])}}
                                     <div class="brand-info">
-                                        <div class="map-left am-text-center am-fl">品牌</div>
+                                        <div class="map-left am-text-center am-fl">{{:MyLang('brand_title')}}</div>
                                         <div class="map-right map-images-text-items am-fr am-nbfc">
                                             <a {{if empty($search_map_info['brand']['website_url'])}}href="javascript:;"{{else /}}href="{{$search_map_info.brand.website_url}}" target="_blank"{{/if}} title="{{$search_map_info.brand.name}}">
                                                 {{if empty($search_map_info['brand']['logo'])}}
@@ -139,7 +139,7 @@
                                         </div>
                                     </div>
                                 {{else /}}
-                                    <div class="map-left am-text-center am-fl">品牌</div>
+                                    <div class="map-left am-text-center am-fl">{{:MyLang('brand_title')}}</div>
                                     <div class="map-right map-images-text-items am-fr am-nbfc">
                                         <ul class="am-nbfc">
                                             {{foreach $brand_list as $v}}
@@ -155,7 +155,7 @@
                                             {{/foreach}}
                                         </ul>
                                         <div class="map-more-submit am-hide">
-                                            <span>更多</span>
+                                            <span>{{:MyLang('more_title')}}</span>
                                             <i class="am-icon-angle-down"></i>
                                         </div>
                                     </div>
@@ -166,7 +166,7 @@
                         <!-- 分类 -->
                         {{if !empty($category_list)}}
                             <li class="am-nbfc map-category-container" data-field="category_ids">
-                                <div class="map-left am-text-center am-fl">分类</div>
+                                <div class="map-left am-text-center am-fl">{{:MyLang('category_title')}}</div>
                                 <div class="map-right map-text-items am-fr am-nbfc">
                                     <ul class="am-nbfc">
                                         {{foreach $category_list as $v}}
@@ -176,7 +176,7 @@
                                         {{/foreach}}
                                     </ul>
                                     <div class="map-more-submit am-hide">
-                                        <span>更多</span>
+                                        <span>{{:MyLang('more_title')}}</span>
                                         <i class="am-icon-angle-down"></i>
                                     </div>
                                 </div>
@@ -186,7 +186,7 @@
                         <!-- 价格 -->
                         {{if !empty($screening_price_list)}}
                             <li class="am-nbfc screening-price-container" data-field="screening_price_values">
-                                <div class="map-left am-text-center am-fl">价格</div>
+                                <div class="map-left am-text-center am-fl">{{:MyLang('price_title')}}</div>
                                 <div class="map-right map-text-items am-fr am-nbfc">
                                     <ul class="am-nbfc">
                                         {{foreach $screening_price_list as $v}}
@@ -196,7 +196,7 @@
                                         {{/foreach}}
                                     </ul>
                                     <div class="map-more-submit am-hide">
-                                        <span>更多</span>
+                                        <span>{{:MyLang('more_title')}}</span>
                                         <i class="am-icon-angle-down"></i>
                                     </div>
                                 </div>
@@ -206,7 +206,7 @@
                         <!-- 属性 -->
                         {{if !empty($goods_params_list)}}
                             <li class="am-nbfc goods-params-container" data-field="goods_params_values">
-                                <div class="map-left am-text-center am-fl">属性</div>
+                                <div class="map-left am-text-center am-fl">{{:MyLang('attr_title')}}</div>
                                 <div class="map-right map-text-items am-fr am-nbfc">
                                     <ul class="am-nbfc">
                                         {{foreach $goods_params_list as $v}}
@@ -216,7 +216,7 @@
                                         {{/foreach}}
                                     </ul>
                                     <div class="map-more-submit am-hide">
-                                        <span>更多</span>
+                                        <span>{{:MyLang('more_title')}}</span>
                                         <i class="am-icon-angle-down"></i>
                                     </div>
                                 </div>
@@ -226,7 +226,7 @@
                         <!-- 规格 -->
                         {{if !empty($goods_spec_list)}}
                             <li class="am-nbfc goods-spec-container" data-field="goods_spec_values">
-                                <div class="map-left am-text-center am-fl">规格</div>
+                                <div class="map-left am-text-center am-fl">{{:MyLang('spec_title')}}</div>
                                 <div class="map-right map-text-items am-fr am-nbfc">
                                     <ul class="am-nbfc">
                                         {{foreach $goods_spec_list as $v}}
@@ -236,7 +236,7 @@
                                         {{/foreach}}
                                     </ul>
                                     <div class="map-more-submit am-hide">
-                                        <span>更多</span>
+                                        <span>{{:MyLang('more_title')}}</span>
                                         <i class="am-icon-angle-down"></i>
                                     </div>
                                 </div>

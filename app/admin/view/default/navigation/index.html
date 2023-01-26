@@ -10,7 +10,7 @@
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
 	<div class="am-dropdown am-margin-right-sm" data-am-dropdown>
-		<button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle>新增 <span class="am-icon-caret-down"></span></button>
+		<button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle>{{:MyLang('add_title')}} <span class="am-icon-caret-down"></span></button>
 		<ul class="am-dropdown-content">
 			<li>
                 <a href="javascript:;" class="am-padding-0">
@@ -74,8 +74,8 @@
                         <input type="url" placeholder="url地址、以http://或https://开头" name="url"  data-validation-message="url格式有误" class="am-radius" required />
                     </div>
                     <div class="am-form-group">
-                        <label>顺序</label>
-                        <input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+                        <label>{{:MyLang('form_sort_title')}}</label>
+                        <input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
                     </div>
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
@@ -83,7 +83,7 @@
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="custom" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
                     </div>
                 </form>
                 <!-- form end -->
@@ -131,8 +131,8 @@
                         <input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
                     </div>
                     <div class="am-form-group">
-                        <label>顺序</label>
-                        <input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+                        <label>{{:MyLang('form_sort_title')}}</label>
+                        <input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
                     </div>
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
@@ -140,7 +140,7 @@
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="article" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
                     </div>
                 </form>
                 <!-- form end -->
@@ -183,8 +183,8 @@
                         <input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
                     </div>
                     <div class="am-form-group">
-                        <label>顺序</label>
-                        <input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+                        <label>{{:MyLang('form_sort_title')}}</label>
+                        <input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
                     </div>
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
@@ -192,7 +192,7 @@
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="customview" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
                     </div>
                 </form>
                 <!-- form end -->
@@ -244,8 +244,8 @@
                         <input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
                     </div>
                     <div class="am-form-group">
-                        <label>顺序</label>
-                        <input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+                        <label>{{:MyLang('form_sort_title')}}</label>
+                        <input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
                     </div>
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
@@ -253,7 +253,7 @@
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="goods_category" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
                     </div>
                 </form>
                 <!-- form end -->
@@ -295,8 +295,8 @@
                         <input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
                     </div>
                     <div class="am-form-group">
-                        <label>顺序</label>
-                        <input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+                        <label>{{:MyLang('form_sort_title')}}</label>
+                        <input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
                     </div>
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
@@ -304,7 +304,7 @@
                         <input type="hidden" name="id" />
                         <input type="hidden" name="data_type" value="design" />
                         <input type="hidden" name="nav_type" value="{{$nav_type}}" />
-                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                        <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
                     </div>
                 </form>
                 <!-- form end -->

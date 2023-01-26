@@ -24,32 +24,32 @@
 		<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 container-right">
 			<div class="forgetpwd-top">
 				{{if !empty($home_user_login_type)}}
-					<span>已有帐号？</span>
-					<a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">立即登录</a>
+					<span>{{:MyLang('user.forget_password_top_login_tips')}}</span>
+					<a href="{{:MyUrl('index/user/logininfo')}}" class="am-btn am-btn-secondary am-btn-xs am-radius">{{:MyLang('login_title')}}</a>
 				{{/if}}
 			</div>
 			<div class="user-form-container am-radius">
 				<!-- form start -->
 				<form class="am-form form-validation am-padding-bottom-sm" method="post" action="{{:MyUrl('index/user/forgetpwd')}}" request-type="ajax-url" request-value="{{:MyUrl('index/user/logininfo')}}">
 					<div class="am-form-group am-form-group-refreshing business-form-block">
-						<label>手机/邮箱</label>
-						<input type="text" name="accounts" class="am-radius am-form-field" id="accounts" minlength="1" placeholder="手机/邮箱" data-validation-message="手机/邮箱格式有误" autocomplete="off" required />
+						<label>{{:MyLang('user.form_item_mobile_email')}}</label>
+						<input type="text" name="accounts" class="am-radius am-form-field" id="accounts" minlength="1" placeholder="{{:MyLang('user.form_item_mobile_email')}}" data-validation-message="{{:MyLang('user.form_item_mobile_email_message')}}" autocomplete="off" required />
 					</div>
 
 					<div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-						<label>验证码</label>
+						<label>{{:MyLang('form_verify_title')}}</label>
 						<div class="am-input-group am-input-group-sm">
-			                <input type="number" name="verify" class="am-radius am-form-field" placeholder="验证码" minlength="4" maxlength="4" data-validation-message="验证码格式 4 位数字" autocomplete="off" required />
+			                <input type="number" name="verify" class="am-radius am-form-field" placeholder="{{:MyLang('form_verify_placeholder')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('form_verify_message')}}" autocomplete="off" required />
 			                <span class="am-input-group-btn">
-			                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-url="{{:MyUrl('index/user/forgetpwdverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="获取验证码" data-send-text="还有 {time} 秒" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation">获取验证码</button>
+			                    <button class="am-btn am-btn-default am-radius btn-loading-example verify-submit" type="button" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-url="{{:MyUrl('index/user/forgetpwdverifysend')}}" data-verify="{{:MyC('common_img_verify_state')}}" data-text="{{:MyLang('form_verify_button_text')}}" data-send-text="{{:MyLang('form_verify_send_text')}}" data-time="{{:MyC('common_verify_interval_time', 30, true)}}" data-form-tag="form.form-validation">{{:MyLang('form_verify_button_text')}}</button>
 			                </span>
 			            </div>
 		            </div>
 		            
 		            <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-						<label>设置登录密码</label>
+						<label>{{:MyLang('user.form_item_password')}}</label>
 						<div class="am-input-group am-input-group-sm">
-							<input type="password" name="pwd" class="am-radius am-form-field" placeholder="设置登录密码" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="密码格式 6~18 个字符之间" autocomplete="off" required />
+							<input type="password" name="pwd" class="am-radius am-form-field" placeholder="{{:MyLang('user.form_item_password_placeholder')}}" pattern="{{:MyConst('common_regex_pwd')}}" data-validation-message="{{:MyLang('user.form_item_password_message')}}" autocomplete="off" required />
 							<span class="am-input-group-btn">
 								<button class="am-btn am-btn-default am-radius am-icon-eye eye-submit" type="button"></button>
 							</span>
@@ -57,7 +57,7 @@
 					</div>
 					
 					<div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-sm">
-						<button type="submit" class="am-btn am-btn-primary am-radius am-btn-block am-btn-sm btn-loading-example" data-am-loading="{loadingText: '处理中...'}">确认</button>
+						<button type="submit" class="am-btn am-btn-primary am-radius am-btn-block am-btn-sm btn-loading-example" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
 					</div>
 				</form>
 				<!-- form end -->

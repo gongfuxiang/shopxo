@@ -6,6 +6,7 @@ ul.progress {
 }
 ul.progress li {
     position: relative;
+    width: 20%;
  }
 ul.progress li i.step {
     display: block;
@@ -42,15 +43,17 @@ ul.progress li.steps-success i.step {
 ul.progress li.current .title {
     color: #4CAF50;
 }
-
-.base-right .icon-tips, .base-right .icon-success {
-    font-size: 50px;
+ul.progress-1 li {
+    width: 100%;
 }
-.base-right .icon-tips {
-    color: #6980d0;
+ul.progress-2 li {
+    width: 50%;
 }
-.base-right .icon-success {
-    color: #28801c;
+ul.progress-3 li {
+    width: 33.33%;
+}
+ul.progress-4 li {
+    width: 25%;
 }
 @media only screen and (min-width: 641px) {
     ul.progress {
@@ -58,7 +61,6 @@ ul.progress li.current .title {
     }
     ul.progress li {
         float: left;
-        width: 20%;
         text-align: center;
     }
     ul.progress li i.step {
@@ -79,6 +81,9 @@ ul.progress li.current .title {
     }
 }
 @media only screen and (max-width: 641px) {
+    ul.progress li {
+        width: 100%;
+    }
     ul.progress li i.step {
         height: 60px;
         width: 6px;
@@ -93,6 +98,19 @@ ul.progress li.current .title {
     ul.progress li:not(:first-child) .base {
         margin-top: 70px;
     }
+}
+
+/**
+ * 基础
+ */
+.base-right .icon-tips, .base-right .icon-success {
+    font-size: 50px;
+}
+.base-right .icon-tips {
+    color: #6980d0;
+}
+.base-right .icon-success {
+    color: #28801c;
 }
 
 /**

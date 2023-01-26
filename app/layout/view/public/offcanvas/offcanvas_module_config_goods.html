@@ -15,7 +15,7 @@
                             <div class="form-view-choice-container" data-value="goods">
                                 <div class="form-view-choice-container-content">
                                     <a href="javascript:;" class="form-view-choice-container-submit">请选择商品</a>
-                                    <span class="am-form-group-label-tips-must">必选</span>
+                                    <span class="am-form-group-label-tips-must">*</span>
                                     <span class="text-tips am-margin-left-sm">最多添加50件商品</span>
                                 </div>
                             </div>
@@ -23,7 +23,7 @@
                         </div>
                         <div data-tab-panel-1 class="am-tab-panel am-padding-0">
                             <div class="am-form-group am-form-group-refreshing">
-                                <label>商品分类<span class="am-form-group-label-tips-must">必选</span></label>
+                                <label>商品分类<span class="am-form-group-label-tips-must">*</span></label>
                                 <div class="form-view-choice-container am-margin-top-xs offcanvas-config-goods-category-container" data-value="category">
                                     <input type="hidden" name="goods_category_value" value="" />
                                     <div class="form-view-choice-container-content">
@@ -119,7 +119,7 @@
                 </div>
 
                 <div class="form-submit-container">
-                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '处理中...'}">确认</button>  
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>  
                 </div>
             </form>
         </div>

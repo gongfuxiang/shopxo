@@ -7,7 +7,7 @@
         <form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/goodscomments/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/goodscomments/index', $params)}}" enctype="multipart/form-data">
             <legend>
                 <span class="am-text-default">商品评论{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
-                <a href="{{:MyUrl('admin/goodscomments/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> 返回</a>
+                <a href="{{:MyUrl('admin/goodscomments/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
             </legend>
             <div class="am-cf">
                 <div class="am-u-md-6 am-padding-horizontal-0">
@@ -96,7 +96,7 @@
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
                         <label class="am-block">是否已回复</label>
-                        <input name="is_reply" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
+                        <input name="is_reply" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
                     </div>
                 </div>
             </div>
@@ -105,20 +105,20 @@
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
                         <label class="am-block">是否匿名</label>
-                        <input name="is_anonymous" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_anonymous']) and $data['is_anonymous'] eq 1}}checked="true"{{/if}} />
+                        <input name="is_anonymous" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_anonymous']) and $data['is_anonymous'] eq 1}}checked="true"{{/if}} />
                     </div>
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
                         <label class="am-block">是否显示</label>
-                        <input name="is_show" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_show']) and $data['is_show'] eq 1}}checked="true"{{/if}} />
+                        <input name="is_show" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_show']) and $data['is_show'] eq 1}}checked="true"{{/if}} />
                     </div>
                 </div>
             </div>
 
             <div class="am-form-popup-submit">
                 <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
             </div>
         </form>
         <!-- form end -->

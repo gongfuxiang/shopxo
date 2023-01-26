@@ -158,7 +158,7 @@ class WarehouseGoods
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'warehousegoods/module/operate',
                     'align'         => 'center',

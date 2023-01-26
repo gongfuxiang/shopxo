@@ -5,7 +5,7 @@
 	<div class="content">
         <!-- operation start -->
         <div class="am-g">
-            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus tree-submit-add" data-am-modal="{target: '#data-save-win'}"> 新增</button>
+            <button class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus tree-submit-add" data-am-modal="{target: '#data-save-win'}"> {{:MyLang('add_title')}}</button>
         </div>
         <!-- operation end -->
 
@@ -39,13 +39,13 @@
 							<input type="url" placeholder="官网地址、以http://或https://开头" name="website_url"  data-validation-message="官网地址格式有误" class="am-radius" {{if !empty($data['website_url'])}} value="{{$data.website_url}}"{{/if}} />
 						</div>
 						<div class="am-form-group">
-							<label>顺序</label>
-							<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+							<label>{{:MyLang('form_sort_title')}}</label>
+							<input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
 						</div>
 						{{include file="lib/enable" /}}
 						<div class="am-form-popup-submit">
 							<input type="hidden" name="id" />
-							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
 						</div>
 					</form>
 					<!-- form end -->

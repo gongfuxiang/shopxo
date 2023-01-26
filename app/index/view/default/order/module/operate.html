@@ -2,37 +2,37 @@
 <!-- 0待确认, 1已确认/待支付, 2已支付/待发货, 3已发货/待收货, 4已完成, 5已取消, 6已关闭 -->
 <a href="{{:MyUrl('index/order/detail', ['id'=>$module_data['id']])}}" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block" target="_blank">
     <i class="am-icon-eye"></i>
-    <span>详情</span>
+    <span>{{:MyLang('detail_title')}}</span>
 </a>
 {{if !empty($module_data['operate_data'])}}
     {{if $module_data['operate_data']['is_pay'] eq 1}}
         <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay" data-id="{{$module_data.id}}" data-payment-id="{{$module_data.payment_id}}">
             <i class="am-icon-paypal"></i>
-            <span>支付</span>
+            <span>{{:MyLang('payment_title')}}</span>
         </button>
     {{/if}}
     {{if $module_data['operate_data']['is_collect'] eq 1}}
-        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$module_data.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">
+        <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$module_data.id}}" data-view="reload" data-msg="{{:MyLang('collect_confirm_tips')}}">
             <i class="am-icon-check-circle-o"></i>
-            <span>收货</span>
+            <span>{{:MyLang('collect_title')}}</span>
         </button>
     {{/if}}
     {{if $module_data['operate_data']['is_cancel'] eq 1}}
         <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax submit-cancel" data-url="{{:MyUrl('index/order/cancel')}}" data-id="{{$module_data.id}}" data-view="reload">
             <i class="am-icon-paint-brush"></i>
-            <span>取消</span>
+            <span>{{:MyLang('cancel_title')}}</span>
         </button>
     {{/if}}
     {{if $module_data['operate_data']['is_comments'] eq 1}}
         <a href="{{:MyUrl('index/order/comments', ['id'=>$module_data['id']])}}" target="_blank" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block">
             <i class="am-icon-heart-o"></i>
-            <span>评论</span>
+            <span>{{:MyLang('comment_title')}}</span>
         </a>
     {{/if}}
     {{if $module_data['operate_data']['is_delete'] eq 1}}
         <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-delete" data-url="{{:MyUrl('index/order/delete')}}" data-id="{{$module_data.id}}" data-view="reload">
             <i class="am-icon-trash-o"></i>
-            <span>删除</span>
+            <span>{{:MyLang('delete_title')}}</span>
         </button>
     {{/if}}
 {{/if}}

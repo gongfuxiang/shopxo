@@ -1,11 +1,11 @@
 <!-- 操作栏 -->
 <button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/paylog/detail', ['id'=>$module_data['id']])}}">
     <i class="am-icon-eye"></i>
-    <span>详情</span>
+    <span>{{:MyLang('detail_title')}}</span>
 </button>
 {{if $module_data['status'] eq 0}}
     <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/paylog/close')}}" data-id="{{$module_data.id}}" data-key="ids" data-view="reload">
         <i class="am-icon-close"></i>
-        <span>关闭</span>
+        <span>{{:MyLang('close_title')}}</span>
     </button>
 {{/if}}

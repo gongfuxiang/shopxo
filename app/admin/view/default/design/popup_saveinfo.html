@@ -11,7 +11,7 @@
                     </div>
                     <div class="am-panel-bd am-padding-vertical-xs">
                         <div class="am-form-group am-form-file">
-                            <label class="am-block">logo<span class="am-form-group-label-tips">选传</span><span class="am-form-group-label-tips">建议大小300*300px</span></label>
+                            <label class="am-block">logo<span class="am-form-group-label-tips">建议大小300*300px</span></label>
                             <ul class="plug-file-upload-view shop-logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
                                 {{if !empty($data['logo'])}}
                                     <li>
@@ -25,22 +25,22 @@
                         </div>
 
                         <div class="am-form-group">
-                            <label>名称<span class="am-form-group-label-tips-must">必填</span></label>
+                            <label>名称<span class="am-form-group-label-tips-must">*</span></label>
                             <input type="text" name="name" placeholder="名称格式1~16个字符" maxlength="16" data-validation-message="名称格式1~16个字符" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
                         </div>
 
                         <div class="am-form-group">
-                            <label class="am-block">是否启用<span class="am-form-group-label-tips">可选、默认是</span></label>
-                            <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
+                            <label class="am-block">{{:MyLang('form_is_enable_title')}}<span class="am-form-group-label-tips">可选、默认是</span></label>
+                            <input name="is_enable" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
                         </div>
                         <div class="am-form-group">
                             <label class="am-block">是否含头部<span class="am-form-group-label-tips">可选、默认是</span></label>
-                            <input name="is_header" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_header']) and $data['is_header'] eq 1) or !isset($data['is_header'])}}checked="true"{{/if}} />
+                            <input name="is_header" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_header']) and $data['is_header'] eq 1) or !isset($data['is_header'])}}checked="true"{{/if}} />
                         </div>
 
                         <div class="am-form-group">
                             <label class="am-block">是否含尾部<span class="am-form-group-label-tips">可选、默认是</span></label>
-                            <input name="is_footer" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_footer']) and $data['is_footer'] eq 1) or !isset($data['is_footer'])}}checked="true"{{/if}} />
+                            <input name="is_footer" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_footer']) and $data['is_footer'] eq 1) or !isset($data['is_footer'])}}checked="true"{{/if}} />
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                 <!-- SEO -->
                 <div class="am-panel am-panel-default">
                     <div class="am-panel-hd">
-                        <h3 class="am-panel-title">SEO<span class="am-form-group-label-tips">选填</span></h3>
+                        <h3 class="am-panel-title">SEO</h3>
                     </div>
                     <div class="am-panel-bd am-padding-vertical-xs">
                         {{include file="lib/seo" /}}
@@ -60,11 +60,11 @@
                     <input type="hidden" name="id" value="{{if !empty($data['id'])}}{{$data.id}}{{/if}}" />
                     <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-margin-right-lg" data-am-modal-close>
                         <i class="am-icon-paint-brush"></i>
-                        <span>取消</span>
+                        <span>{{:MyLang('cancel_title')}}</span>
                     </button>
-                    <button type="submit" class="am-btn am-btn-primary am-btn-xs am-radius btn-loading-example am-margin-left-lg" data-am-loading="{loadingText:'处理中...'}">
+                    <button type="submit" class="am-btn am-btn-primary am-btn-xs am-radius btn-loading-example am-margin-left-lg" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">
                         <i class="am-icon-save"></i>
-                        <span>确认</span>
+                        <span>{{:MyLang('confirm_title')}}</span>
                     </button> 
                 </div>
             </form>

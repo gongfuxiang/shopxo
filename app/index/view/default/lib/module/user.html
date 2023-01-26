@@ -4,7 +4,7 @@
         <li class="am-text-truncate">{{$module_data.user.user_name_view}}</li>
         <li>
             {{if !empty($module_data['user']['username'])}}
-                <a href="javascript:;" class="am-icon-user am-text-grey am-margin-right-sm" data-am-popover="{content: '账号：{{$module_data.user.username}}{{if !empty($module_data['user']['nickname'])}}<br />昵称：{{$module_data.user.nickname}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                <a href="javascript:;" class="am-icon-user am-text-grey am-margin-right-sm" data-am-popover="{content: '{{:MyLang('user_username_title')}}：{{$module_data.user.username}}{{if !empty($module_data['user']['nickname'])}}<br />{{:MyLang('user_nickname_title')}}：{{$module_data.user.nickname}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>
             {{/if}}
             {{if !empty($module_data['user']['number_code'])}}
                 <a href="javascript:;" class="am-icon-qrcode am-text-grey am-margin-right-sm" data-am-popover="{content: '{{$module_data.user.number_code}}', trigger: 'hover focus', theme: 'sm'}"></a>

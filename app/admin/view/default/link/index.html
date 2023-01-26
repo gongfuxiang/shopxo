@@ -3,7 +3,7 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#data-save-win'}"> 新增</button>
+    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus submit-add" data-am-modal="{target: '#data-save-win'}"> {{:MyLang('add_title')}}</button>
     <!-- 父级内容 -->
     {__block__}
 {{/block}}
@@ -29,8 +29,8 @@
 						<input type="url" placeholder="链接地址、以http://或https://开头" name="url"  data-validation-message="链接地址格式有误" class="am-radius" required />
 					</div>
 					<div class="am-form-group">
-						<label>顺序</label>
-						<input type="number" placeholder="顺序" name="sort" min="0" max="255" data-validation-message="顺序 0~255 之间的数值" class="am-radius" value="0" required />
+						<label>{{:MyLang('form_sort_title')}}</label>
+						<input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
 					</div>
 					{{include file="lib/is_new_window_open" /}}
 					{{include file="lib/enable" /}}
@@ -40,7 +40,7 @@
 					</div>
 					<div class="am-form-popup-submit">
 						<input type="hidden" name="id" />
-						<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+						<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
 					</div>
 				</form>
 				<!-- form end -->

@@ -288,7 +288,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'goods/module/operate',
                     'align'         => 'center',

@@ -1,26 +1,26 @@
 <div class="am-popup am-radius" id="popup-orderaftersale-delivery">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
-            <h4 class="am-popup-title">退货操作</h4>
+            <h4 class="am-popup-title">{{:MyLang('orderaftersale.form_delivery_title')}}</h4>
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
             <div class="am-alert">
-                <span>退货地址：</span>
+                <span>{{:MyLang('orderaftersale.form_delivery_address_name')}}</span>
                 <span class="am-text-warning">{{$return_goods_address}}</span>
             </div>
             <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('index/orderaftersale/delivery')}}" method="POST" request-type="ajax-reload">
                 <div class="am-form-group">
-                    <label>快递名称<span class="am-form-group-label-tips-must">必选</span></label>
-                    <input type="text" name="express_name" class="am-radius" placeholder="快递名称" minlength="1" maxlength="60" data-validation-message="快递名称格式 1~60 个字符之间" required />
+                    <label>{{:MyLang('orderaftersale.form_item_express_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="express_name" class="am-radius" placeholder="{{:MyLang('orderaftersale.form_item_express_name')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('orderaftersale.form_item_express_name_message')}}" required />
                 </div>
                 <div class="am-form-group">
-                    <label>快递单号<span class="am-form-group-label-tips-must">必填</span></label>
-                    <input type="text" name="express_number" class="am-radius" placeholder="快递单号" minlength="1" maxlength="60" data-validation-message="快递单号格式 1~60 个字符之间" required />
+                    <label>{{:MyLang('orderaftersale.form_item_express_number')}}<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="express_number" class="am-radius" placeholder="{{:MyLang('orderaftersale.form_item_express_number')}}" minlength="1" maxlength="60" data-validation-message="{{:MyLang('orderaftersale.form_item_express_number_message')}}" required />
                 </div>
                 <div class="am-form-popup-submit">
                     <input type="hidden" name="id" value="{{$new_aftersale_data.id}}" />
-                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">提交</button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('submit_title')}}</button>
                 </div>
             </form>
         </div>

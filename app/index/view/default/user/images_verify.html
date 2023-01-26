@@ -5,13 +5,13 @@
         </div>
         <div class="am-modal-bd">
             <div class="base">
-                <input type="text" placeholder="图形验证码" minlength="4" maxlength="4" id="verify-img-value" data-validation-message="请输入有效的图形验证码" class="am-form-field am-radius" autocomplete="off" />
+                <input type="text" placeholder="{{:MyLang('form_images_verify_title')}}" minlength="4" maxlength="4" id="verify-img-value" data-validation-message="{{:MyLang('form_images_verify_message')}}" class="am-form-field am-radius" autocomplete="off" />
                 <div class="am-fl">
                     <img src="{{:MyUrl('index/user/userverifyentry', ['type'=>'[type]'])}}" class="am-radius c-p" id="verify-img" onClick="this.src=this.src+(({{$url_model}} == 0) ? '&' : '?')+Math.random();" />
-                    <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'[type]'])}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">更换一张</a>
+                    <a href="javascript:;" class="form-verify-tips" onClick="document.getElementById('verify-img').src='{{:MyUrl('index/user/userverifyentry', ['type'=>'[type]'])}}{{if $url_model eq 0}}&{{else /}}?{{/if}}'+Math.random();">{{:MyLang('form_images_verify_button_text')}}</a>
                 </div>
             </div>
-            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block m-t-20 btn-loading-example verify-submit-win" data-am-loading="{spinner:'circle-o-notch', loadingText:'发送中...'}" data-win="1">确认</button>
+            <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm block m-t-20 btn-loading-example verify-submit-win" data-am-loading="{spinner:'circle-o-notch', loadingText:'{{:MyLang('send_tips')}}'}" data-win="1">{{:MyLang('confirm_title')}}</button>
         </div>
     </div>
 </div>

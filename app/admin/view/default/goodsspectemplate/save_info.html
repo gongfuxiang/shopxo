@@ -28,12 +28,12 @@
             </div>
 
 			<div class="am-form-group">
-				<label>规格值<span class="am-form-group-label-tips-must">必填</span></label>
+				<label>规格值<span class="am-form-group-label-tips-must">*</span></label>
 				<input type="text" name="content" placeholder="规格值（输入回车可实现多个）" minlength="1" maxlength="1000" data-validation-message="规格值格式1~1000个字符" class="am-radius" {{if !empty($data['content'])}} value="{{$data.content}}"{{/if}} required data-am-tagsinput />
 			</div>
 			<div class="am-form-group">
-			    <label class="am-block">是否启用</label>
-			    <input name="is_enable" value="1" type="checkbox" data-off-text="否" data-on-text="是" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
+			    <label class="am-block">{{:MyLang('form_is_enable_title')}}</label>
+			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
 			</div>
 
 			<!-- 插件扩展数据 start -->
@@ -59,7 +59,7 @@
 			<div class="am-form-popup-submit">
 				<div class="am-padding-bottom-sm">
 					<input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
-					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">保存</button>
+					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
 				</div>
 			</div>
 		</form>

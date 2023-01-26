@@ -186,7 +186,7 @@ class Answer
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'answer/module/operate',
                     'align'         => 'center',

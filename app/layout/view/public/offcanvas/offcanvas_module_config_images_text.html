@@ -5,7 +5,7 @@
             <form class="am-form form-validation-module-offcanvas-images-text" request-type="sync" request-value="FormBackModuleConfigImagesText">
                 <!-- 展示模式 -->
                 <div class="am-panel am-panel-default">
-                    <div class="am-panel-hd">展示模式<span class="am-form-group-label-tips-must">必选</span></div>
+                    <div class="am-panel-hd">展示模式<span class="am-form-group-label-tips-must">*</span></div>
                     <div class="am-panel-bd">
                         {{include file="../../../layout/view/public/content/images_text_show_style" /}}
                     </div>
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="form-submit-container">
-                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '处理中...'}">确认</button>  
+                    <button type="submit" class="am-btn am-btn-primary am-radius am-btn-xs am-btn-block" data-am-loading="{loadingText: '{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>  
                 </div>
             </form>
         </div>

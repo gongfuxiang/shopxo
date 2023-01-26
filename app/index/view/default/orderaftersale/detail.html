@@ -73,8 +73,8 @@
                         <table class="am-table">
                             <thead>
                                 <tr>
-                                    <th class="row-base">商品信息</th>
-                                    <th class="row-price">单价</th>
+                                    <th class="row-base">{{:MyLang('orderaftersale.goods_list_thead_price')}}</th>
+                                    <th class="row-price">{{:MyLang('orderaftersale.goods_list_thead_price')}}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -128,25 +128,25 @@
                         <div class="am-alert am-alert-secondary am-radius">
                           {{if !empty($order.price)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">商品总价：</div>
+                                    <div class="items-title am-fl">{{:MyLang('orderaftersale.goods_base_price_title')}}</div>
                                     <div class="items-detail am-fl">{{$order.currency_data.currency_symbol}}{{$order.price}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($order.increase_price)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">增加金额：</div>
+                                    <div class="items-title am-fl">{{:MyLang('orderaftersale.goods_base_increase_price_title')}}</div>
                                     <div class="items-detail am-fl">+{{$order.currency_data.currency_symbol}}{{$order.increase_price}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($order.preferential_price)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">优惠金额：</div>
+                                    <div class="items-title am-fl">{{:MyLang('orderaftersale.goods_base_preferential_price_title')}}</div>
                                     <div class="items-detail am-fl">-{{$order.currency_data.currency_symbol}}{{$order.preferential_price}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($order.refund_price)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">退款金额：</div>
+                                    <div class="items-title am-fl">{{:MyLang('orderaftersale.goods_base_refund_price_title')}}</div>
                                     <div class="items-detail am-fl">
                                         <span class="am-text-danger">-{{$order.currency_data.currency_symbol}}{{$order.refund_price}}</span>
                                     </div>
@@ -154,13 +154,13 @@
                             {{/if}}
                             {{if !empty($order.total_price)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">订单总价：</div>
+                                    <div class="items-title am-fl">{{:MyLang('orderaftersale.goods_base_total_price_title')}}</div>
                                     <div class="items-detail am-fl line-price">{{$order.currency_data.currency_symbol}}{{$order.total_price}}</div>
                                 </div>
                             {{/if}}
                             {{if !empty($order.pay_price)}}
                                 <div class="items am-cf">
-                                    <div class="items-title am-fl">支付金额：</div>
+                                    <div class="items-title am-fl">{{:MyLang('orderaftersale.goods_base_pay_price_title')}}</div>
                                     <div class="items-detail am-fl">
                                         <strong class="total-price-content">{{$order.currency_data.currency_symbol}}{{$order.pay_price}}</strong>
                                     </div>
@@ -219,7 +219,7 @@
                     <!-- 拒绝/关闭 -->
                     {{if isset($new_aftersale_data['status']) and $new_aftersale_data['status'] eq 5}}
                         <div class="am-alert am-alert-warning">
-                            {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_form_key=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
+                            {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_form_key=>$new_aftersale_data['order_no']])}}">{{:MyLang('orderaftersale.view_orderaftersale_enter_name')}}</a>
                         </div>
                     {{/if}}
 
@@ -256,24 +256,24 @@
                         {{case 0|1|2}}
                             {{if $new_aftersale_data['status'] eq 1 and $new_aftersale_data['type'] eq 1}}
                                 <div class="am-alert">
-                                    {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_form_key=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
-                                    <button type="button" class="am-btn am-btn-primary am-radius am-margin-left-sm orderaftersale-delivery-submit" data-am-modal="{target: '#popup-orderaftersale-delivery'}" data-is-auto-delivery="{{if isset($params['isautodelivery'])}}{{$params.isautodelivery}}{{else /}}0{{/if}}">立即退货</button>
+                                    {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_form_key=>$new_aftersale_data['order_no']])}}">{{:MyLang('orderaftersale.view_orderaftersale_enter_name')}}</a>
+                                    <button type="button" class="am-btn am-btn-primary am-radius am-margin-left-sm orderaftersale-delivery-submit" data-am-modal="{target: '#popup-orderaftersale-delivery'}" data-is-auto-delivery="{{if isset($params['isautodelivery'])}}{{$params.isautodelivery}}{{else /}}0{{/if}}">{{:MyLang('orderaftersale.operate_delivery_name')}}</button>
                                 </div>
                                 <div class="am-alert am-alert-warning">
-                                    <span>退货地址：</span>
+                                    <span>{{:MyLang('orderaftersale.form_delivery_address_name')}}</span>
                                     <span class="am-text-primary">{{$return_goods_address}}</span>
                                 </div>
                                 {{include file="orderaftersale/delivery" /}}
                             {{else /}}
                                 <div class="am-alert">
-                                    {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_form_key=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
+                                    {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_form_key=>$new_aftersale_data['order_no']])}}">{{:MyLang('orderaftersale.view_orderaftersale_enter_name')}}</a>
                                 </div>
                             {{/if}}
                         {{/case}}
 
                         {{case 3|4}}
                             <div class="am-alert {{if $new_aftersale_data['status'] eq 3}} am-alert-success{{else /}} am-alert-danger{{/if}}">
-                                {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_form_key=>$new_aftersale_data['order_no']])}}">查看售后订单</a>
+                                {{$new_aftersale_data.tips_msg}}<a href="{{:MyUrl('index/orderaftersale/index', [$form_search_keywords_form_key=>$new_aftersale_data['order_no']])}}">{{:MyLang('orderaftersale.view_orderaftersale_enter_name')}}</a>
                             </div>
                         {{/case}}
                     {{/switch}}
@@ -306,97 +306,97 @@
                     <div class="detail am-nbfc">
                         <div class="am-u-md-6 apply-container">
                             <div class="am-panel am-panel-default">
-                                <div class="am-panel-hd">申请信息</div>
+                                <div class="am-panel-hd">{{:MyLang('orderaftersale.base_apply_title')}}</div>
                                 <div class="am-panel-bd">
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>退款类型：</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_type_title')}}</span>
                                         <span>{{$new_aftersale_data.type_text}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>当前状态：</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_status_title')}}</span>
                                         <span>{{$new_aftersale_data.status_text}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>申请原因：</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_reason_title')}}</span>
                                         <span>{{$new_aftersale_data.reason}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>退货数量：</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_number_title')}}</span>
                                         <span {{if $new_aftersale_data['number'] gt 0}}class="am-text-danger"{{/if}}>{{$new_aftersale_data.number}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>退款金额：</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_price_title')}}</span>
                                         <span class="am-text-danger">{{$order.currency_data.currency_symbol}}{{$new_aftersale_data.price}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>退款说明：</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_msg_title')}}</span>
                                         <span>{{$new_aftersale_data.msg}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>退款方式：</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_refundment_title')}}</span>
                                         <span>{{$new_aftersale_data.refundment_text}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>拒绝原因：</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_refuse_reason_title')}}</span>
                                         <span class="am-text-danger">{{$new_aftersale_data.refuse_reason}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>申请时间：</span>
-                                        <span>{{$new_aftersale_data.apply_time_time}}</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_apply_time_title')}}</span>
+                                        <span>{{$new_aftersale_data.apply_time}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>确认时间：</span>
-                                        <span>{{$new_aftersale_data.confirm_time_time}}</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_confirm_time_title')}}</span>
+                                        <span>{{$new_aftersale_data.confirm_time}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>退货时间：</span>
-                                        <span>{{$new_aftersale_data.delivery_time_time}}</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_delivery_time_title')}}</span>
+                                        <span>{{$new_aftersale_data.delivery_time}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>审核时间：</span>
-                                        <span>{{$new_aftersale_data.audit_time_time}}</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_audit_time_title')}}</span>
+                                        <span>{{$new_aftersale_data.audit_time}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>取消时间：</span>
-                                        <span>{{$new_aftersale_data.cancel_time_time}}</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_cancel_time_title')}}</span>
+                                        <span>{{$new_aftersale_data.cancel_time}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>添加时间：</span>
-                                        <span>{{$new_aftersale_data.add_time_time}}</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_add_time_title')}}</span>
+                                        <span>{{$new_aftersale_data.add_time}}</span>
                                     </div>
                                     <div class="am-cf am-padding-vertical-xs">
-                                        <span>更新时间：</span>
-                                        <span>{{$new_aftersale_data.upd_time_time}}</span>
+                                        <span>{{:MyLang('orderaftersale.base_apply_upd_time_title')}}</span>
+                                        <span>{{$new_aftersale_data.upd_time}}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="am-u-md-6 express-container">
                             <div class="am-panel am-panel-default">
-                                <div class="am-panel-hd">快递信息</div>
+                                <div class="am-panel-hd">{{:MyLang('orderaftersale.base_item_express_title')}}</div>
                                 <div class="am-panel-bd">
                                     {{if $new_aftersale_data['type'] eq 1 and in_array($new_aftersale_data['status'], [2,3])}}
                                         <div class="am-cf am-padding-vertical-xs">
-                                            <span>快递：</span>
+                                            <span>{{:MyLang('orderaftersale.base_item_express_name')}}</span>
                                             <span>{{$new_aftersale_data.express_name}}</span>
                                         </div>
                                         <div class="am-cf am-padding-vertical-xs">
-                                            <span>单号：</span>
+                                            <span>{{:MyLang('orderaftersale.base_item_express_number')}}</span>
                                             <span>{{$new_aftersale_data.express_number}}</span>
                                         </div>
                                         <div class="am-cf am-padding-vertical-xs">
-                                            <span>时间：</span>
-                                            <span>{{$new_aftersale_data.delivery_time_time}}</span>
+                                            <span>{{:MyLang('orderaftersale.base_item_express_time')}}</span>
+                                            <span>{{$new_aftersale_data.delivery_time}}</span>
                                         </div>
                                     {{else /}}
-                                        <span>无数据</span>
+                                        <span class="am-text-grey">{{:MyLang('no_data')}}</span>
                                     {{/if}}
                                 </div>
                             </div>
                         </div>
                         <div class="am-u-md-6 voucher-container">
                             <div class="am-panel am-panel-default">
-                                <div class="am-panel-hd">凭证</div>
+                                <div class="am-panel-hd">{{:MyLang('orderaftersale.base_item_voucher_title')}}</div>
                                 <div class="am-panel-bd am-cf">
                                     {{if !empty($new_aftersale_data['images'])}}
                                         {{foreach $new_aftersale_data.images as $img}}
@@ -405,7 +405,7 @@
                                             </a>
                                         {{/foreach}}
                                     {{else /}}
-                                        <span>无数据</span>
+                                        <span class="am-text-grey">{{:MyLang('no_data')}}</span>
                                     {{/if}}
                                 </div>
                             </div>

@@ -205,7 +205,7 @@ class OrderAftersale
                 [
                     'label'         => '申请时间',
                     'view_type'     => 'field',
-                    'view_key'      => 'apply_time_time',
+                    'view_key'      => 'apply_time',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
@@ -215,7 +215,7 @@ class OrderAftersale
                 [
                     'label'         => '确认时间',
                     'view_type'     => 'field',
-                    'view_key'      => 'confirm_time_time',
+                    'view_key'      => 'confirm_time',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
@@ -225,7 +225,7 @@ class OrderAftersale
                 [
                     'label'         => '退货时间',
                     'view_type'     => 'field',
-                    'view_key'      => 'delivery_time_time',
+                    'view_key'      => 'delivery_time',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
@@ -235,7 +235,7 @@ class OrderAftersale
                 [
                     'label'         => '审核时间',
                     'view_type'     => 'field',
-                    'view_key'      => 'audit_time_time',
+                    'view_key'      => 'audit_time',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
@@ -245,7 +245,7 @@ class OrderAftersale
                 [
                     'label'         => '创建时间',
                     'view_type'     => 'field',
-                    'view_key'      => 'add_time_time',
+                    'view_key'      => 'add_time',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
@@ -255,7 +255,7 @@ class OrderAftersale
                 [
                     'label'         => '更新时间',
                     'view_type'     => 'field',
-                    'view_key'      => 'upd_time_time',
+                    'view_key'      => 'upd_time',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',
@@ -263,7 +263,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'orderaftersale/module/operate',
                     'align'         => 'center',

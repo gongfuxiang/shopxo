@@ -165,7 +165,7 @@ class Article
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'article/module/operate',
                     'align'         => 'center',

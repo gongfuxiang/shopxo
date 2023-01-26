@@ -1,50 +1,50 @@
 <!-- 操作栏 -->
 <button type="button" class="am-btn am-btn-default am-btn-xs am-radius am-btn-block submit-popup" data-url="{{:MyUrl('admin/order/detail', ['id'=>$module_data['id']])}}">
     <i class="am-icon-eye"></i>
-    <span>详情</span>
+    <span>{{:MyLang('detail_title')}}</span>
 </button>
 {{if !empty($module_data['operate_data'])}}
     {{if $module_data['operate_data']['is_confirm'] eq 1}}
         <button type="button" class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/confirm')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="是否操作确认，操作后不可恢复！">
             <i class="am-icon-check-circle-o"></i>
-            <span>确认</span>
+            <span>{{:MyLang('confirm_title')}}</span>
         </button>
     {{/if}}
     {{if $module_data['operate_data']['is_pay'] eq 1}}
         <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-pay" data-id="{{$module_data.id}}" data-payment-id="{{$module_data.payment_id}}" data-am-modal="{target: '#order-pay-popup'}">
             <i class="am-icon-paypal"></i>
-            <span>支付</span>
+            <span>{{:MyLang('payment_title')}}</span>
         </button>
     {{/if}}
     {{if $module_data['operate_data']['is_delivery'] eq 1}}
         {{if $module_data['order_model'] eq 2}}
             <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-take" data-id="{{$module_data.id}}" data-user-id="{{$module_data.user_id}}" data-am-modal="{target: '#order-take-modal', closeViaDimmer: 0, width: 200, height: 160}" {{if !empty($module_data) and !empty($module_data['aftersale_first'])}}data-am-popover="{content: '订单有售后、请注意核对', trigger: 'hover focus', theme: 'danger sm'}"{{/if}}>
                 <i class="am-icon-check"></i>
-                <span>取货</span>
+                <span>{{:MyLang('take_title')}}</span>
             </button>
         {{else /}}
            <button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-delivery" data-url="{{:MyUrl('admin/order/delivery')}}" data-id="{{$module_data.id}}" data-user-id="{{$module_data.user_id}}" data-express-id="{{$module_data.express_id}}" data-am-modal="{target: '#order-delivery-popup'}" {{if !empty($module_data) and !empty($module_data['aftersale_first'])}}data-am-popover="{content: '订单有售后、请注意核对', trigger: 'hover focus', theme: 'danger sm'}"{{/if}}>
                 <i class="am-icon-send-o"></i>
-                <span>发货</span>
+                <span>{{:MyLang('delivery_title')}}</span>
             </button>
         {{/if}}
     {{/if}}
     {{if $module_data['operate_data']['is_collect'] eq 1}}
         <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/collect')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="是否操作收货，操作后不可恢复！">
             <i class="am-icon-check-circle-o"></i>
-            <span>收货</span>
+            <span>{{:MyLang('collect_title')}}</span>
         </button>
     {{/if}}
     {{if $module_data['operate_data']['is_cancel'] eq 1}}
         <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/cancel')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="reload" data-msg="取消后无法恢复，确定继续吗？">
             <i class="am-icon-paint-brush"></i>
-            <span>取消</span>
+            <span>{{:MyLang('cancel_title')}}</span>
         </button>
     {{/if}}
     {{if $module_data['operate_data']['is_delete'] eq 1}}
         <button type="button" class="am-btn am-btn-danger am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/order/delete')}}" data-id="{{$module_data.id}}" data-value="{{$module_data.user_id}}" data-view="delete" data-msg="删除后无法恢复，确定继续吗？">
             <i class="am-icon-trash-o"></i>
-            <span>删除</span>
+            <span>{{:MyLang('delete_title')}}</span>
         </button>
     {{/if}}
 {{/if}}

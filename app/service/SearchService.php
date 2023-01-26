@@ -25,35 +25,6 @@ use app\service\ResourcesService;
  */
 class SearchService
 {
-    // 筛选排序规则列表
-    public static $map_order_by_list = [
-        [
-            'name'  => '综合',
-            'type'  => 'default',
-            'value' => 'desc',
-        ],
-        [
-            'name'  => '销量',
-            'type'  => 'sales',
-            'value' => 'desc',
-        ],
-        [
-            'name'  => '热度',
-            'type'  => 'access',
-            'value' => 'desc',
-        ],
-        [
-            'name'  => '价格',
-            'type'  => 'price',
-            'value' => 'desc',
-        ],
-        [
-            'name'  => '最新',
-            'type'  => 'new',
-            'value' => 'desc',
-        ],
-    ];
-
     /**
      * 排序列表
      * @author  Devil
@@ -66,7 +37,7 @@ class SearchService
     public static function SearchMapOrderByList($params = [])
     {
         $ov = empty($params['ov']) ? ['default'] : explode('-', $params['ov']);
-        $data = self::$map_order_by_list;
+        $data = MyLang('common_search_order_by_list');
         foreach($data as &$v)
         {
             // 是否选中

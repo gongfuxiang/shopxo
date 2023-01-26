@@ -170,7 +170,7 @@ class CustomView
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'customview/module/operate',
                     'align'         => 'center',

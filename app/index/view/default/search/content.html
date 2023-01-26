@@ -34,7 +34,7 @@
                         {{if isset($v['original_price']) and $v['original_price'] gt 0}}
                             <span class="am-fl original-price">{{$currency_symbol}}{{$v.original_price}}</span>
                         {{/if}}
-                        <span class="am-fr sales-count">销量 {{$v.sales_count}}</span>
+                        <span class="am-fr sales-count">{{:MyLang('sales_title')}} {{$v.sales_count}}</span>
                     </p>
 
                     <!-- 搜索页面商品信息售价顶部钩子 -->

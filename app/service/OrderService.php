@@ -1745,15 +1745,16 @@ class OrderService
         $text = null;
         if(!in_array($order_status, [0,1,5,6]))
         {
+            $lang = MyLang('orderaftersale_create_title_data');
             if(empty($orderaftersale))
             {
-                $text = '退款/退货';
+                $text = $lang['default'];
                 if($order_status == 4)
                 {
-                    $text = '申请售后';
+                    $text = $lang['collect'];
                 }
             } else {
-                $text = ($orderaftersale['status'] == 3) ? '查看退款' : '查看进度';
+                $text = ($orderaftersale['status'] == 3) ? $lang['success'] : $lang['step'];
             }
         }
         return $text;
@@ -2365,44 +2366,83 @@ class OrderService
     {
         // 状态数据封装
         $result = [];
-        $order_status_list = MyLang('common_order_status');
+        $is_comments = isset($params['is_comments']) && $params['is_comments'] == 1;
+        $is_aftersale = isset($params['is_aftersale']) && $params['is_aftersale'] == 1;
+        $order_status_list = MyLang('order_status_step_total_list');
         foreach($order_status_list as $v)
         {
-            $result[] = [
-                'name'      => $v['name'],
-                'status'    => $v['id'],
-                'count'     => 0,
-            ];
+            // 订单正常状态
+            // 待评价
+            // 订单售后
+            if($v['value'] <= 6 || ($is_comments && $v['value'] == 100) || ($is_aftersale && $v['value'] == 101))
+            {
+                    $result[] = [
+                    'name'      => $v['name'],
+                    'status'    => $v['value'],
+                    'count'     => 0,
+                ];
+            }
         }
-
-        // 用户类型
-        $user_type = isset($params['user_type']) ? $params['user_type'] : '';
 
         // 条件
         $where = [];
         $where['is_delete_time'] = 0;
 
         // 用户类型
-        switch($user_type)
-        {
-            case 'user' :
-                $where['user_is_delete_time'] = 0;
-                break;
-        }
-
-        // 用户条件
+        $user_type = isset($params['user_type']) ? $params['user_type'] : '';
         if($user_type == 'user')
         {
-            if(!empty($params['user']))
+            if(empty($params['user']))
             {
-                $where['user_id'] = $params['user']['id'];
-            } else {
                 return DataReturn('用户信息有误', 0, $result);
             }
+
+            // 增加用户条件
+            $where['user_is_delete_time'] = 0;
+            $where['user_id'] = $params['user']['id'];
         }
 
+        // 订单状态各项总数
         $field = 'COUNT(DISTINCT id) AS count, status';
         $data = Db::name('Order')->where($where)->field($field)->group('status')->select()->toArray();
+
+        // 待评价 状态站位100
+        if($is_comments)
+        {
+            switch($user_type)
+            {
+                case 'user' :
+                    $where['user_is_comments'] = 0;
+                    break;
+                case 'admin' :
+                    $where['is_comments'] = 0;
+                    break;
+                default :
+                    $where['user_is_comments'] = 0;
+                    $where['is_comments'] = 0;
+            }
+            $where['status'] = 4;
+            $data[] = [
+                'status'    => 100,
+                'count'     => (int) Db::name('Order')->where($where)->count(),
+            ];
+        }
+
+        // 退款/售后 状态站位101
+        if($is_aftersale)
+        {
+            $where = [
+                ['status', '<=', 2],
+            ];
+            if($user_type == 'user' && !empty($params['user']))
+            {
+                $where[] = ['user_id', '=', $params['user']['id']];
+            }
+            $data[] = [
+                'status'    => 101,
+                'count'     => (int) Db::name('OrderAftersale')->where($where)->count(),
+            ];
+        }
 
         // 数据处理
         if(!empty($data))
@@ -2419,47 +2459,6 @@ class OrderService
                 }
             }
         }
-
-        // 待评价 状态站位100
-        if(isset($params['is_comments']) && $params['is_comments'] == 1)
-        {
-            switch($user_type)
-            {
-                case 'user' :
-                    $where['user_is_comments'] = 0;
-                    break;
-                case 'admin' :
-                    $where['is_comments'] = 0;
-                    break;
-                default :
-                    $where['user_is_comments'] = 0;
-                    $where['is_comments'] = 0;
-            }
-            $where['status'] = 4;
-            $result[] = [
-                'name'      => '待评价',
-                'status'    => 100,
-                'count'     => (int) Db::name('Order')->where($where)->count(),
-            ];
-        }
-
-        // 退款/售后 状态站位101
-        if(isset($params['is_aftersale']) && $params['is_aftersale'] == 1)
-        {
-            $where = [
-                ['status', '<=', 2],
-            ];
-            if($user_type == 'user' && !empty($params['user']))
-            {
-                $where[] = ['user_id', '=', $params['user']['id']];
-            }
-            $result[] = [
-                'name'      => '退款/售后',
-                'status'    => 101,
-                'count'     => (int) Db::name('OrderAftersale')->where($where)->count(),
-            ];
-        }
-            
         return DataReturn('success', 0, $result);
     }
 
@@ -2615,6 +2614,86 @@ class OrderService
             'payment_id'    => $payment_id,
             'order_ids'     => $order_ids,
         ];
+    }
+
+    /**
+     * 订单进度数据
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-01-23
+     * @desc    description
+     * @param   [array]          $order [订单数据]
+     */
+    public static function OrderStepData($order)
+    {
+        $result = [];
+        if(!empty($order))
+        {
+            $lang = MyLang('order_status_setp_data');
+            $result[] = [
+                'title'     => $lang['add'],
+                'time'      => $order['add_time'],
+                'is_check'  => 1,
+                'is_current'=> 1,
+            ];
+            // 订单取消、关闭
+            if(in_array($order['status'], [5,6]))
+            {
+                switch($order['status'])
+                {
+                    // 取消
+                    case 5 :
+                        $result[] = [
+                            'title'     => $lang['cancel'],
+                            'time'      => $order['cancel_time'],
+                            'is_check'  => 1,
+                            'is_current'=> 1,
+                        ];
+                        break;
+                    // 关闭
+                    case 6 :
+                        $result[] = [
+                            'title'     => $lang['close'],
+                            'time'      => $order['close_time'],
+                            'is_check'  => 1,
+                            'is_current'=> 1,
+                        ];
+                        break;
+                }
+            } else {
+                // 支付
+                $result[] = [
+                    'title'     => $lang['pay'],
+                    'time'      => empty($order['pay_time']) ? '' : $order['pay_time'],
+                    'is_check'  => ($order['status'] > 1) ? 1 : 0,
+                    'is_current'=> ($order['status'] == 2) ? 1 : 0,
+                ];
+                // 卖家发货
+                $result[] = [
+                    'title'     => $lang['delivery'],
+                    'time'      => empty($order['delivery_time']) ? '' : $order['delivery_time'],
+                    'is_check'  => ($order['status'] > 2) ? 1 : 0,
+                    'is_current'=> ($order['status'] == 3) ? 1 : 0,
+                ];
+                // 确认收货
+                $result[] = [
+                    'title'     => $lang['collect'],
+                    'time'      => empty($order['collect_time']) ? '' : $order['collect_time'],
+                    'is_check'  => ($order['status'] > 3) ? 1 : 0,
+                    'is_current'=> ($order['status'] == 4) ? 1 : 0,
+                ];
+                // 评价
+                $is_current = empty($order['user_is_comments']) ? 0 : 1;
+                $result[] = [
+                    'title'     => $lang['comments'],
+                    'time'      => empty($order['user_is_comments_time']) ? '' : $order['user_is_comments_time'],
+                    'is_check'  => $is_current,
+                    'is_current'=> $is_current,
+                ];
+            }
+        }
+        return $result;
     }
 }
 ?>

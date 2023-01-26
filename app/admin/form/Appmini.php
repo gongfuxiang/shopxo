@@ -75,7 +75,7 @@ class Appmini
                     'view_key'      => 'time',
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'appmini/module/operate',
                     'align'         => 'center',

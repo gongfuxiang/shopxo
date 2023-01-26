@@ -52,13 +52,13 @@
                         </div>
                     </div>
                     <div class="items">
-                        <a href="javascript:;" class="am-icon-camera-retro" data-am-modal="{target:'#user-avatar-popup'}"> 修改头像</a>
-                        <a href="{{:MyUrl('index/personal/index')}}" class="am-icon-edit"> 修改资料</a>
-                        <a href="{{:MyUrl('index/useraddress/index')}}" class="am-icon-street-view"> 我的地址</a>
+                        <a href="javascript:;" class="am-icon-camera-retro" data-am-modal="{target:'#user-avatar-popup'}"> {{:MyLang('user.base_avatar_title')}}</a>
+                        <a href="{{:MyUrl('index/personal/index')}}" class="am-icon-edit"> {{:MyLang('user.base_personal_title')}}</a>
+                        <a href="{{:MyUrl('index/useraddress/index')}}" class="am-icon-street-view"> {{:MyLang('user.base_address_title')}}</a>
                     </div>
                 </div>
                 <div class="user-base-right">
-                    <a href="{{:MyUrl('index/message/index')}}" class="am-icon-bell-o message"> 消息 {{if $common_message_total gt 0}}{{$common_message_total}}{{/if}}</a>
+                    <a href="{{:MyUrl('index/message/index')}}" class="am-icon-bell-o message"> {{:MyLang('user.base_message_title')}} {{if $common_message_total gt 0}}{{$common_message_total}}{{/if}}</a>
                 </div>
                 {{if !empty($mini_navigation)}}
                     <ul class="user-base-icon">
@@ -93,10 +93,10 @@
                 <a href="{{:MyUrl('index/order/index')}}">
                     <span class="nav-name">
                         <i class="order-icon"></i>
-                        我的订单
+                        <span>{{:MyLang('user.order_nav_title')}}</span>
                     </span>
                     <span class="am-fr icon-tips">
-                        查看全部订单
+                        <span>{{:MyLang('user.order_nav_angle_title')}}</span>
                         <i class="am-icon-angle-right"></i>
                     </span>
                 </a>
@@ -173,10 +173,11 @@
                 <div class="am-u-md-8">
                     <div class="am-panel am-panel-default">
                         <div class="am-panel-hd">
-                            <i></i>交易提醒
+                            <i></i><span>{{:MyLang('user.various_transaction_title')}}</span>
                             {{if !empty($order_list)}}
                                 <a class="am-fr more-tips" href="{{:MyUrl('index/order/index')}}" target="_blank">
-                                    更多 <span class="am-icon-angle-double-right"></span>
+                                    <span>{{:MyLang('more_title')}}</span>
+                                    <span class="am-icon-angle-double-right"></span>
                                 </a>
                             {{/if}}
                         </div>
@@ -199,23 +200,19 @@
                                                         <li>
                                                             <span>{{$order.status_name}}</span>
                                                             {{if $order['items_count'] gt 1}}
-                                                                <span class="items-count">
-                                                                    <em>等</em>
-                                                                    <em>{{$order.items_count}}</em>
-                                                                    <em>种商品</em>
-                                                                </span>
+                                                                <span class="items-count">{{:MyLang('goods_more_total_tips', ['total'=>$order['items_count']])}}</span>
                                                             {{/if}}
                                                         </li>
                                                     </ul>
                                                 </div>
                                                 {{if in_array($order['status'], [1])}}
-                                                    <a class="am-btn am-btn-primary am-btn-xs am-radius am-fr order-submit" href="{{:MyUrl('index/order/detail', ['id'=>$order['id'], 'ids'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">支付</a>
+                                                    <a class="am-btn am-btn-primary am-btn-xs am-radius am-fr order-submit" href="{{:MyUrl('index/order/detail', ['id'=>$order['id'], 'ids'=>$order['id'], 'is_pay_auto'=>1])}}" target="_blank">{{:MyLang('payment_title')}}</a>
                                                 {{/if}}
                                                 {{if in_array($order['status'], [3])}}
-                                                    <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-fr order-submit submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/Collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">收货</button>
+                                                    <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-fr order-submit submit-ajax submit-confirm" data-url="{{:MyUrl('index/order/collect')}}" data-id="{{$order.id}}" data-view="reload" data-msg="{{:MyLang('collect_confirm_tips')}}">{{:MyLang('collect_title')}}</button>
                                                 {{/if}}
                                                 {{if in_array($order['status'], [4]) and $order['user_is_comments'] eq 0}}
-                                                    <a href="{{:MyUrl('index/order/comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-warning am-btn-xs am-radius am-fr order-submit">评价</a>
+                                                    <a href="{{:MyUrl('index/order/comments', ['id'=>$order['id']])}}" target="_blank" class="am-btn am-btn-warning am-btn-xs am-radius am-fr order-submit">{{:MyLang('comment_title')}}</a>
                                                 {{/if}}
                                             </div>
                                         {{/if}}
@@ -225,8 +222,8 @@
                             {{if empty($order_list)}}
                                 <div class="table-no">
                                     <i class="am-icon-cube am-icon-lg block"></i>
-                                    <p class="tips-name">查看全部订单</p>
-                                    <p class="tips-msg">交易提醒可帮助您了解订单状态和物流情况</p>
+                                    <p class="tips-name">{{:MyLang('user.order_nav_angle_title')}}</p>
+                                    <p class="tips-msg">{{:MyLang('user.various_transaction_tips')}}</p>
                                 </div>
                             {{/if}}
                         </div>
@@ -237,10 +234,11 @@
                 <div class="am-u-md-4">
                     <div class="am-panel am-panel-default">
                         <div class="am-panel-hd">
-                            <i></i>购物车
+                            <i></i><span>{{:MyLang('user.various_cart_title')}}</span>
                             {{if !empty($cart_list)}}
                                 <a class="am-fr more-tips" href="{{:MyUrl('index/cart/index')}}" target="_blank">
-                                    更多 <span class="am-icon-angle-double-right"></span>
+                                    <span>{{:MyLang('more_title')}}</span>
+                                    <span class="am-icon-angle-double-right"></span>
                                 </a>
                             {{/if}}
                         </div>
@@ -268,8 +266,8 @@
                             {{if empty($cart_list)}}
                                 <div class="table-no">
                                     <i class="am-icon-opencart am-icon-lg block"></i>
-                                    <p class="tips-name">您的购物车还是空的</p>
-                                    <p class="tips-msg">将想买的商品放进购物车，一起结算更轻松</p>
+                                    <p class="tips-name">{{:MyLang('user.various_cart_empty_title')}}</p>
+                                    <p class="tips-msg">{{:MyLang('user.various_cart_tips')}}</p>
                                 </div>
                             {{/if}}
                         </div>
@@ -280,10 +278,11 @@
                 <div class="am-u-md-8">
                     <div class="am-panel am-panel-default">
                         <div class="am-panel-hd">
-                            <i></i>商品收藏
+                            <i></i><span>{{:MyLang('user.various_favor_title')}}</span>
                             {{if !empty($goods_favor_list)}}
                                 <a class="am-fr more-tips" href="{{:MyUrl('index/usergoodsfavor/index')}}" target="_blank">
-                                    更多 <span class="am-icon-angle-double-right"></span>
+                                    <span>{{:MyLang('more_title')}}</span>
+                                    <span class="am-icon-angle-double-right"></span>
                                 </a>
                             {{/if}}
                         </div>
@@ -306,8 +305,8 @@
                             {{if empty($goods_favor_list)}}
                                 <div class="table-no">
                                     <i class="am-icon-heart-o am-icon-lg block"></i>
-                                    <p class="tips-name">您还没有收藏商品</p>
-                                    <p class="tips-msg">收藏的商品将显示最新的促销活动和降价情况</p>
+                                    <p class="tips-name">{{:MyLang('user.various_favor_empty_title')}}</p>
+                                    <p class="tips-msg">{{:MyLang('user.various_favor_tips')}}</p>
                                 </div>
                             {{/if}}
                         </div>
@@ -318,10 +317,11 @@
                 <div class="am-u-md-4">
                     <div class="am-panel am-panel-default">
                         <div class="am-panel-hd">
-                            <i></i>我的足迹
+                            <i></i><span>{{:MyLang('user.various_browse_title')}}</span>
                             {{if !empty($goods_browse_list)}}
                                 <a class="am-fr more-tips" href="{{:MyUrl('index/usergoodsbrowse/index')}}" target="_blank">
-                                    更多 <span class="am-icon-angle-double-right"></span>
+                                    <span>{{:MyLang('more_title')}}</span>
+                                    <span class="am-icon-angle-double-right"></span>
                                 </a>
                             {{/if}}
                         </div>
@@ -344,8 +344,8 @@
                             {{if empty($goods_browse_list)}}
                                 <div class="table-no">
                                     <i class="am-icon-lastfm am-icon-lg block"></i>
-                                    <p class="tips-name">您的商品浏览记录为空</p>
-                                    <p class="tips-msg">赶紧去商城看看促销活动吧</p>
+                                    <p class="tips-name">{{:MyLang('user.various_browse_empty_title')}}</p>
+                                    <p class="tips-msg">{{:MyLang('user.various_browse_tips')}}</p>
                                 </div>
                             {{/if}}
                         </div>

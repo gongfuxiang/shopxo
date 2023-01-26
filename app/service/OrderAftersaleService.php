@@ -450,37 +450,29 @@ class OrderAftersaleService
                     }
                     $v['images'] = $images;
                 } else {
-                    $v['images'] = null;
+                    $v['images'] = '';
                 }
 
                 // 申请时间
-                $v['apply_time_time'] = empty($v['apply_time']) ? null : date('Y-m-d H:i:s', $v['apply_time']);
-                $v['apply_time_date'] = empty($v['apply_time']) ? null : date('Y-m-d', $v['apply_time']);
+                $v['apply_time'] = empty($v['apply_time']) ? '' : date('Y-m-d H:i:s', $v['apply_time']);
 
                 // 确认时间
-                $v['confirm_time_time'] = empty($v['confirm_time']) ? null : date('Y-m-d H:i:s', $v['confirm_time']);
-                $v['confirm_time_date'] = empty($v['confirm_time']) ? null : date('Y-m-d', $v['confirm_time']);
+                $v['confirm_time'] = empty($v['confirm_time']) ? '' : date('Y-m-d H:i:s', $v['confirm_time']);
 
                 // 退货时间
-                $v['delivery_time_time'] = empty($v['delivery_time']) ? null : date('Y-m-d H:i:s', $v['delivery_time']);
-                $v['delivery_time_date'] = empty($v['delivery_time']) ? null : date('Y-m-d', $v['delivery_time']);
+                $v['delivery_time'] = empty($v['delivery_time']) ? '' : date('Y-m-d H:i:s', $v['delivery_time']);
 
                 // 审核时间
-                $v['audit_time_time'] = empty($v['audit_time']) ? null : date('Y-m-d H:i:s', $v['audit_time']);
-                $v['audit_time_date'] = empty($v['audit_time']) ? null : date('Y-m-d', $v['audit_time']);
+                $v['audit_time'] = empty($v['audit_time']) ? '' : date('Y-m-d H:i:s', $v['audit_time']);
 
                 // 取消时间
-                $v['cancel_time_time'] = empty($v['cancel_time']) ? null : date('Y-m-d H:i:s', $v['cancel_time']);
-                $v['cancel_time_date'] = empty($v['cancel_time']) ? null : date('Y-m-d', $v['cancel_time']);
+                $v['cancel_time'] = empty($v['cancel_time']) ? '' : date('Y-m-d H:i:s', $v['cancel_time']);
 
                 // 添加时间
-                $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                $v['add_time_date'] = date('Y-m-d', $v['add_time']);
+                $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
 
                 // 更新时间
-                $v['upd_time_time'] = empty($v['upd_time']) ? null : date('Y-m-d H:i:s', $v['upd_time']);
-                $v['upd_time_date'] = empty($v['upd_time']) ? null : date('Y-m-d', $v['upd_time']);
-                
+                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
             }
         }
         return $data;
@@ -1549,13 +1541,14 @@ class OrderAftersaleService
      * @desc     description
      * @param    [array]             $orderaftersale [订单售后数据]
      */
-    public static function OrderAftersaleStep($orderaftersale)
+    public static function OrderAftersaleStepData($orderaftersale)
     {
+        $lang = MyLang('orderaftersale_step_data');
         // 仅退款
         $step0 = [
             [
                 'number'    => 1,
-                'name'      => '申请仅退款',
+                'name'      => $lang[0]['add'],
                 'is_caret'  => 1,
                 'is_angle'  => 1,
                 'is_active' => 1,
@@ -1563,7 +1556,7 @@ class OrderAftersaleService
             ],
             [
                 'number'    => 2,
-                'name'      => '管理员审核',
+                'name'      => $lang[0]['audit'],
                 'is_caret'  => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [0,1,2,3])) ? 1 : 0,
                 'is_angle'  => 1,
                 'is_active' => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [0,1,2,3])) ? 1 : 0,
@@ -1571,7 +1564,7 @@ class OrderAftersaleService
             ],
             [
                 'number'    => 3,
-                'name'      => '退款完毕',
+                'name'      => $lang[0]['success'],
                 'is_caret'  => 0,
                 'is_angle'  => 0,
                 'is_active' => (isset($orderaftersale['status']) && $orderaftersale['status'] == 3) ? 1 : 0,
@@ -1583,7 +1576,7 @@ class OrderAftersaleService
         $step1 = [
             [
                 'number'    => 1,
-                'name'      => '申请退货退款',
+                'name'      => $lang[1]['add'],
                 'is_caret'  => 1,
                 'is_angle'  => 1,
                 'is_active' => 1,
@@ -1591,7 +1584,7 @@ class OrderAftersaleService
             ],
             [
                 'number'    => 2,
-                'name'      => '管理员确认',
+                'name'      => $lang[1]['confirm'],
                 'is_caret'  => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [0,1,2])) ? 1 : 0,
                 'is_angle'  => 1,
                 'is_active' => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [0,1,2,3])) ? 1 : 0,
@@ -1599,7 +1592,7 @@ class OrderAftersaleService
             ],
             [
                 'number'    => 3,
-                'name'      => '用户退货',
+                'name'      => $lang[1]['delivery'],
                 'is_caret'  => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [1,2,3])) ? 1 : 0,
                 'is_angle'  => 1,
                 'is_active' => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [1,2,3])) ? 1 : 0,
@@ -1607,7 +1600,7 @@ class OrderAftersaleService
             ],
             [
                 'number'    => 4,
-                'name'      => '管理员审核',
+                'name'      => $lang[1]['audit'],
                 'is_caret'  => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [2,3])) ? 1 : 0,
                 'is_angle'  => 1,
                 'is_active' => (isset($orderaftersale['status']) && in_array($orderaftersale['status'], [2,3])) ? 1 : 0,
@@ -1615,14 +1608,13 @@ class OrderAftersaleService
             ],
             [
                 'number'    => 5,
-                'name'      => '退款完毕',
+                'name'      => $lang[1]['success'],
                 'is_caret'  => 0,
                 'is_angle'  => 0,
                 'is_active' => (isset($orderaftersale['status']) && $orderaftersale['status'] == 3) ? 1 : 0,
                 'is_end'    => 0,
             ]
         ];
-        
         return ['step0'=>$step0, 'step1'=>$step1];
     }
 

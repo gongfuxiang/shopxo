@@ -53,6 +53,7 @@ class UserIntegral
      */
     public function Run($params = [])
     {
+        $lang = MyLang('user_integral.form_table');
         return [
             // 基础配置
             'base' => [
@@ -62,7 +63,7 @@ class UserIntegral
             // 表单配置
             'form' => [
                 [
-                    'label'         => '操作类型',
+                    'label'         => $lang['type'],
                     'view_type'     => 'field',
                     'view_key'      => 'type',
                     'view_data_key' => 'name',
@@ -78,7 +79,7 @@ class UserIntegral
                     ],
                 ],
                 [
-                    'label'         => '操作积分',
+                    'label'         => $lang['operation_integral'],
                     'view_type'     => 'field',
                     'view_key'      => 'operation_integral',
                     'is_sort'       => 1,
@@ -87,7 +88,7 @@ class UserIntegral
                     ],
                 ],
                 [
-                    'label'         => '原始积分',
+                    'label'         => $lang['original_integral'],
                     'view_type'     => 'field',
                     'view_key'      => 'original_integral',
                     'is_sort'       => 1,
@@ -96,7 +97,7 @@ class UserIntegral
                     ],
                 ],
                 [
-                    'label'         => '最新积分',
+                    'label'         => $lang['new_integral'],
                     'view_type'     => 'field',
                     'view_key'      => 'new_integral',
                     'is_sort'       => 1,
@@ -105,7 +106,7 @@ class UserIntegral
                     ],
                 ],
                 [
-                    'label'         => '描述',
+                    'label'         => $lang['msg'],
                     'view_type'     => 'field',
                     'view_key'      => 'msg',
                     'grid_size'     => 'sm',
@@ -116,7 +117,7 @@ class UserIntegral
                     ],
                 ],
                 [
-                    'label'         => '时间',
+                    'label'         => $lang['add_time_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
                     'is_sort'       => 1,
@@ -126,7 +127,7 @@ class UserIntegral
                     ],
                 ],
                 [
-                    'label'         => '操作',
+                    'label'         => MyLang('operate_title'),
                     'view_type'     => 'operate',
                     'view_key'      => 'userintegral/module/operate',
                     'align'         => 'center',

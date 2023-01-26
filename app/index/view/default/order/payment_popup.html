@@ -1,7 +1,7 @@
 <div class="am-popup am-radius" id="order-pay-popup" data-is-auto="{{if isset($params['is_pay_auto']) and $params['is_pay_auto'] eq 1}}1{{else /}}0{{/if}}" data-is-pay="{{if isset($params['is_pay_submit']) and $params['is_pay_submit'] eq 1}}1{{else /}}0{{/if}}">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
-            <h4 class="am-popup-title">支付</h4>
+            <h4 class="am-popup-title">{{:MyLang('order.form_payment_title')}}</h4>
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
@@ -22,15 +22,17 @@
                                 </li>
                             {{/foreach}}
                         </ul>
-                    {{/if}}
-                    {{if empty($buy_payment_list)}}
-                        <div class="table-no"><i class="am-icon-warning"></i> 没有支付方式</div>
+                    {{else /}}
+                        <div class="table-no">
+                            <i class="am-icon-skyatlas am-icon-lg"></i>
+                            <p>{{:MyLang('order.form_payment_no_data_tips')}}</p>
+                        </div>
                     {{/if}}
                 </div>
                 <div class="am-form-popup-submit">
                     <input type="hidden" name="ids" value="{{if !empty($pay_params['order_ids'])}}{{$pay_params.order_ids}}{{/if}}" />
                     <input type="hidden" name="payment_id" value="{{if !empty($pay_params['payment_id'])}}{{$pay_params.payment_id}}{{/if}}" />
-                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'处理中...'}">确认支付</button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_payment_title')}}</button>
                 </div>
             </form>
         </div>

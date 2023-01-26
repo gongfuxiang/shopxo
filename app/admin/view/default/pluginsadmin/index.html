@@ -10,7 +10,7 @@
         <!-- operation start -->
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <div class="am-g am-margin-bottom-sm am-margin-top-sm">
-                <a href="{{:MyUrl('admin/pluginsadmin/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> 新增</a>
+                <a href="{{:MyUrl('admin/pluginsadmin/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus"> {{:MyLang('add_title')}}</a>
             </div>
         {{/if}}
         <!-- operation end -->
@@ -146,8 +146,8 @@
                                 </div>
                                 <p class="am-text-danger am-margin-top">PS：以下操作后均不可恢复，请谨慎操作！</p>
                                 <div class="am-margin-top-sm">
-                                    <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-circle-o submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="0" data-value="1" data-view="reload" data-msg="删除后不可恢复、确认操作吗？" title="删除"> 删除应用和数据</button>
-                                    <button class="am-btn am-btn-warning am-btn-xs am-radius am-icon-remove submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="0" data-value="0" data-view="reload" data-msg="删除后不可恢复、确认操作吗？" title="删除"> 仅删除应用</button>
+                                    <button class="am-btn am-btn-danger am-btn-xs am-radius am-icon-circle-o submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="0" data-value="1" data-view="reload" data-msg="{{:MyLang('delete_confirm_tips')}}" title="删除"> 删除应用和数据</button>
+                                    <button class="am-btn am-btn-warning am-btn-xs am-radius am-icon-remove submit-ajax" data-url="{{:MyUrl('admin/pluginsadmin/delete')}}" data-id="0" data-value="0" data-view="reload" data-msg="{{:MyLang('delete_confirm_tips')}}" title="删除"> 仅删除应用</button>
 
                                     <button class="am-btn am-btn-success am-btn-xs am-radius am-icon-reply" data-am-modal-close> 再考虑一下</button>
                                 </div>
