@@ -1,7 +1,7 @@
-<div class="am-popup" id="specifications-extends-popup">
+<div class="am-popup am-radius" id="specifications-extends-popup">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
-            <h4 class="am-popup-title">规格扩展数据</h4>
+            <h4 class="am-popup-title">{{:MyLang('goods.form_item_extends_popup_title')}}</h4>
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
@@ -126,7 +126,7 @@
                                             {{/switch}}
                                         </div>
                                     {{else /}}
-                                        <p class="am-text-danger">element form-name 配置有误</p>
+                                        <p class="am-text-danger">element form-name {{:MyLang('config_error_tips')}}</p>
                                     {{/if}}
                                 {{/foreach}}
                             {{/if}}

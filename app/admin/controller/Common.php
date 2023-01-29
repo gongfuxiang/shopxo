@@ -358,10 +358,10 @@ class Common extends BaseController
         $this->theme_color_value = intval(MyCookie($this->theme_color_value_key));
         if($this->theme_color_value == 1)
         {
-            $assign['theme_color_name'] = '普通白色';
+            $assign['theme_color_name'] = MyLang('theme_color_white_title');
             $assign['theme_color_url'] = MyUrl('admin/index/color', ['value'=>0]);
         } else {
-            $assign['theme_color_name'] = '夜间深色';
+            $assign['theme_color_name'] = MyLang('theme_color_black_title');
             $assign['theme_color_url'] = MyUrl('admin/index/color', ['value'=>1]);
         }
         $assign['theme_color_value'] = $this->theme_color_value;
@@ -461,11 +461,12 @@ class Common extends BaseController
 		$unwanted_power = ['getnodeson', 'node'];
         if(!AdminIsPower(null, null, $unwanted_power))
         {
+            $msg = MyLang('no_power_tips');
             if(IS_AJAX)
             {
-                exit(json_encode(DataReturn('无权限', -1000)));
+                exit(json_encode(DataReturn($msg, -1000)));
             } else {
-                MyRedirect(MyUrl('admin/error/tips', ['msg'=>urlencode(base64_encode('无权限'))]), true);
+                MyRedirect(MyUrl('admin/error/tips', ['msg'=>urlencode(base64_encode($msg))]), true);
             }
         }
 	}
@@ -522,11 +523,12 @@ class Common extends BaseController
      */
     public function __call($method, $args)
     {
+        $msg = MyLang('illegal_access_tips').'('.$method.')';
         if(IS_AJAX)
         {
-            return DataReturn($method.' 非法访问', -1000);
+            return DataReturn($msg, -1000);
         } else {
-            MyViewAssign('msg', $method.' 非法访问');
+            MyViewAssign('msg', $msg);
             return MyView('public/tips_error');
         }
     }

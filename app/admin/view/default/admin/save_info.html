@@ -4,34 +4,34 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation" action="{{:MyUrl('admin/admin/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/admin/index', $params)}}">
+		<form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/admin/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/admin/index', $params)}}">
 			<legend>
-				<span class="am-text-default">管理员{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+				<span class="am-text-default">{{:MyLang('admin.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
 				<a href="{{:MyUrl('admin/admin/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
 			</legend>
 			<div class="am-form-group">
-				<label>用户名{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span><span class="am-form-group-label-tips">创建后不可更改</span>{{else /}}<span class="am-form-group-label-tips">不可更改</span>{{/if}}</label>
-				<input type="text" name="username" placeholder="用户名" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="用户名格式 5~18 个字符（可以是字母数字下划线）" class="am-radius" {{if !empty($data['username'])}}value="{{$data.username}}" disabled{{/if}} required />
+				<label>{{:MyLang('admin.form_item_username')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span><span class="am-form-group-label-tips">{{:MyLang('admin.form_item_username_created_tips')}}</span>{{else /}}<span class="am-form-group-label-tips">{{:MyLang('admin.form_item_username_edit_tips')}}</span>{{/if}}</label>
+				<input type="text" name="username" placeholder="{{:MyLang('admin.form_item_username_message')}}" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="{{:MyLang('admin.form_item_username_message')}}" class="am-radius" {{if !empty($data['username'])}}value="{{$data.username}}" disabled{{/if}} required />
 			</div>
 			<div class="am-form-group">
-				<label>登录密码{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span>{{else /}}<span class="am-form-group-label-tips">输入则修改密码</span>{{/if}}</label>
-				<input type="password" name="login_pwd" placeholder="登录密码" pattern="{{:MyConst('common_regex_pwd')}}"  data-validation-message="密码格式 6~18 个字符" class="am-radius" autocomplete="off" {{if empty($data)}}required{{/if}} />
+				<label>{{:MyLang('admin.form_item_password')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span>{{else /}}<span class="am-form-group-label-tips">{{:MyLang('admin.form_item_password_edit_tips')}}</span>{{/if}}</label>
+				<input type="password" name="login_pwd" placeholder="{{:MyLang('admin.form_item_password')}}" pattern="{{:MyConst('common_regex_pwd')}}"  data-validation-message="{{:MyLang('admin.form_item_password_message')}}" class="am-radius" autocomplete="off" {{if empty($data)}}required{{/if}} />
 			</div>
 			<div class="am-form-group">
-				<label>手机号码</label>
-				<input type="text" name="mobile" placeholder="手机号码" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="手机号码格式错误" class="am-radius" {{if !empty($data['mobile'])}}value="{{$data.mobile}}"{{/if}} />
+				<label>{{:MyLang('admin.form_item_mobile')}}</label>
+				<input type="text" name="mobile" placeholder="{{:MyLang('admin.form_item_mobile')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('admin.form_item_mobile_message')}}" class="am-radius" {{if !empty($data['mobile'])}}value="{{$data.mobile}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
-                <label>电子邮箱</label>
-                <input type="email" name="email" placeholder="电子邮箱" maxlength="60" data-validation-message="电子邮箱格式错误、最多60个字符" class="am-radius" value="{{if !empty($data['email'])}}{{$data.email}}{{/if}}" />
+                <label>{{:MyLang('admin.form_item_email')}}</label>
+                <input type="email" name="email" placeholder="{{:MyLang('admin.form_item_email')}}" maxlength="60" data-validation-message="{{:MyLang('admin.form_item_email_message')}}" class="am-radius" value="{{if !empty($data['email'])}}{{$data.email}}{{/if}}" />
             </div>
 			{{include file="lib/gender" /}}
 
 			{{if !isset($data['id']) or $admin['id'] neq $data['id']}}
 				<div class="am-form-group">
-					<label>权限组<span class="am-form-group-label-tips-must">*</span></label>
-					<select  class="am-radius chosen-select" name="role_id" data-validation-message="请选择所属角色组" required>
-						<option value="">可选择...</option>
+					<label>{{:MyLang('admin.form_item_role')}}<span class="am-form-group-label-tips-must">*</span></label>
+					<select class="am-radius chosen-select" name="role_id" data-validation-message="{{:MyLang('admin.form_item_role_message')}}" required>
+						<option value="">{{:MyLang('optional_tips')}}</option>
 						{{foreach $role_list as $v}}
 							<option value="{{$v.id}}" {{if isset($data['role_id']) and $data['role_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 						{{/foreach}}
@@ -40,8 +40,8 @@
 			{{/if}}
 
 			<div class="am-form-group">
-				<label>状态<span class="am-form-group-label-tips-must">*</span></label>
-				<select name="status" class="am-radius chosen-select" data-validation-message="请选择用户状态" required>
+				<label>{{:MyLang('admin.form_item_status')}}<span class="am-form-group-label-tips-must">*</span></label>
+				<select name="status" class="am-radius chosen-select" data-validation-message="{{:MyLang('admin.form_item_status_message')}}" required>
 					{{foreach :MyLang('common_admin_status_list') as $v}}
 						<option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
@@ -56,7 +56,7 @@
             {{/if}}
 			{{if !empty($plugins_view_admin_admin_save_data) and is_array($plugins_view_admin_admin_save_data)}}
 				<div class="am-alert am-alert-secondary">
-					<label class="am-text-sm am-text-warning">该区域为插件扩展数据，请按照插件文档填写相应的值</label>
+					<label class="am-text-sm am-text-warning">{{:MyLang('plugins_view_region_config_tips')}}</label>
 					<div>
 						{{foreach $plugins_view_admin_admin_save_data as $hook}}
 		                    {{if is_string($hook) or is_int($hook)}}
@@ -68,7 +68,7 @@
 			{{/if}}
 			<!-- 插件扩展数据 end -->
 			
-			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+			<div class="am-form-popup-submit">
 				<input type="hidden" name="id" {{if !empty($data['id'])}}value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
 			</div>

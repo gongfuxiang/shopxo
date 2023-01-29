@@ -58,7 +58,7 @@
                                             <span>{{$category.name}}</span>
                                             <span class="am-margin-left-sm form.am-form am-form-group-label-tips">{{$category.vice_name}}</span>
                                         </p>
-                                        <select name="{{$data.home_index_floor_left_top_category.only_tag}}[{{$category.id}}]" class="am-radius chosen-select" multiple="multiple" data-placeholder="请选择..." data-validation-message="{{$data.home_index_floor_left_top_category.error_tips}}">
+                                        <select name="{{$data.home_index_floor_left_top_category.only_tag}}[{{$category.id}}]" class="am-radius chosen-select" multiple="multiple" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{$data.home_index_floor_left_top_category.error_tips}}">
                                             {{if !empty($category['items'])}}
                                                 {{foreach $category.items as $v}}
                                                     <option value="{{$v.id}}" {{if !empty($category['config_category_ids']) and in_array($v['id'], $category['config_category_ids'])}}selected{{/if}}>{{$v.name}}</option>
@@ -238,11 +238,11 @@
                         {{/if}}
                     </select>
                     <input type="text" placeholder="商品名称" class="am-radius forth-selection-form-keywords" />
-                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-icon-search search-submit" data-am-loading="{loadingText: ' 搜索中...'}"> 搜索</button>
+                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-icon-search search-submit" data-am-loading="{loadingText: ' {{:MyLang('searching_tips')}}'}"> 搜索</button>
                 </div>
 
                 <!-- 商品列表 -->
-                <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs goods-list-container" data-no-data-msg="请搜索商品" data-loading-msg="搜索中...">
+                <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs goods-list-container" data-no-data-msg="请搜索商品" data-loading-msg="{{:MyLang('searching_tips')}}">
                     <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered">
                         <div class="table-no"><i class="am-icon-warning"></i> 请搜索商品</div>
                     </ul>

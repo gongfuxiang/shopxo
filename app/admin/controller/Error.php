@@ -34,11 +34,12 @@ class Error extends Common
      */
     public function __call($method, $args)
     {
+        $msg = MyLang('controller_not_exist_tips').'('.RequestController().')';
         if(IS_AJAX)
         {
-            return ApiService::ApiDataReturn(DataReturn(RequestController().' 控制器不存在', -1000));
+            return ApiService::ApiDataReturn(DataReturn($msg, -1000));
         } else {
-            MyViewAssign('msg', RequestController().' 控制器不存在');
+            MyViewAssign('msg', $msg);
             return MyView('public/tips_error');
         }
     }
@@ -53,7 +54,7 @@ class Error extends Common
      */
     public function Tips()
     {
-        $msg = empty($this->data_request['msg']) ? '异常错误' : urldecode(base64_decode($this->data_request['msg']));
+        $msg = empty($this->data_request['msg']) ? MyLang('error') : urldecode(base64_decode($this->data_request['msg']));
         MyViewAssign('msg', $msg);
         return MyView('public/tips_error');
     }

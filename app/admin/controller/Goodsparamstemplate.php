@@ -52,10 +52,8 @@ class GoodsParamsTemplate extends Base
         $assign = [
             // 商品参数类型
             'common_goods_parameters_type_list' =>  MyLang('common_goods_parameters_type_list'),
-
             // 数据
             'data'                              => $this->data_detail,
-
             // 参数配置
             'parameters'                        => empty($this->data_detail['config_data']) ? [] : $this->data_detail['config_data'],
         ];
@@ -83,10 +81,8 @@ class GoodsParamsTemplate extends Base
         $assign = [
             // 商品参数类型
             'common_goods_parameters_type_list' => MyLang('common_goods_parameters_type_list'),
-
             // 参数配置
             'parameters'                        => empty($data['config_data']) ? [] : $data['config_data'],
-
             // 商品分类
             'goods_category_list'               => GoodsService::GoodsCategoryList(['where'=>[['pid', '=', 0]]]),
         ];

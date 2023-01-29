@@ -13,15 +13,15 @@
         <div class="am-popup am-radius" id="data-save-win">
 			<div class="am-popup-inner">
 				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="品牌分类添加" data-edit-title="品牌分类编辑">品牌分类添加</h4>
+					<h4 class="am-popup-title" data-add-title="{{:MyLang('brandcategory.base_nav_title')}}{{:MyLang('add_title')}}" data-edit-title="{{:MyLang('brandcategory.base_nav_title')}}{{:MyLang('edit_title')}}">{{:MyLang('brandcategory.base_nav_title')}}{{:MyLang('add_title')}}</h4>
 					<span data-am-modal-close class="am-close">&times;</span>
 				</div>
 				<div class="am-popup-bd">
 					<!-- form start -->
 					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/brandcategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group">
-							<label>名称<span class="am-form-group-label-tips-must">*</span></label>
-							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
+							<label>{{:MyLang('brandcategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+							<input type="text" placeholder="{{:MyLang('brandcategory.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('brandcategory.form_item_name_message')}}" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
 							<label>{{:MyLang('form_sort_title')}}</label>

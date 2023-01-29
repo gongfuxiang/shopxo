@@ -3,12 +3,12 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <button type="button" class="am-btn am-btn-success am-btn-xs am-icon-cloud-upload am-radius" data-am-modal="{target: '#popup-design-upload'}"> 导入</button>
+    <button type="button" class="am-btn am-btn-success am-btn-xs am-icon-cloud-upload am-radius" data-am-modal="{target: '#popup-design-upload'}"> {{:MyLang('import_title')}}</button>
     <a href="{{:MyUrl('admin/design/saveinfo')}}" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus" target="_blank"> {{:MyLang('add_title')}}</a>
     <!-- 父级内容 -->
     {__block__}
     {{if !empty($store_design_url)}}
-        <a class="am-margin-left-sm" href="{{$store_design_url}}" target="_blank">更多设计模板下载 <i class="am-icon-external-link"></i></a>
+        <a class="am-margin-left-sm" href="{{$store_design_url}}" target="_blank">{{:MyLang('design.nav_store_design_name')}} <i class="am-icon-external-link"></i></a>
     {{/if}}
 {{/block}}
 
@@ -18,20 +18,21 @@
     <div class="am-popup am-radius" id="popup-design-upload">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title">导入</h4>
+                <h4 class="am-popup-title">{{:MyLang('import_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
                 <!-- win form start -->
                 <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/design/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
-                    <div class="am-alert am-radius am-alert-tips">
-                        <p class="am-margin-top-xs">1. 选择已下载的页面设计zip包</p>
-                        <p class="am-margin-top-xs">2. 导入将自动新增一条数据</p>
-                    </div>
+                    {{if is_array(MyLang('design.upload_list_tips'))}}
+                        <div class="am-alert am-radius am-alert-tips">
+                            <p class="am-margin-top-xs">{{:implode('</p><p class="am-margin-top-xs">', MyLang('design.upload_list_tips'))}}</p>
+                        </div>
+                    {{/if}}
                     <div class="am-form-group am-form-group-refreshing">
                         <div class="am-form-file">
-                            <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> 选择文件</button>
-                            <input type="file" name="file" class="file-event" data-tips-tag="#form-payment-tips" data-validation-message="请选择需要上传的文件" accept=".zip" multiple required />
+                            <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> {{:MyLang('form_choice_images_title')}}</button>
+                            <input type="file" name="file" class="file-event" data-tips-tag="#form-payment-tips" data-validation-message="{{:MyLang('form_upload_file_message')}}" accept=".zip" multiple required />
                             <div id="form-payment-tips" class="am-margin-top-xs"></div>
                         </div>
                     </div>

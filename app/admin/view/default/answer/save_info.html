@@ -4,62 +4,87 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation" action="{{:MyUrl('admin/answer/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/answer/index', $params)}}" enctype="multipart/form-data">
+        <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/answer/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/answer/index', $params)}}" enctype="multipart/form-data">
             <legend>
-                <span class="am-text-default">问答{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+                <span class="am-text-default">{{:MyLang('answer.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
                 <a href="{{:MyUrl('admin/answer/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
             </legend>
             <div class="am-alert am-alert-secondary user-info" data-am-alert>
-                <p class="am-text-lg">用户信息</p>
+                <p class="am-text-lg">{{:MyLang('answer.user_info_title')}}</p>
                 {{if !empty($data['user'])}}
                     <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
                     <ul class="user-base">
-                        <li>名称：{{if empty($data['user']['username'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.username}}{{/if}}</li>
-                        <li>昵称：{{if empty($data['user']['nickname'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.nickname}}{{/if}}</li>
-                        <li>手机：{{if empty($data['user']['mobile'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.mobile}}{{/if}}</li>
-                        <li>邮箱：{{if empty($data['user']['email'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.email}}{{/if}}</li>
+                        <li>{{:MyLang('user_username_title')}}：{{if empty($data['user']['username'])}}<span class="am-text-grey">{{:MyLang('no_filled_tips')}}</span>{{else /}}{{$data.user.username}}{{/if}}</li>
+                        <li>{{:MyLang('user_nickname_title')}}：{{if empty($data['user']['nickname'])}}<span class="am-text-grey">{{:MyLang('no_filled_tips')}}</span>{{else /}}{{$data.user.nickname}}{{/if}}</li>
+                        <li>{{:MyLang('user_mobile_title')}}：{{if empty($data['user']['mobile'])}}<span class="am-text-grey">{{:MyLang('no_filled_tips')}}</span>{{else /}}{{$data.user.mobile}}{{/if}}</li>
+                        <li>{{:MyLang('user_email_title')}}：{{if empty($data['user']['email'])}}<span class="am-text-grey">{{:MyLang('no_filled_tips')}}</span>{{else /}}{{$data.user.email}}{{/if}}</li>
                     </ul>
                 {{else /}}
-                    用户信息异常
+                    {{:MyLang('user_info_abnormal_tips')}}
                 {{/if}}
             </div>
-            
-            <div class="am-form-group">
-                <label>联系人</label>
-                <input type="text" name="name" placeholder="联系人" maxlength="30" data-validation-message="联系人格式最多 30 个字符" class="am-radius" value="{{if !empty($data['name'])}}{{$data.name|raw}}{{/if}}" />
-            </div>
-            <div class="am-form-group">
-                <label>电话</label>
-                <input type="text" name="tel" placeholder="电话" data-validation-message="请填写电话" class="am-radius" value="{{if !empty($data['tel'])}}{{$data.tel}}{{/if}}" />
-            </div>
-            <div class="am-form-group">
-                <label>标题</label>
-                <input type="text" name="title" placeholder="标题" maxlength="60" data-validation-message="标题格式最多 60 个字符" class="am-radius" value="{{if !empty($data['title'])}}{{$data.title|raw}}{{/if}}" />
-            </div>
-            <div class="am-form-group">
-                <label>访问次数</label>
-                <input type="number" name="access_count" placeholder="访问次数" data-validation-message="请填写有效的访问次数" class="am-radius" value="{{if !empty($data['access_count'])}}{{$data.access_count}}{{else /}}0{{/if}}" />
-            </div>
-            <div class="am-form-group">
-                <label>内容<span class="am-form-group-label-tips-must">*</span></label>
-                <textarea class="am-radius am-validate" name="content" rows="5" minlength="5" maxlength="1000" placeholder="5~1000个字符之间" data-validation-message="内容格式 5~1000 个字符之间" required>{{if !empty($data['content'])}}{{$data.content|raw}}{{/if}}</textarea>
-            </div>
-            <div class="am-form-group">
-                <label>回复内容</label>
-                <textarea class="am-radius am-validate" name="reply" rows="5" maxlength="1000" placeholder="最多 1000 个字符" data-validation-message="内容格式最多 1000 个字符">{{if !empty($data['reply'])}}{{$data.reply|raw}}{{/if}}</textarea>
+
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>{{:MyLang('answer.form_item_name')}}</label>
+                        <input type="text" name="name" placeholder="{{:MyLang('answer.form_item_name_message')}}" maxlength="30" data-validation-message="{{:MyLang('answer.form_item_name_message')}}" class="am-radius" value="{{if !empty($data['name'])}}{{$data.name}}{{/if}}" />
+                    </div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>{{:MyLang('answer.form_item_tel')}}</label>
+                        <input type="text" name="tel" placeholder="{{:MyLang('answer.form_item_tel_message')}}" data-validation-message="{{:MyLang('answer.form_item_tel_message')}}" class="am-radius" value="{{if !empty($data['tel'])}}{{$data.tel}}{{/if}}" />
+                    </div>
+                </div>
             </div>
 
-            <div class="am-form-group">
-                <label class="am-block">是否已回复</label>
-                <input name="is_reply" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>{{:MyLang('answer.form_item_title')}}</label>
+                        <input type="text" name="title" placeholder="{{:MyLang('answer.form_item_title_message')}}" maxlength="60" data-validation-message="{{:MyLang('answer.form_item_title_message')}}" class="am-radius" value="{{if !empty($data['title'])}}{{$data.title}}{{/if}}" />
+                    </div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>{{:MyLang('answer.form_item_access_count')}}</label>
+                        <input type="number" name="access_count" min="0" placeholder="{{:MyLang('answer.form_item_access_count_message')}}" data-validation-message="{{:MyLang('answer.form_item_access_count_message')}}" class="am-radius" value="{{if !empty($data['access_count'])}}{{$data.access_count}}{{else /}}0{{/if}}" />
+                    </div>
+                </div>
             </div>
 
-            <div class="am-form-group">
-                <label class="am-block">是否显示</label>
-                <input name="is_show" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_show']) and $data['is_show'] eq 1}}checked="true"{{/if}} />
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>{{:MyLang('answer.form_item_content')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <textarea class="am-radius am-validate" name="content" rows="5" minlength="5" maxlength="1000" placeholder="{{:MyLang('answer.form_item_content_message')}}" data-validation-message="{{:MyLang('answer.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content|raw}}{{/if}}</textarea>
+                    </div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label>{{:MyLang('answer.form_item_reply')}}</label>
+                        <textarea class="am-radius am-validate" name="reply" rows="5" maxlength="1000" placeholder="{{:MyLang('answer.form_item_reply_message')}}" data-validation-message="{{:MyLang('answer.form_item_reply_message')}}">{{if !empty($data['reply'])}}{{$data.reply|raw}}{{/if}}</textarea>
+                    </div>
+                </div>
             </div>
 
-            <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label class="am-block">{{:MyLang('answer.form_is_reply')}}</label>
+                        <input name="is_reply" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
+                    </div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                    <div class="am-form-group">
+                        <label class="am-block">{{:MyLang('form_whether_show_title')}}</label>
+                        <input name="is_show" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_show']) and $data['is_show'] eq 1}}checked="true"{{/if}} />
+                    </div>
+                </div>
+            </div>
+
+            <div class="am-form-popup-submit">
                 <input type="hidden" name="id" {{if !empty($data['id'])}} value="{{$data.id}}"{{/if}} />
                 <input type="hidden" name="user_id" {{if !empty($data['user_id'])}} value="{{$data.user_id}}"{{/if}} />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>

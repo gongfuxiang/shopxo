@@ -1,13 +1,11 @@
 <ul class="am-nav am-nav-pills table-nav second-nav">
-	<li {{if $nav_type eq 'index'}}class="am-active"{{/if}} data-type="index">
-		<a href="{{:MyUrl('admin/email/index', ['type'=>'index'])}}">邮箱设置</a>
-	</li>
-	<li {{if $nav_type eq 'message'}}class="am-active"{{/if}} data-type="message">
-		<a href="{{:MyUrl('admin/email/index', ['type'=>'message'])}}">消息模板</a>
-	</li>
+	{{foreach $nav_data as $v}}
+        <li {{if $nav_type eq $v['type']}}class="am-active"{{/if}} data-type="{{$v.type}}">
+            <a href="{{:MyUrl('admin/email/index', ['type'=>$v['type']])}}">{{$v.name}}</a>
+        </li>
+    {{/foreach}}
 </ul>
-
 <div class="am-alert am-alert-warning am-radius am-margin-bottom-0" data-am-alert>
     <button type="button" class="am-close">&times;</button>
-    <p class="am-text-xs">由于不同邮箱平台存在一些差异、配置也有所不同、具体以邮箱平台配置教程为准 {{if !empty($site_store_links) and !empty($site_store_links['email_set_course'])}}<a href="{{$site_store_links.email_set_course}}" class="am-margin-left-sm" target="_blank">查看配置教程 <i class="am-icon-external-link"></i></a>{{/if}}</p>
+    <p class="am-text-xs">{{:MyLang('email.top_tips')}} {{if !empty($site_store_links) and !empty($site_store_links['email_set_course'])}}<a href="{{$site_store_links.email_set_course}}" class="am-margin-left-sm" target="_blank">{{:MyLang('email.view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}</p>
 </div>

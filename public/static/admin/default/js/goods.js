@@ -221,7 +221,7 @@ $(function()
             html += '<i>×</i>';
             html += '</li>';
             html += '</ul>';
-            html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+'+$spec_table.data('spec-images-name')+'</div>';
+            html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+ '+$spec_table.data('spec-images-name')+'</div>';
             html += '</li>';
         $('.spec-images-list ul.spec-images-content').append(html);
     });
@@ -300,7 +300,7 @@ $(function()
                     html += '<i>×</i>';
                     html += '</li>';
                     html += '</ul>';
-                    html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+'+$spec_table.data('spec-images-name')+'</div>';
+                    html += '<div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-'+index+'">+ '+$spec_table.data('spec-images-name')+'</div>';
                     html += '</li>';
                 $('.spec-images-list ul.spec-images-content').append(html);
             }
@@ -501,7 +501,7 @@ $(function()
             html += '<label class="block">'+$app_content.data('images-title')+'</label>';
             html += '<ul class="plug-file-upload-view goods-content-app-images-view-'+index+'" data-form-name="'+images_name+'_'+index+'" data-max-number="1" data-dialog-type="images">';
             html += '</ul>';
-            html += '<div class="plug-file-upload-submit" data-view-tag="ul.goods-content-app-images-view-'+index+'">+'+$app_content.data('images-title')+'</div>';
+            html += '<div class="plug-file-upload-submit" data-view-tag="ul.goods-content-app-images-view-'+index+'">+ '+$app_content.data('images-title')+'</div>';
             html += '</div>';
 
             // 右侧

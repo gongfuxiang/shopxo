@@ -6,12 +6,12 @@
 		<!-- form start -->
 		<form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/customview/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/customview/index', $params)}}">
 			<legend>
-				<span class="am-text-default">自定义页面{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+				<span class="am-text-default">{{:MyLang('customview.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
 				<a href="{{:MyUrl('admin/customview/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
 			</legend>
 			<div class="am-form-group">
-				<label>标题<span class="am-form-group-label-tips-must">*</span></label>
-				<input type="text" name="title" placeholder="标题" minlength="2" maxlength="60" data-validation-message="标题长度 2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.title}}" {{/if}} required />
+				<label>{{:MyLang('customview.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+				<input type="text" name="title" placeholder="{{:MyLang('customview.form_item_title_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('customview.form_item_title_message')}}" class="am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} required />
 			</div>
 			<div class="am-cf">
 				<div class="am-u-md-6 am-padding-horizontal-0">
@@ -24,7 +24,7 @@
 						</div>
 						<div class="am-u-sm-6 am-padding-horizontal-0">
 							<div class="am-form-group">
-							    <label class="am-block">是否含头部</label>
+							    <label class="am-block">{{:MyLang('customview.form_item_is_header')}}</label>
 							    <input name="is_header" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_header']) and $data['is_header'] eq 1) or !isset($data['is_header'])}}checked="true"{{/if}} />
 							</div>
 						</div>
@@ -34,13 +34,13 @@
 					<div class="am-cf">
 		                <div class="am-u-sm-6 am-padding-horizontal-0">
 		                	<div class="am-form-group">
-							    <label class="am-block">是否含尾部</label>
+							    <label class="am-block">{{:MyLang('customview.form_item_is_footer')}}</label>
 							    <input name="is_footer" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_footer']) and $data['is_footer'] eq 1) or !isset($data['is_footer'])}}checked="true"{{/if}} />
 							</div>
 		                </div>
 		                <div class="am-u-sm-6 am-padding-horizontal-0">
 		                	<div class="am-form-group">
-							    <label class="am-block">是否满屏</label>
+							    <label class="am-block">{{:MyLang('customview.form_item_is_full_screen')}}</label>
 							    <input name="is_full_screen" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_full_screen']) and $data['is_full_screen'] eq 1) or !isset($data['is_full_screen'])}}checked="true"{{/if}} />
 							</div>
 		                </div>
@@ -49,8 +49,8 @@
 		    </div>
 
 			<div class="am-form-group">
-				<label>内容<span class="am-form-group-label-tips-must">*</span>{{if IsMobile()}}<span class="am-form-group-label-tips">更多编辑功能请使用电脑访问</span>{{/if}}</label>
-				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'customview'])}}" placeholder="内容长度最少 10~105000 个字符" {{else /}} placeholder="内容长度最少 10~105000 个字符更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容长度最少 10~105000 个字符" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
+				<label>{{:MyLang('customview.form_item_content_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'customview'])}}" placeholder="{{:MyLang('customview.form_item_content_message')}}" {{else /}} placeholder="{{:MyLang('customview.form_item_content_placeholder')}}" {{/if}} data-validation-message="{{:MyLang('customview.form_item_content_message')}}" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
 			</div>
 
 			<div class="am-form-popup-submit">

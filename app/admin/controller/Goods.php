@@ -85,7 +85,7 @@ class Goods extends Base
 		$data = $this->data_detail;
 		if(!empty($params['id']) && empty($data))
 		{
-			return $this->error('商品信息不存在', MyUrl('admin/goods/index'));
+			return $this->error(MyLang('no_data'), MyUrl('admin/goods/index'));
 		}
 
 		// 模板信息
@@ -102,6 +102,8 @@ class Goods extends Base
 			'goods_category_list' 				=> GoodsService::GoodsCategoryAll(),
 			// 品牌
 			'brand_list' 						=> BrandService::CategoryBrand(),
+			// 右侧导航
+			'nav_right_list'					=> MyLang('goods.nav_right_list'),
 			// 编辑器文件存放地址
 			'editor_path_type'					=> ResourcesService::EditorPathTypeValue('goods'),
 		];

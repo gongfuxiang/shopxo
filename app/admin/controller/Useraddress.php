@@ -64,7 +64,6 @@ class UserAddress extends Base
         $assign = [
             // 当前数据
             'data'              => $data,
-
             // 加载地图api
             'is_load_map_api'   => MyC('home_user_address_map_status'),
         ];
@@ -97,7 +96,7 @@ class UserAddress extends Base
         $params = $this->data_request;
         if(empty($params['user_id']))
         {
-            $ret = DataReturn('用户信息有误', -1);
+            $ret = DataReturn(MyLang('no_data'), -1);
         } else {
             $params['user'] = ['id'=>$params['user_id']];
             $ret = UserAddressService::UserAddressSave($params);

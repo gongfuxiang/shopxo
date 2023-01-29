@@ -42,10 +42,8 @@ class Config extends Base
 			'common_login_type_list' 		=> MyLang('common_login_type_list'),
 	        'common_close_open_list' 		=> MyLang('common_close_open_list'),
 			'common_is_text_list' 			=> MyLang('common_is_text_list'),
-
 			// 数据
 			'data'							=> ConfigService::ConfigList(),
-
 			// 页面类型
 			'view_type'						=> 'index',
 		];
@@ -66,7 +64,6 @@ class Config extends Base
 		$assign = [
 			// 数据
 			'data'		=> ConfigService::ConfigList(),
-
 			// 页面类型
 			'view_type'	=> 'store',
 		];

@@ -6,7 +6,7 @@
 		<!-- form start -->
 		<form class="am-form form-validation" action="{{:MyUrl('admin/payment/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/payment/index')}}" enctype="multipart/form-data">
 			<legend>
-				<span class="am-text-default">支付方式{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+				<span class="am-text-default">支付方式{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
 				<a href="{{:MyUrl('admin/payment/index')}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
 			</legend>
 			{{if empty($data)}}
@@ -14,11 +14,11 @@
 			{{else /}}
 				<div class="am-form-group">
 					<label>名称<span class="am-form-group-label-tips-must">*</span></label>
-					<input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~30 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
+					<input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~30 个字符" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
 				</div>
 				<div class="am-form-group">
 					<label>适用终端<span class="am-form-group-label-tips-must">*</span></label>
-				    <select name="apply_terminal" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个适用终端" required>
+				    <select name="apply_terminal" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="至少选择一个适用终端" required>
 						{{foreach $common_platform_type as $v}}
 							{{if isset($data) and isset($data['apply_terminal_old']) and is_array($data['apply_terminal_old']) and in_array($v['value'], $data['apply_terminal_old'])}}
 								<option value="{{$v.value}}" {{if isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])}}selected{{/if}}>{{$v.name}}</option>
@@ -38,7 +38,7 @@
 							</li>
 						{{/if}}
 					</ul>
-					<div class="plug-file-upload-submit" data-view-tag="ul.logo-images-view">+上传图片</div>
+					<div class="plug-file-upload-submit" data-view-tag="ul.logo-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
 				</div>
 
 				<!-- plugins config start -->

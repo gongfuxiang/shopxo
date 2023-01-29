@@ -8,7 +8,7 @@
     
     <!-- 详情内容 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">详情内容</div>
+        <div class="am-panel-hd">{{:MyLang('article.detail_content_title')}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['content'])}}
                 <div class="am-scrollable-vertical am-nowrap-initial">
@@ -22,7 +22,7 @@
 
     <!-- 详情图片 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">详情图片</div>
+        <div class="am-panel-hd">{{:MyLang('article.detail_images_title')}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['images'])}}
                 <div data-am-widget="slider" class="am-slider am-slider-default" data-am-slider='{"controlNav":false}'>
@@ -50,23 +50,5 @@
     </div>
 
     <!-- SEO信息 -->
-    <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">SEO信息</div>
-        <div class="am-panel-bd">
-            {{if !empty($data)}}
-                <dl class="dl-content">
-                    <dt>SEO标题</dt>
-                    <dd>{{$data.seo_title}}</dd>
-
-                    <dt>SEO关键字</dt>
-                    <dd>{{$data.seo_keywords}}</dd>
-
-                    <dt>SEO描述</dt>
-                    <dd>{{$data.seo_desc}}</dd>
-                </dl>
-            {{else /}}
-                {{include file="public/not_data" /}}
-            {{/if}}
-        </div>
-    </div>
+    {{include file="lib/seo_data" /}}
 {{/block}}

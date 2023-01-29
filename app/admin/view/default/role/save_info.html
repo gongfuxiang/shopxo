@@ -6,7 +6,7 @@
         <!-- form start -->
         <form class="am-form form-validation" action="{{:MyUrl('admin/role/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/role/index', $params)}}">
         	<legend>
-				<span class="am-text-default">角色{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+				<span class="am-text-default">角色{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
 				<a href="{{:MyUrl('admin/role/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
 			</legend>
         	<div class="am-form-group">
@@ -81,7 +81,7 @@
             {{/if}}
 			{{if !empty($plugins_view_admin_role_save_data) and is_array($plugins_view_admin_role_save_data)}}
 				<div class="am-alert am-alert-secondary">
-					<label class="am-text-sm am-text-warning">该区域为插件扩展数据，请按照插件文档填写相应的值</label>
+					<label class="am-text-sm am-text-warning">{{:MyLang('plugins_view_region_config_tips')}}</label>
 					<div>
 						{{foreach $plugins_view_admin_role_save_data as $hook}}
 		                    {{if is_string($hook) or is_int($hook)}}

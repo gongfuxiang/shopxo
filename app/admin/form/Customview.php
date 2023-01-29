@@ -44,15 +44,15 @@ class CustomView
                 'is_middle'     => 0,
                 'delete_url'    => MyUrl('admin/customview/delete'),
                 'delete_key'    => 'ids',
-                'detail_title'  => '基础信息',
+                'detail_title'  => MyLang('form_table_base_detail_title'),
             ],
             // 表单配置
             'form' => [
                 [
                     'view_type'         => 'checkbox',
                     'is_checked'        => 0,
-                    'checked_text'      => '反选',
-                    'not_checked_text'  => '全选',
+                    'checked_text'      => MyLang('reverse_select_title'),
+                    'not_checked_text'  => MyLang('select_all_title'),
                     'align'             => 'center',
                     'width'             => 80,
                 ],

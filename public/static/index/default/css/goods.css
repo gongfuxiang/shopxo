@@ -429,7 +429,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     .tm-ind-panel .tm-count {display: inline-block;line-height: 16px;height: 16px;color: #C40000;font-weight: 700;margin-left: 3px;}    
 
     /*基础*/
-    .tb-detail-price .items dt { min-width: 65px; }
+    .tb-detail-price .items dt { min-width: 85px; }
     .iteminfo_parameter {padding-left: 50px;}
     .tb-detail-hd,.tb-detail-price{text-align: left;}
     .tb-detail-hd h1 {font-size: 16px;}

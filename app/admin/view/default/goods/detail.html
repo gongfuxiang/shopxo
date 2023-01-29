@@ -8,7 +8,7 @@
 
     <!-- 商品视频 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">商品视频</div>
+        <div class="am-panel-hd">{{:MyLang('goods.form_item_video_title')}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['video'])}}
                 <video src="{{$data.video}}" class="am-img-responsive" controls="controls" preload="auto">
@@ -22,7 +22,7 @@
 
     <!-- 商品相册 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">商品相册</div>
+        <div class="am-panel-hd">{{:MyLang('goods.form_item_photo_title')}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['photo']) and is_array($data['photo'])}}
                 <div class="am-scrollable-vertical am-nowrap-initial">
@@ -46,7 +46,7 @@
 
     <!-- 商品规格 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">商品规格</div>
+        <div class="am-panel-hd">{{:MyLang('goods.form_item_spec_title')}}</div>
         <div class="am-panel-bd">
             {{if !empty($specifications) and is_array($specifications)}}
                 <div class="am-scrollable-vertical am-scrollable-horizontal">
@@ -56,13 +56,13 @@
                                 {{foreach $specifications.type as $line_k=>$line_v}}
                                     <th>{{$line_v.name}}</th>
                                 {{/foreach}}
-                                <th>销售价(元)</th>
-                                <th>原价(元)</th>
-                                <th>库存</th>
-                                <th>重量(kg)</th>
-                                <th>体积(m³)</th>
-                                <th>编码</th>
-                                <th>条形码</th>
+                                <th>{{:MyLang('goods.form_spec_thead_price_title')}}</th>
+                                <th>{{:MyLang('goods.form_spec_thead_original_price_title')}}</th>
+                                <th>{{:MyLang('goods.form_spec_thead_inventory_title')}}</th>
+                                <th>{{:MyLang('goods.form_spec_thead_weight_title')}}</th>
+                                <th>{{:MyLang('goods.form_spec_thead_volume_title')}}</th>
+                                <th>{{:MyLang('goods.form_spec_thead_coding_title')}}</th>
+                                <th>{{:MyLang('goods.form_spec_thead_barcode_title')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,7 +102,7 @@
 
     <!-- 商品规格图片 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">商品规格图片</div>
+        <div class="am-panel-hd">{{:MyLang('goods.form_spec_images_title')}}</div>
         <div class="am-panel-bd am-padding-xs">
             {{if !empty($specifications) and is_array($specifications)}}
                 <div class="am-scrollable-vertical">
@@ -131,7 +131,7 @@
 
     <!-- 商品参数 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">商品参数</div>
+        <div class="am-panel-hd">{{:MyLang('goods.form_item_params_title')}}</div>
         <div class="am-panel-bd">
             {{include file="public/goodsparamstemplate/detail" /}}
         </div>
@@ -139,7 +139,7 @@
 
     <!-- 电脑端详情 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">电脑端详情</div>
+        <div class="am-panel-hd">{{:MyLang('goods.form_item_web_title')}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['content_web'])}}
                 <div class="am-scrollable-vertical am-nowrap-initial am-img-responsive">
@@ -153,7 +153,7 @@
 
     <!-- 手机端详情 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">手机端详情</div>
+        <div class="am-panel-hd">{{:MyLang('goods.form_item_app_title')}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['content_app']) and is_array($data['content_app'])}}
                 <div class="am-scrollable-vertical am-nowrap-initial am-img-responsive">
@@ -182,7 +182,7 @@
 
     <!-- 虚拟商品展示数据 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">虚拟商品展示数据</div>
+        <div class="am-panel-hd">{{:MyLang('goods.form_item_fictitious_title')}}</div>
         <div class="am-panel-bd">
             {{if !empty($data['fictitious_goods_value'])}}
                 <div class="am-scrollable-vertical am-nowrap-initial am-img-responsive">
@@ -195,23 +195,5 @@
     </div>
 
     <!-- SEO信息 -->
-    <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">SEO信息</div>
-        <div class="am-panel-bd">
-            {{if !empty($data)}}
-                <dl class="dl-content">
-                    <dt>SEO标题</dt>
-                    <dd>{{$data.seo_title}}</dd>
-
-                    <dt>SEO关键字</dt>
-                    <dd>{{$data.seo_keywords}}</dd>
-
-                    <dt>SEO描述</dt>
-                    <dd>{{$data.seo_desc}}</dd>
-                </dl>
-            {{else /}}
-                {{include file="public/not_data" /}}
-            {{/if}}
-        </div>
-    </div>
+    {{include file="lib/seo_data" /}}
 {{/block}}

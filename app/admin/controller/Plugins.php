@@ -42,17 +42,17 @@ class Plugins extends Base
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'pluginsname',
-                'error_msg'         => '应用名称有误',
+                'error_msg'         => MyLang('plugins_name_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'pluginscontrol',
-                'error_msg'         => '应用控制器有误',
+                'error_msg'         => MyLang('plugins_control_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'pluginsaction',
-                'error_msg'         => '应用操作方法有误',
+                'error_msg'         => MyLang('plugins_action_tips'),
             ],
         ];
         $ret = ParamsChecked($params['data_request'], $p);
@@ -71,7 +71,7 @@ class Plugins extends Base
         $power_plugins = MyCache(SystemService::CacheKey('shopxo.cache_admin_power_plugins_key').$this->admin['id']);
         if(empty($power_plugins) || !array_key_exists($params['data_request']['pluginsname'], $power_plugins))
         {
-            $msg = '无权限使用该插件';
+            $msg = MyLang('plugins_use_no_power_tips');
             if(IS_AJAX)
             {
                 return ApiService::ApiDataReturn(DataReturn($msg, -5000));
@@ -107,7 +107,7 @@ class Plugins extends Base
         // 是否未绑定商店账号
         if($ret['code'] == -300)
         {
-            MyViewAssign('ext_html', '<p class="am-margin-top-sm"><button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> 绑定ShopXO商店账户</button></p><p class="am-text-warning am-margin-top-xl">如已绑定、请到商城后台左侧菜单工具下面清除缓存再尝试访问！</p>');
+            MyViewAssign('ext_html', '<p class="am-margin-top-sm"><button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-gg store-accounts-event"> '.MyLang('store_bind_account_name').'</button></p><p class="am-text-warning am-margin-top-xl">'.MyLang('store_bind_account_tips').'</p>');
         }
 
         // 调用失败

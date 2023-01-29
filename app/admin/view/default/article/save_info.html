@@ -6,16 +6,16 @@
 		<!-- form start -->
 		<form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/article/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/article/index', $params)}}">
 			<legend>
-				<span class="am-text-default">文章{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+				<span class="am-text-default">{{:MyLang('article.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
 				<a href="{{:MyUrl('admin/article/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
 			</legend>
 			<div class="am-cf">
         		<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-form-group">
-						<label>标题<span class="am-form-group-label-tips-must">*</span></label>
+						<label>{{:MyLang('article.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
 						<div class="am-input-group am-input-group-sm">
 							<input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
-							<input type="text" name="title" placeholder="标题" minlength="2" maxlength="60" data-validation-message="标题长度 2~60 个字符" class="am-form-field am-radius" {{if !empty($data)}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
+							<input type="text" name="title" placeholder="{{:MyLang('article.form_item_title_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('article.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
 							<span class="am-input-group-btn">
 								<button class="am-btn am-btn-default am-btn-xs colorpicker-submit" type="button" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']">
 									<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
@@ -26,9 +26,9 @@
 				</div>
 				<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-form-group">
-						<label>文章分类<span class="am-form-group-label-tips-must">*</span></label>
-						<select name="article_category_id" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择文章分类" required>
-							<option value="">可选择...</option>
+						<label>{{:MyLang('article.form_item_article_category')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<select name="article_category_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('article.form_item_article_category_message')}}" required>
+							<option value="">{{:MyLang('optional_tips')}}</option>
 							{{foreach $article_category_list as $v}}
 								<option value="{{$v.id}}" {{if isset($data['article_category_id']) and $data['article_category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
 							{{/foreach}}
@@ -40,8 +40,8 @@
 			<div class="am-cf">
         		<div class="am-u-md-6 am-padding-horizontal-0">
         			<div class="am-form-group">
-						<label>跳转url地址<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '带http://或https://，仅web端有效', trigger: 'hover focus', theme: 'sm'}"></a></label>
-						<input type="url" name="jump_url" placeholder="跳转url地址" data-validation-message="跳转url地址格式有误" class="am-radius" {{if !empty($data)}} value="{{$data.jump_url}}"{{/if}} />
+						<label>{{:MyLang('article.form_item_jump_url_title')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('article.form_item_jump_url_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+						<input type="url" name="jump_url" placeholder="{{:MyLang('article.form_item_jump_url_title')}}" data-validation-message="{{:MyLang('article.form_item_jump_url_message')}}" class="am-radius" {{if !empty($data['jump_url'])}} value="{{$data.jump_url}}"{{/if}} />
 					</div>
         		</div>
         		<div class="am-u-md-6 am-padding-horizontal-0">
@@ -49,13 +49,13 @@
         				<div class="am-u-sm-6 am-padding-horizontal-0">
         					<div class="am-form-group">
 							    <label class="am-block">{{:MyLang('form_is_enable_title')}}</label>
-							    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_enable'] eq 1}}checked="true"{{/if}} />
+							    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_enable']) and $data['is_enable'] eq 1}}checked="true"{{/if}} />
 							</div>
         				</div>
         				<div class="am-u-sm-6 am-padding-horizontal-0">
         					<div class="am-form-group">
-							    <label class="am-block">首页推荐</label>
-							    <input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_home_recommended'] eq 1}}checked="true"{{/if}} />
+							    <label class="am-block">{{:MyLang('article.form_item_is_home_recommended_title')}}</label>
+							    <input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1}}checked="true"{{/if}} />
 							</div>
         				</div>
         			</div>
@@ -63,8 +63,8 @@
         	</div>
 
 			<div class="am-form-group">
-				<label>内容<span class="am-form-group-label-tips-must">*</span></label>
-				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'article'])}}" placeholder="内容格式 10~105000 个字符之间" {{else /}} placeholder="内容格式 10~105000 个字符之间更多编辑功能请使用电脑访问" {{/if}} data-validation-message="内容格式 10~105000 个字符之间" required>{{if !empty($data)}}{{$data.content}}{{/if}}</textarea>
+				<label>{{:MyLang('article.form_item_content_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'article'])}}" placeholder="{{:MyLang('article.form_item_content_message')}}" {{else /}} placeholder="{{:MyLang('article.form_item_content_placeholder')}}" {{/if}} data-validation-message="{{:MyLang('article.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
 			</div>
 
 			<!-- 插件扩展数据 start -->
@@ -75,7 +75,7 @@
             {{/if}}
 			{{if !empty($plugins_view_admin_article_save_data) and is_array($plugins_view_admin_article_save_data)}}
 				<div class="am-alert am-alert-secondary">
-					<label class="am-text-sm am-text-warning">该区域为插件扩展数据，请按照插件文档填写相应的值</label>
+					<label class="am-text-sm am-text-warning">{{:MyLang('plugins_view_region_config_tips')}}</label>
 					<div>
 						{{foreach $plugins_view_admin_article_save_data as $hook}}
 		                    {{if is_string($hook) or is_int($hook)}}

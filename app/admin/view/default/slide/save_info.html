@@ -6,18 +6,18 @@
 		<!-- form start -->
 		<form class="am-form form-validation" action="{{:MyUrl('admin/slide/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/slide/index', $params)}}" enctype="multipart/form-data">
 			<legend>
-				<span class="am-text-default">轮播{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+				<span class="am-text-default">轮播{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
 				<a href="{{:MyUrl('admin/slide/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
 			</legend>
 			<div class="am-form-group">
 				<label>名称<span class="am-form-group-label-tips-must">*</span></label>
-				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~60 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
+				<input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~60 个字符" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
 			</div>
 			
 			<div class="am-form-group">
-				<label>所属平台<span class="am-form-group-label-tips-must">*</span></label>
-				<select name="platform" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择所属平台" required>
-					<option value="">可选择...</option>
+				<label>{{:MyLang('form_platform_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+				<select name="platform" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('form_platform_message')}}" required>
+					<option value="">{{:MyLang('optional_tips')}}</option>
 					{{foreach $common_platform_type as $v}}
 						<option value="{{$v.value}}" {{if isset($data['platform']) and $data['platform'] eq $v['value']}}selected{{else /}}{{if !isset($data['platform']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
@@ -25,17 +25,17 @@
 			</div>
 
 			<div class="am-form-group">
-				<label>事件类型</label>
-				<select name="event_type" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择事件值类型">
-					<option value="">可选择...</option>
+				<label>{{:MyLang('form_event_type_title')}}</label>
+				<select name="event_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('form_event_type_message')}}">
+					<option value="">{{:MyLang('optional_tips')}}</option>
 					{{foreach $common_app_event_type as $v}}
 						<option value="{{$v.value}}" {{if isset($data['event_type']) and $data['event_type'] eq $v['value']}}selected{{else /}}{{if !isset($data['event_type']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
 				</select>
 			</div>
 			<div class="am-form-group">
-				<label>事件值</label>
-				<input type="text" name="event_value" placeholder="事件值" data-validation-message="事件值最多 255 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.event_value}}"{{/if}} />
+				<label>{{:MyLang('form_event_value_title')}}</label>
+				<input type="text" name="event_value" placeholder="{{:MyLang('form_event_value_message')}}" data-validation-message="{{:MyLang('form_event_value_message')}}" class="am-radius" {{if !empty($data['event_value'])}} value="{{$data.event_value}}"{{/if}} />
 				{{include file="public/event_value_tips" /}}
 			</div>
 
@@ -43,11 +43,11 @@
 				<label class="am-block">轮播图片<span class="am-form-group-label-tips-must">*</span></label>
 				<ul class="plug-file-upload-view slide-images_url-images-view" data-form-name="images_url" data-max-number="1" data-delete="0" data-dialog-type="images">
 					<li>
-						<input type="text" name="images_url" value="{{if !empty($data['images_url'])}}{{$data.images_url}}{{/if}}" data-validation-message="请上传图片" required />
+						<input type="text" name="images_url" value="{{if !empty($data['images_url'])}}{{$data.images_url}}{{/if}}" data-validation-message="{{:MyLang('form_upload_images_message')}}" required />
 						<img src="{{if !empty($data['images_url'])}}{{$data.images_url}}{{else /}}{{$attachment_host}}/static/admin/default/images/default-images.jpg{{/if}}" />
 					</li>
 				</ul>
-				<div class="plug-file-upload-submit" data-view-tag="ul.slide-images_url-images-view">+上传图片</div>
+				<div class="plug-file-upload-submit" data-view-tag="ul.slide-images_url-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
 				<div class="am-alert am-alert-warning" data-am-alert>
 					<button type="button" class="am-close">&times;</button>
 					<p>1. PC端建议尺寸：1920x480px</p>
@@ -55,7 +55,7 @@
 				</div>
 			</div>
 			<div class="am-form-group">
-				<label>背景色</label>
+				<label>{{:MyLang('form_bg_color_title')}}</label>
 				<input type="hidden" name="bg_color" value="{{if !empty($data)}}{{$data.bg_color}}{{/if}}" />
 				<button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color" {{if !empty($data)}} style="background-color:{{$data.bg_color}};"{{/if}}>
 					<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />

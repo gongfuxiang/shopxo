@@ -102,7 +102,7 @@ class Admin extends Common
 		{
 			if(empty($data))
 			{
-				return $this->error('管理员信息不存在', MyUrl('admin/index/index'));
+				return $this->error(MyLang('admin.admin_no_data_tips'), MyUrl('admin/index/index'));
 			}
 		}
 
@@ -210,24 +210,16 @@ class Admin extends Common
 		];
 
         // 背景图片
+        $bg_images_list = [];
         $host = SystemBaseService::AttachmentHost();
-        $bg_images_list = [
-            $host.'/static/admin/default/images/login/1.jpg',
-            $host.'/static/admin/default/images/login/2.jpg',
-            $host.'/static/admin/default/images/login/3.jpg',
-            $host.'/static/admin/default/images/login/4.jpg',
-            $host.'/static/admin/default/images/login/5.jpg',
-            $host.'/static/admin/default/images/login/6.jpg',
-            $host.'/static/admin/default/images/login/7.jpg',
-            $host.'/static/admin/default/images/login/8.jpg',
-            $host.'/static/admin/default/images/login/9.jpg',
-            $host.'/static/admin/default/images/login/10.jpg',
-            $host.'/static/admin/default/images/login/11.jpg',
-            $host.'/static/admin/default/images/login/12.jpg',
-            $host.'/static/admin/default/images/login/13.jpg',
-            $host.'/static/admin/default/images/login/14.jpg',
-            $host.'/static/admin/default/images/login/15.jpg',
-        ];
+        for($i=1; $i<=50; $i++)
+        {
+            $path = 'static/admin/default/images/login/'.$i.'.jpg';
+            if(file_exists(ROOT_PATH.$path))
+            {
+                $bg_images_list[] = $host.DS.$path;
+            }
+        }
         $assign['bg_images_list'] = $bg_images_list;
 
 		// 管理员登录页面钩子

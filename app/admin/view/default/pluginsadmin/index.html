@@ -30,8 +30,8 @@
                     <p>
                         <span>可点击拖动图标按钮调整插件调用和展示顺序</span>
                         <button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-xs am-icon-sort-numeric-asc submit-move-sort-open"> 开启排序</button>
-                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-check submit-move-sort-save am-hide"> 保存</button>
-                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-margin-left-xs am-icon-close submit-move-sort-cancel am-hide"> 取消</button>
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-margin-left-xs am-icon-check submit-move-sort-save am-hide"> {{:MyLang('save_title')}}</button>
+                        <button type="button" class="am-btn am-btn-danger am-radius am-btn-xs am-margin-left-xs am-icon-close submit-move-sort-cancel am-hide"> {{:MyLang('cancel_title')}}</button>
                     </p>
                     {{if empty($site_store_info) or empty($site_store_info['user'])}}
                         <p>

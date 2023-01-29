@@ -61,12 +61,9 @@ class User extends Base
 
 		// 数据
 		$data = $this->data_detail;
-		if(!empty($params['id']))
+		if(!empty($params['id']) && empty($data))
 		{
-			if(empty($data))
-			{
-				return $this->error('用户信息不存在', MyUrl('admin/user/index'));
-			}
+			return $this->error(MyLang('no_data'), MyUrl('admin/user/index'));
 		}
 
 		// 模板数据

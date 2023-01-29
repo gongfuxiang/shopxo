@@ -33,7 +33,7 @@
                             </div>
                             <div class="am-form-group am-form-group-refreshing">
                                 <label>排序类型<span class="am-form-group-label-tips">默认综合</span></label>
-                                <select name="goods_order_by_type" class="am-radius chosen-select" data-placeholder="请选择..." data-validation-message="请选择商品排序类型">
+                                <select name="goods_order_by_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="请选择商品排序类型">
                                     {{foreach $goods_order_by_type_list as $k=>$v}}
                                         <option value="{{$k}}" {{if $k eq 0}}selected{{/if}}>{{$v.name}}</option>
                                     {{/foreach}}
@@ -45,7 +45,7 @@
                             </div>
                             <div class="am-form-group am-form-group-refreshing">
                                 <label>排序规则<span class="am-form-group-label-tips">默认降序(desc)</span></label>
-                                <select name="goods_order_by_rule" class="am-radius chosen-select" data-placeholder="请选择..." data-validation-message="请选择排序规则">
+                                <select name="goods_order_by_rule" class="am-radius chosen-select" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="请选择排序规则">
                                     {{foreach $goods_order_by_rule_list as $k=>$v}}
                                         <option value="{{$k}}" {{if $k eq 0}}selected{{/if}}>{{$v.name}}</option>
                                     {{/foreach}}

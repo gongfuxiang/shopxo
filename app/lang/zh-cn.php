@@ -131,6 +131,8 @@ return [
     'logout_success'                                        => '注销成功',
     'pay_fail'                                              => '支付失败',
     'pay_success'                                           => '支付成功',
+    'copy_fail'                                             => '复制失败',
+    'copy_success'                                          => '复制成功',
     'no_data'                                               => '没有相关数据',
     'params_error_tips'                                     => '参数错误',
     'content_params_empty_tips'                             => '内容参数为空',
@@ -140,21 +142,40 @@ return [
     'processing_tips'                                       => '处理中...',
     'searching_tips'                                        => '搜索中...',
     'send_tips'                                             => '发送中...',
+    'please_select_tips'                                    => '请选择...',
+    'optional_tips'                                         => '可选择...',
+    'upload_tips'                                           => '上传中...',
+    'query_tips'                                            => '查询中...',
     'controller_not_exist_tips'                             => '控制器不存在',
     'plugins_name_tips'                                     => '应用名称有误',
+    'plugins_control_tips'                                  => '应用控制器有误',
+    'plugins_action_tips'                                   => '应用操作方法有误',
+    'plugins_use_no_power_tips'                             => '无权限使用该插件',
     'map_coordinate_error'                                  => '坐标有误',
     'no_config_data_tips'                                   => '未配置数据',
-    'not_filled_tips'                                       => '未填写',
+    'config_empty_tips'                                     => '配置为空',
+    'config_error_tips'                                     => '配置有误',
+    'no_filled_tips'                                        => '未填写',
+    'no_power_tips'                                         => '无权限',
+    'not_open_developer_mode_tips'                          => '请先开启开发者模式',
+    'plugins_view_region_config_tips'                       => '该区域为插件扩展数据，请按照插件文档填写相应的值',
+    'user_info_abnormal_tips'                               => '用户信息异常',
+    'gods_info_abnormal_tips'                               => '商品信息异常',
+    // 商店
+    'store_bind_account_name'                               => '绑定ShopXO商店账户',
+    'store_bind_account_tips'                               => '如已绑定、请到商城后台左侧菜单工具下面清除缓存再尝试访问！',
     // 常用
+    'theme_color_white_title'                               => '普通白色',
+    'theme_color_black_title'                               => '夜间深色',
     'base_config_title'                                     => '基础配置',
     'clear_search_where'                                    => '清除搜索条件',
-    'operate_delete_tips'                                   => '删除后不可恢复、确认操作吗？',
     'register_time_title'                                   => '注册时间',
     'add_time_title'                                        => '添加时间',
     'upd_time_title'                                        => '更新时间',
     'back_home_title'                                       => '回到首页',
     'home_title'                                            => '首页',
     'operate_title'                                         => '操作',
+    'all_title'                                             => '全部',
     'select_all_title'                                      => '全选',
     'reverse_select_title'                                  => '反选',
     'reverse_select_title'                                  => '反选',
@@ -162,14 +183,21 @@ return [
     'confirm_title'                                         => '确认',
     'cancel_title'                                          => '取消',
     'search_title'                                          => '搜索',
+    'query_title'                                           => '查询',
     'setup_title'                                           => '设置',
     'save_title'                                            => '保存',
     'edit_title'                                            => '编辑',
     'modify_title'                                          => '修改',
     'delete_title'                                          => '删除',
+    'remove_title'                                          => '移除',
+    'moveup_title'                                          => '上移',
+    'movedown_title'                                        => '下移',
+    'created_title'                                         => '添加',
+    'generate_title'                                        => '生成',
     'add_title'                                             => '新增',
     'submit_title'                                          => '提交',
     'detail_title'                                          => '详情',
+    'base_title'                                            => '基础',
     'view_title'                                            => '查看',
     'choice_title'                                          => '选择',
     'already_choice_title'                                  => '已选',
@@ -218,6 +246,9 @@ return [
     'uninstall_title'                                       => '卸载',
     'update_title'                                          => '更新',
     'download_title'                                        => '下载',
+    'confirm_download_title'                                => '确认下载',
+    'upload_title'                                          => '上传',
+    'confirm_upload_title'                                  => '确认上传',
     'reply_title'                                           => '回复',
     'note_title'                                            => '备注',
     'price_title'                                           => '价格',
@@ -271,6 +302,12 @@ return [
     'register_title'                                        => '注册',
     'login_title'                                           => '登录',
     'password_title'                                        => '密码',
+    'safety_title'                                          => '安全',
+    'extend_title'                                          => '扩展',
+    'import_title'                                          => '导入',
+    'export_title'                                          => '导出',
+    'images_title'                                          => '图片',
+    'text_title'                                            => '文本',
     // 商品基础相关
     'goods_stop_sale_title'                                 => '暂停销售',
     'goods_buy_title'                                       => '立即购买',
@@ -280,7 +317,7 @@ return [
     'goods_no_inventory_title'                              => '没货了',
     'goods_already_shelves_title'                           => '已下架',
     'goods_only_show_title'                                 => '仅展示',
-    'goods_sales_price_title'                               => '销售价',
+    'goods_sales_price_title'                               => '售价',
     'goods_original_price_title'                            => '原价',
     'goods_main_title'                                      => '商品',
     'goods_guess_you_like_title'                            => '猜你喜欢',
@@ -295,10 +332,19 @@ return [
     'user_mobile_title'                                     => '手机',
     'user_email_title'                                      => '邮箱',
     // 表单相关
+    'form_base_data_title'                                  => '基础信息',
     'form_upload_images_title'                              => '上传图片',
+    'form_choice_images_title'                              => '选择图片',
+    'form_upload_images_message'                            => '请上传图片',
     'form_upload_file_title'                                => '上传文件',
+    'form_choice_file_title'                                => '选择文件',
+    'form_upload_file_message'                              => '请上传文件',
     'form_upload_video_title'                               => '上传视频',
+    'form_choice_video_title'                               => '选择视频',
+    'form_upload_video_message'                             => '请上传视频',
     'form_upload_excel_title'                               => '上传Excel',
+    'form_choice_excel_title'                               => '选择Excel',
+    'form_upload_excel_message'                             => '请上传Excel',
     'form_whether_enable_title'                             => '是否启用',
     'form_whether_anonymous_title'                          => '是否匿名',
     'form_gender_title'                                     => '性别',
@@ -313,6 +359,7 @@ return [
     'form_region_county_message'                            => '请选择区/县',
     'form_region_code_placeholder'                          => '地区编号',
     'form_region_code_button_name'                          => '检索',
+    'form_seo_data_title'                                   => 'SEO信息',
     'form_seo_title_title'                                  => 'SEO标题',
     'form_seo_title_message'                                => 'SEO标题格式最多80个字符',
     'form_seo_title_tips'                                   => '一般不超过80个字符',
@@ -336,6 +383,13 @@ return [
     'form_sort_title'                                       => '顺序',
     'form_sort_tips'                                        => '从小到大',
     'form_sort_message'                                     => '顺序0~255之间的数值',
+    'form_platform_title'                                   => '所属平台',
+    'form_platform_message'                                 => '请选择所属平台',
+    'form_event_type_title'                                 => '事件类型',
+    'form_event_type_message'                               => '请选择事件类型',
+    'form_event_value_title'                                => '事件值',
+    'form_event_value_message'                              => '事件值最多255个字符',
+    'form_bg_color_title'                                   => '背景色',
     // 分页
     'page_each_page_name'                                   => '每页',
     'page_page_unit'                                        => '条',
@@ -364,9 +418,11 @@ return [
     'form_table_nav_operate_data_list_export_pdf_tips'      => '选中列表需要导出的数据（可多选）',
     'form_table_nav_operate_data_list_delete_tips'          => '选中列表需要删除的数据（可多选）',
     // 提示信息
+    'reminder_title'                                        => '温馨提示',
     'delete_confirm_tips'                                   => '删除后不可恢复、确认操作吗？',
     'operate_confirm_tips'                                  => '操作后不可恢复、确认继续吗？',
     'collect_confirm_tips'                                  => '请仔细确认已收到货物、确认继续吗？',
+    'save_close_page_confirm_tips'                          => '请确认数据是否保存、继续关闭本页吗？',
     // 右侧导航
     'header_top_nav_right'                                  => [
         'user_center'           => '个人中心',
@@ -434,6 +490,13 @@ return [
             'msg'           => '互联网存在被盗风险，建议您定期更改密码以保护安全。',
             'submit_text'   =>  '注销',
         ],
+    ],
+    // 缓存更新类型列表
+    'admin_cache_type_list'             => [
+        'site'      => ['name' => '站点缓存', 'desc' => '数据转换后或前台不能正常访问时，可以使用此功能更新所有缓存'],
+        'template'  => ['name' => '模板缓存', 'desc' => '当页面显示不正常，可尝试使用此功能修复'],
+        'module'    => ['name' => '模块缓存', 'desc' => '更新页面布局与模块后未生效，可尝试使用此功能修复'],
+        'log'       => ['name' => '日志清除', 'desc' => '清除站点日志'],
     ],
     // 手机模式下底部导航
     'bottom_navigation_data'            => [
@@ -790,6 +853,1124 @@ return [
         0 => ['value' => 0, 'name' => '兼容模式', 'checked' => true],
         1 => ['value' => 1, 'name' => 'PATHINFO模式'],
         2 => ['value' => 2, 'name' => 'PATHINFO模式+短地址'],
+    ],
+
+    // -------------------- 公共 --------------------
+    'common'                    => [
+        // 配置信息
+        'config'        => [
+            'common_page_size'  => [
+                'name' => '分页数量',
+                'desc' => '分页显示数量',
+                'tips' => '分页不能超过3位数',
+            ],
+            'common_deduction_inventory_rules'  => [
+                'name' => '订单商品扣减库存规则',
+                'desc' => '需扣减库存开启方可有效，默认订单支付成功',
+            ],
+            'common_is_deduction_inventory'  => [
+                'name' => '是否扣减库存',
+                'desc' => '建议不要随意修改，以免造成库存数据错乱，关闭不影响库存回滚',
+            ],
+            'admin_excel_charset'  => [
+                'name' => 'Excel编码',
+                'desc' => 'excel模块编码选择',
+                'tips' => '请选择编码',
+            ],
+            'home_seo_site_title'  => [
+                'name' => '站点标题',
+                'desc' => '浏览器标题，一般不超过80个字符',
+                'tips' => '站点标题不能为空',
+            ],
+            'home_seo_site_keywords'  => [
+                'name' => '站点关键字',
+                'desc' => '一般不超过100个字符，多个关键字以半圆角逗号 [ , ] 隔开',
+                'tips' => '站点关键字不能为空',
+            ],
+            'home_seo_site_description'  => [
+                'name' => '站点描述',
+                'desc' => '站点描述，一般不超过200个字符',
+                'tips' => '站点描述不能为空',
+            ],
+            'home_site_icp'  => [
+                'name' => 'ICP证书号',
+                'desc' => '如：沪ICP备xxx号',
+            ],
+            'home_statistics_code'  => [
+                'name' => '底部统计代码',
+                'desc' => '支持html，可用于添加流量统计代码',
+            ],
+            'home_site_state'  => [
+                'name' => '站点状态',
+                'desc' => '可暂时将站点关闭，其他人无法访问，但不影响管理员访问后台',
+                'tips' => '请选择站点状态',
+            ],
+            'home_site_close_reason'  => [
+                'name' => '关闭原因',
+                'desc' => '支持html，当网站处于关闭状态时，关闭原因将显示在前台',
+            ],
+            'common_timezone'  => [
+                'name' => '默认时区',
+                'desc' => '默认 亚洲/上海 [标准时+8]',
+                'tips' => '请选择默认时区',
+            ],
+            'home_footer_info'  => [
+                'name' => '底部代码',
+                'desc' => '支持html，可用于添加流量统计代码',
+            ],
+            'home_site_name'  => [
+                'name' => '站点名称',
+                'desc' => '',
+                'tips' => '站点名称不能为空',
+            ],
+            'home_seo_url_model'  => [
+                'name' => '链接模式',
+                'desc' => '非兼容模式请确保配置好伪静态规则',
+                'tips' => '请选择url模式',
+            ],
+            'home_max_limit_image'  => [
+                'name' => '图片最大限制',
+                'desc' => '单位B [上传图片还受到服务器空间PHP配置最大上传 20M 限制]',
+                'tips' => '请填写图片上传最大限制',
+            ],
+            'home_max_limit_file'  => [
+                'name' => '文件最大限制',
+                'desc' => '单位B [上传文件还受到服务器空间PHP配置最大上传 20M 限制]',
+                'tips' => '请填写文件上传最大限制',
+            ],
+            'home_max_limit_video'  => [
+                'name' => '视频最大限制',
+                'desc' => '单位B [上传视频还受到服务器空间PHP配置最大上传 20M 限制]',
+                'tips' => '请填写视频上传最大限制',
+            ],
+            'home_seo_url_html_suffix'  => [
+                'name' => '伪静态后缀',
+                'desc' => '链接后面的后缀别名，默认 [ html ]',
+                'tips' => '小写字母，不能超过8个字符',
+            ],
+            'common_register_is_enable_audit'  => [
+                'name' => '用户注册开启审核',
+                'desc' => '默认关闭，开启后用户注册需要审核通过方可登录',
+                'tips' => '请选择用户注册开启审核',
+            ],
+            'home_site_logo_wap'  => [
+                'name' => '手机端logo',
+                'desc' => '支持 [jpg, png, gif]，建议220x66px',
+                'tips' => '请上传手机端网站logo',
+            ],
+            'home_site_logo'  => [
+                'name' => '电脑端logo',
+                'desc' => '支持 [jpg, png, gif]，建议220x60px',
+                'tips' => '请上传电脑端网站logo',
+            ],
+            'home_content_max_width'  => [
+                'name' => '页面最大宽度',
+                'desc' => '页面最大宽度，单位px，0则100%',
+                'tips' => '请填写页面宽度值',
+            ],
+            'home_site_logo_square'  => [
+                'name' => '正方形logo',
+                'desc' => '建议使用png格式，建议300x300px',
+                'tips' => '请上传正方形logo',
+            ],
+            'home_user_reg_type'  => [
+                'name' => '注册方式',
+                'desc' => '未选择、前端站点将无法注册，可选择 [ 短信, 邮箱, 用户名 ]',
+                'tips' => '请选择注册方式',
+            ],
+            'home_user_login_type'  => [
+                'name' => '登录方式',
+                'desc' => '默认帐号密码，可选择 [ 帐号密码, 邮箱验证码, 手机验证码 ]',
+                'tips' => '请选择登录方式',
+            ],
+            'common_img_verify_state'  => [
+                'name' => '获取验证码-开启图片验证码',
+                'desc' => '防止短信轰炸',
+                'tips' => '请选择是否开启强制图片验证码',
+            ],
+            'common_verify_interval_time'  => [
+                'name' => '获取验证码时间间隔',
+                'desc' => '防止频繁获取验证码，一般在 30~120 秒之间，单位 [秒]',
+                'tips' => '请填写获取验证码时间间隔',
+            ],
+            'home_sms_user_reg'  => [
+                'name' => '用户注册-短信模板ID',
+                'desc' => '验证码code',
+                'tips' => '请填写用户注册短信模板内容',
+            ],
+            'common_sms_sign'  => [
+                'name' => '短信签名',
+                'desc' => '发送短信包含的签名',
+                'tips' => '短信签名 3~8 个的中英文字符',
+            ],
+            'common_sms_apikey'  => [
+                'name' => '短信KeyID',
+                'desc' => 'Access Key ID',
+                'tips' => '请填写Access Key ID',
+            ],
+            'home_sms_user_forget_pwd'  => [
+                'name' => '密码找回-短信模板ID',
+                'desc' => '验证码code',
+                'tips' => '请填写密码找回短信模板内容',
+            ],
+            'common_verify_expire_time'  => [
+                'name' => '验证码有效时间',
+                'desc' => '验证码过期时间，一般10分钟左右，单位 [秒]',
+                'tips' => '请填写验证码有效时间',
+            ],
+            'common_email_smtp_host'  => [
+                'name' => 'SMTP服务器',
+                'desc' => '设置SMTP服务器的地址，如 smtp.163.com',
+                'tips' => '请填写SMTP服务器',
+            ],
+            'common_email_smtp_port'  => [
+                'name' => 'SMTP端口',
+                'desc' => '设置SMTP服务器的端口，默认为 25',
+                'tips' => '请填写SMTP端口号',
+            ],
+            'common_email_smtp_account'  => [
+                'name' => '发信人邮件地址',
+                'desc' => '发信人邮件地址，使用SMTP协议发送的邮件地址，如 shopxo@163.com',
+                'tips' => '请填写发信人邮件地址',
+            ],
+            'common_email_smtp_name'  => [
+                'name' => 'SMTP身份验证用户名',
+                'desc' => '如 shopxo@163.com',
+                'tips' => '请填写SMTP身份验证用户名',
+            ],
+            'common_email_smtp_pwd'  => [
+                'name' => 'SMTP身份验证密码',
+                'desc' => 'shopxo@163.com邮件的密码或授权码',
+                'tips' => '请填写SMTP身份验证密码',
+            ],
+            'common_email_smtp_send_name'  => [
+                'name' => '发件人显示名称',
+                'desc' => '如 ShopXO',
+            ],
+            'common_sms_currency_template'  => [
+                'name' => '通用-短信模板ID',
+                'desc' => '验证码code',
+                'tips' => '请填写通用短信模板内容',
+            ],
+            'common_sms_apisecret'  => [
+                'name' => '短信KeySecret',
+                'desc' => 'Access Key Secret',
+                'tips' => '请填写Access Key Secret',
+            ],
+            'common_customer_store_tel'  => [
+                'name' => '商店电话',
+                'desc' => '空则不显示',
+            ],
+            'common_email_currency_template'  => [
+                'name' => '通用-邮件模板',
+                'desc' => '验证码变量标识符 [ #code# ]',
+            ],
+            'common_default_theme'  => [
+                'name' => '默认模板',
+                'desc' => '前台默认模板',
+                'tips' => '请选择默认模板',
+            ],
+            'common_baidu_map_ak'  => [
+                'name' => '百度地图api密钥',
+                'desc' => '百度地图2.0起必须配置AK密钥',
+                'tips' => '请填写百度地图api密钥',
+            ],
+            'home_email_user_reg'  => [
+                'name' => '用户注册-邮件模板',
+                'desc' => '验证码变量标识符 [ #code# ]',
+            ],
+            'home_email_user_forget_pwd'  => [
+                'name' => '密码找回-邮件模板',
+                'desc' => '验证码变量标识符 [ #code# ]',
+            ],
+            'home_email_user_email_binding'  => [
+                'name' => '邮箱绑定-邮件模板',
+                'desc' => '验证码变量标识符 [ #code# ]',
+            ],
+            'home_static_cache_version'  => [
+                'name' => 'css/js版本标记',
+                'desc' => '用于css/js浏览器缓存版本识别',
+            ],
+            'home_sms_user_mobile_binding'  => [
+                'name' => '手机号码绑定-短信模板ID',
+                'desc' => '验证码code',
+                'tips' => '请填写手机号码绑定短信模板内容',
+            ],
+            'home_search_keywords'  => [
+                'name' => '搜索关键字',
+                'desc' => '搜索框下热门关键字（输入回车）',
+                'tips' => '请填写关键字',
+            ],
+            'home_search_keywords_type'  => [
+                'name' => '搜索关键字类型',
+                'desc' => '自定义需要配置以下关键字',
+                'tips' => '请选择关键字类型',
+            ],
+            'common_order_is_booking'  => [
+                'name' => '订单预约模式',
+                'desc' => '开启后用户提交订单需要管理员确认',
+                'tips' => '请选择是否开启预约模式',
+            ],
+            'common_app_mini_alipay_title'  => [
+                'name' => '名称',
+                'desc' => '',
+                'tips' => '请填写名称',
+            ],
+            'common_app_mini_alipay_describe'  => [
+                'name' => '描述',
+                'desc' => '',
+                'tips' => '请填写描述',
+            ],
+            'common_app_customer_service_tel'  => [
+                'name' => '客服电话',
+                'desc' => '空则不显示',
+                'tips' => '请填写客服电话',
+            ],
+            'common_app_mini_alipay_appid'  => [
+                'name' => 'AppID',
+                'desc' => '小程序ID',
+                'tips' => '请填写AppID',
+            ],
+            'common_app_mini_alipay_rsa_public'  => [
+                'name' => '应用公钥',
+                'desc' => '',
+                'tips' => '请填写应用公钥',
+            ],
+            'common_cache_session_redis_prefix'  => [
+                'name' => '前缀',
+                'desc' => '默认 shopxo',
+                'tips' => '请填写前缀',
+            ],
+            'common_app_mini_alipay_rsa_private'  => [
+                'name' => '应用私钥',
+                'desc' => '',
+                'tips' => '请填写应用私钥',
+            ],
+            'home_index_floor_goods_order_by_type'  => [
+                'name' => '首页楼层商品排序类型',
+                'desc' => '默认综合',
+                'tips' => '请选择首页楼层商品排序类型',
+            ],
+            'home_navigation_main_quick_name'  => [
+                'name' => '快捷导航名称',
+                'desc' => '默认 百宝箱',
+                'tips' => '请填写快捷导航名称',
+            ],
+            'home_index_floor_goods_order_by_rule'  => [
+                'name' => '首页楼层商品排序规则',
+                'desc' => '默认降序(desc)',
+                'tips' => '请选择首页楼层商品排序规则',
+            ],
+            'common_app_mini_weixin_default_theme'  => [
+                'name' => '默认主题',
+                'desc' => '微信小程序默认主题',
+                'tips' => '请选择微信小程序默认主题',
+            ],
+            'common_user_onekey_bind_mobile_list'  => [
+                'name' => '获取账户手机一键登录',
+                'desc' => '默认关闭',
+                'tips' => '请选择获取账户手机一键登录',
+            ],
+            'home_is_enable_order_bulk_pay'  => [
+                'name' => '启用订单批量支付',
+                'desc' => '默认否',
+                'tips' => '请选择获启用订单批量支付',
+            ],
+            'common_session_is_use_cache'  => [
+                'name' => 'Session使用缓存',
+                'desc' => '默认否',
+                'tips' => '请选择Session使用缓存',
+            ],
+            'common_data_is_use_cache'  => [
+                'name' => '数据使用缓存',
+                'desc' => '默认否',
+                'tips' => '请选择数据使用缓存',
+            ],
+            'common_app_is_enable_search'  => [
+                'name' => '是否启用搜索',
+                'desc' => '默认是',
+            ],
+            'common_app_mini_alipay_out_rsa_public'  => [
+                'name' => '支付宝公钥',
+                'desc' => '',
+                'tips' => '请填写支付宝公钥',
+            ],
+            'common_cdn_public_host'  => [
+                'name' => 'css/js静态文件cdn域名',
+                'desc' => 'css/js静态文件',
+                'tips' => '请填写正确的css/js静态文件cdn域名',
+            ],
+            'home_index_floor_goods_max_count'  => [
+                'name' => '首页楼层商品数量',
+                'desc' => '默认8个',
+                'tips' => '请填写首页楼层商品数量',
+            ],
+            'home_index_floor_top_right_keywords'  => [
+                'name' => '首页楼层顶部右侧关键字',
+                'desc' => '楼层下关键字（输入回车）',
+                'tips' => '请填写首页楼层顶部右侧关键字',
+            ],
+            'common_app_is_enable_answer'  => [
+                'name' => '是否启用留言',
+                'desc' => '默认否',
+            ],
+            'common_spec_add_max_number'  => [
+                'name' => '商品可添加规格最大数量',
+                'desc' => '建议不超过3个规格',
+                'tips' => '请填写谷歌最大数',
+            ],
+            'common_route_separator'  => [
+                'name' => '路由分隔符',
+                'desc' => '建议填写 [ - ]  默认 [ - ] ，仅PATHINFO模式+短地址模式下有效',
+                'tips' => '请填写路由分隔符',
+            ],
+            'common_app_mini_weixin_appid'  => [
+                'name' => 'AppID',
+                'desc' => '小程序ID',
+                'tips' => '请填写appid',
+            ],
+            'common_app_mini_weixin_appsecret'  => [
+                'name' => 'AppSecret    ',
+                'desc' => '小程序密钥',
+                'tips' => '请填写appsecret',
+            ],
+            'common_app_mini_weixin_title'  => [
+                'name' => '名称',
+                'desc' => '',
+                'tips' => '请填写名称',
+            ],
+            'common_app_mini_weixin_describe'  => [
+                'name' => '描述',
+                'desc' => '',
+                'tips' => '请填写描述',
+            ],
+            'common_user_center_notice'  => [
+                'name' => '用户中心公告',
+                'desc' => '空则不显示公告',
+            ],
+            'common_shop_notice'  => [
+                'name' => '商城公告',
+                'desc' => '空则不显示公告',
+            ],
+            'common_customer_store_email'  => [
+                'name' => '商店邮箱',
+                'desc' => '空则不显示',
+                'tips' => '客服邮箱格式有误',
+            ],
+            'common_customer_store_qrcode'  => [
+                'name' => '商店二维码',
+                'desc' => '空则不展示',
+            ],
+            'common_self_extraction_address'  => [
+                'name' => '自提点地址',
+                'desc' => '',
+                'tips' => '请填写自提点地址',
+            ],
+            'common_customer_store_address'  => [
+                'name' => '商店地址',
+                'desc' => '空则不展示',
+            ],
+            'common_agreement_userregister'  => [
+                'name' => '用户注册协议',
+                'desc' => '最多 105000 个字符',
+                'tips' => '用户注册协议最多 105000 个字符',
+            ],
+            'home_site_user_register_bg_images'  => [
+                'name' => '用户注册背景图片',
+                'desc' => '',
+                'tips' => '请上传用户注册背景图片',
+            ],
+            'home_site_user_login_ad1_images'  => [
+                'name' => '图片',
+                'desc' => '图片1 [ 建议使用 450X350 像数 ]',
+            ],
+            'home_site_user_login_ad2_images'  => [
+                'name' => '图片',
+                'desc' => '图片2 [ 建议使用 450X350 像数 ]',
+            ],
+            'home_site_user_login_ad3_images'  => [
+                'name' => '图片',
+                'desc' => '图片2 [ 建议使用 450X350 像数 ]',
+            ],
+            'home_site_user_login_ad1_url'  => [
+                'name' => 'url地址',
+                'desc' => '地址1 [ 带http://或https:// ]',
+            ],
+            'home_site_user_login_ad2_url'  => [
+                'name' => 'url地址',
+                'desc' => '地址2 [ 带http://或https:// ]',
+            ],
+            'home_site_user_login_ad3_url'  => [
+                'name' => 'url地址',
+                'desc' => '地址3 [ 带http://或https:// ]',
+            ],
+            'home_site_user_login_ad1_bg_color'  => [
+                'name' => '背景色',
+                'desc' => '背景色1',
+            ],
+            'home_site_user_login_ad2_bg_color'  => [
+                'name' => '背景色',
+                'desc' => '背景色2',
+            ],
+            'home_site_user_login_ad3_bg_color'  => [
+                'name' => '背景色',
+                'desc' => '背景色3',
+            ],
+            'home_user_login_img_verify_state'  => [
+                'name' => '登录图片验证码',
+                'desc' => '默认关闭，可以防止非法登录',
+                'tips' => '请选择是否开启登录图片验证码',
+            ],
+            'home_site_user_forgetpwd_ad1_images'  => [
+                'name' => '图片',
+                'desc' => '图片1 [ 建议使用 450X350 像数 ]',
+            ],
+            'home_site_user_forgetpwd_ad2_images'  => [
+                'name' => '图片',
+                'desc' => '图片2 [ 建议使用 450X350 像数 ]',
+            ],
+            'home_site_user_forgetpwd_ad3_images'  => [
+                'name' => '图片',
+                'desc' => '图片2 [ 建议使用 450X350 像数 ]',
+            ],
+            'home_site_user_forgetpwd_ad1_url'  => [
+                'name' => 'url地址',
+                'desc' => '地址1 [ 带http://或https:// ]',
+            ],
+            'home_site_user_forgetpwd_ad2_url'  => [
+                'name' => 'url地址',
+                'desc' => '地址2 [ 带http://或https:// ]',
+            ],
+            'home_site_user_forgetpwd_ad3_url'  => [
+                'name' => 'url地址',
+                'desc' => '地址3 [ 带http://或https:// ]',
+            ],
+            'home_site_user_forgetpwd_ad1_bg_color'  => [
+                'name' => '背景色',
+                'desc' => '背景色1',
+            ],
+            'home_site_user_forgetpwd_ad2_bg_color'  => [
+                'name' => '背景色',
+                'desc' => '背景色2',
+            ],
+            'home_site_user_forgetpwd_ad3_bg_color'  => [
+                'name' => '背景色',
+                'desc' => '背景色3',
+            ],
+            'home_user_register_img_verify_state'  => [
+                'name' => '用户注册图片验证码',
+                'desc' => '默认关闭，可以防止非法注册',
+                'tips' => '请选择是否开启用户注册图片验证码',
+            ],
+            'common_images_verify_rules'  => [
+                'name' => '图片验证码规则',
+                'desc' => '默认白底黑字，可根据需求i加大验证码识别难度',
+            ],
+            'common_email_is_use_ssl'  => [
+                'name' => 'SSL方式加密',
+                'desc' => '',
+                'tips' => '请选择是否使用SSL方式加密',
+            ],
+            'home_order_aftersale_return_only_money_reason'  => [
+                'name' => '仅退款原因',
+                'desc' => '可换行，一行一个',
+                'tips' => '请填写仅退款原因',
+            ],
+            'home_order_aftersale_return_money_goods_reason'  => [
+                'name' => '退货退款原因',
+                'desc' => '可换行，一行一个',
+                'tips' => '请填写退货退款原因',
+            ],
+            'home_is_enable_userregister_agreement'  => [
+                'name' => '用户注册协议',
+                'desc' => '默认关闭，开启后用户注册需要同意协议才可以注册',
+                'tips' => '请选择是否启用用户注册协议',
+            ],
+            'home_order_aftersale_return_goods_address'  => [
+                'name' => '退货地址',
+                'desc' => '用户退货货物收货地址',
+                'tips' => '请填写退货地址',
+            ],
+            'common_app_is_use_mobile_detail'  => [
+                'name' => '使用独立手机详情',
+                'desc' => '默认使用web详情',
+                'tips' => '请选择使用独立手机详情',
+            ],
+            'common_user_is_mandatory_bind_mobile'  => [
+                'name' => '强制绑定手机',
+                'desc' => '默认否',
+                'tips' => '请选择是否强制绑定手机',
+            ],
+            'common_app_is_header_nav_fixed'  => [
+                'name' => '固定顶部导航',
+                'desc' => '默认是、必须启用搜索',
+                'tips' => '请选择是否固定顶部导航',
+            ],
+            'common_app_is_online_service'  => [
+                'name' => '开启在线客服',
+                'desc' => '默认否',
+                'tips' => '请选择是否开启在线客服',
+            ],
+            'home_index_floor_left_goods_category_max_count'  => [
+                'name' => '首页楼层左侧二级商品分类数量',
+                'desc' => '默认6个',
+                'tips' => '请填写首页楼层左侧二级商品分类数量',
+            ],
+            'home_order_aftersale_return_launch_day'  => [
+                'name' => '订单完成可发起售后时限',
+                'desc' => '单位 天，0则关闭售后、建议30天左右',
+                'tips' => '请填写订单完成可发起售后时限',
+            ],
+            'common_goods_give_integral_limit_time'  => [
+                'name' => '商品赠送积分时长',
+                'desc' => '单位 分钟，默认21600分钟/15天',
+                'tips' => '请填写商品赠送积分时长',
+            ],
+            'common_app_mini_baidu_appid'  => [
+                'name' => 'AppID',
+                'desc' => '智能小程序ID',
+                'tips' => '请填写AppID',
+            ],
+            'common_app_mini_baidu_appkey'  => [
+                'name' => 'AppKey',
+                'desc' => '智能小程序KEY',
+                'tips' => '请填写AppKey',
+            ],
+            'common_app_mini_baidu_appsecret'  => [
+                'name' => 'AppSecret',
+                'desc' => '智能小程序密匙',
+                'tips' => '请填写AppSecret',
+            ],
+            'common_app_mini_baidu_title'  => [
+                'name' => '名称',
+                'desc' => '',
+                'tips' => '请填写名称',
+            ],
+            'common_app_mini_baidu_describe'  => [
+                'name' => '描述',
+                'desc' => '',
+                'tips' => '请填写描述',
+            ],
+            'common_is_login_answer'  => [
+                'name' => '留言需要登录',
+                'desc' => '默认否',
+                'tips' => '请选择是否留言需要登录',
+            ],
+            'common_order_close_limit_time'  => [
+                'name' => '订单关闭脚本时长',
+                'desc' => '单位 分钟，默认30分钟',
+                'tips' => '请填写订单关闭脚本时长',
+            ],
+            'common_order_success_limit_time'  => [
+                'name' => '订单自动收货脚本时长',
+                'desc' => '单位 分钟，默认21600分钟/15天',
+                'tips' => '请填写订单自动收货脚本时长',
+            ],
+            'common_app_mini_toutiao_appid'  => [
+                'name' => 'AppID',
+                'desc' => '小程序ID',
+                'tips' => '请填写AppID',
+            ],
+            'common_app_mini_toutiao_appsecret'  => [
+                'name' => 'AppSecret',
+                'desc' => '小程序Secret',
+                'tips' => '请填写AppSecret',
+            ],
+            'common_app_mini_toutiao_title'  => [
+                'name' => '名称',
+                'desc' => '',
+                'tips' => '请填写名称',
+            ],
+            'common_app_mini_toutiao_describe'  => [
+                'name' => '描述',
+                'desc' => '',
+                'tips' => '请填写描述',
+            ],
+            'home_site_security_record_name'  => [
+                'name' => '公安备案号',
+                'desc' => '如：京公网安备xxx号',
+                'tips' => '请填写公安备案号',
+            ],
+            'home_site_security_record_url'  => [
+                'name' => '公安备案地址',
+                'desc' => '备案展示页面的url地址',
+                'tips' => '请填写公安备案地址',
+            ],
+            'common_app_mini_qq_appid'  => [
+                'name' => 'AppID',
+                'desc' => '小程序ID',
+                'tips' => '请填写AppID',
+            ],
+            'common_app_mini_qq_appsecret'  => [
+                'name' => 'AppSecret',
+                'desc' => '小程序Secret',
+                'tips' => '请填写AppSecret',
+            ],
+            'common_app_mini_qq_apptoken'  => [
+                'name' => 'AppToken',
+                'desc' => '小程序Token',
+                'tips' => '请填写AppToken',
+            ],
+            'common_app_mini_qq_title'  => [
+                'name' => '名称',
+                'desc' => '',
+                'tips' => '请填写名称',
+            ],
+            'common_app_mini_qq_describe'  => [
+                'name' => '描述',
+                'desc' => '',
+                'tips' => '请填写描述',
+            ],
+            'common_app_is_head_vice_nav'  => [
+                'name' => '是否启用用户中心头部小导航',
+                'desc' => '默认是',
+                'tips' => '请选择是否启用用户中心头部小导航',
+            ],
+            'common_site_type'  => [
+                'name' => '站点类型',
+                'desc' => '默认快递',
+                'tips' => '请选择站点类型',
+            ],
+            'common_is_exhibition_mode_btn_text'  => [
+                'name' => '展示型操作名称',
+                'desc' => '默认 立即咨询',
+                'tips' => '请填写展示型操作名称',
+            ],
+            'common_site_fictitious_return_title'  => [
+                'name' => '虚拟信息标题',
+                'desc' => '默认密钥信息',
+                'tips' => '请填写虚拟信息标题',
+            ],
+            'common_site_fictitious_return_tips'  => [
+                'name' => '提示信息',
+                'desc' => '',
+                'tips' => '请填写提示信息',
+            ],
+            'common_app_mini_alipay_tnt_inst_id'  => [
+                'name' => '在线客服-企业编码',
+                'desc' => '空则不显示在线客服',
+                'tips' => '请填写在线客服-企业编码',
+            ],
+            'common_app_mini_alipay_scene'  => [
+                'name' => '在线客服-聊天窗编码',
+                'desc' => '空则不显示在线客服',
+                'tips' => '请填写在线客服-聊天窗编码',
+            ],
+            'common_is_goods_detail_show_photo'  => [
+                'name' => '商品详情页展示相册',
+                'desc' => '默认否',
+                'tips' => '请选择是否商品详情页展示相册',
+            ],
+            'common_is_mobile_concise_model'  => [
+                'name' => '手机简洁模式',
+                'desc' => '默认否',
+                'tips' => '请选择是否手机简洁模式',
+            ],
+            'common_app_weixin_liveplayer'  => [
+                'name' => '启用直播',
+                'desc' => '默认否，需重新生成小程序包（启用则需到微信小程序后台申请权限）',
+                'tips' => '请选择是否启用直播',
+            ],
+            'common_app_weixin_liveplayer_ver'  => [
+                'name' => '直播组件版本号',
+                'desc' => '',
+                'tips' => '请填写直播组件版本号',
+            ],
+            'admin_login_info_bg_images_rand'  => [
+                'name' => '后台登录页随机背景图',
+                'desc' => '默认启用',
+                'tips' => '请选择后台登录页随机背景图',
+            ],
+            'common_pay_log_order_close_limit_time'  => [
+                'name' => '支付日志订单关闭脚本时长',
+                'desc' => '单位 分钟，默认30分钟',
+                'tips' => '请填写支付日志订单关闭脚本时长',
+            ],
+            'common_show_goods_category_level'  => [
+                'name' => '分类展示层级',
+                'desc' => '默认0级',
+                'tips' => '请填写分类展示层级',
+            ],
+            'common_cdn_attachment_host'  => [
+                'name' => '附件cdn域名',
+                'desc' => '图片/视频/文件',
+                'tips' => '请填写正确的附件cdn域名',
+            ],
+            'common_cache_data_redis_host'  => [
+                'name' => '连接地址',
+                'desc' => '默认 127.0.0.1',
+                'tips' => '请填写连接地址',
+            ],
+            'common_cache_data_redis_port'  => [
+                'name' => '端口号',
+                'desc' => '默认 6379',
+                'tips' => '请填写端口号',
+            ],
+            'common_cache_data_redis_password'  => [
+                'name' => '密码',
+                'desc' => '默认无密码',
+                'tips' => '请填写密码',
+            ],
+            'common_cache_data_redis_expire'  => [
+                'name' => '有效时间',
+                'desc' => '默认0表示永久',
+                'tips' => '请填写有效时间',
+            ],
+            'common_cache_data_redis_prefix'  => [
+                'name' => '前缀',
+                'desc' => '默认 shopxo',
+                'tips' => '请填写前缀',
+            ],
+            'common_app_mini_alipay_default_theme'  => [
+                'name' => '默认主题',
+                'desc' => '支付宝小程序默认主题',
+                'tips' => '请选择支付宝小程序默认主题',
+            ],
+            'common_app_mini_baidu_default_theme'  => [
+                'name' => '默认主题',
+                'desc' => '百度小程序默认主题',
+                'tips' => '请选择百度小程序默认主题',
+            ],
+            'common_app_mini_toutiao_default_theme'  => [
+                'name' => '默认主题',
+                'desc' => '头条小程序默认主题',
+                'tips' => '请选择头条小程序默认主题',
+            ],
+            'common_app_mini_qq_default_theme'  => [
+                'name' => '默认主题',
+                'desc' => 'QQ小程序默认主题',
+                'tips' => '请选择QQ小程序默认主题',
+            ],
+            'home_index_floor_data_type'  => [
+                'name' => '首页楼层数据模式类型',
+                'desc' => '默认自动模式',
+                'tips' => '请选择首页楼层数据模式类型',
+            ],
+            'home_index_floor_manual_mode_goods'  => [
+                'name' => '首页楼层商品配置',
+                'desc' => '自定义添加商品',
+                'tips' => '请选择首页楼层商品配置',
+            ],
+            'home_index_floor_left_top_category'  => [
+                'name' => '首页楼层左侧二级商品分类',
+                'desc' => '楼层下分类（下拉多选）',
+                'tips' => '请填写首页楼层左侧二级商品分类',
+            ],
+            'home_navigation_main_quick_status'  => [
+                'name' => '快捷导航状态',
+                'desc' => '默认关闭',
+                'tips' => '请选择快捷导航状态',
+            ],
+            'home_user_address_map_status'  => [
+                'name' => '用户地址地图',
+                'desc' => '默认关闭',
+                'tips' => '请选择用户地址地图',
+            ],
+            'home_user_address_idcard_status'  => [
+                'name' => '用户地址身份证',
+                'desc' => '默认关闭',
+                'tips' => '请选择用户地址身份证',
+            ],
+            'home_index_banner_left_status'  => [
+                'name' => '首页轮播左侧商品分类',
+                'desc' => '默认开启',
+                'tips' => '请选择首页轮播左侧商品分类',
+            ],
+            'home_index_banner_right_status'  => [
+                'name' => '首页轮播右侧聚合内容',
+                'desc' => '默认开启',
+                'tips' => '请选择首页轮播右侧聚合内容',
+            ],
+            'home_search_limit_number'  => [
+                'name' => '搜索展示数据条数',
+                'desc' => '默认20',
+                'tips' => '请填写搜索展示数据条数',
+            ],
+            'home_index_friendship_link_status'  => [
+                'name' => '手机模式下友情链接状态',
+                'desc' => '默认关闭',
+                'tips' => '请选择手机模式下友情链接状态',
+            ],
+            'common_is_pay_price_must_max_equal'  => [
+                'name' => '订单支付状态改变支付金额必须大于等于',
+                'desc' => '默认开启',
+                'tips' => '请选择订单支付状态改变支付金额必须大于等于',
+            ],
+            'home_search_is_spec'  => [
+                'name' => '搜索页开启规格',
+                'desc' => '默认开启',
+                'tips' => '请选择搜索页开启规格',
+            ],
+            'home_search_is_params'  => [
+                'name' => '搜索页开启参数',
+                'desc' => '默认开启',
+                'tips' => '请选择搜索页开启参数',
+            ],
+            'home_search_is_price'  => [
+                'name' => '搜索页开启价格',
+                'desc' => '默认开启',
+                'tips' => '请选择搜索页开启价格',
+            ],
+            'home_header_top_is_home'  => [
+                'name' => '顶部小导航非首页入口',
+                'desc' => '默认开启',
+                'tips' => '请选择顶部小导航非首页入口',
+            ],
+            'home_search_is_brand'  => [
+                'name' => '搜索页开启品牌',
+                'desc' => '默认开启',
+                'tips' => '请选择搜索页开启品牌',
+            ],
+            'home_search_is_category'  => [
+                'name' => '搜索页开启分类',
+                'desc' => '默认开启',
+                'tips' => '请选择搜索页开启分类',
+            ],
+            'admin_login_type'  => [
+                'name' => '登录方式',
+                'desc' => '默认帐号密码，可选择 [ 帐号密码, 邮箱验证码, 手机验证码 ]',
+                'tips' => '请至少选择一种登录方式',
+            ],
+            'admin_login_img_verify_state'  => [
+                'name' => '登录图片验证码',
+                'desc' => '默认关闭，可以防止非法登录',
+                'tips' => '请选择是否开启登录图片验证码',
+            ],
+            'admin_sms_login_template'  => [
+                'name' => '后台登录-短信模板ID',
+                'desc' => '验证码code',
+                'tips' => '请填写后台登录短信模板内容',
+            ],
+            'admin_email_login_template'  => [
+                'name' => '后台登录-邮件模板',
+                'desc' => '验证码变量标识符 [ #code# ]',
+            ],
+            'home_sms_login_template'  => [
+                'name' => '用户登录-短信模板ID',
+                'desc' => '验证码code',
+                'tips' => '请填写用户登录短信模板内容',
+            ],
+            'home_email_login_template'  => [
+                'name' => '用户登录-邮件模板',
+                'desc' => '验证码变量标识符 [ #code# ]',
+            ],
+            'home_extraction_address_position'  => [
+                'name' => '自提选择地理位置',
+                'desc' => '默认关闭',
+                'tips' => '请选择自提选择地理位置',
+            ],
+            'home_search_is_keywords_where_and'  => [
+                'name' => '搜索多个关键字并且关系',
+                'desc' => '默认否、或关系',
+                'tips' => '请选择搜索多个关键字并且关系',
+            ],
+            'common_is_https_connect_store'  => [
+                'name' => '连接商店采用https',
+                'desc' => '默认http',
+                'tips' => '请选择连接商店采用https',
+            ],
+            'is_close_goods_discount_overlap'  => [
+                'name' => '关闭商品优惠重叠',
+                'desc' => '默认否',
+                'tips' => '请选择关闭商品优惠重叠',
+            ],
+            'home_theme_footer_bottom_powered'  => [
+                'name' => 'web端底部版权信息',
+                'desc' => '',
+                'tips' => '请填写web端底部版权信息',
+            ],
+            'common_store_accounts'  => [
+                'name' => '应用商店帐号',
+                'desc' => '',
+                'tips' => '请填写应用商店帐号',
+            ],
+            'admin_theme_site_name'  => [
+                'name' => '后端站点名称',
+                'desc' => '',
+                'tips' => '请填写后端站点名称',
+            ],
+            'home_search_params_type'  => [
+                'name' => '搜索参数类型',
+                'desc' => '默认基础',
+                'tips' => '请选择搜索参数类型',
+            ],
+            'common_store_password'  => [
+                'name' => '应用商店密码',
+                'desc' => '',
+                'tips' => '请填写应用商店密码',
+            ],
+            'home_search_is_keywords_seo_fields'  => [
+                'name' => '搜索关键字包含SEO字段',
+                'desc' => '默认否',
+                'tips' => '请选择搜索关键字包含SEO字段',
+            ],
+            'common_agreement_userprivacy'  => [
+                'name' => '用户隐私政策',
+                'desc' => '最多 105000 个字符',
+                'tips' => '用户隐私政策最多 105000 个字符',
+            ],
+            'admin_notice'  => [
+                'name' => '后台管理公告',
+                'desc' => '空则不显示、仅后台管理人员可见',
+                'tips' => '请填写后台管理公告',
+            ],
+            'home_order_aftersale_is_use_warehouse_address'  => [
+                'name' => '退货地址使用仓库地址',
+                'desc' => '默认否、根据订单所属仓库',
+                'tips' => '请选择是否退货地址使用仓库地址',
+            ],
+            'common_goods_sales_count_inc_rules'  => [
+                'name' => '订单商品销量增加规则',
+                'desc' => '默认订单收货，请勿随意切换该配置、会造成商品销量不符',
+                'tips' => '请选择订单商品销量增加规则',
+            ],
+            'common_is_show_goods_comments'  => [
+                'name' => '展示商品评价',
+                'desc' => '默认是',
+                'tips' => '请选择是否展示商品评价',
+            ],
+            'common_app_h5_url'  => [
+                'name' => '手机端h5地址',
+                'desc' => 'uniapp端地址以(#/)结尾、比如：https://h5.shopxo.vip/#/',
+                'tips' => '请填写手机端h5地址',
+            ],
+            'common_is_under_line_order_normal'  => [
+                'name' => '线下支付正常进行',
+                'desc' => '默认否，线下支付提交进入正常订单状态流程、后续管理员可在后台确认操作收款',
+                'tips' => '请选择线下支付正常进行',
+            ],
+            'home_site_telecom_license'  => [
+                'name' => '增值电信业务经营许可证',
+                'desc' => '如：沪B2-xxx',
+            ],
+            'home_site_web_home_state'  => [
+                'name' => 'web端首页访问',
+                'desc' => '默认开启，仅针对web端首页，其他页面不受影响',
+            ],
+            'home_site_company_license'  => [
+                'name' => '电子营业执照亮照',
+                'desc' => '执照页面展示地址、申请地址：https://zzlz.gsxt.gov.cn/businessShow',
+            ],
+            'home_site_web_pc_state'  => [
+                'name' => 'web端PC访问',
+                'desc' => '默认开启，仅针对web端PC',
+            ],
+            'common_tianditu_map_ak'  => [
+                'name' => '天地图api秘钥',
+                'desc' => '天地图的应用Key',
+                'tips' => '请填写天地图api秘钥',
+            ],
+            'common_domain_host'  => [
+                'name' => '主域名',
+                'desc' => '站点地址',
+                'tips' => '请填写正确的主域名',
+            ],
+            'common_user_address_platform_import_list'  => [
+                'name' => '获取账户地址一键导入',
+                'desc' => '默认关闭',
+                'tips' => '请选择获取账户地址一键导入',
+            ],
+            'common_app_mini_kuaishou_appid'  => [
+                'name' => 'AppID',
+                'desc' => '小程序ID',
+                'tips' => '请填写AppID',
+            ],
+            'common_app_mini_kuaishou_appsecret'  => [
+                'name' => 'AppSecret',
+                'desc' => '小程序Secret',
+                'tips' => '请填写AppSecret',
+            ],
+            'common_app_mini_kuaishou_title'  => [
+                'name' => '名称',
+                'desc' => '',
+                'tips' => '请填写名称',
+            ],
+            'common_app_mini_kuaishou_describe'  => [
+                'name' => '描述',
+                'desc' => '',
+                'tips' => '请填写描述',
+            ],
+            'common_data_encryption_secret'  => [
+                'name' => '数据加密秘钥',
+                'desc' => '默认安装系统已自动生成、可以修改',
+                'tips' => '请填写数据加密秘钥',
+            ],
+            'common_cookie_domain'  => [
+                'name' => 'Cookie有效域名',
+                'desc' => '默认空则是当前访问域名有效',
+                'tips' => '请填写Cookie有效域名',
+            ],
+            'common_excel_export_type'  => [
+                'name' => 'Excel导出类型',
+                'desc' => '默认CSV',
+                'tips' => '请选择Excel导出类型',
+            ],
+            'common_map_type'  => [
+                'name' => '地图类型',
+                'desc' => '默认百度地图',
+                'tips' => '请选择地图类型',
+            ],
+            'common_amap_map_ak'  => [
+                'name' => '高德地图api秘钥',
+                'desc' => '高德地图的应用Key和安全秘钥',
+                'tips' => '请填写高德地图api秘钥',
+            ],
+            'common_tencent_map_ak'  => [
+                'name' => '腾讯地图api秘钥',
+                'desc' => '腾讯地图的应用Key',
+                'tips' => '请填写腾讯地图api秘钥',
+            ],
+            'common_amap_map_safety_ak'  => [
+                'name' => '高德地图安全秘钥',
+                'desc' => '高德地图的应用安全密钥',
+                'tips' => '请填写高德地图安全秘钥',
+            ],
+            'common_default_payment'  => [
+                'name' => '默认支付方式',
+                'desc' => '可对应平台设置',
+                'tips' => '请选择默认支付方式',
+            ],
+            'common_fictitious_order_direct_pay'  => [
+                'name' => '虚拟订单直接提交支付',
+                'desc' => '默认否，虚拟订单自动创建订单并直接进入订单列表发起支付、省去订单确认环节（请先设置默认支付方式）',
+                'tips' => '请选择是否虚拟订单直接提交支付',
+            ],
+            'home_search_history_record'  => [
+                'name' => '开启搜索记录',
+                'desc' => '默认否',
+                'tips' => '请选择开启搜索记录',
+            ],
+            'common_agreement_userlogout'  => [
+                'name' => '账号注销协议',
+                'desc' => '最多 105000 个字符',
+                'tips' => '账号注销协议最多 105000 个字符',
+            ],
+            'home_main_header_status'  => [
+                'name' => '主导航',
+                'desc' => '默认开启',
+                'tips' => '请选择主导航状态',
+            ],
+            'home_main_top_header_status'  => [
+                'name' => '顶部小导航',
+                'desc' => '默认开启',
+                'tips' => '请选择顶部小导航状态',
+            ],
+            'home_main_logo_search_status'  => [
+                'name' => 'logo及搜索栏',
+                'desc' => '默认开启',
+                'tips' => '请选择logo及搜索栏状态',
+            ],
+            'home_main_breadcrumb_header_status'  => [
+                'name' => '面包屑导航',
+                'desc' => '默认开启',
+                'tips' => '请选择面包屑导航状态',
+            ],
+            'home_main_footer_content_status'  => [
+                'name' => '底部页脚内容',
+                'desc' => '默认开启',
+                'tips' => '请选择底部页脚内容状态',
+            ],
+        ],
     ],
 ];
 ?>

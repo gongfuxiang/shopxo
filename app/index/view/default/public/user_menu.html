@@ -67,7 +67,7 @@
             </form>
             {{if is_array(MyLang('common.avatar_upload_tips'))}}
               <div class="am-alert am-alert-secondary">
-                {{:implode('<br />', MyLang('common.avatar_upload_tips'))}}
+                <p>{{:implode('</p><p>', MyLang('common.avatar_upload_tips'))}}</p>
               </div>
             {{/if}}
         </div>

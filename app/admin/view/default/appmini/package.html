@@ -11,39 +11,16 @@
     {{include file="appmini/base_nav" /}}
     <!-- 新版本小程序主题提示 -->
     <div class="am-alert am-alert-warning am-radius">
-        <p class="am-text-sm">已发布新版本小程序主题、采用uniapp开发（支持多端小程序+H5），APP也在紧急适配中。</p>
+        <p class="am-text-sm">{{:MyLang('appmini.nav_theme_download_tips')}}</p>
         <p class="am-margin-top-xs">
-            <a href="https://uniapp.shopxo.net/" target="_blank">查看小程序打包教程 <i class="am-icon-external-link"></i></a>
+            <a href="https://uniapp.shopxo.net/" target="_blank">{{:MyLang('appmini.nav_theme_download_name')}} <i class="am-icon-external-link"></i></a>
         </p>
-    </div>
-
-    <!-- tips -->
-    <div class="am-alert am-radius">
-        <p class="am-text-danger am-margin-bottom-xs am-text-sm">生成源码包采用当前设置的默认主题进行生成zip压缩包</p>
-        {{if MyConfig('shopxo.is_develop') eq true}}
-            <p>当前为开发模式</p>
-            <p class="am-margin-left-lg">1. 发布小程序必须采用 https 协议，上线需确认 app.js 中 request_url 参数值是否正确。</p>
-            <p class="am-margin-left-lg">2. 发布小程序，建议关闭开发者模式、从正式环境重新生成小程序下载使用开发者工具上传审核。</p>
-            {{if isset($nav_dev_tips[$nav_type])}}
-                <p class="am-margin-left-lg">3. 非 https 环境下，在开发者工具 -> {{$nav_dev_tips[$nav_type]['msg']}}</p>
-            {{/if}}
-        {{else /}}
-            <p>1. 生成小程序必须在 https 协议下进行操作、请配置好服务器 ssl 并使用 https 协议登录后台管理生成小程序。</p>
-            <p>2. 如需非 https 协议下生成小程序，请在 config/shopxo.php 文件中 is_develop值改为true开启开发者模式。</p>
-        {{/if}}
-
-        <!-- 教程地址-->
-        {{if isset($nav_dev_tips[$nav_type])}}
-            <p class="am-margin-top-xs">
-                <a href="{{$nav_dev_tips[$nav_type]['url']}}" target="_blank">查看部署教程 <i class="am-icon-external-link"></i></a>
-            </p>
-        {{/if}}
     </div>
 {{/block}}
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <button type="button" class="am-btn am-btn-secondary am-btn-xs am-icon-refresh am-radius submit-ajax" data-url="{{:MyUrl('admin/appmini/created', ['nav_type'=>$nav_type])}}" data-view="reload" data-msg="生成时间比较长，请不要关闭浏览器窗口！"> 生成</button>
+    <button type="button" class="am-btn am-btn-secondary am-btn-xs am-icon-refresh am-radius submit-ajax" data-url="{{:MyUrl('admin/appmini/created', ['nav_type'=>$nav_type])}}" data-view="reload" data-msg="{{:MyLang('appmini.package_generate_tips')}}"> {{:MyLang('generate_title')}}</button>
     <!-- 父级内容 -->
     {__block__}
 {{/block}}

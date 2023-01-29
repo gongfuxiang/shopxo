@@ -37,10 +37,8 @@ class GoodsCategory extends Base
 		$assign = [
 			// 静态数据
 			'common_is_text_list' 	=> MyLang('common_is_text_list'),
-
 	        // 商品分类
 	        'goods_category_list' 	=> GoodsService::GoodsCategoryAll(),
-
 	        // 编辑器文件存放地址
 			'editor_path_type' 		=> ResourcesService::EditorPathTypeValue('goods_category'),
 		];

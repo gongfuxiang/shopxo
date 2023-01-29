@@ -47,7 +47,7 @@ class Sqlconsole extends Base
         // 是否开启开发者模式
         if(MyConfig('shopxo.is_develop') !== true)
         {
-            $ret = DataReturn('请先开启开发者模式', -1);
+            $ret = DataReturn(MyLang('not_open_developer_mode_tips'), -1);
         } else {
             $ret = SqlConsoleService::Implement($this->data_request);
         }

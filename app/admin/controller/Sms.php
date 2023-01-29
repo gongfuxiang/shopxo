@@ -37,7 +37,6 @@ class Sms extends Base
 		$assign = [
 			// 配置信息
 			'data'					=> ConfigService::ConfigList(),
-
 			// 页面导航
 			'nav_type'				=> $type,
 		];

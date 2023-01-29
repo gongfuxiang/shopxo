@@ -6,7 +6,7 @@
         <!-- form start -->
         <form class="am-form form-validation" action="{{:MyUrl('admin/pluginsadmin/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/pluginsadmin/index')}}" enctype="multipart/form-data">
             <legend>
-                <span class="am-text-default">应用{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+                <span class="am-text-default">应用{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
                 <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
             </legend>
 
@@ -19,16 +19,16 @@
                 <label class="am-block">LOGO<span class="am-form-group-label-tips">建议600x600px</span></label>
                 <ul class="plug-file-upload-view plugins-logo-view" data-form-name="logo" data-max-number="1" data-delete="0" data-dialog-type="images">
                     <li>
-                        <input type="text" name="logo" value="{{if !empty($data['logo_old'])}}{{$data.logo_old}}{{/if}}" data-validation-message="请上传图片" required />
+                        <input type="text" name="logo" value="{{if !empty($data['logo_old'])}}{{$data.logo_old}}{{/if}}" data-validation-message="{{:MyLang('form_upload_images_message')}}" required />
                         <img src="{{if !empty($data['logo'])}}{{$data.logo}}{{else /}}{{$attachment_host}}/static/admin/default/images/default-images.jpg{{/if}}" />
                     </li>
                 </ul>
-                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-logo-view">+上传图片</div>
+                <div class="plug-file-upload-submit" data-view-tag="ul.plugins-logo-view">+ {{:MyLang('form_upload_images_title')}}</div>
             </div>
 
             <div class="am-form-group">
                 <label>名称</label>
-                <input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
+                <input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
             </div>
 
             <div class="am-form-group">
@@ -53,7 +53,7 @@
 
             <div class="am-form-group">
                 <label>适用终端</label>
-                <select name="apply_terminal" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个适用终端" required>
+                <select name="apply_terminal" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="至少选择一个适用终端" required>
                     {{foreach :MyLang('common_platform_type') as $v}}
                         <option value="{{$v.value}}" {{if isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
@@ -62,7 +62,7 @@
 
             <div class="am-form-group">
                 <label>适用系统版本</label>
-                <select name="apply_version" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="可选择..." data-validation-message="至少选择一个适用系统版本" required>
+                <select name="apply_version" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="至少选择一个适用系统版本" required>
                     {{foreach :MyConst('common_system_version_list') as $v}}
                         <option value="{{$v.value}}" {{if isset($data['apply_version']) and in_array($v['value'], $data['apply_version'])}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}

@@ -36,7 +36,7 @@
                                 {{/if}}
                             {{else /}}
     							{{if empty($user[$k])}}
-    								<span class="am-text-grey">{{:MyLang('not_filled_tips')}}</span>
+    								<span class="am-text-grey">{{:MyLang('no_filled_tips')}}</span>
     							{{elseif $k eq 'avatar' /}}
                                     <img src="{{$user[$k]}}" width="50" height="50" class="am-radius" />
                                 {{else /}}

@@ -8,10 +8,10 @@
 	<div class="content">
 		<!-- 新版本小程序主题提示 -->
 	    <div class="am-alert am-alert-warning am-radius">
-	    	<a class="am-fr" href="{{$store_theme_url}}" target="_blank">更多主题下载 <i class="am-icon-external-link"></i></a>
-	        <p class="am-text-sm">已发布新版本小程序主题、采用uniapp开发（支持多端小程序+H5），APP也在紧急适配中。</p>
+	    	<a class="am-fr" href="{{$store_theme_url}}" target="_blank">{{:MyLang('appmini.nav_store_theme_name')}} <i class="am-icon-external-link"></i></a>
+	        <p class="am-text-sm">{{:MyLang('appmini.nav_theme_download_tips')}}</p>
 	        <p class="am-margin-top-xs">
-	            <a href="https://uniapp.shopxo.net/" target="_blank">查看小程序打包教程 <i class="am-icon-external-link"></i></a>
+	            <a href="https://uniapp.shopxo.net/" target="_blank">{{:MyLang('appmini.nav_theme_download_name')}} <i class="am-icon-external-link"></i></a>
 	        </p>
 	    </div>
 
@@ -41,31 +41,6 @@
 								<label>{{$data.common_app_mini_weixin_describe.name}}</label>
 								<input type="text" name="{{$data.common_app_mini_weixin_describe.only_tag}}" placeholder="{{$data.common_app_mini_weixin_describe.name}}" data-validation-message="{{$data.common_app_mini_weixin_describe.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_app_mini_weixin_describe.value}}"{{/if}} />
 							</div>
-						</div>
-					</div>
-					<div class="am-panel am-panel-default">
-						<div class="am-panel-hd">
-							<h3 class="am-panel-title">扩展插件配置</h3>
-						</div>
-						<div class="am-panel-bd">
-				            <div class="am-form-group">
-				                <label>{{$data.common_app_weixin_liveplayer.name}}<span class="am-form-group-label-tips">{{$data.common_app_weixin_liveplayer.describe}}</span></label>
-				                <select name="{{$data.common_app_weixin_liveplayer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_weixin_liveplayer.error_tips}}" required>
-				                    {{foreach $common_is_text_list as $v}}
-				                        <option value="{{$v.id}}" {{if isset($data['common_app_weixin_liveplayer']['value']) and $data['common_app_weixin_liveplayer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
-				                    {{/foreach}}
-				                </select>
-				            </div>
-				            <div class="am-form-group">
-				                <label>{{$data.common_app_weixin_liveplayer_ver.name}}</label>
-				                <div class="am-alert am-alert-warning">
-				                    <p>1. 获取最新组件版本号，默认[ 1.3.0 ]</p>
-				                    <p>2. 登录微信小程序平台，左侧导航[ 直播 ]，申请直播权限后等待审核通过方可使用</p>
-				                    <p>3. 点击左侧导航[ 小程序直播->接入说明 ]，找到[ 使用方法说明->1. 【直播组件】如何引入 ]，json 代码串[ plugins->live-player-plugin ]参数下的[ version ]的值填入</p>
-				                    <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/liveplayer/live-player-plugin.html" target="_blank">去获取组件版本号 <i class="am-icon-external-link"></i></a>
-				                </div>
-				                <input type="text" name="{{$data.common_app_weixin_liveplayer_ver.only_tag}}" placeholder="{{$data.common_app_weixin_liveplayer_ver.name}}" data-validation-message="{{$data.common_app_weixin_liveplayer_ver.error_tips}}" class="am-radius am-margin-top-xs" {{if !empty($data)}}value="{{$data.common_app_weixin_liveplayer_ver.value}}"{{/if}} />
-				            </div>
 						</div>
 					</div>
 				{{/case}}
@@ -104,15 +79,15 @@
 					</div>
 					<div class="am-panel am-panel-default">
 						<div class="am-panel-hd">
-							<h3 class="am-panel-title">客服配置</h3>
+							<h3 class="am-panel-title">{{:MyLang('appmini.form_alipay_extend_title')}}</h3>
 						</div>
 						<div class="am-panel-bd">
 							<!-- tips -->
 					        <div class="am-alert am-alert-warning" data-am-alert>
 					        	<button type="button" class="am-close">&times;</button>
 					            <p>
-					                <span>PS：如【APP/小程序】中开启（开启在线客服），则以下配置必填 [企业编码] 和 [聊天窗编码]</span>
-					                <a href="https://opendocs.alipay.com/mini/component/contact-button" target="_blank" class="am-margin-left-sm">配置教程 <i class="am-icon-external-link"></i></a>
+					                <span>{{:MyLang('appmini.form_alipay_extend_tips')}}</span>
+					                <a href="https://opendocs.alipay.com/mini/component/contact-button" target="_blank" class="am-margin-left-sm">{{:MyLang('view_title')}} <i class="am-icon-external-link"></i></a>
 					            </p>
 					        </div>
 							<div class="am-form-group">
@@ -239,7 +214,7 @@
 					</div>
 				{{/case}}
 				{{default /}}
-					<div class="table-no"><i class="am-icon-warning"></i> {{$nav_type}}无配置信息</div>
+					<div class="table-no"><i class="am-icon-warning"></i> {{$nav_type}}{{:MyLang('no_config_data_tips')}}</div>
 			{{/switch}}
 			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>

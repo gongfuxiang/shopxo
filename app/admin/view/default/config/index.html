@@ -41,7 +41,7 @@
             <!-- 后台登录 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">后台登录</h3>
+                    <h3 class="am-panel-title">{{:MyLang('config.admin_login_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
@@ -51,10 +51,11 @@
                                 <option value="{{$v.id}}" {{if isset($data['admin_login_info_bg_images_rand']['value']) and $data['admin_login_info_bg_images_rand']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
-                        <div class="am-alert am-alert-warning">
-                            <p>1. 默认背景图片位于[ public/static/admin/default/images/login ]目录下</p>
-                            <p>2. 变更图片后、需要在[ app/admin/controller/Admin.php ]文件中[ LoginInfo ]方法中修改[ bg_images_list ]变量</p>
-                        </div>
+                        {{if is_array(MyLang('config.admin_login_info_bg_images_list_tips'))}}
+                            <div class="am-alert am-alert-warning">
+                                <p>{{:implode('</p><p>', MyLang('config.admin_login_info_bg_images_list_tips'))}}</p>
+                            </div>
+                        {{/if}}
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.admin_login_type.name}}<span class="am-form-group-label-tips">{{$data.admin_login_type.describe}}</span></label>
@@ -78,7 +79,7 @@
             <!-- 商品 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">商品</h3>
+                    <h3 class="am-panel-title">{{:MyLang('goods_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
@@ -91,7 +92,7 @@
             <!-- 地图 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">地图</h3>
+                    <h3 class="am-panel-title">{{:MyLang('map_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
@@ -102,14 +103,14 @@
                             {{/foreach}}
                         </select>
                         <div class="am-alert am-alert-warning">
-                            <p>由于每一家的地图标准不一样、请勿随意切换地图、会导致地图坐标标注不准确的情况。</p>
+                            <p>{{:MyLang('config.map_type_tips')}}</p>
                         </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_baidu_map_ak.name}}<span class="am-form-group-label-tips">{{$data.common_baidu_map_ak.describe}}</span></label>
                         <input type="text" name="{{$data.common_baidu_map_ak.only_tag}}" placeholder="{{$data.common_baidu_map_ak.describe}}" data-validation-message="{{$data.common_baidu_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_baidu_map_ak.value}}"{{/if}} />
                         <div class="am-alert am-alert-warning">
-                            请到百度地图开放平台申请 {{if !empty($site_store_links) and !empty($site_store_links['baidu_map_course'])}}<a href="{{$site_store_links.baidu_map_course}}" target="_blank" class="am-margin-left-sm">查看配置教程 <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_baidu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['baidu_map_course'])}}<a href="{{$site_store_links.baidu_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('config.view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
                     <div class="am-form-group">
@@ -117,21 +118,21 @@
                         <input type="text" name="{{$data.common_amap_map_ak.only_tag}}" placeholder="{{$data.common_amap_map_ak.describe}}" data-validation-message="{{$data.common_amap_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_amap_map_ak.value}}"{{/if}} />
                         <input type="text" name="{{$data.common_amap_map_safety_ak.only_tag}}" placeholder="{{$data.common_amap_map_safety_ak.describe}}" data-validation-message="{{$data.common_amap_map_safety_ak.error_tips}}" class="am-radius am-margin-top-xs" {{if !empty($data)}}value="{{$data.common_amap_map_safety_ak.value}}"{{/if}} />
                         <div class="am-alert am-alert-warning">
-                            请到高德地图开放平台申请 {{if !empty($site_store_links) and !empty($site_store_links['amap_map_course'])}}<a href="{{$site_store_links.amap_map_course}}" target="_blank" class="am-margin-left-sm">查看配置教程 <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_amap_name')}} {{if !empty($site_store_links) and !empty($site_store_links['amap_map_course'])}}<a href="{{$site_store_links.amap_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('config.view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_tencent_map_ak.name}}<span class="am-form-group-label-tips">{{$data.common_tencent_map_ak.describe}}</span></label>
                         <input type="text" name="{{$data.common_tencent_map_ak.only_tag}}" placeholder="{{$data.common_tencent_map_ak.describe}}" data-validation-message="{{$data.common_tencent_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_tencent_map_ak.value}}"{{/if}} />
                         <div class="am-alert am-alert-warning">
-                            请到腾讯地图开放平台申请 {{if !empty($site_store_links) and !empty($site_store_links['tencent_map_course'])}}<a href="{{$site_store_links.tencent_map_course}}" target="_blank" class="am-margin-left-sm">查看配置教程 <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_tencent_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tencent_map_course'])}}<a href="{{$site_store_links.tencent_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('config.view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_tianditu_map_ak.name}}<span class="am-form-group-label-tips">{{$data.common_tianditu_map_ak.describe}}</span></label>
                         <input type="text" name="{{$data.common_tianditu_map_ak.only_tag}}" placeholder="{{$data.common_tianditu_map_ak.describe}}" data-validation-message="{{$data.common_tianditu_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_tianditu_map_ak.value}}"{{/if}} />
                         <div class="am-alert am-alert-warning">
-                            请到天地图开放平台申请 {{if !empty($site_store_links) and !empty($site_store_links['tianditu_map_course'])}}<a href="{{$site_store_links.tianditu_map_course}}" target="_blank" class="am-margin-left-sm">查看配置教程 <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_tianditu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tianditu_map_course'])}}<a href="{{$site_store_links.tianditu_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('config.view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
                 </div>
@@ -140,7 +141,7 @@
             <!-- 扩展 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">扩展</h3>
+                    <h3 class="am-panel-title">{{:MyLang('extend_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
@@ -157,7 +158,7 @@
             <!-- 安全 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">安全</h3>
+                    <h3 class="am-panel-title">{{:MyLang('safety_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
@@ -168,10 +169,11 @@
                     <div class="am-form-group">
                         <label>{{$data.common_cookie_domain.name}}<span class="am-form-group-label-tips">{{$data.common_cookie_domain.describe}}</span></label>
                         <input type="text" name="{{$data.common_cookie_domain.only_tag}}" placeholder="{{$data.common_cookie_domain.describe}}" data-validation-message="{{$data.common_cookie_domain.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_cookie_domain.value}}"{{/if}} />
-                        <div class="am-alert am-alert-warning">
-                            <p>1. 默认空、则仅对当前访问域名有效</p>
-                            <p>2. 如需要二级域名也共享cookie则填写顶级域名、如：baidu.com</p>
-                        </div>
+                        {{if is_array(MyLang('config.cookie_domain_list_tips'))}}
+                            <div class="am-alert am-alert-warning">
+                                <p>{{:implode('</p><p>', MyLang('config.cookie_domain_list_tips'))}}</p>
+                            </div>
+                        {{/if}}
                     </div>
                 </div>
             </div>

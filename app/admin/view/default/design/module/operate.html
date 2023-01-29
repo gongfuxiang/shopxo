@@ -4,7 +4,7 @@
         <i class="am-icon-eye"></i>
         <span>{{:MyLang('view_title')}}</span>
     </a>
-    <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/design/sync')}}" data-id="{{$module_data.id}}" data-msg="数据同步到首页拖拽可视化中、之后再修改数据不受影响、但是不要删除相关附件">
+    <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/design/sync')}}" data-id="{{$module_data.id}}" data-msg="{{:MyLang('design.operate_sync_tips')}}">
         <i class="am-icon-refresh"></i>
         <span>{{:MyLang('sync_title')}}</span>
     </button>

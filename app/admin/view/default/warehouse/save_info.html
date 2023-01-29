@@ -6,7 +6,7 @@
         <!-- form start -->
         <form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/warehouse/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/warehouse/index', $params)}}">
             <legend>
-                <span class="am-text-default">仓库{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+                <span class="am-text-default">仓库{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
                 <a href="{{:MyUrl('admin/warehouse/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
             </legend>
 
@@ -16,7 +16,7 @@
                         <div class="am-u-sm-8 am-padding-horizontal-0">
                             <div class="am-form-group">
                                 <label>名称<span class="am-form-group-label-tips-must">*</span></label>
-                                <input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符之间" class="am-radius" {{if !empty($data)}} value="{{$data.name}}"{{/if}} required />
+                                <input type="text" name="name" placeholder="名称" minlength="2" maxlength="30" data-validation-message="名称格式 2~30 个字符之间" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
                             </div>
                         </div>
                         <div class="am-u-sm-4 am-padding-horizontal-0">

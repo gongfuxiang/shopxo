@@ -35,13 +35,13 @@ class Email extends Base
 		// 导航
 		$type = empty($this->data_request['type']) ? 'index' : $this->data_request['type'];
 		$assign = [
-
 			// 静态数据
 			'common_is_text_list'	=> MyLang('common_is_text_list'),
 			// 配置信息
 			'data'					=> ConfigService::ConfigList(),
-
-			// 页面导航
+			// 管理导航
+            'nav_data'          	=> MyLang('email.base_nav_list'),
+            // 页面导航
 			'nav_type'				=> $type,
 		];
 		MyViewAssign($assign);
@@ -70,23 +70,22 @@ class Email extends Base
 	public function EmailTest()
 	{
 		// 验证码公共基础参数
-		$verify_param = [
-				'expire_time' 	=> MyC('common_verify_expire_time'),
-				'interval_time'	=>	MyC('common_verify_interval_time'),
-			];
-
-		$obj = new \base\Email($verify_param);
-		$email_param = [
-				'email'		=>	isset($this->data_request['email']) ? $this->data_request['email'] : '',
-				'content'	=>	'邮件配置-发送测试内容',
-				'title'		=>	MyC('home_site_name').' - '.'测试',
-			];
+		$verify_params = [
+			'expire_time' 	=> MyC('common_verify_expire_time'),
+			'interval_time'	=>	MyC('common_verify_interval_time'),
+		];
+		$obj = new \base\Email($verify_params);
+		$email_params = [
+			'email'		=>	isset($this->data_request['email']) ? $this->data_request['email'] : '',
+			'content'	=>	MyLang('email.test_content'),
+			'title'		=>	MyC('home_site_name').' - '.MyLang('email.test_title'),
+		];
 		// 发送
-		if($obj->SendHtml($email_param))
+		if($obj->SendHtml($email_params))
 		{
-			$ret = DataReturn('发送成功');
+			$ret = DataReturn(MyLang('send_success'), 0);
 		} else {
-			$ret = DataReturn('发送失败'.'['.$obj->error.']', -100);
+			$ret = DataReturn(MyLang('push_fail').'('.$obj->error.')', -100);
 		}
 		return ApiService::ApiDataReturn($ret);
 	}

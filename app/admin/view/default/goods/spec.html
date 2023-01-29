@@ -1,19 +1,19 @@
 <!-- 规格快捷操作 -->
 <div class="spec-quick am-margin-bottom-lg">
     <div>
-        <div class="am-alert am-alert-warning am-radius" data-am-alert>
-            <button type="button" class="am-close">&times;</button>
-            <p>1. 批量添加规格可以快速创建商品SKU，大量节省SKU编辑时间，快捷操作数据不影响SKU数据，仅生成的时候重新覆盖SKU。</p>
-            <p>2. 可以后台 商品管理->商品规格 中配置规格模板、选择商品规格模块快速生成对应规格数据、有效的提供效率</p>
-            <p>3. 商品添加成功后，仓库管理->仓库商品中添加并配置库存</p>
-        </div>
+        {{if is_array(MyLang('goods.form_spec_top_list_tips'))}}
+            <div class="am-alert am-alert-warning am-radius" data-am-alert>
+                <button type="button" class="am-close">&times;</button>
+                <p>{{:implode('</p><p>', MyLang('goods.form_spec_top_list_tips'))}}</p>
+            </div>
+        {{/if}}
         <!-- 规格模板 -->
         <div class="am-inline-block business-operations-submit" id="specifications-quick-container"
-            data-spec-template-tips="规格模板数据有误" 
-            data-spec-template-name-tips="相同规格名称已经存在" 
+            data-spec-template-tips="{{:MyLang('goods.form_spec_template_tips')}}" 
+            data-spec-template-name-tips="{{:MyLang('goods.form_spec_template_name_exist_tips')}}" 
         >
-            <select class="am-radius chosen-select" data-placeholder="商品规格模板..." data-validation-message="请选择商品规格模板">
-                <option value="">商品规格模板...</option>
+            <select class="am-radius chosen-select" data-placeholder="{{:MyLang('goods.form_spec_template_placeholder')}}" data-validation-message="{{:MyLang('goods.form_spec_template_message')}}">
+                <option value="">{{:MyLang('goods.form_spec_template_placeholder')}}</option>
                 {{if !empty($goods_base_template) and !empty($goods_base_template['spec']) and is_array($goods_base_template['spec'])}}
                     {{foreach $goods_base_template.spec as $v}}
                         <option value="{{$v.content}}" data-origin-name="{{$v.name}}">{{$v.name}}</option>
@@ -21,15 +21,15 @@
                 {{/if}}
             </select>
         </div>
-        <span class="business-operations-submit am-margin-left-sm quick-spec-title-add">+ 批量添加规格</span>
-        <span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created"> 生成规格</span>
+        <span class="business-operations-submit am-margin-left-sm quick-spec-title-add">+ {{:MyLang('goods.form_spec_quick_add_title')}}</span>
+        <span class="business-operations-submit am-margin-left-sm am-icon-gg quick-spec-created"> {{:MyLang('goods.form_spec_quick_generate_title')}}</span>
     </div>
     <div class="goods-specifications am-margin-top-sm" {{if empty($data['spec_base'])}}style="display: none;"{{/if}}>
         <table class="am-table am-table-bordered am-table-centered am-table-striped am-table-hover table-thead-beautify">
             <thead>
                 <tr>
-                    <th class="spec-quick-th-title">规格名</th>
-                    <th class="spec-quick-th-value">规格值</th>
+                    <th class="spec-quick-th-title">{{:MyLang('goods.form_spec_type_title')}}</th>
+                    <th class="spec-quick-th-value">{{:MyLang('goods.form_spec_value_title')}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,18 +38,18 @@
                         <tr>
                             <td class="am-text-middle">
                                 <i class="am-close quick-title-remove">×</i>
-                                <input type="text" value="{{$spec_base.title}}" name="spec_base_title_{{$spec_base_key}}" placeholder="规格名" />
+                                <input type="text" value="{{$spec_base.title}}" name="spec_base_title_{{$spec_base_key}}" placeholder="{{:MyLang('goods.form_spec_type_title')}}" />
                             </td>
                             <td class="spec-quick-td-value am-cf">
                                 {{if !empty($spec_base['value'])}}
                                     {{foreach $spec_base.value as $value}}
                                         <div class="am-fl am-margin-xs value-item">
-                                            <input type="text" class="am-fl" name="spec_base_value_{{$spec_base_key}}[]" value="{{$value}}" placeholder="规格值" />
+                                            <input type="text" class="am-fl" name="spec_base_value_{{$spec_base_key}}[]" value="{{$value}}" placeholder="{{:MyLang('goods.form_spec_value_title')}}" />
                                             <i class="am-close quick-value-remove">×</i>
                                         </div>
                                     {{/foreach}}
                                 {{/if}}
-                                <div class="am-fl am-margin-xs value-item am-text-left"><span class="business-operations-submit quick-spec-value-add" data-index="{{$spec_base_key}}">+ 添加规格值</span>
+                                <div class="am-fl am-margin-xs value-item am-text-left"><span class="business-operations-submit quick-spec-value-add" data-index="{{$spec_base_key}}">+ {{:MyLang('goods.form_spec_value_add_title')}}</span>
                                 </div>
                             </td>
                         </tr>
@@ -62,34 +62,34 @@
 
 <!-- 规格常规操作 -->
 <div>
-    <span class="business-operations-submit specifications-nav-title-add">+ 添加规格值</span>
-    <span class="business-operations-submit am-margin-left-sm specifications-nav-set-all am-icon-cogs" data-am-modal="{target: '#spec-popup-all-operation'}"> 高级批量设置</span>
-    <span class="am-text-warning am-margin-left-sm">可直接点中规格行拖拽排序或点击上下移动</span>
+    <span class="business-operations-submit specifications-nav-title-add">+ {{:MyLang('goods.form_spec_value_add_title')}}</span>
+    <span class="business-operations-submit am-margin-left-sm specifications-nav-set-all am-icon-cogs" data-am-modal="{target: '#spec-popup-all-operation'}"> {{:MyLang('goods.form_spec_advanced_batch_setup_title')}}</span>
+    <span class="am-text-warning am-margin-left-sm">{{:MyLang('goods.form_spec_list_content_tips')}}</span>
 </div>
 <div class="goods-specifications am-padding-top-sm">
     <!-- 规格列表 -->
     <div class="specifications-container am-scrollable-horizontal">
         <table class="am-table am-table-bordered am-table-centered specifications-table am-margin-bottom-sm am-table-striped am-table-hover table-thead-beautify am-margin-bottom-0"
             data-spec-add-max-number="{{:MyC('common_spec_add_max_number', 3, true)}}" 
-            data-spec-max-error="最多添加{{:MyC('common_spec_add_max_number', 3, true)}}列规格，可在后台管理[系统设置-后台配置]中配置" 
-            data-spec-type-name="规格名" 
-            data-spec-value-name="规格值" 
-            data-spec-type-message="请填写规格名" 
-            data-spec-value-message="请填写规格值" 
-            data-spec-empty-data-tips="请先添加规格" 
-            data-spec-empty-fill-tips="请先填写规格" 
-            data-spec-images-name="上传图片" 
-            data-spec-images-message="请上传规格图片" 
-            data-spec-add-value-message="添加规格值" 
-            data-spec-min-tips-message="至少需要保留一行规格值" 
-            data-spec-all-name="全部" 
-            data-spec-quick-error="快捷操作规格为空" 
-            data-spec-quick-tips-title="温馨提示" 
-            data-spec-quick-tips-msg="生成规格将清空现有规格数据、是否继续？" 
-            data-spec-quick-success="生成成功" 
-            data-move-type-tips="操作类型配置有误" 
-            data-move-top-tips="已到最顶部" 
-            data-move-bottom-tips="已到最底部" 
+            data-spec-max-error="{{:MyLang('goods.form_spec_max_error')}}" 
+            data-spec-type-name="{{:MyLang('goods.form_spec_type_title')}}" 
+            data-spec-value-name="{{:MyLang('goods.form_spec_value_title')}}" 
+            data-spec-type-message="{{:MyLang('goods.form_spec_type_message')}}" 
+            data-spec-value-message="{{:MyLang('goods.form_spec_value_message')}}" 
+            data-spec-empty-data-tips="{{:MyLang('goods.form_spec_empty_data_tips')}}" 
+            data-spec-empty-fill-tips="{{:MyLang('goods.form_spec_empty_fill_tips')}}" 
+            data-spec-images-name="{{:MyLang('form_upload_images_title')}}" 
+            data-spec-images-message="{{:MyLang('goods.form_spec_images_message')}}" 
+            data-spec-add-value-message="{{:MyLang('goods.form_spec_value_add_title')}}" 
+            data-spec-min-tips-message="{{:MyLang('goods.form_spec_min_tips_message')}}" 
+            data-spec-all-name="{{:MyLang('all_title')}}" 
+            data-spec-quick-error="{{:MyLang('goods.form_spec_quick_error')}}" 
+            data-spec-quick-tips-title="{{:MyLang('reminder_title')}}" 
+            data-spec-quick-tips-msg="{{:MyLang('goods.form_spec_quick_tips_msg')}}" 
+            data-spec-quick-success="{{:MyLang('created_success')}}" 
+            data-move-type-tips="{{:MyLang('goods.form_spec_move_type_tips')}}" 
+            data-move-top-tips="{{:MyLang('goods.form_spec_move_top_tips')}}" 
+            data-move-bottom-tips="{{:MyLang('goods.form_spec_move_bottom_tips')}}" 
         >
             <thead class="title-nav">
                 <tr>
@@ -97,68 +97,68 @@
                         {{foreach $specifications.type as $type_v}}
                             <th class="table-title table-title-{{$type_v.id}}">
                                 <i class="am-close title-nav-remove" data-index="{{$type_v.id}}">×</i>
-                                <input type="text" name="specifications_name_{{$type_v.id}}" placeholder="规格名" value="{{$type_v.name}}" data-validation-message="请填写规格名" required />
+                                <input type="text" name="specifications_name_{{$type_v.id}}" placeholder="{{:MyLang('goods.form_spec_type_title')}}" value="{{$type_v.name}}" data-validation-message="{{:MyLang('goods.form_spec_type_message')}}" required />
                             </th>
                         {{/foreach}}
                     {{/if}}
                     <th class="title-start">
-                        <span>价格(元)</span>
+                        <span>{{:MyLang('goods.form_spec_thead_price_title')}}</span>
                         <i class="am-icon-edit"></i>
                     </th>
                     <th>
-                        <span>原价(元)</span>
+                        <span>{{:MyLang('goods.form_spec_thead_original_price_title')}}</span>
                         <i class="am-icon-edit"></i>
                     </th>
                     <th>
-                        <span>重量(kg)</span>
+                        <span>{{:MyLang('goods.form_spec_thead_weight_title')}}</span>
                         <i class="am-icon-edit"></i>
                     </th>
                     <th>
-                        <span>体积(m³)</span>
+                        <span>{{:MyLang('goods.form_spec_thead_volume_title')}}</span>
                         <i class="am-icon-edit"></i>
                     </th>
                     <th>
-                        <span>编码</span>
+                        <span>{{:MyLang('goods.form_spec_thead_coding_title')}}</span>
                         <i class="am-icon-edit"></i>
                     </th>
                     <th>
-                        <span>条形码</span>
+                        <span>{{:MyLang('goods.form_spec_thead_barcode_title')}}</span>
                         <i class="am-icon-edit"></i>
                     </th>
-                    <th class="extend-btn">扩展</th>
-                    <th class="operation-btn">操作</th>
+                    <th class="extend-btn">{{:MyLang('extend_title')}}</th>
+                    <th class="operation-btn">{{:MyLang('operate_title')}}</th>
                 </tr>
             </thead>
             <tbody>
                 {{if empty($specifications['value'])}}
                     <tr class="line-0" data-line-tag=".line-0">
                         <td class="am-text-middle value-start">
-                            <input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的销售金额" required />
+                            <input type="text" name="specifications_price[]" placeholder="{{:MyLang('goods.form_spec_thead_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('goods.form_spec_thead_price_message')}}" required />
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的原价" />
+                            <input type="text" name="specifications_original_price[]" placeholder="{{:MyLang('goods.form_spec_thead_original_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('goods.form_spec_thead_original_price_message')}}" />
                         </td>
                         <td class="am-text-middle">
-                            <input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" />
+                            <input type="number" name="specifications_weight[]" placeholder="{{:MyLang('goods.form_spec_thead_weight_title')}}" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('goods.form_spec_thead_weight_message')}}" />
                         </td>
                         <td class="am-text-middle">
-                            <input type="number" name="specifications_volume[]" placeholder="体积" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格体积 0.00~100000000.00" />
+                            <input type="number" name="specifications_volume[]" placeholder="{{:MyLang('goods.form_spec_thead_volume_title')}}" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('goods.form_spec_thead_volume_message')}}" />
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="specifications_coding[]" placeholder="编码" class="am-radius" maxlength="60" data-validation-message="规格编码最多60个字符" />
+                            <input type="text" name="specifications_coding[]" placeholder="{{:MyLang('goods.form_spec_thead_coding_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('goods.form_spec_thead_coding_message')}}" />
                         </td>
                         <td class="am-text-middle">
-                            <input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="60" data-validation-message="条形码最多60个字符" />
+                            <input type="text" name="specifications_barcode[]" placeholder="{{:MyLang('goods.form_spec_thead_barcode_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('goods.form_spec_thead_barcode_message')}}" />
                         </td>
                         <td class="am-text-middle">
                             <input type="hidden" name="specifications_extends[]" value="" class="line-extend-input" />
-                            <a href="javascript:;" class="am-text-xs am-text-secondary line-extend-btn">编辑</a>
+                            <a href="javascript:;" class="am-text-xs am-text-secondary line-extend-btn">{{:MyLang('edit_title')}}</a>
                         </td>
                         <td class="am-text-middle">
-                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">上移</a>
-                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">下移</a>
-                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-xs line-copy">复制</a>
-                            <a href="javascript:;" class="am-text-xs am-text-danger line-remove">移除</a>
+                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>
+                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">{{:MyLang('movedown_title')}}</a>
+                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-xs line-copy">{{:MyLang('copy_title')}}</a>
+                            <a href="javascript:;" class="am-text-xs am-text-danger line-remove">{{:MyLang('remove_title')}}</a>
                         </td>
                     </tr>
                 {{/if}}
@@ -171,38 +171,38 @@
                                 {{switch v.data_type}}
                                     {{case spec}}
                                         <td class="am-text-middle table-value table-value-{{$v.data.key}}">
-                                            <input type="text" name="specifications_value_{{$v.data.key}}[]" placeholder="规格值" value="{{$v.data.value}}" data-validation-message="请填写规格值" required />
+                                            <input type="text" name="specifications_value_{{$v.data.key}}[]" placeholder="{{:MyLang('goods.form_spec_value_title')}}" value="{{$v.data.value}}" data-validation-message="{{:MyLang('goods.form_spec_value_message')}}" required />
                                         </td>
                                     {{/case}}
 
                                     {{case base}}
                                         <td class="am-text-middle value-start">
-                                            <input type="text" name="specifications_price[]" placeholder="价格" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的销售金额" value="{{if isset($v['data']['price'])}}{{$v.data.price}}{{/if}}" required />
+                                            <input type="text" name="specifications_price[]" placeholder="{{:MyLang('goods.form_spec_thead_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('goods.form_spec_thead_price_message')}}" value="{{if isset($v['data']['price'])}}{{$v.data.price}}{{/if}}" required />
                                         </td>
                                         <td class="am-text-middle">
-                                            <input type="text" name="specifications_original_price[]" placeholder="原价" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的原价" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
+                                            <input type="text" name="specifications_original_price[]" placeholder="{{:MyLang('goods.form_spec_thead_original_price_title')}}" class="am-radius" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('goods.form_spec_thead_original_price_message')}}" value="{{if $v['data']['original_price'] gt 0}}{{$v.data.original_price}}{{/if}}" />
                                         </td>
                                         <td class="am-text-middle">
-                                            <input type="number" name="specifications_weight[]" placeholder="重量" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" value="{{if isset($v['data']['weight']) and $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}" />
+                                            <input type="number" name="specifications_weight[]" placeholder="{{:MyLang('goods.form_spec_thead_weight_title')}}" class="am-radius" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('goods.form_spec_thead_weight_message')}}" value="{{if isset($v['data']['weight']) and $v['data']['weight'] gt 0}}{{$v.data.weight}}{{/if}}" />
                                         </td>
                                         <td class="am-text-middle">
-                                            <input type="number" name="specifications_volume[]" placeholder="体积" class="am-radius" max="100000000" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格体积 0.00~100000000.00" value="{{if isset($v['data']['volume']) and $v['data']['volume'] gt 0}}{{$v.data.volume}}{{/if}}" />
+                                            <input type="number" name="specifications_volume[]" placeholder="{{:MyLang('goods.form_spec_thead_volume_title')}}" class="am-radius" max="100000000" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('goods.form_spec_thead_volume_message')}}" value="{{if isset($v['data']['volume']) and $v['data']['volume'] gt 0}}{{$v.data.volume}}{{/if}}" />
                                         </td>
                                         <td class="am-text-middle">
-                                            <input type="text" name="specifications_coding[]" placeholder="编码" class="am-radius" maxlength="60" data-validation-message="规格编码最多60个字符" value="{{if isset($v['data']['coding'])}}{{$v.data.coding}}{{/if}}" />
+                                            <input type="text" name="specifications_coding[]" placeholder="{{:MyLang('goods.form_spec_thead_coding_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('goods.form_spec_thead_coding_message')}}" value="{{if isset($v['data']['coding'])}}{{$v.data.coding}}{{/if}}" />
                                         </td>
                                         <td class="am-text-middle">
-                                            <input type="text" name="specifications_barcode[]" placeholder="条形码" class="am-radius" maxlength="60" data-validation-message="条形码最多60个字符" value="{{if isset($v['data']['barcode'])}}{{$v.data.barcode}}{{/if}}" />
+                                            <input type="text" name="specifications_barcode[]" placeholder="{{:MyLang('goods.form_spec_thead_barcode_title')}}" class="am-radius" maxlength="60" data-validation-message="{{:MyLang('goods.form_spec_thead_barcode_message')}}" value="{{if isset($v['data']['barcode'])}}{{$v.data.barcode}}{{/if}}" />
                                         </td>
                                         <td class="am-text-middle">
                                             <input type="hidden" name="specifications_extends[]" value="{{$v.data.extends}}" class="line-extend-input" />
-                                            <a href="javascript:;" class="am-text-xs am-text-secondary line-extend-btn">编辑</a>
+                                            <a href="javascript:;" class="am-text-xs am-text-secondary line-extend-btn">{{:MyLang('edit_title')}}</a>
                                         </td>
                                         <td class="am-text-middle">
-                                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">上移</a>
-                                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">下移</a>
-                                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-xs line-copy">复制</a>
-                                            <a href="javascript:;" class="am-text-xs am-text-danger line-remove">移除</a>
+                                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="top">{{:MyLang('moveup_title')}}</a>
+                                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-sm line-move" data-type="bottom">{{:MyLang('movedown_title')}}</a>
+                                            <a href="javascript:;" class="am-text-xs am-text-secondary am-margin-right-xs line-copy">{{:MyLang('copy_title')}}</a>
+                                            <a href="javascript:;" class="am-text-xs am-text-danger line-remove">{{:MyLang('remove_title')}}</a>
                                         </td>
                                     {{/case}}
                                 {{/switch}}
@@ -215,13 +215,13 @@
         </table>
     </div>
     <div class="am-margin-top-sm">
-        <span class="business-operations-submit specifications-line-add">+添加一行</span>
+        <span class="business-operations-submit specifications-line-add">+ {{:MyLang('goods.form_spec_row_add_title')}}</span>
     </div>
     <div class="spec-images-list">
         <div class="am-alert am-radius">
-            规格名称与规格值保持一致，相同规格名称添加一次即可，重复添加则后面覆盖前面，顺序不影响前端展示效果。
-            <span class="business-operations-submit specifications-line-images-add">+添加规格图片</span>
-            <span class="business-operations-submit specifications-line-images-auto-add am-margin-left-sm am-icon-dot-circle-o"> 第<input type="text" class="am-inline-block am-text-center am-margin-horizontal-xs am-radius" value="1" />列规格自动生成</span>
+            <span>{{:MyLang('goods.form_spec_images_tips')}}</span>
+            <span class="business-operations-submit specifications-line-images-add">+ {{:MyLang('goods.form_spec_images_add_title')}}</span>
+            <span class="business-operations-submit specifications-line-images-auto-add am-margin-left-sm am-icon-dot-circle-o"> {{:MyLang('goods.form_spec_images_add_auto_first')}}<input type="text" class="am-inline-block am-text-center am-margin-horizontal-xs am-radius" value="1" />{{:MyLang('goods.form_spec_images_add_auto_last')}}</span>
         </div>
         <ul class="spec-images-content">
             {{if !empty($specifications['type'])}}
@@ -230,15 +230,15 @@
                         {{foreach $type.value as $spec_key=>$spec}}
                             {{if !empty($spec['images'])}}
                                 <li class="spec-images-items spec-images-items-{{$type.id}}{{$spec_key}}">
-                                    <input type="text" name="spec_images_name[{{$type.id}}{{$spec_key}}]" placeholder="规格名称" class="am-radius am-text-center" data-validation-message="请填写规格名称" value="{{$spec.name}}" required >
+                                    <input type="text" name="spec_images_name[{{$type.id}}{{$spec_key}}]" placeholder="{{:MyLang('goods.form_spec_images_type_title')}}" class="am-radius am-text-center" data-validation-message="{{:MyLang('goods.form_spec_images_type_message')}}" value="{{$spec.name}}" required >
                                     <ul class="plug-file-upload-view spec-images-view-{{$type.id}}{{$spec_key}}" data-form-name="spec_images[{{$type.id}}{{$spec_key}}]" data-max-number="1" data-delete='0' data-dialog-type="images">
                                         <li>
-                                            <input type="hidden" name="spec_images[{{$type.id}}{{$spec_key}}]" value="{{$spec.images_old}}" data-validation-message="请上传规格图片" required />
+                                            <input type="hidden" name="spec_images[{{$type.id}}{{$spec_key}}]" value="{{$spec.images_old}}" data-validation-message="{{:MyLang('goods.form_spec_images_images_message')}}" required />
                                             <img src="{{$spec.images}}" />
                                             <i>×</i>
                                         </li>
                                     </ul>
-                                    <div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-{{$type.id}}{{$spec_key}}">+上传图片</div>
+                                    <div class="plug-file-upload-submit" data-view-tag="ul.spec-images-view-{{$type.id}}{{$spec_key}}">+ {{:MyLang('form_upload_images_title')}}</div>
                                 </li>
                             {{/if}}
                         {{/foreach}}
@@ -253,34 +253,34 @@
 <div class="am-popup" id="spec-popup-all-operation">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
-            <h4 class="am-popup-title">高级批量设置</h4>
+            <h4 class="am-popup-title">{{:MyLang('goods.form_spec_advanced_batch_setup_title')}}</h4>
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
             <div class="am-alert am-alert-secondary spec-title-container"></div>
             <div class="am-form-group">
-                <label class="am-block">销售价(元)</label>
-                <input type="text" placeholder="价格" class="am-radius popup_all_price" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的销售金额" />
+                <label class="am-block">{{:MyLang('goods.form_spec_thead_price_title')}}</label>
+                <input type="text" placeholder="{{:MyLang('goods.form_spec_thead_price_title')}}" class="am-radius popup_all_price" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('goods.form_spec_thead_price_message')}}" />
             </div>
             <div class="am-form-group">
-                <label class="am-block">原价(元)</label>
-                <input type="text" placeholder="原价" class="am-radius popup_all_original_price" pattern="{{$default_price_regex}}" data-validation-message="请填写有效的原价" />
+                <label class="am-block">{{:MyLang('goods.form_spec_thead_original_price_title')}}</label>
+                <input type="text" placeholder="{{:MyLang('goods.form_spec_thead_original_price_title')}}" class="am-radius popup_all_original_price" pattern="{{$default_price_regex}}" data-validation-message="{{:MyLang('goods.form_spec_thead_original_price_message')}}" />
             </div>
             <div class="am-form-group">
-                <label class="am-block">重量(kg)</label>
-                <input type="number" placeholder="重量" class="am-radius popup_all_weight" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格重量 0.00~100000000.00" />
+                <label class="am-block">{{:MyLang('goods.form_spec_thead_weight_title')}}</label>
+                <input type="number" placeholder="{{:MyLang('goods.form_spec_thead_weight_title')}}" class="am-radius popup_all_weight" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('goods.form_spec_thead_weight_message')}}" />
             </div>
             <div class="am-form-group">
-                <label class="am-block">体积(m³)</label>
-                <input type="number" placeholder="体积" class="am-radius popup_all_volume" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="规格体积 0.00~100000000.00" />
+                <label class="am-block">{{:MyLang('goods.form_spec_thead_volume_title')}}</label>
+                <input type="number" placeholder="{{:MyLang('goods.form_spec_thead_volume_title')}}" class="am-radius popup_all_volume" maxlength="80" min="0.00" max="100000000.00" step="0.01" data-validation-message="{{:MyLang('goods.form_spec_thead_volume_message')}}" />
             </div>
             <div class="am-form-group">
-                <label class="am-block">编码</label>
-                <input type="text" placeholder="编码" class="am-radius popup_all_coding" maxlength="80" data-validation-message="规格编码最多80个字符" />
+                <label class="am-block">{{:MyLang('goods.form_spec_thead_coding_title')}}</label>
+                <input type="text" placeholder="{{:MyLang('goods.form_spec_thead_coding_title')}}" class="am-radius popup_all_coding" maxlength="80" data-validation-message="{{:MyLang('goods.form_spec_thead_coding_message')}}" />
             </div>
             <div class="am-form-group">
-                <label class="am-block">条形码</label>
-                <input type="text" placeholder="条形码" class="am-radius popup_all_barcode" maxlength="80" data-validation-message="条形码最多80个字符" />
+                <label class="am-block">{{:MyLang('goods.form_spec_thead_coding_title')}}</label>
+                <input type="text" placeholder="{{:MyLang('goods.form_spec_thead_coding_title')}}" class="am-radius popup_all_barcode" maxlength="80" data-validation-message="{{:MyLang('goods.form_spec_thead_coding_message')}}" />
             </div>
             <div class="am-form-group am-form-group-refreshing am-text-center">
                 <div class="am-padding-vertical-sm">
@@ -295,12 +295,12 @@
 <!-- 单个规格批量操作弹层 -->
 <div class="am-modal am-modal-no-btn" tabindex="-1" id="spec-modal-all-operation">
     <div class="am-modal-dialog">
-        <div class="am-modal-hd">批量操作
+        <div class="am-modal-hd">{{:MyLang('goods.form_spec_all_operate_title')}}
             <a href="javascript: void(0)" class="am-close" data-am-modal-close>&times;</a>
         </div>
         <div class="am-modal-bd">
             <div class="am-input-group am-input-group-sm">
-                <input type="text" class="am-form-field" placeholder="批量设置的值" />
+                <input type="text" class="am-form-field" placeholder="{{:MyLang('goods.form_spec_all_operate_placeholder')}}" />
                 <span class="am-input-group-btn">
                     <button type="button" class="am-btn am-btn-default">{{:MyLang('confirm_title')}}</button>
                 </span>

@@ -48,8 +48,8 @@ class Appmini
                 [
                     'view_type'         => 'checkbox',
                     'is_checked'        => 0,
-                    'checked_text'      => '反选',
-                    'not_checked_text'  => '全选',
+                    'checked_text'      => MyLang('reverse_select_title'),
+                    'not_checked_text'  => MyLang('select_all_title'),
                     'align'             => 'center',
                     'width'             => 80,
                 ],

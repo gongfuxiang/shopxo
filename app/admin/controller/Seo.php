@@ -36,13 +36,10 @@ class Seo extends Base
 		$assign = [
 			// url模式
 			'seo_url_model_list' 		=> MyLang('seo_url_model_list'),
-
 			// 文章标题seo方案
 			'seo_article_browser_list'	=> MyConst('seo_article_browser_list'),
-
 			// 频道标题seo方案
 			'seo_channel_browser_list'	=> MyConst('seo_channel_browser_list'),
-
 			// 配置信息
 			'data' 						=> ConfigService::ConfigList(),
 		];

@@ -799,9 +799,8 @@ class GoodsService
                 // 价格字段
                 // 原价
                 // 价格
-                $v['show_field_original_price_text'] = '原价';
-                $v['show_field_price_text'] = '价格';
-
+                $v['show_field_original_price_text'] = MyLang('goods_original_price_title');
+                $v['show_field_price_text'] = MyLang('goods_sales_price_title');
 
                 // 公共插件数据
                 // 商品详情面板提示数据、一维数组

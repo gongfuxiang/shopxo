@@ -7,12 +7,12 @@
     <div class="am-popup am-radius" id="my-popup-reply">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title">回复</h4>
+                <h4 class="am-popup-title">{{:MyLang('reply_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
                 <dl class="dl-content">
-                    <dt>商品信息</dt>
+                    <dt>{{:MyLang('goodscomments.form_item_goods_info_title')}}</dt>
                     <dd class="goods-info">
                         <div class="base am-nbfc">
                             <a href="javascript:;" target="_blank">
@@ -23,24 +23,24 @@
                         <p class="price">...</p>
                     </dd>
 
-                    <dt>用户信息</dt>
+                    <dt>{{:MyLang('goodscomments.form_item_user_info_title')}}</dt>
                     <dd class="user-info">
                         <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
                         <ul class="user-base">
-                            <li class="username">名称：<span>...</span></li>
-                            <li class="nickname">昵称：<span>...</span></li>
-                            <li class="mobile">手机：<span>...</span></li>
-                            <li class="email">邮箱：<span>...</span></li>
+                            <li class="username">{{:MyLang('user_username_title')}}：<span>...</span></li>
+                            <li class="nickname">{{:MyLang('user_nickname_title')}}：<span>...</span></li>
+                            <li class="mobile">{{:MyLang('user_mobile_title')}}：<span>...</span></li>
+                            <li class="email">{{:MyLang('user_email_title')}}：<span>...</span></li>
                         </ul>
                     </dd>
-                    <dt>评论内容</dt>
+                    <dt>{{:MyLang('goodscomments.form_item_content')}}</dt>
                     <dd class="content">...</dd>
                 </dl>
 
                 <form class="am-form form-validation-reply am-form-popup-fixed" action="{{:MyUrl('admin/goodscomments/reply')}}" method="POST" request-type="ajax-reload">
                     <div class="am-form-group am-form-group-refreshing">
-                        <label>回复内容</label>
-                        <textarea name="reply" rows="5" class="am-radius" placeholder="回复内容格式 1~230 个字符" data-validation-message="回复内容格式 1~230 个字符" minlength="1" maxlength="230" required></textarea>
+                        <label>{{:MyLang('goodscomments.form_item_reply')}}</label>
+                        <textarea name="reply" rows="5" class="am-radius" placeholder="{{:MyLang('goodscomments.form_item_reply_message')}}" data-validation-message="{{:MyLang('goodscomments.form_item_reply_message')}}" minlength="1" maxlength="230" required></textarea>
                     </div>
                     <div class="am-form-popup-submit">
                         <input type="hidden" name="id" value="" />

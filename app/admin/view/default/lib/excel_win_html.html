@@ -17,8 +17,8 @@
 					<p class="cr-red">PS：导入数据建议一次不要超过10万条。</p>
 				</div>
 				<div class="am-form-group am-form-file">
-					<button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> 选择文件</button>
-					<input type="file" name="excel" multiple data-validation-message="请选择需要上传的文件" accept="application/vnd.ms-excel" required />
+					<button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> {{:MyLang('form_choice_images_title')}}</button>
+					<input type="file" name="excel" multiple data-validation-message="{{:MyLang('form_upload_file_message')}}" accept="application/vnd.ms-excel" required />
 				</div>
 				<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
 					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>

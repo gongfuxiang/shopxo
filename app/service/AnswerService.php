@@ -222,7 +222,7 @@ class AnswerService
             [
                 'checked_type'      => 'isset',
                 'key_name'          => 'tel',
-                'error_msg'         => '联系电话有误',
+                'error_msg'         => '请填写有效的电话',
             ],
             [
                 'checked_type'      => 'length',
@@ -370,8 +370,8 @@ class AnswerService
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'reply',
-                'checked_data'      => '2,1000',
-                'error_msg'         => '回复内容格式 2~1000 个字符',
+                'checked_data'      => '1000',
+                'error_msg'         => '回复内容格式最多1000个字符',
             ],
         ];
         $ret = ParamsChecked($params, $p);

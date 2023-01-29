@@ -58,7 +58,7 @@ class Cache extends Base
 		// 初始化菜单
 		AdminPowerService::PowerMenuInit($this->admin);
 
-		return ApiService::ApiDataReturn(DataReturn('更新成功', 0));
+		return ApiService::ApiDataReturn(DataReturn(MyLang('update_success'), 0));
 	}
 
 	/**
@@ -74,7 +74,7 @@ class Cache extends Base
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'temp');
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'temp');
 
-		return ApiService::ApiDataReturn(DataReturn('更新成功', 0));
+		return ApiService::ApiDataReturn(DataReturn(MyLang('update_success'), 0));
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Cache extends Base
 	 */
 	public function ModuleUpdate()
 	{
-		return ApiService::ApiDataReturn(DataReturn('更新成功', 0));
+		return ApiService::ApiDataReturn(DataReturn(MyLang('update_success'), 0));
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Cache extends Base
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'index'.DS.'log');
 		\base\FileUtil::UnlinkDir(ROOT.'runtime'.DS.'api'.DS.'log');
 
-		return ApiService::ApiDataReturn(DataReturn('更新成功', 0));
+		return ApiService::ApiDataReturn(DataReturn(MyLang('update_success'), 0));
 	}
 }
 ?>

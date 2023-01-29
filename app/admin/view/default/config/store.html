@@ -5,7 +5,6 @@
     <div class="content">
         <!-- form start -->
         <form class="am-form form-validation" action="{{:MyUrl('admin/config/save', ['view_type'=>$view_type])}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/config/store')}}">
-            
             <div class="am-form-group">
                 <label>{{$data.common_customer_store_tel.name}}<span class="am-form-group-label-tips">{{$data.common_customer_store_tel.describe}}</span></label>
                 <input type="text" name="{{$data.common_customer_store_tel.only_tag}}" placeholder="{{$data.common_customer_store_tel.name}}" data-validation-message="{{$data.common_customer_store_tel.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_customer_store_tel.value}}"{{/if}} />
@@ -29,7 +28,7 @@
                         </li>
                     {{/if}}
                 </ul>
-                <div class="plug-file-upload-submit" data-view-tag="ul.common_customer_store_qrcode-images-view">+选择图片</div>
+                <div class="plug-file-upload-submit" data-view-tag="ul.common_customer_store_qrcode-images-view">+{{:MyLang('form_choice_images_title')}}</div>
             </div>
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>

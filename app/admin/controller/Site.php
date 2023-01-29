@@ -158,125 +158,39 @@ class Site extends Base
 			// 主/子导航
 	        'nav_type' 								=> $this->nav_type,
 	        'view_type' 							=> $this->view_type,
-
 			// 时区
 			'site_timezone_list' 					=> MyLang('site_timezone_list'),
-
 			// 平台
 			'common_platform_type' 					=> MyLang('common_platform_type'),
-
 			// 关闭开启
 			'common_close_open_list' 				=> MyLang('common_close_open_list'),
-
 			// 登录方式
 			'common_login_type_list' 				=> MyLang('common_login_type_list'),
-
 			// 用户注册类型列表
 			'common_user_reg_type_list' 			=> MyLang('common_user_reg_type_list'),
-
 			// 图片验证码规则
 			'site_images_verify_rules_list' 		=> MyLang('site_images_verify_rules_list'),
-
 			// 热门搜索关键字
 			'common_search_keywords_type_list' 		=> MyLang('common_search_keywords_type_list'),
-
 			// 是否
 			'common_is_text_list' 					=> MyLang('common_is_text_list'),
-
 			// 站点类型
 			'common_site_type_list' 				=> MyLang('common_site_type_list'),
-
 			// 扣除库存规则
 			'common_deduction_inventory_rules_list'	=> MyLang('common_deduction_inventory_rules_list'),
-
 			// 增加销量规则
 			'common_sales_count_inc_rules_list' 	=> MyLang('common_sales_count_inc_rules_list'),
-
 			// 首页商品排序规则
 			'goods_order_by_type_list' 				=> MyLang('goods_order_by_type_list'),
 			'goods_order_by_rule_list' 				=> MyLang('goods_order_by_rule_list'),
-
 			// 首页楼层数据类型
 			'common_site_floor_data_type_list' 		=> MyLang('common_site_floor_data_type_list'),
-
 			// 搜索参数类型
 			'common_goods_parameters_type_list' 	=> MyLang('common_goods_parameters_type_list'),
-		];
-
-		// 主导航
-		$assign['second_nav_list'] = [
-			[
-				'name'	=> '基础配置',
-				'type'	=> 'base',
-			],
-			[
-				'name'	=> '网站设置',
-				'type'	=> 'siteset',
-			],
-			[
-				'name'	=> '站点类型',
-				'type'	=> 'sitetype',
-			],
-			[
-				'name'	=> '用户注册',
-				'type'	=> 'register',
-			],
-			[
-				'name'	=> '用户登录',
-				'type'	=> 'login',
-			],
-			[
-				'name'	=> '密码找回',
-				'type'	=> 'forgetpwd',
-			],
-			[
-				'name'	=> '验证码',
-				'type'	=> 'verify',
-			],
-			[
-				'name'	=> '订单售后',
-				'type'	=> 'orderaftersale',
-			],
-			[
-				'name'	=> '附件',
-				'type'	=> 'attachment',
-			],
-			[
-				'name'	=> '缓存',
-				'type'	=> 'cache',
-			],
-			[
-				'name'	=> '扩展项',
-				'type'	=> 'extends',
-			],
-		];
-
-		// 网站设置导航
-		$assign['siteset_nav_list'] = [
-			[
-				'name'	=> '首页',
-				'type'	=> 'index',
-			],
-			[
-				'name'	=> '商品',
-				'type'	=> 'goods',
-			],
-			[
-				'name'	=> '搜索',
-				'type'	=> 'search',
-			],
-			[
-				'name'	=> '订单',
-				'type'	=> 'order',
-			],
-			[
-				'name'	=> '优惠',
-				'type'	=> 'discount',
-			],
-			[
-				'name'	=> '扩展',
-				'type'	=> 'extends',
-			],
+			// 主导航
+			'second_nav_list'						=> MyLang('site.second_nav_list'),
+			// 网站设置导航
+			'siteset_nav_list'						=> MyLang('site.siteset_nav_list'),
 		];
 		return $assign;
 	}

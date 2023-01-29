@@ -56,7 +56,6 @@ class Theme extends Base
 		$assign = [
 			// 导航参数
 			'view_type' 		=> $this->view_type,
-
 	        // 应用商店
 	        'store_theme_url'	=> StoreService::StoreThemeUrl(),
         ];

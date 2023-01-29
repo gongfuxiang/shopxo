@@ -30,31 +30,31 @@ class CacheService
      */
     public static function AdminCacheTypeList($params = [])
     {
-        // 缓存类型列表
+        $lang = MyLang('admin_cache_type_list');
         return [
             [
                 'is_enable' => 1,
-                'name' => '站点缓存',
+                'name' => $lang['site']['name'],
+                'desc' => $lang['site']['desc'],
                 'url' => MyUrl('admin/cache/statusupdate'),
-                'desc' => '数据转换后或前台不能正常访问时，可以使用此功能更新所有缓存'
             ],
             [
                 'is_enable' => 1,
-                'name' => '模板缓存',
+                'name' => $lang['template']['name'],
+                'desc' => $lang['template']['desc'],
                 'url' => MyUrl('admin/cache/templateupdate'),
-                'desc' => '当页面显示不正常，可尝试使用此功能修复'
             ],
             [
                 'is_enable' => 0,
-                'name' => '模块缓存',
+                'name' => $lang['module']['name'],
+                'desc' => $lang['module']['desc'],
                 'url' => MyUrl('admin/cache/moduleupdate'),
-                'desc' => '更新页面布局与模块后未生效，可尝试使用此功能修复'
             ],
             [
                 'is_enable' => 1,
-                'name' => '日志清除',
+                'name' => $lang['log']['name'],
+                'desc' => $lang['log']['desc'],
                 'url' => MyUrl('admin/cache/logdelete'),
-                'desc' => '清除站点日志'
             ],
         ];
     }

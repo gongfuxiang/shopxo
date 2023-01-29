@@ -113,8 +113,8 @@
                     </div>
                     <div class="am-form-group">
                         <label>文章<span class="am-form-group-label-tips-must">*</span></label>
-                        <select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="文章选择有误" required>
-                            <option value="">请选择...</option>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="文章选择有误" required>
+                            <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $article_list as $v}}
                                 <optgroup label="{{$v.name}}">
                                     {{if !empty($v['items'])}}
@@ -171,8 +171,8 @@
                     </div>
                     <div class="am-form-group">
                         <label>自定义页面<span class="am-form-group-label-tips-must">*</span></label>
-                        <select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="自定义页面选择有误" required>
-                            <option value="">请选择...</option>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="自定义页面选择有误" required>
+                            <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $customview_list as $v}}
                                 <option value="{{$v.id}}">{{$v.title}}</option>
                             {{/foreach}}
@@ -222,8 +222,8 @@
                     </div>
                     <div class="am-form-group">
                         <label>商品分类<span class="am-form-group-label-tips-must">*</span></label>
-                        <select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="商品分类选择有误" required>
-                            <option value="">请选择...</option>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="商品分类选择有误" required>
+                            <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $goods_category_list as $v}}
                                 <option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>{{$v.name}}</option>
                                 {{if !empty($v['items'])}}
@@ -283,8 +283,8 @@
                     </div>
                     <div class="am-form-group">
                         <label>页面设计<span class="am-form-group-label-tips-must">*</span></label>
-                        <select class="am-radius chosen-select" name="value" data-placeholder="请选择..." data-validation-message="页面设计选择有误" required>
-                            <option value="">请选择...</option>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="页面设计选择有误" required>
+                            <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $design_list as $v}}
                                 <option value="{{$v.id}}">{{$v.name}}</option>
                             {{/foreach}}

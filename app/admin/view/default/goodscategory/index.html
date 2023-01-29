@@ -13,7 +13,7 @@
         <div class="am-popup am-radius" id="data-save-win">
 			<div class="am-popup-inner">
 				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="分类添加" data-edit-title="分类编辑">分类添加</h4>
+					<h4 class="am-popup-title" data-add-title="{{:MyLang('goodscategory.base_nav_title')}}{{:MyLang('add_title')}}" data-edit-title="{{:MyLang('goodscategory.base_nav_title')}}{{:MyLang('edit_title')}}">{{:MyLang('goodscategory.base_nav_title')}}{{:MyLang('add_title')}}</h4>
 					<span data-am-modal-close class="am-close">&times;</span>
 				</div>
 				<div class="am-popup-bd">
@@ -22,7 +22,7 @@
 						<div class="am-cf">
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group am-form-file">
-									<label class="am-block">icon图标<span class="am-form-group-label-tips">建议100*100px</span></label>
+									<label class="am-block">{{:MyLang('goodscategory.form_item_icon')}}<span class="am-form-group-label-tips">{{:MyLang('goodscategory.form_item_icon_tips')}}</span></label>
 									<ul class="plug-file-upload-view goods-category-icon-images-view" data-form-name="icon" data-max-number="1" data-dialog-type="images">
 										<li>
 											<input type="hidden" name="icon" value="" />
@@ -30,12 +30,12 @@
 											<i>×</i>
 										</li>
 									</ul>
-									<div class="plug-file-upload-submit" data-view-tag="ul.goods-category-icon-images-view">+上传图片</div>
+									<div class="plug-file-upload-submit" data-view-tag="ul.goods-category-icon-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
 								</div>
                 			</div>
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group am-form-file">
-									<label class="am-block">大图片<span class="am-form-group-label-tips">建议360*360px</span></label>
+									<label class="am-block">{{:MyLang('goodscategory.form_item_big_images')}}<span class="am-form-group-label-tips">{{:MyLang('goodscategory.form_item_big_images_tips')}}</span></label>
 									<ul class="plug-file-upload-view goods-category-big_images-images-view" data-form-name="big_images" data-max-number="1" data-dialog-type="images">
 										<li>
 											<input type="hidden" name="big_images" value="" />
@@ -43,7 +43,7 @@
 											<i>×</i>
 										</li>
 									</ul>
-									<div class="plug-file-upload-submit" data-view-tag="ul.goods-category-big_images-images-view">+上传图片</div>
+									<div class="plug-file-upload-submit" data-view-tag="ul.goods-category-big_images-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
 								</div>
                 			</div>
                 		</div>
@@ -53,21 +53,21 @@
                 				<div class="am-cf">
 		                			<div class="am-u-sm-6 am-padding-horizontal-0">
 		                				<div class="am-form-group">
-											<label>名称<span class="am-form-group-label-tips-must">*</span></label>
-											<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
+											<label>{{:MyLang('goodscategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+											<input type="text" placeholder="{{:MyLang('goodscategory.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('goodscategory.form_item_name_message')}}" class="am-radius" required />
 										</div>
 		                			</div>
 		                			<div class="am-u-sm-6 am-padding-horizontal-0">
 		                				<div class="am-form-group">
-											<label>副名称</label>
-											<input type="text" placeholder="副名称" name="vice_name" minlength="0" maxlength="60" data-validation-message="副名称最大60个字符" class="am-radius" />
+											<label>{{:MyLang('goodscategory.form_item_vice_name')}}</label>
+											<input type="text" placeholder="{{:MyLang('goodscategory.form_item_vice_name_message')}}" name="vice_name" minlength="0" maxlength="60" data-validation-message="{{:MyLang('goodscategory.form_item_vice_name_message')}}" class="am-radius" />
 										</div>
 		                			</div>
 		                		</div>
                 			</div>
                 			<div class="am-u-sm-4 am-padding-horizontal-0">
                 				<div class="am-form-group">
-									<label>背景色</label>
+									<label>{{:MyLang('form_bg_color_title')}}</label>
 									<input type="hidden" name="bg_color" value="" />
 									<button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color">
 										<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
@@ -79,8 +79,8 @@
 						<div class="am-cf">
 							<div class="am-u-sm-6 am-padding-horizontal-0">
 								<div class="am-form-group">
-									<label>描述</label>
-									<textarea rows="1" name="describe" maxlength="200" class="am-radius" placeholder="描述" data-validation-message="描述最大200个字符"></textarea>
+									<label>{{:MyLang('goodscategory.form_item_describe')}}</label>
+									<textarea rows="1" name="describe" maxlength="200" class="am-radius" placeholder="{{:MyLang('goodscategory.form_item_describe_message')}}" data-validation-message="{{:MyLang('goodscategory.form_item_describe_message')}}"></textarea>
 								</div>
 							</div>
 							<div class="am-u-sm-6 am-padding-horizontal-0">
@@ -94,7 +94,7 @@
 						<div class="am-cf">
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group">
-								    <label>首页推荐</label>
+								    <label>{{:MyLang('goodscategory.form_item_is_home_recommended')}}</label>
 								    <div>
 								        {{foreach $common_is_text_list as $v}}
 								            <label class="am-radio-inline am-margin-right-sm">

@@ -104,40 +104,10 @@ class Appmini extends Base
      */
 	public function Package()
 	{
-		$host = MyConfig('shopxo.website_url');
-		$nav_dev_tips = [
-			// 微信
-			'weixin'	=> [
-				'msg' => '右上角 -> 详情 -> 不校验合法域名、web-view（业务域名）、TLS 版本以及 HTTPS 证书（勾选改选项即可进行小程序开发调试）。',
-				'url' => $host.'weixin.html',
-			],
-			// 支付宝
-			'alipay'	=> [
-				'msg' => '右上角 -> 详情 -> 域名信息下 -> 忽略 httpRequest 域名合法性检查（仅限调试时，且支付宝 10.1.35 版本以上）（勾选改选项即可进行小程序开发调试）。',
-				'url' => $host.'alipay.html',
-			],
-			// 百度
-			'baidu'	=> [
-				'msg' => '顶部导航 -> 校验域名（关闭即可）。',
-				'url' => $host.'baidu.html',
-			],
-			// 头条
-			'toutiao'	=> [
-				'msg' => '顶部导航 -> 详情 -> 不校验合法域名、web-view（业务域名）TLS版本以及HTTPS证书（勾选改选项即可进行小程序开发调试）。',
-				'url' => $host.'zijietiaodong.html',
-			],
-			// QQ
-			'qq'	=> [
-				'msg' => '顶部导航 -> 详情 -> 不校验合法域名、web-view（业务域名）TLS版本以及HTTPS证书（勾选改选项即可进行小程序开发调试）。',
-				'url' => $host.'qq.html',
-			],
-		];
-
 		// 源码包列表
 		$ret = AppMiniService::DownloadDataList($this->params);
 		return [
-			'nav_dev_tips'	=> $nav_dev_tips,
-			'data_list'		=> $ret['data'],
+			'data_list'	=> $ret['data'],
 		];
 	}
 
@@ -154,34 +124,16 @@ class Appmini extends Base
 		return [
 			// 操作导航类型
 			'nav_type' 				=> $this->params['application_name'],
-
 			// 操作页面类型
 			'view_type' 			=> $this->view_type,
-
 			// 应用商店
 	        'store_theme_url' 		=> StoreService::StoreThemeUrl(),
-
 			// 小程序平台
 			'common_appmini_type' 	=> MyLang('common_appmini_type'),
-
 			// 是否
 			'common_is_text_list' 	=> MyLang('common_is_text_list'),
-
 			// 基础导航
-			'base_nav'				=> [
-				[
-					'view_type'	=> 'index',
-					'name'		=> '当前主题',
-				],
-				[
-					'view_type'	=> 'upload',
-					'name'		=> '主题安装',
-				],
-				[
-					'view_type'	=> 'package',
-					'name'		=> '源码包下载',
-				],
-			],
+			'base_nav'				=> MyLang('appmini.base_nav_list'),
 		];
 	}
 
@@ -209,12 +161,7 @@ class Appmini extends Base
 	{
 		$key = AppMiniService::DefaultThemeKey($this->params);
 		$params[$key] = empty($this->data_request['theme']) ? 'default' : $this->data_request['theme'];
-		$ret = ConfigService::ConfigSave($params);
-		if($ret['code'] == 0)
-		{
-			$ret['msg'] = '切换成功';
-		}
-		return ApiService::ApiDataReturn($ret);
+		return ApiService::ApiDataReturn(ConfigService::ConfigSave($params));
 	}
 
 	/**

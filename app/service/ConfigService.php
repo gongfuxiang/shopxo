@@ -141,6 +141,7 @@ class ConfigService
         $data = Db::name('Config')->column($field, 'only_tag');
         if(!empty($data))
         {
+            $lang = MyLang('common.config');
             foreach($data as $k=>&$v)
             {
                 // 字符串转数组
@@ -158,6 +159,24 @@ class ConfigService
                     if($k == $fv)
                     {
                         $v['value'] = empty($v['value']) ? [] : json_decode($v['value'], true);
+                    }
+                }
+
+                // 多语言定义
+                if(!empty($lang) && is_array($lang) && array_key_exists($k, $lang) && is_array($lang[$k]))
+                {
+                    $temp = $lang[$k];
+                    if(array_key_exists('name', $temp))
+                    {
+                        $v['name'] = $temp['name'];
+                    }
+                    if(array_key_exists('desc', $temp))
+                    {
+                        $v['describe'] = $temp['desc'];
+                    }
+                    if(array_key_exists('tips', $temp))
+                    {
+                        $v['error_tips'] = $temp['tips'];
                     }
                 }
             }

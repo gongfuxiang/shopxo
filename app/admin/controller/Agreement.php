@@ -37,28 +37,12 @@ class Agreement extends Base
         // 模板数据
         $assign = [
             // 配置信息
-            'data'               => ConfigService::ConfigList(),
-
+            'data'              => ConfigService::ConfigList(),
+            // 管理导航
+            'nav_data'          => MyLang('agreement.base_nav_list'),
             // 编辑器文件存放地址
             'editor_path_type'  => ResourcesService::EditorPathTypeValue('agreement'),
         ];
-
-        // 导航数据
-        $nav_data = [
-            [
-                'name'  => '用户注册协议',
-                'type'  => 'register',
-            ],
-            [
-                'name'  => '用户隐私政策',
-                'type'  => 'privacy',
-            ],
-            [
-                'name'  => '账号注销协议',
-                'type'  => 'logout',
-            ]
-        ];
-        $assign['nav_data'] = $nav_data;
 
         // 导航/视图
         $nav_type = empty($this->data_request['nav_type']) ? 'register' : $this->data_request['nav_type'];

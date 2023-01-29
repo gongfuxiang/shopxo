@@ -58,7 +58,6 @@ class Pluginsadmin extends Base
         $assign = [
             // 导航参数
             'view_type' => $this->view_type,
-
             // 应用商店地址
             'store_url' => StoreService::StoreUrl(),
         ];

@@ -6,13 +6,13 @@
         <!-- form start -->
         <form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/goodscomments/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/goodscomments/index', $params)}}" enctype="multipart/form-data">
             <legend>
-                <span class="am-text-default">商品评论{{if empty($data['id'])}}添加{{else /}}编辑{{/if}}</span>
+                <span class="am-text-default">{{:MyLang('goodscomments.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
                 <a href="{{:MyUrl('admin/goodscomments/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
             </legend>
             <div class="am-cf">
                 <div class="am-u-md-6 am-padding-horizontal-0">
                     <div class="am-alert am-alert-secondary goods-info" data-am-alert>
-                        <p class="am-text-sm">商品信息</p>
+                        <p class="am-text-sm">{{:MyLang('goodscomments.form_item_goods_info_title')}}</p>
                         {{if !empty($data['goods'])}}
                             <div class="base am-nbfc">
                                 <a href="{{$data.goods.goods_url}}" target="_blank">
@@ -22,23 +22,23 @@
                             </div>
                             <p class="am-text-danger">{{$currency_symbol}}{{$data.goods.price}}</p>
                         {{else /}}
-                            商品信息异常
+                            {{:MyLang('gods_info_abnormal_tips')}}
                         {{/if}}
                     </div>
                 </div>
                 <div class="am-u-md-6 am-padding-horizontal-0">
                     <div class="am-alert am-alert-secondary user-info" data-am-alert>
-                        <p class="am-text-sm">用户信息</p>
+                        <p class="am-text-sm">{{:MyLang('goodscomments.form_item_user_info_title')}}</p>
                         {{if !empty($data['user'])}}
                             <img src="{{$data.user.avatar}}" alt="{{$data.user.user_name_view}}" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0" width="35" height="35" />
                             <ul class="user-base">
-                                <li>名称：{{if empty($data['user']['username'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.username}}{{/if}}</li>
-                                <li>昵称：{{if empty($data['user']['nickname'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.nickname}}{{/if}}</li>
-                                <li>手机：{{if empty($data['user']['mobile'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.mobile}}{{/if}}</li>
-                                <li>邮箱：{{if empty($data['user']['email'])}}<span class="am-text-grey">未填写</span>{{else /}}{{$data.user.email}}{{/if}}</li>
+                                <li>{{:MyLang('user_username_title')}}：{{if empty($data['user']['username'])}}<span class="am-text-grey">{{:MyLang('no_filled_tips')}}</span>{{else /}}{{$data.user.username}}{{/if}}</li>
+                                <li>{{:MyLang('user_nickname_title')}}：{{if empty($data['user']['nickname'])}}<span class="am-text-grey">{{:MyLang('no_filled_tips')}}</span>{{else /}}{{$data.user.nickname}}{{/if}}</li>
+                                <li>{{:MyLang('user_mobile_title')}}：{{if empty($data['user']['mobile'])}}<span class="am-text-grey">{{:MyLang('no_filled_tips')}}</span>{{else /}}{{$data.user.mobile}}{{/if}}</li>
+                                <li>{{:MyLang('user_email_title')}}：{{if empty($data['user']['email'])}}<span class="am-text-grey">{{:MyLang('no_filled_tips')}}</span>{{else /}}{{$data.user.email}}{{/if}}</li>
                             </ul>
                         {{else /}}
-                            用户信息异常
+                            {{:MyLang('user_info_abnormal_tips')}}
                         {{/if}}
                     </div>
                 </div>
@@ -47,8 +47,8 @@
             <div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label>业务类型<span class="am-form-group-label-tips-must">*</span></label>
-                        <select name="business_type" class="chosen-select" data-placeholder="业务类型..." data-validation-message="请选择业务类型" required>
+                        <label>{{:MyLang('goodscomments.form_item_business_type')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <select name="business_type" class="chosen-select" data-placeholder="{{:MyLang('goodscomments.form_item_business_type_placeholder')}}" data-validation-message="{{:MyLang('goodscomments.form_item_business_type_message')}}" required>
                             {{if !empty($common_goods_comments_business_type_list)}}
                                 {{foreach $common_goods_comments_business_type_list as $v}}
                                     <option value="{{$v.value}}" {{if isset($data['business_type']) and $data['business_type'] eq $v.value}}selected{{/if}}>{{$v.name}}</option>
@@ -59,8 +59,8 @@
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label>评分</label>
-                        <select name="rating" class="chosen-select" data-placeholder="未评分" data-validation-message="请选择评分" required>
+                        <label>{{:MyLang('goodscomments.form_item_rating')}}</label>
+                        <select name="rating" class="chosen-select" data-placeholder="{{:MyLang('goodscomments.form_item_rating_placeholder')}}" data-validation-message="{{:MyLang('goodscomments.form_item_rating_message')}}" required>
                             {{if !empty($common_goods_comments_rating_list)}}
                                 {{foreach $common_goods_comments_rating_list as $k=>$v}}
                                     <option value="{{$k}}" {{if isset($data['rating']) and $data['rating'] eq $k}}selected{{/if}}>{{$v.name}}</option>
@@ -74,14 +74,14 @@
             <div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label>评论内容<span class="am-form-group-label-tips-must">*</span></label>
-                        <textarea name="content" class="am-radius" rows="4" minlength="6" maxlength="230" data-validation-message="评论内容 6~230 个字符之间" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+                        <label>{{:MyLang('goodscomments.form_item_content')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <textarea name="content" class="am-radius" rows="4" minlength="6" maxlength="230" placeholder="{{:MyLang('goodscomments.form_item_content_message')}}" data-validation-message="{{:MyLang('goodscomments.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
                     </div>
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label>回复内容</label>
-                        <textarea class="am-radius" name="reply" rows="4" maxlength="230" placeholder="回复内容最多 230 个字符" data-validation-message="回复内容最多 230 个字符">{{if !empty($data['reply'])}}{{$data.reply}}{{/if}}</textarea>
+                        <label>{{:MyLang('goodscomments.form_item_reply')}}</label>
+                        <textarea class="am-radius" name="reply" rows="4" maxlength="230" placeholder="{{:MyLang('goodscomments.form_item_reply_message')}}" data-validation-message="{{:MyLang('goodscomments.form_item_reply_message')}}">{{if !empty($data['reply'])}}{{$data.reply}}{{/if}}</textarea>
                     </div>
                 </div>
             </div>
@@ -89,13 +89,13 @@
             <div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label>回复时间</label>
-                        <input type="text" name="reply_time" class="am-form-field am-radius Wdate" placeholder="生日" data-validation-message="回复时间格式有误" {{if !empty($data)}} value="{{if isset($data['reply_time_time'])}}{{$data.reply_time_time}}{{/if}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
+                        <label>{{:MyLang('goodscomments.form_item_reply_time')}}</label>
+                        <input type="text" name="reply_time" class="am-form-field am-radius Wdate" placeholder="{{:MyLang('goodscomments.form_item_reply_time')}}" data-validation-message="{{:MyLang('goodscomments.form_item_reply_time_message')}}" {{if !empty($data)}} value="{{if isset($data['reply_time_time'])}}{{$data.reply_time_time}}{{/if}}"{{/if}} onclick="WdatePicker({firstDayOfWeek:1,dateFmt:'yyyy-MM-dd'})" autocomplete="off" />
                     </div>
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label class="am-block">是否已回复</label>
+                        <label class="am-block">{{:MyLang('goodscomments.form_item_is_reply')}}</label>
                         <input name="is_reply" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_reply']) and $data['is_reply'] eq 1}}checked="true"{{/if}} />
                     </div>
                 </div>
@@ -104,13 +104,13 @@
             <div class="am-cf">
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label class="am-block">是否匿名</label>
+                        <label class="am-block">{{:MyLang('goodscomments.form_item_is_anonymous')}}</label>
                         <input name="is_anonymous" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_anonymous']) and $data['is_anonymous'] eq 1}}checked="true"{{/if}} />
                     </div>
                 </div>
                 <div class="am-u-sm-6 am-padding-horizontal-0">
                     <div class="am-form-group">
-                        <label class="am-block">是否显示</label>
+                        <label class="am-block">{{:MyLang('form_whether_show_title')}}</label>
                         <input name="is_show" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_show']) and $data['is_show'] eq 1}}checked="true"{{/if}} />
                     </div>
                 </div>
@@ -125,7 +125,7 @@
     </div>
 </div>
 <!-- right content end  -->
-        
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->

@@ -110,8 +110,8 @@
                                 <span class="am-input-group-btn">
                                     <button type="button" class="am-btn am-btn-default am-radius">{{$v.name}}</button>
                                 </span>
-                                <select name="common_default_payment[{{$v.value}}]" class="am-radius chosen-select" data-placeholder="可选择..." data-validation-message="请选择{{$v.name}}默认支付方式">
-                                    <option value="">可选择...</option>
+                                <select name="common_default_payment[{{$v.value}}]" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="请选择{{$v.name}}默认支付方式">
+                                    <option value="">{{:MyLang('optional_tips')}}</option>
                                     {{if !empty($payment_list)}}
                                         {{foreach $payment_list as $pay}}
                                             {{if !empty($pay['apply_terminal']) and is_array($pay['apply_terminal']) and in_array($v['value'], $pay['apply_terminal'])}}

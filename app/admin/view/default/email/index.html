@@ -42,11 +42,11 @@
 				<input type="text" name="{{$data.common_email_smtp_send_name.only_tag}}" placeholder="{{$data.common_email_smtp_send_name.name}}" data-validation-message="{{$data.common_email_smtp_send_name.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_email_smtp_send_name.value}}"{{/if}} />
 			</div>
 			<div class="am-form-group">
-				<label>测试接收的邮件地址<span class="am-form-group-label-tips">请先保存配置后，再进行测试</span></label>
+				<label>{{:MyLang('email.form_item_test')}}<span class="am-form-group-label-tips">{{:MyLang('email.form_item_test_tips')}}</span></label>
 				<div class="am-input-group am-input-group-sm">
-					<input type="text" placeholder="测试接收的邮件地址" class="am-radius test-email-value" />
+					<input type="text" placeholder="{{:MyLang('email.form_item_test')}}" class="am-radius test-email-value" />
 					<span class="am-input-group-btn">
-						<button class="am-btn am-btn-default am-radius test-email-submit" type="button" data-url="{{:MyUrl('admin/email/emailtest')}}">测试</button>
+						<button class="am-btn am-btn-default am-radius test-email-submit" type="button" data-url="{{:MyUrl('admin/email/emailtest')}}">{{:MyLang('email.form_item_test_button_title')}}</button>
 					</span>
 				</div>
 			</div>
