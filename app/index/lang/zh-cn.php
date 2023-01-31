@@ -23,7 +23,6 @@ return [
         'shop_home_title'                       => '商城首页',
         'back_to_the_home_title'                => '回到首页',
         'all_category_text'                     => '全部分类',
-        'toggle_navigation_text'                => '导航切换',
         'login_title'                           => '登录',
         'register_title'                        => '注册',
         'logout_title'                          => '退出',

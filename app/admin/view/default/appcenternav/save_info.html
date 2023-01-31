@@ -54,15 +54,8 @@
 				</ul>
 				<div class="plug-file-upload-submit" data-view-tag="ul.slide-images_url-images-view">+ {{:MyLang('form_upload_images_title')}}</div>
 			</div>
-			<div class="am-form-group">
-				<label>{{:MyLang('form_sort_title')}}</label>
-				<input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
-			</div>
-
-			<div class="am-form-group">
-			    <label class="am-block">{{:MyLang('form_is_enable_title')}}</label>
-			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_enable'] eq 1}} checked="true"{{/if}} />
-			</div>
+			{{include file="lib/sort" /}}
+			{{include file="lib/is_enable" /}}
 			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>

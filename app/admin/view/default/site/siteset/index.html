@@ -16,7 +16,7 @@
             <!-- 基础 -->
             <div class="am-panel am-panel-default am-margin-top-sm">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">基础</h3>
+                    <h3 class="am-panel-title">{{:MyLang('base_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
@@ -44,7 +44,7 @@
                             {{/foreach}}
                         </select>
                         <div class="am-alert">
-                            拖拽模式需要自行进入首页设计页面、请先保存选中配置后再<a href="{{:MyUrl('index/index/index', ['is_design'=>1, 'save_url'=>urlencode(base64_encode(MyUrl('admin/layout/layoutindexhomesave')))])}}" target="_blank" class="am-margin-left-sm">去设计页面 >></a>
+                            {{:MyLang('site.site_setup_layout_tips')}}<a href="{{:MyUrl('index/index/index', ['is_design'=>1, 'save_url'=>urlencode(base64_encode(MyUrl('admin/layout/layoutindexhomesave')))])}}" target="_blank" class="am-margin-left-sm">{{:MyLang('site.site_setup_layout_button_name')}}</a>
                         </div>
                     </div>
 
@@ -68,11 +68,11 @@
                                     </li>
                                 {{/foreach}}
                             </ul>
-                            <p class="am-text-danger am-margin-top-sm">如需更多楼层展示，请先到 / 商品管理->商品分类、一级分类设置首页推荐</p>
+                            <p class="am-text-danger am-margin-top-sm">{{:MyLang('site.site_setup_goods_category_tips')}}</p>
                         {{else /}}
                             <div class="am-text-center am-margin-top-lg">
                                 <i class="am-icon-warning"></i>
-                                <span>暂无数据，请先到 / 商品管理->商品分类、一级分类设置首页推荐</span>
+                                <span>{{:MyLang('site.site_setup_goods_category_no_data_tips')}}</span>
                             </div>
                         {{/if}}
                     </div>
@@ -91,11 +91,11 @@
                                     </li>
                                 {{/foreach}}
                             </ul>
-                            <p class="am-text-danger am-margin-top-sm">如需更多楼层展示，请先到 / 商品管理->商品分类、一级分类设置首页推荐</p>
+                            <p class="am-text-danger am-margin-top-sm">{{:MyLang('site.site_setup_goods_category_tips')}}</p>
                         {{else /}}
                             <div class="am-text-center am-margin-top-lg">
                                 <i class="am-icon-warning"></i>
-                                <span>暂无数据，请先到 / 商品管理->商品分类、一级分类设置首页推荐</span>
+                                <span>{{:MyLang('site.site_setup_goods_category_no_data_tips')}}</span>
                             </div>
                         {{/if}}
                     </div>
@@ -105,7 +105,7 @@
             <!-- 自动模式 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">自动模式</h3>
+                    <h3 class="am-panel-title">{{:MyLang('site.base_item_site_auto_mode_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
@@ -116,11 +116,12 @@
                                 <button class="am-btn am-btn-default" type="button">个</button>
                           </span>
                         </div>
-                        <div class="am-alert am-alert-warning" data-am-alert>
-                            <button type="button" class="am-close">&times;</button>
-                            <p>1. 配置每个楼层最多展示多少个商品</p>
-                            <p>2. 不建议将数量修改的太大、会导致PC端左侧空白区域太大</p>
-                        </div>
+                        {{if is_array(MyLang('site.goods_auto_mode_max_count_tips_list'))}}
+                            <div class="am-alert am-alert-warning" data-am-alert>
+                                <button type="button" class="am-close">&times;</button>
+                                <p>{{:implode('</p><p>', MyLang('site.goods_auto_mode_max_count_tips_list'))}}</p>
+                            </div>
+                        {{/if}}
                     </div>
 
                     <div class="am-form-group">
@@ -130,10 +131,12 @@
                                 <option value="{{$k}}" {{if isset($data['home_index_floor_goods_order_by_type']['value']) and $data['home_index_floor_goods_order_by_type']['value'] eq $k}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
-                        <div class="am-alert am-alert-warning" data-am-alert>
-                            <button type="button" class="am-close">&times;</button>
-                            <p>综合为：热度->销量->最新 进行 降序(desc)排序</p>
-                        </div>
+                        {{if is_array(MyLang('site.goods_auto_mode_order_by_tips_list'))}}
+                            <div class="am-alert am-alert-warning" data-am-alert>
+                                <button type="button" class="am-close">&times;</button>
+                                <p>{{:implode('</p><p>', MyLang('site.goods_auto_mode_order_by_tips_list'))}}</p>
+                            </div>
+                        {{/if}}
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.home_index_floor_goods_order_by_rule.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_goods_order_by_rule.describe}}</span></label>
@@ -149,16 +152,17 @@
             <!-- 手动模式 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">手动模式</h3>
+                    <h3 class="am-panel-title">{{:MyLang('site.base_item_site_manual_mode_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
                         <label>{{$data.home_index_floor_manual_mode_goods.name}}<span class="am-form-group-label-tips">{{$data.home_index_floor_manual_mode_goods.describe}}</span></label>
-                        <div class="am-alert am-alert-warning" data-am-alert>
-                            <button type="button" class="am-close">&times;</button>
-                            <p>1. 可点击商品标题拖拽排序、按照顺序展示</p>
-                            <p>2. 不建议添加很多商品、会导致PC端左侧空白区域太大</p>
-                        </div>
+                        {{if is_array(MyLang('site.goods_manual_mode_max_tips_list'))}}
+                            <div class="am-alert am-alert-warning" data-am-alert>
+                                <button type="button" class="am-close">&times;</button>
+                                <p>{{:implode('</p><p>', MyLang('site.goods_manual_mode_max_tips_list'))}}</p>
+                            </div>
+                        {{/if}}
                         {{if !empty($goods_category_list)}}
                             <ul class="am-list am-list-static am-list-border am-margin-bottom-0 am-margin-top-sm">
                                 {{foreach $goods_category_list as $category}}
@@ -181,15 +185,15 @@
                                             {{/foreach}}
                                         {{/if}}
                                     </ul>
-                                    <span class="business-operations-submit goods-popup-add" data-tag=".manual-mode-goods-container-{{$category.id}}" data-form-name="{{$data.home_index_floor_manual_mode_goods.only_tag}}[{{$category.id}}][]">+添加商品</span>
+                                    <span class="business-operations-submit goods-popup-add" data-tag=".manual-mode-goods-container-{{$category.id}}" data-form-name="{{$data.home_index_floor_manual_mode_goods.only_tag}}[{{$category.id}}][]">+ {{:MyLang('site.add_goods_title')}}</span>
                                     </li>
                                 {{/foreach}}
                             </ul>
-                            <p class="am-text-danger am-margin-top-sm">如需更多楼层展示，请先到 / 商品管理->商品分类、一级分类设置首页推荐</p>
+                            <p class="am-text-danger am-margin-top-sm">{{:MyLang('site.site_setup_goods_category_tips')}}</p>
                         {{else /}}
                             <div class="am-text-center am-margin-top-lg">
                                 <i class="am-icon-warning"></i>
-                                <span>暂无数据，请先到 / 商品管理->商品分类、一级分类设置首页推荐</span>
+                                <span>{{:MyLang('site.site_setup_goods_category_no_data_tips')}}</span>
                             </div>
                         {{/if}}
                     </div>
@@ -211,7 +215,7 @@
 <div class="am-popup" id="siteset-goods-popup">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
-            <h4 class="am-popup-title">商品添加</h4>
+            <h4 class="am-popup-title">{{:MyLang('site.add_goods_title')}}</h4>
             <span class="am-icon-arrows-alt am-full"></span>
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
@@ -219,8 +223,8 @@
             <form class="am-form am-padding-sm goods-add-container">
                 <!-- 搜索 -->
                 <div class="forth-selection-container" data-search-url="{{:MyUrl('admin/site/goodssearch')}}">
-                    <select class="am-radius chosen-select forth-selection-form-category" data-placeholder="商品分类..." data-validation-message="请选择商品分类">
-                        <option value="">商品分类...</option>
+                    <select class="am-radius chosen-select forth-selection-form-category" data-placeholder="{{:MyLang('form_goods_category_placeholder')}}" data-validation-message="{{:MyLang('form_goods_category_message')}}">
+                        <option value="">{{:MyLang('form_goods_category_placeholder')}}</option>
                         {{if !empty($goods_category_list)}}
                             {{foreach $goods_category_list as $v}}
                                 <option value="{{$v.id}}">{{$v.name}}</option>
@@ -237,15 +241,13 @@
                             {{/foreach}}
                         {{/if}}
                     </select>
-                    <input type="text" placeholder="商品名称" class="am-radius forth-selection-form-keywords" />
-                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-icon-search search-submit" data-am-loading="{loadingText: ' {{:MyLang('searching_tips')}}'}"> 搜索</button>
+                    <input type="text" placeholder="{{:MyLang('site.popup_form_item_goods_placeholder')}}" class="am-radius forth-selection-form-keywords" />
+                    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-icon-search search-submit" data-am-loading="{loadingText: ' {{:MyLang('searching_tips')}}'}"> {{:MyLang('search_title')}}</button>
                 </div>
 
                 <!-- 商品列表 -->
-                <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs goods-list-container" data-no-data-msg="请搜索商品" data-loading-msg="{{:MyLang('searching_tips')}}">
-                    <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered">
-                        <div class="table-no"><i class="am-icon-warning"></i> 请搜索商品</div>
-                    </ul>
+                <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs goods-list-container" data-loading-msg="{{:MyLang('searching_tips')}}">
+                    <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered"></ul>
                 </div>
 
                 <!-- 分页 -->
@@ -254,7 +256,7 @@
         </div>
     </div>
 </div>
-        
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->

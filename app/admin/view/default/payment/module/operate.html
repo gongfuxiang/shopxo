@@ -1,6 +1,6 @@
 <!-- 操作栏 -->
 {{if $module_data['is_install'] eq 0}}
-    <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/payment/install')}}" data-id="{{$module_data.payment}}" data-view="reload" data-msg="安装进行中、确认操作吗？">
+    <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/payment/install')}}" data-id="{{$module_data.payment}}" data-view="reload" data-msg="{{:MyLang('install_confirm_tips')}}">
         <i class="am-icon-cubes"></i>
         <span>{{:MyLang('install_title')}}</span>
     </button>
@@ -17,7 +17,7 @@
         <span>{{:MyLang('edit_title')}}</span>
     </a>
 
-    <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/payment/uninstall')}}" data-id="{{$module_data.payment}}" data-view="reload" data-msg="卸载后不可恢复、确认操作吗？">
+    <button type="button" class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax" data-url="{{:MyUrl('admin/payment/uninstall')}}" data-id="{{$module_data.payment}}" data-view="reload" data-msg="{{:MyLang('uninstall_confirm_tips')}}">
         <i class="am-icon-remove"></i>
         <span>{{:MyLang('uninstall_title')}}</span>
     </button>

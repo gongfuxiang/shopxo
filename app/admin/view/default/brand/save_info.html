@@ -62,16 +62,10 @@
 				<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-cf">
         				<div class="am-u-md-6 am-padding-horizontal-0">
-        					<div class="am-form-group">
-								<label>{{:MyLang('form_sort_title')}}</label>
-								<input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
-							</div>
+        					{{include file="lib/sort" /}}
         				</div>
         				<div class="am-u-md-6 am-padding-horizontal-0">
-        					<div class="am-form-group">
-							    <label class="am-block">{{:MyLang('form_is_enable_title')}}</label>
-							    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
-							</div>
+        					{{include file="lib/is_enable" /}}
         				</div>
         			</div>
 				</div>

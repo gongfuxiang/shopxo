@@ -57,13 +57,13 @@ class CustomViewService
     {
         if(!empty($data))
         {
-            $common_is_enable_list = MyLang('common_is_enable_list');
+            $common_is_text_list = MyLang('common_is_text_list');
             foreach($data as &$v)
             {
                 // 是否启用
                 if(isset($v['is_enable']))
                 {
-                    $v['is_enable_text'] = $common_is_enable_list[$v['is_enable']]['name'];
+                    $v['is_enable_text'] = $common_is_text_list[$v['is_enable']]['name'];
                 }
 
                 // 内容

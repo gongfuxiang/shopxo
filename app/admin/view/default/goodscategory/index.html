@@ -84,10 +84,7 @@
 								</div>
 							</div>
 							<div class="am-u-sm-6 am-padding-horizontal-0">
-								<div class="am-form-group">
-									<label>{{:MyLang('form_sort_title')}}</label>
-									<input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
-								</div>
+								{{include file="lib/sort" /}}
 							</div>
 						</div>
 
@@ -95,17 +92,11 @@
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group">
 								    <label>{{:MyLang('goodscategory.form_item_is_home_recommended')}}</label>
-								    <div>
-								        {{foreach $common_is_text_list as $v}}
-								            <label class="am-radio-inline am-margin-right-sm">
-								                <input type="radio" name="is_home_recommended" value="{{$v.id}}" data-am-ucheck /> {{$v.name}}
-								            </label>
-								        {{/foreach}}
-								    </div>
+								    <input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1) or !isset($data['is_home_recommended'])}}checked="true"{{/if}} />
 								</div>
                 			</div>
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
-                				{{include file="lib/enable" /}}
+                				{{include file="lib/is_enable" /}}
                 			</div>
                 		</div>
 						

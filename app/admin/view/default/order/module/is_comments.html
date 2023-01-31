@@ -1,2 +1,2 @@
 <!-- 是否评论 -->
-{{if !empty($module_data) and isset($module_data['user_is_comments']) and $module_data['user_is_comments'] gt 1}}已{{else /}}未{{/if}}评论
+{{if !empty($module_data) and isset($module_data['user_is_comments']) and $module_data['user_is_comments'] gt 1}}{{:MyLang('already_title')}}{{else /}}{{:MyLang('no_title')}}{{/if}}{{:MyLang('comment_title')}}

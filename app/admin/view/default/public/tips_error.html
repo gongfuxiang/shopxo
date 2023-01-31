@@ -5,8 +5,8 @@
     <div class="content">
         <div class="table-no">
             <p>
-                <i class="am-icon-warning cr-999"></i>
-                {{if isset($msg)}}{{$msg}}{{else /}}异常错误{{/if}}
+                <i class="am-icon-warning am-text-grey"></i>
+                {{if isset($msg)}}{{$msg}}{{else /}}{{:MyLang('error')}}{{/if}}
             </p>
 
             <!-- 扩展内容  -->

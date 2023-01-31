@@ -199,9 +199,8 @@ $(function()
         $popup_siteset_goods.attr('data-form-name', $(this).data('form-name') || '');
 
         // 初始化搜索数据
-        $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-warning"></i> '+($('.goods-list-container').data('no-data-msg'))+'</div>');
-        $('.goods-page-container').html(PageLibrary());
         $popup_siteset_goods.modal();
+        $popup_siteset_goods.find('.search-submit').trigger('click');
     });
 
     // 搜索商品
@@ -227,7 +226,10 @@ $(function()
 
         var $this = $(this);
         $.AMUI.progress.start();
-        $this.button('loading');
+        if($this.hasClass('search-submit'))
+        {
+            $this.button('loading');
+        }
         $('.goods-list-container ul.am-gallery').html('<div class="table-no"><i class="am-icon-spinner am-icon-pulse"></i> '+($('.goods-list-container').data('loading-msg'))+'</div>');
         $.ajax({
             url: RequestUrlHandle(url),

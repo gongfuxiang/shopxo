@@ -14,7 +14,7 @@
                     <div class="am-form-group">
                         <label>{{$data.admin_excel_charset.name}}<span class="am-form-group-label-tips">{{$data.admin_excel_charset.describe}}</span></label>
                         <select name="{{$data.admin_excel_charset.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_excel_charset.error_tips}}" required>
-                            {{foreach $common_excel_charset_list as $v}}
+                            {{foreach :MyLang('common_excel_charset_list') as $v}}
                                 <option value="{{$v.id}}" {{if isset($data['admin_excel_charset']['value']) and $data['admin_excel_charset']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -22,7 +22,7 @@
                     <div class="am-form-group">
                         <label>{{$data.common_excel_export_type.name}}<span class="am-form-group-label-tips">{{$data.common_excel_export_type.describe}}</span></label>
                         <select name="{{$data.common_excel_export_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_excel_export_type.error_tips}}" required>
-                            {{foreach $common_excel_export_type_list as $v}}
+                            {{foreach :MyLang('common_excel_export_type_list') as $v}}
                                 <option value="{{$v.id}}" {{if isset($data['common_excel_export_type']['value']) and $data['common_excel_export_type']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -47,7 +47,7 @@
                     <div class="am-form-group">
                         <label>{{$data.admin_login_info_bg_images_rand.name}}<span class="am-form-group-label-tips">{{$data.admin_login_info_bg_images_rand.describe}}</span></label>
                         <select name="{{$data.admin_login_info_bg_images_rand.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_login_info_bg_images_rand.error_tips}}" required>
-                            {{foreach $common_is_enable_list as $v}}
+                            {{foreach :MyLang('common_is_text_list') as $v}}
                                 <option value="{{$v.id}}" {{if isset($data['admin_login_info_bg_images_rand']['value']) and $data['admin_login_info_bg_images_rand']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -60,7 +60,7 @@
                     <div class="am-form-group">
                         <label>{{$data.admin_login_type.name}}<span class="am-form-group-label-tips">{{$data.admin_login_type.describe}}</span></label>
                         <select name="{{$data.admin_login_type.only_tag}}" multiple="multiple" class="am-radius chosen-select" data-placeholder="{{$data.admin_login_type.name}}" data-validation-message="{{$data.admin_login_type.error_tips}}" required>
-                            {{foreach $common_login_type_list as $v}}
+                            {{foreach :MyLang('common_login_type_list') as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['admin_login_type']['value']) and in_array($v['value'], $data['admin_login_type']['value'])}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -68,7 +68,7 @@
                     <div class="am-form-group">
                         <label>{{$data.admin_login_img_verify_state.name}}<span class="am-form-group-label-tips">{{$data.admin_login_img_verify_state.describe}}</span></label>
                         <select name="{{$data.admin_login_img_verify_state.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.admin_login_img_verify_state.error_tips}}" required>
-                            {{foreach $common_close_open_list as $v}}
+                            {{foreach :MyLang('common_close_open_list') as $v}}
                                 <option value="{{$v.value}}" {{if isset($data['admin_login_img_verify_state']['value']) and $data['admin_login_img_verify_state']['value'] eq $v['value']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -98,7 +98,7 @@
                     <div class="am-form-group">
                         <label>{{$data.common_map_type.name}}<span class="am-form-group-label-tips">{{$data.common_map_type.describe}}</span></label>
                         <select name="{{$data.common_map_type.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_map_type.error_tips}}" required>
-                            {{foreach $common_map_type_list as $v}}
+                            {{foreach :MyLang('common_map_type_list') as $v}}
                                 <option value="{{$v.id}}" {{if isset($data['common_map_type']['value']) and $data['common_map_type']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>
@@ -110,7 +110,7 @@
                         <label>{{$data.common_baidu_map_ak.name}}<span class="am-form-group-label-tips">{{$data.common_baidu_map_ak.describe}}</span></label>
                         <input type="text" name="{{$data.common_baidu_map_ak.only_tag}}" placeholder="{{$data.common_baidu_map_ak.describe}}" data-validation-message="{{$data.common_baidu_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_baidu_map_ak.value}}"{{/if}} />
                         <div class="am-alert am-alert-warning">
-                            {{:MyLang('config.apply_map_baidu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['baidu_map_course'])}}<a href="{{$site_store_links.baidu_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('config.view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_baidu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['baidu_map_course'])}}<a href="{{$site_store_links.baidu_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
                     <div class="am-form-group">
@@ -118,21 +118,21 @@
                         <input type="text" name="{{$data.common_amap_map_ak.only_tag}}" placeholder="{{$data.common_amap_map_ak.describe}}" data-validation-message="{{$data.common_amap_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_amap_map_ak.value}}"{{/if}} />
                         <input type="text" name="{{$data.common_amap_map_safety_ak.only_tag}}" placeholder="{{$data.common_amap_map_safety_ak.describe}}" data-validation-message="{{$data.common_amap_map_safety_ak.error_tips}}" class="am-radius am-margin-top-xs" {{if !empty($data)}}value="{{$data.common_amap_map_safety_ak.value}}"{{/if}} />
                         <div class="am-alert am-alert-warning">
-                            {{:MyLang('config.apply_map_amap_name')}} {{if !empty($site_store_links) and !empty($site_store_links['amap_map_course'])}}<a href="{{$site_store_links.amap_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('config.view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_amap_name')}} {{if !empty($site_store_links) and !empty($site_store_links['amap_map_course'])}}<a href="{{$site_store_links.amap_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_tencent_map_ak.name}}<span class="am-form-group-label-tips">{{$data.common_tencent_map_ak.describe}}</span></label>
                         <input type="text" name="{{$data.common_tencent_map_ak.only_tag}}" placeholder="{{$data.common_tencent_map_ak.describe}}" data-validation-message="{{$data.common_tencent_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_tencent_map_ak.value}}"{{/if}} />
                         <div class="am-alert am-alert-warning">
-                            {{:MyLang('config.apply_map_tencent_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tencent_map_course'])}}<a href="{{$site_store_links.tencent_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('config.view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_tencent_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tencent_map_course'])}}<a href="{{$site_store_links.tencent_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_tianditu_map_ak.name}}<span class="am-form-group-label-tips">{{$data.common_tianditu_map_ak.describe}}</span></label>
                         <input type="text" name="{{$data.common_tianditu_map_ak.only_tag}}" placeholder="{{$data.common_tianditu_map_ak.describe}}" data-validation-message="{{$data.common_tianditu_map_ak.error_tips}}" class="am-radius" {{if !empty($data)}}value="{{$data.common_tianditu_map_ak.value}}"{{/if}} />
                         <div class="am-alert am-alert-warning">
-                            {{:MyLang('config.apply_map_tianditu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tianditu_map_course'])}}<a href="{{$site_store_links.tianditu_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('config.view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
+                            {{:MyLang('config.apply_map_tianditu_name')}} {{if !empty($site_store_links) and !empty($site_store_links['tianditu_map_course'])}}<a href="{{$site_store_links.tianditu_map_course}}" target="_blank" class="am-margin-left-sm">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}
                         </div>
                     </div>
                 </div>
@@ -147,7 +147,7 @@
                     <div class="am-form-group">
                         <label>{{$data.common_is_https_connect_store.name}}<span class="am-form-group-label-tips">{{$data.common_is_https_connect_store.describe}}</span></label>
                         <select name="{{$data.common_is_https_connect_store.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_is_https_connect_store.error_tips}}" required>
-                            {{foreach $common_is_text_list as $v}}
+                            {{foreach :MyLang('common_is_text_list') as $v}}
                                 <option value="{{$v.id}}" {{if isset($data['common_is_https_connect_store']['value']) and $data['common_is_https_connect_store']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                             {{/foreach}}
                         </select>

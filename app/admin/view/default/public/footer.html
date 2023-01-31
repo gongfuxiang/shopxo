@@ -8,21 +8,21 @@
             <!-- form start -->
             <form class="am-form form-validation-store-accounts view-save" action="{{:MyUrl('admin/index/storeaccountsbind')}}" method="POST" request-type="ajax-reload">
                 <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                    <label>账号<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="common_store_accounts" placeholder="用户名/手机/邮箱" data-validation-message="账号格式1~30个字符" class="am-radius" value="" autocomplete="off" required />
+                    <label>{{:MyLang('common.store_bind_form_accounts')}}<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="text" name="common_store_accounts" placeholder="{{:MyLang('common.store_bind_form_accounts_placeholder')}}" data-validation-message="{{:MyLang('common.store_bind_form_accounts_message')}}" class="am-radius" value="" autocomplete="off" required />
                 </div>
                 <div class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-                    <label>密码<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="password" name="common_store_password" placeholder="登录密码" data-validation-message="登录密码格式6~30个字符" class="am-radius" value="" autocomplete="off" required />
+                    <label>{{:MyLang('common.store_bind_form_password')}}<span class="am-form-group-label-tips-must">*</span></label>
+                    <input type="password" name="common_store_password" placeholder="{{:MyLang('common.store_bind_form_password_placeholder')}}" data-validation-message="{{:MyLang('common.store_bind_form_password_message')}}" class="am-radius" value="" autocomplete="off" required />
                 </div>
                 
                 <div class="am-form-group am-form-group-refreshing am-margin-top-sm">
-                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'绑定中...'}">绑定</button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('bind_tips')}}'}">{{:MyLang('bind_title')}}</button>
                 </div>
                 <div class="am-margin-top-xr am-text-right am-padding-right-xs">
-                    <a href="{{:MyConfig('shopxo.store_regster_url')}}" target="_blank">未有账号，去注册</a>
+                    <a href="{{:MyConfig('shopxo.store_regster_url')}}" target="_blank">{{:MyLang('common.store_bind_form_regster_name')}}</a>
                 </div>
-                <p class="am-text-warning am-text-center am-margin-top-sm">一个账号支持绑定多台ShopXO商城</p>
+                <p class="am-text-warning am-text-center am-margin-top-sm">{{:MyLang('common.store_bind_form_tips')}}</p>
             </form>
             <!-- form end -->
         </div>
@@ -43,7 +43,7 @@
                 <span class="am-icon-vimeo am-margin-left-sm upgrade-version"> ...</span>
                 <div class="am-fr">
                     <button type="button" class="am-btn am-btn-default am-radius am-btn-xs" data-am-modal-close>{{:MyLang('cancel_title')}}</button>
-                    <button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-sm package-upgrade-submit" data-type="" data-value="" data-url="{{:MyUrl('admin/packageupgrade/upgrade')}}">更新</button>
+                    <button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-sm package-upgrade-submit" data-type="" data-value="" data-url="{{:MyUrl('admin/packageupgrade/upgrade')}}">{{:MyLang('update_title')}}</button>
                 </div>
             </div>
         </div>

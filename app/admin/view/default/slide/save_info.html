@@ -18,7 +18,7 @@
 				<label>{{:MyLang('form_platform_title')}}<span class="am-form-group-label-tips-must">*</span></label>
 				<select name="platform" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('form_platform_message')}}" required>
 					<option value="">{{:MyLang('optional_tips')}}</option>
-					{{foreach $common_platform_type as $v}}
+					{{foreach :MyLang('common_platform_type') as $v}}
 						<option value="{{$v.value}}" {{if isset($data['platform']) and $data['platform'] eq $v['value']}}selected{{else /}}{{if !isset($data['platform']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
 				</select>
@@ -28,7 +28,7 @@
 				<label>{{:MyLang('form_event_type_title')}}</label>
 				<select name="event_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('form_event_type_message')}}">
 					<option value="">{{:MyLang('optional_tips')}}</option>
-					{{foreach $common_app_event_type as $v}}
+					{{foreach :MyLang('common_app_event_type') as $v}}
 						<option value="{{$v.value}}" {{if isset($data['event_type']) and $data['event_type'] eq $v['value']}}selected{{else /}}{{if !isset($data['event_type']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
 					{{/foreach}}
 				</select>
@@ -62,15 +62,8 @@
 				</button>
 			</div>
 
-			<div class="am-form-group">
-				<label>{{:MyLang('form_sort_title')}}</label>
-				<input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
-			</div>
-			
-			<div class="am-form-group">
-			    <label class="am-block">{{:MyLang('form_is_enable_title')}}</label>
-			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (!empty($data) and $data['is_enable'] eq 1) or empty($data)}}checked="true"{{/if}} />
-			</div>
+			{{include file="lib/sort" /}}			
+			{{include file="lib/is_enable" /}}
 			<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>

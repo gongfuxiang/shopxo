@@ -1,12 +1,6 @@
 <!-- 是否满屏 开始 -->
 <div class="am-form-group">
-	<label>是否满屏</label>
-	<div>
-        {{foreach :MyLang('common_is_text_list') as $v}}
-			<label class="am-radio-inline am-margin-right-sm">
-				<input type="radio" name="is_full_screen" value="{{$v.id}}" {{if isset($data['is_full_screen']) and $data['is_full_screen'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_full_screen']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
-			</label>
-		{{/foreach}}
-	</div>
+	<label class="am-block">{{:MyLang('form_is_full_screen_title')}}</label>
+	<input name="is_full_screen" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_full_screen']) and $data['is_full_screen'] eq 1) or !isset($data['is_full_screen'])}}checked="true"{{/if}} />
 </div>
 <!-- 是否满屏 结束 -->

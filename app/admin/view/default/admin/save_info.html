@@ -4,28 +4,61 @@
 <div class="content-right">
 	<div class="content">
 		<!-- form start -->
-		<form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/admin/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/admin/index', $params)}}">
+		<form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/admin/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/admin/index', $params)}}">
 			<legend>
 				<span class="am-text-default">{{:MyLang('admin.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
 				<a href="{{:MyUrl('admin/admin/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
 			</legend>
-			<div class="am-form-group">
-				<label>{{:MyLang('admin.form_item_username')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span><span class="am-form-group-label-tips">{{:MyLang('admin.form_item_username_created_tips')}}</span>{{else /}}<span class="am-form-group-label-tips">{{:MyLang('admin.form_item_username_edit_tips')}}</span>{{/if}}</label>
-				<input type="text" name="username" placeholder="{{:MyLang('admin.form_item_username_message')}}" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="{{:MyLang('admin.form_item_username_message')}}" class="am-radius" {{if !empty($data['username'])}}value="{{$data.username}}" disabled{{/if}} required />
-			</div>
-			<div class="am-form-group">
-				<label>{{:MyLang('admin.form_item_password')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span>{{else /}}<span class="am-form-group-label-tips">{{:MyLang('admin.form_item_password_edit_tips')}}</span>{{/if}}</label>
-				<input type="password" name="login_pwd" placeholder="{{:MyLang('admin.form_item_password')}}" pattern="{{:MyConst('common_regex_pwd')}}"  data-validation-message="{{:MyLang('admin.form_item_password_message')}}" class="am-radius" autocomplete="off" {{if empty($data)}}required{{/if}} />
-			</div>
-			<div class="am-form-group">
-				<label>{{:MyLang('admin.form_item_mobile')}}</label>
-				<input type="text" name="mobile" placeholder="{{:MyLang('admin.form_item_mobile')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('admin.form_item_mobile_message')}}" class="am-radius" {{if !empty($data['mobile'])}}value="{{$data.mobile}}"{{/if}} />
-			</div>
-			<div class="am-form-group">
-                <label>{{:MyLang('admin.form_item_email')}}</label>
-                <input type="email" name="email" placeholder="{{:MyLang('admin.form_item_email')}}" maxlength="60" data-validation-message="{{:MyLang('admin.form_item_email_message')}}" class="am-radius" value="{{if !empty($data['email'])}}{{$data.email}}{{/if}}" />
+			<div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>{{:MyLang('admin.form_item_username')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span>{{/if}}{{if is_array(MyLang('goods.form_item_give_integral_tips'))}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{if empty($data)}}{{:MyLang('admin.form_item_username_created_tips')}}{{else /}}{{:MyLang('admin.form_item_username_edit_tips')}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
+						<input type="text" name="username" placeholder="{{:MyLang('admin.form_item_username_message')}}" pattern="{{:MyConst('common_regex_username')}}" data-validation-message="{{:MyLang('admin.form_item_username_message')}}" class="am-radius" {{if !empty($data['username'])}}value="{{$data.username}}" disabled{{/if}} required />
+					</div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>{{:MyLang('admin.form_item_password')}}{{if empty($data)}}<span class="am-form-group-label-tips-must">*</span>{{else /}}<span class="am-form-group-label-tips">{{:MyLang('admin.form_item_password_edit_tips')}}</span>{{/if}}</label>
+						<input type="password" name="login_pwd" placeholder="{{:MyLang('admin.form_item_password')}}" pattern="{{:MyConst('common_regex_pwd')}}"  data-validation-message="{{:MyLang('admin.form_item_password_message')}}" class="am-radius" autocomplete="off" {{if empty($data)}}required{{/if}} />
+					</div>
+                </div>
             </div>
-			{{include file="lib/gender" /}}
+
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>{{:MyLang('admin.form_item_mobile')}}</label>
+						<input type="text" name="mobile" placeholder="{{:MyLang('admin.form_item_mobile')}}" pattern="{{:MyConst('common_regex_mobile')}}" data-validation-message="{{:MyLang('admin.form_item_mobile_message')}}" class="am-radius" {{if !empty($data['mobile'])}}value="{{$data.mobile}}"{{/if}} />
+					</div>
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+		                <label>{{:MyLang('admin.form_item_email')}}</label>
+		                <input type="email" name="email" placeholder="{{:MyLang('admin.form_item_email')}}" maxlength="60" data-validation-message="{{:MyLang('admin.form_item_email_message')}}" class="am-radius" value="{{if !empty($data['email'])}}{{$data.email}}{{/if}}" />
+		            </div>
+                </div>
+            </div>
+
+            <div class="am-cf">
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	{{include file="lib/gender" /}}
+                </div>
+                <div class="am-u-sm-6 am-padding-horizontal-0">
+                	<div class="am-form-group">
+						<label>{{:MyLang('admin.form_item_status')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<select name="status" class="am-radius chosen-select" data-validation-message="{{:MyLang('admin.form_item_status_message')}}" required>
+							{{foreach :MyLang('common_admin_status_list') as $v}}
+								<option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
+							{{/foreach}}
+						</select>
+					</div>
+                </div>
+            </div>
+			
+			
+			
+			
+			
 
 			{{if !isset($data['id']) or $admin['id'] neq $data['id']}}
 				<div class="am-form-group">
@@ -38,15 +71,6 @@
 					</select>
 				</div>
 			{{/if}}
-
-			<div class="am-form-group">
-				<label>{{:MyLang('admin.form_item_status')}}<span class="am-form-group-label-tips-must">*</span></label>
-				<select name="status" class="am-radius chosen-select" data-validation-message="{{:MyLang('admin.form_item_status_message')}}" required>
-					{{foreach :MyLang('common_admin_status_list') as $v}}
-						<option value="{{$v.value}}" {{if isset($data['status']) and $data['status'] eq $v['value']}}selected{{else /}}{{if !isset($data['status']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>
-					{{/foreach}}
-				</select>
-			</div>
 
 			<!-- 插件扩展数据 start -->
 			{{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}

@@ -26,14 +26,14 @@
     {{if $module_data['pay_status'] eq 1 and $module_data['pay_price'] lt $module_data['total_price'] and !in_array($module_data['status'], [0,1,5,6])}}
         <p class="am-text-danger am-animation-shake am-animation-delay-1">
             <i class="am-icon-warning am-text-lg"></i>
-            <span class="am-text-sm">请注意、该订单支付金额小于总价金额</span>
+            <span class="am-text-sm">{{:MyLang('order.detail_payment_amount_less_tips')}}</span>
         </p>
         <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
     {{/if}}
     {{if $module_data['pay_status'] eq 0 and in_array($module_data['status'], [2,3,4])}}
         <p class="am-text-danger am-animation-shake am-animation-delay-1">
             <i class="am-icon-warning am-text-lg"></i>
-            <span class="am-text-sm">请注意、该订单还未支付</span>
+            <span class="am-text-sm">{{:MyLang('order.detail_no_payment_tips')}}</span>
         </p>
         <hr data-am-widget="divider" class="am-divider am-divider-dashed" />
     {{/if}}
@@ -128,7 +128,7 @@
                     <span>{{$module_data.currency_data.currency_symbol}}{{$item.price}}x{{$item.buy_number}}</span>
                     <div class="am-fr">
                         {{if $item['returned_quantity'] gt 0 or $item['refund_price'] gt 0}}
-                            <span class="am-text-danger am-margin-left-lg">已退 {{$item.returned_quantity}} / {{$module_data.currency_data.currency_symbol}}{{$item.refund_price}}</span>
+                            <span class="am-text-danger am-margin-left-lg">{{:MyLang('already_retreat_title')}} {{$item.returned_quantity}} / {{$module_data.currency_data.currency_symbol}}{{$item.refund_price}}</span>
                         {{/if}}
                     </div>
                 </div>

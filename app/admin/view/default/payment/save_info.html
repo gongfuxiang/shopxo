@@ -6,19 +6,19 @@
 		<!-- form start -->
 		<form class="am-form form-validation" action="{{:MyUrl('admin/payment/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/payment/index')}}" enctype="multipart/form-data">
 			<legend>
-				<span class="am-text-default">支付方式{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
+				<span class="am-text-default">{{:MyLang('payment.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
 				<a href="{{:MyUrl('admin/payment/index')}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
 			</legend>
 			{{if empty($data)}}
 					{{include file="public/not_data" /}}
 			{{else /}}
 				<div class="am-form-group">
-					<label>名称<span class="am-form-group-label-tips-must">*</span></label>
-					<input type="text" name="name" placeholder="名称" minlength="2" maxlength="60" data-validation-message="名称格式 2~30 个字符" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+					<label>{{:MyLang('payment.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+					<input type="text" name="name" placeholder="{{:MyLang('payment.form_item_name_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('payment.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
 				</div>
 				<div class="am-form-group">
-					<label>适用终端<span class="am-form-group-label-tips-must">*</span></label>
-				    <select name="apply_terminal" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="至少选择一个适用终端" required>
+					<label>{{:MyLang('payment.form_item_apply_terminal')}}<span class="am-form-group-label-tips-must">*</span></label>
+				    <select name="apply_terminal" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('payment.form_item_apply_terminal_message')}}" required>
 						{{foreach $common_platform_type as $v}}
 							{{if isset($data) and isset($data['apply_terminal_old']) and is_array($data['apply_terminal_old']) and in_array($v['value'], $data['apply_terminal_old'])}}
 								<option value="{{$v.value}}" {{if isset($data['apply_terminal']) and in_array($v['value'], $data['apply_terminal'])}}selected{{/if}}>{{$v.name}}</option>
@@ -28,7 +28,7 @@
 				</div>
 
 				<div class="am-form-group am-form-file">
-					<label class="am-block">LOGO</label>
+					<label class="am-block">{{:MyLang('payment.form_item_logo')}}</label>
 					<ul class="plug-file-upload-view logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
 						{{if !empty($data['logo'])}}
 							<li>
@@ -44,7 +44,7 @@
 				<!-- plugins config start -->
 				{{if !empty($data['element'])}}
 					<div class="am-alert am-alert-secondary">
-						<label class="am-text-sm am-text-warning">该区域为插件配置填写项，请按照插件文档填写相应的值</label>
+						<label class="am-text-sm am-text-warning">{{:MyLang('plugins_view_region_config_tips')}}</label>
 						{{foreach $data.element as $element}}
 							<div class="am-form-group">
 								{{if !empty($element['title'])}}
@@ -148,20 +148,13 @@
 				{{/if}}
 				<!-- plugins config end -->
 
+				{{include file="lib/sort" /}}
 				<div class="am-form-group">
-					<label>{{:MyLang('form_sort_title')}}</label>
-					<input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
-				</div>
-
-				<div class="am-form-group">
-				    <label class="am-block">用户开放</label>
+				    <label class="am-block">{{:MyLang('payment.form_item_is_open_user')}}</label>
 				    <input name="is_open_user" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_open_user']) and $data['is_open_user'] eq 1) or !isset($data['is_open_user'])}}checked="true"{{/if}} />
 				</div>
 
-				<div class="am-form-group">
-				    <label class="am-block">{{:MyLang('form_is_enable_title')}}</label>
-				    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_enable']) and $data['is_enable'] eq 1) or !isset($data['is_enable'])}}checked="true"{{/if}} />
-				</div>
+				{{include file="lib/is_enable" /}}
 				<div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
 					<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
 					<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>

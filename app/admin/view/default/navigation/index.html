@@ -12,31 +12,13 @@
 	<div class="am-dropdown am-margin-right-sm" data-am-dropdown>
 		<button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-dropdown-toggle" data-am-dropdown-toggle>{{:MyLang('add_title')}} <span class="am-icon-caret-down"></span></button>
 		<ul class="am-dropdown-content">
-			<li>
-                <a href="javascript:;" class="am-padding-0">
-    				<button type="button" class="am-btn am-btn-link am-btn-xs am-btn-block am-text-left am-padding-horizontal-sm am-icon-plus submit-add" data-am-modal="{target: '#nav-custom-save-win'}" data-tag="nav-custom-save-win"> 自定义</button>
-                </a>
-			</li>
-			<li>
-                <a href="javascript:;" class="am-padding-0">
-    			    <button type="button" class="am-btn am-btn-link am-btn-xs am-btn-block am-text-left am-padding-horizontal-sm am-icon-plus submit-add" data-am-modal="{target: '#nav-article-save-win'}" data-tag="nav-article-save-win"> 文章</button>
-                </a>
-			</li>
-			<li>
-                <a href="javascript:;" class="am-padding-0">
-    			    <button type="button" class="am-btn am-btn-link am-btn-xs am-btn-block am-text-left am-padding-horizontal-sm am-icon-plus submit-add" data-am-modal="{target: '#nav-customview-save-win'}" data-tag="nav-customview-save-win"> 自定义页面</button>
-                </a>
-			 </li>
-			<li>
-                <a href="javascript:;" class="am-padding-0">
-    			    <button type="button" class="am-btn am-btn-link am-btn-xs am-btn-block am-text-left am-padding-horizontal-sm am-icon-plus submit-add" data-am-modal="{target: '#nav-goods_category-save-win'}" data-tag="nav-goods_category-save-win"> 商品分类</button>
-                </a>
-			</li>
-            <li>
-                <a href="javascript:;" class="am-padding-0">
-                    <button type="button" class="am-btn am-btn-link am-btn-xs am-btn-block am-text-left am-padding-horizontal-sm am-icon-plus submit-add" data-am-modal="{target: '#nav-design-save-win'}" data-tag="nav-design-save-win"> 页面设计</button>
-                </a>
-            </li>
+            {{foreach $add_type_list as $k=>$v}}
+    			<li>
+                    <a href="javascript:;" class="am-padding-0">
+        				<button type="button" class="am-btn am-btn-link am-btn-xs am-btn-block am-text-left am-padding-horizontal-sm am-icon-plus submit-add" data-am-modal="{target: '#nav-{{$k}}-save-win'}" data-tag="nav-{{$k}}-save-win"> {{$v}}</button>
+                    </a>
+    			</li>
+            {{/foreach}}
 		</ul>
 	</div>
 
@@ -50,33 +32,30 @@
     <div class="am-popup am-radius" id="nav-custom-save-win">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title" data-add-title="自定义导航添加" data-edit-title="自定义导航编辑">自定义导航添加</h4>
+                <h4 class="am-popup-title" data-add-title="{{$add_type_list.custom}}{{:MyLang('add_title')}}" data-edit-title="{{$add_type_list.custom}}{{:MyLang('edit_title')}}">{{$add_type_list.custom}}{{:MyLang('add_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
                 <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
                     <div class="am-form-group">
-                        <label>导航级别</label>
-                        <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
-                            <option value="">一级栏目...</option>
+                        <label>{{:MyLang('navigation.form_item_pid')}}</label>
+                        <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('navigation.form_item_pid_message')}}">
+                            <option value="">{{:MyLang('navigation.form_item_pid_placeholder')}}</option>
                             {{foreach $nav_header_pid_list as $v}}
                                 <option value="{{$v.id}}">{{$v.name}}</option>
                             {{/foreach}}
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>导航名称<span class="am-form-group-label-tips-must">*</span></label>
-                        <input type="text" placeholder="导航名称" name="name" minlength="2" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" required />
+                        <label>{{:MyLang('navigation.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <input type="text" placeholder="{{:MyLang('navigation.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('navigation.form_item_name_message')}}" class="am-radius" required />
                     </div>
                     <div class="am-form-group">
-                        <label>url地址<span class="am-form-group-label-tips-must">*</span></label>
-                        <input type="url" placeholder="url地址、以http://或https://开头" name="url"  data-validation-message="url格式有误" class="am-radius" required />
+                        <label>{{:MyLang('navigation.form_item_url')}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <input type="url" placeholder="{{:MyLang('navigation.form_item_url_placeholder')}}" name="url" data-validation-message="{{:MyLang('navigation.form_item_url_message')}}" class="am-radius" required />
                     </div>
-                    <div class="am-form-group">
-                        <label>{{:MyLang('form_sort_title')}}</label>
-                        <input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
-                    </div>
+                    {{include file="lib/sort" /}}
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
                     <div class="am-form-popup-submit">
@@ -96,24 +75,24 @@
     <div class="am-popup am-radius" id="nav-article-save-win">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title" data-add-title="文章导航添加" data-edit-title="文章导航编辑">文章导航添加</h4>
+                <h4 class="am-popup-title" data-add-title="{{$add_type_list.article}}{{:MyLang('add_title')}}" data-edit-title="{{$add_type_list.article}}{{:MyLang('edit_title')}}">{{$add_type_list.article}}{{:MyLang('add_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
                 <form class="am-form form-validation-article am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
                     <div class="am-form-group">
-                        <label>导航级别</label>
-                        <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
-                            <option value="">一级栏目...</option>
+                        <label>{{:MyLang('navigation.form_item_pid')}}</label>
+                        <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('navigation.form_item_pid_message')}}">
+                            <option value="">{{:MyLang('navigation.form_item_pid_placeholder')}}</option>
                             {{foreach $nav_header_pid_list as $v}}
                                 <option value="{{$v.id}}">{{$v.name}}</option>
                             {{/foreach}}
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>文章<span class="am-form-group-label-tips-must">*</span></label>
-                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="文章选择有误" required>
+                        <label>{{$add_type_list.article}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('navigation.form_item_value_article_message')}}" required>
                             <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $article_list as $v}}
                                 <optgroup label="{{$v.name}}">
@@ -127,13 +106,10 @@
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>导航名称<span class="am-form-group-label-tips">默认文章名称</span></label>
-                        <input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
+                        <label>{{:MyLang('navigation.form_item_name')}}<span class="am-form-group-label-tips">{{:MyLang('navigation.form_item_name_tips', ['type'=>$add_type_list['article']])}}</span></label>
+                        <input type="text" placeholder="{{:MyLang('navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    <div class="am-form-group">
-                        <label>{{:MyLang('form_sort_title')}}</label>
-                        <input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
-                    </div>
+                    {{include file="lib/sort" /}}
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
                     <div class="am-form-popup-submit">
@@ -153,7 +129,7 @@
     <div class="am-popup am-radius" id="nav-customview-save-win">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title" data-add-title="自定义页面导航添加" data-edit-title="自定义页面导航编辑">自定义页面导航添加</h4>
+                <h4 class="am-popup-title" data-add-title="{{$add_type_list.customview}}{{:MyLang('add_title')}}" data-edit-title="{{$add_type_list.customview}}{{:MyLang('edit_title')}}">{{$add_type_list.customview}}{{:MyLang('add_title')}}</h4>
                 <span data-am-modal-close
                 class="am-close">&times;</span>
                 </div>
@@ -161,17 +137,17 @@
                 <!-- form start -->
                 <form class="am-form form-validation-customview am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
                     <div class="am-form-group">
-                        <label>导航级别</label>
-                        <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
-                            <option value="">一级栏目...</option>
+                        <label>{{:MyLang('navigation.form_item_pid')}}</label>
+                        <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('navigation.form_item_pid_message')}}">
+                            <option value="">{{:MyLang('navigation.form_item_pid_placeholder')}}</option>
                             {{foreach $nav_header_pid_list as $v}}
                                 <option value="{{$v.id}}">{{$v.name}}</option>
                             {{/foreach}}
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>自定义页面<span class="am-form-group-label-tips-must">*</span></label>
-                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="自定义页面选择有误" required>
+                        <label>{{$add_type_list.customview}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('navigation.form_item_value_customview_message')}}" required>
                             <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $customview_list as $v}}
                                 <option value="{{$v.id}}">{{$v.title}}</option>
@@ -179,13 +155,10 @@
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>导航名称<span class="am-form-group-label-tips">默认自定义页面名称</span></label>
-                        <input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
+                        <label>{{:MyLang('navigation.form_item_name')}}<span class="am-form-group-label-tips">{{:MyLang('navigation.form_item_name_tips', ['type'=>$add_type_list['customview']])}}</span></label>
+                        <input type="text" placeholder="{{:MyLang('navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    <div class="am-form-group">
-                        <label>{{:MyLang('form_sort_title')}}</label>
-                        <input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
-                    </div>
+                    {{include file="lib/sort" /}}
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
                     <div class="am-form-popup-submit">
@@ -205,24 +178,24 @@
     <div class="am-popup am-radius" id="nav-goods_category-save-win">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title" data-add-title="商品分类导航添加" data-edit-title="商品分类导航编辑">商品分类导航添加</h4>
+                <h4 class="am-popup-title" data-add-title="{{$add_type_list.goods_category}}{{:MyLang('add_title')}}" data-edit-title="{{$add_type_list.goods_category}}{{:MyLang('edit_title')}}">{{$add_type_list.goods_category}}{{:MyLang('add_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
                 <form class="am-form form-validation-goods_category am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
                     <div class="am-form-group">
-                        <label>导航级别</label>
-                        <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
-                            <option value="">一级栏目...</option>
+                        <label>{{:MyLang('navigation.form_item_pid')}}</label>
+                        <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('navigation.form_item_pid_message')}}">
+                            <option value="">{{:MyLang('navigation.form_item_pid_placeholder')}}</option>
                             {{foreach $nav_header_pid_list as $v}}
                                 <option value="{{$v.id}}">{{$v.name}}</option>
                             {{/foreach}}
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>商品分类<span class="am-form-group-label-tips-must">*</span></label>
-                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="商品分类选择有误" required>
+                        <label>{{$add_type_list.goods_category}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('navigation.form_item_value_goods_category_message')}}" required>
                             <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $goods_category_list as $v}}
                                 <option value="{{$v.id}}" {{if !empty($data['category_ids']) and in_array($v['id'], $data['category_ids'])}}selected{{/if}}>{{$v.name}}</option>
@@ -240,13 +213,10 @@
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>导航名称<span class="am-form-group-label-tips">默认商品分类名称</span></label>
-                        <input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
+                        <label>{{:MyLang('navigation.form_item_name')}}<span class="am-form-group-label-tips">{{:MyLang('navigation.form_item_name_tips', ['type'=>$add_type_list['goods_category']])}}</span></label>
+                        <input type="text" placeholder="{{:MyLang('navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    <div class="am-form-group">
-                        <label>{{:MyLang('form_sort_title')}}</label>
-                        <input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
-                    </div>
+                    {{include file="lib/sort" /}}
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
                     <div class="am-form-popup-submit">
@@ -266,24 +236,24 @@
     <div class="am-popup am-radius" id="nav-design-save-win">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title" data-add-title="页面设计导航添加" data-edit-title="页面设计导航编辑">页面设计导航添加</h4>
+                <h4 class="am-popup-title" data-add-title="{{$add_type_list.design}}{{:MyLang('add_title')}}" data-edit-title="{{$add_type_list.design}}{{:MyLang('edit_title')}}">{{$add_type_list.design}}{{:MyLang('add_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
                 <!-- form start -->
                 <form class="am-form form-validation-design am-form-popup-fixed" action="{{:MyUrl('admin/navigation/save')}}" method="POST" request-type="ajax-reload" request-value="">
                     <div class="am-form-group">
-                        <label>导航级别</label>
-                        <select class="am-radius chosen-select" name="pid" data-placeholder="一级栏目..." data-placeholder="一级栏目..." data-validation-message="导航级别选择错误">
-                            <option value="">一级栏目...</option>
+                        <label>{{:MyLang('navigation.form_item_pid')}}</label>
+                        <select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('navigation.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('navigation.form_item_pid_message')}}">
+                            <option value="">{{:MyLang('navigation.form_item_pid_placeholder')}}</option>
                             {{foreach $nav_header_pid_list as $v}}
                                 <option value="{{$v.id}}">{{$v.name}}</option>
                             {{/foreach}}
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>页面设计<span class="am-form-group-label-tips-must">*</span></label>
-                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="页面设计选择有误" required>
+                        <label>{{$add_type_list.design}}<span class="am-form-group-label-tips-must">*</span></label>
+                        <select class="am-radius chosen-select" name="value" data-placeholder="{{:MyLang('please_select_tips')}}" data-validation-message="{{:MyLang('navigation.form_item_value_design_message')}}" required>
                             <option value="">{{:MyLang('please_select_tips')}}</option>
                             {{foreach $design_list as $v}}
                                 <option value="{{$v.id}}">{{$v.name}}</option>
@@ -291,13 +261,10 @@
                         </select>
                     </div>
                     <div class="am-form-group">
-                        <label>导航名称<span class="am-form-group-label-tips">默认页面设计名称</span></label>
-                        <input type="text" placeholder="导航名称" name="name" maxlength="16" data-validation-message="导航名称格式 2~16 个字符" class="am-radius" />
+                        <label>{{:MyLang('navigation.form_item_name')}}<span class="am-form-group-label-tips">{{:MyLang('navigation.form_item_name_tips', ['type'=>$add_type_list['design']])}}</span></label>
+                        <input type="text" placeholder="{{:MyLang('navigation.form_item_name_message')}}" name="name" maxlength="16" data-validation-message="{{:MyLang('navigation.form_item_name_message')}}" class="am-radius" />
                     </div>
-                    <div class="am-form-group">
-                        <label>{{:MyLang('form_sort_title')}}</label>
-                        <input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
-                    </div>
+                    {{include file="lib/sort" /}}
                     {{include file="lib/is_show" /}}
                     {{include file="lib/is_new_window_open" /}}
                     <div class="am-form-popup-submit">

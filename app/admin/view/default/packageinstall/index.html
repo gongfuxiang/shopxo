@@ -7,7 +7,7 @@
         <p>
             <i class="am-icon-spinner am-icon-pulse am-icon-lg"></i>
         </p>
-        <p class="msg-text am-margin-top-sm">正在获取中...</p>
+        <p class="msg-text am-margin-top-sm">{{:MyLang('packageinstall.get_loading_tips')}}</p>
     </div>
 
     <!-- 安装成功  -->
@@ -15,17 +15,17 @@
         <p>
             <i class="am-icon-check-circle am-icon-lg am-text-success"></i>
         </p>
-        <p class="msg-text am-margin-top-sm">安装成功</p>
-        <a class="am-btn am-btn-secondary am-btn-xs am-radius am-margin-top-lg" href="{{$data.admin_url}}">返回后台</a>
+        <p class="msg-text am-margin-top-sm">{{:MyLang('install_success')}}</p>
+        <a class="am-btn am-btn-secondary am-btn-xs am-radius am-margin-top-lg" href="{{$data.admin_url}}">{{:MyLang('packageinstall.back_admin_title')}}</a>
     </div>
 
     <!-- 错误提示  -->
     <div class="table-no error-container am-hide">
         <p>
             <i class="am-icon-warning am-text-danger"></i>
-            <span class="msg-text am-margin-left-xs am-text-danger">异常错误</span>
+            <span class="msg-text am-margin-left-xs am-text-danger">{{:MyLang('error')}}</span>
         </p>
-        <a class="am-btn am-btn-secondary am-btn-xs am-radius am-margin-top-lg" href="{{$data.admin_url}}">返回后台</a>
+        <a class="am-btn am-btn-secondary am-btn-xs am-radius am-margin-top-lg" href="{{$data.admin_url}}">{{:MyLang('packageinstall.back_admin_title')}}</a>
     </div>
 </div>
 <!-- content end  -->

@@ -47,8 +47,9 @@ $(function()
             // 添加快捷导航
             if($('.header-menu-open-pages-list ul li.nav-item-key-'+key).length == 0)
             {
+                var name = $(this).data('node-name') || $(this).find('.nav-name').text();
                 var html = '<li data-url="'+url+'" data-key="'+key+'" class="nav-item-key-'+key+'">';
-                    html += '<span>'+$(this).find('.nav-name').text()+'</span>';
+                    html += '<span>'+name+'</span>';
                     html += '<a href="javascript:;" class="am-icon-close"></a>';
                     html += '</li>';
                 $('.header-menu-open-pages-list ul').append(html);

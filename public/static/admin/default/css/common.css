@@ -211,6 +211,8 @@ table.am-table .am-operate-grid .am-btn {
     padding: 2px 5px;
     width: auto;
     border: 0px !important;
+    display: block;
+    width: 50%;
 }
 table.am-table .am-operate-grid .am-btn:nth-child(2) {
     margin-top: 0;
@@ -302,20 +304,20 @@ table.am-table .am-dropdown.am-active .am-selected-btn.am-btn-default.am-dropdow
  */
 #store-accounts-popup {
     width: 360px;
-    height: 350px;
+    height: 370px;
     left: 50%;
     top: 50%;
 }
 @media (min-width: 630px) {
     #store-accounts-popup {
         margin-left: -180px;
-        margin-top: -175px;
+        margin-top: -185px;
     }
 }
 @media only screen and (max-width: 641px) {
     #store-accounts-popup {
         left: calc(50% - 180px);
-        top: calc(50% - 175px);
+        top: calc(50% - 185px);
     }
 }
 

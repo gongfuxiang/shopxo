@@ -1637,7 +1637,7 @@ form .am-tab-panel .am-form-group:last-child {
  * 公共底部浮动
  */
 form.am-form-popup-fixed {
-    padding-bottom: 100px;
+    padding-bottom: 80px;
 }
 form.am-form-popup-fixed .am-form-popup-submit {
     position: fixed;
@@ -1653,6 +1653,7 @@ form.am-form-popup-fixed .am-form-popup-submit {
 .am-popup.popup-not-title form.am-form-popup-fixed .am-form-popup-submit {
     width: calc(100% - 50px);
     margin-left: 25px;
+    bottom: 20px;
 }
 
 /**

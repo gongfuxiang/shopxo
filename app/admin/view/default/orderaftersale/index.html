@@ -7,12 +7,12 @@
     <div class="am-popup" id="order-audit-popup">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title">审核操作</h4>
+                <h4 class="am-popup-title">{{:MyLang('orderaftersale.form_audit_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
                 <dl class="dl-content">
-                    <dt>用户信息</dt>
+                    <dt>{{:MyLang('orderaftersale.form_user_info_title')}}</dt>
                     <dd class="user-info">
                        <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0 am-fl" width="35" height="35" />
                         <ul class="user-base">
@@ -22,31 +22,31 @@
                             <li class="email">{{:MyLang('user_email_title')}}：<span>...</span></li>
                         </ul>
                     </dd>
-                    <dt>申请信息</dt>
+                    <dt>{{:MyLang('orderaftersale.form_apply_info_title')}}</dt>
                     <dd class="apply-info">
                         <ul>
-                            <li class="type">类型：<span>...</span></li>
-                            <li class="reason">原因：<span>...</span></li>
-                            <li class="number">数量：<span>...</span></li>
-                            <li class="price">金额：<span class="am-text-warning">...</span></li>
-                            <li class="msg">说明：<span>...</span></li>
+                            <li class="type">{{:MyLang('orderaftersale.forn_apply_info_type')}}：<span>...</span></li>
+                            <li class="reason">{{:MyLang('orderaftersale.forn_apply_info_reason')}}：<span>...</span></li>
+                            <li class="number">{{:MyLang('orderaftersale.forn_apply_info_number')}}：<span>...</span></li>
+                            <li class="price">{{:MyLang('orderaftersale.forn_apply_info_price')}}：<span class="am-text-warning">...</span></li>
+                            <li class="msg">{{:MyLang('orderaftersale.forn_apply_info_msg')}}：<span>...</span></li>
                         </ul>
                     </dd>
                 </dl>
 
-                <form class="am-form form-validation-audit" action="{{:MyUrl('admin/orderaftersale/audit')}}" method="POST" request-type="ajax-reload">
+                <form class="am-form form-validation-audit am-form-popup-fixed" action="{{:MyUrl('admin/orderaftersale/audit')}}" method="POST" request-type="ajax-reload">
                     <div class="am-form-group reply-submit am-form-group-refreshing">
-                        <label class="am-block">退款方式</label>
+                        <label class="am-block">{{:MyLang('orderaftersale.form_item_refundment')}}</label>
                         {{if !empty($common_order_aftersale_refundment_list)}}
                             {{foreach $common_order_aftersale_refundment_list as $v}}
                                 <label class="am-radio-inline am-success">
-                                    <input type="radio" name="refundment" value="{{$v.value}}" data-am-ucheck data-validation-message="请选择退款方式" required /> {{$v.name}}
+                                    <input type="radio" name="refundment" value="{{$v.value}}" data-am-ucheck data-validation-message="{{:MyLang('orderaftersale.form_item_refundment_message')}}" required /> {{$v.name}}
                                 </label>
                             {{/foreach}}
                         {{/if}}
                     </div>
 
-                    <div class="am-form-group reply-submit am-form-group-refreshing am-margin-top-sm">
+                    <div class="am-form-popup-submit">
                         <input type="hidden" name="id" value="" />
                         <button type="submit" class="am-btn am-btn-primary am-radius am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
                     </div>
@@ -59,12 +59,12 @@
     <div class="am-popup" id="order-refuse-popup">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title">拒绝操作</h4>
+                <h4 class="am-popup-title">{{:MyLang('orderaftersale.form_refuse_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
                 <dl class="dl-content">
-                    <dt>用户信息</dt>
+                    <dt>{{:MyLang('orderaftersale.form_user_info_title')}}</dt>
                     <dd class="user-info">
                         <img src="{{$attachment_host}}/static/common/images/user-img-sm.gif" class="am-img-thumbnail am-radius am-align-left am-margin-right-xs am-margin-bottom-0 am-fl" width="35" height="35" />
                         <ul class="user-base">
@@ -74,25 +74,25 @@
                             <li class="email">{{:MyLang('user_email_title')}}：<span>...</span></li>
                         </ul>
                     </dd>
-                    <dt>申请信息</dt>
+                    <dt>{{:MyLang('orderaftersale.form_apply_info_title')}}</dt>
                     <dd class="apply-info">
                         <ul>
-                            <li class="type">类型：<span>...</span></li>
-                            <li class="reason">原因：<span>...</span></li>
-                            <li class="number">数量：<span>...</span></li>
-                            <li class="price">金额：<span class="am-text-warning">...</span></li>
-                            <li class="msg">说明：<span>...</span></li>
+                            <li class="type">{{:MyLang('orderaftersale.forn_apply_info_type')}}：<span>...</span></li>
+                            <li class="reason">{{:MyLang('orderaftersale.forn_apply_info_reason')}}：<span>...</span></li>
+                            <li class="number">{{:MyLang('orderaftersale.forn_apply_info_number')}}：<span>...</span></li>
+                            <li class="price">{{:MyLang('orderaftersale.forn_apply_info_price')}}：<span class="am-text-warning">...</span></li>
+                            <li class="msg">{{:MyLang('orderaftersale.forn_apply_info_msg')}}：<span>...</span></li>
                         </ul>
                     </dd>
                 </dl>
 
-                <form class="am-form form-validation-refuse" action="{{:MyUrl('admin/orderaftersale/refuse')}}" method="POST" request-type="ajax-reload">
+                <form class="am-form form-validation-refuse am-form-popup-fixed" action="{{:MyUrl('admin/orderaftersale/refuse')}}" method="POST" request-type="ajax-reload">
                     <div class="am-form-group reply-submit am-form-group-refreshing">
-                        <label>拒绝原因</label>
-                        <textarea name="refuse_reason" rows="5" class="am-radius" placeholder="拒绝原因格式 2~230 个字符" data-validation-message="拒绝原因格式 2~230 个字符" minlength="2" maxlength="230" required></textarea>
+                        <label>{{:MyLang('orderaftersale.form_item_refuse_reason')}}</label>
+                        <textarea name="refuse_reason" rows="5" class="am-radius" placeholder="{{:MyLang('orderaftersale.form_item_refuse_reason_message')}}" data-validation-message="{{:MyLang('orderaftersale.form_item_refuse_reason_message')}}" minlength="2" maxlength="230" required></textarea>
                     </div>
 
-                    <div class="am-form-group reply-submit am-form-group-refreshing am-margin-top-sm">
+                    <div class="am-form-popup-submit">
                         <input type="hidden" name="id" value="" />
                         <button type="submit" class="am-btn am-btn-danger am-radius am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
                     </div>

@@ -1,8 +1,8 @@
 <ul class="am-nav am-nav-pills table-nav">
     {{if !empty($base_nav)}}
         {{foreach $base_nav as $v}}
-            <li {{if $view_type eq $v['view_type']}}class="am-active"{{/if}}>
-                <a href="{{:MyUrl('admin/appmini/index', ['nav_type'=>$nav_type, 'view_type'=>$v['view_type']])}}">{{$v.name}}</a>
+            <li {{if $view_type eq $v['type']}}class="am-active"{{/if}}>
+                <a href="{{:MyUrl('admin/appmini/index', ['nav_type'=>$nav_type, 'view_type'=>$v['type']])}}">{{$v.name}}</a>
             </li>
         {{/foreach}}
     {{/if}}

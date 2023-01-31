@@ -32,24 +32,50 @@ return [
             'upgrade_version_name'              => '更新版本：',
             'upgrade_date_name'                 => '更新日期：',
         ],
-    ],
-
-    // 订单管理
-    'order'                 => [
-        // 页面公共
-        'page_common'           => [
-            'order_id_empty'                    => '订单id有误',
-            'express_choice_tips'               => '请选择快递方式',
-            'payment_choice_tips'               => '请选择支付方式',
-        ],
-    ],
-
-    // 插件管理
-    'pluginsadmin'          => [
-        // 页面公共
-        'page_common'           => [
-            'not_enable_tips'                   => '请先点击勾勾启用',
-            'save_no_data_tips'                 => '没有可保存的插件数据',
+        // 页面基础
+        'base_update_button_title'              => '立即更新',
+        'base_item_base_stats_title'            => '商城统计',
+        'base_item_base_stats_tips'             => '时间筛选仅对总数有效',
+        'base_item_user_title'                  => '用户总量',
+        'base_item_order_number_title'          => '订单总量',
+        'base_item_order_complete_number_title' => '成交总量',
+        'base_item_order_complete_title'        => '订单总计',
+        'base_item_last_month_title'            => '上月',
+        'base_item_same_month_title'            => '当月',
+        'base_item_yesterday_title'             => '昨日',
+        'base_item_today_title'                 => '今日',
+        'base_item_order_profit_title'          => '订单成交金额走势',
+        'base_item_order_trading_title'         => '订单交易走势',
+        'base_item_order_tips'                  => '所有订单',
+        'base_item_hot_sales_goods_title'       => '热销商品',
+        'base_item_hot_sales_goods_tips'        => '不含取消关闭的订单',
+        'base_item_payment_type_title'          => '支付方式',
+        'base_item_map_whole_country_title'     => '订单地域分布',
+        'base_item_map_whole_country_tips'      => '不含取消关闭的订单、默认维度（省）',
+        'base_item_map_whole_country_province'  => '省',
+        'base_item_map_whole_country_city'      => '市',
+        'base_item_map_whole_country_county'    => '区/县',
+        'system_info_title'                     => '系统信息',
+        'system_ver_title'                      => '软件版本',
+        'system_os_ver_title'                   => '操作系统',
+        'system_php_ver_title'                  => 'PHP版本',
+        'system_mysql_ver_title'                => 'MySQL版本',
+        'system_server_ver_title'               => '服务器端信息',
+        'system_host_title'                     => '当前域名',
+        'development_team_title'                => '开发团队',
+        'development_team_website_title'        => '公司官网',
+        'development_team_website_value'        => '上海纵之格科技有限公司',
+        'development_team_support_title'        => '技术支持',
+        'development_team_support_value'        => 'ShopXO企业级电商系统提供商',
+        'development_team_ask_title'            => '交流提问',
+        'development_team_ask_value'            => 'ShopXO交流提问',
+        'development_team_agreement_title'      => '开源协议',
+        'development_team_agreement_value'      => '查看开源协议',
+        'development_team_update_log_title'     => '更新日志',
+        'development_team_update_log_value'     => '查看更新日志',
+        'development_team_members_title'        => '研发成员',
+        'development_team_members_value'        => [
+            ['name' => '龚哥哥', 'url' => 'http://gong.gg/']
         ],
     ],
 
@@ -85,6 +111,80 @@ return [
             ['name' => '优惠', 'type' => 'discount'],
             ['name' => '扩展', 'type' => 'extends'],
         ],
+        // 页面基础
+        'base_item_site_status_title'           => '站点状态',
+        'base_item_site_domain_title'           => '站点域名地址',
+        'base_item_site_filing_title'           => '备案信息',
+        'base_item_site_other_title'            => '其它',
+        'base_item_session_cache_title'         => 'Session缓存配置',
+        'base_item_data_cache_title'            => '数据缓存配置',
+        'base_item_redis_cache_title'           => 'redis缓存配置',
+        'base_item_crontab_config_title'        => '定时脚本配置',
+        'base_item_quick_nav_title'             => '快捷导航',
+        'base_item_user_address_title'          => '用户地址',
+        'base_item_site_auto_mode_title'        => '自动模式',
+        'base_item_site_manual_mode_title'      => '手动模式',
+        'base_item_default_payment_title'       => '默认支付方式',
+        'base_item_display_type_title'          => '展示型',
+        'base_item_self_extraction_title'       => '自提点',
+        'base_item_fictitious_title'            => '虚拟销售',
+        'choice_upload_logo_title'              => '选择logo',
+        'add_goods_title'                       => '商品添加',
+        'add_self_extractio_address_title'      => '添加地址',
+        'site_domain_tips_list'                 => [
+            '1. 站点域名未设置则使用当前站点域名域名地址[ '.__MY_DOMAIN__.' ]',
+            '2. 附件和静态地址未设置则使用当前站点静态域名地址[ '.__MY_PUBLIC_URL__.' ]',
+            '3. 如服务器端不是以public设为根目录的、则这里配置【附件cdn域名、css/js静态文件cdn域名】需要后面再加public、如：'.__MY_PUBLIC_URL__.'public/',
+            '4. 在命令行模式下运行项目，该区域地址必须配置、否则项目中一些地址会缺失域名信息',
+            '5. 请勿乱配置、错误地址会导致网站无法访问（地址配置以http开头）、如果自己站的配置了https则以https开头',
+        ],
+        'site_cache_tips_list'                  => [
+            '1. 默认使用的文件缓存、使用Redis缓存PHP需要先安装Redis扩展',
+            '2. 请确保Redis服务稳定性（Session使用缓存后、服务不稳定可能导致后台也无法登录）',
+            '3. 如遇到Redis服务异常无法登录管理后台、修改配置文件[ config ]目录下[ session.php,cache.php ]文件',
+        ],
+        'goods_tips_list'                       => [
+            '1. WEB端默认展示3级，最低1级、最高3级(如设置为0级则默认为3级)',
+            '2. 手机端默认展示0级(商品列表模式)、最低0级、最高3级(1~3为分类展示模式)',
+            '3. 层级不一样、前端分类页样式也会不一样',
+        ],
+        'goods_auto_mode_max_count_tips_list'   => [
+            '1. 配置每个楼层最多展示多少个商品',
+            '2. 不建议将数量修改的太大、会导致PC端左侧空白区域太大',
+        ],
+        'goods_auto_mode_order_by_tips_list'    => [
+            '综合为：热度->销量->最新 进行 降序(desc)排序',
+        ],
+        'goods_manual_mode_max_tips_list'       => [
+            '1. 可点击商品标题拖拽排序、按照顺序展示',
+            '2. 不建议添加很多商品、会导致PC端左侧空白区域太大',
+        ],
+        'extends_crontab_tips'                  => '建议将脚本地址添加到linux定时任务定时请求即可（结果 sucs:0, fail:0 冒号后面则是处理的数据条数，sucs成功，fali失败）',
+        'left_images_random_tips'               => '左侧图片最多可上传3张图片、每次随机展示其中一张',
+        'background_color_tips'                 => '可自定义背景图片、默认底灰色',
+        'site_setup_layout_tips'                => '拖拽模式需要自行进入首页设计页面、请先保存选中配置后再',
+        'site_setup_layout_button_name'         => '去设计页面 >>',
+        'site_setup_goods_category_tips'        => '如需更多楼层展示，请先到 / 商品管理->商品分类、一级分类设置首页推荐',
+        'site_setup_goods_category_no_data_tips'=> '暂无数据，请先到 / 商品管理->商品分类、一级分类设置首页推荐',
+        'site_setup_order_default_payment_tips' => '可以设置不同平台对应的默认支付方式、请先在[ 网站管理 -> 支付方式 ]中安装好支付插件启用并对用户开放',
+        'site_setup_choice_payment_message'     => '请选择{:name}默认支付方式',
+        'sitetype_top_tips_list'                => [
+            '1. 快递、常规电商流程，用户选择收货地址下单支付 -> 商家发货 -> 确认收货 -> 订单完成',
+            '2. 展示型、仅展示产品，可发起咨询（不能下单）',
+            '3. 自提点、下单时选择自提货物地址，用户下单支付 -> 确认提货 -> 订单完成',
+            '4. 虚拟销售、常规电商流程，用户下单支付 -> 自动发货 -> 确认提货 -> 订单完成',
+        ],
+        // 添加自提地址表单
+        'form_take_address_logo'                => 'LOGO',
+        'form_take_address_logo_tips'           => '建议300*300px',
+        'form_take_address_alias'               => '别名',
+        'form_take_address_alias_message'       => '别名格式最多16个字符',
+        'form_take_address_name'                => '联系人',
+        'form_take_address_name_message'        => '联系人格式2~16个字符之间',
+        'form_take_address_tel'                 => '联系电话',
+        'form_take_address_tel_message'         => '请填写联系电话',
+        'form_take_address_address'             => '详细地址',
+        'form_take_address_address_message'     => '详细地址格式1~80个字符之间',
     ],
 
     // 后台配置信息
@@ -95,7 +195,6 @@ return [
             '2. 背景图片命名规则(1~50)、如 1.jpg',
         ],
         'map_type_tips'                         => '由于每一家的地图标准不一样、请勿随意切换地图、会导致地图坐标标注不准确的情况。',
-        'view_config_course_name'               => '查看配置教程',
         'apply_map_baidu_name'                  => '请到百度地图开放平台申请',
         'apply_map_amap_name'                   => '请到高德地图开放平台申请',
         'apply_map_tencent_name'                => '请到腾讯地图开放平台申请',
@@ -166,9 +265,6 @@ return [
         // 表单
         'form_item_title'                       => '名称',
         'form_item_title_message'               => '名称长度2~60个字符',
-        'form_item_is_header'                   => '是否含头部',
-        'form_item_is_footer'                   => '是否含尾部',
-        'form_item_is_full_screen'              => '是否满屏',
         'form_item_content_title'               => '内容',
         'form_item_content_placeholder'         => '内容格式10~105000个字符之间更多编辑功能请使用电脑访问',
         'form_item_content_message'             => '内容格式10~105000个字符之间',
@@ -185,9 +281,6 @@ return [
         // 表单
         'form_item_name'                        => '名称',
         'form_item_name_message'                => '名称长度2~16个字符',
-        'form_item_is_header'                   => '是否含头部',
-        'form_item_is_footer'                   => '是否含尾部',
-        'form_item_is_full_screen'              => '是否满屏',
         'form_logo_tips'                        => '建议大小300*300px',
     ],
 
@@ -273,9 +366,9 @@ return [
     'appmini'               => [
         // 基础导航
         'base_nav_list'                         => [
-            ['view_type' => 'index','name' => '当前主题'],
-            ['view_type' => 'upload','name' => '主题安装'],
-            ['view_type' => 'package','name' => '源码包下载'],
+            ['name' => '当前主题', 'type' => 'index'],
+            ['name' => '主题安装', 'type' => 'upload'],
+            ['name' => '源码包下载', 'type' => 'package'],
         ],
         'nav_store_theme_name'                  => '更多主题下载',
         'nav_theme_download_name'               => '查看小程序打包教程',
@@ -295,7 +388,6 @@ return [
             ['name' => '邮箱设置', 'type' => 'index'],
             ['name' => '消息模板', 'type' => 'message'],
         ],
-        'view_config_course_name'               => '查看配置教程',
         'top_tips'                              => '由于不同邮箱平台存在一些差异、配置也有所不同、具体以邮箱平台配置教程为准',
         // 基础
         'test_title'                            => '测试',
@@ -306,6 +398,11 @@ return [
         'form_item_test'                        => '测试接收的邮件地址',
         'form_item_test_tips'                   => '请先保存配置后，再进行测试',
         'form_item_test_button_title'           => '测试',
+    ],
+
+    // seo设置
+    'seo'                   => [
+        'top_tips'                              => '根据服务器环境[Nginx、Apache、IIS]不同配置相应的伪静态规则',
     ],
 
     // 商品
@@ -521,6 +618,142 @@ return [
         'form_item_content_message'             => '规格值格式1~1000个字符',
     ],
 
+    // 友情链接
+    'link'                  => [
+        'base_nav_title'                        => '友情链接',
+        // 表单
+        'form_item_name'                        => '名称',
+        'form_item_name_message'                => '名称格式2~16个字符',
+        'form_item_url'                         => '链接地址',
+        'form_item_url_placeholder'             => '链接地址、以http://或https://开头',
+        'form_item_url_message'                 => '链接地址格式有误',
+        'form_item_desc'                        => '描述',
+        'form_item_desc_message'                => '描述最多60个字符',
+    ],
+
+    // 导航管理
+    'navigation'            => [
+        // 基础导航
+        'base_nav_list'                         => [
+            ['name' => '中间导航', 'type' => 'header'],
+            ['name' => '底部导航', 'type' => 'footer'],
+        ],
+        // 添加类型列表
+        'base_add_type_list'                    => [
+            'custom'            => '自定义',
+            'article'           => '文章',
+            'customview'        => '自定义页面',
+            'goods_category'    => '商品分类',
+            'design'            => '页面设计',
+        ],
+        // 表单
+        'form_item_pid'                         => '导航级别',
+        'form_item_pid_placeholder'             => '一级栏目...',
+        'form_item_pid_message'                 => '请选择导航级别',
+        'form_item_name'                        => '导航名称',
+        'form_item_name_tips'                   => '默认{:type}名称',
+        'form_item_name_message'                => '导航名称格式2~16个字符',
+        'form_item_url'                         => 'url地址',
+        'form_item_url_placeholder'             => 'url地址、以http://或https://开头',
+        'form_item_url_message'                 => 'url地址格式有误',
+        'form_item_value_article_message'       => '文章选择有误',
+        'form_item_value_customview_message'    => '自定义页面选择有误',
+        'form_item_value_goods_category_message'=> '商品分类选择有误',
+        'form_item_value_design_message'        => '页面设计选择有误',
+    ],
+
+    // 订单管理
+    'order'                 => [
+        // 页面公共
+        'page_common'           => [
+            'order_id_empty'                    => '订单id有误',
+            'express_choice_tips'               => '请选择快递方式',
+            'payment_choice_tips'               => '请选择支付方式',
+        ],
+        // 页面基础
+        'form_delivery_title'                   => '发货操作',
+        'form_payment_title'                    => '支付操作',
+        'form_item_take'                        => '取货码',
+        'form_item_take_message'                => '请填写4位数取货码',
+        'form_item_express_number'              => '快递单号',
+        'form_item_express_number_message'      => '请填写快递单号',
+        // 地址
+        'detail_user_address_title'             => '收货地址',
+        'detail_user_address_name'              => '收件人',
+        'detail_user_address_tel'               => '收件电话',
+        'detail_user_address_value'             => '详细地址',
+        'detail_user_address_idcard'            => '身份证信息',
+        'detail_user_address_idcard_name'       => '姓名',
+        'detail_user_address_idcard_number'     => '姓名',
+        'detail_user_address_idcard_pic'        => '照片',
+        'detail_take_address_title'             => '取货地址',
+        'detail_take_address_contact'           => '联系信息',
+        'detail_take_address_value'             => '详细地址',
+        'detail_fictitious_title'               => '密钥信息',
+        // 订单售后
+        'detail_aftersale_status'               => '状态',
+        'detail_aftersale_type'                 => '类型',
+        'detail_aftersale_price'                => '金额',
+        'detail_aftersale_number'               => '数量',
+        'detail_aftersale_reason'               => '原因',
+        // 商品
+        'detail_goods_title'                    => '订单商品',
+        'detail_payment_amount_less_tips'       => '请注意、该订单支付金额小于总价金额',
+        'detail_no_payment_tips'                => '请注意、该订单还未支付',
+    ],
+
+    // 订单售后
+    'orderaftersale'        => [
+        'form_audit_title'                      => '审核操作',
+        'form_refuse_title'                     => '拒绝操作',
+        'form_user_info_title'                  => '用户信息',
+        'form_apply_info_title'                 => '申请信息',
+        'forn_apply_info_type'                  => '类型',
+        'forn_apply_info_price'                 => '金额',
+        'forn_apply_info_number'                => '数量',
+        'forn_apply_info_reason'                => '原因',
+        'forn_apply_info_msg'                   => '说明',
+        'form_item_refundment'                  => '退款方式',
+        'form_item_refundment_message'          => '请选择退款方式',
+        'form_item_refuse_reason'               => '拒绝原因',
+        'form_item_refuse_reason_message'       => '拒绝原因格式2~230个字符',
+    ],
+
+    // 支付方式
+    'payment'               => [
+        'base_nav_title'                        => '支付方式',
+        'upload_top_list_tips'                  => [
+            [
+                'name'  => '1. 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay'
+            ],
+            [
+                'name'  => '2. 类必须定义的方法',
+                'item'  => [
+                    '2.1. Config 配置方法',
+                    '2.2. Pay 支付方法',
+                    '2.3. Respond 回调方法',
+                    '2.4. Notify 异步回调方法（可选、未定义则调用Respond方法）',
+                    '2.5. Refund 退款方法（可选、未定义则不能发起原路退款）',
+                ],
+            ],
+            [
+                'name'  => '3. 可自定义输出内容方法',
+                'item'  => [
+                    '3.1. SuccessReturn 支付成功（可选）',
+                    '3.2. ErrorReturn 支付失败（可选）',
+                ],
+            ]
+        ],
+        'upload_top_tips_ps'                        => 'PS：以上条件不满足则无法查看插件，将插件放入.zip压缩包中上传、支持一个压缩中包含多个支付插件',
+        // 表单
+        'form_item_name'                        => '名称',
+        'form_item_name_message'                => '名称格式2~30个字符',
+        'form_item_apply_terminal'              => '适用终端',
+        'form_item_apply_terminal_message'      => '至少选择一个适用终端',
+        'form_item_logo'                        => 'LOGO',
+        'form_item_is_open_user'                => '用户开放',
+    ],
+
     // 快递
     'express'               => [
         'base_nav_title'                        => '快递',
@@ -554,8 +787,206 @@ return [
         'form_item_is_need_login'               => '是否需要登录',
     ],
 
+    // 支付日志
+    'paylog'                => [
+        'pay_request_title'                     => '支付请求日志',
+    ],
+
+    // 支付请求日志
+    'payrequestlog'         => [
+        'base_nav_title'                        => '支付请求日志',
+    ], 
+
+    // 插件调用
+    'plugins'               => [
+        'back_to_plugins_admin'                 => '返回到应用管理 >>'
+    ],
+
+    // 插件管理
+    'pluginsadmin'          => [
+        // 页面公共
+        'page_common'           => [
+            'not_enable_tips'                   => '请先点击勾勾启用',
+            'save_no_data_tips'                 => '没有可保存的插件数据',
+        ],
+        // 基础导航
+        'base_nav_title'                        => '应用',
+        'base_nav_list'                         => [
+            ['name' => '应用管理', 'type' => 'index'],
+            ['name' => '上传应用', 'type' => 'upload'],
+        ],
+        'base_nav_more_plugins_download_name'   => '更多插件下载',
+        // 基础页面
+        'base_search_input_placeholder'         => '请输入名称/描述',
+        'base_top_tips_one'                     => '列表排序方式[ 自定义排序 -> 最早安装 ]',
+        'base_top_tips_two'                     => '可点击拖动图标按钮调整插件调用和展示顺序',
+        'base_open_sort_title'                  => '开启排序',
+        'data_list_author_title'                => '作者',
+        'data_list_author_url_title'            => '主页',
+        'data_list_version_title'               => '版本',
+        'uninstall_confirm_tips'                => '卸载可能会丢失插件基础配置数据不可恢复、确认操作吗？',
+        'not_install_divide_title'              => '以下插件未安装',
+        'delete_plugins_text'                   => '1. 仅删除应用',
+        'delete_plugins_text_tips'              => '（仅删除应用代码，保留应用数据）',
+        'delete_plugins_data_text'              => '2. 删除应用并删除数据',
+        'delete_plugins_data_text_tips'         => '（将删除应用代码和应用数据）',
+        'delete_plugins_ps_tips'                => 'PS：以下操作后均不可恢复，请谨慎操作！',
+        'delete_plugins_button_name'            => '仅删除应用',
+        'delete_plugins_data_button_name'       => '删除应用和数据',
+        'cancel_delete_plugins_button_name'     => '再考虑一下',
+        'more_plugins_store_to_text'            => '去应用商店挑选更多插件丰富站点 >>',
+        'no_data_store_to_text'                 => '到应用商店挑选插件丰富站点 >>',
+        'plugins_no_data_tips'                  => '还没有相关应用',
+        // 表单
+        'form_item_upload_tips'                 => '上传一个zip压缩格式的应用安装包',
+        'form_create_error_tips'                => '请重新填写！',
+        'form_create_first_step_button_name'    => '下一步',
+        'form_item_plugins'                     => '应用唯一标记',
+        'form_item_plugins_tips'                => '以数字、字母小写、下划线',
+        'form_item_plugins_message'             => '应用唯一标记格式2~60个字符',
+        'form_item_logo'                        => 'LOGO',
+        'form_item_logo_tips'                   => '建议600*600px',
+        'form_item_name'                        => '名称',
+        'form_item_name_message'                => '名称格式2~30个字符',
+        'form_item_author'                      => '作者',
+        'form_item_author_message'              => '作者格式2~30个字符',
+        'form_item_author_url'                  => '作者主页',
+        'form_item_author_url_tips'             => '以http://或https://开头',
+        'form_item_author_url_message'          => '请填写作者主页',
+        'form_item_version'                     => '版本',
+        'form_item_version_tips'                => '主版本.次版本号.修订号，每个段不超过6位，如 1.0.0',
+        'form_item_version_message'             => '版本格式有误',
+        'form_item_desc'                        => '描述',
+        'form_item_desc_message'                => '描述内容格式2~60个字符',
+        'form_item_apply_terminal'              => '适用终端',
+        'form_item_apply_terminal_message'      => '至少选择一个适用终端',
+        'form_item_apply_version'               => '适用系统版本',
+        'form_item_apply_version_message'       => '至少选择一个适用系统版本',
+        'form_item_is_home'                     => '是否有前端入口',
+        'form_item_is_home_tips'                => '前端独立页面入口',
+    ],
+
+    // 安装页面
+    'packageinstall'        => [
+        'back_admin_title'                      => '返回后台',
+        'get_loading_tips'                      => '正在获取中...',
+    ],
+
+    // 角色管理
+    'role'                  => [
+        'base_nav_title'                        => '角色',
+        'admin_not_modify_tips'                 => '超级管理员默认拥有所有权限，不可更改。',
+        // 表单
+        'form_item_name'                        => '角色名称',
+        'form_item_name_message'                => '角色名称格式2~16个字符',
+        'form_item_menu'                        => '菜单权限',
+        'form_item_menu_no_data_tips'           => '无菜单数据',
+        'form_item_plugins'                     => '插件权限',
+        'form_item_plugins_tips'                => '插件还需在当前菜单权限中勾选[ 应用中心 -> 应用管理+应用调用管理 ]权限',
+        'form_item_plugins_no_data_tips'        => '无插件数据',
+    ],
+
+    // 权限管理
+    'power'                 => [
+        'base_nav_title'                        => '权限',
+        'top_tips_list'                         => [
+            '1. 非专业技术人员请勿操作该页面数据、操作失误可能会导致权限菜单错乱。',
+            '2. 权限菜单分为[ 使用、操作 ]两种类型，使用菜单一般开启显示，操作菜单必须隐藏。',
+            '3. 如果出现权限菜单错乱，可以重新覆盖[ '.MyConfig('database.connections.mysql.prefix').'power ]数据表的数据恢复。',
+            '4. [ 超级管理员、admin账户 ]默认拥有所有权限，不可更改。',
+        ],
+        'content_top_tips_list'                 => [
+            '1. 填写[ 控制器名称 和 方法名称 ]需要对应创建相应的控制器和方法的定义',
+            '2. 控制器文件位置[ app/admin/controller ]、该操作仅开发人员使用',
+            '3. 控制器名称/方法名称 与 自定义url地址、两者必须填写一个',
+        ],
+        // 表单
+        'form_item_pid'                         => '栏目级别',
+        'form_item_pid_placeholder'             => '一级栏目...',
+        'form_item_pid_message'                 => '栏目级别选择错误',
+        'form_item_name'                        => '权限名称',
+        'form_item_name_message'                => '权限名称格式2~16个字符',
+        'form_item_control'                     => '控制器名称',
+        'form_item_control_message'             => '控制器名格式1~30个字符之间（必须以字母开始，可以是字母数字下划线）',
+        'form_item_action'                      => '方法名称',
+        'form_item_action_message'              => '法名格式1~30个字符之间（必须以字母开始，可以是字母数字下划线）',
+        'form_item_url'                         => '自定义url地址',
+        'form_item_url_message'                 => '自定义url地址、以http://或https://开头',
+        'form_item_icon'                        => '图标class',
+        'form_item_icon_message'                => '图标格式最多30个字符',
+        'form_item_icon_tips_list'              => [
+            '1. 参考 http://www.iconfont.cn/ 将icon放到 [ /static/admin/default/css/iconfontmenu.css ] 文件中',
+            '2. 也可以直接使用框架自带的icon、参考 [ http://amazeui.shopxo.net/css/icon/ ]',
+            '3. 也可以自己使用插件钩子引入自定义的icon图标的css文件，然后使用定义好的icon',
+        ],
+    ],
+
+    // 快捷导航
+    'quicknav'              => [
+        'base_nav_title'                        => '快捷导航',
+        // 表单
+        'form_item_name'                        => '名称',
+        'form_item_name_message'                => '名称格式2~60个字符',
+        'form_item_images_url'                  => '导航图标',
+    ],
+
+    // 地区管理
+    'region'                => [
+        'base_nav_title'                        => '地区',
+        // 表单
+        'form_item_id'                          => '唯一编号',
+        'form_item_id_tips'                     => [
+            '1. 留空则系统自动生成',
+            '2. 不要随意修改、避免数据错乱',
+        ],
+        'form_item_id_message'                  => '请输入唯一编号',
+        'form_item_name'                        => '名称',
+        'form_item_name_message'                => '名称格式2~16个字符',
+        'form_item_lng'                         => '经度',
+        'form_item_lng_message'                 => '请填写经度',
+        'form_item_lat'                         => '纬度',
+        'form_item_lat_message'                 => '请填写纬度',
+        'form_item_letters'                     => '首字母',
+        'form_item_letters_message'             => '请填写首字母',
+    ],
+
+    // 筛选价格
+    'screeningprice'        => [
+        'base_nav_title'                        => '筛选价格',
+        'top_tips_list'                         => [
+            '最小价格0 - 最大价格100 则是小于100',
+            '最小价格1000 - 最大价格0 则是大于1000',
+            '最小价格100 - 最大价格500 则是大于等于100并且小于500',
+        ],
+        // 表单
+        'form_item_name'                        => '名称',
+        'form_item_name_message'                => '名称格式2~16个字符',
+        'form_item_min_price'                   => '最小价格',
+        'form_item_min_price_message'           => '最小价格有误',
+        'form_item_max_price'                   => '最大价格',
+        'form_item_max_price_message'           => '最大价格有误',
+    ],
+
     // 公共
     'common'                => [
+        // 公共
+        'admin_browser_title'                   => '后台管理系统',
+        'remove_cache_title'                    => '清除缓存',
+        'user_status_title'                     => '用户状态',
+        'user_status_message'                   => '请选择用户状态',
+        // 商店绑定
+        'store_check_update_name'               => '检查更新',
+        'store_bind_accounts_name'              => '绑定ShopXO商店账户',
+        'store_bind_accounts_tips'              => '绑定ShopXO应用商店帐号、获取插件最新版本信息、在线安装及更新',
+        'store_bind_authorized_subject_name'    => '授权主体',
+        'store_bind_form_accounts'              => '账号',
+        'store_bind_form_accounts_placeholder'  => '用户名/手机/邮箱',
+        'store_bind_form_accounts_message'      => '账号格式1~30个字符',
+        'store_bind_form_password'              => '密码',
+        'store_bind_form_password_placeholder'  => '登录密码',
+        'store_bind_form_password_message'      => '登录密码格式6~30个字符',
+        'store_bind_form_regster_name'          => '未有账号，去注册',
+        'store_bind_form_tips'                  => '一个账号支持绑定多台ShopXO商城',
         // 商品参数
         'form_goods_params_config_error_tips'   => '商品参数配置信息',
         'form_goods_params_copy_no_tips'        => '请先粘贴配置信息',

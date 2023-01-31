@@ -34,10 +34,8 @@ class Express extends Base
 	public function Index()
 	{
 		$assign = [
-			// 静态数据
-			'common_is_enable_list'	=> MyLang('common_is_enable_list'),
 	        // 编辑器文件存放地址
-			'editor_path_type' 		=> ResourcesService::EditorPathTypeValue('express'),
+			'editor_path_type'	=> ResourcesService::EditorPathTypeValue('express'),
 		];
 		MyViewAssign($assign);
 		return MyView();

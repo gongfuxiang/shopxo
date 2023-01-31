@@ -32,7 +32,6 @@ class Region extends Base
      */
 	public function Index()
 	{
-		MyViewAssign('common_is_enable_list', MyLang('common_is_enable_list'));
 		return MyView();
 	}
 

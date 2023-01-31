@@ -29,19 +29,19 @@
             <!-- 定时脚本配置 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">定时脚本配置</h3>
+                    <h3 class="am-panel-title">{{:MyLang('site.base_item_crontab_config_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-alert am-alert-warning am-margin-top-xs" data-am-alert>
                         <button type="button" class="am-close">&times;</button>
-                        <p>建议将脚本地址添加到linux定时任务定时请求即可（结果 sucs:0, fail:0 冒号后面则是处理的数据条数，sucs成功，fali失败）</p>
+                        <p>{{:MyLang('site.extends_crontab_tips')}}</p>
                     </div>
                     <div class="am-form-group">
                         <label>{{$data.common_order_close_limit_time.name}}<span class="am-form-group-label-tips">{{$data.common_order_close_limit_time.describe}}</span></label>
                         <div class="am-input-group am-input-group-sm">
                             <input type="number" min="0" name="{{$data.common_order_close_limit_time.only_tag}}" placeholder="{{$data.common_order_close_limit_time.name}}" data-validation-message="{{$data.common_order_close_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_order_close_limit_time.value}}"{{/if}} />
                             <span class="am-input-group-btn">
-                                <button class="am-btn am-btn-default" type="button">分钟</button>
+                                <button class="am-btn am-btn-default" type="button">{{:MyLang('minute_title')}}</button>
                           </span>
                         </div>
                         <div class="am-alert">
@@ -54,7 +54,7 @@
                         <div class="am-input-group am-input-group-sm">
                             <input type="number" min="0" name="{{$data.common_order_success_limit_time.only_tag}}" placeholder="{{$data.common_order_success_limit_time.name}}" data-validation-message="{{$data.common_order_success_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_order_success_limit_time.value}}"{{/if}} />
                             <span class="am-input-group-btn">
-                                <button class="am-btn am-btn-default" type="button">分钟</button>
+                                <button class="am-btn am-btn-default" type="button">{{:MyLang('minute_title')}}</button>
                           </span>
                         </div>
                         <div class="am-alert">
@@ -67,7 +67,7 @@
                         <div class="am-input-group am-input-group-sm">
                             <input type="number" min="0" name="{{$data.common_pay_log_order_close_limit_time.only_tag}}" placeholder="{{$data.common_pay_log_order_close_limit_time.name}}" data-validation-message="{{$data.common_pay_log_order_close_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_pay_log_order_close_limit_time.value}}"{{/if}} />
                             <span class="am-input-group-btn">
-                                <button class="am-btn am-btn-default" type="button">分钟</button>
+                                <button class="am-btn am-btn-default" type="button">{{:MyLang('minute_title')}}</button>
                           </span>
                         </div>
                         <div class="am-alert">
@@ -80,7 +80,7 @@
                         <div class="am-input-group am-input-group-sm">
                             <input type="number" min="0" name="{{$data.common_goods_give_integral_limit_time.only_tag}}" placeholder="{{$data.common_goods_give_integral_limit_time.name}}" data-validation-message="{{$data.common_goods_give_integral_limit_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_goods_give_integral_limit_time.value}}"{{/if}} />
                             <span class="am-input-group-btn">
-                                <button class="am-btn am-btn-default" type="button">分钟</button>
+                                <button class="am-btn am-btn-default" type="button">{{:MyLang('minute_title')}}</button>
                           </span>
                         </div>
                         <div class="am-alert">
@@ -89,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <input type="hidden" name="nav_type" value="{{$nav_type}}" />
                 <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
@@ -99,7 +99,7 @@
     </div>
 </div>
 <!-- right content end  -->
-        
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->

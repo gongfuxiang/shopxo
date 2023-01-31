@@ -3,7 +3,7 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <button type="button" class="am-btn am-btn-success am-btn-xs am-icon-cloud-upload am-radius" data-am-modal="{target: '#payment-upload-win'}"> 上传</button>
+    <button type="button" class="am-btn am-btn-success am-btn-xs am-icon-cloud-upload am-radius" data-am-modal="{target: '#payment-upload-win'}"> {{:MyLang('upload_title')}}</button>
     {{if !empty($store_payment_url)}}
         <a class="am-margin-left-sm" href="{{$store_payment_url}}" target="_blank">更多支付插件下载 <i class="am-icon-external-link"></i></a>
     {{/if}}
@@ -17,25 +17,27 @@
     <div class="am-popup am-radius" id="payment-upload-win">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title">上传</h4>
+                <h4 class="am-popup-title">{{:MyLang('upload_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
                 <!-- win form start -->
                 <form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/payment/upload')}}" method="POST" request-type="ajax-reload" enctype="multipart/form-data">
-                    <div class="am-alert am-radius am-alert-tips">
-                        <p>1 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay</p>
-                        <p>2 类必须定义的方法</p>
-                        <p class="am-margin-left-lg">2.1 Config 配置方法</p>
-                        <p class="am-margin-left-lg">2.2 Pay 支付方法</p>
-                        <p class="am-margin-left-lg">2.3 Respond 回调方法</p>
-                        <p class="am-margin-left-lg">2.4 Notify 异步回调方法（可选、未定义则调用Respond方法）</p>
-                        <p class="am-margin-left-lg">2.5 Refund 退款方法（可选、未定义则不能发起原路退款）</p>
-                        <p>3 可自定义输出内容方法</p>
-                        <p class="am-margin-left-lg">3.1 SuccessReturn 支付成功（可选）</p>
-                        <p class="am-margin-left-lg">3.2 ErrorReturn 支付失败（可选）</p>
-                        <p class="am-margin-top-xs am-text-danger">PS：以上条件不满足则无法查看插件，将插件放入.zip压缩包中上传、支持一个压缩中包含多个支付插件</p>
-                    </div>
+                    {{if is_array(MyLang('payment.upload_top_list_tips'))}}
+                        <div class="am-alert am-radius am-alert-tips">
+                            {{foreach :MyLang('payment.upload_top_list_tips') as $v}}
+                                <p>{{$v.name}}</p>
+                                {{if !empty($v['item']) and is_array($v['item'])}}
+                                    <div class="am-margin-left-lg">
+                                        {{foreach $v.item as $vs}}
+                                            <p>{{$vs}}</p>
+                                        {{/foreach}}
+                                    </div>
+                                {{/if}}
+                            {{/foreach}}
+                            <p class="am-margin-top-xs am-text-danger">{{:MyLang('payment.upload_top_tips_ps')}}</p>
+                        </div>
+                    {{/if}}
                     <div class="am-form-group am-form-group-refreshing">
                         <div class="am-form-file">
                             <button type="button" class="am-btn am-btn-default am-btn-sm am-radius"><i class="am-icon-cloud-upload"></i> {{:MyLang('form_choice_images_title')}}</button>

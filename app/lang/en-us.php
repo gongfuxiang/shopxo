@@ -133,7 +133,12 @@ return [
     'pay_success'                                           => 'Pay Succeeded',
     'copy_fail'                                             => 'Copy Failed',
     'copy_success'                                          => 'Copy Succeeded',
+    'import_fail'                                           => 'Import Failed',
+    'import_success'                                        => 'Import Succeeded',
+    'install_fail'                                          => 'Install Failed',
+    'install_success'                                       => 'Install Succeeded',
     'no_data'                                               => 'No Relevant Data',
+    'no_goods'                                              => 'No related Goods',
     'params_error_tips'                                     => 'Params Error',
     'content_params_empty_tips'                             => 'Content parameter is empty',
     'illegal_access_tips'                                   => 'illegal access',
@@ -146,6 +151,7 @@ return [
     'optional_tips'                                         => 'Optional...',
     'upload_tips'                                           => 'Upload...',
     'query_tips'                                            => 'Query...',
+    'bind_tips'                                             => 'Binding...',
     'controller_not_exist_tips'                             => 'Controller does not exist',
     'plugins_name_tips'                                     => 'Plugins Name Wrong',
     'plugins_control_tips'                                  => 'Application controller error',
@@ -161,10 +167,17 @@ return [
     'plugins_view_region_config_tips'                       => 'This area is plug-in extension data. Please fill in the corresponding value according to the plug-in document',
     'user_info_abnormal_tips'                               => 'Abnormal user information',
     'gods_info_abnormal_tips'                               => 'Abnormal goods information',
+    'user_delete_operate_tips'                              => 'User deleted',
+    'back_prev_page_name'                                   => 'Return to the previous page',
+    'back_prev_time_auto_text'                              => 'Second automatic return',
+    'view_config_course_name'                               => 'View the configuration tutorial',
     // 商店
     'store_bind_account_name'                               => 'Bind ShopXO store account',
     'store_bind_account_tips'                               => 'If it is bound, please clear the cache under the menu tool on the left side of the mall background and try to access it again!',
     // 常用
+    'fullscreen_open_title'                                 => 'Enable full screen',
+    'fullscreen_exit_title'                                 => 'Exit full screen',
+    'toggle_navigation_title'                               => 'Toggle Navigation',
     'theme_color_white_title'                               => 'White',
     'theme_color_black_title'                               => 'Dark',
     'base_config_title'                                     => 'Base Config',
@@ -173,6 +186,7 @@ return [
     'add_time_title'                                        => 'Add Time',
     'upd_time_title'                                        => 'Update Time',
     'back_home_title'                                       => 'Back Home',
+    'shop_home_title'                                       => 'Shop Home',
     'home_title'                                            => 'Home',
     'operate_title'                                         => 'Operate',
     'all_title'                                             => 'All',
@@ -220,6 +234,12 @@ return [
     'comment_title'                                         => 'Comment',
     'default_title'                                         => 'Default',
     'setup_default_title'                                   => 'Setup Default',
+    'strip_title'                                           => 'Strip',
+    'level_title'                                           => 'Level',
+    'day_title'                                             => 'Day',
+    'hour_title'                                            => 'Hour',
+    'minute_title'                                          => 'Minute',
+    'second_title'                                          => 'Second',
     'yes_title'                                             => 'Yes',
     'no_title'                                              => 'No',
     'already_title'                                         => 'Already',
@@ -300,6 +320,8 @@ return [
     'spec_title'                                            => 'Specifications',
     'register_title'                                        => 'Register',
     'login_title'                                           => 'Login',
+    'logout_title'                                          => 'Logout',
+    'quit_title'                                            => 'Quit',
     'password_title'                                        => 'Password',
     'safety_title'                                          => 'Safety',
     'extend_title'                                          => 'Extend',
@@ -307,7 +329,9 @@ return [
     'export_title'                                          => 'Export',
     'images_title'                                          => 'Images',
     'text_title'                                            => 'Text',
+    'loading_title'                                         => 'Loading',
     // 商品基础相关
+    'goods_name'                                            => 'Goods Name',
     'goods_stop_sale_title'                                 => 'Stop Sale',
     'goods_buy_title'                                       => 'Buy',
     'goods_booking_title'                                   => 'Booking',
@@ -341,6 +365,7 @@ return [
     'form_upload_video_title'                               => 'Upload Video',
     'form_choice_video_title'                               => 'Choice Video',
     'form_upload_video_message'                             => 'Please upload video',
+    'form_import_excel_title'                               => 'Import Excel',
     'form_upload_excel_title'                               => 'Upload Excel',
     'form_choice_excel_title'                               => 'Choice Excel',
     'form_upload_excel_message'                             => 'Please upload Excel',
@@ -379,7 +404,11 @@ return [
     'form_images_verify_button_text'                        => 'Replace one',
     'form_is_default_title'                                 => 'Default or not',
     'form_is_enable_title'                                  => 'Enable or not',
+    'form_is_header_title'                                  => 'Header or not',
+    'form_is_footer_title'                                  => 'Footer or not',
+    'form_is_full_screen_title'                             => 'FullScreen or not',
     'form_sort_title'                                       => 'Sort',
+    'form_sort_tips'                                        => 'from small to large',
     'form_sort_message'                                     => 'Values between 0 and 255',
     'form_platform_title'                                   => 'Platform',
     'form_platform_message'                                 => 'Please select the platform',
@@ -388,6 +417,14 @@ return [
     'form_event_value_title'                                => 'Event Value',
     'form_event_value_message'                              => 'Event value can be up to 255 characters',
     'form_bg_color_title'                                   => 'Background Color',
+    'form_time_valid_title'                                 => 'Valid Time',
+    'form_time_start_title'                                 => 'Start Time',
+    'form_time_start_message'                               => 'Please select the start time',
+    'form_time_end_title'                                   => 'End Time',
+    'form_time_end_message'                                 => 'Please select the end time',
+    'form_goods_category_title'                             => 'Goods Category',
+    'form_goods_category_placeholder'                       => 'Goods Category...',
+    'form_goods_category_message'                           => 'Please select goods category',
     // 分页
     'page_each_page_name'                                   => 'Each Page',
     'page_page_unit'                                        => 'Strip',
@@ -418,8 +455,13 @@ return [
     'form_table_nav_operate_data_list_delete_tips'          => 'Select the data to be deleted from the list (multiple choices are allowed)',
     // 提示信息
     'reminder_title'                                        => 'Warm prompt',
+    'delivery_operate_aftersale_tips'                       => 'Please check if the order has after-sales service',
+    'confirm_confirm_tips'                                  => 'It cannot be recovered after confirmation. Are you sure to continue?',
+    'cancel_confirm_tips'                                   => 'Cannot recover after cancellation. Are you sure to continue?',
     'delete_confirm_tips'                                   => 'Cannot recover after deletion. Are you sure?',
     'operate_confirm_tips'                                  => 'Cannot recover after operation. Are you sure to continue?',
+    'install_confirm_tips'                                  => 'Proceed with the installation. Are you sure to continue?',
+    'uninstall_confirm_tips'                                => 'It cannot be recovered after uninstallation. Are you sure to continue?',
     'collect_confirm_tips'                                  => 'Please carefully confirm that the goods have been received and confirm to continue?',
     'save_close_page_confirm_tips'                          => 'Are you sure you want to save the data and continue to close this page?',
     // 前端顶部小导航-右侧
@@ -496,6 +538,36 @@ return [
         'template'  => ['name' => 'Template Cache', 'desc' => 'When the page displays abnormally, you can try to use this function to repair'],
         'module'    => ['name' => 'Module Cache', 'desc' => 'The page layout and module are not effective after updating. You can try to use this function to repair'],
         'log'       => ['name' => 'Log Clear', 'desc' => 'Clear Site Log'],
+    ],
+    // 事件值说明提示
+    'event_value_tips_list'             => [
+        [
+            'type'  => 'web',
+            'name'  => 'WEB Page',
+            'item'  => [
+                '1. Start with http',
+                '2. For example, you need to add a whitelist in the background of the applet if you use a web page in the applet',
+            ]
+        ],
+        [
+            'type'  => 'mini',
+            'name'  => 'Internal page (applet/APP internal address)',
+            'item'  => [
+                '1. Internal address of applet or APP',
+                '2. The applet starts with/pages',
+                '3. For example:/pages/user/user',
+                '4. Support with parameters ?x=xx',
+            ],
+            'tips'  => 'Applet page address configuration instructions',
+        ],
+        [
+            'type'  => 'map',
+            'name'  => 'Jump to the native map to view the specified location',
+            'item'  => [
+                '1. Divided by | vertical bar, in the order of name | address | longitude | latitude',
+                '2. For example: ShopXO | No. XXX, Zhangjiang High-tech Park, Pudong New Area, Shanghai | 121.626444 | 31.20843',
+            ]
+        ]
     ],
     // 手机模式下底部导航
     'bottom_navigation_data'            => [
@@ -855,1164 +927,1162 @@ return [
     ],
 
     // -------------------- 公共 --------------------
-    'common'                    => [
-        // 配置信息
-        'config'        => [
-            'common_page_size'  => [
-                'name' => 'Number of pages',
-                'desc' => 'Number of paged displays',
-                'tips' => 'Pagination cannot exceed 3 digits',
-            ],
-            'common_deduction_inventory_rules'  => [
-                'name' => 'Order item deduction inventory rule',
-                'desc' => 'It can be effective only after the inventory is deducted. By default, the order is paid successfully',
-                'tips' => '',
-            ],
-            'common_is_deduction_inventory'  => [
-                'name' => 'Whether to deduct inventory',
-                'desc' => 'It is recommended not to modify at will to avoid confusion of inventory data. Closing does not affect inventory rollback',
-                'tips' => '',
-            ],
-            'admin_excel_charset'  => [
-                'name' => 'Excel coding',
-                'desc' => 'Code selection of Excel module',
-                'tips' => 'Please select code',
-            ],
-            'home_seo_site_title'  => [
-                'name' => 'Site title',
-                'desc' => 'Browser title, generally no more than 80 characters',
-                'tips' => 'The site title cannot be empty',
-            ],
-            'home_seo_site_keywords'  => [
-                'name' => 'Site keywords',
-                'desc' => 'Generally no more than 100 characters, and multiple keywords are separated by semicircular commas [,]',
-                'tips' => 'Site keyword cannot be empty',
-            ],
-            'home_seo_site_description'  => [
-                'name' => 'Site description',
-                'desc' => 'Site description, generally no more than 200 characters',
-                'tips' => 'Site description cannot be empty',
-            ],
-            'home_site_icp'  => [
-                'name' => 'ICP Certificate No',
-                'desc' => 'For example: Shanghai ICP Bei No. XXX',
-                'tips' => '',
-            ],
-            'home_statistics_code'  => [
-                'name' => 'Bottom statistics code',
-                'desc' => 'Support HTML, which can be used to add traffic statistics code',
-                'tips' => '',
-            ],
-            'home_site_state'  => [
-                'name' => 'Site status',
-                'desc' => 'The site can be closed temporarily, and other people cannot access it, but it does not affect the administrators access to the background',
-                'tips' => 'Please select site status',
-            ],
-            'home_site_close_reason'  => [
-                'name' => 'Closing reason',
-                'desc' => 'Support HTML. When the website is closed, the reason for closing will be displayed in the foreground',
-                'tips' => '',
-            ],
-            'common_timezone'  => [
-                'name' => 'Default time zone',
-                'desc' => 'Default Asia / Shanghai [standard time + 8]',
-                'tips' => 'Please select the default time zone',
-            ],
-            'home_footer_info'  => [
-                'name' => 'Bottom code',
-                'desc' => 'Support HTML, which can be used to add traffic statistics code',
-                'tips' => '',
-            ],
-            'home_site_name'  => [
-                'name' => 'Site name',
-                'desc' => '',
-                'tips' => 'Site name cannot be empty',
-            ],
-            'home_seo_url_model'  => [
-                'name' => 'Link mode',
-                'desc' => 'Incompatible mode, please ensure that the pseudo static rules are configured',
-                'tips' => 'Please select url mode',
-            ],
-            'home_max_limit_image'  => [
-                'name' => 'Picture maximum limit',
-                'desc' => 'Unit B [Uploading pictures is also limited by the maximum upload capacity of 20M in the server space PHP configuration]',
-                'tips' => 'Please fill in the maximum limit for uploading pictures',
-            ],
-            'home_max_limit_file'  => [
-                'name' => 'Maximum file limit',
-                'desc' => 'Unit B [Uploading files is also limited by the maximum upload capacity of 20M in server space PHP configuration]',
-                'tips' => 'Please fill in the maximum limit of file upload',
-            ],
-            'home_max_limit_video'  => [
-                'name' => 'Video maximum limit',
-                'desc' => 'Unit B [Uploading video is also limited by the maximum upload capacity of 20M in server space PHP configuration]',
-                'tips' => 'Please fill in the maximum limit of video upload',
-            ],
-            'home_seo_url_html_suffix'  => [
-                'name' => 'Pseudo static suffix',
-                'desc' => 'Suffix alias after link, default [HTML]',
-                'tips' => 'Lowercase letters, no more than 8 characters',
-            ],
-            'common_register_is_enable_audit'  => [
-                'name' => 'User registration is enabled for review',
-                'desc' => 'It is closed by default. After being opened, user registration needs to be approved before login',
-                'tips' => 'Please select user registration to enable audit',
-            ],
-            'home_site_logo_wap'  => [
-                'name' => 'Mobile logo',
-                'desc' => 'Support [JPG, PNG, GIF], 220x66px recommended',
-                'tips' => 'Please upload the logo of the mobile website',
-            ],
-            'home_site_logo'  => [
-                'name' => 'Computer logo',
-                'desc' => 'Support [JPG, PNG, GIF], 220x60px recommended',
-                'tips' => 'Please upload the logo of the computer website',
-            ],
-            'home_content_max_width'  => [
-                'name' => 'Maximum page width',
-                'desc' => 'Maximum page width, unit px, 0=100%',
-                'tips' => 'Please fill in the page width value',
-            ],
-            'home_site_logo_square'  => [
-                'name' => 'Square logo',
-                'desc' => 'PNG format is recommended. 300x300px is recommended',
-                'tips' => 'Please upload the square logo',
-            ],
-            'home_user_reg_type'  => [
-                'name' => 'Registration method',
-                'desc' => 'If it is not selected, the front-end site cannot be registered. You can select [SMS, email, user name]',
-                'tips' => 'Please select the registration method',
-            ],
-            'home_user_login_type'  => [
-                'name' => 'Login mode',
-                'desc' => 'Default account password, you can select [account password, email verification code, mobile phone verification code]',
-                'tips' => 'Please select the login method',
-            ],
-            'common_img_verify_state'  => [
-                'name' => 'Get the verification code - turn on the picture verification code',
-                'desc' => 'Prevent SMS bombing',
-                'tips' => 'Please select whether to enable the mandatory picture verification code',
-            ],
-            'common_verify_interval_time'  => [
-                'name' => 'Get verification code interval',
-                'desc' => 'Prevent frequent access to verification code, generally between 30 and 120 seconds, unit: [seconds]',
-                'tips' => 'Please fill in the time interval for obtaining verification code',
-            ],
-            'home_sms_user_reg'  => [
-                'name' => 'User registration - SMS template ID',
-                'desc' => 'Verification code',
-                'tips' => 'Please fill in the content of user registration SMS template',
-            ],
-            'common_sms_sign'  => [
-                'name' => 'SMS signature',
-                'desc' => 'Signature included in sending SMS',
-                'tips' => '3~8 Chinese and English characters of SMS signature',
-            ],
-            'common_sms_apikey'  => [
-                'name' => 'SMS keyID',
-                'desc' => 'Access Key ID',
-                'tips' => 'Please fill in the Access Key ID',
-            ],
-            'home_sms_user_forget_pwd'  => [
-                'name' => 'Password retrieval - SMS template ID',
-                'desc' => 'Verification code',
-                'tips' => 'Please fill in the password to retrieve the content of the SMS template',
-            ],
-            'common_verify_expire_time'  => [
-                'name' => 'Valid time of verification code',
-                'desc' => 'Expiration time of verification code, generally about 10 minutes, unit [seconds]',
-                'tips' => 'Please fill in the valid time of verification code',
-            ],
-            'common_email_smtp_host'  => [
-                'name' => 'SMTP server',
-                'desc' => 'Set the address of the SMTP server, such as SMTP 163.com',
-                'tips' => 'Please fill in the SMTP server',
-            ],
-            'common_email_smtp_port'  => [
-                'name' => 'SMTP port',
-                'desc' => 'Set the port of the SMTP server. The default is 25',
-                'tips' => 'Please fill in the SMTP port number',
-            ],
-            'common_email_smtp_account'  => [
-                'name' => 'Sender email address',
-                'desc' => 'Sender email address, email address sent using SMTP protocol, such as shopxo@163.com',
-                'tips' => 'Please fill in the senders email address',
-            ],
-            'common_email_smtp_name'  => [
-                'name' => 'SMTP authentication user name',
-                'desc' => 'Such as shopxo@163.com',
-                'tips' => 'Please fill in the SMTP authentication user name',
-            ],
-            'common_email_smtp_pwd'  => [
-                'name' => 'SMTP authentication password',
-                'desc' => 'shopxo@163.com Password or authorization code of the mail',
-                'tips' => 'Please fill in the SMTP authentication password',
-            ],
-            'common_email_smtp_send_name'  => [
-                'name' => 'Sender display name',
-                'desc' => 'Such as ShopXO',
-                'tips' => '',
-            ],
-            'common_sms_currency_template'  => [
-                'name' => 'General - SMS template ID',
-                'desc' => 'Verification code',
-                'tips' => 'Please fill in the content of the general SMS template',
-            ],
-            'common_sms_apisecret'  => [
-                'name' => 'SMS keysecret',
-                'desc' => 'Access Key Secret',
-                'tips' => 'Please fill in the Access Key Secret',
-            ],
-            'common_customer_store_tel'  => [
-                'name' => 'Store phone',
-                'desc' => 'If it is blank, it will not be displayed',
-                'tips' => '',
-            ],
-            'common_email_currency_template'  => [
-                'name' => 'Generic - Mail Template',
-                'desc' => 'Verification code variable identifier [# code #]',
-                'tips' => '',
-            ],
-            'common_default_theme'  => [
-                'name' => 'Default template',
-                'desc' => 'Default foreground template',
-                'tips' => 'Please select the default template',
-            ],
-            'common_baidu_map_ak'  => [
-                'name' => 'Baidu map API key',
-                'desc' => 'AK key must be configured from Baidu map 2.0',
-                'tips' => 'Please fill in Baidu Map api key',
-            ],
-            'home_email_user_reg'  => [
-                'name' => 'User registration - mail template',
-                'desc' => 'Verification code variable identifier [# code #]',
-                'tips' => '',
-            ],
-            'home_email_user_forget_pwd'  => [
-                'name' => 'Password retrieval - mail template',
-                'desc' => 'Verification code variable identifier [# code #]',
-                'tips' => '',
-            ],
-            'home_email_user_email_binding'  => [
-                'name' => 'Mailbox binding - mail template',
-                'desc' => 'Verification code variable identifier [# code #]',
-                'tips' => '',
-            ],
-            'home_static_cache_version'  => [
-                'name' => 'CSS / JS version tag',
-                'desc' => 'For CSS / JS browser cache version recognition',
-                'tips' => '',
-            ],
-            'home_sms_user_mobile_binding'  => [
-                'name' => 'Mobile number binding - SMS template ID',
-                'desc' => 'Verification code',
-                'tips' => 'Please fill in the content of mobile phone number binding SMS template',
-            ],
-            'home_search_keywords'  => [
-                'name' => 'Search keywords',
-                'desc' => 'Popular keywords under the search box (enter)',
-                'tips' => 'Please fill in the keyword',
-            ],
-            'home_search_keywords_type'  => [
-                'name' => 'Search keyword type',
-                'desc' => 'The following keywords need to be configured for customization',
-                'tips' => 'Please select keyword type',
-            ],
-            'common_order_is_booking'  => [
-                'name' => 'Order reservation mode',
-                'desc' => 'After opening, the user submits the order and needs the confirmation of the administrator',
-                'tips' => 'Please select whether to enable the reservation mode',
-            ],
-            'common_app_mini_alipay_title'  => [
-                'name' => 'name',
-                'desc' => '',
-                'tips' => 'Please fill in the name',
-            ],
-            'common_app_mini_alipay_describe'  => [
-                'name' => 'describe',
-                'desc' => '',
-                'tips' => 'Please fill in the description',
-            ],
-            'common_app_customer_service_tel'  => [
-                'name' => 'customer service telephone numbers',
-                'desc' => 'If it is blank, it will not be displayed',
-                'tips' => 'Please fill in the customer service telephone',
-            ],
-            'common_app_mini_alipay_appid'  => [
-                'name' => 'AppID',
-                'desc' => 'Applet ID',
-                'tips' => 'Please fill in AppID',
-            ],
-            'common_app_mini_alipay_rsa_public'  => [
-                'name' => 'Apply public key',
-                'desc' => '',
-                'tips' => 'Please fill in the application public key',
-            ],
-            'common_cache_session_redis_prefix'  => [
-                'name' => 'prefix',
-                'desc' => 'Default shopxo',
-                'tips' => 'Please fill in the prefix',
-            ],
-            'common_app_mini_alipay_rsa_private'  => [
-                'name' => 'Apply private key',
-                'desc' => '',
-                'tips' => 'Please fill in the application private key',
-            ],
-            'home_index_floor_goods_order_by_type'  => [
-                'name' => 'Home floor commodity sorting type',
-                'desc' => 'Default synthesis',
-                'tips' => 'Please select the sort type of goods on the home floor',
-            ],
-            'home_navigation_main_quick_name'  => [
-                'name' => 'Quick navigation name',
-                'desc' => 'Default Gallery',
-                'tips' => 'Please fill in the shortcut navigation name',
-            ],
-            'home_index_floor_goods_order_by_rule'  => [
-                'name' => 'Sorting rules of home floor products',
-                'desc' => 'Default descending order (DESC)',
-                'tips' => 'Please select the sorting rule of goods on the home floor',
-            ],
-            'common_app_mini_weixin_default_theme'  => [
-                'name' => 'Default theme',
-                'desc' => 'WeChat applet default theme',
-                'tips' => 'Please select the default theme of WeChat applet',
-            ],
-            'common_user_onekey_bind_mobile_list'  => [
-                'name' => 'Get an account and log in with one key',
-                'desc' => 'Default off',
-                'tips' => 'Please select to access the account and login with one button',
-            ],
-            'home_is_enable_order_bulk_pay'  => [
-                'name' => 'Enable order batch payment',
-                'desc' => 'Default no',
-                'tips' => 'Please select the enabled order batch payment',
-            ],
-            'common_session_is_use_cache'  => [
-                'name' => 'Session uses cache',
-                'desc' => 'Default no',
-                'tips' => 'Please select Session to use cache',
-            ],
-            'common_data_is_use_cache'  => [
-                'name' => 'Data usage cache',
-                'desc' => 'Default no',
-                'tips' => 'Please select data to use cache',
-            ],
-            'common_app_is_enable_search'  => [
-                'name' => 'Enable search',
-                'desc' => 'Default is',
-                'tips' => '',
-            ],
-            'common_app_mini_alipay_out_rsa_public'  => [
-                'name' => 'Alipay public key',
-                'desc' => '',
-                'tips' => 'Please fill in Alipay public key',
-            ],
-            'common_cdn_public_host'  => [
-                'name' => 'CSS / JS static file CDN domain name',
-                'desc' => 'CSS / JS static file',
-                'tips' => 'Please fill in the correct css/js static file cdn domain name',
-            ],
-            'home_index_floor_goods_max_count'  => [
-                'name' => 'Home floor commodity quantity',
-                'desc' => 'Default 8',
-                'tips' => 'Please fill in the quantity of goods on the first floor',
-            ],
-            'home_index_floor_top_right_keywords'  => [
-                'name' => 'Top keyword of right floor',
-                'desc' => 'Keywords under floor (enter)',
-                'tips' => 'Please fill in the keywords on the top right of the first floor',
-            ],
-            'common_app_is_enable_answer'  => [
-                'name' => 'Whether to enable message',
-                'desc' => 'Default no',
-                'tips' => '',
-            ],
-            'common_spec_add_max_number'  => [
-                'name' => 'Maximum quantity of product specifications that can be added',
-                'desc' => 'No more than 3 specifications are recommended',
-                'tips' => 'Please fill in the maximum number of Google',
-            ],
-            'common_route_separator'  => [
-                'name' => 'Route separator',
-                'desc' => 'It is recommended to fill in [-] default [-], which is only valid in pathinfo mode + short address mode',
-                'tips' => 'Please fill in the route separator',
-            ],
-            'common_app_mini_weixin_appid'  => [
-                'name' => 'AppID',
-                'desc' => 'Applet ID',
-                'tips' => 'Please fill in appid',
-            ],
-            'common_app_mini_weixin_appsecret'  => [
-                'name' => 'AppSecret    ',
-                'desc' => 'Applet key',
-                'tips' => 'Please fill in appsecret',
-            ],
-            'common_app_mini_weixin_title'  => [
-                'name' => 'name',
-                'desc' => '',
-                'tips' => 'Please fill in the name',
-            ],
-            'common_app_mini_weixin_describe'  => [
-                'name' => 'describe',
-                'desc' => '',
-                'tips' => 'Please fill in the description',
-            ],
-            'common_user_center_notice'  => [
-                'name' => 'User center announcement',
-                'desc' => 'If it is empty, the announcement will not be displayed',
-                'tips' => '',
-            ],
-            'common_shop_notice'  => [
-                'name' => 'Mall announcement',
-                'desc' => 'If it is empty, the announcement will not be displayed',
-                'tips' => '',
-            ],
-            'common_customer_store_email'  => [
-                'name' => 'Store mailbox',
-                'desc' => 'If it is blank, it will not be displayed',
-                'tips' => 'Incorrect format of customer service email',
-            ],
-            'common_customer_store_qrcode'  => [
-                'name' => 'Store QR code',
-                'desc' => 'If it is empty, it will not be displayed',
-                'tips' => '',
-            ],
-            'common_self_extraction_address'  => [
-                'name' => 'Self-service address',
-                'desc' => '',
-                'tips' => 'Please fill in the self-service address',
-            ],
-            'common_customer_store_address'  => [
-                'name' => 'Store address',
-                'desc' => 'If it is empty, it will not be displayed',
-                'tips' => '',
-            ],
-            'common_agreement_userregister'  => [
-                'name' => 'User registration agreement',
-                'desc' => 'Up to 105000 characters',
-                'tips' => 'The user registration agreement can have a maximum of 105000 characters',
-            ],
-            'home_site_user_register_bg_images'  => [
-                'name' => 'User registration background image',
-                'desc' => '',
-                'tips' => 'Please upload the user registration background image',
-            ],
-            'home_site_user_login_ad1_images'  => [
-                'name' => 'picture',
-                'desc' => 'Picture 1 [450X350 images recommended]',
-                'tips' => '',
-            ],
-            'home_site_user_login_ad2_images'  => [
-                'name' => 'picture',
-                'desc' => 'Picture 2 [450X350 images recommended]',
-                'tips' => '',
-            ],
-            'home_site_user_login_ad3_images'  => [
-                'name' => 'picture',
-                'desc' => 'Picture 2 [450X350 images recommended]',
-                'tips' => '',
-            ],
-            'home_site_user_login_ad1_url'  => [
-                'name' => 'URL address',
-                'desc' => 'Address 1 [with http:// or https://]',
-                'tips' => '',
-            ],
-            'home_site_user_login_ad2_url'  => [
-                'name' => 'URL address',
-                'desc' => 'Address 2 [with http:// or https://]',
-                'tips' => '',
-            ],
-            'home_site_user_login_ad3_url'  => [
-                'name' => 'URL address',
-                'desc' => 'Address 3 [with http:// or https://]',
-                'tips' => '',
-            ],
-            'home_site_user_login_ad1_bg_color'  => [
-                'name' => 'Background color',
-                'desc' => 'Background color 1',
-                'tips' => '',
-            ],
-            'home_site_user_login_ad2_bg_color'  => [
-                'name' => 'Background color',
-                'desc' => 'Background color 2',
-                'tips' => '',
-            ],
-            'home_site_user_login_ad3_bg_color'  => [
-                'name' => 'Background color',
-                'desc' => 'Background color 3',
-                'tips' => '',
-            ],
-            'home_user_login_img_verify_state'  => [
-                'name' => 'Login picture verification code',
-                'desc' => 'Off by default, which can prevent illegal login',
-                'tips' => 'Please select whether to open the login image verification code',
-            ],
-            'home_site_user_forgetpwd_ad1_images'  => [
-                'name' => 'picture',
-                'desc' => 'Picture 1 [450X350 images recommended]',
-                'tips' => '',
-            ],
-            'home_site_user_forgetpwd_ad2_images'  => [
-                'name' => 'picture',
-                'desc' => 'Picture 2 [450X350 images recommended]',
-                'tips' => '',
-            ],
-            'home_site_user_forgetpwd_ad3_images'  => [
-                'name' => 'picture',
-                'desc' => 'Picture 2 [450X350 images recommended]',
-                'tips' => '',
-            ],
-            'home_site_user_forgetpwd_ad1_url'  => [
-                'name' => 'URL address',
-                'desc' => 'Address 1 [with http:// or https://]',
-                'tips' => '',
-            ],
-            'home_site_user_forgetpwd_ad2_url'  => [
-                'name' => 'URL address',
-                'desc' => 'Address 2 [with http:// or https://]',
-                'tips' => '',
-            ],
-            'home_site_user_forgetpwd_ad3_url'  => [
-                'name' => 'URL address',
-                'desc' => 'Address 3 [with http:// or https://]',
-                'tips' => '',
-            ],
-            'home_site_user_forgetpwd_ad1_bg_color'  => [
-                'name' => 'Background color',
-                'desc' => 'Background color 1',
-                'tips' => '',
-            ],
-            'home_site_user_forgetpwd_ad2_bg_color'  => [
-                'name' => 'Background color',
-                'desc' => 'Background color 2',
-                'tips' => '',
-            ],
-            'home_site_user_forgetpwd_ad3_bg_color'  => [
-                'name' => 'Background color',
-                'desc' => 'Background color 3',
-                'tips' => '',
-            ],
-            'home_user_register_img_verify_state'  => [
-                'name' => 'User registration picture verification code',
-                'desc' => 'It is off by default to prevent illegal registration',
-                'tips' => 'Please select whether to enable user registration picture verification code',
-            ],
-            'common_images_verify_rules'  => [
-                'name' => 'Picture verification code rules',
-                'desc' => 'The default is black text on a white background, which can increase the difficulty of verification code identification according to demand i',
-                'tips' => '',
-            ],
-            'common_email_is_use_ssl'  => [
-                'name' => 'SSL encryption',
-                'desc' => '',
-                'tips' => 'Please select whether to use SSL encryption',
-            ],
-            'home_order_aftersale_return_only_money_reason'  => [
-                'name' => 'Refund reason only',
-                'desc' => 'Can wrap, one line at a time',
-                'tips' => 'Please fill in the reason for refund only',
-            ],
-            'home_order_aftersale_return_money_goods_reason'  => [
-                'name' => 'Reason for return and refund',
-                'desc' => 'Can wrap, one line at a time',
-                'tips' => 'Please fill in the reason for return refund',
-            ],
-            'home_is_enable_userregister_agreement'  => [
-                'name' => 'User registration agreement',
-                'desc' => 'It is closed by default. After it is enabled, user registration can only be registered after agreeing to the agreement',
-                'tips' => 'Please select whether to enable user registration agreement',
-            ],
-            'home_order_aftersale_return_goods_address'  => [
-                'name' => 'Return address',
-                'desc' => 'Receiving address of goods returned by users',
-                'tips' => 'Please fill in the return address',
-            ],
-            'common_app_is_use_mobile_detail'  => [
-                'name' => 'Details of using independent mobile phone',
-                'desc' => 'Use web details by default',
-                'tips' => 'Please select the details of using independent mobile phone',
-            ],
-            'common_user_is_mandatory_bind_mobile'  => [
-                'name' => 'Force phone binding',
-                'desc' => 'Default no',
-                'tips' => 'Please select whether to bind the phone forcibly',
-            ],
-            'common_app_is_header_nav_fixed'  => [
-                'name' => 'Fixed top navigation',
-                'desc' => 'By default, search must be enabled',
-                'tips' => 'Please select whether to fix the top navigation',
-            ],
-            'common_app_is_online_service'  => [
-                'name' => 'Open online customer service',
-                'desc' => 'Default no',
-                'tips' => 'Please select whether to open online customer service',
-            ],
-            'home_index_floor_left_goods_category_max_count'  => [
-                'name' => 'Number of secondary commodity categories on the left side of the first floor',
-                'desc' => 'Default 6',
-                'tips' => 'Please fill in the secondary commodity classification quantity on the left side of the first floor',
-            ],
-            'home_order_aftersale_return_launch_day'  => [
-                'name' => 'After sales time limit can be initiated after order completion',
-                'desc' => 'Unit day, 0 means the after-sales service is closed, and 30 days are recommended',
-                'tips' => 'Please fill in the time limit for launching after-sales service after the order is completed',
-            ],
-            'common_goods_give_integral_limit_time'  => [
-                'name' => 'Credit duration of goods',
-                'desc' => 'Unit minute, 21600 minutes/15 days by default',
-                'tips' => 'Please fill in the time length of product gift points',
-            ],
-            'common_app_mini_baidu_appid'  => [
-                'name' => 'AppID',
-                'desc' => 'Smart applet ID',
-                'tips' => 'Please fill in AppID',
-            ],
-            'common_app_mini_baidu_appkey'  => [
-                'name' => 'AppKey',
-                'desc' => 'Smart applet KEY',
-                'tips' => 'Please fill in the AppKey',
-            ],
-            'common_app_mini_baidu_appsecret'  => [
-                'name' => 'AppSecret',
-                'desc' => 'Smart applet key',
-                'tips' => 'Please fill in AppSecret',
-            ],
-            'common_app_mini_baidu_title'  => [
-                'name' => 'name',
-                'desc' => '',
-                'tips' => 'Please fill in the name',
-            ],
-            'common_app_mini_baidu_describe'  => [
-                'name' => 'describe',
-                'desc' => '',
-                'tips' => 'Please fill in the description',
-            ],
-            'common_is_login_answer'  => [
-                'name' => 'Message needs to be logged in',
-                'desc' => 'Default no',
-                'tips' => 'Please select whether to log in for message',
-            ],
-            'common_order_close_limit_time'  => [
-                'name' => 'Order closing script duration',
-                'desc' => 'Unit minute, 30 minutes by default',
-                'tips' => 'Please fill in the order closing script duration',
-            ],
-            'common_order_success_limit_time'  => [
-                'name' => 'Time length of order automatic receipt script',
-                'desc' => 'Unit minute, 21600 minutes/15 days by default',
-                'tips' => 'Please fill in the time length of order automatic receipt script',
-            ],
-            'common_app_mini_toutiao_appid'  => [
-                'name' => 'AppID',
-                'desc' => 'Applet ID',
-                'tips' => 'Please fill in AppID',
-            ],
-            'common_app_mini_toutiao_appsecret'  => [
-                'name' => 'AppSecret',
-                'desc' => 'Applet Secret',
-                'tips' => 'Please fill in AppSecret',
-            ],
-            'common_app_mini_toutiao_title'  => [
-                'name' => 'name',
-                'desc' => '',
-                'tips' => 'Please fill in the name',
-            ],
-            'common_app_mini_toutiao_describe'  => [
-                'name' => 'describe',
-                'desc' => '',
-                'tips' => 'Please fill in the description',
-            ],
-            'home_site_security_record_name'  => [
-                'name' => 'Public security record No',
-                'desc' => 'For example: Jinggong Anbei No. XXX',
-                'tips' => 'Please fill in the public security record number',
-            ],
-            'home_site_security_record_url'  => [
-                'name' => 'Public Security Filing address',
-                'desc' => 'URL address of filing display page',
-                'tips' => 'Please fill in the public security record address',
-            ],
-            'common_app_mini_qq_appid'  => [
-                'name' => 'AppID',
-                'desc' => 'Applet ID',
-                'tips' => 'Please fill in AppID',
-            ],
-            'common_app_mini_qq_appsecret'  => [
-                'name' => 'AppSecret',
-                'desc' => 'Applet Secret',
-                'tips' => 'Please fill in AppSecret',
-            ],
-            'common_app_mini_qq_apptoken'  => [
-                'name' => 'AppToken',
-                'desc' => 'Applet Token',
-                'tips' => 'Please fill in AppToken',
-            ],
-            'common_app_mini_qq_title'  => [
-                'name' => 'name',
-                'desc' => '',
-                'tips' => 'Please fill in the name',
-            ],
-            'common_app_mini_qq_describe'  => [
-                'name' => 'describe',
-                'desc' => '',
-                'tips' => 'Please fill in the description',
-            ],
-            'common_app_is_head_vice_nav'  => [
-                'name' => 'Enable small navigation of user center head',
-                'desc' => 'Default is',
-                'tips' => 'Please select whether to enable small navigation of user center head',
-            ],
-            'common_site_type'  => [
-                'name' => 'Site type',
-                'desc' => 'Default Express',
-                'tips' => 'Please select the site type',
-            ],
-            'common_is_exhibition_mode_btn_text'  => [
-                'name' => 'Display type operation name',
-                'desc' => 'Default immediate consultation',
-                'tips' => 'Please fill in the name of display type operation',
-            ],
-            'common_site_fictitious_return_title'  => [
-                'name' => 'Virtual information title',
-                'desc' => 'Default key information',
-                'tips' => 'Please fill in the title of virtual information',
-            ],
-            'common_site_fictitious_return_tips'  => [
-                'name' => 'Prompt information',
-                'desc' => '',
-                'tips' => 'Please fill in the prompt information',
-            ],
-            'common_app_mini_alipay_tnt_inst_id'  => [
-                'name' => 'Online customer service - enterprise code',
-                'desc' => 'If it is empty, online customer service will not be displayed',
-                'tips' => 'Please fill in online customer service - enterprise code',
-            ],
-            'common_app_mini_alipay_scene'  => [
-                'name' => 'Online customer service - chat window code',
-                'desc' => 'If it is empty, online customer service will not be displayed',
-                'tips' => 'Please fill in the online customer service - chat window code',
-            ],
-            'common_is_goods_detail_show_photo'  => [
-                'name' => 'Product detail page display album',
-                'desc' => 'Default no',
-                'tips' => 'Please select whether to display the album on the product details page',
-            ],
-            'common_is_mobile_concise_model'  => [
-                'name' => 'Mobile phone simple mode',
-                'desc' => 'Default no',
-                'tips' => 'Please select whether the phone is in compact mode',
-            ],
-            'common_app_weixin_liveplayer'  => [
-                'name' => 'Enable live broadcast',
-                'desc' => 'No by default, you need to regenerate the applet package (if enabled, you need to apply for permission in the background of WeChat applet)',
-                'tips' => 'Please select whether to enable live broadcast',
-            ],
-            'common_app_weixin_liveplayer_ver'  => [
-                'name' => 'Live component version number',
-                'desc' => '',
-                'tips' => 'Please fill in the version number of the live broadcast component',
-            ],
-            'admin_login_info_bg_images_rand'  => [
-                'name' => 'Random background image of background login page',
-                'desc' => 'Enabled by default',
-                'tips' => 'Please select the random background map of background login page',
-            ],
-            'common_pay_log_order_close_limit_time'  => [
-                'name' => 'Payment log order closing script duration',
-                'desc' => 'Unit minute, 30 minutes by default',
-                'tips' => 'Please fill in the payment log order closing script duration',
-            ],
-            'common_show_goods_category_level'  => [
-                'name' => 'Classification display level',
-                'desc' => 'Default level 0',
-                'tips' => 'Please fill in the classification display level',
-            ],
-            'common_cdn_attachment_host'  => [
-                'name' => 'Attachment CDN domain name',
-                'desc' => 'Pictures / videos / files',
-                'tips' => 'Please fill in the correct attachment cdn domain name',
-            ],
-            'common_cache_data_redis_host'  => [
-                'name' => 'Connection address',
-                'desc' => 'Default 127.0.0.1',
-                'tips' => 'Please fill in the connection address',
-            ],
-            'common_cache_data_redis_port'  => [
-                'name' => 'Port number',
-                'desc' => 'Default 6379',
-                'tips' => 'Please fill in the port number',
-            ],
-            'common_cache_data_redis_password'  => [
-                'name' => 'password',
-                'desc' => 'Default no password',
-                'tips' => 'Please fill in the password',
-            ],
-            'common_cache_data_redis_expire'  => [
-                'name' => 'Effective time:',
-                'desc' => 'Default 0 means permanent',
-                'tips' => 'Please fill in the valid time',
-            ],
-            'common_cache_data_redis_prefix'  => [
-                'name' => 'prefix',
-                'desc' => 'Default shopxo',
-                'tips' => 'Please fill in the prefix',
-            ],
-            'common_app_mini_alipay_default_theme'  => [
-                'name' => 'Default theme',
-                'desc' => 'Default theme of Alipay applet',
-                'tips' => 'Please select the default theme of Alipay applet',
-            ],
-            'common_app_mini_baidu_default_theme'  => [
-                'name' => 'Default theme',
-                'desc' => 'Baidu applet default theme',
-                'tips' => 'Please select the default theme of Baidu applet',
-            ],
-            'common_app_mini_toutiao_default_theme'  => [
-                'name' => 'Default theme',
-                'desc' => 'Headline applet default theme',
-                'tips' => 'Please select the default theme of the headline applet',
-            ],
-            'common_app_mini_qq_default_theme'  => [
-                'name' => 'Default theme',
-                'desc' => 'QQ applet default theme',
-                'tips' => 'Please select the default theme of QQ applet',
-            ],
-            'home_index_floor_data_type'  => [
-                'name' => 'Home floor data mode type',
-                'desc' => 'Default automatic mode',
-                'tips' => 'Please select the home floor data mode type',
-            ],
-            'home_index_floor_manual_mode_goods'  => [
-                'name' => 'Home floor commodity configuration',
-                'desc' => 'Custom add item',
-                'tips' => 'Please select the commodity configuration of the first floor',
-            ],
-            'home_index_floor_left_top_category'  => [
-                'name' => 'Second level commodity classification on the left side of the home floor',
-                'desc' => 'Classification under floor (drop-down multiple selection)',
-                'tips' => 'Please fill in the second level commodity classification on the left side of the home floor',
-            ],
-            'home_navigation_main_quick_status'  => [
-                'name' => 'Quick navigation status',
-                'desc' => 'Default off',
-                'tips' => 'Please select the shortcut navigation status',
-            ],
-            'home_user_address_map_status'  => [
-                'name' => 'User address map',
-                'desc' => 'Default off',
-                'tips' => 'Please select user address map',
-            ],
-            'home_user_address_idcard_status'  => [
-                'name' => 'User address ID card',
-                'desc' => 'Default off',
-                'tips' => 'Please select user address ID card',
-            ],
-            'home_index_banner_left_status'  => [
-                'name' => 'Commodity classification on the left of home page rotation',
-                'desc' => 'Default on',
-                'tips' => 'Please select the commodity classification on the left side of the homepage rotation',
-            ],
-            'home_index_banner_right_status'  => [
-                'name' => 'Home page rotation right aggregate content',
-                'desc' => 'Default on',
-                'tips' => 'Please select the aggregate content on the right side of the home page',
-            ],
-            'home_search_limit_number'  => [
-                'name' => 'Number of search display data',
-                'desc' => 'Default 20',
-                'tips' => 'Please fill in the number of search display data',
-            ],
-            'home_index_friendship_link_status'  => [
-                'name' => 'Friendly link status in mobile mode',
-                'desc' => 'Default off',
-                'tips' => 'Please select the status of friendship link in mobile mode',
-            ],
-            'common_is_pay_price_must_max_equal'  => [
-                'name' => 'The order payment status change payment amount must be greater than or equal to',
-                'desc' => 'Default on',
-                'tips' => 'Please select the order payment status change payment amount must be greater than or equal to',
-            ],
-            'home_search_is_spec'  => [
-                'name' => 'Search page opening specification',
-                'desc' => 'Default on',
-                'tips' => 'Please select the search page opening specification',
-            ],
-            'home_search_is_params'  => [
-                'name' => 'Search page opening parameters',
-                'desc' => 'Default on',
-                'tips' => 'Please select search page opening parameters',
-            ],
-            'home_search_is_price'  => [
-                'name' => 'Search page opening price',
-                'desc' => 'Default on',
-                'tips' => 'Please select the search page to start the price',
-            ],
-            'home_header_top_is_home'  => [
-                'name' => 'Top small navigation non-home page entry',
-                'desc' => 'Default on',
-                'tips' => 'Please select the top small navigation non-home page entry',
-            ],
-            'home_search_is_brand'  => [
-                'name' => 'Search page opens brand',
-                'desc' => 'Default on',
-                'tips' => 'Please select the search page to open the brand',
-            ],
-            'home_search_is_category'  => [
-                'name' => 'Search page open classification',
-                'desc' => 'Default on',
-                'tips' => 'Please select the search page to open the classification',
-            ],
-            'admin_login_type'  => [
-                'name' => 'Login mode',
-                'desc' => 'Default account password, you can select [account password, email verification code, mobile phone verification code]',
-                'tips' => 'Please select at least one login method',
-            ],
-            'admin_login_img_verify_state'  => [
-                'name' => 'Login picture verification code',
-                'desc' => 'Off by default, which can prevent illegal login',
-                'tips' => 'Please select whether to open the login image verification code',
-            ],
-            'admin_sms_login_template'  => [
-                'name' => 'Background login - SMS template ID',
-                'desc' => 'Verification code',
-                'tips' => 'Please fill in the background login SMS template content',
-            ],
-            'admin_email_login_template'  => [
-                'name' => 'Background login - mail template',
-                'desc' => 'Verification code variable identifier [# code #]',
-                'tips' => '',
-            ],
-            'home_sms_login_template'  => [
-                'name' => 'User login - SMS template ID',
-                'desc' => 'Verification code',
-                'tips' => 'Please fill in the user login SMS template content',
-            ],
-            'home_email_login_template'  => [
-                'name' => 'User login - mail template',
-                'desc' => 'Verification code variable identifier [# code #]',
-                'tips' => '',
-            ],
-            'home_extraction_address_position'  => [
-                'name' => 'Self-selected geographical location',
-                'desc' => 'Default off',
-                'tips' => 'Please select Self-delivery and geographical location',
-            ],
-            'home_search_is_keywords_where_and'  => [
-                'name' => 'Search for multiple keywords and relationships',
-                'desc' => 'Default No, or Relationship',
-                'tips' => 'Please select to search multiple keywords and relationships',
-            ],
-            'common_is_https_connect_store'  => [
-                'name' => 'Connect to the store using HTTPS',
-                'desc' => 'Default http',
-                'tips' => 'Please select https for the connection store',
-            ],
-            'is_close_goods_discount_overlap'  => [
-                'name' => 'Close the product discount overlap',
-                'desc' => 'Default no',
-                'tips' => 'Please select to close the product discount overlap',
-            ],
-            'home_theme_footer_bottom_powered'  => [
-                'name' => 'Copyright information at the bottom of the web',
-                'desc' => '',
-                'tips' => 'Please fill in the copyright information at the bottom of the web',
-            ],
-            'common_store_accounts'  => [
-                'name' => 'App store account',
-                'desc' => '',
-                'tips' => 'Please fill in the store account',
-            ],
-            'admin_theme_site_name'  => [
-                'name' => 'Back-end site name',
-                'desc' => '',
-                'tips' => 'Please fill in the back-end site name',
-            ],
-            'home_search_params_type'  => [
-                'name' => 'Search parameter type',
-                'desc' => 'Default basis',
-                'tips' => 'Please select search parameter type',
-            ],
-            'common_store_password'  => [
-                'name' => 'Store password',
-                'desc' => '',
-                'tips' => 'Please fill in the store password',
-            ],
-            'home_search_is_keywords_seo_fields'  => [
-                'name' => 'Search keywords contain SEO fields',
-                'desc' => 'Default no',
-                'tips' => 'Please select the search keyword to include SEO field',
-            ],
-            'common_agreement_userprivacy'  => [
-                'name' => 'User privacy policy',
-                'desc' => 'Up to 105000 characters',
-                'tips' => 'User privacy policy can be 105000 characters at most',
-            ],
-            'admin_notice'  => [
-                'name' => 'Background management announcement',
-                'desc' => 'If it is blank, it is not displayed and only visible to background managers',
-                'tips' => 'Please fill in the background management announcement',
-            ],
-            'home_order_aftersale_is_use_warehouse_address'  => [
-                'name' => 'Use warehouse address for return address',
-                'desc' => 'No by default, according to the warehouse of the order',
-                'tips' => 'Please select whether the return address uses the warehouse address',
-            ],
-            'common_goods_sales_count_inc_rules'  => [
-                'name' => 'Rules for increasing sales volume of order goods',
-                'desc' => 'Default order receipt. Do not switch this configuration at will, which will cause inconsistent sales volume',
-                'tips' => 'Please select the order item sales increase rule',
-            ],
-            'common_is_show_goods_comments'  => [
-                'name' => 'Show product evaluation',
-                'desc' => 'Default is',
-                'tips' => 'Please select whether to display product evaluation',
-            ],
-            'common_app_h5_url'  => [
-                'name' => 'Mobile terminal h5 address',
-                'desc' => 'The uniapp end address ends with (#/), such as: https://h5.shopxo.vip/#/',
-                'tips' => 'Please fill in the mobile terminal h5 address',
-            ],
-            'common_is_under_line_order_normal'  => [
-                'name' => 'Offline payment is normal',
-                'desc' => 'No by default, the offline payment submission enters the normal order status process, and the subsequent administrator can confirm the operation collection in the background',
-                'tips' => 'Please select offline payment to proceed normally',
-            ],
-            'home_site_telecom_license'  => [
-                'name' => 'Value added telecom business license',
-                'desc' => 'For example: Hu B2 XXX',
-                'tips' => '',
-            ],
-            'home_site_web_home_state'  => [
-                'name' => 'Web homepage access',
-                'desc' => 'It is enabled by default, only for the home page of the web, and other pages are not affected',
-                'tips' => '',
-            ],
-            'home_site_company_license'  => [
-                'name' => 'Lighting of electronic business license',
-                'desc' => 'License page display address and application address: https://zzlz.gsxt.gov.cn/businessShow',
-                'tips' => '',
-            ],
-            'home_site_web_pc_state'  => [
-                'name' => 'Web PC access',
-                'desc' => 'Enabled by default, only for web PC',
-                'tips' => '',
-            ],
-            'common_tianditu_map_ak'  => [
-                'name' => 'Skymap api secret key',
-                'desc' => 'Application Key of Sky Map',
-                'tips' => 'Please fill in the Skymap api secret key',
-            ],
-            'common_domain_host'  => [
-                'name' => 'Primary domain name',
-                'desc' => 'Site address',
-                'tips' => 'Please fill in the correct primary domain name',
-            ],
-            'common_user_address_platform_import_list'  => [
-                'name' => 'One-click import of account address',
-                'desc' => 'Default off',
-                'tips' => 'Please select to get the account address and click to import',
-            ],
-            'common_app_mini_kuaishou_appid'  => [
-                'name' => 'AppID',
-                'desc' => 'Applet ID',
-                'tips' => 'Please fill in AppID',
-            ],
-            'common_app_mini_kuaishou_appsecret'  => [
-                'name' => 'AppSecret',
-                'desc' => 'Applet Secret',
-                'tips' => 'Please fill in AppSecret',
-            ],
-            'common_app_mini_kuaishou_title'  => [
-                'name' => 'name',
-                'desc' => '',
-                'tips' => 'Please fill in the name',
-            ],
-            'common_app_mini_kuaishou_describe'  => [
-                'name' => 'describe',
-                'desc' => '',
-                'tips' => 'Please fill in the description',
-            ],
-            'common_data_encryption_secret'  => [
-                'name' => 'Data encryption key',
-                'desc' => 'The default installation system has been automatically generated and can be modified',
-                'tips' => 'Please fill in the data encryption key',
-            ],
-            'common_cookie_domain'  => [
-                'name' => 'Cookie valid domain name',
-                'desc' => 'If it is empty by default, the currently accessed domain name is valid',
-                'tips' => 'Please fill in the valid domain name of the cookie',
-            ],
-            'common_excel_export_type'  => [
-                'name' => 'Excel export type',
-                'desc' => 'Default CSV',
-                'tips' => 'Please select Excel export type',
-            ],
-            'common_map_type'  => [
-                'name' => 'Map type',
-                'desc' => 'Default Baidu map',
-                'tips' => 'Please select a map type',
-            ],
-            'common_amap_map_ak'  => [
-                'name' => 'Gaode map api secret key',
-                'desc' => 'Application Key and Security Secret Key of Gaud Map',
-                'tips' => 'Please fill in the api secret key of Gaode Map',
-            ],
-            'common_tencent_map_ak'  => [
-                'name' => 'Tencent map api secret key',
-                'desc' => 'Application Key of Tencent Map',
-                'tips' => 'Please fill in Tencent map api secret key',
-            ],
-            'common_amap_map_safety_ak'  => [
-                'name' => 'Security key of Gaud Map',
-                'desc' => 'Application security key of Gaode map',
-                'tips' => 'Please fill in the security key of Gaode map',
-            ],
-            'common_default_payment'  => [
-                'name' => 'Default payment method',
-                'desc' => 'Corresponding platform settings',
-                'tips' => 'Please select the default payment method',
-            ],
-            'common_fictitious_order_direct_pay'  => [
-                'name' => 'Direct submission and payment of virtual order',
-                'desc' => 'No by default, the virtual order automatically creates an order and directly enters the order list to initiate payment, and the order confirmation phase is omitted (please set the default payment method first)',
-                'tips' => 'Please select whether the virtual order is directly submitted for payment',
-            ],
-            'home_search_history_record'  => [
-                'name' => 'Turn on search record',
-                'desc' => 'Default no',
-                'tips' => 'Please select to open search record',
-            ],
-            'common_agreement_userlogout'  => [
-                'name' => 'Account cancellation agreement',
-                'desc' => 'Up to 105000 characters',
-                'tips' => 'Account cancellation agreement can be 105000 characters at most',
-            ],
-            'home_main_header_status'  => [
-                'name' => 'Main navigation',
-                'desc' => 'Default on',
-                'tips' => 'Please select the main navigation status',
-            ],
-            'home_main_top_header_status'  => [
-                'name' => 'Top small navigation',
-                'desc' => 'Default on',
-                'tips' => 'Please select the top small navigation status',
-            ],
-            'home_main_logo_search_status'  => [
-                'name' => 'Logo and search bar',
-                'desc' => 'Default on',
-                'tips' => 'Please select logo and search bar status',
-            ],
-            'home_main_breadcrumb_header_status'  => [
-                'name' => 'Breadcrumb navigation',
-                'desc' => 'Default on',
-                'tips' => 'Please select breadcrumb navigation status',
-            ],
-            'home_main_footer_content_status'  => [
-                'name' => 'Bottom Footer Content',
-                'desc' => 'Default on',
-                'tips' => 'Please select the bottom footer content status',
-            ],
+    // 配置信息
+    'common_config'             => [
+        'common_page_size'  => [
+            'name' => 'Number of pages',
+            'desc' => 'Number of paged displays',
+            'tips' => 'Pagination cannot exceed 3 digits',
+        ],
+        'common_deduction_inventory_rules'  => [
+            'name' => 'Order item deduction inventory rule',
+            'desc' => 'It can be effective only after the inventory is deducted. By default, the order is paid successfully',
+            'tips' => '',
+        ],
+        'common_is_deduction_inventory'  => [
+            'name' => 'Whether to deduct inventory',
+            'desc' => 'It is recommended not to modify at will to avoid confusion of inventory data. Closing does not affect inventory rollback',
+            'tips' => '',
+        ],
+        'admin_excel_charset'  => [
+            'name' => 'Excel coding',
+            'desc' => 'Code selection of Excel module',
+            'tips' => 'Please select code',
+        ],
+        'home_seo_site_title'  => [
+            'name' => 'Site title',
+            'desc' => 'Browser title, generally no more than 80 characters',
+            'tips' => 'The site title cannot be empty',
+        ],
+        'home_seo_site_keywords'  => [
+            'name' => 'Site keywords',
+            'desc' => 'Generally no more than 100 characters, and multiple keywords are separated by semicircular commas [,]',
+            'tips' => 'Site keyword cannot be empty',
+        ],
+        'home_seo_site_description'  => [
+            'name' => 'Site description',
+            'desc' => 'Site description, generally no more than 200 characters',
+            'tips' => 'Site description cannot be empty',
+        ],
+        'home_site_icp'  => [
+            'name' => 'ICP Certificate No',
+            'desc' => 'For example: Shanghai ICP Bei No. XXX',
+            'tips' => '',
+        ],
+        'home_statistics_code'  => [
+            'name' => 'Bottom statistics code',
+            'desc' => 'Support HTML, which can be used to add traffic statistics code',
+            'tips' => '',
+        ],
+        'home_site_state'  => [
+            'name' => 'Site status',
+            'desc' => 'The site can be closed temporarily, and other people cannot access it, but it does not affect the administrators access to the background',
+            'tips' => 'Please select site status',
+        ],
+        'home_site_close_reason'  => [
+            'name' => 'Closing reason',
+            'desc' => 'Support HTML. When the website is closed, the reason for closing will be displayed in the foreground',
+            'tips' => '',
+        ],
+        'common_timezone'  => [
+            'name' => 'Default time zone',
+            'desc' => 'Default Asia / Shanghai [standard time + 8]',
+            'tips' => 'Please select the default time zone',
+        ],
+        'home_footer_info'  => [
+            'name' => 'Bottom code',
+            'desc' => 'Support HTML, which can be used to add traffic statistics code',
+            'tips' => '',
+        ],
+        'home_site_name'  => [
+            'name' => 'Site name',
+            'desc' => '',
+            'tips' => 'Site name cannot be empty',
+        ],
+        'home_seo_url_model'  => [
+            'name' => 'Link mode',
+            'desc' => 'Incompatible mode, please ensure that the pseudo static rules are configured',
+            'tips' => 'Please select url mode',
+        ],
+        'home_max_limit_image'  => [
+            'name' => 'Picture maximum limit',
+            'desc' => 'Unit B [Uploading pictures is also limited by the maximum upload capacity of 20M in the server space PHP configuration]',
+            'tips' => 'Please fill in the maximum limit for uploading pictures',
+        ],
+        'home_max_limit_file'  => [
+            'name' => 'Maximum file limit',
+            'desc' => 'Unit B [Uploading files is also limited by the maximum upload capacity of 20M in server space PHP configuration]',
+            'tips' => 'Please fill in the maximum limit of file upload',
+        ],
+        'home_max_limit_video'  => [
+            'name' => 'Video maximum limit',
+            'desc' => 'Unit B [Uploading video is also limited by the maximum upload capacity of 20M in server space PHP configuration]',
+            'tips' => 'Please fill in the maximum limit of video upload',
+        ],
+        'home_seo_url_html_suffix'  => [
+            'name' => 'Pseudo static suffix',
+            'desc' => 'Suffix alias after link, default [HTML]',
+            'tips' => 'Lowercase letters, no more than 8 characters',
+        ],
+        'common_register_is_enable_audit'  => [
+            'name' => 'User registration is enabled for review',
+            'desc' => 'It is closed by default. After being opened, user registration needs to be approved before login',
+            'tips' => 'Please select user registration to enable audit',
+        ],
+        'home_site_logo_wap'  => [
+            'name' => 'Mobile logo',
+            'desc' => 'Support [JPG, PNG, GIF], 220x66px recommended',
+            'tips' => 'Please upload the logo of the mobile website',
+        ],
+        'home_site_logo'  => [
+            'name' => 'Computer logo',
+            'desc' => 'Support [JPG, PNG, GIF], 220x60px recommended',
+            'tips' => 'Please upload the logo of the computer website',
+        ],
+        'home_content_max_width'  => [
+            'name' => 'Maximum page width',
+            'desc' => 'Maximum page width, unit px, 0=100%',
+            'tips' => 'Please fill in the page width value',
+        ],
+        'home_site_logo_square'  => [
+            'name' => 'Square logo',
+            'desc' => 'PNG format is recommended. 300x300px is recommended',
+            'tips' => 'Please upload the square logo',
+        ],
+        'home_user_reg_type'  => [
+            'name' => 'Registration method',
+            'desc' => 'If it is not selected, the front-end site cannot be registered. You can select [SMS, email, user name]',
+            'tips' => 'Please select the registration method',
+        ],
+        'home_user_login_type'  => [
+            'name' => 'Login mode',
+            'desc' => 'Default account password, you can select [account password, email verification code, mobile phone verification code]',
+            'tips' => 'Please select the login method',
+        ],
+        'common_img_verify_state'  => [
+            'name' => 'Get the verification code - turn on the picture verification code',
+            'desc' => 'Prevent SMS bombing',
+            'tips' => 'Please select whether to enable the mandatory picture verification code',
+        ],
+        'common_verify_interval_time'  => [
+            'name' => 'Get verification code interval',
+            'desc' => 'Prevent frequent access to verification code, generally between 30 and 120 seconds, unit: [seconds]',
+            'tips' => 'Please fill in the time interval for obtaining verification code',
+        ],
+        'home_sms_user_reg'  => [
+            'name' => 'User registration - SMS template ID',
+            'desc' => 'Verification code',
+            'tips' => 'Please fill in the content of user registration SMS template',
+        ],
+        'common_sms_sign'  => [
+            'name' => 'SMS signature',
+            'desc' => 'Signature included in sending SMS',
+            'tips' => '3~8 Chinese and English characters of SMS signature',
+        ],
+        'common_sms_apikey'  => [
+            'name' => 'SMS keyID',
+            'desc' => 'Access Key ID',
+            'tips' => 'Please fill in the Access Key ID',
+        ],
+        'home_sms_user_forget_pwd'  => [
+            'name' => 'Password retrieval - SMS template ID',
+            'desc' => 'Verification code',
+            'tips' => 'Please fill in the password to retrieve the content of the SMS template',
+        ],
+        'common_verify_expire_time'  => [
+            'name' => 'Valid time of verification code',
+            'desc' => 'Expiration time of verification code, generally about 10 minutes, unit [seconds]',
+            'tips' => 'Please fill in the valid time of verification code',
+        ],
+        'common_email_smtp_host'  => [
+            'name' => 'SMTP server',
+            'desc' => 'Set the address of the SMTP server, such as SMTP 163.com',
+            'tips' => 'Please fill in the SMTP server',
+        ],
+        'common_email_smtp_port'  => [
+            'name' => 'SMTP port',
+            'desc' => 'Set the port of the SMTP server. The default is 25',
+            'tips' => 'Please fill in the SMTP port number',
+        ],
+        'common_email_smtp_account'  => [
+            'name' => 'Sender email address',
+            'desc' => 'Sender email address, email address sent using SMTP protocol, such as shopxo@163.com',
+            'tips' => 'Please fill in the senders email address',
+        ],
+        'common_email_smtp_name'  => [
+            'name' => 'SMTP authentication user name',
+            'desc' => 'Such as shopxo@163.com',
+            'tips' => 'Please fill in the SMTP authentication user name',
+        ],
+        'common_email_smtp_pwd'  => [
+            'name' => 'SMTP authentication password',
+            'desc' => 'shopxo@163.com Password or authorization code of the mail',
+            'tips' => 'Please fill in the SMTP authentication password',
+        ],
+        'common_email_smtp_send_name'  => [
+            'name' => 'Sender display name',
+            'desc' => 'Such as ShopXO',
+            'tips' => '',
+        ],
+        'common_sms_currency_template'  => [
+            'name' => 'General - SMS template ID',
+            'desc' => 'Verification code',
+            'tips' => 'Please fill in the content of the general SMS template',
+        ],
+        'common_sms_apisecret'  => [
+            'name' => 'SMS keysecret',
+            'desc' => 'Access Key Secret',
+            'tips' => 'Please fill in the Access Key Secret',
+        ],
+        'common_customer_store_tel'  => [
+            'name' => 'Store phone',
+            'desc' => 'If it is blank, it will not be displayed',
+            'tips' => '',
+        ],
+        'common_email_currency_template'  => [
+            'name' => 'Generic - Mail Template',
+            'desc' => 'Verification code variable identifier [# code #]',
+            'tips' => '',
+        ],
+        'common_default_theme'  => [
+            'name' => 'Default template',
+            'desc' => 'Default foreground template',
+            'tips' => 'Please select the default template',
+        ],
+        'common_baidu_map_ak'  => [
+            'name' => 'Baidu map API key',
+            'desc' => 'AK key must be configured from Baidu map 2.0',
+            'tips' => 'Please fill in Baidu Map api key',
+        ],
+        'home_email_user_reg'  => [
+            'name' => 'User registration - mail template',
+            'desc' => 'Verification code variable identifier [# code #]',
+            'tips' => '',
+        ],
+        'home_email_user_forget_pwd'  => [
+            'name' => 'Password retrieval - mail template',
+            'desc' => 'Verification code variable identifier [# code #]',
+            'tips' => '',
+        ],
+        'home_email_user_email_binding'  => [
+            'name' => 'Mailbox binding - mail template',
+            'desc' => 'Verification code variable identifier [# code #]',
+            'tips' => '',
+        ],
+        'home_static_cache_version'  => [
+            'name' => 'CSS / JS version tag',
+            'desc' => 'For CSS / JS browser cache version recognition',
+            'tips' => '',
+        ],
+        'home_sms_user_mobile_binding'  => [
+            'name' => 'Mobile number binding - SMS template ID',
+            'desc' => 'Verification code',
+            'tips' => 'Please fill in the content of mobile phone number binding SMS template',
+        ],
+        'home_search_keywords'  => [
+            'name' => 'Search keywords',
+            'desc' => 'Popular keywords under the search box (enter)',
+            'tips' => 'Please fill in the keyword',
+        ],
+        'home_search_keywords_type'  => [
+            'name' => 'Search keyword type',
+            'desc' => 'The following keywords need to be configured for customization',
+            'tips' => 'Please select keyword type',
+        ],
+        'common_order_is_booking'  => [
+            'name' => 'Order reservation mode',
+            'desc' => 'After opening, the user submits the order and needs the confirmation of the administrator',
+            'tips' => 'Please select whether to enable the reservation mode',
+        ],
+        'common_app_mini_alipay_title'  => [
+            'name' => 'name',
+            'desc' => '',
+            'tips' => 'Please fill in the name',
+        ],
+        'common_app_mini_alipay_describe'  => [
+            'name' => 'describe',
+            'desc' => '',
+            'tips' => 'Please fill in the description',
+        ],
+        'common_app_customer_service_tel'  => [
+            'name' => 'customer service telephone numbers',
+            'desc' => 'If it is blank, it will not be displayed',
+            'tips' => 'Please fill in the customer service telephone',
+        ],
+        'common_app_mini_alipay_appid'  => [
+            'name' => 'AppID',
+            'desc' => 'Applet ID',
+            'tips' => 'Please fill in AppID',
+        ],
+        'common_app_mini_alipay_rsa_public'  => [
+            'name' => 'Apply public key',
+            'desc' => '',
+            'tips' => 'Please fill in the application public key',
+        ],
+        'common_cache_session_redis_prefix'  => [
+            'name' => 'prefix',
+            'desc' => 'Default shopxo',
+            'tips' => 'Please fill in the prefix',
+        ],
+        'common_app_mini_alipay_rsa_private'  => [
+            'name' => 'Apply private key',
+            'desc' => '',
+            'tips' => 'Please fill in the application private key',
+        ],
+        'home_index_floor_goods_order_by_type'  => [
+            'name' => 'Home floor commodity sorting type',
+            'desc' => 'Default synthesis',
+            'tips' => 'Please select the sort type of goods on the home floor',
+        ],
+        'home_navigation_main_quick_name'  => [
+            'name' => 'Quick navigation name',
+            'desc' => 'Default Gallery',
+            'tips' => 'Please fill in the shortcut navigation name',
+        ],
+        'home_index_floor_goods_order_by_rule'  => [
+            'name' => 'Sorting rules of home floor products',
+            'desc' => 'Default descending order (DESC)',
+            'tips' => 'Please select the sorting rule of goods on the home floor',
+        ],
+        'common_app_mini_weixin_default_theme'  => [
+            'name' => 'Default theme',
+            'desc' => 'WeChat applet default theme',
+            'tips' => 'Please select the default theme of WeChat applet',
+        ],
+        'common_user_onekey_bind_mobile_list'  => [
+            'name' => 'Get an account and log in with one key',
+            'desc' => 'Default off',
+            'tips' => 'Please select to access the account and login with one button',
+        ],
+        'home_is_enable_order_bulk_pay'  => [
+            'name' => 'Enable order batch payment',
+            'desc' => 'Default no',
+            'tips' => 'Please select the enabled order batch payment',
+        ],
+        'common_session_is_use_cache'  => [
+            'name' => 'Session uses cache',
+            'desc' => 'Default no',
+            'tips' => 'Please select Session to use cache',
+        ],
+        'common_data_is_use_cache'  => [
+            'name' => 'Data usage cache',
+            'desc' => 'Default no',
+            'tips' => 'Please select data to use cache',
+        ],
+        'common_app_is_enable_search'  => [
+            'name' => 'Enable search',
+            'desc' => 'Default is',
+            'tips' => '',
+        ],
+        'common_app_mini_alipay_out_rsa_public'  => [
+            'name' => 'Alipay public key',
+            'desc' => '',
+            'tips' => 'Please fill in Alipay public key',
+        ],
+        'common_cdn_public_host'  => [
+            'name' => 'CSS / JS static file CDN domain name',
+            'desc' => 'CSS / JS static file',
+            'tips' => 'Please fill in the correct css/js static file cdn domain name',
+        ],
+        'home_index_floor_goods_max_count'  => [
+            'name' => 'Home floor commodity quantity',
+            'desc' => 'Default 8',
+            'tips' => 'Please fill in the quantity of goods on the first floor',
+        ],
+        'home_index_floor_top_right_keywords'  => [
+            'name' => 'Top keyword of right floor',
+            'desc' => 'Keywords under floor (enter)',
+            'tips' => 'Please fill in the keywords on the top right of the first floor',
+        ],
+        'common_app_is_enable_answer'  => [
+            'name' => 'Whether to enable message',
+            'desc' => 'Default no',
+            'tips' => '',
+        ],
+        'common_spec_add_max_number'  => [
+            'name' => 'Maximum quantity of product specifications that can be added',
+            'desc' => 'No more than 3 specifications are recommended',
+            'tips' => 'Please fill in the maximum number of Google',
+        ],
+        'common_route_separator'  => [
+            'name' => 'Route separator',
+            'desc' => 'It is recommended to fill in [-] default [-], which is only valid in pathinfo mode + short address mode',
+            'tips' => 'Please fill in the route separator',
+        ],
+        'common_app_mini_weixin_appid'  => [
+            'name' => 'AppID',
+            'desc' => 'Applet ID',
+            'tips' => 'Please fill in appid',
+        ],
+        'common_app_mini_weixin_appsecret'  => [
+            'name' => 'AppSecret    ',
+            'desc' => 'Applet key',
+            'tips' => 'Please fill in appsecret',
+        ],
+        'common_app_mini_weixin_title'  => [
+            'name' => 'name',
+            'desc' => '',
+            'tips' => 'Please fill in the name',
+        ],
+        'common_app_mini_weixin_describe'  => [
+            'name' => 'describe',
+            'desc' => '',
+            'tips' => 'Please fill in the description',
+        ],
+        'common_user_center_notice'  => [
+            'name' => 'User center announcement',
+            'desc' => 'If it is empty, the announcement will not be displayed',
+            'tips' => '',
+        ],
+        'common_shop_notice'  => [
+            'name' => 'Mall announcement',
+            'desc' => 'If it is empty, the announcement will not be displayed',
+            'tips' => '',
+        ],
+        'common_customer_store_email'  => [
+            'name' => 'Store mailbox',
+            'desc' => 'If it is blank, it will not be displayed',
+            'tips' => 'Incorrect format of customer service email',
+        ],
+        'common_customer_store_qrcode'  => [
+            'name' => 'Store QR code',
+            'desc' => 'If it is empty, it will not be displayed',
+            'tips' => '',
+        ],
+        'common_self_extraction_address'  => [
+            'name' => 'Self-service address',
+            'desc' => '',
+            'tips' => 'Please fill in the self-service address',
+        ],
+        'common_customer_store_address'  => [
+            'name' => 'Store address',
+            'desc' => 'If it is empty, it will not be displayed',
+            'tips' => '',
+        ],
+        'common_agreement_userregister'  => [
+            'name' => 'User registration agreement',
+            'desc' => 'Up to 105000 characters',
+            'tips' => 'The user registration agreement can have a maximum of 105000 characters',
+        ],
+        'home_site_user_register_bg_images'  => [
+            'name' => 'User registration background image',
+            'desc' => '',
+            'tips' => 'Please upload the user registration background image',
+        ],
+        'home_site_user_login_ad1_images'  => [
+            'name' => 'picture',
+            'desc' => 'Picture 1 [450X350 images recommended]',
+            'tips' => '',
+        ],
+        'home_site_user_login_ad2_images'  => [
+            'name' => 'picture',
+            'desc' => 'Picture 2 [450X350 images recommended]',
+            'tips' => '',
+        ],
+        'home_site_user_login_ad3_images'  => [
+            'name' => 'picture',
+            'desc' => 'Picture 2 [450X350 images recommended]',
+            'tips' => '',
+        ],
+        'home_site_user_login_ad1_url'  => [
+            'name' => 'URL address',
+            'desc' => 'Address 1 [with http:// or https://]',
+            'tips' => '',
+        ],
+        'home_site_user_login_ad2_url'  => [
+            'name' => 'URL address',
+            'desc' => 'Address 2 [with http:// or https://]',
+            'tips' => '',
+        ],
+        'home_site_user_login_ad3_url'  => [
+            'name' => 'URL address',
+            'desc' => 'Address 3 [with http:// or https://]',
+            'tips' => '',
+        ],
+        'home_site_user_login_ad1_bg_color'  => [
+            'name' => 'Background color',
+            'desc' => 'Background color 1',
+            'tips' => '',
+        ],
+        'home_site_user_login_ad2_bg_color'  => [
+            'name' => 'Background color',
+            'desc' => 'Background color 2',
+            'tips' => '',
+        ],
+        'home_site_user_login_ad3_bg_color'  => [
+            'name' => 'Background color',
+            'desc' => 'Background color 3',
+            'tips' => '',
+        ],
+        'home_user_login_img_verify_state'  => [
+            'name' => 'Login picture verification code',
+            'desc' => 'Off by default, which can prevent illegal login',
+            'tips' => 'Please select whether to open the login image verification code',
+        ],
+        'home_site_user_forgetpwd_ad1_images'  => [
+            'name' => 'picture',
+            'desc' => 'Picture 1 [450X350 images recommended]',
+            'tips' => '',
+        ],
+        'home_site_user_forgetpwd_ad2_images'  => [
+            'name' => 'picture',
+            'desc' => 'Picture 2 [450X350 images recommended]',
+            'tips' => '',
+        ],
+        'home_site_user_forgetpwd_ad3_images'  => [
+            'name' => 'picture',
+            'desc' => 'Picture 2 [450X350 images recommended]',
+            'tips' => '',
+        ],
+        'home_site_user_forgetpwd_ad1_url'  => [
+            'name' => 'URL address',
+            'desc' => 'Address 1 [with http:// or https://]',
+            'tips' => '',
+        ],
+        'home_site_user_forgetpwd_ad2_url'  => [
+            'name' => 'URL address',
+            'desc' => 'Address 2 [with http:// or https://]',
+            'tips' => '',
+        ],
+        'home_site_user_forgetpwd_ad3_url'  => [
+            'name' => 'URL address',
+            'desc' => 'Address 3 [with http:// or https://]',
+            'tips' => '',
+        ],
+        'home_site_user_forgetpwd_ad1_bg_color'  => [
+            'name' => 'Background color',
+            'desc' => 'Background color 1',
+            'tips' => '',
+        ],
+        'home_site_user_forgetpwd_ad2_bg_color'  => [
+            'name' => 'Background color',
+            'desc' => 'Background color 2',
+            'tips' => '',
+        ],
+        'home_site_user_forgetpwd_ad3_bg_color'  => [
+            'name' => 'Background color',
+            'desc' => 'Background color 3',
+            'tips' => '',
+        ],
+        'home_user_register_img_verify_state'  => [
+            'name' => 'User registration picture verification code',
+            'desc' => 'It is off by default to prevent illegal registration',
+            'tips' => 'Please select whether to enable user registration picture verification code',
+        ],
+        'common_images_verify_rules'  => [
+            'name' => 'Picture verification code rules',
+            'desc' => 'The default is black text on a white background, which can increase the difficulty of verification code identification according to demand i',
+            'tips' => '',
+        ],
+        'common_email_is_use_ssl'  => [
+            'name' => 'SSL encryption',
+            'desc' => '',
+            'tips' => 'Please select whether to use SSL encryption',
+        ],
+        'home_order_aftersale_return_only_money_reason'  => [
+            'name' => 'Refund reason only',
+            'desc' => 'Can wrap, one line at a time',
+            'tips' => 'Please fill in the reason for refund only',
+        ],
+        'home_order_aftersale_return_money_goods_reason'  => [
+            'name' => 'Reason for return and refund',
+            'desc' => 'Can wrap, one line at a time',
+            'tips' => 'Please fill in the reason for return refund',
+        ],
+        'home_is_enable_userregister_agreement'  => [
+            'name' => 'User registration agreement',
+            'desc' => 'It is closed by default. After it is enabled, user registration can only be registered after agreeing to the agreement',
+            'tips' => 'Please select whether to enable user registration agreement',
+        ],
+        'home_order_aftersale_return_goods_address'  => [
+            'name' => 'Return address',
+            'desc' => 'Receiving address of goods returned by users',
+            'tips' => 'Please fill in the return address',
+        ],
+        'common_app_is_use_mobile_detail'  => [
+            'name' => 'Details of using independent mobile phone',
+            'desc' => 'Use web details by default',
+            'tips' => 'Please select the details of using independent mobile phone',
+        ],
+        'common_user_is_mandatory_bind_mobile'  => [
+            'name' => 'Force phone binding',
+            'desc' => 'Default no',
+            'tips' => 'Please select whether to bind the phone forcibly',
+        ],
+        'common_app_is_header_nav_fixed'  => [
+            'name' => 'Fixed top navigation',
+            'desc' => 'By default, search must be enabled',
+            'tips' => 'Please select whether to fix the top navigation',
+        ],
+        'common_app_is_online_service'  => [
+            'name' => 'Open online customer service',
+            'desc' => 'Default no',
+            'tips' => 'Please select whether to open online customer service',
+        ],
+        'home_index_floor_left_goods_category_max_count'  => [
+            'name' => 'Number of secondary commodity categories on the left side of the first floor',
+            'desc' => 'Default 6',
+            'tips' => 'Please fill in the secondary commodity classification quantity on the left side of the first floor',
+        ],
+        'home_order_aftersale_return_launch_day'  => [
+            'name' => 'After sales time limit can be initiated after order completion',
+            'desc' => 'Unit day, 0 means the after-sales service is closed, and 30 days are recommended',
+            'tips' => 'Please fill in the time limit for launching after-sales service after the order is completed',
+        ],
+        'common_goods_give_integral_limit_time'  => [
+            'name' => 'Credit duration of goods',
+            'desc' => 'Unit minute, 21600 minutes/15 days by default',
+            'tips' => 'Please fill in the time length of product gift points',
+        ],
+        'common_app_mini_baidu_appid'  => [
+            'name' => 'AppID',
+            'desc' => 'Smart applet ID',
+            'tips' => 'Please fill in AppID',
+        ],
+        'common_app_mini_baidu_appkey'  => [
+            'name' => 'AppKey',
+            'desc' => 'Smart applet KEY',
+            'tips' => 'Please fill in the AppKey',
+        ],
+        'common_app_mini_baidu_appsecret'  => [
+            'name' => 'AppSecret',
+            'desc' => 'Smart applet key',
+            'tips' => 'Please fill in AppSecret',
+        ],
+        'common_app_mini_baidu_title'  => [
+            'name' => 'name',
+            'desc' => '',
+            'tips' => 'Please fill in the name',
+        ],
+        'common_app_mini_baidu_describe'  => [
+            'name' => 'describe',
+            'desc' => '',
+            'tips' => 'Please fill in the description',
+        ],
+        'common_is_login_answer'  => [
+            'name' => 'Message needs to be logged in',
+            'desc' => 'Default no',
+            'tips' => 'Please select whether to log in for message',
+        ],
+        'common_order_close_limit_time'  => [
+            'name' => 'Order closing script duration',
+            'desc' => 'Unit minute, 30 minutes by default',
+            'tips' => 'Please fill in the order closing script duration',
+        ],
+        'common_order_success_limit_time'  => [
+            'name' => 'Time length of order automatic receipt script',
+            'desc' => 'Unit minute, 21600 minutes/15 days by default',
+            'tips' => 'Please fill in the time length of order automatic receipt script',
+        ],
+        'common_app_mini_toutiao_appid'  => [
+            'name' => 'AppID',
+            'desc' => 'Applet ID',
+            'tips' => 'Please fill in AppID',
+        ],
+        'common_app_mini_toutiao_appsecret'  => [
+            'name' => 'AppSecret',
+            'desc' => 'Applet Secret',
+            'tips' => 'Please fill in AppSecret',
+        ],
+        'common_app_mini_toutiao_title'  => [
+            'name' => 'name',
+            'desc' => '',
+            'tips' => 'Please fill in the name',
+        ],
+        'common_app_mini_toutiao_describe'  => [
+            'name' => 'describe',
+            'desc' => '',
+            'tips' => 'Please fill in the description',
+        ],
+        'home_site_security_record_name'  => [
+            'name' => 'Public security record No',
+            'desc' => 'For example: Jinggong Anbei No. XXX',
+            'tips' => 'Please fill in the public security record number',
+        ],
+        'home_site_security_record_url'  => [
+            'name' => 'Public Security Filing address',
+            'desc' => 'URL address of filing display page',
+            'tips' => 'Please fill in the public security record address',
+        ],
+        'common_app_mini_qq_appid'  => [
+            'name' => 'AppID',
+            'desc' => 'Applet ID',
+            'tips' => 'Please fill in AppID',
+        ],
+        'common_app_mini_qq_appsecret'  => [
+            'name' => 'AppSecret',
+            'desc' => 'Applet Secret',
+            'tips' => 'Please fill in AppSecret',
+        ],
+        'common_app_mini_qq_apptoken'  => [
+            'name' => 'AppToken',
+            'desc' => 'Applet Token',
+            'tips' => 'Please fill in AppToken',
+        ],
+        'common_app_mini_qq_title'  => [
+            'name' => 'name',
+            'desc' => '',
+            'tips' => 'Please fill in the name',
+        ],
+        'common_app_mini_qq_describe'  => [
+            'name' => 'describe',
+            'desc' => '',
+            'tips' => 'Please fill in the description',
+        ],
+        'common_app_is_head_vice_nav'  => [
+            'name' => 'Enable small navigation of user center head',
+            'desc' => 'Default is',
+            'tips' => 'Please select whether to enable small navigation of user center head',
+        ],
+        'common_site_type'  => [
+            'name' => 'Site type',
+            'desc' => 'Default Express',
+            'tips' => 'Please select the site type',
+        ],
+        'common_is_exhibition_mode_btn_text'  => [
+            'name' => 'Display type operation name',
+            'desc' => 'Default immediate consultation',
+            'tips' => 'Please fill in the name of display type operation',
+        ],
+        'common_site_fictitious_return_title'  => [
+            'name' => 'Virtual information title',
+            'desc' => 'Default key information',
+            'tips' => 'Please fill in the title of virtual information',
+        ],
+        'common_site_fictitious_return_tips'  => [
+            'name' => 'Prompt information',
+            'desc' => '',
+            'tips' => 'Please fill in the prompt information',
+        ],
+        'common_app_mini_alipay_tnt_inst_id'  => [
+            'name' => 'Online customer service - enterprise code',
+            'desc' => 'If it is empty, online customer service will not be displayed',
+            'tips' => 'Please fill in online customer service - enterprise code',
+        ],
+        'common_app_mini_alipay_scene'  => [
+            'name' => 'Online customer service - chat window code',
+            'desc' => 'If it is empty, online customer service will not be displayed',
+            'tips' => 'Please fill in the online customer service - chat window code',
+        ],
+        'common_is_goods_detail_show_photo'  => [
+            'name' => 'Product detail page display album',
+            'desc' => 'Default no',
+            'tips' => 'Please select whether to display the album on the product details page',
+        ],
+        'common_is_mobile_concise_model'  => [
+            'name' => 'Mobile phone simple mode',
+            'desc' => 'Default no',
+            'tips' => 'Please select whether the phone is in compact mode',
+        ],
+        'common_app_weixin_liveplayer'  => [
+            'name' => 'Enable live broadcast',
+            'desc' => 'No by default, you need to regenerate the applet package (if enabled, you need to apply for permission in the background of WeChat applet)',
+            'tips' => 'Please select whether to enable live broadcast',
+        ],
+        'common_app_weixin_liveplayer_ver'  => [
+            'name' => 'Live component version number',
+            'desc' => '',
+            'tips' => 'Please fill in the version number of the live broadcast component',
+        ],
+        'admin_login_info_bg_images_rand'  => [
+            'name' => 'Random background image of background login page',
+            'desc' => 'Enabled by default',
+            'tips' => 'Please select the random background map of background login page',
+        ],
+        'common_pay_log_order_close_limit_time'  => [
+            'name' => 'Payment log order closing script duration',
+            'desc' => 'Unit minute, 30 minutes by default',
+            'tips' => 'Please fill in the payment log order closing script duration',
+        ],
+        'common_show_goods_category_level'  => [
+            'name' => 'Classification display level',
+            'desc' => 'Default level 0',
+            'tips' => 'Please fill in the classification display level',
+        ],
+        'common_cdn_attachment_host'  => [
+            'name' => 'Attachment CDN domain name',
+            'desc' => 'Pictures / videos / files',
+            'tips' => 'Please fill in the correct attachment cdn domain name',
+        ],
+        'common_cache_data_redis_host'  => [
+            'name' => 'Connection address',
+            'desc' => 'Default 127.0.0.1',
+            'tips' => 'Please fill in the connection address',
+        ],
+        'common_cache_data_redis_port'  => [
+            'name' => 'Port number',
+            'desc' => 'Default 6379',
+            'tips' => 'Please fill in the port number',
+        ],
+        'common_cache_data_redis_password'  => [
+            'name' => 'password',
+            'desc' => 'Default no password',
+            'tips' => 'Please fill in the password',
+        ],
+        'common_cache_data_redis_expire'  => [
+            'name' => 'Effective time:',
+            'desc' => 'Default 0 means permanent',
+            'tips' => 'Please fill in the valid time',
+        ],
+        'common_cache_data_redis_prefix'  => [
+            'name' => 'prefix',
+            'desc' => 'Default shopxo',
+            'tips' => 'Please fill in the prefix',
+        ],
+        'common_app_mini_alipay_default_theme'  => [
+            'name' => 'Default theme',
+            'desc' => 'Default theme of Alipay applet',
+            'tips' => 'Please select the default theme of Alipay applet',
+        ],
+        'common_app_mini_baidu_default_theme'  => [
+            'name' => 'Default theme',
+            'desc' => 'Baidu applet default theme',
+            'tips' => 'Please select the default theme of Baidu applet',
+        ],
+        'common_app_mini_toutiao_default_theme'  => [
+            'name' => 'Default theme',
+            'desc' => 'Headline applet default theme',
+            'tips' => 'Please select the default theme of the headline applet',
+        ],
+        'common_app_mini_qq_default_theme'  => [
+            'name' => 'Default theme',
+            'desc' => 'QQ applet default theme',
+            'tips' => 'Please select the default theme of QQ applet',
+        ],
+        'home_index_floor_data_type'  => [
+            'name' => 'Home floor data mode type',
+            'desc' => 'Default automatic mode',
+            'tips' => 'Please select the home floor data mode type',
+        ],
+        'home_index_floor_manual_mode_goods'  => [
+            'name' => 'Home floor commodity configuration',
+            'desc' => 'Custom add item',
+            'tips' => 'Please select the commodity configuration of the first floor',
+        ],
+        'home_index_floor_left_top_category'  => [
+            'name' => 'Second level commodity classification on the left side of the home floor',
+            'desc' => 'Classification under floor (drop-down multiple selection)',
+            'tips' => 'Please fill in the second level commodity classification on the left side of the home floor',
+        ],
+        'home_navigation_main_quick_status'  => [
+            'name' => 'Quick navigation status',
+            'desc' => 'Default off',
+            'tips' => 'Please select the shortcut navigation status',
+        ],
+        'home_user_address_map_status'  => [
+            'name' => 'User address map',
+            'desc' => 'Default off',
+            'tips' => 'Please select user address map',
+        ],
+        'home_user_address_idcard_status'  => [
+            'name' => 'User address ID card',
+            'desc' => 'Default off',
+            'tips' => 'Please select user address ID card',
+        ],
+        'home_index_banner_left_status'  => [
+            'name' => 'Commodity classification on the left of home page rotation',
+            'desc' => 'Default on',
+            'tips' => 'Please select the commodity classification on the left side of the homepage rotation',
+        ],
+        'home_index_banner_right_status'  => [
+            'name' => 'Home page rotation right aggregate content',
+            'desc' => 'Default on',
+            'tips' => 'Please select the aggregate content on the right side of the home page',
+        ],
+        'home_search_limit_number'  => [
+            'name' => 'Number of search display data',
+            'desc' => 'Default 20',
+            'tips' => 'Please fill in the number of search display data',
+        ],
+        'home_index_friendship_link_status'  => [
+            'name' => 'Friendly link status in mobile mode',
+            'desc' => 'Default off',
+            'tips' => 'Please select the status of friendship link in mobile mode',
+        ],
+        'common_is_pay_price_must_max_equal'  => [
+            'name' => 'The order payment status change payment amount must be greater than or equal to',
+            'desc' => 'Default on',
+            'tips' => 'Please select the order payment status change payment amount must be greater than or equal to',
+        ],
+        'home_search_is_spec'  => [
+            'name' => 'Search page opening specification',
+            'desc' => 'Default on',
+            'tips' => 'Please select the search page opening specification',
+        ],
+        'home_search_is_params'  => [
+            'name' => 'Search page opening parameters',
+            'desc' => 'Default on',
+            'tips' => 'Please select search page opening parameters',
+        ],
+        'home_search_is_price'  => [
+            'name' => 'Search page opening price',
+            'desc' => 'Default on',
+            'tips' => 'Please select the search page to start the price',
+        ],
+        'home_header_top_is_home'  => [
+            'name' => 'Top small navigation non-home page entry',
+            'desc' => 'Default on',
+            'tips' => 'Please select the top small navigation non-home page entry',
+        ],
+        'home_search_is_brand'  => [
+            'name' => 'Search page opens brand',
+            'desc' => 'Default on',
+            'tips' => 'Please select the search page to open the brand',
+        ],
+        'home_search_is_category'  => [
+            'name' => 'Search page open classification',
+            'desc' => 'Default on',
+            'tips' => 'Please select the search page to open the classification',
+        ],
+        'admin_login_type'  => [
+            'name' => 'Login mode',
+            'desc' => 'Default account password, you can select [account password, email verification code, mobile phone verification code]',
+            'tips' => 'Please select at least one login method',
+        ],
+        'admin_login_img_verify_state'  => [
+            'name' => 'Login picture verification code',
+            'desc' => 'Off by default, which can prevent illegal login',
+            'tips' => 'Please select whether to open the login image verification code',
+        ],
+        'admin_sms_login_template'  => [
+            'name' => 'Background login - SMS template ID',
+            'desc' => 'Verification code',
+            'tips' => 'Please fill in the background login SMS template content',
+        ],
+        'admin_email_login_template'  => [
+            'name' => 'Background login - mail template',
+            'desc' => 'Verification code variable identifier [# code #]',
+            'tips' => '',
+        ],
+        'home_sms_login_template'  => [
+            'name' => 'User login - SMS template ID',
+            'desc' => 'Verification code',
+            'tips' => 'Please fill in the user login SMS template content',
+        ],
+        'home_email_login_template'  => [
+            'name' => 'User login - mail template',
+            'desc' => 'Verification code variable identifier [# code #]',
+            'tips' => '',
+        ],
+        'home_extraction_address_position'  => [
+            'name' => 'Self-selected geographical location',
+            'desc' => 'Default off',
+            'tips' => 'Please select Self-delivery and geographical location',
+        ],
+        'home_search_is_keywords_where_and'  => [
+            'name' => 'Search for multiple keywords and relationships',
+            'desc' => 'Default No, or Relationship',
+            'tips' => 'Please select to search multiple keywords and relationships',
+        ],
+        'common_is_https_connect_store'  => [
+            'name' => 'Connect to the store using HTTPS',
+            'desc' => 'Default http',
+            'tips' => 'Please select https for the connection store',
+        ],
+        'is_close_goods_discount_overlap'  => [
+            'name' => 'Close the product discount overlap',
+            'desc' => 'Default no',
+            'tips' => 'Please select to close the product discount overlap',
+        ],
+        'home_theme_footer_bottom_powered'  => [
+            'name' => 'Copyright information at the bottom of the web',
+            'desc' => '',
+            'tips' => 'Please fill in the copyright information at the bottom of the web',
+        ],
+        'common_store_accounts'  => [
+            'name' => 'App store account',
+            'desc' => '',
+            'tips' => 'Please fill in the store account',
+        ],
+        'admin_theme_site_name'  => [
+            'name' => 'Back-end site name',
+            'desc' => '',
+            'tips' => 'Please fill in the back-end site name',
+        ],
+        'home_search_params_type'  => [
+            'name' => 'Search parameter type',
+            'desc' => 'Default basis',
+            'tips' => 'Please select search parameter type',
+        ],
+        'common_store_password'  => [
+            'name' => 'Store password',
+            'desc' => '',
+            'tips' => 'Please fill in the store password',
+        ],
+        'home_search_is_keywords_seo_fields'  => [
+            'name' => 'Search keywords contain SEO fields',
+            'desc' => 'Default no',
+            'tips' => 'Please select the search keyword to include SEO field',
+        ],
+        'common_agreement_userprivacy'  => [
+            'name' => 'User privacy policy',
+            'desc' => 'Up to 105000 characters',
+            'tips' => 'User privacy policy can be 105000 characters at most',
+        ],
+        'admin_notice'  => [
+            'name' => 'Background management announcement',
+            'desc' => 'If it is blank, it is not displayed and only visible to background managers',
+            'tips' => 'Please fill in the background management announcement',
+        ],
+        'home_order_aftersale_is_use_warehouse_address'  => [
+            'name' => 'Use warehouse address for return address',
+            'desc' => 'No by default, according to the warehouse of the order',
+            'tips' => 'Please select whether the return address uses the warehouse address',
+        ],
+        'common_goods_sales_count_inc_rules'  => [
+            'name' => 'Rules for increasing sales volume of order goods',
+            'desc' => 'Default order receipt. Do not switch this configuration at will, which will cause inconsistent sales volume',
+            'tips' => 'Please select the order item sales increase rule',
+        ],
+        'common_is_show_goods_comments'  => [
+            'name' => 'Show product evaluation',
+            'desc' => 'Default is',
+            'tips' => 'Please select whether to display product evaluation',
+        ],
+        'common_app_h5_url'  => [
+            'name' => 'Mobile terminal h5 address',
+            'desc' => 'The uniapp end address ends with (#/), such as: https://h5.shopxo.vip/#/',
+            'tips' => 'Please fill in the mobile terminal h5 address',
+        ],
+        'common_is_under_line_order_normal'  => [
+            'name' => 'Offline payment is normal',
+            'desc' => 'No by default, the offline payment submission enters the normal order status process, and the subsequent administrator can confirm the operation collection in the background',
+            'tips' => 'Please select offline payment to proceed normally',
+        ],
+        'home_site_telecom_license'  => [
+            'name' => 'Value added telecom business license',
+            'desc' => 'For example: Hu B2 XXX',
+            'tips' => '',
+        ],
+        'home_site_web_home_state'  => [
+            'name' => 'Web homepage access',
+            'desc' => 'It is enabled by default, only for the home page of the web, and other pages are not affected',
+            'tips' => '',
+        ],
+        'home_site_company_license'  => [
+            'name' => 'Lighting of electronic business license',
+            'desc' => 'License page display address and application address: https://zzlz.gsxt.gov.cn/businessShow',
+            'tips' => '',
+        ],
+        'home_site_web_pc_state'  => [
+            'name' => 'Web PC access',
+            'desc' => 'Enabled by default, only for web PC',
+            'tips' => '',
+        ],
+        'common_tianditu_map_ak'  => [
+            'name' => 'Skymap api secret key',
+            'desc' => 'Application Key of Sky Map',
+            'tips' => 'Please fill in the Skymap api secret key',
+        ],
+        'common_domain_host'  => [
+            'name' => 'Primary domain name',
+            'desc' => 'Site address',
+            'tips' => 'Please fill in the correct primary domain name',
+        ],
+        'common_user_address_platform_import_list'  => [
+            'name' => 'One-click import of account address',
+            'desc' => 'Default off',
+            'tips' => 'Please select to get the account address and click to import',
+        ],
+        'common_app_mini_kuaishou_appid'  => [
+            'name' => 'AppID',
+            'desc' => 'Applet ID',
+            'tips' => 'Please fill in AppID',
+        ],
+        'common_app_mini_kuaishou_appsecret'  => [
+            'name' => 'AppSecret',
+            'desc' => 'Applet Secret',
+            'tips' => 'Please fill in AppSecret',
+        ],
+        'common_app_mini_kuaishou_title'  => [
+            'name' => 'name',
+            'desc' => '',
+            'tips' => 'Please fill in the name',
+        ],
+        'common_app_mini_kuaishou_describe'  => [
+            'name' => 'describe',
+            'desc' => '',
+            'tips' => 'Please fill in the description',
+        ],
+        'common_data_encryption_secret'  => [
+            'name' => 'Data encryption key',
+            'desc' => 'The default installation system has been automatically generated and can be modified',
+            'tips' => 'Please fill in the data encryption key',
+        ],
+        'common_cookie_domain'  => [
+            'name' => 'Cookie valid domain name',
+            'desc' => 'If it is empty by default, the currently accessed domain name is valid',
+            'tips' => 'Please fill in the valid domain name of the cookie',
+        ],
+        'common_excel_export_type'  => [
+            'name' => 'Excel export type',
+            'desc' => 'Default CSV',
+            'tips' => 'Please select Excel export type',
+        ],
+        'common_map_type'  => [
+            'name' => 'Map type',
+            'desc' => 'Default Baidu map',
+            'tips' => 'Please select a map type',
+        ],
+        'common_amap_map_ak'  => [
+            'name' => 'Gaode map api secret key',
+            'desc' => 'Application Key and Security Secret Key of Gaud Map',
+            'tips' => 'Please fill in the api secret key of Gaode Map',
+        ],
+        'common_tencent_map_ak'  => [
+            'name' => 'Tencent map api secret key',
+            'desc' => 'Application Key of Tencent Map',
+            'tips' => 'Please fill in Tencent map api secret key',
+        ],
+        'common_amap_map_safety_ak'  => [
+            'name' => 'Security key of Gaud Map',
+            'desc' => 'Application security key of Gaode map',
+            'tips' => 'Please fill in the security key of Gaode map',
+        ],
+        'common_default_payment'  => [
+            'name' => 'Default payment method',
+            'desc' => 'Corresponding platform settings',
+            'tips' => 'Please select the default payment method',
+        ],
+        'common_fictitious_order_direct_pay'  => [
+            'name' => 'Direct submission and payment of virtual order',
+            'desc' => 'No by default, the virtual order automatically creates an order and directly enters the order list to initiate payment, and the order confirmation phase is omitted (please set the default payment method first)',
+            'tips' => 'Please select whether the virtual order is directly submitted for payment',
+        ],
+        'home_search_history_record'  => [
+            'name' => 'Turn on search record',
+            'desc' => 'Default no',
+            'tips' => 'Please select to open search record',
+        ],
+        'common_agreement_userlogout'  => [
+            'name' => 'Account cancellation agreement',
+            'desc' => 'Up to 105000 characters',
+            'tips' => 'Account cancellation agreement can be 105000 characters at most',
+        ],
+        'home_main_header_status'  => [
+            'name' => 'Main navigation',
+            'desc' => 'Default on',
+            'tips' => 'Please select the main navigation status',
+        ],
+        'home_main_top_header_status'  => [
+            'name' => 'Top small navigation',
+            'desc' => 'Default on',
+            'tips' => 'Please select the top small navigation status',
+        ],
+        'home_main_logo_search_status'  => [
+            'name' => 'Logo and search bar',
+            'desc' => 'Default on',
+            'tips' => 'Please select logo and search bar status',
+        ],
+        'home_main_breadcrumb_header_status'  => [
+            'name' => 'Breadcrumb navigation',
+            'desc' => 'Default on',
+            'tips' => 'Please select breadcrumb navigation status',
+        ],
+        'home_main_footer_content_status'  => [
+            'name' => 'Bottom Footer Content',
+            'desc' => 'Default on',
+            'tips' => 'Please select the bottom footer content status',
         ],
     ],
 ];

@@ -56,14 +56,8 @@
 					<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
 				</button>
 			</div>
-			<div class="am-form-group">
-				<label>{{:MyLang('form_sort_title')}}</label>
-				<input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="{{if isset($data['sort'])}}{{$data.sort}}{{else /}}0{{/if}}" required />
-			</div>
-			<div class="am-form-group">
-			    <label class="am-block">{{:MyLang('form_is_enable_title')}}</label>
-			    <input name="is_enable" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_enable'] eq 1}} checked="true"{{/if}} />
-			</div>
+			{{include file="lib/sort" /}}
+			{{include file="lib/is_enable" /}}
 			<div class="am-form-group">
 			    <label class="am-block">{{:MyLang('apphomenav.form_item_is_need_login')}}</label>
 			    <input name="is_need_login" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_need_login'] eq 1}} checked="true"{{/if}} />

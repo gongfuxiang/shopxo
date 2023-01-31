@@ -16,13 +16,12 @@
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <!-- 提示 -->
-                    <div class="am-alert am-alert-warning am-radius am-margin-top-xs" data-am-alert>
-                        <button type="button" class="am-close">&times;</button>
-                        <p class="am-text-xs">1. 快递、常规电商流程，用户选择收货地址下单支付 -> 商家发货 -> 确认收货 -> 订单完成</p>
-                        <p class="am-text-xs">2. 展示型、仅展示产品，可发起咨询（不能下单）</p>
-                        <p class="am-text-xs">3. 自提点、下单时选择自提货物地址，用户下单支付 -> 确认提货 -> 订单完成</p>
-                        <p class="am-text-xs">4. 虚拟销售、常规电商流程，用户下单支付 -> 自动发货 -> 确认提货 -> 订单完成</p>
-                    </div>
+                    {{if is_array(MyLang('site.sitetype_top_tips_list'))}}
+                        <div class="am-alert am-alert-warning am-radius am-margin-top-xs" data-am-alert>
+                            <button type="button" class="am-close">&times;</button>
+                            <p>{{:implode('</p><p>', MyLang('site.sitetype_top_tips_list'))}}</p>
+                        </div>
+                    {{/if}}
 
                     <!-- 站点类型 -->
                     <div class="am-form-group">
@@ -39,7 +38,7 @@
             <!-- 展示型 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">展示型</span>
+                    <h3 class="am-panel-title">{{:MyLang('site.base_item_display_type_title')}}</span>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
@@ -52,7 +51,7 @@
             <!-- 自提点 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">自提点</h3>
+                    <h3 class="am-panel-title">{{:MyLang('site.base_item_self_extraction_title')}}</h3>
                 </div>
                 <div class="am-panel-bd">
                     <ul class="am-list am-list-static am-list-border am-list-striped am-form-group am-btn-sm am-form-group-refreshing am-margin-bottom-0 am-padding-bottom-0 address-list">
@@ -68,21 +67,21 @@
                                             <span class="am-badge am-radius am-badge-success am-margin-left-xs">{{$address.alias}}</span>
                                         {{/if}}
                                     </span>
-                                    <span class="am-badge am-radius am-icon-remove delete-submit"> 移除</span>
-                                    <span class="am-badge am-radius am-icon-edit edit-submit"> 编辑</span>
+                                    <span class="am-badge am-radius am-icon-remove delete-submit"> {{:MyLang('remove_title')}}</span>
+                                    <span class="am-badge am-radius am-icon-edit edit-submit"> {{:MyLang('edit_title')}}</span>
                                 </li>
                             {{/foreach}}
                         {{/if}}
                     </ul>
                     <input type="hidden" name="{{$data.common_self_extraction_address.only_tag}}" value="{{$data.common_self_extraction_address.value}}" class="self-extraction-address-value" />
-                    <button type="button" class="am-btn am-btn-secondary am-radius am-icon-plus am-btn-sm am-margin-top-sm address-submit-add"> 添加地址</button>
+                    <button type="button" class="am-btn am-btn-secondary am-radius am-icon-plus am-btn-sm am-margin-top-sm address-submit-add"> {{:MyLang('site.add_self_extractio_address_title')}}</button>
                 </div>
             </div>
 
             <!-- 虚拟销售 -->
             <div class="am-panel am-panel-default">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">虚拟销售</h3>
+                    <h3 class="am-panel-title">{{:MyLang('site.base_item_fictitious_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <div class="am-form-group">
@@ -107,40 +106,52 @@
 <!-- right content end  -->
 
 <!-- 自提点地址添加弹层 -->
-<div class="am-popup" id="popup-address-win">
+<div class="am-popup am-radius" id="popup-address-win">
     <div class="am-popup-inner">
         <div class="am-popup-hd">
             <h4 class="am-popup-title">地址添加</h4>
             <span data-am-modal-close class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
-            <form class="am-form form-validation-address" method="post" request-type="sync" request-value="ViewAddressModalBack">
-                <div class="am-form-group am-form-file">
-                    <label class="am-block">logo图片<span class="am-form-group-label-tips">建议300x300px</span></label>
-                    <ul class="plug-file-upload-view sitetype-logo" data-form-name="logo" data-max-number="1" data-dialog-type="images"></ul>
-                    <div class="plug-file-upload-submit" data-view-tag="ul.sitetype-logo">+ {{:MyLang('form_upload_images_title')}}</div>
-                </div>
-                <div class="am-form-group">
-                    <label>别名</label>
-                    <input type="text" name="alias" placeholder="别名" minlength="0" maxlength="16" data-validation-message="别名格式最多 16 个字符" class="am-radius" />
+            <form class="am-form form-validation-address am-form-pure am-form-full-screen am-form-popup-fixed" method="post" request-type="sync" request-value="ViewAddressModalBack">
+                <div class="am-cf">
+                    <div class="am-u-sm-6 am-padding-horizontal-0">
+                        <div class="am-form-group am-form-file">
+                            <label class="am-block">{{:MyLang('site.form_take_address_logo')}}<span class="am-form-group-label-tips">{{:MyLang('site.form_take_address_logo_tips')}}</span></label>
+                            <ul class="plug-file-upload-view sitetype-logo" data-form-name="logo" data-max-number="1" data-dialog-type="images"></ul>
+                            <div class="plug-file-upload-submit" data-view-tag="ul.sitetype-logo">+ {{:MyLang('form_upload_images_title')}}</div>
+                        </div>
+                    </div>
+                    <div class="am-u-sm-6 am-padding-horizontal-0">
+                        <div class="am-form-group">
+                            <label>{{:MyLang('site.form_take_address_alias')}}</label>
+                            <input type="text" name="alias" placeholder="{{:MyLang('site.form_take_address_alias_message')}}" minlength="0" maxlength="16" data-validation-message="{{:MyLang('site.form_take_address_alias_message')}}" class="am-radius" />
+                        </div>
+                    </div>
                 </div>
 
-                <div class="am-form-group">
-                    <label>联系人<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="name" placeholder="联系人" minlength="2" maxlength="16" data-validation-message="联系人格式 2~16 个字符之间" class="am-radius" required />
-                </div>
-                <div class="am-form-group">
-                    <label>联系电话<span class="am-form-group-label-tips-must">*</span></label>
-                    <input type="text" name="tel" placeholder="联系电话" minlength="6" maxlength="30" data-validation-message="联系电话格式有误" class="am-radius" required />
+                <div class="am-cf">
+                    <div class="am-u-sm-6 am-padding-horizontal-0">
+                        <div class="am-form-group">
+                            <label>{{:MyLang('site.form_take_address_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <input type="text" name="name" placeholder="{{:MyLang('site.form_take_address_name_message')}}" minlength="2" maxlength="16" data-validation-message="{{:MyLang('site.form_take_address_name_message')}}" class="am-radius" required />
+                        </div>
+                    </div>
+                    <div class="am-u-sm-6 am-padding-horizontal-0">
+                        <div class="am-form-group">
+                            <label>{{:MyLang('site.form_take_address_tel')}}<span class="am-form-group-label-tips-must">*</span></label>
+                            <input type="text" name="tel" placeholder="{{:MyLang('site.form_take_address_tel')}}" minlength="6" maxlength="30" data-validation-message="{{:MyLang('site.form_take_address_tel_message')}}" class="am-radius" required />
+                        </div>
+                    </div>
                 </div>
 
                 {{include file="lib/region_linkage" /}}
                 <div class="am-form-group">
-                    <label>详细地址<span class="am-form-group-label-tips-must">*</span></label>
+                    <label>{{:MyLang('site.form_take_address_address')}}<span class="am-form-group-label-tips-must">*</span></label>
                     <div class="am-input-group am-input-group-sm">
                         <input type="hidden" name="lng" id="form-lng" />
                         <input type="hidden" name="lat" id="form-lat" />
-                        <input type="text" name="address" id="form-address" placeholder="详细地址" minlength="2" maxlength="80" data-validation-message="详细地址格式 1~80 个字符之间" class="am-radius am-form-field" required />
+                        <input type="text" name="address" id="form-address" placeholder="{{:MyLang('site.form_take_address_address')}}" minlength="2" maxlength="80" data-validation-message="{{:MyLang('site.form_take_address_address_message')}}" class="am-radius am-form-field" required />
                         <span class="am-input-group-btn">
                             <button class="am-btn am-btn-default am-radius" type="button" id="map-location-submit">
                                 <i class="am-icon-map-marker"></i>
@@ -151,7 +162,7 @@
                     <div id="map" data-level="17" class="am-margin-top-xs"></div>
                 </div>
 
-                <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-horizontal-0">
+                <div class="am-form-popup-submit">
                     <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('confirm_title')}}</button>
                 </div>
             </form>

@@ -5,7 +5,7 @@
 	<div class="content">
 		<div class="am-alert am-alert-warning am-radius am-margin-bottom-0" data-am-alert>
 		    <button type="button" class="am-close">&times;</button>
-		    <p class="am-text-xs">根据服务器环境[Nginx、Apache、IIS]不同配置相应的伪静态规则 {{if !empty($site_store_links) and !empty($site_store_links['htaccess_set_course'])}}<a href="{{$site_store_links.htaccess_set_course}}" class="am-margin-left-sm" target="_blank">查看配置教程 <i class="am-icon-external-link"></i></a>{{/if}}</p>
+		    <p class="am-text-xs">{{:MyLang('seo.top_tips')}} {{if !empty($site_store_links) and !empty($site_store_links['htaccess_set_course'])}}<a href="{{$site_store_links.htaccess_set_course}}" class="am-margin-left-sm" target="_blank">{{:MyLang('view_config_course_name')}} <i class="am-icon-external-link"></i></a>{{/if}}</p>
 		</div>
 
 		<!-- form start -->
@@ -46,7 +46,7 @@
 	</div>
 </div>
 <!-- right content end  -->
-		
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->

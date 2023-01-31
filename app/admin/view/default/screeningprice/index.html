@@ -13,30 +13,31 @@
         <div class="am-popup am-radius" id="data-save-win">
 			<div class="am-popup-inner">
 				<div class="am-popup-hd">
-					<h4 class="am-popup-title" data-add-title="筛选价格添加" data-edit-title="筛选价格编辑">筛选价格添加</h4>
+					<h4 class="am-popup-title" data-add-title="{{:MyLang('screeningprice.base_nav_title')}}{{:MyLang('add_title')}}" data-edit-title="{{:MyLang('screeningprice.base_nav_title')}}{{:MyLang('edit_title')}}">{{:MyLang('screeningprice.base_nav_title')}}{{:MyLang('add_title')}}</h4>
 					<span data-am-modal-close class="am-close">&times;</span>
 				</div>
 				<div class="am-popup-bd">
-					<div class="am-alert am-alert-secondary" data-am-alert>规则举例<br /><span class=mini-tips-text>最小价格0 - 最大价格100 则是小于100<br /> 最小价格1000 - 最大价格0 则是大于1000<br /> 最小价格100 - 最大价格500 则是大于等于100并且小于500</span></div>
+					{{if is_array(MyLang('screeningprice.top_tips_list'))}}
+						<div class="am-alert am-alert-secondary">
+							<p>{{:implode('</p><p>', MyLang('screeningprice.top_tips_list'))}}</p>
+						</div>
+					{{/if}}
 					<!-- form start -->
 					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/screeningprice/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group">
-							<label>名称<span class="am-form-group-label-tips-must">*</span></label>
-							<input type="text" placeholder="名称" name="name" minlength="2" maxlength="16" data-validation-message="名称格式 2~16 个字符" class="am-radius" required />
+							<label>{{:MyLang('screeningprice.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+							<input type="text" placeholder="{{:MyLang('screeningprice.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('screeningprice.form_item_name_message')}}" class="am-radius" required />
 						</div>
 						<div class="am-form-group">
-							<label>最小价格<span class="am-form-group-label-tips-must">*</span></label>
-							<input type="number" placeholder="最小价格" name="min_price" maxlength="10" data-validation-message="最小价格有误" class="am-radius" value="0" required />
+							<label>{{:MyLang('screeningprice.form_item_min_price')}}<span class="am-form-group-label-tips-must">*</span></label>
+							<input type="number" placeholder="{{:MyLang('screeningprice.form_item_min_price')}}" name="min_price" maxlength="10" data-validation-message="{{:MyLang('screeningprice.form_item_min_price_message')}}" class="am-radius" value="0" required />
 						</div>
 						<div class="am-form-group">
-							<label>最大价格<span class="am-form-group-label-tips-must">*</span></label>
-							<input type="number" placeholder="最大价格" name="max_price" maxlength="10" data-validation-message="最大价格有误" class="am-radius" value="0" required />
+							<label>{{:MyLang('screeningprice.form_item_max_price')}}<span class="am-form-group-label-tips-must">*</span></label>
+							<input type="number" placeholder="{{:MyLang('screeningprice.form_item_max_price')}}" name="max_price" maxlength="10" data-validation-message="{{:MyLang('screeningprice.form_item_max_price_message')}}" class="am-radius" value="0" required />
 						</div>
-						<div class="am-form-group">
-							<label>{{:MyLang('form_sort_title')}}</label>
-							<input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
-						</div>
-						{{include file="lib/enable" /}}
+						{{include file="lib/sort" /}}
+						{{include file="lib/is_enable" /}}
 						<div class="am-form-popup-submit">
 							<input type="hidden" name="id" />
 							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>
@@ -56,7 +57,7 @@
 	</div>
 </div>
 <!-- right content end  -->
-		
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->

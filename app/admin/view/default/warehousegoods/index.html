@@ -30,8 +30,8 @@
                                 {{/foreach}}
                             {{/if}}
                         </select>
-                        <select class="am-radius chosen-select forth-selection-form-category" data-placeholder="商品分类..." data-validation-message="请选择商品分类">
-                            <option value="">商品分类...</option>
+                        <select class="am-radius chosen-select forth-selection-form-category" data-placeholder="{{:MyLang('form_goods_category_placeholder')}}" data-validation-message="{{:MyLang('form_goods_category_message')}}">
+                            <option value="">{{:MyLang('form_goods_category_placeholder')}}</option>
                             {{if !empty($goods_category_list)}}
                                 {{foreach $goods_category_list as $v}}
                                     <option value="{{$v.id}}">{{$v.name}}</option>
@@ -48,8 +48,8 @@
                                 {{/foreach}}
                             {{/if}}
                         </select>
-                        <input type="text" placeholder="商品名称" class="am-radius forth-selection-form-keywords" />
-                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-icon-search search-submit" data-am-loading="{loadingText: ' {{:MyLang('searching_tips')}}'}"> 搜索</button>
+                        <input type="text" placeholder="{{:MyLang('goods_name')}}" class="am-radius forth-selection-form-keywords" />
+                        <button type="button" class="am-btn am-btn-secondary am-radius am-btn-sm am-icon-search search-submit" data-am-loading="{loadingText: ' {{:MyLang('searching_tips')}}'}"> {{:MyLang('search_title')}}</button>
                     </div>
 
                     <!-- 商品列表 -->

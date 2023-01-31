@@ -1,16 +1,16 @@
 <!-- 取货信息 -->
 {{if !empty($module_data) and !empty($module_data['extraction_data'])}}
     <p>
-        <span>取货码 :</span>
+        <span>{{:MyLang('order.form_item_take')}} :</span>
         {{if empty($module_data['extraction_data']['code'])}}
-            <span class="am-text-danger">无</span>
+            <span class="am-text-danger">{{:MyLang('no_data')}}</span>
         {{else /}}
             <span class="am-badge am-badge-success am-radius">{{$module_data.extraction_data.code}}</span>
         {{/if}}
     </p>
     {{if !empty($module_data['extraction_data']['images'])}}
         <p class="am-margin-top-xs">
-            <img class="am-img-thumbnail" src="{{$module_data.extraction_data.images}}" alt="取货码" width="100" height="100" />
+            <img class="am-img-thumbnail" src="{{$module_data.extraction_data.images}}" alt="{{:MyLang('order.form_item_take')}}" width="100" height="100" />
         </p>
     {{/if}}
 {{/if}}

@@ -12,8 +12,8 @@
             <div class="am-modal-bd">
                 <form class="am-form form-validation-take" method="post" action="{{:MyUrl('admin/order/delivery')}}" request-type="ajax-reload">
                     <div class="am-form-group am-form-group-refreshing am-margin-bottom-0">
-                        <label>取货码</label>
-                        <input type="text" autocomplete="off" name="extraction_code" placeholder="取货码" minlength="4" maxlength="4" data-validation-message="请填写4位数取货码" class="am-radius" required />
+                        <label>{{:MyLang('order.form_item_take')}}</label>
+                        <input type="text" autocomplete="off" name="extraction_code" placeholder="{{:MyLang('order.form_item_take_message')}}" minlength="4" maxlength="4" data-validation-message="{{:MyLang('order.form_item_take_message')}}" class="am-radius" required />
                     </div>
                     <div class="am-form-group am-form-group-refreshing">
                         <input type="hidden" name="id" value="0" />
@@ -29,7 +29,7 @@
     <div class="am-popup am-radius" id="order-delivery-popup">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title">发货操作</h4>
+                <h4 class="am-popup-title">{{:MyLang('order.form_delivery_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">
@@ -59,8 +59,8 @@
                     </div>
 
                     <div class="am-margin-top-sm">
-                        <label>快递单号</label>
-                        <input type="text" autocomplete="off" name="express_number" placeholder="快递单号" minlength="1" data-validation-message="请填写快递单号" class="am-radius" required />
+                        <label>{{:MyLang('order.form_item_express_number')}}</label>
+                        <input type="text" autocomplete="off" name="express_number" placeholder="{{:MyLang('order.form_item_express_number')}}" minlength="1" data-validation-message="{{:MyLang('order.form_item_express_number_message')}}" class="am-radius" required />
                     </div>
                     
                     <div class="am-form-popup-submit">
@@ -78,7 +78,7 @@
     <div class="am-popup am-radius" id="order-pay-popup">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title">支付操作</h4>
+                <h4 class="am-popup-title">{{:MyLang('order.form_payment_title')}}</h4>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
             <div class="am-popup-bd">

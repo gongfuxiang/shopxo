@@ -14,7 +14,7 @@
                 <div class="am-input-group am-input-group-sm">
                     <input type="number" min="0" name="{{$data.common_verify_expire_time.only_tag}}" placeholder="{{$data.common_verify_expire_time.name}}" data-validation-message="{{$data.common_verify_expire_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_verify_expire_time.value}}"{{/if}} />
                     <span class="am-input-group-btn">
-                        <button class="am-btn am-btn-default" type="button">秒</button>
+                        <button class="am-btn am-btn-default" type="button">{{:MyLang('second_title')}}</button>
                   </span>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 <div class="am-input-group am-input-group-sm">
                     <input type="number" min="0" name="{{$data.common_verify_interval_time.only_tag}}" placeholder="{{$data.common_verify_interval_time.name}}" data-validation-message="{{$data.common_verify_interval_time.error_tips}}" class="am-radius am-form-field" {{if !empty($data)}}value="{{$data.common_verify_interval_time.value}}"{{/if}} />
                     <span class="am-input-group-btn">
-                        <button class="am-btn am-btn-default" type="button">秒</button>
+                        <button class="am-btn am-btn-default" type="button">{{:MyLang('second_title')}}</button>
                   </span>
                 </div>
             </div>
@@ -54,7 +54,7 @@
     </div>
 </div>
 <!-- right content end  -->
-        
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->

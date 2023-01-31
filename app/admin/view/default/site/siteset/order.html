@@ -16,7 +16,7 @@
             <!-- 基础 -->
             <div class="am-panel am-panel-default am-margin-top-sm">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">基础</h3>
+                    <h3 class="am-panel-title">{{:MyLang('base_title')}}</h3>
                 </div>
                 <div class="am-panel-bd am-padding-vertical-xs">
                     <!-- 是否预约模式 -->
@@ -100,17 +100,17 @@
             <!-- 默认支付方式 -->
             <div class="am-panel am-panel-default am-margin-top-sm">
                 <div class="am-panel-hd">
-                    <h3 class="am-panel-title">默认支付方式</h3>
+                    <h3 class="am-panel-title">{{:MyLang('site.base_item_default_payment_title')}}</h3>
                 </div>
                 <div class="am-panel-bd">
                     <div class="business-form-group am-padding-vertical-0 platform-list-value-container">
-                        <p class="am-text-warning">可以设置不同平台对应的默认支付方式、请先在[ 网站管理 -> 支付方式 ]中安装好支付插件启用并对用户开放</p>
+                        <p class="am-text-warning">{{:MyLang('site.site_setup_order_default_payment_tips')}}</p>
                         {{foreach $common_platform_type as $v}}
                             <div class="am-input-group am-input-group-sm">
                                 <span class="am-input-group-btn">
                                     <button type="button" class="am-btn am-btn-default am-radius">{{$v.name}}</button>
                                 </span>
-                                <select name="common_default_payment[{{$v.value}}]" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="请选择{{$v.name}}默认支付方式">
+                                <select name="common_default_payment[{{$v.value}}]" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('site.site_setup_choice_payment_message', ['name'=>$v['name']])}}">
                                     <option value="">{{:MyLang('optional_tips')}}</option>
                                     {{if !empty($payment_list)}}
                                         {{foreach $payment_list as $pay}}
@@ -136,7 +136,7 @@
     </div>
 </div>
 <!-- right content end  -->
-        
+
 <!-- footer start -->
 {{include file="public/footer" /}}
 <!-- footer end -->

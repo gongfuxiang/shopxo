@@ -6,24 +6,24 @@
         <!-- form start -->
         <form class="am-form form-validation" action="{{:MyUrl('admin/pluginsadmin/saveinfo')}}" method="POST" request-type="form" enctype="multipart/form-data">
             <legend>
-                <span class="am-text-default">应用{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
+                <span class="am-text-default">{{:MyLang('pluginsadmin.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
                 <a href="{{:MyUrl('admin/pluginsadmin/index')}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>
             </legend>
 
             <div class="am-form-group">
-                <label>应用唯一标记<span class="am-form-group-label-tips">以数字、字母小写、下划线</span></label>
-                <input type="text" name="plugins" placeholder="名称" minlength="2" maxlength="60" data-validation-message="应用唯一标记格式 2~60 个字符" pattern="^[a-z0-9_]{2,60}$" class="am-radius" {{if !empty($data)}} value="{{$data.plugins}}"{{/if}} required />
+                <label>{{:MyLang('pluginsadmin.form_item_plugins')}}<span class="am-form-group-label-tips">{{:MyLang('pluginsadmin.form_item_plugins_tips')}}</span></label>
+                <input type="text" name="plugins" placeholder="{{:MyLang('pluginsadmin.form_item_plugins_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('pluginsadmin.form_item_plugins_message')}}" pattern="^[a-z0-9_]{2,60}$" class="am-radius" {{if !empty($data['plugins'])}} value="{{$data.plugins}}"{{/if}} required />
                 <!-- 校验信息 -->
                 {{if !empty($verification_msg)}}
                     <div class="am-alert am-alert-danger" data-am-alert>
-                        {{$verification_msg}} ， 请重新填写！
+                        {{$verification_msg}} ， {{:MyLang('pluginsadmin.form_create_error_tips')}}
                     </div>
                 {{/if}}
             </div>
 
             <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
                 <input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
-                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">下一步</button>
+                <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('pluginsadmin.form_create_first_step_button_name')}}</button>
             </div>
         </form>
         <!-- form end -->

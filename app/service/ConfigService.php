@@ -141,7 +141,7 @@ class ConfigService
         $data = Db::name('Config')->column($field, 'only_tag');
         if(!empty($data))
         {
-            $lang = MyLang('common.config');
+            $lang = MyLang('common_config');
             foreach($data as $k=>&$v)
             {
                 // 字符串转数组

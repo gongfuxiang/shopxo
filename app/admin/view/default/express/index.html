@@ -38,11 +38,8 @@
 							<label>{{:MyLang('express.form_item_website_url')}}</label>
 							<input type="url" placeholder="{{:MyLang('express.form_item_website_url_placeholder')}}" name="website_url"  data-validation-message="{{:MyLang('express.form_item_website_url_message')}}" class="am-radius" {{if !empty($data['website_url'])}} value="{{$data.website_url}}"{{/if}} />
 						</div>
-						<div class="am-form-group">
-							<label>{{:MyLang('form_sort_title')}}</label>
-							<input type="number" placeholder="{{:MyLang('form_sort_title')}}" name="sort" min="0" max="255" data-validation-message="{{:MyLang('form_sort_message')}}" class="am-radius" value="0" required />
-						</div>
-						{{include file="lib/enable" /}}
+						{{include file="lib/sort" /}}
+						{{include file="lib/is_enable" /}}
 						<div class="am-form-popup-submit">
 							<input type="hidden" name="id" />
 							<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>

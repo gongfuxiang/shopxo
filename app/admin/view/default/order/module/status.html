@@ -2,6 +2,6 @@
 {{if !empty($module_data)}}
     <p>{{$module_data.status_name}}</p>
     {{if $module_data['user_is_delete_time'] neq 0}}
-        <p class="am-text-warning">用户已删除</p>
+        <p class="am-text-warning">{{:MyLang('user_delete_operate_tips')}}</p>
     {{/if}}
 {{/if}}

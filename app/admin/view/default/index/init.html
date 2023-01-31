@@ -33,9 +33,9 @@
 					{{if !empty($site_store_info) and !empty($site_store_info['user'])}}
 						<i class="am-icon-user"></i>
 						<span>{{$site_store_info.user.user_name_view}}</span>
-						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">修改</a>
+						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">{{:MyLang('modify_title')}}</a>
 					{{else /}}
-						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">绑定ShopXO商店账户</a>
+						<a href="javascript:;" class="am-margin-left-xs store-accounts-event">{{:MyLang('common.store_bind_accounts_name')}}</a>
 						<!-- 连接商店错误信息 --->
 						{{if !empty($site_store_error)}}
 							<span class="am-text-danger am-margin-left-sm">{{$site_store_error}}</span>
@@ -50,13 +50,13 @@
 				<div class="am-fr am-nbfc right-content">
 					<!-- VIP授权信息 -->
 					{{if !empty($site_store_info) and !empty($site_store_info['vip']) and !empty($site_store_info['vip']['auth_view'])}}
-						<a class="am-icon-diamond vip {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '授权主体：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}> {{$site_store_info.vip.auth_view}}</a>
+						<a class="am-icon-diamond vip {{if isset($site_store_info['vip']['status']) and $site_store_info['vip']['status'] eq 1}}vip-active{{/if}}" {{if empty($site_store_info['vip']['go_url'])}}href="javascript:;"{{else /}}href="{{$site_store_info.vip.go_url}}" target="_blank"{{/if}} {{if !empty($site_store_info['vip']['auth_person'])}}data-am-popover="{content: '{{:MyLang('common.store_bind_authorized_subject_name')}}：{{$site_store_info.vip.auth_person}}', trigger: 'hover focus', theme: 'sm'}"{{/if}}> {{$site_store_info.vip.auth_view}}</a>
 					{{/if}}
 
 					<!-- 右侧版本信息及更新检查 -->
 					<span class="right-base">
 						<a {{if !empty($site_store_links) and !empty($site_store_links['system_update_log'])}}href="{{$site_store_links.system_update_log}}" target="_blank"{{else /}}href="javascript:;"{{/if}} class="am-margin-left-xs">{{$Think.APPLICATION_VERSION}}</a>
-						<a href="javascript:;" class="am-margin-left-sm inspect-upgrade-submit" data-url="{{:MyUrl('admin/index/inspectupgrade')}}">检查更新{{if !empty($site_store_info) and !empty($site_store_info['upgrade']) and !empty($site_store_info['upgrade']['version_old']) and $site_store_info['upgrade']['version_old'] eq $Think.APPLICATION_VERSION}}<i></i>{{/if}}</a>
+						<a href="javascript:;" class="am-margin-left-sm inspect-upgrade-submit" data-url="{{:MyUrl('admin/index/inspectupgrade')}}">{{:MyLang('common.store_check_update_name')}}{{if !empty($site_store_info) and !empty($site_store_info['upgrade']) and !empty($site_store_info['upgrade']['version_old']) and $site_store_info['upgrade']['version_old'] eq $Think.APPLICATION_VERSION}}<i></i>{{/if}}</a>
 					</span>
 				</div>
 			</div>
@@ -118,8 +118,8 @@
 			<div class="block-container shopxo-base">
 				<div class="block-title echarts-title">
 					<span class="icon"></span>
-					<span class="title">商城统计</span>
-					<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '时间筛选仅对总数有效', trigger: 'hover focus', theme: 'sm'}"></a>
+					<span class="title">{{:MyLang('index.base_item_base_stats_title')}}</span>
+					<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_base_stats_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
 					<div class="am-fr right-operate" data-type="base-count" data-empty-time="1">
 					    {{if !empty($time_data)}}
 					        <span class="quick-time">
@@ -128,7 +128,7 @@
 					                	<a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
 					            	{{/if}}
 					            {{/foreach}}
-					            <a href="javascript:;" data-start="" data-end="">全部</a>
+					            <a href="javascript:;" data-start="" data-end="">{{:MyLang('all_title')}}</a>
 					        </span>
 					    {{/if}}
 					    {{include file="/index/stats_where" /}}
@@ -137,22 +137,22 @@
 				<ul class="{{if isset($is_income) and $is_income eq true}}am-avg-sm-2 am-avg-lg-4{{else /}}am-avg-sm-1 am-avg-lg-3{{/if}}">
 					<li>
 						<div class="li-content">
-							<p class="name">用户总量</p>
+							<p class="name">{{:MyLang('index.base_item_user_title')}}</p>
 							<p class="total animation-count-to base-user-count" data-to="{{$base_count.user_count}}" data-speed="1500">0</p>
 							<div class="item am-margin-bottom-xs">
-								<span>上月</span>
+								<span>{{:MyLang('index.base_item_last_month_title')}}</span>
 								<span class="animation-count-to" data-to="{{$user.last_month_count}}" data-speed="1500">0</span>
 							</div>
 							<div class="item am-margin-bottom-xs">
-								<span>当月</span>
+								<span>{{:MyLang('index.base_item_same_month_title')}}</span>
 								<span class="animation-count-to" data-to="{{$user.same_month_count}}" data-speed="1500">0</span>
 							</div>
 							<div class="item am-margin-bottom-xs">
-								<span>昨日</span>
+								<span>{{:MyLang('index.base_item_yesterday_title')}}</span>
 								<span class="animation-count-to" data-to="{{$user.yesterday_count}}" data-speed="1500">0</span>
 							</div>
 							<div class="item">
-								<span>今日</span>
+								<span>{{:MyLang('index.base_item_today_title')}}</span>
 								<span class="animation-count-to" data-to="{{$user.today_count}}" data-speed="1500">0</span>
 							</div>
 							<i class="am-icon-user am-icon-lg bg-icon"></i>
@@ -160,22 +160,22 @@
 					</li>
 					<li>
 						<div class="li-content">
-							<p class="name">订单总量</p>
+							<p class="name">{{:MyLang('index.base_item_order_number_title')}}</p>
 							<p class="total animation-count-to base-order-count" data-to="{{$base_count.order_count}}" data-speed="1500">0</p>
 							<div class="item am-margin-bottom-xs">
-								<span>上月</span>
+								<span>{{:MyLang('index.base_item_last_month_title')}}</span>
 								<span class="animation-count-to" data-to="{{$order_number.last_month_count}}" data-speed="1500">0</span>
 							</div>
 							<div class="item am-margin-bottom-xs">
-								<span>当月</span>
+								<span>{{:MyLang('index.base_item_same_month_title')}}</span>
 								<span class="animation-count-to" data-to="{{$order_number.same_month_count}}" data-speed="1500">0</span>
 							</div>
 							<div class="item am-margin-bottom-xs">
-								<span>昨日</span>
+								<span>{{:MyLang('index.base_item_yesterday_title')}}</span>
 								<span class="animation-count-to" data-to="{{$order_number.yesterday_count}}" data-speed="1500">0</span>
 							</div>
 							<div class="item">
-								<span>今日</span>
+								<span>{{:MyLang('index.base_item_today_title')}}</span>
 								<span class="animation-count-to" data-to="{{$order_number.today_count}}" data-speed="1500">0</span>
 							</div>
 							<i class="am-icon-pie-chart am-icon-lg bg-icon"></i>
@@ -183,22 +183,22 @@
 					</li>
 					<li>
 						<div class="li-content">
-							<p class="name">成交总量</p>
+							<p class="name">{{:MyLang('index.base_item_order_complete_number_title')}}</p>
 							<p class="total animation-count-to base-order-sale-count" data-to="{{$base_count.order_sale_count}}" data-speed="1500">0</p>
 							<div class="item am-margin-bottom-xs">
-								<span>上月</span>
+								<span>{{:MyLang('index.base_item_last_month_title')}}</span>
 								<span class="animation-count-to" data-to="{{$order_complete_number.last_month_count}}" data-speed="1500">0</span>
 							</div>
 							<div class="item am-margin-bottom-xs">
-								<span>当月</span>
+								<span>{{:MyLang('index.base_item_same_month_title')}}</span>
 								<span class="animation-count-to" data-to="{{$order_complete_number.same_month_count}}" data-speed="1500">0</span>
 							</div>
 							<div class="item am-margin-bottom-xs">
-								<span>昨日</span>
+								<span>{{:MyLang('index.base_item_yesterday_title')}}</span>
 								<span class="animation-count-to" data-to="{{$order_complete_number.yesterday_count}}" data-speed="1500">0</span>
 							</div>
 							<div class="item">
-								<span>今日</span>
+								<span>{{:MyLang('index.base_item_today_title')}}</span>
 								<span class="animation-count-to" data-to="{{$order_complete_number.today_count}}" data-speed="1500">0</span>
 							</div>
 							<i class="am-icon-gg am-icon-lg bg-icon"></i>
@@ -208,22 +208,22 @@
 					{{if isset($is_income) and $is_income eq true}}
 						<li>
 							<div class="li-content">
-								<p class="name">订单总计</p>
+								<p class="name">{{:MyLang('index.base_item_order_complete_title')}}</p>
 								<p class="total animation-count-to base-order-complete-total" data-to="{{$base_count.order_complete_total}}" data-speed="1500" data-decimals="2">0.00</p>
 								<div class="item am-margin-bottom-xs">
-									<span>上月</span>
+									<span>{{:MyLang('index.base_item_last_month_title')}}</span>
 									<span class="animation-count-to" data-to="{{$order_complete_money.last_month_count}}" data-speed="1500">0</span>
 								</div>
 								<div class="item am-margin-bottom-xs">
-									<span>当月</span>
+									<span>{{:MyLang('index.base_item_same_month_title')}}</span>
 									<span class="animation-count-to" data-to="{{$order_complete_money.same_month_count}}" data-speed="1500">0</span>
 								</div>
 								<div class="item am-margin-bottom-xs">
-									<span>昨日</span>
+									<span>{{:MyLang('index.base_item_yesterday_title')}}</span>
 									<span class="animation-count-to" data-to="{{$order_complete_money.yesterday_count}}" data-speed="1500" data-decimals="2">0.00</span>
 								</div>
 								<div class="item">
-									<span>今日</span>
+									<span>{{:MyLang('index.base_item_today_title')}}</span>
 									<span class="animation-count-to" data-to="{{$order_complete_money.today_count}}" data-speed="1500" data-decimals="2">0.00</span>
 								</div>
 								<i class="am-icon-line-chart am-icon-lg bg-icon"></i>
@@ -252,8 +252,8 @@
 				<div class="block-container">
 					<div class="block-title echarts-title">
 						<span class="icon"></span>
-						<span class="title">订单成交金额走势</span>
-						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '所有订单', trigger: 'hover focus', theme: 'sm'}"></a>
+						<span class="title">{{:MyLang('index.base_item_order_profit_title')}}</span>
+						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_order_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
 						<div class="am-fr right-operate" data-type="order-profit" data-init="1">
 						    {{if !empty($time_data)}}
 						        <span class="quick-time">
@@ -287,8 +287,8 @@
 			<div class="block-container">
 				<div class="block-title echarts-title">
 					<span class="icon"></span>
-					<span class="title">订单交易走势</span>
-					<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '所有订单', trigger: 'hover focus', theme: 'sm'}"></a>
+					<span class="title">{{:MyLang('index.base_item_order_trading_title')}}</span>
+					<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_order_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
 					<div class="am-fr right-operate" data-type="order-trading" data-init="1">
 					    {{if !empty($time_data)}}
 					        <span class="quick-time">
@@ -323,15 +323,15 @@
 					<!-- 热销商品 -->
 					<div class="block-title echarts-title">
 						<span class="icon"></span>
-						<span class="title">热销商品</span>
-						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '不含取消关闭的订单', trigger: 'hover focus', theme: 'sm'}"></a>
+						<span class="title">{{:MyLang('index.base_item_hot_sales_goods_title')}}</span>
+						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_hot_sales_goods_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
 						<div class="am-fr right-operate" data-type="goods-hot" data-init="1" data-empty-time="1">
 						    {{if !empty($time_data)}}
 						        <span class="quick-time">
 						            {{foreach $time_data as $k=>$v}}
 						                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
 						            {{/foreach}}
-						            <a href="javascript:;" data-start="" data-end="">全部</a>
+						            <a href="javascript:;" data-start="" data-end="">{{:MyLang('all_title')}}</a>
 						        </span>
 						    {{/if}}
 						    {{include file="/index/stats_where" /}}
@@ -344,8 +344,8 @@
 					<!-- 支付方式 -->
 					<div class="block-title echarts-title">
 						<span class="icon"></span>
-						<span class="title">支付方式</span>
-						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '所有订单', trigger: 'hover focus', theme: 'sm'}"></a>
+						<span class="title">{{:MyLang('index.base_item_payment_type_title')}}</span>
+						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_order_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
 						<div class="am-fr right-operate" data-type="pay-type" data-init="1">
 						    {{if !empty($time_data)}}
 						        <span class="quick-time">
@@ -380,12 +380,12 @@
 				<div class="block-container {{if $is_system_show_base eq 0}}am-margin-bottom-0{{/if}}">
 					<div class="block-title echarts-title">
 						<span class="icon"></span>
-						<span class="title">订单地域分布</span>
-						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '不含取消关闭的订单、默认维度（省）', trigger: 'hover focus', theme: 'sm'}"></a>
+						<span class="title">{{:MyLang('index.base_item_map_whole_country_title')}}</span>
+						<a href="javascript:;" class="am-icon-question-circle am-text-warning" data-am-popover="{content: '{{:MyLang('index.base_item_map_whole_country_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a>
 						<select name="value" data-am-selected="{btnWidth: '50px', btnSize: 'xs'}">
-							<option value="0" selected>省</option>
-							<option value="1">市</option>
-							<option value="2">区/县</option>
+							<option value="0" selected>{{:MyLang('index.base_item_map_whole_country_province')}}</option>
+							<option value="1">{{:MyLang('index.base_item_map_whole_country_city')}}</option>
+							<option value="2">{{:MyLang('index.base_item_map_whole_country_county')}}</option>
 						</select>
 						<div class="am-fr right-operate" data-type="order-whole-country" data-init="1" data-empty-time="1">
 						    {{if !empty($time_data)}}
@@ -393,7 +393,7 @@
 						            {{foreach $time_data as $k=>$v}}
 						                <a href="javascript:;" data-start="{{$v.start}}" data-end="{{$v.end}}">{{$v.name}}</a>
 						            {{/foreach}}
-						            <a href="javascript:;" data-start="" data-end="">全部</a>
+						            <a href="javascript:;" data-start="" data-end="">{{:MyLang('all_title')}}</a>
 						        </span>
 						    {{/if}}
 						    {{include file="/index/stats_where" /}}
@@ -424,25 +424,25 @@
 				<li>
 					<div class="block-title">
 						<span class="icon"></span>
-						<span class="title">系统信息</span>
+						<span class="title">{{:MyLang('index.system_info_title')}}</span>
 					</div>
 					<dl class="dl-content">
-						<dt class="am-text-truncate">软件版本</dt>
+						<dt class="am-text-truncate">{{:MyLang('index.system_ver_title')}}</dt>
 						<dd>{{$data.ver}}</dd>
 
-						<dt class="am-text-truncate">操作系统</dt>
+						<dt class="am-text-truncate">{{:MyLang('index.system_os_ver_title')}}</dt>
 						<dd>{{$data.os_ver}}</dd>
 
-						<dt class="am-text-truncate">PHP版本</dt>
+						<dt class="am-text-truncate">{{:MyLang('index.system_php_ver_title')}}</dt>
 						<dd>{{$data.php_ver}}</dd>
 
-						<dt class="am-text-truncate">MySQL版本</dt>
+						<dt class="am-text-truncate">{{:MyLang('index.system_mysql_ver_title')}}</dt>
 						<dd>{{$data.mysql_ver}}</dd>
 
-						<dt class="am-text-truncate">服务器端信息</dt>
+						<dt class="am-text-truncate">{{:MyLang('index.system_server_ver_title')}}</dt>
 						<dd>{{$data.server_ver}}</dd>
 
-						<dt class="am-text-truncate">当前域名</dt>
+						<dt class="am-text-truncate">{{:MyLang('index.system_host_title')}}</dt>
 						<dd>{{$data.host}}</dd>
 					</dl>
 				</li>
@@ -450,42 +450,46 @@
 				<li>
 					<div class="block-title">
 						<span class="icon"></span>
-						<span class="title">开发团队</span>
+						<span class="title">{{:MyLang('index.development_team_title')}}</span>
 					</div>
 					<dl class="dl-content">
-						<dt class="am-text-truncate">公司官网</dt>
+						<dt class="am-text-truncate">{{:MyLang('index.development_team_website_title')}}</dt>
 						<dd>
-							<a href="http://zongzhige.com/" target="_blank">上海纵之格科技有限公司</a>
+							<a href="http://zongzhige.com/" target="_blank">{{:MyLang('index.development_team_website_value')}}</a>
 						</dd>
 
-						<dt class="am-text-truncate">技术支持</dt>
+						<dt class="am-text-truncate">{{:MyLang('index.development_team_support_title')}}</dt>
 						<dd>
-							<a href="http://shopxo.net/" target="_blank">ShopXO企业级电商系统提供商</a>
+							<a href="http://shopxo.net/" target="_blank">{{:MyLang('index.development_team_support_value')}}</a>
 						</dd>
 
 						{{if !empty($site_store_links) and !empty($site_store_links['community_website'])}}
-							<dt class="am-text-truncate">交流提问</dt>
+							<dt class="am-text-truncate">{{:MyLang('index.development_team_ask_title')}}</dt>
 							<dd>
-								<a href="{{$site_store_links.community_website}}" target="_blank">ShopXO交流提问</a>
+								<a href="{{$site_store_links.community_website}}" target="_blank">{{:MyLang('index.development_team_ask_value')}}</a>
 							</dd>
 						{{/if}}
 
-						<dt class="am-text-truncate">开源协议</dt>
+						<dt class="am-text-truncate">{{:MyLang('index.development_team_agreement_title')}}</dt>
 						<dd>
-							<a href="{{if !empty($site_store_links) and !empty($site_store_links['source_license'])}}{{$site_store_links.source_license}}{{else /}}https://opensource.org/licenses/mit-license.php{{/if}}" target="_blank">查看开源协议</a>
+							<a href="{{if !empty($site_store_links) and !empty($site_store_links['source_license'])}}{{$site_store_links.source_license}}{{else /}}https://opensource.org/licenses/mit-license.php{{/if}}" target="_blank">{{:MyLang('index.development_team_agreement_value')}}</a>
 						</dd>
 
 						{{if !empty($site_store_links) and !empty($site_store_links['system_update_log'])}}
-							<dt class="am-text-truncate">更新日志</dt>
+							<dt class="am-text-truncate">{{:MyLang('index.development_team_update_log_title')}}</dt>
 							<dd>
-								<a href="{{$site_store_links.system_update_log}}" target="_blank">查看更新日志</a>
+								<a href="{{$site_store_links.system_update_log}}" target="_blank">{{:MyLang('index.development_team_update_log_value')}}</a>
 							</dd>
 						{{/if}}
 
-						<dt class="am-text-truncate">研发成员</dt>
-						<dd>
-							<a href="http://gong.gg/" target="_blank">龚哥哥</a>
-						</dd>
+						{{if is_array(MyLang('index.development_team_members_value'))}}
+							<dt class="am-text-truncate">{{:MyLang('index.development_team_members_title')}}</dt>
+							<dd>
+								{{foreach :MyLang('index.development_team_members_value') as $v}}
+									<a href="{{$v.url}}" target="_blank" class="am-margin-right-sm">{{$v.name}}</a>
+								{{/foreach}}
+							</dd>
+						{{/if}}
 					</dl>
 				</li>
 			</ul>
@@ -517,7 +521,7 @@
 			<div class="upgrade-bottom am-text-right">
 				<div class="upgrade-bottom-content">
 					<button type="button" class="am-btn am-btn-default am-radius am-btn-xs" data-am-modal-close>{{:MyLang('cancel_title')}}</button>
-					<button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-sm am-hide inspect-upgrade-confirm" data-url="{{:MyUrl('admin/index/inspectupgradeconfirm')}}">立即更新</button>
+					<button type="button" class="am-btn am-btn-success am-radius am-btn-xs am-margin-left-sm am-hide inspect-upgrade-confirm" data-url="{{:MyUrl('admin/index/inspectupgradeconfirm')}}">{{:MyLang('index.base_update_button_title')}}</button>
 				</div>
 			</div>
         </div>

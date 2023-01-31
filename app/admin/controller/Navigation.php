@@ -62,6 +62,10 @@ class Navigation extends Base
 			'nav_header_pid_list'	=> NavigationService::LevelOneNav(['nav_type'=>$this->nav_type]),
 			// 商品分类
 			'goods_category_list'	=> GoodsService::GoodsCategoryAll(),
+			// 管理导航
+            'nav_data'          	=> MyLang('navigation.base_nav_list'),
+            // 添加类型列表
+            'add_type_list'      	=> MyLang('navigation.base_add_type_list'),
 		];
 
         // 获取列表

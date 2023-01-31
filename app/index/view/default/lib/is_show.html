@@ -1,12 +1,6 @@
 <!-- 是否显示 开始 -->
 <div class="am-form-group">
-    <label>{{:MyLang('form_whether_show_title')}}</label>
-    <div>
-        {{foreach :MyLang('common_is_show_list') as $v}}
-            <label class="am-radio-inline am-margin-right-sm">
-                <input type="radio" name="is_show" value="{{$v.id}}" {{if isset($data['is_show']) and $data['is_show'] eq $v['id']}}checked="checked"{{else /}}{{if !isset($data['is_show']) and isset($v['checked']) and $v['checked'] eq true}}checked="checked"{{/if}}{{/if}} data-am-ucheck /> {{$v.name}}
-            </label>
-        {{/foreach}}
-    </div>
+    <label class="am-block">{{:MyLang('form_whether_show_title')}}</label>
+    <input name="is_show" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_show']) and $data['is_show'] eq 1) or !isset($data['is_show'])}}checked="true"{{/if}} />
 </div>
 <!-- 是否显示 结束 -->

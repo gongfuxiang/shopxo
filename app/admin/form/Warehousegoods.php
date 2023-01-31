@@ -106,7 +106,7 @@ class WarehouseGoods
                         'form_type'         => 'select',
                         'form_name'         => 'wg.is_enable',
                         'where_type'        => 'in',
-                        'data'              => MyLang('common_is_enable_list'),
+                        'data'              => MyLang('common_is_text_list'),
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,

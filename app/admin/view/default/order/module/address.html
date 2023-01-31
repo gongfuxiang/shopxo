@@ -16,20 +16,20 @@
         </p>
         {{if !empty($module_data['address_data']['idcard_name']) or !empty($module_data['address_data']['idcard_number']) or !empty($module_data['address_data']['idcard_front']) or !empty($module_data['address_data']['idcard_back'])}}
             <div class="am-alert am-alert-secondary am-margin-vertical-0">
-                <p class="am-margin-bottom-xs"><strong>身份证信息</strong></p>
+                <p class="am-margin-bottom-xs"><strong>{{:MyLang('order.detail_user_address_idcard')}}</strong></p>
                 <hr data-am-widget="divider" style="" class="am-divider am-divider-dashed am-margin-vertical-0" />
                 <div class="am-margin-top-xs">
-                    <p>姓名：{{$module_data.address_data.idcard_name}}</p>
-                    <p>号码：{{$module_data.address_data.idcard_number}}</p>
+                    <p>{{:MyLang('order.detail_user_address_idcard_name')}}：{{$module_data.address_data.idcard_name}}</p>
+                    <p>{{:MyLang('order.detail_user_address_idcard_number')}}：{{$module_data.address_data.idcard_number}}</p>
                     {{if !empty($module_data['address_data']['idcard_front']) or !empty($module_data['address_data']['idcard_back'])}}
-                        <p class="am-nbfc"><span class="am-fl">照片：</span>{{if !empty($module_data['address_data']['idcard_front'])}}<a href="{{$module_data.address_data.idcard_front}}" target="_blank" class="am-fl"><img width="35" height="27" src="{{$module_data.address_data.idcard_front}}" alt="身份证人像面" class="am-img-thumbnail am-radius am-block" /></a>{{/if}} {{if !empty($module_data['address_data']['idcard_back'])}}<a href="{{$module_data.address_data.idcard_back}}" target="_blank" class="am-fl am-margin-left-xs"><img width="35" height="27" src="{{$module_data.address_data.idcard_back}}" alt="身份证人像面" class="am-img-thumbnail am-radius am-block" /></a>{{/if}}</p>
+                        <p class="am-nbfc"><span class="am-fl">{{:MyLang('order.detail_user_address_idcard_pic')}}：</span>{{if !empty($module_data['address_data']['idcard_front'])}}<a href="{{$module_data.address_data.idcard_front}}" target="_blank" class="am-fl"><img width="35" height="27" src="{{$module_data.address_data.idcard_front}}" class="am-img-thumbnail am-radius am-block" /></a>{{/if}} {{if !empty($module_data['address_data']['idcard_back'])}}<a href="{{$module_data.address_data.idcard_back}}" target="_blank" class="am-fl am-margin-left-xs"><img width="35" height="27" src="{{$module_data.address_data.idcard_back}}" class="am-img-thumbnail am-radius am-block" /></a>{{/if}}</p>
                     {{/if}}
                 </div>
             </div>
         {{/if}}
         {{if isset($module_data['address_data']['lng']) and isset($module_data['address_data']['lat']) and $module_data['address_data']['lng'] neq 0 and $module_data['address_data']['lat'] neq 0}}
             <div class="am-margin-top-xs">
-                <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$module_data.address_data.lng}}" data-lat="{{$module_data.address_data.lat}}"> 查看位置</button>
+                <button type="button" class="am-btn am-btn-success am-btn-xs am-radius am-icon-map-marker am-padding-xs submit-map-popup" data-lng="{{$module_data.address_data.lng}}" data-lat="{{$module_data.address_data.lat}}"> {{:MyLang('view_map_title')}}</button>
             </div>
         {{/if}}
     </div>

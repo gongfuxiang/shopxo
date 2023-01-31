@@ -23,7 +23,6 @@ return [
         'shop_home_title'                       => 'Mall homepage',
         'back_to_the_home_title'                => 'Back to the home',
         'all_category_text'                     => 'All Category',
-        'toggle_navigation_text'                => 'Toggle navigation',
         'login_title'                           => 'Login',
         'register_title'                        => 'Register',
         'logout_title'                          => 'Logout',

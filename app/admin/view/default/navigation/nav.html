@@ -1,8 +1,9 @@
-<ul class="am-nav am-nav-pills table-nav second-nav">
-	<li {{if $nav_type eq 'header'}}class="am-active"{{/if}} data-type="header">
-		<a href="{{:MyUrl('admin/navigation/index', ['nav_type'=>'header'])}}">中间导航</a>
-	</li>
-	<li {{if $nav_type eq 'footer'}}class="am-active"{{/if}} data-type="footer">
-		<a href="{{:MyUrl('admin/navigation/index', ['nav_type'=>'footer'])}}">底部导航</a>
-	</li>
-</ul>
+{{if !empty($nav_data)}}
+	<ul class="am-nav am-nav-pills table-nav second-nav">
+		{{foreach $nav_data as $v}}
+			<li {{if $nav_type eq $v['type']}}class="am-active"{{/if}} data-type="{{$v.type}}">
+				<a href="{{:MyUrl('admin/navigation/index', ['nav_type'=>$v['type']])}}">{{$v.name}}</a>
+			</li>
+		{{/foreach}}
+	</ul>
+{{/if}}

@@ -2,7 +2,7 @@
 	<!-- logo/名称信息 -->
 	<div class="am-topbar-brand">
 		<a href="{{:MyUrl('admin/index/index')}}">
-			<h2>{{$admin_theme_site_name}}<span class="admin-site-vice-name am-margin-left-xs">后台管理系统</span></h2>
+			<h2>{{$admin_theme_site_name}}<span class="admin-site-vice-name am-margin-left-xs">{{:MyLang('common.admin_browser_title')}}</span></h2>
 		</a>
 	</div>
 
@@ -13,7 +13,7 @@
 
     <!-- 手机模式下导航按钮 -->
 	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-xs am-btn-success am-show-sm-only am-radius header-nav-submit" data-am-collapse="{target: '#topbar-collapse'}">
-		<span class="am-sr-only">导航切换</span>
+		<span class="am-sr-only">{{:MyLang('toggle_navigation_title')}}</span>
 		<i class="am-icon-bars"></i>
 	</button>
 
@@ -30,22 +30,22 @@
 				<li class="am-dropdown">
 					<a href="javascript:;" class="submit-ajax" data-url="{{:MyUrl('admin/cache/statusupdate')}}" data-is-confirm="0" data-is-loading="1">
 						<i class="am-icon-paint-brush"></i>
-						<span>清除缓存</span>
+						<span>{{:MyLang('common.remove_cache_title')}}</span>
 					</a>
 				</li>
 			{{/if}}
 
 			<li class="am-dropdown am-hide-sm-only">
-				<a href="javascript:;" class="fullscreen-event" data-fulltext-open="开启全屏" data-fulltext-exit="退出全屏">
+				<a href="javascript:;" class="fullscreen-event" data-fulltext-open="{{:MyLang('fullscreen_open_title')}}" data-fulltext-exit="{{:MyLang('fullscreen_exit_title')}}">
 					<i class="am-icon-arrows-alt"></i>
-					<span class="fullscreen-text">开启全屏</span>
+					<span class="fullscreen-text">{{:MyLang('fullscreen_open_title')}}</span>
 				</a>
 			</li>
 
 			<li class="am-dropdown">
 				<a href="{{$home_url}}" target="_blank">
 					<i class="am-icon-home"></i>
-					<span>查看首页</span>
+					<span>{{:MyLang('shop_home_title')}}</span>
 				</a>
 			</li>
 			
@@ -58,15 +58,15 @@
 				</a>
 				<ul class="am-dropdown-content">
 					<li>
-						<a href="javascript:;" data-type="nav" data-url="{{:MyUrl('admin/admin/saveInfo', array('id'=>$admin['id']))}}">
+						<a href="javascript:;" data-type="nav" data-url="{{:MyUrl('admin/admin/saveInfo', array('id'=>$admin['id']))}}" data-node-name="{{:MyLang('setup_title')}}">
 							<i class="am-icon-cog"></i>
-							设置
+							<span>{{:MyLang('setup_title')}}</span>
 						</a>
 					</li>
 					<li>
 						<a href="{{:MyUrl('admin/admin/logout')}}">
 							<i class="am-icon-power-off"></i>
-							退出
+							<span>{{:MyLang('quit_title')}}</span>
 						</a>
 					</li>
 				</ul>
