@@ -139,7 +139,7 @@ class QuickNavService
         $data = [
             'name'          => $params['name'],
             'platform'      => $params['platform'],
-            'event_type'    => isset($params['event_type']) ? intval($params['event_type']) : -1,
+            'event_type'    => (isset($params['event_type']) && $params['event_type'] != '') ? intval($params['event_type']) : -1,
             'event_value'   => $params['event_value'],
             'images_url'    => $attachment['data']['images_url'],
             'bg_color'      => isset($params['bg_color']) ? $params['bg_color'] : '',

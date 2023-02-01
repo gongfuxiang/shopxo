@@ -79,6 +79,93 @@ return [
         ],
     ],
 
+    // 用户
+    'user'                  => [
+        'base_nav_title'                        => '用户',
+        // 表单
+        'form_item_system_type'                 => '系统类型',
+        'form_item_system_type_tips'            => '默认 default',
+        'form_item_system_type_message'         => '系统类型2~60字符',
+        'form_item_username'                    => '用户名',
+        'form_item_username_message'            => '用户名2~30个字符',
+        'form_item_nickname'                    => '昵称',
+        'form_item_nickname_message'            => '昵称最多30个字符',
+        'form_item_mobile'                      => '手机号码',
+        'form_item_mobile_message'              => '手机号码格式错误',
+        'form_item_email'                       => '电子邮箱',
+        'form_item_email_message'               => '电子邮箱格式错误',
+        'form_item_alipay_openid'               => '支付宝openid',
+        'form_item_alipay_openid_message'       => '请填写支付宝openid',
+        'form_item_baidu_openid'                => '百度openid',
+        'form_item_baidu_openid_message'        => '请填写百度openid',
+        'form_item_toutiao_openid'              => '头条openid',
+        'form_item_toutiao_openid_message'      => '请填写头条openid',
+        'form_item_toutiao_unionid'             => '头条unionid',
+        'form_item_toutiao_unionid_message'     => '请填写头条unionid',
+        'form_item_qq_openid'                   => 'QQopenid',
+        'form_item_qq_openid_message'           => '请填写QQopenid',
+        'form_item_qq_unionid'                  => 'QQunionid',
+        'form_item_qq_unionid_message'          => '请填写QQunionid',
+        'form_item_weixin_openid'               => '微信openid',
+        'form_item_weixin_openid_message'       => '请填写微信openid',
+        'form_item_weixin_unionid'              => '微信unionid',
+        'form_item_weixin_unionid_message'      => '请填写微信unionid',
+        'form_item_web_weixin_openid'           => '微信webopenid',
+        'form_item_web_weixin_openid_message'   => '请填写微信webopenid',
+        'form_item_kuaishou_openid'             => '快手openid',
+        'form_item_kuaishou_openid_message'     => '请填写快手openid',
+        'form_item_province'                    => '所在省',
+        'form_item_province_message'            => '所在省最多60个字符',
+        'form_item_city'                        => '所在市',
+        'form_item_city_message'                => '所在市最多60个字符',
+        'form_item_county'                      => '所在区/县',
+        'form_item_county_message'              => '所在区/县最多60个字符',
+        'form_item_address'                     => '详细地址',
+        'form_item_address_message'             => '地址格式最多80个字符',
+        'form_item_integral'                    => '有效积分',
+        'form_item_integral_message'            => '请输入有效积分',
+        'form_item_locking_integral'            => '锁定积分',
+        'form_item_locking_integral_message'    => '请输入锁定积分',
+        'form_item_birthday'                    => '生日',
+        'form_item_birthday_message'            => '生日格式有误',
+        'form_item_referrer'                    => '邀请用户ID',
+        'form_item_referrer_message'            => '请输入邀请用户ID',
+        'form_item_pwd'                         => '登录密码',
+        'form_item_pwd_tips'                    => '输入则修改密码',
+        'form_item_pwd_message'                 => '登录密码格式6~18个字符之间',
+    ],
+
+    // 用户地址
+    'useraddress'      => [
+        'base_nav_title'                        => '用户地址',
+        // 表单
+        'form_item_user_id'                     => '用户id',
+        'form_item_user_id_message'             => '请填写用户id',
+        'form_item_name'                        => '姓名',
+        'form_item_name_message'                => '姓名格式2~16个字符之间',
+        'form_item_alias'                       => '别名',
+        'form_item_alias_message'               => '别名格式最多16个字符',
+        'form_item_tel'                         => '电话',
+        'form_item_tel_message'                 => '电话格式有误',
+        'form_item_address'                     => '详细地址',
+        'form_item_address_message'             => '详细地址格式1~80个字符之间',
+        'form_item_idcard_name'                 => '身份证姓名',
+        'form_item_idcard_name_tips'            => '选填，请务必与上传的身份证件姓名保持一致',
+        'form_item_idcard_name_message'         => '身份证姓名格式最多16个字符',
+        'form_item_idcard_number'               => '身份证号码',
+        'form_item_idcard_number_tips'          => '选填，请务必与上传的身份证件号码保持一致',
+        'form_item_idcard_number_message'       => '身份证号码格式最多18个字符',
+        'form_item_idcard_images'               => '身份证照片',
+        'form_item_idcard_images_tips'          => '选传，请使用身份证原件拍摄，图片要清晰',
+        'form_item_idcard_front_button_name'    => '上传人像面图片',
+        'form_item_idcard_back_button_name'     => '上传国微面图片',
+        'form_item_idcard_no_user_tips'         => '先关联用户后再上传身份证图片',
+        // 详情
+        'detail_user_address_idcard_name'       => '姓名',
+        'detail_user_address_idcard_number'     => '号码',
+        'detail_user_address_idcard_pic'        => '照片',
+    ],
+
     // 站点设置
     'site'                  => [
         // 页面公共
@@ -303,12 +390,45 @@ return [
         'form_is_reply'                         => '是否已回复',
     ],
 
+    // 仓库管理
+    'warehouse'             => [
+        'base_nav_title'                        => '仓库',
+        'top_tips_list'                         => [
+            '1. 权重数值越大代表权重越高、扣除库存按照权重依次扣除）',
+            '2. 仓库仅软删除、删除后将不可用、仅数据库中保留数据）可以自行删除关联的商品数据',
+            '3. 仓库停用和删除、关联的商品库存会立即释放',
+        ],
+        // 表单
+        'form_item_name'                        => '姓名',
+        'form_item_name_message'                => '姓名格式2~30个字符之间',
+        'form_item_alias'                       => '别名',
+        'form_item_alias_message'               => '别名格式最多16个字符',
+        'form_item_level'                       => '权重',
+        'form_item_level_tips'                  => '权重数值越大代表权重越高',
+        'form_item_level_message'               => '请输入有效权重数值',
+        'form_item_contacts_name'               => '联系人',
+        'form_item_contacts_name_message'       => '联系人格式2~16个字符之间',
+        'form_item_contacts_tel'                => '联系电话',
+        'form_item_contacts_tel_message'        => '请填写联系电话',
+        'form_item_address'                     => '详细地址',
+        'form_item_address_message'             => '地址格式1~80个字符之间',
+    ],
+
     // 仓库商品
     'warehousegoods'        => [
         // 页面公共
         'page_common'           => [
             'warehouse_choice_tips'             => '请选择仓库',
         ],
+        // 基础
+        'no_spec_data_tips'                     => '无规格数据',
+        'batch_setup_inventory_placeholder'     => '批量设置的值',
+        'base_spec_inventory_title'             => '规格库存',
+        // 表单
+        'add_goods_title'                       => '商品添加',
+        'form_item_warehouseg_placeholder'      => '仓库...',
+        'form_item_warehouseg_message'          => '请选择仓库',
+        'form_item_inventory_message'           => '库存数量0~100000000',
     ],
 
     // 管理员
@@ -348,6 +468,19 @@ return [
         'form_item_password_edit_tips'          => '输入则修改密码',
         'form_item_status'                      => '状态',
         'form_item_status_message'              => '请选择用户状态',
+        // 动态表格
+        'form_table'                            => [
+            'username'              => '管理员',
+            'status'                => '状态',
+            'gender'                => '性别',
+            'mobile'                => '手机',
+            'email'                 => '邮箱',
+            'role_name'             => '角色组',
+            'login_total'           => '登录次数',
+            'login_time'            => '最后登录时间',
+            'add_time'              => '创建时间',
+            'upd_time'              => '更新时间',
+        ],
     ],
 
     // 协议
@@ -360,6 +493,15 @@ return [
         ],
         'top_tips'          => '前端访问协议地址增加参数 is_content=1 则仅展示纯协议内容',
         'view_detail_name'                      => '查看详情',
+    ],
+
+    // 手机配置
+    'appconfig'             => [
+        // 基础导航
+        'base_nav_list'                         => [
+            ['name' => '基础配置', 'type' => 'index'],
+            ['name' => 'APP/小程序', 'type' => 'app'],
+        ],
     ],
 
     // 小程序管理
@@ -379,6 +521,19 @@ return [
         'list_author_title'                     => '作者：',
         'list_version_title'                    => '适用版本：',
         'package_generate_tips'                 => '生成时间比较长，请不要关闭浏览器窗口！',
+    ],
+
+    // 短信设置
+    'sms'                   => [
+        // 基础导航
+        'base_nav_list'                         => [
+            ['name' => '短信设置', 'type' => 'index'],
+            ['name' => '消息模板', 'type' => 'message'],
+        ],
+        'top_tips'                              => '阿里云短信管理地址',
+        'top_to_aliyun_tips'                    => '点击去阿里云购买短信',
+        'base_item_admin_title'                 => '后台',
+        'base_item_index_title'                 => '前端',
     ],
 
     // 邮箱设置
@@ -684,7 +839,7 @@ return [
         'detail_user_address_value'             => '详细地址',
         'detail_user_address_idcard'            => '身份证信息',
         'detail_user_address_idcard_name'       => '姓名',
-        'detail_user_address_idcard_number'     => '姓名',
+        'detail_user_address_idcard_number'     => '号码',
         'detail_user_address_idcard_pic'        => '照片',
         'detail_take_address_title'             => '取货地址',
         'detail_take_address_contact'           => '联系信息',
@@ -766,6 +921,18 @@ return [
         'form_item_website_url_message'         => '官网地址格式有误',
     ],
 
+    // 主题管理
+    'theme'                 => [
+        'base_nav_list'                         => [
+            ['name' => '当前主题', 'type' => 'index'],
+            ['name' => '主题安装', 'type' => 'upload'],
+        ],
+        'nav_store_theme_name'                  => '更多主题下载',
+        'list_author_title'                     => '作者：',
+        'list_version_title'                    => '适用版本：',
+        'form_item_upload_tips'                 => '上传一个zip压缩格式的应用安装包',
+    ],
+
     // 用户中心导航
     'appcenternav'          => [
         'base_nav_title'                        => '手机用户中心导航',
@@ -821,9 +988,9 @@ return [
         'base_top_tips_one'                     => '列表排序方式[ 自定义排序 -> 最早安装 ]',
         'base_top_tips_two'                     => '可点击拖动图标按钮调整插件调用和展示顺序',
         'base_open_sort_title'                  => '开启排序',
-        'data_list_author_title'                => '作者',
-        'data_list_author_url_title'            => '主页',
-        'data_list_version_title'               => '版本',
+        'data_list_author_title'                => '作者：',
+        'data_list_author_url_title'            => '主页：',
+        'data_list_version_title'               => '版本：',
         'uninstall_confirm_tips'                => '卸载可能会丢失插件基础配置数据不可恢复、确认操作吗？',
         'not_install_divide_title'              => '以下插件未安装',
         'delete_plugins_text'                   => '1. 仅删除应用',
@@ -967,6 +1134,33 @@ return [
         'form_item_max_price_message'           => '最大价格有误',
     ],
 
+    // 首页轮播
+    'slide'                 => [
+        'base_nav_title'                        => '轮播',
+        // 表单
+        'form_item_name'                        => '名称',
+        'form_item_name_message'                => '名称格式2~60个字符',
+        'form_item_images_url'                  => '轮播图片',
+        'form_item_images_url_tips'             => [
+            '1. PC端建议尺寸：1920*480px',
+            '2. 手机端建议尺寸：1200*360px',
+        ],
+    ],
+
+    // sql控制台
+    'sqlconsole'            => [
+        'top_tips'                              => 'PS：非开发人员请不要随意执行任何SQL语句，操作可能导致将整个系统数据库被删除。',
+        'form_sql_placeholder'                  => 'SQL语句',
+        'form_sql_message'                      => '请填写需要执行的SQL语句',
+        'form_dev_tips'                         => '如需要执行SQL 语句，请在[ config/shopxo.php ]文件中[ is_develop ]值改为[ true ]开启开发者模式。',
+    ],
+
+    // 应用商店
+    'store'                 => [
+        'top_tips'                              => 'ShopXO优秀应用列表，这里云集了最资深，技术能力最强，最可信赖的ShopXO开发者，为您的插件、风格、模板定制全面护航。',
+        'to_store_name'                         => '去应用商店挑选插件 >>',
+    ],
+
     // 公共
     'common'                => [
         // 公共
@@ -1008,6 +1202,334 @@ return [
             '2. 详情（仅在商品详情参数下都展示）',
             '3. 基础（仅在商品基础信息下都展示）',
             '4. 快捷操作将会清除原来的数据、重载页面便可恢复原来的数据（仅保存商品后生效）',
+        ],
+    ],
+
+    // 后台权限菜单
+    'admin_power_menu_list' => [
+        'config_index' => [
+            'name'  => '系统设置',
+            'item'  => [
+                'config_index'                 => '系统配置',
+                'config_store'                 => '商店信息',
+                'config_save'                  => '配置保存',
+                'index_storeaccountsbind'      => '应用商店帐号绑定',
+                'index_inspectupgrade'         => '系统更新检查',
+                'index_inspectupgradeconfirm'  => '系统更新确认',
+                'index_stats'                  => '首页统计数据',
+                'index_income'                 => '首页统计数据（收入统计）',
+            ]
+        ],
+        'site_index' => [
+            'name'  => '站点配置',
+            'item'  => [
+                'site_index'                  => '站点设置',
+                'site_save'                   => '站点设置编辑',
+                'site_goodssearch'            => '站点设置商品搜索',
+                'layout_layoutindexhomesave'  => '首页布局管理',
+                'sms_index'                   => '短信设置',
+                'sms_save'                    => '短信设置编辑',
+                'email_index'                 => '邮箱设置',
+                'email_save'                  => '邮箱设置/编辑',
+                'email_emailtest'             => '邮件发送测试',
+                'seo_index'                   => 'SEO设置',
+                'seo_save'                    => 'SEO设置编辑',
+                'agreement_index'             => '协议管理',
+                'agreement_save'              => '协议设置编辑',
+            ]
+        ],
+        'power_index' => [
+            'name'  => '权限控制',
+            'item'  => [
+                'admin_index'        => '管理员列表',
+                'admin_saveinfo'     => '管理员添加/编辑页面',
+                'admin_save'         => '管理员添加/编辑',
+                'admin_delete'       => '管理员删除',
+                'admin_detail'       => '管理员详情',
+                'role_index'         => '角色管理',
+                'role_saveinfo'      => '角色组添加/编辑页面',
+                'role_save'          => '角色组添加/编辑',
+                'role_delete'        => '角色删除',
+                'role_statusupdate'  => '角色状态更新',
+                'role_detail'        => '角色详情',
+                'power_index'        => '权限分配',
+                'power_save'         => '权限添加/编辑',
+                'power_delete'       => '权限删除',
+            ]
+        ],
+        'user_index' => [
+            'name'  => '用户管理',
+            'item'  => [
+                'user_index'            => '用户列表',
+                'user_saveinfo'         => '用户编辑/添加页面',
+                'user_save'             => '用户添加/编辑',
+                'user_delete'           => '用户删除',
+                'user_detail'           => '用户详情',
+                'useraddress_index'     => '用户地址',
+                'useraddress_saveinfo'  => '用户地址编辑页面',
+                'useraddress_save'      => '用户地址编辑',
+                'useraddress_delete'    => '用户地址删除',
+                'useraddress_detail'    => '用户地址详情',
+            ]
+        ],
+        'goods_index' => [
+            'name'  => '商品管理',
+            'item'  => [
+                'goods_index'                       => '商品管理',
+                'goods_saveinfo'                    => '商品添加/编辑页面',
+                'goods_save'                        => '商品添加/编辑',
+                'goods_delete'                      => '商品删除',
+                'goods_statusupdate'                => '商品状态更新',
+                'goods_basetemplate'                => '获取商品基础模板',
+                'goods_detail'                      => '商品详情',
+                'goodscategory_index'               => '商品分类',
+                'goodscategory_save'                => '商品分类添加/编辑',
+                'goodscategory_delete'              => '商品分类删除',
+                'goodsparamstemplate_index'         => '商品参数',
+                'goodsparamstemplate_delete'        => '商品参数删除',
+                'goodsparamstemplate_statusupdate'  => '商品参数状态更新',
+                'goodsparamstemplate_saveinfo'      => '商品参数添加/编辑页面',
+                'goodsparamstemplate_save'          => '商品参数添加/编辑',
+                'goodsparamstemplate_detail'        => '商品参数详情',
+                'goodsspectemplate_index'           => '商品规格',
+                'goodsspectemplate_delete'          => '商品规格删除',
+                'goodsspectemplate_statusupdate'    => '商品规格状态更新',
+                'goodsspectemplate_saveinfo'        => '商品规格添加/编辑页面',
+                'goodsspectemplate_save'            => '商品规格添加/编辑',
+                'goodsspectemplate_detail'          => '商品规格详情',
+                'goodscomments_detail'              => '商品评论详情',
+                'goodscomments_index'               => '商品评论',
+                'goodscomments_reply'               => '商品评论回复',
+                'goodscomments_delete'              => '商品评论删除',
+                'goodscomments_statusupdate'        => '商品评论状态更新',
+                'goodscomments_saveinfo'            => '商品评论添加/编辑页面',
+                'goodscomments_save'                => '商品评论添加/编辑',
+                'goodsbrowse_index'                 => '商品浏览',
+                'goodsbrowse_delete'                => '商品浏览删除',
+                'goodsbrowse_detail'                => '商品浏览详情',
+                'goodsfavor_index'                  => '商品收藏',
+                'goodsfavor_delete'                 => '商品收藏删除',
+                'goodsfavor_detail'                 => '商品收藏详情',
+                'goodscart_index'                   => '商品购物车',
+                'goodscart_delete'                  => '商品购物车删除',
+                'goodscart_detail'                  => '商品购物车详情',
+            ]
+        ],
+        'order_index' => [
+            'name'  => '订单管理',
+            'item'  => [
+                'order_index'             => '订单管理',
+                'order_delete'            => '订单删除',
+                'order_cancel'            => '订单取消',
+                'order_delivery'          => '订单发货',
+                'order_collect'           => '订单收货',
+                'order_pay'               => '订单支付',
+                'order_confirm'           => '订单确认',
+                'order_detail'            => '订单详情',
+                'orderaftersale_index'    => '订单售后',
+                'orderaftersale_delete'   => '订单售后删除',
+                'orderaftersale_cancel'   => '订单售后取消',
+                'orderaftersale_audit'    => '订单售后审核',
+                'orderaftersale_confirm'  => '订单售后确认',
+                'orderaftersale_refuse'   => '订单售后拒绝',
+                'orderaftersale_detail'   => '订单售后详情',
+            ]
+        ],
+        'navigation_index' => [
+            'name'  => '网站管理',
+            'item'  => [
+                'navigation_index'         => '导航管理',
+                'navigation_save'          => '导航添加/编辑',
+                'navigation_delete'        => '导航删除',
+                'navigation_statusupdate'  => '导航状态更新',
+                'customview_index'         => '自定义页面',
+                'customview_saveinfo'      => '自定义页面添加/编辑页面',
+                'customview_save'          => '自定义页面添加/编辑',
+                'customview_delete'        => '自定义页面删除',
+                'customview_statusupdate'  => '自定义页面状态更新',
+                'customview_detail'        => '自定义页面详情',
+                'link_index'               => '友情链接',
+                'link_saveinfo'            => '友情链接添加/编辑页面',
+                'link_save'                => '友情链接添加/编辑',
+                'link_delete'              => '友情链接删除',
+                'link_statusupdate'        => '友情链接状态更新',
+                'link_detail'              => '友情链接详情',
+                'theme_index'              => '主题管理',
+                'theme_save'               => '主题管理添加/编辑',
+                'theme_upload'             => '主题上传安装',
+                'theme_delete'             => '主题删除',
+                'theme_download'           => '主题下载',
+                'slide_index'              => '首页轮播',
+                'slide_saveinfo'           => '轮播添加/编辑页面',
+                'slide_save'               => '轮播添加/编辑',
+                'slide_statusupdate'       => '轮播状态更新',
+                'slide_delete'             => '轮播删除',
+                'slide_detail'             => '轮播详情',
+                'screeningprice_index'     => '筛选价格',
+                'screeningprice_save'      => '筛选价格添加/编辑',
+                'screeningprice_delete'    => '筛选价格删除',
+                'region_index'             => '地区管理',
+                'region_save'              => '地区添加/编辑',
+                'region_delete'            => '地区删除',
+                'region_codedata'          => '获取地区编号数据',
+                'express_index'            => '快递管理',
+                'express_save'             => '快递添加/编辑',
+                'express_delete'           => '快递删除',
+                'payment_index'            => '支付方式',
+                'payment_saveinfo'         => '支付方式安装/编辑页面',
+                'payment_save'             => '支付方式安装/编辑',
+                'payment_delete'           => '支付方式删除',
+                'payment_install'          => '支付方式安装',
+                'payment_statusupdate'     => '支付方式状态更新',
+                'payment_uninstall'        => '支付方式卸载',
+                'payment_upload'           => '支付方式上传',
+                'quicknav_index'           => '快捷导航',
+                'quicknav_saveinfo'        => '快捷导航添加/编辑页面',
+                'quicknav_save'            => '快捷导航添加/编辑',
+                'quicknav_statusupdate'    => '快捷导航状态更新',
+                'quicknav_delete'          => '快捷导航删除',
+                'quicknav_detail'          => '快捷导航详情',
+                'design_index'             => '页面设计',
+                'design_saveinfo'          => '页面设计添加/编辑页面',
+                'design_save'              => '页面设计添加/编辑',
+                'design_statusupdate'      => '页面设计状态更新',
+                'design_upload'            => '页面设计导入',
+                'design_download'          => '页面设计下载',
+                'design_sync'              => '页面设计同步首页',
+                'design_delete'            => '页面设计删除',
+            ]
+        ],
+        'brand_index' => [
+            'name'  => '品牌管理',
+            'item'  => [
+                'brand_index'           => '品牌管理',
+                'brand_saveinfo'        => '品牌添加/编辑页面',
+                'brand_save'            => '品牌添加/编辑',
+                'brand_statusupdate'    => '品牌状态更新',
+                'brand_delete'          => '品牌删除',
+                'brand_detail'          => '品牌详情',
+                'brandcategory_index'   => '品牌分类',
+                'brandcategory_save'    => '品牌分类添加/编辑',
+                'brandcategory_delete'  => '品牌分类删除',
+            ]
+        ],
+        'warehouse_index' => [
+            'name'  => '仓库管理',
+            'item'  => [
+                'warehouse_index'               => '仓库管理',
+                'warehouse_saveinfo'            => '仓库添加/编辑页面',
+                'warehouse_save'                => '仓库添加/编辑',
+                'warehouse_delete'              => '仓库删除',
+                'warehouse_statusupdate'        => '仓库状态更新',
+                'warehouse_detail'              => '仓库详情',
+                'warehousegoods_index'          => '仓库商品管理',
+                'warehousegoods_detail'         => '仓库商品详情',
+                'warehousegoods_delete'         => '仓库商品删除',
+                'warehousegoods_statusupdate'   => '仓库商品状态更新',
+                'warehousegoods_goodssearch'    => '仓库商品搜索',
+                'warehousegoods_goodsadd'       => '仓库商品搜索添加',
+                'warehousegoods_goodsdel'       => '仓库商品搜索删除',
+                'warehousegoods_inventoryinfo'  => '仓库商品库存编辑页面',
+                'warehousegoods_inventorysave'  => '仓库商品库存编辑',
+            ]
+        ],
+        'app_index' => [
+            'name'  => '手机管理',
+            'item'  => [
+                'appconfig_index'            => '基础配置',
+                'appconfig_save'             => '基础配置保存',
+                'apphomenav_index'           => '首页导航',
+                'apphomenav_saveinfo'        => '首页导航添加/编辑页面',
+                'apphomenav_save'            => '首页导航添加/编辑',
+                'apphomenav_statusupdate'    => '首页导航状态更新',
+                'apphomenav_delete'          => '首页导航删除',
+                'apphomenav_detail'          => '首页导航详情',
+                'appcenternav_index'         => '用户中心导航',
+                'appcenternav_saveinfo'      => '用户中心导航添加/编辑页面',
+                'appcenternav_save'          => '用户中心导航添加/编辑',
+                'appcenternav_statusupdate'  => '用户中心导航状态更新',
+                'appcenternav_delete'        => '用户中心导航删除',
+                'appcenternav_detail'        => '用户中心导航详情',
+                'appmini_index'              => '小程序列表',
+                'appmini_created'            => '小程序包生成',
+                'appmini_delete'             => '小程序包删除',
+                'appmini_themeupload'        => '小程序主题上传',
+                'appmini_themesave'          => '小程序主题切换',
+                'appmini_themedelete'        => '小程序主题切换',
+                'appmini_themedownload'      => '小程序主题下载',
+                'appmini_config'             => '小程序配置',
+                'appmini_save'               => '小程序配置保存',
+            ]
+        ],
+        'article_index' => [
+            'name'  => '文章管理',
+            'item'  => [
+                'article_index'           => '文章管理',
+                'article_saveinfo'        => '文章添加/编辑页面',
+                'article_save'            => '文章添加/编辑',
+                'article_delete'          => '文章删除',
+                'article_statusupdate'    => '文章状态更新',
+                'article_detail'          => '文章详情',
+                'articlecategory_index'   => '文章分类',
+                'articlecategory_save'    => '文章分类编辑/添加',
+                'articlecategory_delete'  => '文章分类删除',
+            ]
+        ],
+        'data_index' => [
+            'name'  => '数据管理',
+            'item'  => [
+                'answer_index'          => '问答留言',
+                'answer_reply'          => '问答留言回复',
+                'answer_delete'         => '问答留言删除',
+                'answer_statusupdate'   => '问答留言状态更新',
+                'answer_saveinfo'       => '问答添加/编辑页面',
+                'answer_save'           => '问答添加/编辑',
+                'answer_detail'         => '问答留言详情',
+                'message_index'         => '消息管理',
+                'message_delete'        => '消息删除',
+                'message_detail'        => '消息详情',
+                'paylog_index'          => '支付日志',
+                'paylog_detail'         => '支付日志详情',
+                'paylog_close'          => '支付日志关闭',
+                'payrequestlog_index'   => '支付请求日志列表',
+                'payrequestlog_detail'  => '支付请求日志详情',
+                'refundlog_index'       => '退款日志',
+                'refundlog_detail'      => '退款日志详情',
+                'integrallog_index'     => '积分日志',
+                'integrallog_detail'    => '积分日志详情',
+            ]
+        ],
+        'store_index' => [
+            'name'  => '应用中心',
+            'item'  => [
+                'pluginsadmin_index'         => '应用管理',
+                'plugins_index'              => '应用调用管理',
+                'pluginsadmin_saveinfo'      => '应用添加/编辑页面',
+                'pluginsadmin_save'          => '应用添加/编辑',
+                'pluginsadmin_statusupdate'  => '应用状态更新',
+                'pluginsadmin_delete'        => '应用删除',
+                'pluginsadmin_upload'        => '应用上传',
+                'pluginsadmin_download'      => '应用打包',
+                'pluginsadmin_install'       => '应用安装',
+                'pluginsadmin_uninstall'     => '应用卸载',
+                'pluginsadmin_sortsave'      => '应用排序保存',
+                'store_index'                => '应用商店',
+                'packageinstall_index'       => '软件包安装页面',
+                'packageinstall_install'     => '软件包安装',
+                'packageupgrade_upgrade'     => '软件包更新',
+            ]
+        ],
+        'tool_index' => [
+            'name'  => '工具',
+                'item'                  => [
+                'cache_index'           => '缓存管理',
+                'cache_statusupdate'    => '站点缓存更新',
+                'cache_templateupdate'  => '模板缓存更新',
+                'cache_moduleupdate'    => '模块缓存更新',
+                'cache_logdelete'       => '日志删除',
+                'sqlconsole_index'      => 'SQL控制台',
+                'sqlconsole_implement'  => 'SQL执行',
+            ]
         ],
     ],
 ];

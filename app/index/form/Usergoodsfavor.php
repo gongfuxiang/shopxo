@@ -53,7 +53,7 @@ class UserGoodsFavor
      */
     public function Run($params = [])
     {
-        $lang = MyLang('user_goods_favor.form_table');
+        $lang = MyLang('usergoodsfavor.form_table');
         return [
             // 基础配置
             'base' => [

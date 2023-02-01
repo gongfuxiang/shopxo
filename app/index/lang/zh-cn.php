@@ -169,7 +169,7 @@ return [
     ],
 
     // 自定义页面
-    'custom_view'       => [
+    'customview'        => [
         'custom_view_no_data_tips'              => '页面不存在或已删除',
     ],
 
@@ -342,6 +342,26 @@ return [
         'form_item_express_number_message'      => '快递单号格式1~60个字符之间',
         'form_delivery_title'                   => '退货操作',
         'form_delivery_address_name'            => '退货地址：',
+        // 动态表格
+        'form_table'                            => [
+            'goods'                 => '基础信息',
+            'goods_placeholder'     => '请输入订单号/商品名称/型号',
+            'status'                => '状态',
+            'type'                  => '申请类型',
+            'reason'                => '原因',
+            'price'                 => '退款金额(元)',
+            'number'                => '退货数量',
+            'msg'                   => '退款说明',
+            'refundment'            => '退款类型',
+            'express_name'          => '快递公司',
+            'express_number'        => '快递单号',
+            'apply_time'            => '申请时间',
+            'confirm_time'          => '确认时间',
+            'delivery_time'         => '退货时间',
+            'audit_time'            => '审核时间',
+            'add_time'              => '创建时间',
+            'upd_time'              => '更新时间',
+        ],
     ],
 
     // 用户
@@ -412,7 +432,7 @@ return [
     ],
 
     // 用户地址
-    'user_address'      => [
+    'useraddress'       => [
         'browser_seo_title'                     => '我的地址',
         // 表单
         'form_item_name'                        => '姓名',
@@ -436,7 +456,7 @@ return [
     ],
 
     // 用户足迹
-    'user_goods_browse' => [
+    'usergoodsbrowse'   => [
         'browser_seo_title'                     => '我的足迹',
         // 动态表格统计数据
         'form_table'                            => [
@@ -459,12 +479,12 @@ return [
     ],
 
     // 用户商品收藏
-    'user_goods_favor'  => [
+    'usergoodsfavor'    => [
         'browser_seo_title'                     => '商品收藏',
     ],
 
     // 用户积分
-    'user_integral'     => [
+    'userintegral'      => [
         'browser_seo_title'                     => '我的积分',
         // 页面
         'base_normal_title'                     => '正常可用',

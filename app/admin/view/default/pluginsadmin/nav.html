@@ -1,5 +1,5 @@
 <ul class="am-nav am-nav-pills table-nav">
-    {{if !empty($nav_data)}}
+    {{if !empty($nav_data) and is_array($nav_data)}}
         {{foreach $nav_data as $v}}
             <li {{if $view_type eq $v['type']}}class="am-active"{{/if}}>
                 <a href="{{:MyUrl('admin/pluginsadmin/index', ['view_type'=>$v['type']])}}">{{$v.name}}</a>

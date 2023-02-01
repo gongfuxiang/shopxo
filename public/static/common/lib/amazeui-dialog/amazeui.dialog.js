@@ -17,7 +17,7 @@ dialog.alert = function(options) {
   options.class = options.class || '';
   options.title = options.title || null;
   options.content = options.content || '提示内容';
-  options.confirmText = options.confirmText || '确定';
+  options.confirmText = options.confirmText || window['lang_confirm_name'] || '确定';
   options.isClose = options.isClose || false;
   options.isBtn = options.isBtn || false;
   options.config = options.config || {};
@@ -67,10 +67,10 @@ dialog.alert = function(options) {
 
 dialog.confirm = function(options) {
   options = options || {};
-  options.title = options.title || '提示';
+  options.title = options.title || window['lang_operate_params_error'] || '提示';
   options.content = options.content || '提示内容';
-  options.cancelText = options.cancelText || '取消';
-  options.confirmText = options.confirmText || '确定';
+  options.cancelText = options.cancelText || window['lang_cancel_name'] || '取消';
+  options.confirmText = options.confirmText || window['lang_confirm_name'] || '确定';
   options.onConfirm = options.onConfirm || function() {};
   options.onCancel = options.onCancel || function() {};
 
@@ -80,7 +80,7 @@ dialog.confirm = function(options) {
   html.push('<div class="am-modal-hd">' + options.title + '</div>');
   html.push('<div class="am-modal-bd"><div class="am-padding-horizontal-xl am-padding-vertical-xs">' + options.content + '</div></div>');
   html.push('<div class="am-modal-footer">');
-  html.push('<span class="am-modal-btn" data-am-modal-cancel>'+options.cancelText+'</span>');
+  html.push('<span class="am-modal-btn am-text-danger" data-am-modal-cancel>'+options.cancelText+'</span>');
   html.push('<span class="am-modal-btn" data-am-modal-confirm>'+options.confirmText+'</span>');
   html.push('</div>');
   html.push('</div>');
@@ -107,7 +107,7 @@ dialog.loading = function(options) {
     $('#my-modal-loading').modal('close');
   } else {
     options = options || {};
-    options.title = options.title || '正在载入...';
+    options.title = options.title || window['lang_loading_tips'] || '正在载入...';
 
     if($('#my-modal-loading').length > 0)
     {
@@ -134,8 +134,8 @@ dialog.loading = function(options) {
 
 dialog.actions = function(options) {
   options = options || {};
-  options.title = options.title || '您想整咋样?';
-  options.cancelText = options.cancelText || '取消';
+  options.title = options.title || window['lang_operate_params_error'] || '您想整咋样?';
+  options.cancelText = options.cancelText || window['lang_cancel_name'] || '取消';
   options.items = options.items || [];
   var html = [];
   html.push('<div class="am-modal-actions">');

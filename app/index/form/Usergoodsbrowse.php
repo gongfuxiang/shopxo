@@ -53,7 +53,7 @@ class UserGoodsBrowse
      */
     public function Run($params = [])
     {
-        $lang = MyLang('user_goods_browse.form_table');
+        $lang = MyLang('usergoodsbrowse.form_table');
         return [
             // 基础配置
             'base' => [

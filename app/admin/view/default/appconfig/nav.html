@@ -1,8 +1,9 @@
-<ul class="am-nav am-nav-pills table-nav second-nav">
-    <li {{if $nav_type eq 'base'}}class="am-active"{{/if}} data-type="base">
-        <a href="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'base'])}}">{{:MyLang('base_config_title')}}</a>
-    </li>
-    <li {{if $nav_type eq 'app'}}class="am-active"{{/if}} data-type="app">
-        <a href="{{:MyUrl('admin/appconfig/index', ['nav_type'=>'app'])}}">APP/小程序</a>
-    </li>
-</ul>
+{{if !empty($nav_data) and is_array($nav_data)}}
+    <ul class="am-nav am-nav-pills table-nav second-nav">
+        {{foreach $nav_data as $v}}
+            <li {{if $nav_type eq $v['type']}}class="am-active"{{/if}} data-type="{{$v.type}}">
+                <a href="{{:MyUrl('admin/appconfig/index', ['type'=>$v['type']])}}">{{$v.name}}</a>
+            </li>
+        {{/foreach}}
+    </ul>
+{{/if}}

@@ -129,6 +129,7 @@ class WarehouseGoods
                     'view_key'          => 'warehousegoods/module/spec_inventory',
                     'is_sort'           => 1,
                     'grid_size'         => 'lg',
+                    'is_detail'         => 0,
                     'params_where_name' => 'spec_inventory',
                     'search_config' => [
                         'form_type'         => 'section',

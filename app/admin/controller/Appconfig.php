@@ -32,22 +32,18 @@ class AppConfig extends Base
      */
 	public function Index()
 	{
-		// 模板数据
+		// 导航
+        $type = empty($this->data_request['type']) ? 'index' : $this->data_request['type'];
         $assign = [
         	// 配置数据
-        	'data'					=> ConfigService::ConfigList(),
-            // 静态数据
-            'common_platform_type'  => MyLang('common_platform_type'),
-            'common_is_text_list' 	=> MyLang('common_is_text_list'),
+        	'data'		=> ConfigService::ConfigList(),
+        	// 管理导航
+            'nav_data'	=> MyLang('appconfig.base_nav_list'),
+            // 页面导航
+			'nav_type'	=> $type,
         ];
-
-		// 导航/视图
-        $nav_type = empty($this->data_request['nav_type']) ? 'base' : $this->data_request['nav_type'];
-        $assign['nav_type'] = $nav_type;
-
-        // 模板赋值
         MyViewAssign($assign);
-        return MyView($nav_type);
+        return MyView($type);
 	}
 
 	/**

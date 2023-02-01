@@ -53,6 +53,7 @@ class OrderAftersale
      */
     public function Run($params = [])
     {
+        $lang = MyLang('orderaftersale.form_table');
         return [
             // 基础配置
             'base' => [
@@ -63,7 +64,7 @@ class OrderAftersale
             // 表单配置
             'form' => [
                 [
-                    'label'         => '基础信息',
+                    'label'         => $lang['goods'],
                     'view_type'     => 'module',
                     'view_key'      => 'orderaftersale/module/goods',
                     'grid_size'     => 'lg',
@@ -74,11 +75,11 @@ class OrderAftersale
                         'form_name'             => 'id',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereBaseGoodsInfo',
-                        'placeholder'           => '请输入订单号/商品名称/型号',
+                        'placeholder'           => $lang['goods_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '状态',
+                    'label'         => $lang['status'],
                     'view_type'     => 'field',
                     'view_key'      => 'status',
                     'view_data_key' => 'name',
@@ -95,7 +96,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '申请类型',
+                    'label'         => $lang['type'],
                     'view_type'     => 'field',
                     'view_key'      => 'type',
                     'view_data_key' => 'name',
@@ -112,7 +113,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '原因',
+                    'label'         => $lang['reason'],
                     'view_type'     => 'field',
                     'view_key'      => 'reason',
                     'is_sort'       => 1,
@@ -122,7 +123,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '退款金额(元)',
+                    'label'         => $lang['price'],
                     'view_type'     => 'field',
                     'view_key'      => 'price',
                     'is_sort'       => 1,
@@ -132,7 +133,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '退货数量',
+                    'label'         => $lang['number'],
                     'view_type'     => 'field',
                     'view_key'      => 'number',
                     'is_sort'       => 1,
@@ -141,7 +142,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '退款说明',
+                    'label'         => $lang['msg'],
                     'view_type'     => 'field',
                     'view_key'      => 'msg',
                     'grid_size'     => 'sm',
@@ -152,7 +153,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '退款类型',
+                    'label'         => $lang['refundment'],
                     'view_type'     => 'field',
                     'view_key'      => 'refundment',
                     'view_data_key' => 'name',
@@ -169,7 +170,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '快递公司',
+                    'label'         => $lang['express_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'express_name',
                     'is_sort'       => 1,
@@ -179,7 +180,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '快递单号',
+                    'label'         => $lang['express_number'],
                     'view_type'     => 'field',
                     'view_key'      => 'express_number',
                     'is_sort'       => 1,
@@ -189,7 +190,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '申请时间',
+                    'label'         => $lang['apply_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'apply_time',
                     'is_sort'       => 1,
@@ -199,7 +200,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '确认时间',
+                    'label'         => $lang['confirm_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'confirm_time',
                     'is_sort'       => 1,
@@ -209,7 +210,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '退货时间',
+                    'label'         => $lang['delivery_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'delivery_time',
                     'is_sort'       => 1,
@@ -219,7 +220,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '审核时间',
+                    'label'         => $lang['audit_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'audit_time',
                     'is_sort'       => 1,
@@ -229,7 +230,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -239,7 +240,7 @@ class OrderAftersale
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

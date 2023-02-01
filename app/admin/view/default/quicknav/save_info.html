@@ -33,8 +33,8 @@
     		<div class="am-cf">
     			<div class="am-u-sm-6 am-padding-horizontal-0">
     				<div class="am-form-group">
-						<label>{{:MyLang('form_event_type_title')}}<span class="am-form-group-label-tips-must">*</span></label>
-						<select name="event_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('form_event_type_message')}}" required>
+						<label>{{:MyLang('form_event_type_title')}}</label>
+						<select name="event_type" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('form_event_type_message')}}" >
 							<option value="">{{:MyLang('optional_tips')}}</option>
 							{{foreach $common_app_event_type as $v}}
 								<option value="{{$v.value}}" {{if isset($data['event_type']) and $data['event_type'] eq $v['value']}}selected{{else /}}{{if !isset($data['event_type']) and isset($v['checked']) and $v['checked'] eq true}}selected{{/if}}{{/if}}>{{$v.name}}</option>

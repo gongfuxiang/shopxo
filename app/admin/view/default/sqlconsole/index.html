@@ -5,23 +5,23 @@
     <div class="content">
         <div class="am-alert am-alert-warning am-radius" data-am-alert>
             <button type="button" class="am-close">&times;</button>
-            <p class="am-text-xs">PS：非开发人员请不要随意执行任何SQL语句，操作可能导致将整个系统数据库被删除。</p>
+            <p>{{:MyLang('sqlconsole.top_tips')}}</p>
         </div>
-        
+
         {{if isset($shopxo_is_develop) and $shopxo_is_develop eq true}}
             <!-- form start -->
             <form class="am-form form-validation" action="{{:MyUrl('admin/sqlconsole/implement')}}" method="POST" request-type="ajax-fun" request-value="ViewImplementBack">
                 <div class="am-form-group">
-                    <textarea rows="16" name="sql" class="am-radius" placeholder="SQL语句" data-validation-message="请填写需要执行的SQL语句" required></textarea>
+                    <textarea rows="16" name="sql" class="am-radius" placeholder="{{:MyLang('sqlconsole.form_sql_placeholder')}}" data-validation-message="{{:MyLang('sqlconsole.form_sql_message')}}" required></textarea>
                 </div>
                 <div class="am-form-group am-form-group-refreshing am-margin-top-lg am-padding-left-0">
-                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">执行</button>
+                    <button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('execute_title')}}</button>
                 </div>
             </form>
             <!-- form end -->
         {{else /}}
             <div class="am-alert">
-                <p>如需要执行SQL 语句，请在 config/shopxo.php 文件中 is_develop值改为true开启开发者模式。</p>
+                <p>{{:MyLang('sqlconsole.form_dev_tips')}}</p>
             </div>
         {{/if}}
 

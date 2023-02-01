@@ -5,7 +5,7 @@
         <li class="am-text-truncate">{{$module_data.referrer_info.user_name_view}}</li>
         <li>
             {{if !empty($module_data['referrer_info']['username'])}}
-                <a href="javascript:;" class="am-icon-user am-text-grey am-margin-right-sm" data-am-popover="{content: '账号：{{$module_data.referrer_info.username}}{{if !empty($module_data['referrer_info']['nickname'])}}<br />昵称：{{$module_data.referrer_info.nickname}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>
+                <a href="javascript:;" class="am-icon-user am-text-grey am-margin-right-sm" data-am-popover="{content: '{{:MyLang('user_username_title')}}：{{$module_data.referrer_info.username}}{{if !empty($module_data['referrer_info']['nickname'])}}<br />{{:MyLang('user_nickname_title')}}：{{$module_data.referrer_info.nickname}}{{/if}}', trigger: 'hover focus', theme: 'sm'}"></a>
             {{/if}}
             {{if !empty($module_data['referrer_info']['mobile'])}}
                 <a href="javascript:;" class="am-icon-phone-square am-text-grey am-margin-right-sm" data-am-popover="{content: '{{$module_data.referrer_info.mobile}}', trigger: 'hover focus', theme: 'sm'}"></a>

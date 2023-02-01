@@ -602,9 +602,66 @@ class DesignService
             return DataReturn('压缩包打开失败['.$resource.']', -11);
         }
 
-        // 文件处理
+        // 配置信息
         $config = [];
         $data_id = 0;
+        for($i=0; $i<$zip->numFiles; $i++)
+        {
+             $file = $zip->getNameIndex($i);
+            if(stripos($file, 'config.json') !== false)
+            {
+                $stream = $zip->getStream($file);
+                if($stream === false)
+                {
+                    $zip->close();
+                    return DataReturn('配置信息读取失败', -1);
+                }
+
+                // 获取配置信息并解析
+                $file_content = stream_get_contents($stream);
+                $config = empty($file_content) ? [] : json_decode($file_content, true);
+                if(empty($config) || empty($config['data_id']) || empty($config['name']))
+                {
+                    $zip->close();
+                    return DataReturn('配置信息为空或有误', -1);
+                }
+
+                // 数据添加
+                $data = [
+                    'name'      => $config['name'],
+                    'is_header' => (isset($config['is_header']) && $config['is_header'] == 1) ? 1 : 0,
+                    'is_footer' => (isset($config['is_footer']) && $config['is_footer'] == 1) ? 1 : 0,
+                    'add_time'  => time(),
+                ];
+                $data_id = Db::name('Design')->insertGetId($data);
+                if($data_id <= 0)
+                {
+                    $zip->close();
+                    return DataReturn('数据添加失败', -1);
+                }
+                // 更新配置信息和logo
+                if(!empty($config['config']) || !empty($config['logo']))
+                {
+                    $upd_data = [
+                        'logo'      => empty($config['logo']) ? '' : str_replace($config['data_id'], $data_id, $config['logo']),
+                        'config'    => empty($config['config']) ? '' : str_replace($config['data_id'], $data_id, json_encode($config['config'], JSON_UNESCAPED_UNICODE)),
+                        'upd_time'  => time(),
+                    ];
+                    if(!Db::name('Design')->where(['id'=>$data_id])->update($upd_data))
+                    {
+                        $zip->close();
+                        return DataReturn('数据更新失败', -1);
+                    }
+                }
+                break;
+            }
+        }
+        if(empty($config) || empty($data_id))
+        {
+            return DataReturn('配置文件处理失败', -1);
+        }
+
+        // 文件处理
         $success = 0;
         for($i=0; $i<$zip->numFiles; $i++)
         {
@@ -616,88 +673,34 @@ class DesignService
             {
                 // 去除第一个目录（为原始数据的id）
                 $temp_file = substr($file, strpos($file, '/')+1);
-                if(empty($temp_file) || in_array($temp_file, ['static/', 'static/upload/']))
+                if(empty($temp_file) || in_array($temp_file, ['static/', 'static/upload/', 'config.json']))
                 {
                     continue;
                 }
 
-                // 是否配置文件
-                if($temp_file == 'config.json')
+                // 截取文件路径
+                $new_file = ROOT.'public'.DS.str_replace($config['data_id'], $data_id, $temp_file);
+                $file_path = substr($new_file, 0, strrpos($new_file, '/'));
+
+                // 路径不存在则创建
+                \base\FileUtil::CreateDir($file_path);
+
+                // 如果不是目录则写入文件
+                if(!is_dir($new_file))
                 {
+                    // 读取这个文件
                     $stream = $zip->getStream($file);
-                    if($stream === false)
+                    if($stream !== false)
                     {
-                        $zip->close();
-                        return DataReturn('配置信息读取失败', -1);
-                    }
-
-                    // 获取配置信息并解析
-                    $file_content = stream_get_contents($stream);
-                    $config = empty($file_content) ? [] : json_decode($file_content, true);
-                    if(empty($config) || empty($config['data_id']) || empty($config['name']))
-                    {
-                        $zip->close();
-                        return DataReturn('配置信息为空或有误', -1);
-                    }
-
-                    // 数据添加
-                    $data = [
-                        'name'      => $config['name'],
-                        'is_header' => (isset($config['is_header']) && $config['is_header'] == 1) ? 1 : 0,
-                        'is_footer' => (isset($config['is_footer']) && $config['is_footer'] == 1) ? 1 : 0,
-                        'add_time'  => time(),
-                    ];
-                    $data_id = Db::name('Design')->insertGetId($data);
-                    if($data_id <= 0)
-                    {
-                        $zip->close();
-                        return DataReturn('数据添加失败', -1);
-                    }
-                    // 更新配置信息和logo
-                    if(!empty($config['config']) || !empty($config['logo']))
-                    {
-                        $upd_data = [
-                            'logo'      => empty($config['logo']) ? '' : str_replace($config['data_id'], $data_id, $config['logo']),
-                            'config'    => empty($config['config']) ? '' : str_replace($config['data_id'], $data_id, json_encode($config['config'], JSON_UNESCAPED_UNICODE)),
-                            'upd_time'  => time(),
-                        ];
-                        if(!Db::name('Design')->where(['id'=>$data_id])->update($upd_data))
+                        $file_content = stream_get_contents($stream);
+                        if($file_content !== false)
                         {
-                            $zip->close();
-                            return DataReturn('数据更新失败', -1);
-                        }
-                    }
-                    $success++;
-                    continue;
-                }
-
-                // 配置信息和新的数据id必须存在
-                if(!empty($config) && !empty($data_id))
-                {
-                    // 截取文件路径
-                    $new_file = ROOT.'public'.DS.str_replace($config['data_id'], $data_id, $temp_file);
-                    $file_path = substr($new_file, 0, strrpos($new_file, '/'));
-
-                    // 路径不存在则创建
-                    \base\FileUtil::CreateDir($file_path);
-
-                    // 如果不是目录则写入文件
-                    if(!is_dir($new_file))
-                    {
-                        // 读取这个文件
-                        $stream = $zip->getStream($file);
-                        if($stream !== false)
-                        {
-                            $file_content = stream_get_contents($stream);
-                            if($file_content !== false)
+                            if(file_put_contents($new_file, $file_content))
                             {
-                                if(file_put_contents($new_file, $file_content))
-                                {
-                                    $success++;
-                                }
+                                $success++;
                             }
-                            fclose($stream);
                         }
+                        fclose($stream);
                     }
                 }
             }

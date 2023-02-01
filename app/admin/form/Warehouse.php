@@ -180,7 +180,7 @@ class Warehouse
                     'label'         => '经纬度',
                     'view_type'     => 'module',
                     'view_key'      => 'warehouse/module/position',
-                    'grid_size'     => 'sm',
+                    'width'         => 260,
                 ],
                 [
                     'label'         => '创建时间',

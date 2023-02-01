@@ -3,7 +3,7 @@
 
 <!-- 表单顶部操作栏 -->
 {{block name="form_operate_top"}}
-    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus add-goods-submit"> 添加</button>
+    <button type="button" class="am-btn am-btn-secondary am-radius am-btn-xs am-icon-plus add-goods-submit"> {{:MyLang('created_title')}}</button>
     <!-- 父级内容 -->
     {__block__}
 {{/block}}
@@ -14,7 +14,7 @@
     <div class="am-popup" id="warehouse-goods-popup">
         <div class="am-popup-inner">
             <div class="am-popup-hd">
-                <h4 class="am-popup-title">商品添加</h4>
+                <h4 class="am-popup-title">{{:MyLang('warehousegoods.add_goods_title')}}</h4>
                 <span class="am-icon-arrows-alt am-full"></span>
                 <span data-am-modal-close class="am-close">&times;</span>
             </div>
@@ -22,8 +22,8 @@
                 <form class="am-form am-padding-sm goods-add-container">
                     <!-- 搜索 -->
                     <div class="forth-selection-container" data-search-url="{{:MyUrl('admin/warehousegoods/goodssearch')}}">
-                        <select class="am-radius chosen-select forth-selection-form-warehouse" data-placeholder="仓库..." data-validation-message="请选择仓库">
-                            <option value="">仓库...</option>
+                        <select class="am-radius chosen-select forth-selection-form-warehouse" data-placeholder="{{:MyLang('warehousegoods.form_item_warehouseg_placeholder')}}" data-validation-message="{{:MyLang('warehousegoods.form_item_warehouseg_message')}}">
+                            <option value="">{{:MyLang('warehousegoods.form_item_warehouseg_placeholder')}}</option>
                             {{if !empty($warehouse_list)}}
                                 {{foreach $warehouse_list as $v}}
                                     <option value="{{$v.id}}">{{$v.name}}</option>
@@ -54,9 +54,7 @@
 
                     <!-- 商品列表 -->
                     <div class="am-scrollable-vertical am-margin-top-sm am-padding-bottom-xs goods-list-container" data-loading-msg="{{:MyLang('searching_tips')}}" data-add-url="{{:MyUrl('admin/warehousegoods/goodsadd')}}" data-del-url="{{:MyUrl('admin/warehousegoods/goodsdel')}}">
-                        <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered">
-                            <div class="table-no"><i class="am-icon-warning"></i> 请搜索商品</div>
-                        </ul>
+                        <ul class="am-gallery am-avg-sm-3 am-avg-md-4 am-avg-lg-5 am-gallery-bordered"></ul>
                     </div>
 
                     <!-- 分页 -->

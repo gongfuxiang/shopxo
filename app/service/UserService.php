@@ -345,7 +345,7 @@ class UserService
                 'key_name'          => 'address',
                 'checked_data'      => '80',
                 'is_checked'        => 1,
-                'error_msg'         => '地址格式最多 80 个字符之间',
+                'error_msg'         => '地址格式最多80个字符',
             ],
             [
                 'checked_type'      => 'fun',

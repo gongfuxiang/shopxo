@@ -14,6 +14,7 @@ $(function()
             // 关闭刷新页面
             window.location.reload();
         });
+        $popup.find('.search-submit').trigger('click');
     });
 
     // 搜索商品

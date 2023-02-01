@@ -53,7 +53,7 @@ class UserIntegral
      */
     public function Run($params = [])
     {
-        $lang = MyLang('user_integral.form_table');
+        $lang = MyLang('userintegral.form_table');
         return [
             // 基础配置
             'base' => [

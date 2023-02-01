@@ -10,9 +10,9 @@
 
 <!-- 底部提示信息 -->
 {{block name="form_operate_bottom"}}
-    <div class="am-alert am-alert-warning">
-        <p>1. 权重数值越大代表权重越高、扣除库存按照权重依次扣除）</p>
-        <p>2. 仓库仅软删除、删除后将不可用、仅数据库中保留数据）可以自行删除关联的商品数据</p>
-        <p>3. 仓库停用和删除、关联的商品库存会立即释放</p>
-    </div>
+    {{if is_array(MyLang('warehouse.top_tips_list'))}}
+        <div class="am-alert am-alert-warning">
+            <p>{{:implode('</p><p>', MyLang('warehouse.top_tips_list'))}}</p>
+        </div>
+    {{/if}}
 {{/block}}

@@ -35,14 +35,12 @@ class Email extends Base
 		// 导航
 		$type = empty($this->data_request['type']) ? 'index' : $this->data_request['type'];
 		$assign = [
-			// 静态数据
-			'common_is_text_list'	=> MyLang('common_is_text_list'),
 			// 配置信息
-			'data'					=> ConfigService::ConfigList(),
+			'data'		=> ConfigService::ConfigList(),
 			// 管理导航
-            'nav_data'          	=> MyLang('email.base_nav_list'),
+            'nav_data'	=> MyLang('email.base_nav_list'),
             // 页面导航
-			'nav_type'				=> $type,
+			'nav_type'	=> $type,
 		];
 		MyViewAssign($assign);
 		return MyView($type);

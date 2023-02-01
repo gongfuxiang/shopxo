@@ -36,9 +36,11 @@ class Sms extends Base
 		$type = empty($this->data_request['type']) ? 'index' : $this->data_request['type'];
 		$assign = [
 			// 配置信息
-			'data'					=> ConfigService::ConfigList(),
+			'data'		=> ConfigService::ConfigList(),
+			// 管理导航
+            'nav_data'	=> MyLang('sms.base_nav_list'),
 			// 页面导航
-			'nav_type'				=> $type,
+			'nav_type'	=> $type,
 		];
 		MyViewAssign($assign);
 		return MyView($type);

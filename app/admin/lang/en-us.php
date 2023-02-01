@@ -79,6 +79,93 @@ return [
         ],
     ],
 
+    // 用户
+    'user'                  => [
+        'base_nav_title'                        => 'User',
+        // 表单
+        'form_item_system_type'                 => 'System Type',
+        'form_item_system_type_tips'            => 'default',
+        'form_item_system_type_message'         => 'System type 2~60 characters',
+        'form_item_username'                    => 'Username',
+        'form_item_username_message'            => 'User name 2~30 characters',
+        'form_item_nickname'                    => 'Nickname',
+        'form_item_nickname_message'            => 'Nickname can be up to 30 characters',
+        'form_item_mobile'                      => 'Phone Number',
+        'form_item_mobile_message'              => 'Mobile number format error',
+        'form_item_email'                       => 'E-mail',
+        'form_item_email_message'               => 'Email format error',
+        'form_item_alipay_openid'               => 'Alipay openid',
+        'form_item_alipay_openid_message'       => 'Please fill in Alipay openid',
+        'form_item_baidu_openid'                => 'Baidu openid',
+        'form_item_baidu_openid_message'        => 'Please fill in Baidu openid',
+        'form_item_toutiao_openid'              => 'Toutiao openid',
+        'form_item_toutiao_openid_message'      => 'Please fill in the header openid',
+        'form_item_toutiao_unionid'             => 'Toutiao unionid',
+        'form_item_toutiao_unionid_message'     => 'Please fill in the headline unionid',
+        'form_item_qq_openid'                   => 'QQopenid',
+        'form_item_qq_openid_message'           => 'Please fill in QQ openid',
+        'form_item_qq_unionid'                  => 'QQunionid',
+        'form_item_qq_unionid_message'          => 'Please fill in QQuinonid',
+        'form_item_weixin_openid'               => 'WeChat openid',
+        'form_item_weixin_openid_message'       => 'Please fill in WeChat openid',
+        'form_item_weixin_unionid'              => 'WeChat unionid',
+        'form_item_weixin_unionid_message'      => 'Please fill in WeChat unionid',
+        'form_item_web_weixin_openid'           => 'WeChat webopenid',
+        'form_item_web_weixin_openid_message'   => 'Please fill in WeChat webopenid',
+        'form_item_kuaishou_openid'             => 'Kwai openid',
+        'form_item_kuaishou_openid_message'     => 'Please fill in the Kwai openid',
+        'form_item_province'                    => 'Province',
+        'form_item_province_message'            => 'Maximum 60 characters in the province',
+        'form_item_city'                        => 'City',
+        'form_item_city_message'                => 'Maximum 60 characters in the city',
+        'form_item_county'                      => 'District/County',
+        'form_item_county_message'              => '60 characters at most in the district/county',
+        'form_item_address'                     => 'Detail Address',
+        'form_item_address_message'             => 'Detail Address format is up to 80 characters',
+        'form_item_integral'                    => 'Valid Integral',
+        'form_item_integral_message'            => 'Please enter valid points',
+        'form_item_locking_integral'            => 'Lock Integral',
+        'form_item_locking_integral_message'    => 'Please enter locked points',
+        'form_item_birthday'                    => 'Birthday',
+        'form_item_birthday_message'            => 'Incorrect birthday format',
+        'form_item_referrer'                    => 'Invite User ID',
+        'form_item_referrer_message'            => 'Please enter the invitation user ID',
+        'form_item_pwd'                         => 'Login Password',
+        'form_item_pwd_tips'                    => 'Enter to change the password',
+        'form_item_pwd_message'                 => 'Login password format is between 6 and 18 characters',
+    ],
+
+    // 用户地址
+    'useraddress'      => [
+        'base_nav_title'                        => 'User Address',
+        // 表单
+        'form_item_user_id'                     => 'User ID',
+        'form_item_user_id_message'             => 'Please fill in user id',
+        'form_item_name'                        => 'Full Name',
+        'form_item_name_message'                => 'Name format is between 2 and 16 characters',
+        'form_item_alias'                       => 'Alias',
+        'form_item_alias_message'               => 'Alias format can be up to 16 characters',
+        'form_item_tel'                         => 'Telephone',
+        'form_item_tel_message'                 => 'Incorrect phone format',
+        'form_item_address'                     => 'Detailed Address',
+        'form_item_address_message'             => 'Detailed address format is between 1 and 80 characters',
+        'form_item_idcard_name'                 => 'ID Card Name',
+        'form_item_idcard_name_tips'            => 'Optional, please be consistent with the uploaded ID name',
+        'form_item_idcard_name_message'         => 'The name format of ID card can be up to 16 characters',
+        'form_item_idcard_number'               => 'ID No',
+        'form_item_idcard_number_tips'          => 'Optional, please be consistent with the uploaded ID number',
+        'form_item_idcard_number_message'       => 'ID card number format can be up to 18 characters',
+        'form_item_idcard_images'               => 'ID Card Photo',
+        'form_item_idcard_images_tips'          => 'For selective transmission, please use the original ID card to shoot, and the picture should be clear',
+        'form_item_idcard_front_button_name'    => 'Upload IDCard Front Pictures',
+        'form_item_idcard_back_button_name'     => 'Upload IDCard Back Pictures',
+        'form_item_idcard_no_user_tips'         => 'Associate users before uploading ID card images',
+        // 详情
+        'detail_user_address_idcard_name'       => 'Full Name',
+        'detail_user_address_idcard_number'     => 'Number',
+        'detail_user_address_idcard_pic'        => 'Photo',
+    ],
+
     // 站点设置
     'site'                  => [
         // 页面公共
@@ -303,12 +390,45 @@ return [
         'form_is_reply'                         => 'Reply or not',
     ],
 
+    // 仓库管理
+    'warehouse'             => [
+        'base_nav_title'                        => 'Warehouse',
+        'top_tips_list'                         => [
+            '1. The higher the weight value is, the higher the weight is. The inventory is deducted according to the weight.)',
+            '2. The warehouse can only be soft-deleted, will not be available after deletion, and only the data in the database can be retained), and the associated commodity data can be deleted by itself',
+            '3. The warehouse will be deactivated and deleted, and the associated commodity inventory will be released immediately',
+        ],
+        // 表单
+        'form_item_name'                        => 'Full Name',
+        'form_item_name_message'                => 'Name format is between 2 and 30 characters',
+        'form_item_alias'                       => 'Alias',
+        'form_item_alias_message'               => 'Alias format can be up to 16 characters',
+        'form_item_level'                       => 'Weight',
+        'form_item_level_tips'                  => 'The higher the weight value, the higher the weight',
+        'form_item_level_message'               => 'Please enter a valid weight value',
+        'form_item_contacts_name'               => 'Contacts Name',
+        'form_item_contacts_name_message'       => 'Contact format is between 2 and 16 characters',
+        'form_item_contacts_tel'                => 'Contact Tel',
+        'form_item_contacts_tel_message'        => 'Please fill in the contact number',
+        'form_item_address'                     => 'Detail Address',
+        'form_item_address_message'             => 'Address format is between 1 and 80 characters',
+    ],
+
     // 仓库商品
     'warehousegoods'        => [
         // 页面公共
         'page_common'           => [
             'warehouse_choice_tips'             => 'Please select a warehouse',
         ],
+        // 基础
+        'no_spec_data_tips'                     => 'No specification data',
+        'batch_setup_inventory_placeholder'     => 'Batch set value',
+        'base_spec_inventory_title'             => 'Specification Inventory',
+        // 表单
+        'add_goods_title'                       => 'Goods Add',
+        'form_item_warehouseg_placeholder'      => 'Warehouse...',
+        'form_item_warehouseg_message'          => 'Please select a warehouse',
+        'form_item_inventory_message'           => 'Inventory quantity 0~100000000',
     ],
 
     // 管理员
@@ -348,6 +468,19 @@ return [
         'form_item_password_edit_tips'          => 'Enter to change the password',
         'form_item_status'                      => 'Status',
         'form_item_status_message'              => 'Please select user status',
+        // 动态表格
+        'form_table'                            => [
+            'username'              => 'Admin',
+            'status'                => 'Status',
+            'gender'                => 'Gender',
+            'mobile'                => 'Mobile',
+            'email'                 => 'Email',
+            'role_name'             => 'Role Group',
+            'login_total'           => 'Number of Logins',
+            'login_time'            => 'Last Login Time',
+            'add_time'              => 'Creation Time',
+            'upd_time'              => 'Update Time',
+        ],
     ],
 
     // 协议
@@ -360,6 +493,15 @@ return [
         ],
         'top_tips'          => 'Add parameter is to front-end access protocol address_ Content=1, only protocol content is displayed',
         'view_detail_name'                      => 'View Details',
+    ],
+
+    // 手机配置
+    'appconfig'             => [
+        // 基础导航
+        'base_nav_list'                         => [
+            ['name' => 'BaseConfig', 'type' => 'index'],
+            ['name' => 'APP/Applet', 'type' => 'app'],
+        ],
     ],
 
     // 小程序管理
@@ -381,11 +523,24 @@ return [
         'package_generate_tips'                 => 'The generation time is relatively long, please do not close the browser window!',
     ],
 
+    // 短信设置
+    'sms'                   => [
+        // 基础导航
+        'base_nav_list'                         => [
+            ['name' => 'Sms Settings', 'type' => 'index'],
+            ['name' => 'Message Template', 'type' => 'message'],
+        ],
+        'top_tips'                              => 'AliCloud SMS management address',
+        'top_to_aliyun_tips'                    => 'Click to buy SMS from AliCloud',
+        'base_item_admin_title'                 => 'Admin',
+        'base_item_index_title'                 => 'Home',
+    ],
+
     // 邮箱设置
     'email'                 => [
         // 基础导航
         'base_nav_list'                         => [
-            ['name' => 'Mailbox Settings', 'type' => 'index'],
+            ['name' => 'Email Settings', 'type' => 'index'],
             ['name' => 'Message Template', 'type' => 'message'],
         ],
         'top_tips'                              => 'Due to some differences between different mailbox platforms and different configurations, the specific configuration of the mailbox platform is subject to the tutorial',
@@ -744,7 +899,7 @@ return [
                 ],
             ]
         ],
-        'upload_top_tips_ps'                        => 'PS: If the above conditions are not met, the plug-in cannot be viewed. Put the plug-in into the. zip compression package to upload, and support multiple payment plug-ins in one compression',
+        'upload_top_tips_ps'                        => 'PS: If the above conditions are not met, the plug-in cannot be viewed. Put the plug-in into the. zip compression package to upload, and support multiple payment plugins in one compression',
         // 表单
         'form_item_name'                        => 'Name',
         'form_item_name_message'                => 'Name format 2~30 characters',
@@ -764,6 +919,18 @@ return [
         'form_item_website_url'                 => 'Website Address',
         'form_item_website_url_placeholder'     => 'Official website address, starting with http://or https://',
         'form_item_website_url_message'         => 'Incorrect format of official website address',
+    ],
+
+    // 主题管理
+    'theme'                 => [
+        'base_nav_list'                         => [
+            ['name' => 'Current Theme', 'type' => 'index'],
+            ['name' => 'Theme Install', 'type' => 'upload'],
+        ],
+        'nav_store_theme_name'                  => 'More topic downloads',
+        'list_author_title'                     => 'Author：',
+        'list_version_title'                    => 'Applicable Version',
+        'form_item_upload_tips'                 => 'Upload an application installation package in zip compression format',
     ],
 
     // 用户中心导航
@@ -821,11 +988,11 @@ return [
         'base_top_tips_one'                     => 'List sorting method [custom sorting ->earliest installation]',
         'base_top_tips_two'                     => 'Click and drag icon button to adjust plug-in call and display order',
         'base_open_sort_title'                  => 'Enable sorting',
-        'data_list_author_title'                => 'Author',
-        'data_list_author_url_title'            => 'HomePage',
-        'data_list_version_title'               => 'Version',
+        'data_list_author_title'                => 'Author：',
+        'data_list_author_url_title'            => 'HomePage：',
+        'data_list_version_title'               => 'Version：',
         'uninstall_confirm_tips'                => 'Uninstallation may lose the basic configuration data of the plug-in. Is it unrecoverable and confirm the operation?',
-        'not_install_divide_title'              => 'The following plug-ins are not installed',
+        'not_install_divide_title'              => 'The following plugins are not installed',
         'delete_plugins_text'                   => '1. Delete apps only',
         'delete_plugins_text_tips'              => '(Only delete the application code and keep the application data)',
         'delete_plugins_data_text'              => '2. Delete app and delete data',
@@ -834,7 +1001,7 @@ return [
         'delete_plugins_button_name'            => 'Delete apps only',
         'delete_plugins_data_button_name'       => 'Delete apps and data',
         'cancel_delete_plugins_button_name'     => 'Think again',
-        'more_plugins_store_to_text'            => 'Go to the app store to select more plug-ins to enrich the site >>',
+        'more_plugins_store_to_text'            => 'Go to the app store to select more plugins to enrich the site >>',
         'no_data_store_to_text'                 => 'Go to the app store to select plug-in rich sites >>',
         'plugins_no_data_tips'                  => 'There is no relevant application yet',
         // 表单
@@ -967,11 +1134,40 @@ return [
         'form_item_max_price_message'           => 'Incorrect maximum price',
     ],
 
+    // 首页轮播
+    'slide'                 => [
+        'base_nav_title'                        => 'Slide',
+        // 表单
+        'form_item_name'                        => 'Name',
+        'form_item_name_message'                => 'Name format: 2~60 characters',
+        'form_item_images_url'                  => 'Slide Pictures',
+        'form_item_images_url_tips'             => [
+            '1. Recommended size of PC end: 1920 * 480px',
+            '2. Recommended size of mobile terminal: 1200 * 360px',
+        ],
+    ],
+
+    // sql控制台
+    'sqlconsole'            => [
+        'top_tips'                              => 'PS: Non-developers should not execute any SQL statements at will, which may cause the entire system database to be deleted.',
+        'form_sql_placeholder'                  => 'SQL Statement',
+        'form_sql_message'                      => 'Please fill in the SQL statement to be executed',
+        'form_dev_tips'                         => 'If you need to execute SQL statements, change the [is_develop] value in the [config/shopxo. php] file to [true] to enable developer mode.',
+    ],
+
+    // 应用商店
+    'store'                 => [
+        'top_tips'                              => 'ShopXO excellent application list, where the most senior, technically capable and reliable ShopXO developers are gathered to provide a comprehensive escort for your plug-in, style and template customization.',
+        'to_store_name'                         => 'Go to the app store to select plugins >>',
+    ],
+
     // 公共
     'common'                => [
         // 公共
         'admin_browser_title'                   => 'Background management system',
         'remove_cache_title'                    => 'Clear Cache',
+        'user_status_title'                     => 'User Status',
+        'user_status_message'                   => 'Please select user status',
         // 商店绑定
         'store_check_update_name'               => 'Check for update',
         'store_bind_accounts_name'              => 'Bind ShopXO store account',
@@ -1006,6 +1202,334 @@ return [
             '2. Details (only displayed under the commodity details parameter)',
             '3. Basic (only displayed under commodity basic information)',
             '4. The shortcut operation will clear the original data and reload the page to restore the original data (only effective after saving the product)',
+        ],
+    ],
+
+    // 后台权限菜单
+    'admin_power_menu_list' => [
+        'config_index' => [
+            'name' => 'System Setup',
+            'item' => [
+                'config_index'                 => 'System config',
+                'config_store'                 => 'Store info',
+                'config_save'                  => 'Configuration save',
+                'index_storeaccountsbind'      => 'App store account binding',
+                'index_inspectupgrade'         => 'System update check',
+                'index_inspectupgradeconfirm'  => 'System update confirmation',
+                'index_stats'                  => 'Home page statistics',
+                'index_income'                 => 'Home page Statistics (income statistics]',
+            ]
+        ],
+        'site_index' => [
+            'name' => 'Site Config',
+            'item' => [
+                'site_index'                  => 'Site setup',
+                'site_save'                   => 'Site setup editing',
+                'site_goodssearch'            => 'Site setup and product search',
+                'layout_layoutindexhomesave'  => 'Homepage layout admin',
+                'sms_index'                   => 'SMS setup',
+                'sms_save'                    => 'SMS setup editing',
+                'email_index'                 => 'Email setup',
+                'email_save'                  => 'Email setup / editing',
+                'email_emailtest'             => 'Mail sending test',
+                'seo_index'                   => 'SEO setup',
+                'seo_save'                    => 'SEO setup editing',
+                'agreement_index'             => 'Agreement admin',
+                'agreement_save'              => 'Protocol setup editing',
+            ]
+        ],
+        'power_index' => [
+            'name' => 'Power Control',
+            'item' => [
+                'admin_index'        => 'Admin list',
+                'admin_saveinfo'     => 'Admin add/edit page',
+                'admin_save'         => 'Admin add/edit',
+                'admin_delete'       => 'Admin delete',
+                'admin_detail'       => 'Admin details',
+                'role_index'         => 'Role admin',
+                'role_saveinfo'      => 'Role group add/edit page',
+                'role_save'          => 'Role group add/edit',
+                'role_delete'        => 'Role delete',
+                'role_statusupdate'  => 'Role status update',
+                'role_detail'        => 'Role details',
+                'power_index'        => 'Power divide',
+                'power_save'         => 'Power add/edit',
+                'power_delete'       => 'Power delete',
+            ]
+        ],
+        'user_index' => [
+            'name' => 'User Admin',
+            'item' => [
+                'user_index'            => 'User list',
+                'user_saveinfo'         => 'User edit / add page',
+                'user_save'             => 'User add/edit',
+                'user_delete'           => 'User delete',
+                'user_detail'           => 'User details',
+                'useraddress_index'     => 'User address',
+                'useraddress_saveinfo'  => 'User address edit page',
+                'useraddress_save'      => 'User address editing',
+                'useraddress_delete'    => 'User address delete',
+                'useraddress_detail'    => 'User address details',
+            ]
+        ],
+        'goods_index' => [
+            'name' => 'Goods Admin',
+            'item' => [
+                'goods_index'                       => 'Goods admin',
+                'goods_saveinfo'                    => 'Goods add/edit page',
+                'goods_save'                        => 'Item add/edit',
+                'goods_delete'                      => 'Goods delete',
+                'goods_statusupdate'                => 'Goods status update',
+                'goods_basetemplate'                => 'Get commodity base template',
+                'goods_detail'                      => 'Goods details',
+                'goodscategory_index'               => 'Goods category',
+                'goodscategory_save'                => 'Goods category add/edit',
+                'goodscategory_delete'              => 'Goods category delete',
+                'goodsparamstemplate_index'         => 'Goods params',
+                'goodsparamstemplate_delete'        => 'Delete commodity params',
+                'goodsparamstemplate_statusupdate'  => 'Goods params status update',
+                'goodsparamstemplate_saveinfo'      => 'Goods params add/edit page',
+                'goodsparamstemplate_save'          => 'Goods params add/edit ',
+                'goodsparamstemplate_detail'        => 'Goods params details',
+                'goodsspectemplate_index'           => 'Goods spec',
+                'goodsspectemplate_delete'          => 'Item spec delete',
+                'goodsspectemplate_statusupdate'    => 'Goods spec status update',
+                'goodsspectemplate_saveinfo'        => 'Goods spec add/edit page',
+                'goodsspectemplate_save'            => 'Goods spec add/edit',
+                'goodsspectemplate_detail'          => 'Goods spec details',
+                'goodscomments_detail'              => 'Goods review details',
+                'goodscomments_index'               => 'Goods review',
+                'goodscomments_reply'               => 'Goods comment reply',
+                'goodscomments_delete'              => 'Goods comment delete',
+                'goodscomments_statusupdate'        => 'Goods review status update',
+                'goodscomments_saveinfo'            => 'Goods comment add/edit page',
+                'goodscomments_save'                => 'Goods comments add/edit',
+                'goodsbrowse_index'                 => 'Goods browsing',
+                'goodsbrowse_delete'                => 'Goods browse delete',
+                'goodsbrowse_detail'                => 'Goods browsing details',
+                'goodsfavor_index'                  => 'Goods favor',
+                'goodsfavor_delete'                 => 'Delete item favor',
+                'goodsfavor_detail'                 => 'Collection details',
+                'goodscart_index'                   => 'Shopping cart',
+                'goodscart_delete'                  => 'Item Cart Delete',
+                'goodscart_detail'                  => 'Shopping Cart Details',
+            ]
+        ],
+        'order_index' => [
+            'name' => 'Order Admin',
+            'item' => [
+                'order_index'             => 'Order admin',
+                'order_delete'            => 'Order delete',
+                'order_cancel'            => 'Order cancellation',
+                'order_delivery'          => 'Order delivery',
+                'order_collect'           => 'Order receipt',
+                'order_pay'               => 'Order payment',
+                'order_confirm'           => 'acknowledgement of order',
+                'order_detail'            => 'Order details',
+                'orderaftersale_index'    => 'Order after sales',
+                'orderaftersale_delete'   => 'After sales order delete',
+                'orderaftersale_cancel'   => 'Order after-sales cancellation',
+                'orderaftersale_audit'    => 'Order after sales review',
+                'orderaftersale_confirm'  => 'Order after sales confirmation',
+                'orderaftersale_refuse'   => 'After sales rejection of order',
+                'orderaftersale_detail'   => 'Order after sales details',
+            ]
+        ],
+        'navigation_index' => [
+            'name' => 'Website Admin',
+            'item' => [
+                'navigation_index'         => 'Navigation admin',
+                'navigation_save'          => 'Navigation add/edit',
+                'navigation_delete'        => 'Navigation delete',
+                'navigation_statusupdate'  => 'Navigation status update',
+                'customview_index'         => 'Custom page',
+                'customview_saveinfo'      => 'Custom page add/edit page',
+                'customview_save'          => 'Custom page add/edit',
+                'customview_delete'        => 'Custom page delete',
+                'customview_statusupdate'  => 'Custom page status update',
+                'customview_detail'        => 'Custom page details',
+                'link_index'               => 'Links',
+                'link_saveinfo'            => 'Link add/edit page',
+                'link_save'                => 'Add / Edit Links',
+                'link_delete'              => 'Link delete',
+                'link_statusupdate'        => 'Link status update',
+                'link_detail'              => 'Link details',
+                'theme_index'              => 'Theme admin',
+                'theme_save'               => 'Topic admin add/edit',
+                'theme_upload'             => 'Theme upload and installation',
+                'theme_delete'             => 'Subject delete',
+                'theme_download'           => 'Theme download',
+                'slide_index'              => 'Home page rotation',
+                'slide_saveinfo'           => 'Carousel add/edit page',
+                'slide_save'               => 'Carousel add/edit',
+                'slide_statusupdate'       => 'Rotation status update',
+                'slide_delete'             => 'Rotation delete',
+                'slide_detail'             => 'Rotation details',
+                'screeningprice_index'     => 'Screening price',
+                'screeningprice_save'      => 'Filter price add/edit',
+                'screeningprice_delete'    => 'Filter price delete',
+                'region_index'             => 'Regional admin',
+                'region_save'              => 'Region add/edit',
+                'region_delete'            => 'Region delete',
+                'region_codedata'          => 'Get area number data',
+                'express_index'            => 'Express Management',
+                'express_save'             => 'Express add/edit',
+                'express_delete'           => 'Express delete',
+                'payment_index'            => 'Payment method',
+                'payment_saveinfo'         => 'Payment method installation / editing page',
+                'payment_save'             => 'Payment method installation / editing',
+                'payment_delete'           => 'Payment method delete',
+                'payment_install'          => 'Payment method installation',
+                'payment_statusupdate'     => 'Payment method status update',
+                'payment_uninstall'        => 'Payment method unloading',
+                'payment_upload'           => 'Payment method upload',
+                'quicknav_index'           => 'Quick navigation',
+                'quicknav_saveinfo'        => 'Quick navigation add/edit page',
+                'quicknav_save'            => 'Quick navigation add/edit',
+                'quicknav_statusupdate'    => 'Quick navigation status update',
+                'quicknav_delete'          => 'Quick navigation delete',
+                'quicknav_detail'          => 'Quick navigation details',
+                'design_index'             => 'Page design',
+                'design_saveinfo'          => 'Page design add/edit page',
+                'design_save'              => 'Page design add/edit',
+                'design_statusupdate'      => 'Page design status update',
+                'design_upload'            => 'Page design import',
+                'design_download'          => 'Page Design Download',
+                'design_sync'              => 'Page design synchronization home page',
+                'design_delete'            => 'Page design delete',
+            ]
+        ],
+        'brand_index' => [
+            'name' => 'Brand Admin',
+            'item' => [
+                'brand_index'           => 'Brand admin',
+                'brand_saveinfo'        => 'Brand add/edit page',
+                'brand_save'            => 'Brand add/edit',
+                'brand_statusupdate'    => 'Brand status update',
+                'brand_delete'          => 'Brand delete',
+                'brand_detail'          => 'Brand details',
+                'brandcategory_index'   => 'Brand classification',
+                'brandcategory_save'    => 'Brand category add/edit',
+                'brandcategory_delete'  => 'Brand classification delete',
+            ]
+        ],
+        'warehouse_index' => [
+            'name' => 'Warehouse Admin',
+            'item' => [
+                'warehouse_index'               => 'Warehouse admin',
+                'warehouse_saveinfo'            => 'Warehouse add/edit page',
+                'warehouse_save'                => 'Warehouse add/edit',
+                'warehouse_delete'              => 'Warehouse delete',
+                'warehouse_statusupdate'        => 'Warehouse status update',
+                'warehouse_detail'              => 'Warehouse details',
+                'warehousegoods_index'          => 'Warehouse commodity admin',
+                'warehousegoods_detail'         => 'Warehouse item details',
+                'warehousegoods_delete'         => 'Warehouse Item Deletion',
+                'warehousegoods_statusupdate'   => 'Warehouse commodity status update',
+                'warehousegoods_goodssearch'    => 'Warehouse item search',
+                'warehousegoods_goodsadd'       => 'Warehouse item search add',
+                'warehousegoods_goodsdel'       => 'Warehouse item search delete',
+                'warehousegoods_inventoryinfo'  => 'Warehouse commodity inventory editing page',
+                'warehousegoods_inventorysave'  => 'Edit warehouse inventory',
+            ]
+        ],
+        'app_index' => [
+            'name' => 'Mobile Admin',
+            'item' => [
+                'appconfig_index'            => 'Basic config',
+                'appconfig_save'             => 'Basic config saving',
+                'apphomenav_index'           => 'Home page navigation',
+                'apphomenav_saveinfo'        => 'Home navigation add/edit page',
+                'apphomenav_save'            => 'Home page navigation add/edit',
+                'apphomenav_statusupdate'    => 'Homepage navigation status update',
+                'apphomenav_delete'          => 'Home page navigation delete',
+                'apphomenav_detail'          => 'Home page navigation details',
+                'appcenternav_index'         => 'User center navigation',
+                'appcenternav_saveinfo'      => 'User center navigation add/edit page',
+                'appcenternav_save'          => 'User center navigation add/edit',
+                'appcenternav_statusupdate'  => 'User center navigation status update',
+                'appcenternav_delete'        => 'User center navigation delete',
+                'appcenternav_detail'        => 'User center navigation details',
+                'appmini_index'              => 'Applet list',
+                'appmini_created'            => 'Applet package generation',
+                'appmini_delete'             => 'Applet package delete',
+                'appmini_themeupload'        => 'Applet theme upload',
+                'appmini_themesave'          => 'Applet theme switching',
+                'appmini_themedelete'        => 'Applet theme switching',
+                'appmini_themedownload'      => 'Applet theme download',
+                'appmini_config'             => 'Applet config',
+                'appmini_save'               => 'Applet config save',
+            ]
+        ],
+        'article_index' => [
+            'name' => 'Article Admin',
+            'item' => [
+                'article_index'           => 'Article admin',
+                'article_saveinfo'        => 'Article add/edit page',
+                'article_save'            => 'Article add/edit',
+                'article_delete'          => 'Article delete',
+                'article_statusupdate'    => 'Article status update',
+                'article_detail'          => 'Article details',
+                'articlecategory_index'   => 'Article classification',
+                'articlecategory_save'    => 'Article classification editing / adding',
+                'articlecategory_delete'  => 'Article classification delete',
+            ]
+        ],
+        'data_index' => [
+            'name' => 'data Admin',
+            'item' => [
+                'answer_index'          => 'Q&A message',
+                'answer_reply'          => 'Q&A message reply',
+                'answer_delete'         => 'Q&A message delete',
+                'answer_statusupdate'   => 'Update message status',
+                'answer_saveinfo'       => 'Q&A add/edit page',
+                'answer_save'           => 'Q&A add/edit',
+                'answer_detail'         => 'Q&A message details',
+                'message_index'         => 'Message admin',
+                'message_delete'        => 'Message delete',
+                'message_detail'        => 'Message details',
+                'paylog_index'          => 'Payment log',
+                'paylog_detail'         => 'Payment log details',
+                'paylog_close'          => 'Payment log closed',
+                'payrequestlog_index'   => 'Payment request log list',
+                'payrequestlog_detail'  => 'Payment request log details',
+                'refundlog_index'       => 'Refund log',
+                'refundlog_detail'      => 'Refund log details',
+                'integrallog_index'     => 'Integral log',
+                'integrallog_detail'    => 'Points log details',
+            ]
+        ],
+        'store_index' => [
+            'name' => 'Application Center',
+            'item' => [
+                'pluginsadmin_index'         => 'Application admin',
+                'plugins_index'              => 'Application call admin',
+                'pluginsadmin_saveinfo'      => 'Application add/edit page',
+                'pluginsadmin_save'          => 'Apply add/edit',
+                'pluginsadmin_statusupdate'  => 'Application status update',
+                'pluginsadmin_delete'        => 'Apply delete',
+                'pluginsadmin_upload'        => 'Application upload',
+                'pluginsadmin_download'      => 'Application packaging',
+                'pluginsadmin_install'       => 'Application installation',
+                'pluginsadmin_uninstall'     => 'Apps Uninstall',
+                'pluginsadmin_sortsave'      => 'Apply sort save',
+                'store_index'                => 'App store',
+                'packageinstall_index'       => 'Package installation page',
+                'packageinstall_install'     => 'Package installation',
+                'packageupgrade_upgrade'     => 'Package update',
+            ]
+        ],
+        'tool_index' => [
+            'name' => 'Tools',
+            'item' => [
+                'cache_index'           => 'Cache admin',
+                'cache_statusupdate'    => 'Site cache update',
+                'cache_templateupdate'  => 'Template cache update',
+                'cache_moduleupdate'    => 'Module cache update',
+                'cache_logdelete'       => 'Log delete',
+                'sqlconsole_index'      => 'SQL console',
+                'sqlconsole_implement'  => 'SQL execution',
+            ]
         ],
     ],
 ];

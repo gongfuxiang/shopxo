@@ -221,19 +221,14 @@ class AdminPowerService
         // 缓存没数据则从数据库重新读取
         if((($role_id > 0 || $admin_id == 1) && (empty($admin_left_menu) || empty($admin_power))) || $is_refresh || MyEnv('app_debug'))
         {
-            // 获取一级数据
-            if($admin_id == 1 || $role_id == 1)
-            {
-                $field = 'id,name,control,action,url,is_show,icon';
-                $admin_left_menu = Db::name('Power')->where(array('pid' => 0))->field($field)->order('sort')->select()->toArray();
-            } else {
-                $field = 'p.id,p.name,p.control,p.action,p.url,p.is_show,p.icon';
-                $admin_left_menu = Db::name('Power')->alias('p')->join('role_power rp', 'p.id=rp.power_id')->where(array('rp.role_id' => $role_id, 'p.pid' => 0))->field($field)->order('p.sort')->select()->toArray();
-            }
-
-            // 有数据，则处理子级数据
+            // 获取一级数据、有数据，则处理子级数据
+            $admin_left_menu = self::AdminPowerMenuData($admin_id, $role_id);
             if(!empty($admin_left_menu))
             {
+                // 语言数据
+                $lang = MyLang('admin_power_menu_list');
+                $temp_lang = [];
+
                 // 菜单权限
                 foreach($admin_left_menu as $k=>$v)
                 {
@@ -241,24 +236,25 @@ class AdminPowerService
                     if(!empty($v['control']) && !empty($v['action']))
                     {
                         // 权限
-                        $admin_power[$v['id']] = strtolower($v['control'].'_'.$v['action']);
+                        $key = strtolower($v['control'].'_'.$v['action']);
+                        $admin_power[$v['id']] = $key;
 
                         // url、存在自定义url则不覆盖
                         if(empty($v['url']))
                         {
                             $admin_left_menu[$k]['url'] = MyUrl('admin/'.strtolower($v['control']).'/'.strtolower($v['action']));
                         }
+
+                        // 语言处理
+                        if(!empty($lang) && is_array($lang) && array_key_exists($key, $lang))
+                        {
+                            $temp_lang = $lang[$key];
+                            $admin_left_menu[$k]['name'] = $temp_lang['name'];
+                        }
                     }
 
                     // 获取子权限
-                    if(($admin_id == 1 || $role_id == 1) && !empty($v['id']))
-                    {
-                        $items = Db::name('Power')->where(['pid'=>intval($v['id'])])->field($field)->order('sort')->select()->toArray();
-                    } else {
-                        $items = Db::name('Power')->alias('p')->join('role_power rp', 'p.id=rp.power_id')->where(['rp.role_id'=>$role_id, 'p.pid'=>intval($v['id'])])->field($field)->order('p.sort')->select()->toArray();
-                    }
-
-                    // 权限列表
+                    $items = self::AdminPowerMenuData($admin_id, $role_id, $v['id']);
                     $is_show_parent = isset($v['is_show']) ? $v['is_show'] : 0;
                     if(!empty($items))
                     {
@@ -268,12 +264,19 @@ class AdminPowerService
                             if(!empty($vs['control']) && !empty($vs['action']))
                             {
                                 // 权限
-                                $admin_power[$vs['id']] = strtolower($vs['control'].'_'.$vs['action']);
+                                $key = strtolower($vs['control'].'_'.$vs['action']);
+                                $admin_power[$vs['id']] = $key;
 
                                 // url、存在自定义url则不覆盖
                                 if(empty($vs['url']))
                                 {
                                     $items[$ks]['url'] = MyUrl('admin/'.strtolower($vs['control']).'/'.strtolower($vs['action']));
+                                }
+
+                                // 语言处理
+                                if(!empty($temp_lang['item']) && is_array($temp_lang['item']) && array_key_exists($key, $temp_lang['item']))
+                                {
+                                    $items[$ks]['name'] = $temp_lang['item'][$key];
                                 }
                             }
 
@@ -332,6 +335,30 @@ class AdminPowerService
             'admin_power'       => $admin_power,
             'admin_plugins'     => $admin_plugins,
         ];
+    }
+
+    /**
+     * 权限菜单读取
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2023-02-01
+     * @desc    description
+     * @param   [int]          $admin_id [管理员id]
+     * @param   [int]          $role_id  [角色id]
+     * @param   [int]          $pid      [父id]
+     */
+    public static function AdminPowerMenuData($admin_id, $role_id, $pid = 0)
+    {
+        if($admin_id == 1 || $role_id == 1)
+        {
+            $field = 'id,name,control,action,url,is_show,icon';
+            $data = Db::name('Power')->where(['pid' => $pid])->field($field)->order('sort')->select()->toArray();
+        } else {
+            $field = 'p.id,p.name,p.control,p.action,p.url,p.is_show,p.icon';
+            $data = Db::name('Power')->alias('p')->join('role_power rp', 'p.id=rp.power_id')->where(['rp.role_id' => $role_id, 'p.pid' => $pid])->field($field)->order('p.sort')->select()->toArray();
+        }
+        return $data;
     }
 }
 ?>

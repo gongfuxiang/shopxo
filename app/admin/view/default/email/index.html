@@ -32,7 +32,7 @@
 			<div class="am-form-group">
                 <label>{{$data.common_email_is_use_ssl.name}}</label>
                 <select name="{{$data.common_email_is_use_ssl.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_email_is_use_ssl.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
+                    {{foreach :MyLang('common_is_text_list') as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_email_is_use_ssl']['value']) and $data['common_email_is_use_ssl']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>

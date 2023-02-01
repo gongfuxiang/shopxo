@@ -61,7 +61,8 @@
  * 数据列表规格展示
  */
 .spec-inventory-list {
-    height: 100px;
+    max-height: 75px;
+    height: auto;
 }
 .spec-inventory-list ul li .spec-name {
     width: calc(100% - 75px);

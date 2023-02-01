@@ -55,7 +55,7 @@ class UserIntegral extends Common
             'user_integral_data'    => IntegralService::UserIntegral($this->user['id']),
 
             // 浏览器名称
-            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('user_integral.browser_seo_title'), 1),
+            'home_seo_site_title'   => SeoService::BrowserSeoTitle(MyLang('userintegral.browser_seo_title'), 1),
         ];
         MyViewAssign($assign);
         return MyView();

@@ -145,7 +145,7 @@ class UserAddress
                     'label'         => '经纬度',
                     'view_type'     => 'module',
                     'view_key'      => 'useraddress/module/position',
-                    'grid_size'     => 'sm',
+                    'width'         => 260,
                 ],
                 [
                     'label'         => '身份证信息',

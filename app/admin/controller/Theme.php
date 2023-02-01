@@ -56,6 +56,8 @@ class Theme extends Base
 		$assign = [
 			// 导航参数
 			'view_type' 		=> $this->view_type,
+			// 基础导航
+			'base_nav'			=> MyLang('appmini.base_nav_list'),
 	        // 应用商店
 	        'store_theme_url'	=> StoreService::StoreThemeUrl(),
         ];

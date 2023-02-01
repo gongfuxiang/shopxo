@@ -169,7 +169,7 @@ return [
     ],
 
     // 自定义页面
-    'custom_view'            => [
+    'customview'        => [
         'custom_view_no_data_tips'              => 'Page does not exist or has been deleted',
     ],
 
@@ -342,6 +342,26 @@ return [
         'form_item_express_number_message'      => 'The format of express bill number is between 1 and 60 characters',
         'form_delivery_title'                   => 'Return Operate',
         'form_delivery_address_name'            => 'Return Address:',
+        // 动态表格
+        'form_table'                            => [
+            'goods'                 => 'Base Info',
+            'goods_placeholder'     => 'Please enter the order number/product name/model',
+            'status'                => 'Status',
+            'type'                  => 'Apply Type',
+            'reason'                => 'Reason',
+            'price'                 => 'Refund Amount (yuan)',
+            'number'                => 'Return Quantity',
+            'msg'                   => 'Refund instructions',
+            'refundment'            => 'Refund Type',
+            'express_name'          => 'Express Company',
+            'express_number'        => 'Express Number',
+            'apply_time'            => 'Apply Time',
+            'confirm_time'          => 'Confirm Time',
+            'delivery_time'         => 'Return Time',
+            'audit_time'            => 'Audit Time',
+            'add_time'              => 'Creation Time',
+            'upd_time'              => 'Update Time',
+        ],
     ],
 
     // 用户
@@ -412,7 +432,7 @@ return [
     ],
 
     // 用户地址
-    'user_address'      => [
+    'useraddress'       => [
         'browser_seo_title'                     => 'My Address',
         // 表单
         'form_item_name'                        => 'Full Name',
@@ -436,7 +456,7 @@ return [
     ],
 
     // 用户足迹
-    'user_goods_browse' => [
+    'usergoodsbrowse'   => [
         'browser_seo_title'                     => 'My Browse',
         // 动态表格统计数据
         'form_table'                            => [
@@ -450,7 +470,7 @@ return [
     ],
 
     // 用户商品收藏
-    'user_goods_favor'  => [
+    'usergoodsfavor'    => [
         'browser_seo_title'                     => 'Goods Favor',
         // 动态表格统计数据
         'form_table'                            => [
@@ -464,7 +484,7 @@ return [
     ],
 
     // 用户积分
-    'user_integral'     => [
+    'userintegral'      => [
         'browser_seo_title'                     => 'My Integral',
         // 页面
         'base_normal_title'                     => 'Normal Availability',

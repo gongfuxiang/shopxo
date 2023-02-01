@@ -36,6 +36,7 @@ class Admin
      */
     public function Run($params = [])
     {
+        $lang = MyLang('admin.form_table');
         return [
             // 基础配置
             'base' => [
@@ -58,7 +59,7 @@ class Admin
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '管理员',
+                    'label'         => $lang['username'],
                     'view_type'     => 'field',
                     'view_key'      => 'username',
                     'is_sort'       => 1,
@@ -68,7 +69,7 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => '状态',
+                    'label'         => $lang['username'],
                     'view_type'     => 'field',
                     'view_key'      => 'status',
                     'view_data_key' => 'name',
@@ -84,7 +85,7 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => '性别',
+                    'label'         => $lang['username'],
                     'view_type'     => 'field',
                     'view_key'      => 'gender',
                     'view_data_key' => 'name',
@@ -100,7 +101,7 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => '手机',
+                    'label'         => $lang['mobile'],
                     'view_type'     => 'field',
                     'view_key'      => 'mobile',
                     'is_sort'       => 1,
@@ -110,7 +111,7 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => '邮箱',
+                    'label'         => $lang['email'],
                     'view_type'     => 'field',
                     'view_key'      => 'email',
                     'is_sort'       => 1,
@@ -120,7 +121,7 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => '角色组',
+                    'label'         => $lang['role_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'role_name',
                     'is_sort'       => 1,
@@ -135,7 +136,7 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => '登录次数',
+                    'label'         => $lang['login_total'],
                     'view_type'     => 'field',
                     'view_key'      => 'login_total',
                     'is_sort'       => 1,
@@ -144,7 +145,7 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => '最后登录时间',
+                    'label'         => $lang['login_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'login_time',
                     'is_sort'       => 1,
@@ -153,7 +154,7 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -162,7 +163,7 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

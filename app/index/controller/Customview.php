@@ -71,7 +71,7 @@ class CustomView extends Common
 				return MyView();
 			}
 		}
-		MyViewAssign('msg', MyLang('custom_view.custom_view_no_data_tips'));
+		MyViewAssign('msg', MyLang('customview.custom_view_no_data_tips'));
 		return MyView('public/tips_error');
 	}
 }

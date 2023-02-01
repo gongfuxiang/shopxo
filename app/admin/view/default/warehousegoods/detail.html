@@ -5,29 +5,24 @@
 {{block name="detail_data"}}
     <!-- 父级内容 -->
     {__block__}
-    
+
     <!-- 规格 -->
     <div class="am-panel am-panel-default">
-        <div class="am-panel-hd">规格库存</div>
+        <div class="am-panel-hd">{{:MyLang('warehousegoods.base_spec_inventory_title')}}</div>
         <div class="am-panel-bd">
             {{if !empty($spec)}}
                 <table class="am-table am-table-striped am-table-hover form-inventory-container">
                     <thead>
                         <tr>
-                            <th>规格</th>
-                            <th>库存</th>
+                            <th>{{:MyLang('spec_title')}}</th>
+                            <th>{{:MyLang('inventory_title')}}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {{foreach $spec as $v}}
                             <tr>
                                 <td>{{$v.name}}</td>
-                                <td>
-                                {{if empty($v['inventory'])}}
-                                    <span class="am-text-grey">无</span>
-                                {{else /}}
-                                    {{$v.inventory}}
-                                {{/if}}
+                                <td>{{if !empty($v['inventory'])}}{{$v.inventory}}{{/if}}</td>
                             </tr>
                         {{/foreach}}
                     </tbody>

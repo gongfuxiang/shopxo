@@ -9,7 +9,7 @@
                 <table class="am-table am-table-striped am-table-hover form-inventory-container">
                     <thead>
                         <tr>
-                            <th>规格</th>
+                            <th>{{:MyLang('spec_title')}}</th>
                             <th>
                                 <span>{{:MyLang('inventory_title')}}</span>
                                 <!-- 批量设置 -->
@@ -17,7 +17,7 @@
                                     <a href="javascript:;" class="am-icon-edit am-dropdown-toggle"></a>
                                     <div class="am-dropdown-content">
                                         <div class="am-input-group am-input-group-sm">
-                                            <input type="text" class="am-form-field" placeholder="批量设置的值" />
+                                            <input type="text" class="am-form-field" placeholder="{{:MyLang('warehousegoods.batch_setup_inventory_placeholder')}}" />
                                             <span class="am-input-group-btn">
                                                 <button type="button" class="am-btn am-btn-default inventory-all-submit">{{:MyLang('confirm_title')}}</button>
                                             </span>
@@ -32,7 +32,7 @@
                             <tr>
                                 <td>{{$v.name}}</td>
                                 <td>
-                                    <input type="number" name="specifications_inventory[]" value="{{if !empty($v['inventory'])}}{{$v.inventory}}{{/if}}" placeholder="库存" class="am-radius" min="0" max="100000000" pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$" data-validation-message="库存数量 0~100000000" />
+                                    <input type="number" name="specifications_inventory[]" value="{{if !empty($v['inventory'])}}{{$v.inventory}}{{/if}}" placeholder="{{:MyLang('inventory_title')}}" class="am-radius" min="0" max="100000000" pattern="^-?(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$" data-validation-message="{{:MyLang('warehousegoods.form_item_inventory_message')}}" />
                                     <input type="hidden" name="specifications_md5_key[]" value="{{$v.md5_key}}" />
                                     <input type="hidden" name="specifications_spec[]" value="{{$v.spec}}" />
                                 </td>
@@ -47,7 +47,7 @@
             </form>
             <!-- form end -->
         {{else /}}
-            <div class="table-no"><i class="am-icon-warning"></i> 无规格数据</div>
+            <div class="table-no"><i class="am-icon-warning"></i> {{:MyLang('warehousegoods.no_spec_data_tips')}}</div>
         {{/if}}
     </div>
 </div>

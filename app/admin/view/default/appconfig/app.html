@@ -12,7 +12,7 @@
             <div class="am-form-group">
                 <label>{{$data.common_app_is_use_mobile_detail.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_use_mobile_detail.describe}}</span></label>
                 <select name="{{$data.common_app_is_use_mobile_detail.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_use_mobile_detail.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
+                    {{foreach :MyLang('common_is_text_list') as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_app_is_use_mobile_detail']['value']) and $data['common_app_is_use_mobile_detail']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
@@ -21,7 +21,7 @@
             <div class="am-form-group">
                 <label>{{$data.common_user_is_mandatory_bind_mobile.name}}<span class="am-form-group-label-tips">{{$data.common_user_is_mandatory_bind_mobile.describe}}</span></label>
                 <select name="{{$data.common_user_is_mandatory_bind_mobile.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_user_is_mandatory_bind_mobile.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
+                    {{foreach :MyLang('common_is_text_list') as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_user_is_mandatory_bind_mobile']['value']) and $data['common_user_is_mandatory_bind_mobile']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
@@ -30,7 +30,7 @@
             <div class="am-form-group">
                 <label>{{$data.common_user_onekey_bind_mobile_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_onekey_bind_mobile_list.describe}}</span></label>
                 <select name="{{$data.common_user_onekey_bind_mobile_list.only_tag}}" class="am-radius chosen-select" data-placeholder="{{$data.common_user_onekey_bind_mobile_list.name}}" multiple data-validation-message="{{$data.common_user_onekey_bind_mobile_list.error_tips}}">
-                    {{foreach $common_platform_type as $v}}
+                    {{foreach :MyLang('common_platform_type') as $v}}
                         {{if in_array($v['value'], ['weixin', 'baidu', 'toutiao'])}}
                             <option value="{{$v.value}}" {{if isset($data['common_user_onekey_bind_mobile_list']['value']) and in_array($v['value'], $data['common_user_onekey_bind_mobile_list']['value'])}}selected{{/if}}>{{$v.name}}</option>
                         {{/if}}
@@ -47,7 +47,7 @@
             <div class="am-form-group">
                 <label>{{$data.common_user_address_platform_import_list.name}}<span class="am-form-group-label-tips">{{$data.common_user_address_platform_import_list.describe}}</span></label>
                 <select name="{{$data.common_user_address_platform_import_list.only_tag}}" class="am-radius chosen-select" data-placeholder="{{$data.common_user_address_platform_import_list.name}}" multiple data-validation-message="{{$data.common_user_address_platform_import_list.error_tips}}">
-                    {{foreach $common_platform_type as $v}}
+                    {{foreach :MyLang('common_platform_type') as $v}}
                         {{if in_array($v['value'], ['weixin', 'baidu', 'alipay', 'qq', 'toutiao'])}}
                             <option value="{{$v.value}}" {{if isset($data['common_user_address_platform_import_list']['value']) and in_array($v['value'], $data['common_user_address_platform_import_list']['value'])}}selected{{/if}}>{{$v.name}}</option>
                         {{/if}}
@@ -64,7 +64,7 @@
             <div class="am-form-group">
                 <label>{{$data.common_app_is_enable_search.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_search.describe}}</span></label>
                 <select name="{{$data.common_app_is_enable_search.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_enable_search.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
+                    {{foreach :MyLang('common_is_text_list') as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_app_is_enable_search']['value']) and $data['common_app_is_enable_search']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
@@ -73,7 +73,7 @@
             <div class="am-form-group">
                 <label>{{$data.common_app_is_header_nav_fixed.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_header_nav_fixed.describe}}</span></label>
                 <select name="{{$data.common_app_is_header_nav_fixed.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_header_nav_fixed.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
+                    {{foreach :MyLang('common_is_text_list') as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_app_is_header_nav_fixed']['value']) and $data['common_app_is_header_nav_fixed']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
@@ -82,7 +82,7 @@
             <div class="am-form-group">
                 <label>{{$data.common_app_is_enable_answer.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_enable_answer.describe}}</span></label>
                 <select name="{{$data.common_app_is_enable_answer.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_enable_answer.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
+                    {{foreach :MyLang('common_is_text_list') as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_app_is_enable_answer']['value']) and $data['common_app_is_enable_answer']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
@@ -91,7 +91,7 @@
             <div class="am-form-group">
                 <label>{{$data.common_app_is_online_service.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_online_service.describe}}</span></label>
                 <select name="{{$data.common_app_is_online_service.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_online_service.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
+                    {{foreach :MyLang('common_is_text_list') as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_app_is_online_service']['value']) and $data['common_app_is_online_service']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
@@ -100,7 +100,7 @@
             <div class="am-form-group">
                 <label>{{$data.common_app_is_head_vice_nav.name}}<span class="am-form-group-label-tips">{{$data.common_app_is_head_vice_nav.describe}}</span></label>
                 <select name="{{$data.common_app_is_head_vice_nav.only_tag}}" class="am-radius chosen-select" data-validation-message="{{$data.common_app_is_head_vice_nav.error_tips}}" required>
-                    {{foreach $common_is_text_list as $v}}
+                    {{foreach :MyLang('common_is_text_list') as $v}}
                         <option value="{{$v.id}}" {{if isset($data['common_app_is_head_vice_nav']['value']) and $data['common_app_is_head_vice_nav']['value'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
                     {{/foreach}}
                 </select>
