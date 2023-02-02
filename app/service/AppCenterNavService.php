@@ -24,56 +24,6 @@ use app\service\ResourcesService;
 class AppCenterNavService
 {
     /**
-     * 列表数据处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2022-08-01
-     * @desc    description
-     * @param   [array]          $data   [数据列表]
-     * @param   [array]          $params [输入参数]
-     */
-    public static function AppCenterNavListHandle($data, $params = [])
-    {
-        if(!empty($data))
-        {
-            $common_platform_type = MyLang('common_platform_type');
-            $common_app_event_type = MyLang('common_app_event_type');
-            foreach($data as &$v)
-            {
-                // 平台类型
-                if(isset($v['platform']))
-                {
-                    $v['platform_text'] = $common_platform_type[$v['platform']]['name'];
-                }
-
-                // 事件类型
-                if(isset($v['event_type']) && $v['event_type'] != -1)
-                {
-                    $v['event_type_text'] = $common_app_event_type[$v['event_type']]['name'];
-                }
-
-                // 图片地址
-                if(isset($v['images_url']))
-                {
-                    $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
-                }
-
-                // 时间
-                if(isset($v['add_time']))
-                {
-                    $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                }
-                if(isset($v['upd_time']))
-                {
-                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
-                }
-            }
-        }
-        return $data;
-    }
-
-    /**
      * 用户中心导航数据保存
      * @author   Devil
      * @blog    http://gong.gg/

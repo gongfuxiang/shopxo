@@ -49,29 +49,16 @@
                 		</div>
 						
                 		<div class="am-cf">
-                			<div class="am-u-sm-8 am-padding-horizontal-0">
-                				<div class="am-cf">
-		                			<div class="am-u-sm-6 am-padding-horizontal-0">
-		                				<div class="am-form-group">
-											<label>{{:MyLang('goodscategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-											<input type="text" placeholder="{{:MyLang('goodscategory.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('goodscategory.form_item_name_message')}}" class="am-radius" required />
-										</div>
-		                			</div>
-		                			<div class="am-u-sm-6 am-padding-horizontal-0">
-		                				<div class="am-form-group">
-											<label>{{:MyLang('goodscategory.form_item_vice_name')}}</label>
-											<input type="text" placeholder="{{:MyLang('goodscategory.form_item_vice_name_message')}}" name="vice_name" minlength="0" maxlength="60" data-validation-message="{{:MyLang('goodscategory.form_item_vice_name_message')}}" class="am-radius" />
-										</div>
-		                			</div>
-		                		</div>
-                			</div>
-                			<div class="am-u-sm-4 am-padding-horizontal-0">
+                			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group">
-									<label>{{:MyLang('form_bg_color_title')}}</label>
-									<input type="hidden" name="bg_color" value="" />
-									<button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color">
-										<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
-									</button>
+									<label>{{:MyLang('goodscategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+									<input type="text" placeholder="{{:MyLang('goodscategory.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('goodscategory.form_item_name_message')}}" class="am-radius" required />
+								</div>
+                			</div>
+                			<div class="am-u-sm-6 am-padding-horizontal-0">
+                				<div class="am-form-group">
+									<label>{{:MyLang('goodscategory.form_item_vice_name')}}</label>
+									<input type="text" placeholder="{{:MyLang('goodscategory.form_item_vice_name_message')}}" name="vice_name" minlength="0" maxlength="60" data-validation-message="{{:MyLang('goodscategory.form_item_vice_name_message')}}" class="am-radius" />
 								</div>
                 			</div>
                 		</div>
@@ -84,18 +71,27 @@
 								</div>
 							</div>
 							<div class="am-u-sm-6 am-padding-horizontal-0">
-								{{include file="lib/sort" /}}
+								<div class="am-form-group">
+									<label>{{:MyLang('form_bg_color_title')}}</label>
+									<input type="hidden" name="bg_color" value="" />
+									<button class="am-btn am-btn-default am-btn-xs colorpicker-submit bg-color-tag am-btn-block bk-cr-white t-r" type="button" data-input-tag="button.bg-color-tag" data-color-tag="input[name='bg_color']" data-color-style="background-color">
+										<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
+									</button>
+								</div>
 							</div>
 						</div>
 
 						<div class="am-cf">
-                			<div class="am-u-sm-6 am-padding-horizontal-0">
+							<div class="am-u-sm-12 am-u-md-4 am-padding-horizontal-0">
+                				{{include file="lib/sort" /}}
+                			</div>
+                			<div class="am-u-sm-6 am-u-md-4 am-padding-horizontal-0">
                 				<div class="am-form-group">
 								    <label>{{:MyLang('goodscategory.form_item_is_home_recommended')}}</label>
 								    <input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if (isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1) or !isset($data['is_home_recommended'])}}checked="true"{{/if}} />
 								</div>
                 			</div>
-                			<div class="am-u-sm-6 am-padding-horizontal-0">
+                			<div class="am-u-sm-6 am-u-md-4 am-padding-horizontal-0">
                 				{{include file="lib/is_enable" /}}
                 			</div>
                 		</div>

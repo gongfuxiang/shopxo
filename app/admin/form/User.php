@@ -36,6 +36,7 @@ class User
      */
     public function Run($params = [])
     {
+        $lang = MyLang('user.form_table');
         return [
             // 基础配置
             'base' => [
@@ -56,7 +57,7 @@ class User
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '用户ID',
+                    'label'         => $lang['id'],
                     'view_type'     => 'field',
                     'view_key'      => 'id',
                     'width'         => 105,
@@ -67,7 +68,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '会员码',
+                    'label'         => $lang['number_code'],
                     'view_type'     => 'field',
                     'view_key'      => 'number_code',
                     'width'         => 110,
@@ -78,7 +79,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '系统类型',
+                    'label'         => $lang['system_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'system_type',
                     'is_sort'       => 1,
@@ -90,7 +91,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '头像',
+                    'label'         => $lang['avatar'],
                     'view_type'     => 'images',
                     'view_key'      => 'avatar',
                     'images_width'  => 40,
@@ -98,7 +99,7 @@ class User
                     'width'         => 65,
                 ],
                 [
-                    'label'         => '用户名',
+                    'label'         => $lang['username'],
                     'view_type'     => 'field',
                     'view_key'      => 'username',
                     'is_sort'       => 1,
@@ -108,7 +109,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '昵称',
+                    'label'         => $lang['nickname'],
                     'view_type'     => 'field',
                     'view_key'      => 'nickname',
                     'is_sort'       => 1,
@@ -118,7 +119,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '手机',
+                    'label'         => $lang['mobile'],
                     'view_type'     => 'field',
                     'view_key'      => 'mobile',
                     'is_sort'       => 1,
@@ -128,7 +129,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '邮箱',
+                    'label'         => $lang['email'],
                     'view_type'     => 'field',
                     'view_key'      => 'email',
                     'is_sort'       => 1,
@@ -138,7 +139,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '性别',
+                    'label'         => $lang['gender_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'gender_name',
                     'is_sort'       => 1,
@@ -153,7 +154,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '状态',
+                    'label'         => $lang['status_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'status_name',
                     'is_sort'       => 1,
@@ -168,7 +169,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '所在省',
+                    'label'         => $lang['province'],
                     'view_type'     => 'field',
                     'view_key'      => 'province',
                     'is_sort'       => 1,
@@ -178,7 +179,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '所在市',
+                    'label'         => $lang['city'],
                     'view_type'     => 'field',
                     'view_key'      => 'city',
                     'is_sort'       => 1,
@@ -188,7 +189,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '所在区/县',
+                    'label'         => $lang['county'],
                     'view_type'     => 'field',
                     'view_key'      => 'county',
                     'is_sort'       => 1,
@@ -198,7 +199,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '详细地址',
+                    'label'         => $lang['address'],
                     'view_type'     => 'field',
                     'view_key'      => 'address',
                     'is_sort'       => 1,
@@ -208,7 +209,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '生日',
+                    'label'         => $lang['birthday'],
                     'view_type'     => 'field',
                     'view_key'      => 'birthday',
                     'is_sort'       => 1,
@@ -218,7 +219,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '可用积分',
+                    'label'         => $lang['integral'],
                     'view_type'     => 'field',
                     'view_key'      => 'integral',
                     'is_sort'       => 1,
@@ -227,7 +228,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '锁定积分',
+                    'label'         => $lang['locking_integral'],
                     'view_type'     => 'field',
                     'view_key'      => 'locking_integral',
                     'is_sort'       => 1,
@@ -236,7 +237,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '邀请用户',
+                    'label'         => $lang['referrer'],
                     'view_type'     => 'module',
                     'view_key'      => 'user/module/referrer',
                     'grid_size'     => 'sm',
@@ -246,11 +247,11 @@ class User
                         'form_name'             => 'referrer',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereValueUserInfo',
-                        'placeholder'           => '请输入邀请用户名/昵称/手机/邮箱',
+                        'placeholder'           => $lang['referrer_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '注册时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -259,7 +260,7 @@ class User
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

@@ -36,6 +36,7 @@ class Link
      */
     public function Run($params = [])
     {
+        $lang = MyLang('link.form_table');
         return [
             // 基础配置
             'base' => [
@@ -43,8 +44,6 @@ class Link
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/link/delete'),
-                'delete_key'    => 'ids',
             ],
             // 表单配置
             'form' => [
@@ -57,7 +56,7 @@ class Link
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '名称',
+                    'label'         => $lang['info'],
                     'view_type'     => 'module',
                     'view_key'      => 'link/module/info',
                     'grid_size'     => 'sm',
@@ -69,7 +68,7 @@ class Link
                     ],
                 ],
                 [
-                    'label'         => 'url地址',
+                    'label'         => $lang['url'],
                     'view_type'     => 'module',
                     'view_key'      => 'link/module/url',
                     'grid_size'     => 'lg',
@@ -80,7 +79,7 @@ class Link
                     ],
                 ],
                 [
-                    'label'         => '描述',
+                    'label'         => $lang['describe'],
                     'view_type'     => 'field',
                     'view_key'      => 'describe',
                     'is_sort'       => 1,
@@ -90,7 +89,7 @@ class Link
                     ],
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/link/statusupdate'),
@@ -107,7 +106,7 @@ class Link
                     ],
                 ],
                 [
-                    'label'         => '是否新窗口打开',
+                    'label'         => $lang['is_new_window_open'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_new_window_open',
                     'post_url'      => MyUrl('admin/link/statusupdate'),
@@ -123,7 +122,7 @@ class Link
                     ],
                 ],
                 [
-                    'label'         => '排序',
+                    'label'         => $lang['sort'],
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
                     'is_sort'       => 1,
@@ -132,7 +131,7 @@ class Link
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -141,7 +140,7 @@ class Link
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'search_config' => [

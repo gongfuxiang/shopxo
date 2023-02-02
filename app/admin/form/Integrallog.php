@@ -36,6 +36,7 @@ class IntegralLog
      */
     public function Run($params = [])
     {
+        $lang = MyLang('integrallog.form_table');
         return [
             // 基础配置
             'base' => [
@@ -46,7 +47,7 @@ class IntegralLog
             // 表单配置
             'form' => [
                 [
-                    'label'         => '用户信息',
+                    'label'         => $lang['user'],
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
@@ -56,11 +57,11 @@ class IntegralLog
                         'form_name'             => 'user_id',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereValueUserInfo',
-                        'placeholder'           => '请输入用户名/昵称/手机/邮箱',
+                        'placeholder'           => $lang['user_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '操作类型',
+                    'label'         => $lang['type'],
                     'view_type'     => 'field',
                     'view_key'      => 'type',
                     'view_data_key' => 'name',
@@ -76,7 +77,7 @@ class IntegralLog
                     ],
                 ],
                 [
-                    'label'         => '操作积分',
+                    'label'         => $lang['operation_integral'],
                     'view_type'     => 'field',
                     'view_key'      => 'operation_integral',
                     'is_sort'       => 1,
@@ -85,7 +86,7 @@ class IntegralLog
                     ],
                 ],
                 [
-                    'label'         => '原始积分',
+                    'label'         => $lang['original_integral'],
                     'view_type'     => 'field',
                     'view_key'      => 'original_integral',
                     'is_sort'       => 1,
@@ -94,7 +95,7 @@ class IntegralLog
                     ],
                 ],
                 [
-                    'label'         => '最新积分',
+                    'label'         => $lang['new_integral'],
                     'view_type'     => 'field',
                     'view_key'      => 'new_integral',
                     'is_sort'       => 1,
@@ -103,7 +104,7 @@ class IntegralLog
                     ],
                 ],
                 [
-                    'label'         => '操作原因',
+                    'label'         => $lang['msg'],
                     'view_type'     => 'field',
                     'view_key'      => 'msg',
                     'grid_size'     => 'sm',
@@ -114,7 +115,7 @@ class IntegralLog
                     ],
                 ],
                 [
-                    'label'         => '操作人员id',
+                    'label'         => $lang['operation_id'],
                     'view_type'     => 'field',
                     'view_key'      => 'operation_id',
                     'is_sort'       => 1,
@@ -124,7 +125,7 @@ class IntegralLog
                     ],
                 ],
                 [
-                    'label'         => '操作时间',
+                    'label'         => $lang['add_time_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
                     'is_sort'       => 1,

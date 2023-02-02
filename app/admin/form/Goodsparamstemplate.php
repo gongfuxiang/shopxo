@@ -54,6 +54,7 @@ class GoodsParamsTemplate
      */
     public function Run($params = [])
     {
+        $lang = MyLang('goodsparamstemplate.form_table');
         return [
             // 基础配置
             'base' => [
@@ -61,8 +62,6 @@ class GoodsParamsTemplate
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/goodsparamstemplate/delete'),
-                'delete_key'    => 'ids',
                 'is_middle'     => 0,
                 'detail_title'  => MyLang('form_table_base_detail_title'),
             ],
@@ -77,7 +76,7 @@ class GoodsParamsTemplate
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '商品分类',
+                    'label'         => $lang['category_id'],
                     'view_type'     => 'field',
                     'view_key'      => 'category_id',
                     'view_data'     => $this->goods_category_list,
@@ -89,7 +88,7 @@ class GoodsParamsTemplate
                     ],
                 ],
                 [
-                    'label'         => '名称',
+                    'label'         => $lang['name'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
@@ -99,7 +98,7 @@ class GoodsParamsTemplate
                     ],
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/goodsparamstemplate/statusupdate'),
@@ -116,7 +115,7 @@ class GoodsParamsTemplate
                     ],
                 ],
                 [
-                    'label'         => '参数数量',
+                    'label'         => $lang['config_count'],
                     'view_type'     => 'field',
                     'view_key'      => 'config_count',
                     'is_sort'       => 1,
@@ -125,7 +124,7 @@ class GoodsParamsTemplate
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -134,7 +133,7 @@ class GoodsParamsTemplate
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

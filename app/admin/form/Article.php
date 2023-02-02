@@ -36,6 +36,7 @@ class Article
      */
     public function Run($params = [])
     {
+        $lang = MyLang('article.form_table');
         return [
             // 基础配置
             'base' => [
@@ -44,8 +45,6 @@ class Article
                 'is_search'     => 1,
                 'is_delete'     => 1,
                 'is_middle'     => 0,
-                'delete_url'    => MyUrl('admin/article/delete'),
-                'delete_key'    => 'ids',
                 'detail_title'  => MyLang('form_table_base_detail_title'),
             ],
             // 表单配置
@@ -59,7 +58,7 @@ class Article
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '标题',
+                    'label'         => $lang['info'],
                     'view_type'     => 'module',
                     'view_key'      => 'article/module/info',
                     'grid_size'     => 'sm',
@@ -71,7 +70,7 @@ class Article
                     ],
                 ],
                 [
-                    'label'         => '跳转url地址',
+                    'label'         => $lang['jump_url'],
                     'view_type'     => 'field',
                     'view_key'      => 'jump_url',
                     'grid_size'     => 'sm',
@@ -81,7 +80,7 @@ class Article
                     ],
                 ],
                 [
-                    'label'         => '分类',
+                    'label'         => $lang['article_category_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'article_category_name',
                     'is_sort'       => 1,
@@ -96,7 +95,7 @@ class Article
                     ],
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/article/statusupdate'),
@@ -113,7 +112,7 @@ class Article
                     ],
                 ],
                 [
-                    'label'         => '首页推荐',
+                    'label'         => $lang['is_home_recommended'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_home_recommended',
                     'post_url'      => MyUrl('admin/article/statusupdate'),
@@ -129,7 +128,7 @@ class Article
                     ],
                 ],
                 [
-                    'label'         => '图片数量',
+                    'label'         => $lang['images_count'],
                     'view_type'     => 'field',
                     'view_key'      => 'images_count',
                     'is_sort'       => 1,
@@ -138,7 +137,7 @@ class Article
                     ],
                 ],
                 [
-                    'label'         => '访问次数',
+                    'label'         => $lang['access_count'],
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',
                     'is_sort'       => 1,
@@ -147,7 +146,7 @@ class Article
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -156,7 +155,7 @@ class Article
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

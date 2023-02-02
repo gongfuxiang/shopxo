@@ -37,14 +37,13 @@ class UserAddress
      */
     public function Run($params = [])
     {
+        $lang = MyLang('useraddress.form_table');
         return [
             // 基础配置
             'base' => [
                 'key_field'     => 'id',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/useraddress/delete'),
-                'delete_key'    => 'ids',
                 'is_middle'     => 0,
             ],
             // 表单配置
@@ -58,7 +57,7 @@ class UserAddress
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '用户信息',
+                    'label'         => $lang['user'],
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
@@ -68,11 +67,11 @@ class UserAddress
                         'form_name'             => 'user_id',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereValueUserInfo',
-                        'placeholder'           => '请输入用户名/昵称/手机/邮箱',
+                        'placeholder'           => $lang['user_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '别名',
+                    'label'         => $lang['alias'],
                     'view_type'     => 'field',
                     'view_key'      => 'alias',
                     'is_sort'       => 1,
@@ -82,7 +81,7 @@ class UserAddress
                     ],
                 ],
                 [
-                    'label'         => '联系人',
+                    'label'         => $lang['name'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
@@ -92,7 +91,7 @@ class UserAddress
                     ],
                 ],
                 [
-                    'label'         => '联系电话',
+                    'label'         => $lang['tel'],
                     'view_type'     => 'field',
                     'view_key'      => 'tel',
                     'is_sort'       => 1,
@@ -102,7 +101,7 @@ class UserAddress
                     ],
                 ],
                 [
-                    'label'         => '所属省',
+                    'label'         => $lang['province_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'province_name',
                     'is_sort'       => 1,
@@ -117,21 +116,21 @@ class UserAddress
                     ],
                 ],
                 [
-                    'label'         => '所属市',
+                    'label'         => $lang['city_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'city_name',
                     'is_sort'       => 1,
                     'sort_field'    => 'city',
                 ],
                 [
-                    'label'         => '所属区/县',
+                    'label'         => $lang['county_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'county_name',
                     'is_sort'       => 1,
                     'sort_field'    => 'county',
                 ],
                 [
-                    'label'         => '详细地址',
+                    'label'         => $lang['address'],
                     'view_type'     => 'field',
                     'view_key'      => 'address',
                     'grid_size'     => 'sm',
@@ -142,13 +141,13 @@ class UserAddress
                     ],
                 ],
                 [
-                    'label'         => '经纬度',
+                    'label'         => $lang['position'],
                     'view_type'     => 'module',
                     'view_key'      => 'useraddress/module/position',
                     'width'         => 260,
                 ],
                 [
-                    'label'         => '身份证信息',
+                    'label'         => $lang['idcard_info'],
                     'view_type'     => 'module',
                     'view_key'      => 'useraddress/module/idcard_info',
                     'grid_size'     => 'sm',
@@ -161,13 +160,14 @@ class UserAddress
                     ],
                 ],
                 [
-                    'label'         => '是否默认',
-                    'view_type'     => 'module',
-                    'view_key'      => 'useraddress/module/is_default',
+                    'label'         => $lang['is_default'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'is_default',
+                    'view_data'     => MyLang('common_is_text_list'),
+                    'view_data_key' => 'name',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'is_default',
                         'where_type'        => 'in',
                         'data'              => MyLang('common_is_text_list'),
                         'data_key'          => 'id',
@@ -176,7 +176,7 @@ class UserAddress
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -185,7 +185,7 @@ class UserAddress
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

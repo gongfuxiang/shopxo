@@ -36,6 +36,7 @@ class PayRequestLog
      */
     public function Run($params = [])
     {
+        $lang = MyLang('payrequestlog.form_table');
         return [
             // 基础配置
             'base' => [
@@ -46,7 +47,7 @@ class PayRequestLog
             // 表单配置
             'form' => [
                 [
-                    'label'         => '业务类型',
+                    'label'         => $lang['business_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
                     'is_sort'       => 1,
@@ -60,7 +61,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '请求参数',
+                    'label'         => $lang['request_params'],
                     'view_type'     => 'field',
                     'view_type'     => 'module',
                     'view_key'      => 'payrequestlog/module/request_params',
@@ -73,7 +74,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '响应数据',
+                    'label'         => $lang['response_data'],
                     'view_type'     => 'field',
                     'view_type'     => 'module',
                     'view_key'      => 'payrequestlog/module/response_data',
@@ -86,7 +87,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '业务处理结果',
+                    'label'         => $lang['business_handle'],
                     'view_type'     => 'field',
                     'view_type'     => 'module',
                     'view_key'      => 'payrequestlog/module/business_handle',
@@ -99,7 +100,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '请求url地址',
+                    'label'         => $lang['request_url'],
                     'view_type'     => 'field',
                     'view_key'      => 'request_url',
                     'grid_size'     => 'sm',
@@ -109,7 +110,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '端口号',
+                    'label'         => $lang['server_port'],
                     'view_type'     => 'field',
                     'view_key'      => 'server_port',
                     'is_sort'       => 1,
@@ -123,7 +124,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '服务器ip',
+                    'label'         => $lang['server_ip'],
                     'view_type'     => 'field',
                     'view_key'      => 'server_ip',
                     'is_sort'       => 1,
@@ -133,7 +134,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '客户端ip',
+                    'label'         => $lang['client_ip'],
                     'view_type'     => 'field',
                     'view_key'      => 'client_ip',
                     'search_config' => [
@@ -142,7 +143,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '操作系统',
+                    'label'         => $lang['os'],
                     'view_type'     => 'field',
                     'view_key'      => 'os',
                     'is_sort'       => 1,
@@ -156,7 +157,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '浏览器',
+                    'label'         => $lang['browser'],
                     'view_type'     => 'field',
                     'view_key'      => 'browser',
                     'is_sort'       => 1,
@@ -170,7 +171,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '请求类型',
+                    'label'         => $lang['method'],
                     'view_type'     => 'field',
                     'view_key'      => 'method',
                     'is_sort'       => 1,
@@ -184,7 +185,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => 'http类型',
+                    'label'         => $lang['scheme'],
                     'view_type'     => 'field',
                     'view_key'      => 'scheme',
                     'is_sort'       => 1,
@@ -198,7 +199,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => 'http版本',
+                    'label'         => $lang['version'],
                     'view_type'     => 'field',
                     'view_key'      => 'version',
                     'is_sort'       => 1,
@@ -212,7 +213,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '客户端详情',
+                    'label'         => $lang['client'],
                     'view_type'     => 'field',
                     'view_key'      => 'client',
                     'is_sort'       => 1,
@@ -222,7 +223,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -231,7 +232,7 @@ class PayRequestLog
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

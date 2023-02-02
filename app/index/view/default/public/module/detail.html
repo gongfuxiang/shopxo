@@ -55,7 +55,7 @@
                 <dl class="dl-content">
                     {{foreach $form_table.form as $t}}
                         {{if isset($t['label']) and isset($t['view_type']) and in_array($t['view_type'], ['images', 'field', 'module', 'status']) and (!isset($t['is_detail']) or $t['is_detail'] eq 1)}}
-                            <dt><strong>{{$t.label}}</strong></dt>
+                            <dt class="am-text-truncate"><strong>{{$t.label}}</strong></dt>
                             <dd>
                                 {{include file="public/module/detail_content" /}}
                             </dd>

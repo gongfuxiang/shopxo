@@ -34,15 +34,15 @@ class QuickNav
      */
     public function Run($params = [])
     {
+        $lang = MyLang('quicknav.form_table');
         return [
             // 基础配置
             'base' => [
-                'key_field'     => 'id',
-                'status_field'  => 'is_enable',
-                'is_search'     => 1,
-                'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/quicknav/delete'),
-                'delete_key'    => 'ids',
+                'key_field'             => 'id',
+                'status_field'          => 'is_enable',
+                'is_search'             => 1,
+                'is_delete'             => 1,
+                'is_data_export_excel'  => 1,
             ],
             // 表单配置
             'form' => [
@@ -55,7 +55,7 @@ class QuickNav
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '名称',
+                    'label'         => $lang['name'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
@@ -65,7 +65,7 @@ class QuickNav
                     ],
                 ],
                 [
-                    'label'         => '所属平台',
+                    'label'         => $lang['platform'],
                     'view_type'     => 'field',
                     'view_key'      => 'platform',
                     'view_data_key' => 'name',
@@ -81,13 +81,13 @@ class QuickNav
                     ],
                 ],
                 [
-                    'label'         => '导航图标',
+                    'label'         => $lang['images'],
                     'view_type'     => 'module',
                     'view_key'      => 'quicknav/module/images',
                     'align'         => 'center',
                 ],
                 [
-                    'label'         => '事件类型',
+                    'label'         => $lang['event_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'event_type',
                     'view_data_key' => 'name',
@@ -104,7 +104,7 @@ class QuickNav
                     ],
                 ],
                 [
-                    'label'         => '事件值',
+                    'label'         => $lang['event_value'],
                     'view_type'     => 'field',
                     'view_key'      => 'event_value',
                     'grid_size'     => 'sm',
@@ -115,7 +115,7 @@ class QuickNav
                     ],
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/quicknav/statusupdate'),
@@ -132,7 +132,7 @@ class QuickNav
                     ],
                 ],
                 [
-                    'label'         => '排序',
+                    'label'         => $lang['sort'],
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
                     'is_sort'       => 1,
@@ -141,7 +141,7 @@ class QuickNav
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -150,7 +150,7 @@ class QuickNav
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,
@@ -168,10 +168,10 @@ class QuickNav
             ],
             // 数据配置
             'data'  => [
-                'table_name'    => 'QuickNav',
-                'data_handle'   => 'QuickNavService::QuickNavListHandle',
-                'is_page'       => 1,
-                'order_by'      => 'sort asc,id asc',
+                'table_name'            => 'QuickNav',
+                'is_page'               => 1,
+                'order_by'              => 'sort asc,id asc',
+                'is_handle_time_field'  => 1,
             ],
         ];
     }

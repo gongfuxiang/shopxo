@@ -34,15 +34,15 @@ class Slide
      */
     public function Run($params = [])
     {
+        $lang = MyLang('slide.form_table');
         return [
             // 基础配置
             'base' => [
-                'key_field'     => 'id',
-                'status_field'  => 'is_enable',
-                'is_search'     => 1,
-                'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/slide/delete'),
-                'delete_key'    => 'ids',
+                'key_field'             => 'id',
+                'status_field'          => 'is_enable',
+                'is_search'             => 1,
+                'is_delete'             => 1,
+                'is_data_export_excel'  => 1,
             ],
             // 表单配置
             'form' => [
@@ -55,7 +55,7 @@ class Slide
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '名称',
+                    'label'         => $lang['name'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
@@ -65,7 +65,7 @@ class Slide
                     ],
                 ],
                 [
-                    'label'         => '所属平台',
+                    'label'         => $lang['platform'],
                     'view_type'     => 'field',
                     'view_key'      => 'platform',
                     'view_data_key' => 'name',
@@ -81,13 +81,13 @@ class Slide
                     ],
                 ],
                 [
-                    'label'         => '图片',
+                    'label'         => $lang['images'],
                     'view_type'     => 'module',
                     'view_key'      => 'slide/module/images',
                     'grid_size'     => 'sm',
                 ],
                 [
-                    'label'         => '事件类型',
+                    'label'         => $lang['event_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'event_type',
                     'view_data_key' => 'name',
@@ -103,7 +103,7 @@ class Slide
                     ],
                 ],
                 [
-                    'label'         => '事件值',
+                    'label'         => $lang['event_value'],
                     'view_type'     => 'field',
                     'view_key'      => 'event_value',
                     'grid_size'     => 'sm',
@@ -114,7 +114,7 @@ class Slide
                     ],
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/slide/statusupdate'),
@@ -131,7 +131,7 @@ class Slide
                     ],
                 ],
                 [
-                    'label'         => '排序',
+                    'label'         => $lang['sort'],
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
                     'is_sort'       => 1,
@@ -140,7 +140,7 @@ class Slide
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -149,7 +149,7 @@ class Slide
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,
@@ -167,10 +167,10 @@ class Slide
             ],
             // 数据配置
             'data'  => [
-                'table_name'    => 'Slide',
-                'data_handle'   => 'SlideService::SlideListHandle',
-                'is_page'       => 1,
-                'order_by'      => 'sort asc,id asc',
+                'table_name'            => 'Slide',
+                'is_page'               => 1,
+                'order_by'              => 'sort asc,id asc',
+                'is_handle_time_field'  => 1,
             ],
         ];
     }

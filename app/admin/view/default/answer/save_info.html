@@ -4,7 +4,7 @@
 <div class="content-right">
     <div class="content">
         <!-- form start -->
-        <form class="am-form form-validation am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/answer/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/answer/index', $params)}}" enctype="multipart/form-data">
+        <form class="am-form form-validation am-form-pure am-form-full-screen am-form-popup-fixed" action="{{:MyUrl('admin/answer/save')}}" method="POST" request-type="ajax-url" request-value="{{:MyUrl('admin/answer/index', $params)}}" enctype="multipart/form-data">
             <legend>
                 <span class="am-text-default">{{:MyLang('answer.base_nav_title')}}{{if empty($data['id'])}}{{:MyLang('created_title')}}{{else /}}{{:MyLang('edit_title')}}{{/if}}</span>
                 <a href="{{:MyUrl('admin/answer/index', $params)}}" class="am-fr am-text-sm am-margin-top-sm am-icon-mail-reply"> {{:MyLang('retreat_title')}}</a>

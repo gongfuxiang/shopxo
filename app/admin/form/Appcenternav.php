@@ -34,16 +34,16 @@ class AppCenterNav
      */
     public function Run($params = [])
     {
+        $lang = MyLang('appcenternav.form_table');
         return [
             // 基础配置
             'base' => [
-                'key_field'     => 'id',
-                'status_field'  => 'is_enable',
-                'is_search'     => 1,
-                'is_delete'     => 1,
-                'is_middle'     => 0,
-                'delete_url'    => MyUrl('admin/appcenternav/delete'),
-                'delete_key'    => 'ids',
+                'key_field'             => 'id',
+                'status_field'          => 'is_enable',
+                'is_search'             => 1,
+                'is_delete'             => 1,
+                'is_middle'             => 0,
+                'is_data_export_excel'  => 1,
             ],
             // 表单配置
             'form' => [
@@ -56,7 +56,7 @@ class AppCenterNav
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '名称',
+                    'label'         => $lang['name'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
@@ -66,7 +66,7 @@ class AppCenterNav
                     ],
                 ],
                 [
-                    'label'         => '所属平台',
+                    'label'         => $lang['platform'],
                     'view_type'     => 'field',
                     'view_key'      => 'platform',
                     'view_data_key' => 'name',
@@ -82,13 +82,15 @@ class AppCenterNav
                     ],
                 ],
                 [
-                    'label'         => '导航图标',
-                    'view_type'     => 'module',
-                    'view_key'      => 'appcenternav/module/images',
-                    'align'         => 'center',
+                    'label'         => $lang['images_url'],
+                    'view_type'     => 'images',
+                    'view_key'      => 'images_url',
+                    'images_width'  => 40,
+                    'images_height' => 40,
+                    'width'         => 70,
                 ],
                 [
-                    'label'         => '事件类型',
+                    'label'         => $lang['event_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'event_type',
                     'view_data_key' => 'name',
@@ -105,7 +107,7 @@ class AppCenterNav
                     ],
                 ],
                 [
-                    'label'         => '事件值',
+                    'label'         => $lang['event_value'],
                     'view_type'     => 'field',
                     'view_key'      => 'event_value',
                     'grid_size'     => 'sm',
@@ -116,7 +118,7 @@ class AppCenterNav
                     ],
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/appcenternav/statusupdate'),
@@ -133,7 +135,7 @@ class AppCenterNav
                     ],
                 ],
                 [
-                    'label'         => '是否需登录',
+                    'label'         => $lang['is_need_login'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_need_login',
                     'post_url'      => MyUrl('admin/appcenternav/statusupdate'),
@@ -149,7 +151,7 @@ class AppCenterNav
                     ],
                 ],
                 [
-                    'label'         => '排序',
+                    'label'         => $lang['sort'],
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
                     'is_sort'       => 1,
@@ -158,7 +160,7 @@ class AppCenterNav
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -167,7 +169,7 @@ class AppCenterNav
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,
@@ -185,10 +187,10 @@ class AppCenterNav
             ],
             // 数据配置
             'data'  => [
-                'table_name'    => 'AppCenterNav',
-                'data_handle'   => 'AppCenterNavService::AppCenterNavListHandle',
-                'is_page'       => 1,
-                'order_by'      => 'sort asc,id asc',
+                'table_name'            => 'AppCenterNav',
+                'is_page'               => 1,
+                'order_by'              => 'sort asc,id asc',
+                'is_handle_time_field'  => 1,
             ],
         ];
     }

@@ -41,6 +41,7 @@ class Goods
      */
     public function Run($params = [])
     {
+        $lang = MyLang('goods.form_table');
         return [
             // 基础配置
             'base' => [
@@ -48,8 +49,6 @@ class Goods
                 'status_field'  => 'is_shelves',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/goods/delete'),
-                'delete_key'    => 'ids',
                 'detail_title'  => MyLang('form_table_base_detail_title'),
                 'is_middle'     => 0,
             ],
@@ -64,7 +63,7 @@ class Goods
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '商品ID',
+                    'label'         => $lang['id'],
                     'view_type'     => 'field',
                     'view_key'      => 'id',
                     'width'         => 105,
@@ -75,7 +74,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '商品信息',
+                    'label'         => $lang['info'],
                     'view_type'     => 'module',
                     'view_key'      => 'goods/module/info',
                     'grid_size'     => 'lg',
@@ -89,7 +88,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '商品分类',
+                    'label'         => $lang['category_text'],
                     'view_type'     => 'field',
                     'view_key'      => 'category_text',
                     'search_config' => [
@@ -102,7 +101,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '品牌',
+                    'label'         => $lang['brand_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'brand_name',
                     'is_sort'       => 1,
@@ -117,7 +116,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '销售价格(元)',
+                    'label'         => $lang['price'],
                     'view_type'     => 'field',
                     'view_key'      => 'price',
                     'is_sort'       => 1,
@@ -128,7 +127,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '原价(元)',
+                    'label'         => $lang['original_price'],
                     'view_type'     => 'field',
                     'view_key'      => 'original_price',
                     'is_sort'       => 1,
@@ -139,7 +138,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '库存总量',
+                    'label'         => $lang['inventory'],
                     'view_type'     => 'field',
                     'view_key'      => ['inventory', 'inventory_unit'],
                     'view_key_join' => ' ',
@@ -150,7 +149,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '上下架',
+                    'label'         => $lang['is_shelves'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_shelves',
                     'post_url'      => MyUrl('admin/goods/statusupdate'),
@@ -167,7 +166,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '扣减库存',
+                    'label'         => $lang['is_deduction_inventory'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_deduction_inventory',
                     'post_url'      => MyUrl('admin/goods/statusupdate'),
@@ -183,7 +182,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '商品类型',
+                    'label'         => $lang['site_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'site_type',
                     'view_data_key' => 'name',
@@ -199,7 +198,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '商品型号',
+                    'label'         => $lang['model'],
                     'view_type'     => 'field',
                     'view_key'      => 'model',
                     'is_sort'       => 1,
@@ -209,7 +208,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '生产地',
+                    'label'         => $lang['place_origin_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'place_origin_name',
                     'is_sort'       => 1,
@@ -224,7 +223,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '购买赠送积分比例',
+                    'label'         => $lang['give_integral'],
                     'view_type'     => 'field',
                     'view_key'      => 'give_integral',
                     'view_join_last'=> '%',
@@ -234,7 +233,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '单次最低起购数量',
+                    'label'         => $lang['buy_min_number'],
                     'view_type'     => 'field',
                     'view_key'      => 'buy_min_number',
                     'is_sort'       => 1,
@@ -243,7 +242,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '单次最大购买数量',
+                    'label'         => $lang['buy_max_number'],
                     'view_type'     => 'field',
                     'view_key'      => 'buy_max_number',
                     'is_sort'       => 1,
@@ -252,7 +251,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '销量',
+                    'label'         => $lang['sales_count'],
                     'view_type'     => 'field',
                     'view_key'      => 'sales_count',
                     'is_sort'       => 1,
@@ -261,7 +260,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '访问次数',
+                    'label'         => $lang['access_count'],
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',
                     'is_sort'       => 1,
@@ -270,7 +269,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -279,7 +278,7 @@ class Goods
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

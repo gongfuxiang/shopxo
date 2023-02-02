@@ -34,6 +34,7 @@ class Payment
      */
     public function Run($params = [])
     {
+        $lang = MyLang('payment.form_table');
         return [
             // 基础配置
             'base' => [
@@ -44,49 +45,49 @@ class Payment
             // 表单配置
             'form' => [
                 [
-                    'label'         => '名称',
+                    'label'         => $lang['name'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                 ],
                  [
-                    'label'         => 'LOGO',
+                    'label'         => $lang['logo'],
                     'view_type'     => 'module',
                     'view_key'      => 'payment/module/logo',
                 ],
                 [
-                    'label'         => '插件版本',
+                    'label'         => $lang['version'],
                     'view_type'     => 'field',
                     'view_key'      => 'version',
                 ],
                 [
-                    'label'         => '适用版本',
-                    'view_type'     => 'apply_version',
-                    'view_key'      => 'name',
+                    'label'         => $lang['apply_version'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'apply_version',
                 ],
                 [
-                    'label'         => '适用终端',
+                    'label'         => $lang['apply_terminal'],
                     'view_type'     => 'module',
                     'view_key'      => 'payment/module/apply_terminal',
                 ],
                 [
-                    'label'         => '作者',
+                    'label'         => $lang['author'],
                     'view_type'     => 'module',
                     'view_key'      => 'payment/module/author',
                 ],
                 [
-                    'label'         => '描述',
+                    'label'         => $lang['desc'],
                     'view_type'     => 'field',
                     'view_key'      => 'desc',
                     'grid_size'     => 'lg',
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['enable'],
                     'view_type'     => 'module',
                     'view_key'      => 'payment/module/enable',
                     'align'         => 'center',
                 ],
                 [
-                    'label'         => '用户开放',
+                    'label'         => $lang['open_user'],
                     'view_type'     => 'module',
                     'view_key'      => 'payment/module/open_user',
                     'align'         => 'center',

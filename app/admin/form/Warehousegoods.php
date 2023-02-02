@@ -38,16 +38,14 @@ class WarehouseGoods
      */
     public function Run($params = [])
     {
+        $lang = MyLang('warehousegoods.form_table');
         return [
             // 基础配置
             'base' => [
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/warehousegoods/index'),
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/warehousegoods/delete'),
-                'delete_key'    => 'ids',
                 'detail_title'  => MyLang('form_table_base_detail_title'),
                 'is_middle'     => 0,
             ],
@@ -62,7 +60,7 @@ class WarehouseGoods
                     'width'             => 80,
                 ],
                 [
-                    'label'             => '基础信息',
+                    'label'             => $lang['goods'],
                     'view_type'         => 'module',
                     'view_key'          => 'warehousegoods/module/goods',
                     'grid_size'         => 'lg',
@@ -74,11 +72,11 @@ class WarehouseGoods
                         'form_name'             => 'wg.id',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereGoodsInfo',
-                        'placeholder'           => '请输入商品名称/型号',
+                        'placeholder'           => $lang['goods_placeholder'],
                     ],
                 ],
                 [
-                    'label'             => '仓库',
+                    'label'             => $lang['warehouse_name'],
                     'view_type'         => 'field',
                     'view_key'          => 'warehouse_name',
                     'is_sort'           => 1,
@@ -94,7 +92,7 @@ class WarehouseGoods
                     ],
                 ],
                 [
-                    'label'             => '是否启用',
+                    'label'             => $lang['is_enable'],
                     'view_type'         => 'status',
                     'view_key'          => 'is_enable',
                     'post_url'          => MyUrl('admin/warehousegoods/statusupdate'),
@@ -113,7 +111,7 @@ class WarehouseGoods
                     ],
                 ],
                 [
-                    'label'             => '总库存',
+                    'label'             => $lang['inventory'],
                     'view_type'         => 'field',
                     'view_key'          => 'inventory',
                     'is_sort'           => 1,
@@ -124,7 +122,7 @@ class WarehouseGoods
                     ],
                 ],
                 [
-                    'label'             => '规格库存',
+                    'label'             => $lang['spec_inventory'],
                     'view_type'         => 'module',
                     'view_key'          => 'warehousegoods/module/spec_inventory',
                     'is_sort'           => 1,
@@ -137,7 +135,7 @@ class WarehouseGoods
                     ],
                 ],
                 [
-                    'label'             => '创建时间',
+                    'label'             => $lang['add_time'],
                     'view_type'         => 'field',
                     'view_key'          => 'add_time',
                     'is_sort'           => 1,
@@ -148,10 +146,9 @@ class WarehouseGoods
                     ],
                 ],
                 [
-                    'label'             => '更新时间',
-                    'view_type'         => 'field',
-                    'view_key'          => 'upd_time',
-                    'params_where_name' => 'upd_time',
+                    'label'         => $lang['upd_time'],
+                    'view_type'     => 'field',
+                    'view_key'      => 'upd_time',
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'datetime',

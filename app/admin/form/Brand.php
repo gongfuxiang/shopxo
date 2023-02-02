@@ -38,6 +38,7 @@ class Brand
      */
     public function Run($params = [])
     {
+        $lang = MyLang('brand.form_table');
         return [
             // 基础配置
             'base' => [
@@ -61,7 +62,7 @@ class Brand
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '名称',
+                    'label'         => $lang['name'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
@@ -71,7 +72,7 @@ class Brand
                     ],
                 ],
                 [
-                    'label'         => '描述',
+                    'label'         => $lang['describe'],
                     'view_type'     => 'field',
                     'view_key'      => 'describe',
                     'grid_size'     => 'lg',
@@ -82,12 +83,12 @@ class Brand
                     ],
                 ],
                 [
-                    'label'         => 'LOGO',
+                    'label'         => $lang['logo'],
                     'view_type'     => 'module',
                     'view_key'      => 'brand/module/logo',
                 ],
                 [
-                    'label'         => '官网地址',
+                    'label'         => $lang['url'],
                     'view_type'     => 'module',
                     'view_key'      => 'brand/module/url',
                     'grid_size'     => 'lg',
@@ -98,7 +99,7 @@ class Brand
                     ],
                 ],
                 [
-                    'label'         => '品牌分类',
+                    'label'         => $lang['brand_category_text'],
                     'view_type'     => 'field',
                     'view_key'      => 'brand_category_text',
                     'search_config' => [
@@ -113,7 +114,7 @@ class Brand
                     ],
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/brand/statusupdate'),
@@ -130,7 +131,7 @@ class Brand
                     ],
                 ],
                 [
-                    'label'         => '排序',
+                    'label'         => $lang['sort'],
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
                     'is_sort'       => 1,
@@ -139,7 +140,7 @@ class Brand
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -148,7 +149,7 @@ class Brand
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

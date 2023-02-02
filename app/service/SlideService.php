@@ -23,66 +23,6 @@ use app\service\ResourcesService;
 class SlideService
 {
     /**
-     * 数据列表
-     * @author   Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2018-08-29
-     * @desc    description
-     * @param   [array]          $params [输入参数]
-     */
-    public static function SlideList($params = [])
-    {
-        $where = empty($params['where']) ? [] : $params['where'];
-        $field = empty($params['field']) ? '*' : $params['field'];
-        $order_by = empty($params['order_by']) ? 'sort asc,id asc' : trim($params['order_by']);
-        $m = isset($params['m']) ? intval($params['m']) : 0;
-        $n = isset($params['n']) ? intval($params['n']) : 10;
-
-        $data = Db::name('Slide')->field($field)->where($where)->order($order_by)->limit($m, $n)->select()->toArray();
-        return DataReturn(MyLang('handle_success'), 0, self::SlideListHandle($data, $params));
-    }
-
-    /**
-     * 列表数据处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2022-08-01
-     * @desc    description
-     * @param   [array]          $data   [数据列表]
-     * @param   [array]          $params [输入参数]
-     */
-    public static function SlideListHandle($data, $params = [])
-    {
-        if(!empty($data))
-        {
-            $common_platform_type = MyLang('common_platform_type');
-            $common_is_enable_tips = MyLang('common_is_enable_tips');
-            $common_app_event_type = MyLang('common_app_event_type');
-            foreach($data as &$v)
-            {
-                // 图片地址
-                if(isset($v['images_url']))
-                {
-                    $v['images_url'] = ResourcesService::AttachmentPathViewHandle($v['images_url']);
-                }
-
-                // 时间
-                if(isset($v['add_time']))
-                {
-                    $v['add_time'] = date('Y-m-d H:i:s', $v['add_time']);
-                }
-                if(isset($v['upd_time']))
-                {
-                    $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
-                }
-            }
-        }
-        return $data;
-    }
-
-    /**
      * 数据保存
      * @author   Devil
      * @blog    http://gong.gg/

@@ -34,6 +34,7 @@ class Design
      */
     public function Run($params = [])
     {
+        $lang = MyLang('design.form_table');
         return [
             // 基础配置
             'base' => [
@@ -41,8 +42,6 @@ class Design
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/design/delete'),
-                'delete_key'    => 'ids',
                 'is_middle'     => 0,
             ],
             // 表单配置
@@ -56,7 +55,7 @@ class Design
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '数据ID',
+                    'label'         => $lang['id'],
                     'view_type'     => 'field',
                     'view_key'      => 'id',
                     'width'         => 105,
@@ -67,7 +66,7 @@ class Design
                     ],
                 ],
                 [
-                    'label'         => '基础信息',
+                    'label'         => $lang['info'],
                     'view_type'     => 'module',
                     'view_key'      => 'design/module/info',
                     'grid_size'     => 'sm',
@@ -76,11 +75,11 @@ class Design
                     'search_config' => [
                         'form_type'         => 'input',
                         'where_type'        => 'like',
-                        'placeholder'       => '请输入名称'
+                        'placeholder'       => $lang['info_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '访问次数',
+                    'label'         => $lang['access_count'],
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',
                     'is_sort'       => 1,
@@ -89,7 +88,7 @@ class Design
                     ],
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/design/statusupdate'),
@@ -106,7 +105,7 @@ class Design
                     ],
                 ],
                 [
-                    'label'         => '是否含头部',
+                    'label'         => $lang['is_header'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_header',
                     'post_url'      => MyUrl('admin/design/statusupdate'),
@@ -122,7 +121,7 @@ class Design
                     ],
                 ],
                 [
-                    'label'         => '是否含尾部',
+                    'label'         => $lang['is_footer'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_footer',
                     'post_url'      => MyUrl('admin/design/statusupdate'),
@@ -138,7 +137,7 @@ class Design
                     ],
                 ],
                 [
-                    'label'         => 'SEO标题',
+                    'label'         => $lang['seo_title'],
                     'view_type'     => 'field',
                     'view_key'      => 'seo_title',
                     'is_sort'       => 1,
@@ -148,7 +147,7 @@ class Design
                     ],
                 ],
                 [
-                    'label'         => 'SEO关键字',
+                    'label'         => $lang['seo_keywords'],
                     'view_type'     => 'field',
                     'view_key'      => 'seo_keywords',
                     'is_sort'       => 1,
@@ -158,7 +157,7 @@ class Design
                     ],
                 ],
                 [
-                    'label'         => 'SEO描述',
+                    'label'         => $lang['seo_desc'],
                     'view_type'     => 'field',
                     'view_key'      => 'seo_desc',
                     'grid_size'     => 'sm',
@@ -169,7 +168,7 @@ class Design
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -178,7 +177,7 @@ class Design
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

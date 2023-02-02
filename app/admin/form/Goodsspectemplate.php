@@ -54,6 +54,7 @@ class GoodsSpecTemplate
      */
     public function Run($params = [])
     {
+        $lang = MyLang('goodsspectemplate.form_table');
         return [
             // 基础配置
             'base' => [
@@ -61,8 +62,6 @@ class GoodsSpecTemplate
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/goodsspectemplate/delete'),
-                'delete_key'    => 'ids',
                 'is_middle'     => 0,
             ],
             // 表单配置
@@ -76,7 +75,7 @@ class GoodsSpecTemplate
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '商品分类',
+                    'label'         => $lang['category_id'],
                     'view_type'     => 'field',
                     'view_key'      => 'category_id',
                     'view_data'     => $this->goods_category_list,
@@ -88,7 +87,7 @@ class GoodsSpecTemplate
                     ],
                 ],
                 [
-                    'label'         => '名称',
+                    'label'         => $lang['category_id'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
@@ -98,7 +97,7 @@ class GoodsSpecTemplate
                     ],
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/goodsspectemplate/statusupdate'),
@@ -115,7 +114,7 @@ class GoodsSpecTemplate
                     ],
                 ],
                 [
-                    'label'         => '规格值',
+                    'label'         => $lang['content'],
                     'view_type'     => 'field',
                     'view_key'      => 'content',
                     'grid_size'     => 'sm',
@@ -126,7 +125,7 @@ class GoodsSpecTemplate
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -135,7 +134,7 @@ class GoodsSpecTemplate
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

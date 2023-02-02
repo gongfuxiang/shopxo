@@ -36,6 +36,7 @@ class GoodsFavor
      */
     public function Run($params = [])
     {
+        $lang = MyLang('goodsfavor.form_table');
         return [
             // 基础配置
             'base' => [
@@ -57,7 +58,7 @@ class GoodsFavor
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '用户信息',
+                    'label'         => $lang['user'],
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
@@ -67,11 +68,11 @@ class GoodsFavor
                         'form_name'             => 'f.user_id',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereValueUserInfo',
-                        'placeholder'           => '请输入用户名/昵称/手机/邮箱',
+                        'placeholder'           => $lang['user_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '商品信息',
+                    'label'         => $lang['goods'],
                     'view_type'     => 'module',
                     'view_key'      => 'goodsfavor/module/goods',
                     'grid_size'     => 'lg',
@@ -81,11 +82,11 @@ class GoodsFavor
                         'form_type'         => 'input',
                         'form_name'         => 'g.title|g.model|g.simple_desc|g.seo_title|g.seo_keywords|g.seo_keywords',
                         'where_type'        => 'like',
-                        'placeholder'       => '请输入商品名称/简述/SEO信息'
+                        'placeholder'       => $lang['goods_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '销售价格(元)',
+                    'label'         => $lang['price'],
                     'view_type'     => 'field',
                     'view_key'      => 'price',
                     'is_sort'       => 1,
@@ -96,7 +97,7 @@ class GoodsFavor
                     ],
                 ],
                 [
-                    'label'         => '原价(元)',
+                    'label'         => $lang['original_price'],
                     'view_type'     => 'field',
                     'view_key'      => 'original_price',
                     'is_sort'       => 1,
@@ -107,7 +108,7 @@ class GoodsFavor
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,

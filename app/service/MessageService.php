@@ -217,6 +217,7 @@ class MessageService
                 $user_list = UserService::GetUserViewInfo(array_column($data, 'user_id'));
             }
 
+            $common_is_text_list = MyLang('common_is_text_list');
             $common_is_read_list = MyLang('common_is_read_list');
             $common_message_type_list = MyLang('common_message_type_list');
             foreach($data as &$v)
@@ -237,7 +238,7 @@ class MessageService
                 $v['is_read_text'] = $common_is_read_list[$v['is_read']]['name'];
 
                 // 用户是否已删除
-                $v['user_is_delete_time_text'] = ($v['user_is_delete_time'] == 0) ? '否' : '是';
+                $v['user_is_delete_time_text'] = ($v['user_is_delete_time'] == 0) ? MyLang('no_title') : MyLang('yes_title');
 
                 // 时间
                 $v['add_time_time'] = date('Y-m-d H:i:s', $v['add_time']);

@@ -34,6 +34,7 @@ class Appmini
      */
     public function Run($params = [])
     {
+        $lang = MyLang('appmini.form_table');
         $nav_type = empty($params['nav_type']) ? 'weixin' : trim($params['nav_type']);
         return [
             // 基础配置
@@ -54,23 +55,23 @@ class Appmini
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '包名',
+                    'label'         => $lang['name'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                 ],
                 [
-                    'label'         => '大小',
+                    'label'         => $lang['size'],
                     'view_type'     => 'field',
                     'view_key'      => 'size',
                 ],
                 [
-                    'label'         => '下载地址',
+                    'label'         => $lang['url'],
                     'view_type'     => 'field',
                     'view_key'      => 'url',
                     'grid_size'     => 'auto',
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['time'],
                     'view_type'     => 'field',
                     'view_key'      => 'time',
                 ],

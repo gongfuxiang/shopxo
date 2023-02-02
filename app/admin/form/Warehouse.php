@@ -40,6 +40,7 @@ class Warehouse
      */
     public function Run($params = [])
     {
+        $lang = MyLang('warehouse.form_table');
         return [
             // 基础配置
             'base' => [
@@ -47,8 +48,6 @@ class Warehouse
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/warehouse/delete'),
-                'delete_key'    => 'ids',
                 'is_middle'     => 0,
             ],
             // 表单配置
@@ -62,7 +61,7 @@ class Warehouse
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '名称/别名',
+                    'label'         => $lang['info'],
                     'view_type'     => 'module',
                     'view_key'      => 'warehouse/module/info',
                     'grid_size'     => 'sm',
@@ -75,7 +74,7 @@ class Warehouse
                     ],
                 ],
                 [
-                    'label'         => '权重',
+                    'label'         => $lang['level'],
                     'view_type'     => 'field',
                     'view_key'      => 'level',
                     'is_sort'       => 1,
@@ -84,7 +83,7 @@ class Warehouse
                     ],
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/warehouse/statusupdate'),
@@ -101,7 +100,7 @@ class Warehouse
                     ],
                 ],
                 [
-                    'label'         => '联系人',
+                    'label'         => $lang['contacts_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'contacts_name',
                     'is_sort'       => 1,
@@ -111,7 +110,7 @@ class Warehouse
                     ],
                 ],
                 [
-                    'label'         => '联系电话',
+                    'label'         => $lang['contacts_tel'],
                     'view_type'     => 'field',
                     'view_key'      => 'contacts_tel',
                     'is_sort'       => 1,
@@ -121,7 +120,7 @@ class Warehouse
                     ],
                 ],
                 [
-                    'label'         => '所在省',
+                    'label'         => $lang['province_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'province_name',
                     'is_sort'       => 1,
@@ -136,7 +135,7 @@ class Warehouse
                     ],
                 ],
                 [
-                    'label'         => '所在市',
+                    'label'         => $lang['city_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'city_name',
                     'is_sort'       => 1,
@@ -151,7 +150,7 @@ class Warehouse
                     ],
                 ],
                 [
-                    'label'         => '所在区/县',
+                    'label'         => $lang['county_name'],
                     'view_type'     => 'field',
                     'view_key'      => 'county_name',
                     'is_sort'       => 1,
@@ -166,7 +165,7 @@ class Warehouse
                     ],
                 ],
                 [
-                    'label'         => '详细地址',
+                    'label'         => $lang['address'],
                     'view_type'     => 'field',
                     'view_key'      => 'address',
                     'grid_size'     => 'sm',
@@ -177,13 +176,13 @@ class Warehouse
                     ],
                 ],
                 [
-                    'label'         => '经纬度',
+                    'label'         => $lang['position'],
                     'view_type'     => 'module',
                     'view_key'      => 'warehouse/module/position',
                     'width'         => 260,
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -192,7 +191,7 @@ class Warehouse
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

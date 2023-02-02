@@ -37,6 +37,7 @@ class PayLog
      */
     public function Run($params = [])
     {
+        $lang = MyLang('paylog.form_table');
         return [
             // 基础配置
             'base' => [
@@ -47,7 +48,7 @@ class PayLog
             // 表单配置
             'form' => [
                 [
-                    'label'         => '用户信息',
+                    'label'         => $lang['user'],
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
@@ -57,11 +58,11 @@ class PayLog
                         'form_name'             => 'user_id',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereValueUserInfo',
-                        'placeholder'           => '请输入用户名/昵称/手机/邮箱',
+                        'placeholder'           => $lang['user_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '支付单号',
+                    'label'         => $lang['log_no'],
                     'view_type'     => 'field',
                     'view_key'      => 'log_no',
                     'width'         => 165,
@@ -72,7 +73,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '支付方式',
+                    'label'         => $lang['payment'],
                     'view_type'     => 'module',
                     'view_key'      => 'paylog/module/payment',
                     'grid_size'     => 'sm',
@@ -88,7 +89,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '状态',
+                    'label'         => $lang['status'],
                     'view_type'     => 'field',
                     'view_key'      => 'status',
                     'view_data_key' => 'name',
@@ -104,7 +105,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '业务订单金额(元)',
+                    'label'         => $lang['total_price'],
                     'view_type'     => 'field',
                     'view_key'      => 'total_price',
                     'is_sort'       => 1,
@@ -114,7 +115,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '支付金额(元)',
+                    'label'         => $lang['pay_price'],
                     'view_type'     => 'field',
                     'view_key'      => 'pay_price',
                     'is_sort'       => 1,
@@ -124,7 +125,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '业务类型',
+                    'label'         => $lang['business_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
                     'is_sort'       => 1,
@@ -138,7 +139,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '业务id/单号',
+                    'label'         => $lang['business_list'],
                     'view_type'     => 'module',
                     'view_key'      => 'paylog/module/business_list',
                     'width'         => 300,
@@ -150,7 +151,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '支付平台交易号',
+                    'label'         => $lang['trade_no'],
                     'view_type'     => 'field',
                     'view_key'      => 'trade_no',
                     'grid_size'     => 'sm',
@@ -161,7 +162,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '支付平台用户帐号',
+                    'label'         => $lang['buyer_user'],
                     'view_type'     => 'field',
                     'view_key'      => 'buyer_user',
                     'grid_size'     => 'sm',
@@ -172,7 +173,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '订单名称',
+                    'label'         => $lang['subject'],
                     'view_type'     => 'field',
                     'view_key'      => 'subject',
                     'is_sort'       => 1,
@@ -182,7 +183,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '支付时间',
+                    'label'         => $lang['pay_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'pay_time',
                     'is_sort'       => 1,
@@ -191,7 +192,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '关闭时间',
+                    'label'         => $lang['close_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'close_time',
                     'is_sort'       => 1,
@@ -200,7 +201,7 @@ class PayLog
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,

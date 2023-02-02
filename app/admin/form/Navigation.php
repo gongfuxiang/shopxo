@@ -38,6 +38,7 @@ class Navigation
         $nav_type = empty($params['nav_type']) ? 'header' : trim($params['nav_type']);
 
         // 配置信息
+        $lang = MyLang('navigation.form_table');
         return [
             // 基础配置
             'base' => [
@@ -46,8 +47,6 @@ class Navigation
                 'is_search'     => 1,
                 'search_url'    => MyUrl('admin/navigation/index', ['nav_type'=>$nav_type]),
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/navigation/delete'),
-                'delete_key'    => 'ids',
             ],
             // 表单配置
             'form' => [
@@ -60,7 +59,7 @@ class Navigation
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '导航名称',
+                    'label'         => $lang['info'],
                     'view_type'     => 'module',
                     'view_key'      => 'navigation/module/info',
                     'grid_size'     => 'sm',
@@ -72,7 +71,7 @@ class Navigation
                     ],
                 ],
                 [
-                    'label'         => '导航数据类型',
+                    'label'         => $lang['data_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'data_type',
                     'view_data_key' => 'name',
@@ -88,7 +87,7 @@ class Navigation
                     ],
                 ],
                 [
-                    'label'         => '状态',
+                    'label'         => $lang['is_show'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_show',
                     'post_url'      => MyUrl('admin/navigation/statusupdate'),
@@ -105,7 +104,7 @@ class Navigation
                     ],
                 ],
                 [
-                    'label'         => '新窗口打开',
+                    'label'         => $lang['is_new_window_open'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_new_window_open',
                     'post_url'      => MyUrl('admin/navigation/statusupdate'),
@@ -121,7 +120,7 @@ class Navigation
                     ],
                 ],
                 [
-                    'label'         => '排序',
+                    'label'         => $lang['sort'],
                     'view_type'     => 'field',
                     'view_key'      => 'sort',
                     'is_sort'       => 1,
@@ -130,7 +129,7 @@ class Navigation
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -139,7 +138,7 @@ class Navigation
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

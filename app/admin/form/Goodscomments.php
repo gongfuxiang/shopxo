@@ -36,16 +36,14 @@ class GoodsComments
      */
     public function Run($params = [])
     {
+        $lang = MyLang('goodscomments.form_table');
         return [
             // 基础配置
             'base' => [
                 'key_field'     => 'id',
                 'status_field'  => 'is_show',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/goodscomments/index'),
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/goodscomments/delete'),
-                'delete_key'    => 'ids',
                 'is_middle'     => 0,
             ],
             // 表单配置
@@ -59,7 +57,7 @@ class GoodsComments
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '用户信息',
+                    'label'         => $lang['user'],
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
@@ -73,7 +71,7 @@ class GoodsComments
                     ],
                 ],
                 [
-                    'label'         => '基础信息',
+                    'label'         => $lang['goods'],
                     'view_type'     => 'module',
                     'view_key'      => 'goodscomments/module/goods',
                     'grid_size'     => 'lg',
@@ -84,11 +82,11 @@ class GoodsComments
                         'form_name'             => 'id',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereGoodsInfo',
-                        'placeholder'           => '请输入商品名称/型号',
+                        'placeholder'           => $lang['goods_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '业务类型',
+                    'label'         => $lang['business_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
                     'view_data_key' => 'name',
@@ -105,7 +103,7 @@ class GoodsComments
                     ],
                 ],
                 [
-                    'label'         => '评论内容',
+                    'label'         => $lang['content'],
                     'view_type'     => 'module',
                     'view_key'      => 'goodscomments/module/content',
                     'grid_size'     => 'lg',
@@ -116,13 +114,13 @@ class GoodsComments
                     ],
                 ],
                 [
-                    'label'         => '评论图片',
+                    'label'         => $lang['images'],
                     'view_type'     => 'module',
                     'view_key'      => 'goodscomments/module/images',
                     'is_list'       => 0,
                 ],
                 [
-                    'label'         => '评分',
+                    'label'         => $lang['rating'],
                     'view_type'     => 'module',
                     'view_key'      => 'goodscomments/module/rating',
                     'width'         => 100,
@@ -138,7 +136,7 @@ class GoodsComments
                     ],
                 ],
                 [
-                    'label'         => '回复内容',
+                    'label'         => $lang['reply'],
                     'view_type'     => 'module',
                     'view_key'      => 'goodscomments/module/reply',
                     'grid_size'     => 'lg',
@@ -149,7 +147,7 @@ class GoodsComments
                     ],
                 ],
                 [
-                    'label'         => '是否显示',
+                    'label'         => $lang['is_show'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_show',
                     'post_url'      => MyUrl('admin/goodscomments/statusupdate'),
@@ -166,7 +164,7 @@ class GoodsComments
                     ],
                 ],
                 [
-                    'label'         => '是否匿名',
+                    'label'         => $lang['is_anonymous'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_anonymous',
                     'post_url'      => MyUrl('admin/goodscomments/statusupdate'),
@@ -182,7 +180,7 @@ class GoodsComments
                     ],
                 ],
                 [
-                    'label'         => '是否回复',
+                    'label'         => $lang['is_reply'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_reply',
                     'post_url'      => MyUrl('admin/goodscomments/statusupdate'),
@@ -198,7 +196,7 @@ class GoodsComments
                     ],
                 ],
                 [
-                    'label'         => '回复时间',
+                    'label'         => $lang['reply_time_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'reply_time_time',
                     'is_sort'       => 1,
@@ -208,7 +206,7 @@ class GoodsComments
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
                     'is_sort'       => 1,
@@ -218,7 +216,7 @@ class GoodsComments
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time_time',
                     'is_sort'       => 1,

@@ -37,6 +37,7 @@ class RefundLog
      */
     public function Run($params = [])
     {
+        $lang = MyLang('refundlog.form_table');
         return [
             // 基础配置
             'base' => [
@@ -47,7 +48,7 @@ class RefundLog
             // 表单配置
             'form' => [
                 [
-                    'label'         => '用户信息',
+                    'label'         => $lang['user'],
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
@@ -57,11 +58,11 @@ class RefundLog
                         'form_name'             => 'user_id',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereValueUserInfo',
-                        'placeholder'           => '请输入用户名/昵称/手机/邮箱',
+                        'placeholder'           => $lang['user_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '支付方式',
+                    'label'         => $lang['payment'],
                     'view_type'     => 'module',
                     'view_key'      => 'refundlog/module/payment',
                     'grid_size'     => 'sm',
@@ -77,7 +78,7 @@ class RefundLog
                     ],
                 ],
                 [
-                    'label'         => '业务类型',
+                    'label'         => $lang['business_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
                     'is_sort'       => 1,
@@ -91,7 +92,7 @@ class RefundLog
                     ],
                 ],
                 [
-                    'label'         => '业务订单id',
+                    'label'         => $lang['business_id'],
                     'view_type'     => 'field',
                     'view_key'      => 'business_id',
                     'is_sort'       => 1,
@@ -101,7 +102,7 @@ class RefundLog
                     ],
                 ],
                 [
-                    'label'         => '支付平台交易号',
+                    'label'         => $lang['trade_no'],
                     'view_type'     => 'field',
                     'view_key'      => 'trade_no',
                     'grid_size'     => 'sm',
@@ -112,7 +113,7 @@ class RefundLog
                     ],
                 ],
                 [
-                    'label'         => '支付平台用户帐号',
+                    'label'         => $lang['buyer_user'],
                     'view_type'     => 'field',
                     'view_key'      => 'buyer_user',
                     'grid_size'     => 'sm',
@@ -123,7 +124,7 @@ class RefundLog
                     ],
                 ],
                 [
-                    'label'         => '退款方式',
+                    'label'         => $lang['refundment_text'],
                     'view_type'     => 'field',
                     'view_key'      => 'refundment_text',
                     'is_sort'       => 1,
@@ -138,7 +139,7 @@ class RefundLog
                     ],
                 ],
                 [
-                    'label'         => '退款金额',
+                    'label'         => $lang['refund_price'],
                     'view_type'     => 'field',
                     'view_key'      => 'refund_price',
                     'is_sort'       => 1,
@@ -148,7 +149,7 @@ class RefundLog
                     ],
                 ],
                 [
-                    'label'         => '订单支付金额',
+                    'label'         => $lang['pay_price'],
                     'view_type'     => 'field',
                     'view_key'      => 'pay_price',
                     'is_sort'       => 1,
@@ -158,7 +159,7 @@ class RefundLog
                     ],
                 ],
                 [
-                    'label'         => '描述',
+                    'label'         => $lang['msg'],
                     'view_type'     => 'field',
                     'view_key'      => 'msg',
                     'grid_size'     => 'sm',
@@ -169,7 +170,7 @@ class RefundLog
                     ],
                 ],
                 [
-                    'label'         => '退款时间',
+                    'label'         => $lang['add_time_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
                     'is_sort'       => 1,

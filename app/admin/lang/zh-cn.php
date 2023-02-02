@@ -133,6 +133,30 @@ return [
         'form_item_pwd'                         => '登录密码',
         'form_item_pwd_tips'                    => '输入则修改密码',
         'form_item_pwd_message'                 => '登录密码格式6~18个字符之间',
+        // 动态表格
+        'form_table'                            => [
+            'id'                    => '用户ID',
+            'number_code'           => '会员码',
+            'system_type'           => '系统类型',
+            'avatar'                => '头像',
+            'username'              => '用户名',
+            'nickname'              => '昵称',
+            'mobile'                => '手机',
+            'email'                 => '邮箱',
+            'gender_name'           => '性别',
+            'status_name'           => '状态',
+            'province'              => '所在省',
+            'city'                  => '所在市',
+            'county'                => '所在区/县',
+            'address'               => '详细地址',
+            'birthday'              => '生日',
+            'integral'              => '可用积分',
+            'locking_integral'      => '锁定积分',
+            'referrer'              => '邀请用户',
+            'referrer_placeholder'  => '请输入邀请用户名/昵称/手机/邮箱',
+            'add_time'              => '注册时间',
+            'upd_time'              => '更新时间',
+        ],
     ],
 
     // 用户地址
@@ -164,6 +188,23 @@ return [
         'detail_user_address_idcard_name'       => '姓名',
         'detail_user_address_idcard_number'     => '号码',
         'detail_user_address_idcard_pic'        => '照片',
+        // 动态表格
+        'form_table'                            => [
+            'user'              => '用户信息',
+            'user_placeholder'  => '请输入用户名/昵称/手机/邮箱',
+            'alias'             => '别名',
+            'name'              => '联系人',
+            'tel'               => '联系电话',
+            'province_name'     => '所属省',
+            'city_name'         => '所属市',
+            'county_name'       => '所属区/县',
+            'address'           => '详细地址',
+            'position'          => '经纬度',
+            'idcard_info'       => '身份证信息',
+            'is_default'        => '是否默认',
+            'add_time'          => '创建时间',
+            'upd_time'          => '更新时间',
+        ],
     ],
 
     // 站点设置
@@ -307,6 +348,18 @@ return [
         'form_item_describe_message'            => '描述最多230个字符',
         'form_item_logo'                        => 'LOGO',
         'form_item_logo_tips'                   => '建议150*50px',
+        // 动态表格
+        'form_table'                            => [
+            'name'                 => '名称',
+            'describe'             => '描述',
+            'logo'                 => 'LOGO',
+            'url'                  => '官网地址',
+            'brand_category_text'  => '品牌分类',
+            'is_enable'            => '是否启用',
+            'sort'                 => '排序',
+            'add_time'             => '创建时间',
+            'upd_time'             => '更新时间',
+        ],
     ],
 
     // 品牌分类
@@ -334,6 +387,18 @@ return [
         'form_item_content_title'               => '内容',
         'form_item_content_placeholder'         => '内容格式10~105000个字符之间更多编辑功能请使用电脑访问',
         'form_item_content_message'             => '内容格式10~105000个字符之间',
+        // 动态表格
+        'form_table'                            => [
+            'info'                   => '标题',
+            'jump_url'               => '跳转url地址',
+            'article_category_name'  => '分类',
+            'is_enable'              => '是否启用',
+            'is_home_recommended'    => '首页推荐',
+            'images_count'           => '图片数量',
+            'access_count'           => '访问次数',
+            'add_time'               => '创建时间',
+            'upd_time'               => '更新时间',
+        ],
     ],
 
     // 文章分类
@@ -355,6 +420,18 @@ return [
         'form_item_content_title'               => '内容',
         'form_item_content_placeholder'         => '内容格式10~105000个字符之间更多编辑功能请使用电脑访问',
         'form_item_content_message'             => '内容格式10~105000个字符之间',
+        // 动态表格
+        'form_table'                            => [
+            'info'            => '标题',
+            'is_enable'       => '是否启用',
+            'is_header'       => '是否头部',
+            'is_footer'       => '是否尾部',
+            'is_full_screen'  => '是否满屏',
+            'images_count'    => '图片数量',
+            'access_count'    => '访问次数',
+            'add_time'        => '创建时间',
+            'upd_time'        => '更新时间',
+        ],
     ],
 
     // 页面设计
@@ -369,12 +446,28 @@ return [
         'form_item_name'                        => '名称',
         'form_item_name_message'                => '名称长度2~16个字符',
         'form_logo_tips'                        => '建议大小300*300px',
+        // 动态表格
+        'form_table'                            => [
+            'id'                => '数据ID',
+            'info'              => '基础信息',
+            'info_placeholder'  => '请输入名称',
+            'access_count'      => '访问次数',
+            'is_enable'         => '是否启用',
+            'is_header'         => '是否含头部',
+            'is_footer'         => '是否含尾部',
+            'seo_title'         => 'SEO标题',
+            'seo_keywords'      => 'SEO关键字',
+            'seo_desc'          => 'SEO描述',
+            'add_time'          => '创建时间',
+            'upd_time'          => '更新时间',
+        ],
     ],
 
     // 问答
     'answer'                => [
         'base_nav_title'                        => '问答',
         'user_info_title'                       => '用户信息',
+        // 表单
         'form_item_name'                        => '联系人',
         'form_item_name_message'                => '联系人格式最多30个字符',
         'form_item_tel'                         => '电话',
@@ -388,6 +481,21 @@ return [
         'form_item_reply'                       => '回复内容',
         'form_item_reply_message'               => '回复内容格式最多1000个字符',
         'form_is_reply'                         => '是否已回复',
+        // 动态表格
+        'form_table'                            => [
+            'user'              => '用户信息',
+            'user_placeholder'  => '请输入用户名/昵称/手机/邮箱',
+            'name'              => '联系人',
+            'tel'               => '联系电话',
+            'content'           => '内容',
+            'reply'             => '回复内容',
+            'is_show'           => '是否显示',
+            'is_reply'          => '是否回复',
+            'reply_time_time'   => '回复时间',
+            'access_count'      => '访问次数',
+            'add_time_time'     => '创建时间',
+            'upd_time_time'     => '更新时间',
+        ],
     ],
 
     // 仓库管理
@@ -412,6 +520,21 @@ return [
         'form_item_contacts_tel_message'        => '请填写联系电话',
         'form_item_address'                     => '详细地址',
         'form_item_address_message'             => '地址格式1~80个字符之间',
+        // 动态表格
+        'form_table'                            => [
+            'info'           => '名称/别名',
+            'level'          => '权重',
+            'is_enable'      => '是否启用',
+            'contacts_name'  => '联系人',
+            'contacts_tel'   => '联系电话',
+            'province_name'  => '所在省',
+            'city_name'      => '所在市',
+            'county_name'    => '所在区/县',
+            'address'        => '详细地址',
+            'position'       => '经纬度',
+            'add_time'       => '创建时间',
+            'upd_time'       => '更新时间',
+        ],
     ],
 
     // 仓库商品
@@ -429,6 +552,17 @@ return [
         'form_item_warehouseg_placeholder'      => '仓库...',
         'form_item_warehouseg_message'          => '请选择仓库',
         'form_item_inventory_message'           => '库存数量0~100000000',
+        // 动态表格
+        'form_table'                            => [
+            'goods'              => '基础信息',
+            'goods_placeholder'  => '请输入商品名称/型号',
+            'warehouse_name'     => '仓库',
+            'is_enable'          => '是否启用',
+            'inventory'          => '总库存',
+            'spec_inventory'     => '规格库存',
+            'add_time'           => '创建时间',
+            'upd_time'           => '更新时间',
+        ],
     ],
 
     // 管理员
@@ -521,6 +655,13 @@ return [
         'list_author_title'                     => '作者：',
         'list_version_title'                    => '适用版本：',
         'package_generate_tips'                 => '生成时间比较长，请不要关闭浏览器窗口！',
+        // 动态表格
+        'form_table'                            => [
+            'name'  => '包名',
+            'size'  => '大小',
+            'url'   => '下载地址',
+            'time'  => '创建时间',
+        ],
     ],
 
     // 短信设置
@@ -702,6 +843,28 @@ return [
         'form_app_button_add_name'              => '添加手机详情',
         // 电脑详情
         'form_web_content_message'              => '电脑端详情内容最多105000个字符',
+        // 动态表格
+        'form_table'                            => [
+            'id'                      => '商品ID',
+            'info'                    => '商品信息',
+            'category_text'           => '商品分类',
+            'brand_name'              => '品牌',
+            'price'                   => '销售价格(元)',
+            'original_price'          => '原价(元)',
+            'inventory'               => '库存总量',
+            'is_shelves'              => '上下架',
+            'is_deduction_inventory'  => '扣减库存',
+            'site_type'               => '商品类型',
+            'model'                   => '商品型号',
+            'place_origin_name'       => '生产地',
+            'give_integral'           => '购买赠送积分比例',
+            'buy_min_number'          => '单次最低起购数量',
+            'buy_max_number'          => '单次最大购买数量',
+            'sales_count'             => '销量',
+            'access_count'            => '访问次数',
+            'add_time'                => '创建时间',
+            'upd_time'                => '更新时间',
+        ],
     ],
 
     // 商品分类
@@ -741,6 +904,24 @@ return [
         'form_item_reply_time_message'          => '回复时间格式有误',
         'form_item_is_reply'                    => '是否已回复',
         'form_item_is_anonymous'                => '是否匿名',
+        // 动态表格
+        'form_table'                            => [
+            'user'               => '用户信息',
+            'user_placeholder'   => '请输入用户名/昵称/手机/邮箱',
+            'goods'              => '基础信息',
+            'goods_placeholder'  => '请输入商品名称/型号',
+            'business_type'      => '业务类型',
+            'content'            => '评论内容',
+            'images'             => '评论图片',
+            'rating'             => '评分',
+            'reply'              => '回复内容',
+            'is_show'            => '是否显示',
+            'is_anonymous'       => '是否匿名',
+            'is_reply'           => '是否回复',
+            'reply_time_time'    => '回复时间',
+            'add_time_time'      => '创建时间',
+            'upd_time_time'      => '更新时间',
+        ],
     ],
 
     // 商品参数模板
@@ -758,6 +939,15 @@ return [
         'form_item_config_copy_title'           => '复制配置',
         'form_item_config_empty_title'          => '复制配置',
         'form_item_config_list_content_tips'    => '可直接点中参数行拖拽排序或点击上下移动',
+        // 动态表格
+        'form_table'                            => [
+            'category_id'   => '商品分类',
+            'name'          => '名称',
+            'is_enable'     => '是否启用',
+            'config_count'  => '参数数量',
+            'add_time'      => '创建时间',
+            'upd_time'      => '更新时间',
+        ],
     ],
 
     // 商品规格模板
@@ -771,6 +961,57 @@ return [
         'form_item_content'                     => '规格值',
         'form_item_content_placeholder'         => '规格值（输入回车可实现多个）',
         'form_item_content_message'             => '规格值格式1~1000个字符',
+        // 动态表格
+        'form_table'                            => [
+            'category_id'  => '商品分类',
+            'name'         => '名称',
+            'is_enable'    => '是否启用',
+            'content'      => '规格值',
+            'add_time'     => '创建时间',
+            'upd_time'     => '更新时间',
+        ],
+    ],
+
+    // 商品浏览
+    'goodsbrowse'           => [
+        // 动态表格
+        'form_table'                            => [
+            'user'               => '用户信息',
+            'user_placeholder'   => '请输入用户名/昵称/手机/邮箱',
+            'goods'              => '商品信息',
+            'goods_placeholder'  => '请输入商品名称/简述/SEO信息',
+            'price'              => '销售价格(元)',
+            'original_price'     => '原价(元)',
+            'add_time'           => '创建时间',
+        ],
+    ],
+
+    // 商品购物车
+    'goodscart'             => [
+        // 动态表格
+        'form_table'                            => [
+            'user'               => '用户信息',
+            'user_placeholder'   => '请输入用户名/昵称/手机/邮箱',
+            'goods'              => '商品信息',
+            'goods_placeholder'  => '请输入商品名称/简述/SEO信息',
+            'price'              => '销售价格(元)',
+            'original_price'     => '原价(元)',
+            'add_time'           => '创建时间',
+        ],
+    ],
+
+    // 商品收藏
+    'goodsfavor'            => [
+        // 动态表格
+        'form_table'                            => [
+            'user'               => '用户信息',
+            'user_placeholder'   => '请输入用户名/昵称/手机/邮箱',
+            'goods'              => '商品信息',
+            'goods_placeholder'  => '请输入商品名称/简述/SEO信息',
+            'price'              => '销售价格(元)',
+            'original_price'     => '原价(元)',
+            'add_time'           => '创建时间',
+        ],
     ],
 
     // 友情链接
@@ -784,6 +1025,17 @@ return [
         'form_item_url_message'                 => '链接地址格式有误',
         'form_item_desc'                        => '描述',
         'form_item_desc_message'                => '描述最多60个字符',
+        // 动态表格
+        'form_table'                            => [
+            'info'                => '名称',
+            'url'                 => 'url地址',
+            'describe'            => '描述',
+            'is_enable'           => '是否启用',
+            'is_new_window_open'  => '是否新窗口打开',
+            'sort'                => '排序',
+            'add_time'            => '创建时间',
+            'upd_time'            => '更新时间',
+        ],
     ],
 
     // 导航管理
@@ -815,6 +1067,16 @@ return [
         'form_item_value_customview_message'    => '自定义页面选择有误',
         'form_item_value_goods_category_message'=> '商品分类选择有误',
         'form_item_value_design_message'        => '页面设计选择有误',
+        // 动态表格
+        'form_table'                            => [
+            'info'                => '导航名称',
+            'data_type'           => '导航数据类型',
+            'is_show'             => '是否显示',
+            'is_new_window_open'  => '新窗口打开',
+            'sort'                => '排序',
+            'add_time'            => '创建时间',
+            'upd_time'            => '更新时间',
+        ],
     ],
 
     // 订单管理
@@ -855,6 +1117,43 @@ return [
         'detail_goods_title'                    => '订单商品',
         'detail_payment_amount_less_tips'       => '请注意、该订单支付金额小于总价金额',
         'detail_no_payment_tips'                => '请注意、该订单还未支付',
+        // 动态表格
+        'form_table'                            => [
+            'goods'               => '基础信息',
+            'goods_placeholder'   => '请输入订单ID/订单号/商品名称/型号',
+            'user'                => '用户信息',
+            'user_placeholder'    => '请输入用户名/昵称/手机/邮箱',
+            'status'              => '订单状态',
+            'pay_status'          => '支付状态',
+            'total_price'         => '总价(元)',
+            'pay_price'           => '支付金额(元)',
+            'price'               => '单价(元)',
+            'warehouse_name'      => '出货仓库',
+            'order_model'         => '订单模式',
+            'client_type'         => '来源',
+            'address'             => '地址信息',
+            'take'                => '取货信息',
+            'refund_price'        => '退款金额(元)',
+            'returned_quantity'   => '退货数量',
+            'buy_number_count'    => '购买总数',
+            'increase_price'      => '增加金额(元)',
+            'preferential_price'  => '优惠金额(元)',
+            'payment_name'        => '支付方式',
+            'user_note'           => '用户备注',
+            'extension'           => '扩展信息',
+            'express_name'        => '快递公司',
+            'express_number'      => '快递单号',
+            'aftersale'           => '最新售后',
+            'is_comments'         => '用户是否评论',
+            'confirm_time'        => '确认时间',
+            'pay_time'            => '支付时间',
+            'delivery_time'       => '发货时间',
+            'collect_time'        => '完成时间',
+            'cancel_time'         => '取消时间',
+            'close_time'          => '关闭时间',
+            'add_time'            => '创建时间',
+            'upd_time'            => '更新时间',
+        ],
     ],
 
     // 订单售后
@@ -872,11 +1171,36 @@ return [
         'form_item_refundment_message'          => '请选择退款方式',
         'form_item_refuse_reason'               => '拒绝原因',
         'form_item_refuse_reason_message'       => '拒绝原因格式2~230个字符',
+        // 动态表格
+        'form_table'                            => [
+            'goods'              => '基础信息',
+            'goods_placeholder'  => '请输入订单号/商品名称/型号',
+            'user'               => '用户信息',
+            'user_placeholder'   => '请输入用户名/昵称/手机/邮箱',
+            'status'             => '状态',
+            'type'               => '申请类型',
+            'reason'             => '原因',
+            'price'              => '退款金额(元)',
+            'number'             => '退货数量',
+            'msg'                => '退款说明',
+            'refundment'         => '退款类型',
+            'voucher'            => '凭证',
+            'express_name'       => '快递公司',
+            'express_number'     => '快递单号',
+            'refuse_reason'      => '拒绝原因',
+            'apply_time'         => '申请时间',
+            'confirm_time'       => '确认时间',
+            'delivery_time'      => '退货时间',
+            'audit_time'         => '审核时间',
+            'add_time'           => '创建时间',
+            'upd_time'           => '更新时间',
+        ],
     ],
 
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => '支付方式',
+        'nav_store_payment_name'                => '更多主题下载',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '1. 类名必须于文件名一致（去除 .php ），如 Alipay.php 则取 Alipay'
@@ -907,6 +1231,18 @@ return [
         'form_item_apply_terminal_message'      => '至少选择一个适用终端',
         'form_item_logo'                        => 'LOGO',
         'form_item_is_open_user'                => '用户开放',
+        // 动态表格
+        'form_table'                            => [
+            'name'            => '名称',
+            'logo'            => 'LOGO',
+            'version'         => '版本',
+            'apply_version'   => '适用版本',
+            'apply_terminal'  => '适用终端',
+            'author'          => '作者',
+            'desc'            => '描述',
+            'enable'          => '是否启用',
+            'open_user'       => '用户开放',
+        ],
     ],
 
     // 快递
@@ -942,6 +1278,19 @@ return [
         'form_item_desc'                        => '描述',
         'form_item_desc_message'                => '描述最多18个字符',
         'form_item_images_url'                  => '导航图标',
+        // 动态表格
+        'form_table'                            => [
+            'name'           => '名称',
+            'platform'       => '所属平台',
+            'images_url'     => '导航图标',
+            'event_type'     => '事件类型',
+            'event_value'    => '事件值',
+            'is_enable'      => '是否启用',
+            'is_need_login'  => '是否需登录',
+            'sort'           => '排序',
+            'add_time'       => '创建时间',
+            'upd_time'       => '更新时间',
+        ],
     ],
 
     // 手机首页导航
@@ -952,17 +1301,86 @@ return [
         'form_item_name_message'                => '名称格式2~60个字符',
         'form_item_images_url'                  => '导航图标',
         'form_item_is_need_login'               => '是否需要登录',
+        // 动态表格
+        'form_table'                            => [
+            'name'           => '名称',
+            'platform'       => '所属平台',
+            'images'         => '导航图标',
+            'event_type'     => '事件类型',
+            'event_value'    => '事件值',
+            'is_enable'      => '是否启用',
+            'is_need_login'  => '是否需登录',
+            'sort'           => '排序',
+            'add_time'       => '创建时间',
+            'upd_time'       => '更新时间',
+        ],
     ],
 
     // 支付日志
     'paylog'                => [
         'pay_request_title'                     => '支付请求日志',
+        // 动态表格
+        'form_table'                            => [
+            'user'              => '用户信息',
+            'user_placeholder'  => '请输入用户名/昵称/手机/邮箱',
+            'log_no'            => '支付单号',
+            'payment'           => '支付方式',
+            'status'            => '状态',
+            'total_price'       => '业务订单金额(元)',
+            'pay_price'         => '支付金额(元)',
+            'business_type'     => '业务类型',
+            'business_list'     => '业务id/单号',
+            'trade_no'          => '支付平台交易号',
+            'buyer_user'        => '支付平台用户帐号',
+            'subject'           => '订单名称',
+            'pay_time'          => '支付时间',
+            'close_time'        => '关闭时间',
+            'add_time'          => '创建时间',
+        ],
     ],
 
     // 支付请求日志
     'payrequestlog'         => [
         'base_nav_title'                        => '支付请求日志',
-    ], 
+        // 动态表格
+        'form_table'                            => [
+            'business_type'    => '业务类型',
+            'request_params'   => '请求参数',
+            'response_data'    => '响应数据',
+            'business_handle'  => '业务处理结果',
+            'request_url'      => '请求url地址',
+            'server_port'      => '端口号',
+            'server_ip'        => '服务器ip',
+            'client_ip'        => '客户端ip',
+            'os'               => '操作系统',
+            'browser'          => '浏览器',
+            'method'           => '请求类型',
+            'scheme'           => 'http类型',
+            'version'          => 'http版本',
+            'client'           => '客户端详情',
+            'add_time'         => '创建时间',
+            'upd_time'         => '更新时间',
+        ],
+    ],
+
+    // 退款日志
+    'refundlog'               => [
+        // 动态表格
+        'form_table'                            => [
+            'user'              => '用户信息',
+            'user_placeholder'  => '请输入用户名/昵称/手机/邮箱',
+            'payment'           => '支付方式',
+            'business_type'     => '业务类型',
+            'business_id'       => '业务订单id',
+            'trade_no'          => '支付平台交易号',
+            'buyer_user'        => '支付平台用户帐号',
+            'refundment_text'   => '退款方式',
+            'refund_price'      => '退款金额',
+            'pay_price'         => '订单支付金额',
+            'msg'               => '描述',
+            'add_time_time'     => '退款时间',
+        ],
+    ],
 
     // 插件调用
     'plugins'               => [
@@ -1051,6 +1469,13 @@ return [
         'form_item_plugins'                     => '插件权限',
         'form_item_plugins_tips'                => '插件还需在当前菜单权限中勾选[ 应用中心 -> 应用管理+应用调用管理 ]权限',
         'form_item_plugins_no_data_tips'        => '无插件数据',
+        // 动态表格
+        'form_table'                            => [
+            'name'       => '角色名称',
+            'is_enable'  => '是否启用',
+            'add_time'   => '创建时间',
+            'upd_time'   => '更新时间',
+        ],
     ],
 
     // 权限管理
@@ -1095,6 +1520,18 @@ return [
         'form_item_name'                        => '名称',
         'form_item_name_message'                => '名称格式2~60个字符',
         'form_item_images_url'                  => '导航图标',
+        // 动态表格
+        'form_table'                            => [
+            'name'         => '名称',
+            'platform'     => '所属平台',
+            'images'       => '导航图标',
+            'event_type'   => '事件类型',
+            'event_value'  => '事件值',
+            'is_enable'    => '是否启用',
+            'sort'         => '排序',
+            'add_time'     => '创建时间',
+            'upd_time'     => '更新时间',
+        ],
     ],
 
     // 地区管理
@@ -1144,6 +1581,50 @@ return [
         'form_item_images_url_tips'             => [
             '1. PC端建议尺寸：1920*480px',
             '2. 手机端建议尺寸：1200*360px',
+        ],
+        // 动态表格
+        'form_table'                            => [
+            'name'         => '名称',
+            'platform'     => '所属平台',
+            'images'       => '图片',
+            'event_type'   => '事件类型',
+            'event_value'  => '事件值',
+            'is_enable'    => '是否启用',
+            'sort'         => '排序',
+            'add_time'     => '创建时间',
+            'upd_time'     => '更新时间',
+        ],
+    ],
+
+    // 积分日志
+    'integrallog'           => [
+        // 动态表格
+        'form_table'                            => [
+            'user'                => '用户信息',
+            'user_placeholder'    => '请输入用户名/昵称/手机/邮箱',
+            'type'                => '操作类型',
+            'operation_integral'  => '操作积分',
+            'original_integral'   => '原始积分',
+            'new_integral'        => '最新积分',
+            'msg'                 => '操作原因',
+            'operation_id'        => '操作人员id',
+            'add_time_time'       => '操作时间',
+        ],
+    ],
+
+    // 消息日志
+    'message'               => [
+        // 动态表格
+        'form_table'                            => [
+            'user'                      => '用户信息',
+            'user_placeholder'          => '请输入用户名/昵称/手机/邮箱',
+            'type'                      => '消息类型',
+            'business_type'             => '业务类型',
+            'title'                     => '标题',
+            'detail'                    => '详情',
+            'is_read'                   => '是否已读',
+            'user_is_delete_time_text'  => '用户是否删除',
+            'add_time_time'             => '发送时间',
         ],
     ],
 

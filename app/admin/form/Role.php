@@ -34,16 +34,14 @@ class Role
      */
     public function Run($params = [])
     {
+        $lang = MyLang('role.form_table');
         return [
             // 基础配置
             'base' => [
                 'key_field'     => 'id',
                 'status_field'  => 'is_enable',
                 'is_search'     => 1,
-                'search_url'    => MyUrl('admin/role/index'),
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/role/delete'),
-                'delete_key'    => 'ids',
                 'detail_title'  => MyLang('form_table_base_detail_title'),
             ],
             // 表单配置
@@ -59,7 +57,7 @@ class Role
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '角色名称',
+                    'label'         => $lang['name'],
                     'view_type'     => 'field',
                     'view_key'      => 'name',
                     'is_sort'       => 1,
@@ -69,7 +67,7 @@ class Role
                     ],
                 ],
                 [
-                    'label'         => '状态',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/role/statusupdate'),
@@ -86,7 +84,7 @@ class Role
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -95,7 +93,7 @@ class Role
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,

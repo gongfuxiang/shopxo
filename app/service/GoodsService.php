@@ -1261,7 +1261,7 @@ class GoodsService
                 'checked_type'      => 'in',
                 'key_name'          => 'site_type',
                 'checked_data'      => array_merge(array_column(MyLang('common_site_type_list'), 'value')),
-                'is_checked'        => 2,
+                'is_checked'        => 1,
                 'error_msg'         => '商品类型数据值范围有误',
             ],
             [

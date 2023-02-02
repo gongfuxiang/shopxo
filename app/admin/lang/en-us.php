@@ -133,6 +133,30 @@ return [
         'form_item_pwd'                         => 'Login Password',
         'form_item_pwd_tips'                    => 'Enter to change the password',
         'form_item_pwd_message'                 => 'Login password format is between 6 and 18 characters',
+        // 动态表格
+        'form_table'                            => [
+            'id'                    => 'User ID',
+            'number_code'           => 'Number Code',
+            'system_type'           => 'System Type',
+            'avatar'                => 'Avatar',
+            'username'              => 'Username',
+            'nickname'              => 'Nickname',
+            'mobile'                => 'Mobile',
+            'email'                 => 'Email',
+            'gender_name'           => 'Gender',
+            'status_name'           => 'Status',
+            'province'              => 'Province',
+            'city'                  => 'City',
+            'county'                => 'District/County',
+            'address'               => 'Detail Address',
+            'birthday'              => 'Birthday',
+            'integral'              => 'Valid Integral',
+            'locking_integral'      => 'Lock Integral',
+            'referrer'              => 'Referrer',
+            'referrer_placeholder'  => 'Please enter the invitation user name/nickname/mobile phone/email',
+            'add_time'              => 'Creation Time',
+            'upd_time'              => 'Update Time',
+        ],
     ],
 
     // 用户地址
@@ -164,6 +188,23 @@ return [
         'detail_user_address_idcard_name'       => 'Full Name',
         'detail_user_address_idcard_number'     => 'Number',
         'detail_user_address_idcard_pic'        => 'Photo',
+        // 动态表格
+        'form_table'                            => [
+            'user'              => 'User Info',
+            'user_placeholder'  => 'Please enter user name/nickname/mobile phone/email',
+            'alias'             => 'Alias',
+            'name'              => 'Name',
+            'tel'               => 'Tel',
+            'province_name'     => 'Province',
+            'city_name'         => 'City',
+            'county_name'       => 'County/County',
+            'address'           => 'Detail Address',
+            'position'          => 'Position',
+            'idcard_info'       => 'Idcard Info',
+            'is_default'        => 'Default or not',
+            'add_time'          => 'Creation Time',
+            'upd_time'          => 'Update Time',
+        ],
     ],
 
     // 站点设置
@@ -307,6 +348,18 @@ return [
         'form_item_describe_message'            => 'Description can be up to 230 characters',
         'form_item_logo'                        => 'LOGO',
         'form_item_logo_tips'                   => 'Recommended 150*50px',
+        // 动态表格
+        'form_table'                            => [
+            'name'                 => 'Name',
+            'describe'             => 'Describe',
+            'logo'                 => 'LOGO',
+            'url'                  => 'Website Url',
+            'brand_category_text'  => 'Category',
+            'is_enable'            => 'Enable or not',
+            'sort'                 => 'Sort',
+            'add_time'             => 'Creation Time',
+            'upd_time'             => 'Update Time',
+        ],
     ],
 
     // 品牌分类
@@ -334,6 +387,18 @@ return [
         'form_item_content_title'               => 'Content',
         'form_item_content_placeholder'         => 'The content format is between 10 and 105000 characters. For more editing functions, please use the computer to access',
         'form_item_content_message'             => 'Content format is between 10 and 105000 characters',
+        // 动态表格
+        'form_table'                            => [
+            'info'                   => 'Title',
+            'jump_url'               => 'Jump Url',
+            'article_category_name'  => 'Category',
+            'is_enable'              => 'Enable or not',
+            'is_home_recommended'    => 'HomePage recommend',
+            'images_count'           => 'Images Count',
+            'access_count'           => 'Access Count',
+            'add_time'               => 'Creation Time',
+            'upd_time'               => 'Update Time',
+        ],
     ],
 
     // 文章分类
@@ -355,6 +420,18 @@ return [
         'form_item_content_title'               => 'Content',
         'form_item_content_placeholder'         => 'The content format is between 10 and 105000 characters. For more editing functions, please use the computer to access',
         'form_item_content_message'             => 'Content format is between 10 and 105000 characters',
+        // 动态表格
+        'form_table'                            => [
+            'info'            => 'Title',
+            'is_enable'       => 'Enable or not',
+            'is_header'       => 'Header or not',
+            'is_footer'       => 'Footer or not',
+            'is_full_screen'  => 'Full Screen',
+            'images_count'    => 'Images Count',
+            'access_count'    => 'Access Count',
+            'add_time'        => 'Creation Time',
+            'upd_time'        => 'Update Time',
+        ],
     ],
 
     // 页面设计
@@ -369,12 +446,28 @@ return [
         'form_item_name'                        => 'Name',
         'form_item_name_message'                => 'The name is 2~16 characters long',
         'form_logo_tips'                        => 'Recommended size 300 * 300px',
+        // 动态表格
+        'form_table'                            => [
+            'id'                => 'Data ID',
+            'info'              => 'Base Info',
+            'info_placeholder'  => 'Please enter a name',
+            'access_count'      => 'Access Count',
+            'is_enable'         => 'Enable or not',
+            'is_header'         => 'Header or not',
+            'is_footer'         => 'Footer or not',
+            'seo_title'         => 'SEO Title',
+            'seo_keywords'      => 'SEO Keywords',
+            'seo_desc'          => 'SEO Describe',
+            'add_time'          => 'Creation Time',
+            'upd_time'          => 'Update Time',
+        ],
     ],
 
     // 问答
     'answer'                => [
         'base_nav_title'                        => 'Q&A',
-        'user_info_title'                       => 'User information',
+        'user_info_title'                       => 'User Info',
+        // 表单
         'form_item_name'                        => 'Contacts',
         'form_item_name_message'                => 'Contact format can be up to 30 characters',
         'form_item_tel'                         => 'Telephone',
@@ -388,6 +481,21 @@ return [
         'form_item_reply'                       => 'Reply Content',
         'form_item_reply_message'               => 'Reply content format can be up to 1000 characters',
         'form_is_reply'                         => 'Reply or not',
+        // 动态表格
+        'form_table'                            => [
+            'user'              => 'User Info',
+            'user_placeholder'  => 'Please enter user name/nickname/mobile phone/email',
+            'name'              => 'Contacts',
+            'tel'               => 'Contact Number',
+            'content'           => 'Content',
+            'reply'             => 'Reply Content',
+            'is_show'           => 'Show or not',
+            'is_reply'          => 'Reply or not',
+            'reply_time_time'   => 'Reply Time',
+            'access_count'      => 'Access Count',
+            'add_time_time'     => 'Creation Time',
+            'upd_time_time'     => 'Update Time',
+        ],
     ],
 
     // 仓库管理
@@ -412,6 +520,21 @@ return [
         'form_item_contacts_tel_message'        => 'Please fill in the contact number',
         'form_item_address'                     => 'Detail Address',
         'form_item_address_message'             => 'Address format is between 1 and 80 characters',
+        // 动态表格
+        'form_table'                            => [
+            'info'           => 'Name/Alias',
+            'level'          => 'Level',
+            'is_enable'      => 'Enable or not',
+            'contacts_name'  => 'Contacts Name',
+            'contacts_tel'   => 'Contacts Tel',
+            'province_name'  => 'Province',
+            'city_name'      => 'City',
+            'county_name'    => 'District/County',
+            'address'        => 'Detail Address',
+            'position'       => 'Position',
+            'add_time'       => 'Creation Time',
+            'upd_time'       => 'Update Time',
+        ],
     ],
 
     // 仓库商品
@@ -429,6 +552,17 @@ return [
         'form_item_warehouseg_placeholder'      => 'Warehouse...',
         'form_item_warehouseg_message'          => 'Please select a warehouse',
         'form_item_inventory_message'           => 'Inventory quantity 0~100000000',
+        // 动态表格
+        'form_table'                            => [
+            'goods'              => 'Base Info',
+            'goods_placeholder'  => 'Please enter the product name/model',
+            'warehouse_name'     => 'Warehouse',
+            'is_enable'          => 'Enable or not',
+            'inventory'          => 'Total Inventory',
+            'spec_inventory'     => 'Spec Inventory',
+            'add_time'           => 'Creation Time',
+            'upd_time'           => 'Update Time',
+        ],
     ],
 
     // 管理员
@@ -521,6 +655,13 @@ return [
         'list_author_title'                     => 'Author：',
         'list_version_title'                    => 'Applicable version：',
         'package_generate_tips'                 => 'The generation time is relatively long, please do not close the browser window!',
+        // 动态表格
+        'form_table'                            => [
+            'name'  => 'Package Name',
+            'size'  => 'Size',
+            'url'   => 'Download Address',
+            'time'  => 'Creation Time',
+        ],
     ],
 
     // 短信设置
@@ -702,6 +843,28 @@ return [
         'form_app_button_add_name'              => 'Add Phone Detail',
         // 电脑详情
         'form_web_content_message'              => 'The details of the computer terminal can be up to 105000 characters',
+        // 动态表格
+        'form_table'                            => [
+            'id'                      => 'Goods ID',
+            'info'                    => 'Goods Info',
+            'category_text'           => 'Category',
+            'brand_name'              => 'Brand',
+            'price'                   => 'Sales Price(yuan)',
+            'original_price'          => 'Original Price(yuan)',
+            'inventory'               => 'Inventory Count',
+            'is_shelves'              => 'Shelves or not',
+            'is_deduction_inventory'  => 'Inventory Deduction',
+            'site_type'               => 'Goods Type',
+            'model'                   => 'Goods Model',
+            'place_origin_name'       => 'Place',
+            'give_integral'           => 'Give Integral',
+            'buy_min_number'          => 'Buy Min Number',
+            'buy_max_number'          => 'Buy Max Number',
+            'sales_count'             => 'Sales Count',
+            'access_count'            => 'Access Count',
+            'add_time'                => 'Creation Time',
+            'upd_time'                => 'Update Time',
+        ],
     ],
 
     // 商品分类
@@ -709,16 +872,16 @@ return [
         'base_nav_title'                        => 'GoodsCategory',
         // 表单
         'form_item_icon'                        => 'Icon',
-        'form_item_icon_tips'                   => '100 * 100px recommended',
+        'form_item_icon_tips'                   => '100 * 100px recommend',
         'form_item_big_images'                  => 'Large Picture',
-        'form_item_big_images_tips'             => '360 * 360px recommended',
+        'form_item_big_images_tips'             => '360 * 360px recommend',
         'form_item_name'                        => 'Name',
         'form_item_name_message'                => 'Name format 2~16 characters',
         'form_item_vice_name'                   => 'Sub Name',
         'form_item_vice_name_message'           => 'The secondary name can be up to 60 characters',
         'form_item_describe'                    => 'Describe',
         'form_item_describe_message'            => 'Description can be up to 200 characters',
-        'form_item_is_home_recommended'         => 'HomePage Recommended',
+        'form_item_is_home_recommended'         => 'HomePage Recommend',
     ],
 
     // 商品评论
@@ -741,6 +904,24 @@ return [
         'form_item_reply_time_message'          => 'Incorrect format of reply time',
         'form_item_is_reply'                    => 'Reply or not',
         'form_item_is_anonymous'                => 'Anonymous or not',
+        // 动态表格
+        'form_table'                            => [
+            'user'                       => 'User Info',
+            'user_placeholder'           => 'Please enter user name/nickname/mobile phone/email',
+            'goods'                      => 'Base Info',
+            'goods_placeholder'          => 'Please enter the product name/model',
+            'business_type'      => 'Business Type',
+            'content'            => 'Content',
+            'images'             => 'Images',
+            'rating'             => 'Rating',
+            'reply'              => 'Reply',
+            'is_show'            => 'Show or not',
+            'is_anonymous'       => 'Anonymous or not',
+            'is_reply'           => 'Reply or not',
+            'reply_time_time'    => 'Reply Time',
+            'add_time_time'      => 'Creation Time',
+            'upd_time_time'      => 'Update Time',
+        ],
     ],
 
     // 商品参数模板
@@ -758,6 +939,15 @@ return [
         'form_item_config_copy_title'           => 'Copy Config',
         'form_item_config_empty_title'          => 'Clear Params',
         'form_item_config_list_content_tips'    => 'You can directly click the parameter line to drag and sort or click up and down to move',
+        // 动态表格
+        'form_table'                            => [
+            'category_id'   => 'Goods Category',
+            'name'          => 'Name',
+            'is_enable'     => 'Enable or not',
+            'config_count'  => 'Params Count',
+            'add_time'      => 'Creation Time',
+            'upd_time'      => 'Update Time',
+        ],
     ],
 
     // 商品规格模板
@@ -771,6 +961,57 @@ return [
         'form_item_content'                     => 'Spec Value',
         'form_item_content_placeholder'         => 'Specification value (multiple values can be achieved by entering Enter)',
         'form_item_content_message'             => 'Specification value format: 1~1000 characters',
+        // 动态表格
+        'form_table'                            => [
+            'category_id'  => 'Goods Category',
+            'name'         => 'Name',
+            'is_enable'    => 'Enable or not',
+            'content'      => 'Spec Value',
+            'add_time'     => 'Creation Time',
+            'upd_time'     => 'Update Time',
+        ],
+    ],
+
+    // 商品浏览
+    'goodsbrowse'           => [
+        // 动态表格
+        'form_table'                            => [
+            'user'               => 'User Info',
+            'user_placeholder'   => 'Please enter user name/nickname/mobile phone/email',
+            'goods'              => 'Goods Info',
+            'goods_placeholder'  => 'Please enter the goods name/brief description/SEO information',
+            'price'              => 'Sales Price(yuan)',
+            'original_price'     => 'Original Price(yuan))',
+            'add_time'           => 'Creation Time',
+        ],
+    ],
+
+    // 商品购物车
+    'goodscart'             => [
+        // 动态表格
+        'form_table'                            => [
+            'user'               => 'User Info',
+            'user_placeholder'   => 'Please enter user name/nickname/mobile phone/email',
+            'goods'              => 'Goods Info',
+            'goods_placeholder'  => 'Please enter the goods name/brief description/SEO information',
+            'price'              => 'Sales Price(yuan)',
+            'original_price'     => 'Original Price(yuan))',
+            'add_time'           => 'Creation Time',
+        ],
+    ],
+
+    // 商品收藏
+    'goodsfavor'            => [
+        // 动态表格
+        'form_table'                            => [
+            'user'               => 'User Info',
+            'user_placeholder'   => 'Please enter user name/nickname/mobile phone/email',
+            'goods'              => 'Goods Info',
+            'goods_placeholder'  => 'Please enter the goods name/brief description/SEO information',
+            'price'              => 'Sales Price(yuan)',
+            'original_price'     => 'Original Price(yuan))',
+            'add_time'           => 'Creation Time',
+        ],
     ],
 
     // 友情链接
@@ -784,6 +1025,17 @@ return [
         'form_item_url_message'                 => 'Incorrect format of link address',
         'form_item_desc'                        => 'Describe',
         'form_item_desc_message'                => 'Description can be up to 60 characters',
+        // 动态表格
+        'form_table'                            => [
+            'info'                => 'Name',
+            'url'                 => 'Url Address',
+            'describe'            => 'Describe',
+            'is_enable'           => 'Enable or not',
+            'is_new_window_open'  => 'Whether to open a new Window',
+            'sort'                => 'Sort',
+            'add_time'            => 'Creation Time',
+            'upd_time'            => 'Update Time',
+        ],
     ],
 
     // 导航管理
@@ -815,6 +1067,16 @@ return [
         'form_item_value_customview_message'    => 'Incorrect selection of custom page',
         'form_item_value_goods_category_message'=> 'Wrong selection of commodity classification',
         'form_item_value_design_message'        => 'Incorrect selection of page design',
+        // 动态表格
+        'form_table'                            => [
+            'info'                => 'Navigation Name',
+            'data_type'           => 'Data Type',
+            'is_show'             => 'Show or not',
+            'is_new_window_open'  => 'New window open',
+            'sort'                => 'Sort',
+            'add_time'            => 'Creation Time',
+            'upd_time'            => 'Update Time',
+        ],
     ],
 
     // 订单管理
@@ -855,6 +1117,43 @@ return [
         'detail_goods_title'                    => 'Order Goods',
         'detail_payment_amount_less_tips'       => 'Please note that the order payment amount is less than the total amount',
         'detail_no_payment_tips'                => 'Please note that the order has not been paid',
+        // 动态表格
+        'form_table'                            => [
+            'goods'               => 'Base Info',
+            'goods_placeholder'   => 'Please enter order ID/order number/product name/model',
+            'user'                => 'User Info',
+            'user_placeholder'    => 'Please enter user name/nickname/mobile phone/email',
+            'status'              => 'Order Status',
+            'pay_status'          => 'Payment Status',
+            'total_price'         => 'Total Price (yuan)',
+            'pay_price'           => 'Payment Amount (yuan)',
+            'price'               => 'Price (yuan)',
+            'warehouse_name'      => 'Shipping Warehouse',
+            'order_model'         => 'Order Model',
+            'client_type'         => 'Client Type',
+            'address'             => 'Address Info',
+            'take'                => 'Take Info',
+            'refund_price'        => 'Refund Amount (yuan)',
+            'returned_quantity'   => 'Return Quantity',
+            'buy_number_count'    => 'Total Purchases',
+            'increase_price'      => 'Increase Amount (yuan)',
+            'preferential_price'  => 'Preferential Amount (yuan)',
+            'payment_name'        => 'Payment Type',
+            'user_note'           => 'User Note',
+            'extension'           => 'Extendeds Info',
+            'express_name'        => 'Express Name',
+            'express_number'      => 'Express Number',
+            'aftersale'           => 'New Aftersale',
+            'is_comments'         => 'Whether the user comment',
+            'confirm_time'        => 'Confirm Time',
+            'pay_time'            => 'Payment Time',
+            'delivery_time'       => 'Delivery Time',
+            'collect_time'        => 'Collect Time',
+            'cancel_time'         => 'Cancel Time',
+            'close_time'          => 'Close Time',
+            'add_time'            => 'Creation Time',
+            'upd_time'            => 'Update Time',
+        ],
     ],
 
     // 订单售后
@@ -872,11 +1171,36 @@ return [
         'form_item_refundment_message'          => 'Please select a refund method',
         'form_item_refuse_reason'               => 'Reason for rejection',
         'form_item_refuse_reason_message'       => 'Rejection reason format: 2~230 characters',
+        // 动态表格
+        'form_table'                            => [
+            'goods'              => 'Base Info',
+            'goods_placeholder'  => 'Please enter the order number/product name/model',
+            'user'               => 'User Info',
+            'user_placeholder'   => 'Please enter user name/nickname/mobile phone/email',
+            'status'             => 'Status',
+            'type'               => 'Apply Type',
+            'reason'             => 'Reason',
+            'price'              => 'Refund Amount (yuan)',
+            'number'             => 'Return quantity',
+            'msg'                => 'Refund Explain',
+            'refundment'         => 'Refund Type',
+            'voucher'            => 'Voucher',
+            'express_name'       => 'Express Name',
+            'express_number'     => 'Express Number',
+            'refuse_reason'      => 'Refuse Reason',
+            'apply_time'         => 'Apply Time',
+            'confirm_time'       => 'Confirm Time',
+            'delivery_time'      => 'Delivery Time',
+            'audit_time'         => 'Audit Time',
+            'add_time'           => 'Creation Time',
+            'upd_time'           => 'Update Time',
+        ],
     ],
 
     // 支付方式
     'payment'               => [
         'base_nav_title'                        => 'PaymentMethod',
+        'nav_store_payment_name'                => 'More topic downloads',
         'upload_top_list_tips'                  => [
             [
                 'name'  => '1. The class name must be consistent with the file name (remove. php). If Alipay.php, Alipay is used'
@@ -907,6 +1231,18 @@ return [
         'form_item_apply_terminal_message'      => 'Select at least one applicable terminal',
         'form_item_logo'                        => 'LOGO',
         'form_item_is_open_user'                => 'Open to Users',
+        // 动态表格
+        'form_table'                            => [
+            'name'            => 'Name',
+            'logo'            => 'LOGO',
+            'version'         => 'Plugins Version',
+            'apply_version'   => 'Apply Version',
+            'apply_terminal'  => 'Apply Terminal',
+            'author'          => 'Author',
+            'desc'            => 'Describe',
+            'enable'          => 'Enable or not',
+            'open_user'       => 'Open to user',
+        ],
     ],
 
     // 快递
@@ -942,6 +1278,19 @@ return [
         'form_item_desc'                        => 'Describe',
         'form_item_desc_message'                => 'Description can be up to 18 characters',
         'form_item_images_url'                  => 'Navigation Icon',
+        // 动态表格
+        'form_table'                            => [
+            'name'           => 'Name',
+            'platform'       => 'Platform',
+            'images_url'     => 'Icon',
+            'event_type'     => 'Event Tyoe',
+            'event_value'    => 'Event Value',
+            'is_enable'      => 'Enable or not',
+            'is_need_login'  => 'Whether to log in',
+            'sort'           => 'Sort',
+            'add_time'       => 'Creation Time',
+            'upd_time'       => 'Update Time',
+        ],
     ],
 
     // 手机首页导航
@@ -952,16 +1301,85 @@ return [
         'form_item_name_message'                => 'Name format: 2~60 characters',
         'form_item_images_url'                  => 'Navigation Icon',
         'form_item_is_need_login'               => 'Whether login is required',
+        // 动态表格
+        'form_table'                            => [
+            'name'           => 'Name',
+            'platform'       => 'Platform',
+            'images'         => 'Icon',
+            'event_type'     => 'Event Tyoe',
+            'event_value'    => 'Event Value',
+            'is_enable'      => 'Enable or not',
+            'is_need_login'  => 'Whether to log in',
+            'sort'           => 'Sort',
+            'add_time'       => 'Creation Time',
+            'upd_time'       => 'Update Time',
+        ],
     ],
 
     // 支付日志
     'paylog'                => [
         'pay_request_title'                     => 'Payment Request Log',
+        // 动态表格
+        'form_table'                            => [
+            'user'              => 'User Info',
+            'user_placeholder'  => 'Please enter user name/nickname/mobile phone/email',
+            'log_no'            => 'Payment OrderNo',
+            'payment'           => 'Payment Method',
+            'status'            => 'Status',
+            'total_price'       => 'Business Order Amount (yuan)',
+            'pay_price'         => 'Payment Amount (yuan)',
+            'business_type'     => 'Business Type',
+            'business_list'     => 'Business ID/OrderNo',
+            'trade_no'          => 'Transaction No. of payment platform',
+            'buyer_user'        => 'Payment Platform UserAccount',
+            'subject'           => 'Order Name',
+            'pay_time'          => 'Payment Time',
+            'close_time'        => 'Close Time',
+            'add_time'          => 'Creation Time',
+        ],
     ],
 
     // 支付请求日志
     'payrequestlog'         => [
         'base_nav_title'                        => 'Payment Request Log',
+        // 动态表格
+        'form_table'                            => [
+            'business_type'    => 'Business Type',
+            'request_params'   => 'Request Params',
+            'response_data'    => 'Response Data',
+            'business_handle'  => 'Business Processing Results',
+            'request_url'      => 'Request Url',
+            'server_port'      => 'Port Number',
+            'server_ip'        => 'Server IP',
+            'client_ip'        => 'Client IP',
+            'os'               => 'Operate System',
+            'browser'          => 'Browser',
+            'method'           => 'Request Method',
+            'scheme'           => 'Http Type',
+            'version'          => 'Http Version',
+            'client'           => 'Client Detail',
+            'add_time'         => 'Creation Time',
+            'upd_time'         => 'Update Time',
+        ],
+    ],
+
+    // 退款日志
+    'refundlog'               => [
+        // 动态表格
+        'form_table'                            => [
+            'user'              => 'User Info',
+            'user_placeholder'  => 'Please enter user name/nickname/mobile phone/email',
+            'payment'           => 'Payment Type',
+            'business_type'     => 'Business Type',
+            'business_id'       => 'Business ID',
+            'trade_no'          => 'Transaction No. of payment platform',
+            'buyer_user'        => 'Payment Platform UserAccount',
+            'refundment_text'   => 'refundment Type',
+            'refund_price'      => 'Refund Price',
+            'pay_price'         => 'Order payment amount',
+            'msg'               => 'Describe',
+            'add_time_time'     => 'Refund Time',
+        ],
     ],
 
     // 插件调用
@@ -1051,6 +1469,13 @@ return [
         'form_item_plugins'                     => 'Plugins Power',
         'form_item_plugins_tips'                => 'The plug-in also needs to check [Application Center ->Application Management+Application Call Management] permission in the current menu permission',
         'form_item_plugins_no_data_tips'        => 'No plugins data',
+        // 动态表格
+        'form_table'                            => [
+            'name'       => 'Role Name',
+            'is_enable'  => 'Enable or not',
+            'add_time'   => 'Creation Time',
+            'upd_time'   => 'Update Time',
+        ],
     ],
 
     // 权限管理
@@ -1095,6 +1520,18 @@ return [
         'form_item_name'                        => 'Name',
         'form_item_name_message'                => 'Name format: 2~60 characters',
         'form_item_images_url'                  => 'Navigation Icon',
+        // 动态表格
+        'form_table'                            => [
+            'name'         => 'Name',
+            'platform'     => 'Platform',
+            'images'       => 'Icon',
+            'event_type'   => 'Event Tyoe',
+            'event_value'  => 'Event Value',
+            'is_enable'    => 'Enable or not',
+            'sort'         => 'Sort',
+            'add_time'     => 'Creation Time',
+            'upd_time'     => 'Update Time',
+        ],
     ],
 
     // 地区管理
@@ -1144,6 +1581,50 @@ return [
         'form_item_images_url_tips'             => [
             '1. Recommended size of PC end: 1920 * 480px',
             '2. Recommended size of mobile terminal: 1200 * 360px',
+        ],
+        // 动态表格
+        'form_table'                            => [
+            'name'         => 'Name',
+            'platform'     => 'Platform',
+            'images'       => 'Images',
+            'event_type'   => 'Event Tyoe',
+            'event_value'  => 'Event Value',
+            'is_enable'    => 'Enable or not',
+            'sort'         => 'Sort',
+            'add_time'     => 'Creation Time',
+            'upd_time'     => 'Update Time',
+        ],
+    ],
+
+    // 积分日志
+    'integrallog'           => [
+        // 动态表格
+        'form_table'                            => [
+            'user'                => 'User Info',
+            'user_placeholder'    => 'Please enter user name/nickname/mobile phone/email',
+            'type'                => 'Operate Type',
+            'operation_integral'  => 'Operate Integral',
+            'original_integral'   => 'Oiginal Integral',
+            'new_integral'        => 'New Integral',
+            'msg'                 => 'Operate Reason',
+            'operation_id'        => 'Operate ID',
+            'add_time_time'       => 'Operate Time',
+        ],
+    ],
+
+    // 消息日志
+    'message'               => [
+        // 动态表格
+        'form_table'                            => [
+            'user'                      => 'User Info',
+            'user_placeholder'          => 'Please enter user name/nickname/mobile phone/email',
+            'type'                      => 'Message Type',
+            'business_type'             => 'Business Type',
+            'title'                     => 'Title',
+            'detail'                    => 'Detail',
+            'is_read'                   => 'Read or not',
+            'user_is_delete_time_text'  => 'Delete user',
+            'add_time_time'             => 'Send Time',
         ],
     ],
 
@@ -1297,22 +1778,22 @@ return [
                 'goodsspectemplate_saveinfo'        => 'Goods spec add/edit page',
                 'goodsspectemplate_save'            => 'Goods spec add/edit',
                 'goodsspectemplate_detail'          => 'Goods spec details',
-                'goodscomments_detail'              => 'Goods review details',
-                'goodscomments_index'               => 'Goods review',
+                'goodscomments_detail'              => 'Goods comment details',
+                'goodscomments_index'               => 'Goods comment',
                 'goodscomments_reply'               => 'Goods comment reply',
                 'goodscomments_delete'              => 'Goods comment delete',
-                'goodscomments_statusupdate'        => 'Goods review status update',
+                'goodscomments_statusupdate'        => 'Goods comment status update',
                 'goodscomments_saveinfo'            => 'Goods comment add/edit page',
-                'goodscomments_save'                => 'Goods comments add/edit',
+                'goodscomments_save'                => 'Goods comment add/edit',
                 'goodsbrowse_index'                 => 'Goods browsing',
                 'goodsbrowse_delete'                => 'Goods browse delete',
                 'goodsbrowse_detail'                => 'Goods browsing details',
                 'goodsfavor_index'                  => 'Goods favor',
                 'goodsfavor_delete'                 => 'Delete item favor',
-                'goodsfavor_detail'                 => 'Collection details',
-                'goodscart_index'                   => 'Shopping cart',
-                'goodscart_delete'                  => 'Item Cart Delete',
-                'goodscart_detail'                  => 'Shopping Cart Details',
+                'goodsfavor_detail'                 => 'Favor details',
+                'goodscart_index'                   => 'Goods cart',
+                'goodscart_delete'                  => 'Goods Cart Delete',
+                'goodscart_detail'                  => 'Goods Cart Details',
             ]
         ],
         'order_index' => [
@@ -1326,7 +1807,7 @@ return [
                 'order_pay'               => 'Order payment',
                 'order_confirm'           => 'acknowledgement of order',
                 'order_detail'            => 'Order details',
-                'orderaftersale_index'    => 'Order after sales',
+                'orderaftersale_index'    => 'Order aftersales',
                 'orderaftersale_delete'   => 'After sales order delete',
                 'orderaftersale_cancel'   => 'Order after-sales cancellation',
                 'orderaftersale_audit'    => 'Order after sales review',
@@ -1359,7 +1840,7 @@ return [
                 'theme_upload'             => 'Theme upload and installation',
                 'theme_delete'             => 'Subject delete',
                 'theme_download'           => 'Theme download',
-                'slide_index'              => 'Home page rotation',
+                'slide_index'              => 'HomePage Slide',
                 'slide_saveinfo'           => 'Carousel add/edit page',
                 'slide_save'               => 'Carousel add/edit',
                 'slide_statusupdate'       => 'Rotation status update',
@@ -1476,7 +1957,7 @@ return [
             ]
         ],
         'data_index' => [
-            'name' => 'data Admin',
+            'name' => 'Data Admin',
             'item' => [
                 'answer_index'          => 'Q&A message',
                 'answer_reply'          => 'Q&A message reply',
@@ -1485,7 +1966,7 @@ return [
                 'answer_saveinfo'       => 'Q&A add/edit page',
                 'answer_save'           => 'Q&A add/edit',
                 'answer_detail'         => 'Q&A message details',
-                'message_index'         => 'Message admin',
+                'message_index'         => 'Message log',
                 'message_delete'        => 'Message delete',
                 'message_detail'        => 'Message details',
                 'paylog_index'          => 'Payment log',

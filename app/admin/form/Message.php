@@ -38,6 +38,7 @@ class Message
      */
     public function Run($params = [])
     {
+        $lang = MyLang('message.form_table');
         return [
             // 基础配置
             'base' => [
@@ -45,8 +46,6 @@ class Message
                 'is_search'     => 1,
                 'is_delete'     => 1,
                 'is_middle'     => 0,
-                'delete_url'    => MyUrl('admin/message/delete'),
-                'delete_key'    => 'ids',
             ],
             // 表单配置
             'form' => [
@@ -59,7 +58,7 @@ class Message
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '用户信息',
+                    'label'         => $lang['user'],
                     'view_type'     => 'module',
                     'view_key'      => 'lib/module/user',
                     'grid_size'     => 'sm',
@@ -69,11 +68,11 @@ class Message
                         'form_name'             => 'user_id',
                         'where_type_custom'     => 'in',
                         'where_value_custom'    => 'WhereValueUserInfo',
-                        'placeholder'           => '请输入用户名/昵称/手机/邮箱',
+                        'placeholder'           => $lang['user_placeholder'],
                     ],
                 ],
                 [
-                    'label'         => '消息类型',
+                    'label'         => $lang['type'],
                     'view_type'     => 'field',
                     'view_key'      => 'type',
                     'view_data_key' => 'name',
@@ -89,7 +88,7 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '业务类型',
+                    'label'         => $lang['business_type'],
                     'view_type'     => 'field',
                     'view_key'      => 'business_type',
                     'is_sort'       => 1,
@@ -103,7 +102,7 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '标题',
+                    'label'         => $lang['title'],
                     'view_type'     => 'field',
                     'view_key'      => 'title',
                     'is_sort'       => 1,
@@ -113,7 +112,7 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '详情',
+                    'label'         => $lang['detail'],
                     'view_type'     => 'field',
                     'view_key'      => 'detail',
                     'is_sort'       => 1,
@@ -124,7 +123,7 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '是否已读',
+                    'label'         => $lang['is_read'],
                     'view_type'     => 'field',
                     'view_key'      => 'is_read',
                     'view_data_key' => 'name',
@@ -140,7 +139,7 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '用户是否删除',
+                    'label'         => $lang['user_is_delete_time_text'],
                     'view_type'     => 'field',
                     'view_key'      => 'user_is_delete_time_text',
                     'is_sort'       => 1,
@@ -157,7 +156,7 @@ class Message
                     ],
                 ],
                 [
-                    'label'         => '发送时间',
+                    'label'         => $lang['add_time_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time_time',
                     'is_sort'       => 1,

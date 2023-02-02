@@ -430,8 +430,34 @@ class FormHandleModule
                 $is_handle_annex_field = isset($form_data['is_handle_annex_field']) && $form_data['is_handle_annex_field'] == 1;
                 $handle_annex_fields = empty($form_data['handle_annex_fields']) ? ['icon', 'images', 'images_url', 'video', 'video_url'] : (is_array($form_data['handle_annex_fields']) ? $form_data['handle_annex_fields'] : explode(',', $form_data['handle_annex_fields']));
 
+                // 1. 展示字段指定数组转换处理
+                // 2. 状态字段按照搜索列表转换处理
+                $field_show_data = [];
+                $field_status_data = [];
+                foreach($this->form_data['form'] as $fv)
+                {
+                    switch($fv['view_type'])
+                    {
+                        // 展示字段
+                        case 'field' :
+                            if(!empty($fv['view_data']))
+                            {
+                                $field_show_data[$fv['view_key']] = $fv;
+                            }
+                            break;
+
+                        // 状态字段
+                        case 'status' :
+                            if(!empty($fv['search_config']) && !empty($fv['search_config']['data']))
+                            {
+                                $field_status_data[$fv['view_key']] = $fv;
+                            }
+                            break;
+                    }
+                }
+
                 // 数据处理
-                if(!empty($data_merge) || $is_handle_time_field || $is_fixed_name_field || $is_handle_annex_field)
+                if(!empty($field_show_data) || !empty($field_status_data) || !empty($data_merge) || $is_handle_time_field || $is_fixed_name_field || $is_handle_annex_field)
                 {
                     foreach($this->data_list as &$v)
                     {
@@ -467,6 +493,44 @@ class FormHandleModule
                                 if($is_handle_annex_field && !empty($handle_annex_fields) && in_array($ks, $handle_annex_fields) && !empty($vs))
                                 {
                                     $v[$ks] = ResourcesService::AttachmentPathViewHandle($vs);
+                                }
+
+                                // 展示字段指定数组转换处理、默认增加 _name 后缀
+                                if(!empty($field_show_data) && array_key_exists($ks, $field_show_data))
+                                {
+                                    $temp = $field_show_data[$ks];
+                                    $value = array_key_exists($vs, $temp['view_data']) ? $temp['view_data'][$vs] : null;
+                                    $key = $ks.'_name';
+                                    if($value === null)
+                                    {
+                                        $v[$key] = '';
+                                    } else {
+                                        if(is_array($value))
+                                        {
+                                            $v[$key] = (!empty($temp['view_data_key']) && array_key_exists($temp['view_data_key'], $value)) ? $value[$temp['view_data_key']] : '';
+                                        } else {
+                                            $v[$key] = $value;
+                                        }
+                                    }
+                                }
+
+                                // 状态字段按照搜索列表转换处理、默认增加 _name 后缀
+                                if(!empty($field_status_data) && array_key_exists($ks, $field_status_data) && !empty($field_status_data[$ks]['search_config']) && !empty($field_status_data[$ks]['search_config']['data']))
+                                {
+                                    $temp = $field_status_data[$ks]['search_config'];
+                                    $value = array_key_exists($vs, $temp['data']) ? $temp['data'][$vs] : null;
+                                    $key = $ks.'_name';
+                                    if($value === null)
+                                    {
+                                        $v[$key] = '';
+                                    } else {
+                                        if(is_array($value))
+                                        {
+                                            $v[$key] = (!empty($temp['data_name']) && array_key_exists($temp['data_name'], $value)) ? $value[$temp['data_name']] : '';
+                                        } else {
+                                            $v[$key] = $value;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -583,13 +647,25 @@ class FormHandleModule
                 $error_msg = '没有相关数据、请重新输入搜索条件再试！';
             }
 
-            // 根据表单配置标题处理、仅获取field类型的配置项
+            // 根据表单配置标题处理
+            // 仅获取[ field、status、images ]类型的配置项
             $title = [];
             foreach($this->form_data['form'] as $v)
             {
-                if(isset($v['view_type']) && $v['view_type'] == 'field' && !empty($v['label']) && !empty($v['view_key']))
+                if(isset($v['view_type']) && in_array($v['view_type'], ['field', 'images', 'status']) && !empty($v['label']) && !empty($v['view_key']))
                 {
+                    // key避免多数组
                     $key = is_array($v['view_key']) ? $v['view_key'][0] : $v['view_key'];
+
+                    // 数据转换字段再加 _name 后缀
+                    // 1. field是否指定转换数据
+                    // 2. 状态类型
+                    if(($v['view_type'] == 'field' && !empty($v['view_data'])) || $v['view_type'] == 'status')
+                    {
+                        $key .= '_name';
+                    }
+
+                    //加入可导出容器
                     $title[$key] = [
                         'name' => $v['label'],
                         'type' => 'string',
@@ -1435,7 +1511,7 @@ class FormHandleModule
     }
 
     /**
-     * 表格数据列表处理
+     * 表格数据列表处理（仅供外部调用、非当前文件调用）
      * @author  Devil
      * @blog    http://gong.gg/
      * @version 1.0.0

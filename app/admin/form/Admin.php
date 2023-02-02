@@ -43,8 +43,6 @@ class Admin
                 'key_field'     => 'id',
                 'is_search'     => 1,
                 'is_delete'     => 1,
-                'delete_url'    => MyUrl('admin/admin/delete'),
-                'delete_key'    => 'ids',
             ],
             // 表单配置
             'form' => [

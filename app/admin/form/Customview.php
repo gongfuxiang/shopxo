@@ -34,6 +34,7 @@ class CustomView
      */
     public function Run($params = [])
     {
+        $lang = MyLang('customview.form_table');
         return [
             // 基础配置
             'base' => [
@@ -42,8 +43,6 @@ class CustomView
                 'is_search'     => 1,
                 'is_delete'     => 1,
                 'is_middle'     => 0,
-                'delete_url'    => MyUrl('admin/customview/delete'),
-                'delete_key'    => 'ids',
                 'detail_title'  => MyLang('form_table_base_detail_title'),
             ],
             // 表单配置
@@ -57,7 +56,7 @@ class CustomView
                     'width'             => 80,
                 ],
                 [
-                    'label'         => '标题',
+                    'label'         => $lang['info'],
                     'view_type'     => 'module',
                     'view_key'      => 'customview/module/info',
                     'grid_size'     => 'lg',
@@ -69,7 +68,7 @@ class CustomView
                     ],
                 ],
                 [
-                    'label'         => '是否启用',
+                    'label'         => $lang['is_enable'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_enable',
                     'post_url'      => MyUrl('admin/customview/statusupdate'),
@@ -86,7 +85,7 @@ class CustomView
                     ],
                 ],
                 [
-                    'label'         => '是否头部',
+                    'label'         => $lang['is_header'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_header',
                     'post_url'      => MyUrl('admin/customview/statusupdate'),
@@ -102,7 +101,7 @@ class CustomView
                     ],
                 ],
                 [
-                    'label'         => '是否尾部',
+                    'label'         => $lang['is_footer'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_footer',
                     'post_url'      => MyUrl('admin/customview/statusupdate'),
@@ -118,7 +117,7 @@ class CustomView
                     ],
                 ],
                 [
-                    'label'         => '是否满屏',
+                    'label'         => $lang['is_full_screen'],
                     'view_type'     => 'status',
                     'view_key'      => 'is_full_screen',
                     'post_url'      => MyUrl('admin/customview/statusupdate'),
@@ -134,7 +133,7 @@ class CustomView
                     ],
                 ],
                 [
-                    'label'         => '图片数量',
+                    'label'         => $lang['images_count'],
                     'view_type'     => 'field',
                     'view_key'      => 'images_count',
                     'is_sort'       => 1,
@@ -143,7 +142,7 @@ class CustomView
                     ],
                 ],
                 [
-                    'label'         => '访问次数',
+                    'label'         => $lang['access_count'],
                     'view_type'     => 'field',
                     'view_key'      => 'access_count',
                     'is_sort'       => 1,
@@ -152,7 +151,7 @@ class CustomView
                     ],
                 ],
                 [
-                    'label'         => '创建时间',
+                    'label'         => $lang['add_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'add_time',
                     'is_sort'       => 1,
@@ -161,7 +160,7 @@ class CustomView
                     ],
                 ],
                 [
-                    'label'         => '更新时间',
+                    'label'         => $lang['upd_time'],
                     'view_type'     => 'field',
                     'view_key'      => 'upd_time',
                     'is_sort'       => 1,
