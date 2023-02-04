@@ -91,9 +91,23 @@ abstract class OneToOne extends Relation
         $query->via($joinAlias);
 
         if ($this instanceof BelongsTo) {
-            $joinOn = $name . '.' . $this->foreignKey . '=' . $joinAlias . '.' . $this->localKey;
+
+            $foreignKeyExp = $this->foreignKey;
+
+            if (strpos($foreignKeyExp, '.') === false) {
+                $foreignKeyExp = $name . '.' . $this->foreignKey;
+            }
+
+            $joinOn = $foreignKeyExp . '=' . $joinAlias . '.' . $this->localKey;
         } else {
-            $joinOn = $name . '.' . $this->localKey . '=' . $joinAlias . '.' . $this->foreignKey;
+            
+            $foreignKeyExp = $this->foreignKey;
+
+            if (strpos($foreignKeyExp, '.') === false) {
+                $foreignKeyExp = $joinAlias . '.' . $this->foreignKey;
+            }
+
+            $joinOn = $name . '.' . $this->localKey . '=' . $foreignKeyExp;
         }
 
         if ($closure) {

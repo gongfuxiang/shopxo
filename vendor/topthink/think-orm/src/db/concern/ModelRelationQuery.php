@@ -559,23 +559,4 @@ trait ModelRelationQuery
         $result->refreshOrigin();
     }
 
-    /**
-     * 查询软删除数据
-     * @access public
-     * @return Query
-     */
-    public function withTrashed()
-    {
-        return $this->model ? $this->model->queryWithTrashed() : $this;
-    }
-
-    /**
-     * 只查询软删除数据
-     * @access public
-     * @return Query
-     */
-    public function onlyTrashed()
-    {
-        return $this->model ? $this->model->queryOnlyTrashed() : $this;
-    }
 }

@@ -340,6 +340,16 @@ class DbManager
     {
         return $this->listen;
     }
+    
+    /**
+     * 获取所有连接实列
+     * @access public
+     * @return array
+     */
+    public function getInstance(): array
+    {
+        return $this->instance;
+    }
 
     /**
      * 注册回调方法

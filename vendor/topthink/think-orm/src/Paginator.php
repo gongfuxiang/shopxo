@@ -377,6 +377,19 @@ abstract class Paginator implements ArrayAccess, Countable, IteratorAggregate, J
         return $this->items;
     }
 
+    /**
+     * 设置数据集
+     *
+     * @param Collection $items
+     * @return $this
+     */
+    public function setCollection(Collection $items)
+    {
+        $this->items = $items;
+
+        return $this;
+    }
+
     public function isEmpty(): bool
     {
         return $this->items->isEmpty();

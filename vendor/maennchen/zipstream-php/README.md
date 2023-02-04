@@ -1,10 +1,16 @@
 # ZipStream-PHP
 
-![.github/workflows/php.yml](https://github.com/maennchen/ZipStream-PHP/workflows/.github/workflows/php.yml/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/maennchen/ZipStream-PHP/badge.svg?branch=master)](https://coveralls.io/github/maennchen/ZipStream-PHP?branch=master)
+[![Main Branch](https://github.com/maennchen/ZipStream-PHP/actions/workflows/branch_main.yml/badge.svg)](https://github.com/maennchen/ZipStream-PHP/actions/workflows/branch_main.yml)
+[![Coverage Status](https://coveralls.io/repos/github/maennchen/ZipStream-PHP/badge.svg?branch=main)](https://coveralls.io/github/maennchen/ZipStream-PHP?branch=main)
 [![Latest Stable Version](https://poser.pugx.org/maennchen/zipstream-php/v/stable)](https://packagist.org/packages/maennchen/zipstream-php)
 [![Total Downloads](https://poser.pugx.org/maennchen/zipstream-php/downloads)](https://packagist.org/packages/maennchen/zipstream-php)
 [![Financial Contributors on Open Collective](https://opencollective.com/zipstream/all/badge.svg?label=financial+contributors)](https://opencollective.com/zipstream) [![License](https://img.shields.io/github/license/maennchen/zipstream-php.svg)](LICENSE)
+
+## Unstable Branch
+
+The `main` branch is not stable. Please see the
+[releases](https://github.com/maennchen/ZipStream-PHP/releases) for a stable
+version.
 
 ## Overview
 
@@ -20,7 +26,10 @@ Simply add a dependency on maennchen/zipstream-php to your project's composer.js
 composer require maennchen/zipstream-php
 ```
 
-## Usage and options
+## Usage
+
+For detailed instructions, please check the
+[Documentation](https://maennchen.dev/ZipStream-PHP/).
 
 Here's a simple example:
 
@@ -41,41 +50,20 @@ $zip->addFile('hello.txt', 'This is the contents of hello.txt');
 // add a file named 'some_image.jpg' from a local file 'path/to/image.jpg'
 $zip->addFileFromPath('some_image.jpg', 'path/to/image.jpg');
 
-// add a file named 'goodbye.txt' from an open stream resource
-$fp = tmpfile();
-fwrite($fp, 'The quick brown fox jumped over the lazy dog.');
-rewind($fp);
-$zip->addFileFromStream('goodbye.txt', $fp);
-fclose($fp);
-
 // finish the zip stream
 $zip->finish();
 ```
 
-You can also add comments, modify file timestamps, and customize (or
-disable) the HTTP headers. It is also possible to specify the storage method when adding files,
-the current default storage method is 'deflate' i.e files are stored with Compression mode 0x08.
-
-See the [Wiki](https://github.com/maennchen/ZipStream-PHP/wiki) for details.
-
-## Known issues
-
-The native Mac OS archive extraction tool prior to macOS 10.15 might not open archives in some conditions. A workaround is to disable the Zip64 feature with the option `$opt->setEnableZip64(false)`. This limits the archive to 4 Gb and 64k files but will allow users on macOS 10.14 and below to open them without issue. See #116.
-
-The linux `unzip` utility might not handle properly unicode characters. It is recommended to extract with another tool like [7-zip](https://www.7-zip.org/). See [#146](https://github.com/maennchen/ZipStream-PHP/issues/146).
-
-It is the responsability of the client code to make sure that files are not saved with the same path, as it is not possible for the library to figure it out while streaming a zip. See [#154](https://github.com/maennchen/ZipStream-PHP/issues/154).
-
 ## Upgrade to version 2.0.0
 
-* Only the self opened streams will be closed (#139)
-If you were relying on ZipStream to close streams that the library didn't open,
-you'll need to close them yourself now.
+- Only the self opened streams will be closed (#139)
+  If you were relying on ZipStream to close streams that the library didn't open,
+  you'll need to close them yourself now.
 
 ## Upgrade to version 1.0.0
 
-* All options parameters to all function have been moved from an `array` to structured option objects. See [the wiki](https://github.com/maennchen/ZipStream-PHP/wiki/Available-options) for examples.
-* The whole library has been refactored. The minimal PHP requirement has been raised to PHP 7.1.
+- All options parameters to all function have been moved from an `array` to structured option objects. See [the wiki](https://github.com/maennchen/ZipStream-PHP/wiki/Available-options) for examples.
+- The whole library has been refactored. The minimal PHP requirement has been raised to PHP 7.1.
 
 ## Usage with Symfony and S3
 
@@ -83,21 +71,23 @@ You can find example code on [the wiki](https://github.com/maennchen/ZipStream-P
 
 ## Contributing
 
-ZipStream-PHP is a collaborative project. Please take a look at the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+ZipStream-PHP is a collaborative project. Please take a look at the
+[.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) file.
 
 ## About the Authors
 
-* Paul Duncan <pabs@pablotron.org> - https://pablotron.org/
-* Jonatan Männchen <jonatan@maennchen.ch> - https://maennchen.dev
-* Jesse G. Donat <donatj@gmail.com> - https://donatstudios.com
-* Nicolas CARPi <nico-git@deltablot.email> - https://www.deltablot.com
-* Nik Barham <nik@brokencube.co.uk> - https://www.brokencube.co.uk
+- Paul Duncan <pabs@pablotron.org> - https://pablotron.org/
+- Jonatan Männchen <jonatan@maennchen.ch> - https://maennchen.dev
+- Jesse G. Donat <donatj@gmail.com> - https://donatstudios.com
+- Nicolas CARPi <nico-git@deltablot.email> - https://www.deltablot.com
+- Nik Barham <nik@brokencube.co.uk> - https://www.brokencube.co.uk
 
 ## Contributors
 
 ### Code Contributors
 
-This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+This project exists thanks to all the people who contribute.
+[[Contribute](.github/CONTRIBUTING.md)].
 <a href="https://github.com/maennchen/ZipStream-PHP/graphs/contributors"><img src="https://opencollective.com/zipstream/contributors.svg?width=890&button=false" /></a>
 
 ### Financial Contributors

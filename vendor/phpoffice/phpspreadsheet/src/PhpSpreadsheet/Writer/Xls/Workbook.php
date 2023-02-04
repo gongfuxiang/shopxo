@@ -173,6 +173,9 @@ class Workbook extends BIFFwriter
      */
     private $escher;
 
+    /** @var mixed */
+    private static $scrutinizerFalse = false;
+
     /**
      * Class constructor.
      *
@@ -249,7 +252,7 @@ class Workbook extends BIFFwriter
         $xfWriter->setDiagColor($this->addColor($style->getBorders()->getDiagonal()->getColor()->getRGB()));
 
         // Add the number format if it is not a built-in one and not already added
-        if ($style->getNumberFormat()->getBuiltInFormatCode() === false) {
+        if ($style->getNumberFormat()->getBuiltInFormatCode() === self::$scrutinizerFalse) {
             $numberFormatHashCode = $style->getNumberFormat()->getHashCode();
 
             if (isset($this->addedNumberFormats[$numberFormatHashCode])) {
@@ -591,7 +594,7 @@ class Workbook extends BIFFwriter
 
                 // parse formula
                 try {
-                    $error = $this->parser->parse($range);
+                    $this->parser->parse($range);
                     $formulaData = $this->parser->toReversePolish();
 
                     // make sure tRef3d is of type tRef3dR (0x3A)
@@ -600,12 +603,9 @@ class Workbook extends BIFFwriter
                     }
 
                     if ($definedName->getLocalOnly()) {
-                        /**
-                         * local scope.
-                         *
-                         * @phpstan-ignore-next-line
-                         */
-                        $scope = $this->spreadsheet->getIndex($definedName->getScope()) + 1;
+                        // local scope
+                        $scopeWs = $definedName->getScope();
+                        $scope = ($scopeWs === null) ? 0 : ($this->spreadsheet->getIndex($scopeWs) + 1);
                     } else {
                         // global scope
                         $scope = 0;
@@ -873,7 +873,7 @@ class Workbook extends BIFFwriter
         // sheet type
         $st = 0x00;
 
-        $grbit = 0x0000; // Visibility and sheet type
+        //$grbit = 0x0000; // Visibility and sheet type
 
         $data = pack('VCC', $offset, $ss, $st);
         $data .= StringHelper::UTF8toBIFF8UnicodeShort($sheetname);
@@ -907,7 +907,7 @@ class Workbook extends BIFFwriter
         $record = 0x0017; // Record identifier
         $length = 2 + 6 * $totalReferences; // Number of bytes to follow
 
-        $supbook_index = 0; // FIXME: only using internal SUPBOOK record
+        //$supbook_index = 0; // FIXME: only using internal SUPBOOK record
         $header = pack('vv', $record, $length);
         $data = pack('v', $totalReferences);
         for ($i = 0; $i < $totalReferences; ++$i) {

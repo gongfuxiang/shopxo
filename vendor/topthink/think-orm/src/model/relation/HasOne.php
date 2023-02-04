@@ -240,7 +240,7 @@ class HasOne extends OneToOne
                 if (!empty($this->bindAttr)) {
                     // 绑定关联属性
                     $this->bindAttr($result, $relationModel);
-                    $result->hidden([$relation]);
+                    $result->hidden([$relation], true);
                 }
             }
         }
@@ -282,7 +282,7 @@ class HasOne extends OneToOne
         if (!empty($this->bindAttr)) {
             // 绑定关联属性
             $this->bindAttr($result, $relationModel);
-            $result->hidden([$relation]);
+            $result->hidden([$relation], true);
         }
     }
 

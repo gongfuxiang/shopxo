@@ -8,7 +8,6 @@ use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\RichText\Run;
-use PhpOffice\PhpSpreadsheet\Shared\Drawing as SharedDrawing;
 use PhpOffice\PhpSpreadsheet\Shared\Escher;
 use PhpOffice\PhpSpreadsheet\Shared\Escher\DgContainer;
 use PhpOffice\PhpSpreadsheet\Shared\Escher\DgContainer\SpgrContainer;
@@ -246,7 +245,7 @@ class Xls extends BaseWriter
 
         foreach ($this->spreadsheet->getAllsheets() as $sheet) {
             // sheet index
-            $sheetIndex = $sheet->getParent()->getIndex($sheet);
+            $sheetIndex = $sheet->getParentOrThrow()->getIndex($sheet);
 
             // check if there are any shapes for this sheet
             $filterRange = $sheet->getAutoFilter()->getRange();
@@ -261,7 +260,7 @@ class Xls extends BaseWriter
             $dgContainer = new DgContainer();
 
             // set the drawing index (we use sheet index + 1)
-            $dgId = $sheet->getParent()->getIndex($sheet) + 1;
+            $dgId = $sheet->getParentOrThrow()->getIndex($sheet) + 1;
             $dgContainer->setDgId($dgId);
             $escher->setDgContainer($dgContainer);
 
@@ -273,7 +272,7 @@ class Xls extends BaseWriter
             $spContainer = new SpContainer();
             $spContainer->setSpgr(true);
             $spContainer->setSpType(0);
-            $spContainer->setSpId(($sheet->getParent()->getIndex($sheet) + 1) << 10);
+            $spContainer->setSpId(($sheet->getParentOrThrow()->getIndex($sheet) + 1) << 10);
             $spgrContainer->addChild($spContainer);
 
             // add the shapes
@@ -295,7 +294,7 @@ class Xls extends BaseWriter
 
                 // set the shape index (we combine 1-based sheet index and $countShapes to create unique shape index)
                 $reducedSpId = $countShapes[$sheetIndex];
-                $spId = $reducedSpId | ($sheet->getParent()->getIndex($sheet) + 1) << 10;
+                $spId = $reducedSpId | ($sheet->getParentOrThrow()->getIndex($sheet) + 1) << 10;
                 $spContainer->setSpId($spId);
 
                 // keep track of last reducedSpId
@@ -352,7 +351,7 @@ class Xls extends BaseWriter
 
                     // set the shape index (we combine 1-based sheet index and $countShapes to create unique shape index)
                     $reducedSpId = $countShapes[$sheetIndex];
-                    $spId = $reducedSpId | ($sheet->getParent()->getIndex($sheet) + 1) << 10;
+                    $spId = $reducedSpId | ($sheet->getParentOrThrow()->getIndex($sheet) + 1) << 10;
                     $spContainer->setSpId($spId);
 
                     // keep track of last reducedSpId
@@ -435,9 +434,12 @@ class Xls extends BaseWriter
         switch ($imageFormat) {
             case 1: // GIF, not supported by BIFF8, we convert to PNG
                 $blipType = BSE::BLIPTYPE_PNG;
+                $newImage = @imagecreatefromgif($filename);
+                if ($newImage === false) {
+                    throw new Exception("Unable to create image from $filename");
+                }
                 ob_start();
-                // @phpstan-ignore-next-line
-                imagepng(imagecreatefromgif($filename));
+                imagepng($newImage);
                 $blipData = ob_get_contents();
                 ob_end_clean();
 
@@ -454,9 +456,12 @@ class Xls extends BaseWriter
                 break;
             case 6: // Windows DIB (BMP), we convert to PNG
                 $blipType = BSE::BLIPTYPE_PNG;
+                $newImage = @imagecreatefrombmp($filename);
+                if ($newImage === false) {
+                    throw new Exception("Unable to create image from $filename");
+                }
                 ob_start();
-                // @phpstan-ignore-next-line
-                imagepng(SharedDrawing::imagecreatefrombmp($filename));
+                imagepng($newImage);
                 $blipData = ob_get_contents();
                 ob_end_clean();
 

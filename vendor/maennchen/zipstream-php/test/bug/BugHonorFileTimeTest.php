@@ -1,17 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace BugHonorFileTimeTest;
 
 use DateTime;
-use PHPUnit\Framework\TestCase;
-use ZipStream\Option\{
-    Archive,
-    File
-};
-use ZipStream\ZipStream;
 
 use function fopen;
+
+use PHPUnit\Framework\TestCase;
+use ZipStream\Option\Archive;
+use ZipStream\Option\File;
+
+use ZipStream\ZipStream;
 
 /**
  * Asserts that specified last-modified timestamps are not overwritten when a
