@@ -401,7 +401,7 @@ class ResourcesService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -414,7 +414,7 @@ class ResourcesService
         $data = Db::name('Attachment')->find(intval($params['id']));
         if(empty($data))
         {
-            return DataReturn('数据不存在或已删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
 
         // 删除文件

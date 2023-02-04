@@ -74,7 +74,7 @@ class BuyService
         $ret = GoodsService::GoodsList($goods_params);
         if(empty($ret['data'][0]))
         {
-            return DataReturn('资源不存在或已被删除', -10);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -10);
         }
 
         // 商品处理
@@ -287,10 +287,10 @@ class BuyService
 
                 // 默认
                 default :
-                    $ret = DataReturn('参数有误', -1);
+                    $ret = DataReturn(MyLang('params_error_tips'), -1);
             }
         } else {
-            $ret = DataReturn('参数有误', -1);
+            $ret = DataReturn(MyLang('params_error_tips'), -1);
         }
 
         // 数据组装
@@ -572,7 +572,7 @@ class BuyService
             }
         }
 
-        return DataReturn('校验成功', 0);
+        return DataReturn(MyLang('check_success'), 0);
     }
 
     /**
@@ -644,7 +644,7 @@ class BuyService
         {
             if(empty($params['payment_id']))
             {
-                return DataReturn('支付方式有误', -1);
+                return DataReturn(MyLang('payment_method_error_tips'), -1);
             }
         }
 
@@ -662,7 +662,7 @@ class BuyService
             $payment = PaymentService::PaymentData(['where'=>['id'=>intval($params['payment_id'])]]);
             if(empty($payment))
             {
-                return DataReturn('支付方式有误', -1);
+                return DataReturn(MyLang('payment_method_error_tips'), -1);
             }
             $payment_id = $payment['id'];
             $is_under_line = in_array($payment['payment'], MyConfig('shopxo.under_line_list')) ? 1 : 0;
@@ -1236,7 +1236,7 @@ class BuyService
                 }
             }
         }
-        return DataReturn('校验成功', 0);
+        return DataReturn(MyLang('check_success'), 0);
     }
 
     /**
@@ -1326,7 +1326,7 @@ class BuyService
             }
         }
 
-        return DataReturn('校验成功', 0);
+        return DataReturn(MyLang('check_success'), 0);
     }
 
     /**
@@ -1381,7 +1381,7 @@ class BuyService
                 return $base;
             }
         }
-        return DataReturn('校验成功', 0);
+        return DataReturn(MyLang('check_success'), 0);
     }
 
     /**

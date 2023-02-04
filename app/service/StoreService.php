@@ -186,7 +186,7 @@ class StoreService
             $cache_time = (empty($res['data']['base']) || empty($res['data']['base']['cache_time'])) ? 3600 : intval($res['data']['base']['cache_time']);
             MyCache(self::$site_store_info_key, $res['data'], $cache_time);
 
-            return DataReturn('绑定成功', 0);
+            return DataReturn(MyLang('bind_success'), 0);
         }
         return $res;
     }

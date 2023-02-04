@@ -1492,25 +1492,6 @@ return [
             '2. 控制器文件位置[ app/admin/controller ]、该操作仅开发人员使用',
             '3. 控制器名称/方法名称 与 自定义url地址、两者必须填写一个',
         ],
-        // 表单
-        'form_item_pid'                         => '栏目级别',
-        'form_item_pid_placeholder'             => '一级栏目...',
-        'form_item_pid_message'                 => '栏目级别选择错误',
-        'form_item_name'                        => '权限名称',
-        'form_item_name_message'                => '权限名称格式2~16个字符',
-        'form_item_control'                     => '控制器名称',
-        'form_item_control_message'             => '控制器名格式1~30个字符之间（必须以字母开始，可以是字母数字下划线）',
-        'form_item_action'                      => '方法名称',
-        'form_item_action_message'              => '法名格式1~30个字符之间（必须以字母开始，可以是字母数字下划线）',
-        'form_item_url'                         => '自定义url地址',
-        'form_item_url_message'                 => '自定义url地址、以http://或https://开头',
-        'form_item_icon'                        => '图标class',
-        'form_item_icon_message'                => '图标格式最多30个字符',
-        'form_item_icon_tips_list'              => [
-            '1. 参考 http://www.iconfont.cn/ 将icon放到 [ /static/admin/default/css/iconfontmenu.css ] 文件中',
-            '2. 也可以直接使用框架自带的icon、参考 [ http://amazeui.shopxo.net/css/icon/ ]',
-            '3. 也可以自己使用插件钩子引入自定义的icon图标的css文件，然后使用定义好的icon',
-        ],
     ],
 
     // 快捷导航

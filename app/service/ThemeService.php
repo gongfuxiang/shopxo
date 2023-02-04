@@ -238,7 +238,7 @@ class ThemeService
         {
             return DataReturn('无效的主题包', -1);
         }
-        return DataReturn('安装成功', 0);
+        return DataReturn(MyLang('install_success'), 0);
     }
 
     /**
@@ -289,7 +289,7 @@ class ThemeService
         {
             return DataReturn(MyLang('delete_success'), 0);
         }
-        return DataReturn('删除失败或资源不存在', -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**

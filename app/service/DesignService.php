@@ -147,7 +147,7 @@ class DesignService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -158,7 +158,7 @@ class DesignService
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
-                'error_msg'         => '状态有误',
+                'error_msg'         => MyLang('form_status_range_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -191,7 +191,7 @@ class DesignService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'ids',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -268,7 +268,7 @@ class DesignService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -281,7 +281,7 @@ class DesignService
         $data = Db::name('Design')->where(['id'=>intval($params['id'])])->field('config')->find();
         if(empty($data))
         {
-            return DataReturn('数据不存在', -1);
+            return DataReturn(MyLang('data_no_exist_error_tips'), -1);
         }
 
         return LayoutService::LayoutConfigSave('home', $data);
@@ -303,7 +303,7 @@ class DesignService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -316,7 +316,7 @@ class DesignService
         $data = Db::name('Design')->where(['id'=>intval($params['id'])])->find();
         if(empty($data))
         {
-            return DataReturn('数据不存在', -1);
+            return DataReturn(MyLang('data_no_exist_error_tips'), -1);
         }
 
         // 目录不存在则创建
@@ -637,7 +637,7 @@ class DesignService
                 if($data_id <= 0)
                 {
                     $zip->close();
-                    return DataReturn('数据添加失败', -1);
+                    return DataReturn(MyLang('insert_fail'), -1);
                 }
                 // 更新配置信息和logo
                 if(!empty($config['config']) || !empty($config['logo']))
@@ -650,7 +650,7 @@ class DesignService
                     if(!Db::name('Design')->where(['id'=>$data_id])->update($upd_data))
                     {
                         $zip->close();
-                        return DataReturn('数据更新失败', -1);
+                        return DataReturn(MyLang('update_fail'), -1);
                     }
                 }
                 break;
@@ -713,7 +713,7 @@ class DesignService
 
         if($success > 0)
         {
-            return DataReturn('导入成功', 0);
+            return DataReturn(MyLang('import_success'), 0);
         }
         return DataReturn('无效数据包', -1);
     }

@@ -165,7 +165,7 @@ class OrderService
         }
         if(empty($payment))
         {
-            return DataReturn('支付方式有误', -1);
+            return DataReturn(MyLang('payment_method_error_tips'), -1);
         }
 
         // 更新订单支付方式信息
@@ -433,7 +433,7 @@ class OrderService
         $order = Db::name('Order')->where($where)->find();
         if(empty($order))
         {
-            return DataReturn('资源不存在或已被删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
         $operate = self::OrderOperateData($order, 'admin');
         if($operate['is_pay'] != 1)
@@ -454,7 +454,7 @@ class OrderService
         $payment = PaymentService::PaymentData(['where'=>['id'=>$payment_id]]);
         if(empty($payment))
         {
-            return DataReturn('支付方式有误', -1);
+            return DataReturn(MyLang('payment_method_error_tips'), -1);
         }
 
         // 订单用户信息
@@ -575,7 +575,7 @@ class OrderService
         $payment = PaymentService::PaymentData(['where'=>['payment'=>$payment_name]]);
         if(empty($payment))
         {
-            return DataReturn('支付方式有误', -1);
+            return DataReturn(MyLang('payment_method_error_tips'), -1);
         }
 
         // 支付数据校验
@@ -666,7 +666,7 @@ class OrderService
 
                 // 完成
                 Db::commit();
-                return DataReturn('支付成功', 0);
+                return DataReturn(MyLang('pay_success'), 0);
             } catch(\Exception $e) {
                 Db::rollback();
                 return DataReturn($e->getMessage(), -1);
@@ -690,7 +690,7 @@ class OrderService
         $payment = PaymentService::PaymentData(['where'=>['payment'=>PAYMENT_TYPE]]);
         if(empty($payment))
         {
-            return DataReturn('支付方式有误', -1);
+            return DataReturn(MyLang('payment_method_error_tips'), -1);
         }
 
         // 支付数据校验
@@ -815,7 +815,7 @@ class OrderService
             return DataReturn('订单信息有误', -1);
         }
 
-        return DataReturn('获取成功', 0, [
+        return DataReturn(MyLang('get_success'), 0, [
             'pay_log_data'  => $pay_log_data,
             'order_list'    => $order_list,
         ]);
@@ -845,7 +845,7 @@ class OrderService
             // 支付方式
             if(empty($params['payment']))
             {
-                return DataReturn('支付方式有误', -1);
+                return DataReturn(MyLang('payment_method_error_tips'), -1);
             }
 
             // 日志订单
@@ -861,7 +861,7 @@ class OrderService
             $pay_log_status = Db::name('PayLog')->where(['id'=>$params['pay_log_data']['id']])->field('id,status')->value('status');
             if($pay_log_status == 1)
             {
-                return DataReturn('支付成功', 0);
+                return DataReturn(MyLang('pay_success'), 0);
             }
         }
 
@@ -1009,7 +1009,7 @@ class OrderService
 
         // 提交事务
         Db::commit();
-        return DataReturn('支付成功', 0);
+        return DataReturn(MyLang('pay_success'), 0);
     }
 
     /**
@@ -1849,7 +1849,7 @@ class OrderService
         $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
         if(empty($order))
         {
-            return DataReturn('资源不存在或已被删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
         // 有效订单情况下、如果未支付可以正常进行取消操作
         $operate = self::OrderOperateData($order, $user_type);
@@ -2091,7 +2091,7 @@ class OrderService
         $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
         if(empty($order))
         {
-            return DataReturn('资源不存在或已被删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_collect'] != 1)
@@ -2199,7 +2199,7 @@ class OrderService
         $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model')->find();
         if(empty($order))
         {
-            return DataReturn('资源不存在或已被删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_confirm'] != 1)
@@ -2238,12 +2238,12 @@ class OrderService
 
             // 事务提交
             Db::commit();
-            return DataReturn('确认成功', 0);
+            return DataReturn(MyLang('confirm_success'), 0);
         }
 
         // 事务回滚
         Db::rollback();
-        return DataReturn('确认失败', -1);
+        return DataReturn(MyLang('confirm_fail'), -1);
     }
 
     /**
@@ -2304,7 +2304,7 @@ class OrderService
         $order = Db::name('Order')->where($where)->field('id,status,pay_status,user_id,order_model,is_delete_time,user_is_delete_time')->find();
         if(empty($order))
         {
-            return DataReturn('资源不存在或已被删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
         $operate = self::OrderOperateData($order, $user_type);
         if($operate['is_delete'] != 1)
@@ -2576,7 +2576,7 @@ class OrderService
             } else {
                 $url = MyUrl('index/order/detail', ['id'=>$pay_log_value[0]]);
             }
-            return DataReturn('支付成功', 0, ['url'=>$url]);
+            return DataReturn(MyLang('pay_success'), 0, ['url'=>$url]);
         }
         return DataReturn('支付中', -300);
     }

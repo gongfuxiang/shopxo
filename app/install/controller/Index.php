@@ -339,7 +339,7 @@ php;
             $this->behavior_obj->ReportInstallLog(['msg'=>'配置文件创建失败['.$dir.']']);
             return DataReturn('配置文件创建失败', -1);
         }
-        return DataReturn('操作成功', 0);
+        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**

@@ -46,32 +46,32 @@ class AppHomeNavService
                 'checked_type'      => 'in',
                 'key_name'          => 'platform',
                 'checked_data'      => array_column(MyLang('common_platform_type'), 'value'),
-                'error_msg'         => '平台类型有误',
+                'error_msg'         => MyLang('form_platform_message'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'event_type',
                 'checked_data'      => array_column(MyLang('common_app_event_type'), 'value'),
-                'is_checked'        => 2,
-                'error_msg'         => '事件值类型有误',
+                'is_checked'        => 1,
+                'error_msg'         => MyLang('form_event_type_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'event_value',
                 'checked_data'      => '255',
-                'error_msg'         => '事件值最多 255 个字符',
+                'error_msg'         => MyLang('form_event_value_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'images_url',
                 'checked_data'      => '255',
-                'error_msg'         => '请上传图片',
+                'error_msg'         => MyLang('form_upload_images_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'sort',
                 'checked_data'      => '3',
-                'error_msg'         => '顺序 0~255 之间的数值',
+                'error_msg'         => MyLang('form_sort_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -129,7 +129,7 @@ class AppHomeNavService
         // 参数是否有误
         if(empty($params['ids']))
         {
-            return DataReturn('操作id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
         // 是否数组
         if(!is_array($params['ids']))
@@ -161,7 +161,7 @@ class AppHomeNavService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -172,7 +172,7 @@ class AppHomeNavService
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
-                'error_msg'         => '状态有误',
+                'error_msg'         => MyLang('form_status_range_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

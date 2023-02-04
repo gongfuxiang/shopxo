@@ -166,7 +166,7 @@ class SafetyService
         {
             if(empty($params['verify']))
             {
-                return DataReturn('参数错误', -10);
+                return DataReturn(MyLang('params_error_tips'), -10);
             }
             $verify = new \base\Verify($verify_params);
             if(!$verify->CheckExpire())

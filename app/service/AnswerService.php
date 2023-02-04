@@ -206,7 +206,7 @@ class AnswerService
             $user = UserService::LoginUserInfo();
             if(empty($user))
             {
-                return DataReturn('请先登录', -400);
+                return DataReturn(MyLang('user_no_login_tips'), -400);
             }
         }
 
@@ -272,9 +272,9 @@ class AnswerService
             $data['add_time'] = time();
             if(Db::name('Answer')->insertGetId($data) > 0)
             {
-                return DataReturn('提交成功', 0);
+                return DataReturn(MyLang('submit_success'), 0);
             }
-            return DataReturn('提交失败', -100);
+            return DataReturn(MyLang('submit_fail'), -100);
         } else {
             $data['upd_time'] = time();
             if(Db::name('Answer')->where(['id'=>intval($params['id'])])->update($data))
@@ -301,7 +301,7 @@ class AnswerService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'ids',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -360,7 +360,7 @@ class AnswerService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -389,7 +389,7 @@ class AnswerService
         $temp = Db::name('Answer')->where($where)->field('id')->find();
         if(empty($temp))
         {
-            return DataReturn('资源不存在或已被删除', -2);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -2);
         }
         // 更新问答
         $data = [
@@ -420,7 +420,7 @@ class AnswerService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -431,7 +431,7 @@ class AnswerService
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
-                'error_msg'         => '状态有误',
+                'error_msg'         => MyLang('form_status_range_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

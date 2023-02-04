@@ -293,7 +293,7 @@ class MessageService
         // 参数是否有误
         if(empty($params['ids']))
         {
-            return DataReturn('操作id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
         // 是否数组
         if(!is_array($params['ids']))

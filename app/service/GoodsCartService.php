@@ -253,7 +253,7 @@ class GoodsCartService
         $goods = Db::name('Goods')->where(['id'=>$goods_id, 'is_shelves'=>1, 'is_delete_time'=>0])->find();
         if(empty($goods))
         {
-            return DataReturn('商品不存在或已删除', -2);
+            return DataReturn(MyLang('goods_no_exist_or_delete_error_tips'), -2);
         }
 
         // 无封面图片
@@ -556,7 +556,7 @@ class GoodsCartService
         $ids = empty($params['ids']) ? (empty($params['id']) ? [] : $params['id']) : $params['ids'];
         if(empty($ids))
         {
-            return DataReturn('操作id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
         // 是否数组
         if(!is_array($ids))

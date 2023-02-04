@@ -255,28 +255,28 @@ class BrandService
                 'key_name'          => 'sort',
                 'checked_data'      => 255,
                 'is_checked'        => 1,
-                'error_msg'         => '顺序 0~255 之间的数值',
+                'error_msg'         => MyLang('form_sort_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'seo_title',
                 'checked_data'      => '100',
                 'is_checked'        => 1,
-                'error_msg'         => 'SEO标题格式 最多100个字符',
+                'error_msg'         => MyLang('form_seo_title_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'seo_keywords',
                 'checked_data'      => '130',
                 'is_checked'        => 1,
-                'error_msg'         => 'SEO关键字格式 最多130个字符',
+                'error_msg'         => MyLang('form_seo_keywords_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'seo_desc',
                 'checked_data'      => '230',
                 'is_checked'        => 1,
-                'error_msg'         => 'SEO描述格式 最多230个字符',
+                'error_msg'         => MyLang('form_seo_desc_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -396,7 +396,7 @@ class BrandService
         // 参数是否有误
         if(empty($params['ids']))
         {
-            return DataReturn('操作id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
         // 是否数组
         if(!is_array($params['ids']))
@@ -428,7 +428,7 @@ class BrandService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -439,7 +439,7 @@ class BrandService
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
-                'error_msg'         => '状态有误',
+                'error_msg'         => MyLang('form_status_range_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

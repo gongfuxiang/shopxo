@@ -902,7 +902,7 @@ class BaseLayout
                 }
             }
         }
-        return DataReturn('处理成功', 0, $result);
+        return DataReturn(MyLang('handle_success'), 0, $result);
     }
 
     /**

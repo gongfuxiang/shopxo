@@ -284,7 +284,7 @@ class AppMiniService
         // 关闭zip  
         $zip->close();
 
-        return DataReturn('安装成功');
+        return DataReturn(MyLang('install_success'), 0);
     }
 
     /**
@@ -342,7 +342,7 @@ class AppMiniService
         {
             return DataReturn(MyLang('delete_success'), 0);
         }
-        return DataReturn('删除失败或资源不存在', -100);
+        return DataReturn(MyLang('delete_fail'), -100);
     }
 
     /**
@@ -723,7 +723,7 @@ class AppMiniService
             }
         }
 
-        return DataReturn('配置成功', 0);
+        return DataReturn(MyLang('config_success'), 0);
     }
 
     /**
@@ -740,7 +740,7 @@ class AppMiniService
         // 参数是否有误
         if(empty($params['ids']))
         {
-            return DataReturn('操作id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
         // 是否数组
         if(!is_array($params['ids']))

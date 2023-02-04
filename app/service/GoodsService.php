@@ -1269,21 +1269,21 @@ class GoodsService
                 'key_name'          => 'seo_title',
                 'checked_data'      => '100',
                 'is_checked'        => 1,
-                'error_msg'         => 'SEO标题格式 最多100个字符',
+                'error_msg'         => MyLang('form_seo_title_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'seo_keywords',
                 'checked_data'      => '130',
                 'is_checked'        => 1,
-                'error_msg'         => 'SEO关键字格式 最多130个字符',
+                'error_msg'         => MyLang('form_seo_keywords_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'seo_desc',
                 'checked_data'      => '230',
                 'is_checked'        => 1,
-                'error_msg'         => 'SEO描述格式 最多230个字符',
+                'error_msg'         => MyLang('form_seo_desc_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2045,7 +2045,7 @@ class GoodsService
         // 参数是否有误
         if(empty($params['ids']))
         {
-            return DataReturn('操作id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
         // 是否数组
         if(!is_array($params['ids']))
@@ -2153,7 +2153,7 @@ class GoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -2164,7 +2164,7 @@ class GoodsService
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
-                'error_msg'         => '状态有误',
+                'error_msg'         => MyLang('form_status_range_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2671,21 +2671,21 @@ class GoodsService
                 'key_name'          => 'seo_title',
                 'checked_data'      => '100',
                 'is_checked'        => 1,
-                'error_msg'         => 'SEO标题格式 最多100个字符',
+                'error_msg'         => MyLang('form_seo_title_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'seo_keywords',
                 'checked_data'      => '130',
                 'is_checked'        => 1,
-                'error_msg'         => 'SEO关键字格式 最多130个字符',
+                'error_msg'         => MyLang('form_seo_keywords_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'seo_desc',
                 'checked_data'      => '230',
                 'is_checked'        => 1,
-                'error_msg'         => 'SEO描述格式 最多230个字符',
+                'error_msg'         => MyLang('form_seo_desc_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2806,7 +2806,7 @@ class GoodsService
     public static function GoodsCategoryNames($goods_id)
     {
         $data = Db::name('GoodsCategory')->alias('gc')->join('goods_category_join gci', 'gc.id=gci.category_id')->where(['gci.goods_id'=>$goods_id])->column('gc.name');
-        return DataReturn('获取成功', 0, $data);
+        return DataReturn(MyLang('get_success'), 0, $data);
     }
 
     /**
@@ -2831,7 +2831,7 @@ class GoodsService
             'data'          => &$data,
         ]);
 
-        return DataReturn('获取成功', 0, $data);
+        return DataReturn(MyLang('get_success'), 0, $data);
     }
 
     /**

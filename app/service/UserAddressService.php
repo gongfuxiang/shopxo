@@ -59,7 +59,7 @@ class UserAddressService
         // 参数是否有误
         if(empty($params['ids']))
         {
-            return DataReturn('操作id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
         // 是否数组
         if(!is_array($params['ids']))
@@ -305,7 +305,7 @@ class UserAddressService
             'user_id'       => $params['user']['id'],
         ]);
 
-        return DataReturn('获取成功', 0, $data);
+        return DataReturn(MyLang('get_success'), 0, $data);
     }
 
     /**
@@ -529,7 +529,7 @@ class UserAddressService
 
             return DataReturn(MyLang('delete_success'), 0);
         } else {
-            return DataReturn('删除失败或资源不存在', -100);
+            return DataReturn(MyLang('delete_fail'), -100);
         }
     }
 
@@ -583,11 +583,11 @@ class UserAddressService
 
             // 提交事务
             Db::commit();
-            return DataReturn('设置成功', 0);
+            return DataReturn(MyLang('setup_success'), 0);
         } else {
             // 回滚事务
             Db::rollback();
-            return DataReturn('设置失败', -100);
+            return DataReturn(MyLang('setup_fail'), -100);
         }
     }
 

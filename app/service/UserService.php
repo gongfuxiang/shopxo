@@ -515,7 +515,7 @@ class UserService
         // 参数是否有误
         if(empty($params['ids']))
         {
-            return DataReturn('商品id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
         // 是否数组
         if(!is_array($params['ids']))
@@ -1061,7 +1061,7 @@ class UserService
                     'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
                 ];
             }
-            return DataReturn('登录成功', 0, $result);
+            return DataReturn(MyLang('login_success'), 0, $result);
         }
         return DataReturn(MyLang('login_failure_tips'), -100);
     }
@@ -1610,7 +1610,7 @@ class UserService
         // 参数
         if(empty($params['accounts']))
         {
-            return DataReturn('参数错误', -10);
+            return DataReturn(MyLang('params_error_tips'), -10);
         }
 
         // 验证码基础参数
@@ -1934,7 +1934,7 @@ class UserService
                     ];
                     if(Db::name('User')->where(['id'=>$user['id']])->update($upd_data))
                     {
-                        return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user['id']));
+                        return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle($user['id']));
                     }
                 } else {
                     if($user['id'] != $temp['id'])
@@ -1986,7 +1986,7 @@ class UserService
                     }
                     if(Db::name('User')->where(['id'=>$user_unionid['id']])->update($upd_data))
                     {
-                        return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user_unionid['id']));
+                        return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle($user_unionid['id']));
                     }
                 }
 
@@ -2017,7 +2017,7 @@ class UserService
                         }
                         if(Db::name('User')->where(['id'=>$user['id']])->update($upd_data))
                         {
-                            return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user['id']));
+                            return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle($user['id']));
                         }
                     } else {
                         $is_insert_user = true;
@@ -2649,9 +2649,9 @@ class UserService
         {
             // 清除验证码
             $obj->Remove();
-            return DataReturn('绑定成功', 0, self::AppUserInfoHandle($user_id));
+            return DataReturn(MyLang('bind_success'), 0, self::AppUserInfoHandle($user_id));
         }
-        return DataReturn('绑定失败', -100);
+        return DataReturn(MyLang('bind_fail'), -100);
     }
 
     /**
@@ -2774,7 +2774,7 @@ class UserService
             'body_html'    => is_array($body_html) ? implode(' ', $body_html) : $body_html,
         ];
 
-        return DataReturn('退出成功', 0, $result);
+        return DataReturn(MyLang('quit_success'), 0, $result);
     }
 
     /**

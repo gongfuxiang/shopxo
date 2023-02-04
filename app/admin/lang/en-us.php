@@ -1492,25 +1492,6 @@ return [
             '2. Controller file location [app/admin/controller], this operation is only used by developers',
             '3. One controller name/method name and user-defined url address must be filled in',
         ],
-        // 表单
-        'form_item_pid'                         => 'Column Level',
-        'form_item_pid_placeholder'             => 'Primary column...',
-        'form_item_pid_message'                 => 'Column level selection error',
-        'form_item_name'                        => 'Power Name',
-        'form_item_name_message'                => 'Power name format 2~16 characters',
-        'form_item_control'                     => 'Controller Name',
-        'form_item_control_message'             => 'The format of the controller name is between 1 and 30 characters (it must start with a letter and can be alphanumeric underscore)',
-        'form_item_action'                      => 'Action Name',
-        'form_item_action_message'              => 'The format of the method name is between 1 and 30 characters (it must start with a letter and can be alphanumeric underscore)',
-        'form_item_url'                         => 'Custom Url Address',
-        'form_item_url_message'                 => 'Custom url address, starting with http://or https://',
-        'form_item_icon'                        => 'Icon Class',
-        'form_item_icon_message'                => 'Icon format can be up to 30 characters',
-        'form_item_icon_tips_list'              => [
-            '1. reference resources http://www.iconfont.cn/ Place the icon in the [/static/admin/default/cs/iconfontmenu. css] file',
-            '2. You can also directly use the icon and reference provided by the frame[ http://amazeui.shopxo.net/css/icon/ ]',
-            '3. You can also use the plug-in hook to import the css file of the custom icon, and then use the defined icon',
-        ],
     ],
 
     // 快捷导航

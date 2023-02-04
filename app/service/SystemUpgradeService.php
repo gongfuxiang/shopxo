@@ -321,7 +321,7 @@ class SystemUpgradeService
         if(!empty($ret) && isset($ret['code']) && $ret['code'] == 0)
         {
             MySession(self::$package_url_key, $ret['data']);
-            return DataReturn('获取成功', 0);
+            return DataReturn(MyLang('get_success'), 0);
         }
         return $ret;
     }

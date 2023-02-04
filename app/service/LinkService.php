@@ -131,7 +131,7 @@ class LinkService
                 'checked_type'      => 'length',
                 'key_name'          => 'sort',
                 'checked_data'      => '3',
-                'error_msg'         => '顺序 0~255 之间的数值',
+                'error_msg'         => MyLang('form_sort_message'),
             ],
             [
                 'checked_type'      => 'in',
@@ -200,7 +200,7 @@ class LinkService
         // 参数是否有误
         if(empty($params['ids']))
         {
-            return DataReturn('操作id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
         // 是否数组
         if(!is_array($params['ids']))
@@ -232,7 +232,7 @@ class LinkService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -243,7 +243,7 @@ class LinkService
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
-                'error_msg'         => '状态有误',
+                'error_msg'         => MyLang('form_status_range_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

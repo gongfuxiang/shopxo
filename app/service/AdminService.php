@@ -220,9 +220,9 @@ class AdminService
         // 添加
         if(Db::name('Admin')->insert($data) > 0)
         {
-            return DataReturn('新增成功', 0);
+            return DataReturn(MyLang('insert_success'), 0);
         }
-        return DataReturn('新增失败', -100);
+        return DataReturn(MyLang('insert_fail'), -100);
     }
 
     /**
@@ -492,7 +492,7 @@ class AdminService
                 // 权限菜单初始化
                 AdminPowerService::PowerMenuInit($admin);
 
-                return DataReturn('登录成功');
+                return DataReturn(MyLang('login_success'));
             }
         }
 
@@ -767,9 +767,9 @@ class AdminService
             {
                 return DataReturn('验证码错误', -12);
             }
-            return DataReturn('验证成功', 0, $verify);
+            return DataReturn(MyLang('check_success'), 0, $verify);
         }
-        return DataReturn('验证成功', 0);
+        return DataReturn(MyLang('check_success'), 0);
     }
 }
 ?>

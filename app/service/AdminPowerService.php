@@ -63,28 +63,23 @@ class AdminPowerService
         // 请求参数
         $p = [
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'name',
-                'error_msg'         => '权限名称不能为空',
-            ],
-            [
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,16',
-                'error_msg'         => '权限名称格式 2~16 个字符之间',
+                'error_msg'         => MyLang('common_form.power.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'icon',
                 'checked_data'      => '60',
                 'is_checked'        => 1,
-                'error_msg'         => '图标格式 0~30 个字符之间',
+                'error_msg'         => MyLang('common_form.power.form_item_icon_message'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'is_show',
                 'checked_data'      => [0,1],
-                'error_msg'         => '是否显示范围值有误',
+                'error_msg'         => MyLang('form_is_show_message'),
             ],
         ];
         // 是否自定义url地址
@@ -94,20 +89,20 @@ class AdminPowerService
                 'checked_type'      => 'length',
                 'key_name'          => 'control',
                 'checked_data'      => '1,30',
-                'error_msg'         => '控制器名称格式 1~30 个字符之间',
+                'error_msg'         => MyLang('common_form.power.form_item_control_message'),
             ];
             $p[] = [
                 'checked_type'      => 'length',
                 'key_name'          => 'action',
                 'checked_data'      => '1,30',
-                'error_msg'         => '方法名称格式 1~30 个字符之间',
+                'error_msg'         => MyLang('common_form.power.form_item_action_message'),
             ];
         } else {
             $p[] = [
                 'checked_type'      => 'length',
                 'key_name'          => 'url',
                 'checked_data'      => '1,255',
-                'error_msg'         => '自定义url地址格式 1~255 个字符之间',
+                'error_msg'         => MyLang('common_form.power.form_item_url_message'),
             ];
         }
         $ret = ParamsChecked($params, $p);
@@ -157,7 +152,7 @@ class AdminPowerService
         // 参数是否有误
         if(empty($params['id']))
         {
-            return DataReturn('权限菜单id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
 
         if(Db::name('Power')->delete(intval($params['id'])))

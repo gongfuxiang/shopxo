@@ -282,7 +282,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'length',
@@ -316,7 +316,7 @@ class OrderAftersaleService
         $aftersale = Db::name('OrderAftersale')->where($where)->find();
         if(empty($aftersale))
         {
-            return DataReturn('数据不存在或已删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
 
         // 状态
@@ -396,7 +396,7 @@ class OrderAftersaleService
 
         // 获取数据列表
         $data = Db::name('OrderAftersale')->field($field)->where($where)->limit($m, $n)->order($order_by)->select()->toArray();
-        return DataReturn('获取成功', 0, self::OrderAftersaleListHandle($data, $params));
+        return DataReturn(MyLang('get_success'), 0, self::OrderAftersaleListHandle($data, $params));
     }
 
     /**
@@ -593,7 +593,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -621,7 +621,7 @@ class OrderAftersaleService
         $aftersale = Db::name('OrderAftersale')->where($where)->find();
         if(empty($aftersale))
         {
-            return DataReturn('数据不存在或已删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
 
         // 状态校验
@@ -692,7 +692,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -710,7 +710,7 @@ class OrderAftersaleService
         $aftersale = Db::name('OrderAftersale')->where($where)->find();
         if(empty($aftersale))
         {
-            return DataReturn('数据不存在或已删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
 
         // 状态校验
@@ -767,9 +767,9 @@ class OrderAftersaleService
             }
 
             // 返回成功
-            return DataReturn('确认成功');
+            return DataReturn(MyLang('confirm_success'), 0);
         }
-        return DataReturn('确认失败', -100);
+        return DataReturn(MyLang('confirm_fail'), -100);
     }
 
     /**
@@ -788,7 +788,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
@@ -807,7 +807,7 @@ class OrderAftersaleService
         $aftersale = Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->find();
         if(empty($aftersale))
         {
-            return DataReturn('数据不存在或已删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
 
         // 状态校验
@@ -1101,7 +1101,7 @@ class OrderAftersaleService
         ]);
         if(empty($payment))
         {
-            return DataReturn('支付方式有误', -1);
+            return DataReturn(MyLang('payment_method_error_tips'), -1);
         }
 
         // 交易平台单号
@@ -1260,7 +1260,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'length',
@@ -1279,7 +1279,7 @@ class OrderAftersaleService
         $aftersale = Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->find();
         if(empty($aftersale))
         {
-            return DataReturn('数据不存在或已删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
 
         // 状态校验
@@ -1351,7 +1351,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1364,7 +1364,7 @@ class OrderAftersaleService
         $aftersale = Db::name('OrderAftersale')->where(['id' => intval($params['id'])])->find();
         if(empty($aftersale))
         {
-            return DataReturn('数据不存在或已删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
 
         // 状态校验

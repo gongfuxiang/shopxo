@@ -135,10 +135,10 @@ class Order extends Common
                 }
                 $ret = SystemBaseService::DataReturn($result);
             } else {
-                $ret = DataReturn('数据不存在或已删除', -100);
+                $ret = DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -100);
             }
         } else {
-            $ret = DataReturn('参数有误', -1);
+            $ret = DataReturn(MyLang('params_error_tips'), -1);
         }
         return ApiService::ApiDataReturn($ret);
     }
@@ -159,7 +159,7 @@ class Order extends Common
         $params['user_type'] = 'user';
         if(empty($params['id']))
         {
-            $ret = DataReturn('参数有误', -1);
+            $ret = DataReturn(MyLang('params_error_tips'), -1);
         } else {
             // 获取列表
             $where = OrderService::OrderListWhere($params);
@@ -184,7 +184,7 @@ class Order extends Common
                     $ret = DataReturn('你已进行过评论', 0, $result);
                 }
             } else {
-                $ret = DataReturn('没有相关数据', -100);
+                $ret = DataReturn(MyLang('no_data'), -100);
             }
         }
         return ApiService::ApiDataReturn($ret);

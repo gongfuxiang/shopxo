@@ -137,7 +137,7 @@ class GoodsCommentsService
         $order = Db::name('Order')->where($where)->field('id,status,user_is_comments')->find();
         if(empty($order))
         {
-            return DataReturn('资源不存在或已被删除', -1);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -1);
         }
         if($order['status'] != 4)
         {
@@ -417,7 +417,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
@@ -485,7 +485,7 @@ class GoodsCommentsService
         // 参数是否有误
         if(empty($params['ids']))
         {
-            return DataReturn('操作id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
         // 是否数组
         if(!is_array($params['ids']))
@@ -517,7 +517,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -541,7 +541,7 @@ class GoodsCommentsService
         $comments_id = Db::name('GoodsComments')->field('id')->find(intval($params['id']));
         if(empty($comments_id))
         {
-            return DataReturn('资源不存在或已被删除', -2);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -2);
         }
         // 更新问答
         $data = [
@@ -572,13 +572,13 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
-                'error_msg'         => '状态有误',
+                'error_msg'         => MyLang('form_status_range_message'),
             ],
             [
                 'checked_type'      => 'in',

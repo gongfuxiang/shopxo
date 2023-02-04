@@ -57,7 +57,7 @@ class Goods extends Common
         $goods_id = empty($this->data_post['id']) ? (empty($this->data_post['goods_id']) ? 0 : intval($this->data_post['goods_id'])) : intval($this->data_post['id']);
         if(empty($goods_id))
         {
-            $ret = DataReturn('参数有误', -1);
+            $ret = DataReturn(MyLang('params_error_tips'), -1);
         } else {
             // 商品详情方式
             $is_use_mobile_detail = intval(MyC('common_app_is_use_mobile_detail'));
@@ -76,7 +76,7 @@ class Goods extends Common
             $ret = GoodsService::GoodsList($params);
             if(empty($ret['data'][0]) || $ret['data'][0]['is_delete_time'] != 0)
             {
-                $ret = DataReturn('商品不存在或已删除', -1);
+                $ret = DataReturn(MyLang('goods_no_exist_or_delete_error_tips'), -1);
             } else {
                 // 商品信息
                 $goods = $ret['data'][0];
@@ -229,7 +229,7 @@ class Goods extends Common
     {
         if(empty($this->data_post['goods_id']))
         {
-            $ret = DataReturn('参数有误', -1);
+            $ret = DataReturn(MyLang('params_error_tips'), -1);
         } else {
             // 获取商品评分
             $data = GoodsCommentsService::GoodsCommentsScore($this->data_post['goods_id']);

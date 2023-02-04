@@ -158,7 +158,7 @@ class PluginsAdminService
         // 参数
         if(empty($params['id']))
         {
-            return DataReturn('参数错误', -1);
+            return DataReturn(MyLang('params_error_tips'), -1);
         }
 
         // 数据处理
@@ -192,9 +192,9 @@ class PluginsAdminService
                 // 插件事件回调
                 PluginsService::PluginsEventCall($plugins, 'Install', $params);
 
-               return DataReturn('安装成功');
+               return DataReturn(MyLang('install_success'), 0);
             } else {
-                return DataReturn('安装失败', -100);
+                return DataReturn(MyLang('install_fail'), -100);
             }
         } else {
             return DataReturn('插件配置有误', -10);
@@ -215,7 +215,7 @@ class PluginsAdminService
         // 参数
         if(empty($params['id']))
         {
-            return DataReturn('参数错误', -1);
+            return DataReturn(MyLang('params_error_tips'), -1);
         }
 
         // 开启事务
@@ -235,10 +235,10 @@ class PluginsAdminService
                 // 插件事件回调
                 PluginsService::PluginsEventCall($plugins, 'Uninstall', $params);
 
-                return DataReturn('卸载成功');
+                return DataReturn(MyLang('uninstall_success'), 0);
             }
         } else {
-            $ret = DataReturn('卸载失败', -100);
+            $ret = DataReturn(MyLang('uninstall_fail'), -100);
         }
 
         // 事务回退
@@ -281,13 +281,13 @@ class PluginsAdminService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
-                'error_msg'         => '状态有误',
+                'error_msg'         => MyLang('form_status_range_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -433,7 +433,7 @@ class PluginsAdminService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -942,7 +942,7 @@ php;
             return DataReturn('不能使用限制的名称['.$plugins.']', -1);
         }
 
-        return DataReturn('校验成功', 0);
+        return DataReturn(MyLang('check_success'), 0);
     }
 
     /**
@@ -1083,7 +1083,7 @@ php;
         // 插件事件回调
         PluginsService::PluginsEventCall($plugins, 'Upload', $params);
 
-        return DataReturn('安装成功');
+        return DataReturn(MyLang('install_success'), 0);
     }
 
     /**
@@ -1289,7 +1289,7 @@ php;
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1514,7 +1514,7 @@ php;
         // 插件事件回调
         PluginsService::PluginsEventCall($plugins, 'Upgrade', $params);
 
-        return DataReturn('更新成功');
+        return DataReturn(MyLang('update_success'));
     }
 
     /**

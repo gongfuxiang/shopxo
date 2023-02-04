@@ -321,7 +321,7 @@ class PluginsService
         {
             return DataReturn('应用未启用['.$plugins.']', -11);
         }
-        return DataReturn('验证成功', 0);
+        return DataReturn(MyLang('check_success'), 0);
     }
 
     /**

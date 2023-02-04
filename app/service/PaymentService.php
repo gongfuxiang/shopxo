@@ -383,7 +383,7 @@ class PaymentService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'length',
@@ -400,7 +400,7 @@ class PaymentService
                 'checked_type'      => 'length',
                 'key_name'          => 'sort',
                 'checked_data'      => '3',
-                'error_msg'         => '顺序 0~255 之间的数值',
+                'error_msg'         => MyLang('form_sort_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -468,7 +468,7 @@ class PaymentService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -479,7 +479,7 @@ class PaymentService
                 'checked_type'      => 'in',
                 'key_name'          => 'state',
                 'checked_data'      => [0,1],
-                'error_msg'         => '状态有误',
+                'error_msg'         => MyLang('form_status_range_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -517,7 +517,7 @@ class PaymentService
             return DataReturn('目录没有操作权限'.'['.self::$payment_dir.']', -4);
         }
 
-        return DataReturn('验证成功', 0);
+        return DataReturn(MyLang('check_success'), 0);
     }
 
     /**
@@ -662,7 +662,7 @@ class PaymentService
         // 参数
         if(empty($params['id']))
         {
-            return DataReturn('参数错误', -1);
+            return DataReturn(MyLang('params_error_tips'), -1);
         }
 
         // 数据处理
@@ -689,11 +689,11 @@ class PaymentService
                 // 提交事务
                 Db::commit();
 
-               return DataReturn('安装成功'); 
+               return DataReturn(MyLang('install_success'), 0); 
             } else {
                 // 事务回滚
                 Db::rollback();
-                return DataReturn('安装失败', -100);
+                return DataReturn(MyLang('install_fail'), -100);
             }
         } else {
             return DataReturn('插件配置有误', -10);
@@ -724,7 +724,7 @@ class PaymentService
         // 参数
         if(empty($params['id']))
         {
-            return DataReturn('参数错误', -1);
+            return DataReturn(MyLang('params_error_tips'), -1);
         }
 
         // 是否禁止删除
@@ -738,7 +738,7 @@ class PaymentService
         $file = self::$payment_dir.$payment.'.php';
         if(!file_exists($file))
         {
-            return DataReturn('资源不存在或已被删除', -2);
+            return DataReturn(MyLang('data_no_exist_or_delete_error_tips'), -2);
         }
 
         // 权限
@@ -773,7 +773,7 @@ class PaymentService
         // 参数
         if(empty($params['id']))
         {
-            return DataReturn('参数错误', -1);
+            return DataReturn(MyLang('params_error_tips'), -1);
         }
 
         // 初始化
@@ -786,9 +786,9 @@ class PaymentService
             // 删除入口文件
             self::PaymentEntranceDelete(['payment' => $payment]);
 
-            return DataReturn('卸载成功', 0);
+            return DataReturn(MyLang('uninstall_success'), 0);
         }
-        return DataReturn('卸载失败', -100);
+        return DataReturn(MyLang('uninstall_fail'), -100);
     }
 
     /**
@@ -1133,7 +1133,7 @@ php;
                 return DataReturn('支付通知入口文件不存在，请联系管理员处理', -11, $result);
             }
         }
-        return DataReturn('校验成功', 0, $result);
+        return DataReturn(MyLang('check_success'), 0, $result);
     }
 
     /**

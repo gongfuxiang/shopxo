@@ -258,7 +258,7 @@ class GoodsFavorService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'ids',
-                'error_msg'         => '操作id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
