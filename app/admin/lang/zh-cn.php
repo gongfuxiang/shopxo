@@ -336,18 +336,6 @@ return [
     // 品牌
     'brand'                 => [
         'base_nav_title'                        => '品牌',
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称长度2~30个字符',
-        'form_item_brand_category_id'           => '品牌分类',
-        'form_item_brand_category_id_message'   => '请选择品牌分类',
-        'form_item_website_url'                 => '官网地址',
-        'form_item_website_url_placeholder'     => '官网地址、以http://或https://开头',
-        'form_item_website_url_message'         => '官网地址格式有误',
-        'form_item_describe'                    => '描述',
-        'form_item_describe_message'            => '描述最多230个字符',
-        'form_item_logo'                        => 'LOGO',
-        'form_item_logo_tips'                   => '建议150*50px',
         // 动态表格
         'form_table'                            => [
             'name'                 => '名称',
@@ -365,9 +353,6 @@ return [
     // 品牌分类
     'brandcategory'       => [
         'base_nav_title'                        => '品牌分类',
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称长度2~16个字符',
     ],
 
     // 文章
@@ -375,18 +360,6 @@ return [
         'base_nav_title'                        => '文章',
         'detail_content_title'                  => '详情内容',
         'detail_images_title'                   => '详情图片',
-        // 表单
-        'form_item_title'                       => '标题',
-        'form_item_title_message'               => '标题长度2~60个字符',
-        'form_item_article_category'            => '文章分类',
-        'form_item_article_category_message'    => '请选择文章分类',
-        'form_item_jump_url_title'              => '跳转url地址',
-        'form_item_jump_url_tips'               => '带http://或https://，仅web端有效',
-        'form_item_jump_url_message'            => '跳转url地址格式有误',
-        'form_item_is_home_recommended_title'   => '首页推荐',
-        'form_item_content_title'               => '内容',
-        'form_item_content_placeholder'         => '内容格式10~105000个字符之间更多编辑功能请使用电脑访问',
-        'form_item_content_message'             => '内容格式10~105000个字符之间',
         // 动态表格
         'form_table'                            => [
             'info'                   => '标题',
@@ -404,9 +377,6 @@ return [
     // 文章分类
     'articlecategory'       => [
         'base_nav_title'                        => '文章分类',
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称长度2~16个字符',
     ],
 
     // 自定义页面
@@ -467,20 +437,6 @@ return [
     'answer'                => [
         'base_nav_title'                        => '问答',
         'user_info_title'                       => '用户信息',
-        // 表单
-        'form_item_name'                        => '联系人',
-        'form_item_name_message'                => '联系人格式最多30个字符',
-        'form_item_tel'                         => '电话',
-        'form_item_tel_message'                 => '请填写有效的电话',
-        'form_item_title'                       => '标题',
-        'form_item_title_message'               => '标题格式最多60个字符',
-        'form_item_access_count'                => '访问次数',
-        'form_item_access_count_message'        => '访问次数格式0~9的数值',
-        'form_item_content'                     => '内容',
-        'form_item_content_message'             => '内容格式5~1000个字符之间',
-        'form_item_reply'                       => '回复内容',
-        'form_item_reply_message'               => '回复内容格式最多1000个字符',
-        'form_is_reply'                         => '是否已回复',
         // 动态表格
         'form_table'                            => [
             'user'              => '用户信息',
@@ -582,26 +538,6 @@ return [
         // 忘记密码
         'form_forget_password_name'             => '忘记密码?',
         'form_forget_password_tips'             => '请联系管理员重置密码',
-        // 表单
-        'form_item_username'                    => '用户名',
-        'form_item_username_placeholder'        => '请输入用户名',
-        'form_item_username_message'            => '请使用字母、数字、下划线2~18个字符',
-        'form_item_password'                    => '登录密码',
-        'form_item_password_placeholder'        => '请输入登录密码',
-        'form_item_password_message'            => '密码格式6~18个字符之间',
-        'form_item_mobile'                      => '手机号码',
-        'form_item_mobile_placeholder'          => '请输入手机号码',
-        'form_item_mobile_message'              => '手机号码格式错误',
-        'form_item_email'                       => '电子邮箱',
-        'form_item_email_placeholder'           => '请输入电子邮箱',
-        'form_item_email_message'               => '电子邮箱格式错误',
-        'form_item_username_created_tips'       => '创建后不可更改',
-        'form_item_username_edit_tips'          => '不可更改',
-        'form_item_role'                        => '权限组',
-        'form_item_role_message'                => '请选择所属角色组',
-        'form_item_password_edit_tips'          => '输入则修改密码',
-        'form_item_status'                      => '状态',
-        'form_item_status_message'              => '请选择用户状态',
         // 动态表格
         'form_table'                            => [
             'username'              => '管理员',
@@ -1272,12 +1208,6 @@ return [
     // 用户中心导航
     'appcenternav'          => [
         'base_nav_title'                        => '手机用户中心导航',
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~60个字符',
-        'form_item_desc'                        => '描述',
-        'form_item_desc_message'                => '描述最多18个字符',
-        'form_item_images_url'                  => '导航图标',
         // 动态表格
         'form_table'                            => [
             'name'           => '名称',
@@ -1296,11 +1226,6 @@ return [
     // 手机首页导航
     'apphomenav'            => [
         'base_nav_title'                        => '手机首页导航',
-        // 表单
-        'form_item_name'                        => '名称',
-        'form_item_name_message'                => '名称格式2~60个字符',
-        'form_item_images_url'                  => '导航图标',
-        'form_item_is_need_login'               => '是否需要登录',
         // 动态表格
         'form_table'                            => [
             'name'           => '名称',
@@ -1461,14 +1386,6 @@ return [
     'role'                  => [
         'base_nav_title'                        => '角色',
         'admin_not_modify_tips'                 => '超级管理员默认拥有所有权限，不可更改。',
-        // 表单
-        'form_item_name'                        => '角色名称',
-        'form_item_name_message'                => '角色名称格式2~16个字符',
-        'form_item_menu'                        => '菜单权限',
-        'form_item_menu_no_data_tips'           => '无菜单数据',
-        'form_item_plugins'                     => '插件权限',
-        'form_item_plugins_tips'                => '插件还需在当前菜单权限中勾选[ 应用中心 -> 应用管理+应用调用管理 ]权限',
-        'form_item_plugins_no_data_tips'        => '无插件数据',
         // 动态表格
         'form_table'                            => [
             'name'       => '角色名称',

@@ -12,10 +12,10 @@
 			<div class="am-cf">
         		<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-form-group">
-						<label>{{:MyLang('article.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<label>{{:MyLang('common_service.article.form_item_title')}}<span class="am-form-group-label-tips-must">*</span></label>
 						<div class="am-input-group am-input-group-sm">
 							<input type="hidden" name="title_color" value="{{if !empty($data['title_color'])}}{{$data.title_color}}{{/if}}" />
-							<input type="text" name="title" placeholder="{{:MyLang('article.form_item_title_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('article.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
+							<input type="text" name="title" placeholder="{{:MyLang('common_service.article.form_item_title_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.article.form_item_title_message')}}" class="am-form-field am-radius" {{if !empty($data['title'])}} value="{{$data.title}}" {{/if}} {{if !empty($data['title_color'])}} style="color:{{$data.title_color}};" {{/if}} required />
 							<span class="am-input-group-btn">
 								<button class="am-btn am-btn-default am-btn-xs colorpicker-submit" type="button" data-input-tag="input[name='title']" data-color-tag="input[name='title_color']">
 									<img src="{{$attachment_host}}/static/common/images/colorpicker.png" />
@@ -26,8 +26,8 @@
 				</div>
 				<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-form-group">
-						<label>{{:MyLang('article.form_item_article_category')}}<span class="am-form-group-label-tips-must">*</span></label>
-						<select name="article_category_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('article.form_item_article_category_message')}}" required>
+						<label>{{:MyLang('common_service.article.form_item_article_category')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<select name="article_category_id" class="am-radius chosen-select" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('common_service.article.form_item_article_category_message')}}" required>
 							<option value="">{{:MyLang('optional_tips')}}</option>
 							{{foreach $article_category_list as $v}}
 								<option value="{{$v.id}}" {{if isset($data['article_category_id']) and $data['article_category_id'] eq $v['id']}}selected{{/if}}>{{$v.name}}</option>
@@ -40,8 +40,8 @@
 			<div class="am-cf">
         		<div class="am-u-md-6 am-padding-horizontal-0">
         			<div class="am-form-group">
-						<label>{{:MyLang('article.form_item_jump_url_title')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('article.form_item_jump_url_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
-						<input type="url" name="jump_url" placeholder="{{:MyLang('article.form_item_jump_url_title')}}" data-validation-message="{{:MyLang('article.form_item_jump_url_message')}}" class="am-radius" {{if !empty($data['jump_url'])}} value="{{$data.jump_url}}"{{/if}} />
+						<label>{{:MyLang('common_service.article.form_item_jump_url_title')}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:MyLang('common_service.article.form_item_jump_url_tips')}}', trigger: 'hover focus', theme: 'sm'}"></a></label>
+						<input type="url" name="jump_url" placeholder="{{:MyLang('common_service.article.form_item_jump_url_title')}}" data-validation-message="{{:MyLang('common_service.article.form_item_jump_url_message')}}" class="am-radius" {{if !empty($data['jump_url'])}} value="{{$data.jump_url}}"{{/if}} />
 					</div>
         		</div>
         		<div class="am-u-md-6 am-padding-horizontal-0">
@@ -51,7 +51,7 @@
         				</div>
         				<div class="am-u-sm-6 am-padding-horizontal-0">
         					<div class="am-form-group">
-							    <label class="am-block">{{:MyLang('article.form_item_is_home_recommended_title')}}</label>
+							    <label class="am-block">{{:MyLang('common_service.article.form_item_is_home_recommended_title')}}</label>
 							    <input name="is_home_recommended" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if isset($data['is_home_recommended']) and $data['is_home_recommended'] eq 1}}checked="true"{{/if}} />
 							</div>
         				</div>
@@ -60,8 +60,8 @@
         	</div>
 
 			<div class="am-form-group">
-				<label>{{:MyLang('article.form_item_content_title')}}<span class="am-form-group-label-tips-must">*</span></label>
-				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'article'])}}" placeholder="{{:MyLang('article.form_item_content_message')}}" {{else /}} placeholder="{{:MyLang('article.form_item_content_placeholder')}}" {{/if}} data-validation-message="{{:MyLang('article.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
+				<label>{{:MyLang('common_service.article.form_item_content_title')}}<span class="am-form-group-label-tips-must">*</span></label>
+				<textarea class="am-radius am-validate" name="content" rows="5" minlength="10" maxlength="105000" {{if !IsMobile()}}id="editor-tag" data-url="{{:MyUrl('admin/ueditor/index', ['path_type'=>'article'])}}" placeholder="{{:MyLang('common_service.article.form_item_content_message')}}" {{else /}} placeholder="{{:MyLang('common_service.article.form_item_content_placeholder')}}" {{/if}} data-validation-message="{{:MyLang('common_service.article.form_item_content_message')}}" required>{{if !empty($data['content'])}}{{$data.content}}{{/if}}</textarea>
 			</div>
 
 			<!-- 插件扩展数据 start -->
@@ -87,7 +87,7 @@
 			<div class="am-alert am-alert-secondary">
 				{{include file="lib/seo" /}}
 			</div>
-						
+
 			<div class="am-form-popup-submit">
 				<input type="hidden" name="id" {{if !empty($data)}} value="{{$data.id}}"{{/if}} />
 				<button type="submit" class="am-btn am-btn-primary am-radius btn-loading-example am-btn-sm am-btn-block" data-am-loading="{loadingText:'{{:MyLang('processing_tips')}}'}">{{:MyLang('save_title')}}</button>

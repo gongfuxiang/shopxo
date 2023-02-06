@@ -40,7 +40,7 @@ class AppCenterNavService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,60',
-                'error_msg'         => '名称长度 2~60 个字符',
+                'error_msg'         => MyLang('common_service.appcenternav.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'in',
@@ -71,7 +71,7 @@ class AppCenterNavService
                 'checked_type'      => 'length',
                 'key_name'          => 'desc',
                 'checked_data'      => '18',
-                'error_msg'         => '描述最多 18 个字符',
+                'error_msg'         => MyLang('common_service.appcenternav.form_item_desc_message'),
             ],
             [
                 'checked_type'      => 'length',
@@ -147,7 +147,6 @@ class AppCenterNavService
         {
             return DataReturn(MyLang('delete_success'), 0);
         }
-
         return DataReturn(MyLang('delete_fail'), -100);
     }
 
@@ -171,7 +170,7 @@ class AppCenterNavService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'field',
-                'error_msg'         => '操作字段有误',
+                'error_msg'         => MyLang('operate_field_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
@@ -201,14 +200,13 @@ class AppCenterNavService
      * @version 1.0.0
      * @date    2018-11-19
      * @desc    description
-     * @param   array           $params [description]
+     * @param   [array]           $params [输入参数]
      */
     public static function AppCenterNav($params = [])
     {
         // 缓存
         $key = SystemService::CacheKey('shopxo.cache_app_user_center_navigation_key').APPLICATION_CLIENT_TYPE;
         $data = MyCache($key);
-
         if(empty($data))
         {
             $field = 'id,name,images_url,event_value,event_type,desc';

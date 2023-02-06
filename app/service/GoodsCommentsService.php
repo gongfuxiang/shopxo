@@ -40,7 +40,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -50,7 +50,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'goods_id',
-                'error_msg'         => '商品id有误',
+                'error_msg'         => MyLang('goods_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -65,7 +65,7 @@ class GoodsCommentsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -584,7 +584,7 @@ class GoodsCommentsService
                 'checked_type'      => 'in',
                 'key_name'          => 'field',
                 'checked_data'      => ['is_anonymous', 'is_show', 'is_reply'],
-                'error_msg'         => '操作字段有误',
+                'error_msg'         => MyLang('operate_field_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

@@ -33,6 +33,7 @@ class AppService
         $data = [];
         if(!empty($params['page']))
         {
+            $lang = MyLang('app_goods_nav_more_list_data');
             switch($params['page'])
             {
                 // 商品页面
@@ -42,17 +43,17 @@ class AppService
                 case 'goods' :
                     $data = [
                         [
-                            'name'  => '我的收藏',
+                            'name'  => $lang['goodsfavor'],
                             'url'   => '/pages/user-favor/user-favor',
                             'icon'  => 'heart'
                         ],
                         [
-                            'name'  => '我浏览过',
+                            'name'  => $lang['goodsbrowse'],
                             'url'   => '/pages/user-goods-browse/user-goods-browse',
                             'icon'  => 'eye'
                         ],
                         [
-                            'name'  => '回到首页',
+                            'name'  => $lang['home'],
                             'url'   => '/pages/index/index',
                             'icon'  => 'home'
                         ]
@@ -91,14 +92,15 @@ class AppService
         // name 名称（必填）
         // icon 图标（必填、参考uniapp扩展图标文档）
         // url  访问地址（可选）
+        $lang = MyLang('app_home_right_list_data');
         $data = [
             [
-                'name'  => '我的收藏',
+                'name'  => $lang['goodsfavor'],
                 'icon'  => 'heart',
                 'url'   => '/pages/user-favor/user-favor',
             ],
             [
-                'name'  => '我的消息',
+                'name'  => $lang['usermessage'],
                 'icon'  => 'chat',
                 'badge' => $message_total,
                 'url'   => '/pages/message/message',

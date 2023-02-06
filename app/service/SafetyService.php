@@ -55,7 +55,7 @@ class SafetyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -171,11 +171,11 @@ class SafetyService
             $verify = new \base\Verify($verify_params);
             if(!$verify->CheckExpire())
             {
-                return DataReturn('验证码已过期', -11);
+                return DataReturn(MyLang('verify_code_expire_tips'), -11);
             }
             if(!$verify->CheckCorrect($params['verify']))
             {
-                return DataReturn('验证码错误', -12);
+                return DataReturn(MyLang('verify_code_error_tips'), -12);
             }
             return DataReturn(MyLang('operate_success'), 0, $verify);
         }
@@ -202,7 +202,7 @@ class SafetyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -296,12 +296,12 @@ class SafetyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'verify',
-                'error_msg'         => '验证码不能为空',
+                'error_msg'         => MyLang('verify_code_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -332,7 +332,7 @@ class SafetyService
         // 是否已过期
         if(!$obj->CheckExpire())
         {
-            return DataReturn('验证码已过期', -10);
+            return DataReturn(MyLang('verify_code_expire_tips'), -10);
         }
         // 是否正确
         if($obj->CheckCorrect($params['verify']))
@@ -345,7 +345,7 @@ class SafetyService
 
             return DataReturn('正确', 0);
         }
-        return DataReturn('验证码错误', -11);
+        return DataReturn(MyLang('verify_code_error_tips'), -11);
     }
 
     /**
@@ -373,12 +373,12 @@ class SafetyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'verify',
-                'error_msg'         => '验证码不能为空',
+                'error_msg'         => MyLang('verify_code_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -411,12 +411,12 @@ class SafetyService
         // 是否已过期
         if(!$obj->CheckExpire())
         {
-            return DataReturn('验证码已过期', -10);
+            return DataReturn(MyLang('verify_code_expire_tips'), -10);
         }
         // 是否正确
         if(!$obj->CheckCorrect($params['verify']))
         {
-            return DataReturn('验证码错误', -11);
+            return DataReturn(MyLang('verify_code_error_tips'), -11);
         }
 
         // 更新帐号
@@ -472,7 +472,7 @@ class SafetyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

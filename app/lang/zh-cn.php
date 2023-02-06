@@ -120,6 +120,8 @@ return [
     'auth_success'                                          => '授权成功',
     'upload_fail'                                           => '上传失败',
     'upload_success'                                        => '上传成功',
+    'download_fail'                                         => '下载失败',
+    'download_success'                                      => '下载成功',
     'apply_fail'                                            => '申请失败',
     'apply_success'                                         => '申请成功',
     'handle_fail'                                           => '处理失败',
@@ -159,6 +161,9 @@ return [
     'audit_success'                                         => '审核成功',
     'confirm_fail'                                          => '确认失败',
     'confirm_success'                                       => '确认成功',
+    'register_fail'                                         => '注册失败',
+    'register_success'                                      => '注册成功',
+    'login_fails'                                           => '登录失败',
     'login_success'                                         => '登录成功',
     'quit_success'                                          => '退出成功',
     'no_data'                                               => '没有相关数据',
@@ -166,6 +171,7 @@ return [
     'params_error_tips'                                     => '参数错误',
     'content_params_empty_tips'                             => '内容参数为空',
     'illegal_access_tips'                                   => '非法访问',
+    'illegal_operate_tips'                                  => '非法操作',
     'login_failure_tips'                                    => '登录失效，请重新登录',
     'upgrading_tips'                                        => '升级中...',
     'processing_tips'                                       => '处理中...',
@@ -185,7 +191,6 @@ return [
     'no_config_data_tips'                                   => '未配置数据',
     'config_empty_tips'                                     => '配置为空',
     'config_error_tips'                                     => '配置有误',
-    'data_id_error_tips'                                    => '数据id有误',
     'data_no_exist_error_tips'                              => '数据不存在',
     'data_no_exist_or_delete_error_tips'                    => '数据不存在或已删除',
     'goods_no_exist_or_delete_error_tips'                   => '商品不存在或已删除',
@@ -193,13 +198,23 @@ return [
     'no_power_tips'                                         => '无权限',
     'not_open_developer_mode_tips'                          => '请先开启开发者模式',
     'plugins_view_region_config_tips'                       => '该区域为插件扩展数据，请按照插件文档填写相应的值',
+    'user_id_error_tips'                                    => '用户id有误',
+    'user_info_incorrect_tips'                              => '用户信息有误',
     'user_info_abnormal_tips'                               => '用户信息异常',
-    'gods_info_abnormal_tips'                               => '商品信息异常',
+    'user_type_error_tips'                                  => '用户类型有误',
     'user_delete_operate_tips'                              => '用户已删除',
+    'goods_id_error_tips'                                   => '商品id有误',
+    'gods_info_incorrect_tips'                              => '商品信息有误',
+    'gods_info_abnormal_tips'                               => '商品信息异常',
+    'order_id_error_tips'                                   => '订单id有误',
+    'order_info_incorrect_tips'                             => '订单信息有误',
+    'data_id_error_tips'                                    => '数据id有误',
     'back_prev_page_name'                                   => '返回上一页',
     'back_prev_time_auto_text'                              => '秒自动返回',
     'view_config_course_name'                               => '查看配置教程',
     'payment_method_error_tips'                             => '支付方式有误',
+    'operate_field_error_tips'                              => '操作字段有误',
+    'project_copy_fail_tips'                                => '项目包复制失败',
     // 商店
     'store_bind_account_name'                               => '绑定ShopXO商店账户',
     'store_bind_account_tips'                               => '如已绑定、请到商城后台左侧菜单工具下面清除缓存再尝试访问！',
@@ -230,6 +245,8 @@ return [
     'execute_title'                                         => '执行',
     'setup_title'                                           => '设置',
     'save_title'                                            => '保存',
+    'success_title'                                         => '成功',
+    'fail_title'                                            => '失败',
     'edit_title'                                            => '编辑',
     'modify_title'                                          => '修改',
     'delete_title'                                          => '删除',
@@ -380,15 +397,39 @@ return [
     'goods_category_title'                                  => '商品分类',
     'goods_inventory_insufficient_min_number_tips'          => '库存不足起购数',
     'goods_more_total_tips'                                 => '共 {:total} 种商品',
-    // 用户基础相关
+    // 验证码相关
+    'verify_type_error_tips'                                => '验证类型有误',
+    'verify_code_empty_tips'                                => '验证码不能为空',
+    'verify_code_expire_tips'                               => '验证码已过期',
+    'verify_code_error_tips'                                => '验证码错误',
+    'verify_images_empty_tips'                              => '图片验证码不能为空',
+    'verify_code_not_support_send_error_tips'               => '该类型不支持验证码发送',
+    // 账户相关
     'user_no_login_tips'                                    => '请先登录',
     'user_avatar_title'                                     => '头像',
     'user_username_title'                                   => '账号',
     'user_nickname_title'                                   => '昵称',
     'user_mobile_title'                                     => '手机',
     'user_email_title'                                      => '邮箱',
+    'account_abnormal_tips'                                 => '账户异常',
+    'register_close_tips'                                   => '暂时关闭注册',
+    'register_type_error_tips'                              => '注册类型有误',
+    'login_close_tips'                                      => '暂时关闭登录',
+    'login_type_error_tips'                                 => '登录类型有误',
+    'accounts_empty_tips'                                   => '账号不能为空',
+    'accounts_error_tips'                                   => '帐号不存在',
+    'password_empty_tips'                                   => '密码不能为空',
+    'password_error_tips'                                   => '密码错误',
+    'mobile_format_error_tips'                              => '手机号码格式错误',
+    'mobile_no_exist_error_tips'                            => '手机号码不存在、请先注册！',
+    'email_format_error_tips'                               => '电子邮箱格式错误',
+    'email_no_exist_error_tips'                             => '电子邮箱不存在、请先注册！',
+    'login_fail_tips'                                       => '登录失败，请稍后再试！',
     // 表单相关
     'form_base_data_title'                                  => '基础信息',
+    'form_open_zip_message'                                 => '压缩包打开失败',
+    'form_generate_zip_message'                             => '压缩包生成失败',
+    'form_upload_zip_message'                               => '文件格式有误，请上传zip压缩包',
     'form_upload_images_title'                              => '上传图片',
     'form_choice_images_title'                              => '选择图片',
     'form_upload_images_message'                            => '请上传图片',
@@ -652,6 +693,17 @@ return [
         ['value' => 6, 'name' => '已关闭'],
         ['value' => 100, 'name' => '待评价'],
         ['value' => 101, 'name' => '退款/售后'],
+    ],
+    // 商品详情页面更多导航 - 手机端
+    'app_goods_nav_more_list_data'      => [
+        'goodsfavor'   => '我的收藏',
+        'goodsbrowse'  => '我浏览过',
+        'home'         => '回到首页',
+    ],
+    // 商品详情页面更多导航 - 手机端
+    'app_home_right_list_data'          => [
+        'goodsfavor'   => '我的收藏',
+        'usermessage'  => '我的消息',
     ],
     // 搜索排序方式
     'common_search_order_by_list'       =>  [
@@ -966,10 +1018,11 @@ return [
         2 => ['value' => 2, 'name' => 'PATHINFO模式+短地址'],
     ],
 
-    // -------------------- 表单 --------------------
-    'common_form'               => [
+    // -------------------- 公共服务层 --------------------
+    'common_service'            => [
         // 权限管理
         'power'             => [
+            // 表单
             'form_item_pid'                         => '栏目级别',
             'form_item_pid_placeholder'             => '一级栏目...',
             'form_item_pid_message'                 => '栏目级别选择错误',
@@ -988,6 +1041,181 @@ return [
                 '2. 也可以直接使用框架自带的icon、参考 [ http://amazeui.shopxo.net/css/icon/ ]',
                 '3. 也可以自己使用插件钩子引入自定义的icon图标的css文件，然后使用定义好的icon',
             ],
+        ],
+        // 角色管理
+        'role'              => [
+            // 表单
+            'form_item_name'                        => '角色名称',
+            'form_item_name_message'                => '角色名称格式2~16个字符',
+            'form_item_menu'                        => '菜单权限',
+            'form_item_menu_no_data_tips'           => '无菜单数据',
+            'form_item_plugins'                     => '插件权限',
+            'form_item_plugins_tips'                => '插件还需在当前菜单权限中勾选[ 应用中心 -> 应用管理+应用调用管理 ]权限',
+            'form_item_plugins_no_data_tips'        => '无插件数据',
+            // 保存操作
+            'save_role_already_exist_tips'          => '角色已存在[{$var}]',
+            'save_super_role_not_edit_tips'         => '超级管理员角色不可编辑',
+            'save_role_save_fail_tips'              => '角色数据保存失败',
+            'save_role_menu_empty_fail_tips'        => '角色菜单权限操作失败',
+            'save_role_menu_add_fail_tips'          => '角色菜单权限添加失败',
+            'save_role_plugins_empty_fail_tips'     => '角色插件权限操作失败',
+            'save_role_plugins_add_fail_tips'       => '角色插件权限添加失败',
+            // 删除操作
+            'delete_super_role_not_tips'            => '超级管理员角色不可删除',
+        ],
+        // 管理员
+        'admin'             => [
+            // 表单
+            'form_item_username'                    => '用户名',
+            'form_item_username_placeholder'        => '请输入用户名',
+            'form_item_username_message'            => '用户名请使用字母、数字、下划线2~18个字符',
+            'form_item_password'                    => '登录密码',
+            'form_item_password_placeholder'        => '请输入登录密码',
+            'form_item_password_message'            => '密码格式6~18个字符之间',
+            'form_item_mobile'                      => '手机号码',
+            'form_item_mobile_placeholder'          => '请输入手机号码',
+            'form_item_mobile_message'              => '手机号码格式错误',
+            'form_item_email'                       => '电子邮箱',
+            'form_item_email_placeholder'           => '请输入电子邮箱',
+            'form_item_email_message'               => '电子邮箱格式错误',
+            'form_item_username_created_tips'       => '创建后不可更改',
+            'form_item_username_edit_tips'          => '不可更改',
+            'form_item_role'                        => '权限组',
+            'form_item_role_message'                => '请选择所属角色组',
+            'form_item_password_edit_tips'          => '输入则修改密码',
+            'form_item_status'                      => '状态',
+            'form_item_status_message'              => '请选择用户状态',
+            // 保存操作
+            'save_admin_info_error_tips'            => '当前操作管理员信息有误',
+            'save_status_tips'                      => '状态值范围不正确',
+            'save_gender_tips'                      => '性别值范围不正确',
+            'save_mobile_already_exist_tips'        => '手机号码已存在[{$var}]',
+            'save_email_already_exist_tips'         => '电子邮箱已存在[{$var}]',
+            'save_admin_already_exist_tips'         => '管理员已存在[{$var}]',
+            // 删除操作
+            'delete_super_admin_not_tips'       => '超级管理员不可删除',
+            // 登录
+            'login_verify_send_last_title'          => ' - 管理员登录',
+        ],
+        // 协议
+        'agreement'         => [
+            // 表单
+            'form_item_document_type_message'       => '协议文档类型为空',
+        ],
+        // 问答
+        'answer'            => [
+            // 表单
+            'form_item_name'                        => '联系人',
+            'form_item_name_message'                => '联系人格式最多30个字符',
+            'form_item_tel'                         => '电话',
+            'form_item_tel_message'                 => '请填写有效的电话',
+            'form_item_title'                       => '标题',
+            'form_item_title_message'               => '标题格式最多60个字符',
+            'form_item_access_count'                => '访问次数',
+            'form_item_access_count_message'        => '访问次数格式0~9的数值',
+            'form_item_content'                     => '内容',
+            'form_item_content_message'             => '内容格式5~1000个字符之间',
+            'form_item_reply'                       => '回复内容',
+            'form_item_reply_message'               => '回复内容格式1~1000个字符之间',
+            'form_item_save_reply_message'          => '回复内容格式最多1000个字符',
+            'form_is_reply'                         => '是否已回复',
+            // 基础
+            'no_username_name'                      => '网友',
+        ],
+        // 用户中心导航
+        'appcenternav'      => [
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称格式2~60个字符',
+            'form_item_desc'                        => '描述',
+            'form_item_desc_message'                => '描述最多18个字符',
+            'form_item_images_url'                  => '导航图标',
+        ],
+        // 手机首页导航
+        'apphomenav'        => [
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称格式2~60个字符',
+            'form_item_images_url'                  => '导航图标',
+            'form_item_is_need_login'               => '是否需要登录',
+        ],
+        // 小程序管理
+        'appmini'           => [
+            'appmini_type_error_tips'               => '小程序类型有误',
+            'template_id_error_tips'                => '模板id有误',
+            'view_dir_power_tips'                   => '视图目录没权限',
+            'theme_name_error_tips'                 => '主题名称有误',
+            'system_theme_not_delete_tips'          => '系统模板不能删除',
+            'current_use_theme_error_tips'          => '不能删除正在使用的主题',
+            'please_use_https_tips'                 => '请使用https协议',
+            'config_file_no_exist_tips'             => '小程序主题配置文件不存在',
+            'config_error_tips'                     => '主小程序题配置信息有误',
+            'config_empty_tips'                     => '配置信息不能为空',
+            'package_target_no_exist_tips'          => '源码目标目录不存在',
+            'package_target_no_power_tips'          => '源码目标目录没有权限',
+            'package_no_exist_tips'                 => '源码包不存在',
+            'base_config_file_no_exist_tips'        => '包基础文件不存在，请重新生成',
+            'base_config_replace_fail_tips'         => '基础配置替换失败',
+            'new_config_file_update_fail_tips'      => '新应用配置文件更新失败',
+            'liveplayer_config_fail_tips'           => '直播配置失败',
+            'plugins_no_data_tips'                  => '无插件数据',
+        ],
+        // 手机端用户
+        'appminiuser'       => [
+            'open_id_empty_tips'                    => 'openid为空',
+            'auth_data_empty_tips'                  => '授权数据为空',
+            'temp_code_empty_tips'                  => '临时code为空',
+            'auth_code_empty_tips'                  => '授权码为空',
+            'decrypt_data_empty_tips'               => '解密数据为空',
+            'decrypt_iv_empty_tips'                 => 'iv为空,请重试',
+            'platform_not_mobile_login_tips'        => '平台还未开发手机一键登录',
+            'mobile_empty_tips'                     => '手机号码为空',
+            'auth_login_success_tips'               => '授权登录成功',
+            'default_nickname_weiixn'               => '微信用户',
+        ],
+        // 文章
+        'article'           => [
+            // 表单
+            'form_item_title'                       => '标题',
+            'form_item_title_message'               => '标题长度2~60个字符',
+            'form_item_article_category'            => '文章分类',
+            'form_item_article_category_message'    => '请选择文章分类',
+            'form_item_jump_url_title'              => '跳转url地址',
+            'form_item_jump_url_tips'               => '带http://或https://，仅web端有效',
+            'form_item_jump_url_message'            => '跳转url地址格式有误',
+            'form_item_is_home_recommended_title'   => '首页推荐',
+            'form_item_content_title'               => '内容',
+            'form_item_content_placeholder'         => '内容格式10~105000个字符之间更多编辑功能请使用电脑访问',
+            'form_item_content_message'             => '内容格式10~105000个字符之间',
+        ],
+        // 文章分类
+        'articlecategory'   => [
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称长度2~16个字符',
+        ],
+        // 品牌
+        'brand'             => [
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称长度2~30个字符',
+            'form_item_brand_category_id'           => '品牌分类',
+            'form_item_brand_category_id_message'   => '请选择品牌分类',
+            'form_item_website_url'                 => '官网地址',
+            'form_item_website_url_placeholder'     => '官网地址、以http://或https://开头',
+            'form_item_website_url_message'         => '官网地址格式有误',
+            'form_item_describe'                    => '描述',
+            'form_item_describe_message'            => '描述最多230个字符',
+            'form_item_logo'                        => 'LOGO',
+            'form_item_logo_tips'                   => '建议150*50px',
+            // 保存
+            'save_name_already_exist_tips'          => '品牌已存在[{$var}]',
+        ],
+        // 品牌分类
+        'brandcategory'     => [
+            // 表单
+            'form_item_name'                        => '名称',
+            'form_item_name_message'                => '名称长度2~16个字符',
         ],
     ],
 

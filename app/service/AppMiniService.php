@@ -52,7 +52,7 @@ class AppMiniService
         // 小程序类型校验
         if(!array_key_exists(self::$application_name, MyLang('common_appmini_type')))
         {
-            return DataReturn('小程序类型有误['.self::$application_name.']', -1);
+            return DataReturn(MyLang('common_service.appmini.appmini_type_error_tips').'['.self::$application_name.']', -1);
         }
 
         // 原包地址/操作地址
@@ -102,7 +102,6 @@ class AppMiniService
                 self::$application_name = 'weixin';
             }
         }
-
         return 'common_app_mini_'.self::$application_name.'_default_theme';
     }
 
@@ -193,7 +192,7 @@ class AppMiniService
         $type = ResourcesService::ZipExtTypeList();
         if(!in_array($_FILES['theme']['type'], $type))
         {
-            return DataReturn('文件格式有误，请上传zip压缩包', -2);
+            return DataReturn(MyLang('form_upload_zip_message'), -2);
         }
 
         // 上传处理
@@ -224,7 +223,7 @@ class AppMiniService
         // 目录是否有权限
         if(!is_writable($dir))
         {
-            return DataReturn('视图目录没权限['.$dir.']', -10);
+            return DataReturn(MyLang('view_dir_power_tips').'['.$dir.']', -10);
         }
 
         // 开始解压文件
@@ -232,7 +231,7 @@ class AppMiniService
         $resource = $zip->open($package_file);
         if($resource != true)
         {
-            return DataReturn('压缩包打开失败['.$resource.']', -11);
+            return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
         for($i=0; $i<$zip->numFiles; $i++)
         {
@@ -283,7 +282,6 @@ class AppMiniService
         }
         // 关闭zip  
         $zip->close();
-
         return DataReturn(MyLang('install_success'), 0);
     }
 
@@ -302,7 +300,7 @@ class AppMiniService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '模板id有误',
+                'error_msg'         => MyLang('common_service.appmini.template_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -322,19 +320,19 @@ class AppMiniService
         $id = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
         if(empty($id))
         {
-            return DataReturn('主题名称有误', -1);
+            return DataReturn(MyLang('common_service.appmini.theme_name_error_tips'), -1);
         }
 
         // default不能删除
         if($id == 'default')
         {
-            return DataReturn('系统模板不能删除', -2);
+            return DataReturn(MyLang('common_service.appmini.system_theme_not_delete_tips'), -2);
         }
 
         // 不能删除正在使用的主题
         if(self::$default_theme == $id)
         {
-            return DataReturn('不能删除正在使用的主题', -2);
+            return DataReturn(MyLang('common_service.appmini.current_use_theme_error_tips'), -2);
         }
 
         // 开始删除主题
@@ -361,7 +359,7 @@ class AppMiniService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '模板id有误',
+                'error_msg'         => MyLang('common_service.appmini.template_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -380,14 +378,14 @@ class AppMiniService
         // 是否开启开发者模式
         if(MyConfig('shopxo.is_develop') !== true)
         {
-            return DataReturn('请先开启开发者模式', -1); 
+            return DataReturn(MyLang('not_open_developer_mode_tips'), -1); 
         }
 
         // 防止路径回溯
         $theme = htmlentities(str_replace(array('.', '/', '\\', ':'), '', strip_tags($params['id'])));
         if(empty($theme))
         {
-            return DataReturn('主题名称有误', -1);
+            return DataReturn(MyLang('common_service.appmini.theme_name_error_tips'), -1);
         }
 
         // 获取配置信息
@@ -408,7 +406,7 @@ class AppMiniService
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir) != true)
             {
-                return DataReturn('项目包复制失败', -2);
+                return DataReturn(MyLang('project_copy_fail_tips'), -2);
             }
         }
 
@@ -423,7 +421,7 @@ class AppMiniService
         $zip = new \base\ZipFolder();
         if(!$zip->zip($new_dir.'.zip', $new_dir))
         {
-            return DataReturn('压缩包生成失败', -100);
+            return DataReturn(MyLang('form_generate_zip_message'), -100);
         }
 
         // 生成成功删除目录
@@ -436,7 +434,7 @@ class AppMiniService
         {
             @unlink($new_dir.'.zip');
         } else {
-            return DataReturn('下载失败', -100);
+            return DataReturn(MyLang('download_fail'), -100);
         }
     }
 
@@ -463,12 +461,12 @@ class AppMiniService
         $config_file = self::$old_path.DS.$theme.DS.'config.json';
         if(!file_exists($config_file))
         {
-            return DataReturn('小程序主题配置文件不存在', -1);
+            return DataReturn(MyLang('common_service.appmini.config_file_no_exist_tips'), -1);
         }
         $config = json_decode(file_get_contents($config_file), true);
         if(empty($config))
         {
-            return DataReturn('主小程序题配置信息有误', -1);
+            return DataReturn(MyLang('common_service.appmini.config_error_tips'), -1);
         }
         return DataReturn('success', 0, $config);
     }
@@ -532,7 +530,7 @@ class AppMiniService
         {
             if(__MY_HTTP__ != 'https')
             {
-                return DataReturn('请使用https协议', -1);
+                return DataReturn(MyLang('common_service.appmini.please_use_https_tips'), -1);
             }
         }
 
@@ -548,7 +546,7 @@ class AppMiniService
         $describe = MyC('common_app_mini_'.self::$application_name.'_describe');
         if(empty($title) || empty($describe))
         {
-            return DataReturn('配置信息不能为空', -1);
+            return DataReturn(MyLang('common_service.appmini.config_empty_tips'), -1);
         }
 
         // 源码目录不存在则创建
@@ -557,13 +555,13 @@ class AppMiniService
         // 源码目标目录是否存在
         if(!is_dir(self::$new_root))
         {
-            return DataReturn('源码目标目录不存在['.self::$new_root.']', -1);
+            return DataReturn(MyLang('common_service.appmini.package_target_no_exist_tips').'['.self::$new_root.']', -1);
         }
 
         // 源码目标目录没有权限
         if(!is_writable(self::$new_root))
         {
-            return DataReturn('源码目标目录没有权限['.self::$new_root.']', -1);
+            return DataReturn(MyLang('common_service.appmini.package_target_no_power_tips').'['.self::$new_root.']', -1);
         }
 
         // 包目录
@@ -573,7 +571,7 @@ class AppMiniService
         // 源码包是否存在
         if(!is_dir($old_dir))
         {
-            return DataReturn('源码包不存在['.self::$default_theme.']', -1);
+            return DataReturn(MyLang('common_service.appmini.package_no_exist_tips').'['.self::$default_theme.']', -1);
         }
 
         // 目录不存在则创建
@@ -582,13 +580,13 @@ class AppMiniService
         // 复制包目录
         if(\base\FileUtil::CopyDir($old_dir, $new_dir) != true)
         {
-            return DataReturn('项目包复制失败', -2);
+            return DataReturn(MyLang('project_copy_fail_tips'), -2);
         }
 
         // 校验基础文件是否存在
         if(!file_exists($new_dir.DS.'app.js') || !file_exists($new_dir.DS.'app.json'))
         {
-            return DataReturn('包基础文件不存在，请重新生成', -3);
+            return DataReturn(MyLang('common_service.appmini.base_config_file_no_exist_tips'), -3);
         }
 
         // 替换内容
@@ -608,14 +606,14 @@ class AppMiniService
         $status = file_put_contents($new_dir.DS.'app.js', str_replace($search, $replace, file_get_contents($new_dir.DS.'app.js')));
         if($status === false)
         {
-            return DataReturn('基础配置替换失败', -4);
+            return DataReturn(MyLang('common_service.appmini.base_config_replace_fail_tips'), -4);
         }
 
         // app.json
         $status = file_put_contents($new_dir.DS.'app.json', str_replace(['{{application_title}}'], [$title], file_get_contents($new_dir.DS.'app.json')));
         if($status === false)
         {
-            return DataReturn('基础配置替换失败', -4);
+            return DataReturn(MyLang('common_service.appmini.base_config_replace_fail_tips'), -4);
         }
 
         // 小程序额外处理
@@ -646,12 +644,11 @@ class AppMiniService
         $zip = new \base\ZipFolder();
         if(!$zip->zip($new_dir.'.zip', $new_dir))
         {
-            return DataReturn('压缩包生成失败', -100);
+            return DataReturn(MyLang('form_generate_zip_message'), -100);
         }
 
         // 生成成功删除目录
         \base\FileUtil::UnlinkDir($new_dir);
-
         return DataReturn(MyLang('created_success'), 0);
     }
 
@@ -689,7 +686,7 @@ class AppMiniService
         ];
         if(@file_put_contents($file, JsonFormat($config)) === false)
         {
-            return DataReturn('新应用配置文件更新失败', -11);
+            return DataReturn(MyLang('common_service.appmini.new_config_file_update_fail_tips'), -11);
         }
     }
 
@@ -718,7 +715,7 @@ class AppMiniService
                 ];
                 if(file_put_contents($file, JsonFormat($config)) === false)
                 {
-                    return DataReturn('直播配置失败', -50);
+                    return DataReturn(MyLang('common_service.appmini.liveplayer_config_fail_tips'), -50);
                 }
             }
         }
@@ -796,8 +793,7 @@ class AppMiniService
         {
             return DataReturn(MyLang('delete_fail'), -100);
         }
-
-        return DataReturn('成功['.$sucs.'],失败['.$fail.']');
+        return DataReturn(MyLang('success_title').'['.$sucs.'],'.MyLang('fail_title').'['.$fail.']');
     }
 
     /**
@@ -843,8 +839,7 @@ class AppMiniService
                 return $res;
             }
         }
-
-        return DataReturn('无插件数据', 0);
+        return DataReturn(MyLang('common_service.appmini.plugins_no_data_tips'), 0);
     }
 }
 ?>

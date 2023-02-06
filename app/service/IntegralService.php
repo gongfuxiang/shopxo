@@ -196,7 +196,7 @@ class IntegralService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'order_id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -304,7 +304,7 @@ class IntegralService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'order_id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',

@@ -231,14 +231,14 @@ class AdminRoleService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,8',
-                'error_msg'         => '角色名称格式 2~8 个字符之间',
+                'error_msg'         => MyLang('common_service.role.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'unique',
                 'key_name'          => 'name',
                 'checked_data'      => 'Role',
                 'checked_key'       => 'id',
-                'error_msg'         => '角色已存在[{$var}]',
+                'error_msg'         => MyLang('common_service.role.save_role_already_exist_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -268,7 +268,7 @@ class AdminRoleService
                 // 是否包含删除超级管理员角色
                 if($params['id'] == 1)
                 {
-                    throw new \Exception('超级管理员角色不可编辑');
+                    throw new \Exception(MyLang('common_service.role.save_super_role_not_edit_tips'));
                 }
 
                 // 更新
@@ -279,13 +279,13 @@ class AdminRoleService
             }
             if(empty($role_id))
             {
-                throw new \Exception('角色数据保存失败');
+                throw new \Exception(MyLang('common_service.role.save_role_save_fail_tips'));
             }
 
             // 菜单权限数据删除
             if(Db::name('RolePower')->where(['role_id'=>$role_id])->delete() === false)
             {
-                throw new \Exception('角色菜单权限操作失败');
+                throw new \Exception(MyLang('common_service.role.save_role_menu_empty_fail_tips'));
             }
 
             // 菜单权限数据添加
@@ -307,7 +307,7 @@ class AdminRoleService
                 {
                     if(Db::name('RolePower')->insertAll($rp_data) < count($rp_data))
                     {
-                        throw new \Exception('角色菜单权限添加失败');
+                        throw new \Exception(MyLang('common_service.role.save_role_menu_add_fail_tips'));
                     }
                 }
             }
@@ -315,7 +315,7 @@ class AdminRoleService
             // 插件权限删除
             if(Db::name('RolePlugins')->where(['role_id'=>$role_id])->delete() === false)
             {
-                throw new \Exception('角色插件权限操作失败');
+                throw new \Exception(MyLang('common_service.role.save_role_plugins_empty_fail_tips'));
             }
 
             // 插件权限数据添加
@@ -340,7 +340,7 @@ class AdminRoleService
                 {
                     if(Db::name('RolePlugins')->insertAll($rp_data) < count($rp_data))
                     {
-                        throw new \Exception('角色插件权限添加失败');
+                        throw new \Exception(MyLang('common_service.role.save_role_plugins_add_fail_tips'));
                     }
                 }
             }
@@ -382,7 +382,7 @@ class AdminRoleService
         // 是否包含删除超级管理员角色
         if(in_array(1, $params['ids']))
         {
-            return DataReturn('超级管理员角色不可删除', -1);
+            return DataReturn(MyLang('common_service.role.delete_super_role_not_tips'), -1);
         }
 
         // 开启事务

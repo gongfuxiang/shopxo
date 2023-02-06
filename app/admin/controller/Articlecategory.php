@@ -12,7 +12,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use app\service\ApiService;
-use app\service\ArticleService;
+use app\service\ArticleCategoryService;
 
 /**
  * 文章分类管理
@@ -44,7 +44,7 @@ class ArticleCategory extends Base
 	 */
 	public function GetNodeSon()
 	{
-		return ApiService::ApiDataReturn(ArticleService::ArticleCategoryNodeSon($this->data_request));
+		return ApiService::ApiDataReturn(ArticleCategoryService::ArticleCategoryNodeSon($this->data_request));
 	}
 
 	/**
@@ -56,7 +56,7 @@ class ArticleCategory extends Base
 	 */
 	public function Save()
 	{
-		return ApiService::ApiDataReturn(ArticleService::ArticleCategorySave($this->data_request));
+		return ApiService::ApiDataReturn(ArticleCategoryService::ArticleCategorySave($this->data_request));
 	}
 
 	/**
@@ -70,7 +70,7 @@ class ArticleCategory extends Base
 	{
 		$params = $this->data_post;
 		$params['admin'] = $this->admin;
-		return ApiService::ApiDataReturn(ArticleService::ArticleCategoryDelete($params));
+		return ApiService::ApiDataReturn(ArticleCategoryService::ArticleCategoryDelete($params));
 	}
 }
 ?>

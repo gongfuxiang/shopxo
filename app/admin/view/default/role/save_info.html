@@ -12,8 +12,8 @@
 			<div class="am-cf">
 				<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-form-group">
-						<label>{{:MyLang('role.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-						<input type="text" placeholder="{{:MyLang('role.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('role.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}}value="{{$data.name}}"{{/if}} required />
+						<label>{{:MyLang('common_service.role.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<input type="text" placeholder="{{:MyLang('common_service.role.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('common_service.role.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}}value="{{$data.name}}"{{/if}} required />
 					</div>
 				</div>
 				<div class="am-u-sm-6 am-padding-horizontal-0">
@@ -22,7 +22,7 @@
 			</div>
 			
 			<div class="am-form-group">
-				<label>{{:MyLang('role.form_item_menu')}}</label>
+				<label>{{:MyLang('common_service.role.form_item_menu')}}</label>
 				<ul class="tree-list am-avg-sm-1 am-avg-md-1 am-avg-lg-1">
 					{{if !empty($power['power'])}}
 						{{foreach $power.power as $v}}
@@ -50,13 +50,13 @@
 							{{/if}}
 						{{/foreach}}
 					{{else /}}
-						<p class="am-text-warning">{{:MyLang('role.form_item_menu_no_data_tips')}}</p>
+						<p class="am-text-warning">{{:MyLang('common_service.role.form_item_menu_no_data_tips')}}</p>
 					{{/if}}
 				</ul>
 			</div>
 
 			<div class="am-form-group">
-				<label>{{:MyLang('role.form_item_plugins')}}<span class="am-text-warning am-margin-left-sm">{{:MyLang('role.form_item_plugins_tips')}}</span></label>
+				<label>{{:MyLang('common_service.role.form_item_plugins')}}<span class="am-text-warning am-margin-left-sm">{{:MyLang('common_service.role.form_item_plugins_tips')}}</span></label>
 				<ul class="tree-list am-avg-sm-2 am-avg-md-3 am-avg-lg-4">
 					{{if !empty($power['plugins'])}}
 						{{foreach $power.plugins as $v}}
@@ -70,7 +70,7 @@
 							</li>
 						{{/foreach}}
 					{{else /}}
-						<p class="am-text-warning">{{:MyLang('role.form_item_plugins_no_data_tips')}}</p>
+						<p class="am-text-warning">{{:MyLang('common_service.role.form_item_plugins_no_data_tips')}}</p>
 					{{/if}}
 				</ul>
 			</div>

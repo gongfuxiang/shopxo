@@ -1034,7 +1034,7 @@ php;
         $type = ResourcesService::ZipExtTypeList();
         if(!in_array($_FILES['file']['type'], $type))
         {
-            return DataReturn('文件格式有误，请上传zip压缩包', -2);
+            return DataReturn(MyLang('form_upload_zip_message'), -2);
         }
 
         // 上传处理
@@ -1110,7 +1110,7 @@ php;
         $resource = $zip->open($package_file);
         if($resource != true)
         {
-            return DataReturn('压缩包打开失败['.$resource.']', -11);
+            return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
 
         // 文件第一个目录为当前插件名称
@@ -1301,7 +1301,7 @@ php;
         // 是否开启开发者模式
         if(MyConfig('shopxo.is_develop') !== true)
         {
-            return DataReturn('请先开启开发者模式', -1); 
+            return DataReturn(MyLang('not_open_developer_mode_tips'), -1); 
         }
 
         // 获取应用标记
@@ -1329,7 +1329,7 @@ php;
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_controller_'.DS.$plugins) != true)
             {
-                return DataReturn('项目包复制失败[控制器]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'[控制器]', -2);
             }
         }
 
@@ -1339,7 +1339,7 @@ php;
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_view_'.DS.$plugins) != true)
             {
-                return DataReturn('项目包复制失败[视图]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'[视图]', -2);
             }
         }
 
@@ -1349,7 +1349,7 @@ php;
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_css_'.DS.$plugins) != true)
             {
-                return DataReturn('项目包复制失败[css]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'[css]', -2);
             }
         }
 
@@ -1359,7 +1359,7 @@ php;
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_js_'.DS.$plugins) != true)
             {
-                return DataReturn('项目包复制失败[js]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'[js]', -2);
             }
         }
 
@@ -1369,7 +1369,7 @@ php;
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_images_'.DS.$plugins) != true)
             {
-                return DataReturn('项目包复制失败[images]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'[images]', -2);
             }
         }
 
@@ -1379,7 +1379,7 @@ php;
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_uploadimages_'.DS.'plugins_'.$plugins) != true)
             {
-                return DataReturn('项目包复制失败[uploadimages]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'[uploadimages]', -2);
             }
         }
 
@@ -1389,7 +1389,7 @@ php;
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_uploadvideo_'.DS.'plugins_'.$plugins) != true)
             {
-                return DataReturn('项目包复制失败[uploadvideo]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'[uploadvideo]', -2);
             }
         }
 
@@ -1399,7 +1399,7 @@ php;
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_uploadfile_'.DS.'plugins_'.$plugins) != true)
             {
-                return DataReturn('项目包复制失败[uploadfile]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'[uploadfile]', -2);
             }
         }
 
@@ -1428,7 +1428,7 @@ php;
         $zip = new \base\ZipFolder();
         if(!$zip->zip($new_dir.'.zip', $new_dir))
         {
-            return DataReturn('压缩包生成失败', -100);
+            return DataReturn(MyLang('form_generate_zip_message'), -100);
         }
 
         // 生成成功删除目录
@@ -1443,7 +1443,7 @@ php;
             // 插件事件回调
             PluginsService::PluginsEventCall($plugins, 'Download', $params);
         } else {
-            return DataReturn('下载失败', -100);
+            return DataReturn(MyLang('download_fail'), -100);
         }
     }
 

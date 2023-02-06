@@ -38,7 +38,7 @@ class AgreementService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'document',
-                'error_msg'         => '协议文档类型有误',
+                'error_msg'         => MyLang('common_service.agreement.form_item_document_type_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

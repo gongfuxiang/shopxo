@@ -37,9 +37,9 @@
 						<div class="am-cf">
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group">
-									<label>{{:MyLang('common_form.power.form_item_pid')}}</label>
-									<select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_form.power.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_form.power.form_item_pid')}}">
-										<option value="0">{{:MyLang('common_form.power.form_item_pid_placeholder')}}</option>
+									<label>{{:MyLang('common_service.power.form_item_pid')}}</label>
+									<select class="am-radius chosen-select" name="pid" data-placeholder="{{:MyLang('common_service.power.form_item_pid_placeholder')}}" data-validation-message="{{:MyLang('common_service.power.form_item_pid')}}">
+										<option value="0">{{:MyLang('common_service.power.form_item_pid_placeholder')}}</option>
 										{{foreach $data as $v}}
 											<option value="{{$v.id}}">{{$v.name}}</option>
 										{{/foreach}}
@@ -48,8 +48,8 @@
                 			</div>
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group">
-									<label>{{:MyLang('common_form.power.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-									<input type="text" placeholder="{{:MyLang('common_form.power.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('common_form.power.form_item_name_message')}}" class="am-radius" required />
+									<label>{{:MyLang('common_service.power.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+									<input type="text" placeholder="{{:MyLang('common_service.power.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('common_service.power.form_item_name_message')}}" class="am-radius" required />
 								</div>
                 			</div>
                 		</div>
@@ -57,14 +57,14 @@
                 		<div class="am-cf">
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group">
-									<label>{{:MyLang('common_form.power.form_item_control')}}</label>
-									<input type="text" placeholder="{{:MyLang('common_form.power.form_item_control_message')}}" name="control" pattern="{{:MyConst('common_regex_control')}}"  data-validation-message="{{:MyLang('common_form.power.form_item_control_message')}}" class="am-radius" />
+									<label>{{:MyLang('common_service.power.form_item_control')}}</label>
+									<input type="text" placeholder="{{:MyLang('common_service.power.form_item_control_message')}}" name="control" pattern="{{:MyConst('common_regex_control')}}"  data-validation-message="{{:MyLang('common_service.power.form_item_control_message')}}" class="am-radius" />
 								</div>
                 			</div>
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group">
-									<label>{{:MyLang('common_form.power.form_item_action')}}</label>
-									<input type="text" placeholder="{{:MyLang('common_form.power.form_item_action_message')}}" name="action" pattern="{{:MyConst('common_regex_action')}}"  data-validation-message="{{:MyLang('common_form.power.form_item_action_message')}}" class="am-radius" />
+									<label>{{:MyLang('common_service.power.form_item_action')}}</label>
+									<input type="text" placeholder="{{:MyLang('common_service.power.form_item_action_message')}}" name="action" pattern="{{:MyConst('common_regex_action')}}"  data-validation-message="{{:MyLang('common_service.power.form_item_action_message')}}" class="am-radius" />
 								</div>
                 			</div>
                 		</div>
@@ -72,14 +72,14 @@
                 		<div class="am-cf">
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group">
-									<label>{{:MyLang('common_form.power.form_item_url')}}</label>
-									<input type="url" name="url" placeholder="{{:MyLang('common_form.power.form_item_url_message')}}" data-validation-message="{{:MyLang('common_form.power.form_item_url_message')}}" class="am-radius" />
+									<label>{{:MyLang('common_service.power.form_item_url')}}</label>
+									<input type="url" name="url" placeholder="{{:MyLang('common_service.power.form_item_url_message')}}" data-validation-message="{{:MyLang('common_service.power.form_item_url_message')}}" class="am-radius" />
 								</div>
                 			</div>
                 			<div class="am-u-sm-6 am-padding-horizontal-0">
                 				<div class="am-form-group">
-									<label>{{:MyLang('common_form.power.form_item_icon')}}{{if is_array(MyLang('common_form.power.form_item_icon_tips_list'))}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:implode('<br />', MyLang('common_form.power.form_item_icon_tips_list'))}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
-									<input type="text" placeholder="{{:MyLang('common_form.power.form_item_icon_message')}}" name="icon" maxlength="60" data-validation-message="{{:MyLang('common_form.power.form_item_icon_message')}}" class="am-radius" />
+									<label>{{:MyLang('common_service.power.form_item_icon')}}{{if is_array(MyLang('common_service.power.form_item_icon_tips_list'))}}<a href="javascript:;" class="am-icon-question-circle am-text-warning am-margin-left-sm" data-am-popover="{content: '{{:implode('<br />', MyLang('common_service.power.form_item_icon_tips_list'))}}', trigger: 'hover focus', theme: 'sm'}"></a>{{/if}}</label>
+									<input type="text" placeholder="{{:MyLang('common_service.power.form_item_icon_message')}}" name="icon" maxlength="60" data-validation-message="{{:MyLang('common_service.power.form_item_icon_message')}}" class="am-radius" />
 								</div>
                 			</div>
                 		</div>

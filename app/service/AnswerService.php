@@ -76,6 +76,8 @@ class AnswerService
         {
             // 用户默认头像
             $default_avatar = SystemBaseService::AttachmentHost().'/static/index/'.strtolower(MyFileConfig('common_default_theme', '', 'default', true)).'/images/default-user-avatar.jpg';
+            // 默认用户名称
+            $default_username = MyLang('common_service.answer.no_username_name');
 
             foreach($data as &$v)
             {
@@ -87,7 +89,7 @@ class AnswerService
                     {
                         $v['user'] = [
                             'avatar'            => empty($user['avatar']) ? $default_avatar : $user['avatar'],
-                            'user_name_view'    => empty($user['user_name_view']) ? '网友' : $user['user_name_view'],
+                            'user_name_view'    => empty($user['user_name_view']) ? $default_username : $user['user_name_view'],
                         ];
                     } else {
                         $v['user'] = $user;
@@ -217,30 +219,32 @@ class AnswerService
                 'key_name'          => 'name',
                 'checked_data'      => '30',
                 'is_checked'        => 1,
-                'error_msg'         => '联系人最多30个字符',
+                'error_msg'         => MyLang('common_service.answer.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'isset',
                 'key_name'          => 'tel',
-                'error_msg'         => '请填写有效的电话',
+                'error_msg'         => MyLang('common_service.answer.form_item_tel_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'title',
                 'checked_data'      => '60',
                 'is_checked'        => 1,
-                'error_msg'         => '标题最多60个字符',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'content',
-                'error_msg'         => '详细内容不能为空',
+                'error_msg'         => MyLang('common_service.answer.form_item_title_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'content',
                 'checked_data'      => '1000',
-                'error_msg'         => '详细内容格式 2~1000 个字符',
+                'error_msg'         => MyLang('common_service.answer.form_item_content_message'),
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'reply',
+                'checked_data'      => '1000',
+                'is_checked'        => 1,
+                'error_msg'         => MyLang('common_service.answer.form_item_save_reply_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -306,7 +310,7 @@ class AnswerService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user_type',
-                'error_msg'         => '用户类型有误',
+                'error_msg'         => MyLang('user_type_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -331,7 +335,7 @@ class AnswerService
         {
             if(empty($params['user']))
             {
-                return DataReturn('用户信息有误', -1);
+                return DataReturn(MyLang('user_info_incorrect_tips'), -1);
             }
             $where['user_id'] = $params['user']['id'];
         }
@@ -363,15 +367,10 @@ class AnswerService
                 'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
-                'checked_type'      => 'empty',
-                'key_name'          => 'reply',
-                'error_msg'         => '回复内容不能为空',
-            ],
-            [
                 'checked_type'      => 'length',
                 'key_name'          => 'reply',
                 'checked_data'      => '1000',
-                'error_msg'         => '回复内容格式最多1000个字符',
+                'error_msg'         => MyLang('common_service.answer.form_item_reply_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -425,7 +424,7 @@ class AnswerService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'field',
-                'error_msg'         => '字段有误',
+                'error_msg'         => MyLang('operate_field_error_tips'),
             ],
             [
                 'checked_type'      => 'in',

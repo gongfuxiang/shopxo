@@ -334,7 +334,7 @@ class WarehouseService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'field',
-                'error_msg'         => '操作字段有误',
+                'error_msg'         => MyLang('operate_field_error_tips'),
             ],
             [
                 'checked_type'      => 'in',

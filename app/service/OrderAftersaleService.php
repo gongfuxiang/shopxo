@@ -91,7 +91,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'order_id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -126,7 +126,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -299,7 +299,7 @@ class OrderAftersaleService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -599,7 +599,7 @@ class OrderAftersaleService
                 'checked_type'      => 'empty',
                 'is_checked'        => 2,
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

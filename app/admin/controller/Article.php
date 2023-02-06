@@ -13,6 +13,7 @@ namespace app\admin\controller;
 use app\admin\controller\Base;
 use app\service\ApiService;
 use app\service\ArticleService;
+use app\service\ArticleCategoryService;
 use app\service\ResourcesService;
 
 /**
@@ -64,7 +65,7 @@ class Article extends Base
 		];
 
 		// 文章分类
-        $article_category = ArticleService::ArticleCategoryList(['field'=>'id,name']);
+        $article_category = ArticleCategoryService::ArticleCategoryList(['field'=>'id,name']);
         $assign['article_category_list'] = $article_category['data'];
 
         // 参数

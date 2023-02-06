@@ -41,12 +41,12 @@ class GoodsBrowseService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'goods_id',
-                'error_msg'         => '商品id有误',
+                'error_msg'         => MyLang('goods_id_error_tips'),
             ],
             [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

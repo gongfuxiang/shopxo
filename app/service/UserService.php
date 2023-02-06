@@ -667,7 +667,7 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -826,12 +826,12 @@ class UserService
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
                 'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
-                'error_msg'         => '登录类型有误',
+                'error_msg'         => MyLang('login_type_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'accounts',
-                'error_msg'         => '登录账号不能为空',
+                'error_msg'         => MyLang('accounts_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -843,7 +843,7 @@ class UserService
         // 是否开启用户注册
         if(!in_array($params['type'], MyC('home_user_login_type', [], true)))
         {
-            return DataReturn('暂时关闭登录', -1);
+            return DataReturn(MyLang('login_close_tips'), -1);
         }
 
         // 账户校验
@@ -906,7 +906,7 @@ class UserService
 
                 // 未知的字段
                  default :
-                    return DataReturn('验证类型有误', -1);
+                    return DataReturn(MyLang('verify_type_error_tips'), -1);
             }
 
             // 验证码校验
@@ -916,12 +916,12 @@ class UserService
                 // 是否已过期
                 if(!$obj->CheckExpire())
                 {
-                    return DataReturn('验证码已过期', -10);
+                    return DataReturn(MyLang('verify_code_expire_tips'), -10);
                 }
                 // 是否正确
                 if(!$obj->CheckCorrect($params['verify']))
                 {
-                    return DataReturn('验证码错误', -11);
+                    return DataReturn(MyLang('verify_code_error_tips'), -11);
                 }
             }
         }
@@ -930,7 +930,7 @@ class UserService
         $user = self::UserInfo($ac['data'], $params['accounts']);
         if(empty($user))
         {
-            return DataReturn('帐号不存在', -3);
+            return DataReturn(MyLang('accounts_error_tips'), -3);
         }
 
         // 密码校验
@@ -940,7 +940,7 @@ class UserService
             $pwd = LoginPwdEncryption($params['pwd'], $user['salt']);
             if($pwd != $user['pwd'])
             {
-                return DataReturn('密码错误', -4);
+                return DataReturn(MyLang('password_error_tips'), -4);
             }
         }
 
@@ -1082,24 +1082,24 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'accounts',
-                'error_msg'         => '账号不能为空',
+                'error_msg'         => MyLang('accounts_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'pwd',
-                'error_msg'         => '密码不能为空',
+                'error_msg'         => MyLang('password_empty_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
                 'checked_data'      => array_column(MyLang('common_user_reg_type_list'), 'value'),
-                'error_msg'         => '注册类型有误',
+                'error_msg'         => MyLang('register_type_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'verify',
                 'is_checked'        => 2,
-                'error_msg'         => '验证码不能为空',
+                'error_msg'         => MyLang('verify_code_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1123,7 +1123,7 @@ class UserService
         // 是否开启用户注册
         if(!in_array($params['type'], MyC('home_user_reg_type', [], true)))
         {
-            return DataReturn('暂时关闭用户注册', -1);
+            return DataReturn(MyLang('register_close_tips'), -1);
         }
 
         // 账户校验
@@ -1187,12 +1187,12 @@ class UserService
             // 是否已过期
             if(!$obj->CheckExpire())
             {
-                return DataReturn('验证码已过期', -10);
+                return DataReturn(MyLang('verify_code_expire_tips'), -10);
             }
             // 是否正确
             if(!$obj->CheckCorrect($params['verify']))
             {
-                return DataReturn('验证码错误', -11);
+                return DataReturn(MyLang('verify_code_error_tips'), -11);
             }
         }
 
@@ -1222,13 +1222,13 @@ class UserService
                 } else {
                     $result = $user_ret['data'];
                 }
-                return DataReturn('注册成功', 0, $result);
+                return DataReturn(MyLang('register_success'), 0, $result);
             }
             return DataReturn('注册成功，请到登录页面登录帐号');
         } else {
             return $user_ret;
         }
-        return DataReturn('注册失败', -100);
+        return DataReturn(MyLang('register_fail'), -100);
     }
 
     /**
@@ -1248,7 +1248,7 @@ class UserService
                 // 手机号码格式
                 if(!CheckMobile($params['accounts']))
                 {
-                     return DataReturn('手机号码格式错误', -2);
+                     return DataReturn(MyLang('mobile_format_error_tips'), -2);
                 }
 
                 // 手机号码是否已存在
@@ -1263,7 +1263,7 @@ class UserService
                 // 电子邮箱格式
                 if(!CheckEmail($params['accounts']))
                 {
-                     return DataReturn('电子邮箱格式错误', -2);
+                     return DataReturn(MyLang('email_format_error_tips'), -2);
                 }
 
                 // 电子邮箱是否已存在
@@ -1318,16 +1318,16 @@ class UserService
         {
             if(empty($params['verify']))
             {
-                return DataReturn('图片验证码为空', -10);
+                return DataReturn(MyLang('verify_images_empty_tips'), -10);
             }
             $verify = new \base\Verify($verify_params);
             if(!$verify->CheckExpire())
             {
-                return DataReturn('验证码已过期', -11);
+                return DataReturn(MyLang('verify_code_expire_tips'), -11);
             }
             if(!$verify->CheckCorrect($params['verify']))
             {
-                return DataReturn('验证码错误', -12);
+                return DataReturn(MyLang('verify_code_error_tips'), -12);
             }
             return DataReturn(MyLang('operate_success'), 0, $verify);
         }
@@ -1352,13 +1352,13 @@ class UserService
                 // 手机号码格式
                 if(!CheckMobile($params['accounts']))
                 {
-                     return DataReturn('手机号码格式错误', -2);
+                     return DataReturn(MyLang('mobile_format_error_tips'), -2);
                 }
 
                 // 手机号码是否不存在
                 if(!self::IsExistAccounts($params['accounts'], 'mobile'))
                 {
-                     return DataReturn('手机号码不存在、请先注册！', -3);
+                     return DataReturn(MyLang('mobile_no_exist_error_tips'), -3);
                 }
                 $field = 'mobile';
                 break;
@@ -1368,13 +1368,13 @@ class UserService
                 // 电子邮箱格式
                 if(!CheckEmail($params['accounts']))
                 {
-                     return DataReturn('电子邮箱格式错误', -2);
+                     return DataReturn(MyLang('email_format_error_tips'), -2);
                 }
 
                 // 电子邮箱是否不存在
                 if(!self::IsExistAccounts($params['accounts'], 'email'))
                 {
-                     return DataReturn('电子邮箱不存在、请先注册！', -3);
+                     return DataReturn(MyLang('email_no_exist_error_tips'), -3);
                 }
                 $field = 'email';
                 break;
@@ -1386,7 +1386,7 @@ class UserService
                 // 帐号是否不存在
                 if(!self::IsExistAccounts($params['accounts'], 'username|mobile|email'))
                 {
-                     return DataReturn('登录帐号不存在', -3);
+                     return DataReturn(MyLang('accounts_error_tips'), -3);
                 }
                 break;
         }
@@ -1408,13 +1408,13 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'accounts',
-                'error_msg'         => '账号不能为空',
+                'error_msg'         => MyLang('accounts_empty_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
                 'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
-                'error_msg'         => '登录类型有误',
+                'error_msg'         => MyLang('login_type_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1426,7 +1426,7 @@ class UserService
         // 是否开启用户登录
         if(!in_array($params['type'], MyC('home_user_login_type', [], true)))
         {
-            return DataReturn('暂时关闭登录', -1);
+            return DataReturn(MyLang('login_close_tips'), -1);
         }
 
         // 验证码基础参数
@@ -1477,7 +1477,7 @@ class UserService
 
             // 默认
             default :
-                return DataReturn('该类型不支持验证码发送', -2);
+                return DataReturn(MyLang('verify_code_not_support_send_error_tips'), -2);
         }
         
         // 状态
@@ -1510,13 +1510,13 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'accounts',
-                'error_msg'         => '账号不能为空',
+                'error_msg'         => MyLang('accounts_empty_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
                 'checked_data'      => array_column(MyLang('common_user_reg_type_list'), 'value'),
-                'error_msg'         => '注册类型有误',
+                'error_msg'         => MyLang('register_type_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1528,7 +1528,7 @@ class UserService
         // 是否开启用户注册
         if(!in_array($params['type'], MyC('home_user_reg_type', [], true)))
         {
-            return DataReturn('暂时关闭用户注册', -1);
+            return DataReturn(MyLang('register_close_tips'), -1);
         }
 
         // 验证码基础参数
@@ -1579,7 +1579,7 @@ class UserService
 
             // 默认
             default :
-                return DataReturn('该类型不支持验证码发送', -2);
+                return DataReturn(MyLang('verify_code_not_support_send_error_tips'), -2);
         }
         
         // 状态
@@ -1725,17 +1725,17 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'accounts',
-                'error_msg'         => '账号不能为空',
+                'error_msg'         => MyLang('accounts_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'pwd',
-                'error_msg'         => '密码不能为空',
+                'error_msg'         => MyLang('password_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'verify',
-                'error_msg'         => '验证码不能为空',
+                'error_msg'         => MyLang('verify_code_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1777,12 +1777,12 @@ class UserService
         // 是否已过期
         if(!$obj->CheckExpire())
         {
-            return DataReturn('验证码已过期', -10);
+            return DataReturn(MyLang('verify_code_expire_tips'), -10);
         }
         // 是否正确
         if(!$obj->CheckCorrect($params['verify']))
         {
-            return DataReturn('验证码错误', -11);
+            return DataReturn(MyLang('verify_code_error_tips'), -11);
         }
 
         // 获取用户信息
@@ -1839,7 +1839,7 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2477,7 +2477,7 @@ class UserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'verify',
-                'error_msg'         => '验证码不能为空',
+                'error_msg'         => MyLang('verify_code_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2501,7 +2501,7 @@ class UserService
         // 手机号码格式
         if(!CheckMobile($params['mobile']))
         {
-            return DataReturn('手机号码格式错误', -2);
+            return DataReturn(MyLang('mobile_format_error_tips'), -2);
         }
 
         // 验证码校验
@@ -2514,12 +2514,12 @@ class UserService
         // 是否已过期
         if(!$obj->CheckExpire())
         {
-            return DataReturn('验证码已过期', -10);
+            return DataReturn(MyLang('verify_code_expire_tips'), -10);
         }
         // 是否正确
         if(!$obj->CheckCorrect($params['verify']))
         {
-            return DataReturn('验证码错误', -11);
+            return DataReturn(MyLang('verify_code_error_tips'), -11);
         }
 
         // 用户更新数据

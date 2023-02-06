@@ -13,8 +13,8 @@
 			<div class="am-cf">
     			<div class="am-u-sm-6 am-padding-horizontal-0">
     				<div class="am-form-group">
-						<label>{{:MyLang('apphomenav.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-						<input type="text" name="name" placeholder="{{:MyLang('apphomenav.form_item_name_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('apphomenav.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+						<label>{{:MyLang('common_service.apphomenav.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<input type="text" name="name" placeholder="{{:MyLang('common_service.apphomenav.form_item_name_message')}}" minlength="2" maxlength="60" data-validation-message="{{:MyLang('common_service.apphomenav.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
 					</div>
     			</div>
     			<div class="am-u-sm-6 am-padding-horizontal-0">
@@ -84,7 +84,7 @@
 		    					</div>
 		    					<div class="am-u-sm-12 am-u-md-6 am-padding-horizontal-0">
 		    						<div class="am-form-group">
-									    <label class="am-block">{{:MyLang('apphomenav.form_item_is_need_login')}}</label>
+									    <label class="am-block">{{:MyLang('common_service.apphomenav.form_item_is_need_login')}}</label>
 									    <input name="is_need_login" value="1" type="checkbox" data-off-text="{{:MyLang('no_title')}}" data-on-text="{{:MyLang('yes_title')}}" data-size="xs" data-on-color="success" data-off-color="default" data-handle-width="50" data-am-switch {{if !empty($data) and $data['is_need_login'] eq 1}} checked="true"{{/if}} />
 									</div>
 		    					</div>

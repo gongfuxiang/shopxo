@@ -218,7 +218,7 @@ class WarehouseGoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'field',
-                'error_msg'         => '操作字段有误',
+                'error_msg'         => MyLang('operate_field_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
@@ -376,7 +376,7 @@ class WarehouseGoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'goods_id',
-                'error_msg'         => '商品id有误',
+                'error_msg'         => MyLang('goods_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -428,7 +428,7 @@ class WarehouseGoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'goods_id',
-                'error_msg'         => '商品id有误',
+                'error_msg'         => MyLang('goods_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -480,7 +480,7 @@ class WarehouseGoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '数据id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -598,7 +598,7 @@ class WarehouseGoodsService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '数据id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',

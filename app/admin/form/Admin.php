@@ -25,6 +25,27 @@ class Admin
     // 基础条件
     public $condition_base = [];
 
+    // 角色列表
+    public $role_list;
+
+    /**
+     * @author  Devil
+     * @blog    http://gong.gg/
+     * @version 1.0.0
+     * @date    2020-06-29
+     * @desc    description
+     * @param   [array]           $params [输入参数]
+     */
+    public function __construct($params = [])
+    {
+        // 角色列表
+        $res = AdminService::RoleList([
+            'where'     => ['is_enable'=>1],
+            'field'     => 'id,name',
+        ]);
+        $this->role_list = empty($res['data']) ? [] : array_column($res['data'], null, 'id');
+    }
+
     /**
      * 入口
      * @author  Devil
@@ -40,9 +61,10 @@ class Admin
         return [
             // 基础配置
             'base' => [
-                'key_field'     => 'id',
-                'is_search'     => 1,
-                'is_delete'     => 1,
+                'key_field'             => 'id',
+                'is_search'             => 1,
+                'is_delete'             => 1,
+                'is_data_export_excel'  => 1,
             ],
             // 表单配置
             'form' => [
@@ -67,7 +89,7 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => $lang['username'],
+                    'label'         => $lang['status'],
                     'view_type'     => 'field',
                     'view_key'      => 'status',
                     'view_data_key' => 'name',
@@ -83,7 +105,7 @@ class Admin
                     ],
                 ],
                 [
-                    'label'         => $lang['username'],
+                    'label'         => $lang['gender'],
                     'view_type'     => 'field',
                     'view_key'      => 'gender',
                     'view_data_key' => 'name',
@@ -121,13 +143,14 @@ class Admin
                 [
                     'label'         => $lang['role_name'],
                     'view_type'     => 'field',
-                    'view_key'      => 'role_name',
+                    'view_key'      => 'role_id',
+                    'view_data_key' => 'name',
+                    'view_data'     => $this->role_list,
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
-                        'form_name'         => 'role_id',
                         'where_type'        => 'in',
-                        'data'              => $this->GetRoleList(),
+                        'data'              => $this->role_list,
                         'data_key'          => 'id',
                         'data_name'         => 'name',
                         'is_multiple'       => 1,
@@ -179,9 +202,9 @@ class Admin
             ],
             // 数据配置
             'data'  => [
-                'table_name'    => 'Admin',
-                'data_handle'   => 'AdminService::AdminListHandle',
-                'is_page'       => 1,
+                'table_name'            => 'Admin',
+                'is_page'               => 1,
+                'is_handle_time_field'  => 1,
             ],
         ];
     }
@@ -196,13 +219,7 @@ class Admin
      */
     public function GetRoleList()
     {
-        // 角色
-        $params = [
-            'where'     => ['is_enable'=>1],
-            'field'     => 'id,name',
-        ];
-        $res = AdminService::RoleList($params);
-        return $res['data'];
+        
     }
 }
 ?>

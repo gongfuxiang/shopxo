@@ -473,7 +473,7 @@ class PaymentService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'field',
-                'error_msg'         => '未指定操作字段',
+                'error_msg'         => MyLang('operate_field_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
@@ -542,7 +542,7 @@ class PaymentService
         $type = ResourcesService::ZipExtTypeList();
         if(!in_array($_FILES['file']['type'], $type))
         {
-            return DataReturn('文件格式有误，请上传zip压缩包', -2);
+            return DataReturn(MyLang('form_upload_zip_message'), -2);
         }
 
         // 上传处理
@@ -576,7 +576,7 @@ class PaymentService
         $resource = $zip->open($package_file);
         if($resource != true)
         {
-            return DataReturn('压缩包打开失败['.$resource.']', -11);
+            return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
 
         $success = 0;

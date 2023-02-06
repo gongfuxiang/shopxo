@@ -146,7 +146,7 @@ class SystemUpgradeService
         $resource = $zip->open($package_file);
         if($resource != true)
         {
-            return DataReturn('压缩包打开失败['.$resource.']', -11);
+            return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
 
         // 需要处理的文件
@@ -198,7 +198,7 @@ class SystemUpgradeService
         $resource = $zip->open($package_file);
         if($resource != true)
         {
-            return DataReturn('压缩包打开失败['.$resource.']', -11);
+            return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
         for($i=0; $i<$zip->numFiles; $i++)
         {

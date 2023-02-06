@@ -27,46 +27,6 @@ class AdminService
     public static $admin_login_key = 'admin_login_info';
 
     /**
-     * 列表数据处理
-     * @author  Devil
-     * @blog    http://gong.gg/
-     * @version 1.0.0
-     * @date    2022-08-01
-     * @desc    description
-     * @param   [array]          $data   [数据列表]
-     * @param   [array]          $params [输入参数]
-     */
-    public static function AdminListHandle($data, $params = [])
-    {
-        if(!empty($data))
-        {
-            // 获取当前用户角色名称
-            $roles =  Db::name('Role')->where('id', 'in', array_column($data, 'role_id'))->column('name', 'id');
-
-            // 数据处理
-            $common_gender_list = MyLang('common_gender_list');
-            $common_admin_status_list = MyLang('common_admin_status_list');
-            foreach($data as &$v)
-            {
-                // 所在角色组
-                $v['role_name'] = isset($roles[$v['role_id']]) ? $roles[$v['role_id']] : '';
-
-                // 性别
-                $v['gender_text'] = isset($common_gender_list[$v['gender']]) ? $common_gender_list[$v['gender']]['name'] : '';
-
-                // 状态
-                $v['status_text'] = isset($common_admin_status_list[$v['status']]) ? $common_admin_status_list[$v['status']]['name'] : '';
-
-                // 时间
-                $v['login_time'] = empty($v['login_time']) ? '' : date('Y-m-d H:i:s', $v['login_time']);
-                $v['add_time'] = empty($v['add_time']) ? '' : date('Y-m-d H:i:s', $v['add_time']);
-                $v['upd_time'] = empty($v['upd_time']) ? '' : date('Y-m-d H:i:s', $v['upd_time']);
-            }
-        }
-        return $data;
-    }
-
-    /**
      * 角色列表
      * @author   Devil
      * @blog     http://gong.gg/
@@ -97,33 +57,33 @@ class AdminService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'admin',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('common_service.admin.save_admin_info_error_tips'),
             ],
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'mobile',
                 'checked_data'      => 'CheckMobile',
                 'is_checked'        => 1,
-                'error_msg'         => '手机号码格式错误',
+                'error_msg'         => MyLang('common_service.admin.form_item_mobile_message'),
             ],
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'email',
                 'checked_data'      => 'CheckEmail',
                 'is_checked'        => 1,
-                'error_msg'         => '电子邮箱格式错误、最多60个字符',
+                'error_msg'         => MyLang('common_service.admin.form_item_email_message'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'gender',
                 'checked_data'      => [0,1,2],
-                'error_msg'         => '性别值范围不正确',
+                'error_msg'         => MyLang('common_service.admin.save_gender_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'status',
                 'checked_data'      => array_column(MyLang('common_admin_status_list'), 'value'),
-                'error_msg'         => '状态值范围不正确',
+                'error_msg'         => MyLang('common_service.admin.save_status_tips'),
             ],
             [
                 'checked_type'      => 'unique',
@@ -131,7 +91,7 @@ class AdminService
                 'checked_data'      => 'Admin',
                 'checked_key'       => 'id',
                 'is_checked'        => 1,
-                'error_msg'         => '手机号码已存在[{$var}]',
+                'error_msg'         => MyLang('common_service.admin.save_mobile_already_exist_tips'),
             ],
             [
                 'checked_type'      => 'unique',
@@ -139,7 +99,7 @@ class AdminService
                 'checked_data'      => 'Admin',
                 'checked_key'       => 'id',
                 'is_checked'        => 1,
-                'error_msg'         => '电子邮箱已存在[{$var}]',
+                'error_msg'         => MyLang('common_service.admin.save_email_already_exist_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -165,36 +125,36 @@ class AdminService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'username',
-                'error_msg'         => '用户名不能为空',
-            ],
-            [
-                'checked_type'      => 'empty',
-                'key_name'          => 'login_pwd',
-                'error_msg'         => '密码不能为空',
+                'error_msg'         => MyLang('common_service.admin.form_item_username_placeholder'),
             ],
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'username',
                 'checked_data'      => 'CheckUserName',
-                'error_msg'         => '用户名格式 5~18 个字符（可以是字母数字下划线）',
+                'error_msg'         => MyLang('common_service.admin.form_item_username_message'),
             ],
             [
                 'checked_type'      => 'unique',
                 'key_name'          => 'username',
                 'checked_data'      => 'Admin',
                 'checked_key'       => 'id',
-                'error_msg'         => '管理员已存在[{$var}]',
+                'error_msg'         => MyLang('common_service.admin.save_admin_already_exist_tips'),
+            ],
+            [
+                'checked_type'      => 'empty',
+                'key_name'          => 'login_pwd',
+                'error_msg'         => MyLang('common_service.admin.form_item_password_placeholder'),
             ],
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'login_pwd',
                 'checked_data'      => 'CheckLoginPwd',
-                'error_msg'         => '密码格式 6~18 个字符',
+                'error_msg'         => MyLang('common_service.admin.form_item_password_message'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'role_id',
-                'error_msg'         => '角色组有误',
+                'error_msg'         => MyLang('common_service.admin.form_item_role_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -242,7 +202,7 @@ class AdminService
                 'key_name'          => 'login_pwd',
                 'checked_data'      => 'CheckLoginPwd',
                 'is_checked'        => 1,
-                'error_msg'         => '密码格式 6~18 个字符',
+                'error_msg'         => MyLang('common_service.admin.form_item_password_message'),
             ],
         ];
         if($params['id'] != $params['admin']['id'])
@@ -250,7 +210,7 @@ class AdminService
             $p[] = [
                 'checked_type'      => 'empty',
                 'key_name'          => 'role_id',
-                'error_msg'         => '角色组有误',
+                'error_msg'         => MyLang('common_service.admin.form_item_role_message'),
             ];
         }
         $ret = ParamsChecked($params, $p);
@@ -262,7 +222,7 @@ class AdminService
         // 是否非法修改超管
         if($params['id'] == 1 && $params['id'] != $params['admin']['id'])
         {
-            return DataReturn('非法操作', -1);
+            return DataReturn(MyLang('illegal_operate_tips'), -1);
         }
 
         // 数据
@@ -313,7 +273,7 @@ class AdminService
         // 参数是否有误
         if(empty($params['ids']))
         {
-            return DataReturn('管理员id有误', -1);
+            return DataReturn(MyLang('data_id_error_tips'), -1);
         }
         // 是否数组
         if(!is_array($params['ids']))
@@ -324,7 +284,7 @@ class AdminService
         // 是否包含删除超级管理员
         if(in_array(1, $params['ids']))
         {
-            return DataReturn('超级管理员不可删除', -1);
+            return DataReturn(MyLang('common_service.admin.delete_super_admin_not_tips'), -1);
         }
            
         // 删除操作
@@ -351,12 +311,12 @@ class AdminService
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
                 'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
-                'error_msg'         => '登录类型有误',
+                'error_msg'         => MyLang('login_type_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'accounts',
-                'error_msg'         => '登录账号不能为空',
+                'error_msg'         => MyLang('accounts_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -368,7 +328,7 @@ class AdminService
         // 是否开启用户注册
         if(!in_array($params['type'], MyC('admin_login_type', [], true)))
         {
-            return DataReturn('暂时关闭登录', -1);
+            return DataReturn(MyLang('login_close_tips'), -1);
         }
 
         // 账户校验
@@ -388,17 +348,18 @@ class AdminService
         if($params['type'] == 'username')
         {
             // 请求参数
+            $password_message = MyLang('common_service.admin.form_item_password_message');
             $p = [
                 [
                     'checked_type'      => 'empty',
                     'key_name'          => 'pwd',
-                    'error_msg'         => '密码格式 6~18 个字符之间',
+                    'error_msg'         => $password_message,
                 ],
                 [
                     'checked_type'      => 'fun',
                     'key_name'          => 'pwd',
                     'checked_data'      => 'CheckLoginPwd',
-                    'error_msg'         => '密码格式 6~18 个字符',
+                    'error_msg'         => $password_message,
                 ],
             ];
             $ret = ParamsChecked($params, $p);
@@ -431,7 +392,7 @@ class AdminService
 
                 // 未知的字段
                  default :
-                    return DataReturn('验证类型有误', -1);
+                    return DataReturn(MyLang('verify_type_error_tips'), -1);
             }
 
             // 验证码校验
@@ -441,12 +402,12 @@ class AdminService
                 // 是否已过期
                 if(!$obj->CheckExpire())
                 {
-                    return DataReturn('验证码已过期', -10);
+                    return DataReturn(MyLang('verify_code_expire_tips'), -10);
                 }
                 // 是否正确
                 if(!$obj->CheckCorrect($params['verify']))
                 {
-                    return DataReturn('验证码错误', -11);
+                    return DataReturn(MyLang('verify_code_error_tips'), -11);
                 }
             }
         }
@@ -455,7 +416,7 @@ class AdminService
         $admin = Db::name('Admin')->field('id,username,mobile,email,login_pwd,login_salt,login_total,role_id')->where([$ac['data']=>$params['accounts'], 'status'=>0])->find();
         if(empty($admin))
         {
-            return DataReturn('账户异常', -2);
+            return DataReturn(MyLang('account_abnormal_tips'), -2);
         }
 
         // 密码校验
@@ -465,7 +426,7 @@ class AdminService
             $pwd = LoginPwdEncryption($params['pwd'], $admin['login_salt']);
             if($pwd != $admin['login_pwd'])
             {
-                return DataReturn('密码错误', -3);
+                return DataReturn(MyLang('password_error_tips'), -3);
             }
         }
 
@@ -498,7 +459,7 @@ class AdminService
 
         // 失败
         self::LoginLogout();
-        return DataReturn('登录失败，请稍后再试！', -100);
+        return DataReturn(MyLang('login_fail_tips'), -100);
     }
 
     /**
@@ -559,13 +520,13 @@ class AdminService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'accounts',
-                'error_msg'         => '账号不能为空',
+                'error_msg'         => MyLang('accounts_empty_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'type',
                 'checked_data'      => array_column(MyLang('common_login_type_list'), 'value'),
-                'error_msg'         => '登录类型有误',
+                'error_msg'         => MyLang('login_type_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -577,7 +538,7 @@ class AdminService
         // 是否开启用户注册
         if(!in_array($params['type'], MyC('admin_login_type', [], true)))
         {
-            return DataReturn('暂时关闭登录', -1);
+            return DataReturn(MyLang('login_close_tips'), -1);
         }
 
         // 验证码基础参数
@@ -620,7 +581,7 @@ class AdminService
                 $email_params = [
                         'email'     =>  $params['accounts'],
                         'content'   =>  MyC('admin_email_login_template'),
-                        'title'     =>  MyC('home_site_name').' - 管理员登录',
+                        'title'     =>  MyC('home_site_name').MyLang('common_service.admin.login_verify_send_last_title'),
                         'code'      =>  $code,
                     ];
                 $status = $obj->SendHtml($email_params);
@@ -628,7 +589,7 @@ class AdminService
 
             // 默认
             default :
-                return DataReturn('该类型不支持验证码发送', -2);
+                return DataReturn(MyLang('verify_code_not_support_send_error_tips'), -2);
         }
         
         // 状态
@@ -664,13 +625,13 @@ class AdminService
                 // 手机号码格式
                 if(!CheckMobile($params['accounts']))
                 {
-                     return DataReturn('手机号码格式错误', -2);
+                     return DataReturn(MyLang('mobile_format_error_tips'), -2);
                 }
 
                 // 手机号码是否存在
                 if(!self::IsExistAccounts($params['accounts'], 'mobile'))
                 {
-                     return DataReturn('手机号码不存在、请先注册！', -3);
+                     return DataReturn(MyLang('mobile_no_exist_error_tips'), -3);
                 }
                 $field = 'mobile';
                 break;
@@ -680,13 +641,13 @@ class AdminService
                 // 电子邮箱格式
                 if(!CheckEmail($params['accounts']))
                 {
-                     return DataReturn('电子邮箱格式错误', -2);
+                     return DataReturn(MyLang('email_format_error_tips'), -2);
                 }
 
                 // 电子邮箱是否存在
                 if(!self::IsExistAccounts($params['accounts'], 'email'))
                 {
-                     return DataReturn('电子邮箱不存在、请先注册！', -3);
+                     return DataReturn(MyLang('email_no_exist_error_tips'), -3);
                 }
                 $field = 'email';
                 break;
@@ -696,13 +657,13 @@ class AdminService
                 // 用户名格式
                 if(!CheckUserName($params['accounts']))
                 {
-                     return DataReturn('用户名格式由 字母数字下划线 2~18 个字符', -2);
+                     return DataReturn(MyLang('common_service.admin.form_item_username_message'), -2);
                 }
 
                 // 用户名是否存在
                 if(!self::IsExistAccounts($params['accounts'], 'username'))
                 {
-                     return DataReturn('帐号不存在', -3);
+                     return DataReturn(MyLang('accounts_error_tips'), -3);
                 }
                 $field = 'username';
                 break;
@@ -756,16 +717,16 @@ class AdminService
         {
             if(empty($params['verify']))
             {
-                return DataReturn('图片验证码为空', -10);
+                return DataReturn(MyLang('verify_images_empty_tips'), -10);
             }
             $verify = new \base\Verify($verify_params);
             if(!$verify->CheckExpire())
             {
-                return DataReturn('验证码已过期', -11);
+                return DataReturn(MyLang('verify_code_expire_tips'), -11);
             }
             if(!$verify->CheckCorrect($params['verify']))
             {
-                return DataReturn('验证码错误', -12);
+                return DataReturn(MyLang('verify_code_error_tips'), -12);
             }
             return DataReturn(MyLang('check_success'), 0, $verify);
         }

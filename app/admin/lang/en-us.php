@@ -336,18 +336,6 @@ return [
     // 品牌
     'brand'                 => [
         'base_nav_title'                        => 'Brand',
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'The name is 2~30 characters long',
-        'form_item_brand_category_id'           => 'Brand Category',
-        'form_item_brand_category_id_message'   => 'Please select brand category',
-        'form_item_website_url'                 => 'Website address',
-        'form_item_website_url_placeholder'     => 'Official website address, starting with http://or https://',
-        'form_item_website_url_message'         => 'Incorrect format of official website address',
-        'form_item_describe'                    => 'describe',
-        'form_item_describe_message'            => 'Description can be up to 230 characters',
-        'form_item_logo'                        => 'LOGO',
-        'form_item_logo_tips'                   => 'Recommended 150*50px',
         // 动态表格
         'form_table'                            => [
             'name'                 => 'Name',
@@ -365,9 +353,6 @@ return [
     // 品牌分类
     'brandcategory'       => [
         'base_nav_title'                        => 'BrandCategory',
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'The name is 2~16 characters long',
     ],
 
     // 文章
@@ -375,18 +360,6 @@ return [
         'base_nav_title'                        => 'Article',
         'detail_content_title'                  => 'Detail Content',
         'detail_images_title'                   => 'Detail Picture',
-        // 表单
-        'form_item_title'                       => 'Title',
-        'form_item_title_message'               => 'The title is 2~60 characters long',
-        'form_item_article_category'            => 'Article Category',
-        'form_item_article_category_message'    => 'Please select an article category',
-        'form_item_jump_url_title'              => 'Jump url address',
-        'form_item_jump_url_tips'               => 'With http://or https://, only valid on the web side',
-        'form_item_jump_url_message'            => 'The jump url address format is incorrect',
-        'form_item_is_home_recommended_title'   => 'Home page recommendation',
-        'form_item_content_title'               => 'Content',
-        'form_item_content_placeholder'         => 'The content format is between 10 and 105000 characters. For more editing functions, please use the computer to access',
-        'form_item_content_message'             => 'Content format is between 10 and 105000 characters',
         // 动态表格
         'form_table'                            => [
             'info'                   => 'Title',
@@ -404,9 +377,6 @@ return [
     // 文章分类
     'articlecategory'       => [
         'base_nav_title'                        => 'ArticleCategory',
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'The name is 2~16 characters long',
     ],
 
     // 自定义页面
@@ -467,20 +437,6 @@ return [
     'answer'                => [
         'base_nav_title'                        => 'Q&A',
         'user_info_title'                       => 'User Info',
-        // 表单
-        'form_item_name'                        => 'Contacts',
-        'form_item_name_message'                => 'Contact format can be up to 30 characters',
-        'form_item_tel'                         => 'Telephone',
-        'form_item_tel_message'                 => 'Please fill in a valid phone number',
-        'form_item_title'                       => 'Title',
-        'form_item_title_message'               => 'Header format can be up to 60 characters',
-        'form_item_access_count'                => 'Number of visits',
-        'form_item_access_count_message'        => 'Number of visits in the format of 0~9',
-        'form_item_content'                     => 'Content',
-        'form_item_content_message'             => 'Content format is between 5 and 1000 characters',
-        'form_item_reply'                       => 'Reply Content',
-        'form_item_reply_message'               => 'Reply content format can be up to 1000 characters',
-        'form_is_reply'                         => 'Reply or not',
         // 动态表格
         'form_table'                            => [
             'user'              => 'User Info',
@@ -582,26 +538,6 @@ return [
         // 忘记密码
         'form_forget_password_name'             => 'Forgot Password?',
         'form_forget_password_tips'             => 'Please contact the administrator to reset the password',
-        // 表单
-        'form_item_username'                    => 'Userame',
-        'form_item_username_placeholder'        => 'enter one username',
-        'form_item_username_message'            => 'Please use letters, numbers and underscores for 2~18 characters',
-        'form_item_password'                    => 'Login Password',
-        'form_item_password_placeholder'        => 'Please enter the login password',
-        'form_item_password_message'            => 'Password format is between 6 and 18 characters',
-        'form_item_mobile'                      => 'Phone Number',
-        'form_item_mobile_placeholder'          => 'Please enter your mobile number',
-        'form_item_mobile_message'              => 'Mobile number format error',
-        'form_item_email'                       => 'E-mail',
-        'form_item_email_placeholder'           => 'Please enter email address',
-        'form_item_email_message'               => 'Email format error',
-        'form_item_username_created_tips'       => 'Cannot be changed after creation',
-        'form_item_username_edit_tips'          => 'Not changeable',
-        'form_item_role'                        => 'Permission group',
-        'form_item_role_message'                => 'Please select the role group',
-        'form_item_password_edit_tips'          => 'Enter to change the password',
-        'form_item_status'                      => 'Status',
-        'form_item_status_message'              => 'Please select user status',
         // 动态表格
         'form_table'                            => [
             'username'              => 'Admin',
@@ -1272,12 +1208,6 @@ return [
     // 用户中心导航
     'appcenternav'          => [
         'base_nav_title'                        => 'Mobile User Center Navigation',
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format: 2~60 characters',
-        'form_item_desc'                        => 'Describe',
-        'form_item_desc_message'                => 'Description can be up to 18 characters',
-        'form_item_images_url'                  => 'Navigation Icon',
         // 动态表格
         'form_table'                            => [
             'name'           => 'Name',
@@ -1296,11 +1226,6 @@ return [
     // 手机首页导航
     'apphomenav'          => [
         'base_nav_title'                        => 'Home Navigation',
-        // 表单
-        'form_item_name'                        => 'Name',
-        'form_item_name_message'                => 'Name format: 2~60 characters',
-        'form_item_images_url'                  => 'Navigation Icon',
-        'form_item_is_need_login'               => 'Whether login is required',
         // 动态表格
         'form_table'                            => [
             'name'           => 'Name',
@@ -1461,14 +1386,6 @@ return [
     'role'                  => [
         'base_nav_title'                        => 'Role',
         'admin_not_modify_tips'                 => 'The super administrator has all permissions by default and cannot be changed.',
-        // 表单
-        'form_item_name'                        => 'Role Name',
-        'form_item_name_message'                => 'Role name format 2~16 characters',
-        'form_item_menu'                        => 'Menu Power',
-        'form_item_menu_no_data_tips'           => 'No menu data',
-        'form_item_plugins'                     => 'Plugins Power',
-        'form_item_plugins_tips'                => 'The plug-in also needs to check [Application Center ->Application Management+Application Call Management] permission in the current menu permission',
-        'form_item_plugins_no_data_tips'        => 'No plugins data',
         // 动态表格
         'form_table'                            => [
             'name'       => 'Role Name',

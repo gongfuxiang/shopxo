@@ -43,8 +43,8 @@ class User
                 'key_field'             => 'id',
                 'is_search'             => 1,
                 'is_delete'             => 1,
-                'is_data_export_excel'  => 1,
                 'is_middle'             => 0,
+                'is_data_export_excel'  => 1,
             ],
             // 表单配置
             'form' => [
@@ -141,7 +141,9 @@ class User
                 [
                     'label'         => $lang['gender_name'],
                     'view_type'     => 'field',
-                    'view_key'      => 'gender_name',
+                    'view_key'      => 'gender',
+                    'view_data_key' => 'name',
+                    'view_data'     => MyLang('common_gender_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
@@ -156,7 +158,9 @@ class User
                 [
                     'label'         => $lang['status_name'],
                     'view_type'     => 'field',
-                    'view_key'      => 'status_name',
+                    'view_key'      => 'status',
+                    'view_data_key' => 'name',
+                    'view_data'     => MyLang('common_user_status_list'),
                     'is_sort'       => 1,
                     'search_config' => [
                         'form_type'         => 'select',
@@ -278,17 +282,8 @@ class User
             ],
             // 数据配置
             'data'  => [
-                'table_name'            => 'User',
-                'data_handle'           => 'UserService::UserListHandle',
-                'is_fixed_name_field'   => 1,
-                'fixed_name_data'       => [
-                    'status'        => [
-                        'data'  => MyLang('common_user_status_list'),
-                    ],
-                    'gender'    => [
-                        'data'  => MyLang('common_gender_list'),
-                    ],
-                ],
+                'table_name'   => 'User',
+                'data_handle'  => 'UserService::UserListHandle',
             ],
         ];
     }

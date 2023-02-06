@@ -13,6 +13,7 @@ namespace app\index\controller;
 use app\service\SeoService;
 use app\service\ApiService;
 use app\service\ArticleService;
+use app\service\ArticleCategoryService;
 
 /**
  * 文章详情
@@ -87,7 +88,7 @@ class Article extends Common
             ];
 
 			// 文章分类
-			$article_category = ArticleService::ArticleCategoryList();
+			$article_category = ArticleCategoryService::ArticleCategoryList();
             $assign['category_list'] = $article_category['data'];
 
             // seo
@@ -156,11 +157,11 @@ class Article extends Common
         ];
 
         // 获取分类
-        $article_category = ArticleService::ArticleCategoryList();
+        $article_category = ArticleCategoryService::ArticleCategoryList();
         $assign['category_list'] = $article_category['data'];
 
         // 分类信息
-        $category_info = ArticleService::ArticleCategoryInfo($this->data_request, $article_category['data']);
+        $category_info = ArticleCategoryService::ArticleCategoryInfo($this->data_request, $article_category['data']);
         $assign['category_info'] = $category_info;
 
         // 浏览器名称

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\form;
 
-use app\service\ArticleService;
+use app\service\ArticleCategoryService;
 
 /**
  * 文章动态表格
@@ -190,7 +190,7 @@ class Article
      */
     public function ArticleCategoryList()
     {
-        $res = ArticleService::ArticleCategoryList(['field'=>'id,name']);
+        $res = ArticleCategoryService::ArticleCategoryList(['field'=>'id,name']);
         return $res['data'];
     }
 }

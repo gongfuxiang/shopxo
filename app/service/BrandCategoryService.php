@@ -83,7 +83,7 @@ class BrandCategoryService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,16',
-                'error_msg'         => '名称格式 2~16 个字符',
+                'error_msg'         => MyLang('common_service.brandcategory.form_item_name_message'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -133,12 +133,12 @@ class BrandCategoryService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '删除数据id有误',
+                'error_msg'         => MyLang('data_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'admin',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

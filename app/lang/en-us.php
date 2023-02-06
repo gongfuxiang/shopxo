@@ -120,6 +120,8 @@ return [
     'auth_success'                                          => 'Authorization Succeeded',
     'upload_fail'                                           => 'Upload Failed',
     'upload_success'                                        => 'Upload Succeeded',
+    'download_fail'                                         => 'Download Failed',
+    'download_success'                                      => 'Download Succeeded',
     'apply_fail'                                            => 'Application Failed',
     'apply_success'                                         => 'Application Succeeded',
     'handle_fail'                                           => 'Processing Failed',
@@ -159,6 +161,9 @@ return [
     'audit_success'                                         => 'Audit Succeeded',
     'confirm_fail'                                          => 'Confirm Failed',
     'confirm_success'                                       => 'Confirm Succeeded',
+    'register_fail'                                         => 'Register Failed',
+    'register_success'                                      => 'Register Succeeded',
+    'login_fails'                                           => 'Login Failed',
     'login_success'                                         => 'Login Succeeded',
     'quit_success'                                          => 'Quit Succeeded',
     'no_data'                                               => 'No Relevant Data',
@@ -166,6 +171,7 @@ return [
     'params_error_tips'                                     => 'Params Error',
     'content_params_empty_tips'                             => 'Content parameter is empty',
     'illegal_access_tips'                                   => 'illegal access',
+    'illegal_operate_tips'                                  => 'illegal operate',
     'login_failure_tips'                                    => 'Login Failed, please login again',
     'upgrading_tips'                                        => 'Upgrading...',
     'processing_tips'                                       => 'Processing...',
@@ -185,7 +191,6 @@ return [
     'no_config_data_tips'                                   => 'No data configured',
     'config_empty_tips'                                     => 'Configuration is empty',
     'config_error_tips'                                     => 'Incorrect configuration',
-    'data_id_error_tips'                                    => 'Incorrect data id',
     'data_no_exist_error_tips'                              => 'Data does not exist',
     'data_no_exist_or_delete_error_tips'                    => 'Data does not exist or has been deleted',
     'goods_no_exist_or_delete_error_tips'                   => 'Item does not exist or has been deleted',
@@ -193,13 +198,22 @@ return [
     'no_power_tips'                                         => 'No permission',
     'not_open_developer_mode_tips'                          => 'Please start developer mode first',
     'plugins_view_region_config_tips'                       => 'This area is plug-in extension data. Please fill in the corresponding value according to the plug-in document',
+    'user_id_error_tips'                                    => 'Wrong user ID',
+    'user_info_incorrect_tips'                              => 'Incorrect user information',
     'user_info_abnormal_tips'                               => 'Abnormal user information',
-    'gods_info_abnormal_tips'                               => 'Abnormal goods information',
+    'user_type_error_tips'                                  => 'Wrong user type',
     'user_delete_operate_tips'                              => 'User deleted',
+    'goods_id_error_tips'                                   => 'Wrong goods ID',
+    'gods_info_incorrect_tips'                              => 'Incorrect goods information',
+    'gods_info_abnormal_tips'                               => 'Abnormal goods information',
+    'order_id_error_tips'                                   => 'Wrong order ID',
+    'order_info_incorrect_tips'                             => 'The order information is incorrect',
+    'data_id_error_tips'                                    => 'Wrong data ID',
     'back_prev_page_name'                                   => 'Return to the previous page',
     'back_prev_time_auto_text'                              => 'Second automatic return',
     'view_config_course_name'                               => 'View the configuration tutorial',
     'payment_method_error_tips'                             => 'Incorrect payment method',
+    'operate_field_error_tips'                              => 'Operation field error',
     // 商店
     'store_bind_account_name'                               => 'Bind ShopXO store account',
     'store_bind_account_tips'                               => 'If it is bound, please clear the cache under the menu tool on the left side of the mall background and try to access it again!',
@@ -229,6 +243,8 @@ return [
     'execute_title'                                         => 'Execute',
     'setup_title'                                           => 'Setup',
     'save_title'                                            => 'Save',
+    'success_title'                                         => 'Success',
+    'fail_title'                                            => 'Fail',
     'edit_title'                                            => 'Edit',
     'modify_title'                                          => 'Modify',
     'delete_title'                                          => 'Delete',
@@ -379,15 +395,39 @@ return [
     'goods_category_title'                                  => 'Goods Category',
     'goods_inventory_insufficient_min_number_tips'          => 'Initial purchase quantity of insufficient inventory',
     'goods_more_total_tips'                                 => '{:total} items in total',
-    // 用户基础相关
+    // 验证码相关
+    'verify_type_error_tips'                                => 'Wrong verification type',
+    'verify_code_empty_tips'                                => 'Verification code cannot be empty',
+    'verify_code_expire_tips'                               => 'The verification code has expired',
+    'verify_code_error_tips'                                => 'Verification code error',
+    'verify_images_empty_tips'                              => 'The picture verification code cannot be empty',
+    'verify_code_not_support_send_error_tips'               => 'This type does not support sending verification code',
+    // 账户相关
     'user_no_login_tips'                                    => 'Please log in first',
     'user_avatar_title'                                     => 'Head Portrait',
     'user_username_title'                                   => 'Account',
     'user_nickname_title'                                   => 'Nickname',
     'user_mobile_title'                                     => 'Mobile',
     'user_email_title'                                      => 'Email',
+    'account_abnormal_tips'                                 => 'Account exception',
+    'register_close_tips'                                   => 'Temporarily close registration',
+    'register_type_error_tips'                              => 'Wrong registration type',
+    'login_close_tips'                                      => 'Temporarily close login',
+    'login_type_error_tips'                                 => 'Wrong login type',
+    'accounts_empty_tips'                                   => 'Account cannot be empty',
+    'accounts_error_tips'                                   => 'Account does not exist',
+    'password_empty_tips'                                   => 'Password cannot be empty',
+    'password_error_tips'                                   => 'Password error',
+    'mobile_format_error_tips'                              => 'Mobile number format error',
+    'mobile_no_exist_error_tips'                            => 'Mobile number does not exist, please register first!',
+    'email_format_error_tips'                               => 'Email format error',
+    'email_no_exist_error_tips'                             => 'Email does not exist, please register first!',
+    'login_fail_tips'                                       => 'Login failed. Please try again later!',
     // 表单相关
     'form_base_data_title'                                  => 'Base Info',
+    'form_open_zip_message'                                 => 'Failed to open the compressed package',
+    'form_generate_zip_message'                             => 'Compression package generation failed',
+    'form_upload_zip_message'                               => 'The file format is incorrect. Please upload the zip package',
     'form_upload_images_title'                              => 'Upload Images',
     'form_choice_images_title'                              => 'Choice Images',
     'form_upload_images_message'                            => 'Please upload pictures',
@@ -652,6 +692,17 @@ return [
         ['value' => 6, 'name' => 'Closed'],
         ['value' => 100, 'name' => 'To be evaluated'],
         ['value' => 101, 'name' => 'Refund/AfterSales'],
+    ],
+    // 商品详情页面更多导航 - 手机端
+    'app_goods_nav_more_list_data'      => [
+        'goodsfavor'   => 'My Favor',
+        'goodsbrowse'  => 'My Browse',
+        'home'         => 'To Home',
+    ],
+    // 商品详情页面更多导航 - 手机端
+    'app_home_right_list_data'          => [
+        'goodsfavor'   => 'My Favor',
+        'usermessage'  => 'My Message',
     ],
     // 搜索排序方式
     'common_search_order_by_list'       =>  [
@@ -966,8 +1017,8 @@ return [
         2 => ['value' => 2, 'name' => 'PATHINFO Mode+ShortAddress'],
     ],
 
-    // -------------------- 表单 --------------------
-    'common_form'               => [
+    // -------------------- 公共服务层 --------------------
+    'common_service'            => [
         // 权限管理
         'power'             => [
             'form_item_pid'                         => 'Column Level',
@@ -988,6 +1039,178 @@ return [
                 '2. You can also directly use the icon and reference provided by the frame[ http://amazeui.shopxo.net/css/icon/ ]',
                 '3. You can also use the plug-in hook to import the css file of the custom icon, and then use the defined icon',
             ],
+        ],
+        // 角色管理
+        'role'              => [
+            'form_item_name'                        => 'Role Name',
+            'form_item_name_message'                => 'Role name format 2~16 characters',
+            'form_item_menu'                        => 'Menu Power',
+            'form_item_menu_no_data_tips'           => 'No menu data',
+            'form_item_plugins'                     => 'Plugins Power',
+            'form_item_plugins_tips'                => 'The plug-in also needs to check [Application Center ->Application Management+Application Call Management] permission in the current menu permission',
+            'form_item_plugins_no_data_tips'        => 'No plugins data',
+            // 保存操作
+            'save_super_role_not_edit_tips'         => 'The super administrator role cannot be edited',
+            'save_role_already_exist_tips'          => 'Role already exists[{$var}]',
+            'save_role_save_fail_tips'              => 'Failed to save role data',
+            'save_role_menu_empty_fail_tips'        => 'Role menu permission operation failed',
+            'save_role_menu_add_fail_tips'          => 'Failed to add role menu permissions',
+            'save_role_plugins_empty_fail_tips'     => 'Role plugins permission operation failed',
+            'save_role_plugins_add_fail_tips'       => 'Failed to add role plugins permissions',
+            // 删除操作
+            'delete_super_role_not_tips'            => 'The super administrator role cannot be deleted',
+        ],
+        // 管理员
+        'admin'             => [
+            // 表单
+            'form_item_username'                    => 'Userame',
+            'form_item_username_placeholder'        => 'enter one username',
+            'form_item_username_message'            => 'Please use letters, numbers and underscores for the user name of 2~18 characters',
+            'form_item_password'                    => 'Login Password',
+            'form_item_password_placeholder'        => 'Please enter the login password',
+            'form_item_password_message'            => 'Password format is between 6 and 18 characters',
+            'form_item_mobile'                      => 'Phone Number',
+            'form_item_mobile_placeholder'          => 'Please enter your mobile number',
+            'form_item_mobile_message'              => 'Mobile number format error',
+            'form_item_email'                       => 'E-mail',
+            'form_item_email_placeholder'           => 'Please enter email address',
+            'form_item_email_message'               => 'Email format error',
+            'form_item_username_created_tips'       => 'Cannot be changed after creation',
+            'form_item_username_edit_tips'          => 'Not changeable',
+            'form_item_role'                        => 'Permission group',
+            'form_item_role_message'                => 'Please select the role group',
+            'form_item_password_edit_tips'          => 'Enter to change the password',
+            'form_item_status'                      => 'Status',
+            'form_item_status_message'              => 'Please select user status',
+            // 保存操作
+            'save_admin_info_error_tips'            => 'The current operation administrator information is incorrect',
+            'save_status_tips'                      => 'The status value range is incorrect',
+            'save_gender_tips'                      => 'The gender value range is incorrect',
+            'save_mobile_already_exist_tips'        => 'Mobile number already exists[{$var}]',
+            'save_email_already_exist_tips'         => 'Email already exists[{$var}]',
+            'save_admin_already_exist_tips'         => 'Administrator already exists[{$var}]',
+            // 删除操作
+            'delete_super_admin_not_tips'           => 'Super administrator cannot be deleted',
+            // 登录
+            'login_verify_send_last_title'          => ' - Administrator login',
+        ],
+        // 协议
+        'agreement'         => [
+            // 表单
+            'form_item_document_type_message'       => '协议文档类型为空',
+        ],
+        // 问答
+        'answer'            => [
+            // 表单
+            'form_item_name'                        => 'Contacts',
+            'form_item_name_message'                => 'Contact format can be up to 30 characters',
+            'form_item_tel'                         => 'Telephone',
+            'form_item_tel_message'                 => 'Please fill in a valid phone number',
+            'form_item_title'                       => 'Title',
+            'form_item_title_message'               => 'Header format can be up to 60 characters',
+            'form_item_access_count'                => 'Number of visits',
+            'form_item_access_count_message'        => 'Number of visits in the format of 0~9',
+            'form_item_content'                     => 'Content',
+            'form_item_content_message'             => 'Content format is between 5 and 1000 characters',
+            'form_item_reply'                       => 'Reply Content',
+            'form_item_reply_message'               => 'The format of reply content is between 1 and 1000 characters',
+            'form_item_save_reply_message'          => 'Reply content format can be up to 1000 characters',
+            'form_is_reply'                         => 'Reply or not',
+            // 基础
+            'no_username_name'                      => 'Net Friend',
+        ],
+        // 用户中心导航
+        'appcenternav'      => [
+            // 表单
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'Name format: 2~60 characters',
+            'form_item_desc'                        => 'Describe',
+            'form_item_desc_message'                => 'Description can be up to 18 characters',
+            'form_item_images_url'                  => 'Navigation Icon',
+        ],
+        // 手机首页导航
+        'apphomenav'        => [
+            // 表单
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'Name format: 2~60 characters',
+            'form_item_images_url'                  => 'Navigation Icon',
+            'form_item_is_need_login'               => 'Whether login is required',
+        ],
+        // 小程序管理
+        'appmini'           => [
+            'appmini_type_error_tips'               => 'Wrong applet type',
+            'template_id_error_tips'                => 'Incorrect template id',
+            'view_dir_power_tips'                   => 'View directory does not have permission',
+            'theme_name_error_tips'                 => 'Incorrect subject name',
+            'system_theme_not_delete_tips'          => 'System template cannot be deleted',
+            'current_use_theme_error_tips'          => 'Cannot delete the theme in use',
+            'please_use_https_tips'                 => 'Please use https protocol',
+            'config_file_no_exist_tips'             => 'The applet theme configuration file does not exist',
+            'config_error_tips'                     => 'The configuration information of the main applet is incorrect',
+            'config_empty_tips'                     => 'Configuration information cannot be empty',
+            'package_target_no_exist_tips'          => 'The source code target directory does not exist',
+            'package_target_no_power_tips'          => 'The source code target directory does not have permission',
+            'package_no_exist_tips'                 => 'The source package does not exist',
+            'base_config_file_no_exist_tips'        => 'Package base file does not exist, please regenerate',
+            'base_config_replace_fail_tips'         => 'Basic configuration replacement failed',
+            'new_config_file_update_fail_tips'      => 'Failed to update the new app profile',
+            'liveplayer_config_fail_tips'           => 'Live configuration failed',
+            'plugins_no_data_tips'                  => 'No plugins data',
+        ],
+        // 手机端用户
+        'appminiuser'       => [
+            'open_id_empty_tips'                    => 'Openid is empty',
+            'auth_data_empty_tips'                  => 'The auth data is empty',
+            'temp_code_empty_tips'                  => 'Temporary code is empty',
+            'auth_code_empty_tips'                  => 'The auth code is empty',
+            'decrypt_data_empty_tips'               => 'Decrypted data is empty',
+            'decrypt_iv_empty_tips'                 => 'Iv is empty, please try again',
+            'platform_not_mobile_login_tips'        => 'The platform has not yet developed one-touch login',
+            'mobile_empty_tips'                     => 'Mobile number is empty',
+            'auth_login_success_tips'               => 'Auth login succeeded',
+            'default_nickname_weiixn'               => 'WeChat User',
+        ],
+        // 文章
+        'article'           => [
+            // 表单
+            'form_item_title'                       => 'Title',
+            'form_item_title_message'               => 'The title is 2~60 characters long',
+            'form_item_article_category'            => 'Article Category',
+            'form_item_article_category_message'    => 'Please select an article category',
+            'form_item_jump_url_title'              => 'Jump url address',
+            'form_item_jump_url_tips'               => 'With http://or https://, only valid on the web side',
+            'form_item_jump_url_message'            => 'The jump url address format is incorrect',
+            'form_item_is_home_recommended_title'   => 'Home page recommendation',
+            'form_item_content_title'               => 'Content',
+            'form_item_content_placeholder'         => 'The content format is between 10 and 105000 characters. For more editing functions, please use the computer to access',
+            'form_item_content_message'             => 'Content format is between 10 and 105000 characters',
+        ],
+        // 文章分类
+        'articlecategory'   => [
+            // 表单
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'The name is 2~16 characters long',
+        ],
+        // 品牌
+        'brand'             => [
+            // 表单
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'The name is 2~30 characters long',
+            'form_item_brand_category_id'           => 'Brand Category',
+            'form_item_brand_category_id_message'   => 'Please select brand category',
+            'form_item_website_url'                 => 'Website address',
+            'form_item_website_url_placeholder'     => 'Official website address, starting with http://or https://',
+            'form_item_website_url_message'         => 'Incorrect format of official website address',
+            'form_item_describe'                    => 'describe',
+            'form_item_describe_message'            => 'Description can be up to 230 characters',
+            'form_item_logo'                        => 'LOGO',
+            'form_item_logo_tips'                   => 'Recommended 150*50px',
+        ],
+        // 品牌分类
+        'brandcategory'     => [
+            // 表单
+            'form_item_name'                        => 'Name',
+            'form_item_name_message'                => 'The name is 2~16 characters long',
         ],
     ],
 

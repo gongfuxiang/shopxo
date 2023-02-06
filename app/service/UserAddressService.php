@@ -157,7 +157,7 @@ class UserAddressService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -231,7 +231,7 @@ class UserAddressService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -269,7 +269,7 @@ class UserAddressService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -471,7 +471,7 @@ class UserAddressService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -503,7 +503,7 @@ class UserAddressService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -554,7 +554,7 @@ class UserAddressService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

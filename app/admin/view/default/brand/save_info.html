@@ -12,14 +12,14 @@
 			<div class="am-cf">
         		<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-form-group">
-						<label>{{:MyLang('brand.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-						<input type="text" name="name" placeholder="{{:MyLang('brand.form_item_name_message')}}" minlength="2" maxlength="30" data-validation-message="{{:MyLang('brand.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
+						<label>{{:MyLang('common_service.brand.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+						<input type="text" name="name" placeholder="{{:MyLang('common_service.brand.form_item_name_message')}}" minlength="2" maxlength="30" data-validation-message="{{:MyLang('common_service.brand.form_item_name_message')}}" class="am-radius" {{if !empty($data['name'])}} value="{{$data.name}}"{{/if}} required />
 					</div>
 				</div>
 				<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-form-group">
-						<label>{{:MyLang('brand.form_item_brand_category_id')}}<span class="am-form-group-label-tips-must">*</span></label>
-					    <select name="brand_category_id" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('brand.form_item_brand_category_id_message')}}" required>
+						<label>{{:MyLang('common_service.brand.form_item_brand_category_id')}}<span class="am-form-group-label-tips-must">*</span></label>
+					    <select name="brand_category_id" class="am-radius chosen-select" multiple="multiple" minchecked="1" data-placeholder="{{:MyLang('optional_tips')}}" data-validation-message="{{:MyLang('common_service.brand.form_item_brand_category_id_message')}}" required>
 							{{foreach $brand_category as $v}}
 								<option value="{{$v.id}}" {{if isset($data['brand_category_ids']) and is_array($data['brand_category_ids']) and in_array($v['id'], $data['brand_category_ids'])}}selected{{/if}}>{{$v.name}}</option>
 							{{/foreach}}
@@ -31,14 +31,14 @@
 			<div class="am-cf">
         		<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-form-group">
-						<label>{{:MyLang('brand.form_item_website_url')}}</label>
-						<input type="url" placeholder="{{:MyLang('brand.form_item_website_url_placeholder')}}" name="website_url"  data-validation-message="{{:MyLang('brand.form_item_website_url_message')}}" class="am-radius" {{if !empty($data['website_url'])}} value="{{$data.website_url}}"{{/if}} />
+						<label>{{:MyLang('common_service.brand.form_item_website_url')}}</label>
+						<input type="url" placeholder="{{:MyLang('common_service.brand.form_item_website_url_placeholder')}}" name="website_url"  data-validation-message="{{:MyLang('common_service.brand.form_item_website_url_message')}}" class="am-radius" {{if !empty($data['website_url'])}} value="{{$data.website_url}}"{{/if}} />
 					</div>
 				</div>
 				<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-form-group">
-						<label>{{:MyLang('brand.form_item_describe')}}</label>
-						<textarea rows="1" name="describe" maxlength="230" class="am-radius" placeholder="{{:MyLang('brand.form_item_describe_message')}}" data-validation-message="{{:MyLang('brand.form_item_describe_message')}}">{{if !empty($data['describe'])}} {{$data.describe}}{{/if}}</textarea>
+						<label>{{:MyLang('common_service.brand.form_item_describe')}}</label>
+						<textarea rows="1" name="describe" maxlength="230" class="am-radius" placeholder="{{:MyLang('common_service.brand.form_item_describe_message')}}" data-validation-message="{{:MyLang('common_service.brand.form_item_describe_message')}}">{{if !empty($data['describe'])}} {{$data.describe}}{{/if}}</textarea>
 					</div>
 				</div>
 			</div>
@@ -46,7 +46,7 @@
 			<div class="am-cf">
         		<div class="am-u-sm-6 am-padding-horizontal-0">
 					<div class="am-form-group am-form-file">
-						<label class="am-block">{{:MyLang('brand.form_item_logo')}}<span class="am-form-group-label-tips">{{:MyLang('brand.form_item_logo_tips')}}</span></label>
+						<label class="am-block">{{:MyLang('common_service.brand.form_item_logo')}}<span class="am-form-group-label-tips">{{:MyLang('common_service.brand.form_item_logo_tips')}}</span></label>
 						<ul class="plug-file-upload-view brand-logo-images-view" data-form-name="logo" data-max-number="1" data-dialog-type="images">
 							{{if !empty($data['logo'])}}
 								<li>

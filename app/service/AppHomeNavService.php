@@ -40,7 +40,7 @@ class AppHomeNavService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,60',
-                'error_msg'         => '名称长度 2~60 个字符',
+                'error_msg'         => MyLang('common_service.apphomenav.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'in',
@@ -142,7 +142,6 @@ class AppHomeNavService
         {
             return DataReturn(MyLang('delete_success'), 0);
         }
-
         return DataReturn(MyLang('delete_fail'), -100);
     }
 
@@ -166,7 +165,7 @@ class AppHomeNavService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'field',
-                'error_msg'         => '操作字段有误',
+                'error_msg'         => MyLang('operate_field_error_tips'),
             ],
             [
                 'checked_type'      => 'in',

@@ -20,8 +20,8 @@
 					<!-- form start -->
 					<form class="am-form form-validation am-form-popup-fixed" action="{{:MyUrl('admin/brandcategory/save')}}" method="POST" request-type="ajax-fun" request-value="TreeFormSaveBack">
 						<div class="am-form-group">
-							<label>{{:MyLang('brandcategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
-							<input type="text" placeholder="{{:MyLang('brandcategory.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('brandcategory.form_item_name_message')}}" class="am-radius" required />
+							<label>{{:MyLang('common_service.brandcategory.form_item_name')}}<span class="am-form-group-label-tips-must">*</span></label>
+							<input type="text" placeholder="{{:MyLang('common_service.brandcategory.form_item_name_message')}}" name="name" minlength="2" maxlength="16" data-validation-message="{{:MyLang('common_service.brandcategory.form_item_name_message')}}" class="am-radius" required />
 						</div>
 						{{include file="lib/sort" /}}
 						{{include file="lib/is_enable" /}}

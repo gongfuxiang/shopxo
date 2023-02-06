@@ -70,7 +70,7 @@ class AppMiniUserService
                 $user = UserService::AppUserInfoHandle(null, 'alipay_openid', $ret['data']['user_id']);
                 if(empty($user))
                 {
-                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['user_id']]);
+                    $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['user_id']]);
                 } else {
                     // 用户状态
                     $ret = UserService::UserStatusCheck('id', $user['id']);
@@ -78,12 +78,12 @@ class AppMiniUserService
                     {
                         // 标记用户存在
                         $user['is_user_exist'] = 1;
-                        $ret = DataReturn('授权登录成功', 0, $user);
+                        $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, $user);
                     }
                 }
             }
         } else {
-            $ret = DataReturn('授权码为空', -1);
+            $ret = DataReturn(MyLang('common_service.appminiuser.auth_code_empty_tips'), -1);
         }
         return $ret;
     }
@@ -104,12 +104,12 @@ class AppMiniUserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'openid',
-                'error_msg'         => 'openid为空',
+                'error_msg'         => MyLang('common_service.appminiuser.open_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'auth_data',
-                'error_msg'         => '授权数据为空',
+                'error_msg'         => MyLang('common_service.appminiuser.auth_data_empty_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -173,7 +173,7 @@ class AppMiniUserService
                 // 微信已无用户端获取用户基础信息、直接添加用户
                 $params['openid'] = $ret['data']['openid'];
                 $params['weixin_unionid'] = $unionid;
-                $params['nickname'] = '微信用户';
+                $params['nickname'] = MyLang('common_service.appminiuser.default_nickname_weiixn');
                 $ret = UserService::AuthUserProgram($params, 'weixin_openid');
                 // 存在用户id则添加用户存在标记
                 if(!empty($ret['data']['id']))
@@ -212,7 +212,7 @@ class AppMiniUserService
                 {
                     // 标记用户存在
                     $user['is_user_exist'] = 1;
-                    $ret = DataReturn('授权登录成功', 0, $user);
+                    $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, $user);
                 }
             }
         }
@@ -235,12 +235,12 @@ class AppMiniUserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'openid',
-                'error_msg'         => 'openid为空',
+                'error_msg'         => MyLang('common_service.appminiuser.open_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'auth_data',
-                'error_msg'         => '授权数据为空',
+                'error_msg'         => MyLang('common_service.appminiuser.auth_data_empty_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -304,10 +304,10 @@ class AppMiniUserService
                 {
                     // 标记用户存在
                     $user['is_user_exist'] = 1;
-                    $ret = DataReturn('授权登录成功', 0, $user);
+                    $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, $user);
                 }
             } else {
-                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
+                $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
             }
         }
         return $ret;
@@ -329,12 +329,12 @@ class AppMiniUserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'openid',
-                'error_msg'         => 'openid为空',
+                'error_msg'         => MyLang('common_service.appminiuser.open_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'auth_data',
-                'error_msg'         => '授权数据为空',
+                'error_msg'         => MyLang('common_service.appminiuser.auth_data_empty_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -350,12 +350,12 @@ class AppMiniUserService
                     [
                         'checked_type'      => 'empty',
                         'key_name'          => 'encrypted_data',
-                        'error_msg'         => '解密数据为空',
+                        'error_msg'         => MyLang('common_service.appminiuser.decrypt_data_empty_tips'),
                     ],
                     [
                         'checked_type'      => 'empty',
                         'key_name'          => 'iv',
-                        'error_msg'         => 'iv为空,请重试',
+                        'error_msg'         => MyLang('common_service.appminiuser.decrypt_iv_empty_tips'),
                     ]
                 ];
                 $ret = ParamsChecked($auth_data, $p);
@@ -426,7 +426,7 @@ class AppMiniUserService
             }
             if(empty($user))
             {
-                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid'], 'unionid'=>$unionid]);
+                $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid'], 'unionid'=>$unionid]);
             } else {
                 $status = false;
                 // 如果用户openid为空则绑定到用户下面
@@ -459,7 +459,7 @@ class AppMiniUserService
                 {
                     // 标记用户存在
                     $user['is_user_exist'] = 1;
-                    $ret = DataReturn('授权登录成功', 0, $user);
+                    $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, $user);
                 }
             }
         }
@@ -482,12 +482,12 @@ class AppMiniUserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'openid',
-                'error_msg'         => 'openid为空',
+                'error_msg'         => MyLang('common_service.appminiuser.open_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'auth_data',
-                'error_msg'         => '授权数据为空',
+                'error_msg'         => MyLang('common_service.appminiuser.auth_data_empty_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -541,7 +541,7 @@ class AppMiniUserService
             $user = UserService::AppUserInfoHandle(null, 'kuaishou_openid', $ret['data']['openid']);
             if(empty($user))
             {
-                $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
+                $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid']]);
             } else {
                 // 用户状态
                 $ret = UserService::UserStatusCheck('id', $user['id']);
@@ -549,7 +549,7 @@ class AppMiniUserService
                 {
                     // 标记用户存在
                     $user['is_user_exist'] = 1;
-                    $ret = DataReturn('授权登录成功', 0, $user);
+                    $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, $user);
                 }
             }
         }
@@ -572,12 +572,12 @@ class AppMiniUserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'openid',
-                'error_msg'         => 'openid为空',
+                'error_msg'         => MyLang('common_service.appminiuser.open_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'auth_data',
-                'error_msg'         => '授权数据为空',
+                'error_msg'         => MyLang('common_service.appminiuser.auth_data_empty_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -638,7 +638,7 @@ class AppMiniUserService
                 }
                 if(empty($user))
                 {
-                    $ret = DataReturn('授权登录成功', 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid'], 'unionid'=>$unionid]);
+                    $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, ['is_user_exist'=>0, 'openid'=>$ret['data']['openid'], 'unionid'=>$unionid]);
                 } else {
                     $status = false;
                     // 如果用户openid为空则绑定到用户下面
@@ -671,12 +671,12 @@ class AppMiniUserService
                     {
                         // 标记用户存在
                         $user['is_user_exist'] = 1;
-                        $ret = DataReturn('授权登录成功', 0, $user);
+                        $ret = DataReturn(MyLang('common_service.appminiuser.auth_login_success_tips'), 0, $user);
                     }
                 }
             }
         } else {
-            $ret = DataReturn('授权码为空', -1);
+            $ret = DataReturn(MyLang('common_service.appminiuser.auth_code_empty_tips'), -1);
         }
         return $ret;
     }
@@ -697,12 +697,12 @@ class AppMiniUserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'openid',
-                'error_msg'         => 'openid为空',
+                'error_msg'         => MyLang('common_service.appminiuser.open_id_empty_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'auth_data',
-                'error_msg'         => '授权数据为空',
+                'error_msg'         => MyLang('common_service.appminiuser.auth_data_empty_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -718,12 +718,12 @@ class AppMiniUserService
                     [
                         'checked_type'      => 'empty',
                         'key_name'          => 'encrypted_data',
-                        'error_msg'         => '解密数据为空',
+                        'error_msg'         => MyLang('common_service.appminiuser.decrypt_data_empty_tips'),
                     ],
                     [
                         'checked_type'      => 'empty',
                         'key_name'          => 'iv',
-                        'error_msg'         => 'iv为空,请重试',
+                        'error_msg'         => MyLang('common_service.appminiuser.decrypt_iv_empty_tips'),
                     ]
                 ];
                 $ret = ParamsChecked($auth_data, $p);
@@ -775,7 +775,7 @@ class AppMiniUserService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'openid',
-                'error_msg'         => 'openid为空',
+                'error_msg'         => MyLang('common_service.appminiuser.open_id_empty_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -795,7 +795,7 @@ class AppMiniUserService
                     [
                         'checked_type'      => 'empty',
                         'key_name'          => 'code',
-                        'error_msg'         => '临时code为空',
+                        'error_msg'         => MyLang('common_service.appminiuser.temp_code_empty_tips'),
                     ],
                 ];
                 $ret = ParamsChecked($params, $p);
@@ -821,12 +821,12 @@ class AppMiniUserService
                     [
                         'checked_type'      => 'empty',
                         'key_name'          => 'encrypted_data',
-                        'error_msg'         => '解密数据为空',
+                        'error_msg'         => MyLang('common_service.appminiuser.decrypt_data_empty_tips'),
                     ],
                     [
                         'checked_type'      => 'empty',
                         'key_name'          => 'iv',
-                        'error_msg'         => 'iv为空,请重试',
+                        'error_msg'         => MyLang('common_service.appminiuser.decrypt_iv_empty_tips'),
                     ]
                 ];
                 $ret = ParamsChecked($params, $p);
@@ -857,12 +857,12 @@ class AppMiniUserService
                     [
                         'checked_type'      => 'empty',
                         'key_name'          => 'encrypted_data',
-                        'error_msg'         => '解密数据为空',
+                        'error_msg'         => MyLang('common_service.appminiuser.decrypt_data_empty_tips'),
                     ],
                     [
                         'checked_type'      => 'empty',
                         'key_name'          => 'iv',
-                        'error_msg'         => 'iv为空,请重试',
+                        'error_msg'         => MyLang('common_service.appminiuser.decrypt_iv_empty_tips'),
                     ]
                 ];
                 $ret = ParamsChecked($params, $p);
@@ -887,11 +887,11 @@ class AppMiniUserService
 
             // 默认
             default :
-                return DataReturn(APPLICATION_CLIENT_TYPE.'平台还未开发手机一键登录', -1);
+                return DataReturn(APPLICATION_CLIENT_TYPE.MyLang('common_service.appminiuser.platform_not_mobile_login_tips'), -1);
         }
         if(empty($mobile))
         {
-            return DataReturn('手机号码为空', -1);
+            return DataReturn(MyLang('common_service.appminiuser.mobile_empty_tips'), -1);
         }
 
         // 用户信息处理

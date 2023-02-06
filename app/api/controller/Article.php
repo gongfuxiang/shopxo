@@ -13,6 +13,7 @@ namespace app\api\controller;
 use app\service\ApiService;
 use app\service\SystemBaseService;
 use app\service\ArticleService;
+use app\service\ArticleCategoryService;
 use app\service\ResourcesService;
 
 /**
@@ -50,7 +51,7 @@ class Article extends Common
     public function Index()
     {
         // 获取分类
-        $article_category = ArticleService::ArticleCategoryList();
+        $article_category = ArticleCategoryService::ArticleCategoryList();
 
         // 返回数据
         $result = [

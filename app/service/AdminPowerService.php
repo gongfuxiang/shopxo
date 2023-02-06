@@ -66,14 +66,14 @@ class AdminPowerService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,16',
-                'error_msg'         => MyLang('common_form.power.form_item_name_message'),
+                'error_msg'         => MyLang('common_service.power.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'length',
                 'key_name'          => 'icon',
                 'checked_data'      => '60',
                 'is_checked'        => 1,
-                'error_msg'         => MyLang('common_form.power.form_item_icon_message'),
+                'error_msg'         => MyLang('common_service.power.form_item_icon_message'),
             ],
             [
                 'checked_type'      => 'in',
@@ -89,20 +89,20 @@ class AdminPowerService
                 'checked_type'      => 'length',
                 'key_name'          => 'control',
                 'checked_data'      => '1,30',
-                'error_msg'         => MyLang('common_form.power.form_item_control_message'),
+                'error_msg'         => MyLang('common_service.power.form_item_control_message'),
             ];
             $p[] = [
                 'checked_type'      => 'length',
                 'key_name'          => 'action',
                 'checked_data'      => '1,30',
-                'error_msg'         => MyLang('common_form.power.form_item_action_message'),
+                'error_msg'         => MyLang('common_service.power.form_item_action_message'),
             ];
         } else {
             $p[] = [
                 'checked_type'      => 'length',
                 'key_name'          => 'url',
                 'checked_data'      => '1,255',
-                'error_msg'         => MyLang('common_form.power.form_item_url_message'),
+                'error_msg'         => MyLang('common_service.power.form_item_url_message'),
             ];
         }
         $ret = ParamsChecked($params, $p);

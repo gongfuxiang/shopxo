@@ -120,7 +120,7 @@ class ThemeService
         $type = ResourcesService::ZipExtTypeList();
         if(!in_array($_FILES['theme']['type'], $type))
         {
-            return DataReturn('文件格式有误，请上传zip压缩包', -2);
+            return DataReturn(MyLang('form_upload_zip_message'), -2);
         }
 
         // 上传处理
@@ -160,7 +160,7 @@ class ThemeService
         $resource = $zip->open($package_file);
         if($resource != true)
         {
-            return DataReturn('压缩包打开失败['.$resource.']', -11);
+            return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
         $success = 0;
         for($i=0; $i<$zip->numFiles; $i++)
@@ -320,7 +320,7 @@ class ThemeService
         // 是否开启开发者模式
         if(MyConfig('shopxo.is_develop') !== true)
         {
-            return DataReturn('请先开启开发者模式', -1); 
+            return DataReturn(MyLang('not_open_developer_mode_tips'), -1); 
         }
 
         // 防止路径回溯
@@ -348,7 +348,7 @@ class ThemeService
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_html_') != true)
             {
-                return DataReturn('项目包复制失败[视图]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'[视图]', -2);
             }
         }
 
@@ -358,7 +358,7 @@ class ThemeService
         {
             if(\base\FileUtil::CopyDir($old_dir, $new_dir.DS.'_static_') != true)
             {
-                return DataReturn('项目包复制失败[静态文件]', -2);
+                return DataReturn(MyLang('project_copy_fail_tips').'[静态文件]', -2);
             }
         }
 
@@ -387,7 +387,7 @@ class ThemeService
         $zip = new \base\ZipFolder();
         if(!$zip->zip($new_dir.'.zip', $new_dir))
         {
-            return DataReturn('压缩包生成失败', -100);
+            return DataReturn(MyLang('form_generate_zip_message'), -100);
         }
 
         // 生成成功删除目录
@@ -398,7 +398,7 @@ class ThemeService
         {
             @unlink($new_dir.'.zip');
         } else {
-            return DataReturn('下载失败', -100);
+            return DataReturn(MyLang('download_fail'), -100);
         }
     }
 

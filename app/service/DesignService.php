@@ -152,7 +152,7 @@ class DesignService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'field',
-                'error_msg'         => '字段有误',
+                'error_msg'         => MyLang('operate_field_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
@@ -348,7 +348,7 @@ class DesignService
         $zip = new \base\ZipFolder();
         if(!$zip->zip($dir_zip, $dir))
         {
-            return DataReturn('压缩包生成失败', -2);
+            return DataReturn(MyLang('form_generate_zip_message'), -2);
         }
 
         // 生成成功删除目录
@@ -360,7 +360,7 @@ class DesignService
             // 删除文件
             @unlink($dir_zip);
         } else {
-            return DataReturn('下载失败', -100);
+            return DataReturn(MyLang('download_fail'), -100);
         }
         return DataReturn('下载成功', 0);
     }
@@ -568,7 +568,7 @@ class DesignService
         $type = ResourcesService::ZipExtTypeList();
         if(!in_array($_FILES['file']['type'], $type))
         {
-            return DataReturn('文件格式有误，请上传zip压缩包', -2);
+            return DataReturn(MyLang('form_upload_zip_message'), -2);
         }
 
         // 上传处理
@@ -599,7 +599,7 @@ class DesignService
         $resource = $zip->open($package_file);
         if($resource != true)
         {
-            return DataReturn('压缩包打开失败['.$resource.']', -11);
+            return DataReturn(MyLang('form_open_zip_message').'['.$resource.']', -11);
         }
 
         // 配置信息

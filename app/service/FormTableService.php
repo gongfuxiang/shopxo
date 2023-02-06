@@ -39,13 +39,13 @@ class FormTableService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user_id',
-                'error_msg'         => '用户id有误',
+                'error_msg'         => MyLang('user_id_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'user_type',
                 'checked_data'      => [0,1],
-                'error_msg'         => '用户类型有误',
+                'error_msg'         => MyLang('user_type_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -96,13 +96,13 @@ class FormTableService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user_id',
-                'error_msg'         => '用户id有误',
+                'error_msg'         => MyLang('user_id_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
                 'key_name'          => 'user_type',
                 'checked_data'      => [0,1],
-                'error_msg'         => '用户类型有误',
+                'error_msg'         => MyLang('user_type_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
@@ -156,7 +156,7 @@ class FormTableService
         }
         if(empty($user_id))
         {
-            return DataReturn('用户信息有误', -1);
+            return DataReturn(MyLang('user_info_incorrect_tips'), -1);
         }
         if(empty($params['md5_key']))
         {

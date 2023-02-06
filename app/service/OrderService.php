@@ -53,7 +53,7 @@ class OrderService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'ids',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -419,7 +419,7 @@ class OrderService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -812,7 +812,7 @@ class OrderService
         // 订单数据不存在、并且日志订单非支付状态则报错
         if(empty($order_list) && $pay_log_data['status'] != 1)
         {
-            return DataReturn('订单信息有误', -1);
+            return DataReturn(MyLang('order_info_incorrect_tips'), -1);
         }
 
         return DataReturn(MyLang('get_success'), 0, [
@@ -1827,12 +1827,12 @@ class OrderService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user_id',
-                'error_msg'         => '用户id有误',
+                'error_msg'         => MyLang('user_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1936,12 +1936,12 @@ class OrderService
                 [
                     'checked_type'      => 'empty',
                     'key_name'          => 'id',
-                    'error_msg'         => '订单id有误',
+                    'error_msg'         => MyLang('order_id_error_tips'),
                 ],
                 [
                     'checked_type'      => 'empty',
                     'key_name'          => 'user_id',
-                    'error_msg'         => '用户id有误',
+                    'error_msg'         => MyLang('user_id_error_tips'),
                 ],
             ];
             $ret = ParamsChecked($params, $p);
@@ -2069,12 +2069,12 @@ class OrderService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user_id',
-                'error_msg'         => '用户id有误',
+                'error_msg'         => MyLang('user_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2177,12 +2177,12 @@ class OrderService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user_id',
-                'error_msg'         => '用户id有误',
+                'error_msg'         => MyLang('user_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2262,17 +2262,17 @@ class OrderService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user_id',
-                'error_msg'         => '用户id有误',
+                'error_msg'         => MyLang('user_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user_type',
-                'error_msg'         => '用户类型有误',
+                'error_msg'         => MyLang('user_type_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -2296,7 +2296,7 @@ class OrderService
         }
         if(empty($delete_field))
         {
-            return DataReturn('用户类型有误['.$user_type.']', -2);
+            return DataReturn(MyLang('user_type_error_tips').'['.$user_type.']', -2);
         }
 
         // 获取订单信息
@@ -2394,7 +2394,7 @@ class OrderService
         {
             if(empty($params['user']))
             {
-                return DataReturn('用户信息有误', 0, $result);
+                return DataReturn(MyLang('user_info_incorrect_tips'), 0, $result);
             }
 
             // 增加用户条件
@@ -2478,7 +2478,7 @@ class OrderService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'order_id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
@@ -2551,7 +2551,7 @@ class OrderService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);

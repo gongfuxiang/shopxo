@@ -12,7 +12,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use app\service\ApiService;
-use app\service\ArticleService;
+use app\service\ArticleCategoryService;
 use app\service\NavigationService;
 use app\service\GoodsService;
 use app\service\CustomViewService;
@@ -78,7 +78,7 @@ class Navigation extends Base
 		$assign['data_list'] = $ret['data'];
 		
 		// 获取分类和文章
-		$article_category_content = ArticleService::ArticleCategoryListContent();
+		$article_category_content = ArticleCategoryService::ArticleCategoryListContent();
 		$assign['article_list'] = $article_category_content['data'];
 
 		// 自定义页面

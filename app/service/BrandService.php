@@ -222,33 +222,33 @@ class BrandService
                 'checked_type'      => 'length',
                 'key_name'          => 'name',
                 'checked_data'      => '2,30',
-                'error_msg'         => '名称格式 2~30 个字符',
-            ],
-            [
-                'checked_type'      => 'length',
-                'key_name'          => 'describe',
-                'checked_data'      => '230',
-                'is_checked'        => 1,
-                'error_msg'         => '描述最多200个字符',
+                'error_msg'         => MyLang('common_service.brand.form_item_name_message'),
             ],
             [
                 'checked_type'      => 'unique',
                 'key_name'          => 'name',
                 'checked_data'      => 'Brand',
                 'checked_key'       => 'id',
-                'error_msg'         => '品牌已存在[{$var}]',
+                'error_msg'         => MyLang('common_service.brand.save_name_already_exist_tips'),
             ],
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'brand_category_id',
-                'error_msg'         => '请选择品牌分类',
+                'error_msg'         => MyLang('common_service.brand.form_item_brand_category_id_message'),
+            ],
+            [
+                'checked_type'      => 'length',
+                'key_name'          => 'describe',
+                'checked_data'      => '230',
+                'is_checked'        => 1,
+                'error_msg'         => MyLang('common_service.brand.form_item_describe_message'),
             ],
             [
                 'checked_type'      => 'fun',
                 'key_name'          => 'website_url',
                 'checked_data'      => 'CheckUrl',
                 'is_checked'        => 1,
-                'error_msg'         => '官网地址格式有误',
+                'error_msg'         => MyLang('common_service.brand.form_item_website_url_message'),
             ],
             [
                 'checked_type'      => 'max',
@@ -318,37 +318,39 @@ class BrandService
 
         // 启动事务
         Db::startTrans();
-        if(empty($params['id']))
-        {
-            $data['add_time'] = time();
-            $brand_id = Db::name('Brand')->insertGetId($data);
-            if($brand_id <= 0)
-            {
-                Db::rollback();
-                return DataReturn(MyLang('insert_fail'), -100);
-            }
-        } else {
-            $data['upd_time'] = time();
-            $brand_id = intval($params['id']);
-            if(Db::name('Brand')->where(['id'=>$brand_id])->update($data) === false)
-            {
-                Db::rollback();
-                return DataReturn(MyLang('edit_fail'), -100); 
-            }
-        }
 
-        // 添加分类
-        $ret = self::BrandCategoryInsert(explode(',', $params['brand_category_id']), $brand_id);
-        if($ret['code'] != 0)
-        {
-            // 回滚事务
+        // 捕获异常
+        try {
+            if(empty($params['id']))
+            {
+                $data['add_time'] = time();
+                $brand_id = Db::name('Brand')->insertGetId($data);
+                if($brand_id <= 0)
+                {
+                    throw new \Exception(MyLang('insert_fail'));
+                }
+            } else {
+                $data['upd_time'] = time();
+                $brand_id = intval($params['id']);
+                if(Db::name('Brand')->where(['id'=>$brand_id])->update($data) === false)
+                {
+                    throw new \Exception(MyLang('edit_fail'));
+                }
+            }
+
+            // 添加分类
+            $ret = self::BrandCategoryInsert(explode(',', $params['brand_category_id']), $brand_id);
+            if($ret['code'] != 0)
+            {
+                throw new \Exception($ret['msg']);
+            }
+            // 提交事务
+            Db::commit();
+            return DataReturn(MyLang('operate_success'), 0);
+        } catch(\Exception $e) {
             Db::rollback();
-            return $ret;
+            return DataReturn($e->getMessage(), -1);
         }
-
-        // 提交事务
-        Db::commit();
-        return DataReturn(MyLang('operate_success'), 0);
     }
 
     /**
@@ -409,7 +411,6 @@ class BrandService
         {
             return DataReturn(MyLang('delete_success'), 0);
         }
-
         return DataReturn(MyLang('delete_fail'), -100);
     }
 
@@ -433,7 +434,7 @@ class BrandService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'field',
-                'error_msg'         => '未指定操作字段',
+                'error_msg'         => MyLang('operate_field_error_tips'),
             ],
             [
                 'checked_type'      => 'in',

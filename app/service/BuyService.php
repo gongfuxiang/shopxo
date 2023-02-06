@@ -180,7 +180,7 @@ class BuyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -494,7 +494,7 @@ class BuyService
             [
                 'checked_type'      => 'is_array',
                 'key_name'          => 'goods',
-                'error_msg'         => '商品信息有误',
+                'error_msg'         => MyLang('gods_info_incorrect_tips'),
             ]
         ];
         $ret = ParamsChecked($params, $p);
@@ -602,7 +602,7 @@ class BuyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'user',
-                'error_msg'         => '用户信息有误',
+                'error_msg'         => MyLang('user_info_incorrect_tips'),
             ],
         ];
 
@@ -1197,7 +1197,7 @@ class BuyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'order_id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
         ];
         $ret = ParamsChecked($params, $p);
@@ -1400,7 +1400,7 @@ class BuyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'order_id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
                 'checked_type'      => 'in',
@@ -1545,7 +1545,7 @@ class BuyService
             [
                 'checked_type'      => 'empty',
                 'key_name'          => 'order_id',
-                'error_msg'         => '订单id有误',
+                'error_msg'         => MyLang('order_id_error_tips'),
             ],
             [
                 'checked_type'      => 'empty',
